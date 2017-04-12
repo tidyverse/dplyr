@@ -10,7 +10,7 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |Zulu                         |
-|date     |2017-04-11                   |
+|date     |2017-04-12                   |
 
 ## Packages
 
@@ -23,7 +23,7 @@
 |covr           |   |2.2.2      |2017-01-05 |cran (@2.2.2)                    |
 |DBI            |   |0.6-11     |2017-04-06 |Github (rstats-db/DBI@20f1f02)   |
 |dbplyr         |   |0.0.0.9000 |2017-04-11 |Github (hadley/dbplyr@ce94c15)   |
-|dplyr          |   |0.5.0.9001 |2017-04-11 |Github (hadley/dplyr@b72b5dc)    |
+|dplyr          |   |0.5.0.9001 |2017-04-11 |Github (hadley/dplyr@e695510)    |
 |dtplyr         |   |0.0.1      |2016-06-27 |cran (@0.0.1)                    |
 |ggplot2        |   |2.2.1      |2016-12-30 |cran (@2.2.1)                    |
 |glue           |   |0.0.0.9000 |2017-04-11 |Github (tidyverse/glue@6e77c3b)  |
@@ -456,7 +456,7 @@
 |RNeXML                 |2.0.7     |      0|        0|     1|
 |RNHANES                |1.1.0     |      0|        0|     0|
 |rnoaa                  |0.6.6     |      0|        0|     0|
-|roadoi                 |0.1       |      0|        0|     0|
+|roadoi                 |0.1       |      0|        1|     0|
 |robotstxt              |0.3.2     |      0|        0|     0|
 |rolypoly               |0.1.0     |      0|        0|     0|
 |ropenaq                |0.1.4     |      0|        0|     0|
@@ -1066,7 +1066,7 @@ Calls: %>% ... .Call -> tidy -> cch -> eval -> eval -> <Anonymous>
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [19s/19s]
+  Running ‘test-all.R’ [20s/19s]
 Running the tests in ‘tests/test-all.R’ failed.
 Complete output:
   > library(testthat)
@@ -1158,10 +1158,10 @@ Last 13 lines of output:
   18: function_list[[i]](value) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/freduce.R:12
   19: dplyr::mutate_each_(., dplyr::funs(as.character), dplyr::everything())
   20: is_empty(vars) at /home/muelleki/git/R/dplyr/R/colwise-mutate.R:232
-  21: dplyr::everything() at /tmp/RtmpqNmvln/devtools1b6d73002698/hadley-rlang-ac7498c/R/types.R:240
+  21: dplyr::everything() at /tmp/Rtmpyt8dmG/devtoolsf73517182f65/hadley-rlang-ac7498c/R/types.R:240
   22: current_vars() at /home/muelleki/git/R/dplyr/R/select-utils.R:129
   23: cur_vars_env$selected %||% abort("Variable context not set") at /home/muelleki/git/R/dplyr/R/select-utils.R:46
-  24: abort("Variable context not set") at /tmp/RtmpqNmvln/devtools1b6d73002698/hadley-rlang-ac7498c/R/operators.R:14
+  24: abort("Variable context not set") at /tmp/Rtmpyt8dmG/devtoolsf73517182f65/hadley-rlang-ac7498c/R/operators.R:14
   
   testthat results ================================================================
   OK: 20 SKIPPED: 0 FAILED: 1
@@ -1696,7 +1696,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [152s/152s]
+  Running ‘testthat.R’ [148s/147s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1744,7 +1744,7 @@ Bug reports: https://github.com/rich-iannone/DiagrammeR/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [302s/299s]
+  Running ‘testthat.R’ [298s/295s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   > library(testthat)
@@ -2054,12 +2054,12 @@ The error most likely occurred in:
 > 
 > ### ** Examples
 ... 6 lines ...
-11 Apr 21:18    Test set test_fraction 1 of 3 (0.7)
-11 Apr 21:18      Evaluating modeling performance...
-11 Apr 21:18    Test set test_fraction 2 of 3 (0.5)
-11 Apr 21:18      Evaluating modeling performance...
-11 Apr 21:18    Test set test_fraction 3 of 3 (0.3)
-11 Apr 21:18      Evaluating modeling performance...
+11 Apr 22:43    Test set test_fraction 1 of 3 (0.7)
+11 Apr 22:43      Evaluating modeling performance...
+11 Apr 22:43    Test set test_fraction 2 of 3 (0.5)
+11 Apr 22:43      Evaluating modeling performance...
+11 Apr 22:43    Test set test_fraction 3 of 3 (0.3)
+11 Apr 22:43      Evaluating modeling performance...
 > plot(lc)
 Error in select.list(., test_fraction = TRUE, fold = TRUE, method = TRUE,  : 
   unused arguments (test_fraction = TRUE, fold = TRUE, method = TRUE, performance = "error")
@@ -2127,7 +2127,7 @@ The error most likely occurred in:
 > 
 > cars <- etl("mtcars")
 Not a valid src. Creating a src_sqlite for you at:
-/tmp/RtmpszNNXn/filed29c3a3c299a.sqlite3
+/tmp/Rtmp68YUnf/filea81d7ecc25d6.sqlite3
 > cars %>%
 +   etl_init()
 Could not find schema initialization script
@@ -2145,9 +2145,9 @@ Last 13 lines of output:
   downloaded 11 KB
   
   trying URL 'http://www.nytimes.com'
-  Content type 'text/html; charset=utf-8' length 211396 bytes (206 KB)
+  Content type 'text/html; charset=utf-8' length 213693 bytes (208 KB)
   ==================================================
-  downloaded 206 KB
+  downloaded 208 KB
   
   testthat results ================================================================
   OK: 15 SKIPPED: 0 FAILED: 3
@@ -2285,14 +2285,14 @@ Calls: make_time_cluster_data ... make_time_cluster_data.time_sequence_data -> d
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [110s/110s]
+  Running ‘testthat.R’ [112s/111s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Predictor:	 Target 
   Formula:	 Prop ~ Target 
   Runs of Significant Time Bins: 
   Positive Run 1  ===== 
-  	Time:		 15800 - 21000 1. Error: (unknown) (@test_cluster_analysis.R#143) -----------------------------
+  	Time:		 15900 - 21000 1. Error: (unknown) (@test_cluster_analysis.R#143) -----------------------------
   no applicable method for 'make_time_cluster_data' applied to an object of class "data.frame"
   1: make_time_cluster_data(response_time_by_ppt, predictor_column = "Sex", test = "boot_splines", 
          within_subj = FALSE, smoother = "smooth.spline", alpha = 0.05) at testthat/test_cluster_analysis.R:143
@@ -2610,7 +2610,7 @@ Bug reports: http://github.com/andrewzm/FRK/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [79s/79s]
+  Running ‘testthat.R’ [78s/78s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
     |                                                                            
@@ -3016,10 +3016,10 @@ Error: `x`: must be a vector, not ts object, do you want `stats::lag()`?
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [62s/62s]
+  Running ‘test-all.R’ [63s/62s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
-  8: eval_bare(dot$expr, dot$env) at /tmp/RtmpqNmvln/devtools1b6d73002698/hadley-rlang-ac7498c/R/dots.R:72
+  8: eval_bare(dot$expr, dot$env) at /tmp/Rtmpyt8dmG/devtoolsf73517182f65/hadley-rlang-ac7498c/R/dots.R:72
   9: lapply(seq(1:lags), .lag)
   10: FUN(X[[i]], ...)
   11: as.vector(lag(ts, k))
@@ -3268,7 +3268,7 @@ Bug reports: https://github.com/HughParsonage/grattan/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [54s/57s]
+  Running ‘testthat.R’ [71s/64s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   12: freduce(value, `_function_list`) at /tmp/RtmpiX8wKT/R.INSTALL339d2ac32b99/magrittr/R/pipe.R:28
@@ -3461,7 +3461,7 @@ Error: evaluation nested too deeply: infinite recursion / options(expressions=)?
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [458s/454s]
+  Running ‘testthat.R’ [453s/450s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -3652,7 +3652,7 @@ Calls: compileJagsModel ... cpt_workhorse -> cbind -> cbind -> bind_cols -> cbin
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [20s/20s]
+  Running ‘testthat.R’ [21s/21s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -3788,7 +3788,7 @@ Last 13 lines of output:
   dplyr::filter(testdata, persnr == 198505043334) inherits from `tbl_df/tbl/data.frame` not `incadata`.
   
   
-  [1] "ex_data48223bcd4f01.csv2"
+  [1] "ex_data1cbf270cfcd7.csv2"
   testthat results ================================================================
   OK: 40 SKIPPED: 0 FAILED: 1
   1. Failure: filter (@test-dplyr_methods.R#13) 
@@ -4002,8 +4002,8 @@ Deprecated functions may be defunct as soon as of the next release of
 R.
 See ?Deprecated.
 Examples with CPU or elapsed time > 5s
-       user system elapsed
-Teams 5.336  0.088    5.37
+      user system elapsed
+Teams 5.14   0.08   5.145
 
 checking installed package size ... NOTE
   installed size is  7.6Mb
@@ -4275,7 +4275,7 @@ Maintainer: Zachary Foster <zacharyfoster1989@gmail.com>
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [12s/12s]
+  Running ‘testthat.R’ [12s/11s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   5. Failure: Taxon info columns from both key and class are added (@test--extract_taxonomy.R#137) 
@@ -4448,7 +4448,7 @@ Error: 'src_sql' is not an exported object from 'namespace:dplyr'
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [18s/61s]
+  Running ‘testthat.R’ [18s/59s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -4669,7 +4669,7 @@ Bug reports: https://github.com/HajkD/myTAI/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [77s/77s]
+  Running ‘testthat.R’ [76s/75s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   1. Failure: PlotContribution() works properly with PhyloExpressionSet input... (@test-PlotContribution.R#11) 
@@ -4896,7 +4896,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [42s/42s]
+  Running ‘testthat.R’ [42s/43s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   9: ph_with_img(., type = "body", src = img.file, height = 1.06, width = 1.39)
@@ -4948,8 +4948,8 @@ Deprecated functions may be defunct as soon as of the next release of
 R.
 See ?Deprecated.
 Examples with CPU or elapsed time > 5s
-           user system elapsed
-polarPlot 5.988  0.004   5.921
+          user system elapsed
+polarPlot 5.86   0.04   5.834
 ```
 
 ## opencage (0.1.0)
@@ -4977,7 +4977,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [150s/150s]
+  Running ‘testthat.R’ [153s/153s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -5157,9 +5157,9 @@ Error in re-building vignettes:
 Warning in engine$weave(file, quiet = quiet, encoding = enc) :
   Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
 Warning in normalizePath(f2) :
-  path[1]="./webshotf1f14d867732.png": No such file or directory
+  path[1]="./webshotc34f6bc1e677.png": No such file or directory
 Warning in file(con, "rb") :
-  cannot open file './webshotf1f14d867732.png': No such file or directory
+  cannot open file './webshotc34f6bc1e677.png': No such file or directory
 Quitting from lines 53-60 (calculations.Rmd) 
 Error: processing vignette 'calculations.Rmd' failed with diagnostics:
 cannot open the connection
@@ -5236,7 +5236,7 @@ Bug reports: https://github.com/ropensci/plotly/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [81s/80s]
+  Running ‘testthat.R’ [85s/84s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   [1] "Running test: plotly-group-within-trace"
@@ -5671,7 +5671,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:5622): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:59669): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## raw (0.1.4)
@@ -5968,7 +5968,31 @@ Bug reports: https://github.com/ropensci/rnoaa/issues
 Maintainer: Najko Jahn <najko.jahn@gmail.com>  
 Bug reports: https://github.com/njahn82/roadoi/issues
 
-0 errors | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Quitting from lines 76-83 (intro.Rmd) 
+Error: processing vignette 'intro.Rmd' failed with diagnostics:
+argument is of length zero
+Execution halted
+
+```
 
 ## robotstxt (0.3.2)
 Maintainer: Peter Meissner <retep.meissner@gmail.com>  
@@ -6142,7 +6166,7 @@ Bug reports: https://github.com/poissonconsulting/rtide/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [35s/35s]
+  Running ‘testthat.R’ [36s/36s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   attributes are different
@@ -6192,7 +6216,7 @@ Bug reports: https://github.com/wahani/saeSim/issues
 
 ```
 checking tests ... ERROR
-  Running ‘test-all.R’ [14s/13s]
+  Running ‘test-all.R’ [13s/13s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
   
@@ -6333,16 +6357,16 @@ Found the following significant warnings:
   Warning: 'mutate_each_' is deprecated.
   Warning: 'mutate_each_' is deprecated.
 ... 43 lines ...
-plotTune               8.716  0.020   8.612
-plotBaselineSummary    7.640  0.192   7.764
-observedMutations      7.428  0.112   7.583
-testBaseline           7.064  0.184   7.101
-summarizeBaseline      6.988  0.204   7.120
-getBaselineStats       6.720  0.208   6.973
-extendMutabilityMatrix 6.672  0.104   6.706
-distToNearest          6.044  0.032   6.017
-minNumSeqMutationsTune 5.960  0.040   5.930
-plotBaselineDensity    5.576  0.220   5.654
+plotTune               9.024  0.000   8.882
+plotBaselineSummary    8.524  0.284   8.676
+observedMutations      7.672  0.092   7.627
+testBaseline           7.316  0.188   7.440
+getBaselineStats       7.100  0.244   7.269
+summarizeBaseline      7.084  0.228   7.163
+extendMutabilityMatrix 7.164  0.108   7.204
+plotBaselineDensity    5.948  0.200   6.074
+minNumSeqMutationsTune 6.108  0.024   6.061
+distToNearest          5.924  0.044   5.897
 ** found \donttest examples: check also with --run-donttest
 ```
 
@@ -6659,7 +6683,7 @@ Bug reports: https://github.com/mdsumner/spbabel/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [43s/43s]
+  Running ‘testthat.R’ [42s/42s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
              where = .classEnv(ClassDef)))
@@ -6723,7 +6747,7 @@ Error: 'ident' is not an exported object from 'namespace:dplyr'
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [17s/17s]
+  Running ‘testthat.R’ [16s/16s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   1: fqtn(src_tbl, schema = src_schema, catalog = src_catalog) at testthat/test-select_statement.R:9
@@ -6778,7 +6802,7 @@ Calls: %>% ... map -> lapply -> FUN -> overscope_eval_next -> .Call
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/11s]
+  Running ‘testthat.R’ [12s/12s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -7199,7 +7223,7 @@ Bug reports: https://github.com/business-science/tidyquant/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [23s/49s]
+  Running ‘testthat.R’ [24s/47s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   
@@ -7261,7 +7285,7 @@ Bug reports: http://github.com/juliasilge/tidytext/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [13s/13s]
+  Running ‘testthat.R’ [13s/12s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   2: new("dictionary", x, format = format, file = file, concatenator = concatenator) at /tmp/RtmpXUxKF8/devtools3f681a456fd7/quanteda/R/dictionaries.R:189
