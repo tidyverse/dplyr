@@ -101,6 +101,11 @@ test_that("selection works with grouped data frames (#2624)", {
   expect_identical(mutate_if(gdf, is.factor, as.character), gdf)
 })
 
+test_that("at selection works even if not all ops are named (#2634)", {
+  df <- tibble(x = 1, y = 2)
+  expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
+})
+
 
 # Deprecated ---------------------------------------------------------
 
