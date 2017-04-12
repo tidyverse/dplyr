@@ -132,13 +132,6 @@ bind_rows <- function(..., .id = NULL) {
   bind_rows_(x, .id)
 }
 
-is_rowwise_atomic <- function(x) {
-  is_atomic(x) && is_named(x)
-}
-is_df_list <- function(x) {
-  is_list(x) && every(x, inherits, "data.frame")
-}
-
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
@@ -147,17 +140,13 @@ bind_cols <- function(...) {
   tibble::repair_names(out)
 }
 
-
-# Can't forward dots directly because rbind() and cbind() evaluate
-# them eagerly which prevents them from being captured
-
 #' @export
 rbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_rows(!!! list(...))
+  bind_rows(...)
 }
 #' @export
 cbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_cols(!!! list(...))
+  bind_cols(...)
 }
 
 #' @export
