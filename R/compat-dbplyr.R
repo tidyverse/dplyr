@@ -61,5 +61,5 @@ wrap_dbplyr_obj <- function(obj_name) {
 #' @export
 sql <- function(...) {
   check_dbplyr()
-  dbplyr::sql()
+  dbplyr::sql(...)
 }
