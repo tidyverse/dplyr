@@ -105,7 +105,7 @@ public:
   VariableResult(const ILazySubsets& subsets_, const SymbolString& name_) : subsets(subsets_), name(name_)  {}
 
   SEXP process(const GroupedDataFrame& gdf) {
-    if (subsets.count(name) && subsets.is_summary(name)) {
+    if (subsets.is_summary(name)) {
       // No need to check length since the summary has already been checked
       return subsets.get_variable(name);
     } else {
