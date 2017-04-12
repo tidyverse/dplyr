@@ -156,7 +156,7 @@ src_sqlite <- function(path, create = FALSE) {
 # Checking available ------------------------------------------------------
 
 check_dbplyr <- function() {
-  check_pkg("dplyr", "communicate with database backends")
+  check_pkg("dbplyr", "communicate with database backends")
 }
 
 # S3 methods --------------------------------------------------------------

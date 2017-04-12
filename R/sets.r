@@ -1,4 +1,4 @@
-#' Set operations.
+#' Set operations
 #'
 #' These functions override the set functions provided in base to make them
 #' generic so that efficient versions for data frames and other tables can be

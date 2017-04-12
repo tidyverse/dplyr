@@ -18,14 +18,8 @@ test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
   df1 <- structure(list(x = 1), class = "blah_frame")
   df2 <- structure(list(x = 1), class = "blah_frame")
 
-  expect_error(
-    bind_cols(df1, df2),
-    "Data-frame-like objects must inherit from class data.frame or be plain lists"
-  )
-  expect_error(
-    bind_rows(df1, df2),
-    "Data-frame-like objects must inherit from class data.frame or be plain lists"
-  )
+  expect_error(bind_cols(df1, df2), "`bind_cols\\(\\)` expects data frames and named atomic vectors")
+  expect_error(bind_rows(df1, df2), "`bind_rows\\(\\)` expects data frames and named atomic vectors")
 })
 
 test_that("bind_rows() err for invalid ID", {
@@ -74,7 +68,8 @@ test_that("bind_cols handles empty argument list (#1963)", {
 })
 
 test_that("bind_cols handles all-NULL values (#2303)", {
-  expect_equal(bind_cols(list(a = NULL, b = NULL)), data.frame())
+  expect_identical(bind_cols(list(a = NULL, b = NULL)), data.frame())
+  expect_identical(bind_cols(NULL), data.frame())
 })
 
 test_that("bind_cols repairs names", {
@@ -87,6 +82,7 @@ test_that("bind_cols repairs names", {
 
   expect_equal(bound, repaired)
 })
+
 
 # rows --------------------------------------------------------------------
 
@@ -122,9 +118,9 @@ test_that("bind_rows ignores NULL", {
   expect_equal(bind_rows(list(df, NULL)), df)
 })
 
-test_that("bind_rows only accepts data frames #288", {
-  ll <- list(1:5, 6:10)
-  expect_error(bind_rows(ll), "cannot convert")
+test_that("bind_rows only accepts data frames or vectors", {
+  ll <- list(1:5, get_env())
+  expect_error(bind_rows(ll), "expects data frames and named atomic vectors")
 })
 
 test_that("bind_rows handles list columns (#463)", {
@@ -320,7 +316,7 @@ test_that("bind_rows respects ordered factors (#1112)", {
 })
 
 test_that("bind_rows can handle lists (#1104)", {
-  my_list <- list(list(x = 1, y = "a"), list(x = 2, y = "b"))
+  my_list <- list(tibble(x = 1, y = "a"), tibble(x = 2, y = "b"))
   res <- bind_rows(my_list)
   expect_equal(nrow(res), 2L)
   expect_is(res$x, "numeric")
@@ -453,8 +449,8 @@ test_that("bind_rows infers classes from first result (#1692)", {
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(attr(res3, "group_sizes"), c(10, 10))
   expect_equal(class(bind_rows(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(bind_rows(d5, d1)), c("tbl_df", "tbl", "data.frame"))
 
+  expect_equal(class(bind_rows(d5, d1)), c("tbl_df", "tbl", "data.frame"))
 })
 
 test_that("bind_cols infers classes from first result (#1692)", {
@@ -469,15 +465,14 @@ test_that("bind_cols infers classes from first result (#1692)", {
   res3 <- bind_cols(d3, d1)
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(attr(res3, "group_sizes"), c(5, 5))
-  expect_equal(class(bind_rows(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
-  expect_equal(class(bind_rows(d5, d1)), c("tbl_df", "tbl", "data.frame"))
-
+  expect_equal(class(bind_cols(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
+  expect_equal(class(bind_cols(d5, d1)), c("tbl_df", "tbl", "data.frame"))
 })
 
 test_that("bind_rows rejects POSIXlt columns (#1789)", {
   df <- data_frame(x = Sys.time() + 1:12)
   df$y <- as.POSIXlt(df$x)
-  expect_error(bind_rows(df, df), "not supported")
+  expect_error(bind_rows(df, df), "does not support POSIXlt columns")
 })
 
 test_that("bind_rows rejects data frame columns (#2015)", {
@@ -490,7 +485,7 @@ test_that("bind_rows rejects data frame columns (#2015)", {
 
   expect_error(
     dplyr::bind_rows(df, df),
-    "Columns of class data.frame not supported",
+    "`bind_rows()` does not support nested data frames",
     fixed = TRUE
   )
 })
@@ -508,3 +503,47 @@ test_that("bind_rows accepts hms objects", {
   res <- bind_rows(df1, df2)
   expect_equal(res$x, hms::hms(hours = c(1, 0), minutes = c(0, 1)))
 })
+
+test_that("bind_rows() fails with unnamed vectors", {
+  expect_error(bind_rows(1:2), "named atomic vectors")
+})
+
+test_that("bind_rows() handles rowwise vectors", {
+  expect_warning(regex = "character and factor",
+    tbl <- bind_rows(
+      tibble(a = "foo", b = "bar"),
+      c(a = "A", b = "B"),
+      set_names(factor(c("B", "B")), c("a", "b"))
+    ))
+  expect_identical(tbl, tibble(a = c("foo", "A", "B"), b = c("bar", "B", "B")))
+
+  id_tbl <- bind_rows(a = c(a = 1, b = 2), b = c(a = 3, b = 4), .id = "id")
+  expect_identical(id_tbl, tibble(id = c("a", "b"), a = c(1, 3), b = c(2, 4)))
+})
+
+test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
+  expect_identical(bind_rows(list(list(a = 1, b = 2))), tibble(a = 1, b = 2))
+})
+
+
+# Vectors ------------------------------------------------------------
+
+test_that("accepts named columns", {
+  expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
+  expect_equal(bind_cols(!!! mtcars), as_tibble(mtcars))
+})
+
+test_that("uncompatible sizes fail", {
+  expect_error(bind_cols(a = 1, mtcars), "incompatible sizes")
+  expect_error(bind_cols(mtcars, a = 1), "incompatible sizes")
+})
+
+test_that("unnamed vectors fail", {
+  expect_error(bind_cols(1:2), "named atomic vectors")
+  expect_error(bind_cols(!!! list(1:2)), "named atomic vectors")
+})
+
+test_that("supports NULL values", {
+  expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
+})
+

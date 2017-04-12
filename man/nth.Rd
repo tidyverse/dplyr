@@ -4,7 +4,7 @@
 \alias{nth}
 \alias{first}
 \alias{last}
-\title{Extract the first, last or nth value from a vector.}
+\title{Extract the first, last or nth value from a vector}
 \usage{
 nth(x, n, order_by = NULL, default = default_missing(x))
 

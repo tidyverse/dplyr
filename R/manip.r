@@ -106,7 +106,7 @@ slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
-#' Summarise multiple values to a single value
+#' Reduces multiple values down to a single value
 #'
 #' `summarise()` is typically used on grouped data created by [group_by()].
 #' The output will have one row for each group.
@@ -262,6 +262,7 @@ summarize_ <- summarise_
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
+#' @export
 mutate.default <- function(.data, ...) {
   mutate_(.data, .dots = compat_as_lazy_dots(...))
 }
@@ -314,6 +315,12 @@ transmute_.default <- function(.data, ..., .dots = list()) {
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
+#'
+#' # grouped arrange ignores groups
+#' by_cyl <- mtcars %>% group_by(cyl)
+#' by_cyl %>% arrange(desc(wt))
+#' # Unless you specifically ask:
+#' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
 arrange <- function(.data, ...) {
   UseMethod("arrange")
 }
@@ -325,6 +332,20 @@ arrange.default <- function(.data, ...) {
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
   UseMethod("arrange_")
+}
+
+#' @export
+#' @rdname arrange
+#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
+#'   grouped data frames only.
+arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
+  if (.by_group) {
+    dots <- quos(!!!groups(.data), ...)
+  } else {
+    dots <- quos(...)
+  }
+
+  arrange_impl(.data, dots)
 }
 
 #' Select/rename variables by name
@@ -456,4 +477,5 @@ n <- function() {
 #' @param dots,.dots,... Pair/values of expressions coercible to lazy objects.
 #' @param vars Various meanings depending on the verb.
 #' @param args Various meanings depending on the verb.
+#' @keywords internal
 NULL

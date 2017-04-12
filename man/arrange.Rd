@@ -2,9 +2,12 @@
 % Please edit documentation in R/manip.r
 \name{arrange}
 \alias{arrange}
+\alias{arrange.grouped_df}
 \title{Arrange rows by variables}
 \usage{
 arrange(.data, ...)
+
+\method{arrange}{grouped_df}(.data, ..., .by_group = FALSE)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -12,6 +15,9 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 
 \item{...}{Comma separated list of unquoted variable names. Use
 \code{\link[=desc]{desc()}} to sort a variable in descending order.}
+
+\item{.by_group}{If \code{TRUE}, will sort first by grouping variable. Applies to
+grouped data frames only.}
 }
 \value{
 An object of the same class as \code{.data}.
@@ -34,6 +40,12 @@ convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibb
 \examples{
 arrange(mtcars, cyl, disp)
 arrange(mtcars, desc(disp))
+
+# grouped arrange ignores groups
+by_cyl <- mtcars \%>\% group_by(cyl)
+by_cyl \%>\% arrange(desc(wt))
+# Unless you specifically ask:
+by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
 }
 \seealso{
 Other single table verbs: \code{\link{filter}},

@@ -1,0 +1,8 @@
+name: Publish Document
+title:
+account: rpubs
+server: rpubs.com
+appId: https://api.rpubs.com/api/v1/document/260900/65a13912ccc7477681f11558f48fd975
+bundleId: https://api.rpubs.com/api/v1/document/260900/65a13912ccc7477681f11558f48fd975
+url: http://rpubs.com/hadley/260900
+when: 1490983436.19532

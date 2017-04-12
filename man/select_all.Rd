@@ -7,7 +7,7 @@
 \alias{rename_if}
 \alias{select_at}
 \alias{rename_at}
-\title{Select and rename a selection of variables.}
+\title{Select and rename a selection of variables}
 \usage{
 select_all(.tbl, .funs = list(), ...)
 

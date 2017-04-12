@@ -2,7 +2,7 @@
 % Please edit documentation in R/colwise.R
 \name{scoped}
 \alias{scoped}
-\title{Operate on a selection of variables.}
+\title{Operate on a selection of variables}
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
 

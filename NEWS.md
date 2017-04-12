@@ -1,6 +1,6 @@
 # dplyr 0.5.0.9000
 
-## New data and functions
+## New data, functions, and features
 
 * Five new datasets provide some interesting built-in datasets to demonstrate
   dplyr verbs (#2094):
@@ -12,6 +12,9 @@
 
 * New `add_count()` and `add_tally()` for adding an `n` column within groups 
   (#2078, @dgrtwo).
+
+* `arrange()` for grouped data frames gains a `.by_group` argument so you
+  can choose to sort by groups if you want to (defaults to `FALSE`) (#2318)
 
 * New `pull()` generic for extracting a single column either by name
   (as a string) or a position (either from the left or the right). Thanks to
@@ -191,7 +194,11 @@ This means that the underscored version of each main verb is no longer needed, a
 
 * `count()` now preserves the grouping of its input (#2021).
 
-* `distinct()` no longer duplicates variables (#2001)
+* `distinct()` no longer duplicates variables (#2001).
+
+* Empty `distinct()` with a grouped data frame works the same way as
+  an empty `distinct()` on an ungrouped data frame, namely it uses all
+  variables (#2476).
 
 * `copy_to()` now returns it's output invisibly (since you're often just
    calling for the side-effect).
@@ -234,7 +241,14 @@ This means that the underscored version of each main verb is no longer needed, a
 
 * `bind_cols()` better handles `NULL` inputs (#2303, #2443).
 
-* `bind_rows()` explicitly rejects data frame columns (#2015, #2446).
+* `bind_rows()` explicitly rejects columns containing data frames
+  (#2015, #2446).
+
+* `bind_rows()` and `bind_cols()` now accept vectors. They are treated
+  as rows by the former and columns by the latter. Rows require inner
+  names like `c(col1 = 1, col2 = 2)`, while columns require outer
+  names: `col1 = c(1, 2)`. Lists are still treated as data frames but
+  can be spliced explicitly with `!!!`, e.g. `bind_rows(!!! x)` (#1676).
 
 * `combine()` accepts `NA` values (#2203, @zeehio)
 

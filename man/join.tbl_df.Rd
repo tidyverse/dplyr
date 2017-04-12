@@ -8,7 +8,7 @@
 \alias{full_join.tbl_df}
 \alias{semi_join.tbl_df}
 \alias{anti_join.tbl_df}
-\title{Join data frame tbls.}
+\title{Join data frame tbls}
 \usage{
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), ...,

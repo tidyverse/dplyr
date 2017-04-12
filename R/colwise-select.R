@@ -1,4 +1,4 @@
-#' Select and rename a selection of variables.
+#' Select and rename a selection of variables
 #'
 #' @description
 #'

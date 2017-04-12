@@ -1,4 +1,4 @@
-#' Flexible equality comparison for data frames.
+#' Flexible equality comparison for data frames
 #'
 #' You can use `all_equal()` with any data frame, and dplyr also provides
 #' `tbl_df` methods for [all.equal()].

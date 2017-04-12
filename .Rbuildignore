@@ -12,10 +12,6 @@ demo/pandas
 ^README-.*\.png$
 ^codecov\.yml$
 ^appveyor\.yml$
-^\.idea$
-^CMakeLists\.txt$
-^src/.*\.d$
-^src/Makevars\.local$
 ^Doxyfile$
 ^clion-test\.R$
 ^API$
@@ -29,3 +25,5 @@ demo/pandas
 ^TAGS$
 ^\.dir-locals\.el$
 ^vignettes/rsconnect$
+^docs$
+^_pkgdown\.yml$

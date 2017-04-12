@@ -2,7 +2,7 @@
 % Please edit documentation in R/copy-to.r
 \name{auto_copy}
 \alias{auto_copy}
-\title{Copy tables to same source, if necessary.}
+\title{Copy tables to same source, if necessary}
 \usage{
 auto_copy(x, y, copy = FALSE, ...)
 }
@@ -17,5 +17,5 @@ it is a potentially expensive operation so you must opt into it.}
 \item{...}{Other arguments passed on to methods.}
 }
 \description{
-Copy tables to same source, if necessary.
+Copy tables to same source, if necessary
 }

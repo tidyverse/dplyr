@@ -105,7 +105,7 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 
 # Joins ------------------------------------------------------------------------
 
-#' Join data frame tbls.
+#' Join data frame tbls
 #'
 #' See [join] for a description of the general purpose of the
 #' functions.

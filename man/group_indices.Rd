@@ -22,3 +22,4 @@ group_indices(mtcars, cyl)
 \seealso{
 \code{\link[=group_by]{group_by()}}
 }
+\keyword{internal}

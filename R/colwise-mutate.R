@@ -13,10 +13,6 @@
 #'
 #' * `summarise_if`(), `mutate_if`() and `transmute_if()` operate on
 #'   columns for which a predicate returns `TRUE`.
-#'
-#' * [summarise_each()] and [mutate_each()] are older variants that
-#'   are now deprecated.
-#'
 #' @inheritParams scoped
 #' @param .cols This argument has been renamed to `.vars` to fit
 #'   dplyr's terminology and is deprecated.

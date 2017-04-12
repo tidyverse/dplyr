@@ -40,7 +40,7 @@ print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
 
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
   cat(
-    "Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n",
+    "Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]\n",
     sep = ""
   )
   cat("\n")
@@ -115,6 +115,8 @@ cbind.grouped_df <- function(...) {
 }
 
 # One-table verbs --------------------------------------------------------------
+
+# see arrange.r for arrange.grouped_df
 
 #' @export
 select.grouped_df <- function(.data, ...) {
@@ -238,7 +240,12 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 
 #' @export
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., !!! groups(.data), .keep_all = .keep_all)
+  dist <- distinct_vars(
+    .data,
+    vars = quos(..., .named = TRUE),
+    group_vars = group_vars(.data),
+    .keep_all = .keep_all
+  )
   grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
 }
 #' @export

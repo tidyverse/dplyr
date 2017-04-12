@@ -1,6 +1,5 @@
 ---
 title: "Two-table verbs"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Two-table verbs}

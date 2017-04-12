@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <boost/scoped_ptr.hpp>
@@ -18,17 +19,23 @@ using namespace Rcpp;
 using namespace dplyr;
 
 template <typename Data>
-SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator, const DataFrame& df, CharacterVector classes) {
+SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
+                      const DataFrame& df,
+                      CharacterVector classes,
+                      bool grouped = true) {
   List res = accumulator;
   set_class(res, classes);
   set_rownames(res, df.nrows());
-  copy_vars(res, df);
-  res.attr("labels")  = df.attr("labels");
-  res.attr("index")  = df.attr("index");
-  res.attr("indices") = df.attr("indices");
-  res.attr("drop") = df.attr("drop");
-  res.attr("group_sizes") = df.attr("group_sizes");
-  res.attr("biggest_group_size") = df.attr("biggest_group_size");
+
+  if (grouped) {
+    copy_vars(res, df);
+    res.attr("labels")  = df.attr("labels");
+    res.attr("index")  = df.attr("index");
+    res.attr("indices") = df.attr("indices");
+    res.attr("drop") = df.attr("drop");
+    res.attr("group_sizes") = df.attr("group_sizes");
+    res.attr("biggest_group_size") = df.attr("biggest_group_size");
+  }
 
   return res;
 }
@@ -107,7 +114,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     call_proxy.input(name, results[i]);
     accumulator.set(name, results[i]);
   }
-  List res = structure_mutate(accumulator, df, classes_not_grouped());
+  List res = structure_mutate(accumulator, df, classes_not_grouped(), false);
 
   return res;
 }

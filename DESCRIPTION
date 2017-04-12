@@ -1,5 +1,5 @@
-Package: dplyr
 Type: Package
+Package: dplyr
 Version: 0.5.0.9001
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
@@ -7,10 +7,10 @@ Description: A fast, consistent tool for working with data frame like objects,
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
     person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
-    person("RStudio", role = "cph")
+    person("RStudio", role = c("cph", "fnd"))
     )
-URL: https://github.com/hadley/dplyr
-BugReports: https://github.com/hadley/dplyr/issues
+URL: http://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+BugReports: https://github.com/hadley/tidyverse/issues
 Depends: 
     R (>= 3.1.2)
 Imports: 
@@ -20,12 +20,13 @@ Imports:
     magrittr,
     methods,
     pkgconfig,
-    rlang (>= 0.0.0.9006),
+    rlang (>= 0.0.0.9010),
     R6,
     Rcpp (>= 0.12.6),
     tibble (>= 1.2),
     utils
 Suggests: 
+    covr,
     dbplyr,
     DBI,
     RMySQL,
@@ -39,7 +40,6 @@ Suggests:
     Lahman (>= 3.0-1),
     nycflights13,
     rmarkdown,
-    covr,
     dtplyr,
     bit64,
     hms
@@ -53,6 +53,6 @@ License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    hadley/rlang@0756eaf3,
+    hadley/rlang@5e67eea,
     hadley/dbplyr,
     tidyverse/glue

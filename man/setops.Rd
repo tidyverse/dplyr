@@ -7,7 +7,7 @@
 \alias{union_all}
 \alias{setdiff}
 \alias{setequal}
-\title{Set operations.}
+\title{Set operations}
 \usage{
 intersect(x, y, ...)
 

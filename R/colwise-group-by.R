@@ -1,4 +1,4 @@
-#' Group by a selection of variables.
+#' Group by a selection of variables
 #'
 #' These [scoped] variants of [group_by()] group a data frame by a
 #' selection of variables. Like [group_by()], they have optional

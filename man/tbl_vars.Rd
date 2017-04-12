@@ -20,3 +20,4 @@ returns only non-grouping variables.
 \code{\link[=group_vars]{group_vars()}} for a function that returns grouping
 variables.
 }
+\keyword{internal}

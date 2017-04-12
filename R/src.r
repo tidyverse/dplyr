@@ -33,6 +33,7 @@ print.src <- function(x, ...) {
 #'
 #' @param x a data src.
 #' @export
+#' @keywords internal
 src_tbls <- function(x) {
   UseMethod("src_tbls")
 }

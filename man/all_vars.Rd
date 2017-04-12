@@ -3,7 +3,7 @@
 \name{all_vars}
 \alias{all_vars}
 \alias{any_vars}
-\title{Apply predicate to all variables.}
+\title{Apply predicate to all variables}
 \usage{
 all_vars(expr)
 
