@@ -327,11 +327,6 @@ List bind_rows_(List dots, SEXP id = R_NilValue) {
 }
 
 // [[Rcpp::export]]
-List rbind_list__impl(List dots) {
-  return rbind__impl(dots);
-}
-
-// [[Rcpp::export]]
 List cbind_all(List dots) {
   int n_dots = dots.size();
 

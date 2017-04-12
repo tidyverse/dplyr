@@ -251,6 +251,9 @@ This means that the underscored version of each main verb is no longer needed, a
   names: `col1 = c(1, 2)`. Lists are still treated as data frames but
   can be spliced explicitly with `!!!`, e.g. `bind_rows(!!! x)` (#1676).
 
+* After a period of deprecation, `rbind_list()` and `rbind_all()` have
+  been removed from the package. Please use `bind_rows()` instead.
+
 * `combine()` accepts `NA` values (#2203, @zeehio)
 
 * `combine()` and `bind_rows()` with character and factor types now always warn
