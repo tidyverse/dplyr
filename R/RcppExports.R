@@ -62,10 +62,6 @@ bind_rows_ <- function(dots, id = NULL) {
     .Call('dplyr_bind_rows_', PACKAGE = 'dplyr', dots, id)
 }
 
-rbind_list__impl <- function(dots) {
-    .Call('dplyr_rbind_list__impl', PACKAGE = 'dplyr', dots)
-}
-
 cbind_all <- function(dots) {
     .Call('dplyr_cbind_all', PACKAGE = 'dplyr', dots)
 }

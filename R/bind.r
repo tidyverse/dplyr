@@ -170,27 +170,3 @@ combine <- function(...) {
     combine_all(args)
   }
 }
-
-# Deprecated functions ----------------------------------------------------
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_list <- function(...) {
-  warning(
-    "`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
-  rbind_list__impl(list_or_dots(...))
-}
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_all <- function(x, id = NULL) {
-  warning(
-    "`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
-  bind_rows_(x, id = id)
-}
