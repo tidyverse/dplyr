@@ -73,9 +73,13 @@ private:
   }
 
   static List rlang_new_data_source(Environment env) {
-    List ret = List::create(_["src"] = env, _["lookup_msg"] = "Column `%s`: not found in data");
-    set_class(ret, "data_source");
-    return ret;
+    static Function as_dictionary = rlang_object("as_dictionary");
+    return
+      as_dictionary(
+        env,
+        _["lookup_msg"] = "Column `%s`: not found in data",
+        _["read_only"] = true
+      );
   }
 
   static SEXP hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {
