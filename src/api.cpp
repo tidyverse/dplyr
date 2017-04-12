@@ -17,6 +17,8 @@
 
 #include <dplyr/DataFrameJoinVisitors.h>
 
+#include <dplyr/bad.h>
+
 namespace dplyr {
 
 DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :
@@ -44,7 +46,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector&
 
   for (int i = 0; i < n; i++) {
     if (indices[i] == NA_INTEGER) {
-      stop("unknown column '%s' ", names[i].get_utf8_cstring());
+      bad_col(names[i], "unknown");
     }
     SEXP column = data[indices[i] - 1];
     visitors.push_back(visitor(column));

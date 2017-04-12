@@ -15,5 +15,9 @@ test_that("any_exprs() creates union", {
 })
 
 test_that("all_exprs() without expression returns an error", {
-  expect_error(all_exprs(), "At least one expression")
+  expect_error(
+    all_exprs(),
+    "At least one expression must be given",
+    fixed = TRUE
+  )
 })

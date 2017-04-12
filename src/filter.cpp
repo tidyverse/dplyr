@@ -12,6 +12,8 @@
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
 
+#include <dplyr/bad.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -31,7 +33,7 @@ void check_result_length(const LogicalVector& test, int n) {
 inline
 SEXP check_result_lgl_type(SEXP tmp) {
   if (TYPEOF(tmp) != LGLSXP) {
-    stop("filter condition does not evaluate to a logical vector. ");
+    bad_pos_arg(2, "filter condition does not evaluate to a logical vector");
   }
   return tmp;
 }

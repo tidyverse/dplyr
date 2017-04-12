@@ -14,6 +14,8 @@
 
 #include <dplyr/train.h>
 
+#include <dplyr/bad.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -24,7 +26,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
                       const std::string& suffix_x, const std::string& suffix_y,
                       CharacterVector classes) {
   if (suffix_x.length() == 0 && suffix_y.length() == 0) {
-    stop("Cannot use empty string for both x and y suffixes");
+    bad_arg("suffix", "can't use empty string for both x and y suffixes");
   }
 
   // first the joined columns
@@ -153,7 +155,7 @@ void push_back(Container& x, typename Container::value_type value, int n) {
 
 // [[Rcpp::export]]
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
-  if (by_x.size() == 0) stop("no variable to join by");
+  if (by_x.size() == 0) bad_arg("by", "no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
   DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
@@ -185,7 +187,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
 // [[Rcpp::export]]
 DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
-  if (by_x.size() == 0) stop("no variable to join by");
+  if (by_x.size() == 0) bad_arg("by", "no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
   DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
@@ -216,7 +218,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           CharacterVector by_x, CharacterVector by_y,
                           std::string& suffix_x, std::string& suffix_y,
                           bool na_match) {
-  if (by_x.size() == 0) stop("no variable to join by");
+  if (by_x.size() == 0) bad_arg("by", "no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
   DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
@@ -249,7 +251,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
                          CharacterVector by_x, CharacterVector by_y,
                          std::string& suffix_x, std::string& suffix_y,
                          bool na_match) {
-  if (by_x.size() == 0) stop("no variable to join by");
+  if (by_x.size() == 0) bad_arg("by", "no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
   DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
 
@@ -287,7 +289,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
                           CharacterVector by_x, CharacterVector by_y,
                           std::string& suffix_x, std::string& suffix_y,
                           bool na_match) {
-  if (by_x.size() == 0) stop("no variable to join by");
+  if (by_x.size() == 0) bad_arg("by", "no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
   DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
@@ -323,7 +325,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                          CharacterVector by_x, CharacterVector by_y,
                          std::string& suffix_x, std::string& suffix_y,
                          bool na_match) {
-  if (by_x.size() == 0) stop("no variable to join by");
+  if (by_x.size() == 0) bad_arg("by", "no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
   DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
   Map map(visitors);

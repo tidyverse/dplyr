@@ -56,7 +56,7 @@ test_that("n() and n_distinct() work", {
 
   expect_not_hybrid_error(
     n_distinct(), a = 1:5,
-    error = "need at least one column"
+    error = "Need at least one column for `n_distinct[(][)]`"
   )
 })
 

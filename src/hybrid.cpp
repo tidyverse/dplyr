@@ -105,7 +105,7 @@ public:
   VariableResult(const ILazySubsets& subsets_, const SymbolString& name_) : subsets(subsets_), name(name_)  {}
 
   SEXP process(const GroupedDataFrame& gdf) {
-    check_length(gdf.max_group_size(), 1, "a summary value");
+    check_length(gdf.max_group_size(), 1, "a summary value", name);
     return process(*gdf.group_begin());
   }
 

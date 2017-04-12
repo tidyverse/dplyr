@@ -1,9 +1,12 @@
 context("recode")
 
 test_that("error if no arguments", {
-  expect_error(recode(1:5), "No replacements provided")
-  expect_error(recode("a"), "No replacements provided")
-  expect_error(recode(factor("a")), "No replacements provided")
+  expect_error(
+    recode(1:5), "No replacements provided")
+  expect_error(
+    recode("a"), "No replacements provided")
+  expect_error(
+    recode(factor("a")), "No replacements provided")
 })
 
 test_that("error if unnamed", {

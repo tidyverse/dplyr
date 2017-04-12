@@ -18,7 +18,8 @@ df <- data.frame(
 )
 
 test_that("sample respects weight", {
-  expect_error(sample_n(df, 2, weight = y), "too few positive probabilities")
+  # error message from base R
+  expect_error(sample_n(df, 2, weight = y))
   expect_equal(sample_n(df, 1, weight = y)$x, 2)
 
   expect_error(
@@ -31,7 +32,8 @@ test_that("sample respects weight", {
     "`size`, `replace`: sampled fraction must be less or equal to one, set `replace` = TRUE for sampling with replacement",
     fixed = TRUE
   )
-  expect_error(sample_frac(df, 1, weight = y), "too few positive probabilities")
+  # error message from base R
+  expect_error(sample_frac(df, 1, weight = y))
   expect_equal(sample_frac(df, 0.5, weight = y)$x, 2)
 })
 
@@ -95,9 +97,11 @@ df2 <- data.frame(
 test_that("grouped sample respects weight", {
   grp <- df2 %>% group_by(g)
 
-  expect_error(sample_n(grp, 2, weight = y), "too few positive probabilities")
+  # error message from base R
+  expect_error(sample_n(grp, 2, weight = y))
   expect_equal(sample_n(grp, 1, weight = y)$x, c(2, 2))
 
-  expect_error(sample_frac(grp, 1, weight = y), "too few positive probabilities")
+  # error message from base R
+  expect_error(sample_frac(grp, 1, weight = y))
   expect_equal(sample_frac(grp, 0.5, weight = y)$x, c(2, 2))
 })

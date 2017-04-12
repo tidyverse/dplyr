@@ -7,11 +7,8 @@ test_that("top_n returns n rows", {
 })
 
 test_that("top_n errs if wt argument is not a symbol (#2279)", {
-  expect_error(
-    data.frame(x = 1:10) %>% top_n(10, "x"),
-    "is_symbol",
-    fixed = TRUE
-  )
+  # error message from assertthat
+  expect_error(data.frame(x = 1:10) %>% top_n(10, "x"))
 })
 
 test_that("top_n() handles missing `wt`", {

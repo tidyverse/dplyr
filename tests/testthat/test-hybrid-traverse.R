@@ -147,11 +147,13 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("assignments don't carry over (#1452)", {
+    # error messages by bindr/rlang
     expect_error(
       test_df %>%
         grouping %>%
         mutate(f = { xx <- 5; xx }, g = xx),
-      "xx")
+      "xx"
+    )
   })
 
   test_that("assignments don't leak (#1452)", {
