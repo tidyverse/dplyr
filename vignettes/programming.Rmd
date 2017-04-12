@@ -78,7 +78,7 @@ This vignette has two goals:
     
 *   To teach you the underlying theory including __quosures__, the data 
     structure that stores both an expression and an environment, and 
-    and __rlang__, the underlying toolkit.
+    and __tidyeval__, the underlying toolkit.
 
 We'll start with a warmup, tying this problem to something you're more familiar with, then move on to some practical tools, then dive into the deeper theory.
 
@@ -113,7 +113,7 @@ greet("Hadley")
 
 ## Programming recipes
 
-The following recipes walk you through the basics of rlang, with the nominal goal of reducing duplication in dplyr code. The examples here are somewhat inauthentic because we've reduced them down to very simple components to make them easier to understand. They're so simple that you might wonder why we bother writing a function at all. But it's a good idea to learn the ideas on simple examples, so that you're better prepared to apply them to the more complex situations you'll see in your own code.
+The following recipes walk you through the basics of tidyeval, with the nominal goal of reducing duplication in dplyr code. The examples here are somewhat inauthentic because we've reduced them down to very simple components to make them easier to understand. They're so simple that you might wonder why we bother writing a function at all. But it's a good idea to learn the ideas on simple examples, so that you're better prepared to apply them to the more complex situations you'll see in your own code.
 
 ### Different data sets
 
@@ -222,7 +222,11 @@ my_summarise(df, quo(g1))
 
 We get the same error as before, because we haven't yet told `group_by()` that we're taking care of the quoting. In other words, we need to tell `group_by()` not to quote its input, because it has been pre-quoted by `my_summarise()`. Yet another way of saying the same thing is that we want to __unquote__ the `my_var`.
 
+<<<<<<< HEAD
 In dplyr (and in rlang in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a function that actually does what we want.
+=======
+In dplyr (and in the tidyeval in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a funtion that actually does what we want.
+>>>>>>> parent of 090c752... tidyeval -> rlang
 
 ```{r}
 my_summarise <- function(df, group_var) {
@@ -385,7 +389,7 @@ args <- list(quo(x), na.rm = TRUE, trim = 0.25)
 quo(mean(!!! args))
 ```
 
-Now that you've learned the basics of rlang through some practical examples, we'll dive into the theory. This will help you generalise what you've learned here to new situations.
+Now that you've learned the basics of tidyeval through some practical examples, we'll dive into the theory. This will help you generalise what you've learned here to new situations.
 
 ## Quoting
 
@@ -472,7 +476,7 @@ get_env(var)
 
 Automatic quoting makes dplyr very convenient for interactive use. But if you want to program with dplyr, you need some way to refer to variables indirectly. The solution to this problem is __quasiquotation__, which allows you to evaluate directly inside an expression that is otherwise quoted. 
 
-Quasiquotation was coined by Willard van Orman Quine in the 1940s, and was adopted for programming by the LISP community in the 1970s. All expression-based functions in the rlang framework support quasiquotation. Unquoting cancels quotation of parts of an expression. There are three types of unquoting:
+Quasiquotation was coined by Willard van Orman Quine in the 1940s, and was adopted for programming by the LISP community in the 1970s. All expression-based functions in the tidyeval framework support quasiquotation. Unquoting cancels quotation of parts of an expression. There are three types of unquoting:
 
 * basic
 * unquote splicing
@@ -499,7 +503,7 @@ var1 <- quo(letters[1:5])
 quo(toupper(!!var1))
 ```
 
-You can safely unquote quosures because they track their environments, and rlang functions know how to evaluate them. This allows any depth of quoting and unquoting.
+You can safely unquote quosures because they track their environments, and tidyeval functions know how to evaluate them. This allows any depth of quoting and unquoting.
 
 ```{r}
 my_mutate <- function(x) {
