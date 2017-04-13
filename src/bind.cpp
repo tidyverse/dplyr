@@ -230,7 +230,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
       String name = df_names[j];
 
       Collecter* coll = 0;
-      R_xlen_t index = 0;
+      size_t index = 0;
       for (; index < names.size(); index++) {
         if (name == names[index]) {
           coll = columns[index];
