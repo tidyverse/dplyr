@@ -181,7 +181,7 @@ public:
     return true;
   }
 
-  virtual IDelayedProcessor* promote(const RObject& chunk) {
+  virtual IDelayedProcessor* promote(BOOST_ATTRIBUTE_UNUSED const RObject& chunk) {
     return 0;
   }
 
@@ -240,7 +240,7 @@ public:
     return false;
   }
 
-  virtual IDelayedProcessor* promote(const RObject& chunk) {
+  virtual IDelayedProcessor* promote(BOOST_ATTRIBUTE_UNUSED const RObject& chunk) {
     return 0;
   }
 

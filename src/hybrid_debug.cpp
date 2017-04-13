@@ -36,7 +36,7 @@ private:
   RObject x;
 };
 
-Result* verify_hybrid_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
+Result* verify_hybrid_prototype(SEXP call, BOOST_ATTRIBUTE_UNUSED const ILazySubsets& subsets, int nargs) {
   // if not exactly one arg, let R handle it
   if (nargs != 1)
     return 0;
@@ -74,7 +74,7 @@ private:
   RObject x;
 };
 
-Result* verify_not_hybrid_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
+Result* verify_not_hybrid_prototype(SEXP call, BOOST_ATTRIBUTE_UNUSED const ILazySubsets& subsets, int nargs) {
   // if not exactly one arg, let R handle it
   if (nargs != 1)
     return 0;

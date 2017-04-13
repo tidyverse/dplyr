@@ -20,11 +20,11 @@ public:
     return Vector<RTYPE>(gdf.ngroups(), value);
   }
 
-  virtual SEXP process(const FullDataFrame& df) {
+  virtual SEXP process(BOOST_ATTRIBUTE_UNUSED const FullDataFrame& df) {
     return Vector<RTYPE>::create(value);
   }
 
-  virtual SEXP process(const SlicingIndex& index) {
+  virtual SEXP process(BOOST_ATTRIBUTE_UNUSED const SlicingIndex& index) {
     return Vector<RTYPE>::create(value);
   }
 
@@ -47,11 +47,11 @@ public:
     return get(gdf.ngroups());
   }
 
-  virtual SEXP process(const FullDataFrame& df) {
+  virtual SEXP process(BOOST_ATTRIBUTE_UNUSED const FullDataFrame& df) {
     return get(1);
   }
 
-  virtual SEXP process(const SlicingIndex& index) {
+  virtual SEXP process(BOOST_ATTRIBUTE_UNUSED const SlicingIndex& index) {
     return get(1);
   }
 
@@ -85,11 +85,11 @@ public:
     return get(gdf.ngroups());
   }
 
-  virtual SEXP process(const FullDataFrame& df) {
+  virtual SEXP process(BOOST_ATTRIBUTE_UNUSED const FullDataFrame& df) {
     return get(1);
   }
 
-  virtual SEXP process(const SlicingIndex& index) {
+  virtual SEXP process(BOOST_ATTRIBUTE_UNUSED const SlicingIndex& index) {
     return get(1);
   }
 

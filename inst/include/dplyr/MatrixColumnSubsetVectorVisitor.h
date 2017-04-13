@@ -40,7 +40,7 @@ public:
     return res;
   }
 
-  inline SEXP subset(EmptySubset index) const {
+  inline SEXP subset(BOOST_ATTRIBUTE_UNUSED EmptySubset index) const {
     return Matrix<RTYPE>(0, data.ncol());
   }
 

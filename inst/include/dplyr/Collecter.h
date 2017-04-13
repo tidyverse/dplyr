@@ -93,7 +93,7 @@ public:
     return RTYPE == TYPEOF(x) || all_logical_na(x, TYPEOF(x));
   }
 
-  bool can_promote(SEXP x) const {
+  bool can_promote(BOOST_ATTRIBUTE_UNUSED SEXP x) const {
     return false;
   }
 
@@ -152,7 +152,7 @@ public:
            all_logical_na(x, RTYPE);
   }
 
-  bool can_promote(SEXP x) const {
+  bool can_promote(BOOST_ATTRIBUTE_UNUSED SEXP x) const {
     return false;
   }
 
@@ -192,7 +192,7 @@ public:
     return (STRSXP == TYPEOF(x)) || Rf_inherits(x, "factor") || all_logical_na(x, TYPEOF(x));
   }
 
-  bool can_promote(SEXP x) const {
+  bool can_promote(BOOST_ATTRIBUTE_UNUSED SEXP x) const {
     return false;
   }
 
@@ -205,7 +205,7 @@ protected:
 
 private:
 
-  void collect_logicalNA(const SlicingIndex& index, LogicalVector source) {
+  void collect_logicalNA(const SlicingIndex& index, BOOST_ATTRIBUTE_UNUSED LogicalVector source) {
     SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
     int n = index.size();
     for (int i = 0; i < n; i++) {
@@ -291,7 +291,7 @@ public:
     return Rf_inherits(x, type.get_cstring()) || all_logical_na(x, TYPEOF(x));
   }
 
-  inline bool can_promote(SEXP x) const {
+  inline bool can_promote(BOOST_ATTRIBUTE_UNUSED SEXP x) const {
     return false;
   }
 
@@ -331,7 +331,7 @@ public:
     return Rf_inherits(x, "POSIXct") || all_logical_na(x, TYPEOF(x));
   }
 
-  inline bool can_promote(SEXP x) const {
+  inline bool can_promote(BOOST_ATTRIBUTE_UNUSED SEXP x) const {
     return false;
   }
 
@@ -386,7 +386,7 @@ public:
     return Rf_inherits(x, "difftime") || all_logical_na(x, TYPEOF(x));
   }
 
-  inline bool can_promote(SEXP x) const {
+  inline bool can_promote(BOOST_ATTRIBUTE_UNUSED SEXP x) const {
     return false;
   }
 
