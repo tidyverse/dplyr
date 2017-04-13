@@ -9,7 +9,7 @@ public:
   virtual int size() const = 0;
   virtual int operator[](int i) const = 0;
   virtual int group() const = 0;
-  virtual bool is_identity(SEXP x) const {
+  virtual bool is_identity(SEXP) const {
     return FALSE;
   };
 };

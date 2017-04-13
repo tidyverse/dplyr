@@ -52,7 +52,7 @@ inline bool valid_conversion<INTSXP>(int rtype) {
 }
 
 template <int RTYPE>
-inline bool valid_promotion(BOOST_ATTRIBUTE_UNUSED int rtype) {
+inline bool valid_promotion(int) {
   return false;
 }
 
@@ -181,7 +181,7 @@ public:
     return true;
   }
 
-  virtual IDelayedProcessor* promote(const RObject& chunk) {
+  virtual IDelayedProcessor* promote(const RObject&) {
     return 0;
   }
 
@@ -240,7 +240,7 @@ public:
     return false;
   }
 
-  virtual IDelayedProcessor* promote(const RObject& chunk) {
+  virtual IDelayedProcessor* promote(const RObject&) {
     return 0;
   }
 

@@ -42,7 +42,7 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
   return res;
 }
 
-void check_not_groups(const QuosureList& quosures, const RowwiseDataFrame& gdf) {}
+void check_not_groups(const QuosureList&, const RowwiseDataFrame&) {}
 
 void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) {
   int n = quosures.size();

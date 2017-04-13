@@ -20,7 +20,7 @@ public:
 
   virtual SEXP process(const FullDataFrame& df) = 0;
 
-  virtual SEXP process(const SlicingIndex& index) {
+  virtual SEXP process(const SlicingIndex&) {
     return R_NilValue;
   }
 
