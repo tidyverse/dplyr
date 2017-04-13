@@ -26,7 +26,7 @@ struct min_rank_increment {
   }
 
   template <typename Container>
-  inline int pre_increment(BOOST_ATTRIBUTE_UNUSED const Container& x, int) const {
+  inline int pre_increment(const Container&, int) const {
     return 0;
   }
 
@@ -66,7 +66,7 @@ struct percent_rank_increment {
   }
 
   template <typename Container>
-  inline double pre_increment(BOOST_ATTRIBUTE_UNUSED const Container& x, BOOST_ATTRIBUTE_UNUSED int m) const {
+  inline double pre_increment(const Container&, int) const {
     return 0.0;
   }
 
@@ -82,7 +82,7 @@ struct cume_dist_increment {
   typedef double scalar_type;
 
   template <typename Container>
-  inline double post_increment(BOOST_ATTRIBUTE_UNUSED const Container& x, BOOST_ATTRIBUTE_UNUSED int m) const {
+  inline double post_increment(const Container&, int) const {
     return 0.0;
   }
 

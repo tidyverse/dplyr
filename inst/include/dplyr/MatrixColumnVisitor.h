@@ -106,7 +106,7 @@ public:
     return "matrix";
   }
 
-  bool is_na(BOOST_ATTRIBUTE_UNUSED int i) const {
+  bool is_na(int) const {
     return false;
   }
 

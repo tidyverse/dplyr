@@ -45,7 +45,7 @@ public:
     return obj()->process_chunk(df.get_index());
   }
 
-  virtual SEXP process(BOOST_ATTRIBUTE_UNUSED const SlicingIndex& index) {
+  virtual SEXP process(const SlicingIndex&) {
     return R_NilValue;
   }
 
