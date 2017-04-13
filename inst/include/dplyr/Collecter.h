@@ -509,6 +509,7 @@ public:
   }
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
+    if (offset != 0) stop("Nonzero offset ot supported by FactorCollecter");
     if (Rf_inherits(v, "factor") && has_same_levels_as(v)) {
       collect_factor(index, v);
     } else if (all_logical_na(v, TYPEOF(v))) {
