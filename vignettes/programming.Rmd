@@ -442,7 +442,7 @@ user_var <- 1000
 mtcars %>% summarise(cyl = mean(cyl) * user_var)
 ```
 
-When an object keep tracks of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
+When an object keeps track of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
 
 ```{r}
 typeof(mean)
