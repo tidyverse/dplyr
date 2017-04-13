@@ -193,24 +193,24 @@ private:
 };
 
 
-inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, const bool ascending, const int i);
+inline OrderVisitor* order_visitor(SEXP vec, const bool ascending, const int i);
 
 template <bool ascending>
-OrderVisitor* order_visitor_asc(SEXP vec, const SymbolString& name);
+OrderVisitor* order_visitor_asc(SEXP vec);
 
 template <bool ascending>
 OrderVisitor* order_visitor_asc_matrix(SEXP vec);
 
 template <bool ascending>
-OrderVisitor* order_visitor_asc_vector(SEXP vec, const SymbolString& name);
+OrderVisitor* order_visitor_asc_vector(SEXP vec);
 
-inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, const bool ascending, const int i) {
+inline OrderVisitor* order_visitor(SEXP vec, const bool ascending, const int i) {
   try {
     if (ascending) {
-      return order_visitor_asc<true>(vec, name);
+      return order_visitor_asc<true>(vec);
     }
     else {
-      return order_visitor_asc<false>(vec, name);
+      return order_visitor_asc<false>(vec);
     }
   }
   catch (const Rcpp::exception& e) {
@@ -219,12 +219,12 @@ inline OrderVisitor* order_visitor(SEXP vec, const SymbolString& name, const boo
 }
 
 template <bool ascending>
-inline OrderVisitor* order_visitor_asc(SEXP vec, const SymbolString& name) {
+inline OrderVisitor* order_visitor_asc(SEXP vec) {
   if (Rf_isMatrix(vec)) {
     return order_visitor_asc_matrix<ascending>(vec);
   }
   else {
-    return order_visitor_asc_vector<ascending>(vec, name);
+    return order_visitor_asc_vector<ascending>(vec);
   }
 }
 
@@ -250,7 +250,7 @@ inline OrderVisitor* order_visitor_asc_matrix(SEXP vec) {
 }
 
 template <bool ascending>
-inline OrderVisitor* order_visitor_asc_vector(SEXP vec, const SymbolString& name) {
+inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
   switch (TYPEOF(vec)) {
   case INTSXP:
     return new OrderVectorVisitorImpl<INTSXP, ascending, Vector<INTSXP > >(vec);
