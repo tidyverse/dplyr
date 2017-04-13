@@ -492,7 +492,7 @@ quo(toupper(UQ(letters[1:5])))
 ```
 
 It is also possible to unquote other quoted expressions. Unquoting such
-symbolic objects provides a powerful a way of manipulating expressions. 
+symbolic objects provides a powerful way of manipulating expressions. 
 
 ```{r}
 var1 <- quo(letters[1:5])
