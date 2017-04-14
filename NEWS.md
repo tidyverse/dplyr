@@ -64,7 +64,7 @@ mtcars2
 
 This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with `DBI::dbGetQuery()` and `DBI::dbExecute()`.
 
-If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much).
+If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see `wrap_dbplyr_obj()` for helpers.
 
 ## UTF-8
 
@@ -115,7 +115,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
 
 ## Tidyeval
 
-dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming-dplyr")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
+dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
 
 ```{r}
 my_var <- quo(homeworld)
@@ -140,7 +140,8 @@ This means that the underscored version of each main verb is no longer needed, a
   all verbs that operate on data: `.data$column_name` accesses the column 
   `column_name`, whereas `.env$var` accesses the external variable `var`. 
   Columns or external variables named `.data` or `.env` are shadowed, use 
-  `.data$...` and/or `.env$...` to access them.
+  `.data$...` and/or `.env$...` to access them.  (`.data` implements strict
+  matching also for the `$` operator (#2591).)
   
     The `column()` and `global()` functions have been removed. They were never 
     documented officially. Use the new `.data` and `.env` environments instead.
@@ -250,6 +251,9 @@ This means that the underscored version of each main verb is no longer needed, a
   names: `col1 = c(1, 2)`. Lists are still treated as data frames but
   can be spliced explicitly with `!!!`, e.g. `bind_rows(!!! x)` (#1676).
 
+* After a period of deprecation, `rbind_list()` and `rbind_all()` have
+  been removed from the package. Please use `bind_rows()` instead.
+
 * `combine()` accepts `NA` values (#2203, @zeehio)
 
 * `combine()` and `bind_rows()` with character and factor types now always warn
@@ -299,6 +303,9 @@ This means that the underscored version of each main verb is no longer needed, a
 
 ## Other minor changes and bug fixes
 
+* Many error messages are more helpful by referring to a column name or a
+  position in the argument list (#2448).
+
 * New `is_grouped_df()` alias to `is.grouped_df()`.
 
 * `tbl_vars()` now has a `group_vars` argument set to `TRUE` by
@@ -341,6 +348,8 @@ This means that the underscored version of each main verb is no longer needed, a
   (#2086, #2103).
 
 * Update RStudio project settings to install tests (#1952).
+
+* Using `Rcpp::interfaces()` to register C callable interfaces, and registering all native exported functions via `R_registerRoutines()` and `useDynLib(.registration = TRUE)` (#2146).
 
 # dplyr 0.5.0
 

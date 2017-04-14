@@ -105,9 +105,8 @@ NULL
 
 #' @export
 #' @rdname bind
-#' @useDynLib dplyr bind_spliceable
 bind_rows <- function(..., .id = NULL) {
-  x <- flatten_if(dots_values(...), bind_spliceable)
+  x <- flatten_bindable(dots_values(...))
 
   if (!length(x)) {
     # Handle corner cases gracefully, but always return a tibble
@@ -133,32 +132,21 @@ bind_rows <- function(..., .id = NULL) {
   bind_rows_(x, .id)
 }
 
-is_rowwise_atomic <- function(x) {
-  is_atomic(x) && is_named(x)
-}
-is_df_list <- function(x) {
-  is_list(x) && every(x, inherits, "data.frame")
-}
-
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- flatten_if(dots_values(...), bind_spliceable)
+  x <- flatten_bindable(dots_values(...))
   out <- cbind_all(x)
   tibble::repair_names(out)
 }
 
-
-# Can't forward dots directly because rbind() and cbind() evaluate
-# them eagerly which prevents them from being captured
-
 #' @export
 rbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_rows(!!! list(...))
+  bind_rows(...)
 }
 #' @export
 cbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_cols(!!! list(...))
+  bind_cols(...)
 }
 
 #' @export
@@ -170,28 +158,4 @@ combine <- function(...) {
   } else {
     combine_all(args)
   }
-}
-
-# Deprecated functions ----------------------------------------------------
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_list <- function(...) {
-  warning(
-    "`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
-  rbind_list__impl(environment())
-}
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_all <- function(x, id = NULL) {
-  warning(
-    "`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
-  bind_rows_(x, id = id)
 }

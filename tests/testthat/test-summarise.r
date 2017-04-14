@@ -55,7 +55,7 @@ test_that("summarise refuses to modify grouping variable (#143)", {
   ds <- group_by(tbl_df(df), a, b)
   expect_error(
     summarise(ds, a = mean(x), a = b + 1),
-    "cannot modify grouping variable"
+    "Column `a`: cannot modify grouping variable"
   )
 })
 
@@ -67,39 +67,39 @@ test_that("summarise gives proper errors (#153)", {
   )
   expect_error(
     summarise(df, identity(NULL)),
-    "incompatible size (0), expecting one (a summary value)",
+    "Column `identity(NULL)`: must be length one (a summary value), not 0",
     fixed = TRUE
   )
   expect_error(
     summarise(df, log(z)),
-    "incompatible size (3), expecting one (a summary value)",
+    "Column `log(z)`: must be length one (a summary value), not 3",
     fixed = TRUE
   )
   expect_error(
     summarise(df, y[1:2]),
-    "incompatible size (2), expecting one (a summary value)",
+    "Column `y[1:2]`: must be length one (a summary value), not 2",
     fixed = TRUE
   )
 
   gdf <- group_by(df, x, y)
   expect_error(
     summarise(gdf, identity(NULL)),
-    "incompatible size (0), expecting one (a summary value)",
+    "Column `identity(NULL)`: must be length one (a summary value), not 0",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, z),
-    "incompatible size (2), expecting one (a summary value)",
+    "Column `z`: must be length one (a summary value), not 2",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, log(z)),
-    "incompatible size (2), expecting one (a summary value)",
+    "Column `log(z)`: must be length one (a summary value), not 2",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, y[1:2]),
-    "incompatible size (2), expecting one (a summary value)",
+    "Column `y[1:2]`: must be length one (a summary value), not 2",
     fixed = TRUE
   )
 })
@@ -212,15 +212,21 @@ test_that("summarise strips names (#2231)", {
 })
 
 test_that("summarise fails on missing variables", {
+  # error messages from rlang
   expect_error(summarise(mtcars, a = mean(notthear)))
 })
 
 test_that("summarise fails on missing variables when grouping (#2223)", {
+  # error messages from rlang
   expect_error(summarise(group_by(mtcars, cyl), a = mean(notthear)))
 })
 
 test_that("n() does not accept arguments", {
-  expect_error(summarise(group_by(mtcars, cyl), n(hp)), "does not take arguments")
+  expect_error(
+    summarise(group_by(mtcars, cyl), n(hp)),
+    "`n()` does not take arguments",
+    fixed = TRUE
+  )
 })
 
 test_that("hybrid nests correctly", {
@@ -277,8 +283,16 @@ test_that("integer overflow (#304)", {
 })
 
 test_that("summarise checks outputs (#300)", {
-  expect_error(summarise(mtcars, mpg, cyl))
-  expect_error(summarise(mtcars, mpg + cyl))
+  expect_error(
+    summarise(mtcars, mpg, cyl),
+    "Column `mpg`: must be length one (a summary value), not 32",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(mtcars, mpg + cyl),
+    "Column `mpg + cyl`: must be length one (a summary value), not 32",
+    fixed = TRUE
+  )
 })
 
 test_that("comment attribute is white listed (#346)", {
@@ -394,6 +408,7 @@ test_that("nth, first, last promote dates and times (#509)", {
   expect_is(res$time2, "POSIXct")
   expect_is(res$first_time, "POSIXct")
   expect_is(res$last_time, "POSIXct")
+  # error messages from rlang
   expect_error(data %>% group_by(ID) %>% summarise(time2 = nth(times, 2)))
 })
 
@@ -441,11 +456,8 @@ test_that("nth handle negative value (#1584) ", {
 
 test_that("LazyGroupSubsets is robust about columns not from the data (#600)", {
   foo <- data_frame(x = 1:10, y = 1:10)
-  expect_error(
-    foo %>% group_by(x) %>% summarise(first_y = first(z)),
-    "object 'z' not found",
-    fixed = TRUE
-  )
+  # error messages from rlang
+  expect_error(foo %>% group_by(x) %>% summarise(first_y = first(z)))
 })
 
 test_that("can summarise first(x[-1]) (#1980)", {
@@ -574,7 +586,11 @@ test_that("n_distinct front end supports na.rm argument (#1052)", {
 })
 
 test_that("n_distinct without arguments stops (#1957)", {
-  expect_error(n_distinct(), "at least one column for n_distinct")
+  expect_error(
+    n_distinct(),
+    "Need at least one column for `n_distinct()`",
+    fixed = TRUE
+  )
 })
 
 test_that("hybrid evaluation does not take place for objects with a class (#1237)", {
@@ -668,18 +684,6 @@ test_that("n_distinct handles multiple columns (#1084)", {
 
   res <- group_by(df, g) %>% summarise(n = n_distinct(x, y, na.rm = TRUE))
   expect_equal(res$n, c(2L, 4L))
-})
-
-test_that("n_distinct stops if no columns are passed (#1957)", {
-  df <- data.frame(
-    x = rep(1:4, each = 2),
-    y = rep(1:2, each = 4),
-    g = rep(1:2, 4)
-  )
-  expect_error(
-    summarise(df, nd = n_distinct(), n = n()),
-    "at least one column for n_distinct"
-  )
 })
 
 test_that("hybrid max works when not used on columns (#1369)", {
@@ -788,7 +792,8 @@ test_that("summarise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     summarise(df, c = b[[1]]),
-    "Column `c` must be a vector, not a raw vector"
+    "Column `c`: must be a vector, not raw vector",
+    fixed = TRUE
   )
 })
 
@@ -832,7 +837,9 @@ test_that("typing and NAs for grouped summarise (#1839)", {
       group_by(id) %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "can't promote")
+    "Column `a`: can't promote group 1 to numeric",
+    fixed = TRUE
+  )
 
   expect_identical(
     data_frame(id = 1:2, a = list(1, "2")) %>%
@@ -870,14 +877,18 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       rowwise %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "can't promote")
+    "Column `a`: can't promote group 1 to numeric",
+    fixed = TRUE
+  )
 
   expect_error(
     data_frame(id = 1:2, a = list(1, "2")) %>%
       rowwise %>%
       summarise(a = a[1]) %>%
       .$a,
-    "can't promote")
+    "Column `a`: can't promote group 1 to numeric",
+    fixed = TRUE
+  )
 })
 
 test_that("calculating an ordered factor preserves order (#2200)", {
@@ -935,4 +946,9 @@ test_that("proper handling of NA factors (#2588)", {
 
   ret <- df %>% group_by(x) %>% summarise(y = y[1])
   expect_identical(as.character(ret$y), c(NA, NA, "3"))
+})
+
+test_that("can refer to previously summarised symbols", {
+  expect_identical(summarise(group_by(mtcars, cyl), x = 1, z = x)[2:3], tibble(x = c(1, 1, 1), z = x))
+  expect_identical(summarise(group_by(mtcars, cyl), x = n(), z = x)[2:3], tibble(x = c(11L, 7L, 14L), z = x))
 })

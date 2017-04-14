@@ -63,13 +63,23 @@ private:
     // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
     // call to Rcpp_eval() triggered by active_env.new_child()
     Environment bottom = active_env.new_child(true);
-    bottom[".data"] = active_env;
+    bottom[".data"] = rlang_new_data_source(active_env);
 
     // Install definitions for formula self-evaluation and unguarding
     Function new_overscope = rlang_object("new_overscope");
     overscope = new_overscope(bottom, active_env, env);
 
     has_overscope = true;
+  }
+
+  static List rlang_new_data_source(Environment env) {
+    static Function as_dictionary = rlang_object("as_dictionary");
+    return
+      as_dictionary(
+        env,
+        _["lookup_msg"] = "Column `%s`: not found in data",
+        _["read_only"] = true
+      );
   }
 
   static SEXP hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {

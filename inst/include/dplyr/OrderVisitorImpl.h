@@ -9,6 +9,7 @@
 #include <dplyr/OrderVisitor.h>
 #include <dplyr/DataFrameVisitors.h>
 #include <dplyr/MatrixColumnVisitor.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -192,7 +193,7 @@ private:
 };
 
 
-inline OrderVisitor* order_visitor(SEXP vec, bool ascending);
+inline OrderVisitor* order_visitor(SEXP vec, const bool ascending, const int i);
 
 template <bool ascending>
 OrderVisitor* order_visitor_asc(SEXP vec);
@@ -203,12 +204,17 @@ OrderVisitor* order_visitor_asc_matrix(SEXP vec);
 template <bool ascending>
 OrderVisitor* order_visitor_asc_vector(SEXP vec);
 
-inline OrderVisitor* order_visitor(SEXP vec, bool ascending) {
-  if (ascending) {
-    return order_visitor_asc<true>(vec);
+inline OrderVisitor* order_visitor(SEXP vec, const bool ascending, const int i) {
+  try {
+    if (ascending) {
+      return order_visitor_asc<true>(vec);
+    }
+    else {
+      return order_visitor_asc<false>(vec);
+    }
   }
-  else {
-    return order_visitor_asc<false>(vec);
+  catch (const Rcpp::exception& e) {
+    bad_pos_arg(i + 1, e.what());
   }
 }
 
@@ -236,7 +242,7 @@ inline OrderVisitor* order_visitor_asc_matrix(SEXP vec) {
   case DPLYR_CPLXSXP:
     return new OrderVisitorMatrix<CPLXSXP, ascending>(vec);
   case DPLYR_VECSXP:
-    stop("Matrix can't be a list", Rf_type2char(TYPEOF(vec)));
+    stop("Matrix can't be a list");
   }
 
   stop("Unreachable");
@@ -267,7 +273,7 @@ inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
     break;
   }
 
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
+  stop("unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
 }
 }
 

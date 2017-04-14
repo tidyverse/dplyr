@@ -89,13 +89,21 @@ test_that("group_by orders by groups. #242", {
 test_that("group_by uses the white list", {
   df <- data.frame(times = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
-  expect_error(group_by(df, times))
+  expect_error(
+    group_by(df, times),
+    "Column `times`: unsupported class POSIXlt/POSIXt",
+    fixed = TRUE
+  )
 })
 
 test_that("group_by fails when lists are used as grouping variables (#276)", {
   df <- data.frame(x = 1:3)
   df$y <- list(1:2, 1:3, 1:4)
-  expect_error(group_by(df, y))
+  expect_error(
+    group_by(df, y),
+    "Column `y`: cannot group by list",
+    fixed = TRUE
+  )
 })
 
 
@@ -108,12 +116,19 @@ test_that("grouped_df errors on empty vars (#398)", {
   m <- mtcars %>% group_by(cyl)
   attr(m, "vars") <- NULL
   attr(m, "indices") <- NULL
-  expect_error(m %>% do(mpg = mean(.$mpg)))
+  expect_error(
+    m %>% do(mpg = mean(.$mpg)),
+    "no variables to group by",
+    fixed = TRUE
+  )
 })
 
 test_that("grouped_df errors on non-existent var (#2330)", {
   df <- data.frame(x = 1:5)
-  expect_error(grouped_df(df, list(quote(y))), "unknown column 'y'")
+  expect_error(
+    grouped_df(df, list(quote(y))),
+    "Column `y`: unknown"
+  )
 })
 
 test_that("group_by only creates one group for NA (#401)", {
@@ -165,11 +180,16 @@ test_that("group_by works with zero-row data frames (#486)", {
 
 test_that("grouped_df requires a list of symbols (#665)", {
   features <- list("feat1", "feat2", "feat3")
+  # error message by assertthat
   expect_error(grouped_df(data.frame(feat1 = 1, feat2 = 2, feat3 = 3), features))
 })
 
 test_that("group_by gives meaningful message with unknow column (#716)", {
-  expect_error(group_by(iris, wrong_name_of_variable), "unknown column")
+  expect_error(
+    group_by(iris, wrong_name_of_variable),
+    "Column `wrong_name_of_variable`: unknown",
+    fixed = TRUE
+  )
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
@@ -239,11 +259,23 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
 
 test_that("group_by fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(group_by(df, a), "unsupported type")
-  expect_error(group_by(df, b), "unsupported type")
+  expect_error(
+    group_by(df, a),
+    "Column `b`: unsupported type raw",
+    fixed = TRUE
+  )
+  expect_error(
+    group_by(df, b),
+    "Column `b`: unsupported type raw",
+    fixed = TRUE
+  )
 })
 
 test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(rowwise(df), "unsupported type")
+  expect_error(
+    rowwise(df),
+    "Column `b`: unsupported type raw",
+    fixed = TRUE
+  )
 })

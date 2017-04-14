@@ -15,6 +15,8 @@
 #include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 
+#include <dplyr/bad.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -40,13 +42,13 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
   return res;
 }
 
-void check_not_groups(const QuosureList& quosures, const RowwiseDataFrame& gdf) {}
+void check_not_groups(const QuosureList&, const RowwiseDataFrame&) {}
 
 void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) {
   int n = quosures.size();
   for (int i = 0; i < n; i++) {
     if (gdf.has_group(quosures[i].name()))
-      stop("cannot modify grouping variable");
+      bad_col(quosures[i].name(), "cannot modify grouping variable");
   }
 }
 
@@ -88,7 +90,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
       call_proxy.set_call(call);
       results[i] = call_proxy.eval();
     } else if (Rf_length(call) == 1) {
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, nrows));
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, nrows, name));
       results[i] = gather->collect();
     } else if (Rf_isNull(call)) {
       accumulator.rm(name);
@@ -98,16 +100,16 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     }
 
     if (Rf_inherits(results[i], "POSIXlt")) {
-      stop("`mutate` does not support `POSIXlt` results");
+      bad_col(quosure.name(), "POSIXlt results not supported");
     }
 
     const int n_res = Rf_length(results[i]);
     check_supported_type(results[i], name);
-    check_length(n_res, nrows, "the number of rows");
+    check_length(n_res, nrows, "the number of rows", name);
 
     if (n_res == 1 && nrows != 1) {
       // recycle
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i], nrows));
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i], nrows, name));
       results[i] = gather->collect();
     }
 
@@ -171,7 +173,7 @@ SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       proxy.input(name, variable);
       accumulator.set(name, variable);
     } else if (Rf_length(call) == 1) {
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows()));
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows(), name));
       SEXP variable = variables[i] = gather->collect();
       proxy.input(name, variable);
       accumulator.set(name, variable);

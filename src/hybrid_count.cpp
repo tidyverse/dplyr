@@ -15,11 +15,11 @@ using namespace dplyr;
 
 Result* count_prototype(SEXP args, const ILazySubsets&, int) {
   if (Rf_length(args) != 1)
-    stop("n() does not take arguments");
+    stop("`n()` does not take arguments");
   return new Count;
 }
 
-Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNUSED int nargs) {
+Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int) {
   MultipleVectorVisitors visitors;
   bool na_rm = false;
 
@@ -29,7 +29,7 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, BOOST_A
       if (TYPEOF(x) == LGLSXP && Rf_length(x) == 1) {
         na_rm = LOGICAL(x)[0];
       } else {
-        stop("incompatible value for `na.rm` parameter");
+        stop("incompatible value for `na.rm` argument");
       }
     } else if (TYPEOF(x) == SYMSXP) {
       SymbolString name = SymbolString(Symbol(x));
@@ -40,7 +40,7 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, BOOST_A
   }
 
   if (visitors.size() == 0) {
-    stop("need at least one column for n_distinct()");
+    stop("Need at least one column for `n_distinct()`");
   }
 
   if (na_rm) {

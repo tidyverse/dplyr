@@ -15,11 +15,19 @@ test_that("cbind and rbind methods work for tbl_df", {
 # error -------------------------------------------------------------------
 
 test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
-  df1 <- structure(list(x = 1), class = "blah_frame")
+  df1 <- data_frame(x = 1)
   df2 <- structure(list(x = 1), class = "blah_frame")
 
-  expect_error(bind_cols(df1, df2), "`bind_cols\\(\\)` expects data frames and named atomic vectors")
-  expect_error(bind_rows(df1, df2), "`bind_rows\\(\\)` expects data frames and named atomic vectors")
+  expect_error(
+    bind_cols(df1, df2),
+    "Argument 2: must be a data frame or a named atomic vector, not blah_frame",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_rows(df1, df2),
+    "Argument 2: must be a data frame or a named atomic vector, not blah_frame",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows() err for invalid ID", {
@@ -68,7 +76,8 @@ test_that("bind_cols handles empty argument list (#1963)", {
 })
 
 test_that("bind_cols handles all-NULL values (#2303)", {
-  expect_equal(bind_cols(list(a = NULL, b = NULL)), data.frame())
+  expect_identical(bind_cols(list(a = NULL, b = NULL)), data.frame())
+  expect_identical(bind_cols(NULL), data.frame())
 })
 
 test_that("bind_cols repairs names", {
@@ -119,7 +128,11 @@ test_that("bind_rows ignores NULL", {
 
 test_that("bind_rows only accepts data frames or vectors", {
   ll <- list(1:5, get_env())
-  expect_error(bind_rows(ll), "expects data frames and named atomic vectors")
+  expect_error(
+    bind_rows(ll),
+    "Argument 1: list must contain atomic vectors",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows handles list columns (#463)", {
@@ -194,8 +207,11 @@ test_that("bind_rows does not coerce logical to integer", {
   df1 <- data_frame(a = FALSE)
   df2 <- data_frame(a = 1L)
 
-  expect_error(bind_rows(df1, df2),
-               "Can not automatically convert from logical to integer in column \"a\"")
+  expect_error(
+    bind_rows(df1, df2),
+    "Column `a`: can't convert logical to integer",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows promotes factor to character with warning", {
@@ -233,8 +249,16 @@ test_that("bind_rows doesn't promote integer/numeric to factor", {
   df2 <- data_frame(a = 1L)
   df3 <- data_frame(a = 1)
 
-  expect_error(bind_rows(df1, df2), "from factor to integer")
-  expect_error(bind_rows(df1, df3), "from factor to numeric")
+  expect_error(
+    bind_rows(df1, df2),
+    "Column `a`: can't convert factor to integer",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_rows(df1, df3),
+    "Column `a`: can't convert factor to numeric",
+    fixed = TRUE
+  )
 })
 
 
@@ -429,10 +453,26 @@ test_that("bind_rows handles promotion to strings (#1538)", {
   df3 <- data_frame(b = factor(c("A", "B")))
   df4 <- data_frame(b = c("C", "D"))
 
-  expect_error(bind_rows(df1, df3))
-  expect_error(bind_rows(df1, df4))
-  expect_error(bind_rows(df2, df3))
-  expect_error(bind_rows(df2, df4))
+  expect_error(
+    bind_rows(df1, df3),
+    "Column `b`: can't convert numeric to factor",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_rows(df1, df4),
+    "Column `b`: can't convert numeric to character",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_rows(df2, df3),
+    "Column `b`: can't convert integer to factor",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_rows(df2, df4),
+    "Column `b`: can't convert integer to character",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows infers classes from first result (#1692)", {
@@ -471,7 +511,11 @@ test_that("bind_cols infers classes from first result (#1692)", {
 test_that("bind_rows rejects POSIXlt columns (#1789)", {
   df <- data_frame(x = Sys.time() + 1:12)
   df$y <- as.POSIXlt(df$x)
-  expect_error(bind_rows(df, df), "does not support POSIXlt columns")
+  expect_error(
+    bind_rows(df, df),
+    "Argument 2: list can't contain POSIXlt values",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows rejects data frame columns (#2015)", {
@@ -484,7 +528,7 @@ test_that("bind_rows rejects data frame columns (#2015)", {
 
   expect_error(
     dplyr::bind_rows(df, df),
-    "`bind_rows()` does not support nested data frames",
+    "Argument 2: list can't contain data frames",
     fixed = TRUE
   )
 })
@@ -504,7 +548,11 @@ test_that("bind_rows accepts hms objects", {
 })
 
 test_that("bind_rows() fails with unnamed vectors", {
-  expect_error(bind_rows(1:2), "named atomic vectors")
+  expect_error(
+    bind_rows(1:2),
+    "Argument 1: must have names",
+    fixed = TRUE
+  )
 })
 
 test_that("bind_rows() handles rowwise vectors", {
@@ -533,13 +581,29 @@ test_that("accepts named columns", {
 })
 
 test_that("uncompatible sizes fail", {
-  expect_error(bind_cols(a = 1, mtcars), "incompatible sizes")
-  expect_error(bind_cols(mtcars, a = 1), "incompatible sizes")
+  expect_error(
+    bind_cols(a = 1, mtcars),
+    "Argument 2: size must be 32, not 1",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_cols(mtcars, a = 1),
+    "Argument 2: size must be 1, not 32",
+    fixed = TRUE
+  )
 })
 
 test_that("unnamed vectors fail", {
-  expect_error(bind_cols(1:2), "named atomic vectors")
-  expect_error(bind_cols(!!! list(1:2)), "named atomic vectors")
+  expect_error(
+    bind_cols(1:2),
+    "Argument 1: must have names",
+    fixed = TRUE
+  )
+  expect_error(
+    bind_cols(!!! list(1:2)),
+    "Argument 1: must have names",
+    fixed = TRUE
+  )
 })
 
 test_that("supports NULL values", {

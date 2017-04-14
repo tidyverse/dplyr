@@ -75,8 +75,9 @@ test_that("empty selection does not select everything (#2009, #1989)", {
 })
 
 test_that("error is thrown with improper additional arguments", {
-  expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
-  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
+  # error messages by base R, not checked
+  expect_error(mutate_all(mtcars, round, 0, 0))
+  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE))
 })
 
 test_that("predicate can be quoted", {
@@ -98,6 +99,11 @@ test_that("can rename with vars() (#2594)", {
 test_that("selection works with grouped data frames (#2624)", {
   gdf <- group_by(iris, Species)
   expect_identical(mutate_if(gdf, is.factor, as.character), gdf)
+})
+
+test_that("at selection works even if not all ops are named (#2634)", {
+  df <- tibble(x = 1, y = 2)
+  expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
 })
 
 

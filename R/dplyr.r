@@ -33,7 +33,7 @@
 #'   [join.tbl_df()].}
 #' }
 #'
-#' @useDynLib dplyr
+#' @useDynLib dplyr, .registration = TRUE
 #' @import rlang
 #' @importFrom assertthat assert_that is.flag on_failure<-
 #' @importFrom glue glue

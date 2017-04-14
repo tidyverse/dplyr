@@ -54,12 +54,12 @@ between <- function(x, left, right) {
     .Call('dplyr_between', PACKAGE = 'dplyr', x, left, right)
 }
 
-bind_rows_ <- function(dots, id = NULL) {
-    .Call('dplyr_bind_rows_', PACKAGE = 'dplyr', dots, id)
+flatten_bindable <- function(x) {
+    .Call('dplyr_flatten_bindable', PACKAGE = 'dplyr', x)
 }
 
-rbind_list__impl <- function(dots) {
-    .Call('dplyr_rbind_list__impl', PACKAGE = 'dplyr', dots)
+bind_rows_ <- function(dots, id = NULL) {
+    .Call('dplyr_bind_rows_', PACKAGE = 'dplyr', dots, id)
 }
 
 cbind_all <- function(dots) {
@@ -211,3 +211,7 @@ cummean <- function(x) {
     .Call('dplyr_cummean', PACKAGE = 'dplyr', x)
 }
 
+# Register entry points for exported C++ functions
+methods::setLoadAction(function(ns) {
+    .Call('dplyr_RcppExport_registerCCallable', PACKAGE = 'dplyr')
+})

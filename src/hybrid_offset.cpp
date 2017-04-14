@@ -60,7 +60,7 @@ struct LeadLag {
 };
 
 template < template<int> class Templ>
-Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNUSED int nargs) {
+Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int) {
   LeadLag args(call);
   if (!args.ok) return 0;
   RObject& data = args.data;

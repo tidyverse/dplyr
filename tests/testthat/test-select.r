@@ -141,9 +141,21 @@ test_that("if one name for multiple vars, use integer index", {
 })
 
 test_that("invalid inputs raise error", {
-  expect_error(combine_vars(names(mtcars), list(0)), "positive or negative")
-  expect_error(combine_vars(names(mtcars), list(c(-1, 1))), "positive or negative")
-  expect_error(combine_vars(names(mtcars), list(12)), "must be between")
+  expect_error(
+    combine_vars(names(mtcars), list(0)),
+    "Each argument must yield either positive or negative integers",
+    fixed = TRUE
+  )
+  expect_error(
+    combine_vars(names(mtcars), list(c(-1, 1))),
+    "Each argument must yield either positive or negative integers",
+    fixed = TRUE
+  )
+  expect_error(
+    combine_vars(names(mtcars), list(12)),
+    "Position must be between 0 and n",
+    fixed = TRUE
+  )
 })
 
 test_that("select succeeds in presence of raw columns (#1803)", {

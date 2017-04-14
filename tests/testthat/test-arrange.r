@@ -137,29 +137,49 @@ test_that("arrange respects locale (#1280)", {
 test_that("duplicated column name is explicit about which column (#996)", {
   df <- data.frame(x = 1:10, x = 1:10)
   names(df) <- c("x", "x")
-  expect_error(df %>% arrange, "found duplicated column name: x|unique name.*'x'")
+
+  # Error message created by tibble
+  expect_error(df %>% arrange)
 
   df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
   names(df) <- c("x", "x", "y", "y")
-  expect_error(df %>% arrange, "found duplicated column name: x, y|unique name.*'x', 'y'")
+
+  # Error message created by tibble
+  expect_error(df %>% arrange)
 })
 
 test_that("arrange fails gracefully on list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
-  expect_error(arrange(df, fit), "Unsupported vector type list")
+  expect_error(
+    arrange(df, fit),
+    "Argument 1: unsupported vector type list",
+    fixed = TRUE
+  )
 })
 
 test_that("arrange fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(arrange(df, a), "unsupported type")
-  expect_error(arrange(df, b), "unsupported type")
+  expect_error(
+    arrange(df, a),
+    "Column `b`: unsupported type raw",
+    fixed = TRUE
+  )
+  expect_error(
+    arrange(df, b),
+    "Column `b`: unsupported type raw",
+    fixed = TRUE
+  )
 })
 
 test_that("arrange fails gracefully on matrix input (#1870)", {
   df <- data_frame(a = 1:3, b = 4:6)
-  expect_error(arrange(df, is.na(df)), "matrix")
+  expect_error(
+    arrange(df, is.na(df)),
+    "Argument 1: matrix not supported",
+    fixed = TRUE
+  )
 })
 
 

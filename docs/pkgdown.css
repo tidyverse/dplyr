@@ -21,6 +21,17 @@ body {
   margin-top: 0;
 }
 
+/* Static header placement on mobile devices */
+@media (max-width: 767px) {
+  .navbar-fixed-top {
+    position: fixed;
+  }
+}
+.navbar-toggle {
+  margin-top: 8px;
+  margin-bottom: 5px;
+}
+
 /* Table of contents --------------------------*/
 
 #sidebar {
@@ -60,6 +71,10 @@ body {
 .slot {font-style:italic;}
 .symbol {color:black ;}
 .prompt {color:black ;}
+
+pre {
+  word-wrap: normal;
+}
 
 pre a {
   font-weight: bolder;

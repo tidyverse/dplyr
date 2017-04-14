@@ -1,7 +1,11 @@
 context("case_when")
 
 test_that("zero inputs throws an error", {
-  expect_error(case_when(), "No cases provided")
+  expect_error(
+    case_when(),
+    "No cases provided",
+    fixed = TRUE
+  )
 })
 
 test_that("error messages", {

@@ -8,6 +8,8 @@
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/DelayedProcessor.h>
 
+#include <dplyr/bad.h>
+
 namespace dplyr {
 
 // classes inherit from this template when they have a method with this signature
@@ -43,7 +45,7 @@ public:
     return obj()->process_chunk(df.get_index());
   }
 
-  virtual SEXP process(const SlicingIndex& index) {
+  virtual SEXP process(const SlicingIndex&) {
     return R_NilValue;
   }
 
@@ -69,9 +71,10 @@ private:
   private:
     void process_first() {
       const RObject& first_result = fetch_chunk();
-      LOG_INFO << "instantiating delayed processor for type " << type2name(first_result);
+      LOG_INFO << "instantiating delayed processor for type " << type2name(first_result)
+               << " for column '" << chunk_source->get_name().get_utf8_cstring() << "'";
 
-      processor.reset(get_delayed_processor<CLASS>(first_result, ngroups));
+      processor.reset(get_delayed_processor<CLASS>(first_result, ngroups, chunk_source->get_name()));
       LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
     }
 
@@ -92,7 +95,8 @@ private:
     void handle_chunk_with_promotion(const RObject& chunk, const int i) {
       IDelayedProcessor* new_processor = processor->promote(chunk);
       if (!new_processor) {
-        stop("can't promote group %d to %s", i, processor->describe());
+        bad_col(chunk_source->get_name(), "can't promote group {group} to {type}",
+                _["group"] = i, _["type"] =  processor->describe());
       }
 
       LOG_VERBOSE << "promoted group " << i;
