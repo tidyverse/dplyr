@@ -77,7 +77,7 @@ This vignette has two goals:
     code.
     
 *   To teach you the underlying theory including __quosures__, the data 
-    structure that stores both an expression and an environment, and 
+    structure that stores both an expression and an environment, 
     and __tidyeval__, the underlying toolkit.
 
 We'll start with a warmup, tying this problem to something you're more familiar with, then move on to some practical tools, then dive into the deeper theory.
