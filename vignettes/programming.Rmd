@@ -550,14 +550,14 @@ A very useful feature of unquote-splicing is that the vector names
 become argument names:
 
 ```{r}
-x <- list(foo = 1L, bar = quote(baz)) 
+x <- list(foo = 1L, bar = quo(baz))
 quo(list(!!! x))
 ```
 
 This makes it easy to program with dplyr verbs that take named dots:
 
 ```{r}
-args <- list(mean = ~mean(cyl), count = ~n()) 
+args <- list(mean = quo(mean(cyl)), count = quo(n())) 
 mtcars %>%
   group_by(am) %>%
   summarise(!!! args)
