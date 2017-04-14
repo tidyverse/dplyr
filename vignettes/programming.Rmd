@@ -565,7 +565,7 @@ mtcars %>%
 
 ### Setting variable names
 
-The final unquote operation is setting argument names. You've seen one way to do that above, but you can also use the definition operator `:=` instead of `=`. `:=` supports  supports unquoting on both the LHS and the RHS. 
+The final unquote operation is setting argument names. You've seen one way to do that above, but you can also use the definition operator `:=` instead of `=`. `:=` supports unquoting on both the LHS and the RHS. 
 
 The rules on the LHS are slightly different: the unquoted operand should evaluate to a string or a symbol.
 
