@@ -220,9 +220,9 @@ Now that we've captured this expression, how do we use it with `group_by()`? It 
 my_summarise(df, quo(g1))
 ```
 
-We get the same error as before, because we haven't yet told `group_by()` that we're taking care of the quoting. In other words, we need to tell `group_by()` not to quote its input, because it has been pre-quoted by `my_summarise()`. Yet another way of saying the same thing is that we want to __unquote__` the `my_var`.
+We get the same error as before, because we haven't yet told `group_by()` that we're taking care of the quoting. In other words, we need to tell `group_by()` not to quote its input, because it has been pre-quoted by `my_summarise()`. Yet another way of saying the same thing is that we want to __unquote__ `my_var`.
 
-In dplyr (and in the tidyeval in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a funtion that actually does what we want.
+In dplyr (and in tidyeval in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a function that actually does what we want.
 
 ```{r}
 my_summarise <- function(df, group_var) {
@@ -259,7 +259,7 @@ my_summarise(df, g1)
 
 I've added a `print()` call to make it obvious what's going wrong here: `quo(group_by)` always returns `~group_by`. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return `~g1`.
 
-By analogy to strings, we don't want `""`, instead we want some function that turns an argument into a string. That's the job of `enquo()`. `enquo()` uses some dark magic too look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a __promise__.)
+By analogy to strings, we don't want `""`, instead we want some function that turns an argument into a string. That's the job of `enquo()`. `enquo()` uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a __promise__.)
 
 ```{r}
 my_summarise <- function(df, group_by) {
