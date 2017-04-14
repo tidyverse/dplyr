@@ -137,13 +137,13 @@
 <li><p>It is no longer necessary to create a remote “src”. Instead you can work directly with the database connection returned by DBI. This reflects the maturity of the DBI ecosystem. Thanks largely to the work of Kirill Muller (funded by the R Consortium) DBI backends are now much more consistent, comprehensive, and easier to use. That means that there’s no longer a need for a layer in between you and DBI.</p></li>
 </ul>
 <p>You can continue to use <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code>, but I recommend a new style that makes the connection to DBI more clear:</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 
 con &lt;-<span class="st"> </span>DBI::<span class="kw">dbConnect</span>(RSQLite::<span class="kw">SQLite</span>(), <span class="st">":memory:"</span>)
 <span class="kw">dbWriteTable</span>(con, <span class="st">"mtcars"</span>, mtcars)
 
 mtcars2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tbl.html">tbl</a></span>(con, <span class="st">"mtcars"</span>)
-mtcars2</code></pre>
+mtcars2</code></pre></div>
 <p>This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with <code>DBI::dbGetQuery()</code> and <code>DBI::dbExecute()</code>.</p>
 <p>If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends">backend news</a> to see what’s changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> for helpers.</p>
 </div>
@@ -174,7 +174,7 @@ mtcars2</code></pre>
 <div id="tidyeval" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tidyeval" class="anchor"></a>Tidyeval</h2>
-<p>dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in <code><a href="../articles/programming-dplyr.html">vignette("programming-dplyr")</a></code> but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:</p>
+<p>dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in <code><a href="../articles/programming.html">vignette("programming")</a></code> but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:</p>
 <pre class="{r}"><code>my_var &lt;- quo(homeworld)
 
 starwars %&gt;%
@@ -245,6 +245,7 @@ starwars %&gt;%
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> better handles <code>NULL</code> inputs (#2303, #2443).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> explicitly rejects columns containing data frames (#2015, #2446).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/bind.html">bind_cols()</a></code> now accept vectors. They are treated as rows by the former and columns by the latter. Rows require inner names like <code>c(col1 = 1, col2 = 2)</code>, while columns require outer names: <code>col1 = c(1, 2)</code>. Lists are still treated as data frames but can be spliced explicitly with <code>!!!</code>, e.g. <code><a href="../reference/bind.html">bind_rows(!!! x)</a></code> (#1676).</p></li>
+<li><p>After a period of deprecation, <code><a href="../reference/bind.html">rbind_list()</a></code> and <code><a href="../reference/bind.html">rbind_all()</a></code> have been removed from the package. Please use <code><a href="../reference/bind.html">bind_rows()</a></code> instead.</p></li>
 <li><p><code><a href="../reference/bind.html">combine()</a></code> accepts <code>NA</code> values (#2203, @zeehio)</p></li>
 <li><p><code><a href="../reference/bind.html">combine()</a></code> and <code><a href="../reference/bind.html">bind_rows()</a></code> with character and factor types now always warn about the coercion to character (#2317, @zeehio)</p></li>
 <li><p><code><a href="../reference/bind.html">combine()</a></code> and <code><a href="../reference/bind.html">bind_rows()</a></code> accept <code>difftime</code> objects.</p></li>
@@ -471,7 +472,8 @@ starwars %&gt;%
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> handles 0-length named lists (#1515), promotes factors to characters (#1538), and warns when binding factor and character (#1485). bind_rows()` is more flexible in the way it can accept data frames, lists, list of data frames, and list of lists (#1389).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> rejects <code>POSIXlt</code> columns (#1875, @krlmlr).</p></li>
 <li><p>Both <code><a href="../reference/bind.html">bind_cols()</a></code> and <code><a href="../reference/bind.html">bind_rows()</a></code> infer classes and grouping information from the first data frame (#1692).</p></li>
-<li><p><code>rbind()</code> and <code>cbind()</code> get <code><a href="../reference/grouped_df.html">grouped_df()</a></code> methods that make it harder to<br> create corrupt data frames (#1385). You should still prefer <code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/bind.html">bind_cols()</a></code>.</p></li>
+<li><p><code>rbind()</code> and <code>cbind()</code> get <code><a href="../reference/grouped_df.html">grouped_df()</a></code> methods that make it harder to<br>
+create corrupt data frames (#1385). You should still prefer <code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/bind.html">bind_cols()</a></code>.</p></li>
 <li><p>Joins now use correct class when joining on <code>POSIXct</code> columns (#1582, @joel23888), and consider time zones (#819). Joins handle a <code>by</code> that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively to avoid creating repeated column names (#1460). Joins on string columns should be substantially faster (#1386). Extra attributes are ok if they are identical (#1636). Joins work correct when factor levels not equal (#1712, #1559), and anti and semi joins give correct result when by variable is a factor (#1571). A clear error message is given for joins where an explicit <code>by</code> contains unavailable columns (#1928, #1932, @krlmlr).</p></li>
 <li><p><code><a href="../reference/join.html">inner_join()</a></code>, <code><a href="../reference/join.html">left_join()</a></code>, <code><a href="../reference/join.html">right_join()</a></code>, and <code><a href="../reference/join.html">full_join()</a></code> gain a <code>suffix</code> argument which allows you to control what suffix duplicated variable names recieve (#1296).</p></li>
 <li><p>Set operations (<code><a href="../reference/setops.html">intersect()</a></code>, <code><a href="../reference/setops.html">union()</a></code> etc) respect coercion rules (#799). <code><a href="../reference/setops.html">setdiff()</a></code> handles factors with <code>NA</code> levels (#1526).</p></li>
@@ -798,7 +800,7 @@ starwars %&gt;%
 <h2 class="hasAnchor">
 <a href="#piping" class="anchor"></a>Piping</h2>
 <p>dplyr now imports <code>%&gt;%</code> from magrittr (#330). I recommend that you use this instead of <code>%.%</code> because it is easier to type (since you can hold down the shift key) and is more flexible. With you <code>%&gt;%</code>, you can control which argument on the RHS recieves the LHS by using the pronoun <code>.</code>. This makes <code>%&gt;%</code> more useful with base R functions because they don’t always take the data frame as the first argument. For example you could pipe <code>mtcars</code> to <code>xtabs()</code> with:</p>
-<pre class="sourceCode R"><code class="sourceCode r">mtcars %&gt;%<span class="st"> </span><span class="kw">xtabs</span>( ~<span class="st"> </span>cyl +<span class="st"> </span>vs, <span class="dt">data =</span> .)</code></pre>
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">mtcars %&gt;%<span class="st"> </span><span class="kw">xtabs</span>( ~<span class="st"> </span>cyl +<span class="st"> </span>vs, <span class="dt">data =</span> .)</code></pre></div>
 <p>Thanks to @smbache for the excellent magrittr package. dplyr only provides <code>%&gt;%</code> from magrittr, but it contains many other useful functions. To use them, load <code>magrittr</code> explicitly: <code>library(magrittr)</code>. For more details, see <code><a href="../articles/magrittr.html">vignette("magrittr")</a></code>.</p>
 <p><code>%.%</code> will be deprecated in a future version of dplyr, but it won’t happen for a while. I’ve also deprecated <code>chain()</code> to encourage a single style of dplyr usage: please use <code>%&gt;%</code> instead.</p>
 </div>
@@ -807,11 +809,11 @@ starwars %&gt;%
 <a href="#do" class="anchor"></a>Do</h2>
 <p><code><a href="../reference/do.html">do()</a></code> has been completely overhauled. There are now two ways to use it, either with multiple named arguments or a single unnamed arguments. <code><a href="../reference/group_by.html">group_by()</a></code> + <code><a href="../reference/do.html">do()</a></code> is equivalent to <code>plyr::dlply</code>, except it always returns a data frame.</p>
 <p>If you use named arguments, each argument becomes a list-variable in the output. A list-variable can contain any arbitrary R object so it’s particularly well suited for storing models.</p>
-<pre class="sourceCode R"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 models &lt;-<span class="st"> </span>mtcars %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="dt">lm =</span> <span class="kw">lm</span>(mpg ~<span class="st"> </span>wt, <span class="dt">data =</span> .))
-models %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">rsq =</span> <span class="kw">summary</span>(lm)$r.squared)</code></pre>
+models %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">rsq =</span> <span class="kw">summary</span>(lm)$r.squared)</code></pre></div>
 <p>If you use an unnamed argument, the result should be a data frame. This allows you to apply arbitrary functions to each group.</p>
-<pre class="sourceCode R"><code class="sourceCode r">mtcars %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="kw">head</span>(., <span class="dv">1</span>))</code></pre>
+<div class="sourceCode"><pre class="sourceCode R"><code class="sourceCode r">mtcars %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(cyl) %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/do.html">do</a></span>(<span class="kw">head</span>(., <span class="dv">1</span>))</code></pre></div>
 <p>Note the use of the <code>.</code> pronoun to refer to the data in the current group.</p>
 <p><code><a href="../reference/do.html">do()</a></code> also has an automatic progress bar. It appears if the computation takes longer than 5 seconds and lets you know (approximately) how much longer the job will take to complete.</p>
 </div>
@@ -869,7 +871,8 @@ models %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/sum
 <li><p>join functions throw error instead of crashing when there are no common variables between the data frames, and also give a better error message when only one data frame has a by variable (#371).</p></li>
 <li><p><code><a href="../reference/top_n.html">top_n()</a></code> returns <code>n</code> rows instead of <code>n - 1</code> (@leondutoit, #367).</p></li>
 <li><p>SQL translation always evaluates subsetting operators (<code>$</code>, <code>[</code>, <code>[[</code>) locally. (#318).</p></li>
-<li><p><code><a href="../reference/select.html">select()</a></code> now renames variables in remote sql tbls (#317) and<br> implicitly adds grouping variables (#170).</p></li>
+<li><p><code><a href="../reference/select.html">select()</a></code> now renames variables in remote sql tbls (#317) and<br>
+implicitly adds grouping variables (#170).</p></li>
 <li><p>internal <code>grouped_df_impl</code> function errors if there are no variables to group by (#398).</p></li>
 <li><p><code>n_distinct</code> did not treat NA correctly in the numeric case #384.</p></li>
 <li><p>Some compiler warnings triggered by -Wall or -pedantic have been eliminated.</p></li>

@@ -106,7 +106,7 @@ instead forces generation of the SQL query. This is sometimes needed to work
 around bugs in dplyr's SQL generation.</p>
     
 
-    <pre><span class='fu'>compute</span>(<span class='no'>x</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>random_table_name</span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>compute</span>(<span class='no'>x</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>random_table_name</span>(), <span class='no'>...</span>)
 
 <span class='fu'>collect</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
@@ -156,7 +156,29 @@ frame and uploads it to the remote source.</p>
 
   <span class='co'># Creates a fresh query based on the generated SQL</span>
   <span class='fu'>collapse</span>(<span class='no'>remote</span>)
-}</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("copy_to"): no applicable method for 'copy_to' applied to an object of class "c('src_dbi', 'src_sql', 'src')"</span></div></pre>
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: dbplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: ‘dbplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:dplyr’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    sql</span></div><div class='output co'>#&gt; <span class='message'>The following object is masked from ‘package:stats’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, union</span></div><div class='output co'>#&gt; Source:     SQL [?? x 5]
+#&gt; Database:   sqlite 3.11.1 [:memory:]
+#&gt; 
+#&gt;      mpg   cyl  disp    hp  drat
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1   18.7     8 360.0   175  3.15
+#&gt; 2   14.3     8 360.0   245  3.21
+#&gt; 3   16.4     8 275.8   180  3.07
+#&gt; 4   17.3     8 275.8   180  3.07
+#&gt; 5   15.2     8 275.8   180  3.07
+#&gt; 6   10.4     8 472.0   205  2.93
+#&gt; 7   10.4     8 460.0   215  3.00
+#&gt; 8   14.7     8 440.0   230  3.23
+#&gt; 9   15.5     8 318.0   150  2.76
+#&gt; 10  15.2     8 304.0   150  3.15
+#&gt; # ... with more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

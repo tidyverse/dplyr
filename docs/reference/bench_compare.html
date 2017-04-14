@@ -103,7 +103,7 @@
 multiple sources.</p>
     
 
-    <pre><span class='fu'>bench_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='no'>...</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+    <pre class="usage"><span class='fu'>bench_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='no'>...</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 <span class='fu'>compare_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='kw'>ref</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compare</span> <span class='kw'>=</span> <span class='no'>equal_data_frame</span>, <span class='no'>...</span>)
 
@@ -165,36 +165,13 @@ an error is thrown.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># if (require("microbenchmark") &amp;&amp; has_lahman()) {</span>
-<span class='co'># lahman_local &lt;- lahman_srcs("df", "sqlite")</span>
-<span class='co'># teams &lt;- lapply(lahman_local, function(x) x %&gt;% tbl("Teams"))</span>
-<span class='co'># </span>
-<span class='co'># compare_tbls(teams, function(x) x %&gt;% filter(yearID == 2010))</span>
-<span class='co'># bench_tbls(teams, function(x) x %&gt;% filter(yearID == 2010))</span>
-<span class='co'># </span>
-<span class='co'># # You can also supply arbitrary additional arguments to bench_tbls</span>
-<span class='co'># # if there are other operations you'd like to compare.</span>
-<span class='co'># bench_tbls(teams, function(x) x %&gt;% filter(yearID == 2010),</span>
-<span class='co'>#    base = subset(Lahman::Teams, yearID == 2010))</span>
-<span class='co'># </span>
-<span class='co'># # A more complicated example using multiple tables</span>
-<span class='co'># setup &lt;- function(src) {</span>
-<span class='co'>#   list(</span>
-<span class='co'>#     src %&gt;% tbl("Batting") %&gt;% filter(stint == 1) %&gt;% select(playerID:H),</span>
-<span class='co'>#     src %&gt;% tbl("Master") %&gt;% select(playerID, birthYear)</span>
-<span class='co'>#   )</span>
-<span class='co'># }</span>
-<span class='co'># two_tables &lt;- lapply(lahman_local, setup)</span>
-<span class='co'># </span>
-<span class='co'># op &lt;- function(tbls) {</span>
-<span class='co'>#   semi_join(tbls[[1]], tbls[[2]], by = "playerID")</span>
-<span class='co'># }</span>
-<span class='co'># # compare_tbls(two_tables, op)</span>
-<span class='co'># bench_tbls(two_tables, op, times = 2)</span>
-<span class='co'># </span>
-<span class='co'># }</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><div class='input'>not_run({
+  if (require("microbenchmark") && has_lahman()) {  lahman_local <- lahman_srcs("df", "sqlite")  teams <- lapply(lahman_local, function(x) x %>% tbl("Teams"))    compare_tbls(teams, function(x) x %>% filter(yearID == 2010))  bench_tbls(teams, function(x) x %>% filter(yearID == 2010))    # You can also supply arbitrary additional arguments to bench_tbls  # if there are other operations you'd like to compare.  bench_tbls(teams, function(x) x %>% filter(yearID == 2010),     base = subset(Lahman::Teams, yearID == 2010))    # A more complicated example using multiple tables  setup <- function(src) {    list(      src %>% tbl("Batting") %>% filter(stint == 1) %>% select(playerID:H),      src %>% tbl("Master") %>% select(playerID, birthYear)    )  }  two_tables <- lapply(lahman_local, setup)    op <- function(tbls) {    semi_join(tbls[[1]], tbls[[2]], by = "playerID")  }  # compare_tbls(two_tables, op)  bench_tbls(two_tables, op, times = 2)    }
+})
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:2:98: unexpected symbol</span>
+#&gt; <span class='error'>1: not_run({</span>
+#&gt; <span class='error'>2:   if (require("microbenchmark") &amp;&amp; has_lahman()) {  lahman_local &lt;- lahman_srcs("df", "sqlite")  teams</span>
+#&gt; <span class='error'>                                                                                                    ^</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
