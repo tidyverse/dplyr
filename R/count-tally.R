@@ -63,7 +63,7 @@ tally <- function(x, wt, sort = FALSE) {
 
   if (quo_is_missing(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
-    wt <- ~n
+    wt <- quo(n)
   }
 
   if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
@@ -113,7 +113,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
-  wt <- wt %||% ~NULL
+  wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
   count(x, !!! vars, wt = !! wt, sort = sort)
 }
@@ -125,7 +125,7 @@ add_tally <- function(x, wt, sort = FALSE) {
 
   if (quo_is_missing(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
-    wt <- ~n
+    wt <- quo(n)
   }
 
   if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
@@ -164,7 +164,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
-  wt <- wt %||% ~NULL
+  wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
   add_count(x, !!! vars, wt = !! wt, sort = sort)
 }
