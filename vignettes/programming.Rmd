@@ -408,7 +408,7 @@ quote(toupper(letters[1:5]))
 
 (Note that despite being called the double quote, `"` is not a quoting operator in this context, because it generates a string, not an expression.)
 
-In practice, the formula is the better of the two options because captures the code and its execution __environment__. This important because even simple expression can yield different values in different environments. For example, the `x` in the following two expressions refers to different values:
+In practice, the formula is the better of the two options because captures the code and its execution __environment__. This is important because even simple expression can yield different values in different environments. For example, the `x` in the following two expressions refers to different values:
 
 ```{r}
 f <- function(x) {
