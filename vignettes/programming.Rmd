@@ -102,7 +102,7 @@ greet <- function(name) {
 greet("Hadley")
 ```
 
-Another approach is exemplified by the glue package: it allows you to "unquote" components of a string, replacing the string, with the value of the R expression. This allows an elegant implementation of our function because `{name}` is replaced with the value of the `name` argument.
+Another approach is exemplified by the __glue__ package: it allows you to "unquote" components of a string, replacing the string with the value of the R expression. This allows an elegant implementation of our function because `{name}` is replaced with the value of the `name` argument.
 
 ```{r}
 greet <- function(name) {
@@ -200,7 +200,7 @@ Nope.
 
 If you look carefully at the error message, you'll see that it's the same in both cases. `group_by()` works like `"`: it doesn't evaluate its input; it quotes it.
 
-To make this function work, we need to do two things. We need to quote the input ourselves (so `my_summarise()` can take a bare variable name like `group_by`), and then we need to tell `group_by()` not to quote its input (because we've done the quoting).
+To make this function work, we need to do two things. We need to quote the input ourselves (so `my_summarise()` can take a bare variable name like `group_by()`), and then we need to tell `group_by()` not to quote its input (because we've done the quoting).
 
 How do we quote the input? We can't use `""` to quote the input, because that gives us a string. Instead we need a function that captures the expression and its environment (we'll come back to why this is important later on). There are two possible options we could use in base R, the function `quote()` and the operator `~`. Neither of these work quite the way we want, so we need a new function: `quo()`.
 
@@ -221,7 +221,6 @@ my_summarise(df, quo(g1))
 ```
 
 We get the same error as before, because we haven't yet told `group_by()` that we're taking care of the quoting. In other words, we need to tell `group_by()` not to quote its input, because it has been pre-quoted by `my_summarise()`. Yet another way of saying the same thing is that we want to __unquote__ `my_var`.
-
 
 In dplyr (and in tidyeval in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a function that actually does what we want.
 
@@ -409,7 +408,7 @@ quote(toupper(letters[1:5]))
 
 (Note that despite being called the double quote, `"` is not a quoting operator in this context, because it generates a string, not an expression.)
 
-In practice, the formula is the better of the two options because captures the code and its execution __environment__. This important because even simple expression can yield different values in different environments. For example, the `x` in the following two expressions refers to different values:
+In practice, the formula is the better of the two options because it captures the code and its execution __environment__. This is important because even simple expression can yield different values in different environments. For example, the `x` in the following two expressions refers to different values:
 
 ```{r}
 f <- function(x) {
@@ -443,7 +442,7 @@ user_var <- 1000
 mtcars %>% summarise(cyl = mean(cyl) * user_var)
 ```
 
-When an object keep tracks of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
+When an object keeps track of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
 
 ```{r}
 typeof(mean)
@@ -493,7 +492,7 @@ quo(toupper(UQ(letters[1:5])))
 ```
 
 It is also possible to unquote other quoted expressions. Unquoting such
-symbolic objects provides a powerful a way of manipulating expressions. 
+symbolic objects provides a powerful way of manipulating expressions. 
 
 ```{r}
 var1 <- quo(letters[1:5])
@@ -530,7 +529,7 @@ quo(filter(df, !!my_var == 1))
 quo(filter(df, UQ(my_var) == 1))
 ```
 
-You'll note above that `UQ()` yields an quosure containing a formula. That ensures that when the quosure is evaluated, it'll be looked up in the right environment. In certain code-generation scenarios you just want to use expression and ignore the environment. That's the job of `UQE()`:
+You'll note above that `UQ()` yields a quosure containing a formula. That ensures that when the quosure is evaluated, it'll be looked up in the right environment. In certain code-generation scenarios you just want to use expression and ignore the environment. That's the job of `UQE()`:
 
 ```{r}
 quo(UQE(my_fun)(x, y, z))
@@ -551,14 +550,14 @@ A very useful feature of unquote-splicing is that the vector names
 become argument names:
 
 ```{r}
-x <- list(foo = 1L, bar = quote(baz))
+x <- list(foo = 1L, bar = quo(baz))
 quo(list(!!! x))
 ```
 
 This makes it easy to program with dplyr verbs that take named dots:
 
 ```{r}
-args <- list(mean = ~mean(cyl), count = ~n())
+args <- list(mean = quo(mean(cyl)), count = quo(n())) 
 mtcars %>%
   group_by(am) %>%
   summarise(!!! args)
