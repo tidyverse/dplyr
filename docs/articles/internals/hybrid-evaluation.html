@@ -85,21 +85,21 @@
     
 <div class="contents">
 <p>Consider this call to <code>summarise</code> :</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">sum</span>(flights))</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">sum</span>(flights))</code></pre></div>
 <p>One of the ways <code>dplyr</code> achieves dramatic speedups is that expressions might not be evaluated by R, but by alternative code that is faster and uses less memory.</p>
 <p>Conceptually the call to <code>summarise</code> above evaluates the expression <code>sum(flights)</code> on each subset of <code>flights</code> controlled by the grouping of <code>per_day</code>. This involves creating a new R vector to store the chunk and evaluate the R expression.</p>
 <p>Evaluating the R expression might carry costs that can be avoided, i.e. S3 dispatch, …</p>
 <p><code>dplyr</code> recognizes the expression <code>sum(flights)</code> as the <code>sum</code> function applied to a known column of the data, making it possible to handle the dispatch early and once, avoid unneeded memory allocations and compute the result faster.</p>
 <p>Hybrid evaluation is able to work on subexpressions. Consider:</p>
-<pre class="sourceCode r"><code class="sourceCode r">foo &lt;-<span class="st"> </span>function(x) x*x 
-<span class="kw"><a href="../../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">foo</span>(<span class="kw">sum</span>(flights)) )</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">foo &lt;-<span class="st"> </span>function(x) x*x 
+<span class="kw"><a href="../../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">foo</span>(<span class="kw">sum</span>(flights)) )</code></pre></div>
 <p><code>dplyr</code> will substitute the subexpressions it knows how to handle and leave the rest to standard R evaluation. Instead of evaluating <code>foo(sum(flights))</code>, R will only have to evaluate <code>foo(z)</code> where <code>z</code> is the result of the internal evaluation of <code>sum(flights)</code>.</p>
 <div id="implementation" class="section level1">
 <h1 class="hasAnchor">
 <a href="#implementation" class="anchor"></a>Implementation</h1>
 <p>Hybrid evaluation is designed to be extensible. Before we start registering custom hybrid evaluation handlers, we need to understand the system.</p>
 <p>The first building block we need to cover is the <code>Result</code> class.</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">namespace</span> dplyr {
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">namespace</span> dplyr {
     <span class="kw">class</span> Result {
     <span class="kw">public</span>:
         Result(){}
@@ -114,16 +114,16 @@
         }
         
     } ;
-}</code></pre>
+}</code></pre></div>
 <p>The two first methods deal with grouped and ungrouped data frames. We will mainly focus on the last method that operates on a <code>SlicingIndex</code>.</p>
 <p><code>SlicingIndex</code> is a class that encapsulates indices of a single chunk of a grouped data frame.</p>
 <p>Hybrid evaluation really just is deriving from the <code>Result</code> class. Let’s consider a simpler version of <code>sum</code> that only handles numeric vectors. (The internal version is more complete, handles missing values, …).</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">class</span> Sum : <span class="kw">public</span> Result {
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">class</span> Sum : <span class="kw">public</span> Result {
   <span class="kw">public</span>:
     Sum( NumericVector data_ ): data(data_){}
     
     SEXP process( <span class="dt">const</span> SlicingIndex&amp; index ){
-      <span class="dt">double</span> res = <span class="fl">0.</span><span class="dv">0</span> ;
+      <span class="dt">double</span> res = <span class="fl">0.0</span> ;
       <span class="kw">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
       <span class="kw">return</span> NumericVector::create( res );
     }
@@ -137,7 +137,7 @@
         
   <span class="kw">private</span>:
     NumericVector data ;
-} ;</code></pre>
+} ;</code></pre></div>
 <div id="using-processor" class="section level2">
 <h2 class="hasAnchor">
 <a href="#using-processor" class="anchor"></a>Using Processor</h2>
@@ -149,21 +149,21 @@
 <p>When using <code>Processor</code> we only have to supply a <code>process_chunk</code> method that takes a <code>const SlicingIndex&amp;</code> as input and returns an object suitable to go into a vector of the type controlled by the first template parameter.</p>
 <p>The purpose of the <code>Processor</code> template is then to generate the boiler plate code for the three <code>process</code> methods defined by the <code>Result</code> interface.</p>
 <p>A possible <code>Sum</code> implementation would then look something like this:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">class</span> Sum : <span class="kw">public</span> Processor&lt;REALSXP, Sum&gt; {
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">class</span> Sum : <span class="kw">public</span> Processor&lt;REALSXP, Sum&gt; {
   <span class="kw">public</span>:
     Sum( NumericVector data_ ): data(data_){}
     
     <span class="dt">double</span> process_chunk( <span class="dt">const</span> SlicingIndex&amp; index ){
-      <span class="dt">double</span> res = <span class="fl">0.</span><span class="dv">0</span> ;
+      <span class="dt">double</span> res = <span class="fl">0.0</span> ;
       <span class="kw">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
       <span class="kw">return</span> res;
     }
     
   <span class="kw">private</span>:
     NumericVector data ;
-}</code></pre>
+}</code></pre></div>
 <p>Recognizing genericity here, we might want to make <code>Sum</code> a template class in order to handle more than just numeric vector :</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="dt">int</span> RTYPE&gt;
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="dt">int</span> RTYPE&gt;
 <span class="kw">class</span> Sum : <span class="kw">public</span> Processor&lt;REALSXP, Sum&lt;RTYPE&gt; &gt; {
   <span class="kw">public</span>:
     <span class="kw">typedef</span> <span class="kw">typename</span> Rcpp::traits::storage_type&lt;RTYPE&gt;::type STORAGE ;
@@ -171,21 +171,21 @@
     Sum( Vector&lt;RTYPE&gt; data_ ): data(data_){}
     
     STORAGE process_chunk( <span class="dt">const</span> SlicingIndex&amp; index ){
-      STORAGE res = <span class="fl">0.</span><span class="dv">0</span> ;
+      STORAGE res = <span class="fl">0.0</span> ;
       <span class="kw">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
       <span class="kw">return</span> res;
     }
     
   <span class="kw">private</span>:
     Vector&lt;RTYPE&gt; data ;
-}</code></pre>
+}</code></pre></div>
 <p>Aside from not dealing with missing data and using internal knowledge of the <code>SlicingIndex</code> class, this implementation of <code>Sum</code> is close to the internal implementation in <code>dplyr</code>.</p>
 </div>
 <div id="retrieving-hybrid-handlers" class="section level2">
 <h2 class="hasAnchor">
 <a href="#retrieving-hybrid-handlers" class="anchor"></a>Retrieving hybrid handlers</h2>
 <p><code>dplyr</code> functions use the <code>get_handler</code> function to retrieve handlers for particular expressions.</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">Result* get_handler( SEXP call, <span class="dt">const</span> ILazySubsets&amp; subsets ){
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Result* get_handler( SEXP call, <span class="dt">const</span> ILazySubsets&amp; subsets ){
     <span class="dt">int</span> depth = Rf_length(call) ;
     HybridHandlerMap&amp; handlers = get_handlers() ;
     SEXP fun_symbol = CAR(call) ;
@@ -195,10 +195,10 @@
     <span class="kw">if</span>( it == handlers.end() ) <span class="kw">return</span> <span class="dv">0</span> ;
     
     <span class="kw">return</span> it-&gt;second( call, subsets, depth - <span class="dv">1</span> );
-}</code></pre>
+}</code></pre></div>
 <p>The <code>get_handler</code> performs a lookup in a hash table of type <code>HybridHandlerMap</code>.</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> dplyr::Result* (*HybridHandler)(SEXP, <span class="dt">const</span> dplyr::ILazySubsets&amp;, <span class="dt">int</span>) ;
-<span class="kw">typedef</span> dplyr_hash_map&lt;SEXP,HybridHandler&gt; HybridHandlerMap ;</code></pre>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> dplyr::Result* (*HybridHandler)(SEXP, <span class="dt">const</span> dplyr::ILazySubsets&amp;, <span class="dt">int</span>) ;
+<span class="kw">typedef</span> dplyr_hash_map&lt;SEXP,HybridHandler&gt; HybridHandlerMap ;</code></pre></div>
 <p><code>HybridHandlerMap</code> is simply a hash map where the map key is the symbol of the function and the map value type is a function pointer defined by <code>HybridHandler</code>.</p>
 <p>The parameters of the <code>HybridHandler</code> function pointer type are:</p>
 <ul>
@@ -209,7 +209,7 @@
 </ul>
 <p>The purpose of the hybrid handler function is to return a <code>Result*</code> if it can handle the call or 0 if it cannot.</p>
 <p>with our previous <code>Sum</code> template class, we could define a hybrid handler function like this:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">Result* sum_handler(SEXP call, <span class="dt">const</span> ILazySubsets&amp; subsets, <span class="dt">int</span> nargs ){
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Result* sum_handler(SEXP call, <span class="dt">const</span> ILazySubsets&amp; subsets, <span class="dt">int</span> nargs ){
   <span class="co">// we only know how to deal with argument</span>
   <span class="kw">if</span>( nargs != <span class="dv">1</span> ) <span class="kw">return</span> <span class="dv">0</span> ;
   
@@ -228,22 +228,22 @@
   
   <span class="co">// we are here if we could not handle the call</span>
   <span class="kw">return</span> <span class="dv">0</span> ;
-}</code></pre>
+}</code></pre></div>
 </div>
 <div id="registering-hybrid-handlers" class="section level2">
 <h2 class="hasAnchor">
 <a href="#registering-hybrid-handlers" class="anchor"></a>Registering hybrid handlers</h2>
 <p><code>dplyr</code> enables users, most likely packages, to register their own hybrid handlers through the <code>registerHybridHandler</code>.</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> registerHybridHandler( <span class="dt">const</span> <span class="dt">char</span>* , HybridHandler ) ;</code></pre>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> registerHybridHandler( <span class="dt">const</span> <span class="dt">char</span>* , HybridHandler ) ;</code></pre></div>
 <p>To register the handler we created above, we then simply:</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp">registerHybridHandler( <span class="st">"sum"</span>, sum_handler )  ;</code></pre>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">registerHybridHandler( <span class="st">"sum"</span>, sum_handler )  ;</code></pre></div>
 </div>
 <div id="putting-it-all-together" class="section level2">
 <h2 class="hasAnchor">
 <a href="#putting-it-all-together" class="anchor"></a>Putting it all together</h2>
 <p>We are going to register a handler called <code>hitchhiker</code> that always returns the answer to everything, i.e. <code>42</code>.</p>
 <p>The code below is suitable to run through <code>sourceCpp</code>.</p>
-<pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;dplyr.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;dplyr.h&gt;</span>
 <span class="co">// [[Rcpp::depends(dplyr,BH)]]</span>
 
 <span class="kw">using</span> <span class="kw">namespace</span> dplyr ;
@@ -299,7 +299,7 @@ Result* hitchhiker_handler( SEXP, <span class="dt">const</span> ILazySubsets&amp
 <span class="co">    # 2  b 42.00988</span>
 <span class="co">    # 3  c 42.01440</span>
 <span class="co">    # 4  d 41.99160</span>
-<span class="co">*/</span></code></pre>
+<span class="co">*/</span></code></pre></div>
 </div>
 <div id="registering-hybrid-handlers-with-a-package" class="section level2">
 <h2 class="hasAnchor">

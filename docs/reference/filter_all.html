@@ -105,7 +105,7 @@ with <code><a href='all_vars.html'>all_vars()</a></code> or <code><a href='all_v
 <code>.</code> to refer to variables.</p>
     
 
-    <pre><span class='fu'>filter_all</span>(<span class='no'>.tbl</span>, <span class='no'>.vars_predicate</span>)
+    <pre class="usage"><span class='fu'>filter_all</span>(<span class='no'>.tbl</span>, <span class='no'>.vars_predicate</span>)
 
 <span class='fu'>filter_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='no'>.vars_predicate</span>)
 
@@ -147,9 +147,9 @@ positions.</p></td>
 <span class='co'># with all_vars() or any_vars():</span>
 <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='fu'>is.na</span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate intersection&gt;
 #&gt; ~is.na(.)
-#&gt; &lt;environment: 0x7f895eb85780&gt;</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'>is.na</span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
+#&gt; &lt;environment: 0x119b40698&gt;</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'>is.na</span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
 #&gt; ~is.na(.)
-#&gt; &lt;environment: 0x7f895eb85780&gt;</div><div class='input'>
+#&gt; &lt;environment: 0x119b40698&gt;</div><div class='input'>
 
 <span class='co'># You can take the intersection of the replicated expressions:</span>
 <span class='fu'>filter_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>150</span>))</div><div class='output co'>#&gt;  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb
