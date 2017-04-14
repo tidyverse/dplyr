@@ -1,5 +1,5 @@
 #ifndef DPLYR_WORKAROUND_XLEN_H
-#define DPLYR_WORKAROUND_XLEN__H
+#define DPLYR_WORKAROUND_XLEN_H
 
 namespace Rcpp {
 
