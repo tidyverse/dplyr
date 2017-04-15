@@ -109,7 +109,7 @@ useful when working with models: you can fit models per group with
 <code>do()</code> or <code>summarise()</code>.</p>
     
 
-    <pre><span class='fu'>do</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>do</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -236,31 +236,10 @@ act like <code>ldply()</code>.</p>
 <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'>as.data.frame</span>(<span class='fu'>coef</span>(<span class='no'>.</span>$<span class='no'>mod</span>)))
 <span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'>summary</span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)
 
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># # This longer example shows the progress bar in action</span>
-<span class='co'># by_dest &lt;- flights %&gt;% group_by(dest) %&gt;% filter(n() &gt; 100)</span>
-<span class='co'># library(mgcv)</span>
-<span class='co'># by_dest %&gt;% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))</span>
-<span class='co'>## ---------------------------------------------</span>
-}</div><div class='output co'>#&gt; # A tibble: 16 × 1
-#&gt;            rsq
-#&gt;          &lt;dbl&gt;
-#&gt; 1  0.051350400
-#&gt; 2  0.050413957
-#&gt; 3  0.082775968
-#&gt; 4  0.024073896
-#&gt; 5  0.034721220
-#&gt; 6  0.083602600
-#&gt; 7  0.101147945
-#&gt; 8  0.026441622
-#&gt; 9  0.001700796
-#&gt; 10 0.049918201
-#&gt; 11 0.017496868
-#&gt; 12 0.067322008
-#&gt; 13 0.057505652
-#&gt; 14 0.110919798
-#&gt; 15 0.118660669
-#&gt; 16 0.139066954</div></pre>
+<span class='fu'>not_run</span>({
+  <span class='co'># This longer example shows the progress bar in action  by_dest &lt;- flights %&gt;% group_by(dest) %&gt;% filter(n() &gt; 100)  library(mgcv)  by_dest %&gt;% do(smooth = gam(arr_delay ~ s(dep_time) + month, data = .))</span>
+})
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: nycflights13</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

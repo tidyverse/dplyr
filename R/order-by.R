@@ -29,8 +29,8 @@ order_by <- function(order_by, call) {
   quo <- enquo(call)
   stopifnot(is_lang(quo))
 
-  fn <- set_expr(quo, node_car(f_rhs(quo)))
-  args <- node_cdr(f_rhs(quo))
+  fn <- set_expr(quo, node_car(get_expr(quo)))
+  args <- node_cdr(get_expr(quo))
   args <- map(args, new_quosure, f_env(quo))
 
   quo <- quo(with_order(!! order_by, !! fn, !!! args))

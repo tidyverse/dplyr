@@ -46,7 +46,7 @@
 #' rename_vars(names(iris), petal_length = Petal.Length)
 #'
 #' # You can unquote names or formulas (or lists of)
-#' select_vars(names(iris), !!! list(~Petal.Length))
+#' select_vars(names(iris), !!! list(quo(Petal.Length)))
 #' select_vars(names(iris), !! quote(Petal.Length))
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
   args <- quos(...)
