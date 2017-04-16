@@ -100,6 +100,8 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
     names(sel)[unnamed] <- sel[unnamed]
   }
 
+  names(sel) <- enc2native(names(sel))
+
   sel
 }
 
