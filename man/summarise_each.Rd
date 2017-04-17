@@ -5,8 +5,6 @@
 \alias{summarise_each_}
 \alias{mutate_each}
 \alias{mutate_each_}
-\alias{summarise_each_q}
-\alias{mutate_each_q}
 \alias{summarize_each}
 \alias{summarize_each_}
 \title{Summarise and mutate multiple columns.}
@@ -18,10 +16,6 @@ summarise_each_(tbl, funs, vars)
 mutate_each(tbl, funs, ...)
 
 mutate_each_(tbl, funs, vars)
-
-summarise_each_q(...)
-
-mutate_each_q(...)
 
 summarize_each(tbl, funs, ...)
 
