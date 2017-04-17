@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -104,7 +107,7 @@
 where operations are performed "by group". <code>ungroup()</code> removes grouping.</p>
     
 
-    <pre><span class='fu'>group_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>group_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
 <span class='fu'>ungroup</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
@@ -126,6 +129,10 @@ will be silently dropped.</p></td>
       <td><p>When <code>add = FALSE</code>, the default, <code>group_by()</code> will
 override existing groups. To instead add to the existing groups,
 use <code>add = TRUE</code></p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>A <code><a href='tbl.html'>tbl()</a></code></p></td>
     </tr>
     </table>
     

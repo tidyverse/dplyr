@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -103,7 +106,7 @@
 multiple sources.</p>
     
 
-    <pre><span class='fu'>bench_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='no'>...</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>10</span>)
+    <pre class="usage"><span class='fu'>bench_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='no'>...</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>10</span>)
 
 <span class='fu'>compare_tbls</span>(<span class='no'>tbls</span>, <span class='no'>op</span>, <span class='kw'>ref</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>compare</span> <span class='kw'>=</span> <span class='no'>equal_data_frame</span>, <span class='no'>...</span>)
 
@@ -165,36 +168,36 @@ an error is thrown.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># if (require("microbenchmark") &amp;&amp; has_lahman()) {</span>
-<span class='co'># lahman_local &lt;- lahman_srcs("df", "sqlite")</span>
-<span class='co'># teams &lt;- lapply(lahman_local, function(x) x %&gt;% tbl("Teams"))</span>
-<span class='co'># </span>
-<span class='co'># compare_tbls(teams, function(x) x %&gt;% filter(yearID == 2010))</span>
-<span class='co'># bench_tbls(teams, function(x) x %&gt;% filter(yearID == 2010))</span>
-<span class='co'># </span>
-<span class='co'># # You can also supply arbitrary additional arguments to bench_tbls</span>
-<span class='co'># # if there are other operations you'd like to compare.</span>
-<span class='co'># bench_tbls(teams, function(x) x %&gt;% filter(yearID == 2010),</span>
-<span class='co'>#    base = subset(Lahman::Teams, yearID == 2010))</span>
-<span class='co'># </span>
-<span class='co'># # A more complicated example using multiple tables</span>
-<span class='co'># setup &lt;- function(src) {</span>
-<span class='co'>#   list(</span>
-<span class='co'>#     src %&gt;% tbl("Batting") %&gt;% filter(stint == 1) %&gt;% select(playerID:H),</span>
-<span class='co'>#     src %&gt;% tbl("Master") %&gt;% select(playerID, birthYear)</span>
-<span class='co'>#   )</span>
-<span class='co'># }</span>
-<span class='co'># two_tables &lt;- lapply(lahman_local, setup)</span>
-<span class='co'># </span>
-<span class='co'># op &lt;- function(tbls) {</span>
-<span class='co'>#   semi_join(tbls[[1]], tbls[[2]], by = "playerID")</span>
-<span class='co'># }</span>
-<span class='co'># # compare_tbls(two_tables, op)</span>
-<span class='co'># bench_tbls(two_tables, op, times = 2)</span>
-<span class='co'># </span>
-<span class='co'># }</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
+  <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"microbenchmark"</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'>has_lahman</span>()) {
+  <span class='no'>lahman_local</span> <span class='kw'>&lt;-</span> <span class='fu'>lahman_srcs</span>(<span class='st'>"df"</span>, <span class='st'>"sqlite"</span>)
+  <span class='no'>teams</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(<span class='no'>lahman_local</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Teams"</span>))
+
+  <span class='fu'>compare_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
+  <span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
+
+  <span class='co'># You can also supply arbitrary additional arguments to bench_tbls</span>
+  <span class='co'># if there are other operations you'd like to compare.</span>
+  <span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>),
+     <span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'>subset</span>(<span class='kw'>Lahman</span><span class='kw'>::</span><span class='no'>Teams</span>, <span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
+
+  <span class='co'># A more complicated example using multiple tables</span>
+  <span class='no'>setup</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>src</span>) {
+    <span class='fu'>list</span>(
+      <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Batting"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>stint</span> <span class='kw'>==</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>H</span>),
+      <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Master"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>, <span class='no'>birthYear</span>)
+    )
+  }
+  <span class='no'>two_tables</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(<span class='no'>lahman_local</span>, <span class='no'>setup</span>)
+
+  <span class='no'>op</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>tbls</span>) {
+    <span class='fu'><a href='join.html'>semi_join</a></span>(<span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"playerID"</span>)
+  }
+  <span class='co'># compare_tbls(two_tables, op)</span>
+  <span class='fu'>bench_tbls</span>(<span class='no'>two_tables</span>, <span class='no'>op</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+
+  }
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

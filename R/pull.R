@@ -5,7 +5,7 @@
 #'
 #' @param .data A table of data
 #' @param var A variable specified as:
-#'   * a single string, the variable name
+#'   * a literal variable name
 #'   * a positive integer, giving the position counting from the left
 #'   * a negative integer, giving the position counting from the right.
 #'
@@ -15,7 +15,7 @@
 #' @examples
 #' mtcars %>% pull(-1)
 #' mtcars %>% pull(1)
-#' mtcars %>% pull("cyl")
+#' mtcars %>% pull(cyl)
 #'
 #' # Also works for remote sources
 #' if (requireNamespace("dbplyr", quietly = TRUE)) {
@@ -31,18 +31,23 @@ pull <- function(.data, var = -1) {
 
 #' @export
 pull.data.frame <- function(.data, var = -1) {
-  var <- find_var(var, names(.data))
+  expr <- enexpr(var)
+  var <- find_var(expr, names(.data))
   .data[[var]]
 }
 
-find_var <- function(var, vars) {
-  if (is_string(var)) {
+find_var <- function(expr, vars) {
+
+  # Literal variable name
+  if (is_symbol(expr)) {
+    var <- as.character(expr)
+
     if (!var %in% vars) {
       bad_cols(var, "not found")
     }
     var
-  } else if (is.numeric(var) && length(var) == 1) {
-    var <- as.integer(var)
+  } else if (is_lang(expr, quote(`-`), 1) || is_bare_numeric(expr)) {
+    var <- as.integer(eval_bare(expr, base_env()))
     n <- length(vars)
 
     if (is.na(var) || abs(var) > n || var == 0L) {
@@ -56,8 +61,6 @@ find_var <- function(var, vars) {
     vars[[var]]
 
   } else {
-    bad_args("var", "must be a numeric or character scalar, ",
-      "not {type_of(var)} of length {length(var)}"
-    )
+    bad_args("var", "must be a number or literal name")
   }
 }

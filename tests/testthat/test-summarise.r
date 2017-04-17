@@ -947,3 +947,8 @@ test_that("proper handling of NA factors (#2588)", {
   ret <- df %>% group_by(x) %>% summarise(y = y[1])
   expect_identical(as.character(ret$y), c(NA, NA, "3"))
 })
+
+test_that("can refer to previously summarised symbols", {
+  expect_identical(summarise(group_by(mtcars, cyl), x = 1, z = x)[2:3], tibble(x = c(1, 1, 1), z = x))
+  expect_identical(summarise(group_by(mtcars, cyl), x = n(), z = x)[2:3], tibble(x = c(11L, 7L, 14L), z = x))
+})

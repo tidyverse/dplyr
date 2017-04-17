@@ -16,9 +16,8 @@
 * `arrange()` for grouped data frames gains a `.by_group` argument so you
   can choose to sort by groups if you want to (defaults to `FALSE`) (#2318)
 
-* New `pull()` generic for extracting a single column either by name
-  (as a string) or a position (either from the left or the right). Thanks to
-  @paulponcet for the idea (#2054).
+* New `pull()` generic for extracting a single column either by name or position
+  (either from the left or the right). Thanks to @paulponcet for the idea (#2054).
 
 * `as_tibble()` is re-exported from tibble. This is the recommend way to create
   tibbles from existing data frames. `tbl_df()` has been softly deprecated.
@@ -29,7 +28,8 @@
 
 * dplyr no longer messages that you need dtplyr to work with data.table (#2489).
 
-* Long deprecated `regroup()` has been removed.
+* Long deprecated `regroup()`, `mutate_each_q()` and
+  `summarise_each_q()` functions have been removed.
 
 * Deprecated `failwith()`. I'm not even sure why it was here.
 
@@ -56,7 +56,7 @@ You can continue to use `src_mysql()`, `src_postgres()`, and `src_sqlite()`, but
 library(dplyr)
 
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-dbWriteTable(con, "mtcars", mtcars)
+DBI::dbWriteTable(con, "mtcars", mtcars)
 
 mtcars2 <- tbl(con, "mtcars")
 mtcars2
@@ -64,7 +64,7 @@ mtcars2
 
 This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with `DBI::dbGetQuery()` and `DBI::dbExecute()`.
 
-If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much).
+If you've implemented a database backend for dplyr, please read the [backend news](https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends) to see what's changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see `wrap_dbplyr_obj()` for helpers.
 
 ## UTF-8
 
@@ -115,7 +115,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
 
 ## Tidyeval
 
-dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming-dplyr")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
+dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
 
 ```{r}
 my_var <- quo(homeworld)
@@ -251,6 +251,9 @@ This means that the underscored version of each main verb is no longer needed, a
   names: `col1 = c(1, 2)`. Lists are still treated as data frames but
   can be spliced explicitly with `!!!`, e.g. `bind_rows(!!! x)` (#1676).
 
+* After a period of deprecation, `rbind_list()` and `rbind_all()` have
+  been removed from the package. Please use `bind_rows()` instead.
+
 * `combine()` accepts `NA` values (#2203, @zeehio)
 
 * `combine()` and `bind_rows()` with character and factor types now always warn
@@ -260,9 +263,6 @@ This means that the underscored version of each main verb is no longer needed, a
 
 * `mutate` coerces results from grouped dataframes accepting combinable data
   types (such as `integer` and `numeric`). (#1892, @zeehio)
-
-* `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
-  `bind_cols()` respectively (#2138)
 
 ## Vector functions
 

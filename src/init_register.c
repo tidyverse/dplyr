@@ -43,7 +43,6 @@ extern SEXP dplyr_loc(SEXP);
 extern SEXP dplyr_mutate_impl(SEXP, SEXP);
 extern SEXP dplyr_n_distinct_multi(SEXP, SEXP);
 extern SEXP dplyr_plfloc(SEXP);
-extern SEXP dplyr_rbind_list__impl(SEXP);
 extern SEXP dplyr_RcppExport_registerCCallable();
 extern SEXP dplyr_right_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
 extern SEXP dplyr_select_impl(SEXP, SEXP);
@@ -91,7 +90,6 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mutate_impl",                     (DL_FUNC) &dplyr_mutate_impl,                     2},
   {"dplyr_n_distinct_multi",                (DL_FUNC) &dplyr_n_distinct_multi,                2},
   {"dplyr_plfloc",                          (DL_FUNC) &dplyr_plfloc,                          1},
-  {"dplyr_rbind_list__impl",                (DL_FUNC) &dplyr_rbind_list__impl,                1},
   {"dplyr_RcppExport_registerCCallable",    (DL_FUNC) &dplyr_RcppExport_registerCCallable,    0},
   {"dplyr_right_join_impl",                 (DL_FUNC) &dplyr_right_join_impl,                 7},
   {"dplyr_select_impl",                     (DL_FUNC) &dplyr_select_impl,                     2},

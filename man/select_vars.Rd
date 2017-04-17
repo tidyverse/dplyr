@@ -63,7 +63,7 @@ select_vars(names(iris), petal = starts_with("Petal"))
 rename_vars(names(iris), petal_length = Petal.Length)
 
 # You can unquote names or formulas (or lists of)
-select_vars(names(iris), !!! list(~Petal.Length))
+select_vars(names(iris), !!! list(quo(Petal.Length)))
 select_vars(names(iris), !! quote(Petal.Length))
 }
 \keyword{internal}

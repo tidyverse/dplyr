@@ -2,8 +2,8 @@ context("funs")
 
 test_that("fun_list is merged with new args", {
   funs <- funs(fn = bar)
-  funs <- as_fun_list(funs, ~bar, env(), baz = "baz")
-  expect_identical(funs$fn, ~bar(., baz = "baz"))
+  funs <- as_fun_list(funs, quo(bar), env(), baz = "baz")
+  expect_identical(funs$fn, quo(bar(., baz = "baz")))
 })
 
 test_that("funs() works with namespaced calls", {
@@ -17,7 +17,7 @@ test_that("funs() accepts quoted functions", {
 
 test_that("funs() accepts unquoted functions", {
   funs <- funs(fn = !! mean)
-  expect_identical(funs$fn, new_formula(NULL, new_language(base::mean, quote(.))))
+  expect_identical(funs$fn, new_quosure(new_language(base::mean, quote(.))))
 })
 
 test_that("funs() accepts quoted calls", {

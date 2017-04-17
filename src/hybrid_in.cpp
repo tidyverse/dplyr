@@ -10,7 +10,7 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-Result* in_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNUSED int nargs) {
+Result* in_prototype(SEXP call, const ILazySubsets& subsets, int) {
   SEXP lhs = CADR(call);
   SEXP rhs = CADDR(call);
 

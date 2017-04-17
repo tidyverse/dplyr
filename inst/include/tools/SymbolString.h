@@ -36,7 +36,7 @@ public:
     return CHAR(STRING_ELT(utf8_string, 0));
   }
 
-  const bool is_empty() const {
+  bool is_empty() const {
     return s == "";
   }
 

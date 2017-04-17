@@ -50,9 +50,11 @@ reference:
   - auto_copy
   - compute
   - copy_to
+  - ident
   - explain
   - tbl
   - src_dbi
+  - sql
 
 - title: Metadata
   contents:
@@ -68,6 +70,7 @@ reference:
   - if_else
   - lead
   - order_by
+  - "n"
   - n_distinct
   - na_if
   - near
@@ -104,6 +107,8 @@ navbar:
       href: articles/window-functions.html
     - text: Programming with dplyr
       href: articles/programming.html
+    - text: Compatibility
+      href: articles/compatibility.html
   - text: News
     href: news/index.html
   right:

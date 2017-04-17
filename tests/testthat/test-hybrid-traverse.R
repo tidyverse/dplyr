@@ -184,7 +184,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("interpolation works (#1012)", {
-    var <- ~ b
+    var <- quo(b)
 
     expect_equal(
       test_df %>%
@@ -461,4 +461,4 @@ test_hybrid <- function(grouping) {
 
 test_hybrid(identity)
 test_hybrid(rowwise)
-test_hybrid(. %>% group_by(!! ~id))
+test_hybrid(. %>% group_by(!! quo(id)))

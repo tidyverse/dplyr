@@ -58,11 +58,11 @@ public:
     return 0;
   }
 
-  inline SymbolString symbol(int i) {
+  inline SymbolString symbol(int) {
     stop("Rowwise data frames don't have grouping variables");
   }
 
-  inline SEXP label(int i) {
+  inline SEXP label(int) {
     return R_NilValue;
   }
 

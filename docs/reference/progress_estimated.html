@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -105,7 +108,7 @@ automatic progress bar can be disabled by setting option
 <code>dplyr.show_progress</code> to <code>FALSE</code>.</p>
     
 
-    <pre><span class='fu'>progress_estimated</span>(<span class='no'>n</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
+    <pre class="usage"><span class='fu'>progress_estimated</span>(<span class='no'>n</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>0</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -143,10 +146,10 @@ seconds have elapsed before displaying any results.</p></td>
 <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
 <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>3</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.1</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()
 
-<span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># p &lt;- progress_estimated(10, min_time = 3)</span>
-<span class='co'># for (i in 1:10) p$pause(0.5)$tick()$print()</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+<span class='fu'>not_run</span>({
+  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>10</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+  <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>10</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.5</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
