@@ -141,15 +141,6 @@ bind_cols <- function(...) {
 }
 
 #' @export
-rbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_rows(...)
-}
-#' @export
-cbind.tbl_df <- function(..., deparse.level = 1) {
-  bind_cols(...)
-}
-
-#' @export
 #' @rdname bind
 combine <- function(...) {
   args <- list(...)

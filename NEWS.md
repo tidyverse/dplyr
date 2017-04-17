@@ -264,9 +264,6 @@ This means that the underscored version of each main verb is no longer needed, a
 * `mutate` coerces results from grouped dataframes accepting combinable data
   types (such as `integer` and `numeric`). (#1892, @zeehio)
 
-* `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
-  `bind_cols()` respectively (#2138)
-
 ## Vector functions
 
 * `%in%` gets new hybrid handler (#126).
