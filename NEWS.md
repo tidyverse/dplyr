@@ -16,9 +16,8 @@
 * `arrange()` for grouped data frames gains a `.by_group` argument so you
   can choose to sort by groups if you want to (defaults to `FALSE`) (#2318)
 
-* New `pull()` generic for extracting a single column either by name
-  (as a string) or a position (either from the left or the right). Thanks to
-  @paulponcet for the idea (#2054).
+* New `pull()` generic for extracting a single column either by name or position
+  (either from the left or the right). Thanks to @paulponcet for the idea (#2054).
 
 * `as_tibble()` is re-exported from tibble. This is the recommend way to create
   tibbles from existing data frames. `tbl_df()` has been softly deprecated.
