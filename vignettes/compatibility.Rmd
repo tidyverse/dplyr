@@ -236,6 +236,8 @@ filter.sf <- function(.data, ...) {
 }
 ```
 
+If you need help with this, please let us know!
+
 
 ### Deprecation of `mutate_each()` and `summarise_each()`
 
@@ -284,5 +286,3 @@ character vectors of column names:
 ```{r, eval = FALSE}
 mutate_at(starwars, c("height", "mass"), as.character)
 ```
-
-
