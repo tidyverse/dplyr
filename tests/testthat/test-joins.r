@@ -821,3 +821,12 @@ test_that("joins strip group indexes (#1597)", {
   expect_stripped(anti_join(df1, df2))
   expect_stripped(semi_join(df1, df2))
 })
+
+
+test_that("join accepts tz attributes (#2643)", {
+  # It's the same time:
+  df1 <- data_frame(a = as.POSIXct("2009-01-01 10:00:00", tz = "Europe/London"))
+  df2 <- data_frame(a = as.POSIXct("2009-01-01 11:00:00", tz = "Europe/Paris"))
+  result <- inner_join(df1, df2, by = "a")
+  expect_equal(nrow(result), 1)
+})
