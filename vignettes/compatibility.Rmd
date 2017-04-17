@@ -186,11 +186,13 @@ var <- "mpg"
 quo(mean(!! rlang::sym(var)))
 ```
 
+See also `vignette("programming")` for more about quasiquotation and
+quosures.
+
 
 #### For package authors
 
-For package authors, rlang provides
-a
+For package authors, rlang provides a
 [compatibility file](https://github.com/hadley/rlang/blob/master/R/compat-lazyeval.R) that
 you can copy to your package. `compat_lazy()` and `compat_lazy_dots()`
 turn lazy-able objects into proper quosures. This helps providing an
