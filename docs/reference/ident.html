@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Copy a local data frame to a remote src — copy_to • dplyr</title>
+<title>Flag a character vector as SQL identifiers — ident • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -95,71 +95,33 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Copy a local data frame to a remote src</h1>
+    <h1>Flag a character vector as SQL identifiers</h1>
     </div>
 
     
-    <p>This function uploads a local data frame into a remote data source, creating
-the table definition as needed. Wherever possible, the new object will be
-temporary, limited to the current connection to the source.</p>
+    <p>This ensures that during SQL generation, the values will be quoted as
+identifiers, not as strings. <code>as.ident()</code> coerces to an identifier,
+assuming that escaped SQL already represents an identifier.</p>
     
 
-    <pre class="usage"><span class='fu'>copy_to</span>(<span class='no'>dest</span>, <span class='no'>df</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>deparse</span>(<span class='fu'>substitute</span>(<span class='no'>df</span>)), <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>ident</span>(<span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dest</th>
-      <td><p>remote data source</p></td>
-    </tr>
-    <tr>
-      <th>df</th>
-      <td><p>local data frame</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>name for new remote table.</p></td>
-    </tr>
-    <tr>
-      <th>overwrite</th>
-      <td><p>If <code>TRUE</code>, will overwrite an existing table with
-name <code>name</code>. If <code>FALSE</code>, will throw an error if <code>name</code> already
-exists.</p></td>
-    </tr>
-    <tr>
       <th>...</th>
-      <td><p>other parameters passed to methods.</p></td>
+      <td><p>A character vector, or name-value pairs</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>a <code>tbl</code> object in the remote source</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <p><code><a href='compute.html'>collect()</a></code> for the opposite action; downloading remote data into
-a local dbl.</p>
-    
-
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='fu'>src_memdb</span>() <span class='kw'>%&gt;%</span> <span class='fu'>copy_to</span>(<span class='no'>iris</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-  <span class='no'>iris2</span>
-})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>

@@ -170,7 +170,7 @@ names are new names.</p>
 <span class='fu'>rename_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt;   Sepal.Length    Sepal.Width   petal_length    Petal.Width        Species 
 #&gt; "Sepal.Length"  "Sepal.Width" "Petal.Length"  "Petal.Width"      "Species" </div><div class='input'>
 <span class='co'># You can unquote names or formulas (or lists of)</span>
-<span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !!! <span class='fu'>list</span>(~<span class='no'>Petal.Length</span>))</div><div class='output co'>#&gt;   Petal.Length 
+<span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !!! <span class='fu'>list</span>(<span class='fu'><a href='reexports.html'>quo</a></span>(<span class='no'>Petal.Length</span>)))</div><div class='output co'>#&gt;   Petal.Length 
 #&gt; "Petal.Length" </div><div class='input'><span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !! <span class='fu'>quote</span>(<span class='no'>Petal.Length</span>))</div><div class='output co'>#&gt;   Petal.Length 
 #&gt; "Petal.Length" </div></pre>
   </div>

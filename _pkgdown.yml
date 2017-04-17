@@ -50,6 +50,7 @@ reference:
   - auto_copy
   - compute
   - copy_to
+  - ident
   - explain
   - tbl
   - src_dbi

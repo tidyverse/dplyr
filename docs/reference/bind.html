@@ -305,7 +305,8 @@ appears in any of the inputs.</p>
 #&gt; 5 NA  2
 #&gt; 6 NA  3
 #&gt; 7 NA  4</div><div class='input'><span class='fu'>not_run</span>({
-  <span class='co'># Rows do need to match when column-binding  bind_cols(data.frame(x = 1), data.frame(y = 1:2))</span>
+  <span class='co'># Rows do need to match when column-binding</span>
+  <span class='fu'>bind_cols</span>(<span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='fu'>data.frame</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
 })
 
 <span class='fu'>bind_cols</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb mpg1 cyl1 disp1 hp1 drat1
