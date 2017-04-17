@@ -20,11 +20,11 @@ This vignette starts with some general advice on writing package code that works
 
 Ideally, you want to make sure that your package works with both the released version and the development version of dplyr. This is typically a little bit more work, but has two big advantages:
 
-1. It's more convenient for your users, since they're not forced to update 
+1. It's more convenient for your users, since they're not forced to update
    dplyr if they don't want to)
-   
+
 1. It's easier on CRAN since it doesn't require a massive coordinated release
-   of multiple packages. 
+   of multiple packages.
 
 To make code work with multiple versions of a package, your first tool is the simple if statement:
 
@@ -81,4 +81,52 @@ These will generate `R CMD check` NOTES, so make sure to tell CRAN that this is 
 
 ### Deprecation of `verb_`
 
-### Deprecartion of `mutate_each_`
+### Deprecation of `mutate_each()` and `summarise_each()`
+
+These functions have been replaced by a more complete family of
+functions. This family has suffixes `_if`, `_at` and `_all` and
+includes more verbs than just `mutate` `summarise`.
+
+If you need to update your code to the new family, there are two
+relevant functions depending on which variables you apply `funs()` to.
+If you called `mutate_each()` without supplying a selection of
+variables, `funs` is applied to all variables. In this case, you
+should update your code to use `mutate_all()` instead:
+
+```{r, eval = FALSE}
+mutate_each(starwars, funs(as.character))
+mutate_all(starwars, funs(as.character))
+```
+
+Note that the new verbs support bare functions as well, so you don't
+necessarily need to wrap with `funs()`:
+
+```{r, eval = FALSE}
+mutate_all(starwars, as.character)
+```
+
+
+On the other hand, if you supplied a variable selection, you should
+use `mutate_at()`. The variable selection should be wrapped with
+`vars()`.
+
+```{r, eval = FALSE}
+mutate_each(starwars, funs(as.character), height, mass)
+mutate_at(starwars, vars(height, mass), as.character)
+```
+
+`vars()` supports all the selection helpers that you usually use with
+`select()`:
+
+```{r, eval = FALSE}
+summarise_at(mtcars, vars(starts_with("d")), mean)
+```
+
+Note that intead of a `vars()` selection, you can also supply
+character vectors of column names:
+
+```{r, eval = FALSE}
+mutate_at(starwars, c("height", "mass"), as.character)
+```
+
+

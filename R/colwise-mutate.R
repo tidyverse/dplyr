@@ -201,6 +201,9 @@ manip_apply_syms <- function(funs, syms, tbl) {
 #' function to a selection of variables, use [mutate_at()] or
 #' [summarise_at()].
 #'
+#' See the relevant section of `vignette("compatibility")` for more
+#' information.
+#'
 #' @keywords internal
 #' @export
 summarise_each <- function(tbl, funs, ...) {

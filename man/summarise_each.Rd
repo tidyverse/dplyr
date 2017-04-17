@@ -32,5 +32,8 @@ variables you want to apply \code{funs} to. To apply a function to all
 variables, use \code{\link[=mutate_all]{mutate_all()}} or \code{\link[=summarise_all]{summarise_all()}}. To apply a
 function to a selection of variables, use \code{\link[=mutate_at]{mutate_at()}} or
 \code{\link[=summarise_at]{summarise_at()}}.
+
+See the relevant section of \code{vignette("compatibility")} for more
+information.
 }
 \keyword{internal}
