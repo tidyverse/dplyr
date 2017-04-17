@@ -275,7 +275,7 @@ test_that("mutate strips names (#1689)", {
   expect_null(names(data$b))
 })
 
-test_that("mutate strips names of list-columns, but keeps names in original data (#2523)", {
+test_that("mutate preserves names of list-columns (#2575)", {
   vec <- list(a = 1, b = 2)
   data <- data_frame(x = vec)
   data <- mutate(data, x)

@@ -2,6 +2,7 @@
 #define dplyr_NamedListAccumulator_H
 
 #include <tools/SymbolMap.h>
+#include <tools/utils.h>
 
 #include <dplyr/checks.h>
 
@@ -19,7 +20,8 @@ public:
     if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
       check_supported_type(x, name);
 
-    if (!Rf_isNull(Rf_getAttrib(x, R_NamesSymbol))) {
+    // Strip names from atomic vectors
+    if (is_atomic(x) && !Rf_isNull(Rf_getAttrib(x, R_NamesSymbol))) {
       x = Rf_shallow_duplicate(x);
       Rf_setAttrib(x, R_NamesSymbol, R_NilValue);
     }
