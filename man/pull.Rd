@@ -11,7 +11,7 @@ pull(.data, var = -1)
 
 \item{var}{A variable specified as:
 \itemize{
-\item a single string, the variable name
+\item a literal variable name
 \item a positive integer, giving the position counting from the left
 \item a negative integer, giving the position counting from the right.
 }
@@ -26,7 +26,7 @@ before indexing for remote data tables.
 \examples{
 mtcars \%>\% pull(-1)
 mtcars \%>\% pull(1)
-mtcars \%>\% pull("cyl")
+mtcars \%>\% pull(cyl)
 
 # Also works for remote sources
 if (requireNamespace("dbplyr", quietly = TRUE)) {
