@@ -188,10 +188,18 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
 #' Summarise and mutate multiple columns.
 #'
+#' @description
+#'
 #' `mutate_each()` and `summarise_each()` are deprecated in favour of
 #' a more featureful family of functions: [mutate_all()],
 #' [mutate_at()], [mutate_if()], [summarise_all()], [summarise_at()]
 #' and [summarise_if()].
+#'
+#' The `_each()` functions have two replacements depending on what
+#' variables you want to apply `funs` to. To apply a function to all
+#' variables, use [mutate_all()] or [summarise_all()]. To apply a
+#' function to a selection of variables, use [mutate_at()] or
+#' [summarise_at()].
 #'
 #' @keywords internal
 #' @export
