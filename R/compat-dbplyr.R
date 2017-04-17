@@ -63,3 +63,10 @@ sql <- function(...) {
   check_dbplyr()
   dbplyr::sql(...)
 }
+
+#' @inherit dbplyr::ident
+#' @export
+ident <- function(...) {
+  check_dbplyr()
+  dbplyr::ident(...)
+}
