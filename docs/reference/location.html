@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -140,7 +143,7 @@ frames</p>
 #&gt;  * row.names: &lt;0x107fa5cd0&gt;
 #&gt;  * class:     &lt;0x112bba3d8&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x113dc9d58&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x11f0a17f0&gt;
 #&gt; Variables:
 #&gt;  * mpg:       &lt;0x107fbf6b0&gt;
 #&gt;  * cyl:       &lt;0x107f98790&gt;
@@ -153,20 +156,20 @@ frames</p>
 #&gt;  * am:        &lt;0x107fe2840&gt;
 #&gt;  * gear:      &lt;0x107fedd20&gt;
 #&gt;  * carb:      &lt;0x107fe9330&gt;
-#&gt;  * cyl2:      &lt;0x11c3725d0&gt;
+#&gt;  * cyl2:      &lt;0x11c351a10&gt;
 #&gt; Attributes:
-#&gt;  * class:     &lt;0x10e60b6e8&gt;
-#&gt;  * names:     &lt;0x113dc9c08&gt;
-#&gt;  * row.names: &lt;0x113dca148&gt;</div><div class='input'>
+#&gt;  * class:     &lt;0x1137b5ef8&gt;
+#&gt;  * names:     &lt;0x11f0a16a0&gt;
+#&gt;  * row.names: &lt;0x11f0a0d50&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new        
-#&gt; cyl2      &lt;added&gt; 0x11c3725d0
+#&gt; cyl2      &lt;added&gt; 0x11c351a10
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old         new        
-#&gt; names     0x1128e9200 0x113dc9c08
-#&gt; row.names 0x107fa5cd0 0x113f8e9f8
-#&gt; class     0x112bba3d8 0x10e60b6e8</div></pre>
+#&gt; names     0x1128e9200 0x11f0a16a0
+#&gt; row.names 0x107fa5cd0 0x10d64c200
+#&gt; class     0x112bba3d8 0x1137b5ef8</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

@@ -54,6 +54,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -460,19 +463,19 @@ x2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">100<
 <p>It might look like the expressions are the same if you print them out. But look carefully at the environments — they’re different.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7fc96e19e038&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x7ff94d63bc38&gt;</span>
 x2
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7fc96dd94268&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x7ff94d716668&gt;</span></code></pre></div>
 <p>When we evaluate those formulas using <code>rlang::eval_tidy()</code>, we see that they yield different values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)
 
 <span class="kw">eval_tidy</span>(x1)
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7fc96e19e038&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x7ff94d63bc38&gt;</span>
 <span class="kw">eval_tidy</span>(x2)
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7fc96dd94268&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x7ff94d716668&gt;</span></code></pre></div>
 <p>This is a key property of R: one name can refer to different values in different environments. This is also important for dplyr, because it allows you to combine variables and objects in a call:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user_var &lt;-<span class="st"> </span><span class="dv">1000</span>
 mtcars %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">cyl =</span> <span class="kw">mean</span>(cyl) *<span class="st"> </span>user_var)
