@@ -29,7 +29,8 @@
 
 * dplyr no longer messages that you need dtplyr to work with data.table (#2489).
 
-* Long deprecated `regroup()` has been removed.
+* Long deprecated `regroup()`, `mutate_each_q()` and
+  `summarise_each_q()` functions have been removed.
 
 * Deprecated `failwith()`. I'm not even sure why it was here.
 
