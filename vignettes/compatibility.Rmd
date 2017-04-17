@@ -79,7 +79,165 @@ Simply copy the results of this function in your package.
 
 These will generate `R CMD check` NOTES, so make sure to tell CRAN that this is to ensure backward compatibility.
 
-### Deprecation of `verb_`
+
+### Deprecation of underscored `verbs_()`
+
+Because the tidyeval framework allows us to combine SE and NSE
+semantics within the same functions, the underscored verbs have been
+softly deprecated.
+
+
+#### For users of SE_ verbs
+
+The legacy underscored versions take objects for which a
+`lazyeval::as.lazy()` method is defined. This includes symbols and
+calls, strings, and formulas. All of these objects have been replaced
+with quosures and you can call tidyeval verbs with unquoted quosures:
+
+```{r, eval = FALSE}
+quo <- quo(cyl)
+select(mtcars, !! quo)
+```
+
+Symbolic expressions are also supported, but note that bare symbols
+and calls do not carry scope information. If you're referring to
+objects in the data frame, it's safe to omit specifying an enclosure:
+
+```{r, results = "hide"}
+sym <- quote(cyl)
+select(mtcars, !! sym)
+
+call <- quote(mean(cyl))
+summarise(mtcars, !! call)
+```
+
+Transforming objects into quosures is generally straightforward. To
+enclose with the current environment, you can unquote directly in
+`quo()` or you can use `as_quosure()`:
+
+```{r}
+quo(!! sym)
+quo(!! call)
+
+rlang::as_quosure(sym)
+rlang::as_quosure(call)
+```
+
+Note that while formulas and quosures are very similar objects (and in
+the most general sense, formulas are quosures), they can't be used
+interchangeably in tidyeval functions. Early implementations did treat
+bare formulas as quosures, but this created compatibility issues with
+modelling functions of the stats package. Fortunately, it's easy to
+transform formulas to quosures that will self-evaluate in tidyeval
+functions:
+
+```{r}
+f <- ~cyl
+f
+rlang::as_quosure(f)
+```
+
+Finally, and perhaps most importantly, **strings are not and should
+not be parsed**. As developers, it is tempting to try and solve
+problems using strings because we have been trained to work with
+strings rather than quoted expressions. However it's almost always the
+wrong way to approach the problem. The exception is for creating
+symbols. In that case it is perfectly legitimate to use strings:
+
+```{r}
+rlang::sym("cyl")
+rlang::syms(letters[1:3])
+```
+
+But you should never use strings to create calls. Instead you can use
+quasiquotation:
+
+```{r}
+syms <- rlang::syms(c("foo", "bar", "baz"))
+quo(my_call(!!! syms))
+
+fun <- rlang::sym("my_call")
+quo(UQ(fun)(!!! syms))
+```
+
+Or create the call with `lang()`:
+
+```{r}
+call <- rlang::lang("my_call", !!! syms)
+call
+
+rlang::as_quosure(call)
+
+# Or equivalently:
+quo(!! rlang::lang("my_call", !!! syms))
+```
+
+Note that idioms based on `interp()` should now generally be avoided
+and replaced with quasiquotation. Where you used to interpolate:
+
+```{r, eval=FALSE}
+lazyeval::interp(~ mean(var), var = rlang::sym("mpg"))
+```
+
+You would now unquote:
+
+```{r, eval=FALSE}
+var <- "mpg"
+quo(mean(!! rlang::sym(var)))
+```
+
+See also `vignette("programming")` for more about quasiquotation and
+quosures.
+
+
+#### For package authors
+
+For package authors, rlang provides a
+[compatibility file](https://github.com/hadley/rlang/blob/master/R/compat-lazyeval.R) that
+you can copy to your package. `compat_lazy()` and `compat_lazy_dots()`
+turn lazy-able objects into proper quosures. This helps providing an
+underscored version to your users for backward compatibility. For
+instance, here is how we defined the underscored version of `filter()`
+in dplyr 0.6:
+
+```{r, eval = FALSE}
+filter_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!! dots)
+}
+```
+
+With tidyeval, S3 dispatch to the correct method might be an issue. In
+the past, the genericity of dplyr verbs was accomplished by
+dispatching in the underscored versions. Now that those are
+deprecated, we've turned the non-underscored verbs into S3 generics.
+
+We maintain backward compatibility by redispatching to old underscored
+verbs in the default methods of the new S3 generics. For example, here
+is how we redispatch `filter()`:
+
+```{r, eval = FALSE}
+filter.default <- function(.data, ...) {
+  filter_(.data, .dots = compat_as_lazy_dots(...))
+}
+```
+
+This gets the job done in most cases. However, the default method will
+not be called for objects inheriting from one of the classes for which
+we provide non-underscored methods: `data.frame`, `tbl_df`, `tbl_cube`
+and `grouped_df`. An example of this is the `sf` package whose objects
+have classes `c("sf", "data.frame")`. Authors of such packages should
+provide a method for the non-underscored generic in order to be
+compatible with dplyr:
+
+```{r, eval = FALSE}
+filter.sf <- function(.data, ...) {
+  st_as_sf(NextMethod())
+}
+```
+
+If you need help with this, please let us know!
+
 
 ### Deprecation of `mutate_each()` and `summarise_each()`
 
@@ -128,5 +286,3 @@ character vectors of column names:
 ```{r, eval = FALSE}
 mutate_at(starwars, c("height", "mass"), as.character)
 ```
-
-
