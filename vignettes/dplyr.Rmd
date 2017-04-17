@@ -25,50 +25,42 @@ When working with data you must:
 
 The dplyr package makes these steps fast and easy:
 
-* By constraining your options, it simplifies how you can think about common data manipulation tasks.
+* By constraining your options, it helps you think about your data manipulation 
+  challenges.
 
-* It provides simple "verbs", functions that correspond to the most common data manipulation tasks, to help you translate those thoughts into code.
+* It provides simple "verbs", functions that correspond to the most common data 
+  manipulation tasks, to help you translate your thoughts into code.
 
-* It uses efficient data storage backends, so you spend less time waiting for the computer.
+* It uses efficient backends, so you spend less time waiting for the computer.
 
-This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. Other vignettes provide more details on specific topics:
-
-* dbplyr: Besides in-memory data frames, dplyr also connects to out-of-memory, remote databases. And by translating your R code into the appropriate SQL, it allows you to work with both types of data using the same set of tools.
-
-* window-functions: a window function is a variation on an aggregation
-  function. Where an aggregate function uses `n` inputs to produce 1 
-  output, a window function uses `n` inputs to produce `n` outputs.
+This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you've installed, read `vignette("dbplyr")` to learn more.
 
 ## Data: nycflights13
 
-To explore the basic data manipulation verbs of dplyr, we'll start with the built in
-`nycflights13` data frame. This dataset contains all `r nrow(nycflights13::flights)` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?nycflights13`
+To explore the basic data manipulation verbs of dplyr, we'll use `nycflights13::flights`. This dataset contains all `r nrow(nycflights13::flights)` flights that departed from New York City in 2013. The data comes from the US [Bureau of Transportation Statistics](http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&Link=0), and is documented in `?nycflights13`
 
 ```{r}
 library(nycflights13)
 dim(flights)
-head(flights)
+flights
 ```
 
-dplyr can work with data frames as is, but if you're dealing with large data, it's worthwhile to convert them to a `tbl_df`: this is a wrapper around a data frame that won't accidentally print a lot of data to the screen.
+Note that `nycflights13::flights` is a tibble, a modern reimagining of the data frame. It's particular useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
 
 ## Single table verbs
 
 Dplyr aims to provide a function for each basic verb of data manipulation:
 
-* `filter()` (and `slice()`)
-* `arrange()`
-* `select()` (and `rename()`)
-* `distinct()`
-* `mutate()` (and `transmute()`)
-* `summarise()`
-* `sample_n()` (and `sample_frac()`)
+* `filter()` to select cases based on their values.
+* `arrange()` to reorder the cases.
+* `select()` and `rename()` to select variables based on their names.
+* `mutate()` and `transmute()` to add new variables that are functions of existing variables.
+* `summarise()` to condense multiple values to a single value.
+* `sample_n()` and `sample_frac()` to take random samples.
 
-If you've used plyr before, many of these will be familar.
+### Filter rows with `filter()`
 
-## Filter rows with `filter()`
-
-`filter()` allows you to select a subset of rows in a data frame. The first argument is the name of the data frame. The second and subsequent arguments are the expressions that filter the data frame:
+`filter()` allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is `TRUE`.
 
 For example, we can select all flights on January 1st with:
 
@@ -76,25 +68,13 @@ For example, we can select all flights on January 1st with:
 filter(flights, month == 1, day == 1)
 ```
 
-This is equivalent to the more verbose code in base R:
+This is rougly equivalent to this base R code:
 
 ```{r, eval = FALSE}
 flights[flights$month == 1 & flights$day == 1, ]
 ```
 
-`filter()` works similarly to `subset()` except that you can give it any number of filtering conditions, which are joined together with `&` (not `&&` which is easy to do accidentally!).  You can also use other boolean operators:
-
-```{r, eval = FALSE}
-filter(flights, month == 1 | month == 2)
-```
-
-To select rows by position, use `slice()`:
-
-```{r}
-slice(flights, 1:10)
-```
-
-## Arrange rows with `arrange()`
+### Arrange rows with `arrange()`
 
 `arrange()` works similarly to `filter()` except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:
 
@@ -108,14 +88,7 @@ Use `desc()` to order a column in descending order:
 arrange(flights, desc(arr_delay))
 ```
 
-`dplyr::arrange()` works the same way as `plyr::arrange()`. It's a straightforward wrapper around `order()` that requires less typing. The previous code is equivalent to:
-
-```{r, eval = FALSE}
-flights[order(flights$year, flights$month, flights$day), ]
-flights[order(flights$arr_delay, decreasing = TRUE), ] or flights[order(-flights$arr_delay), ]
-```
-
-## Select columns with `select()`
+### Select columns with `select()`
 
 Often you work with large datasets with many columns but only a few are actually of interest to you. `select()` allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:
 
@@ -127,8 +100,6 @@ select(flights, year:day)
 # Select all columns except those from year to day (inclusive)
 select(flights, -(year:day))
 ```
-
-This function works similarly to the `select` argument in `base::subset()`. Because the dplyr philosophy is to have small functions that do one thing well, it's its own function in dplyr.
 
 There are a number of helper functions you can use within `select()`, like `starts_with()`, `ends_with()`, `matches()` and `contains()`. These let you quickly match larger blocks of variables that meet some criterion. See `?select` for more details.
 
@@ -144,42 +115,24 @@ But because `select()` drops all the variables not explicitly mentioned, it's no
 rename(flights, tail_num = tailnum)
 ```
 
-## Extract distinct (unique) rows
-
-Use `distinct()`to find unique values in a table:
-
-```{r}
-distinct(flights, tailnum)
-distinct(flights, origin, dest)
-```
-
-(This is very similar to `base::unique()` but should be much faster.)
-
-## Add new columns with `mutate()`
+### Add new columns with `mutate()`
 
 Besides selecting sets of existing columns, it's often useful to add new columns that are functions of existing columns.  This is the job of `mutate()`:
 
 ```{r}
 mutate(flights,
   gain = arr_delay - dep_delay,
-  speed = distance / air_time * 60)
+  speed = distance / air_time * 60
+)
 ```
 
-`dplyr::mutate()` works the same way as `plyr::mutate()` and similarly to `base::transform()`. The key difference between `mutate()` and `transform()` is that mutate allows you to refer to columns that you've just created:
+`dplyr::mutate()` is similar to the base `transform()`, but allows you to refer to columns that you've just created:
 
 ```{r}
 mutate(flights,
   gain = arr_delay - dep_delay,
   gain_per_hour = gain / (air_time / 60)
 )
-```
-
-```{r, eval = FALSE}
-transform(flights,
-  gain = arr_delay - delay,
-  gain_per_hour = gain / (air_time / 60)
-)
-#> Error: object 'gain' not found
 ```
 
 If you only want to keep the new variables, use `transmute()`:
@@ -191,18 +144,19 @@ transmute(flights,
 )
 ```
 
-## Summarise values with `summarise()`
+### Summarise values with `summarise()`
 
-The last verb is `summarise()`. It collapses a data frame to a single row (this is exactly equivalent to `plyr::summarise()`):
+The last verb is `summarise()`. It collapses a data frame to a single row.
 
 ```{r}
 summarise(flights,
-  delay = mean(dep_delay, na.rm = TRUE))
+  delay = mean(dep_delay, na.rm = TRUE)
+)
 ```
 
-Below, we'll see how this verb can be very useful.
+It's not that useful until we learn the `group_by()` verb below.
 
-## Randomly sample rows with `sample_n()` and `sample_frac()`
+### Randomly sample rows with `sample_n()` and `sample_frac()`
 
 You can use `sample_n()` and `sample_frac()` to take a random sample of rows: use `sample_n()` for a fixed number  and `sample_frac()` for a fixed fraction.
 
@@ -213,14 +167,14 @@ sample_frac(flights, 0.01)
 
 Use `replace = TRUE` to perform a bootstrap sample. If needed, you can weight the sample with the `weight` argument.
 
-## Commonalities
+### Commonalities
 
 You may have noticed that the syntax and function of all these verbs are very similar:
 
 * The first argument is a data frame.
 
-* The subsequent arguments describe what to do with the data frame. Notice that you can refer
-  to columns in the data frame directly without using `$`.
+* The subsequent arguments describe what to do with the data frame. You can
+  refer to columns in the data frame directly without using `$`.
 
 * The result is a new data frame
 
@@ -228,16 +182,17 @@ Together these properties make it easy to chain together multiple simple steps t
 
 These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`), or collapse many values to a summary (`summarise()`). The remainder of the language comes from applying the five functions to different types of data. For example, I'll discuss how these functions work with grouped data.
 
-# Grouped operations
+## Grouped operations
 
-These verbs are useful on their own, but they become really powerful when you apply them to groups of observations within a dataset. In dplyr, you do this with the `group_by()` function. It breaks down a dataset into specified groups of rows. When you then apply the verbs above on the resulting object they'll be automatically applied "by group". Most importantly, all this is achieved by using the same exact syntax you'd use with an ungrouped object.
+These verbs are useful on their own, but they become even more powerful when you apply them to groups of observations within a dataset. In dplyr, you do this with the `group_by()` function. It breaks down a dataset into specified groups of rows. When you then apply the verbs above on the resulting object they'll be automatically applied "by group".
 
 Grouping affects the verbs as follows:
 
 * grouped `select()` is the same as ungrouped `select()`, except that 
   grouping variables are always retained. 
    
-* grouped `arrange()` is the same as ungrouped, but, with `.by_group = TRUE`, it orders first by the grouping variables
+* grouped `arrange()` is the same as ungrouped; unless you set 
+  `.by_group = TRUE`, in which case it orders first by the grouping variables
 
 * `mutate()` and `filter()` are most useful in conjunction with window 
   functions (like `rank()`, or `min(x) == x`). They are described in detail in 
@@ -245,13 +200,10 @@ Grouping affects the verbs as follows:
   
 * `sample_n()` and `sample_frac()` sample the specified number/fraction of
   rows in each group.
-  
-* `slice()` extracts rows within each group.
-  
-* `summarise()` is powerful and easy to understand, as described in 
-  more detail below.
 
-In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(Distance, na.rm = TRUE)`) and arrival delay (`delay = mean(ArrDelay, na.rm = TRUE)`). We then use ggplot2 to display the output.
+* `summarise()` computes the summary for each group.
+
+In the following example, we split the complete dataset into individual planes and then summarise each plane by counting the number of flights (`count = n()`) and computing the average distance (`dist = mean(distance, na.rm = TRUE)`) and arrival delay (`delay = mean(arr_delay, na.rm = TRUE)`). We then use ggplot2 to display the output.
 
 ```{r, warning = FALSE, message = FALSE, fig.width = 6}
 by_tailnum <- group_by(flights, tailnum)
@@ -289,8 +241,6 @@ summarise(destinations,
 )
 ```
 
-You can also use any function that you write yourself. For performance, dplyr provides optimised C++ versions of many of these functions. If you want to provide your own C++ function, see the hybrid-evaluation vignette for more details.
-
 When you group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset:
 
 ```{r}
@@ -302,7 +252,7 @@ daily <- group_by(flights, year, month, day)
 
 However you need to be careful when progressively rolling up summaries like this: it's ok for sums and counts, but you need to think about weighting for means and variances (it's not possible to do this exactly for medians).
 
-## Chaining
+### Piping
 
 The dplyr API is functional in the sense that function calls don't have side-effects. You must always save their results. This doesn't lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:
 
@@ -315,7 +265,7 @@ a3 <- summarise(a2,
 a4 <- filter(a3, arr > 30 | dep > 30)
 ```
 
-Or if you don't want to save the intermediate results, you need to wrap the function calls inside each other:
+Or if you don't want to name the intermediate results, you need to wrap the function calls inside each other:
 
 ```{r}
 filter(
@@ -331,7 +281,7 @@ filter(
 )
 ```
 
-This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom:
+This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the `%>%` operator from magrittr. `x %>% f(y)` turns into `f(x, y)` so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom:
 
 ```{r, eval = FALSE}
 flights %>%
@@ -344,11 +294,11 @@ flights %>%
   filter(arr > 30 | dep > 30)
 ```
 
-# Other data sources
+## Other data sources
 
 As well as data frames, dplyr works with data that is stored in other ways, like data tables, databases and multidimensional arrays.
 
-## Data table
+### Data table
 
 dplyr also provides [data table](http://datatable.r-forge.r-project.org/) methods for all verbs through [dtplyr](http://github.com/hadley/dtplyr). If you're using data.tables already this lets you to use dplyr syntax for data manipulation, and data.table for everything else.
 
@@ -363,15 +313,15 @@ The advantages of using dplyr with data tables are:
 * Instead of one complex method built on the subscripting operator (`[`),
   it provides many simple methods.
 
-## Databases
+### Databases
 
 dplyr also allows you to use the same verbs with a remote database. It takes care of generating the SQL for you so that you can avoid the cognitive challenge of constantly switching between languages. To use these capabilities, you'll need to install the dbplyr package and then read `vignette("dbplyr")` for the details.
 
-## Multidimensional arrays / cubes
+### Multidimensional arrays / cubes
 
 `tbl_cube()` provides an experimental interface to multidimensional arrays or data cubes. If you're using this form of data in R, please get in touch so I can better understand your needs.
 
-# Comparisons
+## Comparisons
 
 Compared to all existing options, dplyr:
 
