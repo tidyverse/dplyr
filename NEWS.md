@@ -56,7 +56,7 @@ You can continue to use `src_mysql()`, `src_postgres()`, and `src_sqlite()`, but
 library(dplyr)
 
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-dbWriteTable(con, "mtcars", mtcars)
+DBI::dbWriteTable(con, "mtcars", mtcars)
 
 mtcars2 <- tbl(con, "mtcars")
 mtcars2
