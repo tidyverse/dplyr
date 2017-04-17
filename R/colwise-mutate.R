@@ -201,10 +201,15 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  .Deprecated("summarise_all")
+  msg <- glue(
+    "`summarise_each()` is deprecated.
+     Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead."
+  )
   if (is_empty(vars)) {
+    warn(glue(msg, "\nTo map `funs` over all variables, use `summarise_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
+    warn(glue(msg, "\nTo map `funs` over a selection of variables, use `summarise_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
@@ -228,28 +233,20 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  .Deprecated("mutate_all")
+  msg <- glue(
+    "`mutate_each()` is deprecated.
+     Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead."
+  )
   if (is_empty(vars)) {
+    warn(glue(msg, "\nTo map `funs` over all variables, use `mutate_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
+    warn(glue(msg, "\nTo map `funs` over a selection of variables, use `mutate_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
   funs <- manip_apply_syms(funs, syms(vars), tbl)
   mutate(tbl, !!! funs)
-}
-
-#' @export
-#' @rdname summarise_each
-summarise_each_q <- function(...) {
-  .Deprecated("summarise_all")
-  summarise_each_(...)
-}
-#' @export
-#' @rdname summarise_each
-mutate_each_q <- function(...) {
-  .Deprecated("mutate_all")
-  mutate_each_(...)
 }
 
 #' @rdname summarise_each
