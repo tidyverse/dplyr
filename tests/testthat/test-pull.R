@@ -21,13 +21,13 @@ test_that("can extract by name, or positive/negative position", {
 test_that("errors for bad inputs", {
   expect_error(
     find_var(letters, letters),
-    "`var`: must be a number or literal name",
+    "`var`: must evaluate to a single number",
     fixed = TRUE
   )
 
   expect_error(
     find_var(quote(aa), letters),
-    "Column `aa`: not found",
+    "object 'aa' not found",
     fixed = TRUE
   )
 
