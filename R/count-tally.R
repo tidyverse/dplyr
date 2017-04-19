@@ -66,7 +66,7 @@ tally <- function(x, wt, sort = FALSE) {
     wt <- quo(n)
   }
 
-  if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
+  if (quo_is_missing(wt) || quo_is_null(wt)) {
     n <- quo(n())
   } else {
     n <- quo(sum(!! wt, na.rm = TRUE))
@@ -128,7 +128,7 @@ add_tally <- function(x, wt, sort = FALSE) {
     wt <- quo(n)
   }
 
-  if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
+  if (quo_is_missing(wt) || quo_is_null(wt)) {
     n <- quo(n())
   } else {
     n <- quo(sum(!! wt, na.rm = TRUE))
