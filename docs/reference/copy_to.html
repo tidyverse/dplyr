@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -144,13 +147,10 @@ a local dbl.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>not_run({
-  iris2 <- src_memdb() %>% copy_to(iris, overwrite = TRUE)  iris2
-})
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:2:61: unexpected symbol</span>
-#&gt; <span class='error'>1: not_run({</span>
-#&gt; <span class='error'>2:   iris2 &lt;- src_memdb() %&gt;% copy_to(iris, overwrite = TRUE)  iris2</span>
-#&gt; <span class='error'>                                                               ^</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
+  <span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='fu'>src_memdb</span>() <span class='kw'>%&gt;%</span> <span class='fu'>copy_to</span>(<span class='no'>iris</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='no'>iris2</span>
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

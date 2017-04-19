@@ -16,9 +16,8 @@
 * `arrange()` for grouped data frames gains a `.by_group` argument so you
   can choose to sort by groups if you want to (defaults to `FALSE`) (#2318)
 
-* New `pull()` generic for extracting a single column either by name
-  (as a string) or a position (either from the left or the right). Thanks to
-  @paulponcet for the idea (#2054).
+* New `pull()` generic for extracting a single column either by name or position
+  (either from the left or the right). Thanks to @paulponcet for the idea (#2054).
 
 * `as_tibble()` is re-exported from tibble. This is the recommend way to create
   tibbles from existing data frames. `tbl_df()` has been softly deprecated.
@@ -29,7 +28,8 @@
 
 * dplyr no longer messages that you need dtplyr to work with data.table (#2489).
 
-* Long deprecated `regroup()` has been removed.
+* Long deprecated `regroup()`, `mutate_each_q()` and
+  `summarise_each_q()` functions have been removed.
 
 * Deprecated `failwith()`. I'm not even sure why it was here.
 
@@ -56,7 +56,7 @@ You can continue to use `src_mysql()`, `src_postgres()`, and `src_sqlite()`, but
 library(dplyr)
 
 con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-dbWriteTable(con, "mtcars", mtcars)
+DBI::dbWriteTable(con, "mtcars", mtcars)
 
 mtcars2 <- tbl(con, "mtcars")
 mtcars2
@@ -263,9 +263,6 @@ This means that the underscored version of each main verb is no longer needed, a
 
 * `mutate` coerces results from grouped dataframes accepting combinable data
   types (such as `integer` and `numeric`). (#1892, @zeehio)
-
-* `tbl_df` gains `rbind()` and `cbind()` methods that call `bind_rows()` and
-  `bind_cols()` respectively (#2138)
 
 ## Vector functions
 

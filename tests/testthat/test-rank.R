@@ -3,7 +3,7 @@ context("rank")
 ntile_h <- function(x, n) {
   tibble(x = x) %>%
     mutate(y = ntile(x, n)) %>%
-    pull("y")
+    pull(y)
 }
 
 test_that("ntile ignores number of NAs", {

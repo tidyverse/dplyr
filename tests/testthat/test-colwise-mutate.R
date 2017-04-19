@@ -120,3 +120,10 @@ test_that("_each() and _all() families agree", {
   expect_warning(expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean)), "deprecated")
   expect_warning(expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean)), "deprecated")
 })
+
+test_that("specific directions are given for _all() and _at() versions", {
+  expect_warning(summarise_each(mtcars, funs(mean)), "over all variables")
+  expect_warning(summarise_each(mtcars, funs(mean), cyl), "over a selection of variables")
+  expect_warning(mutate_each(mtcars, funs(mean)), "over all variables")
+  expect_warning(mutate_each(mtcars, funs(mean), cyl), "over a selection of variables")
+})

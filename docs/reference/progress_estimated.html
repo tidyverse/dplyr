@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -128,30 +131,25 @@ seconds have elapsed before displaying any results.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>p <- progress_estimated(3)
-p$tick()
-p$tick()
-p$tick()
+    <pre class="examples"><div class='input'><span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)
+<span class='no'>p</span>$<span class='fu'>tick</span>()
+<span class='no'>p</span>$<span class='fu'>tick</span>()
+<span class='no'>p</span>$<span class='fu'>tick</span>()
 
-p <- progress_estimated(3)
-for (i in 1:3) p$pause(0.1)$tick()$print()
+<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>3</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.1</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()</div><div class='output co'>#&gt; |==================                                    | 33% ~0 s remaining     |====================================                  | 67% ~0 s remaining     |======================================================|100% ~0 s remaining     </div><div class='input'>
+<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>)
+<span class='no'>p</span>$<span class='fu'>tick</span>()$<span class='fu'>print</span>()$
+ <span class='fu'>pause</span>(<span class='fl'>1</span>)$<span class='fu'>stop</span>()</div><div class='output co'>#&gt; Killed after 1 s                                                                </div><div class='input'>
+<span class='co'># If min_time is set, progress bar not shown until that many</span>
+<span class='co'># seconds have elapsed</span>
+<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>3</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.1</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()
 
-p <- progress_estimated(3)
-p$tick()$print()$
- pause(1)$stop()
-
-# If min_time is set, progress bar not shown until that many
-# seconds have elapsed
-p <- progress_estimated(3, min_time = 3)
-for (i in 1:3) p$pause(0.1)$tick()$print()
-
-not_run({
-  p <- progress_estimated(10, min_time = 3)  for (i in 1:10) p$pause(0.5)$tick()$print()
-})
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:19:46: unexpected 'for'</span>
-#&gt; <span class='error'>18: not_run({</span>
-#&gt; <span class='error'>19:   p &lt;- progress_estimated(10, min_time = 3)  for</span>
-#&gt; <span class='error'>                                                 ^</span></div></pre>
+<span class='fu'>not_run</span>({
+  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>10</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+  <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>10</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.5</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

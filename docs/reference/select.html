@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -212,31 +215,31 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='fu'>matrix</span>(<span class='fu'>runif</span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>df</span>[<span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>1</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>6</span>, <span class='fl'>10</span>)])
 <span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>)</div><div class='output co'>#&gt; # A tibble: 10 × 8
-#&gt;            V4         V7        V1        V9          V8         V5         V2
-#&gt;         &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
-#&gt; 1  0.87959719 0.00250323 0.6477019 0.6523589 0.789947051 0.26714756 0.79909120
-#&gt; 2  0.37491998 0.84770109 0.0647610 0.6675703 0.004801874 0.60840493 0.13193857
-#&gt; 3  0.43416063 0.66004509 0.3374612 0.1980866 0.252908190 0.77196657 0.54759937
-#&gt; 4  0.80684989 0.29450061 0.5698746 0.8681269 0.563169963 0.51975041 0.09701772
-#&gt; 5  0.63560582 0.57010194 0.3383233 0.1732694 0.952278358 0.86047988 0.98637755
-#&gt; 6  0.06871643 0.83903090 0.4992534 0.2049636 0.685113066 0.79302051 0.83954213
-#&gt; 7  0.14484133 0.63062556 0.3084174 0.2171490 0.470041074 0.78391104 0.39959635
-#&gt; 8  0.29457026 0.49672970 0.8404281 0.1508981 0.289851467 0.42372128 0.95222495
-#&gt; 9  0.04144781 0.38952535 0.0651790 0.7745374 0.510124689 0.01551256 0.05949630
-#&gt; 10 0.11654699 0.73144890 0.4399482 0.5330259 0.750690085 0.41620118 0.27691599
+#&gt;           V4          V7        V1          V9         V8         V5        V2
+#&gt;        &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
+#&gt; 1  0.1849738 0.006950771 0.7169860 0.789947051 0.00250323 0.87959719 0.6477019
+#&gt; 2  0.5624441 0.390183412 0.8387365 0.004801874 0.84770109 0.37491998 0.0647610
+#&gt; 3  0.7307234 0.238652540 0.4678020 0.252908190 0.66004509 0.43416063 0.3374612
+#&gt; 4  0.6607431 0.384401472 0.7641271 0.563169963 0.29450061 0.80684989 0.5698746
+#&gt; 5  0.7317454 0.073094374 0.3994330 0.952278358 0.57010194 0.63560582 0.3383233
+#&gt; 6  0.6314629 0.766595044 0.6787983 0.685113066 0.83903090 0.06871643 0.4992534
+#&gt; 7  0.3519942 0.687511492 0.6900191 0.470041074 0.63062556 0.14484133 0.3084174
+#&gt; 8  0.4643854 0.841570623 0.6464228 0.289851467 0.49672970 0.29457026 0.8404281
+#&gt; 9  0.8910764 0.105449455 0.5148363 0.510124689 0.38952535 0.04144781 0.0651790
+#&gt; 10 0.5368121 0.340091229 0.9619246 0.750690085 0.73144890 0.11654699 0.4399482
 #&gt; # ... with 1 more variables: V6 &lt;dbl&gt;</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 × 3
-#&gt;            V4         V5          V6
-#&gt;         &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1  0.87959719 0.26714756 0.006950771
-#&gt; 2  0.37491998 0.60840493 0.390183412
-#&gt; 3  0.43416063 0.77196657 0.238652540
-#&gt; 4  0.80684989 0.51975041 0.384401472
-#&gt; 5  0.63560582 0.86047988 0.073094374
-#&gt; 6  0.06871643 0.79302051 0.766595044
-#&gt; 7  0.14484133 0.78391104 0.687511492
-#&gt; 8  0.29457026 0.42372128 0.841570623
-#&gt; 9  0.04144781 0.01551256 0.105449455
-#&gt; 10 0.11654699 0.41620118 0.340091229</div><div class='input'>
+#&gt;           V4         V5         V6
+#&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
+#&gt; 1  0.1849738 0.87959719 0.26714756
+#&gt; 2  0.5624441 0.37491998 0.60840493
+#&gt; 3  0.7307234 0.43416063 0.77196657
+#&gt; 4  0.6607431 0.80684989 0.51975041
+#&gt; 5  0.7317454 0.63560582 0.86047988
+#&gt; 6  0.6314629 0.06871643 0.79302051
+#&gt; 7  0.3519942 0.14484133 0.78391104
+#&gt; 8  0.4643854 0.29457026 0.42372128
+#&gt; 9  0.8910764 0.04144781 0.01551256
+#&gt; 10 0.5368121 0.11654699 0.41620118</div><div class='input'>
 <span class='co'># Drop variables with -</span>
 <span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 3
 #&gt;    Sepal.Length Sepal.Width Species

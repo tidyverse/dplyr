@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -140,7 +143,7 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 
 con &lt;-<span class="st"> </span>DBI::<span class="kw">dbConnect</span>(RSQLite::<span class="kw">SQLite</span>(), <span class="st">":memory:"</span>)
-<span class="kw">dbWriteTable</span>(con, <span class="st">"mtcars"</span>, mtcars)
+DBI::<span class="kw">dbWriteTable</span>(con, <span class="st">"mtcars"</span>, mtcars)
 
 mtcars2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tbl.html">tbl</a></span>(con, <span class="st">"mtcars"</span>)
 mtcars2</code></pre></div>
@@ -250,7 +253,6 @@ starwars %&gt;%
 <li><p><code><a href="../reference/bind.html">combine()</a></code> and <code><a href="../reference/bind.html">bind_rows()</a></code> with character and factor types now always warn about the coercion to character (#2317, @zeehio)</p></li>
 <li><p><code><a href="../reference/bind.html">combine()</a></code> and <code><a href="../reference/bind.html">bind_rows()</a></code> accept <code>difftime</code> objects.</p></li>
 <li><p><code>mutate</code> coerces results from grouped dataframes accepting combinable data types (such as <code>integer</code> and <code>numeric</code>). (#1892, @zeehio)</p></li>
-<li><p><code>tbl_df</code> gains <code>rbind()</code> and <code>cbind()</code> methods that call <code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/bind.html">bind_cols()</a></code> respectively (#2138)</p></li>
 </ul>
 </div>
 <div id="vector-functions" class="section level2">
