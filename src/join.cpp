@@ -46,7 +46,7 @@ void check_attribute_compatibility(SEXP left, SEXP right) {
   SEXP att_right = ATTRIB(right);
   int n_left = count_attributes(att_left);
   int n_right = count_attributes(att_right);
-  
+
   if (Rf_inherits(left, "POSIXct") &&  Rf_inherits(right, "POSIXct")) {
     return;
   }
