@@ -5,6 +5,10 @@ img.icon {
   height: 30px;
 }
 
+body {font-size: 16px;}
+h1 {font-size: 40px;}
+h2 {font-size: 30px;}
+
 /* Fixes for fixed navbar --------------------------*/
 
 body {
@@ -19,6 +23,20 @@ body {
 
 .page-header {
   margin-top: 0;
+  margin-bottom: 10px;
+  padding-bottom: 0px;
+}
+
+/* Static header placement on mobile devices */
+@media (max-width: 767px) {
+  .navbar-fixed-top {
+    position: absolute;
+  }
+}
+
+.navbar-toggle {
+  margin-top: 8px;
+  margin-bottom: 5px;
 }
 
 /* Table of contents --------------------------*/
@@ -46,29 +64,39 @@ body {
   color: #777;
 }
 
-
 /* Syntax highlighting ---------------------------------------------------- */
 
-.fl,.number {color:rgb(21,20,181);}
-.fu,.functioncall {color:#264D66 ;}
-.ch,.st,.string {color:#375D81 ;}
-.kw,.keyword {font-weight:600;}
-.argument {color:#264D66 ;}
-.co,.comment {color: #333;}
-.formalargs {color: #264D66;}
-.eqformalargs {color:#264D66;}
-.slot {font-style:italic;}
-.symbol {color:black ;}
-.prompt {color:black ;}
+pre {
+  word-wrap: normal;
+  word-break: normal;
+  border: none;
+}
 
-pre a {
-  font-weight: bolder;
+pre, code {
+  background-color: #fafafa;
+  color: #000000;
+  -webkit-font-smoothing: subpixel-antialiased;
 }
 
 pre img {
   background-color: #fff;
   display: block;
 }
+
+code a, pre a {
+  color: #375f84;
+}
+
+.fl      {color: #1514b5;}
+.fu      {color: #000000;} /* function */
+.ch,.st  {color: #036a07;} /* string */
+.kw      {color: #264D66;} /* keyword */
+.co      {color: #777777;} /* comment */
+
+.message { color: black;   font-weight: bolder;}
+.error   { color: orange;  font-weight: bolder;}
+.warning { color: orange; font-weight: normal;}
+
 
 /* Status --------------------------- */
 
@@ -100,7 +128,6 @@ pre img {
   }
 */
 
-
 /* Reference index & topics ----------------------------------------------- */
 
 .ref-index th {font-weight: normal;}
@@ -115,8 +142,8 @@ pre img {
 
 .ref-arguments th {text-align: right; padding-right: 10px;}
 .ref-arguments th, .ref-arguments td {vertical-align: top;}
-.ref-arguments .name {width: 20%;}
-.ref-arguments .desc {width: 80%;}
+.ref-arguments .name {width: 10%;}
+.ref-arguments .desc {width: 90%;}
 
 /* For the rstudio footer ------- */
 
@@ -137,13 +164,6 @@ footer .tidyverse {
 footer .author {
   flex: 1;
   text-align: right;
-}
-
-/* --------------------- darken code link color */
-
-code a {
-  color: #375f84;
-  font-weight: 600;
 }
 
 /* ---------------------- hover anchor tags */

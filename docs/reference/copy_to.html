@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -104,7 +107,7 @@ the table definition as needed. Wherever possible, the new object will be
 temporary, limited to the current connection to the source.</p>
     
 
-    <pre><span class='fu'>copy_to</span>(<span class='no'>dest</span>, <span class='no'>df</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>deparse</span>(<span class='fu'>substitute</span>(<span class='no'>df</span>)), <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>copy_to</span>(<span class='no'>dest</span>, <span class='no'>df</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>deparse</span>(<span class='fu'>substitute</span>(<span class='no'>df</span>)), <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -144,10 +147,10 @@ a local dbl.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## Not run: ------------------------------------</span>
-<span class='co'># iris2 &lt;- src_memdb() %&gt;% copy_to(iris, overwrite = TRUE)</span>
-<span class='co'># iris2</span>
-<span class='co'>## ---------------------------------------------</span></div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
+  <span class='no'>iris2</span> <span class='kw'>&lt;-</span> <span class='fu'>src_memdb</span>() <span class='kw'>%&gt;%</span> <span class='fu'>copy_to</span>(<span class='no'>iris</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='no'>iris2</span>
+})</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

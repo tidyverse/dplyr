@@ -11,11 +11,11 @@ template <typename Data>
 class NamedListAccumulator {
 public:
   SymbolMap symbol_map;
-  std::vector<SEXP> data;
+  std::vector<RObject> data;
 
   NamedListAccumulator() {}
 
-  inline void set(const SymbolString& name, SEXP x) {
+  inline void set(const SymbolString& name, RObject x) {
     if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
       check_supported_type(x, name);
 

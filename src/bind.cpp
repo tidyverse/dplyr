@@ -38,25 +38,25 @@ int df_rows_length(SEXP df) {
 }
 
 static
-size_t rows_length(SEXP x, bool rowwise) {
+R_xlen_t rows_length(SEXP x, bool rowwise) {
   if (TYPEOF(x) == VECSXP) {
     if (Rf_inherits(x, "data.frame"))
       return df_rows_length(x);
-    else if (Rf_length(x) > 0)
-      return Rf_length(VECTOR_ELT(x, 0));
+    else if (Rf_xlength(x) > 0)
+      return Rf_xlength(VECTOR_ELT(x, 0));
     else
       return 0;
   } else {
     if (rowwise)
       return 1;
     else
-      return Rf_length(x);
+      return Rf_xlength(x);
   }
 }
 static
-size_t cols_length(SEXP x) {
+R_xlen_t cols_length(SEXP x) {
   if (TYPEOF(x) == VECSXP)
-    return Rf_length(x);
+    return Rf_xlength(x);
   else
     return 1;
 }
@@ -80,7 +80,7 @@ void inner_vector_check(SEXP x, int nrows, int arg) {
 }
 
 static
-void rbind_vector_check(SEXP x, size_t nrows, int arg) {
+void rbind_vector_check(SEXP x, R_xlen_t nrows, int arg) {
   if (rows_length(x, true) != nrows) {
     bad_pos_arg(arg + 1, "size must be {expected_size}, not {actual_size}",
                 _["expected_size"] = rows_length(x, true), _["actual_size"] = nrows);
@@ -109,7 +109,7 @@ void rbind_vector_check(SEXP x, size_t nrows, int arg) {
               _["type"] = get_single_class(x));
 }
 static
-void cbind_vector_check(SEXP x, size_t nrows, SEXP contr, int arg) {
+void cbind_vector_check(SEXP x, R_xlen_t nrows, SEXP contr, int arg) {
   if (is_atomic(x) && !has_name_at(contr, arg))
     bad_pos_arg(arg + 1, "must have names");
   if (rows_length(x, false) != nrows) {
@@ -178,9 +178,9 @@ SEXP flatten_bindable(SEXP x) {
 
 List rbind__impl(List dots, SEXP id = R_NilValue) {
   int ndata = dots.size();
-  int n = 0;
+  R_xlen_t n = 0;
   std::vector<SEXP> chunks;
-  std::vector<int> df_nrows;
+  std::vector<R_xlen_t> df_nrows;
   std::vector<String> dots_names;
 
   chunks.reserve(ndata);
@@ -192,7 +192,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
     SEXP obj = dots[i];
     if (Rf_isNull(obj)) continue;
     chunks.push_back(obj);
-    size_t nrows = rows_length(chunks[k], true);
+    R_xlen_t nrows = rows_length(chunks[k], true);
     df_nrows.push_back(nrows);
     n += nrows;
     if (!Rf_isNull(id)) {
@@ -211,7 +211,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
     Rcpp::checkUserInterrupt();
 
     SEXP df = chunks[i];
-    int nrows = df_nrows[i];
+    R_xlen_t nrows = df_nrows[i];
     rbind_type_check(df, nrows, i);
 
     CharacterVector df_names = enc2native(vec_names(df));
@@ -327,11 +327,6 @@ List bind_rows_(List dots, SEXP id = R_NilValue) {
 }
 
 // [[Rcpp::export]]
-List rbind_list__impl(List dots) {
-  return rbind__impl(dots);
-}
-
-// [[Rcpp::export]]
 List cbind_all(List dots) {
   int n_dots = dots.size();
 
@@ -349,10 +344,10 @@ List cbind_all(List dots) {
     return DataFrame();
 
   SEXP first = dots[first_i];
-  const size_t nrows = rows_length(first, false);
+  const R_xlen_t nrows = rows_length(first, false);
   cbind_type_check(first, nrows, dots, 0);
 
-  size_t nv = cols_length(first);
+  R_xlen_t nv = cols_length(first);
 
   for (int i = first_i + 1; i < n_dots; i++) {
     SEXP current = dots[i];

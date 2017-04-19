@@ -121,7 +121,7 @@ tbl_at_vars <- function(tbl, vars) {
     tibble_vars[vars]
   } else if (is_quosures(vars)) {
     out <- select_vars(tibble_vars, !!! vars)
-    if (!is_named(vars)) {
+    if (!any(have_name(vars))) {
       names(out) <- NULL
     }
     out

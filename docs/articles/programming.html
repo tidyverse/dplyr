@@ -54,6 +54,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -102,8 +105,8 @@
 <p>Is not equivalent to this code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_var &lt;-<span class="st"> </span>x
 <span class="co">#&gt; Error in eval(expr, envir, enclos): object 'x' not found</span>
-<span class="kw"><a href="../reference/filter.html">filter</a></span>(df, var ==<span class="st"> </span><span class="dv">1</span>)
-<span class="co">#&gt; Error in filter_impl(.data, quo): comparison (1) is possible only for atomic and list types</span></code></pre></div>
+<span class="kw"><a href="../reference/filter.html">filter</a></span>(df, my_var ==<span class="st"> </span><span class="dv">1</span>)
+<span class="co">#&gt; Error in filter_impl(.data, quo): object 'my_var' not found</span></code></pre></div>
 <p>nor to this code:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_var &lt;-<span class="st"> "x"</span>
 <span class="kw"><a href="../reference/filter.html">filter</a></span>(df, my_var ==<span class="st"> </span><span class="dv">1</span>)
@@ -124,7 +127,7 @@ df[x ==<span class="st"> </span>y, ]</code></pre></div>
 <p>This vignette has two goals:</p>
 <ul>
 <li><p>Show you how to use dplyr’s <strong>pronouns</strong> and <strong>quasiquotation</strong> to write reliable functions that reduce duplication in your data analysis code.</p></li>
-<li><p>To teach you the underlying theory including <strong>quosures</strong>, the data structure that stores both an expression and an environment, and and <strong>tidyeval</strong>, the underlying toolkit.</p></li>
+<li><p>To teach you the underlying theory including <strong>quosures</strong>, the data structure that stores both an expression and an environment, and <strong>tidyeval</strong>, the underlying toolkit.</p></li>
 </ul>
 <p>We’ll start with a warmup, tying this problem to something you’re more familiar with, then move on to some practical tools, then dive into the deeper theory.</p>
 <div id="warm-up" class="section level2">
@@ -142,7 +145,7 @@ df[x ==<span class="st"> </span>y, ]</code></pre></div>
 }
 <span class="kw">greet</span>(<span class="st">"Hadley"</span>)
 <span class="co">#&gt; [1] "How do you do, Hadley?"</span></code></pre></div>
-<p>Another approach is exemplified by the glue package: it allows you to “unquote” components of a string, replacing the string, with the value of the R expression. This allows an elegant implementation of our function because <code>{name}</code> is replaced with the value of the <code>name</code> argument.</p>
+<p>Another approach is exemplified by the <strong>glue</strong> package: it allows you to “unquote” components of a string, replacing the string with the value of the R expression. This allows an elegant implementation of our function because <code>{name}</code> is replaced with the value of the <code>name</code> argument.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">greet &lt;-<span class="st"> </span>function(name) {
   glue::<span class="kw">glue</span>(<span class="st">"How do you do, {name}?"</span>)
 }
@@ -181,7 +184,7 @@ a &lt;-<span class="st"> </span><span class="dv">10</span>
 }
 
 <span class="kw">mutate_y</span>(df1)
-<span class="co">#&gt; Error in mutate_impl(.data, dots): incompatible size (0), expecting 3 (the number of rows) or one</span>
+<span class="co">#&gt; Error in mutate_impl(.data, dots): Column `a`: not found in data</span>
 <span class="co"># Before dplyr is released, this will give a nice error message</span></code></pre></div>
 <p>If this function is in a package, using <code>.data</code> also prevents <code>R CMD check</code> from giving a NOTE about undefined global variables (provided that you’ve also imported <code>rlang::.data</code> with <code>@importFrom rlang .data</code>).</p>
 </div>
@@ -221,31 +224,31 @@ df %&gt;%
 }
 
 <span class="kw">my_summarise</span>(df, g1)
-<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): unknown column 'group_var'</span></code></pre></div>
+<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var`: unknown</span></code></pre></div>
 <p>But it doesn’t.</p>
 <p>Maybe providing the variable name as a string will fix things?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">my_summarise</span>(df, <span class="st">"g2"</span>)
-<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): unknown column 'group_var'</span></code></pre></div>
+<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var`: unknown</span></code></pre></div>
 <p>Nope.</p>
-<p>If you look carefully at the error message, you’ll see that it’s the same in both cases. <code><a href="../reference/group_by.html">group_by()</a></code> works like to <code>"</code>: it doesn’t evaluate its input; it quotes it.</p>
-<p>To make this function work, we need to do two things. We need to quote the input ourselves (so <code>my_summarise()</code> can take a bare variable name like <code>group_by</code>), and then we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input (because we’ve done the quoting).</p>
+<p>If you look carefully at the error message, you’ll see that it’s the same in both cases. <code><a href="../reference/group_by.html">group_by()</a></code> works like <code>"</code>: it doesn’t evaluate its input; it quotes it.</p>
+<p>To make this function work, we need to do two things. We need to quote the input ourselves (so <code>my_summarise()</code> can take a bare variable name like <code><a href="../reference/group_by.html">group_by()</a></code>), and then we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input (because we’ve done the quoting).</p>
 <p>How do we quote the input? We can’t use <code>""</code> to quote the input, because that gives us a string. Instead we need a function that captures the expression and its environment (we’ll come back to why this is important later on). There are two possible options we could use in base R, the function <code>quote()</code> and the operator <code>~</code>. Neither of these work quite the way we want, so we need a new function: <code><a href="../reference/reexports.html">quo()</a></code>.</p>
 <p><code><a href="../reference/reexports.html">quo()</a></code> works like <code>"</code>: it quotes its input rather than evaluating it.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/reexports.html">quo</a></span>(g1)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~g1</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(a +<span class="st"> </span>b +<span class="st"> </span>c)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~a + b + c</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="st">"a"</span>)
-<span class="co">#&gt; ~"a"</span>
-<span class="co">#&gt; &lt;environment: R_EmptyEnv&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;quosure: empty&gt;</span>
+<span class="co">#&gt; ~"a"</span></code></pre></div>
 <p><code><a href="../reference/reexports.html">quo()</a></code> returns a <strong>quosure</strong>, which is a special type of formula. You’ll learn more about quosures later on.</p>
 <p>Now that we’ve captured this expression, how do we use it with <code><a href="../reference/group_by.html">group_by()</a></code>? It doesn’t work if we just shove it into our naive approach:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">my_summarise</span>(df, <span class="kw"><a href="../reference/reexports.html">quo</a></span>(g1))
-<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): unknown column 'group_var'</span></code></pre></div>
-<p>We get the same error as before, because we haven’t yet told <code><a href="../reference/group_by.html">group_by()</a></code> that we’re taking care of the quoting. In other words, we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input, because it has been pre-quoted by <code>my_summarise()</code>. Yet another way of saying the same thing is that we want to <strong>unquote</strong><code>the</code>my_var`.</p>
-<p>In dplyr (and in the tidyeval in general) you use <code>!!</code> to say that you want to unquote an input so that it’s evaluated, not quoted. This gives us a funtion that actually does what we want.</p>
+<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var`: unknown</span></code></pre></div>
+<p>We get the same error as before, because we haven’t yet told <code><a href="../reference/group_by.html">group_by()</a></code> that we’re taking care of the quoting. In other words, we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input, because it has been pre-quoted by <code>my_summarise()</code>. Yet another way of saying the same thing is that we want to <strong>unquote</strong> <code>my_var</code>.</p>
+<p>In dplyr (and in tidyeval in general) you use <code>!!</code> to say that you want to unquote an input so that it’s evaluated, not quoted. This gives us a function that actually does what we want.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_summarise &lt;-<span class="st"> </span>function(df, group_var) {
   df %&gt;%
 <span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(!!group_var) %&gt;%
@@ -272,11 +275,11 @@ df %&gt;%
 }
 
 <span class="kw">my_summarise</span>(df, g1)
+<span class="co">#&gt; &lt;quosure: frame&gt;</span>
 <span class="co">#&gt; ~group_by</span>
-<span class="co">#&gt; &lt;environment: 0x7fc83fe5a6e8&gt;</span>
 <span class="co">#&gt; Error in function_list[[i]](value): object 'g1' not found</span></code></pre></div>
 <p>I’ve added a <code>print()</code> call to make it obvious what’s going wrong here: <code><a href="../reference/reexports.html">quo(group_by)</a></code> always returns <code>~group_by</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
-<p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/reexports.html">enquo()</a></code>. <code><a href="../reference/reexports.html">enquo()</a></code> uses some dark magic too look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
+<p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/reexports.html">enquo()</a></code>. <code><a href="../reference/reexports.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_summarise &lt;-<span class="st"> </span>function(df, group_by) {
   group_by &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">enquo</a></span>(group_by)
   <span class="kw">print</span>(group_by)
@@ -287,8 +290,8 @@ df %&gt;%
 }
 
 <span class="kw">my_summarise</span>(df, g1)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~g1</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 <span class="co">#&gt; # A tibble: 2 × 2</span>
 <span class="co">#&gt;      g1        a</span>
 <span class="co">#&gt;   &lt;dbl&gt;    &lt;dbl&gt;</span>
@@ -324,8 +327,8 @@ df %&gt;%
   <span class="dt">sum =</span> <span class="kw">sum</span>(!!my_var),
   <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()
 ))
-<span class="co">#&gt; ~summarise(df, mean = mean(~a), sum = sum(~a), n = n())</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~summarise(df, mean = mean(~a), sum = sum(~a), n = n())</span></code></pre></div>
 <p>Now we can turn our code into a function (remembering to replace <code><a href="../reference/reexports.html">quo()</a></code> with <code><a href="../reference/reexports.html">enquo()</a></code>), and check that it works:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_summarise2 &lt;-<span class="st"> </span>function(df, expr) {
   expr &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">enquo</a></span>(expr)
@@ -425,13 +428,13 @@ df %&gt;%
 <p><code>!!!</code> takes a list of elements and splices them into to the current call. Look at the bottom of the <code>!!!</code> and think <code>...</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">args &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>, <span class="dt">trim =</span> <span class="fl">0.25</span>)
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">mean</span>(x, !!!<span class="st"> </span>args))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~mean(x, na.rm = TRUE, trim = 0.25)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 
 args &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw"><a href="../reference/reexports.html">quo</a></span>(x), <span class="dt">na.rm =</span> <span class="ot">TRUE</span>, <span class="dt">trim =</span> <span class="fl">0.25</span>)
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">mean</span>(!!!<span class="st"> </span>args))
-<span class="co">#&gt; ~mean(~x, na.rm = TRUE, trim = 0.25)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~mean(~x, na.rm = TRUE, trim = 0.25)</span></code></pre></div>
 <p>Now that you’ve learned the basics of tidyeval through some practical examples, we’ll dive into the theory. This will help you generalise what you’ve learned here to new situations.</p>
 </div>
 </div>
@@ -440,8 +443,7 @@ args &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw"
 <a href="#quoting" class="anchor"></a>Quoting</h2>
 <p>Quoting is the action of capturing an expression instead of evaluating it. All expression-based functions quote their arguments and get the R code as an expression rather than the result of evaluating that code. If you are an R user, you probably quote expressions on a regular basis. One of the most important quoting operators in R is the <em>formula</em>. It is famously used for the specification of statistical models:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">disp ~<span class="st"> </span>cyl +<span class="st"> </span>drat
-<span class="co">#&gt; disp ~ cyl + drat</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; disp ~ cyl + drat</span></code></pre></div>
 <p>The other quoting operator in base R is <code>quote()</code>. It returns a raw expression rather than a formula:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Computing the value of the expression:</span>
 <span class="kw">toupper</span>(letters[<span class="dv">1</span>:<span class="dv">5</span>])
@@ -451,7 +453,7 @@ args &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="kw"
 <span class="kw">quote</span>(<span class="kw">toupper</span>(letters[<span class="dv">1</span>:<span class="dv">5</span>]))
 <span class="co">#&gt; toupper(letters[1:5])</span></code></pre></div>
 <p>(Note that despite being called the double quote, <code>"</code> is not a quoting operator in this context, because it generates a string, not an expression.)</p>
-<p>In practice, the formula is the better of the two options because captures the code and its execution <strong>environment</strong>. This important because even simple expression can yield different values in different environments. For example, the <code>x</code> in the following two expressions refers to different values:</p>
+<p>In practice, the formula is the better of the two options because it captures the code and its execution <strong>environment</strong>. This is important because even simple expression can yield different values in different environments. For example, the <code>x</code> in the following two expressions refers to different values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span>function(x) {
   ~<span class="st"> </span>x
 }
@@ -461,23 +463,25 @@ x2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">100<
 <p>It might look like the expressions are the same if you print them out. But look carefully at the environments — they’re different.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7fc83fef1b10&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x7faf6dfd9d50&gt;</span>
 x2
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7fc83ff4bc28&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x7faf6f130d78&gt;</span></code></pre></div>
 <p>When we evaluate those formulas using <code>rlang::eval_tidy()</code>, we see that they yield different values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)
 
 <span class="kw">eval_tidy</span>(x1)
-<span class="co">#&gt; [1] 10</span>
+<span class="co">#&gt; ~x</span>
+<span class="co">#&gt; &lt;environment: 0x7faf6dfd9d50&gt;</span>
 <span class="kw">eval_tidy</span>(x2)
-<span class="co">#&gt; [1] 100</span></code></pre></div>
+<span class="co">#&gt; ~x</span>
+<span class="co">#&gt; &lt;environment: 0x7faf6f130d78&gt;</span></code></pre></div>
 <p>This is a key property of R: one name can refer to different values in different environments. This is also important for dplyr, because it allows you to combine variables and objects in a call:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user_var &lt;-<span class="st"> </span><span class="dv">1000</span>
 mtcars %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">cyl =</span> <span class="kw">mean</span>(cyl) *<span class="st"> </span>user_var)
 <span class="co">#&gt;      cyl</span>
 <span class="co">#&gt; 1 6187.5</span></code></pre></div>
-<p>When an object keep tracks of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:</p>
+<p>When an object keeps track of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">typeof</span>(mean)
 <span class="co">#&gt; [1] "closure"</span></code></pre></div>
 <p>For this reason we use a special name to refer to one-sided formulas: <strong>quosures</strong>. One-sided formulas are quotes (they carry an expression) with an environment.</p>
@@ -485,7 +489,6 @@ mtcars %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/sum
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> </span><span class="er">~</span><span class="kw">toupper</span>(letters[<span class="dv">1</span>:<span class="dv">5</span>])
 var
 <span class="co">#&gt; ~toupper(letters[1:5])</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 
 <span class="co"># You can extract its expression:</span>
 <span class="kw">get_expr</span>(var)
@@ -493,7 +496,7 @@ var
 
 <span class="co"># Or inspect its enclosure:</span>
 <span class="kw">get_env</span>(var)
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span></code></pre></div>
 </div>
 <div id="quasiquotation" class="section level2">
 <h2 class="hasAnchor">
@@ -514,21 +517,21 @@ var
 <p>The first important operation is the basic unquote, which comes in a functional form, <code>UQ()</code>, and as syntactic-sugar, <code>!!</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Here we capture `letters[1:5]` as an expression:</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">toupper</span>(letters[<span class="dv">1</span>:<span class="dv">5</span>]))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~toupper(letters[1:5])</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 
 <span class="co"># Here we capture the value of `letters[1:5]`</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">toupper</span>(!!letters[<span class="dv">1</span>:<span class="dv">5</span>]))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~toupper(c("a", "b", "c", "d", "e"))</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">toupper</span>(<span class="kw">UQ</span>(letters[<span class="dv">1</span>:<span class="dv">5</span>])))
-<span class="co">#&gt; ~toupper(c("a", "b", "c", "d", "e"))</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
-<p>It is also possible to unquote other quoted expressions. Unquoting such symbolic objects provides a powerful a way of manipulating expressions.</p>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~toupper(c("a", "b", "c", "d", "e"))</span></code></pre></div>
+<p>It is also possible to unquote other quoted expressions. Unquoting such symbolic objects provides a powerful way of manipulating expressions.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">quo</a></span>(letters[<span class="dv">1</span>:<span class="dv">5</span>])
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">toupper</span>(!!var1))
-<span class="co">#&gt; ~toupper(~letters[1:5])</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~toupper(~letters[1:5])</span></code></pre></div>
 <p>You can safely unquote quosures because they track their environments, and tidyeval functions know how to evaluate them. This allows any depth of quoting and unquoting.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_mutate &lt;-<span class="st"> </span>function(x) {
   mtcars %&gt;%
@@ -562,23 +565,23 @@ expr2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">1
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(!!<span class="kw">my_fun</span>(x, y, z))
 <span class="co">#&gt; Error in (function (x) : could not find function "my_fun"</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">UQ</span>(my_fun)(x, y, z))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~(~fun)(x, y, z)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 
 my_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">quo</a></span>(x)
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(df, !!my_var ==<span class="st"> </span><span class="dv">1</span>))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~filter(df, FALSE)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(df, <span class="kw">UQ</span>(my_var) ==<span class="st"> </span><span class="dv">1</span>))
-<span class="co">#&gt; ~filter(df, (~x) == 1)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
-<p>You’ll note above that <code>UQ()</code> yields an quosure containing a formula. That ensures that when the quosure is evaluated, it’ll be looked up in the right environment. In certain code-generation scenarios you just want to use expression and ignore the environment. That’s the job of <code>UQE()</code>:</p>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~filter(df, (~x) == 1)</span></code></pre></div>
+<p>You’ll note above that <code>UQ()</code> yields a quosure containing a formula. That ensures that when the quosure is evaluated, it’ll be looked up in the right environment. In certain code-generation scenarios you just want to use expression and ignore the environment. That’s the job of <code>UQE()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">UQE</span>(my_fun)(x, y, z))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~fun(x, y, z)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw"><a href="../reference/filter.html">filter</a></span>(df, <span class="kw">UQE</span>(my_var) ==<span class="st"> </span><span class="dv">1</span>))
-<span class="co">#&gt; ~filter(df, x == 1)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~filter(df, x == 1)</span></code></pre></div>
 <p><code>UQE()</code> is for expert use only as you’ll have to carefully analyse the environments to ensure that the generated code is correct.</p>
 </div>
 <div id="unquote-splicing" class="section level3">
@@ -586,15 +589,15 @@ my_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reex
 <a href="#unquote-splicing" class="anchor"></a>Unquote-splicing</h3>
 <p>The second unquote operation is unquote-splicing. Its functional form is <code>UQS()</code> and the syntactic shortcut is <code>!!!</code>. It takes a vector and inserts each element of the vector in the surrounding function call:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">list</span>(!!!<span class="st"> </span>letters[<span class="dv">1</span>:<span class="dv">5</span>]))
-<span class="co">#&gt; ~list("a", "b", "c", "d", "e")</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~list("a", "b", "c", "d", "e")</span></code></pre></div>
 <p>A very useful feature of unquote-splicing is that the vector names become argument names:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">foo =</span> 1L, <span class="dt">bar =</span> <span class="kw">quote</span>(baz))
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">foo =</span> 1L, <span class="dt">bar =</span> <span class="kw"><a href="../reference/reexports.html">quo</a></span>(baz))
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">list</span>(!!!<span class="st"> </span>x))
-<span class="co">#&gt; ~list(foo = 1L, bar = baz)</span>
-<span class="co">#&gt; &lt;environment: 0x7fc841967580&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~list(foo = 1L, bar = ~baz)</span></code></pre></div>
 <p>This makes it easy to program with dplyr verbs that take named dots:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">args &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">mean =</span> ~<span class="kw">mean</span>(cyl), <span class="dt">count =</span> ~<span class="kw"><a href="../reference/n.html">n</a></span>())
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">args &lt;-<span class="st"> </span><span class="kw">list</span>(<span class="dt">mean =</span> <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">mean</span>(cyl)), <span class="dt">count =</span> <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw"><a href="../reference/n.html">n</a></span>())) 
 mtcars %&gt;%
 <span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(am) %&gt;%
 <span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(!!!<span class="st"> </span>args)
@@ -607,7 +610,7 @@ mtcars %&gt;%
 <div id="setting-variable-names" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setting-variable-names" class="anchor"></a>Setting variable names</h3>
-<p>The final unquote operation is setting argument names. You’ve seen one way to do that above, but you can also use the definition operator <code>:=</code> instead of <code>=</code>. <code>:=</code> supports supports unquoting on both the LHS and the RHS.</p>
+<p>The final unquote operation is setting argument names. You’ve seen one way to do that above, but you can also use the definition operator <code>:=</code> instead of <code>=</code>. <code>:=</code> supports unquoting on both the LHS and the RHS.</p>
 <p>The rules on the LHS are slightly different: the unquoted operand should evaluate to a string or a symbol.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mean_nm &lt;-<span class="st"> "mean"</span>
 count_nm &lt;-<span class="st"> "count"</span>

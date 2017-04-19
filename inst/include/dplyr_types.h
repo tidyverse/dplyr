@@ -1,5 +1,4 @@
 #include <dplyr/main.h>
-
 #include <tools/Quosure.h>
 #include <dplyr/registration.h>
 #include <dplyr/BoolResult.h>

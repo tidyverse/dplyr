@@ -5,23 +5,29 @@ test_that("default extracts last var from data frame", {
   expect_equal(pull(df), 1:10)
 })
 
+test_that("can extract by name, or positive/negative position", {
+  x <- 1:10
+  df <- data_frame(x = x, y = runif(10))
+
+  expect_equal(pull(df, x), x)
+  expect_equal(pull(df, 1L), x)
+  expect_equal(pull(df, 1), x)
+  expect_equal(pull(df, -2), x)
+  expect_equal(pull(df, -2L), x)
+})
+
 # find_var ----------------------------------------------------------------
 
 test_that("errors for bad inputs", {
   expect_error(
     find_var(letters, letters),
-    "`var`: must be a numeric or character scalar, not character of length 26",
-    fixed = TRUE
-  )
-  expect_error(
-    find_var(quote(a), letters),
-    "`var`: must be a numeric or character scalar, not symbol of length 1",
+    "`var`: must evaluate to a single number",
     fixed = TRUE
   )
 
   expect_error(
-    find_var("aa", letters),
-    "Column `aa`: not found",
+    find_var(quote(aa), letters),
+    "object 'aa' not found",
     fixed = TRUE
   )
 

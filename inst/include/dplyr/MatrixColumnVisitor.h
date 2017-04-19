@@ -106,7 +106,7 @@ public:
     return "matrix";
   }
 
-  bool is_na(int i) const {
+  bool is_na(int) const {
     return false;
   }
 

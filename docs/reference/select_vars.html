@@ -73,6 +73,9 @@
     <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
+    <li>
+      <a href="../articles/compatibility.html">Compatibility</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -102,7 +105,7 @@
     <p>These functions power <code><a href='select.html'>select()</a></code> and <code><a href='select.html'>rename()</a></code>.</p>
     
 
-    <pre><span class='fu'>select_vars</span>(<span class='no'>vars</span>, <span class='no'>...</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>character</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>character</span>())
+    <pre class="usage"><span class='fu'>select_vars</span>(<span class='no'>vars</span>, <span class='no'>...</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>character</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>character</span>())
 
 <span class='fu'>rename_vars</span>(<span class='no'>vars</span>, <span class='no'>...</span>, <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
@@ -170,7 +173,7 @@ names are new names.</p>
 <span class='fu'>rename_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt;   Sepal.Length    Sepal.Width   petal_length    Petal.Width        Species 
 #&gt; "Sepal.Length"  "Sepal.Width" "Petal.Length"  "Petal.Width"      "Species" </div><div class='input'>
 <span class='co'># You can unquote names or formulas (or lists of)</span>
-<span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !!! <span class='fu'>list</span>(~<span class='no'>Petal.Length</span>))</div><div class='output co'>#&gt;   Petal.Length 
+<span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !!! <span class='fu'>list</span>(<span class='fu'><a href='reexports.html'>quo</a></span>(<span class='no'>Petal.Length</span>)))</div><div class='output co'>#&gt;   Petal.Length 
 #&gt; "Petal.Length" </div><div class='input'><span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !! <span class='fu'>quote</span>(<span class='no'>Petal.Length</span>))</div><div class='output co'>#&gt;   Petal.Length 
 #&gt; "Petal.Length" </div></pre>
   </div>

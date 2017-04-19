@@ -101,6 +101,11 @@ test_that("selection works with grouped data frames (#2624)", {
   expect_identical(mutate_if(gdf, is.factor, as.character), gdf)
 })
 
+test_that("at selection works even if not all ops are named (#2634)", {
+  df <- tibble(x = 1, y = 2)
+  expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
+})
+
 
 # Deprecated ---------------------------------------------------------
 
@@ -114,4 +119,11 @@ test_that("_each() and _all() families agree", {
   expect_warning(expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean)), "deprecated")
   expect_warning(expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean)), "deprecated")
   expect_warning(expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean)), "deprecated")
+})
+
+test_that("specific directions are given for _all() and _at() versions", {
+  expect_warning(summarise_each(mtcars, funs(mean)), "over all variables")
+  expect_warning(summarise_each(mtcars, funs(mean), cyl), "over a selection of variables")
+  expect_warning(mutate_each(mtcars, funs(mean)), "over all variables")
+  expect_warning(mutate_each(mtcars, funs(mean), cyl), "over a selection of variables")
 })

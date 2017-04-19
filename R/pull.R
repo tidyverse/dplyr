@@ -5,7 +5,7 @@
 #'
 #' @param .data A table of data
 #' @param var A variable specified as:
-#'   * a single string, the variable name
+#'   * a literal variable name
 #'   * a positive integer, giving the position counting from the left
 #'   * a negative integer, giving the position counting from the right.
 #'
@@ -15,7 +15,7 @@
 #' @examples
 #' mtcars %>% pull(-1)
 #' mtcars %>% pull(1)
-#' mtcars %>% pull("cyl")
+#' mtcars %>% pull(cyl)
 #'
 #' # Also works for remote sources
 #' if (requireNamespace("dbplyr", quietly = TRUE)) {
@@ -31,33 +31,29 @@ pull <- function(.data, var = -1) {
 
 #' @export
 pull.data.frame <- function(.data, var = -1) {
-  var <- find_var(var, names(.data))
+  expr <- enquo(var)
+  var <- find_var(expr, names(.data))
   .data[[var]]
 }
 
-find_var <- function(var, vars) {
-  if (is_string(var)) {
-    if (!var %in% vars) {
-      bad_cols(var, "not found")
-    }
-    var
-  } else if (is.numeric(var) && length(var) == 1) {
-    var <- as.integer(var)
-    n <- length(vars)
+find_var <- function(expr, vars) {
+  var_env <- set_names(as.list(seq_along(vars)), vars)
+  var <- eval_tidy(expr, var_env)
 
-    if (is.na(var) || abs(var) > n || var == 0L) {
-      bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}")
-    }
-
-    if (var < 0) {
-      var <- var + n + 1
-    }
-
-    vars[[var]]
-
-  } else {
-    bad_args("var", "must be a numeric or character scalar, ",
-      "not {type_of(var)} of length {length(var)}"
-    )
+  if (!is.numeric(var) || length(var) != 1) {
+    bad_args("var", "must evaluate to a single number")
   }
+
+  var <- as.integer(var)
+  n <- length(vars)
+
+  if (is.na(var) || abs(var) > n || var == 0L) {
+    bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}")
+  }
+
+  if (var < 0) {
+    var <- var + n + 1
+  }
+
+  vars[[var]]
 }
