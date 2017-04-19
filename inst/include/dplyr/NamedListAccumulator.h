@@ -9,20 +9,16 @@ namespace dplyr {
 
 template <typename Data>
 class NamedListAccumulator {
-public:
+private:
   SymbolMap symbol_map;
-  std::vector<RObject> data;
+  std::vector<RObject> data; // owns the results
 
+public:
   NamedListAccumulator() {}
 
   inline void set(const SymbolString& name, RObject x) {
     if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
       check_supported_type(x, name);
-
-    if (!Rf_isNull(Rf_getAttrib(x, R_NamesSymbol))) {
-      x = Rf_shallow_duplicate(x);
-      Rf_setAttrib(x, R_NamesSymbol, R_NilValue);
-    }
 
     SymbolMapIndex index = symbol_map.insert(name);
     if (index.origin == NEW) {
