@@ -48,7 +48,7 @@ top_n <- function(x, n, wt) {
     wt <- new_quosure(sym(vars[length(vars)]))
   }
 
-  stopifnot(is_scalar_integerish(n), is_symbol(wt))
+  stopifnot(is_scalar_integerish(n), quo_is_symbol(wt))
   if (n > 0) {
     quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
   } else {

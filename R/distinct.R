@@ -69,7 +69,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  needs_mutate <- map_lgl(vars, is_lang)
+  needs_mutate <- map_lgl(vars, quo_is_lang)
   if (any(needs_mutate)) {
     .data <- mutate(.data, !!! vars[needs_mutate])
   }
