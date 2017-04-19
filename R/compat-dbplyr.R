@@ -26,14 +26,14 @@ wrap_dbplyr_obj <- function(obj_name) {
   `UQ<-` <- NULL
 
   obj <- getExportedValue("dbplyr", obj_name)
-  obj_sym <- as_symbol(obj_name)
+  obj_sym <- sym(obj_name)
 
   dbplyr_sym <- new_language("::", quote(dbplyr), obj_sym)
   dplyr_sym <- new_language("::", quote(dplyr), obj_sym)
 
   if (is.function(obj)) {
     args <- formals()
-    pass_on <- map(set_names(names(args)), as_symbol)
+    pass_on <- map(set_names(names(args)), sym)
 
     dbplyr_call <- expr(UQ(dbplyr_sym)(!!!pass_on))
     dplyr_call <- expr(UQ(dbplyr_sym)(!!!pass_on))
