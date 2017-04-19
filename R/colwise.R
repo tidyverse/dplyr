@@ -126,7 +126,7 @@ tbl_at_vars <- function(tbl, vars) {
     }
     out
   } else {
-    bad_args(~.vars, "must be a character/numeric vector or a `vars()` object, ",
+    bad_args(".vars", "must be a character/numeric vector or a `vars()` object, ",
       "not {type_of(vars)}"
     )
   }
@@ -152,7 +152,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
 
   if (is_fun_list(.p)) {
     if (length(.p) != 1) {
-      bad_args(~.predicate, "must have length 1, not {length(.p)}")
+      bad_args(".predicate", "must have length 1, not {length(.p)}")
     }
     .p <- .p[[1]]
   }
