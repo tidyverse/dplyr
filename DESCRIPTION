@@ -53,6 +53,6 @@ License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    hadley/rlang@2418273,
+    hadley/rlang@b22ce1c,
     hadley/dbplyr,
     tidyverse/glue
