@@ -11,7 +11,7 @@ template <typename Data>
 class NamedListAccumulator {
 public:
   SymbolMap symbol_map;
-  std::vector<SEXP> data;
+  std::vector<RObject> data;
 
   NamedListAccumulator() {}
 
