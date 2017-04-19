@@ -181,6 +181,7 @@ SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       stop("cannot handle");
     }
 
+    Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
     proxy.input(name, variable);
     accumulator.set(name, variable);
   }
