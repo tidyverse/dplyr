@@ -363,6 +363,11 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'
 #' To drop variables, use `-`.
 #'
+#' Note that except for `:`, `-` and `c()`, all complex expressions
+#' are evaluated outside the data frame context. This is to prevent
+#' accidental matching of data frame variables when you refer to
+#' variables from the calling context.
+#'
 #' @section Scoped selection and renaming:
 #'
 #' The three [scoped] variants of `select()` ([select_all()],

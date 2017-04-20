@@ -19,7 +19,12 @@ These arguments are automatically \link[rlang:quo]{quoted} and
 \code{vars} are objects representing their positions within
 \code{vars}. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
-these concepts.}
+these concepts.
+
+Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
+are evaluated outside that context. This is to prevent accidental
+matching to \code{vars} elements when you refer to variables from the
+calling context.}
 
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}
