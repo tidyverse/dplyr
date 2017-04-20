@@ -106,7 +106,8 @@ arrange_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 select.data.frame <- function(.data, ...) {
-  vars <- select_vars(names(.data), ...)
+  # Pass via splicing to avoid matching select_vars() arguments
+  vars <- select_vars(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export
