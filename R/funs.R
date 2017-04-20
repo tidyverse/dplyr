@@ -65,6 +65,8 @@ as_fun_list <- function(.x, .quo, .env, ...) {
     .x <- list(.quo)
   } else if (is_character(.x)) {
     .x <- as.list(.x)
+  } else if (is_bare_formula(.x, lhs = FALSE)) {
+    .x <- list(as_function(.x))
   } else if (!is_list(.x)) {
     .x <- list(.x)
   }
