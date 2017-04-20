@@ -120,7 +120,8 @@ cbind.grouped_df <- function(...) {
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  vars <- select_vars(names(.data), ...)
+  # Pass via splicing to avoid matching select_vars() arguments
+  vars <- select_vars(names(.data), !!! quos(...))
   vars <- ensure_group_vars(vars, .data)
   select_impl(.data, vars)
 }
