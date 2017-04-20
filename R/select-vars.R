@@ -11,6 +11,11 @@
 #'   `vars`. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
 #'   these concepts.
+#'
+#'   Note that except for `:`, `-` and `c()`, all complex expressions
+#'   are evaluated outside that context. This is to prevent accidental
+#'   matching to `vars` elements when you refer to variables from the
+#'   calling context.
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export

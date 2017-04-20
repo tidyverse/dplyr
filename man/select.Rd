@@ -44,6 +44,11 @@ a number of special functions that only work inside \code{select}
 }
 
 To drop variables, use \code{-}.
+
+Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
+are evaluated outside the data frame context. This is to prevent
+accidental matching of data frame variables when you refer to
+variables from the calling context.
 }
 
 \section{Scoped selection and renaming}{
