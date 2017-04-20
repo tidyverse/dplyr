@@ -106,7 +106,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 
 quo_is_helper <- function(quo) {
   expr <- f_rhs(quo)
-  is_lang(expr) && !is_lang(expr, c("-", ":"))
+  is_lang(expr) && !is_lang(expr, c("-", ":", "c"))
 }
 
 #' @rdname se-deprecated

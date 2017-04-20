@@ -217,6 +217,9 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
   )
 })
 
+test_that("can select with c() (#2685)", {
+  expect_identical(select_vars(letters, c(a, z)), c(a = "a", z = "z"))
+})
 
 
 # rename_vars -------------------------------------------------------------
