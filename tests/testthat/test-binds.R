@@ -119,7 +119,7 @@ test_that("bind_rows only accepts data frames or vectors", {
   ll <- list(1:5, get_env())
   expect_error(
     bind_rows(ll),
-    "Argument 1: list must contain atomic vectors",
+    "Argument 2: list must contain atomic vectors",
     fixed = TRUE
   )
 })

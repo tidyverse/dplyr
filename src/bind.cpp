@@ -64,7 +64,7 @@ R_xlen_t cols_length(SEXP x) {
 static
 void inner_vector_check(SEXP x, int nrows, int arg) {
   if (!is_vector(x))
-    bad_pos_arg(arg, "list must contain atomic vectors");
+    bad_pos_arg(arg + 1, "list must contain atomic vectors");
 
   if (OBJECT(x)) {
     if (Rf_inherits(x, "data.frame"))
