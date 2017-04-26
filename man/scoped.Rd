@@ -43,6 +43,7 @@ The verbs with scoped variants are:
 \item \code{\link[=filter]{filter()}}. See \code{\link[=filter_all]{filter_all()}}.
 \item \code{\link[=group_by]{group_by()}}. See \code{\link[=group_by_all]{group_by_all()}}.
 \item \code{\link[=rename]{rename()}} and \code{\link[=select]{select()}}. See \code{\link[=select_all]{select_all()}}.
+\item \code{\link[=arrange]{arrange()}}. See \code{\link[=arrange_all]{arrange_all()}}
 }
 
 There are three kinds of scoped variants. They differ in the scope
