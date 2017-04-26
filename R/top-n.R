@@ -68,5 +68,5 @@ top_n <- function(x, n, wt) {
 
 # Works with lazy tibbles
 tbl_rows_n <- function(tbl) {
-  pull(summarise(tbl, n = n()))
+  pull(summarise(ungroup(tbl), n = n()))
 }
