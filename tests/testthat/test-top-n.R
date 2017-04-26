@@ -6,14 +6,13 @@ test_that("top_n returns n rows", {
   expect_equal(dim(top_four), c(4, 2))
 })
 
-test_that("top_n errs if wt argument is not a symbol (#2279)", {
-  # error message from assertthat
-  expect_error(data.frame(x = 1:10) %>% top_n(10, "x"))
-})
-
 test_that("top_n() handles missing `wt`", {
   df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
   expect_message(regexp = "Selecting by x",
     expect_identical(top_n(df, 2)$x, c(10, 6))
   )
+})
+
+test_that("top_n() aborts if not a vector as long as the tibble", {
+  expect_error(top_n(mtcars, 5, "mpg"), "must be as long as")
 })
