@@ -12,6 +12,7 @@
 #' * [filter()]. See [filter_all()].
 #' * [group_by()]. See [group_by_all()].
 #' * [rename()] and [select()]. See [select_all()].
+#' * [arrange()]. See [arrange_all()]
 #'
 #' There are three kinds of scoped variants. They differ in the scope
 #' of the variable selection on which operations are applied:
