@@ -26,7 +26,7 @@ combine_pair_test <- function(item_pair, var1, var2, result,
     expect_warning(
       expect_error(
         combine(item_pair),
-        "^Argument 2: can't convert [^ ]* to [^ ]*$",
+        "^Evaluation error: Argument 2: can't convert [^ ]* to [^ ]*$",
         label = label_if_fail
       ),
       regexp = warning_regexp,
