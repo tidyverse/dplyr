@@ -50,9 +50,6 @@ top_n <- function(x, n, wt) {
     wt <- eval_tidy(wt, x)
   }
 
-  if (length(wt) != tbl_rows_n(x)) {
-    abort("`wt` must be as long as the number of rows of `x`")
-  }
   if (!is_scalar_integerish(n)) {
     abort("`n` must be a scalar integer")
   }
@@ -64,9 +61,4 @@ top_n <- function(x, n, wt) {
   }
 
   eval_tidy(quo)
-}
-
-# Works with lazy tibbles
-tbl_rows_n <- function(tbl) {
-  pull(summarise(ungroup(tbl), n = n()))
 }

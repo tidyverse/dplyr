@@ -13,6 +13,6 @@ test_that("top_n() handles missing `wt`", {
   )
 })
 
-test_that("top_n() aborts if not a vector as long as the tibble", {
-  expect_error(top_n(mtcars, 5, "mpg"), "must be as long as")
+test_that("top_n() handles calls", {
+  expect_identical(top_n(mtcars, 2, -disp), top_n(mtcars, -2, disp))
 })
