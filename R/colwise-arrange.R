@@ -14,8 +14,8 @@
 #' # You can supply a function that will be applied before taking the
 #' # ordering of the variables. The variables of the sorted tibble
 #' # keep their original values.
-#' arrange_all(df, `-`)
-#' arrange_all(df, funs(desc))
+#' arrange_all(df, desc)
+#' arrange_all(df, funs(desc(.)))
 arrange_all <- function(.tbl, .funs = list(), ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   if (!length(funs)) {
