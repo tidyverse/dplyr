@@ -279,3 +279,8 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
     fixed = TRUE
   )
 })
+
+test_that("group_by() names pronouns correctly (#2686)", {
+  gdf <- group_by(tibble(x = 1), .data$x)
+  expect_named(gdf, "x")
+})

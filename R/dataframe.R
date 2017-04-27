@@ -68,7 +68,7 @@ filter_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.data.frame <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   slice_impl(.data, dots)
 }
 #' @export
@@ -179,7 +179,7 @@ setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, quos(..., .named = TRUE), .keep_all = .keep_all)
+  dist <- distinct_vars(.data, named_quos(...), .keep_all = .keep_all)
   distinct_impl(dist$data, dist$vars, dist$keep)
 }
 #' @export

@@ -72,7 +72,7 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.tbl_df <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   slice_impl(.data, dots)
 }
 #' @export
@@ -83,7 +83,7 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   mutate_impl(.data, dots)
 }
 #' @export
@@ -94,7 +94,7 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 summarise.tbl_df <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   summarise_impl(.data, dots)
 }
 #' @export
