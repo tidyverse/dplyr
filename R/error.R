@@ -40,10 +40,10 @@ bad_measures <- function(measures, ..., .envir = parent.frame()) {
   glubort(fmt_measures(measures), ..., .envir = .envir)
 }
 
-glubort <- function(header, ..., .envir = parent.frame()) {
+glubort <- function(header, ..., .envir = parent.frame(), .abort = abort) {
   text <- glue(..., .envir = .envir)
   if (!is_null(header)) text <- paste0(header, ": ", text)
-  abort(text)
+  .abort(text)
 }
 
 fmt_args <- function(x) {

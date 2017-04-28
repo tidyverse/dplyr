@@ -90,10 +90,10 @@ If you've implemented a database backend for dplyr, please read the [backend new
 
 ## Colwise functions
 
-* `rename()`, `select()`, `group_by()`, `filter()` and `transmute()`
-  now have scoped variants (verbs suffixed with `_if()`, `_at()` and
-  `_all()`). Like `mutate_all()`, `summarise_if()`, etc, these
-  variants apply an operation to a selection of variables.
+* `rename()`, `select()`, `group_by()`, `filter()`, `arrange()` and
+  `transmute()` now have scoped variants (verbs suffixed with `_if()`,
+  `_at()` and `_all()`). Like `mutate_all()`, `summarise_if()`, etc,
+  these variants apply an operation to a selection of variables.
 
 * The scoped verbs taking predicates (`mutate_if()`, `summarise_if()`,
   etc) now support S3 objects and lazy tables. S3 objects should

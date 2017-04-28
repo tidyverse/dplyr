@@ -108,7 +108,7 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   new_groups <- c(quos(...), compat_lazy_dots(.dots, caller_env()))
 
   # If any calls, use mutate to add new columns, then group by those
-  is_symbol <- map_lgl(new_groups, is_symbol)
+  is_symbol <- map_lgl(new_groups, quo_is_symbol)
   named <- have_name(new_groups)
 
   needs_mutate <- named | !is_symbol

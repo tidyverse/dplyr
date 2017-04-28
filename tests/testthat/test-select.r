@@ -164,3 +164,13 @@ test_that("select succeeds in presence of raw columns (#1803)", {
   expect_identical(select(df, b), df["b"])
   expect_identical(select(df, -b), df["a"])
 })
+
+test_that("arguments to select() don't match select_vars() arguments", {
+  df <- tibble(a = 1)
+  expect_identical(select(df, var = a), tibble(var = 1))
+  expect_identical(select(group_by(df, a), var = a), group_by(tibble(var = 1), var))
+  expect_identical(select(df, exclude = a), tibble(exclude = 1))
+  expect_identical(select(df, include = a), tibble(include = 1))
+  expect_identical(select(group_by(df, a), exclude = a), group_by(tibble(exclude = 1), exclude))
+  expect_identical(select(group_by(df, a), include = a), group_by(tibble(include = 1), include))
+})

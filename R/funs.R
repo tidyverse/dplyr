@@ -54,18 +54,19 @@ as_fun_list <- function(.x, .quo, .env, ...) {
   args <- dots_list(...)
   if (is_fun_list(.x)) {
     if (!is_empty(args)) {
-      .x[] <- map(.x, function(fun) lang_modify(fun, !!! args))
+      .x[] <- map(.x, lang_modify, !!! args)
     }
     return(.x)
   }
 
   # Take functions by expression if they are supplied by name. This
   # way we can evaluate it hybridly.
-  if (is_function(.x) && is_symbol(.quo)) {
-    .x <- .quo
-  }
-  if (is_character(.x)) {
+  if (is_function(.x) && quo_is_symbol(.quo)) {
+    .x <- list(.quo)
+  } else if (is_character(.x)) {
     .x <- as.list(.x)
+  } else if (is_bare_formula(.x, lhs = FALSE)) {
+    .x <- list(as_function(.x))
   } else if (!is_list(.x)) {
     .x <- list(.x)
   }

@@ -47,10 +47,15 @@ test_that("local objects are not treated as symbols", {
   expect_identical(enfun(mean), mean)
 })
 
-test_that("can enfun() quosures", {
-  expect_identical(enfun(~mean(.)), funs(mean(.)))
-})
-
 test_that("can enfun() character vectors", {
   expect_identical(enfun(c("min", "max")), funs(min, max))
+})
+
+test_that("can enfun() quosures", {
+  expect_identical(enfun(quo(mean(.))), funs(mean(.)))
+})
+
+test_that("can enfun() purrr-style lambdas", {
+  my_mean <- as_function(~mean(.x))
+  expect_identical(enfun(~mean(.x)), funs(!! my_mean))
 })

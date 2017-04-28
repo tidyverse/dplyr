@@ -264,9 +264,9 @@ test_that("mutate remove variables with = NULL syntax (#462)", {
   expect_false("cyl" %in% names(data))
 })
 
-test_that("mutate strips names (#1689)", {
+test_that("mutate strips names, but only if grouped (#1689, #2675)", {
   data <- data_frame(a = 1:3) %>% mutate(b = setNames(nm = a))
-  expect_null(names(data$b))
+  expect_equal(names(data$b), as.character(1:3))
 
   data <- data_frame(a = 1:3) %>% rowwise %>% mutate(b = setNames(nm = a))
   expect_null(names(data$b))
@@ -275,12 +275,12 @@ test_that("mutate strips names (#1689)", {
   expect_null(names(data$b))
 })
 
-test_that("mutate strips names of list-columns, but keeps names in original data (#2523)", {
+test_that("mutate does not strip names of list-columns (#2675)", {
   vec <- list(a = 1, b = 2)
   data <- data_frame(x = vec)
   data <- mutate(data, x)
   expect_identical(names(vec), c("a", "b"))
-  expect_null(names(data$x))
+  expect_identical(names(data$x), c("a", "b"))
 })
 
 test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
