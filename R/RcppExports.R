@@ -70,6 +70,7 @@ combine_all <- function(data) {
     .Call('dplyr_combine_all', PACKAGE = 'dplyr', data)
 }
 
+#' @export
 combine_vars <- function(vars, xs) {
     .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)
 }

@@ -109,6 +109,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   sel
 }
 
+#' @export
 quo_is_helper <- function(quo) {
   expr <- f_rhs(quo)
   is_lang(expr) && !is_lang(expr, c("-", ":", "c"))

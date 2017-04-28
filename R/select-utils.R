@@ -31,6 +31,7 @@ NULL
 
 cur_vars_env <- child_env()
 
+#' @export
 set_current_vars <- function(x) {
   stopifnot(is_character(x) || is_null(x))
 
