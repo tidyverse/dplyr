@@ -53,6 +53,14 @@
 #' # You can unquote names or formulas (or lists of)
 #' select_vars(names(iris), !!! list(quo(Petal.Length)))
 #' select_vars(names(iris), !! quote(Petal.Length))
+#'
+#' # The .data pronoun is available:
+#' select_vars(names(mtcars), .data$cyl)
+#' select_vars(names(mtcars), .data$mpg : .data$disp)
+#'
+#' # However it isn't available within calls since those are evaluated
+#' # outside of the data context. This would fail if run:
+#' # select_vars(names(mtcars), identical(.data$cyl))
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
   quos <- quos(...)
 
@@ -76,7 +84,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   # not calls (select helpers are scoped in the calling environment)
   is_helper <- map_lgl(quos, quo_is_helper)
   ind_list <- map_if(quos, is_helper, eval_tidy)
-  ind_list <- map_if(ind_list, !is_helper, eval_tidy, names_list)
+  ind_list <- map_if(ind_list, !is_helper, eval_tidy, data = names_list)
 
   ind_list <- c(initial_case, ind_list)
   names(ind_list) <- c(names2(initial_case), names2(quos))
@@ -109,9 +117,26 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   sel
 }
 
+is_data_pronoun <- function(expr) {
+  identical(node_car(expr), quote(`$`)) &&
+    identical(node_cadr(expr), quote(.data))
+}
 quo_is_helper <- function(quo) {
   expr <- f_rhs(quo)
-  is_lang(expr) && !is_lang(expr, c("-", ":", "c"))
+
+  if (!is_lang(expr)) {
+    return(FALSE)
+  }
+
+  if (is_data_pronoun(expr)) {
+    return(FALSE)
+  }
+
+  if (is_lang(expr, c("-", ":", "c"))) {
+    return(FALSE)
+  }
+
+  TRUE
 }
 
 #' @rdname se-deprecated

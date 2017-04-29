@@ -70,5 +70,13 @@ rename_vars(names(iris), petal_length = Petal.Length)
 # You can unquote names or formulas (or lists of)
 select_vars(names(iris), !!! list(quo(Petal.Length)))
 select_vars(names(iris), !! quote(Petal.Length))
+
+# The .data pronoun is available:
+select_vars(names(mtcars), .data$cyl)
+select_vars(names(mtcars), .data$mpg : .data$disp)
+
+# However it isn't available within calls since those are evaluated
+# outside of the data context. This would fail if run:
+# select_vars(names(mtcars), identical(.data$cyl))
 }
 \keyword{internal}

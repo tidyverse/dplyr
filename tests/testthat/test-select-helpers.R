@@ -221,6 +221,11 @@ test_that("can select with c() (#2685)", {
   expect_identical(select_vars(letters, c(a, z)), c(a = "a", z = "z"))
 })
 
+test_that("can select with .data pronoun (#2715)", {
+  expect_identical(select_vars("foo", .data$foo), c(foo = "foo"))
+  expect_identical(select_vars(c("a", "b", "c"), .data$a : .data$b), c(a = "a", b = "b"))
+})
+
 
 # rename_vars -------------------------------------------------------------
 
