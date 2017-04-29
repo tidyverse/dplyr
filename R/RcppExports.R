@@ -70,6 +70,19 @@ combine_all <- function(data) {
     .Call('dplyr_combine_all', PACKAGE = 'dplyr', data)
 }
 
+#' @title
+#' combine_vars
+#' @description
+#' Combines variable indicies with a corresponding variable list.
+#'
+#' @param vars a character vector of variable names.
+#' @param xs a list of integers.
+#'
+#' @return
+#' A named vector with the unique indices that correspond to the names.
+#' @examples
+#' combine_vars(names(iris), list(1:2, 2:3))
+#' combine_vars(names(iris), list(1))
 #' @export
 combine_vars <- function(vars, xs) {
     .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)

@@ -76,6 +76,20 @@ public:
   }
 };
 
+//' @title
+//' combine_vars
+//' @description
+//' Combines variable indicies with a corresponding variable list.
+//'
+//' @param vars a character vector of variable names.
+//' @param xs a list of integers.
+//'
+//' @return
+//' A named vector with the unique indices that correspond to the names.
+//' @examples
+//' combine_vars(names(iris), list(1:2, 2:3))
+//' combine_vars(names(iris), list(1))
+//' @export
 // [[Rcpp::export]]
 SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
   VarList selected(vars.size());
