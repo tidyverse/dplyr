@@ -39,6 +39,14 @@ names are new names.
 \description{
 These functions power \code{\link[=select]{select()}} and \code{\link[=rename]{rename()}}.
 }
+\details{
+For historic reasons, the \code{vars} and \code{include} arguments are not
+prefixed with \code{.}. This means that any argument starting with \code{v}
+might partial-match on \code{vars} if it is not explicitly named. Also
+\code{...} cannot accept arguments named \code{exclude} or \code{include}. You can
+enquose and splice the dots to work around these limitations (see
+examples).
+}
 \examples{
 # Keep variables
 select_vars(names(iris), everything())
@@ -78,5 +86,19 @@ select_vars(names(mtcars), .data$mpg : .data$disp)
 # However it isn't available within calls since those are evaluated
 # outside of the data context. This would fail if run:
 # select_vars(names(mtcars), identical(.data$cyl))
+
+
+# If you're writing a wrapper around select_vars(), pass the dots
+# via splicing to avoid matching dotted arguments to select_vars()
+# named arguments (`vars`, `include` and `exclude`):
+wrapper <- function(...) {
+  select_vars(names(mtcars), !!! quos(...))
+}
+
+# This won't partial-match on `vars`:
+wrapper(var = cyl)
+
+# This won't match on `include`:
+wrapper(include = cyl)
 }
 \keyword{internal}

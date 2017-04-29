@@ -2,6 +2,13 @@
 #'
 #' These functions power [select()] and [rename()].
 #'
+#' For historic reasons, the `vars` and `include` arguments are not
+#' prefixed with `.`. This means that any argument starting with `v`
+#' might partial-match on `vars` if it is not explicitly named. Also
+#' `...` cannot accept arguments named `exclude` or `include`. You can
+#' enquose and splice the dots to work around these limitations (see
+#' examples).
+#'
 #' @param vars A character vector of existing column names.
 #' @param ...,args Expressions to compute
 #'
@@ -61,6 +68,20 @@
 #' # However it isn't available within calls since those are evaluated
 #' # outside of the data context. This would fail if run:
 #' # select_vars(names(mtcars), identical(.data$cyl))
+#'
+#'
+#' # If you're writing a wrapper around select_vars(), pass the dots
+#' # via splicing to avoid matching dotted arguments to select_vars()
+#' # named arguments (`vars`, `include` and `exclude`):
+#' wrapper <- function(...) {
+#'   select_vars(names(mtcars), !!! quos(...))
+#' }
+#'
+#' # This won't partial-match on `vars`:
+#' wrapper(var = cyl)
+#'
+#' # This won't match on `include`:
+#' wrapper(include = cyl)
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
   quos <- quos(...)
 
