@@ -275,6 +275,20 @@ test_that("first(), last(), and nth() work", {
   )
 })
 
+test_that("nth(), first(), etc can subset beyond the vector length (#2673)", {
+  df <- tibble(g = c(1, 1, 2), x = c("a", "b", "c"))
+  out <- group_by(df, g) %>%
+    summarise(
+      x = x[1],
+      x2 = first(x)
+    )
+  expect_identical(out, tibble(
+    g = c(1, 2),
+    x = c("a", "c"),
+    x2 = c("a", NA)
+  ))
+})
+
 test_that("lead() and lag() work", {
   check_hybrid_result(
     list(lead(a)), a = 1:5,

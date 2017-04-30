@@ -34,6 +34,7 @@ public:
     int n = indices.size();
     if (n == 0 || idx > n || idx < -n) return def;
     int i = idx > 0 ? (idx - 1) : (n + idx);
+    if (indices[i] >= n) return def;
     return data[indices[i]];
   }
 
