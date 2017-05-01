@@ -71,9 +71,8 @@ public:
     return subsets[symbol_map.get(symbol)]->is_summary();
   }
 
-  virtual int count(const SymbolString& head) const {
-    int res = symbol_map.has(head);
-    return res;
+  virtual bool has_variable(const SymbolString& head) const {
+    return symbol_map.has(head);
   }
 
   virtual void input(const SymbolString& symbol, SEXP x) {

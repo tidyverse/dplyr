@@ -20,7 +20,7 @@ Result* in_prototype(SEXP call, const ILazySubsets& subsets, int) {
   SymbolString name = SymbolString(Symbol(lhs));
 
   // if the lhs is not in the data, let R handle it
-  if (!subsets.count(name)) return 0;
+  if (!subsets.has_variable(name)) return 0;
 
   SEXP v = subsets.get_variable(name);
 
