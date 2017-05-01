@@ -165,7 +165,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     LOG_VERBOSE << "Searching hybrid handler for symbol " << sym.get_utf8_cstring();
 
-    if (subsets.count(sym)) {
+    if (subsets.has_variable(sym)) {
       LOG_VERBOSE << "Using hybrid variable handler";
       return variable_handler(subsets, sym);
     }
