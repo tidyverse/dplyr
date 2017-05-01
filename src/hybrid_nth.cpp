@@ -145,7 +145,7 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     return 0;
 
   SymbolString name = SymbolString(Symbol(data));
-  if (subsets.count(name) == 0) {
+  if (subsets.has_non_summary_variable(name) == 0) {
     return 0;
   }
   data = subsets.get_variable(name);
@@ -213,7 +213,7 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
       return 0;
 
     SymbolString order_by_name = SymbolString(Symbol(order_by));
-    if (subsets.count(order_by_name) == 0)
+    if (subsets.has_non_summary_variable(order_by_name) == 0)
       return 0;
 
     order_by = subsets.get_variable(order_by_name);
@@ -255,7 +255,7 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     return 0;
 
   SymbolString order_by_name = SymbolString(Symbol(order_by));
-  if (subsets.count(order_by_name) == 0)
+  if (subsets.has_non_summary_variable(order_by_name) == 0)
     return 0;
 
   order_by = subsets.get_variable(order_by_name);
