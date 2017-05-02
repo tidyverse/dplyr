@@ -2,7 +2,7 @@
 % Please edit documentation in R/RcppExports.R
 \name{combine_vars}
 \alias{combine_vars}
-\title{Combines variable indicies with a corresponding variable list.}
+\title{Combines variable indices with a corresponding variable list.}
 \usage{
 combine_vars(vars, xs)
 }

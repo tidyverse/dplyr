@@ -77,9 +77,9 @@ public:
 };
 
 //' @title
-//' Combines variable indicies with a corresponding variable list.
+//' Combines variable indices with a corresponding variable list.
 //' @description
-//' Give a vector of names and a list of integer indices, combine them 
+//' Give a vector of names and a list of integer indices, combine them
 //' into a named vector of unique indices. 
 //'
 //' @param vars A character vector of variable names.
