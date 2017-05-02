@@ -1010,16 +1010,18 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * `grouped_df()` requires `vars` to be a list of symbols (#665).
 
-* `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors (#755)
+* `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors (#755).
 
 * `rename_()` generic gets missing `.dots` argument (#708).
 
 * `row_number()`, `min_rank()`, `percent_rank()`, `dense_rank()`, `ntile()` and
   `cume_dist()` handle data frames with 0 rows (#762). They all preserve
   missing values (#774). `row_number()` doesn't segfault when giving an external
-  variable with the wrong number of variables (#781)
+  variable with the wrong number of variables (#781).
 
-* `group_indices` handles the edge case when there are no variables (#867)  
+* `group_indices` handles the edge case when there are no variables (#867).
+
+* Removed bogus `NAs introduced by coercion to integer range` on 32-bit Windows (#2708).
 
 # dplyr 0.3.0.1
 
