@@ -33,6 +33,31 @@ int count_attributes(SEXP x) {
   return n;
 }
 
+void warn_bad_var(const SymbolString& var_left, const SymbolString var_right,
+                  std::string message, bool warn = true) {
+  if (!warn)
+    return;
+
+  if (var_left == var_right) {
+    std::string var_utf8 = var_left.get_utf8_cstring();
+    Rf_warningcall(R_NilValue,
+      "Variable `%s` %s",
+      var_utf8.c_str(),
+      message.c_str()
+    );
+  } else {
+    std::string left_utf8 = var_left.get_utf8_cstring();
+    std::string right_utf8 = var_right.get_utf8_cstring();
+    Rf_warningcall(R_NilValue,
+      "Variable `%s`/`%s` %s",
+      left_utf8.c_str(),
+      right_utf8.c_str(),
+      message.c_str()
+    );
+  }
+
+}
+
 SEXP grab_attribute(SEXP name, SEXP x) {
   while (!Rf_isNull(x)) {
     if (TAG(x) == name) return CAR(x);
@@ -51,8 +76,10 @@ void check_attribute_compatibility(SEXP left, SEXP right, const SymbolString& na
     return;
   }
 
-  if (n_left != n_right)
-    stop("attributes of different sizes");
+  if (n_left != n_right) {
+    warn_bad_var(name_left, name_right, "has different attributes on RHS and LHS of join");
+    return;
+  }
 
   List list_left(n_left), list_right(n_left);
 
@@ -68,7 +95,8 @@ void check_attribute_compatibility(SEXP left, SEXP right, const SymbolString& na
   }
   RObject test = Language("all.equal", list_left, list_right).fast_eval();
   if (!is<bool>(test) || !as<bool>(test)) {
-    stop("attributes are different");
+    warn_bad_var(name_left, name_right, "has different attributes on RHS and LHS of join");
+    return;
   }
 }
 
@@ -200,7 +228,11 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
         if (same_levels(left, right)) {
           return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
         } else {
-          if (warn_) Rf_warning("joining factors with different levels, coercing to character vector");
+          warn_bad_var(
+            name_left, name_right,
+            "joining factors with different levels, coercing to character vector",
+            warn_
+          );
           return new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(reencode_char(left), reencode_char(right), name_left, name_right);
         }
       } else if (!lhs_factor && !rhs_factor) {
@@ -226,7 +258,11 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     case STRSXP:
     {
       if (lhs_factor) {
-        if (warn_) Rf_warning("joining factor and character vector, coercing into character vector");
+        warn_bad_var(
+          name_left, name_right,
+          "joining factor and character vector, coercing into character vector",
+          warn_
+        );
         return new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(reencode_char(left), reencode_char(right), name_left, name_right);
       }
     }
@@ -267,7 +303,11 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     case INTSXP:
     {
       if (Rf_inherits(right, "factor")) {
-        if (warn_) Rf_warning("joining character vector and factor, coercing into character vector");
+        warn_bad_var(
+          name_left, name_right,
+          "joining character vector and factor, coercing into character vector",
+          warn_
+        );
         return new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(reencode_char(left), reencode_char(right), name_left, name_right);
       }
       break;
