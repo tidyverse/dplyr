@@ -29,8 +29,9 @@
 #' See [pkgconfig::set_config()] for usage.
 #' \describe{
 #' \item{`dplyr::na_matches`}{Should `NA` values be matched in data frame joins
-#'   by default? Default: `"never"`, alternative value: `"na"`. See also
-#'   [join.tbl_df()].}
+#'   by default? Default: `"na"` (for compatibility with dplyr v0.5.0 and earlier,
+#'   subject to change), alternative value: `"never"` (the default
+#'   for database backends, see [join.tbl_df()]).}
 #' }
 #'
 #' @useDynLib dplyr, .registration = TRUE

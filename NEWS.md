@@ -158,12 +158,13 @@ This means that the underscored version of each main verb is no longer needed, a
 
 ### Joins
 
-* [API] `xxx_join.tbl_df()` by default treats all `NA` values as
+* [API] `xxx_join.tbl_df(na_matches = "never")` treats all `NA` values as
   different from each other (and from any other value), so that they never
   match.  This corresponds to the behavior of joins for database sources,
   and of database joins in general.  To match `NA` values, pass
   `na_matches = "na"` to the join verbs; this is only supported for data frames.
-  The default can also be tweaked by calling
+  The default is `na_matches = "na"`, kept for the sake of compatibility
+  to v0.5.0. It can be tweaked by calling
   `pkgconfig::set_config("dplyr::na_matches", "na")` (#2033).
 
 * `common_by()` gets a better error message for unexpected inputs (#2091)
