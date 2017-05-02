@@ -38,6 +38,8 @@
 \alias{reexports}
 \alias{trunc_mat}
 \alias{reexports}
+\alias{tbl_sum}
+\alias{reexports}
 \alias{\%>\%}
 \title{Objects exported from other packages}
 \keyword{internal}
@@ -50,6 +52,6 @@ below to see their documentation.
 
   \item{rlang}{\code{\link[rlang]{quo}}, \code{\link[rlang]{quos}}, \code{\link[rlang]{enquo}}, \code{\link[rlang]{quo_name}}}
 
-  \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble]{trunc_mat}}}
+  \item{tibble}{\code{\link[tibble]{data_frame}}, \code{\link[tibble]{data_frame_}}, \code{\link[tibble]{as_data_frame}}, \code{\link[tibble]{lst}}, \code{\link[tibble]{lst_}}, \code{\link[tibble]{add_row}}, \code{\link[tibble]{type_sum}}, \code{\link[tibble]{glimpse}}, \code{\link[tibble]{frame_data}}, \code{\link[tibble]{tribble}}, \code{\link[tibble]{tibble}}, \code{\link[tibble]{as_tibble}}, \code{\link[tibble]{trunc_mat}}, \code{\link[tibble]{tbl_sum}}}
 }}
 

@@ -23,7 +23,7 @@ Imports:
     rlang (>= 0.0.0.9018),
     R6,
     Rcpp (>= 0.12.6),
-    tibble (>= 1.2),
+    tibble (>= 1.3.0.9001),
     utils
 Suggests: 
     covr,
@@ -55,4 +55,5 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
     hadley/rlang@b22ce1c,
     hadley/dbplyr,
-    tidyverse/glue
+    tidyverse/glue,
+    tidyverse/tibble
