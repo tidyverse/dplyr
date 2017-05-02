@@ -10,10 +10,11 @@ quo_is_select_helper(quo)
 \item{quo}{A \code{quo} object.}
 }
 \value{
-A logical value
+A logical value.
 }
 \description{
-\code{quo_is_select_helper} takes a \code{quo} object and returns a logical indicating if the expression contains certain calls.
+\code{quo_is_select_helper} takes a \code{quo} object and returns a logical
+indicating if the expression contains certain calls.
 }
 \examples{
 quo_is_select_helper(quo(a_variable_name))

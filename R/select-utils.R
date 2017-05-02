@@ -33,11 +33,14 @@ cur_vars_env <- child_env()
 
 #' Select variables in an environment
 #'
-#' \code{mut_current_vars} marks a set of variables as selected in an environment. 
+#' `mut_current_vars` marks a set of variables as selected in an 
+#' environment. 
 #'
 #' @param x A character vector of variable names. 
-#' @return Invisibly returns the original version of the environment prior to selecting the variables in \code{x}. 
-#' @details This function should not be used by the end-user. It modifies an existing environment created by the package.
+#' @return Invisibly returns the original version of the environment 
+#' prior to selecting the variables in `x`. 
+#' @details This function should not be used by the end-user. It 
+#' modifies an existing environment created by the package.
 #' @export
 mut_current_vars <- function(x) {
   stopifnot(is_character(x) || is_null(x))

@@ -71,12 +71,13 @@ combine_all <- function(data) {
 }
 
 #' @title
-#' combine_vars
-#' @description
 #' Combines variable indicies with a corresponding variable list.
+#' @description
+#' Give a vector of names and a list of integer indices, combine them 
+#' into a named vector of unique indices. 
 #'
-#' @param vars a character vector of variable names.
-#' @param xs a list of integers.
+#' @param vars A character vector of variable names.
+#' @param xs A list of integers.
 #'
 #' @return
 #' A named vector with the unique indices that correspond to the names.

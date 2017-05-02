@@ -2,20 +2,21 @@
 % Please edit documentation in R/RcppExports.R
 \name{combine_vars}
 \alias{combine_vars}
-\title{combine_vars}
+\title{Combines variable indicies with a corresponding variable list.}
 \usage{
 combine_vars(vars, xs)
 }
 \arguments{
-\item{vars}{a character vector of variable names.}
+\item{vars}{A character vector of variable names.}
 
-\item{xs}{a list of integers.}
+\item{xs}{A list of integers.}
 }
 \value{
 A named vector with the unique indices that correspond to the names.
 }
 \description{
-Combines variable indicies with a corresponding variable list.
+Give a vector of names and a list of integer indices, combine them
+into a named vector of unique indices.
 }
 \examples{
 combine_vars(names(iris), list(1:2, 2:3))
