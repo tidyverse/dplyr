@@ -50,7 +50,7 @@ public:
 
       int pos = indx[i];
       if (pos == NA_INTEGER) {
-        bad_col(names[i], "unknown");
+        bad_col(names[i], "is unknown");
       }
 
       SubsetVectorVisitor* v = subset_visitor(data[pos - 1], data_names[pos - 1]);

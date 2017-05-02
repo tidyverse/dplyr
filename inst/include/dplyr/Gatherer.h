@@ -96,7 +96,7 @@ private:
       delete coll;
       coll = new_collecter;
     } else {
-      bad_col(name, "can't convert {source_type} to {target_type}",
+      bad_col(name, "can't be converted from {source_type} to {target_type}",
               _["source_type"] = coll->describe(), _["target_type"] = get_single_class(subset));
     }
   }
@@ -221,7 +221,7 @@ private:
 
 inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
   if (Rf_inherits(x, "POSIXlt")) {
-    bad_col(name, "POSIXlt results not supported");
+    bad_col(name, "is of unsupported class POSIXlt");
   }
   switch (TYPEOF(x)) {
   case INTSXP:
@@ -239,7 +239,7 @@ inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
   default:
     break;
   }
-  bad_col(name, "unsupported vector type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
+  bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
 }
 
 template <typename Data, typename Subsets>
@@ -249,7 +249,7 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
   RObject first(proxy.get(indices));
 
   if (Rf_inherits(first, "POSIXlt")) {
-    bad_col(name, "POSIXlt results not supported");
+    bad_col(name, "is of unsupported class POSIXlt");
   }
 
   check_supported_type(first, name);

@@ -46,7 +46,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector&
 
   for (int i = 0; i < n; i++) {
     if (indices[i] == NA_INTEGER) {
-      bad_col(names[i], "unknown");
+      bad_col(names[i], "is unknown");
     }
     SEXP column = data[indices[i] - 1];
     visitors.push_back(visitor(column));

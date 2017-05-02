@@ -20,11 +20,11 @@ void assert_all_white_list(const DataFrame& data) {
 
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
-        bad_col(name_i, "unsupported class {type}",
+        bad_col(name_i, "is of unsupported class {type}",
                 _["type"] = get_single_class(v));
       }
       else {
-        bad_col(name_i, "unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
+        bad_col(name_i, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
       }
     }
   }

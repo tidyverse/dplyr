@@ -273,7 +273,7 @@ inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
     break;
   }
 
-  stop("unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(vec)));
 }
 }
 

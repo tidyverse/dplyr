@@ -21,7 +21,7 @@ test_that("can extract by name, or positive/negative position", {
 test_that("errors for bad inputs", {
   expect_error(
     find_var(letters, letters),
-    "`var`: must evaluate to a single number",
+    "`var` must evaluate to a single number",
     fixed = TRUE
   )
 
@@ -33,24 +33,24 @@ test_that("errors for bad inputs", {
 
   expect_error(
     find_var(0, letters),
-    "`var`: must be a value between -26 and 26 (excluding zero), not 0",
+    "`var` must be a value between -26 and 26 (excluding zero), not 0",
     fixed = TRUE
   )
   expect_error(
     find_var(100, letters),
-    "`var`: must be a value between -26 and 26 (excluding zero), not 100",
+    "`var` must be a value between -26 and 26 (excluding zero), not 100",
     fixed = TRUE
   )
   expect_warning(regexp = "NAs introduced by coercion",
     expect_error(
       find_var(-Inf, letters),
-      "`var`: must be a value between -26 and 26 (excluding zero), not NA",
+      "`var` must be a value between -26 and 26 (excluding zero), not NA",
       fixed = TRUE
     )
   )
   expect_error(
     find_var(NA_integer_, letters),
-    "`var`: must be a value between -26 and 26 (excluding zero), not NA",
+    "`var` must be a value between -26 and 26 (excluding zero), not NA",
     fixed = TRUE
   )
 })

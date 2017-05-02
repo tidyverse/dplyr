@@ -32,6 +32,10 @@ bad_named_calls <- function(named_calls, ..., .envir = parent.frame()) {
   glubort(fmt_named_calls(named_calls), ..., .envir = .envir)
 }
 
+bad_eq_ops <- function(named_calls, ..., .envir = parent.frame()) {
+  glubort(fmt_wrong_eq_ops(named_calls), ..., .envir = .envir)
+}
+
 bad_cols <- function(cols, ..., .envir = parent.frame()) {
   glubort(fmt_cols(cols), ..., .envir = .envir)
 }
@@ -42,7 +46,7 @@ bad_measures <- function(measures, ..., .envir = parent.frame()) {
 
 glubort <- function(header, ..., .envir = parent.frame(), .abort = abort) {
   text <- glue(..., .envir = .envir)
-  if (!is_null(header)) text <- paste0(header, ": ", text)
+  if (!is_null(header)) text <- paste0(header, " ", text)
   .abort(text)
 }
 
@@ -58,12 +62,19 @@ fmt_pos_args <- function(x) {
 
 fmt_calls <- function(...) {
   x <- parse_named_call(...)
-  fmt_comma(x)
+  fmt_obj(x)
 }
 
 fmt_named_calls <- function(...) {
   x <- parse_named_call(...)
   fmt_named(x)
+}
+
+fmt_wrong_eq_ops <- function(...) {
+  x <- parse_named_call(...)
+  fmt_comma(
+    paste0(fmt_obj1(names2(x)), " (", fmt_obj1(paste0(names2(x), " = ", x)), ")")
+  )
 }
 
 fmt_cols <- function(x) {
