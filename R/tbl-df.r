@@ -141,7 +141,7 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @name join.tbl_df
 NULL
 
-get_accept_na_match <- function(na_matches) {
+check_na_matches <- function(na_matches) {
   na_matches <- match.arg(na_matches, choices = c("na", "never"))
   accept_na_match <- (na_matches == "na")
   accept_na_match
@@ -157,7 +157,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   y <- auto_copy(x, y, copy = copy)
 
-  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, get_accept_na_match(na_matches))
+  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
 }
 
 #' @export
@@ -170,7 +170,7 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   y <- auto_copy(x, y, copy = copy)
 
-  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, get_accept_na_match(na_matches))
+  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
 }
 
 #' @export
@@ -182,7 +182,7 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, get_accept_na_match(na_matches))
+  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
 }
 
 #' @export
@@ -194,7 +194,7 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, get_accept_na_match(na_matches))
+  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
 }
 
 #' @export
@@ -203,7 +203,7 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  semi_join_impl(x, y, by$x, by$y, get_accept_na_match(na_matches))
+  semi_join_impl(x, y, by$x, by$y, check_na_matches(na_matches))
 }
 
 #' @export
@@ -212,7 +212,7 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  anti_join_impl(x, y, by$x, by$y, get_accept_na_match(na_matches))
+  anti_join_impl(x, y, by$x, by$y, check_na_matches(na_matches))
 }
 
 
