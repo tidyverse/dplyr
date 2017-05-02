@@ -113,12 +113,12 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @inheritParams inner_join
 #' @param ... included for compatibility with the generic; otherwise ignored.
 #' @param na_matches
-#'   Use `"na"` to treat two `NA` or `NaN` values as equal, like [merge()].
-#'   The default, `"never"`, always treats two `NA` or `NaN` values as
+#'   Use `"never"` to always treat two `NA` or `NaN` values as
 #'   different, like joins for database sources, similarly to
 #'   `merge(incomparables = FALSE)`.
+#'   The default,`"na"`, always treats two `NA` or `NaN` values as equal, like [merge()].
 #'   Users and package authors can change the default behavior by calling
-#'   `pkgconfig::set_config("dplyr::na_matches" = "na")`.
+#'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
 #' @examples
 #' if (require("Lahman")) {
 #' batting_df <- tbl_df(Batting)
@@ -146,7 +146,7 @@ NULL
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  na_matches <- match.arg(na_matches, choices = c("na", "never"))
   accept_na_match <- (na_matches == "na")
 
   by <- common_by(by, x, y)
