@@ -91,7 +91,7 @@ test_that("group_by uses the white list", {
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
   expect_error(
     group_by(df, times),
-    "Column `times`: unsupported class POSIXlt/POSIXt",
+    "Column `times` is of unsupported class POSIXlt/POSIXt",
     fixed = TRUE
   )
 })
@@ -101,7 +101,7 @@ test_that("group_by fails when lists are used as grouping variables (#276)", {
   df$y <- list(1:2, 1:3, 1:4)
   expect_error(
     group_by(df, y),
-    "Column `y`: cannot group by list",
+    "Column `y` can't be used as a grouping variable because it's a list",
     fixed = TRUE
   )
 })
@@ -127,7 +127,7 @@ test_that("grouped_df errors on non-existent var (#2330)", {
   df <- data.frame(x = 1:5)
   expect_error(
     grouped_df(df, list(quote(y))),
-    "Column `y`: unknown"
+    "Column `y` is unknown"
   )
 })
 
@@ -187,7 +187,7 @@ test_that("grouped_df requires a list of symbols (#665)", {
 test_that("group_by gives meaningful message with unknow column (#716)", {
   expect_error(
     group_by(iris, wrong_name_of_variable),
-    "Column `wrong_name_of_variable`: unknown",
+    "Column `wrong_name_of_variable` is unknown",
     fixed = TRUE
   )
 })
@@ -261,12 +261,12 @@ test_that("group_by fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     group_by(df, a),
-    "Column `b`: unsupported type raw",
+    "Column `b` is of unsupported type raw",
     fixed = TRUE
   )
   expect_error(
     group_by(df, b),
-    "Column `b`: unsupported type raw",
+    "Column `b` is of unsupported type raw",
     fixed = TRUE
   )
 })
@@ -275,7 +275,7 @@ test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     rowwise(df),
-    "Column `b`: unsupported type raw",
+    "Column `b` is of unsupported type raw",
     fixed = TRUE
   )
 })

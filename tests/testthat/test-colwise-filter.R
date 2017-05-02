@@ -17,7 +17,7 @@ test_that("filter_all()", {
 test_that("aborts on empty selection", {
   expect_error(
     filter_if(mtcars, is_character, all_vars(. > 0)),
-    "`.predicate`: no matching columns",
+    "`.predicate` has no matching columns",
     fixed = TRUE
   )
 })
@@ -25,7 +25,7 @@ test_that("aborts on empty selection", {
 test_that("aborts when supplied funs()", {
   expect_error(
     filter_all(mtcars, funs(. > 0)),
-    "`.vars_predicate`: must be a call to `all_vars()` or `any_vars()`, not list",
+    "`.vars_predicate` must be a call to `all_vars()` or `any_vars()`, not list",
     fixed = TRUE
   )
 })

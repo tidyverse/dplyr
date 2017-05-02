@@ -3,7 +3,7 @@ context("if_else")
 test_that("first argument must be logical", {
   expect_error(
     if_else(1:10, 1, 2),
-    "`condition`: must be a logical, not integer",
+    "`condition` must be a logical, not integer",
     fixed = TRUE
   )
 })
@@ -11,12 +11,12 @@ test_that("first argument must be logical", {
 test_that("true and false must be same length as condition (or length 1)", {
   expect_error(
     if_else(1:3 < 2, 1:2, 1:3),
-    "`true`: must be length 3 (length of `condition`) or one, not 2",
+    "`true` must be length 3 (length of `condition`) or one, not 2",
     fixed = TRUE
   )
   expect_error(
     if_else(1:3 < 2, 1:3, 1:2),
-    "`false`: must be length 3 (length of `condition`) or one, not 2",
+    "`false` must be length 3 (length of `condition`) or one, not 2",
     fixed = TRUE
   )
 })
@@ -24,7 +24,7 @@ test_that("true and false must be same length as condition (or length 1)", {
 test_that("true and false must be same type and same class", {
   expect_error(
     if_else(1:3 < 2, 1, 1L),
-    "`false`: must be type double, not integer",
+    "`false` must be type double, not integer",
     fixed = TRUE
   )
 
@@ -32,7 +32,7 @@ test_that("true and false must be same type and same class", {
   y <- ordered("x")
   expect_error(
     if_else(1:3 < 2, x, y),
-    "`false`: must be factor, not ordered/factor",
+    "`false` must be factor, not ordered/factor",
     fixed = TRUE
   )
 })

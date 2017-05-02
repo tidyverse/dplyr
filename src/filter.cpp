@@ -27,7 +27,7 @@ SEXP empty_subset(const DataFrame& df, const CharacterVector& classes) {
 inline
 void check_result_length(const LogicalVector& test, int n) {
   if (test.size() != n) {
-    stop("incorrect length (%d), expecting: %d", test.size(), n);
+    stop("Result must have length %d, not %d", n, test.size());
   }
 }
 inline

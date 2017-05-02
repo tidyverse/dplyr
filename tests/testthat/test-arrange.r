@@ -154,7 +154,7 @@ test_that("arrange fails gracefully on list columns (#1489)", {
     do(fit = lm(data = ., y ~ x))
   expect_error(
     arrange(df, fit),
-    "Argument 1: unsupported vector type list",
+    "Argument 1 is of unsupported type list",
     fixed = TRUE
   )
 })
@@ -163,12 +163,12 @@ test_that("arrange fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     arrange(df, a),
-    "Column `b`: unsupported type raw",
+    "Column `b` is of unsupported type raw",
     fixed = TRUE
   )
   expect_error(
     arrange(df, b),
-    "Column `b`: unsupported type raw",
+    "Column `b` is of unsupported type raw",
     fixed = TRUE
   )
 })
@@ -177,7 +177,7 @@ test_that("arrange fails gracefully on matrix input (#1870)", {
   df <- data_frame(a = 1:3, b = 4:6)
   expect_error(
     arrange(df, is.na(df)),
-    "Argument 1: matrix not supported",
+    "Argument 1 is of unsupported type matrix",
     fixed = TRUE
   )
 })

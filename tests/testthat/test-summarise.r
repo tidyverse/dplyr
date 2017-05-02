@@ -55,7 +55,7 @@ test_that("summarise refuses to modify grouping variable (#143)", {
   ds <- group_by(tbl_df(df), a, b)
   expect_error(
     summarise(ds, a = mean(x), a = b + 1),
-    "Column `a`: cannot modify grouping variable"
+    "Column `a` can't be modified because it's a grouping variable"
   )
 })
 
@@ -67,39 +67,39 @@ test_that("summarise gives proper errors (#153)", {
   )
   expect_error(
     summarise(df, identity(NULL)),
-    "Column `identity(NULL)`: must be length one (a summary value), not 0",
+    "Column `identity(NULL)` must be length 1 (a summary value), not 0",
     fixed = TRUE
   )
   expect_error(
     summarise(df, log(z)),
-    "Column `log(z)`: must be length one (a summary value), not 3",
+    "Column `log(z)` must be length 1 (a summary value), not 3",
     fixed = TRUE
   )
   expect_error(
     summarise(df, y[1:2]),
-    "Column `y[1:2]`: must be length one (a summary value), not 2",
+    "Column `y[1:2]` must be length 1 (a summary value), not 2",
     fixed = TRUE
   )
 
   gdf <- group_by(df, x, y)
   expect_error(
     summarise(gdf, identity(NULL)),
-    "Column `identity(NULL)`: must be length one (a summary value), not 0",
+    "Column `identity(NULL)` must be length 1 (a summary value), not 0",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, z),
-    "Column `z`: must be length one (a summary value), not 2",
+    "Column `z` must be length 1 (a summary value), not 2",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, log(z)),
-    "Column `log(z)`: must be length one (a summary value), not 2",
+    "Column `log(z)` must be length 1 (a summary value), not 2",
     fixed = TRUE
   )
   expect_error(
     summarise(gdf, y[1:2]),
-    "Column `y[1:2]`: must be length one (a summary value), not 2",
+    "Column `y[1:2]` must be length 1 (a summary value), not 2",
     fixed = TRUE
   )
 })
@@ -285,12 +285,12 @@ test_that("integer overflow (#304)", {
 test_that("summarise checks outputs (#300)", {
   expect_error(
     summarise(mtcars, mpg, cyl),
-    "Column `mpg`: must be length one (a summary value), not 32",
+    "Column `mpg` must be length 1 (a summary value), not 32",
     fixed = TRUE
   )
   expect_error(
     summarise(mtcars, mpg + cyl),
-    "Column `mpg + cyl`: must be length one (a summary value), not 32",
+    "Column `mpg + cyl` must be length 1 (a summary value), not 32",
     fixed = TRUE
   )
 })
@@ -792,7 +792,7 @@ test_that("summarise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     summarise(df, c = b[[1]]),
-    "Column `c`: must be a vector, not raw vector",
+    "Column `c` is of unsupported type raw vector",
     fixed = TRUE
   )
 })
@@ -837,7 +837,7 @@ test_that("typing and NAs for grouped summarise (#1839)", {
       group_by(id) %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "Column `a`: can't promote group 1 to numeric",
+    "Column `a` can't promote group 1 to numeric",
     fixed = TRUE
   )
 
@@ -877,7 +877,7 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       rowwise %>%
       summarise(a = a[[1]]) %>%
       .$a,
-    "Column `a`: can't promote group 1 to numeric",
+    "Column `a` can't promote group 1 to numeric",
     fixed = TRUE
   )
 
@@ -886,7 +886,7 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
       rowwise %>%
       summarise(a = a[1]) %>%
       .$a,
-    "Column `a`: can't promote group 1 to numeric",
+    "Column `a` can't promote group 1 to numeric",
     fixed = TRUE
   )
 })

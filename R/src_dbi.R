@@ -143,7 +143,7 @@ src_sqlite <- function(path, create = FALSE) {
   check_dbplyr()
 
   if (!create && !file.exists(path)) {
-    bad_args(c("path", "create"), "path does not exist, set `create` = TRUE")
+    bad_args("path", "must not already exist, unless `create` = TRUE")
   }
 
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
