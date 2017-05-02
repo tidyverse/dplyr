@@ -145,14 +145,14 @@ common_by_from_vector <- function(by) {
 common_by.list <- function(by, x, y) {
   x_vars <- tbl_vars(x)
   if (!all(by$x %in% x_vars)) {
-    bad_args("by", "join column {missing} not found in lhs",
+    bad_args("by", "can't contain join column {missing} which is missing from LHS",
       missing = fmt_obj(setdiff(by$x, x_vars))
     )
   }
 
   y_vars <- tbl_vars(y)
   if (!all(by$y %in% y_vars)) {
-    bad_args("by", "join column {missing} not found in rhs",
+    bad_args("by", "can't contain join column {missing} which is missing from RHS",
       missing = fmt_obj(setdiff(by$y, y_vars))
     )
   }

@@ -53,7 +53,7 @@ filter_at <- function(.tbl, .vars, .vars_predicate) {
 
 apply_filter_syms <- function(pred, syms, tbl) {
   if (is_empty(syms)) {
-    abort("`.predicate`: no matching columns")
+    bad_args(".predicate", "has no matching columns")
   }
 
   if (inherits(pred, "all_vars")) {

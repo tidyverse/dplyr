@@ -178,22 +178,22 @@ test_that("can handle empty string in suffix argument, right side (#2228, #2182,
 test_that("disallow empty string in both sides of suffix argument (#2228)", {
   expect_error(
     inner_join(e, f, "x", suffix = c("", "")),
-    "`suffix`: can't use empty string for both x and y suffixes",
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
     fixed = TRUE
   )
   expect_error(
     left_join(e, f, "x", suffix = c("", "")),
-    "`suffix`: can't use empty string for both x and y suffixes",
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
     fixed = TRUE
   )
   expect_error(
     right_join(e, f, "x", suffix = c("", "")),
-    "`suffix`: can't use empty string for both x and y suffixes",
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
     fixed = TRUE
   )
   expect_error(
     full_join(e, f, "x", suffix = c("", "")),
-    "`suffix`: can't use empty string for both x and y suffixes",
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
     fixed = TRUE
   )
 })
@@ -201,17 +201,17 @@ test_that("disallow empty string in both sides of suffix argument (#2228)", {
 test_that("check suffix input", {
   expect_error(
     inner_join(e, f, "x", suffix = letters[1:3]),
-    "`suffix`: must be a character vector of length 2, not character of length 3",
+    "`suffix` must be a character vector of length 2, not character of length 3",
     fixed = TRUE
   )
   expect_error(
     inner_join(e, f, "x", suffix = letters[1]),
-    "`suffix`: must be a character vector of length 2, not string of length 1",
+    "`suffix` must be a character vector of length 2, not string of length 1",
     fixed = TRUE
   )
   expect_error(
     inner_join(e, f, "x", suffix = 1:2),
-    "`suffix`: must be a character vector of length 2, not integer of length 2",
+    "`suffix` must be a character vector of length 2, not integer of length 2",
     fixed = TRUE
   )
 })
@@ -260,23 +260,23 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
 test_that("join functions error on column not found #371", {
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "x"),
-    "`by`: join column `x` not found in rhs",
+    "`by` can't contain join column `x` which is missing from RHS",
     fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "y"),
-    "`by`: join column `y` not found in lhs",
+    "`by` can't contain join column `y` which is missing from LHS",
     fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5)),
-    "`by`: required, because the data sources have no common variables",
+    "`by` required, because the data sources have no common variables",
     fixed = TRUE
   )
 
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3),
-    "`by`: must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not integer",
+    "`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not integer",
     fixed = TRUE
   )
 })
@@ -580,32 +580,32 @@ test_that("join functions are protected against empty by (#1496)", {
   y <- data.frame(a = 1)
   expect_error(
     left_join(x, y, by = names(x)),
-    "`by`: no variable to join by",
+    "`by` must specify variables to join by",
     fixed = TRUE
   )
   expect_error(
     right_join(x, y, by = names(x)),
-    "`by`: no variable to join by",
+    "`by` must specify variables to join by",
     fixed = TRUE
   )
   expect_error(
     semi_join(x, y, by = names(x)),
-    "`by`: no variable to join by",
+    "`by` must specify variables to join by",
     fixed = TRUE
   )
   expect_error(
     full_join(x, y, by = names(x)),
-    "`by`: no variable to join by",
+    "`by` must specify variables to join by",
     fixed = TRUE
   )
   expect_error(
     anti_join(x, y, by = names(x)),
-    "`by`: no variable to join by",
+    "`by` must specify variables to join by",
     fixed = TRUE
   )
   expect_error(
     inner_join(x, y, by = names(x)),
-    "`by`: no variable to join by",
+    "`by` must specify variables to join by",
     fixed = TRUE
   )
 })

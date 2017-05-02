@@ -3,25 +3,25 @@ context("tbl_cube")
 test_that("construction errors", {
   expect_error(
     tbl_cube(1:3, 1:3),
-    "`dimensions`: must be a named list of vectors, not integer",
+    "`dimensions` must be a named list of vectors, not integer",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), 1:3),
-    "`measures`: must be a named list of arrays, not integer",
+    "`measures` must be a named list of arrays, not integer",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), list(b = 1:3)),
-    "`measures`: must be a named list of arrays, not list",
+    "`measures` must be a named list of arrays, not list",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), list(b = array(1:3), c = array(1:2))),
-    "Measure `c`: need dimensions [3], not [2]",
+    "Measure `c` needs dimensions [3], not [2]",
     fixed = TRUE
   )
 })
@@ -65,7 +65,7 @@ test_that("duplicate", {
 
   expect_error(
     as.tbl_cube(d, met_name = "value"),
-    "`x`: all combinations of dimension variables must be unique, duplicates: `s` = 1, `j` = 1",
+    "`x` must be unique in all combinations of dimension variables, duplicates: `s` = 1, `j` = 1",
     fixed = TRUE
   )
 })
@@ -88,7 +88,7 @@ test_that("filter", {
 
   expect_error(
     filter(nasa, month == 1 & year == 2000),
-    "month == 1 & year == 2000: must refer to exactly one dimension, not `month`, `year`"
+    "`month == 1 & year == 2000` must refer to exactly one dimension, not `month`, `year`"
   )
 })
 

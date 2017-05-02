@@ -3,12 +3,12 @@ context("Filter")
 test_that("filter fails if inputs incorrect length (#156)", {
   expect_error(
     filter(tbl_df(mtcars), c(F, T)),
-    "incorrect length (2), expecting: 32",
+    "Result must have length 32, not 2",
     fixed = TRUE
   )
   expect_error(
     filter(group_by(mtcars, am), c(F, T)),
-    "incorrect length (2), expecting: 19",
+    "Result must have length 19, not 2",
     fixed = TRUE
   )
 })
@@ -24,12 +24,12 @@ test_that("filter gives useful error message when given incorrect input", {
 test_that("filter complains in inputs are named", {
   expect_error(
     filter(mtcars, x = 1),
-    "`x` = 1: must not be named, do you need `==`?",
+    "`x` (`x = 1`) must not be named, do you need `==`?",
     fixed = TRUE
   )
   expect_error(
     filter(mtcars, x = 1 & y > 2),
-    "`x` = 1 & y > 2: must not be named, do you need `==`?",
+    "`x` (`x = 1 & y > 2`) must not be named, do you need `==`?",
     fixed = TRUE
   )
 })
@@ -100,12 +100,12 @@ test_that("filter propagates attributes", {
 test_that("filter fails on integer indices", {
   expect_error(
     filter(mtcars, 1:2),
-    "Argument 2: filter condition does not evaluate to a logical vector",
+    "Argument 2 filter condition does not evaluate to a logical vector",
     fixed = TRUE
   )
   expect_error(
     filter(group_by(mtcars, cyl), 1:2),
-    "Argument 2: filter condition does not evaluate to a logical vector",
+    "Argument 2 filter condition does not evaluate to a logical vector",
     fixed = TRUE
   )
 })
@@ -177,7 +177,7 @@ test_that("GroupedDataFrame checks consistency of data (#606)", {
 
   expect_error(
     df1 %>% filter(x == 1),
-    "`.data`: corrupt grouped_df, contains 10 rows, and 4 rows in groups",
+    "`.data` is a corrupt grouped_df, contains 10 rows, and 4 rows in groups",
     fixed = TRUE
   )
 })
@@ -329,12 +329,12 @@ test_that("filter fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     filter(df, a == 1),
-    "Column `b`: unsupported type raw",
+    "Column `b` is of unsupported type raw",
     fixed = TRUE
   )
   expect_error(
     filter(df, b == 1),
-    "Column `b`: unsupported type raw",
+    "Column `b` is of unsupported type raw",
     fixed = TRUE
   )
 })

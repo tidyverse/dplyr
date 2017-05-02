@@ -62,7 +62,7 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
   }
 
   if (inherits(x, "ts")) {
-    bad_args("x", "must be a vector, not ts object, do you want `stats::lag()`?")
+    bad_args("x", "must be a vector, not a ts object, do you want `stats::lag()`?")
   }
 
   if (length(n) != 1 || !is.numeric(n) || n < 0) {

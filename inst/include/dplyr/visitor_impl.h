@@ -69,7 +69,7 @@ inline VectorVisitor* visitor_vector(SEXP vec) {
   }
 
   // should not happen, safeguard against segfaults anyway
-  stop("unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(vec)));
 }
 
 }

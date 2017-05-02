@@ -151,7 +151,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
-    bad_args(unknown_vars, "unknown variables")
+    bad_args(unknown_vars, "contains unknown variables")
   }
 
   select <- set_names(vars, vars)

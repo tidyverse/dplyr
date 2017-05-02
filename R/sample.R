@@ -103,15 +103,15 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return()
 
-  bad_args(c("size", "replace"), "must be less or equal than {n} (size of data), ",
-    "set `replace` = TRUE for sampling with replacement"
+  bad_args("size", "must be less or equal than {n} (size of data), ",
+    "set `replace` = TRUE to use sampling with replacement"
   )
 }
 
 check_frac <- function(size, replace = FALSE) {
   if (size <= 1 || replace) return()
 
-  bad_args(c("size", "replace"), "sampled fraction must be less or equal to one, ",
-    "set `replace` = TRUE for sampling with replacement"
+  bad_args("size", "of sampled fraction must be less or equal to one, ",
+    "set `replace` = TRUE to use sampling with replacement"
   )
 }

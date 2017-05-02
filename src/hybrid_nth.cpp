@@ -140,7 +140,7 @@ Result* nth_with(Vector<RTYPE> data, int idx, SEXP order) {
   default:
     break;
   }
-  stop("unsupported vector type %s", Rf_type2char(TYPEOF(order)));
+  bad_arg(SymbolString("order"), "is of unsupported type %s", Rf_type2char(TYPEOF(order)));
 }
 
 Result* nth_with_(SEXP data, int idx, SEXP order_by) {
@@ -176,7 +176,7 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
   default:
     break;
   }
-  stop("unsupported vector type %s", Rf_type2char(TYPEOF(order)));
+  bad_arg(SymbolString("order"), "is of unsupported type %s", Rf_type2char(TYPEOF(order)));
 }
 
 Result* nth_with_default_(SEXP data, int idx, SEXP order_by, SEXP def) {

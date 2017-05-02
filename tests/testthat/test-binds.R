@@ -9,12 +9,12 @@ test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
 
   expect_error(
     bind_cols(df1, df2),
-    "Argument 2: must be a data frame or a named atomic vector, not blah_frame",
+    "Argument 2 must be a data frame or a named atomic vector, not a blah_frame",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df1, df2),
-    "Argument 2: must be a data frame or a named atomic vector, not blah_frame",
+    "Argument 2 must be a data frame or a named atomic vector, not a blah_frame",
     fixed = TRUE
   )
 })
@@ -25,7 +25,7 @@ test_that("bind_rows() err for invalid ID", {
 
   expect_error(
     bind_rows(df1, df2, .id = 5),
-    "`.id`: must be a scalar string, not double of length 1",
+    "`.id` must be a scalar string, not double of length 1",
     fixed = TRUE
   )
 })
@@ -119,7 +119,7 @@ test_that("bind_rows only accepts data frames or vectors", {
   ll <- list(1:5, rlang::get_env())
   expect_error(
     bind_rows(ll),
-    "Argument 2: list must contain atomic vectors",
+    "Argument 2 is a list, must contain atomic vectors",
     fixed = TRUE
   )
 })
@@ -198,7 +198,7 @@ test_that("bind_rows does not coerce logical to integer", {
 
   expect_error(
     bind_rows(df1, df2),
-    "Column `a`: can't convert logical to integer",
+    "Column `a` can't be converted from logical to integer",
     fixed = TRUE
   )
 })
@@ -240,12 +240,12 @@ test_that("bind_rows doesn't promote integer/numeric to factor", {
 
   expect_error(
     bind_rows(df1, df2),
-    "Column `a`: can't convert factor to integer",
+    "Column `a` can't be converted from factor to integer",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df1, df3),
-    "Column `a`: can't convert factor to numeric",
+    "Column `a` can't be converted from factor to numeric",
     fixed = TRUE
   )
 })
@@ -444,22 +444,22 @@ test_that("bind_rows handles promotion to strings (#1538)", {
 
   expect_error(
     bind_rows(df1, df3),
-    "Column `b`: can't convert numeric to factor",
+    "Column `b` can't be converted from numeric to factor",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df1, df4),
-    "Column `b`: can't convert numeric to character",
+    "Column `b` can't be converted from numeric to character",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df2, df3),
-    "Column `b`: can't convert integer to factor",
+    "Column `b` can't be converted from integer to factor",
     fixed = TRUE
   )
   expect_error(
     bind_rows(df2, df4),
-    "Column `b`: can't convert integer to character",
+    "Column `b` can't be converted from integer to character",
     fixed = TRUE
   )
 })
@@ -502,7 +502,7 @@ test_that("bind_rows rejects POSIXlt columns (#1789)", {
   df$y <- as.POSIXlt(df$x)
   expect_error(
     bind_rows(df, df),
-    "Argument 2: list can't contain POSIXlt values",
+    "Argument 2 can't be a list containing POSIXlt values",
     fixed = TRUE
   )
 })
@@ -517,7 +517,7 @@ test_that("bind_rows rejects data frame columns (#2015)", {
 
   expect_error(
     dplyr::bind_rows(df, df),
-    "Argument 2: list can't contain data frames",
+    "Argument 2 can't be a list containing data frames",
     fixed = TRUE
   )
 })
@@ -539,7 +539,7 @@ test_that("bind_rows accepts hms objects", {
 test_that("bind_rows() fails with unnamed vectors", {
   expect_error(
     bind_rows(1:2),
-    "Argument 1: must have names",
+    "Argument 1 must have names",
     fixed = TRUE
   )
 })
@@ -572,12 +572,12 @@ test_that("accepts named columns", {
 test_that("uncompatible sizes fail", {
   expect_error(
     bind_cols(a = 1, mtcars),
-    "Argument 2: size must be 32, not 1",
+    "Argument 2 must be length 32, not 1",
     fixed = TRUE
   )
   expect_error(
     bind_cols(mtcars, a = 1),
-    "Argument 2: size must be 1, not 32",
+    "Argument 2 must be length 1, not 32",
     fixed = TRUE
   )
 })
@@ -585,12 +585,12 @@ test_that("uncompatible sizes fail", {
 test_that("unnamed vectors fail", {
   expect_error(
     bind_cols(1:2),
-    "Argument 1: must have names",
+    "Argument 1 must have names",
     fixed = TRUE
   )
   expect_error(
     bind_cols(!!! list(1:2)),
-    "Argument 1: must have names",
+    "Argument 1 must have names",
     fixed = TRUE
   )
 })

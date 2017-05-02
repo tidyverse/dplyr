@@ -625,7 +625,7 @@ inline Collecter* collecter(SEXP model, int n) {
     break;
   }
 
-  stop("unsupported vector type %s", Rf_type2char(TYPEOF(model)));
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
 }
 
 inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
@@ -667,7 +667,7 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
   default:
     break;
   }
-  stop("unsupported vector type %s", Rf_type2char(TYPEOF(model)));
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
 }
 
 }

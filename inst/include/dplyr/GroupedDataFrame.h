@@ -78,7 +78,7 @@ public:
       // check consistency of the groups
       int rows_in_groups = sum(group_sizes);
       if (data_.nrows() != rows_in_groups) {
-        bad_arg(".data", "corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
+        bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
                 _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
       }
     }

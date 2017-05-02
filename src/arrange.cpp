@@ -53,7 +53,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
         stop("data frame column with incompatible number of rows (%d), expecting : %d", nr, data.nrows());
       }
     } else if (Rf_isMatrix(v)) {
-      bad_pos_arg(i + 1, "matrix not supported");
+      bad_pos_arg(i + 1, "is of unsupported type matrix");
     } else {
       if (Rf_length(v) != data.nrows()) {
         stop("incorrect size (%d) at position %d, expecting : %d", Rf_length(v), i + 1, data.nrows());
