@@ -35,17 +35,12 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 is_grouped_df <- is.grouped_df
 
 #' @export
-print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-
+tbl_sum.grouped_df <- function(x) {
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
-  cat(
-    "Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]\n",
-    sep = ""
+  c(
+    NextMethod(),
+    paste0("Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]")
   )
-  cat("\n")
-  print(trunc_mat(x, n = n, width = width), ...)
-  invisible(x)
 }
 
 #' @export
