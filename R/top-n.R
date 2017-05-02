@@ -45,10 +45,15 @@ top_n <- function(x, n, wt) {
   if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
     inform(glue("Selecting by ", vars[length(vars)]))
-    wt <- new_quosure(sym(vars[length(vars)]))
+    wt <- pull(x, -1)
+  } else {
+    wt <- eval_tidy(wt, x)
   }
 
-  stopifnot(is_scalar_integerish(n), is_symbol(wt))
+  if (!is_scalar_integerish(n)) {
+    abort("`n` must be a scalar integer")
+  }
+
   if (n > 0) {
     quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
   } else {

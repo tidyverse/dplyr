@@ -89,7 +89,7 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   } else if (!strict) {
     syms <- syms(vars)
   } else {
-    bad_args(".funs", "no renaming function supplied")
+    bad_args(".funs", "must specify a renaming function")
   }
 
   group_syms <- base::setdiff(syms(group_vars(tbl)), syms)

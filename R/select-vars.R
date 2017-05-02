@@ -11,6 +11,11 @@
 #'   `vars`. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
 #'   these concepts.
+#'
+#'   Note that except for `:`, `-` and `c()`, all complex expressions
+#'   are evaluated outside that context. This is to prevent accidental
+#'   matching to `vars` elements when you refer to variables from the
+#'   calling context.
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
 #' @export
@@ -49,9 +54,9 @@
 #' select_vars(names(iris), !!! list(quo(Petal.Length)))
 #' select_vars(names(iris), !! quote(Petal.Length))
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
-  args <- quos(...)
+  quos <- quos(...)
 
-  if (is_empty(args)) {
+  if (is_empty(quos)) {
     vars <- setdiff(include, exclude)
     return(set_names(vars, vars))
   }
@@ -64,20 +69,21 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   names_list <- set_names(as.list(seq_along(vars)), vars)
 
   # if the first selector is exclusive (negative), start with all columns
-  initial_case <- if (is_negated(args[[1]])) list(seq_along(vars)) else integer(0)
+  first <- f_rhs(quos[[1]])
+  initial_case <- if (is_negated(first)) list(seq_along(vars)) else integer(0)
 
   # Evaluate symbols in an environment where columns are bound, but
   # not calls (select helpers are scoped in the calling environment)
-  is_helper <- map_lgl(args, function(x) is_lang(x) && !is_lang(x, c("-", ":")))
-  ind_list <- map_if(args, is_helper, eval_tidy)
+  is_helper <- map_lgl(quos, quo_is_helper)
+  ind_list <- map_if(quos, is_helper, eval_tidy)
   ind_list <- map_if(ind_list, !is_helper, eval_tidy, names_list)
 
   ind_list <- c(initial_case, ind_list)
-  names(ind_list) <- c(names2(initial_case), names2(args))
+  names(ind_list) <- c(names2(initial_case), names2(quos))
 
   is_numeric <- map_lgl(ind_list, is.numeric)
   if (any(!is_numeric)) {
-    bad <- args[!is_numeric]
+    bad <- quos[!is_numeric]
 
     bad_calls(bad, "must resolve to integer column positions, ",
       "not {type_of(first_bad)}",
@@ -103,6 +109,11 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   sel
 }
 
+quo_is_helper <- function(quo) {
+  expr <- f_rhs(quo)
+  is_lang(expr) && !is_lang(expr, c("-", ":", "c"))
+}
+
 #' @rdname se-deprecated
 #' @inheritParams select_vars
 #' @export
@@ -120,26 +131,27 @@ setdiff2 <- function(x, y) {
 #' @param strict If `TRUE`, will throw an error if you attempt to rename a
 #'   variable that doesn't exist.
 rename_vars <- function(vars, ..., strict = TRUE) {
-  args <- quos(...)
-  if (any(names2(args) == "")) {
+  quos <- quos(...)
+  if (any(names2(quos) == "")) {
     abort("All arguments must be named")
   }
 
-  is_name <- map_lgl(args, is_symbol)
-  if (!all(is_name)) {
-    bad <- args[!is_name]
+  exprs <- map(quos, f_rhs)
+  is_sym <- map_lgl(exprs, is_symbol)
+  if (!all(is_sym)) {
+    bad <- quos[!is_sym]
     bad_named_calls(bad, "must be unquoted variable names, ",
       "not {type_of(first_bad_rhs)}",
       first_bad_rhs = f_rhs(bad[[1]])
     )
   }
 
-  old_vars <- map_chr(args, as_name)
-  new_vars <- names(args)
+  old_vars <- map_chr(exprs, as_string)
+  new_vars <- names(quos)
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
-    bad_args(unknown_vars, "unknown variables")
+    bad_args(unknown_vars, "contains unknown variables")
   }
 
   select <- set_names(vars, vars)

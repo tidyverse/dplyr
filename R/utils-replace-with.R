@@ -20,11 +20,11 @@ check_length <- function(x, template, header, reason = NULL) {
   check_length_val(length(x), length(template), header, reason)
 }
 
-check_length_col <- function(length_x, n, name, reason = NULL) {
-  check_length_val(length_x, n, fmt_cols(name), reason)
+check_length_col <- function(length_x, n, name, reason = NULL, .abort = abort) {
+  check_length_val(length_x, n, fmt_cols(name), reason, .abort = .abort)
 }
 
-check_length_val <- function(length_x, n, header, reason = NULL) {
+check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort) {
   if (length_x == n) {
     return()
   }
@@ -37,9 +37,9 @@ check_length_val <- function(length_x, n, header, reason = NULL) {
   else reason <- glue(" ({reason})")
 
   if (n == 1) {
-    glubort(header, "must be length one{reason}, not {length_x}")
+    glubort(header, "must be length 1{reason}, not {length_x}", .abort = .abort)
   } else {
-    glubort(header, "must be length {n}{reason} or one, not {length_x}")
+    glubort(header, "must be length {n}{reason} or one, not {length_x}", .abort = .abort)
   }
 }
 

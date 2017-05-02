@@ -47,9 +47,8 @@ public:
     return summary_map.has(symbol);
   }
 
-  virtual int count(const SymbolString& symbol) const {
-    int res = symbol_map.has(symbol);
-    return res;
+  virtual bool has_variable(const SymbolString& symbol) const {
+    return symbol_map.has(symbol);
   }
 
   virtual void input(const SymbolString& symbol, SEXP x) {

@@ -17,7 +17,7 @@
 #' }
 src_local <- function(tbl, pkg = NULL, env = NULL) {
   if (!xor(is.null(pkg), is.null(env))) {
-    bad_args(c("pkg", "env"), "exactly one must be non-NULL, ",
+    glubort(NULL, "Exactly one of `pkg` and `env` must be non-NULL, ",
       "not {(!is.null(pkg)) + (!is.null(env))}"
     )
   }
@@ -57,8 +57,8 @@ copy_to.src_local <- function(dest, df, name = deparse(substitute(df)),
                               overwrite = FALSE, ...) {
 
   if (!overwrite && exists(name, envir = dest$env, inherits = FALSE)) {
-    bad_args(c("name", "overwrite"), "object with name {fmt_obj(name)} already exists, ",
-      "set `overwrite` = TRUE"
+    glubort(NULL, "object with `name` = {fmt_obj(name)} must not already exist, ",
+      "unless `overwrite` = TRUE"
     )
   }
 

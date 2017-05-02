@@ -35,17 +35,12 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 is_grouped_df <- is.grouped_df
 
 #' @export
-print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-
+tbl_sum.grouped_df <- function(x) {
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
-  cat(
-    "Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]\n",
-    sep = ""
+  c(
+    NextMethod(),
+    paste0("Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]")
   )
-  cat("\n")
-  print(trunc_mat(x, n = n, width = width), ...)
-  invisible(x)
 }
 
 #' @export
@@ -120,7 +115,8 @@ cbind.grouped_df <- function(...) {
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  vars <- select_vars(names(.data), ...)
+  # Pass via splicing to avoid matching select_vars() arguments
+  vars <- select_vars(names(.data), !!! quos(...))
   vars <- ensure_group_vars(vars, .data)
   select_impl(.data, vars)
 }
@@ -289,8 +285,8 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     warn("`.env` is deprecated and no longer has any effect")
   }
   if (size > 1 && !replace) {
-    bad_args(c("size", "replace"), "sampled fraction must be less or equal to one, ",
-      "set `replace` = TRUE for sampling with replacement"
+    bad_args("size", "of sampled fraction must be less or equal to one, ",
+      "set `replace` = TRUE to use sampling with replacement"
     )
   }
   weight <- enquo(weight)

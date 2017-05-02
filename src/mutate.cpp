@@ -48,7 +48,7 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
   int n = quosures.size();
   for (int i = 0; i < n; i++) {
     if (gdf.has_group(quosures[i].name()))
-      bad_col(quosures[i].name(), "cannot modify grouping variable");
+      bad_col(quosures[i].name(), "can't be modified because it's a grouping variable");
   }
 }
 
@@ -67,7 +67,6 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
   }
 
   CallProxy call_proxy(df);
-  List results(nexpr);
 
   for (int i = 0; i < nexpr; i++) {
     Rcpp::checkUserInterrupt();
@@ -79,19 +78,20 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     Environment env = quosure.env();
     call_proxy.set_env(env);
 
+    RObject variable;
     if (TYPEOF(call) == SYMSXP) {
       SymbolString call_name = SymbolString(Symbol(call));
       if (call_proxy.has_variable(call_name)) {
-        results[i] = call_proxy.get_variable(call_name);
+        variable = call_proxy.get_variable(call_name);
       } else {
-        results[i] = shared_SEXP(env.find(call_name.get_string()));
+        variable = shared_SEXP(env.find(call_name.get_string()));
       }
     } else if (TYPEOF(call) == LANGSXP) {
       call_proxy.set_call(call);
-      results[i] = call_proxy.eval();
+      variable = call_proxy.eval();
     } else if (Rf_length(call) == 1) {
       boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, nrows, name));
-      results[i] = gather->collect();
+      variable = gather->collect();
     } else if (Rf_isNull(call)) {
       accumulator.rm(name);
       continue;
@@ -99,22 +99,22 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
       stop("cannot handle");
     }
 
-    if (Rf_inherits(results[i], "POSIXlt")) {
-      bad_col(quosure.name(), "POSIXlt results not supported");
+    if (Rf_inherits(variable, "POSIXlt")) {
+      bad_col(quosure.name(), "is of unsupported class POSIXlt");
     }
 
-    const int n_res = Rf_length(results[i]);
-    check_supported_type(results[i], name);
+    const int n_res = Rf_length(variable);
+    check_supported_type(variable, name);
     check_length(n_res, nrows, "the number of rows", name);
 
     if (n_res == 1 && nrows != 1) {
       // recycle
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(results[i], nrows, name));
-      results[i] = gather->collect();
+      boost::scoped_ptr<Gatherer> gather(constant_gatherer(variable, nrows, name));
+      variable = gather->collect();
     }
 
-    call_proxy.input(name, results[i]);
-    accumulator.set(name, results[i]);
+    call_proxy.input(name, variable);
+    accumulator.set(name, variable);
   }
   List res = structure_mutate(accumulator, df, classes_not_grouped(), false);
 
@@ -153,7 +153,6 @@ SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
 
-  List variables(nexpr);
   for (int i = 0; i < nexpr; i++) {
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[i];
@@ -166,23 +165,25 @@ SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
     LOG_VERBOSE << "processing " << name.get_utf8_cstring();
 
+    RObject variable;
+
     if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
       proxy.set_call(call);
       boost::scoped_ptr<Gatherer> gather(gatherer<Data, Subsets>(proxy, gdf, name));
-      SEXP variable = variables[i] = gather->collect();
-      proxy.input(name, variable);
-      accumulator.set(name, variable);
+      variable = gather->collect();
     } else if (Rf_length(call) == 1) {
       boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows(), name));
-      SEXP variable = variables[i] = gather->collect();
-      proxy.input(name, variable);
-      accumulator.set(name, variable);
+      variable = gather->collect();
     } else if (Rf_isNull(call)) {
       accumulator.rm(name);
       continue;
     } else {
       stop("cannot handle");
     }
+
+    Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
+    proxy.input(name, variable);
+    accumulator.set(name, variable);
   }
 
   return structure_mutate(accumulator, df, get_class(df));

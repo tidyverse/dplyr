@@ -31,36 +31,29 @@ pull <- function(.data, var = -1) {
 
 #' @export
 pull.data.frame <- function(.data, var = -1) {
-  expr <- enexpr(var)
+  expr <- enquo(var)
   var <- find_var(expr, names(.data))
   .data[[var]]
 }
 
 find_var <- function(expr, vars) {
+  var_env <- set_names(as.list(seq_along(vars)), vars)
+  var <- eval_tidy(expr, var_env)
 
-  # Literal variable name
-  if (is_symbol(expr)) {
-    var <- as.character(expr)
-
-    if (!var %in% vars) {
-      bad_cols(var, "not found")
-    }
-    var
-  } else if (is_lang(expr, quote(`-`), 1) || is_bare_numeric(expr)) {
-    var <- as.integer(eval_bare(expr, base_env()))
-    n <- length(vars)
-
-    if (is.na(var) || abs(var) > n || var == 0L) {
-      bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}")
-    }
-
-    if (var < 0) {
-      var <- var + n + 1
-    }
-
-    vars[[var]]
-
-  } else {
-    bad_args("var", "must be a number or literal name")
+  if (!is.numeric(var) || length(var) != 1) {
+    bad_args("var", "must evaluate to a single number")
   }
+
+  var <- as.integer(var)
+  n <- length(vars)
+
+  if (is.na(var) || abs(var) > n || var == 0L) {
+    bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}")
+  }
+
+  if (var < 0) {
+    var <- var + n + 1
+  }
+
+  vars[[var]]
 }

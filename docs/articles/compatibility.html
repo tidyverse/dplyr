@@ -153,15 +153,123 @@
 <p>Simply copy the results of this function in your package.</p>
 <p>These will generate <code>R CMD check</code> NOTES, so make sure to tell CRAN that this is to ensure backward compatibility.</p>
 </div>
-<div id="deprecation-of-verb_" class="section level3">
+<div id="deprecation-of-underscored-verbs_" class="section level3">
 <h3 class="hasAnchor">
-<a href="#deprecation-of-verb_" class="anchor"></a>Deprecation of <code>verb_</code>
+<a href="#deprecation-of-underscored-verbs_" class="anchor"></a>Deprecation of underscored <code>verbs_()</code>
 </h3>
+<p>Because the tidyeval framework allows us to combine SE and NSE semantics within the same functions, the underscored verbs have been softly deprecated.</p>
+<div id="for-users-of-se_-verbs" class="section level4">
+<h4 class="hasAnchor">
+<a href="#for-users-of-se_-verbs" class="anchor"></a>For users of SE_ verbs</h4>
+<p>The legacy underscored versions take objects for which a <code>lazyeval::as.lazy()</code> method is defined. This includes symbols and calls, strings, and formulas. All of these objects have been replaced with quosures and you can call tidyeval verbs with unquoted quosures:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">quo &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">quo</a></span>(cyl)
+<span class="kw"><a href="../reference/select.html">select</a></span>(mtcars, !!<span class="st"> </span>quo)</code></pre></div>
+<p>Symbolic expressions are also supported, but note that bare symbols and calls do not carry scope information. If you’re referring to objects in the data frame, it’s safe to omit specifying an enclosure:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sym &lt;-<span class="st"> </span><span class="kw">quote</span>(cyl)
+<span class="kw"><a href="../reference/select.html">select</a></span>(mtcars, !!<span class="st"> </span>sym)
+
+call &lt;-<span class="st"> </span><span class="kw">quote</span>(<span class="kw">mean</span>(cyl))
+<span class="kw"><a href="../reference/summarise.html">summarise</a></span>(mtcars, !!<span class="st"> </span>call)</code></pre></div>
+<p>Transforming objects into quosures is generally straightforward. To enclose with the current environment, you can unquote directly in <code><a href="../reference/reexports.html">quo()</a></code> or you can use <code>as_quosure()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/reexports.html">quo</a></span>(!!<span class="st"> </span>sym)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~cyl</span>
+<span class="kw"><a href="../reference/reexports.html">quo</a></span>(!!<span class="st"> </span>call)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~mean(cyl)</span>
+
+rlang::<span class="kw">as_quosure</span>(sym)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~cyl</span>
+rlang::<span class="kw">as_quosure</span>(call)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~mean(cyl)</span></code></pre></div>
+<p>Note that while formulas and quosures are very similar objects (and in the most general sense, formulas are quosures), they can’t be used interchangeably in tidyeval functions. Early implementations did treat bare formulas as quosures, but this created compatibility issues with modelling functions of the stats package. Fortunately, it’s easy to transform formulas to quosures that will self-evaluate in tidyeval functions:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">f &lt;-<span class="st"> </span><span class="er">~</span>cyl
+f
+<span class="co">#&gt; ~cyl</span>
+rlang::<span class="kw">as_quosure</span>(f)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~cyl</span></code></pre></div>
+<p>Finally, and perhaps most importantly, <strong>strings are not and should not be parsed</strong>. As developers, it is tempting to try and solve problems using strings because we have been trained to work with strings rather than quoted expressions. However it’s almost always the wrong way to approach the problem. The exception is for creating symbols. In that case it is perfectly legitimate to use strings:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">rlang::<span class="kw">sym</span>(<span class="st">"cyl"</span>)
+<span class="co">#&gt; cyl</span>
+rlang::<span class="kw">syms</span>(letters[<span class="dv">1</span>:<span class="dv">3</span>])
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; a</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; b</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; c</span></code></pre></div>
+<p>But you should never use strings to create calls. Instead you can use quasiquotation:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">syms &lt;-<span class="st"> </span>rlang::<span class="kw">syms</span>(<span class="kw">c</span>(<span class="st">"foo"</span>, <span class="st">"bar"</span>, <span class="st">"baz"</span>))
+<span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">my_call</span>(!!!<span class="st"> </span>syms))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~my_call(foo, bar, baz)</span>
+
+fun &lt;-<span class="st"> </span>rlang::<span class="kw">sym</span>(<span class="st">"my_call"</span>)
+<span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">UQ</span>(fun)(!!!<span class="st"> </span>syms))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~my_call(foo, bar, baz)</span></code></pre></div>
+<p>Or create the call with <code>lang()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">call &lt;-<span class="st"> </span>rlang::<span class="kw">lang</span>(<span class="st">"my_call"</span>, !!!<span class="st"> </span>syms)
+call
+<span class="co">#&gt; my_call(foo, bar, baz)</span>
+
+rlang::<span class="kw">as_quosure</span>(call)
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~my_call(foo, bar, baz)</span>
+
+<span class="co"># Or equivalently:</span>
+<span class="kw"><a href="../reference/reexports.html">quo</a></span>(!!<span class="st"> </span>rlang::<span class="kw">lang</span>(<span class="st">"my_call"</span>, !!!<span class="st"> </span>syms))
+<span class="co">#&gt; &lt;quosure: global&gt;</span>
+<span class="co">#&gt; ~my_call(foo, bar, baz)</span></code></pre></div>
+<p>Note that idioms based on <code>interp()</code> should now generally be avoided and replaced with quasiquotation. Where you used to interpolate:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">lazyeval::<span class="kw">interp</span>(~<span class="st"> </span><span class="kw">mean</span>(var), <span class="dt">var =</span> rlang::<span class="kw">sym</span>(<span class="st">"mpg"</span>))</code></pre></div>
+<p>You would now unquote:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> "mpg"</span>
+<span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">mean</span>(!!<span class="st"> </span>rlang::<span class="kw">sym</span>(var)))</code></pre></div>
+<p>See also <code><a href="../articles/programming.html">vignette("programming")</a></code> for more about quasiquotation and quosures.</p>
 </div>
-<div id="deprecartion-of-mutate_each_" class="section level3">
+<div id="for-package-authors" class="section level4">
+<h4 class="hasAnchor">
+<a href="#for-package-authors" class="anchor"></a>For package authors</h4>
+<p>For package authors, rlang provides a <a href="https://github.com/hadley/rlang/blob/master/R/compat-lazyeval.R">compatibility file</a> that you can copy to your package. <code>compat_lazy()</code> and <code>compat_lazy_dots()</code> turn lazy-able objects into proper quosures. This helps providing an underscored version to your users for backward compatibility. For instance, here is how we defined the underscored version of <code><a href="../reference/filter.html">filter()</a></code> in dplyr 0.6:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filter_.tbl_df &lt;-<span class="st"> </span>function(.data, ..., <span class="dt">.dots =</span> <span class="kw">list</span>()) {
+  dots &lt;-<span class="st"> </span><span class="kw">compat_lazy_dots</span>(.dots, <span class="kw">caller_env</span>(), ...)
+  <span class="kw"><a href="../reference/filter.html">filter</a></span>(.data, !!!<span class="st"> </span>dots)
+}</code></pre></div>
+<p>With tidyeval, S3 dispatch to the correct method might be an issue. In the past, the genericity of dplyr verbs was accomplished by dispatching in the underscored versions. Now that those are deprecated, we’ve turned the non-underscored verbs into S3 generics.</p>
+<p>We maintain backward compatibility by redispatching to old underscored verbs in the default methods of the new S3 generics. For example, here is how we redispatch <code><a href="../reference/filter.html">filter()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filter.default &lt;-<span class="st"> </span>function(.data, ...) {
+  <span class="kw"><a href="../reference/se-deprecated.html">filter_</a></span>(.data, <span class="dt">.dots =</span> <span class="kw">compat_as_lazy_dots</span>(...))
+}</code></pre></div>
+<p>This gets the job done in most cases. However, the default method will not be called for objects inheriting from one of the classes for which we provide non-underscored methods: <code>data.frame</code>, <code>tbl_df</code>, <code>tbl_cube</code> and <code>grouped_df</code>. An example of this is the <code>sf</code> package whose objects have classes <code>c("sf", "data.frame")</code>. Authors of such packages should provide a method for the non-underscored generic in order to be compatible with dplyr:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">filter.sf &lt;-<span class="st"> </span>function(.data, ...) {
+  <span class="kw">st_as_sf</span>(<span class="kw">NextMethod</span>())
+}</code></pre></div>
+<p>If you need help with this, please let us know!</p>
+</div>
+</div>
+<div id="deprecation-of-mutate_each-and-summarise_each" class="section level3">
 <h3 class="hasAnchor">
-<a href="#deprecartion-of-mutate_each_" class="anchor"></a>Deprecartion of <code>mutate_each_</code>
+<a href="#deprecation-of-mutate_each-and-summarise_each" class="anchor"></a>Deprecation of <code><a href="../reference/summarise_each.html">mutate_each()</a></code> and <code><a href="../reference/summarise_each.html">summarise_each()</a></code>
 </h3>
+<p>These functions have been replaced by a more complete family of functions. This family has suffixes <code>_if</code>, <code>_at</code> and <code>_all</code> and includes more verbs than just <code>mutate</code> <code>summarise</code>.</p>
+<p>If you need to update your code to the new family, there are two relevant functions depending on which variables you apply <code><a href="../reference/funs.html">funs()</a></code> to. If you called <code><a href="../reference/summarise_each.html">mutate_each()</a></code> without supplying a selection of variables, <code>funs</code> is applied to all variables. In this case, you should update your code to use <code><a href="../reference/summarise_all.html">mutate_all()</a></code> instead:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/summarise_each.html">mutate_each</a></span>(starwars, <span class="kw"><a href="../reference/funs.html">funs</a></span>(as.character))
+<span class="kw"><a href="../reference/summarise_all.html">mutate_all</a></span>(starwars, <span class="kw"><a href="../reference/funs.html">funs</a></span>(as.character))</code></pre></div>
+<p>Note that the new verbs support bare functions as well, so you don’t necessarily need to wrap with <code><a href="../reference/funs.html">funs()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/summarise_all.html">mutate_all</a></span>(starwars, as.character)</code></pre></div>
+<p>On the other hand, if you supplied a variable selection, you should use <code><a href="../reference/summarise_all.html">mutate_at()</a></code>. The variable selection should be wrapped with <code><a href="../reference/vars.html">vars()</a></code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/summarise_each.html">mutate_each</a></span>(starwars, <span class="kw"><a href="../reference/funs.html">funs</a></span>(as.character), height, mass)
+<span class="kw"><a href="../reference/summarise_all.html">mutate_at</a></span>(starwars, <span class="kw"><a href="../reference/vars.html">vars</a></span>(height, mass), as.character)</code></pre></div>
+<p><code><a href="../reference/vars.html">vars()</a></code> supports all the selection helpers that you usually use with <code><a href="../reference/select.html">select()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/summarise_all.html">summarise_at</a></span>(mtcars, <span class="kw"><a href="../reference/vars.html">vars</a></span>(<span class="kw"><a href="../reference/select_helpers.html">starts_with</a></span>(<span class="st">"d"</span>)), mean)</code></pre></div>
+<p>Note that intead of a <code><a href="../reference/vars.html">vars()</a></code> selection, you can also supply character vectors of column names:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/summarise_all.html">mutate_at</a></span>(starwars, <span class="kw">c</span>(<span class="st">"height"</span>, <span class="st">"mass"</span>), as.character)</code></pre></div>
 </div>
 </div>
 </div>

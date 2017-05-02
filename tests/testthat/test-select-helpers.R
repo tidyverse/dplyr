@@ -74,7 +74,7 @@ test_that("num_range selects numeric ranges", {
 test_that("position must resolve to numeric variables throws error", {
   expect_error(
     select_vars(letters, "6"),
-    '"6": must resolve to integer column positions',
+    '`"6"` must resolve to integer column positions',
     fixed = TRUE
   )
 })
@@ -217,6 +217,9 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
   )
 })
 
+test_that("can select with c() (#2685)", {
+  expect_identical(select_vars(letters, c(a, z)), c(a = "a", z = "z"))
+})
 
 
 # rename_vars -------------------------------------------------------------
@@ -224,7 +227,7 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
 test_that("when strict = FALSE, rename_vars always succeeds", {
   expect_error(
     rename_vars(c("a", "b"), d = e, strict = TRUE),
-    "`e`: unknown variables",
+    "`e` contains unknown variables",
     fixed = TRUE
   )
 
@@ -237,7 +240,7 @@ test_that("when strict = FALSE, rename_vars always succeeds", {
 test_that("rename_vars() expects symbol", {
   expect_error(
     rename_vars(letters, d = "e"),
-    '`d` = "e": must be unquoted variable names, not string',
+    '`d` = "e" must be unquoted variable names, not string',
     fixed = TRUE
   )
 })
@@ -249,7 +252,7 @@ test_that("rename_vars() expects symbol", {
 test_that("tbl_at_vars() errs on bad input", {
   expect_error(
     tbl_at_vars(iris, raw(3)),
-    "`.vars`: must be a character/numeric vector or a `vars()` object, not raw",
+    "`.vars` must be a character/numeric vector or a `vars()` object, not raw",
     fixed = TRUE
   )
 })
@@ -261,7 +264,7 @@ test_that("tbl_at_vars() errs on bad input", {
 test_that("tbl_if_vars() errs on bad input", {
   expect_error(
     tbl_if_vars(iris, funs(identity, force), environment()),
-    "`.predicate`: must have length 1, not 2",
+    "`.predicate` must have length 1, not 2",
     fixed = TRUE
   )
 })

@@ -49,13 +49,13 @@ DataFrame build_index_cpp(DataFrame data) {
   for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
     if (pos == NA_INTEGER) {
-      bad_col(vars[i], "unknown");
+      bad_col(vars[i], "is unknown");
     }
 
     SEXP v = data[pos - 1];
 
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
-      bad_col(vars[i], "cannot group by {type}",
+      bad_col(vars[i], "can't be used as a grouping variable because it's a {type}",
               _["type"] = get_single_class(v));
     }
   }

@@ -106,6 +106,10 @@ test_that("at selection works even if not all ops are named (#2634)", {
   expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
 })
 
+test_that("can use a purrr-style lambda", {
+  expect_identical(summarise_at(mtcars, vars(1:2), ~mean(.x)), summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl)))
+})
+
 
 # Deprecated ---------------------------------------------------------
 
