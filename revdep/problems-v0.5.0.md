@@ -4,179 +4,79 @@
 
 |setting  |value                        |
 |:--------|:----------------------------|
-|version  |R version 3.3.3 (2017-03-06) |
+|version  |R version 3.4.0 (2017-04-21) |
 |system   |x86_64, linux-gnu            |
 |ui       |X11                          |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |Zulu                         |
-|date     |2017-04-18                   |
+|date     |2017-05-03                   |
 
 ## Packages
 
-|package        |*  |version    |date       |source                           |
-|:--------------|:--|:----------|:----------|:--------------------------------|
-|assertthat     |   |0.2.0      |2017-04-11 |cran (@0.2.0)                    |
-|BH             |   |1.62.0-1   |2016-11-19 |cran (@1.62.0-)                  |
-|covr           |   |2.2.2      |2017-01-05 |cran (@2.2.2)                    |
-|DBI            |   |0.6-11     |2017-04-06 |Github (rstats-db/DBI@20f1f02)   |
-|dplyr          |   |0.5.0.9003 |2017-04-17 |Github (hadley/dplyr@cba2c10)    |
-|dtplyr         |   |0.0.1      |2016-06-27 |cran (@0.0.1)                    |
-|ggplot2        |   |2.2.1      |2016-12-30 |cran (@2.2.1)                    |
-|knitr          |   |1.15.1     |2016-11-22 |cran (@1.15.1)                   |
-|Lahman         |   |5.0-0      |2016-08-27 |cran (@5.0-0)                    |
-|lazyeval       |   |0.2.0      |2016-06-12 |cran (@0.2.0)                    |
-|magrittr       |   |1.5        |2014-11-22 |CRAN (R 3.3.1)                   |
-|microbenchmark |   |1.4-2.1    |2015-11-25 |cran (@1.4-2.1)                  |
-|nycflights13   |   |0.2.2      |2017-01-27 |cran (@0.2.2)                    |
-|R6             |   |2.2.0      |2016-10-05 |cran (@2.2.0)                    |
-|Rcpp           |   |0.12.10.1  |2017-04-17 |Github (RcppCore/Rcpp@052089b)   |
-|rmarkdown      |   |1.4        |2017-03-24 |cran (@1.4)                      |
-|RMySQL         |   |0.10.11    |2017-03-29 |cran (@0.10.11)                  |
-|RPostgreSQL    |   |0.4-1      |2016-05-08 |cran (@0.4-1)                    |
-|RSQLite        |   |1.1-2      |2017-01-08 |cran (@1.1-2)                    |
-|testthat       |   |1.0.2.9000 |2017-02-27 |Github (hadley/testthat@b72a228) |
-|tibble         |   |1.3.0      |2017-03-31 |local                            |
+|package        |*  |version    |date       |source                            |
+|:--------------|:--|:----------|:----------|:---------------------------------|
+|assertthat     |   |0.2.0      |2017-04-11 |cran (@0.2.0)                     |
+|BH             |   |1.62.0-1   |2016-11-19 |cran (@1.62.0-)                   |
+|covr           |   |2.2.2      |2017-01-05 |cran (@2.2.2)                     |
+|DBI            |   |0.6-11     |2017-04-24 |Github (rstats-db/DBI@20f1f02)    |
+|dplyr          |   |0.5.0      |2017-05-02 |local (tidyverse/dplyr@NA)        |
+|dtplyr         |   |0.0.2      |2017-04-21 |cran (@0.0.2)                     |
+|ggplot2        |   |2.2.1      |2016-12-30 |cran (@2.2.1)                     |
+|knitr          |   |1.15.1     |2016-11-22 |cran (@1.15.1)                    |
+|Lahman         |   |5.0-0      |2016-08-27 |cran (@5.0-0)                     |
+|lazyeval       |   |0.2.0      |2016-06-12 |cran (@0.2.0)                     |
+|magrittr       |   |1.5        |2014-11-22 |CRAN (R 3.4.0)                    |
+|microbenchmark |   |1.4-2.1    |2015-11-25 |cran (@1.4-2.1)                   |
+|nycflights13   |   |0.2.2      |2017-01-27 |cran (@0.2.2)                     |
+|R6             |   |2.2.0      |2016-10-05 |CRAN (R 3.4.0)                    |
+|Rcpp           |   |0.12.10    |2017-03-19 |CRAN (R 3.4.0)                    |
+|rmarkdown      |   |1.5        |2017-04-26 |cran (@1.5)                       |
+|RMySQL         |   |0.10.11    |2017-03-29 |cran (@0.10.11)                   |
+|RPostgreSQL    |   |0.4-1      |2016-05-08 |cran (@0.4-1)                     |
+|RSQLite        |   |1.1-2      |2017-01-08 |CRAN (R 3.4.0)                    |
+|testthat       |   |1.0.2      |2016-04-23 |cran (@1.0.2)                     |
+|tibble         |   |1.3.0.9001 |2017-05-02 |Github (tidyverse/tibble@08af6b0) |
 
 # Check results
 
-47 packages with problems
+33 packages with problems
 
-|package          |version | errors| warnings| notes|
-|:----------------|:-------|------:|--------:|-----:|
-|ameco            |0.2.6   |      1|        0|     1|
-|backtestGraphics |0.1.6   |      1|        0|     0|
-|bayesplot        |1.2.0   |      0|        1|     1|
-|bioOED           |0.1.1   |      1|        0|     0|
-|blscrapeR        |2.1.2   |      1|        0|     0|
-|codingMatrices   |0.2.2   |      0|        1|     0|
-|d3r              |0.6.2   |      1|        0|     1|
-|dat              |0.1.0   |      1|        0|     0|
-|decoder          |1.1.12  |      0|        1|     0|
-|describer        |0.2.0   |      1|        0|     0|
-|fitcoach         |1.0     |      1|        0|     0|
-|flextable        |0.1.0   |      0|        1|     0|
-|FSelectorRcpp    |0.1.2   |      1|        0|     2|
-|futureheatwaves  |1.0.3   |      0|        1|     0|
-|geoknife         |1.5.4   |      0|        1|     0|
-|ggCompNet        |0.1.0   |      0|        1|     1|
-|groupdata2       |0.1.0   |      0|        1|     0|
-|gutenbergr       |0.1.2   |      1|        0|     0|
-|harrietr         |0.2.2   |      1|        0|     0|
-|heemod           |0.9.0   |      1|        0|     0|
-|highcharter      |0.5.0   |      0|        1|     1|
-|HTSSIP           |1.0.3   |      1|        0|     0|
-|huxtable         |0.1.1   |      1|        1|     0|
-|IATscores        |0.1-2   |      1|        0|     0|
-|NFP              |0.99.2  |      0|        1|     2|
-|officer          |0.1.1   |      2|        1|     0|
-|padr             |0.2.1   |      1|        0|     0|
-|pivottabler      |0.1.0   |      0|        1|     0|
-|plotly           |4.5.6   |      1|        0|     0|
-|qualvar          |0.1.0   |      0|        1|     0|
-|radiant.model    |0.6.0   |      1|        0|     0|
-|rattle           |4.1.0   |      0|        1|     3|
-|rclinicaltrials  |1.4.7   |      1|        0|     0|
-|recexcavAAR      |0.3.0   |      0|        1|     1|
-|REDCapR          |0.9.7   |      0|        1|     0|
-|rfishbase        |2.1.1   |      1|        1|     0|
-|rgho             |1.0.1   |      1|        1|     0|
-|roadoi           |0.1     |      0|        1|     0|
-|rpivotTable      |0.2.0   |      0|        1|     0|
-|SpaDES           |1.3.1   |      0|        2|     2|
-|sparseHessianFD  |0.3.2   |      0|        1|     0|
-|ss3sim           |0.9.3   |      0|        1|     0|
-|stormwindmodel   |0.1.0   |      0|        1|     0|
-|textmining       |0.0.1   |      0|        1|     0|
-|tidyquant        |0.5.0   |      1|        0|     0|
-|WHO              |0.2     |      2|        1|     0|
-|wrswoR           |1.0-1   |      0|        1|     0|
-
-## ameco (0.2.6)
-Maintainer: Eric Persson <expersso5@gmail.com>  
-Bug reports: http://github.com/expersso/ameco/issues
-
-1 error  | 0 warnings | 1 note 
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  > library(testthat)
-  > library(ameco)
-  > 
-  > test_check("ameco")
-  1. Failure: Test that current version is still latest version (@tests.R#16) ----
-  `last_update` not equal to as.Date("2017-02-13").
-  'is.NA' value mismatch: 0 in current 1 in target
-  
-  
-  testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 1
-  1. Failure: Test that current version is still latest version (@tests.R#16) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking installed package size ... NOTE
-  installed size is 15.7Mb
-  sub-directories of 1Mb or more:
-    data  15.6Mb
-```
-
-## backtestGraphics (0.1.6)
-Maintainer: Miller Zijie Zhu <zijie.miller.zhu@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘test-all.R’
-Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  > library(testthat)
-  > test_check("backtestGraphics")
-  Loading required package: backtestGraphics
-  1. Failure: stat_calculation function (@test_stat_calculation.R#8) -------------
-  Failed the test for calculating summary statistics not equal to `truth.1`.
-  Component "pnl": Component "pnl.drawdown": Component "start": Attributes: < Component "levels": 1 string mismatch >
-  Component "pnl": Component "pnl.drawdown": Component "start": 1 string mismatch
-  
-  
-  testthat results ================================================================
-  OK: 9 SKIPPED: 0 FAILED: 1
-  1. Failure: stat_calculation function (@test_stat_calculation.R#8) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
-## bayesplot (1.2.0)
-Maintainer: Jonah Gabry <jsg2201@columbia.edu>  
-Bug reports: https://github.com/stan-dev/bayesplot/issues/
-
-0 errors | 1 warning  | 1 note 
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 2-14 (./children/SETTINGS-knitr.txt) 
-Quitting from lines NA-14 (./children/SETTINGS-knitr.txt) 
-Error: processing vignette 'MCMC-diagnostics.Rmd' failed with diagnostics:
-object 'params' not found
-Execution halted
-
-
-checking installed package size ... NOTE
-  installed size is  5.0Mb
-  sub-directories of 1Mb or more:
-    R     1.6Mb
-    doc   2.9Mb
-```
+|package         |version | errors| warnings| notes|
+|:---------------|:-------|------:|--------:|-----:|
+|bioOED          |0.1.1   |      1|        0|     0|
+|blscrapeR       |2.1.2   |      1|        0|     0|
+|carpenter       |0.2.0   |      1|        1|     0|
+|codingMatrices  |0.3.0   |      0|        1|     0|
+|condformat      |0.5.0   |      2|        1|     0|
+|d3r             |0.6.4   |      1|        0|     1|
+|dat             |0.2.0   |      1|        0|     0|
+|describer       |0.2.0   |      1|        0|     0|
+|FSelectorRcpp   |0.1.3   |      1|        0|     2|
+|geoknife        |1.5.4   |      0|        1|     0|
+|gitgadget       |0.2.1   |      0|        1|     0|
+|gutenbergr      |0.1.2   |      1|        0|     0|
+|harrietr        |0.2.2   |      1|        0|     0|
+|HTSSIP          |1.0.3   |      1|        0|     0|
+|huxtable        |0.2.2   |      1|        0|     0|
+|IATscores       |0.1-2   |      1|        0|     0|
+|imfr            |0.1.4   |      1|        0|     0|
+|NFP             |0.99.2  |      0|        1|     2|
+|nzelect         |0.3.3   |      0|        1|     0|
+|officer         |0.1.3   |      2|        1|     0|
+|padr            |0.2.1   |      1|        0|     0|
+|pivottabler     |0.2.0   |      1|        0|     0|
+|rattle          |4.1.0   |      0|        1|     3|
+|REDCapR         |0.9.7   |      1|        1|     1|
+|rerddap         |0.4.0   |      0|        1|     0|
+|sjPlot          |2.3.1   |      0|        1|     1|
+|SpaDES          |1.3.1   |      0|        1|     2|
+|sparseHessianFD |0.3.3   |      0|        1|     0|
+|ss3sim          |0.9.5   |      0|        1|     0|
+|textmining      |0.0.1   |      0|        1|     0|
+|tidytext        |0.1.2   |      2|        1|     0|
+|vdmR            |0.2.3   |      0|        1|     0|
+|wrswoR          |1.0-1   |      0|        1|     1|
 
 ## bioOED (0.1.1)
 Maintainer: Alberto Garre <garre.alberto@gmail.com>
@@ -201,25 +101,63 @@ Bug reports: https://github.com/keberwein/blscrapeR/issues
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-         on.exit(options(expressions = expressions_opt), add = TRUE)
-         e$expectation_calls <- frame_calls(11, 2)
-         test_error <<- e
-         register_expectation(e)
-         e$handled <- TRUE
-         test_error <<- e
-     }, "attempt to select less than one element in integerOneIndex", quote(datalist[[i]] <- mth_vals)) at testthat/test_bls_csv.R:76
-  2: eval(expr, envir, enclos)
+Complete output:
+  > library(testthat)
+  > library(blscrapeR)
+  > 
+  > test_check("blscrapeR")
+  trying URL 'https://www.bls.gov/web/metro/laucntycur14.txt'
+  downloaded 5.8 MB
   
+  Error in datalist[[i]] <- mth_vals : 
+    attempt to select less than one element in integerOneIndex
+  Calls: test_check ... with_reporter -> force -> source_file -> eval -> eval
   testthat results ================================================================
-  OK: 2 SKIPPED: 0 FAILED: 1
-  1. Error: (unknown) (@test_bls_csv.R#76) 
-  
-  Error: testthat unit tests failed
+  OK: 0 SKIPPED: 0 FAILED: 0
   Execution halted
 ```
 
-## codingMatrices (0.2.2)
+## carpenter (0.2.0)
+Maintainer: Luke Johnston <lwjohnst@gmail.com>  
+Bug reports: https://github.com/lwjohnst86/carpenter/issues
+
+1 error  | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘carpenter-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: carpenter
+> ### Title: Build common tables for your research needs!
+> ### Aliases: carpenter
+> 
+> ### ** Examples
+> 
+> 
+> library(magrittr)
+> outline_table(iris, 'Species') %>%
++  add_rows(c('Sepal.Length', 'Petal.Length'), stat_meanSD) %>%
++  add_rows('Sepal.Width', stat_medianIQR) %>%
++  renaming('rows', function(x) gsub('Sepal\\.', 'Sepal ', x)) %>%
++  renaming('header', c('Measures', 'Setosa', 'Versicolor', 'Virginica')) %>%
++  build_table(caption = 'A caption for the table')
+Error in dimnames(x) <- dn : 
+  length of 'dimnames' [2] not equal to array extent
+Calls: %>% ... pandoc.table -> cat -> pandoc.table.return -> colnames<-
+Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Error in value[[3L]] : subscript out of bounds
+Calls: buildVignettes -> tryCatch -> tryCatchList -> tryCatchOne
+Execution halted
+
+```
+
+## codingMatrices (0.3.0)
 Maintainer: Bill Venables <Bill.Venables@gmail.com>
 
 0 errors | 1 warning  | 0 notes
@@ -228,13 +166,6 @@ Maintainer: Bill Venables <Bill.Venables@gmail.com>
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-
-Attaching package: 'car'
-
-The following object is masked from 'package:dplyr':
-
-    recode
-
 Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
   Running 'texi2dvi' on 'codingMatrices.tex' failed.
 BibTeX errors:
@@ -250,7 +181,62 @@ Execution halted
 
 ```
 
-## d3r (0.6.2)
+## condformat (0.5.0)
+Maintainer: Sergio Oller Moreno <sergioller@gmail.com>  
+Bug reports: http://github.com/zeehio/condformat/issues
+
+2 errors | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘condformat-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: condformat
+> ### Title: Converts a data frame or matrix to a condformat_tbl class.
+> ### Aliases: condformat
+> 
+> ### ** Examples
+> 
+> data(iris)
+> condformat(iris[1:5,])
+Error in prPrepareCss(x, css = css.cell, rnames = rnames, header = header) : 
+  There is an invalid number of columns for the css.cell matrix. Your x argument has '8' columns while your css.cell has '5' columns and there are no rownames.
+Calls: <Anonymous> ... do.call -> <Anonymous> -> htmlTable.default -> prPrepareCss
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’ [6s/12s]
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  testthat results ================================================================
+  OK: 13 SKIPPED: 0 FAILED: 17
+  1. Error: print.condformat_tbl returns its input (@test_rendering.R#7) 
+  2. Error: knitr returns an HTML table (@test_rendering.R#14) 
+  3. Error: rule_fill_discrete works (@test_rule_fill_discrete.R#10) 
+  4. Error: rule_fill_discrete lock cells (@test_rule_fill_discrete.R#35) 
+  5. Error: rule_fill_discrete_ works (@test_rule_fill_discrete.R#64) 
+  6. Error: rule_fill_discrete_ works with formula (@test_rule_fill_discrete.R#86) 
+  7. Error: custom rule_ passes doing nothing (@test_rule_fill_discrete.R#110) 
+  8. Error: rule_fill_gradient works in the limits (@test_rule_fill_gradient.R#8) 
+  9. Error: rule_fill_gradient_ works in the limits (@test_rule_fill_gradient.R#24) 
+  1. ...
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Quitting from lines 31-39 (introduction.Rmd) 
+Error: processing vignette 'introduction.Rmd' failed with diagnostics:
+There is an invalid number of columns for the structure(c("; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #7D00FF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", "; background-color: #FFFFFF", ";
+Execution halted
+
+```
+
+## d3r (0.6.4)
 Maintainer: Kent Russell <kent.russell@timelyportfolio.com>  
 Bug reports: https://github.com/timelyportfolio/d3r/issues
 
@@ -271,7 +257,7 @@ Last 13 lines of output:
   
   
   testthat results ================================================================
-  OK: 9 SKIPPED: 3 FAILED: 1
+  OK: 9 SKIPPED: 4 FAILED: 1
   1. Failure: d3_igraph works (@test_igraph.R#36) 
   
   Error: testthat unit tests failed
@@ -281,7 +267,7 @@ checking package dependencies ... NOTE
 Package which this enhances but not available for checking: ‘treemap’
 ```
 
-## dat (0.1.0)
+## dat (0.2.0)
 Maintainer: Sebastian Warnholz <wahani@gmail.com>  
 Bug reports: https://github.com/wahani/dat/issues
 
@@ -289,7 +275,7 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [45s/47s]
+  Running ‘testthat.R’ [55s/56s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -302,37 +288,11 @@ Last 13 lines of output:
   
   
   testthat results ================================================================
-  OK: 107 SKIPPED: 0 FAILED: 1
+  OK: 108 SKIPPED: 0 FAILED: 1
   1. Failure: Package Style (@test-lintr.R#5) 
   
   Error: testthat unit tests failed
   Execution halted
-```
-
-## decoder (1.1.12)
-Maintainer: Erik Bulow <erik.bulow@rccvast.se>  
-Bug reports: https://www.bitbucket.com/cancercentrum/decoder/issues
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Joining, by = "key"
-Joining, by = "key"
-PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
-Quitting from lines 102-122 (sjukhus.Rmd) 
-Error: processing vignette 'sjukhus.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
 ```
 
 ## describer (0.2.0)
@@ -343,7 +303,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [116s/120s]
+  Running ‘testthat.R’ [134s/136s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -363,121 +323,41 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## fitcoach (1.0)
-Maintainer: Niraj Juneja <njuneja@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1. Failure: FitAnalyzer test cases (@test-fitanalyzer.R#28) --------------------
-  res[1] is not strictly less than 2820. Difference: 29.2
-  
-  
-  2. Failure: FitAnalyzer test cases (@test-fitanalyzer.R#49) --------------------
-  `res` is not strictly less than 2518. Difference: 2.3
-  
-  
-  testthat results ================================================================
-  OK: 17 SKIPPED: 0 FAILED: 2
-  1. Failure: FitAnalyzer test cases (@test-fitanalyzer.R#28) 
-  2. Failure: FitAnalyzer test cases (@test-fitanalyzer.R#49) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
-## flextable (0.1.0)
-Maintainer: David Gohel <david.gohel@ardata.fr>
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: officer
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-PhantomJS not found. You can install it with webshot::install_phantomjs(). If it is installed, please make sure the phantomjs executable can be found via the PATH variable.
-Quitting from lines 39-41 (format.Rmd) 
-Error: processing vignette 'format.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
-```
-
-## FSelectorRcpp (0.1.2)
+## FSelectorRcpp (0.1.3)
 Maintainer: Zygmunt Zawadzki <zygmunt@zstat.pl>  
 Bug reports: https://github.com/mi2-warsaw/FSelectorRcpp/issues
 
 1 error  | 0 warnings | 2 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘FSelectorRcpp-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: feature_search
-> ### Title: General Feature Searching Engine
-> ### Aliases: feature_search
-> 
-> ### ** Examples
-> 
-> 
-> # Enable parallelization in examples
->  library(doSNOW) # doSNOW has an option for progress bar
-Loading required package: foreach
-Loading required package: iterators
-Loading required package: snow
->  cl <- makeCluster(2)
-Loading required namespace: Rmpi
-Error in Rmpi::mpi.comm.spawn(slave = mpitask, slavearg = args, nslaves = count,  : 
-  MPI_Comm_spawn is not supported.
-Calls: makeCluster -> makeMPIcluster -> <Anonymous>
-Execution halted
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  The following objects are masked from 'package:base':
+  
+      intersect, setdiff, setequal, union
+  
+  > library(entropy)
+  
+  Attaching package: 'entropy'
+  
+  The following object is masked from 'package:FSelectorRcpp':
+  
+      discretize
+  
+  > 
+  > test_check("FSelectorRcpp")
+  Segmentation fault (core dumped)
 
 checking package dependencies ... NOTE
 Package suggested but not available for checking: ‘RTCGA.rnaseq’
 
 checking installed package size ... NOTE
-  installed size is  9.7Mb
+  installed size is  9.6Mb
   sub-directories of 1Mb or more:
     doc    2.2Mb
-    libs   7.3Mb
-```
-
-## futureheatwaves (1.0.3)
-Maintainer: Brooke Anderson <brooke.anderson@colostate.edu>
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 604-605 (futureheatwaves.Rmd) 
-Error: processing vignette 'futureheatwaves.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
+    libs   7.2Mb
 ```
 
 ## geoknife (1.5.4)
@@ -490,8 +370,6 @@ Bug reports: https://github.com/USGS-R/geoknife/issues
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
 Quitting from lines 360-364 (geoknife.Rmd) 
 Error: processing vignette 'geoknife.Rmd' failed with diagnostics:
 need finite 'xlim' values
@@ -499,47 +377,9 @@ Execution halted
 
 ```
 
-## ggCompNet (0.1.0)
-Maintainer: Sam Tyner <sctyner@iastate.edu>  
-Bug reports: https://github.com/sctyner/ggCompNet/issues
-
-0 errors | 1 warning  | 1 note 
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning: Removed 8 rows containing missing values (geom_segment).
-Quitting from lines 617-629 (examples-from-paper.Rmd) 
-Error: processing vignette 'examples-from-paper.Rmd' failed with diagnostics:
-GeomRasterAnn was built with an incompatible version of ggproto.
-Please reinstall the package that provides this extension.
-Execution halted
-
-
-checking installed package size ... NOTE
-  installed size is  6.4Mb
-  sub-directories of 1Mb or more:
-    doc   6.1Mb
-```
-
-## groupdata2 (0.1.0)
-Maintainer: Ludvig Renbo Olsen <r-pkgs@ludvigolsen.dk>
+## gitgadget (0.2.1)
+Maintainer: Vincent Nijs <vnijs@ucsd.edu>  
+Bug reports: https://github.com/vnijs/gitgadget/issues
 
 0 errors | 1 warning  | 0 notes
 
@@ -547,25 +387,12 @@ Maintainer: Ludvig Renbo Olsen <r-pkgs@ludvigolsen.dk>
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-
-Loading required package: lme4
-
-Attaching package: 'lmerTest'
-
-The following object is masked from 'package:lme4':
-
-... 8 lines ...
-
-Attaching package: 'zoo'
-
-The following objects are masked from 'package:base':
-
-    as.Date, as.Date.numeric
-
-Quitting from lines 293-301 (introduction_to_groupdata2.Rmd) 
-Error: processing vignette 'introduction_to_groupdata2.Rmd' failed with diagnostics:
-the table must have a header (column names)
+pandoc: Could not fetch https://travis-ci.org/vnijs/gitgadget.png?branch=master
+TlsExceptionHostPort (HandshakeFailed (Error_Packet_unexpected "Alert [(AlertLevel_Fatal,UnexpectedMessage)]" " expected: change cipher")) "travis-ci.org" 443
+Error: processing vignette 'gitgadget.Rmd' failed with diagnostics:
+pandoc document conversion failed with error 67
 Execution halted
+
 ```
 
 ## gutenbergr (0.1.2)
@@ -576,21 +403,20 @@ Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [7s/14s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  > library(testthat)
+  > library(gutenbergr)
+  > 
+  > test_check("gutenbergr")
+  1. Failure: read_zip_url can download and read a zip file (@test-utils.R#7) ----
+  any(z == "Congress shall make no law respecting an establishment of religion,") isn't true.
   
   
   testthat results ================================================================
-  OK: 50 SKIPPED: 0 FAILED: 8
-  1. Error: gutenberg_get_mirror works (@test-download.R#13) 
-  2. Failure: Can download Charles Dickens' Christmas Carol and Jane Austen's Persuasion (@test-download.R#22) 
-  3. Failure: Can download Charles Dickens' Christmas Carol and Jane Austen's Persuasion (@test-download.R#23) 
-  4. Failure: Can download Charles Dickens' Christmas Carol and Jane Austen's Persuasion (@test-download.R#31) 
-  5. Failure: Can download Charles Dickens' Christmas Carol and Jane Austen's Persuasion (@test-download.R#32) 
-  6. Failure: Can download books from a data frame with gutenberg_id column (@test-download.R#43) 
-  7. Failure: We can download a file that only has a -8 version (@test-download.R#50) 
-  8. Failure: read_zip_url can download and read a zip file (@test-utils.R#7) 
+  OK: 46 SKIPPED: 0 FAILED: 1
+  1. Failure: read_zip_url can download and read a zip file (@test-utils.R#7) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -610,58 +436,6 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## heemod (0.9.0)
-Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
-Bug reports: https://github.com/pierucci/heemod/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’ [0m/426m]
-Running the tests in ‘tests/testthat.R’ failed.
-Complete output:
-  > library(testthat)
-  > library(heemod)
-  > 
-  > ## the Sys.setenv fixes a problem running tests
-  > ##   with parallel processing; related to
-  > ##   https://github.com/hadley/testthat/issues/86 and
-  > ##   https://github.com/hadley/testthat/issues/144
-  > 
-  > Sys.setenv("R_TESTS" = "")
-  > 
-  > test_check("heemod")
-  Terminated
-```
-
-## highcharter (0.5.0)
-Maintainer: Joshua Kunst <jbkunst@gmail.com>  
-Bug reports: https://github.com/jbkunst/highcharter/issues
-
-0 errors | 1 warning  | 1 note 
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Highcharts (www.highcharts.com) is a Highsoft software product which is
-not free for commercial and Governmental use
-Quitting from lines 45-46 (charting-data-frames.Rmd) 
-Error: processing vignette 'charting-data-frames.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
-
-checking installed package size ... NOTE
-  installed size is 16.5Mb
-  sub-directories of 1Mb or more:
-    doc          13.7Mb
-    htmlwidgets   1.9Mb
-```
-
 ## HTSSIP (1.0.3)
 Maintainer: Nicholas Youngblut <nyoungb2@gmail.com>
 
@@ -675,43 +449,32 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## huxtable (0.1.1)
+## huxtable (0.2.2)
 Maintainer: David Hugh-Jones <davidhughjones@gmail.com>  
 Bug reports: https://github.com/hughjonesd/huxtable/issues
 
-1 error  | 1 warning  | 0 notes
+1 error  | 0 warnings | 0 notes
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [12s/23s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-         message = handle_message)) at /tmp/Rtmp8QnkSI/devtoolse928789ce822/hadley-testthat-b72a228/R/evaluate-promise.R:42
-  4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message) at /tmp/Rtmp8QnkSI/devtoolse928789ce822/hadley-testthat-b72a228/R/evaluate-promise.R:130
-  5: withVisible(code)
-  6: rmarkdown::render("rowheight-multicol-test.Rmd", quiet = TRUE)
-  7: convert(output_file, run_citeproc) at /tmp/Rtmp3nAXji/devtools8a9b3238f6f1/rmarkdown/R/render.R:655
+         message = handle_message)) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
+  4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
+  5: withVisible(code) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
+  6: rmarkdown::render("rowheight-multicol-test.Rmd", quiet = TRUE) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
+  7: convert(output_file, run_citeproc) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/render.R:655
   8: pandoc_convert(utf8_input, pandoc_to, output_format$pandoc$from, output, citeproc, 
-         output_format$pandoc$args, !quiet) at /tmp/Rtmp3nAXji/devtools8a9b3238f6f1/rmarkdown/R/render.R:585
-  9: stop("pandoc document conversion failed with error ", result, call. = FALSE) at /tmp/Rtmp3nAXji/devtools8a9b3238f6f1/rmarkdown/R/pandoc.R:100
+         output_format$pandoc$args, !quiet) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/render.R:585
+  9: stop("pandoc document conversion failed with error ", result, call. = FALSE) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/pandoc.R:100
   
   testthat results ================================================================
-  OK: 9 SKIPPED: 10 FAILED: 1
-  1. Error: Row heights do not screw up latex multicol (@test-output.R#44) 
+  OK: 203 SKIPPED: 14 FAILED: 1
+  1. Error: Row heights do not screw up latex multicol (@test-with-pandoc.R#20) 
   
   Error: testthat unit tests failed
   Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 51-102 (design-principles.Rmd) 
-Error: processing vignette 'design-principles.Rmd' failed with diagnostics:
-argument is of length zero
-Execution halted
-
 ```
 
 ## IATscores (0.1-2)
@@ -727,6 +490,37 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
+## imfr (0.1.4)
+Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
+Bug reports: https://github.com/christophergandrud/imfr/issues
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘imfr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: imf_codes
+> ### Title: Retrieve individual database codes
+> ### Aliases: imf_codes
+> 
+> ### ** Examples
+... 79 lines ...
+ *** caught segfault ***
+address (nil), cause 'unknown'
+
+Traceback:
+ 1: simplify(obj, simplifyVector = simplifyVector, simplifyDataFrame = simplifyDataFrame,     simplifyMatrix = simplifyMatrix, flatten = flatten, ...)
+ 2: fromJSON_string(txt = txt, simplifyVector = simplifyVector, simplifyDataFrame = simplifyDataFrame,     simplifyMatrix = simplifyMatrix, flatten = flatten, ...)
+ 3: fromJSON(raw_download)
+ 4: download_parse(URL, times = times)
+ 5: imf_codes(codelist = "CL_INDICATOR_BOP")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
+```
+
 ## NFP (0.99.2)
 Maintainer: Yang Cao <yiluheihei@gmail.com>  
 Bug reports: https://github.com/yiluheihei/NFP/issues
@@ -737,17 +531,17 @@ Bug reports: https://github.com/yiluheihei/NFP/issues
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-
     clusterApply, clusterApplyLB, clusterCall, clusterEvalQ,
     clusterExport, clusterMap, parApply, parCapply, parLapply,
     parLapplyLB, parRapply, parSapply, parSapplyLB
 
 The following objects are masked from 'package:stats':
 
+    IQR, mad, sd, var, xtabs
 ... 8 lines ...
-    match, mget, order, paste, pmax, pmax.int, pmin, pmin.int, rank,
-    rbind, rownames, sapply, setdiff, sort, table, tapply, union,
-    unique, unsplit, which, which.max, which.min
+    pmin, pmin.int, rank, rbind, rowMeans, rowSums, rownames, sapply,
+    setdiff, sort, table, tapply, union, unique, unsplit, which,
+    which.max, which.min
 
 Loading required package: graphite
 Warning in library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
@@ -761,12 +555,25 @@ checking package dependencies ... NOTE
 Packages suggested but not available for checking: ‘graphite’ ‘NFPdata’
 
 checking installed package size ... NOTE
-  installed size is  8.4Mb
+  installed size is  8.2Mb
   sub-directories of 1Mb or more:
     data   7.5Mb
 ```
 
-## officer (0.1.1)
+## nzelect (0.3.3)
+Maintainer: Peter Ellis <peter.ellis2013nz@gmail.com>
+
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Terminated
+
+```
+
+## officer (0.1.3)
 Maintainer: David Gohel <david.gohel@ardata.fr>  
 Bug reports: https://github.com/davidgohel/officer/issues
 
@@ -793,17 +600,17 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [22s/23s]
+  Running ‘testthat.R’ [148s/150s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  8: function_list[[k]](value) at /tmp/RtmpT6Czo8/R.INSTALL13c163d710cb/magrittr/R/freduce.R:20
   9: ph_with_img(., type = "body", src = img.file, height = 1.06, width = 1.39)
   10: external_img(src, width = width, height = height)
   11: stopifnot(file.exists(src))
-  12: stop(sprintf(ngettext(length(r), "%s is not TRUE", "%s are not all TRUE"), ch), call. = FALSE, 
-         domain = NA)
+  12: stop(msg, call. = FALSE, domain = NA)
   
   testthat results ================================================================
-  OK: 317 SKIPPED: 0 FAILED: 4
+  OK: 341 SKIPPED: 0 FAILED: 4
   1. Error: image add  (@test-docx-add.R#68) 
   2. Error: pml fp_border (@test-fp_cell.R#75) 
   3. Error: css fp_border (@test-fp_cell.R#165) 
@@ -815,9 +622,18 @@ Last 13 lines of output:
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 181-191 (powerpoint.Rmd) 
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Quitting from lines 180-190 (powerpoint.Rmd) 
 Error: processing vignette 'powerpoint.Rmd' failed with diagnostics:
 file.exists(src) is not TRUE
 Execution halted
@@ -832,7 +648,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [127s/129s]
+  Running ‘testthat.R’ [142s/145s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -852,103 +668,32 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## pivottabler (0.1.0)
+## pivottabler (0.2.0)
 Maintainer: Christopher Bailiss <cbailiss@gmail.com>  
 Bug reports: https://github.com/cbailiss/pivottabler/issues
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in normalizePath(f2) :
-  path[1]="./webshot46371cd348e.png": No such file or directory
-Warning in file(con, "rb") :
-  cannot open file './webshot46371cd348e.png': No such file or directory
-Quitting from lines 53-60 (calculations.Rmd) 
-Error: processing vignette 'calculations.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
-```
-
-## plotly (4.5.6)
-Maintainer: Carson Sievert <cpsievert1@gmail.com>  
-Bug reports: https://github.com/ropensci/plotly/issues
 
 1 error  | 0 warnings | 0 notes
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [49s/50s]
+  Running ‘testthat.R’ [54s/54s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  [1] "Running test: plotly-group-within-trace"
-  [1] "Running test: plotly-alpha-blending"
-  [1] "Running test: plotly-alpha-no-color"
-  [1] "Running test: plotly-factor-axis"
-  [1] "Running test: plotly-character-axis"
-  [1] "Running test: plotly-histogram"
-  [1] "Running test: plotly-histogram-vert"
-  [1] "Running test: plotly-inherit-FALSE"
-  [1] "Running test: plotly-time-series-summary"
+  x[1]: 17</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">Februar 2017</th>\n 
+  x[1]:    <th class=\"ColumnHeader\" colspan=\"1\">Total</th>\n  </tr>\n  <tr>...
+  y[1]: "<table class=\"Table\">\n  <tr>\n    <th class=\"RowHeader\" rowspan=\"2\
+  y[1]: " colspan=\"1\">&nbsp;</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">
+  y[1]: December 2016</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">January 2
+  y[1]: 017</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">February 2017</th>\
+  y[1]: n    <th class=\"ColumnHeader\" colspan=\"1\">Total</th>\n  </tr>\n  <t...
+  
+  
   testthat results ================================================================
-  OK: 813 SKIPPED: 17 FAILED: 1
-  1. Error: datetimes are converted to e.g. 2013-01-02 05:00:00 (@test-ggplot-date.R#11) 
+  OK: 189 SKIPPED: 0 FAILED: 1
+  1. Failure: data groups tests:  formatting data groups (@testGeneral.R#595) 
   
   Error: testthat unit tests failed
   Execution halted
-```
-
-## qualvar (0.1.0)
-Maintainer: Joel Gombin <joel.gombin@gmail.com>
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 92-106 (wilcox1973.Rmd) 
-Error: processing vignette 'wilcox1973.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
-```
-
-## radiant.model (0.6.0)
-Maintainer: Vincent Nijs <radiant@rady.ucsd.edu>  
-Bug reports: https://github.com/radiant-rstats/radiant.model/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘radiant.model-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: plot.model.predict
-> ### Title: Plot method for model.predict functions
-> ### Aliases: plot.model.predict
-> 
-> ### ** Examples
-> 
-> regress("diamonds", "price", c("carat","clarity")) %>%
-+   predict(pred_cmd = "carat = 1:10") %>%
-+   plot(xvar = "carat")
-> logistic("titanic", "survived", c("pclass","sex","age"), lev = "Yes") %>%
-+   predict(pred_cmd="pclass=levels(pclass), sex=levels(sex), age=seq(0,100,20)") %>%
-+   plot(xvar = "age", color = "sex", facet_col = "pclass")
-Error in rep(yes, length.out = length(ans)) : 
-  attempt to replicate an object of type 'closure'
-Calls: %>% ... <Anonymous> -> plot -> plot.model.predict -> ifelse
-Execution halted
 ```
 
 ## rattle (4.1.0)
@@ -990,48 +735,53 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:10240): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:1343): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
-## rclinicaltrials (1.4.7)
-Maintainer: Michael C Sachs <sachsmc@gmail.com>
+## REDCapR (0.9.7)
+Maintainer: Will Beasley <wibeasley@hotmail.com>  
+Bug reports: https://github.com/OuhscBbmc/REDCapR/issues
 
-1 error  | 0 warnings | 0 notes
+1 error  | 1 warning  | 1 note 
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [10s/94s]
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-         })
-         names(lank)[names(lank) == "class_list"] <- "category_list"
-         target <- lank$category_list
-         fillout <- lank[names(lank) != "category_list"]
-         cbind(fillout, target)
-     }) at /tmp/Rtmp3nAXji/devtools8a9b30651b1e/XML/R/nodeAccessors.R:47
-  8: lapply(kids, FUN, ...) at /tmp/Rtmp3nAXji/devtools8a9b30651b1e/XML/R/xmlNodes.R:305
-  9: FUN(X[[i]], ...)
-  
+  Running ‘test-all.R’
+Running the tests in ‘tests/test-all.R’ failed.
+Complete output:
+  > #Modeled after the R6 testing structure: https://github.com/wch/R6/blob/master/tests/testthat.R
+  > library(testthat)
+  > library(REDCapR)
+  > 
+  > testthat::test_check("REDCapR")
+  Error: 'inst' is not an exported object from 'namespace:devtools'
   testthat results ================================================================
-  OK: 13 SKIPPED: 0 FAILED: 1
-  1. Error: download function returns correct format (@test-download.R#28) 
-  
-  Error: testthat unit tests failed
+  OK: 10 SKIPPED: 5 FAILED: 0
   Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Quitting from lines 42-45 (BasicREDCapROperations.Rmd) 
+Error: processing vignette 'BasicREDCapROperations.Rmd' failed with diagnostics:
+object 'ds' not found
+Execution halted
+
+
+checking dependencies in R code ... NOTE
+Missing or unexported object: ‘devtools::inst’
 ```
 
-## recexcavAAR (0.3.0)
-Maintainer: Clemens Schmid <clemens@nevrome.de>
+## rerddap (0.4.0)
+Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
+Bug reports: https://github.com/ropensci/rerddap/issues
 
-0 errors | 1 warning  | 1 note 
+0 errors | 1 warning  | 0 notes
 
 ```
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Loading required package: kriging
 
 Attaching package: 'dplyr'
 
@@ -1043,156 +793,57 @@ The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
 
-Quitting from lines 70-71 (recexcavAAR-vignette-1.Rmd) 
-Error: processing vignette 'recexcavAAR-vignette-1.Rmd' failed with diagnostics:
-cannot open the connection
+Loading required package: maps
+Warning: Removed 4015788 rows containing missing values (geom_raster).
+Warning: Removed 902205 rows containing missing values (geom_raster).
+Quitting from lines 328-337 (Using_rerddap.Rmd) 
+Error: processing vignette 'Using_rerddap.Rmd' failed with diagnostics:
+HTTP Status 500 - There was a (temporary?) problem.  Wait a minute, then try again.  (In a browser, click the Reload button.)
+(ERROR from data source: dods.dap.DODSException: Connection cannot be opened)
+(Cause: dods.dap.DODSException: Connection cannot be opened)
 Execution halted
 
-
-checking installed package size ... NOTE
-  installed size is  5.9Mb
-  sub-directories of 1Mb or more:
-    doc    2.5Mb
-    libs   3.3Mb
 ```
 
-## REDCapR (0.9.7)
-Maintainer: Will Beasley <wibeasley@hotmail.com>  
-Bug reports: https://github.com/OuhscBbmc/REDCapR/issues
+## sjPlot (2.3.1)
+Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
+Bug reports: https://github.com/sjPlot/devel/issues
 
-0 errors | 1 warning  | 0 notes
+0 errors | 1 warning  | 1 note 
 
 ```
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 42-45 (BasicREDCapROperations.Rmd) 
-Error: processing vignette 'BasicREDCapROperations.Rmd' failed with diagnostics:
-object 'ds' not found
-Execution halted
+17: eval(expr, envir, enclos)
+18: withVisible(eval(expr, envir, enclos))
+19: withCallingHandlers(withVisible(eval(expr, envir, enclos)), warning = wHandler,     error = eHandler, message = mHandler)
+20: handle(ev <- withCallingHandlers(withVisible(eval(expr, envir,     enclos)), warning = wHandler, error = eHandler, message = mHandler))
+21: timing_fn(handle(ev <- withCallingHandlers(withVisible(eval(expr,     envir, enclos)), warning = wHandler, error = eHandler, message = mHandler)))
+22: evaluate_call(expr, parsed$src[[i]], envir = envir, enclos = enclos,     debug = debug, last = i == length(out), use_try = stop_on_error !=         2L, keep_warning = keep_warning, keep_message = keep_message,     output_handler = output_handler, include_timing = include_timing)
+23: evaluate(code, envir = env, new_device = FALSE, keep_warning = !isFALSE(options$warning),     keep_message = !isFALSE(options$message), stop_on_error = if (options$error &&         options$include) 0L else 2L, output_handler = knit_handlers(options$render,         options))
+... 8 lines ...
+31: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
+32: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
+33: vweave_rmarkdown(...)
+34: engine$weave(file, quiet = quiet, encoding = enc)
+35: doTryCatch(return(expr), name, parentenv, handler)
+36: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+37: tryCatchList(expr, classes, parentenv, handlers)
+38: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
+39: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/sjPlot.Rcheck/vign_test/sjPlot")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
 
-```
-
-## rfishbase (2.1.1)
-Maintainer: Carl Boettiger <cboettig@ropensci.org>  
-Bug reports: https://github.com/ropensci/rfishbase/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-         if (endpt %in% bad_tables && !is.null(data)) {
-             names(data)[names(data) == "Speccode"] = "SpecCode"
-         }
-         tidy_table(data, server = server)
-     }) at /home/muelleki/git/R/dplyr/R/bind.r:104
-  5: FUN(X[[i]], ...)
-  6: check_and_parse(resp)
-  7: error_checks(parsed, resp = resp)
-  
-  testthat results ================================================================
-  OK: 36 SKIPPED: 31 FAILED: 1
-  1. Error: Custom queries give desired result (@test_endpoint.R#10) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in check_and_parse(resp) : Internal Server Error (HTTP 500).
-Quitting from lines 61-62 (tutorial.Rmd) 
-Error: processing vignette 'tutorial.Rmd' failed with diagnostics:
-argument is of length zero
-Execution halted
-
-```
-
-## rgho (1.0.1)
-Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
-Bug reports: https://github.com/pierucci/rgho/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘rgho-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_gho_data
-> ### Title: Returns GHO Data
-> ### Aliases: get_gho_data
-> 
-> ### ** Examples
-> 
-> 
-> result <- get_gho_data(
-+   dimension = "GHO",
-+   code = "MDG_0000000001"
-+ )
-Terminated
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Terminated
-
-```
-
-## roadoi (0.1)
-Maintainer: Najko Jahn <najko.jahn@gmail.com>  
-Bug reports: https://github.com/njahn82/roadoi/issues
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 29-31 (intro.Rmd) 
-Error: processing vignette 'intro.Rmd' failed with diagnostics:
-Timeout was reached
-Execution halted
-
-```
-
-## rpivotTable (0.2.0)
-Maintainer: Enzo Martoglio  <enzo@smartinsightsfromdata.com>
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-Quitting from lines 44-46 (rpivotTableIntroduction.Rmd) 
-Error: processing vignette 'rpivotTableIntroduction.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
+checking Rd cross-references ... NOTE
+Package unavailable to check Rd xrefs: ‘plm’
 ```
 
 ## SpaDES (1.3.1)
 Maintainer: Alex M Chubaty <alexander.chubaty@canada.ca>  
 Bug reports: https://github.com/PredictiveEcology/SpaDES/issues
 
-0 errors | 2 warnings | 2 notes
+0 errors | 1 warning  | 2 notes
 
 ```
 checking whether package ‘SpaDES’ can be installed ... WARNING
@@ -1200,40 +851,17 @@ Found the following significant warnings:
   Warning: no DISPLAY variable so Tk is not available
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/SpaDES.Rcheck/00install.out’ for details.
 
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-    RFoptions
-
-The following object is masked from 'package:raster':
-
-    atan2
-
-... 8 lines ...
-
-Attaching package: 'grid'
-
-The following object is masked from 'package:SpaDES':
-
-    gpar
-
-Quitting from lines 352-356 (ii-modules.Rmd) 
-Error: processing vignette 'ii-modules.Rmd' failed with diagnostics:
-cannot open the connection
-Execution halted
-
 checking package dependencies ... NOTE
 Package suggested but not available for checking: ‘fastshp’
 
 checking installed package size ... NOTE
-  installed size is  5.6Mb
+  installed size is  5.9Mb
   sub-directories of 1Mb or more:
-    R     2.5Mb
+    R     2.8Mb
     doc   2.1Mb
 ```
 
-## sparseHessianFD (0.3.2)
+## sparseHessianFD (0.3.3)
 Maintainer: Michael Braun <braunm@smu.edu>
 
 0 errors | 1 warning  | 0 notes
@@ -1261,8 +889,9 @@ Execution halted
 
 ```
 
-## ss3sim (0.9.3)
-Maintainer: Sean Anderson <sean@seananderson.ca>
+## ss3sim (0.9.5)
+Maintainer: Sean Anderson <sean@seananderson.ca>  
+Bug reports: https://github.com/ss3sim/ss3sim/issues
 
 0 errors | 1 warning  | 0 notes
 
@@ -1271,37 +900,6 @@ checking whether package ‘ss3sim’ can be installed ... WARNING
 Found the following significant warnings:
   Warning: no DISPLAY variable so Tk is not available
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/ss3sim.Rcheck/00install.out’ for details.
-```
-
-## stormwindmodel (0.1.0)
-Maintainer: Brooke Anderson <brooke.anderson@colostate.edu>  
-Bug reports: https://github.com/geanders/stormwindmodel/issues
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-... 8 lines ...
-The following object is masked from 'package:dplyr':
-
-    combine
-
-Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=georgia&zoom=5&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false
-Information from URL : http://maps.googleapis.com/maps/api/geocode/json?address=georgia&sensor=false
-Quitting from lines 220-233 (Details.Rmd) 
-Error: processing vignette 'Details.Rmd' failed with diagnostics:
-GeomRasterAnn was built with an incompatible version of ggproto.
-Please reinstall the package that provides this extension.
-Execution halted
 ```
 
 ## textmining (0.0.1)
@@ -1316,73 +914,54 @@ Found the following significant warnings:
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/textmining.Rcheck/00install.out’ for details.
 ```
 
-## tidyquant (0.5.0)
-Maintainer: Matt Dancho <mdancho@business-science.io>  
-Bug reports: https://github.com/business-science/tidyquant/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’ [13s/55s]
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  
-  
-  testthat results ================================================================
-  OK: 183 SKIPPED: 2 FAILED: 8
-  1. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_exchange_rates.R#20) 
-  2. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_exchange_rates.R#21) 
-  3. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_exchange_rates.R#25) 
-  4. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_exchange_rates.R#27) 
-  5. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_metal_prices.R#20) 
-  6. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_metal_prices.R#21) 
-  7. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_metal_prices.R#25) 
-  8. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_metal_prices.R#27) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
-
-## WHO (0.2)
-Maintainer: Eric Persson <expersso5@gmail.com>  
-Bug reports: https://www.github.com/expersso/WHO/issues
+## tidytext (0.1.2)
+Maintainer: Julia Silge <julia.silge@gmail.com>  
+Bug reports: http://github.com/juliasilge/tidytext/issues
 
 2 errors | 1 warning  | 0 notes
 
 ```
 checking examples ... ERROR
-Running examples in ‘WHO-Ex.R’ failed
+Running examples in ‘tidytext-Ex.R’ failed
 The error most likely occurred in:
 
 > base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_codes
-> ### Title: Get all codes and metadata for WHO series
-> ### Aliases: get_codes
+> ### Name: corpus_tidiers
+> ### Title: Tidiers for a corpus object from the quanteda package
+> ### Aliases: corpus_tidiers glance.corpus tidy.corpus
 > 
 > ### ** Examples
 > 
-> codes <- get_codes()
-Error in get_result(url) : Internal Server Error (HTTP 500).
-Calls: get_codes -> get_result -> <Anonymous>
+> 
+> if (requireNamespace("quanteda", quietly = FALSE)) {
++  data("inaugCorpus", package = "quanteda")
++ 
++  inaugCorpus
++ 
++  tidy(inaugCorpus)
++ }
+Loading required namespace: quanteda
+Warning in data("inaugCorpus", package = "quanteda") :
+  data set ‘inaugCorpus’ not found
+Error: object 'inaugCorpus' not found
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [1s/351s]
+  Running ‘testthat.R’ [11s/11s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-            than three columns (@tests.R#18) 
-  Internal Server Error (HTTP 500).
-  1: get_codes(TRUE) at testthat/tests.R:18
-  2: get_result(url)
-  3: httr::stop_for_status(response)
+  5: eval(expr, pf)
+  6: quanteda::dfm(quanteda::inaugCorpus)
+  7: quanteda::inaugCorpus at /tmp/RtmpuKlkGu/devtools18335daf6176/quanteda/R/dfm.R:128
+  8: getExportedValue(pkg, name)
+  9: stop(gettextf("'%s' is not an exported object from 'namespace:%s'", name, getNamespaceName(ns)), 
+         call. = FALSE, domain = NA)
   
   testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 3
-  1. Error: get_data returns a data frame with positive length (@tests.R#4) 
-  2. Error: get_codes returns a data frame with positive length (@tests.R#11) 
-  3. Error: get_codes(TRUE) returns a data frame with positive length and more
-            than three columns (@tests.R#18) 
+  OK: 126 SKIPPED: 0 FAILED: 3
+  1. Error: Can tidy corpus from quanteda package (@test-corpus-tidiers.R#23) 
+  2. Error: can tidy a quanteda dictionary (@test-dictionary-tidiers.R#9) 
+  3. Error: Can tidy dfm from quanteda (@test-sparse-tidiers.R#28) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -1390,11 +969,6 @@ Last 13 lines of output:
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-
-Attaching package: 'dplyr'
-
 The following objects are masked from 'package:stats':
 
     filter, lag
@@ -1402,17 +976,22 @@ The following objects are masked from 'package:stats':
 The following objects are masked from 'package:base':
 
     intersect, setdiff, setequal, union
+... 8 lines ...
 
-Quitting from lines 44-48 (who_vignette.Rmd) 
-Error: processing vignette 'who_vignette.Rmd' failed with diagnostics:
-Internal Server Error (HTTP 500).
+The following object is masked from 'package:ggplot2':
+
+    annotate
+
+Warning in data("inaugCorpus", package = "quanteda") :
+  data set 'inaugCorpus' not found
+Quitting from lines 79-85 (tidying_casting.Rmd) 
+Error: processing vignette 'tidying_casting.Rmd' failed with diagnostics:
+object 'inaugCorpus' not found
 Execution halted
-
 ```
 
-## wrswoR (1.0-1)
-Maintainer: Kirill Müller <krlmlr+r@mailbox.org>  
-Bug reports: https://github.com/krlmlr/wrswoR/issues
+## vdmR (0.2.3)
+Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 
 0 errors | 1 warning  | 0 notes
 
@@ -1420,15 +999,44 @@ Bug reports: https://github.com/krlmlr/wrswoR/issues
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-  Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+ 7: vscat(MortalityRate, FertilityRate, vsfuk2012, "scat01", "vsfuk2012")
+ 8: eval(expr, envir, enclos)
+ 9: eval(expr, envir, enclos)
+10: withVisible(eval(expr, envir, enclos))
+11: withCallingHandlers(withVisible(eval(expr, envir, enclos)), warning = wHandler,     error = eHandler, message = mHandler)
+12: handle(ev <- withCallingHandlers(withVisible(eval(expr, envir,     enclos)), warning = wHandler, error = eHandler, message = mHandler))
+13: timing_fn(handle(ev <- withCallingHandlers(withVisible(eval(expr,     envir, enclos)), warning = wHandler, error = eHandler, message = mHandler)))
+... 8 lines ...
+21: withCallingHandlers(if (tangle) process_tangle(group) else process_group(group),     error = function(e) {        setwd(wd)        cat(res, sep = "\n", file = output %n% "")        message("Quitting from lines ", paste(current_lines(i),             collapse = "-"), " (", knit_concord$get("infile"),             ") ")    })
+22: process_file(text, output)
+23: (if (grepl("\\.[Rr]md$", file)) knit2html_v1 else if (grepl("\\.[Rr]rst$",     file)) knit2pdf else knit)(file, encoding = encoding, quiet = quiet,     envir = globalenv())
+24: engine$weave(file, quiet = quiet, encoding = enc)
+25: doTryCatch(return(expr), name, parentenv, handler)
+26: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+27: tryCatchList(expr, classes, parentenv, handlers)
+28: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
+29: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/vdmR.Rcheck/vign_test/vdmR")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
+```
+
+## wrswoR (1.0-1)
+Maintainer: Kirill Müller <krlmlr+r@mailbox.org>  
+Bug reports: https://github.com/krlmlr/wrswoR/issues
+
+0 errors | 1 warning  | 1 note 
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
 Quitting from lines 622-635 (wrswoR.Rmd) 
 Error: processing vignette 'wrswoR.Rmd' failed with diagnostics:
 
 TeX was unable to calculate metrics for the following string
 or character:
 
-	36
+	77
 
 Common reasons for failure include:
   * The string contains a character which is special to LaTeX unless
@@ -1440,5 +1048,14 @@ The contents of the LaTeX log of the aborted run have been printed above,
 it may contain additional details as to why the metric calculation failed.
 Execution halted
 
+
+checking compiled code ... NOTE
+File ‘wrswoR/libs/wrswoR.so’:
+  Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
+
+It is good practice to register native routines and to disable symbol
+search.
+
+See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
 
