@@ -36,7 +36,7 @@ wrap_dbplyr_obj <- function(obj_name) {
     pass_on <- map(set_names(names(args)), sym)
 
     dbplyr_call <- expr(UQ(dbplyr_sym)(!!!pass_on))
-    dplyr_call <- expr(UQ(dbplyr_sym)(!!!pass_on))
+    dplyr_call <- expr(UQ(dplyr_sym)(!!!pass_on))
   } else {
     args <- list()
 
