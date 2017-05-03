@@ -29,7 +29,7 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
   if (var_left == var_right) {
     std::string var_utf8 = var_left.get_utf8_cstring();
     Rf_warningcall(R_NilValue,
-      "Variable `%s` %s",
+      "Column `%s` %s",
       var_utf8.c_str(),
       message.c_str()
     );
@@ -37,7 +37,7 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
     std::string left_utf8 = var_left.get_utf8_cstring();
     std::string right_utf8 = var_right.get_utf8_cstring();
     Rf_warningcall(R_NilValue,
-      "Variable `%s`/`%s` %s",
+      "Column `%s`/`%s` %s",
       left_utf8.c_str(),
       right_utf8.c_str(),
       message.c_str()
@@ -56,7 +56,7 @@ void check_attribute_compatibility(SEXP left, SEXP right, const SymbolString& na
   static Function attr_equal = Function("attr_equal", Environment::namespace_env("dplyr"));
   bool ok = as<bool>(attr_equal(left, right));
   if (!ok) {
-    warn_bad_var(name_left, name_right, "has different attributes on RHS and LHS of join");
+    warn_bad_var(name_left, name_right, "has different attributes on LHS and RHS of join");
   }
 }
 

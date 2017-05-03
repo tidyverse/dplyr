@@ -838,8 +838,15 @@ test_that("join takes LHS with warning if attributes inconsistent", {
     c = 2:1
   )
 
-  expect_warning(out1 <- left_join(df1, df2, by = "a"), "different attributes")
-  expect_warning(out2 <- left_join(df2, df1, by = "a"), "different attributes")
+  expect_warning(
+    out1 <- left_join(df1, df2, by = "a"),
+    "Column `a` has different attributes on LHS and RHS of join"
+  )
+  expect_warning(out2 <- left_join(df2, df1, by = "a"))
+  expect_warning(
+    out3 <- left_join(df1, df2, by = c("b" = "a")),
+    "Column `b`/`a` has different attributes on LHS and RHS of join"
+  )
 
   expect_equal(attr(out1$a, "foo"), NULL)
   expect_equal(attr(out2$a, "foo"), "bar")
