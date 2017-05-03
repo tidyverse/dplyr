@@ -11,7 +11,7 @@ namespace dplyr {
 
 CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& right);
 
-void check_attribute_compatibility(SEXP left, SEXP right);
+void check_attribute_compatibility(SEXP left, SEXP right, const SymbolString& name_left, const SymbolString& name_right);
 
 template <int LHS_RTYPE, int RHS_RTYPE>
 class DualVector {
@@ -27,8 +27,8 @@ public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
 public:
-  DualVector(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {
-    check_attribute_compatibility(left, right);
+  DualVector(LHS_Vec left_, RHS_Vec right_, const SymbolString& name_left_, const SymbolString& name_right_) : left(left_), right(right_) {
+    check_attribute_compatibility(left, right, name_left_, name_right_);
   }
 
   LHS_STORAGE get_left_value(const int i) const {
@@ -134,7 +134,10 @@ protected:
   typedef typename Storage::Vec Vec;
 
 public:
-  JoinVisitorImpl(typename Storage::LHS_Vec left, typename Storage::RHS_Vec right) : dual(left, right) {}
+  JoinVisitorImpl(
+    typename Storage::LHS_Vec left, typename Storage::RHS_Vec right,
+    const SymbolString& name_left, const SymbolString& name_right) :
+  dual(left, right, name_left, name_right), name_left_(name_left), name_right_(name_right) {}
 
   inline size_t hash(int i) {
     // If NAs don't match, we want to distribute their hashes as evenly as possible
@@ -173,6 +176,7 @@ public:
 
 private:
   Storage dual;
+  const SymbolString& name_left_, name_right_;
 };
 
 template <bool ACCEPT_NA_MATCH>
@@ -180,8 +184,8 @@ class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MA
   typedef JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH> Parent;
 
 public:
-  POSIXctJoinVisitor(NumericVector left, NumericVector right) :
-    Parent(left, right),
+  POSIXctJoinVisitor(NumericVector left, NumericVector right, const SymbolString& name_left, const SymbolString name_right) :
+    Parent(left, right, name_left, name_right),
     tzone(R_NilValue)
   {
     RObject tzone_left  = left.attr("tzone");
@@ -236,7 +240,9 @@ class DateJoinVisitor : public JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_M
   typedef JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_MATCH> Parent;
 
 public:
-  DateJoinVisitor(typename Parent::LHS_Vec left, typename Parent::RHS_Vec right) : Parent(left, right) {}
+  DateJoinVisitor(typename Parent::LHS_Vec left, typename Parent::RHS_Vec right,
+    const SymbolString& name_left, const SymbolString& name_right) :
+  Parent(left, right, name_left, name_right) {}
 
   inline SEXP subset(const std::vector<int>& indices) {
     return promote(Parent::subset(indices));

@@ -830,3 +830,24 @@ test_that("join accepts tz attributes (#2643)", {
   result <- inner_join(df1, df2, by = "a")
   expect_equal(nrow(result), 1)
 })
+
+test_that("join takes LHS with warning if attributes inconsistent", {
+  df1 <- tibble(a = 1:2, b = 2:1)
+  df2 <- tibble(
+    a = structure(1:2, foo = "bar"),
+    c = 2:1
+  )
+
+  expect_warning(
+    out1 <- left_join(df1, df2, by = "a"),
+    "Column `a` has different attributes on LHS and RHS of join"
+  )
+  expect_warning(out2 <- left_join(df2, df1, by = "a"))
+  expect_warning(
+    out3 <- left_join(df1, df2, by = c("b" = "a")),
+    "Column `b`/`a` has different attributes on LHS and RHS of join"
+  )
+
+  expect_equal(attr(out1$a, "foo"), NULL)
+  expect_equal(attr(out2$a, "foo"), "bar")
+})
