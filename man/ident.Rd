@@ -2,15 +2,17 @@
 % Please edit documentation in R/compat-dbplyr.R
 \name{ident}
 \alias{ident}
-\title{Flag a character vector as SQL identifiers}
+\title{SQL escaping.}
 \usage{
 ident(...)
 }
 \arguments{
-\item{...}{A character vector, or name-value pairs}
+\item{...}{Character vectors that will be combined into a single SQL
+expression. \code{ident} flags its input as a identifier, to ensure that
+it gets the correct quoting.}
 }
 \description{
-This ensures that during SQL generation, the values will be quoted as
-identifiers, not as strings. \code{as.ident()} coerces to an identifier,
-assuming that escaped SQL already represents an identifier.
+These functions are critical when writing functions that translate R
+functions to sql functions. Typically a conversion function should escape
+all it's inputs and return an sql object.
 }

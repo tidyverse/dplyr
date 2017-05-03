@@ -8,7 +8,8 @@ sql(...)
 }
 \arguments{
 \item{...}{Character vectors that will be combined into a single SQL
-expression.}
+expression. \code{ident} flags its input as a identifier, to ensure that
+it gets the correct quoting.}
 }
 \description{
 These functions are critical when writing functions that translate R
