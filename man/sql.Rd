@@ -8,11 +8,10 @@ sql(...)
 }
 \arguments{
 \item{...}{Character vectors that will be combined into a single SQL
-expression. \code{ident} flags its input as a identifier, to ensure that
-it gets the correct quoting.}
+expression.}
 }
 \description{
 These functions are critical when writing functions that translate R
 functions to sql functions. Typically a conversion function should escape
-all it's inputs and return an sql object.
+all its inputs and return an sql object.
 }
