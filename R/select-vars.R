@@ -138,10 +138,6 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   sel
 }
 
-is_data_pronoun <- function(expr) {
-  identical(node_car(expr), quote(`$`)) &&
-    identical(node_cadr(expr), quote(.data))
-}
 quo_is_helper <- function(quo) {
   expr <- f_rhs(quo)
 
