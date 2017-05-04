@@ -133,7 +133,8 @@ protected:
   typedef typename Storage::Vec Vec;
 
 public:
-  JoinVisitorImpl(const Column& left, const Column& right) : dual((SEXP)left.get_data(), (SEXP)right.get_data()) {
+  JoinVisitorImpl(const Column& left, const Column& right, const bool warn) : dual((SEXP)left.get_data(), (SEXP)right.get_data()) {
+    if (warn) check_attribute_compatibility(left, right);
   }
 
   inline size_t hash(int i) {
@@ -181,7 +182,7 @@ class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MA
 
 public:
   POSIXctJoinVisitor(const Column& left, const Column& right) :
-    Parent(left, right),
+    Parent(left, right, false),
     tzone(R_NilValue)
   {
     RObject tzone_left  = left.get_data().attr("tzone");
@@ -236,7 +237,7 @@ class DateJoinVisitor : public JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_M
   typedef JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_MATCH> Parent;
 
 public:
-  DateJoinVisitor(const Column& left, const Column& right) : Parent(left, right) {}
+  DateJoinVisitor(const Column& left, const Column& right) : Parent(left, right, false) {}
 
   inline SEXP subset(const std::vector<int>& indices) {
     return promote(Parent::subset(indices));

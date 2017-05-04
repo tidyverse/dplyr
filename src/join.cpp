@@ -49,12 +49,7 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
 }
 
 void check_attribute_compatibility(const Column& left, const Column& right) {
-  // Ignore attributes for POSIXct
-  if (Rf_inherits(left.get_data(), "POSIXct") && Rf_inherits(right.get_data(), "POSIXct")) {
-    return;
-  }
-
-  // Otherwise rely on R function based on all.equal
+  // Rely on R function based on all.equal
   static Function attr_equal = Function("attr_equal", Environment::namespace_env("dplyr"));
   bool ok = as<bool>(attr_equal(left.get_data(), right.get_data()));
   if (!ok) {
@@ -173,7 +168,7 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
   {
     switch (TYPEOF(right.get_data())) {
     case CPLXSXP:
-      return new JoinVisitorImpl<CPLXSXP, CPLXSXP, ACCEPT_NA_MATCH>(left, right);
+      return new JoinVisitorImpl<CPLXSXP, CPLXSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     default:
       break;
     }
@@ -188,7 +183,7 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
       bool rhs_factor = Rf_inherits(right.get_data(), "factor");
       if (lhs_factor && rhs_factor) {
         if (same_levels(left.get_data(), right.get_data())) {
-          return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right);
+          return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
         } else {
           warn_bad_var(
             left.get_name(), right.get_name(),
@@ -198,18 +193,19 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
           return
             new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
               left.update_data(reencode_char(left.get_data())),
-              right.update_data(reencode_char(right.get_data()))
+              right.update_data(reencode_char(right.get_data())),
+              warn_
             );
         }
       } else if (!lhs_factor && !rhs_factor) {
-        return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right);
+        return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
       }
       break;
     }
     case REALSXP:
     {
       if (!lhs_factor && is_bare_vector(right.get_data())) {
-        return new JoinVisitorImpl<INTSXP, REALSXP, ACCEPT_NA_MATCH>(left, right);
+        return new JoinVisitorImpl<INTSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, warn_);
       }
       break;
       // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
@@ -217,7 +213,7 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
     case LGLSXP:
     {
       if (!lhs_factor) {
-        return new JoinVisitorImpl<INTSXP, LGLSXP, ACCEPT_NA_MATCH>(left, right);
+        return new JoinVisitorImpl<INTSXP, LGLSXP, ACCEPT_NA_MATCH>(left, right, warn_);
       }
       break;
     }
@@ -232,7 +228,8 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
         return
           new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
             left.update_data(reencode_char(left.get_data())),
-            right.update_data(reencode_char(right.get_data()))
+            right.update_data(reencode_char(right.get_data())),
+            warn_
           );
       }
     }
@@ -245,9 +242,9 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
   {
     switch (TYPEOF(right.get_data())) {
     case REALSXP:
-      return new JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH>(left, right);
+      return new JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     case INTSXP:
-      return new JoinVisitorImpl<REALSXP, INTSXP, ACCEPT_NA_MATCH>(left, right);
+      return new JoinVisitorImpl<REALSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     default:
       break;
     }
@@ -257,11 +254,11 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
   {
     switch (TYPEOF(right.get_data())) {
     case LGLSXP:
-      return new JoinVisitorImpl<LGLSXP, LGLSXP, ACCEPT_NA_MATCH> (left, right);
+      return new JoinVisitorImpl<LGLSXP, LGLSXP, ACCEPT_NA_MATCH> (left, right, warn_);
     case INTSXP:
-      return new JoinVisitorImpl<LGLSXP, INTSXP, ACCEPT_NA_MATCH>(left, right);
+      return new JoinVisitorImpl<LGLSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     case REALSXP:
-      return new JoinVisitorImpl<LGLSXP, REALSXP, ACCEPT_NA_MATCH>(left, right);
+      return new JoinVisitorImpl<LGLSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     default:
       break;
     }
@@ -281,7 +278,8 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
         return
           new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
             left.update_data(reencode_char(left.get_data())),
-            right.update_data(reencode_char(right.get_data()))
+            right.update_data(reencode_char(right.get_data())),
+            warn_
           );
       }
       break;
@@ -291,7 +289,8 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
       return
         new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
           left.update_data(reencode_char(left.get_data())),
-          right.update_data(reencode_char(right.get_data()))
+          right.update_data(reencode_char(right.get_data())),
+          warn_
         );
     }
     default:
