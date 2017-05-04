@@ -83,7 +83,12 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
       stop("'%s' column not found in rhs, cannot join", name_right.get_utf8_cstring());
     }
 
-    visitors[i] = join_visitor(left[indices_left[i] - 1], right[indices_right[i] - 1], name_left, name_right, warn, na_match);
+    visitors[i] =
+      join_visitor(
+        Column(left[indices_left[i] - 1], name_left),
+        Column(right[indices_right[i] - 1], name_right),
+        warn, na_match
+      );
   }
 }
 

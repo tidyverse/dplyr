@@ -28,7 +28,8 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
 
   if (var_left == var_right) {
     std::string var_utf8 = var_left.get_utf8_cstring();
-    Rf_warningcall(R_NilValue,
+    Rf_warningcall(
+      R_NilValue,
       "Column `%s` %s",
       var_utf8.c_str(),
       message.c_str()
@@ -36,7 +37,8 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
   } else {
     std::string left_utf8 = var_left.get_utf8_cstring();
     std::string right_utf8 = var_right.get_utf8_cstring();
-    Rf_warningcall(R_NilValue,
+    Rf_warningcall(
+      R_NilValue,
       "Column `%s`/`%s` %s",
       left_utf8.c_str(),
       right_utf8.c_str(),
@@ -46,17 +48,12 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
 
 }
 
-void check_attribute_compatibility(SEXP left, SEXP right, const SymbolString& name_left, const SymbolString& name_right) {
-  // Ignore attributes for POSIXct
-  if (Rf_inherits(left, "POSIXct") && Rf_inherits(right, "POSIXct")) {
-    return;
-  }
-
-  // Otherwise rely on R function based on all.equal
+void check_attribute_compatibility(const Column& left, const Column& right) {
+  // Rely on R function based on all.equal
   static Function attr_equal = Function("attr_equal", Environment::namespace_env("dplyr"));
-  bool ok = as<bool>(attr_equal(left, right));
+  bool ok = as<bool>(attr_equal(left.get_data(), right.get_data()));
   if (!ok) {
-    warn_bad_var(name_left, name_right, "has different attributes on LHS and RHS of join");
+    warn_bad_var(left.get_name(), right.get_name(), "has different attributes on LHS and RHS of join");
   }
 }
 
@@ -113,38 +110,38 @@ CharacterVector reencode_factor(IntegerVector x) {
 }
 
 template <int LHS_RTYPE, bool ACCEPT_NA_MATCH>
-JoinVisitor* date_join_visitor_right(SEXP left, SEXP right, const SymbolString& name_left, const SymbolString& name_right) {
-  switch (TYPEOF(right)) {
+JoinVisitor* date_join_visitor_right(const Column& left, const Column& right) {
+  switch (TYPEOF(right.get_data())) {
   case INTSXP:
-    return new DateJoinVisitor<LHS_RTYPE, INTSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+    return new DateJoinVisitor<LHS_RTYPE, INTSXP, ACCEPT_NA_MATCH>(left, right);
   case REALSXP:
-    return new DateJoinVisitor<LHS_RTYPE, REALSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+    return new DateJoinVisitor<LHS_RTYPE, REALSXP, ACCEPT_NA_MATCH>(left, right);
   default:
     stop("Date objects should be represented as integer or numeric");
   }
 }
 
 template <bool ACCEPT_NA_MATCH>
-JoinVisitor* date_join_visitor(SEXP left, SEXP right, const SymbolString& name_left, const SymbolString name_right) {
-  switch (TYPEOF(left)) {
+JoinVisitor* date_join_visitor(const Column& left, const Column& right) {
+  switch (TYPEOF(left.get_data())) {
   case INTSXP:
-    return date_join_visitor_right<INTSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+    return date_join_visitor_right<INTSXP, ACCEPT_NA_MATCH>(left, right);
   case REALSXP:
-    return date_join_visitor_right<REALSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+    return date_join_visitor_right<REALSXP, ACCEPT_NA_MATCH>(left, right);
   default:
     stop("Date objects should be represented as integer or numeric");
   }
 }
 
 template <bool ACCEPT_NA_MATCH>
-JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, const SymbolString& name_right, bool warn_) {
+JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
   // handle Date separately
-  bool lhs_date = Rf_inherits(left, "Date");
-  bool rhs_date = Rf_inherits(right, "Date");
+  bool lhs_date = Rf_inherits(left.get_data(), "Date");
+  bool rhs_date = Rf_inherits(right.get_data(), "Date");
 
   switch (lhs_date + rhs_date) {
   case 2:
-    return date_join_visitor<ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+    return date_join_visitor<ACCEPT_NA_MATCH>(left, right);
   case 1:
     stop("cannot join a Date object with an object that is not a Date object");
   case 0:
@@ -153,11 +150,11 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     break;
   }
 
-  bool lhs_time = Rf_inherits(left, "POSIXct");
-  bool rhs_time = Rf_inherits(right, "POSIXct");
+  bool lhs_time = Rf_inherits(left.get_data(), "POSIXct");
+  bool rhs_time = Rf_inherits(right.get_data(), "POSIXct");
   switch (lhs_time + rhs_time) {
   case 2:
-    return new POSIXctJoinVisitor<ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+    return new POSIXctJoinVisitor<ACCEPT_NA_MATCH>(left, right);
   case 1:
     stop("cannot join a POSIXct object with an object that is not a POSIXct object");
   case 0:
@@ -166,12 +163,12 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     break;
   }
 
-  switch (TYPEOF(left)) {
+  switch (TYPEOF(left.get_data())) {
   case CPLXSXP:
   {
-    switch (TYPEOF(right)) {
+    switch (TYPEOF(right.get_data())) {
     case CPLXSXP:
-      return new JoinVisitorImpl<CPLXSXP, CPLXSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+      return new JoinVisitorImpl<CPLXSXP, CPLXSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     default:
       break;
     }
@@ -179,31 +176,36 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
   }
   case INTSXP:
   {
-    bool lhs_factor = Rf_inherits(left, "factor");
-    switch (TYPEOF(right)) {
+    bool lhs_factor = Rf_inherits(left.get_data(), "factor");
+    switch (TYPEOF(right.get_data())) {
     case INTSXP:
     {
-      bool rhs_factor = Rf_inherits(right, "factor");
+      bool rhs_factor = Rf_inherits(right.get_data(), "factor");
       if (lhs_factor && rhs_factor) {
-        if (same_levels(left, right)) {
-          return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+        if (same_levels(left.get_data(), right.get_data())) {
+          return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
         } else {
           warn_bad_var(
-            name_left, name_right,
+            left.get_name(), right.get_name(),
             "joining factors with different levels, coercing to character vector",
             warn_
           );
-          return new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(reencode_char(left), reencode_char(right), name_left, name_right);
+          return
+            new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
+              left.update_data(reencode_char(left.get_data())),
+              right.update_data(reencode_char(right.get_data())),
+              warn_
+            );
         }
       } else if (!lhs_factor && !rhs_factor) {
-        return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+        return new JoinVisitorImpl<INTSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
       }
       break;
     }
     case REALSXP:
     {
-      if (!lhs_factor && is_bare_vector(right)) {
-        return new JoinVisitorImpl<INTSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+      if (!lhs_factor && is_bare_vector(right.get_data())) {
+        return new JoinVisitorImpl<INTSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, warn_);
       }
       break;
       // what else: perhaps we can have INTSXP which is a Date and REALSXP which is a Date too ?
@@ -211,7 +213,7 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     case LGLSXP:
     {
       if (!lhs_factor) {
-        return new JoinVisitorImpl<INTSXP, LGLSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+        return new JoinVisitorImpl<INTSXP, LGLSXP, ACCEPT_NA_MATCH>(left, right, warn_);
       }
       break;
     }
@@ -219,11 +221,16 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     {
       if (lhs_factor) {
         warn_bad_var(
-          name_left, name_right,
+          left.get_name(), right.get_name(),
           "joining factor and character vector, coercing into character vector",
           warn_
         );
-        return new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(reencode_char(left), reencode_char(right), name_left, name_right);
+        return
+          new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
+            left.update_data(reencode_char(left.get_data())),
+            right.update_data(reencode_char(right.get_data())),
+            warn_
+          );
       }
     }
     default:
@@ -233,11 +240,11 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
   }
   case REALSXP:
   {
-    switch (TYPEOF(right)) {
+    switch (TYPEOF(right.get_data())) {
     case REALSXP:
-      return new JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+      return new JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     case INTSXP:
-      return new JoinVisitorImpl<REALSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+      return new JoinVisitorImpl<REALSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     default:
       break;
     }
@@ -245,13 +252,13 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
   }
   case LGLSXP:
   {
-    switch (TYPEOF(right)) {
+    switch (TYPEOF(right.get_data())) {
     case LGLSXP:
-      return new JoinVisitorImpl<LGLSXP, LGLSXP, ACCEPT_NA_MATCH> (left, right, name_left, name_right);
+      return new JoinVisitorImpl<LGLSXP, LGLSXP, ACCEPT_NA_MATCH> (left, right, warn_);
     case INTSXP:
-      return new JoinVisitorImpl<LGLSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+      return new JoinVisitorImpl<LGLSXP, INTSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     case REALSXP:
-      return new JoinVisitorImpl<LGLSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, name_left, name_right);
+      return new JoinVisitorImpl<LGLSXP, REALSXP, ACCEPT_NA_MATCH>(left, right, warn_);
     default:
       break;
     }
@@ -259,22 +266,32 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
   }
   case STRSXP:
   {
-    switch (TYPEOF(right)) {
+    switch (TYPEOF(right.get_data())) {
     case INTSXP:
     {
-      if (Rf_inherits(right, "factor")) {
+      if (Rf_inherits(right.get_data(), "factor")) {
         warn_bad_var(
-          name_left, name_right,
+          left.get_name(), right.get_name(),
           "joining character vector and factor, coercing into character vector",
           warn_
         );
-        return new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(reencode_char(left), reencode_char(right), name_left, name_right);
+        return
+          new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
+            left.update_data(reencode_char(left.get_data())),
+            right.update_data(reencode_char(right.get_data())),
+            warn_
+          );
       }
       break;
     }
     case STRSXP:
     {
-      return new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(reencode_char(left), reencode_char(right), name_left, name_right);
+      return
+        new JoinVisitorImpl<STRSXP, STRSXP, ACCEPT_NA_MATCH>(
+          left.update_data(reencode_char(left.get_data())),
+          right.update_data(reencode_char(right.get_data())),
+          warn_
+        );
     }
     default:
       break;
@@ -285,17 +302,18 @@ JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& name_left, 
     break;
   }
 
-  stop("Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
-       name_left.get_utf8_cstring(), name_right.get_utf8_cstring(), get_single_class(left), get_single_class(right)
-      );
-  return 0;
+  stop(
+    "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
+    left.get_name().get_utf8_cstring(), right.get_name().get_utf8_cstring(),
+    get_single_class(left.get_data()), get_single_class(right.get_data())
+  );
 }
 
-JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& left_name, const SymbolString& right_name, bool warn, bool accept_na_match) {
+JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn, bool accept_na_match) {
   if (accept_na_match)
-    return join_visitor<true>(left, right, left_name, right_name, warn);
+    return join_visitor<true>(left, right, warn);
   else
-    return join_visitor<false>(left, right, left_name, right_name, warn);
+    return join_visitor<false>(left, right, warn);
 }
 
 }
