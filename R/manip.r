@@ -285,7 +285,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   out <- mutate(.data, !!! dots)
 
   keep <- names(dots)
