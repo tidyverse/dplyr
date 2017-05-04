@@ -82,6 +82,16 @@ select(df, num_range("V", 4:6))
 # Drop variables with -
 select(iris, -starts_with("Petal"))
 
+
+# The .data pronoun is available:
+select(mtcars, .data$cyl)
+select(mtcars, .data$mpg : .data$disp)
+
+# However it isn't available within calls since those are evaluated
+# outside of the data context. This would fail if run:
+# select(mtcars, identical(.data$cyl))
+
+
 # Renaming -----------------------------------------
 # * select() keeps only the variables you specify
 select(iris, petal_length = Petal.Length)
