@@ -30,12 +30,15 @@ expr_substitute <- function(expr, old, new) {
   expr
 }
 
-is_pronoun <- function(expr) {
-  is_lang(expr, quote(`$`)) && identical(node_cadr(expr), quote(.data))
+sym_dollar <- quote(`$`)
+sym_brackets2 <- quote(`[[`)
+is_data_pronoun <- function(expr) {
+  is_lang(expr, list(sym_dollar, sym_brackets2)) &&
+    identical(node_cadr(expr), quote(.data))
 }
 tidy_text <- function(quo, width = 60L) {
   expr <- f_rhs(quo)
-  if (is_pronoun(expr)) {
+  if (is_data_pronoun(expr)) {
     as_string(node_cadr(node_cdr(expr)))
   } else {
     quo_text(quo, width = width)

@@ -702,8 +702,8 @@ test_that("ntile falls back to R (#1750)", {
 })
 
 test_that("mutate() names pronouns correctly (#2686)", {
-  df <- mutate(tibble(x = 1), .data$x)
-  expect_named(df, "x")
+  expect_named(mutate(tibble(x = 1), .data$x), "x")
+  expect_named(mutate(tibble(x = 1), .data[["x"]]), "x")
 })
 
 
