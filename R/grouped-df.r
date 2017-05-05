@@ -238,7 +238,7 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   dist <- distinct_vars(
     .data,
-    vars = quos(..., .named = TRUE),
+    vars = named_quos(...),
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
