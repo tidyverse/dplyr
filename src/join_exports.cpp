@@ -30,7 +30,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
 
   // first the joined columns
-  DataFrameJoinVisitors join_visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, false);
+  DataFrameJoinVisitors join_visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, false);
   int n_join_visitors = join_visitors.size();
 
   // then columns from x but not y
@@ -162,7 +162,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -195,7 +195,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -227,7 +227,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
 
   int n_x = x.nrows(), n_y = y.nrows();
@@ -261,7 +261,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
+  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), false, na_match);
 
   Map map(visitors);
 
@@ -300,7 +300,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -337,7 +337,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
+  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), false, na_match);
   Map map(visitors);
 
   // train the map in terms of y
