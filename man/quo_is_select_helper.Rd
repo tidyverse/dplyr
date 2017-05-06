@@ -14,7 +14,8 @@ A logical value.
 }
 \description{
 \code{quo_is_select_helper} takes a \code{quo} object and returns a logical
-indicating if the expression contains certain calls.
+indicating if the expression contains certain calls that are treated
+specially by \code{select}.
 }
 \examples{
 quo_is_select_helper(quo(a_variable_name))

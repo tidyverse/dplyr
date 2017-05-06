@@ -91,8 +91,8 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   }
 
   # Set current_vars so available to select_helpers
-  old <- mut_current_vars(vars)
-  on.exit(mut_current_vars(old), add = TRUE)
+  old <- set_current_vars(vars)
+  on.exit(set_current_vars(old), add = TRUE)
 
   # Map variable names to their positions: this keeps integer semantics
   names_list <- set_names(as.list(seq_along(vars)), vars)
@@ -141,7 +141,8 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 #' Determine if an expression quotation is a helper function
 #'
 #'`quo_is_select_helper` takes a `quo` object and returns a logical 
-#'indicating if the expression contains certain calls. 
+#'indicating if the expression contains certain calls that are treated 
+#'specially by `select`. 
 #'
 #' @param quo A `quo` object. 
 #' @return A logical value. 

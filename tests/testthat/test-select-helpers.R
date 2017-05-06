@@ -9,8 +9,8 @@ test_that("no set variables throws error", {
 })
 
 test_that("failed match removes all columns", {
-  old <- mut_current_vars(c("x", "y"))
-  on.exit(mut_current_vars(old))
+  old <- set_current_vars(c("x", "y"))
+  on.exit(set_current_vars(old))
 
   expect_equal(starts_with("z"), integer(0))
   expect_equal(ends_with("z"), integer(0))
@@ -21,8 +21,8 @@ test_that("failed match removes all columns", {
 
 
 test_that("matches return integer positions", {
-  old <- mut_current_vars(c("abc", "acd", "bbc", "bbd", "eee"))
-  on.exit(mut_current_vars(old))
+  old <- set_current_vars(c("abc", "acd", "bbc", "bbd", "eee"))
+  on.exit(set_current_vars(old))
 
   expect_equal(starts_with("a"), c(1L, 2L))
   expect_equal(ends_with("d"),   c(2L, 4L))
