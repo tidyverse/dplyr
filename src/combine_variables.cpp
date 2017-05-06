@@ -88,11 +88,12 @@ public:
 //' @return
 //' A named vector with the unique indices that correspond to the names.
 //' @examples
-//' combine_vars(names(iris), list(1:2, 2:3))
-//' combine_vars(names(iris), list(1))
+//' combine_indices(names(iris), list(1:2, 2:3))
+//' combine_indices(names(iris), list(1))
 //' @export
+//' @keyword internal
 // [[Rcpp::export]]
-SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
+SEXP combine_indices(CharacterVector vars, ListOf<IntegerVector> xs) {
   VarList selected(vars.size());
   if (xs.size() == 0)
     return IntegerVector::create();

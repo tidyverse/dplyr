@@ -82,11 +82,12 @@ combine_all <- function(data) {
 #' @return
 #' A named vector with the unique indices that correspond to the names.
 #' @examples
-#' combine_vars(names(iris), list(1:2, 2:3))
-#' combine_vars(names(iris), list(1))
+#' combine_indices(names(iris), list(1:2, 2:3))
+#' combine_indices(names(iris), list(1))
 #' @export
-combine_vars <- function(vars, xs) {
-    .Call('dplyr_combine_vars', PACKAGE = 'dplyr', vars, xs)
+#' @keyword internal
+combine_indices <- function(vars, xs) {
+    .Call('dplyr_combine_indices', PACKAGE = 'dplyr', vars, xs)
 }
 
 distinct_impl <- function(df, vars, keep) {
