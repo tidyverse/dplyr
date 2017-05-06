@@ -21,5 +21,7 @@ into a named vector of unique indices.
 \examples{
 combine_indices(names(iris), list(1:2, 2:3))
 combine_indices(names(iris), list(1))
+combine_indices(names(iris), list(-1)
+combine_indices(names(iris), list(-1, 1)
 }
 \keyword{internal}
