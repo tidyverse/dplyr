@@ -85,7 +85,7 @@ combine_all <- function(data) {
 #' combine_indices(names(iris), list(1:2, 2:3))
 #' combine_indices(names(iris), list(1))
 #' @export
-#' @keyword internal
+#' @keywords internal
 combine_indices <- function(vars, xs) {
     .Call('dplyr_combine_indices', PACKAGE = 'dplyr', vars, xs)
 }

@@ -91,7 +91,7 @@ public:
 //' combine_indices(names(iris), list(1:2, 2:3))
 //' combine_indices(names(iris), list(1))
 //' @export
-//' @keyword internal
+//' @keywords internal
 // [[Rcpp::export]]
 SEXP combine_indices(CharacterVector vars, ListOf<IntegerVector> xs) {
   VarList selected(vars.size());
