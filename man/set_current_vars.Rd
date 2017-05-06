@@ -14,6 +14,6 @@ Invisibly returns the original version of the environment
 prior to selecting the variables in \code{x}.
 }
 \description{
-\code{set_current_vars} marks a set of variables as selected in an
-environment.
+\code{set_current_vars} sets the vector of "current" variable names that
+are used by the select helpers.
 }

@@ -141,8 +141,8 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 #' Determine if an expression quotation is a helper function
 #'
 #'`quo_is_select_helper` takes a `quo` object and returns a logical 
-#'indicating if the expression contains certain calls that are treated 
-#'specially by `select`. 
+#'  indicating if the expression contains certain calls that are treated 
+#'  specially by `select`. 
 #'
 #' @param quo A `quo` object. 
 #' @return A logical value. 

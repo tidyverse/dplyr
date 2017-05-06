@@ -33,12 +33,12 @@ cur_vars_env <- env()
 
 #' Select variables in an environment
 #'
-#' `set_current_vars` marks a set of variables as selected in an 
-#' environment. 
+#' `set_current_vars` sets the vector of "current" variable names that
+#'   are used by the select helpers.
 #'
 #' @param x A character vector of variable names. 
 #' @return Invisibly returns the original version of the environment 
-#' prior to selecting the variables in `x`. 
+#'   prior to selecting the variables in `x`. 
 #' @export
 set_current_vars <- function(x) {
   stopifnot(is_character(x) || is_null(x))
