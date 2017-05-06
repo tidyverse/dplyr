@@ -273,6 +273,14 @@ test_that("first(), last(), and nth() work", {
     first(a, order_by = b), a = 1:5, b = 5:1,
     expected = 5L
   )
+
+  expect_equal(
+    tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
+      group_by(a) %>%
+      summarize(b = b[1], b = first(b)) %>%
+      ungroup,
+    tibble(a = c(1, 2), b = c("a", "c"))
+  )
 })
 
 test_that("lead() and lag() work", {
@@ -471,6 +479,14 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   check_not_hybrid_result(
     ntile("a", 2), a = 5:1,
     expected = 1L
+  )
+
+  expect_equal(
+    tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
+      group_by(a) %>%
+      summarize(b = b[1], b = min_rank(desc(b))) %>%
+      ungroup,
+    tibble(a = c(1, 2), b = c(1L, 1L))
   )
 })
 

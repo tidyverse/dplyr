@@ -14,11 +14,11 @@ test_that("combine handles NULL (1596)", {
 test_that("combine complains about incompatibilites", {
   expect_error(
     combine("a", 1),
-    "Argument 2: can't convert numeric to character"
+    "Argument 2 can't be converted from numeric to character"
   )
   expect_error(
     combine(factor("a"), 1L),
-    "Argument 2: can't convert integer to factor"
+    "Argument 2 can't be converted from integer to factor"
   )
 })
 

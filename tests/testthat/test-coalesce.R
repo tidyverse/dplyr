@@ -16,7 +16,7 @@ test_that("finds non-missing values in multiple positions", {
 test_that("error if invalid length", {
   expect_error(
     coalesce(1:2, 1:3),
-    "Argument 2: must be length 2 (length of `x`) or one, not 3",
+    "Argument 2 must be length 2 (length of `x`) or one, not 3",
     fixed = TRUE
   )
 })

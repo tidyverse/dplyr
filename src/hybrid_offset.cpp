@@ -69,7 +69,7 @@ Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int) {
     return 0;
 
   SymbolString name = SymbolString(Symbol(data));
-  if (subsets.count(name) == 0)
+  if (subsets.has_variable(name) == 0)
     return 0;
 
   bool is_summary = subsets.is_summary(name);

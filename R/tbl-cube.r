@@ -106,7 +106,7 @@ tbl_cube <- function(dimensions, measures) {
   )
   if (any(!dims_ok)) {
     bad <- names(measures)[!dims_ok]
-    bad_measures(bad, "need dimensions {fmt_dims(dims)}, not {bad_dim}",
+    bad_measures(bad, "needs dimensions {fmt_dims(dims)}, not {bad_dim}",
       bad_dim = fmt_dims(dim(measures[!dims_ok][[1L]]))
     )
   }
@@ -274,7 +274,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     dupe_row <- anyDuplicated(all[dim_names])
     dupe <- unlist(all[dupe_row, dim_names])
 
-    bad_args("x", "all combinations of dimension variables must be unique, ",
+    bad_args("x", "must be unique in all combinations of dimension variables, ",
       'duplicates: {fmt_named(dupe)}'
     )
   }
@@ -390,7 +390,7 @@ group_vars.tbl_cube <- function(x) {
 
 #' @export
 summarise.tbl_cube <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
 
   out_dims <- .data$dims[.data$groups]
   n <- map_int(out_dims, length)

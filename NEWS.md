@@ -115,7 +115,9 @@ If you've implemented a database backend for dplyr, please read the [backend new
 
 ## Tidyeval
 
-dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in `vignette("programming")` but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:
+dplyr has a new approach to non-standard evaluation (NSE) called tidyeval.
+It is described in detail in `vignette("programming")` but, in brief, gives you
+the ability to interpolate values in contexts where dplyr usually works with expressions:
 
 ```{r}
 my_var <- quo(homeworld)
@@ -125,7 +127,8 @@ starwars %>%
   summarise_at(vars(height:mass), mean, na.rm = TRUE)
 ```
 
-This means that the underscored version of each main verb is no longer needed, and so these functions have been deprecated (but remain around for backward compatibility).
+This means that the underscored version of each main verb is no longer needed,
+and so these functions have been deprecated (but remain around for backward compatibility).
 
 * `order_by()`, `top_n()`, `sample_n()` and `sample_frac()` now use
   tidyeval to capture their arguments by expression. This makes it
@@ -158,12 +161,13 @@ This means that the underscored version of each main verb is no longer needed, a
 
 ### Joins
 
-* [API] `xxx_join.tbl_df()` by default treats all `NA` values as
+* [API] `xxx_join.tbl_df(na_matches = "never")` treats all `NA` values as
   different from each other (and from any other value), so that they never
   match.  This corresponds to the behavior of joins for database sources,
   and of database joins in general.  To match `NA` values, pass
   `na_matches = "na"` to the join verbs; this is only supported for data frames.
-  The default can also be tweaked by calling
+  The default is `na_matches = "na"`, kept for the sake of compatibility
+  to v0.5.0. It can be tweaked by calling
   `pkgconfig::set_config("dplyr::na_matches", "na")` (#2033).
 
 * `common_by()` gets a better error message for unexpected inputs (#2091)
@@ -173,6 +177,11 @@ This means that the underscored version of each main verb is no longer needed, a
 
 * One of the two join suffixes can now be an empty string, dplyr no longer 
   hangs (#2228, #2445).
+
+* Anti- and semi-joins warn if factor levels are inconsistent (#2741).
+
+* Warnings about join column inconsistencies now contain the column names
+  (#2728).
 
 ### Select
 
@@ -668,9 +677,12 @@ There were two other tweaks to the exported API, but these are less likely to af
   to avoid creating repeated column names (#1460).  Joins on string columns
   should be substantially faster (#1386). Extra attributes are ok if they are
   identical (#1636). Joins work correct when factor levels not equal
-  (#1712, #1559), and anti and semi joins give correct result when by variable
-  is a  factor (#1571). A clear error message is given for joins where an
-  explicit `by` contains unavailable columns (#1928, #1932, @krlmlr).
+  (#1712, #1559). Anti- and semi-joins give correct result when by variable
+  is a factor (#1571), but warn if factor levels are inconsistent (#2741).
+  A clear error message is given for joins where an
+  explicit `by` contains unavailable columns (#1928, #1932).
+  Warnings about join column inconsistencies now contain the column names
+  (#2728).
 
 * `inner_join()`, `left_join()`, `right_join()`, and `full_join()` gain a
   `suffix` argument which allows you to control what suffix duplicated variable
@@ -1010,16 +1022,18 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * `grouped_df()` requires `vars` to be a list of symbols (#665).
 
-* `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors (#755)
+* `min(.,na.rm = TRUE)` works with `Date`s built on numeric vectors (#755).
 
 * `rename_()` generic gets missing `.dots` argument (#708).
 
 * `row_number()`, `min_rank()`, `percent_rank()`, `dense_rank()`, `ntile()` and
   `cume_dist()` handle data frames with 0 rows (#762). They all preserve
   missing values (#774). `row_number()` doesn't segfault when giving an external
-  variable with the wrong number of variables (#781)
+  variable with the wrong number of variables (#781).
 
-* `group_indices` handles the edge case when there are no variables (#867)  
+* `group_indices` handles the edge case when there are no variables (#867).
+
+* Removed bogus `NAs introduced by coercion to integer range` on 32-bit Windows (#2708).
 
 # dplyr 0.3.0.1
 

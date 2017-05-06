@@ -48,7 +48,7 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
   int n = quosures.size();
   for (int i = 0; i < n; i++) {
     if (gdf.has_group(quosures[i].name()))
-      bad_col(quosures[i].name(), "cannot modify grouping variable");
+      bad_col(quosures[i].name(), "can't be modified because it's a grouping variable");
   }
 }
 
@@ -100,7 +100,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     }
 
     if (Rf_inherits(variable, "POSIXlt")) {
-      bad_col(quosure.name(), "POSIXlt results not supported");
+      bad_col(quosure.name(), "is of unsupported class POSIXlt");
     }
 
     const int n_res = Rf_length(variable);

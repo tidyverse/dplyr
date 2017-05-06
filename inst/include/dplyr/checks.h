@@ -71,9 +71,9 @@ inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Str
     return DPLYR_VECSXP;
   default:
     if (name.is_empty()) {
-      Rcpp::stop("unsupported type %s", type_name(x));
+      Rcpp::stop("is of unsupported type %s", type_name(x));
     } else {
-      bad_col(name, "must be a vector, not {type}",
+      bad_col(name, "is of unsupported type {type}",
               _["type"] = type_name(x));
     }
   }
@@ -82,8 +82,11 @@ inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Str
 inline void check_length(const int actual, const int expected, const char* comment, const SymbolString& name) {
   if (actual == expected || actual == 1) return;
 
-  Function check_length_col("check_length_col", Environment::namespace_env("dplyr"));
-  check_length_col(actual, expected, CharacterVector::create(name.get_sexp()), std::string(comment));
+  static Function check_length_col("check_length_col", Environment::namespace_env("dplyr"));
+  static Function identity("identity", Environment::base_env());
+  String message = check_length_col(actual, expected, CharacterVector::create(name.get_sexp()), std::string(comment), _[".abort"] = identity);
+  message.set_encoding(CE_UTF8);
+  stop(message.get_cstring());
 }
 
 }

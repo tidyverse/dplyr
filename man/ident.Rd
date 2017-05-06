@@ -10,7 +10,10 @@ ident(...)
 \item{...}{A character vector, or name-value pairs}
 }
 \description{
-This ensures that during SQL generation, the values will be quoted as
-identifiers, not as strings. \code{as.ident()} coerces to an identifier,
-assuming that escaped SQL already represents an identifier.
+\code{ident()} takes unquoted strings and quotes them for you; \code{ident_q()}
+assumes its input has already been quoted.
+}
+\details{
+These two \code{ident} clsases are used during SQL generation to make sure
+the values will be quoted as, not as strings.
 }

@@ -12,11 +12,11 @@ test_that("error if no arguments", {
 test_that("error if unnamed", {
   expect_error(
     recode("a", b = 5, "c"),
-    "Argument 3: must be named, not unnamed"
+    "Argument 3 must be named, not unnamed"
   )
   expect_error(
     recode(factor("a"), b = 5, "c"),
-    "Argument 3: must be named, not unnamed",
+    "Argument 3 must be named, not unnamed",
     fixed = TRUE
   )
 })
@@ -24,7 +24,7 @@ test_that("error if unnamed", {
 test_that("error if missing given for factors", {
   expect_error(
     recode(factor("a"), a = 5, .missing = 10),
-    "`.missing`: not supported for factors",
+    "`.missing` is not supported for factors",
     fixed = TRUE
   )
 })

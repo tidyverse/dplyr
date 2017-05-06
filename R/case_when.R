@@ -70,15 +70,15 @@ case_when <- function(...) {
     f <- formulas[[i]]
     if (!inherits(f, "formula") || length(f) != 3) {
       non_formula_arg <- substitute(list(...))[[i + 1]]
-      header <- glue("Case {i} ({deparsed})", deparsed = deparse_trunc(non_formula_arg))
-      glubort(header, "must be a two-sided formula, not {type_of(f)}")
+      header <- glue("Case {i} ({deparsed})", deparsed = fmt_obj1(deparse_trunc(non_formula_arg)))
+      glubort(header, "must be a two-sided formula, not a {type_of(f)}")
     }
 
     env <- environment(f)
 
     query[[i]] <- eval_bare(f[[2]], env)
     if (!is.logical(query[[i]])) {
-      header <- glue("LHS of case {i} ({deparsed})", deparsed = deparse_trunc(f_lhs(f)))
+      header <- glue("LHS of case {i} ({deparsed})", deparsed = fmt_obj1(deparse_trunc(f_lhs(f))))
       glubort(header, "must be a logical, not {type_of(query[[i]])}")
     }
 
@@ -92,7 +92,7 @@ case_when <- function(...) {
   for (i in seq_len(n)) {
     check_length(
       query[[i]], out,
-      paste0("LHS of case ", i, " (", deparse_trunc(f_lhs(formulas[[i]])), ")"),
+      paste0("LHS of case ", i, " (", fmt_obj1(deparse_trunc(f_lhs(formulas[[i]]))), ")"),
       "the longest input"
     )
 

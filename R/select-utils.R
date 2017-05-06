@@ -29,7 +29,7 @@
 #' select(iris, one_of(vars))
 NULL
 
-cur_vars_env <- child_env()
+cur_vars_env <- env()
 
 #' Select variables in an environment
 #'

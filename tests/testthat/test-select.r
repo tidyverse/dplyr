@@ -174,3 +174,7 @@ test_that("arguments to select() don't match select_vars() arguments", {
   expect_identical(select(group_by(df, a), exclude = a), group_by(tibble(exclude = 1), exclude))
   expect_identical(select(group_by(df, a), include = a), group_by(tibble(include = 1), include))
 })
+
+test_that("can select() with .data pronoun (#2715)", {
+  expect_identical(select(mtcars, .data$cyl), select(mtcars, cyl))
+})
