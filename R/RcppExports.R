@@ -178,6 +178,10 @@ test_matches <- function() {
     .Call('dplyr_test_matches', PACKAGE = 'dplyr')
 }
 
+test_length_wrap <- function() {
+    .Call('dplyr_test_length_wrap', PACKAGE = 'dplyr')
+}
+
 assert_all_white_list <- function(data) {
     invisible(.Call('dplyr_assert_all_white_list', PACKAGE = 'dplyr', data))
 }

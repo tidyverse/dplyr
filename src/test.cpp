@@ -104,3 +104,15 @@ List test_matches() {
       )
     );
 }
+
+// [[Rcpp::export]]
+LogicalVector test_length_wrap() {
+  R_xlen_t small = R_SHORT_LEN_MAX / 2;
+  R_xlen_t large = (R_xlen_t)(R_SHORT_LEN_MAX * 2.0);
+
+  return
+    LogicalVector::create(
+      as<double>(wrap(small)) == (double)small,
+      as<double>(wrap(large)) == (double)large
+    );
+}
