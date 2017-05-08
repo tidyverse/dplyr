@@ -5,7 +5,7 @@ namespace Rcpp {
 
 template <>
 inline SEXP wrap(const ptrdiff_t& x) {
-  if (x < -2147483647 || x > 2147483647) {
+  if (x < -R_SHORT_LEN_MAX || x > R_SHORT_LEN_MAX) {
     return Rf_ScalarReal(static_cast<double>(x));
   }
   else {
