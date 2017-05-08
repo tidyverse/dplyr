@@ -29,7 +29,7 @@
 #' select(iris, one_of(vars))
 NULL
 
-cur_vars_env <- env()
+cur_vars_env <- child_env(NULL)
 
 set_current_vars <- function(x) {
   stopifnot(is_character(x) || is_null(x))
