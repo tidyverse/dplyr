@@ -150,9 +150,9 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
 
     if (!compatible) {
       if (ss.str() == "") {
-        ss << "Incompatible type for column '"
+        ss << "Incompatible type for column `"
            << name.get_utf8_cstring()
-           << "': x " << vx->get_r_type()
+           << "`: x " << vx->get_r_type()
            << ", y " << vy->get_r_type();
       }
 
