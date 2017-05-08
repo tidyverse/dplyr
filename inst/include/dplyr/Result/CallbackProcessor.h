@@ -72,7 +72,7 @@ private:
     void process_first() {
       const RObject& first_result = fetch_chunk();
       LOG_INFO << "instantiating delayed processor for type " << type2name(first_result)
-               << " for column '" << chunk_source->get_name().get_utf8_cstring() << "'";
+               << " for column `" << chunk_source->get_name().get_utf8_cstring() << "`";
 
       processor.reset(get_delayed_processor<CLASS>(first_result, ngroups, chunk_source->get_name()));
       LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";

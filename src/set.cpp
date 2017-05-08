@@ -123,13 +123,13 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   CharacterVector why;
   if (names_y_not_in_x.size()) {
     std::stringstream ss;
-    ss << "Cols in y but not x: " << collapse_utf8(names_y_not_in_x, ", ", "'") << ". ";
+    ss << "Cols in y but not x: " << collapse_utf8(names_y_not_in_x, ", ", "`") << ". ";
     why.push_back(String(ss.str(), CE_UTF8));
   }
 
   if (names_x_not_in_y.size()) {
     std::stringstream ss;
-    ss << "Cols in x but not y: " << collapse_utf8(names_x_not_in_y, ", ", "'") << ". ";
+    ss << "Cols in x but not y: " << collapse_utf8(names_x_not_in_y, ", ", "`") << ". ";
     why.push_back(String(ss.str(), CE_UTF8));
   }
 
