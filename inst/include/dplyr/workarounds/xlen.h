@@ -1,11 +1,13 @@
 #ifndef DPLYR_WORKAROUND_XLEN_H
 #define DPLYR_WORKAROUND_XLEN_H
 
+#ifdef LONG_VECTOR_SUPPORT
+
 namespace Rcpp {
 
 template <>
-inline SEXP wrap(const ptrdiff_t& x) {
-  if (x < -R_LEN_T_MAX || x > R_LEN_T_MAX) {
+inline SEXP wrap(const R_xlen_t& x) {
+  if (x < -R_SHORT_LEN_MAX || x > R_SHORT_LEN_MAX) {
     return Rf_ScalarReal(static_cast<double>(x));
   }
   else {
@@ -14,5 +16,7 @@ inline SEXP wrap(const ptrdiff_t& x) {
 }
 
 }
+
+#endif
 
 #endif
