@@ -108,6 +108,8 @@ List test_matches() {
 // [[Rcpp::export]]
 LogicalVector test_length_wrap() {
   R_xlen_t small = R_LEN_T_MAX / 2;
+
+#ifdef LONG_VECTOR_SUPPORT
   R_xlen_t large = (R_xlen_t)(R_LEN_T_MAX * 2.0);
   R_xlen_t missing = NA_INTEGER;
 
@@ -117,4 +119,10 @@ LogicalVector test_length_wrap() {
       as<double>(wrap(large)) == (double)large,
       as<double>(wrap(missing)) == (double)missing
     );
+#else
+  return
+    LogicalVector::create(
+      as<double>(wrap(small)) == (double)small
+    );
+#endif
 }
