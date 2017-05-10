@@ -17,3 +17,4 @@ prior to selecting the variables in \code{x}.
 \code{set_current_vars} sets the vector of "current" variable names that
 are used by the select helpers.
 }
+\keyword{internal}

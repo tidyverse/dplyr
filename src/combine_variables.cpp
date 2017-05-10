@@ -90,6 +90,8 @@ public:
 //' @examples
 //' combine_indices(names(iris), list(1:2, 2:3))
 //' combine_indices(names(iris), list(1))
+//' combine_indices(names(iris), list(-1)
+//' combine_indices(names(iris), list(-1, 1)
 //' @export
 //' @keywords internal
 // [[Rcpp::export]]

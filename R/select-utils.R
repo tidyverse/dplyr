@@ -39,6 +39,7 @@ cur_vars_env <- child_env(NULL)
 #' @param x A character vector of variable names. 
 #' @return Invisibly returns the original version of the environment 
 #'   prior to selecting the variables in `x`. 
+#' @keywords internal   
 #' @export
 set_current_vars <- function(x) {
   stopifnot(is_character(x) || is_null(x))

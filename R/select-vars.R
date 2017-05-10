@@ -146,6 +146,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 #'
 #' @param quo A `quo` object. 
 #' @return A logical value. 
+#' @keywords internal 
 #' @examples 
 #' quo_is_select_helper(quo(a_variable_name))
 #' quo_is_select_helper(quo(everything()))

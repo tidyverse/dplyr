@@ -22,3 +22,4 @@ quo_is_select_helper(quo(a_variable_name))
 quo_is_select_helper(quo(everything()))
 
 }
+\keyword{internal}
