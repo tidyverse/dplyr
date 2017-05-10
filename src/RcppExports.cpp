@@ -582,6 +582,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// test_length_wrap
+LogicalVector test_length_wrap();
+RcppExport SEXP dplyr_test_length_wrap() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(test_length_wrap());
+    return rcpp_result_gen;
+END_RCPP
+}
 // assert_all_white_list
 void assert_all_white_list(const DataFrame& data);
 RcppExport SEXP dplyr_assert_all_white_list(SEXP dataSEXP) {

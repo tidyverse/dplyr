@@ -10,14 +10,14 @@ inline IntegerVector r_match(SEXP x, SEXP y, SEXP incomparables = R_NilValue) {
     // Work around matching bug in R 3.3.0: #1806
     // https://bugs.r-project.org/bugzilla3/show_bug.cgi?id=16885
     if (Rf_isNull(incomparables)) {
-      return match(x, y, IntegerVector::create(NA_INTEGER), LogicalVector());
+      return match(x, y, NA_INTEGER, LogicalVector());
     }
     else {
-      return match(x, y, IntegerVector::create(NA_INTEGER), incomparables);
+      return match(x, y, NA_INTEGER, incomparables);
     }
   }
   else {
-    return match(x, y, IntegerVector::create(NA_INTEGER), incomparables);
+    return match(x, y, NA_INTEGER, incomparables);
   }
 }
 

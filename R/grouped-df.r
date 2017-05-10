@@ -186,7 +186,7 @@ do.grouped_df <- function(.data, ...) {
       out <- set_names(out, names(args))
       out <- label_output_list(labels, out, groups(.data))
     } else {
-      env_bind(env, list(. = group_data, .data = group_data))
+      env_bind(.env = env, . = group_data, .data = group_data)
       out <- eval_tidy_(args[[1]], env)[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
@@ -203,8 +203,7 @@ do.grouped_df <- function(.data, ...) {
       group_data[index[[`_i`]] + 1L, ] <<- value
     }
   }
-  env_assign_active(env, ".", group_slice)
-  env_assign_active(env, ".data", group_slice)
+  env_bind_fns(.env = env, . = group_slice, .data = group_slice)
 
   overscope <- new_overscope(env)
   on.exit(overscope_clean(overscope))

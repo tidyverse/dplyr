@@ -9,3 +9,8 @@ test_that("join_match() works as expected", {
   res <- test_matches()
   expect_true(all(unlist(res)))
 })
+
+test_that("wrapping of length values works as expected", {
+  res <- test_length_wrap()
+  expect_true(all(res))
+})

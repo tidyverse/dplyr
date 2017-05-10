@@ -86,7 +86,7 @@ as_fun <- function(.x, .env, .args) {
   if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
     expr <- lang_modify(expr, !!! .args)
   } else {
-    expr <- new_language(expr, quote(.), !!! .args)
+    expr <- lang(expr, quote(.), !!! .args)
   }
 
   set_expr(quo, expr)
