@@ -197,7 +197,9 @@ do.data.frame <- function(.data, ...) {
   named <- named_args(args)
 
   # Create custom dynamic scope with `.` pronoun
-  overscope <- child_env(data = list(. = .data, .data = .data))
+  # FIXME: Pass without splicing once child_env() calls env_bind()
+  # with explicit arguments
+  overscope <- child_env(NULL, !!! list(. = .data, .data = .data))
 
   if (!named) {
     out <- eval_tidy_(args[[1]], overscope)

@@ -84,8 +84,7 @@ do.rowwise_df <- function(.data, ...) {
   # of this function because of usual scoping rules.
   env <- child_env(NULL)
   current_row <- function() lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
-  env_assign_active(env, ".", current_row)
-  env_assign_active(env, ".data", current_row)
+  env_bind_fns(.env = env, . = current_row, .data = current_row)
 
   overscope <- new_overscope(env)
   on.exit(overscope_clean(overscope))

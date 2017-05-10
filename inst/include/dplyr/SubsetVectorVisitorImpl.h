@@ -141,7 +141,7 @@ private:
     CharacterVector levels_other = other->levels;
 
     if (!character_vector_equal(levels, levels_other)) {
-      ss << "Factor levels not equal for column '" << name.get_utf8_cstring() << "'";
+      ss << "Factor levels not equal for column `" << name.get_utf8_cstring() << "`";
       return false;
     }
     return true;
