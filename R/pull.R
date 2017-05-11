@@ -4,13 +4,7 @@
 #' before indexing for remote data tables.
 #'
 #' @param .data A table of data
-#' @param var A variable specified as:
-#'   * a literal variable name
-#'   * a positive integer, giving the position counting from the left
-#'   * a negative integer, giving the position counting from the right.
-#'
-#'   The default returns the last column (on the assumption that's the
-#'   column you've created most recently).
+#' @inheritParams select_var
 #' @export
 #' @examples
 #' mtcars %>% pull(-1)
@@ -28,14 +22,13 @@
 pull <- function(.data, var = -1) {
   UseMethod("pull")
 }
-
 #' @export
 pull.data.frame <- function(.data, var = -1) {
-  expr <- enquo(var)
-  var <- find_var(expr, names(.data))
+  var <- select_var(names(.data), !! enquo(var))
   .data[[var]]
 }
 
+# FIXME: remove this once dbplyr uses select_var()
 find_var <- function(expr, vars) {
   var_env <- set_names(as.list(seq_along(vars)), vars)
   var <- eval_tidy(expr, var_env)
