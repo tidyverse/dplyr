@@ -110,13 +110,16 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   ind_list <- c(initial_case, ind_list)
   names(ind_list) <- c(names2(initial_case), names2(quos))
 
-  is_numeric <- map_lgl(ind_list, is.numeric)
-  if (any(!is_numeric)) {
-    bad <- quos[!is_numeric]
+  # Match strings to variable positions
+  ind_list <- map_if(ind_list, is_character, match_var, table = vars)
 
-    bad_calls(bad, "must resolve to integer column positions, ",
-      "not {type_of(first_bad)}",
-      first_bad = ind_list[!is_numeric][[1]]
+  is_integerish <- map_lgl(ind_list, is_integerish)
+  if (any(!is_integerish)) {
+    bad <- quos[!is_integerish]
+    first <- ind_list[!is_integerish][[1]]
+    first_type <- friendly_type(type_of(first))
+    bad_calls(bad,
+      "must resolve to integer column positions, not {first_type}"
     )
   }
 
@@ -154,6 +157,14 @@ quo_is_helper <- function(quo) {
   }
 
   TRUE
+}
+match_var <- function(chr, table) {
+  pos <- match(chr, table)
+  if (any(are_na(pos))) {
+    chr <- glue::collapse(chr[are_na(pos)], ", ")
+    abort(glue("Strings must match column names. Unkown columns: {chr}"))
+  }
+  pos
 }
 
 #' @rdname se-deprecated

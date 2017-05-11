@@ -111,7 +111,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
 * `funs()` has better handling of namespaced functions (#2089).
 
 * Fix issue with `mutate_if()` and `summarise_if()` when a predicate
-  function returns a vector of `FALSE` (#1989, #2009, #2011, @lionel-).
+  function returns a vector of `FALSE` (#1989, #2009, #2011).
 
 ## Tidyeval
 
@@ -196,7 +196,11 @@ and so these functions have been deprecated (but remain around for backward comp
 
 * Helper functions in `select()` (and related verbs) are now evaluated
   in a context where column names do not exist (#2184).
-  
+
+* `select()` (and the internal function `select_vars()`) now support
+  column names in addition to column positions. As a result,
+  expressions like `select(mtcars, "cyl")` are now allowed.
+
 ### Other
 
 * `recode()`, `case_when()` and `coalesce()` now support splicing of
