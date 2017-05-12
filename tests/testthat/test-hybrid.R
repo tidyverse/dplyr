@@ -400,7 +400,7 @@ test_that("mean(), var(), sd() and sum() work", {
 
   check_hybrid_result(
     sd(a), a = c(1:3, NA),
-    expected = NA_real_
+    expected = is.na
   )
 })
 

@@ -118,7 +118,7 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use symbols
-  new_groups <- exprs_auto_name(new_groups)
+  new_groups <- exprs_auto_name(new_groups, printer = tidy_text)
   group_names <- names(new_groups)
   if (add) {
     group_names <- c(group_vars(.data), group_names)

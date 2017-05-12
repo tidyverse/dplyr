@@ -375,12 +375,20 @@ test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", 
     stringsAsFactors = F
   )
 
-  expect_warning(res <- left_join(x, y, by = "Greek"), "joining character vector")
+  expect_warning(
+    res <- left_join(x, y, by = "Greek"),
+    "Column `Greek` joining factor and character vector, coercing into character vector",
+    fixed = TRUE
+  )
   expect_true(is.na(res$Greek[3]))
   expect_true(is.na(res$Letters[3]))
   expect_equal(res$numbers, 1:3)
 
-  expect_warning(res <- left_join(y, x, by = "Greek"), "joining factor")
+  expect_warning(
+    res <- left_join(y, x, by = "Greek"),
+    "Column `Greek` joining character vector and factor, coercing into character vector",
+    fixed = TRUE
+  )
   expect_equal(res$Greek, y$Greek)
   expect_equal(res$Letters, y$Letters)
   expect_equal(res$numbers[1:2], 1:2)
@@ -674,11 +682,19 @@ test_that("joins work with factors of different levels (#1712)", {
 test_that("anti and semi joins give correct result when by variable is a factor (#1571)", {
   big <- data.frame(letter = rep(c("a", "b"), each = 2), number = 1:2)
   small <- data.frame(letter = "b")
-  expect_warning(aj_result <- anti_join(big, small, by = "letter"), NA)
+  expect_warning(
+    aj_result <- anti_join(big, small, by = "letter"),
+    "Column `letter` joining factors with different levels, coercing to character vector",
+    fixed = TRUE
+  )
   expect_equal(aj_result$number, 1:2)
   expect_equal(aj_result$letter, factor(c("a", "a"), levels = c("a", "b")))
 
-  expect_warning(sj_result <- semi_join(big, small, by = "letter"), NA)
+  expect_warning(
+    sj_result <- semi_join(big, small, by = "letter"),
+    "Column `letter` joining factors with different levels, coercing to character vector",
+    fixed = TRUE
+  )
   expect_equal(sj_result$number, 1:2)
   expect_equal(sj_result$letter, factor(c("b", "b"), levels = c("a", "b")))
 })
@@ -754,15 +770,13 @@ test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
               expect_equal_df(
                 semi_join(df1, df2, by = "x"),
                 data.frame(x = special, y = 1, stringsAsFactors = factor1)
-              ),
-              msg = NA
+              )
             )
             expect_warning_msg(
               expect_equal_df(
                 anti_join(df1, df2, by = "x"),
                 data.frame(x = special, y = 1, stringsAsFactors = factor1)[0,]
-              ),
-              msg = NA
+              )
             )
           }
         }
@@ -829,4 +843,25 @@ test_that("join accepts tz attributes (#2643)", {
   df2 <- data_frame(a = as.POSIXct("2009-01-01 11:00:00", tz = "Europe/Paris"))
   result <- inner_join(df1, df2, by = "a")
   expect_equal(nrow(result), 1)
+})
+
+test_that("join takes LHS with warning if attributes inconsistent", {
+  df1 <- tibble(a = 1:2, b = 2:1)
+  df2 <- tibble(
+    a = structure(1:2, foo = "bar"),
+    c = 2:1
+  )
+
+  expect_warning(
+    out1 <- left_join(df1, df2, by = "a"),
+    "Column `a` has different attributes on LHS and RHS of join"
+  )
+  expect_warning(out2 <- left_join(df2, df1, by = "a"))
+  expect_warning(
+    out3 <- left_join(df1, df2, by = c("b" = "a")),
+    "Column `b`/`a` has different attributes on LHS and RHS of join"
+  )
+
+  expect_equal(attr(out1$a, "foo"), NULL)
+  expect_equal(attr(out2$a, "foo"), "bar")
 })

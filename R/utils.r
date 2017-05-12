@@ -102,3 +102,18 @@ inc_seq <- function(from, to) {
 random_table_name <- function(n = 10) {
   paste0(sample(letters, n, replace = TRUE), collapse = "")
 }
+
+attr_equal <- function(x, y) {
+  attr_x <- attributes(x)
+  if (!is.null(attr_x)) {
+    attr_x <- attr_x[sort(names(attr_x))]
+  }
+
+  attr_y <- attributes(y)
+  if (!is.null(attr_y)) {
+    attr_y <- attr_y[sort(names(attr_y))]
+  }
+
+  isTRUE(all.equal(attr_x, attr_y))
+}
+

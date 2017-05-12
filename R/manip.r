@@ -285,7 +285,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   out <- mutate(.data, !!! dots)
 
   keep <- names(dots)
@@ -407,6 +407,16 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'
 #' # Drop variables with -
 #' select(iris, -starts_with("Petal"))
+#'
+#'
+#' # The .data pronoun is available:
+#' select(mtcars, .data$cyl)
+#' select(mtcars, .data$mpg : .data$disp)
+#'
+#' # However it isn't available within calls since those are evaluated
+#' # outside of the data context. This would fail if run:
+#' # select(mtcars, identical(.data$cyl))
+#'
 #'
 #' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify

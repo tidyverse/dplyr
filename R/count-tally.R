@@ -3,8 +3,8 @@
 #' @description
 #' `tally()` is a convenient wrapper for summarise that will either call
 #' [n()] or \code{\link{sum}(n)} depending on whether you're tallying
-#' for the first time, or re-tallying. `count()` is similar, but also
-#' does the [group_by()] for you.
+#' for the first time, or re-tallying. `count()` is similar but calls
+#' [group_by()] before and [ungroup()] after.
 #'
 #' `add_tally()` adds a column "n" to a table based on the number
 #' of items within each existing group, while `add_count()` is a shortcut that

@@ -701,6 +701,11 @@ test_that("ntile falls back to R (#1750)", {
   expect_equal(res$a, rep(1, 150))
 })
 
+test_that("mutate() names pronouns correctly (#2686)", {
+  expect_named(mutate(tibble(x = 1), .data$x), "x")
+  expect_named(mutate(tibble(x = 1), .data[["x"]]), "x")
+})
+
 
 # Error messages ----------------------------------------------------------
 
@@ -735,4 +740,3 @@ test_that("grouped mutate errors on incompatible column type (#1641)", {
     fixed = TRUE
   )
 })
-
