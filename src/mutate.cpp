@@ -55,7 +55,7 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 static
 SEXP validate_unquoted_value(SEXP value, int nrows, SymbolString& name) {
   if (is_vector(value))
-    check_length(Rf_length(value), nrows, "the tibble size", name);
+    check_length(Rf_length(value), nrows, "the number of rows", name);
   else
     bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(value)));
   return value;
