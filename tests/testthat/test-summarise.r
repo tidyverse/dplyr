@@ -954,5 +954,12 @@ test_that("can refer to previously summarised symbols", {
 })
 
 test_that("summarise() supports unquoted values", {
-  expect_identical(summarise(mtcars, x = !! 1 + 2), data.frame(x = 3))
+  df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
+  expect_identical(summarise(df, out = !! 1), tibble(out = 1))
+  expect_error(summarise(df, out = !! 1:2), "must be length 1 (the summarised tibble size)", fixed = TRUE)
+
+  gdf <- group_by(df, g)
+  expect_identical(summarise(gdf, out = !! 1), summarise(gdf, out = 1))
+  expect_identical(summarise(gdf, out = !! 1:2), tibble(g = c(1, 2), out = 1:2))
+  expect_error(summarise(gdf, out = !! 1:5), "must be length 2 (the summarised tibble size)", fixed = TRUE)
 })
