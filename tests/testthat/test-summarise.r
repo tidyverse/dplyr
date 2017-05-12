@@ -67,7 +67,7 @@ test_that("summarise gives proper errors (#153)", {
   )
   expect_error(
     summarise(df, identity(NULL)),
-    "Column `identity(NULL)` must be length 1 (a summary value), not 0",
+    "Column `identity(NULL)` is of unsupported type NULL",
     fixed = TRUE
   )
   expect_error(
@@ -80,11 +80,16 @@ test_that("summarise gives proper errors (#153)", {
     "Column `y[1:2]` must be length 1 (a summary value), not 2",
     fixed = TRUE
   )
+  expect_error(
+    summarise(df, env(a = 1)),
+    "Column `env(a = 1)` is of unsupported type environment",
+    fixed = TRUE
+  )
 
   gdf <- group_by(df, x, y)
   expect_error(
     summarise(gdf, identity(NULL)),
-    "Column `identity(NULL)` must be length 1 (a summary value), not 0",
+    "Column `identity(NULL)` is of unsupported type NULL",
     fixed = TRUE
   )
   expect_error(
@@ -100,6 +105,11 @@ test_that("summarise gives proper errors (#153)", {
   expect_error(
     summarise(gdf, y[1:2]),
     "Column `y[1:2]` must be length 1 (a summary value), not 2",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(gdf, env(a = 1)),
+    "Column `env(a = 1)` is of unsupported type environment",
     fixed = TRUE
   )
 })
@@ -956,10 +966,14 @@ test_that("can refer to previously summarised symbols", {
 test_that("summarise() supports unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_identical(summarise(df, out = !! 1), tibble(out = 1))
+  expect_identical(summarise(df, out = !! quote(identity(1))), tibble(out = 1))
   expect_error(summarise(df, out = !! 1:2), "must be length 1 (the summarised tibble size)", fixed = TRUE)
+  expect_error(summarise(df, out = !! env(a = 1)), "unsupported type")
 
   gdf <- group_by(df, g)
   expect_identical(summarise(gdf, out = !! 1), summarise(gdf, out = 1))
   expect_identical(summarise(gdf, out = !! 1:2), tibble(g = c(1, 2), out = 1:2))
+  expect_identical(summarise(gdf, out = !! quote(identity(1))), summarise(gdf, out = 1))
   expect_error(summarise(gdf, out = !! 1:5), "must be length 2 (the summarised tibble size)", fixed = TRUE)
+  expect_error(summarise(gdf, out = !! env(a = 1)), "unsupported type")
 })

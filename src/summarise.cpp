@@ -141,6 +141,7 @@ SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
       } else {
         result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
       }
+      check_supported_type(result, quosure.name());
       check_length(Rf_length(result), 1, "a summary value", quosure.name());
     }
     accumulator.set(quosure.name(), result);
