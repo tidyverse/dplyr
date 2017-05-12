@@ -162,6 +162,20 @@ slice_ <- function(.data, ..., .dots = list()) {
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp))
+#'
+#'
+#' # summarise() supports quasiquotation. You can unquote expressions:
+#' var <- quo(mean(cyl))
+#' summarise(mtcars, !! var)
+#'
+#' # Or values:
+#' summarise(mtcars, !! 10)
+#'
+#' # For grouped tibbles, unquoted values are handled a bit
+#' # differently. They must have the length of the summarised tibble,
+#' # which is the total number of groups:
+#' gdf <- group_by(mtcars, cyl)
+#' summarise(gdf, !! 1:3)
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
