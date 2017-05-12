@@ -10,7 +10,7 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |Zulu                         |
-|date     |2017-05-03                   |
+|date     |2017-05-12                   |
 
 ## Packages
 
@@ -19,8 +19,8 @@
 |assertthat     |   |0.2.0      |2017-04-11 |cran (@0.2.0)                     |
 |BH             |   |1.62.0-1   |2016-11-19 |cran (@1.62.0-)                   |
 |covr           |   |2.2.2      |2017-01-05 |cran (@2.2.2)                     |
-|DBI            |   |0.6-11     |2017-04-24 |Github (rstats-db/DBI@20f1f02)    |
-|dplyr          |   |0.5.0      |2017-05-02 |local (tidyverse/dplyr@NA)        |
+|DBI            |   |0.6-13     |2017-05-08 |Github (rstats-db/DBI@f6500a5)    |
+|dplyr          |   |0.5.0.9004 |2017-05-03 |Github (tidyverse/dplyr@6712f05)  |
 |dtplyr         |   |0.0.2      |2017-04-21 |cran (@0.0.2)                     |
 |ggplot2        |   |2.2.1      |2016-12-30 |cran (@2.2.1)                     |
 |knitr          |   |1.15.1     |2016-11-22 |cran (@1.15.1)                    |
@@ -29,36 +29,79 @@
 |magrittr       |   |1.5        |2014-11-22 |CRAN (R 3.4.0)                    |
 |microbenchmark |   |1.4-2.1    |2015-11-25 |cran (@1.4-2.1)                   |
 |nycflights13   |   |0.2.2      |2017-01-27 |cran (@0.2.2)                     |
-|R6             |   |2.2.0      |2016-10-05 |CRAN (R 3.4.0)                    |
+|R6             |   |2.2.1      |2017-05-10 |cran (@2.2.1)                     |
 |Rcpp           |   |0.12.10    |2017-03-19 |CRAN (R 3.4.0)                    |
 |rmarkdown      |   |1.5        |2017-04-26 |cran (@1.5)                       |
 |RMySQL         |   |0.10.11    |2017-03-29 |cran (@0.10.11)                   |
 |RPostgreSQL    |   |0.4-1      |2016-05-08 |cran (@0.4-1)                     |
 |RSQLite        |   |1.1-2      |2017-01-08 |CRAN (R 3.4.0)                    |
 |testthat       |   |1.0.2      |2016-04-23 |cran (@1.0.2)                     |
-|tibble         |   |1.3.0.9001 |2017-05-02 |Github (tidyverse/tibble@08af6b0) |
+|tibble         |   |1.3.0.9002 |2017-05-12 |Github (tidyverse/tibble@9103a30) |
 
 # Check results
 
-528 packages
+582 packages
 
 |package                |version   | errors| warnings| notes|
 |:----------------------|:---------|------:|--------:|-----:|
+|abjutils               |0.0.1     |      0|        0|     0|
+|ACDm                   |1.0.4     |      0|        0|     1|
 |adegenet               |2.0.1     |      0|        0|     1|
+|admixturegraph         |1.0.2     |      0|        0|     0|
+|ADPclust               |0.7       |      0|        0|     0|
+|aemo                   |0.2.0     |      0|        0|     0|
+|afex                   |0.17-8    |      0|        0|     1|
+|afmToolkit             |0.0.1     |      0|        0|     0|
+|AIG                    |0.1.3     |      0|        0|     0|
+|alakazam               |0.2.6     |      0|        0|     0|
+|alluvial               |0.1-2     |      0|        0|     0|
 |alphabetr              |0.2.2     |      0|        0|     1|
+|ameco                  |0.2.6     |      1|        0|     1|
+|ANLP                   |1.3       |      0|        0|     0|
+|anomalyDetection       |0.1.1     |      0|        0|     0|
+|apa                    |0.2.0     |      0|        0|     0|
+|apaTables              |1.5.0     |      0|        0|     0|
+|ArchaeoPhases          |1.1       |      0|        0|     0|
+|archivist              |2.1.2     |      0|        0|     2|
+|ARTool                 |0.10.4    |      0|        0|     0|
+|assertive.types        |0.0-3     |      0|        0|     0|
+|assertr                |2.0.2     |      0|        0|     0|
+|atlantistools          |0.4.1     |      0|        1|     1|
+|automagic              |0.3       |      0|        0|     0|
+|AutoModel              |0.4.9     |      0|        0|     0|
+|backtestGraphics       |0.1.6     |      1|        0|     0|
 |bannerCommenter        |0.1.0     |      0|        0|     0|
-|bayesplot              |1.2.0     |      0|        0|     1|
+|bayesGDS               |0.6.2     |      0|        0|     0|
+|bayesplot              |1.2.0     |      0|        1|     1|
 |bib2df                 |0.1.1     |      0|        0|     0|
 |bigrquery              |0.3.0     |      0|        0|     0|
+|binford                |0.1.0     |      0|        0|     0|
 |binomen                |0.1.2     |      0|        0|     0|
+|bioinactivation        |1.1.5     |      0|        0|     0|
+|biomartr               |0.4.0     |      0|        0|     0|
 |bioOED                 |0.1.1     |      1|        0|     0|
-|blscrapeR              |2.1.2     |      1|        0|     0|
+|bkmr                   |0.2.0     |      0|        0|     0|
+|blkbox                 |1.0       |      0|        0|     2|
+|blscrapeR              |2.1.4     |      0|        0|     0|
+|bmlm                   |1.2.10    |      0|        0|     2|
+|bodenmiller            |0.1       |      0|        0|     1|
+|bootnet                |1.0.0     |      0|        0|     0|
 |bossMaps               |0.1.0     |      0|        0|     0|
+|boxr                   |0.3.4     |      0|        0|     0|
+|braQCA                 |0.9.9.6   |      0|        0|     0|
+|breathtestcore         |0.3.0     |      0|        0|     0|
+|bsam                   |1.1.1     |      0|        0|     0|
+|bulletr                |0.1       |      0|        0|     0|
+|bupaR                  |0.1.1     |      0|        0|     0|
+|CARBayesST             |2.5       |      0|        0|     0|
 |carpenter              |0.2.0     |      1|        1|     0|
+|causaldrf              |0.3       |      0|        0|     0|
+|CausalImpact           |1.2.0     |      0|        0|     0|
 |cbsodataR              |0.2.1     |      0|        0|     0|
+|cdata                  |0.1.1     |      0|        0|     0|
 |cdcfluview             |0.5.1     |      0|        0|     0|
 |censusr                |0.0.2     |      0|        0|     0|
-|childsds               |0.6       |      0|        0|     0|
+|childsds               |0.6.1     |      0|        0|     0|
 |choroplethr            |3.6.1     |      0|        0|     0|
 |chromer                |0.1       |      0|        0|     2|
 |chunked                |0.3       |      0|        0|     0|
@@ -66,7 +109,7 @@
 |climbeR                |0.0.1     |      0|        0|     0|
 |clustRcompaR           |0.1.0     |      0|        0|     0|
 |clustrd                |1.1.9     |      0|        0|     0|
-|codingMatrices         |0.3.0     |      0|        1|     0|
+|codingMatrices         |0.3.1     |      0|        0|     0|
 |codyn                  |1.1.0     |      0|        0|     0|
 |cofeatureR             |1.0.1     |      0|        0|     0|
 |CollapsABEL            |0.10.11   |      0|        0|     0|
@@ -75,8 +118,8 @@
 |compareDF              |1.1.0     |      0|        0|     0|
 |comtradr               |0.0.1     |      0|        0|     0|
 |condformat             |0.5.0     |      2|        1|     0|
-|congressbr             |0.1.0     |      0|        0|     0|
-|coreSim                |0.2.3     |      0|        0|     0|
+|congressbr             |0.1.0     |      1|        0|     0|
+|coreSim                |0.2.3     |      2|        0|     0|
 |corrr                  |0.2.1     |      0|        0|     0|
 |countyfloods           |0.0.1     |      0|        0|     0|
 |countytimezones        |1.0.0     |      0|        0|     0|
@@ -84,7 +127,8 @@
 |cpr                    |0.2.3     |      0|        0|     0|
 |crawl                  |2.1.1     |      0|        0|     1|
 |cricketr               |0.0.14    |      0|        0|     0|
-|d3r                    |0.6.4     |      1|        0|     1|
+|crplyr                 |0.1.0     |      0|        0|     0|
+|d3r                    |0.6.4     |      2|        0|     1|
 |d3Tree                 |0.1.0     |      0|        0|     0|
 |darksky                |1.0.0     |      0|        0|     0|
 |DataCombine            |0.2.21    |      0|        0|     0|
@@ -121,14 +165,15 @@
 |ecb                    |0.2       |      0|        0|     0|
 |ecoengine              |1.10.0    |      0|        0|     0|
 |edeaR                  |0.5.0     |      0|        0|     0|
-|eechidna               |0.1       |      0|        0|     0|
-|eemR                   |0.1.4     |      0|        0|     0|
+|eechidna               |0.1       |      0|        1|     0|
+|eemR                   |0.1.5     |      0|        0|     0|
 |EFDR                   |0.1.1     |      0|        0|     1|
-|efreadr                |0.1.1     |      0|        0|     0|
+|efreadr                |0.2.2     |      0|        0|     0|
 |electionsBR            |0.2.0     |      0|        0|     0|
+|emil                   |2.2.6     |      0|        0|     1|
 |emuR                   |0.2.2     |      0|        0|     0|
 |engsoccerdata          |0.1.5     |      0|        0|     0|
-|epicontacts            |1.0.0     |      0|        0|     0|
+|epicontacts            |1.0.0     |      2|        1|     0|
 |EpiCurve               |1.0-0     |      0|        0|     0|
 |epidata                |0.1.0     |      0|        0|     0|
 |episheet               |0.2.0     |      0|        0|     0|
@@ -138,7 +183,7 @@
 |europepmc              |0.1.4     |      0|        0|     0|
 |europop                |0.3.1     |      0|        0|     0|
 |eurostat               |3.1.1     |      0|        0|     0|
-|evaluator              |0.1.0     |      0|        0|     0|
+|evaluator              |0.1.0     |      0|        0|     1|
 |explor                 |0.3.1     |      0|        0|     0|
 |extdplyr               |0.1.4     |      0|        0|     0|
 |eyelinker              |0.1       |      0|        0|     0|
@@ -151,7 +196,7 @@
 |FedData                |2.4.5     |      0|        0|     0|
 |feedeR                 |0.0.7     |      0|        0|     0|
 |fiftystater            |1.0.1     |      0|        0|     0|
-|filesstrings           |0.4.0     |      0|        0|     0|
+|filesstrings           |0.4.0     |      1|        0|     0|
 |finreportr             |1.0.1     |      0|        0|     0|
 |fivethirtyeight        |0.2.0     |      0|        0|     1|
 |flextable              |0.1.0     |      0|        0|     0|
@@ -162,21 +207,22 @@
 |fourierin              |0.2.1     |      0|        0|     0|
 |fractional             |0.1.3     |      0|        0|     1|
 |frailtyEM              |0.6.2     |      0|        0|     0|
-|freqweights            |1.0.3     |      0|        0|     0|
-|FRK                    |0.1.2     |      0|        0|     2|
+|freqweights            |1.0.4     |      0|        0|     0|
+|FRK                    |0.1.3     |      0|        0|     2|
 |FSA                    |0.8.13    |      0|        0|     1|
 |FSelectorRcpp          |0.1.3     |      1|        0|     2|
 |fueleconomy            |0.1       |      0|        0|     0|
 |funModeling            |1.6.2     |      0|        0|     0|
-|funrar                 |1.0.2     |      0|        0|     0|
+|funrar                 |1.0.3     |      0|        0|     0|
 |futureheatwaves        |1.0.3     |      0|        0|     1|
 |fuzzyjoin              |0.1.2     |      0|        0|     0|
 |GADMTools              |2.1-1     |      0|        0|     0|
 |gaiah                  |0.0.2     |      0|        0|     0|
 |gapminder              |0.2.0     |      0|        0|     0|
+|gastempt               |0.4.01    |      0|        0|     1|
 |GenCAT                 |1.0.3     |      0|        0|     0|
 |gender                 |0.5.1     |      0|        0|     1|
-|geoknife               |1.5.4     |      0|        1|     0|
+|geoknife               |1.5.4     |      1|        1|     0|
 |geomnet                |0.2.0     |      0|        0|     0|
 |geoparser              |0.1.0     |      0|        0|     0|
 |geoSpectral            |0.17.3    |      0|        0|     0|
@@ -189,7 +235,7 @@
 |ggeffects              |0.1.0     |      0|        0|     0|
 |ggenealogy             |0.3.0     |      0|        0|     0|
 |ggforce                |0.1.1     |      0|        0|     1|
-|ggfortify              |0.4.1     |      0|        0|     1|
+|ggfortify              |0.4.1     |      1|        0|     1|
 |ggguitar               |0.1.1     |      0|        0|     0|
 |gglogo                 |0.1.3     |      0|        0|     0|
 |ggmap                  |2.6.1     |      0|        0|     0|
@@ -204,32 +250,32 @@
 |ggvis                  |0.4.3     |      0|        0|     0|
 |giphyr                 |0.1.1     |      0|        0|     0|
 |gistr                  |0.4.0     |      0|        0|     0|
-|gitgadget              |0.2.1     |      0|        1|     0|
+|gitgadget              |0.2.1     |      0|        0|     0|
 |gitlabr                |0.9       |      0|        0|     0|
 |glycanr                |0.3.0     |      0|        0|     0|
 |gogamer                |0.4.3     |      0|        0|     1|
 |googleAnalyticsR       |0.4.0     |      0|        0|     0|
-|googlesheets           |0.2.1     |      0|        0|     0|
+|googlesheets           |0.2.2     |      0|        0|     0|
 |graphicalVAR           |0.2       |      0|        0|     0|
 |graphTweets            |0.3.2     |      0|        0|     0|
-|grattan                |1.4.1.2   |      0|        0|     1|
+|grattan                |1.5.0.0   |      0|        0|     1|
 |Greg                   |1.2       |      0|        0|     0|
 |groupdata2             |0.1.0     |      0|        0|     0|
 |growthcurver           |0.2.1     |      0|        0|     0|
 |GSODR                  |1.0.2.1   |      0|        0|     0|
 |gunsales               |0.1.2     |      0|        0|     0|
-|gutenbergr             |0.1.2     |      1|        0|     0|
+|gutenbergr             |0.1.2     |      0|        0|     0|
 |gwdegree               |0.1.1     |      0|        0|     0|
 |hansard                |0.4.0     |      0|        0|     0|
 |harrietr               |0.2.2     |      1|        0|     0|
 |hdr                    |0.1       |      0|        0|     0|
-|heemod                 |0.9.0     |      0|        0|     0|
+|heemod                 |0.9.1     |      0|        0|     0|
 |highcharter            |0.5.0     |      0|        0|     1|
 |highlightHTML          |0.1.1     |      0|        0|     0|
 |hrbrthemes             |0.1.0     |      0|        0|     0|
 |HTSSIP                 |1.0.3     |      1|        0|     0|
 |hurricaneexposure      |0.0.1     |      0|        0|     1|
-|huxtable               |0.2.2     |      1|        0|     0|
+|huxtable               |0.2.2     |      1|        1|     0|
 |HydeNet                |0.10.5    |      0|        0|     0|
 |hydrostats             |0.2.5     |      0|        0|     0|
 |hypothesisr            |0.1.1     |      0|        0|     0|
@@ -251,11 +297,11 @@
 |inlmisc                |0.2.6     |      0|        0|     0|
 |internetarchive        |0.1.6     |      0|        0|     0|
 |interplot              |0.1.5     |      0|        0|     0|
-|ipft                   |0.5       |      0|        0|     0|
+|ipft                   |0.6       |      0|        0|     0|
 |IRISMustangMetrics     |2.0.4     |      0|        0|     0|
 |JacobiEigen            |0.2-2     |      0|        0|     1|
 |janeaustenr            |0.1.4     |      0|        0|     0|
-|janitor                |0.2.1     |      0|        0|     0|
+|janitor                |0.3.0     |      0|        0|     0|
 |jpmesh                 |0.3.0     |      0|        0|     1|
 |kntnr                  |0.4.0     |      0|        0|     0|
 |kokudosuuchi           |0.2.0     |      0|        0|     0|
@@ -264,9 +310,9 @@
 |Lahman                 |5.0-0     |      0|        0|     1|
 |laketemps              |0.5.1     |      0|        0|     0|
 |LBSPR                  |0.1.0     |      0|        0|     1|
-|leaflet.minicharts     |0.1.0     |      0|        0|     0|
+|leaflet.minicharts     |0.2.0     |      0|        0|     0|
 |LendingClub            |1.0.2     |      0|        0|     0|
-|lexRankr               |0.4.0     |      0|        0|     0|
+|lexRankr               |0.4.1     |      0|        0|     0|
 |livechatR              |0.1.0     |      0|        0|     0|
 |lmeresampler           |0.1.0     |      0|        0|     0|
 |LocFDRPois             |1.0.0     |      0|        0|     1|
@@ -279,7 +325,8 @@
 |macleish               |0.3.0     |      0|        0|     0|
 |MAGNAMWAR              |1.0.0     |      0|        0|     0|
 |makeFlow               |1.0.2     |      0|        0|     0|
-|manifestoR             |1.2.3     |      0|        0|     0|
+|manifestoR             |1.2.4     |      0|        0|     0|
+|mapview                |2.0.1     |      0|        0|     1|
 |mason                  |0.2.5     |      0|        0|     0|
 |MazamaSpatialUtils     |0.4.9     |      0|        0|     0|
 |mdsr                   |0.1.3     |      0|        0|     1|
@@ -289,10 +336,10 @@
 |MetaComp               |1.0.1     |      0|        0|     0|
 |metaplot               |0.1.2     |      0|        0|     0|
 |metricsgraphics        |0.9.0     |      0|        0|     0|
-|metricTester           |1.3.2     |      0|        0|     0|
+|metricTester           |1.3.3     |      0|        0|     0|
 |mglR                   |0.1.0     |      0|        0|     0|
 |MIAmaxent              |0.4.0     |      0|        0|     0|
-|mixOmics               |6.1.2     |      0|        0|     0|
+|mixOmics               |6.1.3     |      0|        0|     0|
 |mixpack                |0.3.6     |      0|        0|     1|
 |mlVAR                  |0.3.3     |      0|        0|     0|
 |mnis                   |0.2.3     |      0|        0|     0|
@@ -300,13 +347,13 @@
 |modeval                |0.1.3     |      0|        0|     0|
 |Momocs                 |1.1.6     |      0|        0|     0|
 |MonetDBLite            |0.3.1     |      0|        0|     2|
-|monkeylearn            |0.1.1     |      0|        0|     0|
+|monkeylearn            |0.1.1     |      0|        1|     0|
 |morse                  |2.2.0     |      0|        0|     0|
 |mosaicData             |0.14.0    |      0|        0|     0|
 |mosaic                 |0.14.4    |      0|        0|     2|
 |mousetrap              |3.0.0     |      0|        0|     1|
 |mplot                  |0.7.9     |      0|        0|     0|
-|mpoly                  |1.0.3     |      0|        0|     0|
+|mpoly                  |1.0.4     |      0|        0|     0|
 |mRchmadness            |1.0.0     |      0|        0|     0|
 |mrgsolve               |0.8.6     |      0|        0|     1|
 |mscstexta4r            |0.1.2     |      0|        0|     0|
@@ -334,26 +381,29 @@
 |nzelect                |0.3.3     |      0|        1|     0|
 |observer               |0.1.2     |      0|        0|     1|
 |officer                |0.1.3     |      2|        1|     0|
+|olsrr                  |0.1.0     |      0|        0|     0|
 |ompr                   |0.6.0     |      0|        0|     0|
 |openadds               |0.2.0     |      0|        0|     0|
 |openair                |2.1-0     |      0|        0|     0|
-|opencage               |0.1.0     |      0|        0|     0|
+|opencage               |0.1.2     |      0|        0|     0|
+|openEBGM               |0.1.0     |      0|        0|     0|
 |packagetrackr          |0.1.1     |      0|        0|     0|
 |PAC                    |1.0.8     |      0|        0|     0|
 |padr                   |0.2.1     |      1|        0|     0|
+|parlitools             |0.0.2     |      0|        0|     0|
 |parsemsf               |0.1.0     |      0|        0|     0|
 |patternplot            |0.1       |      0|        0|     2|
 |pdp                    |0.5.2     |      0|        0|     1|
 |peptider               |0.2.2     |      0|        0|     0|
 |performanceEstimation  |1.1.0     |      0|        0|     0|
 |petrinetR              |0.1.0     |      0|        0|     0|
-|philentropy            |0.0.1     |      0|        0|     0|
+|philentropy            |0.0.3     |      0|        0|     0|
 |photobiologyInOut      |0.4.13    |      0|        0|     0|
 |photobiology           |0.9.15    |      0|        0|     0|
 |phylopath              |0.2.3     |      0|        0|     0|
 |pitchRx                |1.8.2     |      0|        0|     1|
 |pivottabler            |0.2.0     |      1|        0|     0|
-|pixiedust              |0.7.4     |      0|        0|     0|
+|pixiedust              |0.7.5     |      0|        0|     0|
 |PKNCA                  |0.8.1     |      0|        0|     0|
 |Plasmidprofiler        |0.1.6     |      0|        0|     0|
 |plater                 |1.0.0     |      0|        0|     0|
@@ -373,8 +423,8 @@
 |pRF                    |1.2       |      0|        0|     0|
 |prophet                |0.1.1     |      0|        0|     1|
 |ptstem                 |0.0.3     |      0|        0|     1|
-|purrrlyr               |0.0.1     |      0|        0|     1|
-|purrr                  |0.2.2     |      0|        0|     1|
+|purrrlyr               |0.0.1     |      2|        0|     1|
+|purrr                  |0.2.2.2   |      0|        0|     0|
 |PWFSLSmoke             |0.99.9    |      0|        0|     0|
 |qdap                   |2.2.5     |      0|        0|     0|
 |quadmesh               |0.1.0     |      0|        0|     0|
@@ -382,6 +432,7 @@
 |queuecomputer          |0.8.1     |      0|        0|     0|
 |quickpsy               |0.1.4     |      0|        0|     0|
 |qwraps2                |0.2.4     |      0|        0|     1|
+|r2glmm                 |0.1.1     |      0|        0|     0|
 |R6Frame                |0.1.0     |      0|        0|     0|
 |radiant.basics         |0.8.0     |      0|        0|     0|
 |radiant.data           |0.8.1     |      0|        0|     0|
@@ -406,10 +457,10 @@
 |readODS                |1.6.4     |      0|        0|     0|
 |rebird                 |0.4.0     |      0|        0|     0|
 |recexcavAAR            |0.3.0     |      0|        0|     1|
-|REDCapR                |0.9.7     |      1|        1|     1|
+|REDCapR                |0.9.7     |      0|        1|     0|
 |refund.shiny           |0.3.0     |      0|        0|     0|
 |replyr                 |0.2.5     |      0|        0|     0|
-|rerddap                |0.4.0     |      0|        1|     0|
+|rerddap                |0.4.2     |      0|        0|     0|
 |resumer                |0.0.3     |      0|        0|     0|
 |reval                  |2.0.0     |      0|        0|     0|
 |rex                    |1.1.1     |      0|        0|     0|
@@ -421,11 +472,11 @@
 |rmdHelpers             |1.2       |      0|        0|     0|
 |RNeXML                 |2.0.7     |      0|        0|     1|
 |RNHANES                |1.1.0     |      0|        0|     0|
-|rnoaa                  |0.6.6     |      0|        0|     0|
+|rnoaa                  |0.7.0     |      0|        0|     0|
 |roadoi                 |0.1       |      0|        0|     0|
 |robotstxt              |0.3.2     |      0|        0|     0|
 |rolypoly               |0.1.0     |      0|        0|     0|
-|ropenaq                |0.2.0     |      0|        0|     0|
+|ropenaq                |0.2.0     |      0|        1|     0|
 |ROpenFIGI              |0.2.8     |      0|        0|     0|
 |ropercenter            |0.1.0     |      0|        0|     0|
 |rpcdsearch             |1.0       |      0|        0|     0|
@@ -442,19 +493,19 @@
 |RSSL                   |0.6.1     |      0|        0|     2|
 |rtable                 |0.1.5     |      0|        0|     0|
 |rtdists                |0.6-6     |      0|        0|     1|
-|rtide                  |0.0.3     |      0|        0|     0|
-|rtimes                 |0.3.0     |      0|        0|     0|
+|rtide                  |0.0.4     |      0|        0|     0|
+|rtimes                 |0.4.0     |      0|        0|     0|
 |rtrends                |0.1.0     |      0|        0|     0|
 |RtutoR                 |0.3       |      0|        0|     0|
 |rvertnet               |0.5.0     |      0|        0|     0|
 |rwunderground          |0.1.6     |      0|        0|     0|
-|saeSim                 |0.8.0     |      0|        0|     0|
+|saeSim                 |0.9.0     |      0|        0|     0|
 |scholar                |0.1.4     |      0|        0|     0|
 |SEERaBomb              |2017.1    |      0|        0|     0|
 |sejmRP                 |1.3.4     |      0|        0|     0|
 |sfc                    |0.1.0     |      0|        0|     0|
 |sfdct                  |0.0.3     |      0|        0|     0|
-|sf                     |0.4-1     |      0|        0|     1|
+|sf                     |0.4-2     |      0|        0|     1|
 |shazam                 |0.1.5     |      0|        0|     0|
 |shinyAce               |0.2.1     |      0|        0|     1|
 |shinyHeatmaply         |0.1.0     |      0|        0|     0|
@@ -465,27 +516,27 @@
 |SimDesign              |1.6       |      0|        0|     0|
 |simmer.plot            |0.1.9     |      0|        0|     0|
 |simmer                 |3.6.1     |      0|        0|     1|
-|simPH                  |1.3.9     |      0|        0|     0|
+|simPH                  |1.3.9     |      1|        1|     0|
 |simputation            |0.2.1     |      0|        0|     1|
 |sjmisc                 |2.4.0     |      0|        0|     0|
-|sjPlot                 |2.3.1     |      0|        1|     1|
+|sjPlot                 |2.3.1     |      0|        0|     1|
 |sjstats                |0.10.0    |      0|        0|     1|
 |slackr                 |1.4.2     |      0|        0|     0|
 |solrium                |0.4.0     |      0|        0|     0|
 |sophisthse             |0.7.0     |      0|        0|     0|
 |sorvi                  |0.7.26    |      0|        0|     1|
-|sourceR                |1.0.0     |      0|        0|     0|
+|sourceR                |1.0.1     |      0|        0|     0|
 |sp500SlidingWindow     |0.1.0     |      0|        0|     0|
 |SpaCCr                 |0.1.0     |      0|        0|     1|
 |SpaDES                 |1.3.1     |      0|        1|     2|
 |sparklyr               |0.5.4     |      0|        0|     0|
 |sparseHessianFD        |0.3.3     |      0|        1|     0|
 |SpatialEpiApp          |0.1       |      0|        0|     1|
-|spbabel                |0.4.6     |      0|        0|     0|
+|spbabel                |0.4.7     |      0|        0|     0|
 |spdplyr                |0.1.2     |      0|        0|     0|
 |spellcheckr            |0.1.2     |      0|        0|     0|
 |spup                   |0.1-0     |      0|        0|     0|
-|sqlscore               |0.1.1     |      0|        0|     0|
+|sqlscore               |0.1.1     |      1|        0|     0|
 |srvyr                  |0.2.1     |      0|        0|     0|
 |ss3sim                 |0.9.5     |      0|        1|     0|
 |statar                 |0.6.4     |      0|        0|     0|
@@ -503,6 +554,8 @@
 |SWMPr                  |2.2.0     |      0|        0|     0|
 |taber                  |0.1.0     |      0|        0|     0|
 |tadaatoolbox           |0.10.0    |      0|        0|     0|
+|tatoo                  |1.0.5     |      0|        0|     0|
+|taxizedb               |0.1.0     |      0|        0|     0|
 |Tcomp                  |1.0.0     |      0|        0|     0|
 |tcR                    |2.2.1.11  |      0|        0|     2|
 |TeachBayes             |1.0       |      0|        0|     0|
@@ -518,18 +571,18 @@
 |tictactoe              |0.2.0     |      0|        0|     0|
 |tidyjson               |0.2.2     |      0|        0|     0|
 |tidyquant              |0.5.1     |      0|        0|     1|
-|tidyr                  |0.6.1     |      0|        0|     1|
+|tidyr                  |0.6.2     |      0|        0|     0|
 |tidyRSS                |1.0.1     |      0|        0|     0|
 |tidytext               |0.1.2     |      2|        1|     0|
 |tidyverse              |1.1.1     |      0|        0|     0|
 |tigger                 |0.2.8     |      0|        0|     0|
-|tigris                 |0.5       |      0|        0|     0|
+|tigris                 |0.5.1     |      0|        0|     0|
 |tilegramsR             |0.2.0     |      0|        0|     0|
 |timekit                |0.2.0     |      0|        0|     0|
 |timelineS              |0.1.1     |      0|        0|     0|
 |titanic                |0.1.0     |      0|        0|     0|
-|tmap                   |1.8-1     |      0|        0|     0|
-|Tmisc                  |0.1.13    |      0|        0|     0|
+|tmap                   |1.10      |      0|        0|     1|
+|Tmisc                  |0.1.14    |      0|        0|     0|
 |traits                 |0.2.0     |      0|        0|     0|
 |treeplyr               |0.1.2     |      0|        0|     1|
 |trelliscope            |0.9.7     |      0|        0|     0|
@@ -543,9 +596,9 @@
 |vaersNDvax             |1.0.4     |      0|        0|     1|
 |vaersvax               |1.0.4     |      0|        0|     1|
 |valaddin               |0.1.0     |      0|        0|     0|
-|valr                   |0.1.2     |      0|        0|     1|
+|valr                   |0.2.0     |      0|        0|     1|
 |vcfR                   |1.4.0     |      0|        0|     2|
-|vdmR                   |0.2.3     |      0|        1|     0|
+|vdmR                   |0.2.3     |      0|        0|     0|
 |VIM                    |4.7.0     |      0|        0|     1|
 |vkR                    |0.1       |      0|        0|     0|
 |vqtl                   |1.0       |      0|        0|     0|
@@ -568,10 +621,32 @@
 |WufooR                 |0.6.2     |      0|        0|     0|
 |xxIRT                  |2.0.1     |      0|        0|     0|
 |yorkr                  |0.0.7     |      0|        0|     0|
-|ZeligChoice            |0.9-4     |      0|        0|     0|
+|ZeligChoice            |0.9-5     |      0|        0|     0|
 |ZeligEI                |0.1-0     |      0|        0|     0|
-|Zelig                  |5.0-17    |      0|        0|     1|
+|Zelig                  |5.1-1     |      0|        0|     1|
+|zeligverse             |0.1.0     |      0|        0|     0|
 |ztype                  |0.1.0     |      0|        0|     0|
+
+## abjutils (0.0.1)
+Maintainer: Fernando Correa <fcorrea@abj.org.br>
+
+0 errors | 0 warnings | 0 notes
+
+## ACDm (1.0.4)
+Maintainer: Markus Belfrage <markus.belfrage@gmail.com>
+
+0 errors | 0 warnings | 1 note 
+
+```
+checking compiled code ... NOTE
+File ‘ACDm/libs/ACDm.so’:
+  Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
+
+It is good practice to register native routines and to disable symbol
+search.
+
+See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+```
 
 ## adegenet (2.0.1)
 Maintainer: Thibaut Jombart <thibautjombart@gmail.com>
@@ -588,6 +663,56 @@ search.
 
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
+
+## admixturegraph (1.0.2)
+Maintainer: Thomas Mailund <mailund@birc.au.dk>  
+Bug reports: https://github.com/mailund/admixture_graph/issues
+
+0 errors | 0 warnings | 0 notes
+
+## ADPclust (0.7)
+Maintainer: Yifan (Ethan) Xu <ethan.yifanxu@gmail.com>  
+Bug reports: https://github.com/ethanyxu/ADPclust/issues
+
+0 errors | 0 warnings | 0 notes
+
+## aemo (0.2.0)
+Maintainer: Imanuel Costigan <i.costigan@me.com>
+
+0 errors | 0 warnings | 0 notes
+
+## afex (0.17-8)
+Maintainer: Henrik Singmann <singmann+afex@gmail.com>  
+Bug reports: https://github.com/singmann/afex/issues
+
+0 errors | 0 warnings | 1 note 
+
+```
+checking Rd cross-references ... NOTE
+Package unavailable to check Rd xrefs: ‘ascii’
+```
+
+## afmToolkit (0.0.1)
+Maintainer: Rafael Benitez <rabesua@uv.es>
+
+0 errors | 0 warnings | 0 notes
+
+## AIG (0.1.3)
+Maintainer: Bao Sheng Loe (Aiden) <bsl28@cam.ac.uk>
+
+0 errors | 0 warnings | 0 notes
+
+## alakazam (0.2.6)
+Maintainer: Jason Vander Heiden <jason.vanderheiden@yale.edu>  
+Bug reports: https://bitbucket.org/kleinstein/alakazam/issues
+
+0 errors | 0 warnings | 0 notes
+
+## alluvial (0.1-2)
+Maintainer: Michal Bojanowski <michal2992@gmail.com>  
+Bug reports: https://github.com/mbojan/alluvial/issues
+
+0 errors | 0 warnings | 0 notes
 
 ## alphabetr (0.2.2)
 Maintainer: Edward Lee <email.edwardlee@gmail.com>  
@@ -606,8 +731,163 @@ search.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
 
+## ameco (0.2.6)
+Maintainer: Eric Persson <expersso5@gmail.com>  
+Bug reports: http://github.com/expersso/ameco/issues
+
+1 error  | 0 warnings | 1 note 
+
+```
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  > library(testthat)
+  > library(ameco)
+  > 
+  > test_check("ameco")
+  1. Failure: Test that current version is still latest version (@tests.R#16) ----
+  `last_update` not equal to as.Date("2017-02-13").
+  'is.NA' value mismatch: 0 in current 1 in target
+  
+  
+  testthat results ================================================================
+  OK: 0 SKIPPED: 0 FAILED: 1
+  1. Failure: Test that current version is still latest version (@tests.R#16) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking installed package size ... NOTE
+  installed size is 15.7Mb
+  sub-directories of 1Mb or more:
+    data  15.6Mb
+```
+
+## ANLP (1.3)
+Maintainer: Achal Shah <achalshah20@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
+## anomalyDetection (0.1.1)
+Maintainer: Bradley Boehmke <bradleyboehmke@gmail.com>  
+Bug reports: https://github.com/bradleyboehmke/anomalyDetection/issues
+
+0 errors | 0 warnings | 0 notes
+
+## apa (0.2.0)
+Maintainer: Daniel Gromer <dgromer@mailbox.org>  
+Bug reports: https://github.com/dgromer/apa/issues
+
+0 errors | 0 warnings | 0 notes
+
+## apaTables (1.5.0)
+Maintainer: David Stanley <dstanley@uoguelph.ca>  
+Bug reports: https://github.com/dstanley4/apaTables/issues
+
+0 errors | 0 warnings | 0 notes
+
+## ArchaeoPhases (1.1)
+Maintainer: Anne Philippe <anne.philippe@univ-nantes.fr>
+
+0 errors | 0 warnings | 0 notes
+
+## archivist (2.1.2)
+Maintainer: Przemyslaw Biecek <przemyslaw.biecek@gmail.com>  
+Bug reports: https://github.com/pbiecek/archivist/issues
+
+0 errors | 0 warnings | 2 notes
+
+```
+checking package dependencies ... NOTE
+Package which this enhances but not available for checking: ‘archivist.github’
+
+checking Rd cross-references ... NOTE
+Package unavailable to check Rd xrefs: ‘archivist.github’
+```
+
+## ARTool (0.10.4)
+Maintainer: Matthew Kay <mjskay@umich.edu>  
+Bug reports: https://github.com/mjskay/ARTool/issues/new
+
+0 errors | 0 warnings | 0 notes
+
+## assertive.types (0.0-3)
+Maintainer: Richard Cotton <richierocks@gmail.com>  
+Bug reports: https://bitbucket.org/richierocks/assertive.types/issues
+
+0 errors | 0 warnings | 0 notes
+
+## assertr (2.0.2)
+Maintainer: Tony Fischetti <tony.fischetti@gmail.com>  
+Bug reports: https://github.com/ropensci/assertr/issues
+
+0 errors | 0 warnings | 0 notes
+
+## atlantistools (0.4.1)
+Maintainer: Alexander Keth <alexander.keth@uni-hamburg.de>  
+Bug reports: https://github.com/alketh/atlantistools/issues
+
+0 errors | 1 warning  | 1 note 
+
+```
+checking sizes of PDF files under ‘inst/doc’ ... WARNING
+  ‘gs+qpdf’ made some significant size reductions:
+     compacted ‘model-calibration.pdf’ from 766Kb to 493Kb
+  consider running tools::compactPDF(gs_quality = "ebook") on these files
+
+checking installed package size ... NOTE
+  installed size is  5.6Mb
+  sub-directories of 1Mb or more:
+    doc       1.5Mb
+    extdata   3.0Mb
+```
+
+## automagic (0.3)
+Maintainer: Cole Brokamp <cole.brokamp@gmail.com>  
+Bug reports: https://github.com/cole-brokamp/automagic/issues
+
+0 errors | 0 warnings | 0 notes
+
+## AutoModel (0.4.9)
+Maintainer: Alex Lishinski <alexlishinski@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
+## backtestGraphics (0.1.6)
+Maintainer: Miller Zijie Zhu <zijie.miller.zhu@gmail.com>
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking tests ... ERROR
+  Running ‘test-all.R’
+Running the tests in ‘tests/test-all.R’ failed.
+Last 13 lines of output:
+  > library(testthat)
+  > test_check("backtestGraphics")
+  Loading required package: backtestGraphics
+  1. Failure: stat_calculation function (@test_stat_calculation.R#8) -------------
+  Failed the test for calculating summary statistics not equal to `truth.1`.
+  Component "pnl": Component "pnl.drawdown": Component "start": Attributes: < Component "levels": 1 string mismatch >
+  Component "pnl": Component "pnl.drawdown": Component "start": 1 string mismatch
+  
+  
+  testthat results ================================================================
+  OK: 9 SKIPPED: 0 FAILED: 1
+  1. Failure: stat_calculation function (@test_stat_calculation.R#8) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+```
+
 ## bannerCommenter (0.1.0)
 Maintainer: Bill Venables <Bill.Venables@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
+## bayesGDS (0.6.2)
+Maintainer: Michael Braun <braunm@smu.edu>
 
 0 errors | 0 warnings | 0 notes
 
@@ -615,9 +895,30 @@ Maintainer: Bill Venables <Bill.Venables@gmail.com>
 Maintainer: Jonah Gabry <jsg2201@columbia.edu>  
 Bug reports: https://github.com/stan-dev/bayesplot/issues/
 
-0 errors | 0 warnings | 1 note 
+0 errors | 1 warning  | 1 note 
 
 ```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+ *** caught segfault ***
+address 0x1d0000003c, cause 'memory not mapped'
+
+Traceback:
+ 1: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
+ 2: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
+ 3: vweave_rmarkdown(...)
+ 4: engine$weave(file, quiet = quiet, encoding = enc)
+ 5: doTryCatch(return(expr), name, parentenv, handler)
+ 6: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+ 7: tryCatchList(expr, classes, parentenv, handlers)
+ 8: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
+ 9: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/bayesplot.Rcheck/vign_test/bayesplot")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
+
+
 checking installed package size ... NOTE
   installed size is  5.0Mb
   sub-directories of 1Mb or more:
@@ -636,9 +937,25 @@ Bug reports: https://github.com/rstats-db/bigrquery/issues
 
 0 errors | 0 warnings | 0 notes
 
+## binford (0.1.0)
+Maintainer: Ben Marwick <benmarwick@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
 ## binomen (0.1.2)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/binomen/issues
+
+0 errors | 0 warnings | 0 notes
+
+## bioinactivation (1.1.5)
+Maintainer: Alberto Garre <garre.alberto@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
+## biomartr (0.4.0)
+Maintainer: Hajk-Georg Drost <hgd23@cam.ac.uk>  
+Bug reports: https://github.com/HajkD/biomartr/issues
 
 0 errors | 0 warnings | 0 notes
 
@@ -655,34 +972,112 @@ See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
 manual.
 ```
 
-## blscrapeR (2.1.2)
+## bkmr (0.2.0)
+Maintainer: Jennifer F. Bobb <jenniferfederbobb@gmail.com>  
+Bug reports: https://github.com/jenfb/bkmr/issues
+
+0 errors | 0 warnings | 0 notes
+
+## blkbox (1.0)
+Maintainer: Boris Guennewig <b.guennewig@garvan.org.au>
+
+0 errors | 0 warnings | 2 notes
+
+```
+checking package dependencies ... NOTE
+Package suggested but not available for checking: ‘bigrf’
+
+checking dependencies in R code ... NOTE
+Missing or unexported object: ‘xgboost::predict’
+```
+
+## blscrapeR (2.1.4)
 Maintainer: Kris Eberwein <eberwein@knights.ucf.edu>  
 Bug reports: https://github.com/keberwein/blscrapeR/issues
 
-1 error  | 0 warnings | 0 notes
+0 errors | 0 warnings | 0 notes
+
+## bmlm (1.2.10)
+Maintainer: Matti Vuorre <mv2521@columbia.edu>  
+Bug reports: http://github.com/mvuorre/bmlm/issues/
+
+0 errors | 0 warnings | 2 notes
 
 ```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Complete output:
-  > library(testthat)
-  > library(blscrapeR)
-  > 
-  > test_check("blscrapeR")
-  trying URL 'https://www.bls.gov/web/metro/laucntycur14.txt'
-  downloaded 5.8 MB
-  
-  Error in datalist[[i]] <- mth_vals : 
-    attempt to select less than one element in integerOneIndex
-  Calls: test_check ... with_reporter -> force -> source_file -> eval -> eval
-  testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 0
-  Execution halted
+checking installed package size ... NOTE
+  installed size is 30.1Mb
+  sub-directories of 1Mb or more:
+    libs  29.8Mb
+
+checking compiled code ... NOTE
+File ‘bmlm/libs/bmlm.so’:
+  Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
+
+It is good practice to register native routines and to disable symbol
+search.
+
+See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
+
+## bodenmiller (0.1)
+Maintainer: Yann Abraham <yann.abraham@gmail.com>  
+Bug reports: https://github.com/yannabraham/bodenmiller/issues
+
+0 errors | 0 warnings | 1 note 
+
+```
+checking installed package size ... NOTE
+  installed size is  8.9Mb
+  sub-directories of 1Mb or more:
+    data   8.7Mb
+```
+
+## bootnet (1.0.0)
+Maintainer: Sacha Epskamp <mail@sachaepskamp.com>
+
+0 errors | 0 warnings | 0 notes
 
 ## bossMaps (0.1.0)
 Maintainer: Adam M. Wilson <adamw@buffalo.edu>
+
+0 errors | 0 warnings | 0 notes
+
+## boxr (0.3.4)
+Maintainer: Brendan Rocks <foss@brendanrocks.com>  
+Bug reports: https://github.com/brendan-r/boxr/issues
+
+0 errors | 0 warnings | 0 notes
+
+## braQCA (0.9.9.6)
+Maintainer: C. Ben Gibson <cbgibson@uci.edu>
+
+0 errors | 0 warnings | 0 notes
+
+## breathtestcore (0.3.0)
+Maintainer: Dieter Menne <dieter.menne@menne-biomed.de>
+
+0 errors | 0 warnings | 0 notes
+
+## bsam (1.1.1)
+Maintainer: Ian Jonsen <ian.jonsen@mq.edu.au>  
+Bug reports: https://github.com/ianjonsen/bsam/issues
+
+0 errors | 0 warnings | 0 notes
+
+## bulletr (0.1)
+Maintainer: Eric Hare <erichare@iastate.edu>  
+Bug reports: https://github.com/erichare/bulletr/issues
+
+0 errors | 0 warnings | 0 notes
+
+## bupaR (0.1.1)
+Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
+
+0 errors | 0 warnings | 0 notes
+
+## CARBayesST (2.5)
+Maintainer: Duncan Lee <Duncan.Lee@glasgow.ac.uk>  
+Bug reports: http://github.com/duncanplee/CARBayesST/issues
 
 0 errors | 0 warnings | 0 notes
 
@@ -726,9 +1121,25 @@ Execution halted
 
 ```
 
+## causaldrf (0.3)
+Maintainer: Douglas Galagate <galagated@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
+## CausalImpact (1.2.0)
+Maintainer: Alain Hauser <alhauser@google.com>
+
+0 errors | 0 warnings | 0 notes
+
 ## cbsodataR (0.2.1)
 Maintainer: Edwin de Jonge <edwindjonge@gmail.com>  
 Bug reports: https://github.com/edwindj/cbsodataR/issues
+
+0 errors | 0 warnings | 0 notes
+
+## cdata (0.1.1)
+Maintainer: John Mount <jmount@win-vector.com>  
+Bug reports: https://github.com/WinVector/cdata/issues
 
 0 errors | 0 warnings | 0 notes
 
@@ -743,7 +1154,7 @@ Maintainer: Greg Macfarlane <gregmacfarlane@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## childsds (0.6)
+## childsds (0.6.1)
 Maintainer: Mandy Vogel <mandy.vogel@googlemail.com>
 
 0 errors | 0 warnings | 0 notes
@@ -798,29 +1209,10 @@ Maintainer: Angelos Markos <amarkos@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## codingMatrices (0.3.0)
+## codingMatrices (0.3.1)
 Maintainer: Bill Venables <Bill.Venables@gmail.com>
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
-  Running 'texi2dvi' on 'codingMatrices.tex' failed.
-BibTeX errors:
-The top-level auxiliary file: codingMatrices.aux
-I couldn't open style file chicago.bst
----line 19 of file codingMatrices.aux
- : \bibstyle{chicago
- :                  }
-I'm skipping whatever remains of this command
-I found no style file---while reading file codingMatrices.aux
-Calls: buildVignettes -> texi2pdf -> texi2dvi
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## codyn (1.1.0)
 Maintainer: Matthew B. Jones <jones@nceas.ucsb.edu>  
@@ -899,7 +1291,7 @@ Calls: <Anonymous> ... do.call -> <Anonymous> -> htmlTable.default -> prPrepareC
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [6s/12s]
+  Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -931,13 +1323,78 @@ Execution halted
 ## congressbr (0.1.0)
 Maintainer: Robert Myles McDonnell <robertmylesmcdonnell@gmail.com>
 
-0 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘congressbr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: sen_bills_situations
+> ### Title: Downloads and tidies information on the possible situations a
+> ###   bill can be in
+> ### Aliases: sen_bills_situations
+> 
+> ### ** Examples
+> 
+> sen_bills_situations()
+Error in curl::curl_fetch_memory(url, handle = handle) : 
+  Timeout was reached
+Calls: sen_bills_situations ... request_fetch -> request_fetch.write_memory -> <Anonymous> -> .Call
+Execution halted
+```
 
 ## coreSim (0.2.3)
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
 Bug reports: https://github.com/christophergandrud/coreSim/issues
 
-0 errors | 0 warnings | 0 notes
+2 errors | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘coreSim-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: qi_builder
+> ### Title: Find quantities of interest from generalized linear models
+> ### Aliases: qi_builder
+> 
+> ### ** Examples
+... 26 lines ...
+
+> 
+> ## Logistic regression
+> # Download data
+> URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
+> Admission <- read.csv(URL)
+> Admission$rank <- as.factor(Admission$rank)
+Error in `$<-.data.frame`(`*tmp*`, rank, value = integer(0)) : 
+  replacement has 0 rows, data has 526
+Calls: $<- -> $<-.data.frame
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  linear_systematic: .......
+  qi_builder: 1
+  qi_slimmer: ..
+  
+  Failed -------------------------------------------------------------------------
+  1. Error: qi_builder output validity (@test_qi_builder.R#31) -------------------
+  replacement has 0 rows, data has 526
+  1: `$<-`(`*tmp*`, rank, value = structure(integer(0), .Label = character(0), class = "factor")) at testthat/test_qi_builder.R:31
+  2: `$<-.data.frame`(`*tmp*`, rank, value = structure(integer(0), .Label = character(0), class = "factor")) at testthat/test_qi_builder.R:31
+  3: stop(sprintf(ngettext(N, "replacement has %d row, data has %d", "replacement has %d rows, data has %d"), 
+         N, nrows), domain = NA)
+  
+  DONE ===========================================================================
+  Error: Test failures
+  Execution halted
+```
 
 ## corrr (0.2.1)
 Maintainer: Simon Jackson <drsimonjackson@gmail.com>  
@@ -984,13 +1441,42 @@ Bug reports: https://github.com/tvganesh/cricketr/issues
 
 0 errors | 0 warnings | 0 notes
 
+## crplyr (0.1.0)
+Maintainer: Neal Richardson <neal@crunch.io>  
+Bug reports: https://github.com/Crunch-io/crplyr/issues
+
+0 errors | 0 warnings | 0 notes
+
 ## d3r (0.6.4)
 Maintainer: Kent Russell <kent.russell@timelyportfolio.com>  
 Bug reports: https://github.com/timelyportfolio/d3r/issues
 
-1 error  | 0 warnings | 1 note 
+2 errors | 0 warnings | 1 note 
 
 ```
+checking examples ... ERROR
+Running examples in ‘d3r-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: d3_nest
+> ### Title: Convert a 'data.frame' to a 'd3.js' Hierarchy
+> ### Aliases: d3_nest
+> 
+> ### ** Examples
+... 33 lines ...
+ 6: d3_nest(., value_cols = "Freq", root = "titanic")
+ 7: function_list[[k]](value)
+ 8: withVisible(function_list[[k]](value))
+ 9: freduce(value, `_function_list`)
+10: `_fseq`(`_lhs`)
+11: eval(quote(`_fseq`(`_lhs`)), env, env)
+12: eval(quote(`_fseq`(`_lhs`)), env, env)
+13: withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+14: titanic_df %>% select(Class, Age, Survived, Sex, Freq) %>% d3_nest(value_cols = "Freq",     root = "titanic")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
+
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
@@ -1080,7 +1566,7 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [55s/56s]
+  Running ‘testthat.R’ [43s/44s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -1158,7 +1644,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [134s/136s]
+  Running ‘testthat.R’ [108s/108s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -1321,10 +1807,35 @@ Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
 ## eechidna (0.1)
 Maintainer: Ben Marwick <benmarwick@gmail.com>
 
-0 errors | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
 
-## eemR (0.1.4)
-Maintainer: Philippe Massicotte <pm@bios.au.dk>  
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'scales'
+
+The following object is masked from 'package:purrr':
+
+    discard
+
+... 8 lines ...
+
+Attaching package: 'GGally'
+
+The following object is masked from 'package:dplyr':
+
+    nasa
+
+Quitting from lines 337-354 (exploring-election-data.Rmd) 
+Error: processing vignette 'exploring-election-data.Rmd' failed with diagnostics:
+could not find function "dmap"
+Execution halted
+```
+
+## eemR (0.1.5)
+Maintainer: Philippe Massicotte <pmassicotte@hotmail.com>  
 Bug reports: https://github.com/PMassicotte/eemR/issues
 
 0 errors | 0 warnings | 0 notes
@@ -1357,7 +1868,7 @@ to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
 contains 'methods').
 ```
 
-## efreadr (0.1.1)
+## efreadr (0.2.2)
 Maintainer: Marco Bascietto <marco.bascietto@crea.gov.it>
 
 0 errors | 0 warnings | 0 notes
@@ -1367,6 +1878,23 @@ Maintainer: Denisson Silva <denissonsilva@ufmg.br>
 Bug reports: https://github.com/silvadenisson/electionsBR/issues
 
 0 errors | 0 warnings | 0 notes
+
+## emil (2.2.6)
+Maintainer: Christofer Backlin <emil@christofer.backlin.se>  
+Bug reports: https://github.com/Molmed/emil/issues
+
+0 errors | 0 warnings | 1 note 
+
+```
+checking compiled code ... NOTE
+File ‘emil/libs/emil.so’:
+  Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
+
+It is good practice to register native routines and to disable symbol
+search.
+
+See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+```
 
 ## emuR (0.2.2)
 Maintainer: Raphael Winkelmann <raphael@phonetik.uni-muenchen.de>  
@@ -1382,7 +1910,64 @@ Maintainer: James Curley <jc3181@columbia.edu>
 ## epicontacts (1.0.0)
 Maintainer: VP Nagraj <vpnagraj@virginia.edu>
 
-0 errors | 0 warnings | 0 notes
+2 errors | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘epicontacts-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: as.igraph.epicontacts
+> ### Title: Create igraph object from contact data
+> ### Aliases: as.igraph.epicontacts
+> 
+> ### ** Examples
+... 30 lines ...
+The following objects are masked from ‘package:stats’:
+
+    decompose, spectrum
+
+The following object is masked from ‘package:base’:
+
+    union
+
+Error in `[.data.frame`(linelist, , id) : undefined columns selected
+Calls: make_epicontacts -> [ -> [.data.frame
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  1: make_epicontacts(ebola_sim$linelist, ebola_sim$contacts, id = "case.id", to = "case.id", 
+         from = "infector", directed = TRUE) at testthat/test_thin.R:4
+  2: linelist[, id]
+  3: `[.data.frame`(linelist, , id)
+  4: stop("undefined columns selected")
+  
+  testthat results ================================================================
+  OK: 8 SKIPPED: 34 FAILED: 4
+  1. Error: Various subsetting using [ (@test_handling.R#4) 
+  2. Error: Errors / warnings happen when they should (@test_handling.R#55) 
+  3. Error: Reordering of columns works (@test_make_epicontacts.R#84) 
+  4. Error: Thin ouputs are correct (@test_thin.R#4) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Warning in structure(x, class = unique(c("AsIs", oldClass(x)))) :
+  Calling 'structure(NULL, *)' is deprecated, as NULL cannot have attributes.
+  Consider 'structure(list(), *)' instead.
+Quitting from lines 219-233 (epicontacts.Rmd) 
+Error: processing vignette 'epicontacts.Rmd' failed with diagnostics:
+undefined columns selected
+Execution halted
+
+```
 
 ## EpiCurve (1.0-0)
 Maintainer: Jean Pierre Decorps <jp.decorps@epiconcept.fr>
@@ -1441,7 +2026,12 @@ Bug reports: https://github.com/ropengov/eurostat/issues
 Maintainer: David Severski <davidski@deadheaven.com>  
 Bug reports: https://github.com/davidski/evaluator/issues
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note 
+
+```
+checking dependencies in R code ... NOTE
+Missing or unexported object: ‘purrr::by_row’
+```
 
 ## explor (0.3.1)
 Maintainer: Julien Barnier <julien.barnier@ens-lyon.fr>  
@@ -1527,7 +2117,29 @@ Bug reports: https://github.com/wmurphyrd/fiftystater/issues
 Maintainer: Rory Nolan <rorynoolan@gmail.com>  
 Bug reports: https://www.github.com/rorynolan/filesstrings/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
+
+```
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  Attributes: < Length mismatch: comparison on first 2 components >
+  
+  
+  2. Failure: MergeTablesOnDisk works (@test_files.R#82) -------------------------
+  readr::read_csv("merged.csv") not equal to tibble::tibble(x = c(1.5, 1.5), y = c(2.5, 29.5)).
+  Attributes: < Length mismatch: comparison on first 2 components >
+  
+  
+  testthat results ================================================================
+  OK: 141 SKIPPED: 0 FAILED: 2
+  1. Failure: MergeTablesOnDisk works (@test_files.R#80) 
+  2. Failure: MergeTablesOnDisk works (@test_files.R#82) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+```
 
 ## finreportr (1.0.1)
 Maintainer: Seward Lee <sewardlee337@gmail.com>
@@ -1603,12 +2215,12 @@ Bug reports: https://github.com/teddybalan/frailtyEM/issues
 
 0 errors | 0 warnings | 0 notes
 
-## freqweights (1.0.3)
+## freqweights (1.0.4)
 Maintainer: Emilio Torres-Manzanera <torres@uniovi.es>
 
 0 errors | 0 warnings | 0 notes
 
-## FRK (0.1.2)
+## FRK (0.1.3)
 Maintainer: Andrew Zammit-Mangion <andrewzm@gmail.com>  
 Bug reports: http://github.com/andrewzm/FRK/issues
 
@@ -1686,7 +2298,7 @@ Bug reports: https://github.com/pablo14/funModeling/issues
 
 0 errors | 0 warnings | 0 notes
 
-## funrar (1.0.2)
+## funrar (1.0.3)
 Maintainer: Matthias Grenié <matthias.grenie@gmail.com>  
 Bug reports: https://github.com/Rekyt/funrar/issues
 
@@ -1729,6 +2341,19 @@ Bug reports: https://github.com/jennybc/gapminder/issues
 
 0 errors | 0 warnings | 0 notes
 
+## gastempt (0.4.01)
+Maintainer: Dieter Menne <dieter.menne@menne-biomed.de>  
+Bug reports: http://github.com/dmenne/gastempt/issues
+
+0 errors | 0 warnings | 1 note 
+
+```
+checking installed package size ... NOTE
+  installed size is 56.7Mb
+  sub-directories of 1Mb or more:
+    libs  56.3Mb
+```
+
 ## GenCAT (1.0.3)
 Maintainer: Eric Reed <reeder@bu.edu>
 
@@ -1749,9 +2374,29 @@ Package suggested but not available for checking: ‘genderdata’
 Maintainer: Jordan Read <jread@usgs.gov>  
 Bug reports: https://github.com/USGS-R/geoknife/issues
 
-0 errors | 1 warning  | 0 notes
+1 error  | 1 warning  | 0 notes
 
 ```
+checking tests ... ERROR
+  Running ‘testthat.R’ [5s/22s]
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  6: getNodeSet(response, xpath, namespaces = namespaces)
+  7: xpathApply(doc, path, fun, ..., namespaces = namespaces, sessionEncoding = sessionEncoding, 
+         addFinalizer = addFinalizer) at /tmp/Rtmp6kRorR/devtoolsd9314237cd8/XML/R/XMLClasses.R:663
+  8: xpathApply.XMLInternalDocument(doc, path, fun, ..., namespaces = namespaces, sessionEncoding = sessionEncoding, 
+         addFinalizer = addFinalizer) at /tmp/Rtmp6kRorR/devtoolsd9314237cd8/XML/R/XMLClasses.R:700
+  9: matchNamespaces(doc, namespaces) at /tmp/Rtmp6kRorR/devtoolsd9314237cd8/XML/R/XMLClasses.R:740
+  10: stop("cannot find defined namespace(s) with prefix(es) ", paste(namespaces[i][is.na(idx)], 
+         collapse = ", ")) at /tmp/Rtmp6kRorR/devtoolsd9314237cd8/XML/R/XMLClasses.R:638
+  
+  testthat results ================================================================
+  OK: 53 SKIPPED: 62 FAILED: 1
+  1. Error: show datagroup (@test-show_object.R#23) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
@@ -1857,9 +2502,29 @@ See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 Maintainer: Masaaki Horikoshi <sinhrks@gmail.com>  
 Bug reports: https://github.com/sinhrks/ggfortify/issues
 
-0 errors | 0 warnings | 1 note 
+1 error  | 0 warnings | 1 note 
 
 ```
+checking tests ... ERROR
+  Running ‘test-all.R’
+Running the tests in ‘tests/test-all.R’ failed.
+Last 13 lines of output:
+  16: eval(exprs, env)
+  17: source_file(path, new.env(parent = env), chdir = TRUE)
+  18: force(code)
+  19: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
+  20: FUN(X[[i]], ...)
+  21: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
+  22: force(code)
+  23: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
+  24: test_files(paths, reporter = reporter, env = env, ...)
+  25: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
+  26: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
+  27: run_tests(package, test_path, filter, reporter, ...)
+  28: test_check("ggfortify")
+  An irrecoverable exception occurred. R is aborting now ...
+  Segmentation fault (core dumped)
+
 checking installed package size ... NOTE
   installed size is  5.7Mb
   sub-directories of 1Mb or more:
@@ -1959,19 +2624,7 @@ Bug reports: https://github.com/ropensci/gistr/issues
 Maintainer: Vincent Nijs <vnijs@ucsd.edu>  
 Bug reports: https://github.com/vnijs/gitgadget/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-pandoc: Could not fetch https://travis-ci.org/vnijs/gitgadget.png?branch=master
-TlsExceptionHostPort (HandshakeFailed (Error_Packet_unexpected "Alert [(AlertLevel_Fatal,UnexpectedMessage)]" " expected: change cipher")) "travis-ci.org" 443
-Error: processing vignette 'gitgadget.Rmd' failed with diagnostics:
-pandoc document conversion failed with error 67
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## gitlabr (0.9)
 Maintainer: Jirka Lewandowski <jirka.lewandowski@wzb.eu>  
@@ -2008,8 +2661,8 @@ Bug reports: https://github.com/MarkEdmondson1234/googleAnalyticsR/issues
 
 0 errors | 0 warnings | 0 notes
 
-## googlesheets (0.2.1)
-Maintainer: Jennifer Bryan <jenny@stat.ubc.ca>  
+## googlesheets (0.2.2)
+Maintainer: Jennifer Bryan <jenny@rstudio.com>  
 Bug reports: https://github.com/jennybc/googlesheets/issues
 
 0 errors | 0 warnings | 0 notes
@@ -2025,7 +2678,7 @@ Bug reports: https://github.com/JohnCoene/graphTweets/issues
 
 0 errors | 0 warnings | 0 notes
 
-## grattan (1.4.1.2)
+## grattan (1.5.0.0)
 Maintainer: Hugh Parsonage <hugh.parsonage@gmail.com>  
 Bug reports: https://github.com/HughParsonage/grattan/issues
 
@@ -2067,28 +2720,7 @@ Maintainer: Dirk Eddelbuettel <edd@debian.org>
 Maintainer: David Robinson <admiral.david@gmail.com>  
 Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’ [7s/14s]
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  > library(testthat)
-  > library(gutenbergr)
-  > 
-  > test_check("gutenbergr")
-  1. Failure: read_zip_url can download and read a zip file (@test-utils.R#7) ----
-  any(z == "Congress shall make no law respecting an establishment of religion,") isn't true.
-  
-  
-  testthat results ================================================================
-  OK: 46 SKIPPED: 0 FAILED: 1
-  1. Failure: read_zip_url can download and read a zip file (@test-utils.R#7) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## gwdegree (0.1.1)
 Maintainer: Michael Levy <malevy@ucdavis.edu>  
@@ -2122,7 +2754,7 @@ Bug reports: https://github.com/expersso/hdr
 
 0 errors | 0 warnings | 0 notes
 
-## heemod (0.9.0)
+## heemod (0.9.1)
 Maintainer: Antoine Filipovic-Pierucci <pierucci@gmail.com>  
 Bug reports: https://github.com/pierucci/heemod/issues
 
@@ -2182,14 +2814,13 @@ Package suggested but not available for checking: ‘hurricaneexposuredata’
 Maintainer: David Hugh-Jones <davidhughjones@gmail.com>  
 Bug reports: https://github.com/hughjonesd/huxtable/issues
 
-1 error  | 0 warnings | 0 notes
+1 error  | 1 warning  | 0 notes
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [12s/23s]
+  Running ‘testthat.R’ [12s/14s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-         message = handle_message)) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
   4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
   5: withVisible(code) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
   6: rmarkdown::render("rowheight-multicol-test.Rmd", quiet = TRUE) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
@@ -2199,11 +2830,21 @@ Last 13 lines of output:
   9: stop("pandoc document conversion failed with error ", result, call. = FALSE) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/pandoc.R:100
   
   testthat results ================================================================
-  OK: 203 SKIPPED: 14 FAILED: 1
-  1. Error: Row heights do not screw up latex multicol (@test-with-pandoc.R#20) 
+  OK: 200 SKIPPED: 14 FAILED: 2
+  1. Error: slice, filter and arrange work (@test-dplyr.R#24) 
+  2. Error: Row heights do not screw up latex multicol (@test-with-pandoc.R#20) 
   
   Error: testthat unit tests failed
   Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Quitting from lines 320-337 (huxtable.Rmd) 
+Error: processing vignette 'huxtable.Rmd' failed with diagnostics:
+is.data.frame(df) is not TRUE
+Execution halted
+
 ```
 
 ## HydeNet (0.10.5)
@@ -2285,7 +2926,7 @@ The error most likely occurred in:
 > ### Aliases: imf_codes
 > 
 > ### ** Examples
-... 79 lines ...
+... 93 lines ...
  *** caught segfault ***
 address (nil), cause 'unknown'
 
@@ -2368,7 +3009,7 @@ Maintainer: Yue Hu <yue-hu-1@uiowa.edu>
 
 0 errors | 0 warnings | 0 notes
 
-## ipft (0.5)
+## ipft (0.6)
 Maintainer: Emilio Sansano <esansano@uji.es>
 
 0 errors | 0 warnings | 0 notes
@@ -2400,7 +3041,7 @@ Bug reports: https://github.com/juliasilge/janeaustenr/issues
 
 0 errors | 0 warnings | 0 notes
 
-## janitor (0.2.1)
+## janitor (0.3.0)
 Maintainer: Sam Firke <samuel.firke@gmail.com>  
 Bug reports: https://github.com/sfirke/janitor/issues
 
@@ -2485,7 +3126,7 @@ search.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
 
-## leaflet.minicharts (0.1.0)
+## leaflet.minicharts (0.2.0)
 Maintainer: Francois Guillem <francois.guillem@rte-france.com>
 
 0 errors | 0 warnings | 0 notes
@@ -2496,8 +3137,9 @@ Bug reports: https://github.com/kuhnrl30/LendingClub/issues
 
 0 errors | 0 warnings | 0 notes
 
-## lexRankr (0.4.0)
-Maintainer: Adam Spannbauer <spannbaueradam@gmail.com>
+## lexRankr (0.4.1)
+Maintainer: Adam Spannbauer <spannbaueradam@gmail.com>  
+Bug reports: https://github.com/AdamSpannbauer/lexRankr/issues/
 
 0 errors | 0 warnings | 0 notes
 
@@ -2590,11 +3232,25 @@ Maintainer: Alex J. Krebs <Krebs.AlexJ@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## manifestoR (1.2.3)
+## manifestoR (1.2.4)
 Maintainer: Jirka Lewandowski <jirka.lewandowski@wzb.eu>  
 Bug reports: https://github.com/ManifestoProject/manifestoR/issues
 
 0 errors | 0 warnings | 0 notes
+
+## mapview (2.0.1)
+Maintainer: Tim Appelhans <tim.appelhans@gmail.com>  
+Bug reports: https://github.com/r-spatial/mapview/issues
+
+0 errors | 0 warnings | 1 note 
+
+```
+checking installed package size ... NOTE
+  installed size is  5.1Mb
+  sub-directories of 1Mb or more:
+    data   1.2Mb
+    libs   1.3Mb
+```
 
 ## mason (0.2.5)
 Maintainer: Luke Johnston <lwjohnst@gmail.com>  
@@ -2654,7 +3310,7 @@ Bug reports: https://github.com/hrbrmstr/metricsgraphics/issues
 
 0 errors | 0 warnings | 0 notes
 
-## metricTester (1.3.2)
+## metricTester (1.3.3)
 Maintainer: Eliot Miller <eliot.isaac@gmail.com>  
 Bug reports: https://github.com/eliotmiller/metricTester/issues
 
@@ -2671,8 +3327,8 @@ Bug reports: https://github.com/julienvollering/MIAmaxent/issues
 
 0 errors | 0 warnings | 0 notes
 
-## mixOmics (6.1.2)
-Maintainer: Kim-Anh Le Cao <k.lecao@uq.edu.au>  
+## mixOmics (6.1.3)
+Maintainer: Kim-Anh Le Cao <kimanh.lecao@unimelb.edu.au>  
 Bug reports: https://bitbucket.org/klecao/package-mixomics/issues
 
 0 errors | 0 warnings | 0 notes
@@ -2747,7 +3403,19 @@ See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 Maintainer: Maëlle Salmon <maelle.salmon@yahoo.se>  
 Bug reports: http://github.com/ropenscilabs/monkeylearn/issues
 
-0 errors | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+pandoc: Could not fetch http://ropensci.org/public_images/github_footer.png
+TlsExceptionHostPort (HandshakeFailed Error_EOF) "ropensci.org" 80
+Error: processing vignette 'monkeylearn_intro.Rmd' failed with diagnostics:
+pandoc document conversion failed with error 67
+Execution halted
+
+```
 
 ## morse (2.2.0)
 Maintainer: Philippe Veber <philippe.veber@univ-lyon1.fr>
@@ -2802,7 +3470,7 @@ Maintainer: Garth Tarr <garth.tarr@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## mpoly (1.0.3)
+## mpoly (1.0.4)
 Maintainer: David Kahle <david.kahle@gmail.com>  
 Bug reports: https://github.com/dkahle/mpoly/issues
 
@@ -3082,7 +3750,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [148s/150s]
+  Running ‘testthat.R’ [131s/131s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   8: function_list[[k]](value) at /tmp/RtmpT6Czo8/R.INSTALL13c163d710cb/magrittr/R/freduce.R:20
@@ -3122,6 +3790,12 @@ Execution halted
 
 ```
 
+## olsrr (0.1.0)
+Maintainer: Aravind Hebbali <hebbali.aravind@gmail.com>  
+Bug reports: https://github.com/rsquaredacademy/olsrr/issues
+
+0 errors | 0 warnings | 0 notes
+
 ## ompr (0.6.0)
 Maintainer: Dirk Schumacher <mail@dirk-schumacher.net>  
 Bug reports: https://github.com/dirkschumacher/ompr/issues
@@ -3140,9 +3814,14 @@ Bug reports: https://github.com/davidcarslaw/openair/issues
 
 0 errors | 0 warnings | 0 notes
 
-## opencage (0.1.0)
+## opencage (0.1.2)
 Maintainer: Maëlle Salmon <maelle.salmon@yahoo.se>  
-Bug reports: http://github.com/ropenscilabs/opencage/issues
+Bug reports: http://github.com/ropensci/opencage/issues
+
+0 errors | 0 warnings | 0 notes
+
+## openEBGM (0.1.0)
+Maintainer: John Ihrie <John.Ihrie@fda.hhs.gov>
 
 0 errors | 0 warnings | 0 notes
 
@@ -3165,7 +3844,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [142s/145s]
+  Running ‘testthat.R’ [115s/116s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
                                             ~^
@@ -3184,6 +3863,12 @@ Last 13 lines of output:
   Error: testthat unit tests failed
   Execution halted
 ```
+
+## parlitools (0.0.2)
+Maintainer: Evan Odell <evanodell91@gmail.com>  
+Bug reports: https://github.com/EvanOdell/parlitools/issues
+
+0 errors | 0 warnings | 0 notes
 
 ## parsemsf (0.1.0)
 Maintainer: Benjamin Jack <benjamin.r.jack@gmail.com>  
@@ -3238,7 +3923,7 @@ Maintainer: Gert Janssenswillen <gert.janssenswillen@uhasselt.be>
 
 0 errors | 0 warnings | 0 notes
 
-## philentropy (0.0.1)
+## philentropy (0.0.3)
 Maintainer: Hajk-Georg Drost <hgd23@cam.ac.uk>
 
 0 errors | 0 warnings | 0 notes
@@ -3280,7 +3965,7 @@ Bug reports: https://github.com/cbailiss/pivottabler/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [54s/54s]
+  Running ‘testthat.R’ [50s/50s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   x[1]: 17</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">Februar 2017</th>\n 
@@ -3300,7 +3985,7 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## pixiedust (0.7.4)
+## pixiedust (0.7.5)
 Maintainer: Benjamin Nutter <nutter@battelle.org>  
 Bug reports: https://github.com/nutterb/pixiedust/issues
 
@@ -3423,7 +4108,7 @@ Maintainer: Sean Taylor <sjt@fb.com>
 checking installed package size ... NOTE
   installed size is 20.9Mb
   sub-directories of 1Mb or more:
-    libs  19.8Mb
+    libs  19.7Mb
 ```
 
 ## ptstem (0.0.3)
@@ -3442,29 +4127,61 @@ checking installed package size ... NOTE
 Maintainer: Hadley Wickham <hadley@rstudio.com>  
 Bug reports: https://github.com/hadley/purrrlyr/issues
 
-0 errors | 0 warnings | 1 note 
+2 errors | 0 warnings | 1 note 
 
 ```
+checking examples ... ERROR
+Running examples in ‘purrrlyr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: by_slice
+> ### Title: Apply a function to slices of a data frame
+> ### Aliases: by_slice
+> 
+> ### ** Examples
+... 15 lines ...
+> # by_slice() is especially useful in combination with map().
+> 
+> # To modify the contents of a data frame, use rows collation. Note
+> # that unlike dplyr, Mutating and summarising operations can be
+> # used indistinctly.
+> 
+> # Mutating operation:
+> df <- mtcars %>% slice_rows(c("cyl", "am"))
+> df %>% by_slice(dmap, ~ .x / sum(.x), .collate = "rows")
+Error: 'as_mapper' is not an exported object from 'namespace:purrr'
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+         call. = FALSE, domain = NA)
+  
+  testthat results ================================================================
+  OK: 69 SKIPPED: 0 FAILED: 8
+  1. Error: dmap() returns a data frame (@test-dmap.R#4) 
+  2. Error: dmap() works with sliced data frames (@test-dmap.R#9) 
+  3. Error: dmap() works with no columns to map (@test-dmap.R#15) 
+  4. Error: dmap() recycles only vectors of length 1 (@test-dmap.R#20) 
+  5. Error: conditional sliced mapping recycles within groups (@test-dmap.R#26) 
+  6. Error: output column is named according to .to (@test-rows.R#21) 
+  7. Error: by_slice() works with slicers of different types (@test-rows.R#203) 
+  8. Error: by_row() creates indices with c++ style indexing (@test-rows.R#228) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
 checking dependencies in R code ... NOTE
 Missing or unexported object: ‘purrr::as_mapper’
 ```
 
-## purrr (0.2.2)
-Maintainer: Hadley Wickham <hadley@rstudio.com>  
+## purrr (0.2.2.2)
+Maintainer: Lionel Henry <lionel@rstudio.com>  
 Bug reports: https://github.com/hadley/purrr/issues
 
-0 errors | 0 warnings | 1 note 
-
-```
-checking compiled code ... NOTE
-File ‘purrr/libs/purrr.so’:
-  Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
-
-It is good practice to register native routines and to disable symbol
-search.
-
-See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
-```
+0 errors | 0 warnings | 0 notes
 
 ## PWFSLSmoke (0.99.9)
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
@@ -3512,6 +4229,12 @@ search.
 
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
+
+## r2glmm (0.1.1)
+Maintainer: Byron Jaeger <byron.jaeger@gmail.com>  
+Bug reports: https://github.com/bcjaeger/r2glmm/issues
+
+0 errors | 0 warnings | 0 notes
 
 ## R6Frame (0.1.0)
 Maintainer: Kristian D. Olsen <kristian@doingit.no>
@@ -3625,7 +4348,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:1343): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:18122): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## raw (0.1.4)
@@ -3718,23 +4441,9 @@ checking installed package size ... NOTE
 Maintainer: Will Beasley <wibeasley@hotmail.com>  
 Bug reports: https://github.com/OuhscBbmc/REDCapR/issues
 
-1 error  | 1 warning  | 1 note 
+0 errors | 1 warning  | 0 notes
 
 ```
-checking tests ... ERROR
-  Running ‘test-all.R’
-Running the tests in ‘tests/test-all.R’ failed.
-Complete output:
-  > #Modeled after the R6 testing structure: https://github.com/wch/R6/blob/master/tests/testthat.R
-  > library(testthat)
-  > library(REDCapR)
-  > 
-  > testthat::test_check("REDCapR")
-  Error: 'inst' is not an exported object from 'namespace:devtools'
-  testthat results ================================================================
-  OK: 10 SKIPPED: 5 FAILED: 0
-  Execution halted
-
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
@@ -3743,9 +4452,6 @@ Error: processing vignette 'BasicREDCapROperations.Rmd' failed with diagnostics:
 object 'ds' not found
 Execution halted
 
-
-checking dependencies in R code ... NOTE
-Missing or unexported object: ‘devtools::inst’
 ```
 
 ## refund.shiny (0.3.0)
@@ -3759,38 +4465,11 @@ Bug reports: https://github.com/WinVector/replyr/issues
 
 0 errors | 0 warnings | 0 notes
 
-## rerddap (0.4.0)
+## rerddap (0.4.2)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rerddap/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Loading required package: maps
-Warning: Removed 4015788 rows containing missing values (geom_raster).
-Warning: Removed 902205 rows containing missing values (geom_raster).
-Quitting from lines 328-337 (Using_rerddap.Rmd) 
-Error: processing vignette 'Using_rerddap.Rmd' failed with diagnostics:
-HTTP Status 500 - There was a (temporary?) problem.  Wait a minute, then try again.  (In a browser, click the Reload button.)
-(ERROR from data source: dods.dap.DODSException: Connection cannot be opened)
-(Cause: dods.dap.DODSException: Connection cannot be opened)
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## resumer (0.0.3)
 Maintainer: Jared Lander <packages@jaredlander.com>  
@@ -3878,7 +4557,7 @@ Bug reports: https://github.com/silentspringinstitute/RNHANES/issues
 
 0 errors | 0 warnings | 0 notes
 
-## rnoaa (0.6.6)
+## rnoaa (0.7.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropensci/rnoaa/issues
 
@@ -3906,7 +4585,19 @@ Bug reports: https://github.com/dcalderon/rolypoly/issues
 Maintainer: Maëlle Salmon <maelle.salmon@yahoo.se>  
 Bug reports: http://github.com/ropensci/ropenaq/issues
 
-0 errors | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+pandoc: Could not fetch http://ropensci.org/public_images/github_footer.png
+TlsExceptionHostPort (HandshakeFailed Error_EOF) "ropensci.org" 80
+Error: processing vignette 'Ropenaq-vignette.Rmd' failed with diagnostics:
+pandoc document conversion failed with error 67
+Execution halted
+
+```
 
 ## ROpenFIGI (0.2.8)
 Maintainer: Ruokun Huang <hruokun.2008@gmail.com>
@@ -4038,13 +4729,13 @@ search.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
 
-## rtide (0.0.3)
+## rtide (0.0.4)
 Maintainer: Joe Thorley <joe@poissonconsulting.ca>  
 Bug reports: https://github.com/poissonconsulting/rtide/issues
 
 0 errors | 0 warnings | 0 notes
 
-## rtimes (0.3.0)
+## rtimes (0.4.0)
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: https://github.com/ropengov/rtimes/issues
 
@@ -4072,8 +4763,8 @@ Bug reports: https://github.com/alshum/rwunderground/issues
 
 0 errors | 0 warnings | 0 notes
 
-## saeSim (0.8.0)
-Maintainer: Sebastian Warnholz <Sebastian.Warnholz@fu-berlin.de>  
+## saeSim (0.9.0)
+Maintainer: Sebastian Warnholz <wahani@gmail.com>  
 Bug reports: https://github.com/wahani/saeSim/issues
 
 0 errors | 0 warnings | 0 notes
@@ -4107,7 +4798,7 @@ Bug reports: https://github.com/r-gris/sfdct/issues
 
 0 errors | 0 warnings | 0 notes
 
-## sf (0.4-1)
+## sf (0.4-2)
 Maintainer: Edzer Pebesma <edzer.pebesma@uni-muenster.de>  
 Bug reports: https://github.com/edzer/sfr/issues/
 
@@ -4115,7 +4806,7 @@ Bug reports: https://github.com/edzer/sfr/issues/
 
 ```
 checking installed package size ... NOTE
-  installed size is 10.2Mb
+  installed size is 10.3Mb
   sub-directories of 1Mb or more:
     doc    4.0Mb
     libs   4.2Mb
@@ -4196,7 +4887,41 @@ checking installed package size ... NOTE
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
 Bug reports: https://github.com/christophergandrud/simPH/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘simPH-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: coxsimInteract
+> ### Title: Simulate quantities of interest for linear multiplicative
+> ###   interactions */ from Cox Proportional Hazards models
+> ### Aliases: coxsimInteract
+> 
+... 42 lines ...
+> 
+> # Example with a categorical variable
+> # Download data
+> hmohiv <- read.csv("http://www.ats.ucla.edu/stat/r/examples/asa/hmohiv.csv",
++                      stringsAsFactors = FALSE)
+> 
+> # Create category lables
+> hmohiv$drug <- factor(hmohiv$drug, labels = c('not treated', 'treated'))
+Error in factor(hmohiv$drug, labels = c("not treated", "treated")) : 
+  invalid 'labels'; length 2 should be 1 or 0
+Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Quitting from lines 277-278 (simPH-overview.Rnw) 
+Error: processing vignette 'simPH-overview.Rnw' failed with diagnostics:
+replacement has 0 rows, data has 526
+Execution halted
+
+```
 
 ## simputation (0.2.1)
 Maintainer: Mark van der Loo <mark.vanderloo@gmail.com>  
@@ -4225,32 +4950,9 @@ Bug reports: https://github.com/strengejacke/sjmisc/issues
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
 Bug reports: https://github.com/sjPlot/devel/issues
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-17: eval(expr, envir, enclos)
-18: withVisible(eval(expr, envir, enclos))
-19: withCallingHandlers(withVisible(eval(expr, envir, enclos)), warning = wHandler,     error = eHandler, message = mHandler)
-20: handle(ev <- withCallingHandlers(withVisible(eval(expr, envir,     enclos)), warning = wHandler, error = eHandler, message = mHandler))
-21: timing_fn(handle(ev <- withCallingHandlers(withVisible(eval(expr,     envir, enclos)), warning = wHandler, error = eHandler, message = mHandler)))
-22: evaluate_call(expr, parsed$src[[i]], envir = envir, enclos = enclos,     debug = debug, last = i == length(out), use_try = stop_on_error !=         2L, keep_warning = keep_warning, keep_message = keep_message,     output_handler = output_handler, include_timing = include_timing)
-23: evaluate(code, envir = env, new_device = FALSE, keep_warning = !isFALSE(options$warning),     keep_message = !isFALSE(options$message), stop_on_error = if (options$error &&         options$include) 0L else 2L, output_handler = knit_handlers(options$render,         options))
-... 8 lines ...
-31: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
-32: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
-33: vweave_rmarkdown(...)
-34: engine$weave(file, quiet = quiet, encoding = enc)
-35: doTryCatch(return(expr), name, parentenv, handler)
-36: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-37: tryCatchList(expr, classes, parentenv, handlers)
-38: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
-39: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/sjPlot.Rcheck/vign_test/sjPlot")
-An irrecoverable exception occurred. R is aborting now ...
-Segmentation fault (core dumped)
-
 checking Rd cross-references ... NOTE
 Package unavailable to check Rd xrefs: ‘plm’
 ```
@@ -4317,7 +5019,7 @@ Consider adding
 to your NAMESPACE file.
 ```
 
-## sourceR (1.0.0)
+## sourceR (1.0.1)
 Maintainer: Poppy Miller <p.miller@lancaster.ac.uk>
 
 0 errors | 0 warnings | 0 notes
@@ -4409,7 +5111,7 @@ checking package dependencies ... NOTE
 Package suggested but not available for checking: ‘INLA’
 ```
 
-## spbabel (0.4.6)
+## spbabel (0.4.7)
 Maintainer: Michael D. Sumner <mdsumner@gmail.com>  
 Bug reports: https://github.com/mdsumner/spbabel/issues
 
@@ -4435,7 +5137,29 @@ Maintainer: Kasia Sawicka <kasia.sawicka@wur.nl>
 Maintainer: William Brannon <wwbrannon@email.wm.edu>  
 Bug reports: https://github.com/wwbrannon/sqlscore/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
+
+```
+checking tests ... ERROR
+  Running ‘testthat.R’ [12s/12s]
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  2: glmboost.formula(as.factor(Sepal.Length > 5.1) ~ Sepal.Width + Petal.Length + Petal.Width + 
+         Species, data = datasets::iris, family = mboost::Binomial("logit")) at /tmp/Rtmp15vxzA/devtoolsb3732e07af3/mboost/R/mboost.R:619
+  3: mboost_fit(bl, response = response, weights = weights, control = control, ...) at /tmp/Rtmp15vxzA/devtoolsb3732e07af3/mboost/R/mboost.R:674
+  4: mboost::Binomial("logit") at /tmp/Rtmp15vxzA/devtoolsb3732e07af3/mboost/R/mboost.R:22
+  5: match.arg(type) at /tmp/Rtmp15vxzA/devtoolsb3732e07af3/mboost/R/family.R:114
+  6: stop(gettextf("'arg' should be one of %s", paste(dQuote(choices), collapse = ", ")), 
+         domain = NA)
+  
+  testthat results ================================================================
+  OK: 94 SKIPPED: 0 FAILED: 2
+  1. Error: glmboost coefficients are extracted correctly (@test-extract_coef.R#53) 
+  2. Error: Logit glmboost is handled correctly (@test-score_expression.R#140) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+```
 
 ## srvyr (0.2.1)
 Maintainer: Greg Freedman Ellis <greg.freedman@gmail.com>  
@@ -4590,6 +5314,17 @@ Bug reports: https://github.com/tadaadata/tadaatoolbox/issues
 
 0 errors | 0 warnings | 0 notes
 
+## tatoo (1.0.5)
+Maintainer: Stefan Fleck <stefan.b.fleck@gmail.com>
+
+0 errors | 0 warnings | 0 notes
+
+## taxizedb (0.1.0)
+Maintainer: Scott Chamberlain <myrmecocystus+r@gmail.com>  
+Bug reports: https://github.com/ropensci/taxizedb/issues
+
+0 errors | 0 warnings | 0 notes
+
 ## Tcomp (1.0.0)
 Maintainer: Peter Ellis <peter.ellis2013nz@gmail.com>  
 Bug reports: https://github.com/ellisp/Tcomp-r-package/issues
@@ -4741,22 +5476,11 @@ checking installed package size ... NOTE
     doc   4.5Mb
 ```
 
-## tidyr (0.6.1)
+## tidyr (0.6.2)
 Maintainer: Hadley Wickham <hadley@rstudio.com>  
 Bug reports: https://github.com/tidyverse/tidyr/issues
 
-0 errors | 0 warnings | 1 note 
-
-```
-checking compiled code ... NOTE
-File ‘tidyr/libs/tidyr.so’:
-  Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
-
-It is good practice to register native routines and to disable symbol
-search.
-
-See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
-```
+0 errors | 0 warnings | 0 notes
 
 ## tidyRSS (1.0.1)
 Maintainer: Robert Myles McDonnell <robertmylesmcdonnell@gmail.com>  
@@ -4797,7 +5521,7 @@ Error: object 'inaugCorpus' not found
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/11s]
+  Running ‘testthat.R’ [10s/11s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   5: eval(expr, pf)
@@ -4852,7 +5576,7 @@ Bug reports: https://bitbucket.org/kleinstein/tigger/issues
 
 0 errors | 0 warnings | 0 notes
 
-## tigris (0.5)
+## tigris (0.5.1)
 Maintainer: Kyle Walker <kyle.walker@tcu.edu>  
 Bug reports: https://github.com/walkerke/tigris/issues
 
@@ -4882,13 +5606,21 @@ Bug reports: https://github.com/paulhendricks/titanic/issues
 
 0 errors | 0 warnings | 0 notes
 
-## tmap (1.8-1)
+## tmap (1.10)
 Maintainer: Martijn Tennekes <mtennekes@gmail.com>  
 Bug reports: https://github.com/mtennekes/tmap/issues
 
-0 errors | 0 warnings | 0 notes
+0 errors | 0 warnings | 1 note 
 
-## Tmisc (0.1.13)
+```
+checking installed package size ... NOTE
+  installed size is  5.3Mb
+  sub-directories of 1Mb or more:
+    data   1.5Mb
+    doc    3.3Mb
+```
+
+## Tmisc (0.1.14)
 Maintainer: Stephen Turner <vustephen@gmail.com>
 
 0 errors | 0 warnings | 0 notes
@@ -5002,7 +5734,7 @@ Bug reports: https://github.com/egnha/valaddin/issues
 
 0 errors | 0 warnings | 0 notes
 
-## valr (0.1.2)
+## valr (0.2.0)
 Maintainer: Jay Hesselberth <jay.hesselberth@gmail.com>  
 Bug reports: https://github.com/rnabioco/valr/issues
 
@@ -5012,7 +5744,7 @@ Bug reports: https://github.com/rnabioco/valr/issues
 checking installed package size ... NOTE
   installed size is 12.5Mb
   sub-directories of 1Mb or more:
-    libs  11.5Mb
+    libs  10.8Mb
 ```
 
 ## vcfR (1.4.0)
@@ -5040,32 +5772,7 @@ See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ## vdmR (0.2.3)
 Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
- 7: vscat(MortalityRate, FertilityRate, vsfuk2012, "scat01", "vsfuk2012")
- 8: eval(expr, envir, enclos)
- 9: eval(expr, envir, enclos)
-10: withVisible(eval(expr, envir, enclos))
-11: withCallingHandlers(withVisible(eval(expr, envir, enclos)), warning = wHandler,     error = eHandler, message = mHandler)
-12: handle(ev <- withCallingHandlers(withVisible(eval(expr, envir,     enclos)), warning = wHandler, error = eHandler, message = mHandler))
-13: timing_fn(handle(ev <- withCallingHandlers(withVisible(eval(expr,     envir, enclos)), warning = wHandler, error = eHandler, message = mHandler)))
-... 8 lines ...
-21: withCallingHandlers(if (tangle) process_tangle(group) else process_group(group),     error = function(e) {        setwd(wd)        cat(res, sep = "\n", file = output %n% "")        message("Quitting from lines ", paste(current_lines(i),             collapse = "-"), " (", knit_concord$get("infile"),             ") ")    })
-22: process_file(text, output)
-23: (if (grepl("\\.[Rr]md$", file)) knit2html_v1 else if (grepl("\\.[Rr]rst$",     file)) knit2pdf else knit)(file, encoding = encoding, quiet = quiet,     envir = globalenv())
-24: engine$weave(file, quiet = quiet, encoding = enc)
-25: doTryCatch(return(expr), name, parentenv, handler)
-26: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-27: tryCatchList(expr, classes, parentenv, handlers)
-28: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
-29: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/vdmR.Rcheck/vign_test/vdmR")
-An irrecoverable exception occurred. R is aborting now ...
-Segmentation fault (core dumped)
-```
+0 errors | 0 warnings | 0 notes
 
 ## VIM (4.7.0)
 Maintainer: Matthias Templ <matthias.templ@gmail.com>
@@ -5247,7 +5954,7 @@ Maintainer: Tinniam V Ganesh <tvganesh.85@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## ZeligChoice (0.9-4)
+## ZeligChoice (0.9-5)
 Maintainer: Christopher Gandrud <zelig.zee@gmail.com>  
 Bug reports: https://github.com/IQSS/Zelig/issues
 
@@ -5258,7 +5965,7 @@ Maintainer: James Honaker <zelig.zee@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## Zelig (5.0-17)
+## Zelig (5.1-1)
 Maintainer: Christopher Gandrud <zelig.zee@gmail.com>  
 Bug reports: https://github.com/IQSS/Zelig/issues
 
@@ -5266,10 +5973,16 @@ Bug reports: https://github.com/IQSS/Zelig/issues
 
 ```
 checking installed package size ... NOTE
-  installed size is 12.2Mb
+  installed size is 12.0Mb
   sub-directories of 1Mb or more:
-    R  11.0Mb
+    R  11.1Mb
 ```
+
+## zeligverse (0.1.0)
+Maintainer: Christopher Gandrud <zelig.zee@gmail.com>  
+Bug reports: https://github.com/IQSS/zeligverse/issues
+
+0 errors | 0 warnings | 0 notes
 
 ## ztype (0.1.0)
 Maintainer: Vincent Guyader <vincent@thinkr.fr>
