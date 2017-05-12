@@ -952,3 +952,7 @@ test_that("can refer to previously summarised symbols", {
   expect_identical(summarise(group_by(mtcars, cyl), x = 1, z = x)[2:3], tibble(x = c(1, 1, 1), z = x))
   expect_identical(summarise(group_by(mtcars, cyl), x = n(), z = x)[2:3], tibble(x = c(11L, 7L, 14L), z = x))
 })
+
+test_that("summarise() supports unquoted values", {
+  expect_identical(summarise(mtcars, x = !! 1 + 2), data.frame(x = 3))
+})
