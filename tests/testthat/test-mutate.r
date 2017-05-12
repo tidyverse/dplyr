@@ -706,6 +706,11 @@ test_that("mutate() names pronouns correctly (#2686)", {
   expect_named(mutate(tibble(x = 1), .data[["x"]]), "x")
 })
 
+test_that("mutate() supports unquoted values", {
+  expect_identical(mutate(tibble(x = 1), x = !! 2 * 3), tibble(x = 6))
+  expect_error(mutate(tibble(x = 1), x = !! get_env()), "unsupported type")
+})
+
 
 # Error messages ----------------------------------------------------------
 

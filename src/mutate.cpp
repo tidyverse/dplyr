@@ -96,7 +96,8 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
       accumulator.rm(name);
       continue;
     } else {
-      stop("cannot handle");
+      // Unquoted values
+      variable = call;
     }
 
     if (Rf_inherits(variable, "POSIXlt")) {
