@@ -63,7 +63,8 @@ filter.data.frame <- function(.data, ...) {
 }
 #' @export
 filter_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(filter_(tbl_df(.data), ..., .dots = .dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!! dots)
 }
 
 #' @export
@@ -83,7 +84,8 @@ summarise.data.frame <- function(.data, ...) {
 }
 #' @export
 summarise_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(summarise_(tbl_df(.data), ..., .dots = .dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  summarise(.data, !!! dots)
 }
 
 #' @export
@@ -92,7 +94,8 @@ mutate.data.frame <- function(.data, ...) {
 }
 #' @export
 mutate_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(mutate_(tbl_df(.data), ..., .dots = .dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  mutate(.data, !!! dots)
 }
 
 #' @export
@@ -101,7 +104,8 @@ arrange.data.frame <- function(.data, ...) {
 }
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(arrange_(tbl_df(.data), ...), .dots = .dots)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  arrange(.data, !!! dots)
 }
 
 #' @export
