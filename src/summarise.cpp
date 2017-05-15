@@ -23,7 +23,7 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
   int n = Rf_length(value);
   check_length(n, nrows, "the number of groups", name);
 
-   // Recycle length 1 vectors
+  // Recycle length 1 vectors
   if (n == 1) {
     boost::scoped_ptr<Gatherer> gather(constant_gatherer(value, nrows, name));
     value = gather->collect();
