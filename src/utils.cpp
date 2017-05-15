@@ -147,7 +147,12 @@ SymbolVector get_vars(SEXP x) {
 
 void set_vars(SEXP x, const SymbolVector& vars) {
   static SEXP vars_symbol = Rf_install("vars");
-  Rf_setAttrib(x, vars_symbol, vars.get_vector());
+
+  SEXP vars_sexp = vars.get_vector();
+  if (!Rf_length(vars_sexp))
+    vars_sexp = R_NilValue;
+
+  Rf_setAttrib(x, vars_symbol, vars_sexp);
 }
 
 void copy_vars(SEXP target, SEXP source) {

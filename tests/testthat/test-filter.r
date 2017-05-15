@@ -338,3 +338,7 @@ test_that("filter fails gracefully on raw columns (#1803)", {
     fixed = TRUE
   )
 })
+
+test_that("`vars` attribute is not added if empty (#2772)", {
+  expect_identical(tibble(x = 1:2) %>% filter(x == 1), tibble(x = 1L))
+})
