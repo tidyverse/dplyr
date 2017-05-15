@@ -97,14 +97,6 @@ mtcars \%>\%
 # can refer to both contextual variables and variable names:
 var <- 100
 as_tibble(mtcars) \%>\% mutate(cyl = !! quo(cyl * var))
-
-# Or you can unquote values:
-as_tibble(mtcars) \%>\% mutate(cyl = !! 1000 * 2)
-
-# For grouped tibbles, unquoted values are treated a bit
-# differently than expressions. They must return a vector as long
-# as the whole tibble:
-group_by(mtcars, am) \%>\% mutate(cyl = !! 1:32)
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},
