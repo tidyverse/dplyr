@@ -71,6 +71,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -143,7 +146,7 @@ frames</p>
 #&gt;  * row.names: &lt;0x1155046d0&gt;
 #&gt;  * class:     &lt;0x112afec78&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x10cb92758&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x10f0c6ca0&gt;
 #&gt; Variables:
 #&gt;  * mpg:       &lt;0x101bebcb0&gt;
 #&gt;  * cyl:       &lt;0x115525ba0&gt;
@@ -156,20 +159,20 @@ frames</p>
 #&gt;  * am:        &lt;0x115545340&gt;
 #&gt;  * gear:      &lt;0x101bf6490&gt;
 #&gt;  * carb:      &lt;0x115503930&gt;
-#&gt;  * cyl2:      &lt;0x11129b900&gt;
+#&gt;  * cyl2:      &lt;0x10b8f67a0&gt;
 #&gt; Attributes:
-#&gt;  * class:     &lt;0x10cdd1ae8&gt;
-#&gt;  * names:     &lt;0x10821c7f8&gt;
-#&gt;  * row.names: &lt;0x10d2740a8&gt;</div><div class='input'>
+#&gt;  * class:     &lt;0x111ed15a8&gt;
+#&gt;  * names:     &lt;0x10f0c6b50&gt;
+#&gt;  * row.names: &lt;0x10f0c6158&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new        
-#&gt; cyl2      &lt;added&gt; 0x11129b900
+#&gt; cyl2      &lt;added&gt; 0x10b8f67a0
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old         new        
-#&gt; names     0x111a358a0 0x10821c7f8
-#&gt; row.names 0x1155046d0 0x11fd0f400
-#&gt; class     0x112afec78 0x10cdd1ae8</div></pre>
+#&gt; names     0x111a358a0 0x10f0c6b50
+#&gt; row.names 0x1155046d0 0x112c98748
+#&gt; class     0x112afec78 0x111ed15a8</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

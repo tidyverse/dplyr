@@ -71,6 +71,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -142,7 +145,7 @@ names and column positions).</p></td>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> * <span class='no'>y</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>pull</span>()
-}</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("mutate_"): no applicable method for 'mutate_' applied to an object of class "c('tbl_dbi', 'tbl_sql', 'tbl_lazy', 'tbl')"</span></div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='error'>Error in rsqlite_send_query(conn@ptr, statement): table 'pull-ex' already exists</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
