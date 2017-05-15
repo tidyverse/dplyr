@@ -78,6 +78,12 @@ mtcars \%>\%
 mtcars \%>\%
   group_by(cyl) \%>\%
   summarise(disp = mean(disp), sd = sd(disp))
+
+
+# summarise() supports quasiquotation. You can unquote raw
+# expressions or quosures:
+var <- quo(mean(cyl))
+summarise(mtcars, !! var)
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},
