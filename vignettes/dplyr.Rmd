@@ -413,6 +413,18 @@ number of rows:
 group_by(df, "month")
 ```
 
+Since grouping with select semantics can be sometimes useful as well,
+we have added the `group_by_at()` variant. In dplyr, variants suffixed
+with `_at()` support selection semantics in their second argument. You
+just need to wrap the selection with `vars()`:
+
+```{r}
+group_by_at(df, vars(year:day))
+```
+
+You can read more about the `_at()` and `_if()` variants in the
+`?scoped` help page.
+
 
 ## Piping
 
