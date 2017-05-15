@@ -71,6 +71,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -118,13 +121,16 @@ before indexing for remote data tables.</p>
     <tr>
       <th>var</th>
       <td><p>A variable specified as:</p><ul>
-<li><p>a single string, the variable name</p></li>
+<li><p>a literal variable name</p></li>
 <li><p>a positive integer, giving the position counting from the left</p></li>
 <li><p>a negative integer, giving the position counting from the right.</p></li>
 </ul>
 
 <p>The default returns the last column (on the assumption that's the
-column you've created most recently).</p></td>
+column you've created most recently).</p>
+<p>This argument is taken by expression and supports
+<a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
+names and column positions).</p></td>
     </tr>
     </table>
     
@@ -132,14 +138,14 @@ column you've created most recently).</p></td>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(-<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 4 4 1 1 2 1 4 2 2 4 4 3 3 3 4 4 4 1 2 1 1 2 2 4 2 1 2 2 4 6 8 2</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='fl'>1</span>)</div><div class='output co'>#&gt;  [1] 21.0 21.0 22.8 21.4 18.7 18.1 14.3 24.4 22.8 19.2 17.8 16.4 17.3 15.2 10.4
 #&gt; [16] 10.4 14.7 32.4 30.4 33.9 21.5 15.5 15.2 13.3 19.2 27.3 26.0 30.4 15.8 19.7
-#&gt; [31] 15.0 21.4</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='st'>"cyl"</span>)</div><div class='output co'>#&gt;  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</div><div class='input'>
+#&gt; [31] 15.0 21.4</div><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>pull</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt;  [1] 6 6 4 6 8 6 8 4 4 6 6 8 8 8 8 8 8 4 4 4 4 8 8 8 8 4 4 4 8 6 8 4</div><div class='input'>
 <span class='co'># Also works for remote sources</span>
 <span class='kw'>if</span> (<span class='fu'>requireNamespace</span>(<span class='st'>"dbplyr"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='kw'>dbplyr</span><span class='kw'>::</span><span class='fu'>memdb_frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>10</span>:<span class='fl'>1</span>, <span class='kw'>.name</span> <span class='kw'>=</span> <span class='st'>"pull-ex"</span>)
 <span class='no'>df</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='kw'>z</span> <span class='kw'>=</span> <span class='no'>x</span> * <span class='no'>y</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>pull</span>()
-}</div><div class='output co'>#&gt; <span class='error'>Error: Table pull-ex exists in database, and both overwrite and append are FALSE</span></div><div class='input'>
+}</div><div class='output co'>#&gt; <span class='error'>Error in rsqlite_send_query(conn@ptr, statement): table 'pull-ex' already exists</span></div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

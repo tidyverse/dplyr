@@ -39,7 +39,7 @@ tbl_sum.grouped_df <- function(x) {
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
   c(
     NextMethod(),
-    paste0("Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]")
+    c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
   )
 }
 

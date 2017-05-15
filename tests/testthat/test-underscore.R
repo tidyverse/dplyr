@@ -33,6 +33,12 @@ test_that("count_ works", {
     count(df, b, wt = a)
   )
 
+  wt <- 1:4
+  expect_identical(
+    count_(df, "b", "wt"),
+    count(df, b, wt = wt)
+  )
+
   expect_identical(
     add_count(df, b),
     add_count_(df, ~b)
@@ -87,6 +93,12 @@ test_that("do_ works", {
     do(df, data_frame(-.$a))
   )
 
+  foo <- "foobar"
+  expect_identical(
+    do_(df, .dots = "tibble(foo)"),
+    do(df, tibble(foo))
+  )
+
   expect_equal(
     do_(df %>% group_by(b), ~data_frame(-.$a)),
     do(df %>% group_by(b), data_frame(-.$a))
@@ -112,6 +124,12 @@ test_that("filter_ works", {
   expect_equal(
     filter_(df, .dots = list(quote(a > 1))),
     filter(df, a > 1)
+  )
+
+  cnd <- rep(TRUE, 5)
+  expect_identical(
+    filter_(df, .dots = "cnd"),
+    filter(df, cnd)
   )
 })
 
@@ -219,6 +237,12 @@ test_that("mutate_ works", {
     mutate_(df, ~-a),
     mutate(df, -a)
   )
+
+  foo <- "foobar"
+  expect_identical(
+    mutate_(df, .dots = "foo"),
+    mutate(df, foo)
+  )
 })
 
 test_that("rename_ works", {
@@ -263,6 +287,12 @@ test_that("select_ works", {
     select_(df, .dots = list(~-a)),
     select(df, -a)
   )
+
+  pos <- 1
+  expect_identical(
+    select_(df, c = "pos"),
+    select(df, c = pos)
+  )
 })
 
 test_that("slice_ works", {
@@ -280,6 +310,12 @@ test_that("slice_ works", {
     slice_(df, .dots = list(~2:n())),
     slice(df, 2:n())
   )
+
+  pos <- 3
+  expect_identical(
+    slice_(df, .dots = "pos:n()"),
+    slice(df, pos:n())
+  )
 })
 
 test_that("summarise_ works", {
@@ -296,6 +332,12 @@ test_that("summarise_ works", {
   expect_equal(
     summarise_(df, .dots = list(~mean(a))),
     summarise(df, mean(a))
+  )
+
+  my_mean <- mean
+  expect_identical(
+    summarise_(df, .dots = "my_mean(a)"),
+    summarise(df, my_mean(a))
   )
 
   expect_equal(
@@ -360,5 +402,11 @@ test_that("transmute_ works", {
   expect_equal(
     transmute_(df, .dots = list(c = ~-a)),
     transmute(df, c = -a)
+  )
+
+  foo <- "foobar"
+  expect_identical(
+    transmute_(df, .dots = "foo"),
+    transmute(df, foo)
   )
 })

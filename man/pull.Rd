@@ -17,7 +17,11 @@ pull(.data, var = -1)
 }
 
 The default returns the last column (on the assumption that's the
-column you've created most recently).}
+column you've created most recently).
+
+This argument is taken by expression and supports
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+names and column positions).}
 }
 \description{
 This works like \code{[[} for local data frames, and automatically collects

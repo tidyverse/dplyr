@@ -73,8 +73,8 @@ test_that("num_range selects numeric ranges", {
 
 test_that("position must resolve to numeric variables throws error", {
   expect_error(
-    select_vars(letters, "6"),
-    '`"6"` must resolve to integer column positions',
+    select_vars(letters, !! list()),
+    'must resolve to integer column positions',
     fixed = TRUE
   )
 })
@@ -140,9 +140,8 @@ test_that("initial (single) selector defaults correctly (issue #2275)", {
   expect_equal(select_vars(cn, -contains("x")), cn[c("y", "z")])
 
   # single columns (not present), explicit
-  # error messages from rlang
-  expect_error(select_vars(cn, foo))
-  expect_error(select_vars(cn, -foo))
+  expect_error(select_vars(cn, foo), "not found")
+  expect_error(select_vars(cn, -foo), "not found")
 
   # single columns (not present), matched
   expect_equal(select_vars(cn, contains("foo")), cn[integer()])
@@ -173,7 +172,6 @@ test_that("initial (of multiple) selectors default correctly (issue #2275)", {
   expect_equal(select_vars(cn, -contains("x"), -y), cn["z"])
 
   # matched(not present) + explicit(not present)
-  # error messages from rlang
   expect_error(select_vars(cn, contains("foo"), bar), "object 'bar' not found")
   expect_error(select_vars(cn, contains("foo"), -bar), "object 'bar' not found")
   expect_error(select_vars(cn, -contains("foo"), bar), "object 'bar' not found")
