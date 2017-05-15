@@ -158,20 +158,19 @@ frame. It supports <a href='http://www.rdocumentation.org/packages/rlang/topics/
 
 <span class='co'># Find year with most games for each player</span>
 <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>Batting</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>1</span>, <span class='no'>G</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; Source: local data frame [19,516 x 22]
-#&gt; Groups: playerID [18,659]
-#&gt; 
+}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; # A tibble: 19,516 × 22
+#&gt; # Groups: playerID [18,659]
 #&gt;     playerID yearID stint teamID   lgID     G    AB     R     H   X2B   X3B
 #&gt;        &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
-#&gt; 1  abercda01   1871     1    TRO     NA     1     4     0     0     0     0
-#&gt; 2  armstbo01   1871     1    FW1     NA    12    49     9    11     2     1
-#&gt; 3  barkeal01   1871     1    RC1     NA     1     4     0     1     0     0
-#&gt; 4  barrebi01   1871     1    FW1     NA     1     5     1     1     1     0
-#&gt; 5  barrofr01   1871     1    BS1     NA    18    86    13    13     2     1
-#&gt; 6   bassjo01   1871     1    CL1     NA    22    89    18    27     1    10
-#&gt; 7  bellast01   1871     1    TRO     NA    29   128    26    32     3     3
-#&gt; 8  berkena01   1871     1    PH1     NA     1     4     0     0     0     0
-#&gt; 9  berryto01   1871     1    PH1     NA     1     4     0     1     0     0
+#&gt;  1 abercda01   1871     1    TRO     NA     1     4     0     0     0     0
+#&gt;  2 armstbo01   1871     1    FW1     NA    12    49     9    11     2     1
+#&gt;  3 barkeal01   1871     1    RC1     NA     1     4     0     1     0     0
+#&gt;  4 barrebi01   1871     1    FW1     NA     1     5     1     1     1     0
+#&gt;  5 barrofr01   1871     1    BS1     NA    18    86    13    13     2     1
+#&gt;  6  bassjo01   1871     1    CL1     NA    22    89    18    27     1    10
+#&gt;  7 bellast01   1871     1    TRO     NA    29   128    26    32     3     3
+#&gt;  8 berkena01   1871     1    PH1     NA     1     4     0     0     0     0
+#&gt;  9 berryto01   1871     1    PH1     NA     1     4     0     1     0     0
 #&gt; 10 berthha01   1871     1    WS3     NA    17    73    17    17     1     1
 #&gt; # ... with 19,506 more rows, and 11 more variables: HR &lt;int&gt;, RBI &lt;int&gt;,
 #&gt; #   SB &lt;int&gt;, CS &lt;int&gt;, BB &lt;int&gt;, SO &lt;int&gt;, IBB &lt;int&gt;, HBP &lt;int&gt;, SH &lt;int&gt;,

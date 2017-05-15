@@ -173,12 +173,12 @@ Should be a character vector of length 2.</p></td>
     </tr>
     <tr>
       <th>na_matches</th>
-      <td><p>Use <code>"na"</code> to treat two <code>NA</code> or <code>NaN</code> values as equal, like <code>merge()</code>.
-The default, <code>"never"</code>, always treats two <code>NA</code> or <code>NaN</code> values as
+      <td><p>Use <code>"never"</code> to always treat two <code>NA</code> or <code>NaN</code> values as
 different, like joins for database sources, similarly to
 <code>merge(incomparables = FALSE)</code>.
+The default,<code>"na"</code>, always treats two <code>NA</code> or <code>NaN</code> values as equal, like <code>merge()</code>.
 Users and package authors can change the default behavior by calling
-<code>pkgconfig::set_config("dplyr::na_matches" = "na")</code>.</p></td>
+<code>pkgconfig::set_config("dplyr::na_matches" = "never")</code>.</p></td>
     </tr>
     </table>
     
@@ -204,16 +204,16 @@ Users and package authors can change the default behavior by calling
 }</div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; # A tibble: 187 × 26
 #&gt;     playerID birthYear birthMonth birthDay birthCountry birthState birthCity
 #&gt;        &lt;chr&gt;     &lt;int&gt;      &lt;int&gt;    &lt;int&gt;        &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;
-#&gt; 1  youngni99      1840          9       12          USA         NY Amsterdam
-#&gt; 2  yawketo99      1903          2       21          USA         MI   Detroit
-#&gt; 3  wrighal99      1842          3       31          USA         NY  New York
-#&gt; 4  wilsoju99      1896          2       28          USA         VA Remington
-#&gt; 5  willijo99      1885          4        6          USA         TX    Seguin
-#&gt; 6  williji99      1847          1        4          USA         OH   Catawba
-#&gt; 7  wilkijl99      1878          5       14          USA         IA     Perry
-#&gt; 8  whiteso99      1868          6       12          USA         OH  Bellaire
-#&gt; 9  weissge99      1894          6       23          USA         CT New Haven
-#&gt; 10 walshmi99      1850          4       29      Ireland       &lt;NA&gt;      &lt;NA&gt;
+#&gt;  1 youngni99      1840          9       12          USA         NY Amsterdam
+#&gt;  2 yawketo99      1903          2       21          USA         MI   Detroit
+#&gt;  3 wrighal99      1842          3       31          USA         NY  New York
+#&gt;  4 wilsoju99      1896          2       28          USA         VA Remington
+#&gt;  5 willijo99      1885          4        6          USA         TX    Seguin
+#&gt;  6 williji99      1847          1        4          USA         OH   Catawba
+#&gt;  7 whiteso99      1868          6       12          USA         OH  Bellaire
+#&gt;  8 wellswi99      1905          8       10          USA         TX    Austin
+#&gt;  9 weissge99      1894          6       23          USA         CT New Haven
+#&gt; 10 weaveea99      1930          8       14          USA         MO St. Louis
 #&gt; # ... with 177 more rows, and 19 more variables: deathYear &lt;int&gt;,
 #&gt; #   deathMonth &lt;int&gt;, deathDay &lt;int&gt;, deathCountry &lt;chr&gt;, deathState &lt;chr&gt;,
 #&gt; #   deathCity &lt;chr&gt;, nameFirst &lt;chr&gt;, nameLast &lt;chr&gt;, nameGiven &lt;chr&gt;,

@@ -139,67 +139,67 @@ first row of values.</p></td>
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 10 × 1
 #&gt;        x
 #&gt;    &lt;int&gt;
-#&gt; 1      8
-#&gt; 2      7
-#&gt; 3     10
-#&gt; 4      5
-#&gt; 5      6
-#&gt; 6      2
-#&gt; 7      9
-#&gt; 8      4
-#&gt; 9      1
+#&gt;  1     8
+#&gt;  2     7
+#&gt;  3    10
+#&gt;  4     5
+#&gt;  5     6
+#&gt;  6     2
+#&gt;  7     9
+#&gt;  8     4
+#&gt;  9     1
 #&gt; 10     3</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>)</div><div class='output co'>#&gt; # A tibble: 10 × 1
 #&gt;        y
 #&gt;    &lt;int&gt;
-#&gt; 1      9
-#&gt; 2      8
-#&gt; 3      4
-#&gt; 4      6
-#&gt; 5      5
-#&gt; 6      1
-#&gt; 7      7
-#&gt; 8      2
-#&gt; 9      3
+#&gt;  1     9
+#&gt;  2     8
+#&gt;  3     4
+#&gt;  4     6
+#&gt;  5     5
+#&gt;  6     1
+#&gt;  7     7
+#&gt;  8     2
+#&gt;  9     3
 #&gt; 10    10</div><div class='input'>
 <span class='co'># Can choose to keep all other variables as well</span>
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>x</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 10 × 2
 #&gt;        x     y
 #&gt;    &lt;int&gt; &lt;int&gt;
-#&gt; 1      8     9
-#&gt; 2      7     9
-#&gt; 3     10     8
-#&gt; 4      5     4
-#&gt; 5      6     6
-#&gt; 6      2     5
-#&gt; 7      9     6
-#&gt; 8      4     3
-#&gt; 9      1     1
+#&gt;  1     8     9
+#&gt;  2     7     9
+#&gt;  3    10     8
+#&gt;  4     5     4
+#&gt;  5     6     6
+#&gt;  6     2     5
+#&gt;  7     9     6
+#&gt;  8     4     3
+#&gt;  9     1     1
 #&gt; 10     3     9</div><div class='input'><span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='no'>y</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 10 × 2
 #&gt;        x     y
 #&gt;    &lt;int&gt; &lt;int&gt;
-#&gt; 1      8     9
-#&gt; 2     10     8
-#&gt; 3      5     4
-#&gt; 4      6     6
-#&gt; 5      2     5
-#&gt; 6      6     1
-#&gt; 7      6     7
-#&gt; 8      8     2
-#&gt; 9      4     3
+#&gt;  1     8     9
+#&gt;  2    10     8
+#&gt;  3     5     4
+#&gt;  4     6     6
+#&gt;  5     2     5
+#&gt;  6     6     1
+#&gt;  7     6     7
+#&gt;  8     8     2
+#&gt;  9     4     3
 #&gt; 10     9    10</div><div class='input'>
 <span class='co'># You can also use distinct on computed variables</span>
 <span class='fu'>distinct</span>(<span class='no'>df</span>, <span class='kw'>diff</span> <span class='kw'>=</span> <span class='fu'>abs</span>(<span class='no'>x</span> - <span class='no'>y</span>))</div><div class='output co'>#&gt; # A tibble: 10 × 1
 #&gt;     diff
 #&gt;    &lt;int&gt;
-#&gt; 1      1
-#&gt; 2      2
-#&gt; 3      0
-#&gt; 4      3
-#&gt; 5      5
-#&gt; 6      6
-#&gt; 7      4
-#&gt; 8      9
-#&gt; 9      7
+#&gt;  1     1
+#&gt;  2     2
+#&gt;  3     0
+#&gt;  4     3
+#&gt;  5     5
+#&gt;  6     6
+#&gt;  7     4
+#&gt;  8     9
+#&gt;  9     7
 #&gt; 10     8</div><div class='input'>
 <span class='co'># The same behaviour applies for grouped data frames</span>
 <span class='co'># except that the grouping variables are always included</span>
@@ -207,16 +207,14 @@ first row of values.</p></td>
   <span class='kw'>g</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>2</span>),
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>1</span>)
 ) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>g</span>)
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Source: local data frame [3 x 2]
-#&gt; Groups: g [2]
-#&gt; 
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; # A tibble: 3 × 2
+#&gt; # Groups: g [2]
 #&gt;       g     x
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     1
 #&gt; 2     2     2
-#&gt; 3     2     1</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; Source: local data frame [3 x 2]
-#&gt; Groups: g [2]
-#&gt; 
+#&gt; 3     2     1</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 3 × 2
+#&gt; # Groups: g [2]
 #&gt;       g     x
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     1

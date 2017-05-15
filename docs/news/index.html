@@ -118,8 +118,12 @@
 <li><p><code>band_members</code>, <code>band_instruments</code> and <code>band_instruments2</code> has some simple data to demonstrate joins.</p></li>
 <li><p>New <code><a href="../reference/tally.html">add_count()</a></code> and <code><a href="../reference/tally.html">add_tally()</a></code> for adding an <code>n</code> column within groups (#2078, @dgrtwo).</p></li>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> for grouped data frames gains a <code>.by_group</code> argument so you can choose to sort by groups if you want to (defaults to <code>FALSE</code>) (#2318)</p></li>
-<li><p>New <code><a href="../reference/pull.html">pull()</a></code> generic for extracting a single column either by name (as a string) or a position (either from the left or the right). Thanks to @paulponcet for the idea (#2054).</p></li>
-<li><p><code><a href="../reference/reexports.html">as_tibble()</a></code> is re-exported from tibble. This is the recommend way to create tibbles from existing data frames. <code><a href="../reference/tbl_df.html">tbl_df()</a></code> has been softly deprecated. <code><a href="../reference/reexports.html">tribble()</a></code> is now imported from tibble (#2336, @chrMongeau); this is now prefered to <code><a href="../reference/reexports.html">frame_data()</a></code>.</p></li>
+<li><p>New <code><a href="../reference/pull.html">pull()</a></code> generic for extracting a single column either by name or position (either from the left or the right). Thanks to @paulponcet for the idea (#2054).</p></li>
+</ul>
+<p>This verb is powered with the new <code><a href="../reference/select_var.html">select_var()</a></code> internal helper, which is exported as well. It is like <code><a href="../reference/select_vars.html">select_vars()</a></code> but returns a single variable.</p>
+<ul>
+<li>
+<code><a href="../reference/reexports.html">as_tibble()</a></code> is re-exported from tibble. This is the recommend way to create tibbles from existing data frames. <code><a href="../reference/tbl_df.html">tbl_df()</a></code> has been softly deprecated. <code><a href="../reference/reexports.html">tribble()</a></code> is now imported from tibble (#2336, @chrMongeau); this is now prefered to <code><a href="../reference/reexports.html">frame_data()</a></code>.</li>
 </ul>
 </div>
 <div id="deprecated-and-defunct" class="section level2">
@@ -127,7 +131,7 @@
 <a href="#deprecated-and-defunct" class="anchor"></a>Deprecated and defunct</h2>
 <ul>
 <li><p>dplyr no longer messages that you need dtplyr to work with data.table (#2489).</p></li>
-<li><p>Long deprecated <code>regroup()</code> has been removed.</p></li>
+<li><p>Long deprecated <code>regroup()</code>, <code>mutate_each_q()</code> and <code>summarise_each_q()</code> functions have been removed.</p></li>
 <li><p>Deprecated <code><a href="../reference/failwith.html">failwith()</a></code>. I’m not even sure why it was here.</p></li>
 </ul>
 </div>
@@ -166,18 +170,18 @@ mtcars2</code></pre></div>
 <h2 class="hasAnchor">
 <a href="#colwise-functions" class="anchor"></a>Colwise functions</h2>
 <ul>
-<li><p><code><a href="../reference/select.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/mutate.html">transmute()</a></code> now have scoped variants (verbs suffixed with <code>_if()</code>, <code>_at()</code> and <code>_all()</code>). Like <code><a href="../reference/summarise_all.html">mutate_all()</a></code>, <code><a href="../reference/summarise_all.html">summarise_if()</a></code>, etc, these variants apply an operation to a selection of variables.</p></li>
+<li><p><code><a href="../reference/select.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, <code><a href="../reference/arrange.html">arrange()</a></code> and <code><a href="../reference/mutate.html">transmute()</a></code> now have scoped variants (verbs suffixed with <code>_if()</code>, <code>_at()</code> and <code>_all()</code>). Like <code><a href="../reference/summarise_all.html">mutate_all()</a></code>, <code><a href="../reference/summarise_all.html">summarise_if()</a></code>, etc, these variants apply an operation to a selection of variables.</p></li>
 <li><p>The scoped verbs taking predicates (<code><a href="../reference/summarise_all.html">mutate_if()</a></code>, <code><a href="../reference/summarise_all.html">summarise_if()</a></code>, etc) now support S3 objects and lazy tables. S3 objects should implement methods for <code>length()</code>, <code>[[</code> and <code><a href="../reference/tbl_vars.html">tbl_vars()</a></code>. For lazy tables, the first 100 rows are collected and the predicate is applied on this subset of the data. This is robust for the common case of checking the type of a column (#2129).</p></li>
 <li><p>Summarise and mutate colwise functions pass <code>...</code> on the the manipulation functions.</p></li>
 <li><p>The performance of colwise verbs like <code><a href="../reference/summarise_all.html">mutate_all()</a></code> is now back to where it was in <code><a href="../reference/summarise_each.html">mutate_each()</a></code>.</p></li>
 <li><p><code><a href="../reference/funs.html">funs()</a></code> has better handling of namespaced functions (#2089).</p></li>
-<li><p>Fix issue with <code><a href="../reference/summarise_all.html">mutate_if()</a></code> and <code><a href="../reference/summarise_all.html">summarise_if()</a></code> when a predicate function returns a vector of <code>FALSE</code> (#1989, #2009, #2011, @lionel-).</p></li>
+<li><p>Fix issue with <code><a href="../reference/summarise_all.html">mutate_if()</a></code> and <code><a href="../reference/summarise_all.html">summarise_if()</a></code> when a predicate function returns a vector of <code>FALSE</code> (#1989, #2009, #2011).</p></li>
 </ul>
 </div>
 <div id="tidyeval" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tidyeval" class="anchor"></a>Tidyeval</h2>
-<p>dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. Tidyeval is described in detail in <code><a href="../articles/programming.html">vignette("programming")</a></code> but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:</p>
+<p>dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. It is described in detail in <code><a href="../articles/programming.html">vignette("programming")</a></code> but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:</p>
 <pre class="{r}"><code>my_var &lt;- quo(homeworld)
 
 starwars %&gt;%
@@ -201,10 +205,12 @@ starwars %&gt;%
 <h3 class="hasAnchor">
 <a href="#joins" class="anchor"></a>Joins</h3>
 <ul>
-<li><p>[API] <code>xxx_join.tbl_df()</code> by default treats all <code>NA</code> values as different from each other (and from any other value), so that they never match. This corresponds to the behavior of joins for database sources, and of database joins in general. To match <code>NA</code> values, pass <code>na_matches = "na"</code> to the join verbs; this is only supported for data frames. The default can also be tweaked by calling <code>pkgconfig::set_config("dplyr::na_matches", "na")</code> (#2033).</p></li>
+<li><p>[API] <code>xxx_join.tbl_df(na_matches = "never")</code> treats all <code>NA</code> values as different from each other (and from any other value), so that they never match. This corresponds to the behavior of joins for database sources, and of database joins in general. To match <code>NA</code> values, pass <code>na_matches = "na"</code> to the join verbs; this is only supported for data frames. The default is <code>na_matches = "na"</code>, kept for the sake of compatibility to v0.5.0. It can be tweaked by calling <code>pkgconfig::set_config("dplyr::na_matches", "na")</code> (#2033).</p></li>
 <li><p><code><a href="../reference/common_by.html">common_by()</a></code> gets a better error message for unexpected inputs (#2091)</p></li>
 <li><p>Fix groups when joining grouped data frames with duplicate columns (#2330, #2334, @davidkretch).</p></li>
 <li><p>One of the two join suffixes can now be an empty string, dplyr no longer hangs (#2228, #2445).</p></li>
+<li><p>Anti- and semi-joins warn if factor levels are inconsistent (#2741).</p></li>
+<li><p>Warnings about join column inconsistencies now contain the column names (#2728).</p></li>
 </ul>
 </div>
 <div id="select" class="section level3">
@@ -214,6 +220,7 @@ starwars %&gt;%
 <li><p>For selecting variables, the first selector decides if it’s an inclusive selection (i.e., the initial column list is empty), or an exclusive selection (i.e., the initial column list contains all columns). This means that <code><a href="../reference/select.html">select(mtcars, contains("am"), contains("FOO"), contains("vs"))</a></code> now returns again both <code>am</code> and <code>vs</code> columns like in dplyr 0.4.3 (#2275, #2289, @r2evans).</p></li>
 <li><p>Select helpers now throw an error if called when no variables have been set (#2452)</p></li>
 <li><p>Helper functions in <code><a href="../reference/select.html">select()</a></code> (and related verbs) are now evaluated in a context where column names do not exist (#2184).</p></li>
+<li><p><code><a href="../reference/select.html">select()</a></code> (and the internal function <code><a href="../reference/select_vars.html">select_vars()</a></code>) now support column names in addition to column positions. As a result, expressions like <code><a href="../reference/select.html">select(mtcars, "cyl")</a></code> are now allowed.</p></li>
 </ul>
 </div>
 <div id="other" class="section level3">
@@ -476,7 +483,7 @@ starwars %&gt;%
 <li><p>Both <code><a href="../reference/bind.html">bind_cols()</a></code> and <code><a href="../reference/bind.html">bind_rows()</a></code> infer classes and grouping information from the first data frame (#1692).</p></li>
 <li><p><code>rbind()</code> and <code>cbind()</code> get <code><a href="../reference/grouped_df.html">grouped_df()</a></code> methods that make it harder to<br>
 create corrupt data frames (#1385). You should still prefer <code><a href="../reference/bind.html">bind_rows()</a></code> and <code><a href="../reference/bind.html">bind_cols()</a></code>.</p></li>
-<li><p>Joins now use correct class when joining on <code>POSIXct</code> columns (#1582, @joel23888), and consider time zones (#819). Joins handle a <code>by</code> that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively to avoid creating repeated column names (#1460). Joins on string columns should be substantially faster (#1386). Extra attributes are ok if they are identical (#1636). Joins work correct when factor levels not equal (#1712, #1559), and anti and semi joins give correct result when by variable is a factor (#1571). A clear error message is given for joins where an explicit <code>by</code> contains unavailable columns (#1928, #1932, @krlmlr).</p></li>
+<li><p>Joins now use correct class when joining on <code>POSIXct</code> columns (#1582, @joel23888), and consider time zones (#819). Joins handle a <code>by</code> that is empty (#1496), or has duplicates (#1192). Suffixes grow progressively to avoid creating repeated column names (#1460). Joins on string columns should be substantially faster (#1386). Extra attributes are ok if they are identical (#1636). Joins work correct when factor levels not equal (#1712, #1559). Anti- and semi-joins give correct result when by variable is a factor (#1571), but warn if factor levels are inconsistent (#2741). A clear error message is given for joins where an explicit <code>by</code> contains unavailable columns (#1928, #1932). Warnings about join column inconsistencies now contain the column names (#2728).</p></li>
 <li><p><code><a href="../reference/join.html">inner_join()</a></code>, <code><a href="../reference/join.html">left_join()</a></code>, <code><a href="../reference/join.html">right_join()</a></code>, and <code><a href="../reference/join.html">full_join()</a></code> gain a <code>suffix</code> argument which allows you to control what suffix duplicated variable names recieve (#1296).</p></li>
 <li><p>Set operations (<code><a href="../reference/setops.html">intersect()</a></code>, <code><a href="../reference/setops.html">union()</a></code> etc) respect coercion rules (#799). <code><a href="../reference/setops.html">setdiff()</a></code> handles factors with <code>NA</code> levels (#1526).</p></li>
 <li><p>There were a number of fixes to enable joining of data frames that don’t have the same encoding of column names (#1513), including working around bug 16885 regarding <code>match()</code> in R 3.3.0 (#1806, #1810, @krlmlr).</p></li>
@@ -653,10 +660,11 @@ create corrupt data frames (#1385). You should still prefer <code><a href="../re
 <li><p><code>*_join.data.table()</code> works when data.table isn’t attached (#786).</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> on a data table preserves original order of the rows (#623). <code><a href="../reference/group_by.html">group_by()</a></code> supports variables with more than 39 characters thanks to a fix in lazyeval (#705). It gives meaninful error message when a variable is not found in the data frame (#716).</p></li>
 <li><p><code><a href="../reference/grouped_df.html">grouped_df()</a></code> requires <code>vars</code> to be a list of symbols (#665).</p></li>
-<li><p><code>min(.,na.rm = TRUE)</code> works with <code>Date</code>s built on numeric vectors (#755)</p></li>
+<li><p><code>min(.,na.rm = TRUE)</code> works with <code>Date</code>s built on numeric vectors (#755).</p></li>
 <li><p><code><a href="../reference/se-deprecated.html">rename_()</a></code> generic gets missing <code>.dots</code> argument (#708).</p></li>
-<li><p><code><a href="../reference/ranking.html">row_number()</a></code>, <code><a href="../reference/ranking.html">min_rank()</a></code>, <code><a href="../reference/ranking.html">percent_rank()</a></code>, <code><a href="../reference/ranking.html">dense_rank()</a></code>, <code><a href="../reference/ranking.html">ntile()</a></code> and <code><a href="../reference/ranking.html">cume_dist()</a></code> handle data frames with 0 rows (#762). They all preserve missing values (#774). <code><a href="../reference/ranking.html">row_number()</a></code> doesn’t segfault when giving an external variable with the wrong number of variables (#781)</p></li>
-<li><p><code>group_indices</code> handles the edge case when there are no variables (#867)</p></li>
+<li><p><code><a href="../reference/ranking.html">row_number()</a></code>, <code><a href="../reference/ranking.html">min_rank()</a></code>, <code><a href="../reference/ranking.html">percent_rank()</a></code>, <code><a href="../reference/ranking.html">dense_rank()</a></code>, <code><a href="../reference/ranking.html">ntile()</a></code> and <code><a href="../reference/ranking.html">cume_dist()</a></code> handle data frames with 0 rows (#762). They all preserve missing values (#774). <code><a href="../reference/ranking.html">row_number()</a></code> doesn’t segfault when giving an external variable with the wrong number of variables (#781).</p></li>
+<li><p><code>group_indices</code> handles the edge case when there are no variables (#867).</p></li>
+<li><p>Removed bogus <code>NAs introduced by coercion to integer range</code> on 32-bit Windows (#2708).</p></li>
 </ul>
 </div>
 </div>
@@ -693,7 +701,7 @@ create corrupt data frames (#1385). You should still prefer <code><a href="../re
 <li><p>You can now program with dplyr - every function that does non-standard evaluation (NSE) has a standard evaluation (SE) version ending in <code>_</code>. This is powered by the new lazyeval package which provides all the tools needed to implement NSE consistently and correctly.</p></li>
 <li><p>See <code><a href="../articles/nse.html">vignette("nse")</a></code> for full details.</p></li>
 <li><p><code>regroup()</code> is deprecated. Please use the more flexible <code><a href="../reference/se-deprecated.html">group_by_()</a></code> instead.</p></li>
-<li><p><code><a href="../reference/summarise_each.html">summarise_each_q()</a></code> and <code><a href="../reference/summarise_each.html">mutate_each_q()</a></code> are deprecated. Please use <code><a href="../reference/summarise_each.html">summarise_each_()</a></code> and <code><a href="../reference/summarise_each.html">mutate_each_()</a></code> instead.</p></li>
+<li><p><code>summarise_each_q()</code> and <code>mutate_each_q()</code> are deprecated. Please use <code><a href="../reference/summarise_each.html">summarise_each_()</a></code> and <code><a href="../reference/summarise_each.html">mutate_each_()</a></code> instead.</p></li>
 <li><p><code>funs_q</code> has been replaced with <code>funs_</code>.</p></li>
 </ul>
 </div>

@@ -377,13 +377,11 @@ df1 %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/join.h
 df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">data_frame</a></span>(<span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">y =</span> <span class="kw">factor</span>(<span class="st">"b"</span>))
 <span class="kw"><a href="../reference/join.html">full_join</a></span>(df1, df2) %&gt;%<span class="st"> </span><span class="kw">str</span>()
 <span class="co">#&gt; Joining, by = c("x", "y")</span>
-<span class="co">#&gt; Warning in full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y,</span>
-<span class="co">#&gt; accept_na_match): joining factors with different levels, coercing to</span>
+<span class="co">#&gt; Warning: Column `y` joining factors with different levels, coercing to</span>
 <span class="co">#&gt; character vector</span>
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    2 obs. of  2 variables:</span>
 <span class="co">#&gt;  $ x: num  1 2</span>
-<span class="co">#&gt;  $ y: chr  "a" "b"</span>
-<span class="co">#&gt;  - attr(*, "vars")= chr</span></code></pre></div>
+<span class="co">#&gt;  $ y: chr  "a" "b"</span></code></pre></div>
 </li>
 <li>
 <p>Factors with the same levels in a different order are coerced to character with a warning:</p>
@@ -391,13 +389,11 @@ df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexpor
 df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">data_frame</a></span>(<span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">y =</span> <span class="kw">factor</span>(<span class="st">"b"</span>, <span class="dt">levels =</span> <span class="kw">c</span>(<span class="st">"b"</span>, <span class="st">"a"</span>)))
 <span class="kw"><a href="../reference/join.html">full_join</a></span>(df1, df2) %&gt;%<span class="st"> </span><span class="kw">str</span>()
 <span class="co">#&gt; Joining, by = c("x", "y")</span>
-<span class="co">#&gt; Warning in full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y,</span>
-<span class="co">#&gt; accept_na_match): joining factors with different levels, coercing to</span>
+<span class="co">#&gt; Warning: Column `y` joining factors with different levels, coercing to</span>
 <span class="co">#&gt; character vector</span>
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    2 obs. of  2 variables:</span>
 <span class="co">#&gt;  $ x: num  1 2</span>
-<span class="co">#&gt;  $ y: chr  "a" "b"</span>
-<span class="co">#&gt;  - attr(*, "vars")= chr</span></code></pre></div>
+<span class="co">#&gt;  $ y: chr  "a" "b"</span></code></pre></div>
 </li>
 <li>
 <p>Factors are preserved only if the levels match exactly:</p>
@@ -407,8 +403,7 @@ df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexpor
 <span class="co">#&gt; Joining, by = c("x", "y")</span>
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    2 obs. of  2 variables:</span>
 <span class="co">#&gt;  $ x: num  1 2</span>
-<span class="co">#&gt;  $ y: Factor w/ 2 levels "a","b": 1 2</span>
-<span class="co">#&gt;  - attr(*, "vars")= chr</span></code></pre></div>
+<span class="co">#&gt;  $ y: Factor w/ 2 levels "a","b": 1 2</span></code></pre></div>
 </li>
 <li>
 <p>A factor and a character are coerced to character with a warning:</p>
@@ -416,13 +411,11 @@ df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexpor
 df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">data_frame</a></span>(<span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">y =</span> <span class="kw">factor</span>(<span class="st">"a"</span>))
 <span class="kw"><a href="../reference/join.html">full_join</a></span>(df1, df2) %&gt;%<span class="st"> </span><span class="kw">str</span>()
 <span class="co">#&gt; Joining, by = c("x", "y")</span>
-<span class="co">#&gt; Warning in full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y,</span>
-<span class="co">#&gt; accept_na_match): joining factor and character vector, coercing into</span>
+<span class="co">#&gt; Warning: Column `y` joining character vector and factor, coercing into</span>
 <span class="co">#&gt; character vector</span>
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    2 obs. of  2 variables:</span>
 <span class="co">#&gt;  $ x: num  1 2</span>
-<span class="co">#&gt;  $ y: chr  "a" "a"</span>
-<span class="co">#&gt;  - attr(*, "vars")= chr</span></code></pre></div>
+<span class="co">#&gt;  $ y: chr  "a" "a"</span></code></pre></div>
 </li>
 </ul>
 <p>Otherwise logicals will be silently upcast to integer, and integer to numeric, but coercing to character will raise an error:</p>
@@ -433,13 +426,12 @@ df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexpor
 <span class="co">#&gt; Classes 'tbl_df', 'tbl' and 'data.frame':    2 obs. of  2 variables:</span>
 <span class="co">#&gt;  $ x: num  1 2</span>
 <span class="co">#&gt;  $ y: num  1 1.5</span>
-<span class="co">#&gt;  - attr(*, "vars")= chr</span>
 
 df1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">data_frame</a></span>(<span class="dt">x =</span> <span class="dv">1</span>, <span class="dt">y =</span> 1L)
 df2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">data_frame</a></span>(<span class="dt">x =</span> <span class="dv">2</span>, <span class="dt">y =</span> <span class="st">"a"</span>)
 <span class="kw"><a href="../reference/join.html">full_join</a></span>(df1, df2) %&gt;%<span class="st"> </span><span class="kw">str</span>()
 <span class="co">#&gt; Joining, by = c("x", "y")</span>
-<span class="co">#&gt; Error in full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match): Can't join on 'y' x 'y' because of incompatible types (character / integer)</span></code></pre></div>
+<span class="co">#&gt; Error in full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches)): Can't join on 'y' x 'y' because of incompatible types (character / integer)</span></code></pre></div>
 </div>
 <div id="multiple-table-verbs" class="section level2">
 <h2 class="hasAnchor">

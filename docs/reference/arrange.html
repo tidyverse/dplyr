@@ -221,36 +221,34 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; 32 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</div><div class='input'>
 <span class='co'># grouped arrange ignores groups</span>
 <span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>))</div><div class='output co'>#&gt; Source: local data frame [32 x 11]
-#&gt; Groups: cyl [3]
-#&gt; 
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>))</div><div class='output co'>#&gt; # A tibble: 32 × 11
+#&gt; # Groups: cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   10.4     8 460.0   215  3.00 5.424 17.82     0     0     3     4
-#&gt; 2   14.7     8 440.0   230  3.23 5.345 17.42     0     0     3     4
-#&gt; 3   10.4     8 472.0   205  2.93 5.250 17.98     0     0     3     4
-#&gt; 4   16.4     8 275.8   180  3.07 4.070 17.40     0     0     3     3
-#&gt; 5   19.2     8 400.0   175  3.08 3.845 17.05     0     0     3     2
-#&gt; 6   13.3     8 350.0   245  3.73 3.840 15.41     0     0     3     4
-#&gt; 7   15.2     8 275.8   180  3.07 3.780 18.00     0     0     3     3
-#&gt; 8   17.3     8 275.8   180  3.07 3.730 17.60     0     0     3     3
-#&gt; 9   14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
+#&gt;  1  10.4     8 460.0   215  3.00 5.424 17.82     0     0     3     4
+#&gt;  2  14.7     8 440.0   230  3.23 5.345 17.42     0     0     3     4
+#&gt;  3  10.4     8 472.0   205  2.93 5.250 17.98     0     0     3     4
+#&gt;  4  16.4     8 275.8   180  3.07 4.070 17.40     0     0     3     3
+#&gt;  5  19.2     8 400.0   175  3.08 3.845 17.05     0     0     3     2
+#&gt;  6  13.3     8 350.0   245  3.73 3.840 15.41     0     0     3     4
+#&gt;  7  15.2     8 275.8   180  3.07 3.780 18.00     0     0     3     3
+#&gt;  8  17.3     8 275.8   180  3.07 3.730 17.60     0     0     3     3
+#&gt;  9  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
 #&gt; 10  15.0     8 301.0   335  3.54 3.570 14.60     0     1     5     8
 #&gt; # ... with 22 more rows</div><div class='input'><span class='co'># Unless you specifically ask:</span>
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>), <span class='kw'>.by_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; Source: local data frame [32 x 11]
-#&gt; Groups: cyl [3]
-#&gt; 
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>), <span class='kw'>.by_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
+#&gt; # Groups: cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1   24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt; 2   22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
-#&gt; 3   21.4     4 121.0   109  4.11 2.780 18.60     1     1     4     2
-#&gt; 4   21.5     4 120.1    97  3.70 2.465 20.01     1     0     3     1
-#&gt; 5   22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt; 6   32.4     4  78.7    66  4.08 2.200 19.47     1     1     4     1
-#&gt; 7   26.0     4 120.3    91  4.43 2.140 16.70     0     1     5     2
-#&gt; 8   27.3     4  79.0    66  4.08 1.935 18.90     1     1     4     1
-#&gt; 9   33.9     4  71.1    65  4.22 1.835 19.90     1     1     4     1
+#&gt;  1  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
+#&gt;  2  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
+#&gt;  3  21.4     4 121.0   109  4.11 2.780 18.60     1     1     4     2
+#&gt;  4  21.5     4 120.1    97  3.70 2.465 20.01     1     0     3     1
+#&gt;  5  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
+#&gt;  6  32.4     4  78.7    66  4.08 2.200 19.47     1     1     4     1
+#&gt;  7  26.0     4 120.3    91  4.43 2.140 16.70     0     1     5     2
+#&gt;  8  27.3     4  79.0    66  4.08 1.935 18.90     1     1     4     1
+#&gt;  9  33.9     4  71.1    65  4.22 1.835 19.90     1     1     4     1
 #&gt; 10  30.4     4  75.7    52  4.93 1.615 18.52     1     1     4     2
 #&gt; # ... with 22 more rows</div></pre>
   </div>

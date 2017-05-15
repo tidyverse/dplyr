@@ -146,6 +146,10 @@ a number of special functions that only work inside <code>select</code></p><ul>
 <li><p><code><a href='select_helpers.html'>num_range()</a></code></p></li>
 </ul>
     <p>To drop variables, use <code>-</code>.</p>
+<p>Note that except for <code>:</code>, <code>-</code> and <code>c()</code>, all complex expressions
+are evaluated outside the data frame context. This is to prevent
+accidental matching of data frame variables when you refer to
+variables from the calling context.</p>
     
     <h2 class="hasAnchor" id="scoped-selection-and-renaming"><a class="anchor" href="#scoped-selection-and-renaming"></a>Scoped selection and renaming</h2>
 
@@ -173,43 +177,43 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 2
 #&gt;    Petal.Length Petal.Width
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1           1.4         0.2
-#&gt; 2           1.4         0.2
-#&gt; 3           1.3         0.2
-#&gt; 4           1.5         0.2
-#&gt; 5           1.4         0.2
-#&gt; 6           1.7         0.4
-#&gt; 7           1.4         0.3
-#&gt; 8           1.5         0.2
-#&gt; 9           1.4         0.2
+#&gt;  1          1.4         0.2
+#&gt;  2          1.4         0.2
+#&gt;  3          1.3         0.2
+#&gt;  4          1.5         0.2
+#&gt;  5          1.4         0.2
+#&gt;  6          1.7         0.4
+#&gt;  7          1.4         0.3
+#&gt;  8          1.5         0.2
+#&gt;  9          1.4         0.2
 #&gt; 10          1.5         0.1
 #&gt; # ... with 140 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>ends_with</a></span>(<span class='st'>"Width"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 2
 #&gt;    Sepal.Width Petal.Width
 #&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1          3.5         0.2
-#&gt; 2          3.0         0.2
-#&gt; 3          3.2         0.2
-#&gt; 4          3.1         0.2
-#&gt; 5          3.6         0.2
-#&gt; 6          3.9         0.4
-#&gt; 7          3.4         0.3
-#&gt; 8          3.4         0.2
-#&gt; 9          2.9         0.2
+#&gt;  1         3.5         0.2
+#&gt;  2         3.0         0.2
+#&gt;  3         3.2         0.2
+#&gt;  4         3.1         0.2
+#&gt;  5         3.6         0.2
+#&gt;  6         3.9         0.4
+#&gt;  7         3.4         0.3
+#&gt;  8         3.4         0.2
+#&gt;  9         2.9         0.2
 #&gt; 10         3.1         0.1
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Move Species variable to the front</span>
 <span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='select_helpers.html'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 × 5
 #&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
 #&gt;     &lt;fctr&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1   setosa          5.1         3.5          1.4         0.2
-#&gt; 2   setosa          4.9         3.0          1.4         0.2
-#&gt; 3   setosa          4.7         3.2          1.3         0.2
-#&gt; 4   setosa          4.6         3.1          1.5         0.2
-#&gt; 5   setosa          5.0         3.6          1.4         0.2
-#&gt; 6   setosa          5.4         3.9          1.7         0.4
-#&gt; 7   setosa          4.6         3.4          1.4         0.3
-#&gt; 8   setosa          5.0         3.4          1.5         0.2
-#&gt; 9   setosa          4.4         2.9          1.4         0.2
+#&gt;  1  setosa          5.1         3.5          1.4         0.2
+#&gt;  2  setosa          4.9         3.0          1.4         0.2
+#&gt;  3  setosa          4.7         3.2          1.3         0.2
+#&gt;  4  setosa          4.6         3.1          1.5         0.2
+#&gt;  5  setosa          5.0         3.6          1.4         0.2
+#&gt;  6  setosa          5.4         3.9          1.7         0.4
+#&gt;  7  setosa          4.6         3.4          1.4         0.3
+#&gt;  8  setosa          5.0         3.4          1.5         0.2
+#&gt;  9  setosa          4.4         2.9          1.4         0.2
 #&gt; 10  setosa          4.9         3.1          1.5         0.1
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='fu'>matrix</span>(<span class='fu'>runif</span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
@@ -217,73 +221,145 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>)</div><div class='output co'>#&gt; # A tibble: 10 × 8
 #&gt;           V4          V7        V1          V9         V8         V5        V2
 #&gt;        &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
-#&gt; 1  0.1849738 0.006950771 0.7169860 0.789947051 0.00250323 0.87959719 0.6477019
-#&gt; 2  0.5624441 0.390183412 0.8387365 0.004801874 0.84770109 0.37491998 0.0647610
-#&gt; 3  0.7307234 0.238652540 0.4678020 0.252908190 0.66004509 0.43416063 0.3374612
-#&gt; 4  0.6607431 0.384401472 0.7641271 0.563169963 0.29450061 0.80684989 0.5698746
-#&gt; 5  0.7317454 0.073094374 0.3994330 0.952278358 0.57010194 0.63560582 0.3383233
-#&gt; 6  0.6314629 0.766595044 0.6787983 0.685113066 0.83903090 0.06871643 0.4992534
-#&gt; 7  0.3519942 0.687511492 0.6900191 0.470041074 0.63062556 0.14484133 0.3084174
-#&gt; 8  0.4643854 0.841570623 0.6464228 0.289851467 0.49672970 0.29457026 0.8404281
-#&gt; 9  0.8910764 0.105449455 0.5148363 0.510124689 0.38952535 0.04144781 0.0651790
+#&gt;  1 0.1849738 0.006950771 0.7169860 0.789947051 0.00250323 0.87959719 0.6477019
+#&gt;  2 0.5624441 0.390183412 0.8387365 0.004801874 0.84770109 0.37491998 0.0647610
+#&gt;  3 0.7307234 0.238652540 0.4678020 0.252908190 0.66004509 0.43416063 0.3374612
+#&gt;  4 0.6607431 0.384401472 0.7641271 0.563169963 0.29450061 0.80684989 0.5698746
+#&gt;  5 0.7317454 0.073094374 0.3994330 0.952278358 0.57010194 0.63560582 0.3383233
+#&gt;  6 0.6314629 0.766595044 0.6787983 0.685113066 0.83903090 0.06871643 0.4992534
+#&gt;  7 0.3519942 0.687511492 0.6900191 0.470041074 0.63062556 0.14484133 0.3084174
+#&gt;  8 0.4643854 0.841570623 0.6464228 0.289851467 0.49672970 0.29457026 0.8404281
+#&gt;  9 0.8910764 0.105449455 0.5148363 0.510124689 0.38952535 0.04144781 0.0651790
 #&gt; 10 0.5368121 0.340091229 0.9619246 0.750690085 0.73144890 0.11654699 0.4399482
 #&gt; # ... with 1 more variables: V6 &lt;dbl&gt;</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 × 3
 #&gt;           V4         V5         V6
 #&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
-#&gt; 1  0.1849738 0.87959719 0.26714756
-#&gt; 2  0.5624441 0.37491998 0.60840493
-#&gt; 3  0.7307234 0.43416063 0.77196657
-#&gt; 4  0.6607431 0.80684989 0.51975041
-#&gt; 5  0.7317454 0.63560582 0.86047988
-#&gt; 6  0.6314629 0.06871643 0.79302051
-#&gt; 7  0.3519942 0.14484133 0.78391104
-#&gt; 8  0.4643854 0.29457026 0.42372128
-#&gt; 9  0.8910764 0.04144781 0.01551256
+#&gt;  1 0.1849738 0.87959719 0.26714756
+#&gt;  2 0.5624441 0.37491998 0.60840493
+#&gt;  3 0.7307234 0.43416063 0.77196657
+#&gt;  4 0.6607431 0.80684989 0.51975041
+#&gt;  5 0.7317454 0.63560582 0.86047988
+#&gt;  6 0.6314629 0.06871643 0.79302051
+#&gt;  7 0.3519942 0.14484133 0.78391104
+#&gt;  8 0.4643854 0.29457026 0.42372128
+#&gt;  9 0.8910764 0.04144781 0.01551256
 #&gt; 10 0.5368121 0.11654699 0.41620118</div><div class='input'>
 <span class='co'># Drop variables with -</span>
 <span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 3
 #&gt;    Sepal.Length Sepal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;  &lt;fctr&gt;
-#&gt; 1           5.1         3.5  setosa
-#&gt; 2           4.9         3.0  setosa
-#&gt; 3           4.7         3.2  setosa
-#&gt; 4           4.6         3.1  setosa
-#&gt; 5           5.0         3.6  setosa
-#&gt; 6           5.4         3.9  setosa
-#&gt; 7           4.6         3.4  setosa
-#&gt; 8           5.0         3.4  setosa
-#&gt; 9           4.4         2.9  setosa
+#&gt;  1          5.1         3.5  setosa
+#&gt;  2          4.9         3.0  setosa
+#&gt;  3          4.7         3.2  setosa
+#&gt;  4          4.6         3.1  setosa
+#&gt;  5          5.0         3.6  setosa
+#&gt;  6          5.4         3.9  setosa
+#&gt;  7          4.6         3.4  setosa
+#&gt;  8          5.0         3.4  setosa
+#&gt;  9          4.4         2.9  setosa
 #&gt; 10          4.9         3.1  setosa
 #&gt; # ... with 140 more rows</div><div class='input'>
+
+<span class='co'># The .data pronoun is available:</span>
+<span class='fu'>select</span>(<span class='no'>mtcars</span>, <span class='no'>.data</span>$<span class='no'>cyl</span>)</div><div class='output co'>#&gt;                     cyl
+#&gt; Mazda RX4             6
+#&gt; Mazda RX4 Wag         6
+#&gt; Datsun 710            4
+#&gt; Hornet 4 Drive        6
+#&gt; Hornet Sportabout     8
+#&gt; Valiant               6
+#&gt; Duster 360            8
+#&gt; Merc 240D             4
+#&gt; Merc 230              4
+#&gt; Merc 280              6
+#&gt; Merc 280C             6
+#&gt; Merc 450SE            8
+#&gt; Merc 450SL            8
+#&gt; Merc 450SLC           8
+#&gt; Cadillac Fleetwood    8
+#&gt; Lincoln Continental   8
+#&gt; Chrysler Imperial     8
+#&gt; Fiat 128              4
+#&gt; Honda Civic           4
+#&gt; Toyota Corolla        4
+#&gt; Toyota Corona         4
+#&gt; Dodge Challenger      8
+#&gt; AMC Javelin           8
+#&gt; Camaro Z28            8
+#&gt; Pontiac Firebird      8
+#&gt; Fiat X1-9             4
+#&gt; Porsche 914-2         4
+#&gt; Lotus Europa          4
+#&gt; Ford Pantera L        8
+#&gt; Ferrari Dino          6
+#&gt; Maserati Bora         8
+#&gt; Volvo 142E            4</div><div class='input'><span class='fu'>select</span>(<span class='no'>mtcars</span>, <span class='no'>.data</span>$<span class='no'>mpg</span> : <span class='no'>.data</span>$<span class='no'>disp</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp
+#&gt; Mazda RX4           21.0   6 160.0
+#&gt; Mazda RX4 Wag       21.0   6 160.0
+#&gt; Datsun 710          22.8   4 108.0
+#&gt; Hornet 4 Drive      21.4   6 258.0
+#&gt; Hornet Sportabout   18.7   8 360.0
+#&gt; Valiant             18.1   6 225.0
+#&gt; Duster 360          14.3   8 360.0
+#&gt; Merc 240D           24.4   4 146.7
+#&gt; Merc 230            22.8   4 140.8
+#&gt; Merc 280            19.2   6 167.6
+#&gt; Merc 280C           17.8   6 167.6
+#&gt; Merc 450SE          16.4   8 275.8
+#&gt; Merc 450SL          17.3   8 275.8
+#&gt; Merc 450SLC         15.2   8 275.8
+#&gt; Cadillac Fleetwood  10.4   8 472.0
+#&gt; Lincoln Continental 10.4   8 460.0
+#&gt; Chrysler Imperial   14.7   8 440.0
+#&gt; Fiat 128            32.4   4  78.7
+#&gt; Honda Civic         30.4   4  75.7
+#&gt; Toyota Corolla      33.9   4  71.1
+#&gt; Toyota Corona       21.5   4 120.1
+#&gt; Dodge Challenger    15.5   8 318.0
+#&gt; AMC Javelin         15.2   8 304.0
+#&gt; Camaro Z28          13.3   8 350.0
+#&gt; Pontiac Firebird    19.2   8 400.0
+#&gt; Fiat X1-9           27.3   4  79.0
+#&gt; Porsche 914-2       26.0   4 120.3
+#&gt; Lotus Europa        30.4   4  95.1
+#&gt; Ford Pantera L      15.8   8 351.0
+#&gt; Ferrari Dino        19.7   6 145.0
+#&gt; Maserati Bora       15.0   8 301.0
+#&gt; Volvo 142E          21.4   4 121.0</div><div class='input'>
+<span class='co'># However it isn't available within calls since those are evaluated</span>
+<span class='co'># outside of the data context. This would fail if run:</span>
+<span class='co'># select(mtcars, identical(.data$cyl))</span>
+
+
 <span class='co'># Renaming -----------------------------------------</span>
 <span class='co'># * select() keeps only the variables you specify</span>
 <span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 × 1
 #&gt;    petal_length
 #&gt;           &lt;dbl&gt;
-#&gt; 1           1.4
-#&gt; 2           1.4
-#&gt; 3           1.3
-#&gt; 4           1.5
-#&gt; 5           1.4
-#&gt; 6           1.7
-#&gt; 7           1.4
-#&gt; 8           1.5
-#&gt; 9           1.4
+#&gt;  1          1.4
+#&gt;  2          1.4
+#&gt;  3          1.3
+#&gt;  4          1.5
+#&gt;  5          1.4
+#&gt;  6          1.7
+#&gt;  7          1.4
+#&gt;  8          1.5
+#&gt;  9          1.4
 #&gt; 10          1.5
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># * rename() keeps all variables</span>
 <span class='fu'>rename</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 × 5
 #&gt;    Sepal.Length Sepal.Width petal_length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;fctr&gt;
-#&gt; 1           5.1         3.5          1.4         0.2  setosa
-#&gt; 2           4.9         3.0          1.4         0.2  setosa
-#&gt; 3           4.7         3.2          1.3         0.2  setosa
-#&gt; 4           4.6         3.1          1.5         0.2  setosa
-#&gt; 5           5.0         3.6          1.4         0.2  setosa
-#&gt; 6           5.4         3.9          1.7         0.4  setosa
-#&gt; 7           4.6         3.4          1.4         0.3  setosa
-#&gt; 8           5.0         3.4          1.5         0.2  setosa
-#&gt; 9           4.4         2.9          1.4         0.2  setosa
+#&gt;  1          5.1         3.5          1.4         0.2  setosa
+#&gt;  2          4.9         3.0          1.4         0.2  setosa
+#&gt;  3          4.7         3.2          1.3         0.2  setosa
+#&gt;  4          4.6         3.1          1.5         0.2  setosa
+#&gt;  5          5.0         3.6          1.4         0.2  setosa
+#&gt;  6          5.4         3.9          1.7         0.4  setosa
+#&gt;  7          4.6         3.4          1.4         0.3  setosa
+#&gt;  8          5.0         3.4          1.5         0.2  setosa
+#&gt;  9          4.4         2.9          1.4         0.2  setosa
 #&gt; 10          4.9         3.1          1.5         0.1  setosa
 #&gt; # ... with 140 more rows</div></pre>
   </div>

@@ -104,8 +104,8 @@
     
     <p><code>tally()</code> is a convenient wrapper for summarise that will either call
 <code><a href='n.html'>n()</a></code> or <code>sum(n)</code> depending on whether you're tallying
-for the first time, or re-tallying. <code>count()</code> is similar, but also
-does the <code><a href='group_by.html'>group_by()</a></code> for you.
+for the first time, or re-tallying. <code>count()</code> is similar but calls
+<code><a href='group_by.html'>group_by()</a></code> before and <code><a href='group_by.html'>ungroup()</a></code> after.
 
     <code>add_tally()</code> adds a column "n" to a table based on the number
 of items within each existing group, while <code>add_count()</code> is a shortcut that
@@ -179,29 +179,29 @@ yourself.</p>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>()</div><div class='output co'>#&gt; # A tibble: 32 × 12
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb     n
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt; 1   21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4    32
-#&gt; 2   21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4    32
-#&gt; 3   22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1    32
-#&gt; 4   21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1    32
-#&gt; 5   18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2    32
-#&gt; 6   18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1    32
-#&gt; 7   14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4    32
-#&gt; 8   24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2    32
-#&gt; 9   22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2    32
+#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4    32
+#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4    32
+#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1    32
+#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1    32
+#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2    32
+#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1    32
+#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4    32
+#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2    32
+#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2    32
 #&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4    32
 #&gt; # ... with 22 more rows</div><div class='input'><span class='co'># add_count() is a short-hand for group_by() + add_tally()</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 12
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb     n
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt; 1   21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4     7
-#&gt; 2   21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4     7
-#&gt; 3   22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1    11
-#&gt; 4   21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1     7
-#&gt; 5   18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2    14
-#&gt; 6   18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1     7
-#&gt; 7   14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4    14
-#&gt; 8   24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2    11
-#&gt; 9   22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2    11
+#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4     7
+#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4     7
+#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1    11
+#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1     7
+#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2    14
+#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1     7
+#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4    14
+#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2    11
+#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2    11
 #&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4     7
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># count and tally are designed so that you can call</span>
@@ -210,28 +210,28 @@ yourself.</p>
 <span class='no'>species</span></div><div class='output co'>#&gt; # A tibble: 58 × 3
 #&gt;     species homeworld     n
 #&gt;       &lt;chr&gt;     &lt;chr&gt; &lt;int&gt;
-#&gt; 1     Human  Tatooine     8
-#&gt; 2     Human     Naboo     5
-#&gt; 3     Human      &lt;NA&gt;     5
-#&gt; 4    Gungan     Naboo     3
-#&gt; 5     Human  Alderaan     3
-#&gt; 6     Droid  Tatooine     2
-#&gt; 7     Droid      &lt;NA&gt;     2
-#&gt; 8     Human  Corellia     2
-#&gt; 9     Human Coruscant     2
+#&gt;  1    Human  Tatooine     8
+#&gt;  2    Human     Naboo     5
+#&gt;  3    Human      &lt;NA&gt;     5
+#&gt;  4   Gungan     Naboo     3
+#&gt;  5    Human  Alderaan     3
+#&gt;  6    Droid  Tatooine     2
+#&gt;  7    Droid      &lt;NA&gt;     2
+#&gt;  8    Human  Corellia     2
+#&gt;  9    Human Coruscant     2
 #&gt; 10 Kaminoan    Kamino     2
 #&gt; # ... with 48 more rows</div><div class='input'><span class='no'>species</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 × 2
 #&gt;     species    nn
 #&gt;       &lt;chr&gt; &lt;int&gt;
-#&gt; 1     Human    16
-#&gt; 2     Droid     3
-#&gt; 3      &lt;NA&gt;     3
-#&gt; 4    Zabrak     2
-#&gt; 5    Aleena     1
-#&gt; 6  Besalisk     1
-#&gt; 7    Cerean     1
-#&gt; 8  Chagrian     1
-#&gt; 9  Clawdite     1
+#&gt;  1    Human    16
+#&gt;  2    Droid     3
+#&gt;  3     &lt;NA&gt;     3
+#&gt;  4   Zabrak     2
+#&gt;  5   Aleena     1
+#&gt;  6 Besalisk     1
+#&gt;  7   Cerean     1
+#&gt;  8 Chagrian     1
+#&gt;  9 Clawdite     1
 #&gt; 10      Dug     1
 #&gt; # ... with 28 more rows</div><div class='input'>
 <span class='co'># add_count() is useful for groupwise filtering</span>
@@ -241,15 +241,15 @@ yourself.</p>
   <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>n</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 29 × 14
 #&gt;                     name height  mass hair_color       skin_color eye_color
 #&gt;                    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;
-#&gt; 1                 Greedo    173    74       &lt;NA&gt;            green     black
-#&gt; 2  Jabba Desilijic Tiure    175  1358       &lt;NA&gt; green-tan, brown    orange
-#&gt; 3                   Yoda     66    17      white            green     brown
-#&gt; 4                  Bossk    190   113       none            green       red
-#&gt; 5                 Ackbar    180    83       none     brown mottle    orange
-#&gt; 6  Wicket Systri Warrick     88    20      brown            brown     brown
-#&gt; 7              Nien Nunb    160    68       none             grey     black
-#&gt; 8            Nute Gunray    191    90       none    mottled green       red
-#&gt; 9                  Watto    137    NA      black       blue, grey    yellow
+#&gt;  1                Greedo    173    74       &lt;NA&gt;            green     black
+#&gt;  2 Jabba Desilijic Tiure    175  1358       &lt;NA&gt; green-tan, brown    orange
+#&gt;  3                  Yoda     66    17      white            green     brown
+#&gt;  4                 Bossk    190   113       none            green       red
+#&gt;  5                Ackbar    180    83       none     brown mottle    orange
+#&gt;  6 Wicket Systri Warrick     88    20      brown            brown     brown
+#&gt;  7             Nien Nunb    160    68       none             grey     black
+#&gt;  8           Nute Gunray    191    90       none    mottled green       red
+#&gt;  9                 Watto    137    NA      black       blue, grey    yellow
 #&gt; 10               Sebulba    112    40       none        grey, red    orange
 #&gt; # ... with 19 more rows, and 8 more variables: birth_year &lt;dbl&gt;, gender &lt;chr&gt;,
 #&gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
