@@ -71,6 +71,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -135,8 +138,9 @@ show a progress bar? Default: <code>TRUE</code></p></dd>
     <p>These can be set on a package-by-package basis, or for the global environment.
 See <code><a href='http://www.rdocumentation.org/packages/pkgconfig/topics/set_config'>pkgconfig::set_config()</a></code> for usage.</p><dl class='dl-horizontal'>
 <dt><code>dplyr::na_matches</code></dt><dd><p>Should <code>NA</code> values be matched in data frame joins
-by default? Default: <code>"never"</code>, alternative value: <code>"na"</code>. See also
-<code><a href='join.tbl_df.html'>join.tbl_df()</a></code>.</p></dd>
+by default? Default: <code>"na"</code> (for compatibility with dplyr v0.5.0 and earlier,
+subject to change), alternative value: <code>"never"</code> (the default
+for database backends, see <code><a href='join.tbl_df.html'>join.tbl_df()</a></code>).</p></dd>
 </dl>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>

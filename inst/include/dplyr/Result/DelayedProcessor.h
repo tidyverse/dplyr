@@ -92,6 +92,7 @@ public:
   }
 
   virtual bool try_handle(const RObject& chunk) {
+    check_supported_type(chunk, name);
     check_length(Rf_length(chunk), 1, "a summary value", name);
 
     int rtype = TYPEOF(chunk);
@@ -260,6 +261,7 @@ private:
 
 template <typename CLASS>
 IDelayedProcessor* get_delayed_processor(SEXP first_result, int ngroups, const SymbolString& name) {
+  check_supported_type(first_result, name);
   check_length(Rf_length(first_result), 1, "a summary value", name);
 
   if (Rf_inherits(first_result, "factor")) {

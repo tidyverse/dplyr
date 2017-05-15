@@ -52,6 +52,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -150,9 +153,8 @@ players &lt;-<span class="st"> </span>batting %&gt;%<span class="st"> </span><sp
 <span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></code></pre></div>
 <p>These are useful if you want to select (for example) the top 10% of records within each group. For example:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(G)) &lt;<span class="st"> </span><span class="fl">0.1</span>)
-<span class="co">#&gt; Source: local data frame [995 x 7]</span>
-<span class="co">#&gt; Groups: playerID [906]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 995 × 7</span>
+<span class="co">#&gt; # Groups: playerID [906]</span>
 <span class="co">#&gt;    playerID yearID teamID     G    AB     R     H</span>
 <span class="co">#&gt;       &lt;chr&gt;  &lt;int&gt; &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1  bondto01   1880    BSN    76   282    27    62</span>
@@ -246,9 +248,8 @@ y &lt;-<span class="st"> </span><span class="dv">10</span>:<span class="dv">1</s
 <p>You can also use this idea to select the records with the highest (<code>x == max(x)</code>) or lowest value (<code>x == min(x)</code>) for a field, but the ranking functions give you more control over ties, and allow you to select any number of records.</p>
 <p>Recycled aggregates are also useful in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could compute the “career year”, the number of years a player has played since they entered the league:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">career_year =</span> yearID -<span class="st"> </span><span class="kw">min</span>(yearID) +<span class="st"> </span><span class="dv">1</span>)
-<span class="co">#&gt; Source: local data frame [19,113 x 8]</span>
-<span class="co">#&gt; Groups: playerID [1,322]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 19,113 × 8</span>
+<span class="co">#&gt; # Groups: playerID [1,322]</span>
 <span class="co">#&gt;   playerID yearID teamID     G    AB     R     H career_year</span>
 <span class="co">#&gt;      &lt;chr&gt;  &lt;int&gt; &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 bondto01   1874    BR2    55   245    25    54           1</span>
@@ -258,9 +259,8 @@ y &lt;-<span class="st"> </span><span class="dv">10</span>:<span class="dv">1</s
 <span class="co">#&gt; # ... with 19,109 more rows</span></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G -<span class="st"> </span><span class="kw">mean</span>(G)) /<span class="st"> </span><span class="kw">sd</span>(G))
-<span class="co">#&gt; Source: local data frame [19,113 x 8]</span>
-<span class="co">#&gt; Groups: playerID [1,322]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 19,113 × 8</span>
+<span class="co">#&gt; # Groups: playerID [1,322]</span>
 <span class="co">#&gt;   playerID yearID teamID     G    AB     R     H        G_z</span>
 <span class="co">#&gt;      &lt;chr&gt;  &lt;int&gt; &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;      &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 bondto01   1874    BR2    55   245    25    54 0.39424925</span>

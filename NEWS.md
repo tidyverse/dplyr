@@ -19,6 +19,10 @@
 * New `pull()` generic for extracting a single column either by name or position
   (either from the left or the right). Thanks to @paulponcet for the idea (#2054).
 
+  This verb is powered with the new `select_var()` internal helper,
+  which is exported as well. It is like `select_vars()` but returns a
+  single variable.
+
 * `as_tibble()` is re-exported from tibble. This is the recommend way to create
   tibbles from existing data frames. `tbl_df()` has been softly deprecated.
   `tribble()` is now imported from tibble (#2336, @chrMongeau); this 
@@ -111,7 +115,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
 * `funs()` has better handling of namespaced functions (#2089).
 
 * Fix issue with `mutate_if()` and `summarise_if()` when a predicate
-  function returns a vector of `FALSE` (#1989, #2009, #2011, @lionel-).
+  function returns a vector of `FALSE` (#1989, #2009, #2011).
 
 ## Tidyeval
 
@@ -196,7 +200,11 @@ and so these functions have been deprecated (but remain around for backward comp
 
 * Helper functions in `select()` (and related verbs) are now evaluated
   in a context where column names do not exist (#2184).
-  
+
+* `select()` (and the internal function `select_vars()`) now support
+  column names in addition to column positions. As a result,
+  expressions like `select(mtcars, "cyl")` are now allowed.
+
 ### Other
 
 * `recode()`, `case_when()` and `coalesce()` now support splicing of
@@ -356,6 +364,9 @@ and so these functions have been deprecated (but remain around for backward comp
 * Update RStudio project settings to install tests (#1952).
 
 * Using `Rcpp::interfaces()` to register C callable interfaces, and registering all native exported functions via `R_registerRoutines()` and `useDynLib(.registration = TRUE)` (#2146).
+
+* Formatting of grouped data frames now works by overriding the `tbl_sum()` generic instead of `print()`. This means that the output is more consistent with tibble, and that `format()` is now supported also for SQL sources (#2781).
+
 
 # dplyr 0.5.0
 

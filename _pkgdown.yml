@@ -105,6 +105,8 @@ navbar:
       href: articles/two-table.html
     - text: Window functions
       href: articles/window-functions.html
+    - text: Databases with dbplyr
+      href: http://dbplyr.tidyverse.org/articles/dbplyr.html
     - text: Programming with dplyr
       href: articles/programming.html
     - text: Compatibility

@@ -71,6 +71,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -124,7 +127,11 @@
 <code>vars</code> are objects representing their positions within
 <code>vars</code>. They support <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and
 splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
-these concepts.</p></td>
+these concepts.</p>
+<p>Note that except for <code>:</code>, <code>-</code> and <code>c()</code>, all complex expressions
+are evaluated outside that context. This is to prevent accidental
+matching to <code>vars</code> elements when you refer to variables from the
+calling context.</p></td>
     </tr>
     <tr>
       <th>include, exclude</th>
@@ -142,6 +149,19 @@ variable that doesn't exist.</p></td>
 
     <p>A named character vector. Values are existing column names,
 names are new names.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>For historic reasons, the <code>vars</code> and <code>include</code> arguments are not
+prefixed with <code>.</code>. This means that any argument starting with <code>v</code>
+might partial-match on <code>vars</code> if it is not explicitly named. Also
+<code>...</code> cannot accept arguments named <code>exclude</code> or <code>include</code>. You can
+enquose and splice the dots to work around these limitations (see
+examples).</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='select_var.html'>select_var()</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -175,7 +195,29 @@ names are new names.</p>
 <span class='co'># You can unquote names or formulas (or lists of)</span>
 <span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !!! <span class='fu'>list</span>(<span class='fu'><a href='reexports.html'>quo</a></span>(<span class='no'>Petal.Length</span>)))</div><div class='output co'>#&gt;   Petal.Length 
 #&gt; "Petal.Length" </div><div class='input'><span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !! <span class='fu'>quote</span>(<span class='no'>Petal.Length</span>))</div><div class='output co'>#&gt;   Petal.Length 
-#&gt; "Petal.Length" </div></pre>
+#&gt; "Petal.Length" </div><div class='input'>
+<span class='co'># The .data pronoun is available:</span>
+<span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>mtcars</span>), <span class='no'>.data</span>$<span class='no'>cyl</span>)</div><div class='output co'>#&gt;   cyl 
+#&gt; "cyl" </div><div class='input'><span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>mtcars</span>), <span class='no'>.data</span>$<span class='no'>mpg</span> : <span class='no'>.data</span>$<span class='no'>disp</span>)</div><div class='output co'>#&gt;    mpg    cyl   disp 
+#&gt;  "mpg"  "cyl" "disp" </div><div class='input'>
+<span class='co'># However it isn't available within calls since those are evaluated</span>
+<span class='co'># outside of the data context. This would fail if run:</span>
+<span class='co'># select_vars(names(mtcars), identical(.data$cyl))</span>
+
+
+<span class='co'># If you're writing a wrapper around select_vars(), pass the dots</span>
+<span class='co'># via splicing to avoid matching dotted arguments to select_vars()</span>
+<span class='co'># named arguments (`vars`, `include` and `exclude`):</span>
+<span class='no'>wrapper</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>) {
+  <span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>mtcars</span>), !!! <span class='fu'><a href='reexports.html'>quos</a></span>(<span class='no'>...</span>))
+}
+
+<span class='co'># This won't partial-match on `vars`:</span>
+<span class='fu'>wrapper</span>(<span class='kw'>var</span> <span class='kw'>=</span> <span class='no'>cyl</span>)</div><div class='output co'>#&gt;   var 
+#&gt; "cyl" </div><div class='input'>
+<span class='co'># This won't match on `include`:</span>
+<span class='fu'>wrapper</span>(<span class='kw'>include</span> <span class='kw'>=</span> <span class='no'>cyl</span>)</div><div class='output co'>#&gt; include 
+#&gt;   "cyl" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -183,6 +225,10 @@ names are new names.</p>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

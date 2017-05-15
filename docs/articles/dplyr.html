@@ -52,6 +52,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -361,10 +364,14 @@ flights
 <p>These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (<code><a href="../reference/arrange.html">arrange()</a></code>), pick observations and variables of interest (<code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/select.html">select()</a></code>), add new variables that are functions of existing variables (<code><a href="../reference/mutate.html">mutate()</a></code>), or collapse many values to a summary (<code><a href="../reference/summarise.html">summarise()</a></code>). The remainder of the language comes from applying the five functions to different types of data. For example, I’ll discuss how these functions work with grouped data.</p>
 </div>
 </div>
-<div id="grouped-operations" class="section level2">
+<div id="patterns-of-operations" class="section level2">
 <h2 class="hasAnchor">
-<a href="#grouped-operations" class="anchor"></a>Grouped operations</h2>
-<p>These verbs are useful on their own, but they become even more powerful when you apply them to groups of observations within a dataset. In dplyr, you do this with the <code><a href="../reference/group_by.html">group_by()</a></code> function. It breaks down a dataset into specified groups of rows. When you then apply the verbs above on the resulting object they’ll be automatically applied “by group”.</p>
+<a href="#patterns-of-operations" class="anchor"></a>Patterns of operations</h2>
+<p>The dplyr verbs can be classified by the type of operations they accomplish (we sometimes speak of their <strong>semantics</strong>, i.e., their meaning). The most important and useful distinction is between grouped and ungrouped operations. In addition, it is helpful to have a good grasp of the difference between select and mutate operations.</p>
+<div id="grouped-operations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#grouped-operations" class="anchor"></a>Grouped operations</h3>
+<p>The dplyr verbs are useful on their own, but they become even more powerful when you apply them to groups of observations within a dataset. In dplyr, you do this with the <code><a href="../reference/group_by.html">group_by()</a></code> function. It breaks down a dataset into specified groups of rows. When you then apply the verbs above on the resulting object they’ll be automatically applied “by group”.</p>
 <p>Grouping affects the verbs as follows:</p>
 <ul>
 <li><p>grouped <code><a href="../reference/select.html">select()</a></code> is the same as ungrouped <code><a href="../reference/select.html">select()</a></code>, except that grouping variables are always retained.</p></li>
@@ -411,9 +418,8 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <p>When you group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">daily &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)
 (per_day   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(daily, <span class="dt">flights =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()))
-<span class="co">#&gt; Source: local data frame [365 x 4]</span>
-<span class="co">#&gt; Groups: year, month [?]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 365 × 4</span>
+<span class="co">#&gt; # Groups: year, month [?]</span>
 <span class="co">#&gt;    year month   day flights</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1     842</span>
@@ -422,9 +428,8 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <span class="co">#&gt; 4  2013     1     4     915</span>
 <span class="co">#&gt; # ... with 361 more rows</span>
 (per_month &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">sum</span>(flights)))
-<span class="co">#&gt; Source: local data frame [12 x 3]</span>
-<span class="co">#&gt; Groups: year [?]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 12 × 3</span>
+<span class="co">#&gt; # Groups: year [?]</span>
 <span class="co">#&gt;    year month flights</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1   27004</span>
@@ -438,9 +443,181 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <span class="co">#&gt;   &lt;int&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013  336776</span></code></pre></div>
 <p>However you need to be careful when progressively rolling up summaries like this: it’s ok for sums and counts, but you need to think about weighting for means and variances (it’s not possible to do this exactly for medians).</p>
-<div id="piping" class="section level3">
+</div>
+<div id="selecting-operations" class="section level3">
 <h3 class="hasAnchor">
-<a href="#piping" class="anchor"></a>Piping</h3>
+<a href="#selecting-operations" class="anchor"></a>Selecting operations</h3>
+<p>One of the appealing features of dplyr is that you can refer to columns from the tibble as if they were regular variables. However, the syntactic uniformity of referring to bare column names hide semantical differences across the verbs. A column symbol supplied to <code><a href="../reference/select.html">select()</a></code> does not have the same meaning as the same symbol supplied to <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
+<p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># `year` represents the integer 1</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)
+<span class="co">#&gt; # A tibble: 336,776 × 1</span>
+<span class="co">#&gt;    year</span>
+<span class="co">#&gt;   &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013</span>
+<span class="co">#&gt; 2  2013</span>
+<span class="co">#&gt; 3  2013</span>
+<span class="co">#&gt; 4  2013</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dv">1</span>)
+<span class="co">#&gt; # A tibble: 336,776 × 1</span>
+<span class="co">#&gt;    year</span>
+<span class="co">#&gt;   &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013</span>
+<span class="co">#&gt; 2  2013</span>
+<span class="co">#&gt; 3  2013</span>
+<span class="co">#&gt; 4  2013</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>By the same token, this means that you cannot refer to variables from the surrounding context if they have the same name as one of the columns. In the following example, <code>year</code> still represents 1, not 5:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year &lt;-<span class="st"> </span><span class="dv">5</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</code></pre></div>
+<p>One useful subtlety is that this only applies to bare names and to selecting calls like <code>c(year, month, day)</code> or <code>year:day</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year &lt;-<span class="st"> "dep"</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="../reference/select_helpers.html">starts_with</a></span>(year))
+<span class="co">#&gt; # A tibble: 336,776 × 2</span>
+<span class="co">#&gt;   dep_time dep_delay</span>
+<span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span>
+<span class="co">#&gt; 1      517         2</span>
+<span class="co">#&gt; 2      533         4</span>
+<span class="co">#&gt; 3      542         2</span>
+<span class="co">#&gt; 4      544        -1</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>These semantics are usually intuitive. But note the subtle difference:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year &lt;-<span class="st"> </span><span class="dv">5</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, <span class="kw">identity</span>(year))
+<span class="co">#&gt; # A tibble: 336,776 × 2</span>
+<span class="co">#&gt;    year sched_dep_time</span>
+<span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013            515</span>
+<span class="co">#&gt; 2  2013            529</span>
+<span class="co">#&gt; 3  2013            540</span>
+<span class="co">#&gt; 4  2013            545</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>In the first argument, <code>year</code> represents its own position <code>1</code>. In the second argument, <code>year</code> is evaluated in the surrounding context and represents the fifth column.</p>
+<p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>)
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, vars, <span class="st">"day"</span>)
+<span class="co">#&gt; # A tibble: 336,776 × 3</span>
+<span class="co">#&gt;    year month   day</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013     1     1</span>
+<span class="co">#&gt; 2  2013     1     1</span>
+<span class="co">#&gt; 3  2013     1     1</span>
+<span class="co">#&gt; 4  2013     1     1</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>Note that the code above is somewhat unsafe because you might have added a column named <code>vars</code> to the tibble, or you might apply the code to another data frame containing such a column. To avoid this issue, you can wrap the variable in an <code>identity()</code> call as we mentioned above, as this will bypass column names. However, a more explicit and general method that works in all dplyr verbs is to unquote the variable with the <code>!!</code> operator. This tells dplyr to bypass the data frame and to directly look in the context:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Let's create a new `vars` column:</span>
+flights$vars &lt;-<span class="st"> </span>flights$year
+
+<span class="co"># The new column won't be an issue if you evaluate `vars` in the</span>
+<span class="co"># context with the `!!` operator:</span>
+vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>)
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, !!<span class="st"> </span>vars)
+<span class="co">#&gt; # A tibble: 336,776 × 3</span>
+<span class="co">#&gt;    year month   day</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013     1     1</span>
+<span class="co">#&gt; 2  2013     1     1</span>
+<span class="co">#&gt; 3  2013     1     1</span>
+<span class="co">#&gt; 4  2013     1     1</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>This operator is very useful when you need to use dplyr within custom functions. You can learn more about it in <code><a href="../articles/programming.html">vignette("programming")</a></code>. However it is important to understand the semantics of the verbs you are unquoting into, that is, the values they understand. As we have just seen, <code><a href="../reference/select.html">select()</a></code> supports names and positions of columns. But that won’t be the case in other verbs like <code><a href="../reference/mutate.html">mutate()</a></code> because they have different semantics.</p>
+</div>
+<div id="mutating-operations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
+<p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. Let’s create a smaller tibble for clarity:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year:dep_time)</code></pre></div>
+<p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for ther own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="st">"year"</span>, <span class="dv">2</span>)
+<span class="co">#&gt; # A tibble: 336,776 × 6</span>
+<span class="co">#&gt;    year month   day dep_time `"year"`   `2`</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;    &lt;chr&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517     year     2</span>
+<span class="co">#&gt; 2  2013     1     1      533     year     2</span>
+<span class="co">#&gt; 3  2013     1     1      542     year     2</span>
+<span class="co">#&gt; 4  2013     1     1      544     year     2</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p><code><a href="../reference/mutate.html">mutate()</a></code> gets length-1 vectors that it interprets as new columns in the data frame. These vectors are recycled so they match the number of rows. That’s why it doesn’t make sense to supply expressions like <code>"year" + 10</code> to <code><a href="../reference/mutate.html">mutate()</a></code>. This amounts to adding 10 to a string! The correct expression is:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, year +<span class="st"> </span><span class="dv">10</span>)
+<span class="co">#&gt; # A tibble: 336,776 × 5</span>
+<span class="co">#&gt;    year month   day dep_time `year + 10`</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517        2023</span>
+<span class="co">#&gt; 2  2013     1     1      533        2023</span>
+<span class="co">#&gt; 3  2013     1     1      542        2023</span>
+<span class="co">#&gt; 4  2013     1     1      544        2023</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>In the same way, you can unquote values from the context if these values represent a valid column. They must be either length 1 (they then get recycled) or have the same length as the number of rows. In the following example we create a new vector that we add to the data frame:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="kw">nrow</span>(df))
+<span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)
+<span class="co">#&gt; # A tibble: 336,776 × 5</span>
+<span class="co">#&gt;    year month   day dep_time   new</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517     1</span>
+<span class="co">#&gt; 2  2013     1     1      533     2</span>
+<span class="co">#&gt; 3  2013     1     1      542     3</span>
+<span class="co">#&gt; 4  2013     1     1      544     4</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>A case in point is <code><a href="../reference/group_by.html">group_by()</a></code>. While you might think it has select semantics, it actually has mutate semantics. This is quite handy as it allows to group by a modified column:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, month)
+<span class="co">#&gt; # A tibble: 336,776 × 4</span>
+<span class="co">#&gt; # Groups: month [12]</span>
+<span class="co">#&gt;    year month   day dep_time</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517</span>
+<span class="co">#&gt; 2  2013     1     1      533</span>
+<span class="co">#&gt; 3  2013     1     1      542</span>
+<span class="co">#&gt; 4  2013     1     1      544</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span>
+<span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">month =</span> <span class="kw">as.factor</span>(month))
+<span class="co">#&gt; # A tibble: 336,776 × 4</span>
+<span class="co">#&gt; # Groups: month [12]</span>
+<span class="co">#&gt;    year  month   day dep_time</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;fctr&gt; &lt;int&gt;    &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013      1     1      517</span>
+<span class="co">#&gt; 2  2013      1     1      533</span>
+<span class="co">#&gt; 3  2013      1     1      542</span>
+<span class="co">#&gt; 4  2013      1     1      544</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span>
+<span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">day_binned =</span> <span class="kw">cut</span>(day, <span class="dv">3</span>))
+<span class="co">#&gt; # A tibble: 336,776 × 5</span>
+<span class="co">#&gt; # Groups: day_binned [3]</span>
+<span class="co">#&gt;    year month   day dep_time day_binned</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;fctr&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517  (0.97,11]</span>
+<span class="co">#&gt; 2  2013     1     1      533  (0.97,11]</span>
+<span class="co">#&gt; 3  2013     1     1      542  (0.97,11]</span>
+<span class="co">#&gt; 4  2013     1     1      544  (0.97,11]</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>This is why you can’t supply a column name to <code><a href="../reference/group_by.html">group_by()</a></code>. This amounts to creating a new column containing the string recycled to the number of rows:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="st">"month"</span>)
+<span class="co">#&gt; # A tibble: 336,776 × 5</span>
+<span class="co">#&gt; # Groups: "month" [1]</span>
+<span class="co">#&gt;    year month   day dep_time `"month"`</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;chr&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517     month</span>
+<span class="co">#&gt; 2  2013     1     1      533     month</span>
+<span class="co">#&gt; 3  2013     1     1      542     month</span>
+<span class="co">#&gt; 4  2013     1     1      544     month</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>Since grouping with select semantics can be sometimes useful as well, we have added the <code><a href="../reference/group_by_all.html">group_by_at()</a></code> variant. In dplyr, variants suffixed with <code>_at()</code> support selection semantics in their second argument. You just need to wrap the selection with <code><a href="../reference/vars.html">vars()</a></code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/group_by_all.html">group_by_at</a></span>(df, <span class="kw"><a href="../reference/vars.html">vars</a></span>(year:day))
+<span class="co">#&gt; # A tibble: 336,776 × 4</span>
+<span class="co">#&gt; # Groups: year, month, day [365]</span>
+<span class="co">#&gt;    year month   day dep_time</span>
+<span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span>
+<span class="co">#&gt; 1  2013     1     1      517</span>
+<span class="co">#&gt; 2  2013     1     1      533</span>
+<span class="co">#&gt; 3  2013     1     1      542</span>
+<span class="co">#&gt; 4  2013     1     1      544</span>
+<span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
+<p>You can read more about the <code>_at()</code> and <code>_if()</code> variants in the <code><a href="../reference/scoped.html">?scoped</a></code> help page.</p>
+</div>
+</div>
+<div id="piping" class="section level2">
+<h2 class="hasAnchor">
+<a href="#piping" class="anchor"></a>Piping</h2>
 <p>The dplyr API is functional in the sense that function calls don’t have side-effects. You must always save their results. This doesn’t lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)
 a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, arr_delay, dep_delay)
@@ -461,9 +638,8 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
   arr &gt;<span class="st"> </span><span class="dv">30</span> |<span class="st"> </span>dep &gt;<span class="st"> </span><span class="dv">30</span>
 )
 <span class="co">#&gt; Adding missing grouping variables: `year`, `month`, `day`</span>
-<span class="co">#&gt; Source: local data frame [49 x 5]</span>
-<span class="co">#&gt; Groups: year, month [11]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 49 × 5</span>
+<span class="co">#&gt; # Groups: year, month [11]</span>
 <span class="co">#&gt;    year month   day      arr      dep</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  2013     1    16 34.24736 24.61287</span>
@@ -480,7 +656,6 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
     <span class="dt">dep =</span> <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
   ) %&gt;%
 <span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr &gt;<span class="st"> </span><span class="dv">30</span> |<span class="st"> </span>dep &gt;<span class="st"> </span><span class="dv">30</span>)</code></pre></div>
-</div>
 </div>
 <div id="other-data-sources" class="section level2">
 <h2 class="hasAnchor">
@@ -542,7 +717,8 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#data-nycflights13">Data: nycflights13</a></li>
       <li><a href="#single-table-verbs">Single table verbs</a></li>
-      <li><a href="#grouped-operations">Grouped operations</a></li>
+      <li><a href="#patterns-of-operations">Patterns of operations</a></li>
+      <li><a href="#piping">Piping</a></li>
       <li><a href="#other-data-sources">Other data sources</a></li>
       <li><a href="#comparisons">Comparisons</a></li>
       </ul>

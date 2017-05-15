@@ -101,4 +101,7 @@ wrapper(var = cyl)
 # This won't match on `include`:
 wrapper(include = cyl)
 }
+\seealso{
+\code{\link[=select_var]{select_var()}}
+}
 \keyword{internal}

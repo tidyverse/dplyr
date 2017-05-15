@@ -77,6 +77,14 @@ void copy_attributes(SEXP out, SEXP data) {
   if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
 }
 
+SEXP null_if_empty(SEXP x) {
+  if (Rf_length(x))
+    return x;
+  else
+    return R_NilValue;
+}
+
+
 namespace dplyr {
 
 std::string get_single_class(SEXP x) {
@@ -147,7 +155,7 @@ SymbolVector get_vars(SEXP x) {
 
 void set_vars(SEXP x, const SymbolVector& vars) {
   static SEXP vars_symbol = Rf_install("vars");
-  Rf_setAttrib(x, vars_symbol, vars.get_vector());
+  Rf_setAttrib(x, vars_symbol, null_if_empty(vars.get_vector()));
 }
 
 void copy_vars(SEXP target, SEXP source) {

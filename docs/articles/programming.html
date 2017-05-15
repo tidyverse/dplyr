@@ -52,6 +52,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -224,11 +227,11 @@ df %&gt;%
 }
 
 <span class="kw">my_summarise</span>(df, g1)
-<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var`: unknown</span></code></pre></div>
+<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></code></pre></div>
 <p>But it doesn’t.</p>
 <p>Maybe providing the variable name as a string will fix things?</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">my_summarise</span>(df, <span class="st">"g2"</span>)
-<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var`: unknown</span></code></pre></div>
+<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></code></pre></div>
 <p>Nope.</p>
 <p>If you look carefully at the error message, you’ll see that it’s the same in both cases. <code><a href="../reference/group_by.html">group_by()</a></code> works like <code>"</code>: it doesn’t evaluate its input; it quotes it.</p>
 <p>To make this function work, we need to do two things. We need to quote the input ourselves (so <code>my_summarise()</code> can take a bare variable name like <code><a href="../reference/group_by.html">group_by()</a></code>), and then we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input (because we’ve done the quoting).</p>
@@ -246,7 +249,7 @@ df %&gt;%
 <p><code><a href="../reference/reexports.html">quo()</a></code> returns a <strong>quosure</strong>, which is a special type of formula. You’ll learn more about quosures later on.</p>
 <p>Now that we’ve captured this expression, how do we use it with <code><a href="../reference/group_by.html">group_by()</a></code>? It doesn’t work if we just shove it into our naive approach:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">my_summarise</span>(df, <span class="kw"><a href="../reference/reexports.html">quo</a></span>(g1))
-<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var`: unknown</span></code></pre></div>
+<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></code></pre></div>
 <p>We get the same error as before, because we haven’t yet told <code><a href="../reference/group_by.html">group_by()</a></code> that we’re taking care of the quoting. In other words, we need to tell <code><a href="../reference/group_by.html">group_by()</a></code> not to quote its input, because it has been pre-quoted by <code>my_summarise()</code>. Yet another way of saying the same thing is that we want to <strong>unquote</strong> <code>my_var</code>.</p>
 <p>In dplyr (and in tidyeval in general) you use <code>!!</code> to say that you want to unquote an input so that it’s evaluated, not quoted. This gives us a function that actually does what we want.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_summarise &lt;-<span class="st"> </span>function(df, group_var) {
@@ -416,9 +419,8 @@ df %&gt;%
 }
 
 <span class="kw">my_summarise</span>(df, g1, g2)
-<span class="co">#&gt; Source: local data frame [4 x 3]</span>
-<span class="co">#&gt; Groups: g1 [?]</span>
-<span class="co">#&gt; </span>
+<span class="co">#&gt; # A tibble: 4 × 3</span>
+<span class="co">#&gt; # Groups: g1 [?]</span>
 <span class="co">#&gt;      g1    g2     a</span>
 <span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     1     1   1.0</span>
@@ -463,19 +465,19 @@ x2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">100<
 <p>It might look like the expressions are the same if you print them out. But look carefully at the environments — they’re different.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7faf6dfd9d50&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x7fb8e70c0950&gt;</span>
 x2
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7faf6f130d78&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x7fb8e6a1c9c8&gt;</span></code></pre></div>
 <p>When we evaluate those formulas using <code>rlang::eval_tidy()</code>, we see that they yield different values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)
 
 <span class="kw">eval_tidy</span>(x1)
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7faf6dfd9d50&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x7fb8e70c0950&gt;</span>
 <span class="kw">eval_tidy</span>(x2)
 <span class="co">#&gt; ~x</span>
-<span class="co">#&gt; &lt;environment: 0x7faf6f130d78&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x7fb8e6a1c9c8&gt;</span></code></pre></div>
 <p>This is a key property of R: one name can refer to different values in different environments. This is also important for dplyr, because it allows you to combine variables and objects in a call:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">user_var &lt;-<span class="st"> </span><span class="dv">1000</span>
 mtcars %&gt;%<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">cyl =</span> <span class="kw">mean</span>(cyl) *<span class="st"> </span>user_var)
@@ -563,7 +565,7 @@ expr2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">1
 <p>The functional form is useful in cases where the precedence of <code>!</code> causes problems:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_fun &lt;-<span class="st"> </span><span class="kw"><a href="../reference/reexports.html">quo</a></span>(fun)
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(!!<span class="kw">my_fun</span>(x, y, z))
-<span class="co">#&gt; Error in (function (x) : could not find function "my_fun"</span>
+<span class="co">#&gt; Error in my_fun(x, y, z): could not find function "my_fun"</span>
 <span class="kw"><a href="../reference/reexports.html">quo</a></span>(<span class="kw">UQ</span>(my_fun)(x, y, z))
 <span class="co">#&gt; &lt;quosure: global&gt;</span>
 <span class="co">#&gt; ~(~fun)(x, y, z)</span>
