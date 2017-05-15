@@ -365,6 +365,9 @@ and so these functions have been deprecated (but remain around for backward comp
 
 * Using `Rcpp::interfaces()` to register C callable interfaces, and registering all native exported functions via `R_registerRoutines()` and `useDynLib(.registration = TRUE)` (#2146).
 
+* Formatting of grouped data frames now works by overriding the `tbl_sum()` generic instead of `print()`. This means that the output is more consistent with tibble, and that `format()` is now supported also for SQL sources (#2781).
+
+
 # dplyr 0.5.0
 
 ## Breaking changes
