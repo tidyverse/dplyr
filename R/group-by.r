@@ -1,7 +1,7 @@
 #' Group by one or more variables
 #'
 #' @description
-#' Most data operations are usefully done on groups defined by variables.
+#' Most data operations are done on groups defined by variables.
 #' `group_by()` takes an existing tbl and converts it into a grouped tbl
 #' where operations are performed "by group". `ungroup()` removes grouping.
 #'
@@ -26,12 +26,12 @@
 #' variables.
 #'
 #' @param .data a tbl
-#' @param ... Variables to group by. All tbls accept variable names,
-#'   some will also accept functions of variables. Duplicated groups
+#' @param ... Variables to group by. All tbls accept variable names.
+#'   Some tbls will accept functions of variables. Duplicated groups
 #'   will be silently dropped.
 #' @param add When `add = FALSE`, the default, `group_by()` will
-#'   override existing groups. To instead add to the existing groups,
-#'   use `add = TRUE`
+#'   override existing groups. To add to the existing groups, use 
+#'   `add = TRUE`.
 #' @inheritParams filter
 #' @export
 #' @examples

@@ -706,6 +706,22 @@ test_that("mutate() names pronouns correctly (#2686)", {
   expect_named(mutate(tibble(x = 1), .data[["x"]]), "x")
 })
 
+test_that("mutate() supports unquoted values", {
+  df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
+  expect_identical(mutate(df, out = !! 1), mutate(df, out = 1))
+  expect_identical(mutate(df, out = !! 1:5), mutate(df, out = 1:5))
+  expect_identical(mutate(df, out = !! quote(1:5)), mutate(df, out = 1:5))
+  expect_error(mutate(df, out = !! 1:2), "must be length 5 (the number of rows)", fixed = TRUE)
+  expect_error(mutate(df, out = !! get_env()), "unsupported type")
+
+  gdf <- group_by(df, g)
+  expect_identical(mutate(gdf, out = !! 1), mutate(gdf, out = 1))
+  expect_identical(mutate(gdf, out = !! 1:5), group_by(mutate(df, out = 1:5), g))
+  expect_error(mutate(gdf, out = !! quote(1:5)), "must be length 2 (the group size)", fixed = TRUE)
+  expect_error(mutate(gdf, out = !! 1:2), "must be length 5 (the number of rows)", fixed = TRUE)
+  expect_error(mutate(gdf, out = !! get_env()), "unsupported type")
+})
+
 
 # Error messages ----------------------------------------------------------
 
