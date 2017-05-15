@@ -99,6 +99,16 @@ test_that("rename does not crash with invalid grouped data frame (#640)", {
   )
 })
 
+test_that("can select with character vectors", {
+  expect_identical(select_vars(letters, "b", !! "z", c("b", "c")), set_names(c("b", "z", "c")))
+})
+
+test_that("abort on unknown columns", {
+  expect_error(select_vars(letters, "foo"), "must match column names")
+  expect_error(select_vars(letters, c("a", "bar", "foo", "d")), "bar, foo")
+})
+
+
 # combine_vars ------------------------------------------------------------
 # This is the low C++ function which works on integer indices
 
@@ -177,4 +187,8 @@ test_that("arguments to select() don't match select_vars() arguments", {
 
 test_that("can select() with .data pronoun (#2715)", {
   expect_identical(select(mtcars, .data$cyl), select(mtcars, cyl))
+})
+
+test_that("can select() with character vectors", {
+  expect_identical(select(mtcars, "cyl", !! "disp", c("cyl", "am", "drat")), mtcars[c("cyl", "disp", "am", "drat")])
 })
