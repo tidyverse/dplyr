@@ -111,7 +111,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("assignments work (#1452)", {
-    expect_false(exists("xx"))
+    expect_false(env_has(nms = "xx"))
     expect_equal(
       test_df %>%
         grouping %>%
@@ -125,11 +125,11 @@ test_hybrid <- function(grouping) {
         grouping %>%
         select(-e)
     )
-    expect_false(exists("xx"))
+    expect_false(env_has(nms = "xx"))
   })
 
   test_that("assignments don't change variable (#315, #1452)", {
-    expect_false(exists("a"))
+    expect_false(env_has(nms = "a"))
     expect_equal(
       test_df %>%
         grouping %>%
@@ -143,7 +143,7 @@ test_hybrid <- function(grouping) {
         grouping %>%
         select(-e)
     )
-    expect_false(exists("a"))
+    expect_false(env_has(nms = "a"))
   })
 
   test_that("assignments don't carry over (#1452)", {
@@ -157,7 +157,7 @@ test_hybrid <- function(grouping) {
   })
 
   test_that("assignments don't leak (#1452)", {
-    expect_false(exists("xx"))
+    expect_false(env_has(nms = "a"))
     test <-
       test_df %>%
       grouping %>%
@@ -165,7 +165,7 @@ test_hybrid <- function(grouping) {
         xx <- 5
         xx
       })
-    expect_false(exists("xx"))
+    expect_false(env_has(nms = "a"))
   })
 
   test_that("[ works (#912)", {
