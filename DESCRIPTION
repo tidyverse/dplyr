@@ -23,7 +23,7 @@ Imports:
     rlang (>= 0.1),
     R6,
     Rcpp (>= 0.12.6),
-    tibble (>= 1.3.0.9001),
+    tibble (>= 1.3.0.9008),
     utils
 Suggests: 
     covr,
