@@ -182,9 +182,24 @@ Together these properties make it easy to chain together multiple simple steps t
 
 These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange()`), pick observations and variables of interest (`filter()` and `select()`), add new variables that are functions of existing variables (`mutate()`), or collapse many values to a summary (`summarise()`). The remainder of the language comes from applying the five functions to different types of data. For example, I'll discuss how these functions work with grouped data.
 
-## Grouped operations
 
-These verbs are useful on their own, but they become even more powerful when you apply them to groups of observations within a dataset. In dplyr, you do this with the `group_by()` function. It breaks down a dataset into specified groups of rows. When you then apply the verbs above on the resulting object they'll be automatically applied "by group".
+## Patterns of operations
+
+The dplyr verbs can be classified by the type of operations they
+accomplish (we sometimes speak of their **semantics**, i.e., their
+meaning). The most important and useful distinction is between grouped
+and ungrouped operations. In addition, it is helpful to have a good
+grasp of the difference between select and mutate operations.
+
+
+### Grouped operations
+
+The dplyr verbs are useful on their own, but they become even more
+powerful when you apply them to groups of observations within a
+dataset. In dplyr, you do this with the `group_by()` function. It
+breaks down a dataset into specified groups of rows. When you then
+apply the verbs above on the resulting object they'll be automatically
+applied "by group".
 
 Grouping affects the verbs as follows:
 
@@ -252,7 +267,166 @@ daily <- group_by(flights, year, month, day)
 
 However you need to be careful when progressively rolling up summaries like this: it's ok for sums and counts, but you need to think about weighting for means and variances (it's not possible to do this exactly for medians).
 
-### Piping
+
+### Selecting operations
+
+One of the appealing features of dplyr is that you can refer to
+columns from the tibble as if they were regular variables. However,
+the syntactic uniformity of referring to bare column names hide
+semantical differences across the verbs. A column symbol supplied to
+`select()` does not have the same meaning as the same symbol supplied
+to `mutate()`.
+
+Selecting operations expect column names and positions. Hence, when
+you call `select()` with bare variable names, they actually represent
+their own positions in the tibble. The following calls are completely
+equivalent from dplyr's point of view:
+
+```{r}
+# `year` represents the integer 1
+select(flights, year)
+select(flights, 1)
+```
+
+By the same token, this means that you cannot refer to variables from
+the surrounding context if they have the same name as one of the
+columns. In the following example, `year` still represents 1, not 5:
+
+```r
+year <- 5
+select(flights, year)
+```
+
+One useful subtlety is that this only applies to bare names and to
+selecting calls like `c(year, month, day)` or `year:day`. In all other
+cases, the columns of the data frame are not put in scope. This allows
+you to refer to contextual variables in selection helpers:
+
+```{r}
+year <- "dep"
+select(flights, starts_with(year))
+```
+
+These semantics are usually intuitive. But note the subtle difference:
+
+```{r}
+year <- 5
+select(flights, year, identity(year))
+```
+
+In the first argument, `year` represents its own position `1`. In the
+second argument, `year` is evaluated in the surrounding context and
+represents the fifth column.
+
+For a long time, `select()` used to only understand column positions.
+Counting from dplyr 0.6, it now understands column names as well. This
+makes it a bit easier to program with `select()`:
+
+```{r}
+vars <- c("year", "month")
+select(flights, vars, "day")
+```
+
+Note that the code above is somewhat unsafe because you might have
+added a column named `vars` to the tibble, or you might apply the code
+to another data frame containing such a column. To avoid this issue,
+you can wrap the variable in an `identity()` call as we mentioned
+above, as this will bypass column names. However, a more explicit and
+general method that works in all dplyr verbs is to unquote the
+variable with the `!!` operator. This tells dplyr to bypass the data
+frame and to directly look in the context:
+
+```{r}
+# Let's create a new `vars` column:
+flights$vars <- flights$year
+
+# The new column won't be an issue if you evaluate `vars` in the
+# context with the `!!` operator:
+vars <- c("year", "month", "day")
+select(flights, !! vars)
+```
+
+This operator is very useful when you need to use dplyr within custom
+functions. You can learn more about it in `vignette("programming")`.
+However it is important to understand the semantics of the verbs you
+are unquoting into, that is, the values they understand. As we have
+just seen, `select()` supports names and positions of columns. But
+that won't be the case in other verbs like `mutate()` because they
+have different semantics.
+
+
+### Mutating operations
+
+Mutate semantics are quite different from selection semantics. Whereas
+`select()` expects column names or positions, `mutate()` expects
+*column vectors*. Let's create a smaller tibble for clarity:
+
+```{r}
+df <- select(flights, year:dep_time)
+```
+
+When we use `select()`, the bare column names stand for ther own
+positions in the tibble. For `mutate()` on the other hand, column
+symbols represent the actual column vectors stored in the tibble.
+Consider what happens if we give a string or a number to `mutate()`:
+
+```{r}
+mutate(df, "year", 2)
+```
+
+`mutate()` gets length-1 vectors that it interprets as new columns in
+the data frame. These vectors are recycled so they match the number of
+rows. That's why it doesn't make sense to supply expressions like
+`"year" + 10` to `mutate()`. This amounts to adding 10 to a string!
+The correct expression is:
+
+```{r}
+mutate(df, year + 10)
+```
+
+In the same way, you can unquote values from the context if these
+values represent a valid column. They must be either length 1 (they
+then get recycled) or have the same length as the number of rows. In
+the following example we create a new vector that we add to the data
+frame:
+
+```{r}
+var <- seq(1, nrow(df))
+mutate(df, new = var)
+```
+
+A case in point is `group_by()`. While you might think it has select
+semantics, it actually has mutate semantics. This is quite handy as it
+allows to group by a modified column:
+
+```{r}
+group_by(df, month)
+group_by(df, month = as.factor(month))
+group_by(df, day_binned = cut(day, 3))
+```
+
+This is why you can't supply a column name to `group_by()`. This
+amounts to creating a new column containing the string recycled to the
+number of rows:
+
+```{r}
+group_by(df, "month")
+```
+
+Since grouping with select semantics can be sometimes useful as well,
+we have added the `group_by_at()` variant. In dplyr, variants suffixed
+with `_at()` support selection semantics in their second argument. You
+just need to wrap the selection with `vars()`:
+
+```{r}
+group_by_at(df, vars(year:day))
+```
+
+You can read more about the `_at()` and `_if()` variants in the
+`?scoped` help page.
+
+
+## Piping
 
 The dplyr API is functional in the sense that function calls don't have side-effects. You must always save their results. This doesn't lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:
 
