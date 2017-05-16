@@ -25,7 +25,7 @@ grouped_df <- function(data, vars, drop = TRUE) {
   grouped_df_impl(data, unname(vars), drop)
 }
 
-setOldClass(c("grouped_df", "tbl_df", "data.frame"))
+setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
 #' @rdname grouped_df
 #' @export
