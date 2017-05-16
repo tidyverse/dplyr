@@ -108,6 +108,10 @@ test_that("abort on unknown columns", {
   expect_error(select_vars(letters, c("a", "bar", "foo", "d")), "bar, foo")
 })
 
+test_that("rename() handles data pronoun", {
+  expect_identical(rename(tibble(x = 1), y = .data$x), tibble(y = 1))
+})
+
 
 # combine_vars ------------------------------------------------------------
 # This is the low C++ function which works on integer indices
