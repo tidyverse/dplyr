@@ -353,8 +353,11 @@ and so these functions have been deprecated (but remain around for backward comp
 * The "dim" and "dimnames" attributes are always stripped when copying a 
   vector (#1918, #2049).
 
-* `grouped_df` is registered officially as an S3 class. This makes it 
-  easier to use with S4 (#2276, , @joranE).
+* `grouped_df` and `rowwise` are registered officially as S3 classes.
+  This makes them easier to use with S4 (#2276, @joranE, #2789).
+
+* All operations that return tibbles now include the `"tbl"` class.
+  This is important for correct printing with tibble 1.3.1 (#2789).
 
 * Makeflags uses PKG_CPPFLAGS for defining preprocessor macros.
 
