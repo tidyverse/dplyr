@@ -37,6 +37,12 @@
 
 * Deprecated `failwith()`. I'm not even sure why it was here.
 
+* Soft-deprecated `mutate_each()` and `summarise_each()`, these functions
+  print a message which will be changed to a warning in the next release.
+
+* The `.env` argument to `sample_n()` and `sample_frac()` is defunct,
+  passing a value to this argument print a message which will be changed to a warning in the next release.
+
 ## Databases
 
 This version of dplyr includes some major changes to how database connections work. By and large, you should be able to continue using your existing dplyr database code without modification, but there are two big changes that you should be aware of:

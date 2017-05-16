@@ -229,7 +229,7 @@ do_.data.frame <- function(.data, ..., .dots = list()) {
 sample_n.data.frame <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL) {
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    message("`.env` is deprecated and no longer has any effect")
   }
 
   weight <- eval_tidy(enquo(weight), tbl)
@@ -241,7 +241,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
 sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL) {
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    message("`.env` is deprecated and no longer has any effect")
   }
 
   weight <- eval_tidy(enquo(weight), tbl)
