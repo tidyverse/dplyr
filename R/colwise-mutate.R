@@ -149,7 +149,7 @@ check_dot_cols <- function(vars, cols) {
   if (is_null(cols)) {
     vars
   } else {
-    warn("`.cols` has been renamed and is deprecated, please use `.vars`")
+    message("`.cols` has been renamed and is deprecated, please use `.vars`")
     if (missing(vars)) cols else vars
   }
 }
@@ -217,10 +217,10 @@ summarise_each_ <- function(tbl, funs, vars) {
      Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead."
   )
   if (is_empty(vars)) {
-    warn(glue(msg, "\nTo map `funs` over all variables, use `summarise_all()`"))
+    message(glue(msg, "\nTo map `funs` over all variables, use `summarise_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
-    warn(glue(msg, "\nTo map `funs` over a selection of variables, use `summarise_at()`"))
+    message(glue(msg, "\nTo map `funs` over a selection of variables, use `summarise_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
@@ -249,10 +249,10 @@ mutate_each_ <- function(tbl, funs, vars) {
      Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead."
   )
   if (is_empty(vars)) {
-    warn(glue(msg, "\nTo map `funs` over all variables, use `mutate_all()`"))
+    message(glue(msg, "\nTo map `funs` over all variables, use `mutate_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
-    warn(glue(msg, "\nTo map `funs` over a selection of variables, use `mutate_at()`"))
+    message(glue(msg, "\nTo map `funs` over a selection of variables, use `mutate_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
