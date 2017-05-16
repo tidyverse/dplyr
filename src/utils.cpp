@@ -148,9 +148,48 @@ bool same_levels(SEXP left, SEXP right) {
   return character_vector_equal(get_levels(left), get_levels(right));
 }
 
+SEXP list_as_chr(SEXP x) {
+  int n = Rf_length(x);
+  CharacterVector chr(n);
+
+  for (int i = 0; i != n; ++i) {
+    SEXP elt = VECTOR_ELT(x, i);
+    switch (TYPEOF(elt)) {
+    case STRSXP:
+      if (Rf_length(chr) == 1) {
+        chr[i] = elt;
+        continue;
+      }
+      break;
+    case SYMSXP:
+      chr[i] = PRINTNAME(elt);
+      continue;
+    default:
+      break;
+    }
+
+    stop("The tibble's `vars` attribute has unexpected contents");
+  }
+
+  return chr;
+}
+
 SymbolVector get_vars(SEXP x) {
   static SEXP vars_symbol = Rf_install("vars");
-  return SymbolVector(Rf_getAttrib(x, vars_symbol));
+  RObject vars = Rf_getAttrib(x, vars_symbol);
+
+  switch (TYPEOF(vars)) {
+  case NILSXP:
+  case STRSXP:
+    break;
+  case VECSXP:
+    vars = list_as_chr(vars);
+    break;
+  default:
+    stop("The tibble's `vars` attribute has unexpected type");
+  }
+
+  return SymbolVector(vars);
 }
 
 void set_vars(SEXP x, const SymbolVector& vars) {
