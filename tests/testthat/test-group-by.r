@@ -229,7 +229,7 @@ test_that("group_by keeps attributes", {
 
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
   res <- tbl_df(mtcars) %>% rowwise %>% ungroup %>% class
-  expect_equal(res, c("tbl_df", "data.frame"))
+  expect_equal(res, c("tbl_df", "tbl", "data.frame"))
 })
 
 test_that(paste0("group_by handles encodings for native strings (#1507)"), {

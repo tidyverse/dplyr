@@ -23,6 +23,8 @@ rowwise <- function(data) {
   structure(data, class = c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 }
 
+setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
+
 #' @export
 print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
@@ -34,7 +36,7 @@ print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
 
 #' @export
 ungroup.rowwise_df <- function(x, ...) {
-  class(x) <- c("tbl_df", "data.frame")
+  class(x) <- c("tbl_df", "tbl", "data.frame")
   x
 }
 #' @export
