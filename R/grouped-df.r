@@ -55,12 +55,15 @@ n_groups.grouped_df <- function(x) {
 
 #' @export
 groups.grouped_df <- function(x) {
-  lapply(group_vars(x), as.name)
+  syms(group_vars(x))
 }
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  attr(x, "vars")
+  vars <- attr(x, "vars")
+  # Need this for compatibility with existing packages that might
+  if (is.list(vars)) vars <- map_chr(vars, as_string)
+  vars
 }
 
 #' @export

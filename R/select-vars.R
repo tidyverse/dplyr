@@ -185,23 +185,13 @@ setdiff2 <- function(x, y) {
 #' @param strict If `TRUE`, will throw an error if you attempt to rename a
 #'   variable that doesn't exist.
 rename_vars <- function(vars, ..., strict = TRUE) {
-  quos <- quos(...)
-  if (any(names2(quos) == "")) {
+  exprs <- exprs(...)
+  if (any(names2(exprs) == "")) {
     abort("All arguments must be named")
   }
 
-  exprs <- map(quos, f_rhs)
-  is_sym <- map_lgl(exprs, is_symbol)
-  if (!all(is_sym)) {
-    bad <- quos[!is_sym]
-    bad_named_calls(bad, "must be unquoted variable names, ",
-      "not {type_of(first_bad_rhs)}",
-      first_bad_rhs = f_rhs(bad[[1]])
-    )
-  }
-
-  old_vars <- map_chr(exprs, as_string)
-  new_vars <- names(quos)
+  old_vars <- map2(exprs, names(exprs), switch_rename)
+  new_vars <- names(exprs)
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
@@ -213,10 +203,30 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   select
 }
-
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
   args <- compat_lazy_dots(args, caller_env())
   rename_vars(vars, !!! args)
+}
+
+# FIXME: that's not a tidy implementation yet because we need to
+# handle non-existing symbols silently when `strict = FALSE`
+switch_rename <- function(expr, name) {
+  switch_type(expr,
+    string = ,
+    symbol =
+      return(as_string(expr)),
+    language =
+      if (is_data_pronoun(expr)) {
+        args <- node_cdr(expr)
+        return(switch_rename(node_cadr(args)))
+      } else {
+        abort("Expressions are currently not supported in `rename()`")
+      }
+  )
+
+  actual_type <- friendly_type(type_of(expr))
+  named_call <- ll(!! name := expr)
+  bad_named_calls(named_call, "must be a symbol or a string, not {actual_type}")
 }

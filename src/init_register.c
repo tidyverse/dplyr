@@ -55,6 +55,7 @@ extern SEXP dplyr_summarise_impl(SEXP, SEXP);
 extern SEXP dplyr_test_comparisons();
 extern SEXP dplyr_test_matches();
 extern SEXP dplyr_test_length_wrap();
+extern SEXP dplyr_test_grouped_df(SEXP);
 extern SEXP dplyr_ungroup_grouped_df(SEXP);
 extern SEXP dplyr_union_data_frame(SEXP, SEXP);
 
@@ -103,6 +104,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_test_comparisons",                (DL_FUNC) &dplyr_test_comparisons,                0},
   {"dplyr_test_matches",                    (DL_FUNC) &dplyr_test_matches,                    0},
   {"dplyr_test_length_wrap",                (DL_FUNC) &dplyr_test_length_wrap,                0},
+  {"dplyr_test_grouped_df",                 (DL_FUNC) &dplyr_test_grouped_df,                 1},
   {"dplyr_ungroup_grouped_df",              (DL_FUNC) &dplyr_ungroup_grouped_df,              1},
   {"dplyr_union_data_frame",                (DL_FUNC) &dplyr_union_data_frame,                2},
   {NULL, NULL, 0}

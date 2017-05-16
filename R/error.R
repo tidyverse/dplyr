@@ -128,8 +128,5 @@ parse_args <- function(x) {
 }
 
 parse_named_call <- function(x) {
-  # convert single formula to list of length 1
-  x <- unlist(list(x), recursive = FALSE)
-  x <- map_chr(map(x, f_rhs), deparse_trunc)
-  x
+  map_chr(x, quo_text)
 }
