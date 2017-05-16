@@ -13,10 +13,8 @@ public:
   template <class T>
   explicit SymbolVector(T v_) : v(v_) {}
 
-  explicit SymbolVector(SEXP x) {
-    if (!Rf_isNull(x))
-      v = x;
-  }
+  explicit SymbolVector(SEXP x) : v(init(x)) {}
+  explicit SymbolVector(RObject x) : v(init(x)) {}
 
 public:
   void push_back(const SymbolString& s) {
@@ -58,6 +56,12 @@ public:
 
 private:
   CharacterVector v;
+  SEXP init(SEXP x) {
+    if (Rf_isNull(x))
+      return CharacterVector();
+    else
+      return x;
+  }
 };
 
 }

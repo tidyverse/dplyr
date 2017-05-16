@@ -176,7 +176,7 @@ SEXP list_as_chr(SEXP x) {
 
 SymbolVector get_vars(SEXP x) {
   static SEXP vars_symbol = Rf_install("vars");
-  SEXP vars = Rf_getAttrib(x, vars_symbol);
+  RObject vars = Rf_getAttrib(x, vars_symbol);
 
   switch (TYPEOF(vars)) {
   case NILSXP:
