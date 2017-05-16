@@ -39,7 +39,7 @@ tbl_sum.grouped_df <- function(x) {
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
   c(
     NextMethod(),
-    paste0("Groups: ", commas(group_vars(x)), " [", big_mark(grps), "]")
+    c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
   )
 }
 
@@ -55,12 +55,15 @@ n_groups.grouped_df <- function(x) {
 
 #' @export
 groups.grouped_df <- function(x) {
-  lapply(group_vars(x), as.name)
+  syms(group_vars(x))
 }
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  attr(x, "vars")
+  vars <- attr(x, "vars")
+  # Need this for compatibility with existing packages that might
+  if (is.list(vars)) vars <- map_chr(vars, as_string)
+  vars
 }
 
 #' @export

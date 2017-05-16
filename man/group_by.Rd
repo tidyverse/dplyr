@@ -12,18 +12,18 @@ ungroup(x, ...)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Variables to group by. All tbls accept variable names,
-some will also accept functions of variables. Duplicated groups
+\item{...}{Variables to group by. All tbls accept variable names.
+Some tbls will accept functions of variables. Duplicated groups
 will be silently dropped.}
 
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
-override existing groups. To instead add to the existing groups,
-use \code{add = TRUE}}
+override existing groups. To add to the existing groups, use
+\code{add = TRUE}.}
 
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \description{
-Most data operations are usefully done on groups defined by variables.
+Most data operations are done on groups defined by variables.
 \code{group_by()} takes an existing tbl and converts it into a grouped tbl
 where operations are performed "by group". \code{ungroup()} removes grouping.
 }

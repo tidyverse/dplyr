@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>A local source. — src_local • dplyr</title>
+<title>Select variable — select_var • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,49 +101,67 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>A local source.</h1>
+    <h1>Select variable</h1>
     </div>
 
     
-    <p>This is mainly useful for testing, since makes it possible to refer to
-local and remote tables using exactly the same syntax.</p>
+    <p>This function powers <code><a href='pull.html'>pull()</a></code> and various functions of the tidyr
+package. It is similar to <code><a href='select_vars.html'>select_vars()</a></code> but returns only one
+column name and has slightly different semantics: it allows
+negative numbers to select columns from the end.</p>
     
 
-    <pre class="usage"><span class='fu'>src_local</span>(<span class='no'>tbl</span>, <span class='kw'>pkg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
-
-<span class='fu'>src_df</span>(<span class='kw'>pkg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>env</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>select_var</span>(<span class='no'>vars</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>tbl</th>
-      <td><p>name of the function used to generate <code>tbl</code> objects</p></td>
+      <th>vars</th>
+      <td><p>A character vector of existing column names.</p></td>
     </tr>
     <tr>
-      <th>pkg, env</th>
-      <td><p>Either the name of a package or an environment object in
-which to look for objects.</p></td>
+      <th>var</th>
+      <td><p>A variable specified as:</p><ul>
+<li><p>a literal variable name</p></li>
+<li><p>a positive integer, giving the position counting from the left</p></li>
+<li><p>a negative integer, giving the position counting from the right.</p></li>
+</ul>
+
+<p>The default returns the last column (on the assumption that's the
+column you've created most recently).</p>
+<p>This argument is taken by expression and supports
+<a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>quasiquotation</a> (you can unquote column
+names and column positions).</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Generally, <code>src_local()</code> should not be called directly, but instead
-one of the constructors should be used.</p>
+    <p>The selected column name as an unnamed string.</p>
+    
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <p><code><a href='pull.html'>pull()</a></code>, <code><a href='select_vars.html'>select_vars()</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"Lahman"</span>)) {
-<span class='no'>batting_df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='fu'>src_df</span>(<span class='st'>"Lahman"</span>), <span class='st'>"Batting"</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># It takes its argument by expression:</span>
+<span class='fu'>select_var</span>(<span class='no'>letters</span>, <span class='no'>c</span>)</div><div class='output co'>#&gt; [1] "c"</div><div class='input'>
+<span class='co'># Negative numbers select from the end:</span>
+<span class='fu'>select_var</span>(<span class='no'>letters</span>, -<span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] "x"</div><div class='input'>
+<span class='co'># You can unquote variables:</span>
+<span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='fl'>10</span>
+<span class='fu'>select_var</span>(<span class='no'>letters</span>, !! <span class='no'>var</span>)</div><div class='output co'>#&gt; [1] "j"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

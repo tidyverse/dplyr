@@ -71,6 +71,9 @@
       <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
+      <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
+    </li>
+    <li>
       <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
@@ -174,15 +177,15 @@ selection of variables.</p>
     <pre class="examples"><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; # A tibble: 35 × 13
 #&gt;                  name height  mass    hair_color skin_color eye_color
 #&gt;                 &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;         &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;
-#&gt; 1      Luke Skywalker    172    77         blond       fair      blue
-#&gt; 2         Darth Vader    202   136          none      white    yellow
-#&gt; 3         Leia Organa    150    49         brown      light     brown
-#&gt; 4           Owen Lars    178   120   brown, grey      light      blue
-#&gt; 5  Beru Whitesun lars    165    75         brown      light      blue
-#&gt; 6   Biggs Darklighter    183    84         black      light     brown
-#&gt; 7      Obi-Wan Kenobi    182    77 auburn, white       fair blue-gray
-#&gt; 8    Anakin Skywalker    188    84         blond       fair      blue
-#&gt; 9      Wilhuff Tarkin    180    NA  auburn, grey       fair      blue
+#&gt;  1     Luke Skywalker    172    77         blond       fair      blue
+#&gt;  2        Darth Vader    202   136          none      white    yellow
+#&gt;  3        Leia Organa    150    49         brown      light     brown
+#&gt;  4          Owen Lars    178   120   brown, grey      light      blue
+#&gt;  5 Beru Whitesun lars    165    75         brown      light      blue
+#&gt;  6  Biggs Darklighter    183    84         black      light     brown
+#&gt;  7     Obi-Wan Kenobi    182    77 auburn, white       fair blue-gray
+#&gt;  8   Anakin Skywalker    188    84         blond       fair      blue
+#&gt;  9     Wilhuff Tarkin    180    NA  auburn, grey       fair      blue
 #&gt; 10           Han Solo    180    80         brown       fair     brown
 #&gt; # ... with 25 more rows, and 7 more variables: birth_year &lt;dbl&gt;, gender &lt;chr&gt;,
 #&gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
@@ -209,15 +212,15 @@ selection of variables.</p>
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 38 × 13
 #&gt;             name height  mass hair_color    skin_color eye_color birth_year
 #&gt;            &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
-#&gt; 1    Darth Vader    202   136       none         white    yellow       41.9
-#&gt; 2         Greedo    173    74       &lt;NA&gt;         green     black       44.0
-#&gt; 3          IG-88    200   140       none         metal       red       15.0
-#&gt; 4          Bossk    190   113       none         green       red       53.0
-#&gt; 5          Lobot    175    79       none         light      blue       37.0
-#&gt; 6         Ackbar    180    83       none  brown mottle    orange       41.0
-#&gt; 7      Nien Nunb    160    68       none          grey     black         NA
-#&gt; 8    Nute Gunray    191    90       none mottled green       red         NA
-#&gt; 9  Jar Jar Binks    196    66       none        orange    orange       52.0
+#&gt;  1   Darth Vader    202   136       none         white    yellow       41.9
+#&gt;  2        Greedo    173    74       &lt;NA&gt;         green     black       44.0
+#&gt;  3         IG-88    200   140       none         metal       red       15.0
+#&gt;  4         Bossk    190   113       none         green       red       53.0
+#&gt;  5         Lobot    175    79       none         light      blue       37.0
+#&gt;  6        Ackbar    180    83       none  brown mottle    orange       41.0
+#&gt;  7     Nien Nunb    160    68       none          grey     black         NA
+#&gt;  8   Nute Gunray    191    90       none mottled green       red         NA
+#&gt;  9 Jar Jar Binks    196    66       none        orange    orange       52.0
 #&gt; 10  Roos Tarpals    224    82       none          grey    orange         NA
 #&gt; # ... with 28 more rows, and 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,
 #&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
