@@ -158,16 +158,17 @@ SEXP list_as_chr(SEXP x) {
     case STRSXP:
       if (Rf_length(chr) == 1) {
         chr[i] = elt;
-        break;
-      } else {
-        stop("The tibble's `vars` attribute has unexpected contents");
+        continue;
       }
+      break;
     case SYMSXP:
       chr[i] = PRINTNAME(elt);
-      break;
+      continue;
     default:
-      stop("The tibble's `vars` attribute has unexpected contents");
+      break;
     }
+
+    stop("The tibble's `vars` attribute has unexpected contents");
   }
 
   return chr;
