@@ -36,3 +36,8 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   SET_ATTRIB(copy, strip_group_attributes(df));
   return copy;
 }
+
+// [[Rcpp::export]]
+SEXP test_grouped_df(DataFrame data) {
+  return GroupedDataFrame(data).data();
+}
