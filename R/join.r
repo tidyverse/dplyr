@@ -166,7 +166,7 @@ common_by.NULL <- function(by, x, y) {
   if (length(by) == 0) {
     bad_args("by", "required, because the data sources have no common variables")
   }
-  message("Joining, by = ", utils::capture.output(dput(by)))
+  inform(paste0("Joining, by = ", utils::capture.output(dput(by))))
 
   list(
     x = by,
