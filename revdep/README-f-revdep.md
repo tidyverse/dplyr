@@ -10,7 +10,7 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |Zulu                         |
-|date     |2017-05-16                   |
+|date     |2017-05-17                   |
 
 ## Packages
 
@@ -22,7 +22,7 @@
 |bit64          |   |0.9-7      |2017-05-08 |cran (@0.9-7)                     |
 |covr           |   |2.2.2      |2017-01-05 |cran (@2.2.2)                     |
 |DBI            |   |0.6-13     |2017-05-08 |Github (rstats-db/DBI@f6500a5)    |
-|dplyr          |   |0.5.0.9005 |2017-05-15 |local (tidyverse/dplyr@NA)        |
+|dplyr          |   |0.5.0.9005 |2017-05-17 |local (tidyverse/dplyr@NA)        |
 |dtplyr         |   |0.0.2      |2017-04-21 |cran (@0.0.2)                     |
 |ggplot2        |   |2.2.1      |2016-12-30 |cran (@2.2.1)                     |
 |glue           |   |1.0.0      |2017-05-15 |Github (tidyverse/glue@41a5cff)   |
@@ -42,7 +42,7 @@
 |RPostgreSQL    |   |0.4-1      |2016-05-08 |cran (@0.4-1)                     |
 |RSQLite        |   |1.1-2      |2017-01-08 |CRAN (R 3.4.0)                    |
 |testthat       |   |1.0.2      |2016-04-23 |cran (@1.0.2)                     |
-|tibble         |   |1.3.0.9009 |2017-05-15 |Github (tidyverse/tibble@6719b5d) |
+|tibble         |   |1.3.0.9010 |2017-05-17 |Github (tidyverse/tibble@f883382) |
 
 # Check results
 
@@ -78,7 +78,7 @@
 |backtestGraphics       |0.1.6     |      1|        0|     0|
 |bannerCommenter        |0.1.0     |      0|        0|     0|
 |bayesGDS               |0.6.2     |      0|        0|     0|
-|bayesplot              |1.2.0     |      0|        1|     1|
+|bayesplot              |1.2.0     |      0|        0|     1|
 |bib2df                 |0.1.1     |      0|        0|     0|
 |bigrquery              |0.3.0     |      1|        0|     0|
 |binford                |0.1.0     |      0|        0|     0|
@@ -91,12 +91,13 @@
 |blscrapeR              |2.1.4     |      0|        0|     0|
 |bmlm                   |1.2.10    |      0|        0|     2|
 |bodenmiller            |0.1       |      0|        0|     1|
-|bootnet                |1.0.0     |      0|        1|     1|
+|bootnet                |1.0.0     |      0|        0|     1|
 |bossMaps               |0.1.0     |      0|        0|     0|
 |boxr                   |0.3.4     |      0|        0|     1|
 |braQCA                 |0.9.9.6   |      0|        0|     0|
 |breathtestcore         |0.3.0     |      0|        0|     0|
 |breathteststan         |0.3.0     |      0|        0|     1|
+|broom                  |0.4.2     |      1|        0|     0|
 |bsam                   |1.1.1     |      0|        0|     0|
 |bulletr                |0.1       |      0|        0|     0|
 |bupaR                  |0.1.1     |      0|        0|     0|
@@ -121,14 +122,14 @@
 |cofeatureR             |1.0.1     |      0|        0|     0|
 |CollapsABEL            |0.10.11   |      0|        0|     0|
 |collapsibleTree        |0.1.4     |      0|        0|     0|
-|cometExactTest         |0.1.3     |      0|        1|     1|
+|cometExactTest         |0.1.3     |      0|        0|     1|
 |compareDF              |1.1.0     |      0|        0|     0|
 |comtradr               |0.0.1     |      0|        0|     0|
 |condformat             |0.5.0     |      2|        1|     0|
 |congressbr             |0.1.0     |      0|        0|     0|
-|coreSim                |0.2.3     |      2|        0|     0|
+|coreSim                |0.2.4     |      0|        0|     0|
 |corrr                  |0.2.1     |      0|        0|     0|
-|countyfloods           |0.0.1     |      1|        0|     0|
+|countyfloods           |0.0.1     |      0|        0|     0|
 |countytimezones        |1.0.0     |      0|        0|     0|
 |countyweather          |0.1.0     |      0|        0|     0|
 |cpr                    |0.2.3     |      0|        0|     0|
@@ -142,7 +143,7 @@
 |datadr                 |0.8.6     |      0|        0|     1|
 |dataMeta               |0.1.0     |      0|        0|     0|
 |dataonderivatives      |0.2.1     |      0|        0|     1|
-|dataRetrieval          |2.6.3     |      1|        0|     0|
+|dataRetrieval          |2.7.0     |      1|        0|     0|
 |datastepr              |0.0.2     |      0|        1|     0|
 |dat                    |0.2.0     |      1|        0|     0|
 |dbfaker                |0.1.0     |      0|        0|     0|
@@ -163,7 +164,6 @@
 |DiversityOccupancy     |1.0.6     |      0|        0|     0|
 |dmutate                |0.1.1     |      0|        0|     0|
 |DMwR2                  |0.0.2     |      0|        0|     0|
-|doctr                  |0.2.0     |      0|        0|     0|
 |docxtools              |0.1.1     |      0|        0|     0|
 |docxtractr             |0.2.0     |      0|        0|     0|
 |dotwhisker             |0.2.6     |      0|        0|     0|
@@ -181,7 +181,7 @@
 |emil                   |2.2.6     |      1|        0|     1|
 |emuR                   |0.2.2     |      0|        0|     0|
 |engsoccerdata          |0.1.5     |      0|        0|     0|
-|epicontacts            |1.0.0     |      2|        1|     0|
+|epicontacts            |1.0.1     |      0|        0|     0|
 |EpiCurve               |1.0-0     |      0|        0|     0|
 |epidata                |0.1.0     |      1|        0|     0|
 |episheet               |0.2.0     |      0|        0|     0|
@@ -197,7 +197,7 @@
 |eyelinker              |0.1       |      0|        0|     0|
 |eyetrackingR           |0.1.6     |      2|        0|     0|
 |ezec                   |1.0.1     |      0|        0|     0|
-|ezsummary              |0.2.1     |      0|        1|     0|
+|ezsummary              |0.2.1     |      0|        0|     0|
 |fastqcr                |0.1.0     |      0|        0|     0|
 |fbar                   |0.1.23    |      0|        0|     0|
 |feather                |0.3.1     |      0|        0|     1|
@@ -212,7 +212,7 @@
 |foghorn                |0.4.2     |      0|        0|     0|
 |fold                   |0.1.2     |      0|        0|     0|
 |forestmodel            |0.4.3     |      0|        0|     0|
-|fourierin              |0.2.1     |      0|        0|     0|
+|fourierin              |0.2.2     |      0|        0|     0|
 |fractional             |0.1.3     |      0|        0|     1|
 |frailtyEM              |0.6.2     |      0|        0|     0|
 |freqweights            |1.0.4     |      0|        0|     0|
@@ -220,7 +220,7 @@
 |FSA                    |0.8.13    |      0|        0|     1|
 |FSelectorRcpp          |0.1.3     |      1|        0|     2|
 |fueleconomy            |0.1       |      0|        0|     0|
-|funModeling            |1.6.2     |      0|        1|     0|
+|funModeling            |1.6.2     |      0|        0|     0|
 |funrar                 |1.0.3     |      0|        0|     0|
 |futureheatwaves        |1.0.3     |      0|        0|     1|
 |fuzzyjoin              |0.1.2     |      0|        0|     0|
@@ -232,14 +232,14 @@
 |gender                 |0.5.1     |      0|        0|     1|
 |geoknife               |1.5.4     |      0|        1|     0|
 |geomnet                |0.2.0     |      0|        0|     0|
-|geoparser              |0.1.0     |      0|        0|     0|
+|geoparser              |0.1.1     |      0|        0|     0|
 |geoSpectral            |0.17.3    |      1|        0|     0|
 |GerminaR               |1.1       |      0|        0|     0|
 |getCRUCLdata           |0.1.5     |      0|        0|     0|
 |GetHFData              |1.2.4     |      0|        0|     0|
 |ggalt                  |0.4.0     |      0|        0|     0|
 |ggCompNet              |0.1.0     |      0|        0|     1|
-|ggedit                 |0.2.1     |      0|        1|     0|
+|ggedit                 |0.2.1     |      0|        0|     0|
 |ggeffects              |0.1.0     |      0|        0|     0|
 |ggenealogy             |0.3.0     |      0|        0|     0|
 |ggforce                |0.1.1     |      0|        0|     1|
@@ -264,7 +264,7 @@
 |gogamer                |0.4.3     |      0|        0|     1|
 |googleAnalyticsR       |0.4.0     |      0|        0|     0|
 |googlesheets           |0.2.2     |      0|        0|     0|
-|graphicalVAR           |0.2       |      0|        1|     0|
+|graphicalVAR           |0.2       |      0|        0|     0|
 |graphTweets            |0.3.2     |      0|        0|     0|
 |grattan                |1.5.0.0   |      0|        1|     1|
 |Greg                   |1.2       |      0|        0|     0|
@@ -278,7 +278,7 @@
 |harrietr               |0.2.2     |      1|        0|     0|
 |hdr                    |0.1       |      0|        0|     0|
 |heemod                 |0.9.1     |      0|        0|     0|
-|highcharter            |0.5.0     |      1|        1|     1|
+|highcharter            |0.5.0     |      1|        0|     1|
 |highlightHTML          |0.1.1     |      0|        0|     0|
 |hrbrthemes             |0.1.0     |      0|        0|     0|
 |HTSSIP                 |1.0.3     |      1|        0|     0|
@@ -306,7 +306,7 @@
 |inlmisc                |0.2.6     |      0|        0|     0|
 |internetarchive        |0.1.6     |      0|        0|     0|
 |interplot              |0.1.5     |      0|        0|     0|
-|ipft                   |0.6       |      0|        1|     0|
+|ipft                   |0.6       |      0|        0|     0|
 |IRISMustangMetrics     |2.0.4     |      0|        0|     0|
 |JacobiEigen            |0.2-2     |      0|        0|     1|
 |janeaustenr            |0.1.4     |      0|        0|     0|
@@ -316,7 +316,7 @@
 |kokudosuuchi           |0.2.0     |      0|        0|     0|
 |KraljicMatrix          |0.1.1     |      0|        0|     0|
 |labelled               |1.0.0     |      0|        0|     2|
-|Lahman                 |5.0-0     |      0|        1|     1|
+|Lahman                 |5.0-0     |      0|        0|     1|
 |laketemps              |0.5.1     |      0|        0|     0|
 |LBSPR                  |0.1.0     |      0|        0|     1|
 |leaflet.minicharts     |0.2.0     |      0|        0|     0|
@@ -337,7 +337,7 @@
 |makeFlow               |1.0.2     |      0|        0|     0|
 |manifestoR             |1.2.4     |      0|        0|     0|
 |mapview                |2.0.1     |      0|        0|     1|
-|mason                  |0.2.5     |      0|        1|     0|
+|mason                  |0.2.5     |      0|        0|     0|
 |MazamaSpatialUtils     |0.4.9     |      0|        0|     0|
 |mbgraphic              |1.0.0     |      0|        0|     0|
 |mdsr                   |0.1.3     |      1|        0|     1|
@@ -358,7 +358,7 @@
 |modeval                |0.1.3     |      0|        0|     0|
 |Momocs                 |1.1.6     |      1|        1|     0|
 |MonetDBLite            |0.3.1     |      2|        0|     3|
-|monkeylearn            |0.1.1     |      0|        1|     0|
+|monkeylearn            |0.1.3     |      0|        0|     0|
 |morse                  |2.2.0     |      0|        0|     0|
 |mosaicData             |0.14.0    |      0|        0|     0|
 |mosaic                 |0.14.4    |      0|        0|     2|
@@ -366,12 +366,12 @@
 |mplot                  |0.7.9     |      0|        0|     0|
 |mpoly                  |1.0.4     |      0|        0|     0|
 |mRchmadness            |1.0.0     |      0|        0|     0|
-|mrgsolve               |0.8.6     |      0|        1|     1|
+|mrgsolve               |0.8.6     |      0|        0|     1|
 |mscstexta4r            |0.1.2     |      0|        0|     0|
 |mtconnectR             |1.1.0     |      0|        0|     0|
 |mudata                 |0.1       |      0|        0|     0|
 |muir                   |0.1.0     |      0|        0|     0|
-|myTAI                  |0.5.0     |      1|        1|     1|
+|myTAI                  |0.5.0     |      1|        0|     1|
 |nasadata               |0.9.0     |      0|        0|     0|
 |ncappc                 |0.2.1.1   |      0|        0|     0|
 |ncdump                 |0.0.3     |      0|        0|     0|
@@ -396,7 +396,7 @@
 |olsrr                  |0.1.0     |      0|        0|     0|
 |ompr                   |0.6.0     |      0|        0|     0|
 |openadds               |0.2.0     |      0|        0|     0|
-|openair                |2.1-0     |      0|        1|     0|
+|openair                |2.1-0     |      0|        0|     0|
 |opencage               |0.1.2     |      0|        0|     0|
 |openEBGM               |0.1.0     |      0|        0|     0|
 |packagetrackr          |0.1.1     |      0|        0|     0|
@@ -430,7 +430,7 @@
 |PopED                  |0.3.2     |      0|        0|     1|
 |poplite                |0.99.17.3 |      2|        1|     0|
 |poppr                  |2.4.1     |      0|        1|     0|
-|prcr                   |0.1.2     |      0|        0|     0|
+|prcr                   |0.1.3     |      1|        1|     0|
 |prepdat                |1.0.8     |      0|        0|     0|
 |pRF                    |1.2       |      0|        0|     0|
 |prophet                |0.1.1     |      0|        0|     1|
@@ -515,7 +515,7 @@
 |scholar                |0.1.4     |      0|        0|     0|
 |SEERaBomb              |2017.1    |      0|        0|     0|
 |sejmRP                 |1.3.4     |      0|        0|     0|
-|sfc                    |0.1.0     |      0|        1|     0|
+|sfc                    |0.1.0     |      0|        0|     0|
 |sfdct                  |0.0.3     |      0|        0|     0|
 |sf                     |0.4-3     |      2|        0|     1|
 |shazam                 |0.1.7     |      0|        0|     0|
@@ -528,17 +528,17 @@
 |SimDesign              |1.6       |      0|        0|     0|
 |simmer.plot            |0.1.9     |      0|        0|     0|
 |simmer                 |3.6.1     |      0|        0|     1|
-|simPH                  |1.3.9     |      1|        1|     0|
+|simPH                  |1.3.10    |      0|        0|     0|
 |simputation            |0.2.1     |      0|        0|     1|
 |sjmisc                 |2.4.0     |      0|        0|     0|
-|sjPlot                 |2.3.1     |      0|        1|     1|
+|sjPlot                 |2.3.1     |      0|        1|     0|
 |sjstats                |0.10.0    |      1|        0|     1|
 |slackr                 |1.4.2     |      0|        0|     0|
-|solrium                |0.4.0     |      1|        0|     0|
+|solrium                |0.4.0     |      0|        0|     0|
 |sophisthse             |0.7.0     |      0|        0|     0|
 |sorvi                  |0.7.26    |      0|        0|     1|
 |sourceR                |1.0.1     |      0|        0|     0|
-|sp500SlidingWindow     |0.1.0     |      0|        0|     0|
+|sp500SlidingWindow     |0.1.0     |      1|        1|     0|
 |SpaCCr                 |0.1.0     |      0|        0|     1|
 |SpaDES                 |1.3.1     |      0|        1|     2|
 |sparklyr               |0.5.4     |      1|        0|     0|
@@ -557,7 +557,7 @@
 |statisticalModeling    |0.3.0     |      0|        0|     0|
 |sticky                 |0.5.2     |      0|        0|     0|
 |stormwindmodel         |0.1.0     |      0|        0|     0|
-|stplanr                |0.1.7-3   |      0|        1|     1|
+|stplanr                |0.1.7-3   |      0|        0|     1|
 |summariser             |0.1.0     |      0|        0|     0|
 |superheat              |0.1.0     |      0|        0|     0|
 |surveybootstrap        |0.0.1     |      0|        0|     1|
@@ -565,7 +565,7 @@
 |survutils              |1.0.0     |      0|        0|     0|
 |SWMPr                  |2.2.0     |      0|        0|     0|
 |taber                  |0.1.0     |      0|        0|     0|
-|tadaatoolbox           |0.11.0    |      0|        0|     0|
+|tadaatoolbox           |0.11.0    |      0|        1|     0|
 |tatoo                  |1.0.5     |      1|        0|     0|
 |taxizedb               |0.1.0     |      1|        0|     0|
 |Tcomp                  |1.0.0     |      0|        0|     0|
@@ -582,19 +582,19 @@
 |tibble                 |1.3.0     |      1|        0|     0|
 |tictactoe              |0.2.0     |      0|        0|     0|
 |tidyjson               |0.2.2     |      1|        0|     0|
-|tidyquant              |0.5.1     |      0|        0|     1|
+|tidyquant              |0.5.1     |      2|        1|     1|
 |tidyr                  |0.6.3     |      0|        0|     0|
 |tidyRSS                |1.0.1     |      0|        0|     0|
 |tidytext               |0.1.2     |      2|        1|     0|
 |tidyverse              |1.1.1     |      0|        0|     0|
-|tigger                 |0.2.8     |      0|        0|     0|
+|tigger                 |0.2.9.999 |      0|        0|     0|
 |tigris                 |0.5.1     |      0|        0|     0|
 |tilegramsR             |0.2.0     |      0|        0|     0|
-|timekit                |0.2.0     |      0|        0|     0|
+|timekit                |0.3.0     |      1|        0|     0|
 |timelineS              |0.1.1     |      0|        0|     0|
 |titanic                |0.1.0     |      0|        0|     0|
 |tmap                   |1.10      |      0|        0|     1|
-|Tmisc                  |0.1.14    |      0|        0|     0|
+|Tmisc                  |0.1.15    |      0|        0|     0|
 |traits                 |0.2.0     |      0|        0|     0|
 |treeplyr               |0.1.2     |      1|        0|     1|
 |trelliscope            |0.9.7     |      0|        0|     0|
@@ -604,7 +604,7 @@
 |ubeR                   |0.1.4     |      0|        0|     0|
 |unpivotr               |0.1.1     |      1|        0|     0|
 |unvotes                |0.1.0     |      0|        0|     0|
-|useful                 |1.2.1     |      0|        1|     0|
+|useful                 |1.2.1     |      0|        0|     0|
 |vaersNDvax             |1.0.4     |      0|        0|     1|
 |vaersvax               |1.0.4     |      0|        0|     1|
 |valaddin               |0.1.0     |      0|        0|     0|
@@ -630,7 +630,7 @@
 |wrswoR.benchmark       |0.1-1     |      0|        0|     0|
 |wrswoR                 |1.0-1     |      0|        1|     1|
 |WRTDStidal             |1.0.1     |      0|        0|     0|
-|WufooR                 |0.6.2     |      0|        0|     0|
+|WufooR                 |0.6.2     |      1|        0|     0|
 |xxIRT                  |2.0.1     |      0|        0|     0|
 |yorkr                  |0.0.7     |      0|        0|     0|
 |ZeligChoice            |0.9-5     |      0|        0|     0|
@@ -737,7 +737,7 @@ The error most likely occurred in:
 +     antonym="first",ninfer = 3, direct='ob',
 +     Ndist=3, dist="mixed",distprob=0.5,
 +     itemSet='own',items= superheroes, scales = compare)
-Warning: `.env` is deprecated and no longer has any effect
+`.env` is deprecated and no longer has any effect
 Error in (function (x, strict = TRUE)  : 
   the argument has already been evaluated
 Calls: lisy ... enquo -> eval_bare -> .Call -> <Anonymous> -> .Call
@@ -959,30 +959,9 @@ Maintainer: Michael Braun <braunm@smu.edu>
 Maintainer: Jonah Gabry <jsg2201@columbia.edu>  
 Bug reports: https://github.com/stan-dev/bayesplot/issues/
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
- *** caught segfault ***
-address 0x2c0000001d, cause 'memory not mapped'
-
-Traceback:
- 1: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
- 2: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
- 3: vweave_rmarkdown(...)
- 4: engine$weave(file, quiet = quiet, encoding = enc)
- 5: doTryCatch(return(expr), name, parentenv, handler)
- 6: tryCatchOne(expr, names, parentenv, handlers[[1L]])
- 7: tryCatchList(expr, classes, parentenv, handlers)
- 8: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
- 9: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/bayesplot.Rcheck/vign_test/bayesplot")
-An irrecoverable exception occurred. R is aborting now ...
-Segmentation fault (core dumped)
-
-
 checking installed package size ... NOTE
   installed size is  5.0Mb
   sub-directories of 1Mb or more:
@@ -1105,22 +1084,9 @@ checking installed package size ... NOTE
 ## bootnet (1.0.0)
 Maintainer: Sacha Epskamp <mail@sachaepskamp.com>
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-Examples with CPU or elapsed time > 5s
-                 user system elapsed
-estimateNetwork 7.804  0.044   7.823
-bootnet         7.136  0.064   7.331
-netSimulator    6.696  0.024   6.764
-
 checking dependencies in R code ... NOTE
 Missing or unexported object: ‘dplyr::rbind_all’
 ```
@@ -1161,6 +1127,27 @@ checking installed package size ... NOTE
   installed size is 23.4Mb
   sub-directories of 1Mb or more:
     libs  23.3Mb
+```
+
+## broom (0.4.2)
+Maintainer: David Robinson <admiral.david@gmail.com>  
+Bug reports: http://github.com/tidyverse/broom/issues
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking tests ... ERROR
+  Running ‘test-all.R’
+Running the tests in ‘tests/test-all.R’ failed.
+Complete output:
+  > library(testthat)
+  > test_check("broom")
+  Loading required package: broom
+  Error in lahman_df() : could not find function "lahman_df"
+  Calls: test_check ... with_reporter -> force -> source_file -> eval -> eval -> tbl
+  testthat results ================================================================
+  OK: 621 SKIPPED: 0 FAILED: 0
+  Execution halted
 ```
 
 ## bsam (1.1.1)
@@ -1390,17 +1377,9 @@ Bug reports: https://github.com/AdeelK93/collapsibleTree/issues
 ## cometExactTest (0.1.3)
 Maintainer: Max Leiserson <mdml@cs.brown.edu>
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-
 checking compiled code ... NOTE
 File ‘cometExactTest/libs/cometExactTest.so’:
   Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
@@ -1448,7 +1427,7 @@ Calls: <Anonymous> ... do.call -> <Anonymous> -> htmlTable.default -> prPrepareC
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [5s/11s]
+  Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -1482,56 +1461,11 @@ Maintainer: Robert Myles McDonnell <robertmylesmcdonnell@gmail.com>
 
 0 errors | 0 warnings | 0 notes
 
-## coreSim (0.2.3)
+## coreSim (0.2.4)
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
 Bug reports: https://github.com/christophergandrud/coreSim/issues
 
-2 errors | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘coreSim-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: qi_builder
-> ### Title: Find quantities of interest from generalized linear models
-> ### Aliases: qi_builder
-> 
-> ### ** Examples
-... 26 lines ...
-
-> 
-> ## Logistic regression
-> # Download data
-> URL <- 'http://www.ats.ucla.edu/stat/data/binary.csv'
-> Admission <- read.csv(URL)
-> Admission$rank <- as.factor(Admission$rank)
-Error in `$<-.data.frame`(`*tmp*`, rank, value = integer(0)) : 
-  replacement has 0 rows, data has 527
-Calls: $<- -> $<-.data.frame
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  linear_systematic: .......
-  qi_builder: 1
-  qi_slimmer: ..
-  
-  Failed -------------------------------------------------------------------------
-  1. Error: qi_builder output validity (@test_qi_builder.R#31) -------------------
-  replacement has 0 rows, data has 527
-  1: `$<-`(`*tmp*`, rank, value = structure(integer(0), .Label = character(0), class = "factor")) at testthat/test_qi_builder.R:31
-  2: `$<-.data.frame`(`*tmp*`, rank, value = structure(integer(0), .Label = character(0), class = "factor")) at testthat/test_qi_builder.R:31
-  3: stop(sprintf(ngettext(N, "replacement has %d row, data has %d", "replacement has %d rows, data has %d"), 
-         N, nrows), domain = NA)
-  
-  DONE ===========================================================================
-  Error: Test failures
-  Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## corrr (0.2.1)
 Maintainer: Simon Jackson <drsimonjackson@gmail.com>  
@@ -1542,28 +1476,7 @@ Bug reports: https://github.com/drsimonj/corrr/issues
 ## countyfloods (0.0.1)
 Maintainer: Rod Lammers <rodlammers@gmail.com>
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘countyfloods-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: find_nws
-> ### Title: Get National Weather Service (NWS) flood stage/discharge levels
-> ###   for gages.
-> ### Aliases: find_nws
-> 
-> ### ** Examples
-> 
-> 
-> va_counties <- get_county_cd("Virginia")
-> va_gages <- get_gages(va_counties, start_date = "2015-01-01",
-+                       end_date = "2015-12-31")
-Error: object ‘rbind_all’ is not exported by 'namespace:dplyr'
-Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## countytimezones (1.0.0)
 Maintainer: Brooke Anderson <brooke.anderson@colostate.edu>  
@@ -1661,16 +1574,21 @@ checking dependencies in R code ... NOTE
 Missing or unexported object: ‘readr::col_numeric’
 ```
 
-## dataRetrieval (2.6.3)
+## dataRetrieval (2.7.0)
 Maintainer: Laura DeCicco <ldecicco@usgs.gov>  
 Bug reports: https://github.com/USGS-R/dataRetrieval/issues
 
 1 error  | 0 warnings | 0 notes
 
 ```
-checking whether package ‘dataRetrieval’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/dataRetrieval.Rcheck/00install.out’ for details.
+checking tests ... ERROR
+  Running ‘testthat.R’ [0m/129m]
+Running the tests in ‘tests/testthat.R’ failed.
+Complete output:
+  > library(testthat)
+  > library(dataRetrieval)
+  > test_check("dataRetrieval")
+  Terminated
 ```
 
 ## datastepr (0.0.2)
@@ -1700,7 +1618,7 @@ _E_x_a_m_p_l_e_s:
 
 Quitting from lines 51-70 (datastepping.Rmd) 
 Error: processing vignette 'datastepping.Rmd' failed with diagnostics:
-Column `lagx` can't be converted from logical to integer
+Column `lagx` can't be converted from character to integer
 Execution halted
 ```
 
@@ -1712,7 +1630,7 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [52s/52s]
+  Running ‘testthat.R’ [46s/46s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1834,7 +1752,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [129s/129s]
+  Running ‘testthat.R’ [117s/117s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1945,11 +1863,6 @@ Bug reports: https://github.com/ltorgo/DMwR2/issues
 
 0 errors | 0 warnings | 0 notes
 
-## doctr (0.2.0)
-Maintainer: Caio Lente <me@ctlente.com>
-
-0 errors | 0 warnings | 0 notes
-
 ## docxtools (0.1.1)
 Maintainer: Richard Layton <graphdoctor@gmail.com>
 
@@ -2016,23 +1929,23 @@ checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
 
-    intersect, setdiff, setequal, union
-
-
-Attaching package: 'purrr'
-
-The following objects are masked from 'package:dplyr':
-... 8 lines ...
-
 Attaching package: 'scales'
 
 The following object is masked from 'package:purrr':
 
     discard
 
-Quitting from lines 178-201 (exploring-election-data.Rmd) 
+... 8 lines ...
+
+Attaching package: 'GGally'
+
+The following object is masked from 'package:dplyr':
+
+    nasa
+
+Quitting from lines 337-354 (exploring-election-data.Rmd) 
 Error: processing vignette 'exploring-election-data.Rmd' failed with diagnostics:
-not compatible with STRSXP
+could not find function "dmap"
 Execution halted
 ```
 
@@ -2099,12 +2012,12 @@ The error most likely occurred in:
 > 
 > ### ** Examples
 ... 6 lines ...
-15 Mai 21:08    Test set test_fraction 1 of 3 (0.7)
-15 Mai 21:08      Evaluating modeling performance...
-15 Mai 21:08    Test set test_fraction 2 of 3 (0.5)
-15 Mai 21:08      Evaluating modeling performance...
-15 Mai 21:08    Test set test_fraction 3 of 3 (0.3)
-15 Mai 21:08      Evaluating modeling performance...
+17 Mai 07:58    Test set test_fraction 1 of 3 (0.7)
+17 Mai 07:58      Evaluating modeling performance...
+17 Mai 07:58    Test set test_fraction 2 of 3 (0.5)
+17 Mai 07:58      Evaluating modeling performance...
+17 Mai 07:58    Test set test_fraction 3 of 3 (0.3)
+17 Mai 07:58      Evaluating modeling performance...
 > plot(lc)
 Error in select.list(., test_fraction = TRUE, fold = TRUE, method = TRUE,  : 
   unused arguments (test_fraction = TRUE, fold = TRUE, method = TRUE, performance = "error")
@@ -2132,67 +2045,11 @@ Maintainer: James Curley <jc3181@columbia.edu>
 
 0 errors | 0 warnings | 0 notes
 
-## epicontacts (1.0.0)
-Maintainer: VP Nagraj <vpnagraj@virginia.edu>
+## epicontacts (1.0.1)
+Maintainer: VP Nagraj <vpnagraj@virginia.edu>  
+Bug reports: http://github.com/reconhub/epicontacts/issues
 
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘epicontacts-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: as.igraph.epicontacts
-> ### Title: Create igraph object from contact data
-> ### Aliases: as.igraph.epicontacts
-> 
-> ### ** Examples
-... 30 lines ...
-The following objects are masked from ‘package:stats’:
-
-    decompose, spectrum
-
-The following object is masked from ‘package:base’:
-
-    union
-
-Error in `[.data.frame`(linelist, , id) : undefined columns selected
-Calls: make_epicontacts -> [ -> [.data.frame
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  1: make_epicontacts(ebola_sim$linelist, ebola_sim$contacts, id = "case.id", to = "case.id", 
-         from = "infector", directed = TRUE) at testthat/test_thin.R:4
-  2: linelist[, id]
-  3: `[.data.frame`(linelist, , id)
-  4: stop("undefined columns selected")
-  
-  testthat results ================================================================
-  OK: 8 SKIPPED: 34 FAILED: 4
-  1. Error: Various subsetting using [ (@test_handling.R#4) 
-  2. Error: Errors / warnings happen when they should (@test_handling.R#55) 
-  3. Error: Reordering of columns works (@test_make_epicontacts.R#84) 
-  4. Error: Thin ouputs are correct (@test_thin.R#4) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Warning in structure(x, class = unique(c("AsIs", oldClass(x)))) :
-  Calling 'structure(NULL, *)' is deprecated, as NULL cannot have attributes.
-  Consider 'structure(list(), *)' instead.
-Quitting from lines 219-233 (epicontacts.Rmd) 
-Error: processing vignette 'epicontacts.Rmd' failed with diagnostics:
-undefined columns selected
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## EpiCurve (1.0-0)
 Maintainer: Jean Pierre Decorps <jp.decorps@epiconcept.fr>
@@ -2270,7 +2127,7 @@ The error most likely occurred in:
 > # Instantiate the etl object
 > cars <- etl("mtcars")
 Not a valid src. Creating a src_sqlite for you at:
-/tmp/RtmphQUAK9/file6eae228c4f63.sqlite3
+/tmp/RtmpLylt88/file372865ac7020.sqlite3
 Error: The dbplyr package is required to communicate with database backends.
 Please install it with `install.packages("dbplyr")`
 Execution halted
@@ -2379,21 +2236,21 @@ Calls: make_time_cluster_data ... make_time_cluster_data.time_sequence_data -> d
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [101m/101m]
+  Running ‘testthat.R’ [102m/102m]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
+  Computing t.test for each time bin...
+  Computing t.test for each time bin...
+  `mutate_each()` is deprecated.
+  Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead.
+  To map `funs` over a selection of variables, use `mutate_at()`
+  Avg. window length in new data will be 5500
+  Performing Trackloss Analysis...
+  Will exclude trials whose trackloss proportion is greater than : 0.25
+  	...removed  33  trials.
+  Error in UseMethod("make_time_cluster_data") : 
     no applicable method for 'make_time_cluster_data' applied to an object of class "data.frame"
   Calls: test_check ... source_file -> eval -> eval -> make_time_cluster_data
-  In addition: Warning messages:
-  1: `mutate_each()` is deprecated.
-  Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead.
-  To map `funs` over a selection of variables, use `mutate_at()` 
-  2: `mutate_each()` is deprecated.
-  Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead.
-  To map `funs` over a selection of variables, use `mutate_at()` 
-  3: `mutate_each()` is deprecated.
-  Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead.
-  To map `funs` over a selection of variables, use `mutate_at()` 
   testthat results ================================================================
   OK: 38 SKIPPED: 0 FAILED: 0
   Execution halted
@@ -2409,17 +2266,7 @@ Bug reports: https://github.com/grunwaldlab/ezec/issues
 Maintainer: Hao Zhu <haozhu233@gmail.com>  
 Bug reports: https://github.com/haozhu233/ezsummary/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
+0 errors | 0 warnings | 0 notes
 
 ## fastqcr (0.1.0)
 Maintainer: Alboukadel Kassambara <alboukadel.kassambara@gmail.com>  
@@ -2541,7 +2388,7 @@ Maintainer: Nick Kennedy <r@nick-kennedy.com>
 
 0 errors | 0 warnings | 0 notes
 
-## fourierin (0.2.1)
+## fourierin (0.2.2)
 Maintainer: Guillermo Basulto-Elias <guillermobasulto@gmail.com>  
 Bug reports: https://github.com/gbasulto/fourierin/issues
 
@@ -2650,32 +2497,7 @@ Maintainer: 'Hadley Wickham' <h.wickham@gmail.com>
 Maintainer: Pablo Casas <pcasas.biz@gmail.com>  
 Bug reports: https://github.com/pablo14/funModeling/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-... 6 lines ...
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
+0 errors | 0 warnings | 0 notes
 
 ## funrar (1.0.3)
 Maintainer: Matthias Grenié <matthias.grenie@gmail.com>  
@@ -2772,9 +2594,9 @@ Bug reports: https://github.com/sctyner/geomnet/issues
 
 0 errors | 0 warnings | 0 notes
 
-## geoparser (0.1.0)
+## geoparser (0.1.1)
 Maintainer: Maëlle Salmon <maelle.salmon@yahoo.se>  
-Bug reports: http://github.com/ropenscilabs/geoparser/issues
+Bug reports: http://github.com/ropensci/geoparser/issues
 
 0 errors | 0 warnings | 0 notes
 
@@ -2841,25 +2663,7 @@ checking installed package size ... NOTE
 Maintainer: Jonathan Sidi <yonis@metrumrg.com>  
 Bug reports: https://github.com/metrumresearchgroup/ggedit/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-** found \donttest examples: check also with --run-donttest
-```
+0 errors | 0 warnings | 0 notes
 
 ## ggeffects (0.1.0)
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
@@ -2911,7 +2715,7 @@ Error: `x` must be a vector, not a ts object, do you want `stats::lag()`?
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [56s/56s]
+  Running ‘test-all.R’ [49s/49s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
   8: eval_bare(dot$expr, dot$env) at /tmp/RtmpP23LWr/R.INSTALL9ef31c41273/rlang/R/dots.R:79
@@ -3080,17 +2884,7 @@ Bug reports: https://github.com/jennybc/googlesheets/issues
 ## graphicalVAR (0.2)
 Maintainer: Sacha Epskamp <mail@sachaepskamp.com>
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
+0 errors | 0 warnings | 0 notes
 
 ## graphTweets (0.3.2)
 Maintainer: John Coene <jcoenep@gmail.com>  
@@ -3150,7 +2944,7 @@ Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [7s/18s]
+  Running ‘testthat.R’ [6s/14s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   > library(testthat)
@@ -3211,7 +3005,7 @@ Bug reports: https://github.com/pierucci/heemod/issues
 Maintainer: Joshua Kunst <jbkunst@gmail.com>  
 Bug reports: https://github.com/jbkunst/highcharter/issues
 
-1 error  | 1 warning  | 1 note 
+1 error  | 0 warnings | 1 note 
 
 ```
 checking examples ... ERROR
@@ -3230,28 +3024,6 @@ Error in mutate_impl(.data, dots) :
   Column `data` must be length 1 (the group size), not 5
 Calls: hcboxplot ... transmute.default -> mutate -> mutate.tbl_df -> mutate_impl -> .Call
 Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Highcharts (www.highcharts.com) is a Highsoft software product which is
-not free for commercial and Governmental use
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Quitting from lines 98-104 (charting-data-frames.Rmd) 
-Error: processing vignette 'charting-data-frames.Rmd' failed with diagnostics:
-not compatible with STRSXP
-Execution halted
-
 
 checking installed package size ... NOTE
   installed size is 16.5Mb
@@ -3310,24 +3082,24 @@ Bug reports: https://github.com/hughjonesd/huxtable/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [12s/12s]
+  Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
-  5: withVisible(code) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
-  6: rmarkdown::render("rowheight-multicol-test.Rmd", quiet = TRUE) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
-  7: convert(output_file, run_citeproc) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/render.R:655
-  8: pandoc_convert(utf8_input, pandoc_to, output_format$pandoc$from, output, citeproc, 
-         output_format$pandoc$args, !quiet) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/render.R:585
-  9: stop("pandoc document conversion failed with error ", result, call. = FALSE) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/pandoc.R:100
-  
-  testthat results ================================================================
-  OK: 200 SKIPPED: 14 FAILED: 2
-  1. Error: slice, filter and arrange work (@test-dplyr.R#24) 
-  2. Error: Row heights do not screw up latex multicol (@test-with-pandoc.R#20) 
-  
-  Error: testthat unit tests failed
-  Execution halted
+  21: eval(exprs, env)
+  22: source_file(path, new.env(parent = env), chdir = TRUE)
+  23: force(code)
+  24: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
+  25: FUN(X[[i]], ...)
+  26: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
+  27: force(code)
+  28: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
+  29: test_files(paths, reporter = reporter, env = env, ...)
+  30: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
+  31: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
+  32: run_tests(package, test_path, filter, reporter, ...)
+  33: test_check("huxtable")
+  An irrecoverable exception occurred. R is aborting now ...
+  Segmentation fault (core dumped)
 
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
@@ -3447,8 +3219,8 @@ Last 13 lines of output:
   dplyr::filter(testdata, persnr == 198505043334) inherits from `tbl_df/tbl/data.frame` not `incadata`.
   
   
-  Using tempfile: /tmp/RtmptQrNwy/ex_datae6641fe5e0d5.csv2
-  [1] "ex_datae6641fe5e0d5.csv2"
+  Using tempfile: /tmp/RtmpkTizNE/ex_dataaf4024c84b67.csv2
+  [1] "ex_dataaf4024c84b67.csv2"
   file size: 1103 kb
   testthat results ================================================================
   OK: 40 SKIPPED: 0 FAILED: 1
@@ -3525,24 +3297,7 @@ Maintainer: Yue Hu <yue-hu-1@uiowa.edu>
 ## ipft (0.6)
 Maintainer: Emilio Sansano <esansano@uji.es>
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-Examples with CPU or elapsed time > 5s
-             user system elapsed
-ipfPlotEcdf 5.352  0.056   5.339
-ipfPlotEst  3.992  0.028  10.161
-```
+0 errors | 0 warnings | 0 notes
 
 ## IRISMustangMetrics (2.0.4)
 Maintainer: Gillian Sharer <gillian@iris.washington.edu>
@@ -3624,17 +3379,9 @@ Package unavailable to check Rd xrefs: ‘memisc’
 ## Lahman (5.0-0)
 Maintainer: Chris Dalzell <cdalzell@gmail.com>
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-
 checking installed package size ... NOTE
   installed size is  7.6Mb
   sub-directories of 1Mb or more:
@@ -3840,7 +3587,7 @@ The error most likely occurred in:
 > 
 > macleish <- etl("macleish")
 Not a valid src. Creating a src_sqlite for you at:
-/tmp/RtmpxvGfUw/file124294afbd9.sqlite3
+/tmp/RtmpnlmYqC/filed90954acced4.sqlite3
 Error: The dbplyr package is required to communicate with database backends.
 Please install it with `install.packages("dbplyr")`
 Execution halted
@@ -3880,18 +3627,7 @@ checking installed package size ... NOTE
 Maintainer: Luke Johnston <lwjohnst@gmail.com>  
 Bug reports: https://github.com/lwjohnst86/mason/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
+0 errors | 0 warnings | 0 notes
 
 ## MazamaSpatialUtils (0.4.9)
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
@@ -4178,7 +3914,7 @@ Error: 'src_sql' is not an exported object from 'namespace:dplyr'
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [10s/72s]
+  Running ‘testthat.R’ [9s/59s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -4219,23 +3955,11 @@ search.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
 
-## monkeylearn (0.1.1)
+## monkeylearn (0.1.3)
 Maintainer: Maëlle Salmon <maelle.salmon@yahoo.se>  
-Bug reports: http://github.com/ropenscilabs/monkeylearn/issues
+Bug reports: http://github.com/ropensci/monkeylearn/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-pandoc: Could not fetch http://ropensci.org/public_images/github_footer.png
-TlsExceptionHostPort (HandshakeFailed Error_EOF) "ropensci.org" 80
-Error: processing vignette 'monkeylearn_intro.Rmd' failed with diagnostics:
-pandoc document conversion failed with error 67
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## morse (2.2.0)
 Maintainer: Philippe Veber <philippe.veber@univ-lyon1.fr>
@@ -4305,18 +4029,9 @@ Maintainer: Eli Shayer <eshayer@stanford.edu>
 Maintainer: Kyle T Baron  <kyleb@metrumrg.com>  
 Bug reports: https://github.com/metrumresearchgroup/mrgsolve/issues
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-
 checking installed package size ... NOTE
   installed size is  6.2Mb
   sub-directories of 1Mb or more:
@@ -4350,40 +4065,28 @@ Bug reports: https://github.com/alforj/muir/issues
 Maintainer: Hajk-Georg Drost <hgd23@cam.ac.uk>  
 Bug reports: https://github.com/HajkD/myTAI/issues
 
-1 error  | 1 warning  | 1 note 
+1 error  | 0 warnings | 1 note 
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [60s/61s]
+  Running ‘testthat.R’ [57s/56s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   
+  
+  `summarise_each()` is deprecated.
+  Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
+  To map `funs` over all variables, use `summarise_all()`
+  `summarise_each()` is deprecated.
+  Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
+  To map `funs` over all variables, use `summarise_all()`
   testthat results ================================================================
-  OK: 195 SKIPPED: 1 FAILED: 2
+  OK: 178 SKIPPED: 1 FAILED: 2
   1. Failure: PlotContribution() works properly with PhyloExpressionSet input... (@test-PlotContribution.R#11) 
   2. Failure: PlotContribution() works properly with DivergenceExpressionSet input... (@test-PlotContribution.R#16) 
   
   Error: testthat unit tests failed
-  In addition: Warning messages:
-  1: `summarise_each()` is deprecated.
-  Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
-  To map `funs` over all variables, use `summarise_all()` 
-  2: `summarise_each()` is deprecated.
-  Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead.
-  To map `funs` over all variables, use `summarise_all()` 
   Execution halted
-
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
 
 checking installed package size ... NOTE
   installed size is  5.3Mb
@@ -4617,7 +4320,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [210s/209s]
+  Running ‘testthat.R’ [184s/185s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   8: function_list[[k]](value) at /tmp/RtmpT6Czo8/R.INSTALL13c163d710cb/magrittr/R/freduce.R:20
@@ -4679,20 +4382,7 @@ Bug reports: https://github.com/sckott/openadds/issues
 Maintainer: David Carslaw <david.carslaw@york.ac.uk>  
 Bug reports: https://github.com/davidcarslaw/openair/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-Examples with CPU or elapsed time > 5s
-           user system elapsed
-polarPlot 5.668  0.044    5.67
-```
+0 errors | 0 warnings | 0 notes
 
 ## opencage (0.1.2)
 Maintainer: Maëlle Salmon <maelle.salmon@yahoo.se>  
@@ -4724,7 +4414,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [137s/137s]
+  Running ‘testthat.R’ [125s/125s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4917,7 +4607,7 @@ Bug reports: https://github.com/cbailiss/pivottabler/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [64s/64s]
+  Running ‘testthat.R’ [58s/57s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   x[1]: 17</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">Februar 2017</th>\n 
@@ -5115,11 +4805,44 @@ Found the following significant warnings:
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/poppr.Rcheck/00install.out’ for details.
 ```
 
-## prcr (0.1.2)
+## prcr (0.1.3)
 Maintainer: Joshua Rosenberg <jmichaelrosenberg@gmail.com>  
 Bug reports: https://github.com/jrosen48/prcr/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘prcr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: create_profiles
+> ### Title: Create profiles of observed variables using two-step cluster
+> ###   analysis
+> ### Aliases: create_profiles
+> 
+> ### ** Examples
+> 
+> df <- mtcars
+> create_profiles(df, disp, hp, wt, n_profiles = 2, to_scale = TRUE)
+Prepared data: Removed 0 incomplete cases
+Hierarchical clustering carried out on: 32 cases
+K-means algorithm converged: 1 iteration
+Clustered data: Using a 2 cluster solution
+Calculated statistics: R-squared = 0.756
+Error: Variable context not set
+Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Quitting from lines 23-29 (introduction_to_prcr.Rmd) 
+Error: processing vignette 'introduction_to_prcr.Rmd' failed with diagnostics:
+Variable context not set
+Execution halted
+
+```
 
 ## prepdat (1.0.8)
 Maintainer: Ayala S. Allon <ayalaallon@gmail.com>  
@@ -5139,7 +4862,7 @@ Maintainer: Sean Taylor <sjt@fb.com>
 
 ```
 checking installed package size ... NOTE
-  installed size is 21.0Mb
+  installed size is 20.9Mb
   sub-directories of 1Mb or more:
     libs  19.8Mb
 ```
@@ -5338,7 +5061,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:55031): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:41013): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## raw (0.1.4)
@@ -5904,18 +5627,7 @@ Bug reports: http://github.com/mi2-warsaw/sejmRP/issues
 Maintainer: Hu Sheng <shenghu@nju.edu.cn>  
 Bug reports: https://github.com/ctfysh/sfc/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
+0 errors | 0 warnings | 0 notes
 
 ## sfdct (0.0.3)
 Maintainer: Michael D. Sumner <mdsumner@gmail.com>  
@@ -6055,45 +5767,11 @@ checking installed package size ... NOTE
     libs  10.6Mb
 ```
 
-## simPH (1.3.9)
+## simPH (1.3.10)
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>  
 Bug reports: https://github.com/christophergandrud/simPH/issues
 
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘simPH-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: coxsimInteract
-> ### Title: Simulate quantities of interest for linear multiplicative
-> ###   interactions */ from Cox Proportional Hazards models
-> ### Aliases: coxsimInteract
-> 
-... 42 lines ...
-> 
-> # Example with a categorical variable
-> # Download data
-> hmohiv <- read.csv("http://www.ats.ucla.edu/stat/r/examples/asa/hmohiv.csv",
-+                      stringsAsFactors = FALSE)
-> 
-> # Create category lables
-> hmohiv$drug <- factor(hmohiv$drug, labels = c('not treated', 'treated'))
-Error in factor(hmohiv$drug, labels = c("not treated", "treated")) : 
-  invalid 'labels'; length 2 should be 1 or 0
-Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Quitting from lines 277-278 (simPH-overview.Rnw) 
-Error: processing vignette 'simPH-overview.Rnw' failed with diagnostics:
-replacement has 0 rows, data has 527
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## simputation (0.2.1)
 Maintainer: Mark van der Loo <mark.vanderloo@gmail.com>  
@@ -6122,7 +5800,7 @@ Bug reports: https://github.com/strengejacke/sjmisc/issues
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
 Bug reports: https://github.com/sjPlot/devel/issues
 
-0 errors | 1 warning  | 1 note 
+0 errors | 1 warning  | 0 notes
 
 ```
 checking re-building of vignette outputs ... WARNING
@@ -6147,9 +5825,6 @@ Error in re-building vignettes:
 39: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/sjPlot.Rcheck/vign_test/sjPlot")
 An irrecoverable exception occurred. R is aborting now ...
 Segmentation fault (core dumped)
-
-checking Rd cross-references ... NOTE
-Package unavailable to check Rd xrefs: ‘plm’
 ```
 
 ## sjstats (0.10.0)
@@ -6196,25 +5871,7 @@ Bug reports: https://github.com/hrbrmstr/slackr/issues
 Maintainer: Scott Chamberlain <myrmecocystus@gmail.com>  
 Bug reports: http://www.github.com/ropensci/solrium/issues
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘test-all.R’ [0m/461m]
-Running the tests in ‘tests/test-all.R’ failed.
-Complete output:
-  > library('testthat')
-  > test_check('solrium')
-  Loading required package: solrium
-  
-  Attaching package: 'solrium'
-  
-  The following object is masked from 'package:stats':
-  
-      optimize
-  
-  Terminated
-```
+0 errors | 0 warnings | 0 notes
 
 ## sophisthse (0.7.0)
 Maintainer: Boris Demeshev <boris.demeshev@gmail.com>
@@ -6263,7 +5920,38 @@ Maintainer: Poppy Miller <p.miller@lancaster.ac.uk>
 ## sp500SlidingWindow (0.1.0)
 Maintainer: George Fisher <george@georgefisher.com>
 
-0 errors | 0 warnings | 0 notes
+1 error  | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘sp500SlidingWindow-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: SP500
+> ### Title: Daily S&P 500 data from Jan 3, 1950 to present
+> ### Aliases: SP500
+> 
+> ### ** Examples
+> 
+> sp500_idx <- SP500()
+Warning in file(file, "rt") :
+  cannot open URL 'https://ichart.finance.yahoo.com/table.csv?s=%5EGSPC': HTTP status was '504 Gateway Timeout'
+Error in file(file, "rt") : 
+  cannot open the connection to 'http://ichart.finance.yahoo.com/table.csv?s=%5EGSPC'
+Calls: SP500 -> read.table -> file
+Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+Loading required package: magrittr
+Quitting from lines 137-140 (summary.Rmd) 
+Error: processing vignette 'summary.Rmd' failed with diagnostics:
+object 'window_df' not found
+Execution halted
+
+```
 
 ## SpaCCr (0.1.0)
 Maintainer: John Nagorski<jn13@rice.edu>
@@ -6525,26 +6213,9 @@ Bug reports: https://github.com/geanders/stormwindmodel/issues
 Maintainer: Robin Lovelace <rob00x@gmail.com>  
 Bug reports: https://github.com/ropensci/stplanr/issues
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `summarise_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-
 checking compiled code ... NOTE
 File ‘stplanr/libs/stplanr.so’:
   Found no calls to: ‘R_registerRoutines’, ‘R_useDynamicSymbols’
@@ -6616,7 +6287,32 @@ Bug reports: http://github.com/restonslacker/taber/issues
 Maintainer: Lukas Burk <lukas@quantenbrot.de>  
 Bug reports: https://github.com/tadaadata/tadaatoolbox/issues
 
-0 errors | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+17: fun(x, options = options)
+18: value_fun(ev$value, ev$visible)
+19: withVisible(value_fun(ev$value, ev$visible))
+20: withCallingHandlers(withVisible(value_fun(ev$value, ev$visible)),     warning = wHandler, error = eHandler, message = mHandler)
+21: handle(pv <- withCallingHandlers(withVisible(value_fun(ev$value,     ev$visible)), warning = wHandler, error = eHandler, message = mHandler))
+22: evaluate_call(expr, parsed$src[[i]], envir = envir, enclos = enclos,     debug = debug, last = i == length(out), use_try = stop_on_error !=         2L, keep_warning = keep_warning, keep_message = keep_message,     output_handler = output_handler, include_timing = include_timing)
+23: evaluate(code, envir = env, new_device = FALSE, keep_warning = !isFALSE(options$warning),     keep_message = !isFALSE(options$message), stop_on_error = if (options$error &&         options$include) 0L else 2L, output_handler = knit_handlers(options$render,         options))
+... 8 lines ...
+31: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
+32: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
+33: vweave_rmarkdown(...)
+34: engine$weave(file, quiet = quiet, encoding = enc)
+35: doTryCatch(return(expr), name, parentenv, handler)
+36: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+37: tryCatchList(expr, classes, parentenv, handlers)
+38: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
+39: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/tadaatoolbox.Rcheck/vign_test/tadaatoolbox")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
+```
 
 ## tatoo (1.0.5)
 Maintainer: Stefan Fleck <stefan.b.fleck@gmail.com>
@@ -6900,9 +6596,75 @@ Execution halted
 Maintainer: Matt Dancho <mdancho@business-science.io>  
 Bug reports: https://github.com/business-science/tidyquant/issues
 
-0 errors | 0 warnings | 1 note 
+2 errors | 1 warning  | 1 note 
 
 ```
+checking examples ... ERROR
+Running examples in ‘tidyquant-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: as_tibble
+> ### Title: Coerce to tibble. Enable preserving row names when coercing
+> ###   matrix and time-series-like objects with row names.
+> ### Aliases: as_tibble
+> 
+... 22 lines ...
+
+ This message is shown once per session and may be disabled by setting 
+ options("getSymbols.warning4.0"=FALSE). See ?getSymbols for more details.
+Warning in if (as.character(sc[[1]]) != calling.fun) return() :
+  the condition has length > 1 and only the first element will be used
+Warning in download.file(paste(yahoo.URL, "s=", Symbols.name, "&a=", from.m,  :
+  cannot open URL 'https://ichart.finance.yahoo.com/table.csv?s=AAPL&a=0&b=01&c=2007&d=4&e=17&f=2017&g=d&q=q&y=0&z=AAPL&x=.csv': HTTP status was '504 Gateway Timeout'
+Error in download.file(paste(yahoo.URL, "s=", Symbols.name, "&a=", from.m,  : 
+  cannot open URL 'https://ichart.finance.yahoo.com/table.csv?s=AAPL&a=0&b=01&c=2007&d=4&e=17&f=2017&g=d&q=q&y=0&z=AAPL&x=.csv'
+Calls: %>% ... <Anonymous> -> do.call -> getSymbols.yahoo -> download.file
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’ [3s/12s]
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+      As of 0.4-0, 'getSymbols' uses env=parent.frame() and
+   auto.assign=TRUE by default.
+  
+   This  behavior  will be  phased out in 0.5-0  when the call  will
+   default to use auto.assign=FALSE. getOption("getSymbols.env") and 
+   getOptions("getSymbols.auto.assign") are now checked for alternate defaults
+  
+   This message is shown once per session and may be disabled by setting 
+   options("getSymbols.warning4.0"=FALSE). See ?getSymbols for more details.
+  Error in download.file(paste(yahoo.URL, "s=", Symbols.name, "&a=", from.m,  : 
+    cannot open URL 'https://ichart.finance.yahoo.com/table.csv?s=AAPL&a=0&b=01&c=2007&d=4&e=17&f=2017&g=d&q=q&y=0&z=AAPL&x=.csv'
+  Calls: test_check ... with_reporter -> force -> source_file -> eval -> eval
+  testthat results ================================================================
+  OK: 0 SKIPPED: 0 FAILED: 0
+  Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+The following object is masked from 'package:tibble':
+
+    as_tibble
+
+Getting data...
+
+Warning in value[[3L]](cond) :
+... 8 lines ...
+Warning: x = 'AAPL', get = 'splits': Error in download.file(paste(yahoo.URL, Symbol.name, "&a=", from.m, "&b=", : cannot open URL 'https://ichart.finance.yahoo.com/x?s=AAPL&a=0&b=01&c=1990&d=4&e=17&f=2017&g=v&y=0&z=30000'
+
+additional arguments ignored in warning()
+Warning: x = 'AAPL', get = 'stock.prices': Error in download.file(paste(yahoo.URL, "s=", Symbols.name, "&a=", from.m, : cannot open URL 'https://ichart.finance.yahoo.com/table.csv?s=AAPL&a=4&b=17&c=2005&d=4&e=17&f=2017&g=d&q=q&y=0&z=AAPL&x=.csv'
+
+Warning: x = 'AAPL', get = 'key.ratios': Error in value[[3L]](cond): object 'key_ratios' not found
+
+Quitting from lines 176-179 (TQ01-core-functions-in-tidyquant.Rmd) 
+Error: processing vignette 'TQ01-core-functions-in-tidyquant.Rmd' failed with diagnostics:
+no applicable method for 'filter_' applied to an object of class "logical"
+Execution halted
+
 checking installed package size ... NOTE
   installed size is  5.2Mb
   sub-directories of 1Mb or more:
@@ -6954,7 +6716,7 @@ Error: object 'inaugCorpus' not found
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [11s/11s]
+  Running ‘testthat.R’ [10s/10s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   5: eval(expr, pf)
@@ -7003,7 +6765,7 @@ Bug reports: https://github.com/tidyverse/tidyverse/issues
 
 0 errors | 0 warnings | 0 notes
 
-## tigger (0.2.8)
+## tigger (0.2.9.999)
 Maintainer: Daniel Gadala-Maria <daniel.gadala-maria@yale.edu>  
 Bug reports: https://bitbucket.org/kleinstein/tigger/issues
 
@@ -7021,11 +6783,33 @@ Bug reports: https://github.com/bhaskarvk/tilegramsR/issues
 
 0 errors | 0 warnings | 0 notes
 
-## timekit (0.2.0)
+## timekit (0.3.0)
 Maintainer: Matt Dancho <mdancho@business-science.io>  
 Bug reports: https://github.com/business-science/timekit/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
+
+```
+checking tests ... ERROR
+  Running ‘testthat.R’ [6s/15s]
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+      as_tibble
+  
+  Error in xts::xts(data, ...) : 
+    order.by requires an appropriate time-based object
+  Calls: test_check ... tk_xts -> tk_xts_ -> tk_xts_.default -> <Anonymous>
+  In addition: Warning messages:
+  1: x = 'AAPL', get = 'stock.prices': Error in download.file(paste(yahoo.URL, "s=", Symbols.name, "&a=", from.m, : cannot open URL 'https://ichart.finance.yahoo.com/table.csv?s=AAPL&a=0&b=01&c=2015&d=11&e=31&f=2016&g=d&q=q&y=0&z=AAPL&x=.csv'
+   
+  2: In tk_xts_.default(data = data, select = select, date_var = date_var,  :
+    `select` is only applicable to data.frame and tibble objects.
+  3: In tk_xts_.default(data = data, select = select, date_var = date_var,  :
+    `date_var` is only applicable to data.frame and tibble objects.
+  testthat results ================================================================
+  OK: 39 SKIPPED: 0 FAILED: 0
+  Execution halted
+```
 
 ## timelineS (0.1.1)
 Maintainer: Dahee Lee <dhlee99@gmail.com>  
@@ -7053,7 +6837,7 @@ checking installed package size ... NOTE
     doc    3.3Mb
 ```
 
-## Tmisc (0.1.14)
+## Tmisc (0.1.15)
 Maintainer: Stephen Turner <vustephen@gmail.com>
 
 0 errors | 0 warnings | 0 notes
@@ -7179,26 +6963,7 @@ Bug reports: http://github.com/dgrtwo/unvotes/issues
 ## useful (1.2.1)
 Maintainer: Jared P. Lander <packages@jaredlander.com>
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking examples ... WARNING
-Found the following significant warnings:
-
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-  Warning: `mutate_each()` is deprecated.
-Deprecated functions may be defunct as soon as of the next release of
-R.
-See ?Deprecated.
-```
+0 errors | 0 warnings | 0 notes
 
 ## vaersNDvax (1.0.4)
 Maintainer: Irucka Embry <iembry@ecoccs.com>  
@@ -7259,7 +7024,7 @@ Error: Variable context not set
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [17s/17s]
+  Running ‘testthat.R’ [15s/15s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -7332,28 +7097,25 @@ Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 1 error  | 0 warnings | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘vdmR-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: vcmap
-> ### Title: Generate choropleth map with interactive functions
-> ### Aliases: vcmap
-> 
-> ### ** Examples
-... 10 lines ...
-
-Traceback:
- 1: primToDev.gTree(x, dev)
- 2: primToDev(x, dev)
- 3: grobToDev.gTree(gTree, dev)
- 4: grobToDev(gTree, dev)
- 5: gridToDev(gTree, svgdev)
- 6: gridSVG::grid.export(svgfn, htmlWrapper = TRUE, exportMappings = "file",     xmldecl = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n")
- 7: vcmap(shp.path, kk2012, "CityCode", "CityCode", "map1", "kk2012")
-An irrecoverable exception occurred. R is aborting now ...
-Segmentation fault (core dumped)
+checking tests ... ERROR
+  Running ‘run-all.R’
+Running the tests in ‘tests/run-all.R’ failed.
+Last 13 lines of output:
+  21: eval(exprs, env)
+  22: source_file(path, new.env(parent = env), chdir = TRUE)
+  23: force(code)
+  24: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
+  25: FUN(X[[i]], ...)
+  26: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
+  27: force(code)
+  28: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
+  29: test_files(paths, reporter = reporter, env = env, ...)
+  30: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
+  31: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
+  32: run_tests(package, test_path, filter, reporter, ...)
+  33: test_package("vdmR")
+  An irrecoverable exception occurred. R is aborting now ...
+  Segmentation fault (core dumped)
 ```
 
 ## VIM (4.7.0)
@@ -7521,8 +7283,22 @@ Bug reports: https://github.com/krlmlr/wrswoR/issues
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
+Quitting from lines 622-635 (wrswoR.Rmd) 
 Error: processing vignette 'wrswoR.Rmd' failed with diagnostics:
-formal argument "citation_package" matched by multiple actual arguments
+
+TeX was unable to calculate metrics for the following string
+or character:
+
+	77
+
+Common reasons for failure include:
+  * The string contains a character which is special to LaTeX unless
+    escaped properly, such as % or $.
+  * The string makes use of LaTeX commands provided by a package and
+    the tikzDevice was not told to load the package.
+
+The contents of the LaTeX log of the aborted run have been printed above,
+it may contain additional details as to why the metric calculation failed.
 Execution halted
 
 
@@ -7546,7 +7322,29 @@ Bug reports: https://github.com/fawda123/wtreg_for_estuaries/issues
 Maintainer: John Malc <cincenko@outlook.com>  
 Bug reports: https://github.com/dmpe/wufoor/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
+
+```
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  19: eval(exprs, env)
+  20: source_file(path, new.env(parent = env), chdir = TRUE)
+  21: force(code)
+  22: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
+  23: FUN(X[[i]], ...)
+  24: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
+  25: force(code)
+  26: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
+  27: test_files(paths, reporter = reporter, env = env, ...)
+  28: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
+  29: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
+  30: run_tests(package, test_path, filter, reporter, ...)
+  31: test_check("WufooR")
+  An irrecoverable exception occurred. R is aborting now ...
+  Segmentation fault (core dumped)
+```
 
 ## xxIRT (2.0.1)
 Maintainer: Xiao Luo <xluo1986@gmail.com>  
