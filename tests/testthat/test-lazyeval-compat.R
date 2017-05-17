@@ -15,10 +15,10 @@ test_that("lazydots are named and arrange() doesn't fail (it assumes empty names
 })
 
 test_that("mutate_each_() and summarise_each_() handle lazydots", {
-  expect_warning(cyl_chr <- mutate_each_(mtcars, funs(as.character), "cyl")$cyl, "deprecated")
+  cyl_chr <- mutate_each_(mtcars, funs(as.character), "cyl")$cyl
   expect_identical(cyl_chr, as.character(mtcars$cyl))
 
-  expect_warning(cyl_mean <- summarise_each_(mtcars, funs(mean), "cyl")$cyl, "deprecated")
+  cyl_mean <- summarise_each_(mtcars, funs(mean), "cyl")$cyl
   expect_equal(cyl_mean, mean(mtcars$cyl))
 })
 

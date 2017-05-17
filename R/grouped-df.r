@@ -262,7 +262,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
 
   assert_that(is_scalar_integerish(size), size >= 0)
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    inform("`.env` is deprecated and no longer has any effect")
   }
   weight <- enquo(weight)
 
@@ -284,7 +284,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL) {
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    inform("`.env` is deprecated and no longer has any effect")
   }
   if (size > 1 && !replace) {
     bad_args("size", "of sampled fraction must be less or equal to one, ",
