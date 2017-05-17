@@ -54,7 +54,7 @@ private:
   int n_neg;
 };
 
-RObject slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
+DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
   typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
 
   const DataFrame& data = gdf.data();
@@ -112,18 +112,17 @@ RObject slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
         indx.push_back(indices[j++]);
         k++;
       }
-
     }
   }
+
   DataFrame res = subset(data, indx, names, classes_grouped<GroupedDataFrame>());
   set_vars(res, get_vars(data));
   strip_index(res);
 
   return GroupedDataFrame(res).data();
-
 }
 
-RObject slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   CharacterVector names = df.names();
 
   const NamedQuosure& quosure = dots[0];
@@ -154,8 +153,7 @@ RObject slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   // special case where only NA
   if (counter.get_n_negative() == 0) {
     std::vector<int> indices;
-    DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-    return res;
+    return subset(df, indices, df.names(), classes_not_grouped());
   }
 
   // just negatives (out of range is dealt with early in CountIndices).
@@ -181,9 +179,7 @@ RObject slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
     indices[i++] = j++;
   }
 
-  DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-  return res;
-
+  return subset(df, indices, df.names(), classes_not_grouped());
 }
 
 // [[Rcpp::export]]
