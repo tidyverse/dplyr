@@ -22,7 +22,8 @@
 |bit64          |   |0.9-7      |2017-05-08 |cran (@0.9-7)                     |
 |covr           |   |2.2.2      |2017-01-05 |cran (@2.2.2)                     |
 |DBI            |   |0.6-13     |2017-05-08 |Github (rstats-db/DBI@f6500a5)    |
-|dplyr          |   |0.5.0.9005 |2017-05-17 |local (tidyverse/dplyr@NA)        |
+|dbplyr         |   |0.0.0.9001 |2017-05-17 |Github (hadley/dbplyr@3258b03)    |
+|dplyr          |   |0.5.0.9005 |2017-05-17 |Github (tidyverse/dplyr@496d777)  |
 |dtplyr         |   |0.0.2      |2017-04-21 |cran (@0.0.2)                     |
 |ggplot2        |   |2.2.1      |2016-12-30 |cran (@2.2.1)                     |
 |glue           |   |1.0.0      |2017-05-15 |Github (tidyverse/glue@41a5cff)   |
@@ -36,142 +37,104 @@
 |plogr          |   |0.1-1      |2016-09-24 |cran (@0.1-1)                     |
 |R6             |   |2.2.1      |2017-05-10 |cran (@2.2.1)                     |
 |Rcpp           |   |0.12.10    |2017-03-19 |CRAN (R 3.4.0)                    |
-|rlang          |   |0.1        |2017-05-06 |CRAN (R 3.4.0)                    |
+|rlang          |   |0.1.1      |2017-05-17 |Github (tidyverse/rlang@684221a)  |
 |rmarkdown      |   |1.5        |2017-04-26 |cran (@1.5)                       |
 |RMySQL         |   |0.10.11    |2017-03-29 |cran (@0.10.11)                   |
 |RPostgreSQL    |   |0.4-1      |2016-05-08 |cran (@0.4-1)                     |
 |RSQLite        |   |1.1-2      |2017-01-08 |CRAN (R 3.4.0)                    |
 |testthat       |   |1.0.2      |2016-04-23 |cran (@1.0.2)                     |
-|tibble         |   |1.3.0.9010 |2017-05-17 |Github (tidyverse/tibble@f883382) |
+|tibble         |   |1.3.1      |2017-05-17 |Github (tidyverse/tibble@8f30072) |
+|withr          |   |1.0.2      |2016-06-20 |CRAN (R 3.4.0)                    |
 
 # Check results
 
-92 packages with problems
+83 packages with problems
 
-|package            |version   | errors| warnings| notes|
-|:------------------|:---------|------:|--------:|-----:|
-|AIG                |0.1.3     |      1|        0|     0|
-|ameco              |0.2.6     |      1|        0|     1|
-|assertr            |2.0.2     |      1|        0|     0|
-|atlantistools      |0.4.1     |      0|        1|     1|
-|backtestGraphics   |0.1.6     |      1|        0|     0|
-|bigrquery          |0.3.0     |      1|        0|     0|
-|bioOED             |0.1.1     |      1|        0|     0|
-|broom              |0.4.2     |      1|        0|     0|
-|carpenter          |0.2.0     |      2|        1|     0|
-|chunked            |0.3       |      1|        0|     1|
-|condformat         |0.5.0     |      2|        1|     0|
-|dataRetrieval      |2.7.0     |      1|        0|     0|
-|datastepr          |0.0.2     |      0|        1|     0|
-|dat                |0.2.0     |      1|        0|     0|
-|ddpcr              |1.6       |      0|        1|     0|
-|DeLorean           |1.2.4     |      0|        1|     1|
-|describer          |0.2.0     |      1|        0|     0|
-|ecoengine          |1.10.0    |      1|        0|     0|
-|eechidna           |0.1       |      0|        1|     0|
-|emil               |2.2.6     |      1|        0|     1|
-|epidata            |0.1.0     |      1|        0|     0|
-|etl                |0.3.5     |      2|        1|     0|
-|eyetrackingR       |0.1.6     |      2|        0|     0|
-|filesstrings       |0.4.0     |      1|        0|     0|
-|FSelectorRcpp      |0.1.3     |      1|        0|     2|
-|geoknife           |1.5.4     |      0|        1|     0|
-|geoSpectral        |0.17.3    |      1|        0|     0|
-|ggfortify          |0.4.1     |      2|        0|     1|
-|grattan            |1.5.0.0   |      0|        1|     1|
-|gutenbergr         |0.1.2     |      1|        0|     0|
-|harrietr           |0.2.2     |      1|        0|     0|
-|highcharter        |0.5.0     |      1|        0|     1|
-|HTSSIP             |1.0.3     |      1|        0|     0|
-|huxtable           |0.2.2     |      1|        1|     0|
-|IATscores          |0.1-2     |      1|        0|     0|
-|implyr             |0.1.0     |      1|        0|     0|
-|incadata           |0.5.3     |      1|        0|     0|
-|infuser            |0.2.6     |      0|        2|     0|
-|lplyr              |0.1.6     |      1|        1|     0|
-|macleish           |0.3.0     |      1|        0|     0|
-|mdsr               |0.1.3     |      1|        0|     1|
-|metacoder          |0.1.2     |      1|        0|     0|
-|metaplot           |0.1.2     |      1|        0|     0|
-|Momocs             |1.1.6     |      1|        1|     0|
-|MonetDBLite        |0.3.1     |      2|        0|     3|
-|myTAI              |0.5.0     |      1|        0|     1|
-|NFP                |0.99.2    |      0|        1|     2|
-|nzelect            |0.3.3     |      0|        1|     0|
-|officer            |0.1.3     |      2|        1|     0|
-|padr               |0.3.0     |      1|        0|     0|
-|parlitools         |0.0.2     |      0|        1|     0|
-|parsemsf           |0.1.0     |      2|        1|     0|
-|pivottabler        |0.2.0     |      1|        0|     0|
-|poplite            |0.99.17.3 |      2|        1|     0|
-|poppr              |2.4.1     |      0|        1|     0|
-|prcr               |0.1.3     |      1|        1|     0|
-|rattle             |4.1.0     |      0|        1|     3|
-|REDCapR            |0.9.7     |      0|        1|     0|
-|replyr             |0.3.01    |      2|        1|     0|
-|rmcfs              |1.2.5     |      0|        1|     2|
-|ropenaq            |0.2.0     |      0|        1|     0|
-|RPresto            |1.2.1     |      1|        1|     1|
-|rsparkling         |0.2.0     |      1|        0|     0|
-|sf                 |0.4-3     |      2|        0|     1|
-|sjPlot             |2.3.1     |      0|        1|     0|
-|sjstats            |0.10.0    |      1|        0|     1|
-|sp500SlidingWindow |0.1.0     |      1|        1|     0|
-|SpaDES             |1.3.1     |      0|        1|     2|
-|sparklyr           |0.5.4     |      1|        0|     0|
-|sparseHessianFD    |0.3.3     |      0|        1|     0|
-|spdplyr            |0.1.2     |      1|        0|     0|
-|sqlscore           |0.1.1     |      2|        0|     1|
-|ss3sim             |0.9.5     |      0|        1|     0|
-|statar             |0.6.4     |      1|        0|     0|
-|tadaatoolbox       |0.11.0    |      0|        1|     0|
-|tatoo              |1.0.5     |      1|        0|     0|
-|taxizedb           |0.1.0     |      1|        0|     0|
-|texmexseq          |0.3       |      1|        0|     1|
-|textmining         |0.0.1     |      0|        1|     0|
-|tibble             |1.3.0     |      1|        0|     0|
-|tidyjson           |0.2.2     |      1|        0|     0|
-|tidyquant          |0.5.1     |      2|        1|     1|
-|tidytext           |0.1.2     |      2|        1|     0|
-|timekit            |0.3.0     |      1|        0|     0|
-|treeplyr           |0.1.2     |      1|        0|     1|
-|unpivotr           |0.1.1     |      1|        0|     0|
-|valr               |0.2.0     |      2|        1|     1|
-|vdmR               |0.2.3     |      1|        0|     0|
-|VWPre              |0.9.5     |      0|        1|     0|
-|wordbankr          |0.2.0     |      0|        1|     0|
-|wrswoR             |1.0-1     |      0|        1|     1|
-|WufooR             |0.6.2     |      1|        0|     0|
-
-## AIG (0.1.3)
-Maintainer: Bao Sheng Loe (Aiden) <bsl28@cam.ac.uk>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘AIG-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: lisy
-> ### Title: Linear Syllogism Generator
-> ### Aliases: lisy
-> 
-> ### ** Examples
-... 29 lines ...
-> 
-> #Generate item with own dataset
-> lisy(seed=1,nclues=4,nspread=6,clone = NULL,incidental='names',linear=FALSE,
-+     antonym="first",ninfer = 3, direct='ob',
-+     Ndist=3, dist="mixed",distprob=0.5,
-+     itemSet='own',items= superheroes, scales = compare)
-`.env` is deprecated and no longer has any effect
-Error in (function (x, strict = TRUE)  : 
-  the argument has already been evaluated
-Calls: lisy ... enquo -> eval_bare -> .Call -> <Anonymous> -> .Call
-Execution halted
-```
+|package            |version | errors| warnings| notes|
+|:------------------|:-------|------:|--------:|-----:|
+|ameco              |0.2.6   |      1|        0|     1|
+|assertr            |2.0.2   |      1|        0|     0|
+|atlantistools      |0.4.1   |      0|        1|     1|
+|backtestGraphics   |0.1.6   |      1|        0|     0|
+|bayesplot          |1.2.0   |      0|        1|     1|
+|bigrquery          |0.3.0   |      1|        0|     0|
+|bioOED             |0.1.1   |      1|        0|     0|
+|broom              |0.4.2   |      1|        0|     0|
+|carpenter          |0.2.0   |      2|        1|     0|
+|chunked            |0.3     |      1|        0|     1|
+|condformat         |0.5.0   |      2|        1|     0|
+|dat                |0.2.0   |      1|        0|     0|
+|ddpcr              |1.6     |      0|        1|     0|
+|DeLorean           |1.2.4   |      0|        1|     1|
+|describer          |0.2.0   |      1|        0|     0|
+|easyformatr        |0.1.2   |      2|        1|     0|
+|ecoengine          |1.10.0  |      1|        0|     0|
+|eechidna           |0.1     |      0|        1|     0|
+|emil               |2.2.6   |      1|        0|     1|
+|etl                |0.3.5   |      1|        1|     0|
+|eyetrackingR       |0.1.6   |      2|        0|     0|
+|filesstrings       |0.4.0   |      1|        0|     0|
+|FSelectorRcpp      |0.1.3   |      1|        0|     2|
+|geoknife           |1.5.4   |      2|        1|     0|
+|geoSpectral        |0.17.3  |      1|        0|     0|
+|ggfortify          |0.4.1   |      2|        0|     1|
+|grattan            |1.5.0.0 |      0|        1|     1|
+|gutenbergr         |0.1.2   |      1|        0|     0|
+|harrietr           |0.2.2   |      1|        0|     0|
+|highcharter        |0.5.0   |      1|        0|     1|
+|HTSSIP             |1.0.3   |      1|        0|     0|
+|huxtable           |0.2.2   |      1|        1|     0|
+|IATscores          |0.1-2   |      1|        0|     0|
+|implyr             |0.1.0   |      1|        0|     0|
+|incadata           |0.5.3   |      1|        0|     0|
+|infuser            |0.2.6   |      0|        2|     0|
+|IRISMustangMetrics |2.0.4   |      1|        0|     0|
+|janitor            |0.3.0   |      1|        0|     0|
+|lplyr              |0.1.6   |      1|        1|     0|
+|metaplot           |0.1.2   |      1|        0|     0|
+|Momocs             |1.1.6   |      1|        1|     0|
+|MonetDBLite        |0.3.1   |      2|        0|     3|
+|myTAI              |0.5.0   |      1|        0|     1|
+|NFP                |0.99.2  |      0|        1|     2|
+|nzelect            |0.3.3   |      0|        1|     0|
+|officer            |0.1.3   |      2|        1|     0|
+|padr               |0.3.0   |      1|        0|     0|
+|parlitools         |0.0.2   |      0|        1|     0|
+|pivottabler        |0.2.0   |      1|        0|     0|
+|poio               |0.0-3   |      1|        0|     1|
+|poppr              |2.4.1   |      0|        1|     0|
+|rattle             |4.1.0   |      0|        1|     3|
+|REDCapR            |0.9.7   |      0|        1|     0|
+|rmcfs              |1.2.5   |      0|        1|     2|
+|ropenaq            |0.2.0   |      0|        1|     0|
+|RPresto            |1.2.1   |      1|        1|     1|
+|rsparkling         |0.2.0   |      1|        0|     0|
+|sf                 |0.4-3   |      2|        0|     1|
+|sidrar             |0.1.1   |      0|        1|     0|
+|sjPlot             |2.3.1   |      0|        1|     0|
+|sjstats            |0.10.0  |      1|        0|     1|
+|sp500SlidingWindow |0.1.0   |      1|        1|     0|
+|SpaDES             |1.3.1   |      0|        1|     2|
+|sparseHessianFD    |0.3.3   |      0|        1|     0|
+|spdplyr            |0.1.2   |      1|        0|     0|
+|sqlscore           |0.1.1   |      2|        0|     1|
+|ss3sim             |0.9.5   |      0|        1|     0|
+|statar             |0.6.4   |      1|        0|     0|
+|tatoo              |1.0.5   |      1|        0|     0|
+|taxizedb           |0.1.0   |      1|        0|     0|
+|texmexseq          |0.3     |      1|        0|     1|
+|textmining         |0.0.1   |      0|        1|     0|
+|tidyjson           |0.2.2   |      1|        0|     0|
+|tidyquant          |0.5.1   |      2|        1|     1|
+|tidytext           |0.1.2   |      2|        1|     0|
+|timekit            |0.3.0   |      1|        0|     0|
+|treeplyr           |0.1.2   |      1|        0|     1|
+|unpivotr           |0.1.1   |      1|        0|     0|
+|valr               |0.2.0   |      2|        1|     1|
+|vdmR               |0.2.3   |      0|        1|     0|
+|VWPre              |0.9.5   |      0|        1|     0|
+|WHO                |0.2     |      2|        1|     0|
+|wrswoR             |1.0-1   |      0|        1|     1|
 
 ## ameco (0.2.6)
 Maintainer: Eric Persson <expersso5@gmail.com>  
@@ -280,6 +243,42 @@ Last 13 lines of output:
   Execution halted
 ```
 
+## bayesplot (1.2.0)
+Maintainer: Jonah Gabry <jsg2201@columbia.edu>  
+Bug reports: https://github.com/stan-dev/bayesplot/issues/
+
+0 errors | 1 warning  | 1 note 
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+ *** caught segfault ***
+address 0x6e6920, cause 'memory not mapped'
+
+Traceback:
+ 1: process_file(text, output)
+ 2: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
+ 3: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
+ 4: vweave_rmarkdown(...)
+ 5: engine$weave(file, quiet = quiet, encoding = enc)
+ 6: doTryCatch(return(expr), name, parentenv, handler)
+ 7: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+ 8: tryCatchList(expr, classes, parentenv, handlers)
+ 9: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
+10: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/bayesplot.Rcheck/vign_test/bayesplot")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
+
+
+checking installed package size ... NOTE
+  installed size is  5.0Mb
+  sub-directories of 1Mb or more:
+    R     1.6Mb
+    doc   2.9Mb
+```
+
 ## bigrquery (0.3.0)
 Maintainer: Hadley Wickham <hadley@rstudio.com>  
 Bug reports: https://github.com/rstats-db/bigrquery/issues
@@ -363,10 +362,10 @@ Last 13 lines of output:
   18: function_list[[i]](value) at /tmp/RtmpT6Czo8/R.INSTALL13c163d710cb/magrittr/R/freduce.R:17
   19: dplyr::mutate_each_(., dplyr::funs(as.character), dplyr::everything())
   20: is_empty(vars) at /home/muelleki/git/R/dplyr/R/colwise-mutate.R:251
-  21: dplyr::everything() at /tmp/RtmpP23LWr/R.INSTALL9ef31c41273/rlang/R/types.R:240
+  21: dplyr::everything() at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/types.R:240
   22: current_vars() at /home/muelleki/git/R/dplyr/R/select-utils.R:129
   23: cur_vars_env$selected %||% abort("Variable context not set") at /home/muelleki/git/R/dplyr/R/select-utils.R:46
-  24: abort("Variable context not set") at /tmp/RtmpP23LWr/R.INSTALL9ef31c41273/rlang/R/operators.R:14
+  24: abort("Variable context not set") at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/operators.R:14
   
   testthat results ================================================================
   OK: 19 SKIPPED: 0 FAILED: 1
@@ -396,20 +395,20 @@ checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  The following objects are masked from 'package:stats':
+  1. Error: write_chunkwise to db works (@test-write.R#29) -----------------------
+  'sql_render' is not an exported object from 'namespace:dplyr'
+  1: write_chunkwise(iris2, tmp, row.names = FALSE) at testthat/test-write.R:29
+  2: write_chunkwise.tbl_sql(iris2, tmp, row.names = FALSE)
+  3: dplyr::sql_render
+  4: getExportedValue(pkg, name)
+  5: stop(gettextf("'%s' is not an exported object from 'namespace:%s'", name, getNamespaceName(ns)), 
+         call. = FALSE, domain = NA)
   
-      filter, lag
-  
-  The following objects are masked from 'package:base':
-  
-      intersect, setdiff, setequal, union
-  
-  > 
-  > test_check("chunked")
-  Error: The dbplyr package is required to communicate with database backends.
-  Please install it with `install.packages("dbplyr")`
   testthat results ================================================================
-  OK: 2 SKIPPED: 0 FAILED: 0
+  OK: 28 SKIPPED: 0 FAILED: 1
+  1. Error: write_chunkwise to db works (@test-write.R#29) 
+  
+  Error: testthat unit tests failed
   Execution halted
 
 checking dependencies in R code ... NOTE
@@ -471,54 +470,6 @@ Execution halted
 
 ```
 
-## dataRetrieval (2.7.0)
-Maintainer: Laura DeCicco <ldecicco@usgs.gov>  
-Bug reports: https://github.com/USGS-R/dataRetrieval/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’ [0m/129m]
-Running the tests in ‘tests/testthat.R’ failed.
-Complete output:
-  > library(testthat)
-  > library(dataRetrieval)
-  > test_check("dataRetrieval")
-  Terminated
-```
-
-## datastepr (0.0.2)
-Maintainer: Brandon Taylor <brandon.taylor221@gmail.com>  
-Bug reports: https://github.com/bramtayl/datastepr/issues
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-          recursively.
-
-_E_x_a_m_p_l_e_s:
-
-     step = dataStepClass$new()
-     
-     frame = data.frame(x = 1:10)
-... 8 lines ...
-     }
-     
-     stairs()
-     
-     step$results
-     
-
-Quitting from lines 51-70 (datastepping.Rmd) 
-Error: processing vignette 'datastepping.Rmd' failed with diagnostics:
-Column `lagx` can't be converted from character to integer
-Execution halted
-```
-
 ## dat (0.2.0)
 Maintainer: Sebastian Warnholz <wahani@gmail.com>  
 Bug reports: https://github.com/wahani/dat/issues
@@ -527,7 +478,7 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [46s/46s]
+  Running ‘testthat.R’ [44s/44s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -559,7 +510,7 @@ Error in re-building vignettes:
   ...
 Quitting from lines 205-213 (extend.Rmd) 
 Error: processing vignette 'extend.Rmd' failed with diagnostics:
-object 'well_id' not found
+no function to return from, jumping to top level
 Execution halted
 
 ```
@@ -610,7 +561,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [117s/117s]
+  Running ‘testthat.R’ [112s/111s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -628,6 +579,69 @@ Last 13 lines of output:
   
   Error: testthat unit tests failed
   Execution halted
+```
+
+## easyformatr (0.1.2)
+Maintainer: Brandon Taylor <brandon.taylor221@gmail.com>  
+Bug reports: https://github.com/bramtayl/easyformatr/issues
+
+2 errors | 1 warning  | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘easyformatr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: easy_format
+> ### Title: Easily build format strings
+> ### Aliases: easy_format
+> 
+> ### ** Examples
+> 
+> easy_format(year, month, day, integer, octal, double)
+Error: Condition message must be a string
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  42: dplyr::left_join(., time_info)
+  43: left_join.tbl_df(., time_info) at /home/muelleki/git/R/dplyr/R/join.r:94
+  44: common_by(by, x, y) at /home/muelleki/git/R/dplyr/R/tbl-df.r:168
+  45: common_by.NULL(by, x, y) at /home/muelleki/git/R/dplyr/R/join.r:125
+  46: inform(paste0("Joining, by = ", utils::capture.output(dput(by)))) at /home/muelleki/git/R/dplyr/R/join.r:169
+  47: cnd_message(type, .msg = msg, .call = sys.call(-1)) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:288
+  48: new_cnd(c(.type, "message"), ..., .msg = .msg) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:71
+  49: stop("Condition message must be a string", call. = FALSE) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:51
+  
+  testthat results ================================================================
+  OK: 7 SKIPPED: 0 FAILED: 1
+  1. Error: easy_format (@test.R#48) 
+  
+  Error: testthat unit tests failed
+  Execution halted
+
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Quitting from lines 39-40 (easyformatr.Rmd) 
+Error: processing vignette 'easyformatr.Rmd' failed with diagnostics:
+Condition message must be a string
+Execution halted
+
 ```
 
 ## ecoengine (1.10.0)
@@ -690,12 +704,12 @@ The error most likely occurred in:
 > 
 > ### ** Examples
 ... 6 lines ...
-17 Mai 07:58    Test set test_fraction 1 of 3 (0.7)
-17 Mai 07:58      Evaluating modeling performance...
-17 Mai 07:58    Test set test_fraction 2 of 3 (0.5)
-17 Mai 07:58      Evaluating modeling performance...
-17 Mai 07:58    Test set test_fraction 3 of 3 (0.3)
-17 Mai 07:58      Evaluating modeling performance...
+17 Mai 19:25    Test set test_fraction 1 of 3 (0.7)
+17 Mai 19:25      Evaluating modeling performance...
+17 Mai 19:25    Test set test_fraction 2 of 3 (0.5)
+17 Mai 19:25      Evaluating modeling performance...
+17 Mai 19:25    Test set test_fraction 3 of 3 (0.3)
+17 Mai 19:25      Evaluating modeling performance...
 > plot(lc)
 Error in select.list(., test_fraction = TRUE, fold = TRUE, method = TRUE,  : 
   unused arguments (test_fraction = TRUE, fold = TRUE, method = TRUE, performance = "error")
@@ -712,80 +726,29 @@ search.
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ```
 
-## epidata (0.1.0)
-Maintainer: Bob Rudis <bob@rud.is>  
-Bug reports: https://github.com/hrbrmstr/epidata/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘epidata-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_black_white_wage_gap
-> ### Title: Retreive the percent by which hourly wages of black workers are
-> ###   less than hourly wages of white workers
-> ### Aliases: get_black_white_wage_gap
-> 
-... 16 lines ...
- 8  1980        16.79         19.47        13.67         15.93      0.185
- 9  1981        16.42         19.34        13.50         15.84      0.178
-10  1982        16.68         19.51        13.34         15.65      0.200
-# ... with 34 more rows, and 2 more variables: gap_average <dbl>,
-#   gap_regression_based <dbl>
-> 
-> get_black_white_wage_gap("g")
-Error in (function (x, strict = TRUE)  : 
-  the argument has already been evaluated
-Calls: get_black_white_wage_gap ... enquo -> eval_bare -> .Call -> <Anonymous> -> .Call
-Execution halted
-```
-
 ## etl (0.3.5)
 Maintainer: Ben Baumer <ben.baumer@gmail.com>  
 Bug reports: https://github.com/beanumber/etl/issues
 
-2 errors | 1 warning  | 0 notes
+1 error  | 1 warning  | 0 notes
 
 ```
-checking examples ... ERROR
-Running examples in ‘etl-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: etl
-> ### Title: Initialize an 'etl' object
-> ### Aliases: etl etl.default is.etl print.etl summary.etl
-> 
-> ### ** Examples
-> 
-> 
-> # Instantiate the etl object
-> cars <- etl("mtcars")
-Not a valid src. Creating a src_sqlite for you at:
-/tmp/RtmpLylt88/file372865ac7020.sqlite3
-Error: The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
-
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  5: check_dbplyr() at /home/muelleki/git/R/dplyr/R/src_dbi.R:143
-  6: check_pkg("dbplyr", "communicate with database backends") at /home/muelleki/git/R/dplyr/R/compat-dbplyr.R:19
-  7: glubort(NULL, "The {name} package is required to {reason}.\n    Please install it with `install.packages(\"{name}\")`") at /home/muelleki/git/R/dplyr/R/error.R:5
-  8: .abort(text) at /home/muelleki/git/R/dplyr/R/error.R:50
+  downloaded 12 KB
+  
+  trying URL 'http://www.nytimes.com'
+  Content type 'text/html; charset=utf-8' length 213944 bytes (208 KB)
+  ==================================================
+  downloaded 208 KB
   
   testthat results ================================================================
-  OK: 4 SKIPPED: 0 FAILED: 5
-  1. Error: sqlite works (@test-etl.R#7) 
-  2. Error: dplyr works (@test-etl.R#20) 
+  OK: 15 SKIPPED: 0 FAILED: 3
+  1. Error: sqlite works (@test-etl.R#9) 
+  2. Failure: dplyr works (@test-etl.R#25) 
   3. Error: MonetDBLite works (@test-etl.R#54) 
-  4. Error: etl works (@test-etl.R#93) 
-  5. Error: smart_download works (@test-etl.R#101) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -829,7 +792,7 @@ Calls: make_time_cluster_data ... make_time_cluster_data.time_sequence_data -> d
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [102m/102m]
+  Running ‘testthat.R’ [99m/98m]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Computing t.test for each time bin...
@@ -918,9 +881,51 @@ checking installed package size ... NOTE
 Maintainer: Jordan Read <jread@usgs.gov>  
 Bug reports: https://github.com/USGS-R/geoknife/issues
 
-0 errors | 1 warning  | 0 notes
+2 errors | 1 warning  | 0 notes
 
 ```
+checking examples ... ERROR
+Running examples in ‘geoknife-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: XML
+> ### Title: XML from set of objects
+> ### Aliases: XML XML,ANY,webdata,webprocess-method XML,webgeom-method
+> 
+> ### ** Examples
+> 
+> wd <- webdata('prism',times = as.POSIXct(c('2001-01-01','2002-02-05')))
+> wg <- webgeom('state::Wisconsin')
+StartTag: invalid element name
+Extra content at the end of the document
+retrying...
+StartTag: invalid element name
+Extra content at the end of the document
+retrying...
+Error: https://cida.usgs.gov/gdp/process/WebProcessingService does not seem to be a valid Web Processing Service url.
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  
+  The following object is masked from 'package:graphics':
+  
+      title
+  
+  The following object is masked from 'package:base':
+  
+      url
+  
+  StartTag: invalid element name
+  Extra content at the end of the document
+  Error: https://cida-test.er.usgs.gov/gdp/process/WebProcessingService does not seem to be a valid Web Processing Service url.
+  testthat results ================================================================
+  OK: 32 SKIPPED: 19 FAILED: 0
+  Execution halted
+
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
@@ -977,10 +982,10 @@ Error: `x` must be a vector, not a ts object, do you want `stats::lag()`?
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [49s/49s]
+  Running ‘test-all.R’ [51s/52s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
-  8: eval_bare(dot$expr, dot$env) at /tmp/RtmpP23LWr/R.INSTALL9ef31c41273/rlang/R/dots.R:79
+  8: eval_bare(dot$expr, dot$env) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/dots.R:91
   9: lapply(seq(1:lags), .lag)
   10: FUN(X[[i]], ...)
   11: as.vector(lag(ts, k))
@@ -1027,7 +1032,7 @@ Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [6s/14s]
+  Running ‘testthat.R’ [6s/18s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   > library(testthat)
@@ -1183,8 +1188,8 @@ Last 13 lines of output:
   dplyr::filter(testdata, persnr == 198505043334) inherits from `tbl_df/tbl/data.frame` not `incadata`.
   
   
-  Using tempfile: /tmp/RtmpkTizNE/ex_dataaf4024c84b67.csv2
-  [1] "ex_dataaf4024c84b67.csv2"
+  Using tempfile: /tmp/Rtmp8XJyT2/ex_data4eb226fce932.csv2
+  [1] "ex_data4eb226fce932.csv2"
   file size: 1103 kb
   testthat results ================================================================
   OK: 40 SKIPPED: 0 FAILED: 1
@@ -1216,6 +1221,64 @@ Error: processing vignette 'getting_started.Rmd' failed with diagnostics:
 'build_sql' is not an exported object from 'namespace:dplyr'
 Execution halted
 
+```
+
+## IRISMustangMetrics (2.0.4)
+Maintainer: Gillian Sharer <gillian@iris.washington.edu>
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘IRISMustangMetrics-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: getGeneralValueMetrics
+> ### Title: Retrieve measurements from the MUSTANG BSS
+> ### Aliases: getGeneralValueMetrics
+> ###   getGeneralValueMetrics,IrisClient,character,character,character,character,POSIXct,POSIXct,character,character,character-method
+> ###   getGeneralValueMetrics,IrisClient,character,character,character,character,POSIXct,POSIXct,character,character,missing-method
+... 9 lines ...
+> 
+> starttime <- as.POSIXct("2016-08-01", tz="GMT")
+> endtime <- starttime + 30*24*3600
+> metricName <- "sample_max,sample_mean,orientation_check"
+> 
+> # Get the measurement dataframe
+> juneStats <- getGeneralValueMetrics(iris,"IU","ANMO","","BH[12Z]",
++                                         starttime,endtime,metricName)
+URL = http://service.iris.edu/mustang/measurements/1/query?net=IU&sta=ANMO&cha=BH[12Z]&timewindow=2016-08-01T00:00:00,2016-08-31T00:00:00&format=text&metric=sample_max,sample_mean,orientation_check&nodata=404
+Error: Condition message must be a string
+Execution halted
+```
+
+## janitor (0.3.0)
+Maintainer: Sam Firke <samuel.firke@gmail.com>  
+Bug reports: https://github.com/sfirke/janitor/issues
+
+1 error  | 0 warnings | 0 notes
+
+```
+checking tests ... ERROR
+  Running ‘testthat.R’
+Running the tests in ‘tests/testthat.R’ failed.
+Last 13 lines of output:
+  17: common_by(by, x, y) at /home/muelleki/git/R/dplyr/R/tbl-df.r:155
+  18: common_by.NULL(by, x, y) at /home/muelleki/git/R/dplyr/R/join.r:125
+  19: inform(paste0("Joining, by = ", utils::capture.output(dput(by)))) at /home/muelleki/git/R/dplyr/R/join.r:169
+  20: cnd_message(type, .msg = msg, .call = sys.call(-1)) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:288
+  21: new_cnd(c(.type, "message"), ..., .msg = .msg) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:71
+  22: stop("Condition message must be a string", call. = FALSE) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:51
+  
+  testthat results ================================================================
+  OK: 228 SKIPPED: 0 FAILED: 3
+  1. Error: calling with no specified variable names uses all variable names (@test-get-dupes.R#16) 
+  2. Error: instances of no dupes throw correct messages, return empty df (@test-get-dupes.R#24) 
+  3. Error: works on variables with irregular names (@test-get-dupes.R#36) 
+  
+  Error: testthat unit tests failed
+  Execution halted
 ```
 
 ## lplyr (0.1.6)
@@ -1274,93 +1337,6 @@ Error: processing vignette 'lplyr-vignette.Rmd' failed with diagnostics:
 select.list() cannot be used non-interactively
 Execution halted
 
-```
-
-## macleish (0.3.0)
-Maintainer: Ben Baumer <ben.baumer@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘macleish-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: etl_extract.etl_macleish
-> ### Title: Extract weather data
-> ### Aliases: etl_extract.etl_macleish etl_load.etl_macleish
-> ###   etl_transform.etl_macleish
-> 
-> ### ** Examples
-> 
-> 
-> macleish <- etl("macleish")
-Not a valid src. Creating a src_sqlite for you at:
-/tmp/RtmpnlmYqC/filed90954acced4.sqlite3
-Error: The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
-```
-
-## mdsr (0.1.3)
-Maintainer: Ben Baumer <ben.baumer@gmail.com>  
-Bug reports: https://github.com/beanumber/mdsr/issues
-
-1 error  | 0 warnings | 1 note 
-
-```
-checking examples ... ERROR
-Running examples in ‘mdsr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: src_scidb
-> ### Title: src_scidb
-> ### Aliases: dbConnect_scidb mysql_scidb src_scidb
-> 
-> ### ** Examples
-> 
-> 
-> dbAir <- src_scidb("airlines")
-Error: The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
-
-checking installed package size ... NOTE
-  installed size is  5.4Mb
-  sub-directories of 1Mb or more:
-    data   5.3Mb
-```
-
-## metacoder (0.1.2)
-Maintainer: Zachary Foster <zacharyfoster1989@gmail.com>
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘metacoder-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: arrange_taxa
-> ### Title: Sort columns of 'taxmap' objects
-> ### Aliases: arrange_taxa
-> 
-> ### ** Examples
-... 29 lines ...
-4           183               Lachnum_sp FM172814 SH189778.06FU
-5           183               Lachnum_sp FN539058 SH189779.06FU
-6           181    Lachnum_pulverulentum AB481260 SH189780.06FU
-7           183               Lachnum_sp HQ211694 SH189781.06FU
-# ... with 493 more rows, and 1 more variables: sequence <chr>
-
---------------------------- taxon_funcs ---------------------------
-n_obs, n_obs_1, n_supertaxa, n_subtaxa, n_subtaxa_1, hierarchies
-> # Reverse order of sort
-> arrange_taxa(unite_ex_data_3, desc(name))
-Aborted (core dumped)
 ```
 
 ## metaplot (0.1.2)
@@ -1478,13 +1454,13 @@ Error: 'src_sql' is not an exported object from 'namespace:dplyr'
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [9s/59s]
+  Running ‘testthat.R’ [18s/46s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
-  OK: 159 SKIPPED: 0 FAILED: 11
-  1. Error: we can connect (@test_03_dplyr.R#14) 
-  2. Error: dplyr copy_to() (@test_03_dplyr.R#24) 
+  OK: 132 SKIPPED: 0 FAILED: 13
+  1. Error: we can connect (@test_03_dplyr.R#15) 
+  2. Error: dplyr copy_to() (@test_03_dplyr.R#27) 
   3. Error: dplyr tbl( sql() ) (@test_03_dplyr.R#35) 
   4. Error: dplyr select() (@test_03_dplyr.R#43) 
   5. Error: dplyr filter() (@test_03_dplyr.R#51) 
@@ -1527,7 +1503,7 @@ Bug reports: https://github.com/HajkD/myTAI/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [57s/56s]
+  Running ‘testthat.R’ [56s/56s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   
@@ -1632,7 +1608,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [184s/185s]
+  Running ‘testthat.R’ [188s/187s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   8: function_list[[k]](value) at /tmp/RtmpT6Czo8/R.INSTALL13c163d710cb/magrittr/R/freduce.R:20
@@ -1680,7 +1656,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [125s/125s]
+  Running ‘testthat.R’ [121s/121s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1730,60 +1706,6 @@ Execution halted
 
 ```
 
-## parsemsf (0.1.0)
-Maintainer: Benjamin Jack <benjamin.r.jack@gmail.com>  
-Bug reports: https://github.com/benjaminjack/parsemsf/issues
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘parsemsf-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: make_area_table
-> ### Title: Make a table of peptide areas
-> ### Aliases: make_area_table
-> 
-> ### ** Examples
-> 
-> make_area_table(parsemsf_example("test_db.msf"))
-Error: The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  11: check_dbplyr() at /home/muelleki/git/R/dplyr/R/src_dbi.R:143
-  12: check_pkg("dbplyr", "communicate with database backends") at /home/muelleki/git/R/dplyr/R/compat-dbplyr.R:19
-  13: glubort(NULL, "The {name} package is required to {reason}.\n    Please install it with `install.packages(\"{name}\")`") at /home/muelleki/git/R/dplyr/R/error.R:5
-  14: .abort(text) at /home/muelleki/git/R/dplyr/R/error.R:50
-  
-  Error: The dbplyr package is required to communicate with database backends.
-  Please install it with `install.packages("dbplyr")`
-  testthat results ================================================================
-  OK: 0 SKIPPED: 0 FAILED: 3
-  1. Error: make_area_table creates a data frame with the correct column names (@test_make_area_table.R#16) 
-  2. Error: make_pep_table creates a data frame with the correct column names (@test_make_pep_table.R#13) 
-  3. Error: map_peptides creates a data frame with the correct column names (@test_map_peptides.R#16) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Quitting from lines 20-25 (introduction.Rmd) 
-Error: processing vignette 'introduction.Rmd' failed with diagnostics:
-The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
-
-```
-
 ## pivottabler (0.2.0)
 Maintainer: Christopher Bailiss <cbailiss@gmail.com>  
 Bug reports: https://github.com/cbailiss/pivottabler/issues
@@ -1792,7 +1714,7 @@ Bug reports: https://github.com/cbailiss/pivottabler/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [58s/57s]
+  Running ‘testthat.R’ [59s/58s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   x[1]: 17</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">Februar 2017</th>\n 
@@ -1812,77 +1734,35 @@ Last 13 lines of output:
   Execution halted
 ```
 
-## poplite (0.99.17.3)
-Maintainer: Daniel Bottomly <bottomly@ohsu.edu>
+## poio (0.0-3)
+Maintainer: Richard Cotton <richierocks@gmail.com>  
+Bug reports: https://github.com/RL10N/poio/issues
 
-2 errors | 1 warning  | 0 notes
+1 error  | 0 warnings | 1 note 
 
 ```
-checking examples ... ERROR
-Running examples in ‘poplite-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: External methods
-> ### Title: Specific methods for generics defined in external packages.
-> ### Aliases: filter select
-> ### Keywords: utilities
-> 
-... 19 lines ...
-+       
-+       filter(baseball.db, active == "Y")
-+       
-+       select(filter(baseball.db, active == "Y" & W > 50 & teamID == "CAL"), active, W, teamID)
-+   }
-Loading required package: Lahman
-Starting team_franch
-Starting teams
-Error: The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
-
 checking tests ... ERROR
   Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  7: .local(obj, ...)
-  8: src_sqlite(dbFile(obj), create = F)
-  9: check_dbplyr() at /home/muelleki/git/R/dplyr/R/src_dbi.R:143
-  10: check_pkg("dbplyr", "communicate with database backends") at /home/muelleki/git/R/dplyr/R/compat-dbplyr.R:19
-  11: glubort(NULL, "The {name} package is required to {reason}.\n    Please install it with `install.packages(\"{name}\")`") at /home/muelleki/git/R/dplyr/R/error.R:5
-  12: .abort(text) at /home/muelleki/git/R/dplyr/R/error.R:50
+  9: new_cnd(c(.type, "message"), ..., .msg = .msg) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:71
+  10: stop("Condition message must be a string", call. = FALSE) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:51
   
   testthat results ================================================================
-  OK: 122 SKIPPED: 0 FAILED: 3
-  1. Error: Querying with Database objects (@test-poplite.R#581) 
-  2. Error: sample tracking example but with direct keys between dna and samples (@test-poplite.R#804) 
-  3. Error: oligoMask queries that break poplite (@test-poplite.R#852) 
+  OK: 46 SKIPPED: 0 FAILED: 7
+  1. Error: read_po works on an empty POT file (@test-empty.R#50) 
+  2. Error: fix_metadata works on an empty pot file (@test-empty.R#106) 
+  3. Error: fix_metadata works with user-specified metadata (@test-empty.R#172) 
+  4. Error: generate_po_from_pot can convert empty pot file to po file (@test-empty.R#237) 
+  5. Error: read_po works on a complicated POT file (@test-summerof69.R#110) 
+  6. Error: fix_metadata works on a complicated POT file (@test-summerof69.R#226) 
+  7. Error: generate_po_from_pot can convert complicated pot file to po file (@test-summerof69.R#369) 
   
   Error: testthat unit tests failed
   Execution halted
 
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-Loading required package: DBI
-
-Attaching package: ‘poplite’
-
-The following object is masked from ‘package:dplyr’:
-
-... 8 lines ...
-  ERROR: The names of the supplied data.frame need to be modified for the database see correct.df.names
-Starting clinical
-Warning: RSQLite::dbGetPreparedQuery() is deprecated, please switch to DBI::dbGetQuery(params = bind.data).
-Starting samples
-Starting dna
-
-Error: processing vignette 'poplite.Rnw' failed with diagnostics:
- chunk 9 
-Error : The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
+checking Rd cross-references ... NOTE
+Package unavailable to check Rd xrefs: ‘ISOcodes’
 ```
 
 ## poppr (2.4.1)
@@ -1896,45 +1776,6 @@ checking whether package ‘poppr’ can be installed ... WARNING
 Found the following significant warnings:
   Warning: namespace ‘DBI’ is not available and has been replaced
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/poppr.Rcheck/00install.out’ for details.
-```
-
-## prcr (0.1.3)
-Maintainer: Joshua Rosenberg <jmichaelrosenberg@gmail.com>  
-Bug reports: https://github.com/jrosen48/prcr/issues
-
-1 error  | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘prcr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: create_profiles
-> ### Title: Create profiles of observed variables using two-step cluster
-> ###   analysis
-> ### Aliases: create_profiles
-> 
-> ### ** Examples
-> 
-> df <- mtcars
-> create_profiles(df, disp, hp, wt, n_profiles = 2, to_scale = TRUE)
-Prepared data: Removed 0 incomplete cases
-Hierarchical clustering carried out on: 32 cases
-K-means algorithm converged: 1 iteration
-Clustered data: Using a 2 cluster solution
-Calculated statistics: R-squared = 0.756
-Error: Variable context not set
-Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Quitting from lines 23-29 (introduction_to_prcr.Rmd) 
-Error: processing vignette 'introduction_to_prcr.Rmd' failed with diagnostics:
-Variable context not set
-Execution halted
-
 ```
 
 ## rattle (4.1.0)
@@ -1976,7 +1817,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:41013): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:16085): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## REDCapR (0.9.7)
@@ -1992,67 +1833,6 @@ Error in re-building vignettes:
 Quitting from lines 42-45 (BasicREDCapROperations.Rmd) 
 Error: processing vignette 'BasicREDCapROperations.Rmd' failed with diagnostics:
 object 'ds' not found
-Execution halted
-
-```
-
-## replyr (0.3.01)
-Maintainer: John Mount <jmount@win-vector.com>  
-Bug reports: https://github.com/WinVector/replyr/issues
-
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘replyr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: replyr_copy_from
-> ### Title: Bring remote data back as a local data frame tbl.
-> ### Aliases: replyr_copy_from
-> 
-> ### ** Examples
-> 
-> 
-> 
-> if (requireNamespace("RSQLite", quietly = TRUE)) {
-+   my_db <- dplyr::src_sqlite(":memory:", create = TRUE)
-+   d <- replyr_copy_to(my_db,data.frame(x=c(1,2)),'d')
-+   d2 <- replyr_copy_from(d)
-+   print(d2)
-+ }
-Error: The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  2: check_dbplyr() at /home/muelleki/git/R/dplyr/R/src_dbi.R:143
-  3: check_pkg("dbplyr", "communicate with database backends") at /home/muelleki/git/R/dplyr/R/compat-dbplyr.R:19
-  4: glubort(NULL, "The {name} package is required to {reason}.\n    Please install it with `install.packages(\"{name}\")`") at /home/muelleki/git/R/dplyr/R/error.R:5
-  5: .abort(text) at /home/muelleki/git/R/dplyr/R/error.R:50
-  
-  nrows: 2
-  Observations: 2
-  Variables: 1
-  $ x <dbl> 1, 2testthat results ================================================================
-  OK: 3 SKIPPED: 0 FAILED: 2
-  1. Error: test_replyr_copy_from.R (@test_replyr_copy_from.R#7) 
-  2. Error: test_replyr_copy_to.R (@test_replyr_copy_to.R#7) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-Quitting from lines 27-42 (NArm.Rmd) 
-Error: processing vignette 'NArm.Rmd' failed with diagnostics:
-The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
 Execution halted
 
 ```
@@ -2224,6 +2004,34 @@ checking installed package size ... NOTE
     sqlite   1.5Mb
 ```
 
+## sidrar (0.1.1)
+Maintainer: Renato Prado Siqueira <rpradosiqueira@gmail.com>  
+Bug reports: http://github.com/rpradosiqueira/sidrar/issues
+
+0 errors | 1 warning  | 0 notes
+
+```
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Quitting from lines 147-148 (Introduction_to_sidrar.Rmd) 
+Error: processing vignette 'Introduction_to_sidrar.Rmd' failed with diagnostics:
+Timeout was reached
+Execution halted
+
+```
+
 ## sjPlot (2.3.1)
 Maintainer: Daniel Lüdecke <d.luedecke@uke.de>  
 Bug reports: https://github.com/sjPlot/devel/issues
@@ -2347,18 +2155,6 @@ checking installed package size ... NOTE
     doc   2.1Mb
 ```
 
-## sparklyr (0.5.4)
-Maintainer: Javier Luraschi <javier@rstudio.com>  
-Bug reports: https://github.com/rstudio/sparklyr/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking whether package ‘sparklyr’ can be installed ... ERROR
-Installation failed.
-See ‘/home/muelleki/git/R/dplyr/revdep/checks/sparklyr.Rcheck/00install.out’ for details.
-```
-
 ## sparseHessianFD (0.3.3)
 Maintainer: Michael Braun <braunm@smu.edu>
 
@@ -2437,8 +2233,7 @@ The error most likely occurred in:
 > mod <- glm(Sepal.Length ~ Sepal.Width + Petal.Length + Petal.Width + Species,
 +            data=datasets::iris)
 > create_statement(mod, src_table="tbl_name", dest_table="target_tbl")
-Error: The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
+Error: 'build_sql' is not an exported object from 'namespace:dplyr'
 Execution halted
 
 checking tests ... ERROR
@@ -2449,8 +2244,7 @@ Complete output:
   > library(sqlscore)
   > 
   > test_check("sqlscore")
-  Error: The dbplyr package is required to communicate with database backends.
-  Please install it with `install.packages("dbplyr")`
+  Error: 'build_sql' is not an exported object from 'namespace:dplyr'
   testthat results ================================================================
   OK: 0 SKIPPED: 0 FAILED: 0
   Execution halted
@@ -2483,37 +2277,6 @@ Bug reports: https://github.com/matthieugomez/statar/issues
 checking whether package ‘statar’ can be installed ... ERROR
 Installation failed.
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/statar.Rcheck/00install.out’ for details.
-```
-
-## tadaatoolbox (0.11.0)
-Maintainer: Lukas Burk <lukas@quantenbrot.de>  
-Bug reports: https://github.com/tadaadata/tadaatoolbox/issues
-
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-17: fun(x, options = options)
-18: value_fun(ev$value, ev$visible)
-19: withVisible(value_fun(ev$value, ev$visible))
-20: withCallingHandlers(withVisible(value_fun(ev$value, ev$visible)),     warning = wHandler, error = eHandler, message = mHandler)
-21: handle(pv <- withCallingHandlers(withVisible(value_fun(ev$value,     ev$visible)), warning = wHandler, error = eHandler, message = mHandler))
-22: evaluate_call(expr, parsed$src[[i]], envir = envir, enclos = enclos,     debug = debug, last = i == length(out), use_try = stop_on_error !=         2L, keep_warning = keep_warning, keep_message = keep_message,     output_handler = output_handler, include_timing = include_timing)
-23: evaluate(code, envir = env, new_device = FALSE, keep_warning = !isFALSE(options$warning),     keep_message = !isFALSE(options$message), stop_on_error = if (options$error &&         options$include) 0L else 2L, output_handler = knit_handlers(options$render,         options))
-... 8 lines ...
-31: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
-32: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
-33: vweave_rmarkdown(...)
-34: engine$weave(file, quiet = quiet, encoding = enc)
-35: doTryCatch(return(expr), name, parentenv, handler)
-36: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-37: tryCatchList(expr, classes, parentenv, handlers)
-38: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
-39: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/tadaatoolbox.Rcheck/vign_test/tadaatoolbox")
-An irrecoverable exception occurred. R is aborting now ...
-Segmentation fault (core dumped)
 ```
 
 ## tatoo (1.0.5)
@@ -2553,19 +2316,17 @@ Bug reports: https://github.com/ropensci/taxizedb/issues
 checking tests ... ERROR
   Running ‘test-all.R’
 Running the tests in ‘tests/test-all.R’ failed.
-Last 13 lines of output:
-  1. Error: sql_collect works (@test-sql_collect.R#7) ----------------------------
-  The dbplyr package is required to communicate with database backends.
-  Please install it with `install.packages("dbplyr")`
-  1: dplyr::src_sqlite("irisdb.sqlite") at testthat/test-sql_collect.R:7
-  2: check_dbplyr() at /home/muelleki/git/R/dplyr/R/src_dbi.R:143
-  3: check_pkg("dbplyr", "communicate with database backends") at /home/muelleki/git/R/dplyr/R/compat-dbplyr.R:19
-  4: glubort(NULL, "The {name} package is required to {reason}.\n    Please install it with `install.packages(\"{name}\")`") at /home/muelleki/git/R/dplyr/R/error.R:5
-  5: .abort(text) at /home/muelleki/git/R/dplyr/R/error.R:50
+Complete output:
+  > library(testthat)
+  > test_check("taxizedb")
+  Loading required package: taxizedb
+  1. Failure: sql_collect works (@test-sql_collect.R#9) --------------------------
+  `src` inherits from `src_dbi/src_sql/src` not `src_sqlite`.
+  
   
   testthat results ================================================================
-  OK: 30 SKIPPED: 4 FAILED: 1
-  1. Error: sql_collect works (@test-sql_collect.R#7) 
+  OK: 34 SKIPPED: 4 FAILED: 1
+  1. Failure: sql_collect works (@test-sql_collect.R#9) 
   
   Error: testthat unit tests failed
   Execution halted
@@ -2620,34 +2381,6 @@ checking whether package ‘textmining’ can be installed ... WARNING
 Found the following significant warnings:
   Warning: no DISPLAY variable so Tk is not available
 See ‘/home/muelleki/git/R/dplyr/revdep/checks/textmining.Rcheck/00install.out’ for details.
-```
-
-## tibble (1.3.0)
-Maintainer: Kirill Müller <krlmlr+r@mailbox.org>  
-Bug reports: https://github.com/tidyverse/tibble/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  testthat results ================================================================
-  OK: 399 SKIPPED: 4 FAILED: 18
-  1. Failure: add_row() fails nicely for grouped data frames (#179) (@test-add.R#105) 
-  2. Failure: Can convert named atomic vectors to data frame (@test-data-frame.R#151) 
-  3. Failure: Can convert named atomic vectors to data frame (@test-data-frame.R#152) 
-  4. Failure: Can convert named atomic vectors to data frame (@test-data-frame.R#153) 
-  5. Failure: Can convert named atomic vectors to data frame (@test-data-frame.R#154) 
-  6. Failure: data frames equal to random permutations of themselves (@test-equality.R#16) 
-  7. Failure: data frames equal to random permutations of themselves (@test-equality.R#17) 
-  8. Error: data frames equal to random permutations of themselves (@test-equality.R#18) 
-  9. Failure: data frames not equal if missing row (@test-equality.R#24) 
-  1. ...
-  
-  Error: testthat unit tests failed
-  Execution halted
 ```
 
 ## tidyjson (0.2.2)
@@ -2792,7 +2525,7 @@ Error: object 'inaugCorpus' not found
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [10s/10s]
+  Running ‘testthat.R’
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   5: eval(expr, pf)
@@ -2959,7 +2692,7 @@ Error: Variable context not set
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [15s/15s]
+  Running ‘testthat.R’ [16s/15s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -3007,28 +2740,31 @@ checking installed package size ... NOTE
 ## vdmR (0.2.3)
 Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 
-1 error  | 0 warnings | 0 notes
+0 errors | 1 warning  | 0 notes
 
 ```
-checking tests ... ERROR
-  Running ‘run-all.R’
-Running the tests in ‘tests/run-all.R’ failed.
-Last 13 lines of output:
-  21: eval(exprs, env)
-  22: source_file(path, new.env(parent = env), chdir = TRUE)
-  23: force(code)
-  24: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
-  25: FUN(X[[i]], ...)
-  26: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
-  27: force(code)
-  28: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
-  29: test_files(paths, reporter = reporter, env = env, ...)
-  30: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
-  31: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
-  32: run_tests(package, test_path, filter, reporter, ...)
-  33: test_package("vdmR")
-  An irrecoverable exception occurred. R is aborting now ...
-  Segmentation fault (core dumped)
+checking re-building of vignette outputs ... WARNING
+Error in re-building vignettes:
+  ...
+ 7: vscat(MortalityRate, FertilityRate, vsfuk2012, "scat01", "vsfuk2012")
+ 8: eval(expr, envir, enclos)
+ 9: eval(expr, envir, enclos)
+10: withVisible(eval(expr, envir, enclos))
+11: withCallingHandlers(withVisible(eval(expr, envir, enclos)), warning = wHandler,     error = eHandler, message = mHandler)
+12: handle(ev <- withCallingHandlers(withVisible(eval(expr, envir,     enclos)), warning = wHandler, error = eHandler, message = mHandler))
+13: timing_fn(handle(ev <- withCallingHandlers(withVisible(eval(expr,     envir, enclos)), warning = wHandler, error = eHandler, message = mHandler)))
+... 8 lines ...
+21: withCallingHandlers(if (tangle) process_tangle(group) else process_group(group),     error = function(e) {        setwd(wd)        cat(res, sep = "\n", file = output %n% "")        message("Quitting from lines ", paste(current_lines(i),             collapse = "-"), " (", knit_concord$get("infile"),             ") ")    })
+22: process_file(text, output)
+23: (if (grepl("\\.[Rr]md$", file)) knit2html_v1 else if (grepl("\\.[Rr]rst$",     file)) knit2pdf else knit)(file, encoding = encoding, quiet = quiet,     envir = globalenv())
+24: engine$weave(file, quiet = quiet, encoding = enc)
+25: doTryCatch(return(expr), name, parentenv, handler)
+26: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+27: tryCatchList(expr, classes, parentenv, handlers)
+28: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
+29: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/vdmR.Rcheck/vign_test/vdmR")
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
 ```
 
 ## VWPre (0.9.5)
@@ -3061,21 +2797,54 @@ object 'talker' not found
 Execution halted
 ```
 
-## wordbankr (0.2.0)
-Maintainer: Mika Braginsky <mika.br@gmail.com>  
-Bug reports: http://github.com/langcog/wordbankr/issues
+## WHO (0.2)
+Maintainer: Eric Persson <expersso5@gmail.com>  
+Bug reports: https://www.github.com/expersso/WHO/issues
 
-0 errors | 1 warning  | 0 notes
+2 errors | 1 warning  | 0 notes
 
 ```
+checking examples ... ERROR
+Running examples in ‘WHO-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: get_codes
+> ### Title: Get all codes and metadata for WHO series
+> ### Aliases: get_codes
+> 
+> ### ** Examples
+> 
+> codes <- get_codes()
+Error in get_result(url) : Bad Gateway (HTTP 502).
+Calls: get_codes -> get_result -> <Anonymous>
+Execution halted
+
+checking tests ... ERROR
+  Running ‘testthat.R’ [0m/73m]
+Running the tests in ‘tests/testthat.R’ failed.
+Complete output:
+  > library(testthat)
+  > library(WHO)
+  > 
+  > test_check("WHO")
+  Terminated
+
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
   ...
-Quitting from lines 27-31 (wordbankr.Rmd) 
-Error: processing vignette 'wordbankr.Rmd' failed with diagnostics:
-The dbplyr package is required to communicate with database backends.
-Please install it with `install.packages("dbplyr")`
-Execution halted
+
+Attaching package: 'dplyr'
+
+The following objects are masked from 'package:stats':
+
+    filter, lag
+
+The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union
+
+Terminated
 
 ```
 
@@ -3116,33 +2885,5 @@ It is good practice to register native routines and to disable symbol
 search.
 
 See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
-```
-
-## WufooR (0.6.2)
-Maintainer: John Malc <cincenko@outlook.com>  
-Bug reports: https://github.com/dmpe/wufoor/issues
-
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  19: eval(exprs, env)
-  20: source_file(path, new.env(parent = env), chdir = TRUE)
-  21: force(code)
-  22: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
-  23: FUN(X[[i]], ...)
-  24: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
-  25: force(code)
-  26: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
-  27: test_files(paths, reporter = reporter, env = env, ...)
-  28: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
-  29: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
-  30: run_tests(package, test_path, filter, reporter, ...)
-  31: test_check("WufooR")
-  An irrecoverable exception occurred. R is aborting now ...
-  Segmentation fault (core dumped)
 ```
 
