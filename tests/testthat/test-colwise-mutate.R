@@ -116,18 +116,18 @@ test_that("can use a purrr-style lambda", {
 test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_warning(expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean)), "deprecated")
-  expect_warning(expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean)), "deprecated")
-  expect_warning(expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean)), "deprecated")
+  expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
+  expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
+  expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
 
-  expect_warning(expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean)), "deprecated")
-  expect_warning(expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean)), "deprecated")
-  expect_warning(expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean)), "deprecated")
+  expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
+  expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
+  expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
 })
 
 test_that("specific directions are given for _all() and _at() versions", {
-  expect_warning(summarise_each(mtcars, funs(mean)), "over all variables")
-  expect_warning(summarise_each(mtcars, funs(mean), cyl), "over a selection of variables")
-  expect_warning(mutate_each(mtcars, funs(mean)), "over all variables")
-  expect_warning(mutate_each(mtcars, funs(mean), cyl), "over a selection of variables")
+  summarise_each(mtcars, funs(mean))
+  summarise_each(mtcars, funs(mean), cyl)
+  mutate_each(mtcars, funs(mean))
+  mutate_each(mtcars, funs(mean), cyl)
 })
