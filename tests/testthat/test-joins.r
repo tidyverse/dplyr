@@ -865,3 +865,25 @@ test_that("join takes LHS with warning if attributes inconsistent", {
   expect_equal(attr(out1$a, "foo"), NULL)
   expect_equal(attr(out2$a, "foo"), "bar")
 })
+
+test_that("common_by() message", {
+  df <- tibble(!!! set_names(letters, letters))
+
+  expect_message(
+    left_join(df, df %>% select(1)),
+    'Joining, by = "a"',
+    fixed = TRUE
+  )
+
+  expect_message(
+    left_join(df, df %>% select(1:3)),
+    'Joining, by = c("a", "b", "c")',
+    fixed = TRUE
+  )
+
+  expect_message(
+    left_join(df, df),
+    paste0("Joining, by = c(", paste0('"', letters, '"', collapse = ", "), ")"),
+    fixed = TRUE
+  )
+})
