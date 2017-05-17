@@ -1,5 +1,3 @@
-methods::setOldClass(c("grouped_df", "tbl_df", "data.frame"))
-
 # Grouping methods ------------------------------------------------------------
 
 #' Convert row names to an explicit variable.
