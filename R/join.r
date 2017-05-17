@@ -166,12 +166,22 @@ common_by.NULL <- function(by, x, y) {
   if (length(by) == 0) {
     bad_args("by", "required, because the data sources have no common variables")
   }
-  inform(paste0("Joining, by = ", utils::capture.output(dput(by))))
+  inform(auto_by_msg(by))
 
   list(
     x = by,
     y = by
   )
+}
+
+auto_by_msg <- function(by) {
+  by_quoted <- encodeString(by, quote = '"')
+  if (length(by_quoted) == 1L) {
+    by_code <- by_quoted
+  } else {
+    by_code <- paste0("c(", paste(by_quoted, collapse = ", "), ")")
+  }
+  paste0("Joining, by = ", by_code)
 }
 
 #' @export
