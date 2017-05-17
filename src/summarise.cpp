@@ -33,7 +33,7 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
 }
 
 template <typename Data, typename Subsets>
-SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   Data gdf(df);
 
   int nexpr = dots.size();
@@ -113,7 +113,7 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 }
 
 
-SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
+DataFrame summarise_not_grouped(DataFrame df, const QuosureList& dots) {
   int nexpr = dots.size();
   if (nexpr == 0) return DataFrame();
 

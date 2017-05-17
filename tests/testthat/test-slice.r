@@ -107,3 +107,9 @@ test_that("slice works with zero-column data frames (#2490)", {
     1L
   )
 })
+
+test_that("slice works under gctorture2", {
+  x <- tibble(y = 1:10)
+  with_gctorture2(999, x2 <- slice(x, 1:10))
+  expect_identical(x, x2)
+})
