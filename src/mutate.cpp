@@ -61,7 +61,7 @@ SEXP validate_unquoted_value(SEXP value, int nrows, SymbolString& name) {
   return value;
 }
 
-SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
+DataFrame mutate_not_grouped(DataFrame df, const QuosureList& dots) {
   const int nexpr = dots.size();
   const int nrows = df.nrows();
 
@@ -130,7 +130,7 @@ SEXP mutate_not_grouped(DataFrame df, const QuosureList& dots) {
 }
 
 template <typename Data, typename Subsets>
-SEXP mutate_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE << "checking zero rows";
 
   // special 0 rows case
