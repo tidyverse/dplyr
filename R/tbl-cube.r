@@ -242,7 +242,7 @@ guess_met <- function(df) {
     met <- names(df)[is_num]
   }
 
-  message("Using ", paste(met, collapse = ", "), " as measure column(s): use met_name to override.")
+  inform(paste0("Using ", paste(met, collapse = ", "), " as measure column(s): use `met_name` to override."))
   met
 }
 
