@@ -54,7 +54,7 @@ private:
   int n_neg;
 };
 
-SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
+RObject slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
   typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
 
   const DataFrame& data = gdf.data();
@@ -123,7 +123,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
 
 }
 
-SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
+RObject slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   CharacterVector names = df.names();
 
   const NamedQuosure& quosure = dots[0];
