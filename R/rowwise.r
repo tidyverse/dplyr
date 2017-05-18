@@ -7,7 +7,7 @@
 #' Currently, rowwise grouping only works with data frames. Its
 #' main impact is to allow you to work with list-variables in
 #' [summarise()] and [mutate()] without having to
-#' use `[[1]]`. This makes `summarise()` on a rowwise tbl
+#' use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
 #' effectively equivalent to [plyr::ldply()].
 #'
 #' @param data Input data frame.
