@@ -1,7 +1,7 @@
 context("select-helpers")
 
-test_that("no set variables throws error", {
-  expect_error(
+test_that("no set variables throws warning", {
+  expect_warning(
     starts_with("z"),
     "Variable context not set",
     fixed = TRUE

@@ -43,7 +43,7 @@ set_current_vars <- function(x) {
 #' @export
 #' @rdname select_helpers
 current_vars <- function() {
-  cur_vars_env$selected %||% abort("Variable context not set")
+  cur_vars_env$selected %||% warn("Variable context not set")
 }
 
 #' @export
