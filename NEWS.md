@@ -1,4 +1,4 @@
-# dplyr 0.5.0.9000
+# dplyr 0.6.0
 
 ## New data, functions, and features
 
@@ -41,7 +41,8 @@
   print a message which will be changed to a warning in the next release.
 
 * The `.env` argument to `sample_n()` and `sample_frac()` is defunct,
-  passing a value to this argument print a message which will be changed to a warning in the next release.
+  passing a value to this argument print a message which will be changed to a 
+  warning in the next release.
 
 ## Databases
 

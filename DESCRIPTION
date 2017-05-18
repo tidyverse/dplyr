@@ -1,16 +1,19 @@
 Type: Package
 Package: dplyr
-Version: 0.5.0.9005
+Version: 0.6.0
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
     person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
+    person("Lionel", "Henry", role = "aut"),
+    person("Kirill", "Müller", role = "aut"),
     person("RStudio", role = c("cph", "fnd"))
     )
 URL: http://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
-BugReports: https://github.com/hadley/tidyverse/issues
+BugReports: https://github.com/tidyverse/dplyr/issues
+Encoding: UTF-8
 Depends: 
     R (>= 3.1.2)
 Imports: 
@@ -23,7 +26,7 @@ Imports:
     rlang (>= 0.1),
     R6,
     Rcpp (>= 0.12.6),
-    tibble (>= 1.3.0.9008),
+    tibble (>= 1.3.1),
     utils
 Suggests: 
     bit64,
@@ -53,7 +56,3 @@ LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
-Remotes:
-    hadley/dbplyr,
-    tidyverse/rlang@684221aff2f,
-    tidyverse/tibble

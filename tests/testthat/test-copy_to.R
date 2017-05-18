@@ -32,7 +32,7 @@ test_that("src_local errs with pkg/env", {
 })
 
 test_that("auto_copy() requires same source", {
-  requireNamespace("dbplyr")
+  skip_if_not_installed("dbplyr")
 
   env <- new.env(parent = emptyenv())
   env$iris <- iris
@@ -55,6 +55,8 @@ test_that("auto_copy() requires same source", {
 })
 
 test_that("src_sqlite() errs if path does not exist", {
+  skip_if_not_installed("dbplyr")
+
   expect_error(
     src_sqlite(":memory:"),
     "`path` must not already exist, unless `create` = TRUE",

@@ -69,7 +69,7 @@ Almost all database related code has been moved out of dplyr and into a new pack
 
 Depending on what generics you use, and what generics you provide methods for you, you may need to write some conditional code. To help make this easier we've written `wrap_dbplyr_obj()` which will write the helper code for you:
 
-```{r}
+```{r, eval = FALSE}
 wrap_dbplyr_obj("build_sql")
 
 wrap_dbplyr_obj("base_agg")

@@ -60,6 +60,8 @@ Useful links:
 Authors:
 \itemize{
   \item Romain Francois \email{romain@r-enthusiasts.com}
+  \item Lionel Henry
+  \item Kirill Müller
 }
 
 Other contributors:
