@@ -10,7 +10,7 @@
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |tz       |Zulu                         |
-|date     |2017-05-17                   |
+|date     |2017-05-18                   |
 
 ## Packages
 
@@ -23,7 +23,7 @@
 |covr           |   |2.2.2      |2017-01-05 |cran (@2.2.2)                     |
 |DBI            |   |0.6-13     |2017-05-08 |Github (rstats-db/DBI@f6500a5)    |
 |dbplyr         |   |0.0.0.9001 |2017-05-17 |Github (hadley/dbplyr@3258b03)    |
-|dplyr          |   |0.5.0.9005 |2017-05-17 |Github (tidyverse/dplyr@496d777)  |
+|dplyr          |   |0.5.0.9005 |2017-05-17 |local (tidyverse/dplyr@NA)        |
 |dtplyr         |   |0.0.2      |2017-04-21 |cran (@0.0.2)                     |
 |ggplot2        |   |2.2.1      |2016-12-30 |cran (@2.2.1)                     |
 |glue           |   |1.0.0      |2017-05-15 |Github (tidyverse/glue@41a5cff)   |
@@ -80,7 +80,7 @@
 |backtestGraphics       |0.1.6     |      1|        0|     0|
 |bannerCommenter        |0.1.0     |      0|        0|     0|
 |bayesGDS               |0.6.2     |      0|        0|     0|
-|bayesplot              |1.2.0     |      0|        1|     1|
+|bayesplot              |1.2.0     |      0|        0|     1|
 |bib2df                 |0.1.1     |      0|        0|     0|
 |bigrquery              |0.3.0     |      1|        0|     0|
 |binford                |0.1.0     |      0|        0|     0|
@@ -171,7 +171,7 @@
 |dotwhisker             |0.2.6     |      0|        0|     0|
 |dtplyr                 |0.0.2     |      0|        0|     0|
 |eAnalytics             |0.1.3     |      0|        0|     0|
-|easyformatr            |0.1.2     |      2|        1|     0|
+|easyformatr            |0.1.2     |      0|        0|     0|
 |ecb                    |0.2       |      0|        0|     0|
 |ecoengine              |1.10.0    |      1|        0|     0|
 |edeaR                  |0.5.0     |      0|        0|     0|
@@ -309,10 +309,10 @@
 |internetarchive        |0.1.6     |      0|        0|     0|
 |interplot              |0.1.5     |      0|        0|     0|
 |ipft                   |0.6       |      0|        0|     0|
-|IRISMustangMetrics     |2.0.4     |      1|        0|     0|
+|IRISMustangMetrics     |2.0.4     |      0|        0|     0|
 |JacobiEigen            |0.2-2     |      0|        0|     1|
 |janeaustenr            |0.1.4     |      0|        0|     0|
-|janitor                |0.3.0     |      1|        0|     0|
+|janitor                |0.3.0     |      0|        0|     0|
 |jpmesh                 |0.3.0     |      0|        0|     1|
 |kntnr                  |0.4.0     |      0|        0|     0|
 |kokudosuuchi           |0.2.0     |      0|        0|     0|
@@ -427,7 +427,7 @@
 |plotrr                 |0.2.0     |      0|        0|     0|
 |pmc                    |1.0.2     |      0|        0|     0|
 |PogromcyDanych         |1.5       |      0|        0|     1|
-|poio                   |0.0-3     |      1|        0|     1|
+|poio                   |0.0-3     |      0|        0|     1|
 |pollen                 |0.52.00   |      0|        0|     0|
 |PopED                  |0.3.2     |      0|        0|     1|
 |poplite                |0.99.17.3 |      0|        0|     0|
@@ -526,7 +526,7 @@
 |ShinyTester            |0.1.0     |      0|        0|     0|
 |SIBER                  |2.1.3     |      0|        0|     0|
 |sicegar                |0.1       |      0|        0|     0|
-|sidrar                 |0.1.1     |      0|        1|     0|
+|sidrar                 |0.1.1     |      0|        0|     0|
 |SimDesign              |1.6       |      0|        0|     0|
 |simmer.plot            |0.1.9     |      0|        0|     0|
 |simmer                 |3.6.1     |      0|        0|     1|
@@ -565,7 +565,7 @@
 |surveybootstrap        |0.0.1     |      0|        0|     1|
 |survminer              |0.3.1     |      0|        0|     1|
 |survutils              |1.0.0     |      0|        0|     0|
-|SWMPr                  |2.2.0     |      0|        0|     0|
+|SWMPr                  |2.2.0     |      1|        0|     0|
 |taber                  |0.1.0     |      0|        0|     0|
 |tadaatoolbox           |0.11.0    |      0|        0|     0|
 |tatoo                  |1.0.5     |      1|        0|     0|
@@ -612,7 +612,7 @@
 |valaddin               |0.1.0     |      0|        0|     0|
 |valr                   |0.2.0     |      2|        1|     1|
 |vcfR                   |1.4.0     |      0|        0|     2|
-|vdmR                   |0.2.3     |      0|        1|     0|
+|vdmR                   |0.2.3     |      0|        0|     0|
 |VIM                    |4.7.0     |      0|        0|     1|
 |vkR                    |0.1       |      0|        0|     0|
 |vqtl                   |1.0       |      0|        0|     0|
@@ -623,7 +623,7 @@
 |wand                   |0.2.0     |      0|        0|     1|
 |wec                    |0.4       |      0|        0|     0|
 |wfindr                 |0.1.0     |      0|        0|     0|
-|WHO                    |0.2       |      2|        1|     0|
+|WHO                    |0.2       |      0|        0|     0|
 |WikidataQueryServiceR  |0.1.1     |      0|        0|     0|
 |wikipediatrend         |1.1.10    |      0|        0|     1|
 |wordbankr              |0.2.0     |      0|        0|     0|
@@ -936,31 +936,9 @@ Maintainer: Michael Braun <braunm@smu.edu>
 Maintainer: Jonah Gabry <jsg2201@columbia.edu>  
 Bug reports: https://github.com/stan-dev/bayesplot/issues/
 
-0 errors | 1 warning  | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
- *** caught segfault ***
-address 0x6e6920, cause 'memory not mapped'
-
-Traceback:
- 1: process_file(text, output)
- 2: knitr::knit(knit_input, knit_output, envir = envir, quiet = quiet,     encoding = encoding)
- 3: rmarkdown::render(file, encoding = encoding, quiet = quiet, envir = globalenv())
- 4: vweave_rmarkdown(...)
- 5: engine$weave(file, quiet = quiet, encoding = enc)
- 6: doTryCatch(return(expr), name, parentenv, handler)
- 7: tryCatchOne(expr, names, parentenv, handlers[[1L]])
- 8: tryCatchList(expr, classes, parentenv, handlers)
- 9: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
-10: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/bayesplot.Rcheck/vign_test/bayesplot")
-An irrecoverable exception occurred. R is aborting now ...
-Segmentation fault (core dumped)
-
-
 checking installed package size ... NOTE
   installed size is  5.0Mb
   sub-directories of 1Mb or more:
@@ -1209,10 +1187,10 @@ Last 13 lines of output:
   18: function_list[[i]](value) at /tmp/RtmpT6Czo8/R.INSTALL13c163d710cb/magrittr/R/freduce.R:17
   19: dplyr::mutate_each_(., dplyr::funs(as.character), dplyr::everything())
   20: is_empty(vars) at /home/muelleki/git/R/dplyr/R/colwise-mutate.R:251
-  21: dplyr::everything() at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/types.R:240
+  21: dplyr::everything() at /tmp/RtmpDyFYig/devtoolsaf16b75b67f/tidyverse-rlang-684221a/R/types.R:240
   22: current_vars() at /home/muelleki/git/R/dplyr/R/select-utils.R:129
   23: cur_vars_env$selected %||% abort("Variable context not set") at /home/muelleki/git/R/dplyr/R/select-utils.R:46
-  24: abort("Variable context not set") at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/operators.R:14
+  24: abort("Variable context not set") at /tmp/RtmpDyFYig/devtoolsaf16b75b67f/tidyverse-rlang-684221a/R/operators.R:14
   
   testthat results ================================================================
   OK: 19 SKIPPED: 0 FAILED: 1
@@ -1593,7 +1571,7 @@ Bug reports: https://github.com/wahani/dat/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [44s/44s]
+  Running ‘testthat.R’ [44s/45s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1715,7 +1693,7 @@ Bug reports: https://github.com/paulhendricks/describer/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [112s/111s]
+  Running ‘testthat.R’ [113s/115s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1858,64 +1836,7 @@ Bug reports: https://github.com/paulgovan/eanalytics/issues
 Maintainer: Brandon Taylor <brandon.taylor221@gmail.com>  
 Bug reports: https://github.com/bramtayl/easyformatr/issues
 
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘easyformatr-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: easy_format
-> ### Title: Easily build format strings
-> ### Aliases: easy_format
-> 
-> ### ** Examples
-> 
-> easy_format(year, month, day, integer, octal, double)
-Error: Condition message must be a string
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  42: dplyr::left_join(., time_info)
-  43: left_join.tbl_df(., time_info) at /home/muelleki/git/R/dplyr/R/join.r:94
-  44: common_by(by, x, y) at /home/muelleki/git/R/dplyr/R/tbl-df.r:168
-  45: common_by.NULL(by, x, y) at /home/muelleki/git/R/dplyr/R/join.r:125
-  46: inform(paste0("Joining, by = ", utils::capture.output(dput(by)))) at /home/muelleki/git/R/dplyr/R/join.r:169
-  47: cnd_message(type, .msg = msg, .call = sys.call(-1)) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:288
-  48: new_cnd(c(.type, "message"), ..., .msg = .msg) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:71
-  49: stop("Condition message must be a string", call. = FALSE) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:51
-  
-  testthat results ================================================================
-  OK: 7 SKIPPED: 0 FAILED: 1
-  1. Error: easy_format (@test.R#48) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Quitting from lines 39-40 (easyformatr.Rmd) 
-Error: processing vignette 'easyformatr.Rmd' failed with diagnostics:
-Condition message must be a string
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## ecb (0.2)
 Maintainer: Eric Persson <expersso5@gmail.com>
@@ -2032,12 +1953,12 @@ The error most likely occurred in:
 > 
 > ### ** Examples
 ... 6 lines ...
-17 Mai 19:25    Test set test_fraction 1 of 3 (0.7)
-17 Mai 19:25      Evaluating modeling performance...
-17 Mai 19:25    Test set test_fraction 2 of 3 (0.5)
-17 Mai 19:25      Evaluating modeling performance...
-17 Mai 19:25    Test set test_fraction 3 of 3 (0.3)
-17 Mai 19:25      Evaluating modeling performance...
+17 Mai 22:56    Test set test_fraction 1 of 3 (0.7)
+17 Mai 22:56      Evaluating modeling performance...
+17 Mai 22:56    Test set test_fraction 2 of 3 (0.5)
+17 Mai 22:56      Evaluating modeling performance...
+17 Mai 22:56    Test set test_fraction 3 of 3 (0.3)
+17 Mai 22:56      Evaluating modeling performance...
 > plot(lc)
 Error in select.list(., test_fraction = TRUE, fold = TRUE, method = TRUE,  : 
   unused arguments (test_fraction = TRUE, fold = TRUE, method = TRUE, performance = "error")
@@ -2114,9 +2035,9 @@ Last 13 lines of output:
   downloaded 12 KB
   
   trying URL 'http://www.nytimes.com'
-  Content type 'text/html; charset=utf-8' length 213944 bytes (208 KB)
+  Content type 'text/html; charset=utf-8' length 219529 bytes (214 KB)
   ==================================================
-  downloaded 208 KB
+  downloaded 214 KB
   
   testthat results ================================================================
   OK: 15 SKIPPED: 0 FAILED: 3
@@ -2211,7 +2132,7 @@ Calls: make_time_cluster_data ... make_time_cluster_data.time_sequence_data -> d
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [99m/98m]
+  Running ‘testthat.R’ [99m/100m]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   Computing t.test for each time bin...
@@ -2732,10 +2653,10 @@ Error: `x` must be a vector, not a ts object, do you want `stats::lag()`?
 Execution halted
 
 checking tests ... ERROR
-  Running ‘test-all.R’ [51s/52s]
+  Running ‘test-all.R’ [47s/49s]
 Running the tests in ‘tests/test-all.R’ failed.
 Last 13 lines of output:
-  8: eval_bare(dot$expr, dot$env) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/dots.R:91
+  8: eval_bare(dot$expr, dot$env) at /tmp/RtmpDyFYig/devtoolsaf16b75b67f/tidyverse-rlang-684221a/R/dots.R:91
   9: lapply(seq(1:lags), .lag)
   10: FUN(X[[i]], ...)
   11: as.vector(lag(ts, k))
@@ -2961,7 +2882,7 @@ Bug reports: http://github.com/ropenscilabs/gutenbergr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [6s/18s]
+  Running ‘testthat.R’ [6s/17s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   > library(testthat)
@@ -3099,24 +3020,24 @@ Bug reports: https://github.com/hughjonesd/huxtable/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [11s/12s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
-  21: eval(exprs, env)
-  22: source_file(path, new.env(parent = env), chdir = TRUE)
-  23: force(code)
-  24: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
-  25: FUN(X[[i]], ...)
-  26: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
-  27: force(code)
-  28: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
-  29: test_files(paths, reporter = reporter, env = env, ...)
-  30: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
-  31: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
-  32: run_tests(package, test_path, filter, reporter, ...)
-  33: test_check("huxtable")
-  An irrecoverable exception occurred. R is aborting now ...
-  Segmentation fault (core dumped)
+  4: withCallingHandlers(withVisible(code), warning = handle_warning, message = handle_message) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
+  5: withVisible(code) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
+  6: rmarkdown::render("rowheight-multicol-test.Rmd", quiet = TRUE) at /tmp/Rtmpf6YF8j/devtools1eed5a0addc9/testthat/R/evaluate-promise.R:42
+  7: convert(output_file, run_citeproc) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/render.R:655
+  8: pandoc_convert(utf8_input, pandoc_to, output_format$pandoc$from, output, citeproc, 
+         output_format$pandoc$args, !quiet) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/render.R:585
+  9: stop("pandoc document conversion failed with error ", result, call. = FALSE) at /tmp/Rtmp2UybSq/devtoolsc0a2aa8de4c/rmarkdown/R/pandoc.R:100
+  
+  testthat results ================================================================
+  OK: 200 SKIPPED: 14 FAILED: 2
+  1. Error: slice, filter and arrange work (@test-dplyr.R#24) 
+  2. Error: Row heights do not screw up latex multicol (@test-with-pandoc.R#20) 
+  
+  Error: testthat unit tests failed
+  Execution halted
 
 checking re-building of vignette outputs ... WARNING
 Error in re-building vignettes:
@@ -3236,8 +3157,8 @@ Last 13 lines of output:
   dplyr::filter(testdata, persnr == 198505043334) inherits from `tbl_df/tbl/data.frame` not `incadata`.
   
   
-  Using tempfile: /tmp/Rtmp8XJyT2/ex_data4eb226fce932.csv2
-  [1] "ex_data4eb226fce932.csv2"
+  Using tempfile: /tmp/RtmputmqbK/ex_data435721dd0f50.csv2
+  [1] "ex_data435721dd0f50.csv2"
   file size: 1103 kb
   testthat results ================================================================
   OK: 40 SKIPPED: 0 FAILED: 1
@@ -3319,32 +3240,7 @@ Maintainer: Emilio Sansano <esansano@uji.es>
 ## IRISMustangMetrics (2.0.4)
 Maintainer: Gillian Sharer <gillian@iris.washington.edu>
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘IRISMustangMetrics-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: getGeneralValueMetrics
-> ### Title: Retrieve measurements from the MUSTANG BSS
-> ### Aliases: getGeneralValueMetrics
-> ###   getGeneralValueMetrics,IrisClient,character,character,character,character,POSIXct,POSIXct,character,character,character-method
-> ###   getGeneralValueMetrics,IrisClient,character,character,character,character,POSIXct,POSIXct,character,character,missing-method
-... 9 lines ...
-> 
-> starttime <- as.POSIXct("2016-08-01", tz="GMT")
-> endtime <- starttime + 30*24*3600
-> metricName <- "sample_max,sample_mean,orientation_check"
-> 
-> # Get the measurement dataframe
-> juneStats <- getGeneralValueMetrics(iris,"IU","ANMO","","BH[12Z]",
-+                                         starttime,endtime,metricName)
-URL = http://service.iris.edu/mustang/measurements/1/query?net=IU&sta=ANMO&cha=BH[12Z]&timewindow=2016-08-01T00:00:00,2016-08-31T00:00:00&format=text&metric=sample_max,sample_mean,orientation_check&nodata=404
-Error: Condition message must be a string
-Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## JacobiEigen (0.2-2)
 Maintainer: Bill Venables <Bill.Venables@gmail.com>
@@ -3372,29 +3268,7 @@ Bug reports: https://github.com/juliasilge/janeaustenr/issues
 Maintainer: Sam Firke <samuel.firke@gmail.com>  
 Bug reports: https://github.com/sfirke/janitor/issues
 
-1 error  | 0 warnings | 0 notes
-
-```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  17: common_by(by, x, y) at /home/muelleki/git/R/dplyr/R/tbl-df.r:155
-  18: common_by.NULL(by, x, y) at /home/muelleki/git/R/dplyr/R/join.r:125
-  19: inform(paste0("Joining, by = ", utils::capture.output(dput(by)))) at /home/muelleki/git/R/dplyr/R/join.r:169
-  20: cnd_message(type, .msg = msg, .call = sys.call(-1)) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:288
-  21: new_cnd(c(.type, "message"), ..., .msg = .msg) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:71
-  22: stop("Condition message must be a string", call. = FALSE) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:51
-  
-  testthat results ================================================================
-  OK: 228 SKIPPED: 0 FAILED: 3
-  1. Error: calling with no specified variable names uses all variable names (@test-get-dupes.R#16) 
-  2. Error: instances of no dupes throw correct messages, return empty df (@test-get-dupes.R#24) 
-  3. Error: works on variables with irregular names (@test-get-dupes.R#36) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-```
+0 errors | 0 warnings | 0 notes
 
 ## jpmesh (0.3.0)
 Maintainer: Shinya Uryu <suika1127@gmail.com>  
@@ -3914,7 +3788,7 @@ Error: 'src_sql' is not an exported object from 'namespace:dplyr'
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [18s/46s]
+  Running ‘testthat.R’ [17s/43s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -4069,7 +3943,7 @@ Bug reports: https://github.com/HajkD/myTAI/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [56s/56s]
+  Running ‘testthat.R’ [52s/53s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   
@@ -4320,7 +4194,7 @@ Error: file.exists(src) is not TRUE
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [188s/187s]
+  Running ‘testthat.R’ [192s/195s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   8: function_list[[k]](value) at /tmp/RtmpT6Czo8/R.INSTALL13c163d710cb/magrittr/R/freduce.R:20
@@ -4414,7 +4288,7 @@ Bug reports: https://github.com/EdwinTh/padr/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [121s/121s]
+  Running ‘testthat.R’ [124s/126s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -4559,7 +4433,7 @@ Bug reports: https://github.com/cbailiss/pivottabler/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [59s/58s]
+  Running ‘testthat.R’ [56s/57s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   x[1]: 17</th>\n    <th class=\"ColumnHeader\" colspan=\"4\">Februar 2017</th>\n 
@@ -4646,29 +4520,9 @@ checking installed package size ... NOTE
 Maintainer: Richard Cotton <richierocks@gmail.com>  
 Bug reports: https://github.com/RL10N/poio/issues
 
-1 error  | 0 warnings | 1 note 
+0 errors | 0 warnings | 1 note 
 
 ```
-checking tests ... ERROR
-  Running ‘testthat.R’
-Running the tests in ‘tests/testthat.R’ failed.
-Last 13 lines of output:
-  9: new_cnd(c(.type, "message"), ..., .msg = .msg) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:71
-  10: stop("Condition message must be a string", call. = FALSE) at /tmp/RtmpuKqhSl/devtools120b12bfcaba/tidyverse-rlang-684221a/R/cnd.R:51
-  
-  testthat results ================================================================
-  OK: 46 SKIPPED: 0 FAILED: 7
-  1. Error: read_po works on an empty POT file (@test-empty.R#50) 
-  2. Error: fix_metadata works on an empty pot file (@test-empty.R#106) 
-  3. Error: fix_metadata works with user-specified metadata (@test-empty.R#172) 
-  4. Error: generate_po_from_pot can convert empty pot file to po file (@test-empty.R#237) 
-  5. Error: read_po works on a complicated POT file (@test-summerof69.R#110) 
-  6. Error: fix_metadata works on a complicated POT file (@test-summerof69.R#226) 
-  7. Error: generate_po_from_pot can convert complicated pot file to po file (@test-summerof69.R#369) 
-  
-  Error: testthat unit tests failed
-  Execution halted
-
 checking Rd cross-references ... NOTE
 Package unavailable to check Rd xrefs: ‘ISOcodes’
 ```
@@ -4735,7 +4589,7 @@ Maintainer: Sean Taylor <sjt@fb.com>
 checking installed package size ... NOTE
   installed size is 20.9Mb
   sub-directories of 1Mb or more:
-    libs  19.7Mb
+    libs  19.8Mb
 ```
 
 ## ptstem (0.0.3)
@@ -4932,7 +4786,7 @@ checking installed package size ... NOTE
 
 checking dependencies in R code ... NOTE
 
-(R:16085): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+(R:13902): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
 ```
 
 ## raw (0.1.4)
@@ -5557,29 +5411,7 @@ Bug reports: https://github.com/wilkelab/sicegar/issues
 Maintainer: Renato Prado Siqueira <rpradosiqueira@gmail.com>  
 Bug reports: http://github.com/rpradosiqueira/sidrar/issues
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Quitting from lines 147-148 (Introduction_to_sidrar.Rmd) 
-Error: processing vignette 'Introduction_to_sidrar.Rmd' failed with diagnostics:
-Timeout was reached
-Execution halted
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## SimDesign (1.6)
 Maintainer: Phil Chalmers <rphilip.chalmers@gmail.com>
@@ -6105,7 +5937,32 @@ Bug reports: https://github.com/tinyheero/survutils/issues
 Maintainer: Marcus W. Beck <mbafs2012@gmail.com>  
 Bug reports: http://github.com/fawda123/SWMPr/issues
 
-0 errors | 0 warnings | 0 notes
+1 error  | 0 warnings | 0 notes
+
+```
+checking examples ... ERROR
+Running examples in ‘SWMPr-Ex.R’ failed
+The error most likely occurred in:
+
+> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
+> ### Name: plot_summary
+> ### Title: Plot graphical summaries of SWMP data
+> ### Aliases: plot_summary plot_summary.swmpr
+> 
+> ### ** Examples
+... 10 lines ...
+address (nil), cause 'unknown'
+
+Traceback:
+ 1: arrangeGrob(...)
+ 2: gridExtra::grid.arrange(arrangeGrob(p1, p2, ncol = 1), p3, arrangeGrob(p4,     p5, p6, ncol = 1, heights = c(1, 1, 0.8)), ncol = 3, widths = c(1,     0.5, 1))
+ 3: withCallingHandlers(expr, warning = function(w) invokeRestart("muffleWarning"))
+ 4: suppressWarnings(gridExtra::grid.arrange(arrangeGrob(p1, p2,     ncol = 1), p3, arrangeGrob(p4, p5, p6, ncol = 1, heights = c(1,     1, 0.8)), ncol = 3, widths = c(1, 0.5, 1)))
+ 5: plot_summary.swmpr(dat, param = "chla_n", years = c(2007, 2013))
+ 6: plot_summary(dat, param = "chla_n", years = c(2007, 2013))
+An irrecoverable exception occurred. R is aborting now ...
+Segmentation fault (core dumped)
+```
 
 ## taber (0.1.0)
 Maintainer: Seth Wenchel <seth@wenchel.com>  
@@ -6404,7 +6261,7 @@ Calls: %>% ... <Anonymous> -> do.call -> getSymbols.yahoo -> download.file
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [3s/12s]
+  Running ‘testthat.R’ [2s/12s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
       As of 0.4-0, 'getSymbols' uses env=parent.frame() and
@@ -6497,7 +6354,7 @@ Error: object 'inaugCorpus' not found
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’
+  Running ‘testthat.R’ [11s/11s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   5: eval(expr, pf)
@@ -6572,7 +6429,7 @@ Bug reports: https://github.com/business-science/timekit/issues
 
 ```
 checking tests ... ERROR
-  Running ‘testthat.R’ [6s/15s]
+  Running ‘testthat.R’ [5s/15s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
       as_tibble
@@ -6805,7 +6662,7 @@ Error: Variable context not set
 Execution halted
 
 checking tests ... ERROR
-  Running ‘testthat.R’ [16s/15s]
+  Running ‘testthat.R’ [15s/16s]
 Running the tests in ‘tests/testthat.R’ failed.
 Last 13 lines of output:
   testthat results ================================================================
@@ -6875,32 +6732,7 @@ See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
 ## vdmR (0.2.3)
 Maintainer: Tomokazu Fujino <fujino@fwu.ac.jp>
 
-0 errors | 1 warning  | 0 notes
-
-```
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
- 7: vscat(MortalityRate, FertilityRate, vsfuk2012, "scat01", "vsfuk2012")
- 8: eval(expr, envir, enclos)
- 9: eval(expr, envir, enclos)
-10: withVisible(eval(expr, envir, enclos))
-11: withCallingHandlers(withVisible(eval(expr, envir, enclos)), warning = wHandler,     error = eHandler, message = mHandler)
-12: handle(ev <- withCallingHandlers(withVisible(eval(expr, envir,     enclos)), warning = wHandler, error = eHandler, message = mHandler))
-13: timing_fn(handle(ev <- withCallingHandlers(withVisible(eval(expr,     envir, enclos)), warning = wHandler, error = eHandler, message = mHandler)))
-... 8 lines ...
-21: withCallingHandlers(if (tangle) process_tangle(group) else process_group(group),     error = function(e) {        setwd(wd)        cat(res, sep = "\n", file = output %n% "")        message("Quitting from lines ", paste(current_lines(i),             collapse = "-"), " (", knit_concord$get("infile"),             ") ")    })
-22: process_file(text, output)
-23: (if (grepl("\\.[Rr]md$", file)) knit2html_v1 else if (grepl("\\.[Rr]rst$",     file)) knit2pdf else knit)(file, encoding = encoding, quiet = quiet,     envir = globalenv())
-24: engine$weave(file, quiet = quiet, encoding = enc)
-25: doTryCatch(return(expr), name, parentenv, handler)
-26: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-27: tryCatchList(expr, classes, parentenv, handlers)
-28: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
-29: buildVignettes(dir = "/home/muelleki/git/R/dplyr/revdep/checks/vdmR.Rcheck/vign_test/vdmR")
-An irrecoverable exception occurred. R is aborting now ...
-Segmentation fault (core dumped)
-```
+0 errors | 0 warnings | 0 notes
 
 ## VIM (4.7.0)
 Maintainer: Matthias Templ <matthias.templ@gmail.com>
@@ -7002,52 +6834,7 @@ Bug reports: https://github.com/idmn/wfindr/issues
 Maintainer: Eric Persson <expersso5@gmail.com>  
 Bug reports: https://www.github.com/expersso/WHO/issues
 
-2 errors | 1 warning  | 0 notes
-
-```
-checking examples ... ERROR
-Running examples in ‘WHO-Ex.R’ failed
-The error most likely occurred in:
-
-> base::assign(".ptime", proc.time(), pos = "CheckExEnv")
-> ### Name: get_codes
-> ### Title: Get all codes and metadata for WHO series
-> ### Aliases: get_codes
-> 
-> ### ** Examples
-> 
-> codes <- get_codes()
-Error in get_result(url) : Bad Gateway (HTTP 502).
-Calls: get_codes -> get_result -> <Anonymous>
-Execution halted
-
-checking tests ... ERROR
-  Running ‘testthat.R’ [0m/73m]
-Running the tests in ‘tests/testthat.R’ failed.
-Complete output:
-  > library(testthat)
-  > library(WHO)
-  > 
-  > test_check("WHO")
-  Terminated
-
-checking re-building of vignette outputs ... WARNING
-Error in re-building vignettes:
-  ...
-
-Attaching package: 'dplyr'
-
-The following objects are masked from 'package:stats':
-
-    filter, lag
-
-The following objects are masked from 'package:base':
-
-    intersect, setdiff, setequal, union
-
-Terminated
-
-```
+0 errors | 0 warnings | 0 notes
 
 ## WikidataQueryServiceR (0.1.1)
 Maintainer: Mikhail Popov <mikhail@wikimedia.org>  
