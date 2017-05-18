@@ -104,7 +104,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
 
   # Evaluate symbols in an environment where columns are bound, but
   # not calls (select helpers are scoped in the calling environment)
-  is_helper <- map_lgl(quos, quo_is_helper)
+  is_helper <- map_lgl(quos, quo_is_select_helper)
   ind_list <- map_if(quos, is_helper, eval_tidy)
   ind_list <- map_if(ind_list, !is_helper, eval_tidy, data = names_list)
 
@@ -124,7 +124,7 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
     )
   }
 
-  incl <- combine_vars(vars, ind_list)
+  incl <- combine_indices(vars, ind_list)
 
   # Include/exclude specified variables
   sel <- set_names(vars[incl], names(incl))
@@ -142,7 +142,21 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   sel
 }
 
-quo_is_helper <- function(quo) {
+#' Determine if an expression quotation is a helper function
+#'
+#'`quo_is_select_helper` takes a `quo` object and returns a logical 
+#'  indicating if the expression contains certain calls that are treated 
+#'  specially by `select`. 
+#'
+#' @param quo A `quo` object. 
+#' @return A logical value. 
+#' @keywords internal 
+#' @examples 
+#' quo_is_select_helper(quo(a_variable_name))
+#' quo_is_select_helper(quo(everything()))
+#' 
+#' @export
+quo_is_select_helper <- function(quo) {
   expr <- f_rhs(quo)
 
   if (!is_lang(expr)) {

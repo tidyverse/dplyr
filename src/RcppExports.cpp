@@ -144,15 +144,15 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// combine_vars
-SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs);
-RcppExport SEXP dplyr_combine_vars(SEXP varsSEXP, SEXP xsSEXP) {
+// combine_indices
+SEXP combine_indices(CharacterVector vars, ListOf<IntegerVector> xs);
+RcppExport SEXP dplyr_combine_indices(SEXP varsSEXP, SEXP xsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
     Rcpp::traits::input_parameter< ListOf<IntegerVector> >::type xs(xsSEXP);
-    rcpp_result_gen = Rcpp::wrap(combine_vars(vars, xs));
+    rcpp_result_gen = Rcpp::wrap(combine_indices(vars, xs));
     return rcpp_result_gen;
 END_RCPP
 }

@@ -19,7 +19,7 @@ extern SEXP dplyr_between(SEXP, SEXP, SEXP);
 extern SEXP dplyr_bind_rows_(SEXP, SEXP);
 extern SEXP dplyr_cbind_all(SEXP);
 extern SEXP dplyr_combine_all(SEXP);
-extern SEXP dplyr_combine_vars(SEXP, SEXP);
+extern SEXP dplyr_combine_indices(SEXP, SEXP);
 extern SEXP dplyr_compatible_data_frame(SEXP, SEXP, SEXP, SEXP);
 extern SEXP dplyr_compatible_data_frame_nonames(SEXP, SEXP, SEXP);
 extern SEXP dplyr_cumall(SEXP);
@@ -68,7 +68,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_bind_rows_",                      (DL_FUNC) &dplyr_bind_rows_,                      2},
   {"dplyr_cbind_all",                       (DL_FUNC) &dplyr_cbind_all,                       1},
   {"dplyr_combine_all",                     (DL_FUNC) &dplyr_combine_all,                     1},
-  {"dplyr_combine_vars",                    (DL_FUNC) &dplyr_combine_vars,                    2},
+  {"dplyr_combine_indices",                 (DL_FUNC) &dplyr_combine_indices,                 2},
   {"dplyr_compatible_data_frame",           (DL_FUNC) &dplyr_compatible_data_frame,           4},
   {"dplyr_compatible_data_frame_nonames",   (DL_FUNC) &dplyr_compatible_data_frame_nonames,   3},
   {"dplyr_cumall",                          (DL_FUNC) &dplyr_cumall,                          1},

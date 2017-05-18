@@ -76,8 +76,26 @@ public:
   }
 };
 
+//' @title
+//' Combines variable indices with a corresponding variable list.
+//' @description
+//' Give a vector of names and a list of integer indices, combine them
+//' into a named vector of unique indices. 
+//'
+//' @param vars A character vector of variable names.
+//' @param xs A list of integers.
+//'
+//' @return
+//' A named vector with the unique indices that correspond to the names.
+//' @examples
+//' combine_indices(names(iris), list(1:2, 2:3))
+//' combine_indices(names(iris), list(1))
+//' combine_indices(names(iris), list(-1)
+//' combine_indices(names(iris), list(-1, 1)
+//' @export
+//' @keywords internal
 // [[Rcpp::export]]
-SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs) {
+SEXP combine_indices(CharacterVector vars, ListOf<IntegerVector> xs) {
   VarList selected(vars.size());
   if (xs.size() == 0)
     return IntegerVector::create();
