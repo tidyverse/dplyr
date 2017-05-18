@@ -2,7 +2,7 @@
 
 set -e
 
-R -q -e 'remove.packages(c("dplyr", "tibble"))' || true
+R -q -e 'remove.packages(c("dplyr", "tibble", "rlang"))' || true
 
 old_tag=v0.5.0
 branch=$(git symbolic-ref --short HEAD)
