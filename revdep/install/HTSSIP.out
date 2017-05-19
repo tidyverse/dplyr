@@ -1,0 +1,2 @@
+ERROR: dependency ‘phyloseq’ is not available for package ‘HTSSIP’
+* removing ‘/home/muelleki/R/x86_64-pc-linux-gnu-library/3.4/HTSSIP’
