@@ -55,4 +55,4 @@ LinkingTo: Rcpp (>= 0.12.0),
 LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1
-Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
+Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate", "pkgapi::api_roclet"))
