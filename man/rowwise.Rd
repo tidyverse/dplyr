@@ -19,10 +19,7 @@ Currently, rowwise grouping only works with data frames. Its
 main impact is to allow you to work with list-variables in
 \code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}} without having to
 use \code{[[1]]}. This makes \code{summarise()} on a rowwise tbl
-effectively equivalent to [plyr::ldply()].
-
-[[1]: R:[1
-[plyr::ldply()]: R:plyr::ldply()
+effectively equivalent to \code{\link[plyr:ldply]{plyr::ldply()}}.
 }
 \examples{
 df <- expand.grid(x = 1:3, y = 3:1)
