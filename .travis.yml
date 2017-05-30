@@ -15,7 +15,7 @@ include:
 - r: devel
 
 before_script:
-- R -q -e 'devtools::install("hadley/dbplyr")'
+- R -q -e 'devtools::install("tidyverse/dbplyr")'
 
 after_success:
 - Rscript -e 'covr::codecov()'
