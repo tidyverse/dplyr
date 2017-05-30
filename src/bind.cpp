@@ -195,7 +195,7 @@ List rbind__impl(List dots, const SymbolString& id) {
     R_xlen_t nrows = rows_length(chunks[k], true);
     df_nrows.push_back(nrows);
     n += nrows;
-    if (id.is_empty()) {
+    if (!id.is_empty()) {
       dots_names.push_back(name_at(dots, i));
     }
     k++;
