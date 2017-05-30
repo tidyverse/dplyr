@@ -176,7 +176,7 @@ SEXP flatten_bindable(SEXP x) {
   return rlang_squash_if(x, VECSXP, &dplyr_is_bind_spliceable, 1);
 }
 
-List rbind__impl(List dots, SEXP id = R_NilValue) {
+List rbind__impl(List dots, const SymbolString& id) {
   int ndata = dots.size();
   R_xlen_t n = 0;
   std::vector<SEXP> chunks;
@@ -195,7 +195,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
     R_xlen_t nrows = rows_length(chunks[k], true);
     df_nrows.push_back(nrows);
     n += nrows;
-    if (!Rf_isNull(id)) {
+    if (id.is_empty()) {
       dots_names.push_back(name_at(dots, i));
     }
     k++;
@@ -203,7 +203,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
   ndata = chunks.size();
   pointer_vector<Collecter> columns;
 
-  std::vector<String> names;
+  SymbolVector names;
 
   k = 0;
   Function enc2native("enc2native");
@@ -214,7 +214,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
     R_xlen_t nrows = df_nrows[i];
     rbind_type_check(df, nrows, i);
 
-    CharacterVector df_names = enc2native(vec_names(df));
+    SymbolVector df_names(vec_names(df));
     for (int j = 0; j < Rf_length(df); j++) {
 
       SEXP source;
@@ -227,10 +227,10 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
         offset = j;
       }
 
-      String name = df_names[j];
+      SymbolString name = df_names[j];
 
       Collecter* coll = 0;
-      size_t index = 0;
+      R_xlen_t index = 0;
       for (; index < names.size(); index++) {
         if (name == names[index]) {
           coll = columns[index];
@@ -278,17 +278,17 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
   }
 
   int nc = columns.size();
-  int has_id = Rf_isNull(id) ? 0 : 1;
+  int has_id = id.is_empty() ? 0 : 1;
 
-  List out(nc + has_id);
-  CharacterVector out_names(nc + has_id);
+  List out(no_init(nc + has_id));
+  SymbolVector out_names(no_init(nc + has_id));
   for (int i = 0; i < nc; i++) {
     out[i + has_id] = columns[i]->get();
-    out_names[i + has_id] = names[i];
+    out_names.set(i + has_id, names[i]);
   }
 
   // Add vector of identifiers if .id is supplied
-  if (!Rf_isNull(id)) {
+  if (!id.is_empty()) {
     CharacterVector id_col = no_init(n);
 
     CharacterVector::iterator it = id_col.begin();
@@ -297,7 +297,7 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
       it += df_nrows[i];
     }
     out[0] = id_col;
-    out_names[0] = Rcpp::as<std::string>(id);
+    out_names.set(0, id);
   }
   out.attr("names") = out_names;
   set_rownames(out, n);
@@ -322,8 +322,11 @@ List rbind__impl(List dots, SEXP id = R_NilValue) {
 }
 
 // [[Rcpp::export]]
-List bind_rows_(List dots, SEXP id = R_NilValue) {
-  return rbind__impl(dots, id);
+List bind_rows_(List dots, SEXP id) {
+  if (Rf_isNull(id))
+    return rbind__impl(dots, SymbolString());
+  else
+    return rbind__impl(dots, SymbolString(Rcpp::as<String>(id)));
 }
 
 // [[Rcpp::export]]
