@@ -275,8 +275,8 @@ and so these functions have been deprecated (but remain around for backward comp
   names: `col1 = c(1, 2)`. Lists are still treated as data frames but
   can be spliced explicitly with `!!!`, e.g. `bind_rows(!!! x)` (#1676).
 
-* After a period of deprecation, `rbind_list()` and `rbind_all()` have
-  been removed from the package. Please use `bind_rows()` instead.
+* `rbind_list()` and `rbind_all()` now call `.Deprecated()`, they will be removed
+  in the next CRAN release. Please use `bind_rows()` instead.
 
 * `combine()` accepts `NA` values (#2203, @zeehio)
 
