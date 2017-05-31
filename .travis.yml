@@ -14,5 +14,8 @@ include:
 - r: oldrel
 - r: devel
 
+before_script:
+- R -q -e 'devtools::install_github("tidyverse/dbplyr")'
+
 after_success:
 - Rscript -e 'covr::codecov()'
