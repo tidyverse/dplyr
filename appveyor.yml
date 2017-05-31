@@ -26,6 +26,7 @@ environment:
 
 build_script:
   - travis-tool.sh install_github r-pkgs/remotes@303db43
+  - travis-tool.sh install_github tidyverse/dbplyr
   - travis-tool.sh install_deps
 
 test_script:
