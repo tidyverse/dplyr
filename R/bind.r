@@ -157,10 +157,7 @@ combine <- function(...) {
 #' @rdname bind
 #' @usage NULL
 rbind_list <- function(...) {
-  warning(
-    "`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
+  .Deprecated("bind_rows()")
   bind_rows_(list_or_dots(...), id = NULL)
 }
 
@@ -168,9 +165,6 @@ rbind_list <- function(...) {
 #' @rdname bind
 #' @usage NULL
 rbind_all <- function(x, id = NULL) {
-  warning(
-    "`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
+  .Deprecated("bind_rows()")
   bind_rows_(x, id = id)
 }
