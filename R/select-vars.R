@@ -163,7 +163,7 @@ match_var <- function(chr, table) {
   pos <- match(chr, table)
   if (any(are_na(pos))) {
     chr <- glue::collapse(chr[are_na(pos)], ", ")
-    abort(glue("Strings must match column names. Unkown columns: {chr}"))
+    abort(glue("Strings must match column names. Unknown columns: {chr}"))
   }
   pos
 }
