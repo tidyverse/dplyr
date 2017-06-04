@@ -58,7 +58,7 @@ flatten_bindable <- function(x) {
     .Call(dplyr_flatten_bindable, x)
 }
 
-bind_rows_ <- function(dots, id = NULL) {
+bind_rows_ <- function(dots, id) {
     .Call(dplyr_bind_rows_, dots, id)
 }
 
