@@ -50,7 +50,7 @@ Useful links:
 \itemize{
   \item \url{http://dplyr.tidyverse.org}
   \item \url{https://github.com/tidyverse/dplyr}
-  \item Report bugs at \url{https://github.com/hadley/tidyverse/issues}
+  \item Report bugs at \url{https://github.com/tidyverse/dplyr/issues}
 }
 
 }
