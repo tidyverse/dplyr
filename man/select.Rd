@@ -17,6 +17,8 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 You can treat variable names like they are positions.
 
 Positive values select variables; negative values to drop variables.
+If the first expression is negative, \code{select()} will automatically
+start with all variables.
 
 Use named arguments to rename selected variables.
 
