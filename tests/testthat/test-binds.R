@@ -171,6 +171,10 @@ test_that("bind_rows handles lists with NULL values (#2056)", {
   expect_equal(bind_rows(lst1, .id = "names"), df3)
 })
 
+test_that("bind_rows handles lists with list() values (#2826)", {
+  expect_equal(bind_rows(list(iris, list())), iris)
+})
+
 test_that("bind_rows puts data frames in order received even if no columns (#2175)", {
   df2 <- data_frame(x = 2, y = "b")
   df1 <- df2[, 0]
