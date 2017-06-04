@@ -3,6 +3,7 @@
 language: r
 sudo: false
 cache: packages
+latex: false
 
 env:
   global:
