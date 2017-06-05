@@ -1,4 +1,4 @@
-# dplyr 0.6.0
+# dplyr 0.7.0
 
 ## New data, functions, and features
 
