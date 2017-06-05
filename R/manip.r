@@ -392,6 +392,8 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'   You can treat variable names like they are positions.
 #'
 #'   Positive values select variables; negative values to drop variables.
+#'   If the first expression is negative, `select()` will automatically
+#'   start with all variables.
 #'
 #'   Use named arguments to rename selected variables.
 #'
