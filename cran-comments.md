@@ -1,3 +1,31 @@
+This is a resubmission following unexpectedly high numbers of failures in the revdep checks. Email correspondence summarised below.
+
+There are eight packages that broke because of rbind_all/rbind_list
+(aemo, PopED, bootnet, boxr, ggvis, lvnet, mlVAR, rwunderground). I
+clearly did not deprecate these functions correctly so I'll add back
+in.
+
+There were five problems that were somehow missed by our revdep checks:
+
+- assertr: one test failure because dplyr is less strict now. Author has been
+  notified of small change needed, and is preparing CRAN release.
+
+- parlitools: this was a bug in dplyr and has been fixed.
+
+- spdplyr: fix on CRAN now.
+
+- tatoo: fix on CRAN now.
+
+- valr: problem fixed in development version.
+
+Five packages now need to import dbplyr (macleish, mdsr, parsemsf,
+replyr, taxizedb). I'll contact the maintainers once dplyr & dplyr
+are on CRAN.
+
+There were other revdep check failures, but they are deliberate API changes (or bug fixes) and all maintainers have been notified with (now) at least two weeks to fix the problem.
+
+---
+
 ## Test environments
 
 * local OS X install, R 3.4.0
