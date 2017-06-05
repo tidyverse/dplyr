@@ -1,9 +1,9 @@
 This is a resubmission following unexpectedly high numbers of failures in the revdep checks. Email correspondence summarised below.
 
-There are eight packages that broke because of rbind_all/rbind_list
+There were eight packages that broke because of rbind_all/rbind_list
 (aemo, PopED, bootnet, boxr, ggvis, lvnet, mlVAR, rwunderground). I
-clearly did not deprecate these functions correctly so I'll add back
-in.
+clearly did not deprecate these functions correctly so I've addded back
+in. A spot check of ggvis and rwunderground shows no problems now.
 
 There were five problems that were somehow missed by our revdep checks:
 
