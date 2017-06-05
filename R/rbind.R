@@ -58,20 +58,14 @@ is_dataframe_like <- function(x) {
 #' @rdname bind
 #' @usage NULL
 rbind_list <- function(...) {
-  warning(
-    "`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
-  rbind_list__impl(environment())
+  .Deprecated("bind_rows()")
+  tbl_df(bind_rows_(list_or_dots(...), id = NULL))
 }
 
 #' @export
 #' @rdname bind
 #' @usage NULL
 rbind_all <- function(x, id = NULL) {
-  warning(
-    "`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE
-  )
+  .Deprecated("bind_rows()")
   bind_rows_(x, id = id)
 }
