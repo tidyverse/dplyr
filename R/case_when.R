@@ -102,6 +102,9 @@ case_when <- function(...) {
       "the first output"
     )
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
+    if (all(replaced)) {
+      break
+    }
   }
 
   out
