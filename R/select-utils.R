@@ -15,6 +15,7 @@
 #' @param vars A character vector of variable names. When called from inside
 #'   [select()] these are automatically set to the names of the
 #'   table.
+#' @param perl logical. Should Perl-compatible regexps be used? (Used in matches)
 #' @name select_helpers
 #' @return An integer vector giving the position of the matched variables.
 #' @examples
@@ -86,10 +87,10 @@ contains <- function(match, ignore.case = TRUE, vars = current_vars()) {
 
 #' @export
 #' @rdname select_helpers
-matches <- function(match, ignore.case = TRUE, vars = current_vars()) {
+matches <- function(match, ignore.case = TRUE, vars = current_vars(), perl = F) {
   stopifnot(is_string(match), nchar(match) > 0)
 
-  grep_vars(match, vars, ignore.case = ignore.case)
+  grep_vars(match, vars, ignore.case = ignore.case, perl = perl)
 }
 
 #' @export
@@ -134,8 +135,8 @@ match_vars <- function(needle, haystack) {
   x[!is.na(x)]
 }
 
-grep_vars <- function(needle, haystack, ...) {
-  grep(needle, haystack, ...)
+grep_vars <- function(needle, haystack, perl = F, ...) {
+  grep(needle, haystack, perl = perl, ...)
 }
 
 which_vars <- function(needle, haystack) {
