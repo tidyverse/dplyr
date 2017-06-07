@@ -9,51 +9,6 @@ test_df <- data_frame(
   e = list(list(a = 1, x = 2), list(a = 2, x = 3), list(a = 3, x = 4))
 )
 
-test_that("$ is parsed correctly (#1400)", {
-  grouping <- rowwise
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = e$x) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = as.numeric(2:4)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
-
-test_that("$ is parsed correctly if column by the same name exists (#1400)", {
-  grouping <- rowwise
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = e$a) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = as.numeric(1:3)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
-
-test_that("[[ works for ungrouped access (#912)", {
-  grouping <- identity
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = mean(test_df[["a"]])) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = mean(a)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
-
 test_that("[[ works for rowwise access of list columns (#912)", {
   grouping <- rowwise
 
