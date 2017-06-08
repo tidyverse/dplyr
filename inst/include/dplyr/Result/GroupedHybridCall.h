@@ -70,8 +70,6 @@ private:
     overscope = new_overscope(bottom, active_env, env);
 
     has_overscope = true;
-
-    Function("gc", Environment::base_env())();
   }
 
   static List rlang_new_data_source(Environment env) {
@@ -86,9 +84,6 @@ private:
 
   static SEXP hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {
     LOG_VERBOSE;
-
-    Function("gc", Environment::base_env())();
-
     IHybridCallback* callback_ = reinterpret_cast<IHybridCallback*>(payload.p);
     return callback_->get_subset(SymbolString(name));
   }

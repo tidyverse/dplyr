@@ -387,13 +387,9 @@ test_hybrid <- function(grouping) {
 
 }
 
-for (i in 1:100) {
-print(i)
-
 test_hybrid(identity)
 test_hybrid(rowwise)
 test_hybrid(. %>% group_by(!! quo(id)))
-}
 
 test_that("[[ works for rowwise access of list columns (#912)", {
   grouping <- rowwise
