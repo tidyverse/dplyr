@@ -1,5 +1,7 @@
 context("hybrid-traverse")
 
+dplyr:::init_logging("VERB")
+
 test_df <- data_frame(
   id = c(1L, 2L, 2L),
   a = 1:3,
