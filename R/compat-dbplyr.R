@@ -16,7 +16,7 @@
 #' wrap_dbplyr_obj("base_agg")
 #' }
 check_dbplyr <- function() {
-  check_pkg("dbplyr", "communicate with database backends")
+  check_pkg("dbplyr", "communicate with database backends", install = FALSE)
 }
 
 #' @export
