@@ -9,35 +9,6 @@ test_df <- data_frame(
   e = list(list(a = 1, x = 2), list(a = 2, x = 3), list(a = 3, x = 4))
 )
 
-test_that("[[ works for rowwise access of list columns (#912)", {
-  grouping <- rowwise
-
-  df <- tibble(
-    x = c("a", "b"),
-    y = list(list(a = 1, b = 2), list(a = 3, b = 4))
-  )
-
-  expect_equal(
-    df %>% rowwise() %>% transmute(z = y[[x]]),
-    data_frame(z = c(1, 4))
-  )
-})
-
-test_that("$ works for rle result (#2125)", {
-  grouping <- identity
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = rle(b)$lengths) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = rep(1L, 3L)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
-
 test_hybrid <- function(grouping) {
   test_that("case_when() works for LHS (#1719, #2244)", {
     expect_equal(
@@ -417,3 +388,33 @@ test_hybrid <- function(grouping) {
 test_hybrid(identity)
 test_hybrid(rowwise)
 test_hybrid(. %>% group_by(!! quo(id)))
+
+test_that("[[ works for rowwise access of list columns (#912)", {
+  grouping <- rowwise
+
+  df <- tibble(
+    x = c("a", "b"),
+    y = list(list(a = 1, b = 2), list(a = 3, b = 4))
+  )
+
+  expect_equal(
+    df %>% rowwise() %>% transmute(z = y[[x]]),
+    data_frame(z = c(1, 4))
+  )
+})
+
+test_that("$ works for rle result (#2125)", {
+  grouping <- identity
+
+  expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = rle(b)$lengths) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = rep(1L, 3L)) %>%
+      grouping %>%
+      select(-e)
+  )
+})
+
