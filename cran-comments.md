@@ -1,3 +1,35 @@
+This is a resubmission that removes the "install dbplyr" message (sorry for missing that!)
+
+Continuing our existing email thread, there were 7seven packages with new failures:
+
+5         PKNCA  re-building of vignette outputs  OK WARNING
+Crash - don't know why. Not obviously dplyr related
+
+6          RSDA                         examples  OK   ERROR
+Seems to be DBI related, not dplyr/dbplyr.
+
+9      bikedata                         examples  OK   ERROR
+10     bikedata                            tests  OK   ERROR
+Needs to imports dbplyr - new package since last dplyr submission
+I'll add to my list.
+
+35         mglR             package dependencies  OK    NOTE
+Seems unrelated: Package suggested but not available for checking: ‘grasp2db’
+
+39      poplite                         examples  OK   ERROR
+40      poplite                            tests  OK   ERROR
+Needs imports dbplyr: not sure why wasn't on previous list. I'll add to
+list of package maintainers to contact.
+
+47     sparklyr whether package can be installed  OK   ERROR
+New release since last dplyr submission. I can work with authors
+to get fix out ASAP
+
+50      stplanr                         examples  OK   ERROR
+New release since last dplyr submission. Using now deprecated function
+
+---
+
 This is a resubmission following unexpectedly high numbers of failures in the revdep checks. Email correspondence summarised below.
 
 There were eight packages that broke because of rbind_all/rbind_list
