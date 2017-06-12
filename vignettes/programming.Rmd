@@ -150,7 +150,6 @@ mutate_y <- function(df) {
 }
 
 mutate_y(df1)
-# Before dplyr is released, this will give a nice error message
 ```
 
 If this function is in a package, using `.data` also prevents `R CMD check` from giving a NOTE about undefined global variables (provided that you've also imported `rlang::.data` with `@importFrom rlang .data`).
@@ -412,7 +411,7 @@ In practice, the formula is the better of the two options because it captures th
 
 ```{r}
 f <- function(x) {
-  ~ x
+  quo(x)
 }
 
 x1 <- f(10)
