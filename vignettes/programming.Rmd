@@ -418,18 +418,24 @@ x1 <- f(10)
 x2 <- f(100)
 ```
 
-It might look like the expressions are the same if you print them out. But look carefully at the environments --- they're different.
+It might look like the expressions are the same if you print them out.
 
 ```{r}
 x1
 x2
 ```
 
-When we evaluate those formulas using `rlang::eval_tidy()`, we see that they yield different values:
-
+But if you inspect the environments using `rlang::get_env()` --- they're different.
 ```{r, message = FALSE}
 library(rlang)
 
+get_env(x1)
+get_env(x2)
+```
+
+Further, when we evaluate those formulas using `rlang::eval_tidy()`, we see that they yield different values:
+
+```{r}
 eval_tidy(x1)
 eval_tidy(x2)
 ```
