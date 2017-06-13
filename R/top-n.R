@@ -44,10 +44,9 @@ top_n <- function(x, n, wt) {
 
   if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
-    inform(glue("Selecting by ", vars[length(vars)]))
-    wt <- pull(x, -1)
-  } else {
-    wt <- eval_tidy(wt, x)
+    wt_name <- vars[length(vars)]
+    inform(glue("Selecting by ", wt_name))
+    wt <- sym(wt_name)
   }
 
   if (!is_scalar_integerish(n)) {
@@ -55,9 +54,9 @@ top_n <- function(x, n, wt) {
   }
 
   if (n > 0) {
-    quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
+    quo <- quo(filter(x, min_rank(desc(!! wt)) <= !! n))
   } else {
-    quo <- quo(filter(x, min_rank(!!wt) <= !!abs(n)))
+    quo <- quo(filter(x, min_rank(!! wt) <= !! abs(n)))
   }
 
   eval_tidy(quo)
