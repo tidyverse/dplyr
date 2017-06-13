@@ -1,3 +1,7 @@
+# dplyr 0.7.0.9000
+
+* Fix undefined behaviour in `between()`, where `NA_REAL` were assigned instead of `NA_LOGICAL`. (#2855, @zeehio)
+
 # dplyr 0.7.0
 
 ## New data, functions, and features

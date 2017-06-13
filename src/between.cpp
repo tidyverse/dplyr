@@ -27,13 +27,13 @@ LogicalVector between(NumericVector x, double left, double right) {
 
   if (NumericVector::is_na(left) || NumericVector::is_na(right)) {
     for (int i = 0; i < n; ++i)
-      out[i] = NA_REAL;
+      out[i] = NA_LOGICAL;
     return out;
   }
 
   for (int i = 0; i < n; ++i) {
     if (NumericVector::is_na(x[i])) {
-      out[i] = NA_REAL;
+      out[i] = NA_LOGICAL;
     } else if ((x[i] >= left) && (x[i] <= right)) {
       out[i] = true;
     } else {
