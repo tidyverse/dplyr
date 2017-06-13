@@ -1,6 +1,6 @@
 Type: Package
 Package: dplyr
-Version: 0.7.0
+Version: 0.7.0.9000
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -14,9 +14,9 @@ Authors@R: c(
 URL: http://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
 BugReports: https://github.com/tidyverse/dplyr/issues
 Encoding: UTF-8
-Depends: 
+Depends:
     R (>= 3.1.2)
-Imports: 
+Imports:
     assertthat,
     bindrcpp,
     glue,
@@ -28,7 +28,7 @@ Imports:
     Rcpp (>= 0.12.6),
     tibble (>= 1.3.1),
     utils
-Suggests: 
+Suggests:
     bit64,
     covr,
     dbplyr,
