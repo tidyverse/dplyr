@@ -145,7 +145,7 @@ DataFrame summarise_not_grouped(DataFrame df, const QuosureList& dots) {
       check_length(Rf_length(result), 1, "a summary value", quosure.name());
     }
     accumulator.set(quosure.name(), result);
-    subsets.input(quosure.name(), result);
+    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
   }
 
   List data = accumulator;
