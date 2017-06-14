@@ -19,8 +19,10 @@ RUN MAKEFLAGS='-j 8' Rdevel -q -e 'install.packages("roxygen2"); loadNamespace("
 
 RUN MAKEFLAGS='-j 8' Rdevel -q -e 'install.packages("devtools"); loadNamespace("devtools")'
 
+RUN echo 2
+
 RUN git clone https://github.com/krlmlr/dplyr.git --branch b-#2811-reprex
 
 RUN MAKEFLAGS='-j 8' Rdevel -q -e 'devtools::install("dplyr")' || true
 
-RUN Rdevel -q -e 'devtools::test("dplyr", f = "hybrid-traverse")'
+RUN MAKEFLAGS='-j 8' Rdevel -q -e 'devtools::test("dplyr", f = "hybrid-traverse")'
