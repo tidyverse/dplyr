@@ -32,6 +32,6 @@ void rlang_register_pointer(const char* ns, const char* ptr_name, DL_FUNC fn) {
 
   Rf_setAttrib(ptr_obj, R_ClassSymbol, Rf_mkString("fn_pointer"));
 
-  Rf_defineVar(Rf_install(ptr_name), ptr_obj, rlang_namespace(ns));
-  UNPROTECT(2);
+  Rf_defineVar(Rf_install(ptr_name), ptr_obj, PROTECT(rlang_namespace(ns)));
+  UNPROTECT(3);
 }
