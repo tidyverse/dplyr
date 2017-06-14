@@ -58,4 +58,4 @@ RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
   krlmlr/bindr@b-test,
-  krlmlr/bindrcpp@b-different-xptr-strategy
+  krlmlr/bindrcpp@b-different-xptr-strategy-3
