@@ -120,7 +120,7 @@ select_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- rename_vars(names(.data), ...)
+  vars <- rename_vars(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export

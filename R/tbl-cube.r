@@ -302,7 +302,7 @@ select_.tbl_cube <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- rename_vars(names(.data$mets), ...)
+  vars <- rename_vars(names(.data$mets), !!! quos(...))
   .data$mets <- .data$mets[vars]
   .data
 }
