@@ -258,7 +258,8 @@ public:
 
       Slice slice(data, index);
       // order( gdf.group(i) )
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(Visitor(slice)));
+      Visitor visitor(slice);
+      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[ tmp[j] ])) {
@@ -289,7 +290,8 @@ public:
     if (nrows == 0) return IntegerVector(0);
     IntegerVector x = seq(0, nrows - 1);
     Slice slice(data, index);
-    std::sort(x.begin(), x.end(), Comparer(Visitor(slice)));
+    Visitor visitor(slice);
+    std::sort(x.begin(), x.end(), Comparer(visitor));
     IntegerVector out = no_init(nrows);
     int j = nrows - 1;
     for (; j >= 0; j--) {
@@ -337,7 +339,8 @@ public:
       Slice slice(data, index);
 
       // order( gdf.group(i) )
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(Visitor(slice)));
+      Visitor visitor(slice);
+      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[tmp[j]])) {
