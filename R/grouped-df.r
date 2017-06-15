@@ -148,7 +148,7 @@ ensure_group_vars <- function(vars, data, notify = TRUE) {
 
 #' @export
 rename.grouped_df <- function(.data, ...) {
-  vars <- rename_vars(names(.data), ...)
+  vars <- rename_vars(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export
