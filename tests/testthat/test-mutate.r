@@ -756,3 +756,10 @@ test_that("grouped mutate errors on incompatible column type (#1641)", {
     fixed = TRUE
   )
 })
+
+test_that("can reuse new variables", {
+  expect_equal(
+    data.frame(c = 1) %>% mutate(c, gc = mean(c)),
+    data.frame(c = 1, gc = 1)
+  )
+})
