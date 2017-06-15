@@ -18,7 +18,7 @@ Depends:
     R (>= 3.1.2)
 Imports:
     assertthat,
-    bindrcpp,
+    bindrcpp (>= 0.1-10),
     glue,
     magrittr,
     methods,
@@ -56,3 +56,5 @@ LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
+Remotes:
+    krlmlr/bindrcpp
