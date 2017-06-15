@@ -1,0 +1,28 @@
+FROM rocker/r-devel-ubsan-clang
+
+MOUNT {{ .Env.PWD }}:{{ .Env.PWD }}
+
+RUN MAKEFLAGS='-j 8' Rdevel -q -e 'install.packages("dplyr")'
+
+ATTACH ["/bin/bash"]
+
+RUN apt-get update || apt-get update || apt-get update || apt-get update || apt-get update || apt-get update || apt-get update || apt-get update || apt-get update || apt-get update
+
+RUN apt-get install -y \
+  libssl-dev \
+  libssh2-1-dev \
+  libxml2-dev
+
+RUN MAKEFLAGS='-j 8' Rdevel -q -e 'install.packages("testthat"); loadNamespace("testthat")'
+
+RUN MAKEFLAGS='-j 8' Rdevel -q -e 'install.packages("roxygen2"); loadNamespace("roxygen2")'
+
+RUN MAKEFLAGS='-j 8' Rdevel -q -e 'install.packages("devtools"); loadNamespace("devtools")'
+
+RUN echo 2
+
+RUN git clone https://github.com/krlmlr/dplyr.git --branch b-#2811-reprex
+
+RUN MAKEFLAGS='-j 8' Rdevel -q -e 'devtools::install("dplyr")' || true
+
+RUN MAKEFLAGS='-j 8' Rdevel -q -e 'devtools::test("dplyr", f = "hybrid-traverse")'

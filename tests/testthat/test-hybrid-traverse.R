@@ -1,5 +1,7 @@
 context("hybrid-traverse")
 
+dplyr:::init_logging("VERB")
+
 test_df <- data_frame(
   id = c(1L, 2L, 2L),
   a = 1:3,
@@ -8,80 +10,6 @@ test_df <- data_frame(
   d = c(TRUE, FALSE, NA),
   e = list(list(a = 1, x = 2), list(a = 2, x = 3), list(a = 3, x = 4))
 )
-
-test_that("$ is parsed correctly (#1400)", {
-  grouping <- rowwise
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = e$x) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = as.numeric(2:4)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
-
-test_that("$ is parsed correctly if column by the same name exists (#1400)", {
-  grouping <- rowwise
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = e$a) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = as.numeric(1:3)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
-
-test_that("[[ works for ungrouped access (#912)", {
-  grouping <- identity
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = mean(test_df[["a"]])) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = mean(a)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
-
-test_that("[[ works for rowwise access of list columns (#912)", {
-  grouping <- rowwise
-
-  df <- tibble(
-    x = c("a", "b"),
-    y = list(list(a = 1, b = 2), list(a = 3, b = 4))
-  )
-
-  expect_equal(
-    df %>% rowwise() %>% transmute(z = y[[x]]),
-    data_frame(z = c(1, 4))
-  )
-})
-
-test_that("$ works for rle result (#2125)", {
-  grouping <- identity
-
-  expect_equal(
-    test_df %>%
-      grouping %>%
-      mutate(f = rle(b)$lengths) %>%
-      select(-e),
-    test_df %>%
-      mutate(f = rep(1L, 3L)) %>%
-      grouping %>%
-      select(-e)
-  )
-})
 
 test_hybrid <- function(grouping) {
   test_that("case_when() works for LHS (#1719, #2244)", {
@@ -462,3 +390,33 @@ test_hybrid <- function(grouping) {
 test_hybrid(identity)
 test_hybrid(rowwise)
 test_hybrid(. %>% group_by(!! quo(id)))
+
+test_that("[[ works for rowwise access of list columns (#912)", {
+  grouping <- rowwise
+
+  df <- tibble(
+    x = c("a", "b"),
+    y = list(list(a = 1, b = 2), list(a = 3, b = 4))
+  )
+
+  expect_equal(
+    df %>% rowwise() %>% transmute(z = y[[x]]),
+    data_frame(z = c(1, 4))
+  )
+})
+
+test_that("$ works for rle result (#2125)", {
+  grouping <- identity
+
+  expect_equal(
+    test_df %>%
+      grouping %>%
+      mutate(f = rle(b)$lengths) %>%
+      select(-e),
+    test_df %>%
+      mutate(f = rep(1L, 3L)) %>%
+      grouping %>%
+      select(-e)
+  )
+})
+
