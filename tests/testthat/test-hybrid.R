@@ -790,3 +790,11 @@ test_that("simple handlers work with quosured symbols", {
     stats::var(mtcars$cyl)
   )
 })
+
+test_that("%in% handler works with quosured symbols", {
+  `%in%` <- bad_hybrid_handler
+  expect_identical(
+    pull(mutate(mtcars, UQ(quo(cyl)) %in% 4)),
+    base::`%in%`(mtcars$cyl, 4)
+  )
+})

@@ -11,8 +11,8 @@ using namespace Rcpp;
 using namespace dplyr;
 
 Result* in_prototype(SEXP call, const ILazySubsets& subsets, int) {
-  SEXP lhs = CADR(call);
-  SEXP rhs = CADDR(call);
+  SEXP lhs = maybe_rhs(CADR(call));
+  SEXP rhs = maybe_rhs(CADDR(call));
 
   // if lhs is not a symbol, let R handle it
   if (TYPEOF(lhs) != SYMSXP) return 0;
