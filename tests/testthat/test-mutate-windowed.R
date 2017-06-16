@@ -200,11 +200,27 @@ test_that("dim attribute is stripped from grouped mutate (#1918)", {
   expect_null(dim(df_rowwise$b))
 })
 
-test_that("min_rank() is hybrided even with quosures", {
-  min_rank <- bad_hybrid_handler
+test_that("window handlers handle quosured symbols", {
+  ntile <- min_rank <- percent_rank <- dense_rank <- cume_dist <- bad_hybrid_handler
 
+  expect_identical(
+    pull(mutate(mtcars, ntile(!! quo(disp), 2))),
+    dplyr::ntile(mtcars$disp, 2)
+  )
   expect_identical(
     pull(mutate(mtcars, min_rank(!! quo(cyl)))),
     dplyr::min_rank(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, percent_rank(!! quo(cyl)))),
+    dplyr::percent_rank(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, dense_rank(!! quo(cyl)))),
+    dplyr::dense_rank(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, cume_dist(!! quo(cyl)))),
+    dplyr::cume_dist(mtcars$cyl)
   )
 })
