@@ -27,3 +27,12 @@ test_that("count_distinct gives correct results for key types", {
 test_that("n_distinct treats NA correctly in the REALSXP case (#384)", {
   expect_equal(n_distinct(c(1.0, NA, NA)), 2)
 })
+
+test_that("n_distinct() handler works with quosured symbols", {
+  n_distinct <- bad_hybrid_handler
+
+  expect_identical(
+    pull(summarise(mtcars, n_distinct(!! quo(cyl)))),
+    dplyr::n_distinct(mtcars$cyl)
+  )
+})
