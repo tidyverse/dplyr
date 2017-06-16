@@ -769,3 +769,24 @@ test_that("constant folding and argument matching in hybrid evaluator (#2299)", 
     mutate(y = 1) %>%
     summarise(z = first(x, order_by = y))
 })
+
+test_that("simple handlers work with quosured symbols", {
+  mean <- sum <- var <- sd <- bad_hybrid_handler
+
+  expect_identical(
+    pull(summarise(mtcars, mean(!! quo(cyl)))),
+    base::mean(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, sum(!! quo(cyl)))),
+    base::sum(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, sd(!! quo(cyl)))),
+    stats::sd(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, var(!! quo(cyl)))),
+    stats::var(mtcars$cyl)
+  )
+})
