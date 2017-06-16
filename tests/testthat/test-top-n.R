@@ -16,3 +16,8 @@ test_that("top_n() handles missing `wt`", {
 test_that("top_n() handles calls", {
   expect_identical(top_n(mtcars, 2, -disp), top_n(mtcars, -2, disp))
 })
+
+test_that("top_n() is hybrided (#2822)", {
+  min_rank <- bad_hybrid_handler
+  expect_error(top_n(mtcars, 1, cyl), NA)
+})

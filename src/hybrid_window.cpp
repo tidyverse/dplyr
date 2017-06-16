@@ -135,11 +135,11 @@ template <typename Increment>
 Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
 
-  RObject data(CADR(call));
+  RObject data(maybe_rhs(CADR(call)));
   bool ascending = true;
 
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
-    data = CADR(data);
+    data = maybe_rhs(CADR(data));
     ascending = false;
   }
 

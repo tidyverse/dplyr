@@ -199,3 +199,12 @@ test_that("dim attribute is stripped from grouped mutate (#1918)", {
   expect_null(dim(df_grouped$b))
   expect_null(dim(df_rowwise$b))
 })
+
+test_that("min_rank() is hybrided even with quosures", {
+  min_rank <- bad_hybrid_handler
+
+  expect_identical(
+    pull(mutate(mtcars, min_rank(!! quo(cyl)))),
+    dplyr::min_rank(mtcars$cyl)
+  )
+})
