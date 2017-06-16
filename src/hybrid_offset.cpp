@@ -19,7 +19,7 @@ struct LeadLag {
     SEXP tag = TAG(p);
     if (tag != R_NilValue && tag != Rf_install("x"))
       return;
-    data = CAR(p);
+    data = maybe_rhs(CAR(p));
     p = CDR(p);
 
     SEXP tag_default = Rf_install("default");

@@ -32,7 +32,7 @@ Result* simple_prototype_impl(SEXP arg, bool is_summary) {
 template <template <int, bool> class Fun>
 Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs == 0) return 0;
-  SEXP arg = CADR(call);
+  SEXP arg = maybe_rhs(CADR(call));
   bool is_summary = false;
   if (TYPEOF(arg) == SYMSXP) {
     SymbolString name = SymbolString(Symbol(arg));

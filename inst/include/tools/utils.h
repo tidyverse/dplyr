@@ -19,6 +19,10 @@ bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
 SEXP name_at(SEXP x, size_t i);
 
+SEXP f_env(SEXP x);
+bool is_quosure(SEXP x);
+SEXP maybe_rhs(SEXP x);
+
 
 namespace dplyr {
 
