@@ -38,20 +38,3 @@ test_that("firsts uses default value for 0 length augmented vectors", {
   expect_equal(first(dt[0]), dt[NA])
   expect_equal(first(tm[0]), tm[NA])
 })
-
-test_that("handle quosured symbols in nth handlers", {
-  first <- last <- nth <- bad_hybrid_handler
-
-  expect_identical(
-    pull(summarise(mtcars, first(!! quo(cyl)))),
-    dplyr::first(mtcars$cyl)
-  )
-  expect_identical(
-    pull(summarise(mtcars, last(!! quo(cyl)))),
-    dplyr::last(mtcars$cyl)
-  )
-  expect_identical(
-    pull(summarise(mtcars, nth(!! quo(cyl), 2))),
-    dplyr::nth(mtcars$cyl, 2)
-  )
-})
