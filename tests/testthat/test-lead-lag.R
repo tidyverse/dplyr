@@ -78,3 +78,16 @@ test_that("input checks", {
     fixed = TRUE
   )
 })
+
+test_that("lead/lag handlers support quosured symbols", {
+  lead <- lag <- bad_hybrid_handler
+
+  expect_identical(
+    pull(mutate(mtcars, lead(!! quo(cyl)))),
+    dplyr::lead(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, lag(!! quo(cyl)))),
+    dplyr::lag(mtcars$cyl)
+  )
+})
