@@ -798,3 +798,16 @@ test_that("%in% handler works with quosured symbols", {
     base::`%in%`(mtcars$cyl, 4)
   )
 })
+
+test_that("min() and max() handlers work with quosured symbols", {
+  min <- max <- bad_hybrid_handler
+
+  expect_identical(
+    pull(summarise(mtcars, min(!! quo(cyl)))),
+    base::min(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, max(!! quo(cyl)))),
+    base::max(mtcars$cyl)
+  )
+})
