@@ -62,3 +62,5 @@ expect_environments_clean <- function(x, stop_env = parent.frame()) {
 
   expect_environments_clean(parent.env(x), stop_env = stop_env)
 }
+
+bad_hybrid_handler <- function(...) stop("Expected hybrid evaluation")
