@@ -19,7 +19,7 @@ Depends:
 Imports:
     assertthat,
     bindrcpp (>= 0.2),
-    glue (>= 1.1),
+    glue (>= 1.1.1),
     magrittr,
     methods,
     pkgconfig,
@@ -57,4 +57,5 @@ License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    krlmlr/bindrcpp@r-0.2
+    krlmlr/bindrcpp@r-0.2,
+    tidyverse/glue
