@@ -763,3 +763,9 @@ test_that("can reuse new variables", {
     data.frame(c = 1, gc = 1)
   )
 })
+
+test_that("mutate() to UTF-8 column names", {
+  df <- data_frame(a = 1) %>% mutate("\u5e78" := a)
+
+  expect_equal(colnames(df), c("a", "\u5e78"))
+})
