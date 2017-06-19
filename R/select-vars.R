@@ -190,6 +190,9 @@ rename_vars <- function(vars, ..., strict = TRUE) {
     abort("All arguments must be named")
   }
 
+  # Triggers unescaping of UTF-8 names:
+  exprs <- as_list(as_env(exprs))
+
   old_vars <- map2(exprs, names(exprs), switch_rename)
   new_vars <- names(exprs)
 

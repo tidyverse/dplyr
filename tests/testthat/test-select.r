@@ -206,7 +206,6 @@ test_that("can select() with character vectors", {
 })
 
 test_that("rename() to UTF-8 column names", {
-  skip("Currently failing")
   df <- data_frame(a = 1) %>% rename("\u5e78" := a)
 
   expect_equal(colnames(df), "\u5e78")
