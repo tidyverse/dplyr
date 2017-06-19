@@ -18,8 +18,8 @@ Depends:
     R (>= 3.1.2)
 Imports:
     assertthat,
-    bindrcpp,
-    glue,
+    bindrcpp (>= 0.2),
+    glue (>= 1.1.0),
     magrittr,
     methods,
     pkgconfig,
