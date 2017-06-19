@@ -1,4 +1,10 @@
-# dplyr 0.7.0.9000
+# dplyr 0.7.1
+
+* Use new versions of bindrcpp and glue to avoid protection problems.
+  Avoid wrapping arguments to internal error functions (#2877). Fix
+  two protection mistakes found by rchk (#2868).
+
+* Fix C++ error that caused compilation to fail on mac cran (#2862)
 
 * Fix undefined behaviour in `between()`, where `NA_REAL` were
   assigned instead of `NA_LOGICAL`. (#2855, @zeehio)
@@ -11,7 +17,6 @@
 
 * Quosured symbols do not prevent hybrid handling anymore. This should
   fix many performance issues introduced with tidyeval (#2822).
-
 
 # dplyr 0.7.0
 
