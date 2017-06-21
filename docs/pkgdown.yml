@@ -1,0 +1,9 @@
+reference_url: http://dplyr.tidyverse.org/reference
+articles:
+  compatibility: compatibility.html
+  dplyr: dplyr.html
+  hybrid-evaluation: internals/hybrid-evaluation.html
+  programming: programming.html
+  two-table: two-table.html
+  window-functions: window-functions.html
+

@@ -188,6 +188,11 @@ a.anchor {
   visibility: visible;
 }
 
+@media (max-width: 767px) {
+  .hasAnchor {margin-left: 0;}
+  a.anchor {float: right;}
+}
+
 /* Tweak appearance of navigation in sidebar ---------------------- */
 
 #sidebar .nav {

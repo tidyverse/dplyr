@@ -102,16 +102,16 @@
 <li><p>It provides simple “verbs”, functions that correspond to the most common data manipulation tasks, to help you translate your thoughts into code.</p></li>
 <li><p>It uses efficient backends, so you spend less time waiting for the computer.</p></li>
 </ul>
-<p>This document introduces you to dplyr’s basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you’ve installed, read <code><a href="../articles/dbplyr.html">vignette("dbplyr")</a></code> to learn more.</p>
+<p>This document introduces you to dplyr’s basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you’ve installed, read <code>vignette("dbplyr")</code> to learn more.</p>
 <div id="data-nycflights13" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-nycflights13" class="anchor"></a>Data: nycflights13</h2>
-<p>To explore the basic data manipulation verbs of dplyr, we’ll use <code>nycflights13::flights</code>. This dataset contains all 336776 flights that departed from New York City in 2013. The data comes from the US <a href="http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&amp;Link=0">Bureau of Transportation Statistics</a>, and is documented in <code>?nycflights13</code></p>
+<p>To explore the basic data manipulation verbs of dplyr, we’ll use <code><a href="http://www.rdocumentation.org/packages/nycflights13/topics/flights">nycflights13::flights</a></code>. This dataset contains all 336776 flights that departed from New York City in 2013. The data comes from the US <a href="http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&amp;Link=0">Bureau of Transportation Statistics</a>, and is documented in <code>?nycflights13</code></p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(nycflights13)
 <span class="kw">dim</span>(flights)
 <span class="co">#&gt; [1] 336776     19</span>
 flights
-<span class="co">#&gt; # A tibble: 336,776 × 19</span>
+<span class="co">#&gt; # A tibble: 336,776 x 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517            515         2      830</span>
@@ -122,7 +122,7 @@ flights
 <span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span>
 <span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></code></pre></div>
-<p>Note that <code>nycflights13::flights</code> is a tibble, a modern reimagining of the data frame. It’s particular useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="../reference/reexports.html">as_tibble()</a></code>.</p>
+<p>Note that <code><a href="http://www.rdocumentation.org/packages/nycflights13/topics/flights">nycflights13::flights</a></code> is a tibble, a modern reimagining of the data frame. It’s particular useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_tibble()</a></code>.</p>
 </div>
 <div id="single-table-verbs" class="section level2">
 <h2 class="hasAnchor">
@@ -148,8 +148,8 @@ flights
 </h3>
 <p><code><a href="../reference/filter.html">filter()</a></code> allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is <code>TRUE</code>.</p>
 <p>For example, we can select all flights on January 1st with:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(flights, month ==<span class="st"> </span><span class="dv">1</span>, day ==<span class="st"> </span><span class="dv">1</span>)
-<span class="co">#&gt; # A tibble: 842 × 19</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(flights, month <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>)
+<span class="co">#&gt; # A tibble: 842 x 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517            515         2      830</span>
@@ -161,7 +161,7 @@ flights
 <span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></code></pre></div>
 <p>This is rougly equivalent to this base R code:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights[flights$month ==<span class="st"> </span><span class="dv">1</span> &amp;<span class="st"> </span>flights$day ==<span class="st"> </span><span class="dv">1</span>, ]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights[flights<span class="op">$</span>month <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>flights<span class="op">$</span>day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ]</code></pre></div>
 </div>
 <div id="arrange-rows-with-arrange" class="section level3">
 <h3 class="hasAnchor">
@@ -169,7 +169,7 @@ flights
 </h3>
 <p><code><a href="../reference/arrange.html">arrange()</a></code> works similarly to <code><a href="../reference/filter.html">filter()</a></code> except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(flights, year, month, day)
-<span class="co">#&gt; # A tibble: 336,776 × 19</span>
+<span class="co">#&gt; # A tibble: 336,776 x 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517            515         2      830</span>
@@ -182,7 +182,7 @@ flights
 <span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></code></pre></div>
 <p>Use <code><a href="../reference/desc.html">desc()</a></code> to order a column in descending order:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(flights, <span class="kw"><a href="../reference/desc.html">desc</a></span>(arr_delay))
-<span class="co">#&gt; # A tibble: 336,776 × 19</span>
+<span class="co">#&gt; # A tibble: 336,776 x 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     9      641            900      1301     1242</span>
@@ -201,7 +201,7 @@ flights
 <p>Often you work with large datasets with many columns but only a few are actually of interest to you. <code><a href="../reference/select.html">select()</a></code> allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Select columns by name</span>
 <span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, month, day)
-<span class="co">#&gt; # A tibble: 336,776 × 3</span>
+<span class="co">#&gt; # A tibble: 336,776 x 3</span>
 <span class="co">#&gt;    year month   day</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1</span>
@@ -210,8 +210,8 @@ flights
 <span class="co">#&gt; 4  2013     1     1</span>
 <span class="co">#&gt; # ... with 336,772 more rows</span>
 <span class="co"># Select all columns between year and day (inclusive)</span>
-<span class="kw"><a href="../reference/select.html">select</a></span>(flights, year:day)
-<span class="co">#&gt; # A tibble: 336,776 × 3</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, year<span class="op">:</span>day)
+<span class="co">#&gt; # A tibble: 336,776 x 3</span>
 <span class="co">#&gt;    year month   day</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1</span>
@@ -220,8 +220,8 @@ flights
 <span class="co">#&gt; 4  2013     1     1</span>
 <span class="co">#&gt; # ... with 336,772 more rows</span>
 <span class="co"># Select all columns except those from year to day (inclusive)</span>
-<span class="kw"><a href="../reference/select.html">select</a></span>(flights, -(year:day))
-<span class="co">#&gt; # A tibble: 336,776 × 16</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="op">-</span>(year<span class="op">:</span>day))
+<span class="co">#&gt; # A tibble: 336,776 x 16</span>
 <span class="co">#&gt;   dep_time sched_dep_time dep_delay arr_time sched_arr_time arr_delay</span>
 <span class="co">#&gt;      &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt; 1      517            515         2      830            819        11</span>
@@ -234,7 +234,7 @@ flights
 <p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="../reference/select_helpers.html">starts_with()</a></code>, <code><a href="../reference/select_helpers.html">ends_with()</a></code>, <code><a href="../reference/select_helpers.html">matches()</a></code> and <code><a href="../reference/select_helpers.html">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
 <p>You can rename variables with <code><a href="../reference/select.html">select()</a></code> by using named arguments:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dt">tail_num =</span> tailnum)
-<span class="co">#&gt; # A tibble: 336,776 × 1</span>
+<span class="co">#&gt; # A tibble: 336,776 x 1</span>
 <span class="co">#&gt;   tail_num</span>
 <span class="co">#&gt;      &lt;chr&gt;</span>
 <span class="co">#&gt; 1   N14228</span>
@@ -244,7 +244,7 @@ flights
 <span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
 <p>But because <code><a href="../reference/select.html">select()</a></code> drops all the variables not explicitly mentioned, it’s not that useful. Instead, use <code><a href="../reference/select.html">rename()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/select.html">rename</a></span>(flights, <span class="dt">tail_num =</span> tailnum)
-<span class="co">#&gt; # A tibble: 336,776 × 19</span>
+<span class="co">#&gt; # A tibble: 336,776 x 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517            515         2      830</span>
@@ -262,10 +262,10 @@ flights
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(flights,
-  <span class="dt">gain =</span> arr_delay -<span class="st"> </span>dep_delay,
-  <span class="dt">speed =</span> distance /<span class="st"> </span>air_time *<span class="st"> </span><span class="dv">60</span>
+  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,
+  <span class="dt">speed =</span> distance <span class="op">/</span><span class="st"> </span>air_time <span class="op">*</span><span class="st"> </span><span class="dv">60</span>
 )
-<span class="co">#&gt; # A tibble: 336,776 × 21</span>
+<span class="co">#&gt; # A tibble: 336,776 x 21</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517            515         2      830</span>
@@ -276,12 +276,12 @@ flights
 <span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span>
 <span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, gain &lt;dbl&gt;, speed &lt;dbl&gt;</span></code></pre></div>
-<p><code>dplyr::mutate()</code> is similar to the base <code>transform()</code>, but allows you to refer to columns that you’ve just created:</p>
+<p><code><a href="http://www.rdocumentation.org/packages/dplyr/topics/mutate">dplyr::mutate()</a></code> is similar to the base <code>transform()</code>, but allows you to refer to columns that you’ve just created:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(flights,
-  <span class="dt">gain =</span> arr_delay -<span class="st"> </span>dep_delay,
-  <span class="dt">gain_per_hour =</span> gain /<span class="st"> </span>(air_time /<span class="st"> </span><span class="dv">60</span>)
+  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,
+  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)
 )
-<span class="co">#&gt; # A tibble: 336,776 × 21</span>
+<span class="co">#&gt; # A tibble: 336,776 x 21</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517            515         2      830</span>
@@ -294,10 +294,10 @@ flights
 <span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, gain &lt;dbl&gt;, gain_per_hour &lt;dbl&gt;</span></code></pre></div>
 <p>If you only want to keep the new variables, use <code><a href="../reference/mutate.html">transmute()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">transmute</a></span>(flights,
-  <span class="dt">gain =</span> arr_delay -<span class="st"> </span>dep_delay,
-  <span class="dt">gain_per_hour =</span> gain /<span class="st"> </span>(air_time /<span class="st"> </span><span class="dv">60</span>)
+  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,
+  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)
 )
-<span class="co">#&gt; # A tibble: 336,776 × 2</span>
+<span class="co">#&gt; # A tibble: 336,776 x 2</span>
 <span class="co">#&gt;    gain gain_per_hour</span>
 <span class="co">#&gt;   &lt;dbl&gt;         &lt;dbl&gt;</span>
 <span class="co">#&gt; 1     9      2.378855</span>
@@ -314,7 +314,7 @@ flights
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(flights,
   <span class="dt">delay =</span> <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
 )
-<span class="co">#&gt; # A tibble: 1 × 1</span>
+<span class="co">#&gt; # A tibble: 1 x 1</span>
 <span class="co">#&gt;      delay</span>
 <span class="co">#&gt;      &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 12.63907</span></code></pre></div>
@@ -326,7 +326,7 @@ flights
 </h3>
 <p>You can use <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> to take a random sample of rows: use <code><a href="../reference/sample.html">sample_n()</a></code> for a fixed number and <code><a href="../reference/sample.html">sample_frac()</a></code> for a fixed fraction.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/sample.html">sample_n</a></span>(flights, <span class="dv">10</span>)
-<span class="co">#&gt; # A tibble: 10 × 19</span>
+<span class="co">#&gt; # A tibble: 10 x 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013    10     1      822            825        -3      932</span>
@@ -338,7 +338,7 @@ flights
 <span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span>
 <span class="kw"><a href="../reference/sample.html">sample_frac</a></span>(flights, <span class="fl">0.01</span>)
-<span class="co">#&gt; # A tibble: 3,368 × 19</span>
+<span class="co">#&gt; # A tibble: 3,368 x 19</span>
 <span class="co">#&gt;    year month   day dep_time sched_dep_time dep_delay arr_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     8    16      827            830        -3      928</span>
@@ -386,13 +386,13 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summa
   <span class="dt">count =</span> <span class="kw"><a href="../reference/n.html">n</a></span>(),
   <span class="dt">dist =</span> <span class="kw">mean</span>(distance, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
   <span class="dt">delay =</span> <span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))
-delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(delay, count &gt;<span class="st"> </span><span class="dv">20</span>, dist &lt;<span class="st"> </span><span class="dv">2000</span>)
+delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(delay, count <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>, dist <span class="op">&lt;</span><span class="st"> </span><span class="dv">2000</span>)
 
 <span class="co"># Interestingly, the average delay is only slightly related to the</span>
 <span class="co"># average distance flown by a plane.</span>
-<span class="kw">ggplot</span>(delay, <span class="kw">aes</span>(dist, delay)) +
-<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> count), <span class="dt">alpha =</span> <span class="dv">1</span>/<span class="dv">2</span>) +
-<span class="st">  </span><span class="kw">geom_smooth</span>() +
+<span class="kw">ggplot</span>(delay, <span class="kw">aes</span>(dist, delay)) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">size =</span> count), <span class="dt">alpha =</span> <span class="dv">1</span><span class="op">/</span><span class="dv">2</span>) <span class="op">+</span>
+<span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span>
 <span class="st">  </span><span class="kw">scale_size_area</span>()</code></pre></div>
 <p><img src="dplyr_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
 <p>You use <code><a href="../reference/summarise.html">summarise()</a></code> with <strong>aggregate functions</strong>, which take a vector of values and return a single number. There are many useful examples of such functions in base R like <code>min()</code>, <code>max()</code>, <code>mean()</code>, <code>sum()</code>, <code>sd()</code>, <code>median()</code>, and <code>IQR()</code>. dplyr provides a handful of others:</p>
@@ -407,7 +407,7 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
   <span class="dt">planes =</span> <span class="kw"><a href="../reference/n_distinct.html">n_distinct</a></span>(tailnum),
   <span class="dt">flights =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()
 )
-<span class="co">#&gt; # A tibble: 105 × 3</span>
+<span class="co">#&gt; # A tibble: 105 x 3</span>
 <span class="co">#&gt;    dest planes flights</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1   ABQ    108     254</span>
@@ -418,8 +418,8 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <p>When you group by multiple variables, each summary peels off one level of the grouping. That makes it easy to progressively roll-up a dataset:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">daily &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)
 (per_day   &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(daily, <span class="dt">flights =</span> <span class="kw"><a href="../reference/n.html">n</a></span>()))
-<span class="co">#&gt; # A tibble: 365 × 4</span>
-<span class="co">#&gt; # Groups: year, month [?]</span>
+<span class="co">#&gt; # A tibble: 365 x 4</span>
+<span class="co">#&gt; # Groups:   year, month [?]</span>
 <span class="co">#&gt;    year month   day flights</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1     842</span>
@@ -428,8 +428,8 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <span class="co">#&gt; 4  2013     1     4     915</span>
 <span class="co">#&gt; # ... with 361 more rows</span>
 (per_month &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">sum</span>(flights)))
-<span class="co">#&gt; # A tibble: 12 × 3</span>
-<span class="co">#&gt; # Groups: year [?]</span>
+<span class="co">#&gt; # A tibble: 12 x 3</span>
+<span class="co">#&gt; # Groups:   year [?]</span>
 <span class="co">#&gt;    year month flights</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1   27004</span>
@@ -438,7 +438,7 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <span class="co">#&gt; 4  2013     4   28330</span>
 <span class="co">#&gt; # ... with 8 more rows</span>
 (per_year  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_month, <span class="dt">flights =</span> <span class="kw">sum</span>(flights)))
-<span class="co">#&gt; # A tibble: 1 × 2</span>
+<span class="co">#&gt; # A tibble: 1 x 2</span>
 <span class="co">#&gt;    year flights</span>
 <span class="co">#&gt;   &lt;int&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013  336776</span></code></pre></div>
@@ -451,7 +451,7 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># `year` represents the integer 1</span>
 <span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)
-<span class="co">#&gt; # A tibble: 336,776 × 1</span>
+<span class="co">#&gt; # A tibble: 336,776 x 1</span>
 <span class="co">#&gt;    year</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013</span>
@@ -460,7 +460,7 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <span class="co">#&gt; 4  2013</span>
 <span class="co">#&gt; # ... with 336,772 more rows</span>
 <span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dv">1</span>)
-<span class="co">#&gt; # A tibble: 336,776 × 1</span>
+<span class="co">#&gt; # A tibble: 336,776 x 1</span>
 <span class="co">#&gt;    year</span>
 <span class="co">#&gt;   &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013</span>
@@ -474,7 +474,7 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <p>One useful subtlety is that this only applies to bare names and to selecting calls like <code>c(year, month, day)</code> or <code>year:day</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year &lt;-<span class="st"> "dep"</span>
 <span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="../reference/select_helpers.html">starts_with</a></span>(year))
-<span class="co">#&gt; # A tibble: 336,776 × 2</span>
+<span class="co">#&gt; # A tibble: 336,776 x 2</span>
 <span class="co">#&gt;   dep_time dep_delay</span>
 <span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span>
 <span class="co">#&gt; 1      517         2</span>
@@ -485,7 +485,7 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <p>These semantics are usually intuitive. But note the subtle difference:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">year &lt;-<span class="st"> </span><span class="dv">5</span>
 <span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, <span class="kw">identity</span>(year))
-<span class="co">#&gt; # A tibble: 336,776 × 2</span>
+<span class="co">#&gt; # A tibble: 336,776 x 2</span>
 <span class="co">#&gt;    year sched_dep_time</span>
 <span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013            515</span>
@@ -497,7 +497,7 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>)
 <span class="kw"><a href="../reference/select.html">select</a></span>(flights, vars, <span class="st">"day"</span>)
-<span class="co">#&gt; # A tibble: 336,776 × 3</span>
+<span class="co">#&gt; # A tibble: 336,776 x 3</span>
 <span class="co">#&gt;    year month   day</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1</span>
@@ -507,13 +507,13 @@ delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filte
 <span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
 <p>Note that the code above is somewhat unsafe because you might have added a column named <code>vars</code> to the tibble, or you might apply the code to another data frame containing such a column. To avoid this issue, you can wrap the variable in an <code>identity()</code> call as we mentioned above, as this will bypass column names. However, a more explicit and general method that works in all dplyr verbs is to unquote the variable with the <code>!!</code> operator. This tells dplyr to bypass the data frame and to directly look in the context:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Let's create a new `vars` column:</span>
-flights$vars &lt;-<span class="st"> </span>flights$year
+flights<span class="op">$</span>vars &lt;-<span class="st"> </span>flights<span class="op">$</span>year
 
 <span class="co"># The new column won't be an issue if you evaluate `vars` in the</span>
 <span class="co"># context with the `!!` operator:</span>
 vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>)
-<span class="kw"><a href="../reference/select.html">select</a></span>(flights, !!<span class="st"> </span>vars)
-<span class="co">#&gt; # A tibble: 336,776 × 3</span>
+<span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="op">!!</span><span class="st"> </span>vars)
+<span class="co">#&gt; # A tibble: 336,776 x 3</span>
 <span class="co">#&gt;    year month   day</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1</span>
@@ -527,10 +527,10 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <h3 class="hasAnchor">
 <a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
 <p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. Let’s create a smaller tibble for clarity:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year:dep_time)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year<span class="op">:</span>dep_time)</code></pre></div>
 <p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for ther own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="st">"year"</span>, <span class="dv">2</span>)
-<span class="co">#&gt; # A tibble: 336,776 × 6</span>
+<span class="co">#&gt; # A tibble: 336,776 x 6</span>
 <span class="co">#&gt;    year month   day dep_time `"year"`   `2`</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;    &lt;chr&gt; &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517     year     2</span>
@@ -539,8 +539,8 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <span class="co">#&gt; 4  2013     1     1      544     year     2</span>
 <span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
 <p><code><a href="../reference/mutate.html">mutate()</a></code> gets length-1 vectors that it interprets as new columns in the data frame. These vectors are recycled so they match the number of rows. That’s why it doesn’t make sense to supply expressions like <code>"year" + 10</code> to <code><a href="../reference/mutate.html">mutate()</a></code>. This amounts to adding 10 to a string! The correct expression is:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, year +<span class="st"> </span><span class="dv">10</span>)
-<span class="co">#&gt; # A tibble: 336,776 × 5</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, year <span class="op">+</span><span class="st"> </span><span class="dv">10</span>)
+<span class="co">#&gt; # A tibble: 336,776 x 5</span>
 <span class="co">#&gt;    year month   day dep_time `year + 10`</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;       &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517        2023</span>
@@ -551,7 +551,7 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <p>In the same way, you can unquote values from the context if these values represent a valid column. They must be either length 1 (they then get recycled) or have the same length as the number of rows. In the following example we create a new vector that we add to the data frame:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">var &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="dv">1</span>, <span class="kw">nrow</span>(df))
 <span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)
-<span class="co">#&gt; # A tibble: 336,776 × 5</span>
+<span class="co">#&gt; # A tibble: 336,776 x 5</span>
 <span class="co">#&gt;    year month   day dep_time   new</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt; &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517     1</span>
@@ -561,8 +561,8 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
 <p>A case in point is <code><a href="../reference/group_by.html">group_by()</a></code>. While you might think it has select semantics, it actually has mutate semantics. This is quite handy as it allows to group by a modified column:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, month)
-<span class="co">#&gt; # A tibble: 336,776 × 4</span>
-<span class="co">#&gt; # Groups: month [12]</span>
+<span class="co">#&gt; # A tibble: 336,776 x 4</span>
+<span class="co">#&gt; # Groups:   month [12]</span>
 <span class="co">#&gt;    year month   day dep_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517</span>
@@ -571,8 +571,8 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <span class="co">#&gt; 4  2013     1     1      544</span>
 <span class="co">#&gt; # ... with 336,772 more rows</span>
 <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">month =</span> <span class="kw">as.factor</span>(month))
-<span class="co">#&gt; # A tibble: 336,776 × 4</span>
-<span class="co">#&gt; # Groups: month [12]</span>
+<span class="co">#&gt; # A tibble: 336,776 x 4</span>
+<span class="co">#&gt; # Groups:   month [12]</span>
 <span class="co">#&gt;    year  month   day dep_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;fctr&gt; &lt;int&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013      1     1      517</span>
@@ -581,8 +581,8 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <span class="co">#&gt; 4  2013      1     1      544</span>
 <span class="co">#&gt; # ... with 336,772 more rows</span>
 <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">day_binned =</span> <span class="kw">cut</span>(day, <span class="dv">3</span>))
-<span class="co">#&gt; # A tibble: 336,776 × 5</span>
-<span class="co">#&gt; # Groups: day_binned [3]</span>
+<span class="co">#&gt; # A tibble: 336,776 x 5</span>
+<span class="co">#&gt; # Groups:   day_binned [3]</span>
 <span class="co">#&gt;    year month   day dep_time day_binned</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;fctr&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517  (0.97,11]</span>
@@ -592,8 +592,8 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
 <p>This is why you can’t supply a column name to <code><a href="../reference/group_by.html">group_by()</a></code>. This amounts to creating a new column containing the string recycled to the number of rows:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="st">"month"</span>)
-<span class="co">#&gt; # A tibble: 336,776 × 5</span>
-<span class="co">#&gt; # Groups: "month" [1]</span>
+<span class="co">#&gt; # A tibble: 336,776 x 5</span>
+<span class="co">#&gt; # Groups:   "month" [1]</span>
 <span class="co">#&gt;    year month   day dep_time `"month"`</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;     &lt;chr&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517     month</span>
@@ -602,9 +602,9 @@ vars &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">"y
 <span class="co">#&gt; 4  2013     1     1      544     month</span>
 <span class="co">#&gt; # ... with 336,772 more rows</span></code></pre></div>
 <p>Since grouping with select semantics can be sometimes useful as well, we have added the <code><a href="../reference/group_by_all.html">group_by_at()</a></code> variant. In dplyr, variants suffixed with <code>_at()</code> support selection semantics in their second argument. You just need to wrap the selection with <code><a href="../reference/vars.html">vars()</a></code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/group_by_all.html">group_by_at</a></span>(df, <span class="kw"><a href="../reference/vars.html">vars</a></span>(year:day))
-<span class="co">#&gt; # A tibble: 336,776 × 4</span>
-<span class="co">#&gt; # Groups: year, month, day [365]</span>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/group_by_all.html">group_by_at</a></span>(df, <span class="kw"><a href="../reference/vars.html">vars</a></span>(year<span class="op">:</span>day))
+<span class="co">#&gt; # A tibble: 336,776 x 4</span>
+<span class="co">#&gt; # Groups:   year, month, day [365]</span>
 <span class="co">#&gt;    year month   day dep_time</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;</span>
 <span class="co">#&gt; 1  2013     1     1      517</span>
@@ -624,7 +624,7 @@ a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.h
 a3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(a2,
   <span class="dt">arr =</span> <span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
   <span class="dt">dep =</span> <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))
-a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(a3, arr &gt;<span class="st"> </span><span class="dv">30</span> |<span class="st"> </span>dep &gt;<span class="st"> </span><span class="dv">30</span>)</code></pre></div>
+a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(a3, arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</code></pre></div>
 <p>Or if you don’t want to name the intermediate results, you need to wrap the function calls inside each other:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="../reference/filter.html">filter</a></span>(
   <span class="kw"><a href="../reference/summarise.html">summarise</a></span>(
@@ -635,11 +635,11 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
     <span class="dt">arr =</span> <span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
     <span class="dt">dep =</span> <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
   ),
-  arr &gt;<span class="st"> </span><span class="dv">30</span> |<span class="st"> </span>dep &gt;<span class="st"> </span><span class="dv">30</span>
+  arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>
 )
 <span class="co">#&gt; Adding missing grouping variables: `year`, `month`, `day`</span>
-<span class="co">#&gt; # A tibble: 49 × 5</span>
-<span class="co">#&gt; # Groups: year, month [11]</span>
+<span class="co">#&gt; # A tibble: 49 x 5</span>
+<span class="co">#&gt; # Groups:   year, month [11]</span>
 <span class="co">#&gt;    year month   day      arr      dep</span>
 <span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1  2013     1    16 34.24736 24.61287</span>
@@ -647,15 +647,15 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
 <span class="co">#&gt; 3  2013     2    11 36.29009 39.07360</span>
 <span class="co">#&gt; 4  2013     2    27 31.25249 37.76327</span>
 <span class="co">#&gt; # ... with 45 more rows</span></code></pre></div>
-<p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code>%&gt;%</code> operator from magrittr. <code><a href="../reference/reexports.html">x %&gt;% f(y)</a></code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(year, month, day) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(arr_delay, dep_delay) %&gt;%
+<p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code>%&gt;%</code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">flights <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(year, month, day) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(arr_delay, dep_delay) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(
     <span class="dt">arr =</span> <span class="kw">mean</span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),
     <span class="dt">dep =</span> <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-  ) %&gt;%
-<span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr &gt;<span class="st"> </span><span class="dv">30</span> |<span class="st"> </span>dep &gt;<span class="st"> </span><span class="dv">30</span>)</code></pre></div>
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</code></pre></div>
 </div>
 <div id="other-data-sources" class="section level2">
 <h2 class="hasAnchor">
@@ -675,7 +675,7 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
 <div id="databases" class="section level3">
 <h3 class="hasAnchor">
 <a href="#databases" class="anchor"></a>Databases</h3>
-<p>dplyr also allows you to use the same verbs with a remote database. It takes care of generating the SQL for you so that you can avoid the cognitive challenge of constantly switching between languages. To use these capabilities, you’ll need to install the dbplyr package and then read <code><a href="../articles/dbplyr.html">vignette("dbplyr")</a></code> for the details.</p>
+<p>dplyr also allows you to use the same verbs with a remote database. It takes care of generating the SQL for you so that you can avoid the cognitive challenge of constantly switching between languages. To use these capabilities, you’ll need to install the dbplyr package and then read <code>vignette("dbplyr")</code> for the details.</p>
 </div>
 <div id="multidimensional-arrays-cubes" class="section level3">
 <h3 class="hasAnchor">
@@ -713,7 +713,8 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li><a href="#data-nycflights13">Data: nycflights13</a></li>
       <li><a href="#single-table-verbs">Single table verbs</a></li>
@@ -733,7 +734,7 @@ a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.h
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

@@ -112,7 +112,7 @@ to perform arbitrary computation, returning either a data frame or
 arbitrary objects which will be stored in a list. This is particularly
 useful when working with models: you can fit models per group with
 <code>do()</code> and then flexibly extract components with either another
-<code>do()</code> or <code>summarise()</code>.</p>
+<code>do()</code> or <code><a href='summarise.html'>summarise()</a></code>.</p>
     
 
     <pre class="usage"><span class='fu'>do</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
@@ -159,14 +159,14 @@ data frame is the same for both empty and non-empty input.</p>
 equivalent to <code><a href='http://www.rdocumentation.org/packages/plyr/topics/dlply'>plyr::dlply()</a></code>, and <code>do()</code> with a single unnamed argument
 is basically equivalent to <code><a href='http://www.rdocumentation.org/packages/plyr/topics/ldply'>plyr::ldply()</a></code>. However, instead of storing
 labels in a separate attribute, the result is always a data frame. This
-means that <code>summarise()</code> applied to the result of <code>do()</code> can
+means that <code><a href='summarise.html'>summarise()</a></code> applied to the result of <code>do()</code> can
 act like <code>ldply()</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>)
-<span class='fu'>do</span>(<span class='no'>by_cyl</span>, <span class='fu'>head</span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 6 × 11
-#&gt; # Groups: cyl [3]
+<span class='fu'>do</span>(<span class='no'>by_cyl</span>, <span class='fu'>head</span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
@@ -179,13 +179,13 @@ act like <code>ldply()</code>.</p>
 <span class='no'>models</span></div><div class='output co'>#&gt; Source: local data frame [3 x 2]
 #&gt; Groups: &lt;by row&gt;
 #&gt; 
-#&gt; # A tibble: 3 × 2
+#&gt; # A tibble: 3 x 2
 #&gt;     cyl      mod
 #&gt; * &lt;dbl&gt;   &lt;list&gt;
 #&gt; 1     4 &lt;S3: lm&gt;
 #&gt; 2     6 &lt;S3: lm&gt;
 #&gt; 3     8 &lt;S3: lm&gt;</div><div class='input'>
-<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>models</span>, <span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'>summary</span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 × 1
+<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>models</span>, <span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'>summary</span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;          rsq
 #&gt;        &lt;dbl&gt;
 #&gt; 1 0.64840514
@@ -193,7 +193,7 @@ act like <code>ldply()</code>.</p>
 #&gt; 3 0.27015777</div><div class='input'><span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'>data.frame</span>(<span class='kw'>coef</span> <span class='kw'>=</span> <span class='fu'>coef</span>(<span class='no'>.</span>$<span class='no'>mod</span>)))</div><div class='output co'>#&gt; Source: local data frame [6 x 1]
 #&gt; Groups: &lt;by row&gt;
 #&gt; 
-#&gt; # A tibble: 6 × 1
+#&gt; # A tibble: 6 x 1
 #&gt;           coef
 #&gt; *        &lt;dbl&gt;
 #&gt; 1 40.871955322
@@ -207,7 +207,7 @@ act like <code>ldply()</code>.</p>
 )</div><div class='output co'>#&gt; Source: local data frame [6 x 5]
 #&gt; Groups: &lt;by row&gt;
 #&gt; 
-#&gt; # A tibble: 6 × 5
+#&gt; # A tibble: 6 x 5
 #&gt;           var     Estimate  Std..Error    t.value     Pr...t..
 #&gt; *      &lt;fctr&gt;        &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
 #&gt; 1 (Intercept) 40.871955322 3.589605400 11.3861973 1.202715e-06
@@ -223,7 +223,7 @@ act like <code>ldply()</code>.</p>
 <span class='no'>models</span></div><div class='output co'>#&gt; Source: local data frame [3 x 3]
 #&gt; Groups: &lt;by row&gt;
 #&gt; 
-#&gt; # A tibble: 3 × 3
+#&gt; # A tibble: 3 x 3
 #&gt;     cyl mod_linear mod_quad
 #&gt; * &lt;dbl&gt;     &lt;list&gt;   &lt;list&gt;
 #&gt; 1     4   &lt;S3: lm&gt; &lt;S3: lm&gt;
@@ -245,7 +245,7 @@ act like <code>ldply()</code>.</p>
   <span class='co'># This longer example shows the progress bar in action</span>
   <span class='no'>by_dest</span> <span class='kw'>&lt;-</span> <span class='no'>flights</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>dest</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'><a href='n.html'>n</a></span>() <span class='kw'>&gt;</span> <span class='fl'>100</span>)
   <span class='fu'>library</span>(<span class='no'>mgcv</span>)
-  <span class='no'>by_dest</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fu'>gam</span>(<span class='no'>arr_delay</span> ~ <span class='fu'>s</span>(<span class='no'>dep_time</span>) + <span class='no'>month</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
+  <span class='no'>by_dest</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/mgcv/topics/gam'>gam</a></span>(<span class='no'>arr_delay</span> ~ <span class='fu'><a href='http://www.rdocumentation.org/packages/mgcv/topics/s'>s</a></span>(<span class='no'>dep_time</span>) + <span class='no'>month</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
 })
 }</div></pre>
   </div>
@@ -272,7 +272,7 @@ act like <code>ldply()</code>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

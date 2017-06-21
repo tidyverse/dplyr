@@ -125,7 +125,9 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='http://www.r
       <th>...</th>
       <td><p>One or more unquoted expressions separated by commas.
 You can treat variable names like they are positions.</p>
-<p>Positive values select variables; negative values to drop variables.</p>
+<p>Positive values select variables; negative values to drop variables.
+If the first expression is negative, <code>select()</code> will automatically
+start with all variables.</p>
 <p>Use named arguments to rename selected variables.</p>
 <p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in a context where column names
@@ -176,8 +178,8 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reexports.html'>as_tibble</a></span>(<span class='no'>iris</span>) <span class='co'># so it prints a little nicer</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 2
+    <pre class="examples"><div class='input'><span class='no'>iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>(<span class='no'>iris</span>) <span class='co'># so it prints a little nicer</span>
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
 #&gt;    Petal.Length Petal.Width
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;
 #&gt;  1          1.4         0.2
@@ -190,7 +192,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt;  8          1.5         0.2
 #&gt;  9          1.4         0.2
 #&gt; 10          1.5         0.1
-#&gt; # ... with 140 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>ends_with</a></span>(<span class='st'>"Width"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 2
+#&gt; # ... with 140 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>ends_with</a></span>(<span class='st'>"Width"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
 #&gt;    Sepal.Width Petal.Width
 #&gt;          &lt;dbl&gt;       &lt;dbl&gt;
 #&gt;  1         3.5         0.2
@@ -205,7 +207,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; 10         3.1         0.1
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Move Species variable to the front</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='select_helpers.html'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 × 5
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='select_helpers.html'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
 #&gt;     &lt;fctr&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
 #&gt;  1  setosa          5.1         3.5          1.4         0.2
@@ -221,7 +223,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='fu'>matrix</span>(<span class='fu'>runif</span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>df</span>[<span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>1</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>6</span>, <span class='fl'>10</span>)])
-<span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>)</div><div class='output co'>#&gt; # A tibble: 10 × 8
+<span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 8
 #&gt;           V4          V7        V1          V9         V8         V5        V2
 #&gt;        &lt;dbl&gt;       &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;
 #&gt;  1 0.1849738 0.006950771 0.7169860 0.789947051 0.00250323 0.87959719 0.6477019
@@ -234,7 +236,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt;  8 0.4643854 0.841570623 0.6464228 0.289851467 0.49672970 0.29457026 0.8404281
 #&gt;  9 0.8910764 0.105449455 0.5148363 0.510124689 0.38952535 0.04144781 0.0651790
 #&gt; 10 0.5368121 0.340091229 0.9619246 0.750690085 0.73144890 0.11654699 0.4399482
-#&gt; # ... with 1 more variables: V6 &lt;dbl&gt;</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 × 3
+#&gt; # ... with 1 more variables: V6 &lt;dbl&gt;</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
 #&gt;           V4         V5         V6
 #&gt;        &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
 #&gt;  1 0.1849738 0.87959719 0.26714756
@@ -248,7 +250,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt;  9 0.8910764 0.04144781 0.01551256
 #&gt; 10 0.5368121 0.11654699 0.41620118</div><div class='input'>
 <span class='co'># Drop variables with -</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 × 3
+<span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
 #&gt;    Sepal.Length Sepal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;  &lt;fctr&gt;
 #&gt;  1          5.1         3.5  setosa
@@ -336,7 +338,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 
 <span class='co'># Renaming -----------------------------------------</span>
 <span class='co'># * select() keeps only the variables you specify</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 × 1
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 1
 #&gt;    petal_length
 #&gt;           &lt;dbl&gt;
 #&gt;  1          1.4
@@ -351,7 +353,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; 10          1.5
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># * rename() keeps all variables</span>
-<span class='fu'>rename</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 × 5
+<span class='fu'>rename</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width petal_length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;fctr&gt;
 #&gt;  1          5.1         3.5          1.4         0.2  setosa
@@ -393,7 +395,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

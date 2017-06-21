@@ -185,10 +185,10 @@ into R.</p>
     <pre class="examples"><div class='input'><span class='co'># Basic connection using DBI -------------------------------------------</span>
 <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='no'>dbplyr</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
 
-<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw'>DBI</span><span class='kw'>::</span><span class='fu'>dbConnect</span>(<span class='kw'>RSQLite</span><span class='kw'>::</span><span class='fu'>SQLite</span>(), <span class='st'>":memory:"</span>)
+<span class='no'>con</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/DBI/topics/dbConnect'>dbConnect</a></span>(<span class='kw pkg'>RSQLite</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/RSQLite/topics/SQLite'>SQLite</a></span>(), <span class='st'>":memory:"</span>)
 <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='no'>con</span>, <span class='no'>mtcars</span>)
 
-<span class='kw'>DBI</span><span class='kw'>::</span><span class='fu'>dbListTables</span>(<span class='no'>con</span>)
+<span class='kw pkg'>DBI</span><span class='kw ns'>::</span><span class='fu'><a href='http://www.rdocumentation.org/packages/DBI/topics/dbListTables'>dbListTables</a></span>(<span class='no'>con</span>)
 
 <span class='co'># To retrieve a single table from a source, use `tbl()`</span>
 <span class='no'>con</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"mtcars"</span>)
@@ -199,7 +199,7 @@ into R.</p>
 <span class='co'># To show off the full features of dplyr's database integration,</span>
 <span class='co'># we'll use the Lahman database. lahman_sqlite() takes care of</span>
 <span class='co'># creating the database.</span>
-<span class='no'>lahman_p</span> <span class='kw'>&lt;-</span> <span class='fu'>lahman_sqlite</span>()
+<span class='no'>lahman_p</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/dbplyr/topics/lahman'>lahman_sqlite</a></span>()
 <span class='no'>batting</span> <span class='kw'>&lt;-</span> <span class='no'>lahman_p</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Batting"</span>)
 <span class='no'>batting</span>
 
@@ -253,7 +253,7 @@ into R.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

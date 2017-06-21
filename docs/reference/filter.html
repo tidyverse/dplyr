@@ -174,7 +174,7 @@ selection of variables.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; # A tibble: 35 × 13
+    <pre class="examples"><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 13
 #&gt;                  name height  mass    hair_color skin_color eye_color
 #&gt;                 &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;         &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;
 #&gt;  1     Luke Skywalker    172    77         blond       fair      blue
@@ -189,14 +189,14 @@ selection of variables.</p>
 #&gt; 10           Han Solo    180    80         brown       fair     brown
 #&gt; # ... with 25 more rows, and 7 more variables: birth_year &lt;dbl&gt;, gender &lt;chr&gt;,
 #&gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-#&gt; #   starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; # A tibble: 1 × 13
+#&gt; #   starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 13
 #&gt;                    name height  mass hair_color       skin_color eye_color
 #&gt;                   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;
 #&gt; 1 Jabba Desilijic Tiure    175  1358       &lt;NA&gt; green-tan, brown    orange
 #&gt; # ... with 7 more variables: birth_year &lt;dbl&gt;, gender &lt;chr&gt;, homeworld &lt;chr&gt;,
 #&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># Multiple criteria</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>&amp;</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 × 13
+<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>&amp;</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 13
 #&gt;         name height  mass hair_color       skin_color eye_color birth_year
 #&gt;        &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
 #&gt; 1  Nien Nunb    160    68       none             grey     black         NA
@@ -209,7 +209,7 @@ selection of variables.</p>
 #&gt; 8 Tion Medon    206    80       none             grey     black         NA
 #&gt; 9        BB8     NA    NA       none             none     black         NA
 #&gt; # ... with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 38 × 13
+#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 13
 #&gt;             name height  mass hair_color    skin_color eye_color birth_year
 #&gt;            &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
 #&gt;  1   Darth Vader    202   136       none         white    yellow       41.9
@@ -225,7 +225,7 @@ selection of variables.</p>
 #&gt; # ... with 28 more rows, and 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,
 #&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># Multiple arguments are equivalent to and</span>
-<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span>, <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 × 13
+<span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span>, <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 13
 #&gt;         name height  mass hair_color       skin_color eye_color birth_year
 #&gt;        &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
 #&gt; 1  Nien Nunb    160    68       none             grey     black         NA
@@ -269,7 +269,7 @@ selection of variables.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

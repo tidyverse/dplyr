@@ -122,7 +122,7 @@
 
 <span class="co"># Or the the development version from GitHub:</span>
 <span class="co"># install.packages("devtools")</span>
-devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
+devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"tidyverse/dplyr"</span>)</code></pre></div>
 <p>If you encounter a clear bug, please file a minimal reproducible example on <a href="https://github.com/tidyverse/dplyr/issues">github</a>. For questions and other discussion, please use the <a href="https://groups.google.com/group/manipulatr">manipulatr mailing list</a>.</p>
 </div>
 <div id="usage" class="section level2">
@@ -130,9 +130,9 @@ devtools::<span class="kw">install_github</span>(<span class="st">"tidyverse/dpl
 <a href="#usage" class="anchor"></a>Usage</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr)
 
-starwars %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="reference/filter.html">filter</a></span>(species ==<span class="st"> "Droid"</span>)
-<span class="co">#&gt; # A tibble: 5 × 13</span>
+starwars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/filter.html">filter</a></span>(species <span class="op">==</span><span class="st"> "Droid"</span>)
+<span class="co">#&gt; # A tibble: 5 x 13</span>
 <span class="co">#&gt;    name height  mass hair_color  skin_color eye_color birth_year gender</span>
 <span class="co">#&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;  &lt;chr&gt;</span>
 <span class="co">#&gt; 1 C-3PO    167    75       &lt;NA&gt;        gold    yellow        112   &lt;NA&gt;</span>
@@ -143,9 +143,9 @@ starwars %&gt;%<span class="st"> </span>
 <span class="co">#&gt; # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,</span>
 <span class="co">#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-starwars %&gt;%<span class="st"> </span>
+starwars <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="reference/select.html">select</a></span>(name, <span class="kw"><a href="reference/select_helpers.html">ends_with</a></span>(<span class="st">"color"</span>))
-<span class="co">#&gt; # A tibble: 87 × 4</span>
+<span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;             name hair_color  skin_color eye_color</span>
 <span class="co">#&gt;            &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;     &lt;chr&gt;</span>
 <span class="co">#&gt; 1 Luke Skywalker      blond        fair      blue</span>
@@ -155,10 +155,10 @@ starwars %&gt;%<span class="st"> </span>
 <span class="co">#&gt; 5    Leia Organa      brown       light     brown</span>
 <span class="co">#&gt; # ... with 82 more rows</span>
 
-starwars %&gt;%<span class="st"> </span>
-<span class="st">  </span><span class="kw"><a href="reference/mutate.html">mutate</a></span>(name, <span class="dt">bmi =</span> mass /<span class="st"> </span>((height /<span class="st"> </span><span class="dv">100</span>)  ^<span class="st"> </span><span class="dv">2</span>)) %&gt;%
-<span class="st">  </span><span class="kw"><a href="reference/select.html">select</a></span>(name:mass, bmi)
-<span class="co">#&gt; # A tibble: 87 × 4</span>
+starwars <span class="op">%&gt;%</span><span class="st"> </span>
+<span class="st">  </span><span class="kw"><a href="reference/mutate.html">mutate</a></span>(name, <span class="dt">bmi =</span> mass <span class="op">/</span><span class="st"> </span>((height <span class="op">/</span><span class="st"> </span><span class="dv">100</span>)  <span class="op">^</span><span class="st"> </span><span class="dv">2</span>)) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/select.html">select</a></span>(name<span class="op">:</span>mass, bmi)
+<span class="co">#&gt; # A tibble: 87 x 4</span>
 <span class="co">#&gt;             name height  mass      bmi</span>
 <span class="co">#&gt;            &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 Luke Skywalker    172    77 26.02758</span>
@@ -168,9 +168,9 @@ starwars %&gt;%<span class="st"> </span>
 <span class="co">#&gt; 5    Leia Organa    150    49 21.77778</span>
 <span class="co">#&gt; # ... with 82 more rows</span>
 
-starwars %&gt;%<span class="st"> </span>
+starwars <span class="op">%&gt;%</span><span class="st"> </span>
 <span class="st">  </span><span class="kw"><a href="reference/arrange.html">arrange</a></span>(<span class="kw"><a href="reference/desc.html">desc</a></span>(mass))
-<span class="co">#&gt; # A tibble: 87 × 13</span>
+<span class="co">#&gt; # A tibble: 87 x 13</span>
 <span class="co">#&gt;                    name height  mass hair_color       skin_color</span>
 <span class="co">#&gt;                   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;</span>
 <span class="co">#&gt; 1 Jabba Desilijic Tiure    175  1358       &lt;NA&gt; green-tan, brown</span>
@@ -182,14 +182,14 @@ starwars %&gt;%<span class="st"> </span>
 <span class="co">#&gt; #   birth_year &lt;dbl&gt;, gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,</span>
 <span class="co">#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</span>
 
-starwars %&gt;%
-<span class="st">  </span><span class="kw"><a href="reference/group_by.html">group_by</a></span>(species) %&gt;%
+starwars <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/group_by.html">group_by</a></span>(species) <span class="op">%&gt;%</span>
 <span class="st">  </span><span class="kw"><a href="reference/summarise.html">summarise</a></span>(
     <span class="dt">n =</span> <span class="kw"><a href="reference/n.html">n</a></span>(),
     <span class="dt">mass =</span> <span class="kw">mean</span>(mass, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)
-  ) %&gt;%
-<span class="st">  </span><span class="kw"><a href="reference/filter.html">filter</a></span>(n &gt;<span class="st"> </span><span class="dv">1</span>)
-<span class="co">#&gt; # A tibble: 9 × 3</span>
+  ) <span class="op">%&gt;%</span>
+<span class="st">  </span><span class="kw"><a href="reference/filter.html">filter</a></span>(n <span class="op">&gt;</span><span class="st"> </span><span class="dv">1</span>)
+<span class="co">#&gt; # A tibble: 9 x 3</span>
 <span class="co">#&gt;    species     n     mass</span>
 <span class="co">#&gt;      &lt;chr&gt; &lt;int&gt;    &lt;dbl&gt;</span>
 <span class="co">#&gt; 1    Droid     5 69.75000</span>
@@ -204,24 +204,27 @@ starwars %&gt;%
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Links</h2>
+    <h2 class="hasAnchor">
+<a href="#sidebar" class="anchor"></a>Links</h2>
 <ul class="list-unstyled">
-<li>Download from CRAN at <br><a href="https://cran.r-project.org/package=dplyr">https://​cran.r-project.org/​package=dplyr</a>
+<li>Download from CRANhttps://cran.r-project.org/package=dplyr at <br><a href="https://cran.r-project.org/package=dplyr">https://​cran.r-project.org/​package=dplyr</a>
 </li>
 <li>Browse source code at <br><a href="https://github.com/tidyverse/dplyr">https://​github.com/​tidyverse/​dplyr</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/hadley/tidyverse/issues">https://​github.com/​hadley/​tidyverse/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/tidyverse/dplyr/issues">https://​github.com/​tidyverse/​dplyr/​issues</a>
 </li>
 <li>Learn more at <br><a href="http://r4ds.had.co.nz/transform.html">http://​r4ds.had.co.nz/​transform.html</a>
 </li>
 </ul>
 <h2>License</h2>
-<p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE">LICENSE</a></p>
+<p><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE.html">LICENSE</a></p>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>
 <a href="http://hadley.nz">Hadley Wickham</a> <br><small class="roles"> Author, maintainer </small> </li>
 <li>Romain Francois <br><small class="roles"> Author </small> </li>
+<li>Lionel Henry <br><small class="roles"> Author </small> </li>
+<li>Kirill Müller <br><small class="roles"> Author </small> </li>
 <li>
 <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a> <br><small class="roles"> Copyright holder, funder </small> </li>
 </ul>
@@ -242,7 +245,7 @@ starwars %&gt;%
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

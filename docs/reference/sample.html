@@ -225,8 +225,8 @@ now unquote a <a href='http://www.rdocumentation.org/packages/rlang/topics/quosu
 #&gt; Fiat 128         32.4   4  78.7  66 4.08 2.200 19.47  1  1    4    1
 #&gt; Ferrari Dino     19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt; Merc 240D        24.4   4 146.7  62 3.69 3.190 20.00  1  0    4    2</div><div class='input'>
-<span class='fu'>sample_n</span>(<span class='no'>by_cyl</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt; # A tibble: 9 × 11
-#&gt; # Groups: cyl [3]
+<span class='fu'>sample_n</span>(<span class='no'>by_cyl</span>, <span class='fl'>3</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
@@ -237,8 +237,8 @@ now unquote a <a href='http://www.rdocumentation.org/packages/rlang/topics/quosu
 #&gt; 6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
 #&gt; 7  15.8     8 351.0   264  4.22 3.170 14.50     0     1     5     4
 #&gt; 8  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
-#&gt; 9  10.4     8 460.0   215  3.00 5.424 17.82     0     0     3     4</div><div class='input'><span class='fu'>sample_n</span>(<span class='no'>by_cyl</span>, <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 30 × 11
-#&gt; # Groups: cyl [3]
+#&gt; 9  10.4     8 460.0   215  3.00 5.424 17.82     0     0     3     4</div><div class='input'><span class='fu'>sample_n</span>(<span class='no'>by_cyl</span>, <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 30 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  33.9     4  71.1    65  4.22 1.835 19.90     1     1     4     1
@@ -251,8 +251,8 @@ now unquote a <a href='http://www.rdocumentation.org/packages/rlang/topics/quosu
 #&gt;  8  30.4     4  75.7    52  4.93 1.615 18.52     1     1     4     2
 #&gt;  9  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
 #&gt; 10  30.4     4  95.1   113  3.77 1.513 16.90     1     1     5     2
-#&gt; # ... with 20 more rows</div><div class='input'><span class='fu'>sample_n</span>(<span class='no'>by_cyl</span>, <span class='fl'>3</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='no'>mpg</span> / <span class='fu'>mean</span>(<span class='no'>mpg</span>))</div><div class='output co'>#&gt; # A tibble: 9 × 11
-#&gt; # Groups: cyl [3]
+#&gt; # ... with 20 more rows</div><div class='input'><span class='fu'>sample_n</span>(<span class='no'>by_cyl</span>, <span class='fl'>3</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='no'>mpg</span> / <span class='fu'>mean</span>(<span class='no'>mpg</span>))</div><div class='output co'>#&gt; # A tibble: 9 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1  30.4     4  75.7    52  4.93 1.615 18.52     1     1     4     2
@@ -354,8 +354,8 @@ now unquote a <a href='http://www.rdocumentation.org/packages/rlang/topics/quosu
 #&gt; Mazda RX4 Wag 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Fiat X1-9     27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
 #&gt; Merc 450SE    16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3</div><div class='input'>
-<span class='fu'>sample_frac</span>(<span class='no'>by_cyl</span>, <span class='fl'>0.2</span>)</div><div class='output co'>#&gt; # A tibble: 6 × 11
-#&gt; # Groups: cyl [3]
+<span class='fu'>sample_frac</span>(<span class='no'>by_cyl</span>, <span class='fl'>0.2</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1  30.4     4  95.1   113  3.77 1.513 16.90     1     1     5     2
@@ -363,8 +363,8 @@ now unquote a <a href='http://www.rdocumentation.org/packages/rlang/topics/quosu
 #&gt; 3  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
 #&gt; 4  15.0     8 301.0   335  3.54 3.570 14.60     0     1     5     8
 #&gt; 5  15.5     8 318.0   150  2.76 3.520 16.87     0     0     3     2
-#&gt; 6  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2</div><div class='input'><span class='fu'>sample_frac</span>(<span class='no'>by_cyl</span>, <span class='fl'>1</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
-#&gt; # Groups: cyl [3]
+#&gt; 6  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2</div><div class='input'><span class='fu'>sample_frac</span>(<span class='no'>by_cyl</span>, <span class='fl'>1</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
@@ -396,7 +396,7 @@ now unquote a <a href='http://www.rdocumentation.org/packages/rlang/topics/quosu
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
