@@ -472,9 +472,9 @@ x2
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)
 
 <span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x1)
-<span class="co">#&gt; &lt;environment: 0x7ff64a09ba70&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x7fcb515bfea8&gt;</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x2)
-<span class="co">#&gt; &lt;environment: 0x7ff64cb22778&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x7fcb51704b80&gt;</span></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">eval_tidy</a></span>(x1)
 <span class="co">#&gt; [1] 10</span>

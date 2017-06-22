@@ -164,90 +164,49 @@ act like <code>ldply()</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>)
-<span class='fu'>do</span>(<span class='no'>by_cyl</span>, <span class='fu'>head</span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 11
-#&gt; # Groups:   cyl [3]
-#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt; 2  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt; 3  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
-#&gt; 4  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
-#&gt; 5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
-#&gt; 6  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4</div><div class='input'>
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
-<span class='no'>models</span></div><div class='output co'>#&gt; Source: local data frame [3 x 2]
-#&gt; Groups: &lt;by row&gt;
-#&gt; 
-#&gt; # A tibble: 3 x 2
-#&gt;     cyl      mod
-#&gt; * &lt;dbl&gt;   &lt;list&gt;
-#&gt; 1     4 &lt;S3: lm&gt;
-#&gt; 2     6 &lt;S3: lm&gt;
-#&gt; 3     8 &lt;S3: lm&gt;</div><div class='input'>
-<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>models</span>, <span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'>summary</span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
-#&gt;          rsq
-#&gt;        &lt;dbl&gt;
-#&gt; 1 0.64840514
-#&gt; 2 0.01062604
-#&gt; 3 0.27015777</div><div class='input'><span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'>data.frame</span>(<span class='kw'>coef</span> <span class='kw'>=</span> <span class='fu'>coef</span>(<span class='no'>.</span>$<span class='no'>mod</span>)))</div><div class='output co'>#&gt; Source: local data frame [6 x 1]
-#&gt; Groups: &lt;by row&gt;
-#&gt; 
-#&gt; # A tibble: 6 x 1
-#&gt;           coef
-#&gt; *        &lt;dbl&gt;
-#&gt; 1 40.871955322
-#&gt; 2 -0.135141815
-#&gt; 3 19.081987419
-#&gt; 4  0.003605119
-#&gt; 5 22.032798914
-#&gt; 6 -0.019634095</div><div class='input'><span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'>data.frame</span>(
-  <span class='kw'>var</span> <span class='kw'>=</span> <span class='fu'>names</span>(<span class='fu'>coef</span>(<span class='no'>.</span>$<span class='no'>mod</span>)),
-  <span class='fu'>coef</span>(<span class='fu'>summary</span>(<span class='no'>.</span>$<span class='no'>mod</span>)))
-)</div><div class='output co'>#&gt; Source: local data frame [6 x 5]
-#&gt; Groups: &lt;by row&gt;
-#&gt; 
-#&gt; # A tibble: 6 x 5
-#&gt;           var     Estimate  Std..Error    t.value     Pr...t..
-#&gt; *      &lt;fctr&gt;        &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;        &lt;dbl&gt;
-#&gt; 1 (Intercept) 40.871955322 3.589605400 11.3861973 1.202715e-06
-#&gt; 2        disp -0.135141815 0.033171608 -4.0740206 2.782827e-03
-#&gt; 3 (Intercept) 19.081987419 2.913992892  6.5483988 1.243968e-03
-#&gt; 4        disp  0.003605119 0.015557115  0.2317344 8.259297e-01
-#&gt; 5 (Intercept) 22.032798914 3.345241115  6.5863112 2.588765e-05
-#&gt; 6        disp -0.019634095 0.009315926 -2.1075838 5.677488e-02</div><div class='input'>
-<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(
-  <span class='kw'>mod_linear</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>),
-  <span class='kw'>mod_quad</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>mpg</span> ~ <span class='fu'>poly</span>(<span class='no'>disp</span>, <span class='fl'>2</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>)
+    <pre class="examples"><div class='input'>by_cyl <- group_by(mtcars, cyl)
+do(by_cyl, head(., 2))
+
+models <- by_cyl %>% do(mod = lm(mpg ~ disp, data = .))
+models
+
+summarise(models, rsq = summary(mod)$r.squared)
+models %>% do(data.frame(coef = coef(.$mod)))
+models %>% do(data.frame(
+  var = names(coef(.$mod)),
+  coef(summary(.$mod)))
 )
-<span class='no'>models</span></div><div class='output co'>#&gt; Source: local data frame [3 x 3]
-#&gt; Groups: &lt;by row&gt;
-#&gt; 
-#&gt; # A tibble: 3 x 3
-#&gt;     cyl mod_linear mod_quad
-#&gt; * &lt;dbl&gt;     &lt;list&gt;   &lt;list&gt;
-#&gt; 1     4   &lt;S3: lm&gt; &lt;S3: lm&gt;
-#&gt; 2     6   &lt;S3: lm&gt; &lt;S3: lm&gt;
-#&gt; 3     8   &lt;S3: lm&gt; &lt;S3: lm&gt;</div><div class='input'><span class='no'>compare</span> <span class='kw'>&lt;-</span> <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>aov</span> <span class='kw'>=</span> <span class='fu'>anova</span>(<span class='no'>.</span>$<span class='no'>mod_linear</span>, <span class='no'>.</span>$<span class='no'>mod_quad</span>))
-<span class='co'># compare %&gt;% summarise(p.value = aov$`Pr(&gt;F)`)</span>
 
-<span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"nycflights13"</span>)) {
-<span class='co'># You can use it to do any arbitrary computation, like fitting a linear</span>
-<span class='co'># model. Let's explore how carrier departure delays vary over the time</span>
-<span class='no'>carriers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>flights</span>, <span class='no'>carrier</span>)
-<span class='fu'><a href='group_size.html'>group_size</a></span>(<span class='no'>carriers</span>)
+models <- by_cyl %>% do(
+  mod_linear = lm(mpg ~ disp, data = .),
+  mod_quad = lm(mpg ~ poly(disp, 2), data = .)
+)
+models
+compare <- models %>% do(aov = anova(.$mod_linear, .$mod_quad))
+# compare %>% summarise(p.value = aov$`Pr(>F)`)
 
-<span class='no'>mods</span> <span class='kw'>&lt;-</span> <span class='fu'>do</span>(<span class='no'>carriers</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'>lm</span>(<span class='no'>arr_delay</span> ~ <span class='no'>dep_time</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
-<span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'>as.data.frame</span>(<span class='fu'>coef</span>(<span class='no'>.</span>$<span class='no'>mod</span>)))
-<span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'>summary</span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)
+if (require("nycflights13")) {
+# You can use it to do any arbitrary computation, like fitting a linear
+# model. Let's explore how carrier departure delays vary over the time
+carriers <- group_by(flights, carrier)
+group_size(carriers)
 
-<span class='fu'>not_run</span>({
-  <span class='co'># This longer example shows the progress bar in action</span>
-  <span class='no'>by_dest</span> <span class='kw'>&lt;-</span> <span class='no'>flights</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>dest</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'><a href='n.html'>n</a></span>() <span class='kw'>&gt;</span> <span class='fl'>100</span>)
-  <span class='fu'>library</span>(<span class='no'>mgcv</span>)
-  <span class='no'>by_dest</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/mgcv/topics/gam'>gam</a></span>(<span class='no'>arr_delay</span> ~ <span class='fu'><a href='http://www.rdocumentation.org/packages/mgcv/topics/s'>s</a></span>(<span class='no'>dep_time</span>) + <span class='no'>month</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
-})
-}</div></pre>
+mods <- do(carriers, mod = lm(arr_delay ~ dep_time, data = .))
+mods %>% do(as.data.frame(coef(.$mod)))
+mods %>% summarise(rsq = summary(mod)$r.squared)
+
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:33:0: unexpected end of input</span>
+#&gt; <span class='error'>31: </span>
+#&gt; <span class='error'>32: </span>
+#&gt; <span class='error'>   ^</span></div><span class='co'># NOT RUN {</span>
+<span class='co'># This longer example shows the progress bar in action</span>
+<span class='no'>by_dest</span> <span class='kw'>&lt;-</span> <span class='no'>flights</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>dest</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'><a href='n.html'>n</a></span>() <span class='kw'>&gt;</span> <span class='fl'>100</span>)
+<span class='fu'>library</span>(<span class='no'>mgcv</span>)
+<span class='no'>by_dest</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/mgcv/topics/gam'>gam</a></span>(<span class='no'>arr_delay</span> ~ <span class='fu'><a href='http://www.rdocumentation.org/packages/mgcv/topics/s'>s</a></span>(<span class='no'>dep_time</span>) + <span class='no'>month</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
+<span class='co'># }</span><div class='input'>}
+</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:1: unexpected '}'</span>
+#&gt; <span class='error'>1: }</span>
+#&gt; <span class='error'>    ^</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

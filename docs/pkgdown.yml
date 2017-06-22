@@ -1,4 +1,6 @@
-reference_url: http://dplyr.tidyverse.org/reference
+urls:
+  reference: http://dplyr.tidyverse.org/reference
+  article: http://dplyr.tidyverse.org/articles
 articles:
   compatibility: compatibility.html
   dplyr: dplyr.html

@@ -310,11 +310,10 @@ appears in any of the inputs.</p>
 #&gt; 4 NA  1
 #&gt; 5 NA  2
 #&gt; 6 NA  3
-#&gt; 7 NA  4</div><div class='input'><span class='fu'>not_run</span>({
-  <span class='co'># Rows do need to match when column-binding</span>
-  <span class='fu'>bind_cols</span>(<span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='fu'>data.frame</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
-})
-
+#&gt; 7 NA  4</div><span class='co'># NOT RUN {</span>
+<span class='co'># Rows do need to match when column-binding</span>
+<span class='fu'>bind_cols</span>(<span class='fu'>data.frame</span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='fu'>data.frame</span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
+<span class='co'># }</span><div class='input'>
 <span class='fu'>bind_cols</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb mpg1 cyl1 disp1 hp1 drat1
 #&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4 17.8    6 167.6 123  3.92
 #&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4 16.4    8 275.8 180  3.07

@@ -161,7 +161,7 @@ frame. It supports <a href='http://www.rdocumentation.org/packages/rlang/topics/
 
 <span class='co'># Find year with most games for each player</span>
 <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>Batting</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>1</span>, <span class='no'>G</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; <span class='message'>Auto-disconnecting SQLiteConnection</span></div><div class='output co'>#&gt; # A tibble: 19,516 x 22
+}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; # A tibble: 19,516 x 22
 #&gt; # Groups:   playerID [18,659]
 #&gt;     playerID yearID stint teamID   lgID     G    AB     R     H   X2B   X3B
 #&gt;        &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;

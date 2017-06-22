@@ -39,6 +39,15 @@ body {
   margin-bottom: 5px;
 }
 
+.navbar-nav li a {
+  padding-bottom: 10px;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: #eee;
+}
+
 /* Table of contents --------------------------*/
 
 #sidebar {
