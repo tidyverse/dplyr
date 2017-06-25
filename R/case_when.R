@@ -49,10 +49,10 @@
 #'
 #' # Dots support splicing:
 #' patterns <- list(
-#'   TRUE ~ as.character(x),
 #'   x %%  5 == 0 ~ "fizz",
 #'   x %%  7 == 0 ~ "buzz",
-#'   x %% 35 == 0 ~ "fizz buzz"
+#'   x %% 35 == 0 ~ "fizz buzz",
+#'   TRUE ~ as.character(x)
 #' )
 #' case_when(!!! patterns)
 case_when <- function(...) {
