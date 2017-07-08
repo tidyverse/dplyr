@@ -1,5 +1,8 @@
 # dplyr 0.7.1.9000
 
+* Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
+  and joins (minimal `raw` x `raw` support initially) (#1803). 
+
 # dplyr 0.7.1
 
 * Use new versions of bindrcpp and glue to avoid protection problems.
@@ -19,9 +22,6 @@
 
 * Quosured symbols do not prevent hybrid handling anymore. This should
   fix many performance issues introduced with tidyeval (#2822).
-
-* Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
-  and joins (minimal `raw` x `raw` support initially) (#1803). 
 
 # dplyr 0.7.0
 
