@@ -20,6 +20,8 @@
 * Quosured symbols do not prevent hybrid handling anymore. This should
   fix many performance issues introduced with tidyeval (#2822).
 
+* Support for raw vector columns in `mutate` and `summarise` (#1803). 
+
 # dplyr 0.7.0
 
 ## New data, functions, and features

@@ -241,6 +241,8 @@ inline OrderVisitor* order_visitor_asc_matrix(SEXP vec) {
     return new OrderVisitorMatrix<STRSXP, ascending>(vec);
   case DPLYR_CPLXSXP:
     return new OrderVisitorMatrix<CPLXSXP, ascending>(vec);
+  case DPLYR_RAWSXP:
+    return new OrderVisitorMatrix<RAWSXP, ascending>(vec);
   case DPLYR_VECSXP:
     stop("Matrix can't be a list");
   }
