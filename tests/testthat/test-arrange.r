@@ -159,18 +159,12 @@ test_that("arrange fails gracefully on list columns (#1489)", {
   )
 })
 
-test_that("arrange fails gracefully on raw columns (#1803)", {
+test_that("arrange supports raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(
-    arrange(df, a),
-    "Column `b` is of unsupported type raw",
-    fixed = TRUE
-  )
-  expect_error(
-    arrange(df, b),
-    "Column `b` is of unsupported type raw",
-    fixed = TRUE
-  )
+  expect_identical(arrange(df, a),df)
+  expect_identical(arrange(df, b),df)
+  expect_identical(arrange(df, desc(a)),df[3:1,])
+  expect_identical(arrange(df, desc(b)),df[3:1,])
 })
 
 test_that("arrange fails gracefully on matrix input (#1870)", {
@@ -185,7 +179,7 @@ test_that("arrange fails gracefully on matrix input (#1870)", {
 
 # grouped_df --------------------------------------------------------------
 
-test_that("can choose to inclue grouping vars", {
+test_that("can choose to include grouping vars", {
   df <- tibble(g = c(1, 2), x = c(2, 1)) %>% group_by(g)
 
   df1 <- df %>% arrange(x, .by_group = TRUE)

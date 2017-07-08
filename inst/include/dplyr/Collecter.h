@@ -274,6 +274,46 @@ protected:
 
 };
 
+template <>
+class Collecter_Impl<RAWSXP> : public Collecter {
+public:
+  Collecter_Impl(int n_): data(n_, (Rbyte)0) {}
+
+  void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
+    warn_loss_attr(v);
+    RawVector source(v);
+    Rbyte* source_ptr = source.begin() + offset;
+    for (int i = 0; i < index.size(); i++) {
+      data[index[i]] = source_ptr[i];
+    }
+  }
+
+  inline SEXP get() {
+    return data;
+  }
+
+  inline bool compatible(SEXP x) {
+    return TYPEOF(x) == RAWSXP ;
+  }
+
+  bool can_promote(SEXP x) const {
+    return
+      (TYPEOF(x) == REALSXP && !Rf_inherits(x, "POSIXct") && !Rf_inherits(x, "Date")) ||
+      (TYPEOF(x) == INTSXP  && !Rf_inherits(x, "factor"))
+      ;
+  }
+
+  std::string describe() const {
+    return "raw";
+  }
+
+protected:
+  RawVector data;
+
+};
+
+
+
 template <int RTYPE>
 class TypedCollecter : public Collecter_Impl<RTYPE> {
 public:

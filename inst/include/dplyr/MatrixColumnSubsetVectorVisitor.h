@@ -80,6 +80,28 @@ private:
   Matrix<RTYPE> data;
 };
 
+// because RAWSXP does not have the NA concept
+template <>
+template <typename Container>
+inline SEXP MatrixColumnSubsetVisitor<RAWSXP>::subset_int(const Container& index) const {
+  int n = index.size(), nc = data.ncol();
+  Matrix<RAWSXP> res(n, nc);
+  for (int h = 0; h < nc; h++) {
+    Column column = res.column(h);
+    Column source_column = const_cast<Matrix<RAWSXP>&>(data).column(h);
+    for (int k = 0; k < n; k++) {
+      int idx = index[k];
+      if (idx < 0) {
+        column[k] = (Rbyte)0;
+      } else {
+        column[k] = source_column[ index[k] ];
+      }
+    }
+  }
+  return res;
+}
+
+
 }
 
 #endif
