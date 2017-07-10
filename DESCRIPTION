@@ -27,6 +27,7 @@ Imports:
     R6,
     Rcpp (>= 0.12.7),
     tibble (>= 1.3.1),
+    tidyselect,
     utils
 Suggests:
     bit64,
