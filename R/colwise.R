@@ -21,7 +21,7 @@
 #'
 #' * Verbs suffixed with `_at()` apply an operation on a subset of
 #'   variables specified with the quoting function [vars()]. This
-#'   quoting function accepts [select_vars()] helpers like
+#'   quoting function accepts [tidyselect::vars_select()] helpers like
 #'   [starts_with()]. Instead of a [vars()] selection, you can also
 #'   supply an [integerish][rlang::is_integerish] vector of column
 #'   positions or a character vector of column names.
@@ -127,7 +127,7 @@ tbl_at_vars <- function(tbl, vars) {
   } else if (is_integerish(vars)) {
     tibble_vars[vars]
   } else if (is_quosures(vars)) {
-    out <- select_vars(tibble_vars, !!! vars)
+    out <- tidyselect::vars_select(tibble_vars, !!! vars)
     if (!any(have_name(vars))) {
       names(out) <- NULL
     }

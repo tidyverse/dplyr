@@ -290,7 +290,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 
 #' @export
 select.tbl_cube <- function(.data, ...) {
-  vars <- select_vars(names(.data$mets), ...)
+  vars <- tidyselect::vars_select(names(.data$mets), ...)
   .data$mets <- .data$mets[vars]
   .data
 }
@@ -302,7 +302,7 @@ select_.tbl_cube <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- rename_vars(names(.data$mets), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data$mets), !!! quos(...))
   .data$mets <- .data$mets[vars]
   .data
 }

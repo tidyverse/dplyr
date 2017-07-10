@@ -108,8 +108,8 @@ arrange_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 select.data.frame <- function(.data, ...) {
-  # Pass via splicing to avoid matching select_vars() arguments
-  vars <- select_vars(names(.data), !!! quos(...))
+  # Pass via splicing to avoid matching vars_select() arguments
+  vars <- tidyselect::vars_select(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export
@@ -120,7 +120,7 @@ select_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- rename_vars(names(.data), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export

@@ -1,5 +1,11 @@
 # dplyr 0.7.1.9000
 
+* dplyr now depends on the new tidyselect package to power `select()`,
+  `rename()`, `pull()` and their variants (#2896). Consequently
+  `select_vars()`, `select_var()` and `rename_vars()` are
+  soft-deprecated and will start issuing warnings in the next version.
+
+
 # dplyr 0.7.1
 
 * Use new versions of bindrcpp and glue to avoid protection problems.
@@ -19,6 +25,7 @@
 
 * Quosured symbols do not prevent hybrid handling anymore. This should
   fix many performance issues introduced with tidyeval (#2822).
+
 
 # dplyr 0.7.0
 
