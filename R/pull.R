@@ -4,7 +4,7 @@
 #' before indexing for remote data tables.
 #'
 #' @param .data A table of data
-#' @inheritParams select_var
+#' @inheritParams tidyselect::vars_pull
 #' @export
 #' @examples
 #' mtcars %>% pull(-1)
@@ -24,11 +24,11 @@ pull <- function(.data, var = -1) {
 }
 #' @export
 pull.data.frame <- function(.data, var = -1) {
-  var <- select_var(names(.data), !! enquo(var))
+  var <- tidyselect::vars_pull(names(.data), !! enquo(var))
   .data[[var]]
 }
 
-# FIXME: remove this once dbplyr uses select_var()
+# FIXME: remove this once dbplyr uses vars_pull()
 find_var <- function(expr, vars) {
   var_env <- set_names(as.list(seq_along(vars)), vars)
   var <- eval_tidy(expr, var_env)
