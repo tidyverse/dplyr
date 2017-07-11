@@ -62,6 +62,20 @@ The three \link{scoped} variants of \code{select()} (\code{\link[=select_all]{se
 easy to apply a renaming function to a selection of variables.
 }
 
+\section{Context of evaluation}{
+
+
+Quoting verbs usually support references to both objects from the
+data frame and objects from the calling context. Selecting verbs
+behave a bit differently.
+\itemize{
+\item Bare names are evaluated in the data frame only. You cannot refer
+to local objects unless you explicitly unquote them with \code{!!}.
+\item Calls to helper functions are evaluated in the calling context
+only. You can safely and directly refer to local objects.
+}
+}
+
 \section{Tidy data}{
 
 When applied to a data frame, row names are silently dropped. To preserve,
@@ -70,6 +84,7 @@ convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibb
 
 \examples{
 iris <- as_tibble(iris) # so it prints a little nicer
+
 select(iris, starts_with("Petal"))
 select(iris, ends_with("Width"))
 
@@ -83,6 +98,21 @@ select(df, num_range("V", 4:6))
 
 # Drop variables with -
 select(iris, -starts_with("Petal"))
+
+
+# When selecting with bare symbols, you can only refer to data
+# frame objects. This avoids ambiguity. If you want to refer to
+# local objects, you can explicitly unquote them. They must contain
+# column positions (integers) or column names (strings):
+Species <- 2
+select(iris, Species)     # Picks up `Species` from the data frame
+select(iris, !! Species)  # Picks up the local object referring to column 2
+
+# On the other hand, function calls behave the opposite way. They
+# are evaluated in the local context only and cannot refer to data
+# frame objects. This makes it easy to refer to local variables:
+x <- "Petal"
+select(iris, starts_with(x))  # Picks up the local variable `x`
 
 
 # The .data pronoun is available:

@@ -270,12 +270,12 @@ However you need to be careful when progressively rolling up summaries like this
 
 ### Selecting operations
 
-One of the appealing features of dplyr is that you can refer to
-columns from the tibble as if they were regular variables. However,
-the syntactic uniformity of referring to bare column names hide
-semantical differences across the verbs. A column symbol supplied to
-`select()` does not have the same meaning as the same symbol supplied
-to `mutate()`.
+One core principle in dplyr is that you can refer to columns from the
+tibble as if they were regular variables. However, the syntactic
+uniformity of referring to bare column names hides semantical
+differences across the verbs. A column symbol supplied to `select()`
+does not have the same meaning as the same symbol supplied to
+`mutate()`.
 
 Selecting operations expect column names and positions. Hence, when
 you call `select()` with bare variable names, they actually represent
@@ -288,19 +288,30 @@ select(flights, year)
 select(flights, 1)
 ```
 
-By the same token, this means that you cannot refer to variables from
-the surrounding context if they have the same name as one of the
-columns. In the following example, `year` still represents 1, not 5:
+A second difference has to do with the context of evaluation. Bare
+names (also called symbols) are evaluated in the data context only.
+Consequently, symbols must refer to data frame objects and not to
+local variables. If you wish to refer to variables from the calling
+context, you have to be explicit about it by unquoting (you can learn
+more about unquoting in `vignette("programming")`):
 
-```r
-year <- 5
-select(flights, year)
+```{r}
+vars <- c("year", "month")
+select(flights, !! vars)
 ```
 
-One useful subtlety is that this only applies to bare names and to
-selecting calls like `c(year, month, day)` or `year:day`. In all other
-cases, the columns of the data frame are not put in scope. This allows
-you to refer to contextual variables in selection helpers:
+By way of exception, selecting calls like `c(year, month, day)` or
+`year:day` obey the same principle as symbols:
+
+```{r}
+pos <- 3
+select(flights, year:(!! pos))
+```
+
+On the other hand, all other calls (and in particular calls to helper
+functions like `starts_with()`) behave the opposite way. They cannot
+refer to objects from the data but can see objects from the
+surrounding context:
 
 ```{r}
 year <- "dep"
@@ -315,44 +326,9 @@ select(flights, year, identity(year))
 ```
 
 In the first argument, `year` represents its own position `1`. In the
-second argument, `year` is evaluated in the surrounding context and
-represents the fifth column.
-
-For a long time, `select()` used to only understand column positions.
-Counting from dplyr 0.6, it now understands column names as well. This
-makes it a bit easier to program with `select()`:
-
-```{r}
-vars <- c("year", "month")
-select(flights, vars, "day")
-```
-
-Note that the code above is somewhat unsafe because you might have
-added a column named `vars` to the tibble, or you might apply the code
-to another data frame containing such a column. To avoid this issue,
-you can wrap the variable in an `identity()` call as we mentioned
-above, as this will bypass column names. However, a more explicit and
-general method that works in all dplyr verbs is to unquote the
-variable with the `!!` operator. This tells dplyr to bypass the data
-frame and to directly look in the context:
-
-```{r}
-# Let's create a new `vars` column:
-flights$vars <- flights$year
-
-# The new column won't be an issue if you evaluate `vars` in the
-# context with the `!!` operator:
-vars <- c("year", "month", "day")
-select(flights, !! vars)
-```
-
-This operator is very useful when you need to use dplyr within custom
-functions. You can learn more about it in `vignette("programming")`.
-However it is important to understand the semantics of the verbs you
-are unquoting into, that is, the values they understand. As we have
-just seen, `select()` supports names and positions of columns. But
-that won't be the case in other verbs like `mutate()` because they
-have different semantics.
+second argument, `year` is evaluated in the surrounding context
+(because `identity()` is a function call) and represents the fifth
+column.
 
 
 ### Mutating operations

@@ -5,6 +5,18 @@
   `select_vars()`, `select_var()` and `rename_vars()` are
   soft-deprecated and will start issuing warnings in the next version.
 
+* Selecting verbs (e.g. `select()` or verbs supporting `vars()`
+  selections) now treat symbols a bit differently. Symbols are only
+  evaluated in the data context, never in the calling context (#2904).
+  This means that you can no longer refer to local variables unless
+  you are explicitly unquoting these variables with `!!`.
+
+  Note that since last version, helper calls (like `starts_with()`)
+  obey the opposite behaviour and are evaluated in the calling
+  context, not the data context. To sum up, symbols can only refer to
+  data frame objects, while helpers can only refer to contextual
+  objects.
+
 
 # dplyr 0.7.1
 
