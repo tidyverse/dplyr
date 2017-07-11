@@ -115,3 +115,8 @@ test_that("can select() with .data pronoun (#2715)", {
 test_that("can select() with character vectors", {
   expect_identical(select(mtcars, "cyl", !! "disp", c("cyl", "am", "drat")), mtcars[c("cyl", "disp", "am", "drat")])
 })
+
+test_that("select() evaluates symbols outside of context", {
+  foo <- 2
+  expect_error(select(mtcars, foo), "object 'foo' not found")
+})

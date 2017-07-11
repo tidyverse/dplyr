@@ -58,4 +58,4 @@ License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    lionel-/tidyselect@597f099
+    lionel-/tidyselect@dc6dec6

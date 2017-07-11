@@ -289,9 +289,9 @@ test_that("select_ works", {
   )
 
   pos <- 1
-  expect_identical(
+  expect_error(
     select_(df, c = "pos"),
-    select(df, c = pos)
+    "object 'pos' not found"
   )
 })
 
