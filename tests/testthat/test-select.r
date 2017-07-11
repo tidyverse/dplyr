@@ -120,3 +120,10 @@ test_that("select() evaluates symbols outside of context", {
   foo <- 2
   expect_error(select(mtcars, foo), "object 'foo' not found")
 })
+
+test_that("select() supports parenthesised expressions", {
+  foo <- 2
+  expect_error(select(mtcars, ((foo))), "object 'foo' not found")
+  expect_identical(select(mtcars, -((((cyl)):((carb))))), select(mtcars, mpg))
+  expect_identical(select(mtcars, -((contains("yl")))), select(mtcars, -cyl))
+})
