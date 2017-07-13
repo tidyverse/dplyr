@@ -81,7 +81,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   if(length(vars) != length(grouped_and_selected_vars)) {
     missing_vars <- setdiff(grouped_and_selected_vars, names(.data))
-    stop('Columns ', paste(missing_vars, collapse = ', '), ' are unknown')
+    bad_cols(missing_vars, "not found")
   }
 
   if (.keep_all) {
