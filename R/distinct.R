@@ -76,11 +76,10 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
-  grouped_and_selected_vars <- unique(c(names(vars), group_vars))
-  vars <- intersect(names(.data), grouped_and_selected_vars)
+  vars <- unique(c(names(vars), group_vars))
+  missing_vars <- setdiff(vars, names(.data))
 
-  if(length(vars) != length(grouped_and_selected_vars)) {
-    missing_vars <- setdiff(grouped_and_selected_vars, names(.data))
+  if(length(missing_vars) > 0) {
     bad_cols(missing_vars, "not found")
   }
 
