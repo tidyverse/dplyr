@@ -18,8 +18,5 @@ include:
 before_install:
 - mkdir -p ~/.R; echo 'PKG_CXXFLAGS := ${PKG_CXXFLAGS} -Wall -Wextra -pedantic -Werror' > ~/.R/Makevars
 
-before_script:
-- R -q -e 'devtools::install_github("tidyverse/dbplyr")'
-
 after_success:
 - Rscript -e 'covr::codecov()'
