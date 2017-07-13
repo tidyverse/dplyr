@@ -105,7 +105,7 @@
     </div>
 
     
-    <p>Most data operations are usefully done on groups defined by variables.
+    <p>Most data operations are done on groups defined by variables.
 <code>group_by()</code> takes an existing tbl and converts it into a grouped tbl
 where operations are performed "by group". <code>ungroup()</code> removes grouping.</p>
     
@@ -123,15 +123,15 @@ where operations are performed "by group". <code>ungroup()</code> removes groupi
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Variables to group by. All tbls accept variable names,
-some will also accept functions of variables. Duplicated groups
+      <td><p>Variables to group by. All tbls accept variable names.
+Some tbls will accept functions of variables. Duplicated groups
 will be silently dropped.</p></td>
     </tr>
     <tr>
       <th>add</th>
       <td><p>When <code>add = FALSE</code>, the default, <code>group_by()</code> will
-override existing groups. To instead add to the existing groups,
-use <code>add = TRUE</code></p></td>
+override existing groups. To add to the existing groups, use
+<code>add = TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -165,8 +165,8 @@ variables.</p>
 
 <span class='co'># grouping doesn't change how the data looks (apart from listing</span>
 <span class='co'># how it's grouped):</span>
-<span class='no'>by_cyl</span></div><div class='output co'>#&gt; # A tibble: 32 × 11
-#&gt; # Groups: cyl [3]
+<span class='no'>by_cyl</span></div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
@@ -184,13 +184,13 @@ variables.</p>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(
   <span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>disp</span>),
   <span class='kw'>hp</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>hp</span>)
-)</div><div class='output co'>#&gt; # A tibble: 3 × 3
+)</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;     cyl     disp        hp
 #&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
 #&gt; 1     4 105.1364  82.63636
 #&gt; 2     6 183.3143 122.28571
-#&gt; 3     8 353.1000 209.21429</div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'>max</span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 × 11
-#&gt; # Groups: cyl [3]
+#&gt; 3     8 353.1000 209.21429</div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'>max</span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
@@ -199,14 +199,14 @@ variables.</p>
 <span class='co'># Each call to summarise() removes a layer of grouping</span>
 <span class='no'>by_vs_am</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>)
 <span class='no'>by_vs</span> <span class='kw'>&lt;-</span> <span class='no'>by_vs_am</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>())
-<span class='no'>by_vs</span></div><div class='output co'>#&gt; # A tibble: 4 × 3
-#&gt; # Groups: vs [?]
+<span class='no'>by_vs</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
+#&gt; # Groups:   vs [?]
 #&gt;      vs    am     n
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
 #&gt; 1     0     0    12
 #&gt; 2     0     1     6
 #&gt; 3     1     0     7
-#&gt; 4     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>sum</span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 2 × 2
+#&gt; 4     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>sum</span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      vs     n
 #&gt;   &lt;dbl&gt; &lt;int&gt;
 #&gt; 1     0    18
@@ -214,14 +214,14 @@ variables.</p>
 <span class='co'># To removing grouping, use ungroup</span>
 <span class='no'>by_vs</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>ungroup</span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>sum</span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 1 × 1
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>sum</span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;       n
 #&gt;   &lt;int&gt;
 #&gt; 1    32</div><div class='input'>
 <span class='co'># You can group by expressions: this is just short-hand for</span>
 <span class='co'># a mutate/rename followed by a simple group_by</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>vsam</span> <span class='kw'>=</span> <span class='no'>vs</span> + <span class='no'>am</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 12
-#&gt; # Groups: vsam [3]
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='kw'>vsam</span> <span class='kw'>=</span> <span class='no'>vs</span> + <span class='no'>am</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 12
+#&gt; # Groups:   vsam [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  vsam
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4     1
@@ -265,7 +265,7 @@ variables.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

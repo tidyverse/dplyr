@@ -193,7 +193,7 @@ examples).</p>
 <span class='fu'>rename_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt;   Sepal.Length    Sepal.Width   petal_length    Petal.Width        Species 
 #&gt; "Sepal.Length"  "Sepal.Width" "Petal.Length"  "Petal.Width"      "Species" </div><div class='input'>
 <span class='co'># You can unquote names or formulas (or lists of)</span>
-<span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !!! <span class='fu'>list</span>(<span class='fu'><a href='reexports.html'>quo</a></span>(<span class='no'>Petal.Length</span>)))</div><div class='output co'>#&gt;   Petal.Length 
+<span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !!! <span class='fu'>list</span>(<span class='fu'><a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quo</a></span>(<span class='no'>Petal.Length</span>)))</div><div class='output co'>#&gt;   Petal.Length 
 #&gt; "Petal.Length" </div><div class='input'><span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>iris</span>), !! <span class='fu'>quote</span>(<span class='no'>Petal.Length</span>))</div><div class='output co'>#&gt;   Petal.Length 
 #&gt; "Petal.Length" </div><div class='input'>
 <span class='co'># The .data pronoun is available:</span>
@@ -209,7 +209,7 @@ examples).</p>
 <span class='co'># via splicing to avoid matching dotted arguments to select_vars()</span>
 <span class='co'># named arguments (`vars`, `include` and `exclude`):</span>
 <span class='no'>wrapper</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>...</span>) {
-  <span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>mtcars</span>), !!! <span class='fu'><a href='reexports.html'>quos</a></span>(<span class='no'>...</span>))
+  <span class='fu'>select_vars</span>(<span class='fu'>names</span>(<span class='no'>mtcars</span>), !!! <span class='fu'><a href='http://www.rdocumentation.org/packages/rlang/topics/quosures'>quos</a></span>(<span class='no'>...</span>))
 }
 
 <span class='co'># This won't partial-match on `vars`:</span>
@@ -242,7 +242,7 @@ examples).</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

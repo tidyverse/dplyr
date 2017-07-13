@@ -195,21 +195,21 @@ the grouping of <code>x</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># "Mutating" joins add variables to the LHS</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 2 × 3
+<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
 #&gt;    name    band  plays
 #&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
 #&gt; 1  John Beatles guitar
-#&gt; 2  Paul Beatles   bass</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 × 3
+#&gt; 2  Paul Beatles   bass</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;    name    band  plays
 #&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
 #&gt; 1  Mick  Stones   &lt;NA&gt;
 #&gt; 2  John Beatles guitar
-#&gt; 3  Paul Beatles   bass</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 × 3
+#&gt; 3  Paul Beatles   bass</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;    name    band  plays
 #&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
 #&gt; 1  John Beatles guitar
 #&gt; 2  Paul Beatles   bass
-#&gt; 3 Keith    &lt;NA&gt; guitar</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 4 × 3
+#&gt; 3 Keith    &lt;NA&gt; guitar</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
 #&gt;    name    band  plays
 #&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
 #&gt; 1  Mick  Stones   &lt;NA&gt;
@@ -217,29 +217,30 @@ the grouping of <code>x</code>.</p>
 #&gt; 3  Paul Beatles   bass
 #&gt; 4 Keith    &lt;NA&gt; guitar</div><div class='input'>
 <span class='co'># "Filtering" joins keep cases from the LHS</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>semi_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 2 × 2
+<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>semi_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;    name    band
 #&gt;   &lt;chr&gt;   &lt;chr&gt;
 #&gt; 1  John Beatles
-#&gt; 2  Paul Beatles</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>anti_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 1 × 2
+#&gt; 2  Paul Beatles</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>anti_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 1 x 2
 #&gt;    name   band
 #&gt;   &lt;chr&gt;  &lt;chr&gt;
 #&gt; 1  Mick Stones</div><div class='input'>
 <span class='co'># To suppress the message, supply by</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"name"</span>)</div><div class='output co'>#&gt; # A tibble: 2 × 3
+<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"name"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
 #&gt;    name    band  plays
 #&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
 #&gt; 1  John Beatles guitar
 #&gt; 2  Paul Beatles   bass</div><div class='input'><span class='co'># This is good practice in production code</span>
 
 <span class='co'># Use a named `by` if the join variables have different names</span>
-<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; # A tibble: 4 × 3
+<span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; # A tibble: 4 x 3
 #&gt;    name    band  plays
 #&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
 #&gt; 1  Mick  Stones   &lt;NA&gt;
 #&gt; 2  John Beatles guitar
 #&gt; 3  Paul Beatles   bass
-#&gt; 4 Keith    &lt;NA&gt; guitar</div><div class='input'><span class='co'># Note that only the key from the LHS is kept</span></div></pre>
+#&gt; 4 Keith    &lt;NA&gt; guitar</div><div class='input'># Note that only the key from the LHS is kept
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -262,7 +263,7 @@ the grouping of <code>x</code>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

@@ -171,36 +171,36 @@ an error is thrown.
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>not_run</span>({
-  <span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"microbenchmark"</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'>has_lahman</span>()) {
-  <span class='no'>lahman_local</span> <span class='kw'>&lt;-</span> <span class='fu'>lahman_srcs</span>(<span class='st'>"df"</span>, <span class='st'>"sqlite"</span>)
-  <span class='no'>teams</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(<span class='no'>lahman_local</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Teams"</span>))
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='kw'>if</span> (<span class='fu'>require</span>(<span class='st'>"microbenchmark"</span>) <span class='kw'>&amp;&amp;</span> <span class='fu'>has_lahman</span>()) {
+<span class='no'>lahman_local</span> <span class='kw'>&lt;-</span> <span class='fu'>lahman_srcs</span>(<span class='st'>"df"</span>, <span class='st'>"sqlite"</span>)
+<span class='no'>teams</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(<span class='no'>lahman_local</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Teams"</span>))
 
-  <span class='fu'>compare_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
-  <span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
+<span class='fu'>compare_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
+<span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
 
-  <span class='co'># You can also supply arbitrary additional arguments to bench_tbls</span>
-  <span class='co'># if there are other operations you'd like to compare.</span>
-  <span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>),
-     <span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'>subset</span>(<span class='kw'>Lahman</span><span class='kw'>::</span><span class='no'>Teams</span>, <span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
+<span class='co'># You can also supply arbitrary additional arguments to bench_tbls</span>
+<span class='co'># if there are other operations you'd like to compare.</span>
+<span class='fu'>bench_tbls</span>(<span class='no'>teams</span>, <span class='kw'>function</span>(<span class='no'>x</span>) <span class='no'>x</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>),
+   <span class='kw'>base</span> <span class='kw'>=</span> <span class='fu'>subset</span>(<span class='kw pkg'>Lahman</span><span class='kw ns'>::</span><span class='no'><a href='http://www.rdocumentation.org/packages/Lahman/topics/Teams'>Teams</a></span>, <span class='no'>yearID</span> <span class='kw'>==</span> <span class='fl'>2010</span>))
 
-  <span class='co'># A more complicated example using multiple tables</span>
-  <span class='no'>setup</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>src</span>) {
-    <span class='fu'>list</span>(
-      <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Batting"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>stint</span> <span class='kw'>==</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>H</span>),
-      <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Master"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>, <span class='no'>birthYear</span>)
-    )
-  }
-  <span class='no'>two_tables</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(<span class='no'>lahman_local</span>, <span class='no'>setup</span>)
+<span class='co'># A more complicated example using multiple tables</span>
+<span class='no'>setup</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>src</span>) {
+  <span class='fu'>list</span>(
+    <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Batting"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>stint</span> <span class='kw'>==</span> <span class='fl'>1</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>:<span class='no'>H</span>),
+    <span class='no'>src</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='st'>"Master"</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>playerID</span>, <span class='no'>birthYear</span>)
+  )
+}
+<span class='no'>two_tables</span> <span class='kw'>&lt;-</span> <span class='fu'>lapply</span>(<span class='no'>lahman_local</span>, <span class='no'>setup</span>)
 
-  <span class='no'>op</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>tbls</span>) {
-    <span class='fu'><a href='join.html'>semi_join</a></span>(<span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"playerID"</span>)
-  }
-  <span class='co'># compare_tbls(two_tables, op)</span>
-  <span class='fu'>bench_tbls</span>(<span class='no'>two_tables</span>, <span class='no'>op</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>2</span>)
+<span class='no'>op</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>tbls</span>) {
+  <span class='fu'><a href='join.html'>semi_join</a></span>(<span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>1</span>]], <span class='no'>tbls</span><span class='kw'>[[</span><span class='fl'>2</span>]], <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"playerID"</span>)
+}
+<span class='co'># compare_tbls(two_tables, op)</span>
+<span class='fu'>bench_tbls</span>(<span class='no'>two_tables</span>, <span class='no'>op</span>, <span class='kw'>times</span> <span class='kw'>=</span> <span class='fl'>2</span>)
 
-  }
-})</div></pre>
+}
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -223,7 +223,7 @@ an error is thrown.
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

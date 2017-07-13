@@ -126,10 +126,8 @@ complex operations that need to be applied to each row.</p>
     <p>Currently, rowwise grouping only works with data frames. Its
 main impact is to allow you to work with list-variables in
 <code><a href='summarise.html'>summarise()</a></code> and <code><a href='mutate.html'>mutate()</a></code> without having to
-use <code>[[1]]</code>. This makes <code>summarise()</code> on a rowwise tbl
-effectively equivalent to [plyr::ldply()].</p>
-<p>[[1]: R:[1
-[plyr::ldply()]: R:plyr::ldply()</p>
+use <code>[[1]]</code>. This makes <code><a href='summarise.html'>summarise()</a></code> on a rowwise tbl
+effectively equivalent to <code><a href='http://www.rdocumentation.org/packages/plyr/topics/ldply'>plyr::ldply()</a></code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -137,7 +135,7 @@ effectively equivalent to [plyr::ldply()].</p>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>rowwise</span>() <span class='kw'>%&gt;%</span> <span class='fu'><a href='do.html'>do</a></span>(<span class='kw'>i</span> <span class='kw'>=</span> <span class='fu'>seq</span>(<span class='no'>.</span>$<span class='no'>x</span>, <span class='no'>.</span>$<span class='no'>y</span>))</div><div class='output co'>#&gt; Source: local data frame [9 x 1]
 #&gt; Groups: &lt;by row&gt;
 #&gt; 
-#&gt; # A tibble: 9 × 1
+#&gt; # A tibble: 9 x 1
 #&gt;           i
 #&gt; *    &lt;list&gt;
 #&gt; 1 &lt;int [3]&gt;
@@ -169,7 +167,7 @@ effectively equivalent to [plyr::ldply()].</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

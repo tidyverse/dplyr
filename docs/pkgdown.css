@@ -39,6 +39,15 @@ body {
   margin-bottom: 5px;
 }
 
+.navbar-nav li a {
+  padding-bottom: 10px;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: #eee;
+}
+
 /* Table of contents --------------------------*/
 
 #sidebar {
@@ -186,6 +195,11 @@ a.anchor {
 
 .hasAnchor:hover a.anchor {
   visibility: visible;
+}
+
+@media (max-width: 767px) {
+  .hasAnchor {margin-left: 0;}
+  a.anchor {float: right;}
 }
 
 /* Tweak appearance of navigation in sidebar ---------------------- */

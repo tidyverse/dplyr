@@ -244,29 +244,29 @@ my_summarise(df, g1)
 This doesn't work because there's no object called `g1`. We need to capture what the user of the function typed and quote it for them. You might try using `quo()` to do that:
 
 ```{r, error = TRUE}
-my_summarise <- function(df, group_by) {
-  quo_group_by <- quo(group_by)
-  print(quo_group_by)
+my_summarise <- function(df, group_var) {
+  quo_group_var <- quo(group_var)
+  print(quo_group_var)
 
   df %>%
-    group_by(!!quo_group_by) %>%
+    group_by(!!quo_group_var) %>%
     summarise(a = mean(a))
 }
 
 my_summarise(df, g1)
 ```
 
-I've added a `print()` call to make it obvious what's going wrong here: `quo(group_by)` always returns `~group_by`. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return `~g1`.
+I've added a `print()` call to make it obvious what's going wrong here: `quo(group_var)` always returns `~group_var`. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return `~g1`.
 
 By analogy to strings, we don't want `""`, instead we want some function that turns an argument into a string. That's the job of `enquo()`. `enquo()` uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a __promise__.)
 
 ```{r}
-my_summarise <- function(df, group_by) {
-  group_by <- enquo(group_by)
-  print(group_by)
+my_summarise <- function(df, group_var) {
+  group_var <- enquo(group_var)
+  print(group_var)
 
   df %>%
-    group_by(!!group_by) %>%
+    group_by(!!group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -364,10 +364,10 @@ It would be nice to extend `my_summarise()` to accept any number of grouping var
 
 ```{r}
 my_summarise <- function(df, ...) {
-  group_by <- quos(...)
+  group_var <- quos(...)
 
   df %>%
-    group_by(!!!group_by) %>%
+    group_by(!!!group_var) %>%
     summarise(a = mean(a))
 }
 

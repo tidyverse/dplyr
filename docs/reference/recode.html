@@ -169,15 +169,15 @@ same order as in <code>...</code>.</p>
     <p>You can use <code>recode()</code> directly with factors; it will preserve the existing
 order of levels while changing the values. Alternatively, you can
 use <code>recode_factor()</code>, which will change the order of levels to match
-the order of replacements. See the <a href = 'http://forcats.tidyverse.org/'>forcats</a>
+the order of replacements. See the <a href='http://forcats.tidyverse.org/'>forcats</a>
 package for more tools for working with factors and their levels.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Recode values with named arguments</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='fu'>recode</span>(<span class='no'>x</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "b"     "b"     "c"     "Apple" "b"     "Apple" "b"     "b"     "Apple"
-#&gt; [10] "b"    </div><div class='input'><span class='fu'>recode</span>(<span class='no'>x</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] NA      NA      NA      "Apple" NA      "Apple" NA      NA      "Apple"
+<span class='fu'>recode</span>(<span class='no'>x</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "b"     "b"     "Apple" "c"     "c"     "Apple" "c"     "c"     "Apple"
+#&gt; [10] "c"    </div><div class='input'><span class='fu'>recode</span>(<span class='no'>x</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] NA      NA      "Apple" NA      NA      "Apple" NA      NA      "Apple"
 #&gt; [10] NA     </div><div class='input'>
 <span class='co'># Named arguments also work with numeric values</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>NA</span>)
@@ -226,7 +226,7 @@ package for more tools for working with factors and their levels.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

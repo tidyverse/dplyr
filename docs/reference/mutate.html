@@ -175,10 +175,10 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Newly created variables are available immediately</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='reexports.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
   <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>,
   <span class='kw'>cyl4</span> <span class='kw'>=</span> <span class='no'>cyl2</span> * <span class='fl'>2</span>
-)</div><div class='output co'>#&gt; # A tibble: 32 × 13
+)</div><div class='output co'>#&gt; # A tibble: 32 x 13
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  cyl2
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4    12
@@ -194,10 +194,10 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; # ... with 22 more rows, and 1 more variables: cyl4 &lt;dbl&gt;</div><div class='input'>
 <span class='co'># You can also use mutate() to remove variables and</span>
 <span class='co'># modify existing variables</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='reexports.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
   <span class='kw'>mpg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>disp</span> <span class='kw'>=</span> <span class='no'>disp</span> * <span class='fl'>0.0163871</span> <span class='co'># convert to litres</span>
-)</div><div class='output co'>#&gt; # A tibble: 32 × 10
+)</div><div class='output co'>#&gt; # A tibble: 32 x 10
 #&gt;      cyl     disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1     6 2.621936   110  3.90 2.620 16.46     0     1     4     4
@@ -215,8 +215,8 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='co'># window functions are useful for grouped mutates</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
- <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mpg</span>)))</div><div class='output co'>#&gt; # A tibble: 32 × 12
-#&gt; # Groups: cyl [3]
+ <span class='fu'>mutate</span>(<span class='kw'>rank</span> <span class='kw'>=</span> <span class='fu'><a href='ranking.html'>min_rank</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>mpg</span>)))</div><div class='output co'>#&gt; # A tibble: 32 x 12
+#&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  rank
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
 #&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4     2
@@ -336,7 +336,24 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; 30 2.376126
 #&gt; 31 4.932510
 #&gt; 32 1.982836</div><div class='input'>
-</div></pre>
+
+<span class='co'># mutate() supports quasiquotation. You can unquote quosures, which</span>
+<span class='co'># can refer to both contextual variables and variable names:</span>
+<span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
+<span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>(<span class='no'>mtcars</span>) <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>cyl</span> <span class='kw'>=</span> !! <span class='fu'><a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quo</a></span>(<span class='no'>cyl</span> * <span class='no'>var</span>))</div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1  21.0   600 160.0   110  3.90 2.620 16.46     0     1     4     4
+#&gt;  2  21.0   600 160.0   110  3.90 2.875 17.02     0     1     4     4
+#&gt;  3  22.8   400 108.0    93  3.85 2.320 18.61     1     1     4     1
+#&gt;  4  21.4   600 258.0   110  3.08 3.215 19.44     1     0     3     1
+#&gt;  5  18.7   800 360.0   175  3.15 3.440 17.02     0     0     3     2
+#&gt;  6  18.1   600 225.0   105  2.76 3.460 20.22     1     0     3     1
+#&gt;  7  14.3   800 360.0   245  3.21 3.570 15.84     0     0     3     4
+#&gt;  8  24.4   400 146.7    62  3.69 3.190 20.00     1     0     4     2
+#&gt;  9  22.8   400 140.8    95  3.92 3.150 22.90     1     0     4     2
+#&gt; 10  19.2   600 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt; # ... with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -365,7 +382,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
