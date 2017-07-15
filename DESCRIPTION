@@ -1,6 +1,6 @@
 Type: Package
 Package: dplyr
-Version: 0.7.1.9000
+Version: 0.7.1.9001
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -27,6 +27,7 @@ Imports:
     R6,
     Rcpp (>= 0.12.7),
     tibble (>= 1.3.1),
+    tidyselect,
     utils
 Suggests:
     bit64,
@@ -56,3 +57,5 @@ LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
+Remotes:
+    lionel-/tidyselect@dc6dec6
