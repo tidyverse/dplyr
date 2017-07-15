@@ -1,7 +1,7 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <tools/utils.h>
+#include <tools/encoding.h>
 #include <tools/SymbolString.h>
 
 #include <dplyr/JoinVisitorImpl.h>
@@ -55,58 +55,6 @@ void check_attribute_compatibility(const Column& left, const Column& right) {
   if (!ok) {
     warn_bad_var(left.get_name(), right.get_name(), "has different attributes on LHS and RHS of join");
   }
-}
-
-CharacterVector reencode_factor(IntegerVector x);
-
-R_xlen_t get_first_reencode_pos(const CharacterVector& x) {
-  R_xlen_t len = x.length();
-  for (R_xlen_t i = 0; i < len; ++i) {
-    SEXP xi = x[i];
-    if (xi != NA_STRING && !IS_ASCII(xi) && !IS_UTF8(xi)) {
-      return i;
-    }
-  }
-
-  return len;
-}
-
-CharacterVector reencode_char(SEXP x) {
-  if (Rf_isFactor(x)) return reencode_factor(x);
-
-  CharacterVector ret(x);
-  R_xlen_t first = get_first_reencode_pos(ret);
-  if (first >= ret.length()) return ret;
-
-  ret = clone(ret);
-
-  R_xlen_t len = ret.length();
-  for (R_xlen_t i = first; i < len; ++i) {
-    SEXP reti = ret[i];
-    if (reti != NA_STRING && !IS_ASCII(reti) && !IS_UTF8(reti)) {
-      ret[i] = String(Rf_translateCharUTF8(reti), CE_UTF8);
-    }
-  }
-
-  return ret;
-}
-
-CharacterVector reencode_factor(IntegerVector x) {
-  CharacterVector levels(reencode_char(get_levels(x)));
-  CharacterVector ret(x.length());
-
-  R_xlen_t nlevels = levels.length();
-
-  R_xlen_t len = x.length();
-  for (R_xlen_t i = 0; i < len; ++i) {
-    int xi = x[i];
-    if (xi <= 0 || xi > nlevels)
-      ret[i] = NA_STRING;
-    else
-      ret[i] = levels[xi - 1];
-  }
-
-  return ret;
 }
 
 template <int LHS_RTYPE, bool ACCEPT_NA_MATCH>
