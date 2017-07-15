@@ -3,17 +3,13 @@
 #include <tools/hash.h>
 #include <tools/match.h>
 
-#include <tools/LazyDots.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/tbl_cpp.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
-
-#include <dplyr/Result/GroupedCallProxy.h>
-#include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/train.h>
 
@@ -26,8 +22,12 @@ DataFrame subset_join(DataFrame x, DataFrame y,
                       CharacterVector by_x, CharacterVector by_y ,
                       const std::string& suffix_x, const std::string& suffix_y,
                       CharacterVector classes) {
+  if (suffix_x.length() == 0 && suffix_y.length() == 0) {
+    stop("Cannot use empty string for both x and y suffixes");
+  }
+
   // first the joined columns
-  DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors join_visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, false);
   int n_join_visitors = join_visitors.size();
 
   // then columns from x but not y
@@ -43,7 +43,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       joiner[i] = true;
     }
   }
-  DataFrameSubsetVisitors visitors_x(x, x_columns);
+  DataFrameSubsetVisitors visitors_x(x, SymbolVector(x_columns));
   int nv_x = visitors_x.size();
 
   // then columns from y but not x
@@ -55,7 +55,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       y_columns[k++] = all_y_columns[i];
     }
   }
-  DataFrameSubsetVisitors visitors_y(y, y_columns);
+  DataFrameSubsetVisitors visitors_y(y, SymbolVector(y_columns));
 
   int nv_y = visitors_y.size();
 
@@ -75,12 +75,16 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       index_join_visitor++;
     } else {
 
-      while (
-        (std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end()) ||
-        (std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
-      ) {
-        col_name += suffix_x;
+      // we suffix by .x if this column is in y_columns (and if the suffix is not empty)
+      if (suffix_x.length() > 0) {
+        while (
+          (std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end()) ||
+          (std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
+        ) {
+          col_name += suffix_x;
+        }
       }
+
       out[i] = visitors_x.get(index_x_visitor)->subset(indices_x);
       index_x_visitor++;
     }
@@ -91,41 +95,38 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   for (int i=0; i<nv_y; i++, k++) {
     String col_name = y_columns[i];
 
-    // we suffix by .y if this column is in x_columns
-
-    while (
-      (std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end()) ||
-      (std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k)
-    ) {
-      col_name += suffix_y;
+    // we suffix by .y if this column is in x_columns (and if the suffix is not empty)
+    if (suffix_y.length() > 0) {
+      while (
+        (std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end()) ||
+        (std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k)
+      ) {
+        col_name += suffix_y;
+      }
     }
 
     out[k] = visitors_y.get(i)->subset(indices_y);
     names[k] = col_name;
   }
-  out.attr("class") = classes;
+  set_class(out, classes);
   set_rownames(out, nrows);
   out.names() = names;
 
   // out group columns
-  const ListOf<Symbol> group_cols_x(x.attr("vars"));
+  SymbolVector group_cols_x = get_vars(x);
   int n_group_cols = group_cols_x.size();
-
-  if (n_group_cols > 0) {
-    List group_cols(n_group_cols);
-    IntegerVector group_col_indices = r_match(group_cols_x, all_x_columns);
-    // get updated column names
-    for (int i=0; i<n_group_cols; i++) {
-      int group_col_index = group_col_indices[i];
-      if (group_col_index != NA_INTEGER) {
-        String group_col_name = names[group_col_index-1];
-        group_cols[i] = Symbol(group_col_name);
-      } else {
-        stop("unknown group column '%s'", CHAR(PRINTNAME(group_cols_x[i])));
-      }
+  SymbolVector group_cols(n_group_cols);
+  IntegerVector group_col_indices = group_cols_x.match_in_table(all_x_columns);
+  // get updated column names
+  for (int i=0; i<n_group_cols; i++) {
+    int group_col_index = group_col_indices[i];
+    if (group_col_index != NA_INTEGER) {
+      group_cols.set(i, names[group_col_index-1]);
+    } else {
+      stop("unknown group column '%s'", group_cols_x[i].get_utf8_cstring());
     }
-    out.attr("vars") = group_cols;
   }
+  set_vars(out, group_cols);
 
   return (SEXP)out;
 }
@@ -150,10 +151,10 @@ void push_back(Container& x, typename Container::value_type value, int n) {
 }
 
 // [[Rcpp::export]]
-DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y) {
+DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -176,14 +177,14 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
     }
   }
 
-  return subset(x, indices, x.names(), x.attr("class"));
+  return subset(x, indices, x.names(), get_class(x));
 }
 
 // [[Rcpp::export]]
-DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y) {
+DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -202,16 +203,17 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   for (Map::iterator it = map.begin(); it != map.end(); ++it)
     push_back(indices, it->second);
 
-  return subset(x, indices, x.names(), x.attr("class"));
+  return subset(x, indices, x.names(), get_class(x));
 }
 
 // [[Rcpp::export]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           CharacterVector by_x, CharacterVector by_y,
-                          std::string& suffix_x, std::string& suffix_y) {
+                          std::string& suffix_x, std::string& suffix_y,
+                          bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
 
   int n_x = x.nrows(), n_y = y.nrows();
@@ -233,17 +235,18 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
 }
 
 // [[Rcpp::export]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          CharacterVector by_x, CharacterVector by_y,
-                         std::string& suffix_x, std::string& suffix_y) {
+                         std::string& suffix_x, std::string& suffix_y,
+                         bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true);
+  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
 
   Map map(visitors);
 
@@ -270,17 +273,18 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
 }
 
 // [[Rcpp::export]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
                           CharacterVector by_x, CharacterVector by_y,
-                          std::string& suffix_x, std::string& suffix_y) {
+                          std::string& suffix_x, std::string& suffix_y,
+                          bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, true);
+  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -305,17 +309,18 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
 }
 
 // [[Rcpp::export]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
                          CharacterVector by_x, CharacterVector by_y,
-                         std::string& suffix_x, std::string& suffix_y) {
+                         std::string& suffix_x, std::string& suffix_y,
+                         bool na_match) {
   if (by_x.size() == 0) stop("no variable to join by");
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, by_y, by_x, true);
+  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), true, na_match);
   Map map(visitors);
 
   // train the map in terms of y
@@ -340,7 +345,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   }
 
   // train a new map in terms of x this time
-  DataFrameJoinVisitors visitors2(x,y,by_x,by_y, false);
+  DataFrameJoinVisitors visitors2(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
   Map map2(visitors2);
   train_push_back(map2, x.nrows());
 
@@ -357,202 +362,6 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      suffix_x, suffix_y,
-                     x.attr("class")
+                     get_class(x)
                     );
-}
-
-typedef dplyr_hash_set<SEXP> SymbolSet;
-
-inline SEXP check_filter_integer_result(SEXP tmp) {
-  if (TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {
-    stop("slice condition does not evaluate to an integer or numeric vector. ");
-  }
-  return tmp;
-}
-
-class CountIndices {
-public:
-  CountIndices(int nr_, IntegerVector test_) : nr(nr_), test(test_), n_pos(0), n_neg(0) {
-
-    for (int j=0; j<test.size(); j++) {
-      int i = test[j];
-      if (i > 0 && i <= nr) {
-        n_pos++;
-      } else if (i < 0 && i >= -nr) {
-        n_neg++;
-      }
-    }
-
-    if (n_neg > 0 && n_pos > 0) {
-      stop("found %d positive indices and %d negative indices", n_pos, n_neg);
-    }
-
-  }
-
-  inline bool is_positive() const {
-    return n_pos > 0;
-  }
-  inline int get_n_positive() const {
-    return n_pos;
-  }
-  inline int get_n_negative() const {
-    return n_neg;
-  }
-
-private:
-  int nr;
-  IntegerVector test;
-  int n_pos;
-  int n_neg;
-};
-
-SEXP slice_grouped(GroupedDataFrame gdf, const LazyDots& dots) {
-  typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
-
-  const DataFrame& data = gdf.data();
-  const Lazy& lazy = dots[0];
-  Environment env = lazy.env();
-  CharacterVector names = data.names();
-  SymbolSet set;
-  for (int i=0; i<names.size(); i++) {
-    set.insert(Rf_installChar(names[i]));
-  }
-
-  // we already checked that we have only one expression
-  Call call(lazy.expr());
-
-  std::vector<int> indx;
-  indx.reserve(1000);
-
-  IntegerVector g_test;
-  Proxy call_proxy(call, gdf, env);
-
-  int ngroups = gdf.ngroups();
-  GroupedDataFrame::group_iterator git = gdf.group_begin();
-  for (int i=0; i<ngroups; i++, ++git) {
-    const SlicingIndex& indices = *git;
-    int nr = indices.size();
-    g_test = check_filter_integer_result(call_proxy.get(indices));
-    CountIndices counter(indices.size(), g_test);
-
-    if (counter.is_positive()) {
-      // positive indexing
-      int ntest = g_test.size();
-      for (int j=0; j<ntest; j++) {
-        if (!(g_test[j] > nr || g_test[j] == NA_INTEGER)) {
-          indx.push_back(indices[g_test[j]-1]);
-        }
-      }
-    } else if (counter.get_n_negative() != 0) {
-      // negative indexing
-      std::set<int> drop;
-      int n = g_test.size();
-      for (int j=0; j<n; j++) {
-        if (g_test[j] != NA_INTEGER)
-          drop.insert(-g_test[j]);
-      }
-      int n_drop = drop.size();
-      std::set<int>::const_iterator drop_it = drop.begin();
-
-      int k = 0, j = 0;
-      while (drop_it != drop.end()) {
-        int next_drop = *drop_it - 1;
-        while (j < next_drop) {
-          indx.push_back(indices[j++]);
-          k++;
-        }
-        j++;
-        ++drop_it;
-      }
-      while (k < nr - n_drop) {
-        indx.push_back(indices[j++]);
-        k++;
-      }
-
-    }
-  }
-  DataFrame res = subset(data, indx, names, classes_grouped<GroupedDataFrame>());
-  res.attr("vars")   = data.attr("vars");
-  strip_index(res);
-
-  return GroupedDataFrame(res).data();
-
-}
-
-SEXP slice_not_grouped(const DataFrame& df, const LazyDots& dots) {
-  CharacterVector names = df.names();
-  SymbolSet set;
-  for (int i=0; i<names.size(); i++) {
-    set.insert(Rf_installChar(names[i]));
-  }
-  const Lazy& lazy = dots[0];
-  Call call(lazy.expr());
-  CallProxy proxy(call, df, lazy.env());
-  int nr = df.nrows();
-
-  IntegerVector test = check_filter_integer_result(proxy.eval());
-
-  int n = test.size();
-
-  // count the positive and negatives
-  CountIndices counter(nr, test);
-
-  // just positives -> one based subset
-  if (counter.is_positive()) {
-    int n_pos = counter.get_n_positive();
-    std::vector<int> idx(n_pos);
-    int j=0;
-    for (int i=0; i<n_pos; i++) {
-      while (test[j] > nr || test[j] == NA_INTEGER) j++;
-      idx[i] = test[j++] - 1;
-    }
-
-    return subset(df, idx, df.names(), classes_not_grouped());
-  }
-
-  // special case where only NA
-  if (counter.get_n_negative() == 0) {
-    std::vector<int> indices;
-    DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-    return res;
-  }
-
-  // just negatives (out of range is dealt with early in CountIndices).
-  std::set<int> drop;
-  for (int i=0; i<n; i++) {
-    if (test[i] != NA_INTEGER)
-      drop.insert(-test[i]);
-  }
-  int n_drop = drop.size();
-  std::vector<int> indices(nr - n_drop);
-  std::set<int>::const_iterator drop_it = drop.begin();
-
-  int i = 0, j = 0;
-  while (drop_it != drop.end()) {
-    int next_drop = *drop_it - 1;
-    while (j < next_drop) {
-      indices[i++] = j++;
-    }
-    j++;
-    ++drop_it;
-  }
-  while (i < nr - n_drop) {
-    indices[i++] = j++;
-  }
-
-  DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-  return res;
-
-}
-
-// [[Rcpp::export]]
-SEXP slice_impl(DataFrame df, LazyDots dots) {
-  if (dots.size() == 0) return df;
-  if (dots.size() != 1)
-    stop("slice only accepts one expression");
-  if (is<GroupedDataFrame>(df)) {
-    return slice_grouped(GroupedDataFrame(df), dots);
-  } else {
-    return slice_not_grouped(df, dots);
-  }
 }

@@ -98,32 +98,39 @@ namespace dplyr {
 
   }
 
+
   template <int RTYPE, bool ascending=true>
-  class RankComparer : public comparisons<RTYPE> {
+  class RankComparer {
+    typedef comparisons<RTYPE> compare;
+
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     inline bool operator()(STORAGE lhs, STORAGE rhs) const {
-      return comparisons<RTYPE>::is_less(lhs,rhs);
+      return compare::is_less(lhs, rhs);
     }
   };
 
   template <int RTYPE>
-  class RankComparer<RTYPE,false> : public comparisons<RTYPE> {
+  class RankComparer<RTYPE,false> {
+    typedef comparisons<RTYPE> compare;
+
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     inline bool operator()(STORAGE lhs, STORAGE rhs) const {
-      return comparisons<RTYPE>::is_greater(lhs,rhs);
+      return compare::is_greater(lhs,rhs);
     }
   };
 
   template <int RTYPE>
-  class RankEqual : public comparisons<RTYPE> {
+  class RankEqual {
+    typedef comparisons<RTYPE> compare;
+
   public:
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     inline bool operator()(STORAGE lhs, STORAGE rhs) const {
-      return comparisons<RTYPE>::equal_or_both_na(lhs,rhs);
+      return compare::equal_or_both_na(lhs,rhs);
     }
   };
 
@@ -204,10 +211,10 @@ namespace dplyr {
         int n = chunk.size();
         j += Increment::pre_increment(chunk, m);
         if (Rcpp::traits::is_na<RTYPE>(key)) {
-          typename Increment::scalar_type na =
+          typename Increment::scalar_type inc_na =
             Rcpp::traits::get_na< Rcpp::traits::r_sexptype_traits<typename Increment::scalar_type>::rtype >();
           for (int k=0; k<n; k++) {
-            out[ chunk[k] ] = na;
+            out[ chunk[k] ] = inc_na;
           }
         } else {
           for (int k=0; k<n; k++) {

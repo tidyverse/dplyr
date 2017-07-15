@@ -2,89 +2,72 @@
 % Please edit documentation in R/manip.r
 \name{select}
 \alias{select}
-\alias{select_}
 \alias{rename}
-\alias{rename_}
-\title{Select/rename variables by name.}
+\title{Select/rename variables by name}
 \usage{
 select(.data, ...)
 
-select_(.data, ..., .dots)
-
 rename(.data, ...)
-
-rename_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
-\item{...}{Comma separated list of unquoted expressions. You can treat
-variable names like they are positions. Use positive values to select
-variables; use negative values to drop variables.}
+\item{...}{One or more unquoted expressions separated by commas.
+You can treat variable names like they are positions.
 
-\item{.dots}{Use \code{select_()} to do standard evaluation. See
-\code{vignette("nse")} for details}
+Positive values select variables; negative values to drop variables.
+
+Use named arguments to rename selected variables.}
 }
 \value{
 An object of the same class as \code{.data}.
-
-Data frame row names are silently dropped. To preserve, convert to an
-explicit variable.
 }
 \description{
 \code{select()} keeps only the variables you mention; \code{rename()}
 keeps all variables.
 }
-\section{Special functions}{
+\section{Useful functions}{
 
 As well as using existing functions like \code{:} and \code{c()}, there are
 a number of special functions that only work inside \code{select}
+\itemize{
+\item \code{\link[=starts_with]{starts_with()}}, \code{\link[=ends_with]{ends_with()}}, \code{\link[=contains]{contains()}}
+\item \code{\link[=matches]{matches()}}
+\item \code{\link[=num_range]{num_range()}}
+}
 
-To drop variables, use \code{-}. You can rename variables with
-named arguments.
+To drop variables, use \code{-}.
+}
+
+\section{Tidy data}{
+
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
 
 \examples{
-iris <- tbl_df(iris) # so it prints a little nicer
+iris <- as_tibble(iris) # so it prints a little nicer
 select(iris, starts_with("Petal"))
 select(iris, ends_with("Width"))
-select(iris, contains("etal"))
-select(iris, matches(".t."))
-select(iris, Petal.Length, Petal.Width)
-vars <- c("Petal.Length", "Petal.Width")
-select(iris, one_of(vars))
+
+# Move Species variable to the front
+select(iris, Species, everything())
 
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 select(df, V4:V6)
 select(df, num_range("V", 4:6))
 
-# Drop variables
+# Drop variables with -
 select(iris, -starts_with("Petal"))
-select(iris, -ends_with("Width"))
-select(iris, -contains("etal"))
-select(iris, -matches(".t."))
-select(iris, -Petal.Length, -Petal.Width)
 
-# Rename variables:
+# Renaming -----------------------------------------
 # * select() keeps only the variables you specify
 select(iris, petal_length = Petal.Length)
-# Renaming multiple variables uses a prefix:
-select(iris, petal = starts_with("Petal"))
-
-# Reorder variables: keep the variable "Species" in the front
-select(iris, Species, everything())
 
 # * rename() keeps all variables
 rename(iris, petal_length = Petal.Length)
-
-# Programming with select ---------------------------------------------------
-select_(iris, ~Petal.Length)
-select_(iris, "Petal.Length")
-select_(iris, lazyeval::interp(~matches(x), x = ".t."))
-select_(iris, quote(-Petal.Length), quote(-Petal.Width))
-select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},

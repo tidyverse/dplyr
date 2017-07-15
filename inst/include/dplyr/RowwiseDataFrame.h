@@ -4,6 +4,7 @@
 #include <tools/SlicingIndex.h>
 
 #include <dplyr/Result/RowwiseSubset.h>
+#include <tools/SymbolString.h>
 
 namespace dplyr {
 
@@ -57,9 +58,10 @@ namespace dplyr {
       return 0;
     }
 
-    inline SEXP symbol(int i) {
-      return R_NilValue;
+    inline SymbolString symbol(int i) {
+      stop("Rowwise data frames don't have grouping variables");
     }
+
     inline SEXP label(int i) {
       return R_NilValue;
     }
@@ -70,10 +72,6 @@ namespace dplyr {
 
     inline int max_group_size() const {
       return 1;
-    }
-
-    inline const IntegerVector& get_group_sizes() const {
-      return group_sizes;
     }
 
     inline subset* create_subset(SEXP x) const {

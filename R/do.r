@@ -81,17 +81,24 @@
 #' }
 #' }
 do <- function(.data, ...) {
-  do_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("do")
 }
-
 #' @export
-#' @rdname do
-do_ <- function(.data, ..., .dots) {
+do.default <- function(.data, ...) {
+  do_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
+#' @rdname se-deprecated
+do_ <- function(.data, ..., .dots = list()) {
   UseMethod("do_")
 }
 
 #' @export
-do_.NULL <- function(.data, ..., .dots) {
+do.NULL <- function(.data, ...) {
+  NULL
+}
+#' @export
+do_.NULL <- function(.data, ..., .dots = list()) {
   NULL
 }
 

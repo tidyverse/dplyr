@@ -18,7 +18,8 @@ Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) 
     data = CADR(data);
 
     if (TYPEOF(data) == SYMSXP) {
-      if (subsets.count(data)) data = subsets.get_variable(data);
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.count(name)) data = subsets.get_variable(name);
       else return 0;
     }
     if (Rf_length(data) == subsets.nrows()) {
@@ -36,20 +37,21 @@ Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) 
     return 0;
   }
   if (TYPEOF(data) == SYMSXP) {
-    if (subsets.count(data)) data = subsets.get_variable(data);
+    SymbolString name = SymbolString(Symbol(data));
+    if (subsets.count(name)) data = subsets.get_variable(name);
     else return 0;
   }
-  if (Rf_length(data) == subsets.nrows()) {
-    switch (TYPEOF(data)) {
-    case INTSXP:
-      return new RowNumber<INTSXP,true>(data);
-    case REALSXP:
-      return new RowNumber<REALSXP,true>(data);
-    case STRSXP:
-      return new RowNumber<STRSXP,true>(data);
-    default:
-      break;
-    }
+  if (subsets.nrows() != Rf_length(data)) return 0;
+
+  switch (TYPEOF(data)) {
+  case INTSXP:
+    return new RowNumber<INTSXP,true>(data);
+  case REALSXP:
+    return new RowNumber<REALSXP,true>(data);
+  case STRSXP:
+    return new RowNumber<STRSXP,true>(data);
+  default:
+    break;
   }
   // we don't know how to handle it.
   return 0;
@@ -60,19 +62,17 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 
   // handle 2nd arg
   SEXP ntiles = CADDR(call);
-  double number_tiles;
-  try {
-    number_tiles = as<int>(ntiles);
-  } catch (...) {
-    stop("could not convert n to scalar integer");
-  }
+  if (TYPEOF(ntiles) != INTSXP && TYPEOF(ntiles) != REALSXP) return 0;
+  int number_tiles = as<int>(ntiles);
+  if (number_tiles == NA_INTEGER) return 0;
 
   RObject data(CADR(call));
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
     data = CADR(data);
 
     if (TYPEOF(data) == SYMSXP) {
-      if (subsets.count(data)) data = subsets.get_variable(data);
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.count(name)) data = subsets.get_variable(name);
       else return 0;
     }
     switch (TYPEOF(data)) {
@@ -87,7 +87,8 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     }
   }
   if (TYPEOF(data) == SYMSXP) {
-    if (subsets.count(data)) data = subsets.get_variable(data);
+    SymbolString name = SymbolString(Symbol(data));
+    if (subsets.count(name)) data = subsets.get_variable(name);
     else return 0;
   }
   if (subsets.nrows() != Rf_length(data)) return 0;
@@ -114,7 +115,8 @@ Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
     data = CADR(data);
     if (TYPEOF(data) == SYMSXP) {
-      if (subsets.count(data)) data = subsets.get_variable(data);
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.count(name)) data = subsets.get_variable(name);
       else return 0;
     }
 
@@ -131,9 +133,12 @@ Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   }
 
   if (TYPEOF(data) == SYMSXP) {
-    if (subsets.count(data)) data = subsets.get_variable(data);
+    SymbolString name = SymbolString(Symbol(data));
+    if (subsets.count(name)) data = subsets.get_variable(name);
     else return 0;
   }
+  if (subsets.nrows() != Rf_length(data)) return 0;
+
   switch (TYPEOF(data)) {
   case INTSXP:
     return new Rank_Impl<INTSXP,  Increment, true>(data);

@@ -1,7 +1,7 @@
 #ifndef dplyr_OrderVectorVisitor_Impl_H
 #define dplyr_OrderVectorVisitor_Impl_H
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 #include <dplyr/comparisons.h>
 
@@ -14,8 +14,9 @@ namespace dplyr {
 
   // version used for ascending = true
   template <int RTYPE, bool ascending, typename VECTOR>
-  class OrderVectorVisitorImpl : public OrderVisitor, public comparisons<RTYPE> {
+  class OrderVectorVisitorImpl : public OrderVisitor {
     typedef comparisons<RTYPE> compare;
+
   public:
     /**
      * The type of data : int, double, SEXP, Rcomplex
@@ -42,8 +43,9 @@ namespace dplyr {
 
   // version used for ascending = false
   template <int RTYPE, typename VECTOR>
-  class OrderVectorVisitorImpl<RTYPE,false, VECTOR> : public OrderVisitor, public comparisons<RTYPE> {
+  class OrderVectorVisitorImpl<RTYPE,false, VECTOR> : public OrderVisitor {
     typedef comparisons<RTYPE> compare;
+
   public:
 
     /**
@@ -266,7 +268,6 @@ namespace dplyr {
     }
 
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
-    return 0;
   }
 }
 

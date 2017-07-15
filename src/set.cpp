@@ -11,7 +11,7 @@
 #include <dplyr/BoolResult.h>
 
 #include <dplyr/DataFrameSubsetVisitors.h>
-#include <dplyr/JoinVisitorImpl.h>
+#include <dplyr/JoinVisitor.h>
 #include <dplyr/DataFrameJoinVisitors.h>
 
 #include <dplyr/train.h>
@@ -57,7 +57,7 @@ dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool c
   if (convert) {
     for (int i=0; i<n; i++) {
       try {
-        boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], "x", "x", true));
+        boost::scoped_ptr<JoinVisitor> v(join_visitor(x[i], y[i], SymbolString("x"), SymbolString("x"), true, true));
       } catch (...) {
         return no_because("incompatible");
       }
@@ -95,7 +95,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   } else if (null_y && !null_x) {
     return no_because("y does not have names, but x does");
   } else if (null_x && null_y) {
-    return compatible_data_frame_nonames(x,y, convert);
+    return compatible_data_frame_nonames(x, y, convert);
   }
 
   CharacterVector names_x = x.names();
@@ -105,7 +105,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   CharacterVector names_x_not_in_y = setdiff(names_x, names_y);
 
   if (!ignore_col_order) {
-    if (names_y_not_in_x.size() == 0 && names_y_not_in_x.size() == 0) {
+    if (names_y_not_in_x.size() == 0 && names_x_not_in_y.size() == 0) {
       // so the names are the same, check if they are in the same order
       for (int i=0; i<n; i++) {
         if (names_x[i] != names_y[i]) {
@@ -115,51 +115,48 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     }
   }
 
-  std::stringstream ss;
-  bool ok = true;
+  CharacterVector why;
   if (names_y_not_in_x.size()) {
-    ok = false;
-    ss << "Cols in y but not x: " << collapse(names_y_not_in_x) << ". ";
+    std::stringstream ss;
+    ss << "Cols in y but not x: " << collapse_utf8(names_y_not_in_x) << ". ";
+    why.push_back(String(ss.str(), CE_UTF8));
   }
 
   if (names_x_not_in_y.size()) {
-    ok = false;
-    ss << "Cols in x but not y: " << collapse(names_x_not_in_y) << ". ";
+    std::stringstream ss;
+    ss << "Cols in x but not y: " << collapse_utf8(names_x_not_in_y) << ". ";
+    why.push_back(String(ss.str(), CE_UTF8));
   }
 
-  if (!ok) {
-    return no_because(ss.str());
-  }
+  if (why.length() > 0) return no_because(why);
 
   IntegerVector orders = r_match(names_x, names_y);
 
-  String name;
   for (int i=0; i<n; i++) {
-    name = names_x[i];
+    SymbolString name = names_x[i];
     SEXP xi = x[i], yi = y[orders[i]-1];
     boost::scoped_ptr<SubsetVectorVisitor> vx(subset_visitor(xi));
     boost::scoped_ptr<SubsetVectorVisitor> vy(subset_visitor(yi));
-    SubsetVectorVisitor* px = vx.get();
-    SubsetVectorVisitor* py = vy.get();
 
-    if (typeid(*px) != typeid(*py)) {
-      ss << "Incompatible type for column "
-         << name.get_cstring()
-         << ": x " << vx->get_r_type()
-         << ", y " << vy->get_r_type();
+    std::stringstream ss;
+    bool compatible = convert ?
+                      vx->is_compatible(vy.get(), ss, name) :
+                      vx->is_same_type(vy.get(), ss, name);
 
-      if (!convert) {
-        ok = false;
-        continue;
+    if (!compatible) {
+      if (ss.str() == "") {
+        ss << "Incompatible type for column '"
+           << name.get_utf8_cstring()
+           << "': x " << vx->get_r_type()
+           << ", y " << vy->get_r_type();
       }
+
+      why.push_back(String(ss.str(), CE_UTF8));
     }
 
-    if (! vx->is_compatible(py, ss, name)) {
-      ok = false;
-    }
   }
 
-  if (!ok) return no_because(ss.str());
+  if (why.length() > 0) return no_because(why);
   return yes();
 }
 
@@ -169,7 +166,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
   if (!compat) return compat;
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true);
+  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true, true);
   Map map(visitors);
 
   // train the map in both x and y
@@ -222,7 +219,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     if (! track_y.empty()) ss << track_y.str() << ". ";
     if (! track_mismatch.empty()) ss << track_mismatch.str();
 
-    return no_because(ss.str());
+    return no_because(CharacterVector::create(String(ss.str(), CE_UTF8)));
   }
 
   if (ok && ignore_row_order) return yes();
@@ -246,13 +243,13 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true);
+  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true, true);
   Set set(visitors);
 
   train_insert(set, x.nrows());
   train_insert_right(set, y.nrows());
 
-  return visitors.subset(set, x.attr("class"));
+  return visitors.subset(set, get_class(x));
 }
 
 // [[Rcpp::export]]
@@ -263,7 +260,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   }
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
 
-  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true);
+  DataFrameJoinVisitors visitors(x, y, x.names(), x.names(), true, true);
   Set set(visitors);
 
   train_insert(set, x.nrows());
@@ -278,7 +275,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return visitors.subset(indices, x.attr("class"));
+  return visitors.subset(indices, get_class(x));
 }
 
 // [[Rcpp::export]]
@@ -289,7 +286,7 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  DataFrameJoinVisitors visitors(y, x, y.names(), y.names(), true);
+  DataFrameJoinVisitors visitors(y, x, y.names(), y.names(), true, true);
   Set set(visitors);
 
   train_insert(set, y.nrows());
@@ -304,5 +301,5 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return visitors.subset(indices, x.attr("class"));
+  return visitors.subset(indices, get_class(x));
 }

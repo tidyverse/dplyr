@@ -36,6 +36,22 @@ select_query <- function(from,
   )
 }
 
+# List clauses used by a query, in the order they are executed in
+select_query_clauses <- function(x) {
+  present <- c(
+    where =    length(x$where) > 0,
+    group_by = length(x$group_by) > 0,
+    having =   length(x$having) > 0,
+    select =   !identical(x$select, sql("*")),
+    distinct = x$distinct,
+    order_by = length(x$order_by) > 0,
+    limit    = !is.null(x$limit)
+  )
+
+  ordered(names(present)[present], levels = names(present))
+}
+
+
 #' @export
 print.select_query <- function(x, ...) {
   cat(
@@ -43,7 +59,7 @@ print.select_query <- function(x, ...) {
     if (x$distinct) " DISTINCT", ">\n",
     sep = ""
   )
-  cat("From:     ", x$from, "\n", sep = "")
+  cat("From:     ", gsub("\n", " ", sql_render(x$from, root = FALSE)), "\n", sep = "")
 
   if (length(x$select))   cat("Select:   ", named_commas(x$select), "\n", sep = "")
   if (length(x$where))    cat("Where:    ", named_commas(x$where), "\n", sep = "")
@@ -56,18 +72,54 @@ print.select_query <- function(x, ...) {
 
 #' @export
 #' @rdname sql_build
-join_query <- function(x, y, type = "inner", by = NULL, suffix = c(".x", ".y")) {
+join_query <- function(x, y, vars, type = "inner", by = NULL, suffix = c(".x", ".y")) {
   structure(
     list(
       x = x,
       y = y,
+      vars = vars,
       type = type,
-      by = by,
-      suffix = suffix
+      by = by
     ),
     class = c("join_query", "query")
   )
 }
+
+
+# Returns NULL if variables don't need to be renamed
+join_vars <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
+  # Remove join keys from y
+  y_names <- setdiff(y_names, by$y)
+
+  # Add suffix where needed
+  suffix <- check_suffix(suffix)
+  common <- intersect(x_names, y_names)
+
+  x_match <- match(common, x_names)
+  x_new <- x_names
+  x_new[x_match] <- paste0(x_names[x_match], suffix$x)
+
+  y_match <- match(common, y_names)
+  y_new <- y_names
+  y_new[y_match] <- paste0(y_names[y_match], suffix$y)
+
+  list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
+}
+
+
+get_join_xy_names <- function(by, uniques) {
+  xy_by <- by$x[by$x == by$y]
+  x_names <- uniques$x
+  x_rename <- names(x_names) %in% xy_by
+  names(x_names)[!x_rename] <- ""
+
+  y_names <- uniques$y
+  y_remove <- names(y_names) %in% xy_by
+  y_names <- unname(y_names[!y_remove])
+
+  c(x_names, y_names)
+}
+
 
 #' @export
 print.join_query <- function(x, ...) {

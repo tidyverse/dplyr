@@ -6,6 +6,7 @@
 #include <tools/scalar_type.h>
 #include <tools/utils.h>
 #include <dplyr/vector_class.h>
+#include <dplyr/checks.h>
 
 namespace dplyr {
 
@@ -51,7 +52,7 @@ namespace dplyr {
   }
 
   template <int RTYPE>
-  inline bool valid_promotion(int rtype) {
+  inline bool valid_promotion(BOOST_ATTRIBUTE_UNUSED int rtype) {
     return false;
   }
 
@@ -88,6 +89,8 @@ namespace dplyr {
     }
 
     virtual bool try_handle(const RObject& chunk) {
+      check_length(Rf_length(chunk), 1, "a summary value");
+
       int rtype = TYPEOF(chunk);
       if (valid_conversion<RTYPE>(rtype)) {
         // copy, and memoize the copied value
@@ -157,7 +160,7 @@ namespace dplyr {
       res(ngroups, NA_INTEGER), pos(0)
     {
       copy_most_attributes(res, first_result);
-      CharacterVector levels = Rf_getAttrib(first_result, Rf_install("levels"));
+      CharacterVector levels = get_levels(first_result);
       int n = levels.size();
       for (int i=0; i<n; i++) levels_map[ levels[i] ] = i+1;
       if (!try_handle(first_result))
@@ -165,7 +168,7 @@ namespace dplyr {
     }
 
     virtual bool try_handle(const RObject& chunk) {
-      CharacterVector lev = chunk.attr("levels");
+      CharacterVector lev = get_levels(chunk);
       update_levels(lev);
 
       int val = as<int>(chunk);
@@ -188,8 +191,7 @@ namespace dplyr {
       for (int i=0; i<n; i++, ++it) {
         levels[it->second-1] = it->first;
       }
-      res.attr("class") = "factor";
-      res.attr("levels") = levels;
+      set_levels(res, levels);
       return res;
     }
 
@@ -230,7 +232,7 @@ namespace dplyr {
 
     virtual bool try_handle(const RObject& chunk) {
       if (is<List>(chunk) && Rf_length(chunk) == 1) {
-        res[pos++] = maybe_copy(VECTOR_ELT(chunk, 0));
+        res[pos++] = Rf_duplicate(VECTOR_ELT(chunk, 0));
         return true;
       }
       return false;
@@ -251,16 +253,11 @@ namespace dplyr {
   private:
     List res;
     int pos;
-
-    inline SEXP maybe_copy(SEXP x) const {
-      return is_ShrinkableVector(x) ? Rf_duplicate(x) : x;
-    }
   };
 
   template <typename CLASS>
   IDelayedProcessor* get_delayed_processor(SEXP first_result, int ngroups) {
-    if (Rf_length(first_result) != 1)
-      stop("expecting a single value, got %d", Rf_length(first_result));
+    check_length(Rf_length(first_result), 1, "a summary value");
 
     if (Rf_inherits(first_result, "factor")) {
       return new FactorDelayedProcessor<CLASS>(first_result, ngroups);

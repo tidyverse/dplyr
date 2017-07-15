@@ -1,5 +1,5 @@
 tbl_lazy <- function(df) {
-  make_tbl("lazy", ops = op_base_local(df, env = parent.frame()))
+  make_tbl("lazy", ops = op_base_local(df))
 }
 
 lazy_frame <- function(...) {
@@ -39,45 +39,103 @@ print.tbl_lazy <- function(x, ...) {
 # Single table methods ----------------------------------------------------
 
 #' @export
-filter_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+filter.tbl_lazy <- function(.data, ...) {
+  dots <- dots_quosures(...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
+  add_op_single("filter", .data, dots = dots)
+}
+#' @export
+filter_.tbl_lazy <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("filter", .data, dots = dots)
 }
 
 #' @export
-arrange_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+arrange.tbl_lazy <- function(.data, ...) {
+  dots <- dots_quosures(...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
+  names(dots) <- NULL
+
   add_op_single("arrange", .data, dots = dots)
+}
+#' @export
+arrange_.tbl_lazy <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(dots, caller_env(), ...)
+  arrange(.data, !!! dots)
 }
 
 #' @export
-select_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+select.tbl_lazy <- function(.data, ...) {
+  dots <- dots_quosures(...)
+  add_op_single("select", .data, dots = dots)
+}
+#' @export
+select_.tbl_lazy <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   add_op_single("select", .data, dots = dots)
 }
 
 #' @export
-rename_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+rename.tbl_lazy <- function(.data, ...) {
+  dots <- dots_quosures(...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
+  add_op_single("rename", .data, dots = dots)
+}
+#' @export
+rename_.tbl_lazy <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("rename", .data, dots = dots)
 }
 
 #' @export
-summarise_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
+summarise.tbl_lazy <- function(.data, ...) {
+  dots <- dots_quosures(...)
+  add_op_single("summarise", .data, dots = dots)
+}
+#' @export
+summarise_.tbl_lazy <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("summarise", .data, dots = dots)
 }
 
 #' @export
-mutate_.tbl_lazy <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+mutate.tbl_lazy <- function(.data, ..., .dots = list()) {
+  dots <- dots_quosures(..., .named = TRUE)
+  dots <- partial_eval(dots, vars = op_vars(.data))
+  add_op_single("mutate", .data, dots = dots)
+}
+#' @export
+mutate_.tbl_lazy <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("mutate", .data, dots = dots)
 }
 
 #' @export
-group_by_.tbl_lazy <- function(.data, ..., .dots, add = TRUE) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  add_op_single("group_by", .data, dots = dots, args = list(add = add))
+group_by.tbl_lazy <- function(.data, ..., add = FALSE) {
+  dots <- dots_quosures(...)
+  dots <- partial_eval(dots, vars = op_vars(.data))
+
+  if (length(dots) == 0) {
+    return(.data)
+  }
+
+  groups <- group_by_prepare(.data, .dots = dots, add = add)
+  names <- map_chr(groups$groups, as_string)
+
+  add_op_single("group_by",
+    groups$data,
+    dots = set_names(groups$groups, names),
+    args = list(add = FALSE)
+  )
+}
+#' @export
+group_by_.tbl_lazy <- function(.data, ..., .dots = list(), add = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_by(.data, !!! dots, add = add)
 }
 
 #' @export
@@ -91,9 +149,15 @@ ungroup.tbl_lazy <- function(x, ...) {
 }
 
 #' @export
-distinct_.tbl_lazy <- function(.data, ..., .dots, .keep_all = FALSE) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+distinct.tbl_lazy <- function(.data, ..., .keep_all = FALSE) {
+  dots <- dots_quosures(..., .named = TRUE)
+  dots <- partial_eval(dots, vars = op_vars(.data))
   add_op_single("distinct", .data, dots = dots, args = list(.keep_all = .keep_all))
+}
+#' @export
+distinct_.tbl_lazy <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 
 
@@ -108,7 +172,10 @@ add_op_join <- function(x, y, type, by = NULL, copy = FALSE,
     indexes = if (auto_index) list(by$y)
   )
 
+  vars <- join_vars(op_vars(x), op_vars(y), by = by, suffix = suffix)
+
   x$ops <- op_double("join", x, y, args = list(
+    vars = vars,
     type = type,
     by = by,
     suffix = suffix
@@ -133,6 +200,18 @@ add_op_semi_join <- function(x, y, anti = FALSE, by = NULL, copy = FALSE,
 
 add_op_set_op <- function(x, y, type, copy = FALSE, ...) {
   y <- auto_copy(x, y, copy)
+
+  if (inherits(x$src$con, "SQLiteConnection")) {
+    # LIMIT only part the compound-select-statement not the select-core.
+    #
+    # https://www.sqlite.org/syntax/compound-select-stmt.html
+    # https://www.sqlite.org/syntax/select-core.html
+
+    if (inherits(x$ops, "op_head") || inherits(y$ops, "op_head")) {
+      stop("SQLite does not support set operations on LIMITs", call. = FALSE)
+    }
+  }
+
   x$ops <- op_double("set_op", x, y, args = list(type = type))
   x
 }

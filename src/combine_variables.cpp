@@ -37,7 +37,7 @@ class VarList {
   }
 
 public:
-  VarList(int n) : out_indx(), out_name() {
+  explicit VarList(int n) : out_indx(), out_name() {
     out_indx.reserve(n);
     out_name.reserve(n);
   }

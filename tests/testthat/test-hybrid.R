@@ -1,5 +1,17 @@
 context("hybrid")
 
+test_that("hybrid evaluation environment is cleaned up (#2358)", {
+  # Can't use pipe here, f and g should have top-level parent.env()
+  df <- data_frame(x = 1)
+  df <- mutate(df, f = list(function(){}))
+  df <- mutate(df, g = list(~.))
+  df <- mutate(df, h = list(UQF(~.)))
+
+  expect_environments_clean(df$f[[1]])
+  expect_environments_clean(df$g[[1]])
+  expect_environments_clean(df$h[[1]])
+})
+
 test_that("n() and n_distinct() work", {
   check_hybrid_result(
     n(), a = 1:5,
@@ -123,11 +135,13 @@ test_that("%in% works (#192)", {
 test_that("min() and max() work", {
   check_hybrid_result(
     min(a), a = 1:5,
-    expected = 1L
+    expected = 1,
+    test_eval = FALSE
   )
   check_hybrid_result(
     max(a), a = 1:5,
-    expected = 5L
+    expected = 5,
+    test_eval = FALSE
   )
   check_hybrid_result(
     min(a), a = as.numeric(1:5),
@@ -139,11 +153,23 @@ test_that("min() and max() work", {
   )
   check_hybrid_result(
     min(a), a = c(1:5, NA),
-    expected = NA_integer_
+    expected = NA_real_,
+    test_eval = FALSE
   )
   check_hybrid_result(
     max(a), a = c(1:5, NA),
-    expected = NA_integer_
+    expected = NA_real_,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = c(NA, 1:5),
+    expected = NA_real_,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = c(NA, 1:5),
+    expected = NA_real_,
+    test_eval = FALSE
   )
 
   c <- 1:3
@@ -179,6 +205,48 @@ test_that("min() and max() work", {
   check_not_hybrid_result(
     max(a, na.rm = TRUE), a = c(letters, NA),
     expected = "z"
+  )
+
+  check_hybrid_result(
+    min(a, na.rm = TRUE), a = NA_real_,
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a, na.rm = TRUE), a = NA_real_,
+    expected = -Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = numeric(),
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = numeric(),
+    expected = -Inf,
+    test_eval = FALSE
+  )
+
+  check_hybrid_result(
+    max(a, na.rm = TRUE), a = NA_integer_,
+    expected = -Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a, na.rm = TRUE), a = NA_integer_,
+    expected = Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    max(a), a = integer(),
+    expected = -Inf,
+    test_eval = FALSE
+  )
+  check_hybrid_result(
+    min(a), a = integer(),
+    expected = Inf,
+    test_eval = FALSE
   )
 
   skip("Currently failing (constfold)")
@@ -233,16 +301,6 @@ test_that("min() and max() work", {
     max(a, na.rm = T), a = c(1:5, NA),
     expected = 5L
   )
-
-  skip("Currently failing (#2305)")
-  check_hybrid_result(
-    min(a, na.rm = TRUE), a = NA_real_,
-    expected = Inf
-  )
-  check_hybrid_result(
-    max(a, na.rm = TRUE), a = NA_integer_,
-    expected = -Inf
-  )
 })
 
 test_that("first(), last(), and nth() work", {
@@ -255,11 +313,11 @@ test_that("first(), last(), and nth() work", {
     expected = 5
   )
   check_hybrid_result(
-    nth(a, 6, default = 3L), a = as.numeric(1:5),
+    nth(a, 6, default = 3), a = as.numeric(1:5),
     expected = 3
   )
   check_hybrid_result(
-    nth(a, 6, def = 3L), a = as.numeric(1:5),
+    nth(a, 6, def = 3), a = as.numeric(1:5),
     expected = 3
   )
   check_hybrid_result(
@@ -272,27 +330,15 @@ test_that("first(), last(), and nth() work", {
     expected = "d"
   )
 
-  skip("Currently failing (data types)")
   check_hybrid_result(
     nth(a, 3), a = as.numeric(1:5) * 1i,
     expected = 3i
-  )
-  check_hybrid_result(
-    nth(a, 1 + 2), a = letters[1:5],
-    expected = "c"
   )
   check_not_hybrid_result(
     nth(a, 2), a = as.list(1:5),
     expected = 2L
   )
 
-  skip("Currently failing (negative value)")
-  check_hybrid_result(
-    nth(a, -4), a = 1:5,
-    expected = 2L
-  )
-
-  skip("Currently failing (match call)")
   check_not_hybrid_result(
     nth(a, order_by = 5:1, 2), a = 1:5,
     expected = 4L
@@ -310,7 +356,6 @@ test_that("first(), last(), and nth() work", {
     error = "unused argument"
   )
 
-  skip("Currently failing (external variable)")
   c <- 1:3
   check_not_hybrid_result(
     first(c), a = 2:4,
@@ -325,10 +370,20 @@ test_that("first(), last(), and nth() work", {
     expected = 2L
   )
 
-  skip("Currently failing (segfault)")
-  check_not_hybrid_result(
+  check_hybrid_result(
     first(a, order_by = b), a = 1:5, b = 5:1,
     expected = 5L
+  )
+
+  skip("Currently failing (constfold)")
+  check_hybrid_result(
+    nth(a, 1 + 2), a = letters[1:5],
+    expected = "c"
+  )
+
+  check_hybrid_result(
+    nth(a, -4), a = 1:5,
+    expected = 2L
   )
 })
 
@@ -370,15 +425,6 @@ test_that("lead() and lag() work", {
   )
 
   check_not_hybrid_result(
-    list(lead(a, default = 2 + 4)), a = 1:5,
-    expected = list(as.numeric(2:6))
-  )
-  check_not_hybrid_result(
-    list(lag(a, default = 3L - 3L)), a = as.numeric(1:5),
-    expected = list(as.numeric(0:4))
-  )
-
-  check_not_hybrid_result(
     list(lead(a, order_by = b)), a = 1:5, b = 5:1,
     expected = list(c(NA, 1:4))
   )
@@ -387,7 +433,6 @@ test_that("lead() and lag() work", {
     expected = list(c(2:5, NA))
   )
 
-  skip("Currently failing (complex)")
   check_hybrid_result(
     list(lead(a)), a = 1:5 * 1i,
     expected = list(c(2:5, NA) * 1i)
@@ -397,7 +442,17 @@ test_that("lead() and lag() work", {
     expected = list(c(NA, 1:4) * 1i)
   )
 
-  skip("Currently failing")
+  v <- 1:2
+  check_not_hybrid_result(
+    list(lead(a, v[1])), a = 1:5,
+    expected = list(c(2:5, NA))
+  )
+  check_not_hybrid_result(
+    list(lag(a, v[1])), a = 1:5,
+    expected = list(c(NA, 1:4))
+  )
+
+  skip("Currently failing (constfold)")
   check_hybrid_result(
     list(lead(a, 1L + 2L)), a = 1:5,
     expected = list(c(4:5, NA, NA, NA))
@@ -405,6 +460,15 @@ test_that("lead() and lag() work", {
   check_hybrid_result(
     list(lag(a, 4L - 2L)), a = as.numeric(1:5),
     expected = list(c(NA, NA, as.numeric(1:3)))
+  )
+
+  check_not_hybrid_result(
+    list(lead(a, default = 2 + 4)), a = 1:5,
+    expected = list(as.numeric(2:6))
+  )
+  check_not_hybrid_result(
+    list(lag(a, default = 3L - 3L)), a = as.numeric(1:5),
+    expected = list(as.numeric(0:4))
   )
 
   check_hybrid_result(
@@ -568,7 +632,7 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   check_hybrid_result(
     list(row_number()), a = 1:5,
     expected = list(1:5),
-                test_eval = FALSE
+    test_eval = FALSE
   )
   check_hybrid_result(
     list(row_number(a)), a = 5:1,
@@ -614,6 +678,31 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   expect_not_hybrid_error(
     ntile(a, 2, 1), a = 5:1,
     error = "unused argument"
+  )
+
+  check_not_hybrid_result(
+    row_number("a"), a = 5:1,
+    expected = 1L
+  )
+  check_not_hybrid_result(
+    min_rank("a"), a = 5:1,
+    expected = 1L
+  )
+  check_not_hybrid_result(
+    percent_rank("a"), a = 5:1,
+    expected = is.nan
+  )
+  check_not_hybrid_result(
+    cume_dist("a"), a = 5:1,
+    expected = 1
+  )
+  check_not_hybrid_result(
+    dense_rank("a"), a = 5:1,
+    expected = 1L
+  )
+  check_not_hybrid_result(
+    ntile("a", 2), a = 5:1,
+    expected = 1L
   )
 
   skip("Currently failing (constfold)")

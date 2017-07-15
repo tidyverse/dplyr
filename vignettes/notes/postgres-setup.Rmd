@@ -5,28 +5,26 @@
 
 # Setting up Postgresql
 
+## Install
+
 First install postgresql, create a data directory, and create a default database.
 
 ```
-# brew update
-# brew unlink postgresql
 brew install postgresql
 export PGDATA=~/db/postgres-9.5 # set this globally somewhere
 initdb -E utf8
 createdb
 createdb lahman
 createdb nycflightd13
-```pos
+```
 
-Then on reboot run
+## Start
 
 ```
 pg_ctl start
 ```
 
-## Check connection
-
-From R,
+## Connect
 
 ```{r, eval = FALSE}
 install.packages("RPostgreSQL")

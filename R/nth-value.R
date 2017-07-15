@@ -13,15 +13,20 @@
 #'   If a double is supplied, it will be silently truncated.
 #' @param order_by An optional vector used to determine the order
 #' @param default A default value to use if the position does not exist in
-#'   the input. This is guessed by default for atomic vectors, where a
-#'   missing value of the appropriate type is return, and for lists, where
-#'   a `NULL` is return. For more complicated objects, you'll need to
-#'   supply this value.
+#'   the input. This is guessed by default for base vectors, where a
+#'   missing value of the appropriate type is returned, and for lists, where
+#'   a `NULL` is return.
+#'
+#'   For more complicated objects, you'll need to supply this value.
+#'   Make sure it is the same type as `x`.
 #' @return A single value. `[[` is used to do the subsetting.
 #' @export
 #' @examples
 #' x <- 1:10
 #' y <- 10:1
+#'
+#' first(x)
+#' last(y)
 #'
 #' nth(x, 1)
 #' nth(x, 5)
@@ -29,17 +34,17 @@
 #' nth(x, 11)
 #'
 #' last(x)
+#' # Second argument provides optional ordering
 #' last(x, y)
+#'
+#' # These functions always return a single value
+#' first(integer())
 nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
   stopifnot(length(n) == 1, is.numeric(n))
   n <- trunc(n)
 
   if (n == 0 || n > length(x) || n < -length(x)) {
-    if (is.list(x)) {
-      return(default)
-    } else {
-      return(as.vector(default, typeof(x)))
-    }
+    return(default)
   }
 
   # Negative values index from RHS
@@ -67,20 +72,19 @@ last <- function(x, order_by = NULL, default = default_missing(x)) {
 }
 
 default_missing <- function(x) {
-  # The user needs to supply a default for anything with attributes
-  if (!is.vector(x)) {
-    stop(
-      "Don't know how to generate default for object of class ",
-      paste0(class(x), collapse = "/"),
-      call. = FALSE
-    )
-  }
+  UseMethod("default_missing")
+}
 
-  if (is.list(x)) {
+#' @export
+default_missing.default <- function(x) {
+  if (!is.object(x) && is.list(x)) {
     NULL
-  } else if (is.vector(x) && is.atomic(x)) {
-    def <- NA
-    storage.mode(def) <- storage.mode(x)
-    def
+  } else {
+    x[NA_real_]
   }
+}
+
+#' @export
+default_missing.data.frame <- function(x) {
+  rep(NA, nrow(x))
 }

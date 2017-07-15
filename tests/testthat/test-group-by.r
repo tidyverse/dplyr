@@ -65,7 +65,7 @@ test_that("local group_by preserves variable types", {
     expected <- data_frame(unique(df_var[[var]]), n = 1L)
     names(expected)[1] <- var
 
-    summarised <- df_var %>% group_by_(var) %>% summarise(n = n())
+    summarised <- df_var %>% group_by(!! sym(var)) %>% summarise(n = n())
     expect_equal(summarised, expected, info = var)
   }
 })
@@ -186,7 +186,7 @@ test_that("grouped_df requires a list of symbols (#665)", {
 })
 
 test_that("group_by gives meaningful message with unknow column (#716)", {
-  expect_error(group_by(iris, wrong_name_of_variable), "unknown variable to group by")
+  expect_error(group_by(iris, wrong_name_of_variable), "unknown column")
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
@@ -229,35 +229,30 @@ test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
   expect_equal(res, c("tbl_df", "data.frame"))
 })
 
-test_that("group_by supports column (#1012)", {
-  g1 <- mtcars %>% group_by(cyl)
-  g2 <- mtcars %>% group_by(column(~cyl))
-  g3 <- mtcars %>% group_by(column("cyl"))
-  a <- "cyl"
-  g4 <- mtcars %>% group_by(column(a))
+test_that(paste0("group_by handles encodings for native strings (#1507)"), {
+  with_non_utf8_encoding({
+    special <- get_native_lang_string()
 
-  expect_equal(attr(g1, "vars"), attr(g2, "vars"))
-  expect_equal(attr(g1, "vars"), attr(g3, "vars"))
-  expect_equal(attr(g1, "vars"), attr(g4, "vars"))
-})
+    df <- data.frame(x = 1:3, Eng = 2:4)
 
-for (special in lang_strings) {
-  if (enc2native(special) == special) {
-    test_that(paste0("group_by handles encodings for ", special, " (#1507)"), {
-
-      df <- data.frame(x = 1:3, Eng = 2:4)
-
-      for (names_converter in c(enc2native, enc2utf8)) {
-        for (dots_converter in c(enc2native, enc2utf8)) {
-          names(df) <- names_converter(c(special, "Eng"))
-          res <- group_by_(df, .dots = dots_converter(special))
-          expect_equal(names(res), names(df))
-          expect_groups(res, special)
-        }
+    for (names_converter in c(enc2native, enc2utf8)) {
+      for (dots_converter in c(enc2native, enc2utf8)) {
+        names(df) <- names_converter(c(special, "Eng"))
+        res <- group_by(df, !!! syms(dots_converter(special)))
+        expect_equal(names(res), names(df))
+        expect_groups(res, special)
       }
-    })
-  }
-}
+    }
+
+    for (names_converter in c(enc2native, enc2utf8)) {
+      names(df) <- names_converter(c(special, "Eng"))
+
+      res <- group_by(df, !!! special)
+      expect_equal(names(res), c(names(df), deparse(special)))
+      expect_equal(groups(res), list(as.name(enc2native(deparse(special)))))
+    }
+  })
+})
 
 test_that("group_by fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
@@ -268,4 +263,14 @@ test_that("group_by fails gracefully on raw columns (#1803)", {
 test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(rowwise(df), "unsupported type")
+})
+
+test_that("group_by can perform mutate (on database)", {
+  mf <- memdb_frame(x = c(3:1), y = c(1:3))
+  out <- mf %>%
+    group_by(z = x + y) %>%
+    summarise(n = n()) %>%
+    collect()
+
+  expect_equal(out, tibble(z = 4L, n = 3L))
 })

@@ -38,7 +38,7 @@ namespace dplyr {
     DataFrameGroupedSubset(SEXP x) : data(x), visitors(data) {}
 
     virtual SEXP get(const SlicingIndex& indices) {
-      return visitors.subset(indices, data.attr("class"));
+      return visitors.subset(indices, get_class(data));
     }
 
     virtual SEXP get_variable() const {
@@ -77,7 +77,6 @@ namespace dplyr {
       break;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
-    return 0;
   }
 
 
@@ -87,7 +86,10 @@ namespace dplyr {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     SummarisedSubsetTemplate(SummarisedVariable x) :
-      object(x), output(1) {}
+      object(x), output(1)
+    {
+      copy_most_attributes(output, object);
+    }
 
     virtual SEXP get(const SlicingIndex& indices) {
       output[0] = object[indices.group()];
@@ -106,24 +108,9 @@ namespace dplyr {
   };
 
   template <>
-  class SummarisedSubsetTemplate<VECSXP> : public GroupedSubset {
-  public:
-    SummarisedSubsetTemplate(SummarisedVariable x) : object(x) {}
-
-    virtual SEXP get(const SlicingIndex& indices) {
-      return List::create(object[indices.group()]);
-    }
-
-    virtual SEXP get_variable() const {
-      return object;
-    }
-    virtual bool is_summary() const {
-      return true;
-    }
-
-  private:
-    List object;
-  };
+  inline SEXP SummarisedSubsetTemplate<VECSXP>::get(const SlicingIndex& indices) {
+    return List::create(object[indices.group()]);
+  }
 
   inline GroupedSubset* summarised_subset(SummarisedVariable x) {
     switch (TYPEOF(x)) {
@@ -143,7 +130,6 @@ namespace dplyr {
       break;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
-    return 0;
   }
 }
 

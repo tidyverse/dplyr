@@ -42,14 +42,16 @@ lahman_sqlite <- function(path = NULL) {
 
 #' @export
 #' @rdname lahman
-lahman_postgres <- function(dbname = "lahman", ...) {
-  copy_lahman(src_postgres(dbname, ...))
+lahman_postgres <- function(dbname = "lahman", host = "localhost", ...) {
+  src <- src_postgres(dbname, host = host, ...)
+  copy_lahman(src)
 }
 
 #' @export
 #' @rdname lahman
 lahman_mysql <- function(dbname = "lahman", ...) {
-  copy_lahman(src_mysql(dbname, ...))
+  src <- src_mysql(dbname, ...)
+  copy_lahman(src)
 }
 
 #' @export
@@ -91,7 +93,7 @@ has_lahman <- function(type, ...) {
   if (!requireNamespace("Lahman", quietly = TRUE)) return(FALSE)
   if (missing(type)) return(TRUE)
 
-  succeeds(lahman(type, ...), quiet = TRUE)
+  succeeds(lahman(type, ...), quiet = FALSE)
 }
 
 #' @rdname lahman

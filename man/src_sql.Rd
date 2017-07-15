@@ -16,6 +16,6 @@ class name}
 \item{...}{fields used by object}
 }
 \description{
-\code{src_sql()} is the standard constructor for all SQL based srcs.
+Deprecated: please use \link{src_dbi} instead.
 }
 \keyword{internal}

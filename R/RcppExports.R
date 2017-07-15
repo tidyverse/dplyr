@@ -34,8 +34,8 @@ init_logging <- function(log_level) {
     invisible(.Call('dplyr_init_logging', PACKAGE = 'dplyr', log_level))
 }
 
-arrange_impl <- function(data, dots) {
-    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, dots)
+arrange_impl <- function(data, quosures) {
+    .Call('dplyr_arrange_impl', PACKAGE = 'dplyr', data, quosures)
 }
 
 #' Do values in a numeric vector fall in specified range?
@@ -82,12 +82,8 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call('dplyr_n_distinct_multi', PACKAGE = 'dplyr', variables, na_rm)
 }
 
-filter_impl <- function(df, dots) {
-    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, dots)
-}
-
-resolve_vars <- function(new_groups, names) {
-    .Call('dplyr_resolve_vars', PACKAGE = 'dplyr', new_groups, names)
+filter_impl <- function(df, quo) {
+    .Call('dplyr_filter_impl', PACKAGE = 'dplyr', df, quo)
 }
 
 grouped_df_impl <- function(data, symbols, drop) {
@@ -110,32 +106,28 @@ group_size_grouped_cpp <- function(gdf) {
     .Call('dplyr_group_size_grouped_cpp', PACKAGE = 'dplyr', gdf)
 }
 
-semi_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+semi_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call('dplyr_semi_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, na_match)
 }
 
-anti_join_impl <- function(x, y, by_x, by_y) {
-    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y)
+anti_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call('dplyr_anti_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, na_match)
 }
 
-inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_inner_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
-left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_left_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
-right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
+right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_right_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
-full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y) {
-    .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y)
-}
-
-slice_impl <- function(df, dots) {
-    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
+full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
+    .Call('dplyr_full_join_impl', PACKAGE = 'dplyr', x, y, by_x, by_y, suffix_x, suffix_y, na_match)
 }
 
 mutate_impl <- function(df, dots) {
@@ -170,12 +162,20 @@ setdiff_data_frame <- function(x, y) {
     .Call('dplyr_setdiff_data_frame', PACKAGE = 'dplyr', x, y)
 }
 
+slice_impl <- function(df, dots) {
+    .Call('dplyr_slice_impl', PACKAGE = 'dplyr', df, dots)
+}
+
 summarise_impl <- function(df, dots) {
     .Call('dplyr_summarise_impl', PACKAGE = 'dplyr', df, dots)
 }
 
 test_comparisons <- function() {
     .Call('dplyr_test_comparisons', PACKAGE = 'dplyr')
+}
+
+test_matches <- function() {
+    .Call('dplyr_test_matches', PACKAGE = 'dplyr')
 }
 
 assert_all_white_list <- function(data) {

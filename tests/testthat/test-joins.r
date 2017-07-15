@@ -151,6 +151,49 @@ test_that("can control suffixes with suffix argument", {
   expect_named(j4, c("x", "z1", "z2"))
 })
 
+test_that("can handle empty string in suffix argument, left side (#2228, #2182, #2007)", {
+  j1 <- inner_join(e, f, "x", suffix = c("", "2"))
+  j2 <- left_join(e, f, "x", suffix = c("", "2"))
+  j3 <- right_join(e, f, "x", suffix = c("", "2"))
+  j4 <- full_join(e, f, "x", suffix = c("", "2"))
+
+  expect_named(j1, c("x", "z", "z2"))
+  expect_named(j2, c("x", "z", "z2"))
+  expect_named(j3, c("x", "z", "z2"))
+  expect_named(j4, c("x", "z", "z2"))
+})
+
+test_that("can handle empty string in suffix argument, right side (#2228, #2182, #2007)", {
+  j1 <- inner_join(e, f, "x", suffix = c("1", ""))
+  j2 <- left_join(e, f, "x", suffix = c("1", ""))
+  j3 <- right_join(e, f, "x", suffix = c("1", ""))
+  j4 <- full_join(e, f, "x", suffix = c("1", ""))
+
+  expect_named(j1, c("x", "z1", "z"))
+  expect_named(j2, c("x", "z1", "z"))
+  expect_named(j3, c("x", "z1", "z"))
+  expect_named(j4, c("x", "z1", "z"))
+})
+
+test_that("disallow empty string in both sides of suffix argument (#2228)", {
+  expect_error(
+    inner_join(e, f, "x", suffix = c("", "")),
+    "Cannot use empty string for both x and y suffixes"
+  )
+  expect_error(
+    left_join(e, f, "x", suffix = c("", "")),
+    "Cannot use empty string for both x and y suffixes"
+  )
+  expect_error(
+    right_join(e, f, "x", suffix = c("", "")),
+    "Cannot use empty string for both x and y suffixes"
+  )
+  expect_error(
+    full_join(e, f, "x", suffix = c("", "")),
+    "Cannot use empty string for both x and y suffixes"
+  )
+})
+
 test_that("inner_join does not segfault on NA in factors (#306)", {
   a <- data.frame(x = c("p", "q", NA), y = c(1, 2, 3), stringsAsFactors = TRUE)
   b <- data.frame(x = c("p", "q", "r"), z = c(4, 5, 6), stringsAsFactors = TRUE)
@@ -409,26 +452,28 @@ test_that("join columns are not moved to the left (#802)", {
 })
 
 test_that("join can handle multiple encodings (#769)", {
-  x <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), score = c(5, 7, 6))
-  y <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), attendance = c(8, 10, 9))
+  text <- c("\xC9lise", "Pierre", "Fran\xE7ois")
+  Encoding(text) <- "latin1"
+  x <- data_frame(name = text, score = c(5, 7, 6))
+  y <- data_frame(name = text, attendance = c(8, 10, 9))
   res <- left_join(x, y, by = "name")
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
 
-  x <- data_frame(name = factor(c("\xC9lise", "Pierre", "Fran\xE7ois")), score = c(5, 7, 6))
-  y <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), attendance = c(8, 10, 9))
+  x <- data_frame(name = factor(text), score = c(5, 7, 6))
+  y <- data_frame(name = text, attendance = c(8, 10, 9))
   res <- suppressWarnings(left_join(x, y, by = "name"))
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, y$name)
 
-  x <- data_frame(name = c("\xC9lise", "Pierre", "Fran\xE7ois"), score = c(5, 7, 6))
-  y <- data_frame(name = factor(c("\xC9lise", "Pierre", "Fran\xE7ois")), attendance = c(8, 10, 9))
+  x <- data_frame(name = text, score = c(5, 7, 6))
+  y <- data_frame(name = factor(text), attendance = c(8, 10, 9))
   res <- suppressWarnings(left_join(x, y, by = "name"))
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
 
-  x <- data_frame(name = factor(c("\xC9lise", "Fran\xE7ois", "Pierre")), score = c(5, 7, 6))
-  y <- data_frame(name = factor(c("\xC9lise", "Pierre", "Fran\xE7ois")), attendance = c(8, 10, 9))
+  x <- data_frame(name = factor(text), score = c(5, 7, 6))
+  y <- data_frame(name = factor(text), attendance = c(8, 10, 9))
   res <- suppressWarnings(left_join(x, y, by = "name"))
   expect_equal(nrow(res), 3L)
   expect_equal(res$name, x$name)
@@ -443,7 +488,7 @@ test_that("join creates correctly named results (#855)", {
   expect_equal(res$r, x$r)
 })
 
-test_that("inner join gives same result as merge. #1281", {
+test_that("inner join gives same result as merge if na_matches = 'na' (#1281)", {
   set.seed(75)
   x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
@@ -451,7 +496,7 @@ test_that("inner join gives same result as merge. #1281", {
   y <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
     stringsAsFactors = FALSE)
-  ij <- inner_join(x, y, by = c("cat1", "cat2"))
+  ij <- inner_join(x, y, by = c("cat1", "cat2"), na_matches = "na")
   me <- merge(x, y, by = c("cat1", "cat2"))
   expect_true(equal_data_frame(ij, me))
 })
@@ -487,7 +532,7 @@ test_that("joins handle tzone differences (#819)", {
   expect_equal(attr(left_join(df1, df1)$date, "tzone"), "America/Chicago")
 })
 
-test_that("joins matches NA in character vector (#892)", {
+test_that("joins matches NA in character vector if na_matches = 'na' (#892, #2033)", {
   x <- data.frame(
     id = c(NA_character_, NA_character_),
     stringsAsFactors = F
@@ -499,7 +544,7 @@ test_that("joins matches NA in character vector (#892)", {
     stringsAsFactors = F
   )
 
-  res <- left_join(x, y, by = "id")
+  res <- left_join(x, y, by = "id", na_matches = "na")
   expect_true(all(is.na(res$id)))
   expect_equal(res$LETTER, rep(rep(c("A", "B"), each = 2), 2))
 })
@@ -620,46 +665,100 @@ test_that("inner join not crashing (#1559)", {
   for (i in 2:100) expect_equal(res[, 1], res[, i])
 })
 
+test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
+  with_non_utf8_encoding({
+    special <- get_native_lang_string()
+
+    for (factor1 in c(FALSE, TRUE)) {
+      for (factor2 in c(FALSE, TRUE)) {
+        for (encoder1 in c(enc2native, enc2utf8)) {
+          for (encoder2 in c(enc2native, enc2utf8)) {
+            df1 <- data.frame(x = encoder1(special), y = 1, stringsAsFactors = factor1)
+            df1 <- tbl_df(df1)
+            df2 <- data.frame(x = encoder2(special), z = 2, stringsAsFactors = factor2)
+            df2 <- tbl_df(df2)
+            df <- data.frame(x = special, y = 1, z = 2, stringsAsFactors = factor1 && factor2)
+            df <- tbl_df(df)
+
+            info <- paste(
+              factor1,
+              factor2,
+              Encoding(as.character(df1$x)),
+              Encoding(as.character(df2$x))
+            )
+
+            if (factor1 != factor2) warning_msg <- "coercing"
+            else warning_msg <- NA
+
+            expect_warning_msg <- function(code, msg = warning_msg) {
+              expect_warning(
+                code, msg,
+                info = paste(deparse(substitute(code)[[2]][[1]]), info))
+            }
+
+            expect_equal_df <- function(code, df_ = df) {
+              code <- substitute(code)
+              eval(bquote(
+                expect_equal(
+                  .(code), df_,
+                  info = paste(deparse(code[[1]]), info)
+                )
+              ))
+            }
+
+            expect_warning_msg(expect_equal_df(inner_join(df1, df2, by = "x")))
+            expect_warning_msg(expect_equal_df(left_join(df1, df2, by = "x")))
+            expect_warning_msg(expect_equal_df(right_join(df1, df2, by = "x")))
+            expect_warning_msg(expect_equal_df(full_join(df1, df2, by = "x")))
+            expect_warning_msg(
+              expect_equal_df(
+                semi_join(df1, df2, by = "x"),
+                data.frame(x = special, y = 1, stringsAsFactors = factor1)
+              ),
+              msg = NA
+            )
+            expect_warning_msg(
+              expect_equal_df(
+                anti_join(df1, df2, by = "x"),
+                data.frame(x = special, y = 1, stringsAsFactors = factor1)[0,]
+              ),
+              msg = NA
+            )
+          }
+        }
+      }
+    }
+  })
+})
+
 test_that("left_join handles mix of encodings in column names (#1571)", {
+  with_non_utf8_encoding({
+    special <- get_native_lang_string()
 
-  df1 <- tibble::data_frame(x = 1:6, foo = 1:6)
-  names(df1)[1] <- "l\u00f8penummer"
+    df1 <- data_frame(x = 1:6, foo = 1:6)
+    names(df1)[1] <- special
 
-  df2 <- tibble::data_frame(x = 1:6, baz = 1:6)
-  names(df2)[1] <- iconv("l\u00f8penummer", from = "UTF-8", to = "latin1")
+    df2 <- data_frame(x = 1:6, baz = 1:6)
+    names(df2)[1] <- enc2native(special)
 
-  expect_message(res <- left_join(df1, df2))
-  expect_equal(names(res), c("l\u00f8penummer", "foo", "baz"))
-  expect_equal(res$foo, 1:6)
-  expect_equal(res$baz, 1:6)
-  expect_equal(res[["l\u00f8penummer"]], 1:6)
-
+    expect_message(res <- left_join(df1, df2), special, fixed = TRUE)
+    expect_equal(names(res), c(special, "foo", "baz"))
+    expect_equal(res$foo, 1:6)
+    expect_equal(res$baz, 1:6)
+    expect_equal(res[[special]], 1:6)
+  })
 })
 
-test_that("can handle empty string in suffix argument, left side (#2228, #2182, #2007)", {
-  skip("not yet resolved, would cause stack overflow")
-
-  j1 <- inner_join(e, f, "x", suffix = c("", "2"))
-  j2 <- left_join(e, f, "x", suffix = c("", "2"))
-  j3 <- right_join(e, f, "x", suffix = c("", "2"))
-  j4 <- full_join(e, f, "x", suffix = c("", "2"))
-
-  expect_named(j1, c("x", "z", "z2"))
-  expect_named(j2, c("x", "z", "z2"))
-  expect_named(j3, c("x", "z", "z2"))
-  expect_named(j4, c("x", "z", "z2"))
-})
-
-test_that("can handle empty string in suffix argument, right side (#2228, #2182, #2007)", {
-  skip("not yet resolved, would cause stack overflow")
-
-  j1 <- inner_join(e, f, "x", suffix = c("1", ""))
-  j2 <- left_join(e, f, "x", suffix = c("1", ""))
-  j3 <- right_join(e, f, "x", suffix = c("1", ""))
-  j4 <- full_join(e, f, "x", suffix = c("1", ""))
-
-  expect_named(j1, c("x", "z1", "z"))
-  expect_named(j2, c("x", "z1", "z"))
-  expect_named(j3, c("x", "z1", "z"))
-  expect_named(j4, c("x", "z1", "z"))
+test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
+  df1 <- data_frame(a = NA)
+  df2 <- data_frame(a = NA, b = 1:3)
+  for (na_matches in c("na", "never")) {
+    accept_na_match <- (na_matches == "na")
+    expect_equal(inner_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + 3 * accept_na_match)
+    expect_equal(left_join(df1, df2, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
+    expect_equal(right_join(df2, df1, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
+    expect_equal(full_join(df1, df2, na_matches = na_matches) %>% nrow, 4 - accept_na_match)
+    expect_equal(anti_join(df1, df2, na_matches = na_matches) %>% nrow, 1 - accept_na_match)
+    expect_equal(semi_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + accept_na_match)
+  }
 })

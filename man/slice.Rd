@@ -2,27 +2,27 @@
 % Please edit documentation in R/manip.r
 \name{slice}
 \alias{slice}
-\alias{slice_}
-\title{Select rows by position.}
+\title{Select rows by position}
 \usage{
 slice(.data, ...)
-
-slice_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
 \item{...}{Integer row values}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \description{
 Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
 }
+\section{Tidy data}{
+
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
+}
+
 \examples{
 slice(mtcars, 1L)
 slice(mtcars, n())

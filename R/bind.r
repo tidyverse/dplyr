@@ -5,6 +5,9 @@
 #' data frames into one. `combine()` acts like [c()] or
 #' [unlist()] but uses consistent dplyr coercion rules.
 #'
+#' The output of `bind_rows()` will contain a column if that column
+#' appears in any of the inputs.
+#'
 #' @section Deprecated functions:
 #' `rbind_list()` and `rbind_all()` have been deprecated. Instead use
 #' `bind_rows()`.
@@ -14,11 +17,13 @@
 #'   Each argument can either be a data frame, a list that could be a data
 #'   frame, or a list of data frames.
 #'
-#'   When column-binding, rows are matched by position, not value so all data
+#'   When row-binding, columns are matched by name, and any missing
+#'   columns with be filled with NA.
+#'
+#'   When column-binding, rows are matched by position, so all data
 #'   frames must have the same number of rows. To match by value, not
-#'   position, see [join]. When row-binding, columns are
-#'   matched by name, and any values that don't match will be filled with NA.
-#' @param .id Data frames identifier.
+#'   position, see [join].
+#' @param .id Data frame identifier.
 #'
 #'   When `.id` is supplied, a new column of identifiers is
 #'   created to link each row to its original data frame. The labels
@@ -81,12 +86,23 @@ bind_rows <- function(..., .id = NULL) {
   bind_rows_(x, .id)
 }
 
+#' @export
+rbind.tbl_df <- function(..., deparse.level = 1) {
+  bind_rows(...)
+}
 
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
   x <- list_or_dots(...)
-  cbind_all(x)
+
+  out <- cbind_all(x)
+  tibble::repair_names(out)
+}
+
+#' @export
+cbind.tbl_df <- function(..., deparse.level = 1) {
+  bind_cols(...)
 }
 
 #' @export
@@ -125,7 +141,7 @@ is_data_list <- function(x) {
     return(TRUE)
 
   # With names
-  if (any(!has_names(x)))
+  if (any(!have_name(x)))
     return(FALSE)
 
   # Where each element is an 1d vector or list

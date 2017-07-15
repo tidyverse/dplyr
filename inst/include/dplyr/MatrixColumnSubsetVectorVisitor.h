@@ -40,22 +40,6 @@ namespace dplyr {
       return res;
     }
 
-    inline SEXP subset(const Rcpp::LogicalVector& index) const {
-      int n = output_size(index);
-      int nc = data.ncol();
-      Matrix<RTYPE> res(n, data.ncol());
-      for (int h=0; h<nc; h++) {
-        Column column = res.column(h);
-        Column source_column = const_cast<Matrix<RTYPE>&>(data).column(h);
-
-        for (int i=0, k=0; k<n; k++, i++) {
-          while (index[i] != TRUE) i++;
-          column[k] = source_column[i];
-        }
-      }
-      return res;
-    }
-
     inline SEXP subset(EmptySubset index) const {
       return Matrix<RTYPE>(0, data.ncol());
     }
@@ -68,8 +52,8 @@ namespace dplyr {
       return "matrix";
     }
 
-    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const std::string&) const {
-      return true;
+    inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
+      return is_same_typeid(other);
     }
 
   private:

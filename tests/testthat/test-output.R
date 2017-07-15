@@ -4,10 +4,14 @@ test_that("ungrouped output", {
   if (packageVersion("tibble") < "1.0-10")
     skip("need tibble 1.0-10 or later for this test")
 
-  mtcars_mem <- src_memdb() %>% copy_to(mtcars, name = random_table_name())
-  iris_mem <- src_memdb() %>% copy_to(iris, name = random_table_name())
+  mtcars_mem <- src_memdb() %>%
+    copy_to(mtcars, name = "mtcars-output-test", overwrite = TRUE)
+  iris_mem <- src_memdb() %>%
+    copy_to(iris, name = "iris-output-test", overwrite = TRUE) %>%
+    group_by(Species) %>%
+    arrange(Sepal.Length)
 
-  with_mock(
+  withr::with_options(list(digits = 4, width = 80), with_mock(
     `dplyr::sqlite_version` = function() "x.y.z",
     {
       expect_output_file_rel(
@@ -35,5 +39,5 @@ test_that("ungrouped output", {
         "iris-head-30-80.txt"
       )
     }
-  )
+  ))
 })

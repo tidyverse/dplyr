@@ -37,10 +37,6 @@ namespace dplyr {
       return "data.frame";
     }
 
-    virtual bool is_compatible(VectorVisitor* other, std::stringstream&, const std::string&) const {
-      return true;
-    }
-
     bool is_na(int i) const {
       return false;
     }

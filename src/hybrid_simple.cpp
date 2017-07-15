@@ -34,10 +34,11 @@ Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   SEXP arg = CADR(call);
   bool is_summary = false;
   if (TYPEOF(arg) == SYMSXP) {
-    if (subsets.count(arg)) {
+    SymbolString name = SymbolString(Symbol(arg));
+    if (subsets.count(name)) {
       // we have a symbol from the data - great
-      is_summary = subsets.is_summary(arg);
-      arg = subsets.get_variable(arg);
+      is_summary = subsets.is_summary(name);
+      arg = subsets.get_variable(name);
     } else {
       // we have a symbol but we don't know about it, so we give up and let R evaluation handle it
       return 0;

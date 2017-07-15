@@ -23,8 +23,8 @@ lead or lag by}
 \item{...}{Needed for compatibility with lag generic.}
 }
 \description{
-Lead and lag are useful for comparing values offset by a constant (e.g. the
-previous or next value)
+Find the "next" or "previous" values in a vector. Useful for comparing values
+ahead of or behind the current values.
 }
 \examples{
 lead(1:10, 1)

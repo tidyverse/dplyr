@@ -11,7 +11,6 @@
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/GroupedDataFrame.h>
 
-#include <dplyr/tbl_cpp.h>
 #include <dplyr/Collecter.h>
 
 using namespace Rcpp;
@@ -43,11 +42,19 @@ private:
 };
 
 template <typename Dots>
+String get_dot_name(const Dots& dots, int i) {
+  RObject names = dots.names();
+  if (Rf_isNull(names)) return "";
+  return STRING_ELT(names, i);
+}
+
+template <typename Dots>
 List rbind__impl(Dots dots, SEXP id = R_NilValue) {
   int ndata = dots.size();
   int n = 0;
   DataFrameAbleVector chunks;
   std::vector<int> df_nrows;
+  std::vector<String> dots_names;
 
   int k=0;
   for (int i=0; i<ndata; i++) {
@@ -57,6 +64,9 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     int nrows = chunks[k].nrows();
     df_nrows.push_back(nrows);
     n += nrows;
+    if (!Rf_isNull(id)) {
+      dots_names.push_back(get_dot_name(dots, i));
+    }
     k++;
   }
   ndata = chunks.size();
@@ -70,7 +80,6 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     Rcpp::checkUserInterrupt();
 
     const DataFrameAble& df = chunks[i];
-    if (!df.size()) continue;
 
     int nrows = df.nrows();
 
@@ -143,12 +152,11 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
 
   // Add vector of identifiers if .id is supplied
   if (!Rf_isNull(id)) {
-    CharacterVector df_names = dots.names();
     CharacterVector id_col = no_init(n);
 
     CharacterVector::iterator it = id_col.begin();
     for (int i=0; i<ndata; ++i) {
-      std::fill(it, it + df_nrows[i], df_names[i]);
+      std::fill(it, it + df_nrows[i], dots_names[i]);
       it += df_nrows[i];
     }
     out[0] = id_col;
@@ -162,16 +170,16 @@ List rbind__impl(Dots dots, SEXP id = R_NilValue) {
     const DataFrameAble& first = chunks[0];
     if (first.is_dataframe()) {
       DataFrame df = first.get();
-      out.attr("class") = df.attr("class");
+      set_class(out, get_class(df));
       if (df.inherits("grouped_df")) {
-        out.attr("vars") = df.attr("vars");
+        copy_vars(out, df);
         out = GroupedDataFrame(out).data();
       }
     } else {
-      out.attr("class") = classes_not_grouped();
+      set_class(out, classes_not_grouped());
     }
   } else {
-    out.attr("class") = classes_not_grouped();
+    set_class(out, classes_not_grouped());
   }
 
   return out;
@@ -189,22 +197,22 @@ List rbind_list__impl(Dots dots) {
 
 template <typename Dots>
 List cbind__impl(Dots dots) {
-  int n = dots.size();
+  DataFrameAbleVector chunks;
+  for (int i = 0; i < dots.size(); ++i) {
+    SEXP obj = dots[i];
+    if (!Rf_isNull(obj))
+      chunks.push_back(obj);
+  }
+
+  const int n = chunks.size();
+
   if (n == 0)
     return DataFrame();
 
-  DataFrameAbleVector chunks;
-  for (int i=0; i<n; i++) {
-    SEXP obj = dots[i];
-    if (!Rf_isNull(obj))
-      chunks.push_back(dots[i]);
-  }
-  n = chunks.size();
-
   // first check that the number of rows is the same
-  const DataFrameAble& df = chunks[0];
-  int nrows = df.nrows();
-  int nv = df.size();
+  const DataFrameAble& first = chunks[0];
+  const int nrows = first.nrows();
+  int nv = first.size();
   for (int i=1; i<n; i++) {
     const DataFrameAble& current = chunks[i];
     if (current.nrows() != nrows) {
@@ -231,17 +239,13 @@ List cbind__impl(Dots dots) {
   }
 
   // infer the classes and extra info (groups, etc ) from the first (#1692)
-  if (n) {
-    const DataFrameAble& first = chunks[0];
-    if (first.is_dataframe()) {
-      DataFrame df = first.get();
-      copy_most_attributes(out, df);
-    } else {
-      out.attr("class") = classes_not_grouped();
-    }
+  if (first.is_dataframe()) {
+    DataFrame df = first.get();
+    copy_most_attributes(out, df);
   } else {
-    out.attr("class") = classes_not_grouped();
+    set_class(out, classes_not_grouped());
   }
+
   out.names() = out_names;
   set_rownames(out, nrows);
 

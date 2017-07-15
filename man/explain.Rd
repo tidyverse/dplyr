@@ -3,7 +3,7 @@
 \name{explain}
 \alias{explain}
 \alias{show_query}
-\title{Explain details of a tbl.}
+\title{Explain details of a tbl}
 \usage{
 explain(x, ...)
 
@@ -13,6 +13,9 @@ show_query(x)
 \item{x}{An object to explain}
 
 \item{...}{Other parameters possibly used by generic}
+}
+\value{
+The first argument, invisibly.
 }
 \description{
 This is a generic function which gives more details about an object than

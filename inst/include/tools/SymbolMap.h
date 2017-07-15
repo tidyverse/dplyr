@@ -20,60 +20,55 @@ namespace dplyr {
   class SymbolMap {
   private:
     dplyr_hash_map<SEXP, int> lookup;
-    CharacterVector names;
+    SymbolVector names;
 
   public:
     SymbolMap(): lookup(), names() {}
 
-    SymbolMapIndex insert(SEXP name) {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    SymbolMap(const SymbolVector& names_): lookup(), names(names_) {}
+
+    SymbolMapIndex insert(const SymbolString& name) {
       SymbolMapIndex index = get_index(name);
       int idx = index.pos;
       switch (index.origin) {
       case HASH:
         break;
       case RMATCH:
-        lookup.insert(std::make_pair(name, idx));
+        lookup.insert(std::make_pair(name.get_sexp(), idx));
         break;
       case NEW:
-        names.push_back(name);
-        lookup.insert(std::make_pair(name, idx));
+        names.push_back(name.get_string());
+        lookup.insert(std::make_pair(name.get_sexp(), idx));
         break;
       };
       return index;
     }
 
-    CharacterVector get_names() const {
+    SymbolVector get_names() const {
       return names;
+    }
+
+    SymbolString get_name(const int i) const {
+      return names[i];
     }
 
     int size() const {
       return names.size();
     }
 
-    bool has(SEXP name) const {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    bool has(const SymbolString& name) const {
       SymbolMapIndex index = get_index(name);
       return index.origin != NEW;
     }
 
-    SymbolMapIndex get_index(SEXP name) const {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
-
+    SymbolMapIndex get_index(const SymbolString& name) const {
       // first, lookup the map
-      dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name);
+      dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
       if (it != lookup.end()) {
         return SymbolMapIndex(it->second, HASH);
       }
 
-      CharacterVector v = CharacterVector::create(name);
-      int idx = as<int>(r_match(v, names));
+      int idx = names.match(name);
       if (idx != NA_INTEGER) {
         // we have a match
         return SymbolMapIndex(idx-1, RMATCH);
@@ -83,25 +78,19 @@ namespace dplyr {
       return SymbolMapIndex(names.size(), NEW);
     }
 
-    int get(SEXP name) const {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    int get(const SymbolString& name) const {
       SymbolMapIndex index = get_index(name);
       if (index.origin == NEW) {
-        stop("variable '%s' not found", CHAR(name));
+        stop("variable '%s' not found", name.get_utf8_cstring());
       }
       return index.pos;
     }
 
-    SymbolMapIndex rm(SEXP name) {
-      if (TYPEOF(name) == SYMSXP) {
-        name = PRINTNAME(name);
-      }
+    SymbolMapIndex rm(const SymbolString& name) {
       SymbolMapIndex index = get_index(name);
       if (index.origin != NEW) {
         int idx = index.pos;
-        names.erase(names.begin() + idx);
+        names.remove(idx);
 
         for (dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end();) {
           int k = it->second;

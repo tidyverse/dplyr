@@ -73,14 +73,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-List arrange_impl(DataFrame data, LazyDots dots);
-RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP dotsSEXP) {
+List arrange_impl(DataFrame data, QuosureList quosures);
+RcppExport SEXP dplyr_arrange_impl(SEXP dataSEXP, SEXP quosuresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(arrange_impl(data, dots));
+    Rcpp::traits::input_parameter< QuosureList >::type quosures(quosuresSEXP);
+    rcpp_result_gen = Rcpp::wrap(arrange_impl(data, quosures));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -155,14 +155,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // distinct_impl
-SEXP distinct_impl(DataFrame df, CharacterVector vars, CharacterVector keep);
+SEXP distinct_impl(DataFrame df, const SymbolVector& vars, const SymbolVector& keep);
 RcppExport SEXP dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP, SEXP keepSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type keep(keepSEXP);
+    Rcpp::traits::input_parameter< const SymbolVector& >::type vars(varsSEXP);
+    Rcpp::traits::input_parameter< const SymbolVector& >::type keep(keepSEXP);
     rcpp_result_gen = Rcpp::wrap(distinct_impl(df, vars, keep));
     return rcpp_result_gen;
 END_RCPP
@@ -180,37 +180,25 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, LazyDots dots);
-RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+SEXP filter_impl(DataFrame df, NamedQuosure quo);
+RcppExport SEXP dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(filter_impl(df, dots));
-    return rcpp_result_gen;
-END_RCPP
-}
-// resolve_vars
-SEXP resolve_vars(List new_groups, CharacterVector names);
-RcppExport SEXP dplyr_resolve_vars(SEXP new_groupsSEXP, SEXP namesSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< List >::type new_groups(new_groupsSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type names(namesSEXP);
-    rcpp_result_gen = Rcpp::wrap(resolve_vars(new_groups, names));
+    Rcpp::traits::input_parameter< NamedQuosure >::type quo(quoSEXP);
+    rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo));
     return rcpp_result_gen;
 END_RCPP
 }
 // grouped_df_impl
-DataFrame grouped_df_impl(DataFrame data, ListOf<Symbol> symbols, bool drop);
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop);
 RcppExport SEXP dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< ListOf<Symbol> >::type symbols(symbolsSEXP);
+    Rcpp::traits::input_parameter< SymbolVector >::type symbols(symbolsSEXP);
     Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
     return rcpp_result_gen;
@@ -261,8 +249,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // semi_join_impl
-DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
-RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
+DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match);
+RcppExport SEXP dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP na_matchSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -270,13 +258,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(semi_join_impl(x, y, by_x, by_y));
+    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
+    rcpp_result_gen = Rcpp::wrap(semi_join_impl(x, y, by_x, by_y, na_match));
     return rcpp_result_gen;
 END_RCPP
 }
 // anti_join_impl
-DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y);
-RcppExport SEXP dplyr_anti_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP) {
+DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match);
+RcppExport SEXP dplyr_anti_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP na_matchSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -284,13 +273,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type by_x(by_xSEXP);
     Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(anti_join_impl(x, y, by_x, by_y));
+    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
+    rcpp_result_gen = Rcpp::wrap(anti_join_impl(x, y, by_x, by_y, na_match));
     return rcpp_result_gen;
 END_RCPP
 }
 // inner_join_impl
-DataFrame inner_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y);
-RcppExport SEXP dplyr_inner_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP) {
+DataFrame inner_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y, bool na_match);
+RcppExport SEXP dplyr_inner_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP, SEXP na_matchSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -300,13 +290,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_x(suffix_xSEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_y(suffix_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(inner_join_impl(x, y, by_x, by_y, suffix_x, suffix_y));
+    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
+    rcpp_result_gen = Rcpp::wrap(inner_join_impl(x, y, by_x, by_y, suffix_x, suffix_y, na_match));
     return rcpp_result_gen;
 END_RCPP
 }
 // left_join_impl
-DataFrame left_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y);
-RcppExport SEXP dplyr_left_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP) {
+DataFrame left_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y, bool na_match);
+RcppExport SEXP dplyr_left_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP, SEXP na_matchSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -316,13 +307,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_x(suffix_xSEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_y(suffix_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(left_join_impl(x, y, by_x, by_y, suffix_x, suffix_y));
+    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
+    rcpp_result_gen = Rcpp::wrap(left_join_impl(x, y, by_x, by_y, suffix_x, suffix_y, na_match));
     return rcpp_result_gen;
 END_RCPP
 }
 // right_join_impl
-DataFrame right_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y);
-RcppExport SEXP dplyr_right_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP) {
+DataFrame right_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y, bool na_match);
+RcppExport SEXP dplyr_right_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP, SEXP na_matchSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -332,13 +324,14 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_x(suffix_xSEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_y(suffix_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(right_join_impl(x, y, by_x, by_y, suffix_x, suffix_y));
+    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
+    rcpp_result_gen = Rcpp::wrap(right_join_impl(x, y, by_x, by_y, suffix_x, suffix_y, na_match));
     return rcpp_result_gen;
 END_RCPP
 }
 // full_join_impl
-DataFrame full_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y);
-RcppExport SEXP dplyr_full_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP) {
+DataFrame full_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, std::string& suffix_x, std::string& suffix_y, bool na_match);
+RcppExport SEXP dplyr_full_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP suffix_xSEXP, SEXP suffix_ySEXP, SEXP na_matchSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -348,30 +341,19 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< CharacterVector >::type by_y(by_ySEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_x(suffix_xSEXP);
     Rcpp::traits::input_parameter< std::string& >::type suffix_y(suffix_ySEXP);
-    rcpp_result_gen = Rcpp::wrap(full_join_impl(x, y, by_x, by_y, suffix_x, suffix_y));
-    return rcpp_result_gen;
-END_RCPP
-}
-// slice_impl
-SEXP slice_impl(DataFrame df, LazyDots dots);
-RcppExport SEXP dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
+    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
+    rcpp_result_gen = Rcpp::wrap(full_join_impl(x, y, by_x, by_y, suffix_x, suffix_y, na_match));
     return rcpp_result_gen;
 END_RCPP
 }
 // mutate_impl
-SEXP mutate_impl(DataFrame df, LazyDots dots);
+SEXP mutate_impl(DataFrame df, QuosureList dots);
 RcppExport SEXP dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
@@ -466,14 +448,26 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// slice_impl
+SEXP slice_impl(DataFrame df, QuosureList dots);
+RcppExport SEXP dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
 // summarise_impl
-SEXP summarise_impl(DataFrame df, LazyDots dots);
+SEXP summarise_impl(DataFrame df, QuosureList dots);
 RcppExport SEXP dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< LazyDots >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
@@ -485,6 +479,16 @@ BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     rcpp_result_gen = Rcpp::wrap(test_comparisons());
+    return rcpp_result_gen;
+END_RCPP
+}
+// test_matches
+List test_matches();
+RcppExport SEXP dplyr_test_matches() {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    rcpp_result_gen = Rcpp::wrap(test_matches());
     return rcpp_result_gen;
 END_RCPP
 }

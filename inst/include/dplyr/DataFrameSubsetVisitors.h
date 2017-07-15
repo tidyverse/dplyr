@@ -15,7 +15,7 @@ namespace dplyr {
 
     const Rcpp::DataFrame& data;
     pointer_vector<SubsetVectorVisitor> visitors;
-    Rcpp::CharacterVector visitor_names;
+    SymbolVector visitor_names;
     int nvisitors;
 
   public:
@@ -34,21 +34,21 @@ namespace dplyr {
       }
     }
 
-    DataFrameSubsetVisitors(const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names) :
+    DataFrameSubsetVisitors(const DataFrame& data_, const SymbolVector& names) :
       data(data_),
       visitors(),
       visitor_names(names),
       nvisitors(visitor_names.size())
     {
 
-      IntegerVector indx = r_match(names, data.names());
+      IntegerVector indx = names.match_in_table(data.names());
 
       int n = indx.size();
       for (int i=0; i<n; i++) {
 
         int pos = indx[i];
         if (pos == NA_INTEGER) {
-          stop("unknown column '%s' ", CHAR(names[i]));
+          stop("unknown column '%s' ", names[i].get_utf8_cstring());
         }
 
         SubsetVectorVisitor* v = subset_visitor(data[pos - 1]);
@@ -59,36 +59,14 @@ namespace dplyr {
     }
 
     template <typename Container>
-    DataFrame subset_impl(const Container& index, const CharacterVector& classes, Rcpp::traits::false_type) const {
+    DataFrame subset(const Container& index, const CharacterVector& classes) const {
       List out(nvisitors);
       for (int k=0; k<nvisitors; k++) {
         out[k] = get(k)->subset(index);
       }
       copy_most_attributes(out, data);
-      structure(out, Rf_length(out[0]) , classes);
+      structure(out, output_size(index), classes);
       return out;
-    }
-
-    template <typename Container>
-    DataFrame subset_impl(const Container& index, const CharacterVector& classes, Rcpp::traits::true_type) const {
-      int n = index.size();
-      int n_out = std::count(index.begin(), index.end(), TRUE);
-      IntegerVector idx = no_init(n_out);
-      for (int i=0, k=0; i<n; i++) {
-        if (index[i] == TRUE) {
-          idx[k++] = i;
-        }
-      }
-      return subset_impl(idx, classes, Rcpp::traits::false_type());
-    }
-
-    template <typename Container>
-    inline DataFrame subset(const Container& index, const CharacterVector& classes) const {
-      return
-        subset_impl(
-          index, classes,
-          typename Rcpp::traits::same_type<Container, LogicalVector>::type()
-        );
     }
 
     inline int size() const {
@@ -98,7 +76,7 @@ namespace dplyr {
       return visitors[k];
     }
 
-    Rcpp::String name(int k) const {
+    const SymbolString name(int k) const {
       return visitor_names[k];
     }
 
@@ -109,18 +87,29 @@ namespace dplyr {
   private:
 
     inline void structure(List& x, int nrows, CharacterVector classes) const {
-      x.attr("class") = classes;
+      set_class(x, classes);
       set_rownames(x, nrows);
       x.names() = visitor_names;
-      SEXP vars = data.attr("vars");
-      if (!Rf_isNull(vars))
-        x.attr("vars") = vars;
+      copy_vars(x, data);
     }
 
   };
 
+  template <>
+  inline DataFrame DataFrameSubsetVisitors::subset(const LogicalVector& index, const CharacterVector& classes) const {
+    const int n = index.size();
+    std::vector<int> idx;
+    idx.reserve(n);
+    for (int i=0; i<n; i++) {
+      if (index[i] == TRUE) {
+        idx.push_back(i);
+      }
+    }
+    return subset(idx, classes);
+  }
+
   template <typename Index>
-  DataFrame subset(DataFrame df, const Index& indices, CharacterVector columns, CharacterVector classes) {
+  DataFrame subset(DataFrame df, const Index& indices, const SymbolVector& columns, const CharacterVector& classes) {
     return DataFrameSubsetVisitors(df, columns).subset(indices, classes);
   }
 

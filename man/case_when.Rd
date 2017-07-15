@@ -17,7 +17,7 @@ the same type of vector.}
 }
 \value{
 A vector as long as the longest LHS, with the type (and
-attributes) of the first RHS.  Inconsistent lengths of types will
+attributes) of the first RHS.  Inconsistent lengths or types will
 generate an error.
 }
 \description{
@@ -41,4 +41,17 @@ case_when(
   x \%\%  7 == 0 ~ "buzz",
   x \%\% 35 == 0 ~ "fizz buzz"
 )
+
+# case_when is particularly useful inside mutate when you want to
+# create a new variable that relies on a complex combination of existing
+# variables
+starwars \%>\%
+  select(name:mass, gender, species) \%>\%
+  mutate(
+    type = case_when(
+      height > 200 | mass > 200 ~ "large",
+      species == "Droid"        ~ "robot",
+      TRUE                      ~  "other"
+    )
+  )
 }

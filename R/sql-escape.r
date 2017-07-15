@@ -103,7 +103,7 @@ escape.ident <- function(x, parens = FALSE, collapse = ", ", con = NULL) {
 
 #' @export
 escape.logical <- function(x, parens = NA, collapse = ", ", con = NULL) {
-  x <- as.character(x)
+  x <- as.character(as.integer(x))
   x[is.na(x)] <- "NULL"
   sql_vector(x, parens, collapse)
 }
@@ -133,11 +133,15 @@ escape.character <- function(x, parens = NA, collapse = ", ", con = NULL) {
 
 #' @export
 escape.double <- function(x, parens = NA, collapse = ", ", con = NULL) {
-  missing <- is.na(x)
-  x <- ifelse(is.wholenumber(x), sprintf("%.1f", x), as.character(x))
-  x[missing] <- "NULL"
+  out <- ifelse(is.wholenumber(x), sprintf("%.1f", x), as.character(x))
 
-  sql_vector(x, parens, collapse)
+  # Special values
+  out[is.na(x)] <- "NULL"
+  inf <- is.infinite(x)
+  out[inf & x > 0] <- "'Infinity'"
+  out[inf & x < 0] <- "'-Infinity'"
+
+  sql_vector(out, parens, collapse)
 }
 
 #' @export

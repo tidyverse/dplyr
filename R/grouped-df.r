@@ -2,7 +2,7 @@
 #'
 #' The easiest way to create a grouped data frame is to call the `group_by()`
 #' method on a data frame or tbl: this will take care of capturing
-#' the unevalated expressions for you.
+#' the unevaluated expressions for you.
 #'
 #' @keywords internal
 #' @param data a tbl or data frame.
@@ -24,6 +24,8 @@ grouped_df <- function(data, vars, drop = TRUE) {
   }
   grouped_df_impl(data, unname(vars), drop)
 }
+
+setOldClass(c("grouped_df", "tbl_df", "data.frame"))
 
 #' @rdname grouped_df
 #' @export
@@ -55,8 +57,11 @@ n_groups.grouped_df <- function(x) {
 
 #' @export
 groups.grouped_df <- function(x) {
-  # Implement group_vars.grouped_df() instead if this assertion fails
-  stopifnot(is.list(attr(x, "vars")))
+  lapply(group_vars(x), as.name)
+}
+
+#' @export
+group_vars.grouped_df <- function(x) {
   attr(x, "vars")
 }
 
@@ -65,6 +70,13 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
                                      optional = FALSE, ...) {
   x <- ungroup(x)
   class(x) <- "data.frame"
+  x
+}
+
+#' @export
+as_data_frame.grouped_df <- function(x, ...) {
+  x <- ungroup(x)
+  class(x) <- c("tbl_df", "tbl", "data.frame")
   x
 }
 
@@ -102,12 +114,15 @@ cbind.grouped_df <- function(...) {
 # One-table verbs --------------------------------------------------------------
 
 #' @export
-select_.grouped_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- select_vars_(names(.data), dots)
+select.grouped_df <- function(.data, ...) {
+  vars <- select_vars(names(.data), ...)
   vars <- ensure_grouped_vars(vars, .data)
-
   select_impl(.data, vars)
+}
+#' @export
+select_.grouped_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  select.grouped_df(.data, !!! dots)
 }
 
 ensure_grouped_vars <- function(vars, data, notify = TRUE) {
@@ -116,73 +131,82 @@ ensure_grouped_vars <- function(vars, data, notify = TRUE) {
 
   if (length(missing) > 0) {
     if (notify) {
-      message(
+      inform(glue(
         "Adding missing grouping variables: ",
-        paste0("`", missing, "`", collapse = ", "))
+        paste0("`", missing, "`", collapse = ", ")
+      ))
     }
-    vars <- c(stats::setNames(missing, missing), vars)
+    vars <- c(set_names(missing, missing), vars)
   }
 
   vars
 }
 
 #' @export
-rename_.grouped_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- rename_vars_(names(.data), dots)
-
+rename.grouped_df <- function(.data, ...) {
+  vars <- rename_vars(names(.data), ...)
   select_impl(.data, vars)
+}
+#' @export
+rename_.grouped_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  rename(.data, !!! dots)
 }
 
 
 # Do ---------------------------------------------------------------------------
 
-
 #' @export
-do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
+do.grouped_df <- function(.data, ...) {
   # Force computation of indices
-  if (is.null(attr(.data, "indices"))) {
+  if (is_null(attr(.data, "indices"))) {
     .data <- grouped_df_impl(
       .data, attr(.data, "vars"),
       attr(.data, "drop") %||% TRUE
     )
   }
+  index <- attr(.data, "indices")
+  labels <- attr(.data, "labels")
 
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- lazyeval::all_dots(.dots, ...)
+  args <- dots_quosures(...)
   named <- named_args(args)
-  env <- new.env(parent = lazyeval::common_env(args))
-  labels <- attr(.data, "labels")
+  env <- child_env(NULL)
 
-  index <- attr(.data, "indices")
   n <- length(index)
   m <- length(args)
 
   # Special case for zero-group/zero-row input
   if (n == 0) {
-    env$. <- group_data
-
-    if (!named) {
-      out <- eval(args[[1]]$expr, envir = env)[0, , drop = FALSE]
-      return(label_output_dataframe(labels, list(list(out)), groups(.data)))
+    if (named) {
+      out <- rep_len(list(list()), length(args))
+      out <- set_names(out, names(args))
+      out <- label_output_list(labels, out, groups(.data))
     } else {
-      out <- setNames(rep(list(list()), length(args)), names(args))
-      return(label_output_list(labels, out, groups(.data)))
+      env_bind(env, list(. = group_data, .data = group_data))
+      out <- eval_tidy_(args[[1]], env)[0, , drop = FALSE]
+      out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
+    return(out)
   }
 
-  # Create new environment, inheriting from parent, with an active binding
-  # for . that resolves to the current subset. `_i` is found in environment
-  # of this function because of usual scoping rules.
-  makeActiveBinding(env = env, ".", function(value) {
+  # Add pronouns with active bindings that resolve to the current
+  # subset. `_i` is found in environment of this function because of
+  # usual scoping rules.
+  group_slice <- function(value) {
     if (missing(value)) {
       group_data[index[[`_i`]] + 1L, , drop = FALSE]
     } else {
       group_data[index[[`_i`]] + 1L, ] <<- value
     }
-  })
+  }
+  env_assign_active(env, ".", group_slice)
+  env_assign_active(env, ".data", group_slice)
+
+  overscope <- new_overscope(env)
+  on.exit(overscope_clean(overscope))
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
@@ -190,7 +214,7 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(eval(args[[j]]$expr, envir = env))
+      out[[j]][`_i`] <- list(overscope_eval_next(overscope, args[[j]]))
       p$tick()$print()
     }
   }
@@ -201,18 +225,23 @@ do_.grouped_df <- function(.data, ..., env = parent.frame(), .dots) {
     label_output_list(labels, out, groups(.data))
   }
 }
+#' @export
+do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
+  dots <- compat_lazy_dots(.dots, env, ...)
+  do(.data, !!! dots)
+}
 
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.grouped_df <- function(.data, ..., .dots, .keep_all = FALSE) {
-  groups <- lazyeval::as.lazy_dots(groups(.data))
-  dist <- distinct_vars(
-    .data, ..., .dots = c(.dots, groups),
-    .keep_all = .keep_all
-  )
-
+distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_vars(.data, ..., !!! groups(.data), .keep_all = .keep_all)
   grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
+}
+#' @export
+distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  distinct(.data, !!! dots, .keep_all = .keep_all)
 }
 
 

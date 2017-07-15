@@ -3,7 +3,7 @@
 
 #include <tools/SymbolMap.h>
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 namespace dplyr {
 
@@ -15,9 +15,14 @@ namespace dplyr {
 
     NamedListAccumulator() {}
 
-    inline void set(Symbol name, SEXP x) {
+    inline void set(const SymbolString& name, SEXP x) {
       if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
-        check_supported_type(x, name.c_str());
+        check_supported_type(x, name);
+
+      if (!Rf_isNull(Rf_getAttrib(x, R_NamesSymbol))) {
+        x = Rf_shallow_duplicate(x);
+        Rf_setAttrib(x, R_NamesSymbol, R_NilValue);
+      }
 
       SymbolMapIndex index = symbol_map.insert(name);
       if (index.origin == NEW) {
@@ -28,7 +33,7 @@ namespace dplyr {
 
     }
 
-    inline void rm(SEXP name) {
+    inline void rm(const SymbolString& name) {
       SymbolMapIndex index = symbol_map.rm(name);
       if (index.origin != NEW) {
         data.erase(data.begin() + index.pos);
@@ -45,7 +50,7 @@ namespace dplyr {
       return data.size();
     }
 
-    inline CharacterVector names() const {
+    inline const SymbolVector names() const {
       return symbol_map.get_names();
     }
 

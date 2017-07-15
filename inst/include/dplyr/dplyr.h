@@ -5,7 +5,7 @@
 #include <dplyr/DataFrameAble.h>
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/white_list.h>
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 #include <dplyr/visitor_set/visitor_set.h>
 #include <dplyr/BoolResult.h>
 #include <dplyr/GroupedDataFrame.h>
@@ -13,7 +13,7 @@
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/comparisons.h>
-#include <dplyr/comparisons_different.h>
+#include <dplyr/join_match.h>
 #include <dplyr/MultipleVectorVisitors.h>
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/subset_visitor.h>

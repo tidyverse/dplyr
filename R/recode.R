@@ -3,11 +3,20 @@
 #' This is a vectorised version of [switch()]: you can replace
 #' numeric values based on their position, and character values by their
 #' name. This is an S3 generic: dplyr provides methods for numeric, character,
-#' and factors. For logical vectors, use [if_else()]
+#' and factors. For logical vectors, use [if_else()]. For more complicated
+#' criteria, use [case_when()].
+#'
+#' You can use `recode()` directly with factors; it will preserve the existing
+#' order of levels while changing the values. Alternatively, you can
+#' use `recode_factor()`, which will change the order of levels to match
+#' the order of replacements. See the [forcats](http://forcats.tidyverse.org/)
+#' package for more tools for working with factors and their levels.
 #'
 #' @param .x A vector to modify
 #' @param ... Replacements. These should be named for character and factor
-#'   `.x`, and can be named for numeric `.x`.
+#'   `.x`, and can be named for numeric `.x`. The argument names should be the
+#'   current values to be replaced, and the argument values should be the new
+#'   (replacement) values.
 #'
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
@@ -16,6 +25,7 @@
 #'   the same type as the original values in `.x`, unmatched
 #'   values are not changed. If not supplied and if the replacements
 #'   are not compatible, unmatched values are replaced with `NA`.
+#'
 #'   `.default` must be either length 1 or the same length as
 #'   `.x`.
 #' @param .missing If supplied, any missing values in `.x` will be
@@ -73,7 +83,7 @@ recode <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
 recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- c(list(...), .dots)
 
-  nms <- has_names(values)
+  nms <- have_name(values)
   if (all(nms)) {
     vals <- as.double(names(values))
   } else if (all(!nms)) {
@@ -104,7 +114,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NU
 #' @export
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NULL) {
   values <- c(list(...), .dots)
-  if (!all(has_names(values))) {
+  if (!all(have_name(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
 
@@ -131,15 +141,17 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
     stop("No replacements provided", call. = FALSE)
   }
 
-  if (!all(has_names(values))) {
+  if (!all(have_name(values))) {
     stop("All replacements must be named", call. = FALSE)
   }
   if (!is.null(.missing)) {
     stop("`missing` is not supported for factors", call. = FALSE)
   }
 
-  out <- rep(NA_character_, length(levels(.x)))
-  replaced <- rep(FALSE, length(levels(.x)))
+  n <- length(levels(.x))
+  template <- find_template(values, .default, .missing)
+  out <- template[rep(NA_integer_, n)]
+  replaced <- rep(FALSE, n)
 
   for (nm in names(values)) {
     out <- replace_with(
@@ -150,12 +162,16 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL, .dots = NUL
     )
     replaced[levels(.x) == nm] <- TRUE
   }
-
   .default <- validate_recode_default(.default, .x, out, replaced)
   out <- replace_with(out, !replaced, .default, "`.default`")
-  levels(.x) <- out
 
-  .x
+  if (is.character(out)) {
+    levels(.x) <- out
+    .x
+  } else {
+    out[as.integer(.x)]
+  }
+
 }
 
 find_template <- function(values, .default = NULL, .missing = NULL) {
@@ -196,8 +212,12 @@ recode_default.default <- function(x, default, out) {
 }
 
 recode_default.factor <- function(x, default, out) {
-  if (is.null(default) && is.factor(x)) {
-    levels(x)
+  if (is.null(default)) {
+    if ((is.character(out) || is.factor(out)) && is.factor(x)) {
+      levels(x)
+    } else {
+      out[NA_integer_]
+    }
   } else {
     default
   }

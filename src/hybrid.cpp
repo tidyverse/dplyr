@@ -9,13 +9,6 @@
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
-#include <dplyr/Result/Lead.h>
-#include <dplyr/Result/Lag.h>
-#include <dplyr/Result/CumSum.h>
-#include <dplyr/Result/CumMin.h>
-#include <dplyr/Result/CumMax.h>
-#include <dplyr/Result/In.h>
-
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -47,7 +40,7 @@ Result* cumfun_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
   RObject data(CADR(call));
   if (TYPEOF(data) == SYMSXP) {
-    data = subsets.get_variable(data);
+    data = subsets.get_variable(SymbolString(Symbol(data)));
   }
   switch (TYPEOF(data)) {
   case INTSXP:
@@ -99,16 +92,20 @@ Result* constant_handler(SEXP constant) {
     return new ConstantResult<STRSXP>(constant);
   case LGLSXP:
     return new ConstantResult<LGLSXP>(constant);
+  case CPLXSXP:
+    return new ConstantResult<CPLXSXP>(constant);
+  default:
+    return 0;
   }
-  return 0;
 }
 
 class VariableResult : public Result {
 public:
-  VariableResult(const ILazySubsets& subsets_, const Symbol& name_) : subsets(subsets_), name(name_)  {}
+  VariableResult(const ILazySubsets& subsets_, const SymbolString& name_) : subsets(subsets_), name(name_)  {}
 
   SEXP process(const GroupedDataFrame& gdf) {
-    return subsets.get_variable(name);
+    check_length(gdf.max_group_size(), 1, "a summary value");
+    return process(*gdf.group_begin());
   }
 
   SEXP process(const RowwiseDataFrame&) {
@@ -125,10 +122,10 @@ public:
 
 private:
   const ILazySubsets& subsets;
-  Symbol name;
+  SymbolString name;
 };
 
-Result* variable_handler(const ILazySubsets& subsets, Symbol variable) {
+Result* variable_handler(const ILazySubsets& subsets, const SymbolString& variable) {
   return new VariableResult(subsets, variable);
 }
 
@@ -158,14 +155,22 @@ namespace dplyr {
 
       return it->second(call, subsets, depth - 1);
     } else if (TYPEOF(call) == SYMSXP) {
-      LOG_VERBOSE << "Searching hybrid handler for symbol " << CHAR(PRINTNAME(call));
+      SymbolString sym = SymbolString(Symbol(call));
 
-      if (subsets.count(call)) {
+      LOG_VERBOSE << "Searching hybrid handler for symbol " << sym.get_utf8_cstring();
+
+      if (subsets.count(sym)) {
         LOG_VERBOSE << "Using hybrid variable handler";
-        return variable_handler(subsets, call);
+        return variable_handler(subsets, sym);
       }
       else {
-        SEXP data = env.find(CHAR(PRINTNAME(call)));
+        SEXP data;
+        try {
+          data = env.find(sym.get_string());
+        } catch (Rcpp::binding_not_found) {
+          return NULL;
+        }
+
         // Constants of length != 1 are handled via regular evaluation
         if (Rf_length(data) == 1) {
           LOG_VERBOSE << "Using hybrid constant handler";

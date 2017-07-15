@@ -23,7 +23,6 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 
 df <- data.frame(x = 1:10, y = 6:15)
 tbls <- test_load(df)
-
 test_that("two mutates equivalent to one", {
   compare_tbls(tbls, function(tbl) tbl %>% mutate(x2 = x * 2, y4 = y * 4))
 })
@@ -67,7 +66,11 @@ test_that("mutate handles constants (#152)", {
 test_that("mutate fails with wrong result size (#152)", {
   df <- group_by(data.frame(x = c(2, 2, 3, 3)), x)
   expect_equal(mutate(df, y = 1:2)$y, rep(1:2, 2))
-  expect_error(mutate(mtcars, zz = 1:2), "wrong result size")
+  expect_error(
+    mutate(mtcars, zz = 1:2),
+    "incompatible size (2), expecting 32 (the number of rows) or one",
+    fixed = TRUE
+  )
 
   df <- group_by(data.frame(x = c(2, 2, 3, 3, 3)), x)
   expect_error(mutate(df, y = 1:2))
@@ -88,12 +91,14 @@ test_that("mutate recycles results of length 1", {
   str  <- "foo"
   num  <- 1
   bool <- TRUE
+  list <- list(NULL)
 
-  res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool)
+  res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool, list = list)
   expect_equal(res$int , rep(int , 4))
   expect_equal(res$str , rep(str , 4))
   expect_equal(res$num , rep(num , 4))
   expect_equal(res$bool, rep(bool, 4))
+  expect_equal(res$list, rep(list, 4))
 })
 
 
@@ -227,6 +232,47 @@ test_that("mutate remove variables with = NULL syntax (#462)", {
   expect_false("cyl" %in% names(data))
 })
 
+test_that("mutate strips names (#1689)", {
+  data <- data_frame(a = 1:3) %>% mutate(b = setNames(nm = a))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = 1:3) %>% rowwise %>% mutate(b = setNames(nm = a))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a))
+  expect_null(names(data$b))
+})
+
+test_that("mutate strips names of list-columns, but keeps names in original data (#2523)", {
+  vec <- list(a = 1, b = 2)
+  data <- data_frame(x = vec)
+  data <- mutate(data, x)
+  expect_identical(names(vec), c("a", "b"))
+  expect_null(names(data$x))
+})
+
+test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
+  expect_error(
+    data_frame(a = 1) %>% mutate(b = identity(NULL)),
+    "incompatible size (0), expecting one (the number of rows)",
+    fixed = TRUE
+  )
+  expect_error(
+    data_frame(a = 1:3) %>%
+      group_by(a) %>%
+      mutate(b = identity(NULL)),
+    "incompatible size (0), expecting one (the group size)",
+    fixed = TRUE
+  )
+  expect_error(
+    data_frame(a = 1:3) %>%
+      rowwise %>%
+      mutate(b = if (a < 2) a else NULL),
+    "incompatible types",
+    fixed = TRUE
+  )
+})
+
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
   one_mod <- data.frame(grp = "a", x = runif(5, 0, 1)) %>%
     tbl_df %>%
@@ -257,7 +303,11 @@ test_that("hybrid evaluation goes deep enough (#554)", {
 })
 
 test_that("hybrid does not segfault when given non existing variable (#569)", {
-  expect_error(mtcars %>% summarise(first(mp)), "could not find variable")
+  expect_error(
+    mtcars %>% summarise(first(mp)),
+    "object 'mp' not found",
+    fixed = TRUE
+  )
 })
 
 test_that("namespace extraction works in hybrid (#412)", {
@@ -306,7 +356,7 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
   expect_is(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
   expect_equal(attr(res, "indices"), list())
-  expect_equal(attr(res, "vars"), list(quote(b)))
+  expect_equal(attr(res, "vars"), "b")
   expect_equal(attr(res, "group_sizes"), integer(0))
   expect_equal(attr(res, "biggest_group_size"), 0L)
 })
@@ -315,7 +365,7 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   df <- data_frame(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
-  res <- df %>% mutate_each(funs(as.numeric)) %>% names
+  res <- df %>% mutate_all(funs(as.numeric)) %>% names
   expect_equal(res, names(df))
 })
 
@@ -377,7 +427,7 @@ test_that("row_number handles empty data frames (#762)", {
 test_that("no utf8 invasion (#722)", {
   skip_on_os("windows")
 
-  source("utf-8.R", local = TRUE)
+  source("utf-8.R", local = TRUE, encoding = "UTF-8")
 })
 
 test_that("mutate works on empty data frames (#1142)", {
@@ -392,9 +442,9 @@ test_that("mutate works on empty data frames (#1142)", {
   expect_equal(length(res), 1L)
 })
 
-test_that("mutate handles 0 rows rowwise #1300", {
-  a <- data.frame(x = 1)
-  b <- data.frame(y = character(), stringsAsFactors = F)
+test_that("mutate handles 0 rows rowwise (#1300)", {
+  a <- data_frame(x = 1)
+  b <- data_frame(y = character())
 
   g <- function(y) {
     1
@@ -406,7 +456,7 @@ test_that("mutate handles 0 rows rowwise #1300", {
   res <- f()
   expect_equal(nrow(res), 0L)
 
-  expect_error(a %>% mutate(b = f()), "wrong result size")
+  expect_error(a %>% mutate(b = f()), "incompatible size")
   expect_error(a %>% rowwise() %>% mutate(b = f()), "incompatible size")
 })
 
@@ -450,7 +500,7 @@ test_that("mutate handles the all NA case (#958)", {
   expect_true(all(is.na(res$adjusted_values[1:12])))
 })
 
-test_that("rowwie mutate gives expected results (#1381)", {
+test_that("rowwise mutate gives expected results (#1381)", {
   f <- function(x) ifelse(x < 2, NA_real_, x)
   res <- data_frame(x = 1:3) %>% rowwise() %>% mutate(y = f(x))
   expect_equal(res$y, c(NA, 2, 3))
@@ -461,11 +511,9 @@ test_that("mutate handles factors (#1414)", {
     g = c(1, 1, 1, 2, 2, 3, 3),
     f = c("a", "b", "a", "a", "a", "b", "b")
   )
-  res <- d %>% group_by(g) %>% mutate(f2 = factor(f))
+  res <- d %>% group_by(g) %>% mutate(f2 = factor(f, levels = c("a", "b")))
   expect_equal(as.character(res$f2), res$f)
 })
-
-# .data and .env tests now in test-hybrid-traverse.R
 
 test_that("mutate handles results from one group with all NA values (#1463) ", {
   df <- data_frame(x = c(1, 2), y = c(1, NA))
@@ -548,13 +596,7 @@ test_that("grouped mutate does not drop grouping attributes (#1020)", {
   expect_equal(setdiff(a1, a2), character(0))
 })
 
-test_that("grouped mutate errors on incompatible column type (#1641)", {
-  df <- data.frame(ID = rep(1:5, each = 3), x = 1:15) %>% group_by(ID)
-  expect_error(mutate(df, foo = mean), 'Unsupported type CLOSXP for column "foo"')
-})
-
 test_that("grouped mutate coerces integer + double -> double (#1892)", {
-  skip("Currently failing")
   df <- data_frame(
     id = c(1, 4),
     value = c(1L, NA),
@@ -563,23 +605,29 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
     group_by(group) %>%
     mutate(value = ifelse(is.na(value), 0, value))
   expect_type(df$value, "double")
-  expect_identical(df$value, c(0, 1))
+  expect_identical(df$value, c(1, 0))
 })
 
 test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
-  skip("Currently failing")
+  factor_or_character <- function(x)  {
+    if (x > 3) {
+      return(factor("hello"))
+    } else {
+      return("world")
+    }
+  }
+
   df <- data_frame(
     id = c(1, 4),
-    value = factor(c("blue", NA)),
     group = c("A", "B")
   ) %>%
     group_by(group)
   expect_warning(
     df <- df %>%
-      mutate(value = ifelse(id > 3, "foo", value))
+      mutate(value = factor_or_character(id))
   )
   expect_type(df$value, "character")
-  expect_identical(df$value, c("blue", "foo"))
+  expect_identical(df$value, c("world", "hello"))
 })
 
 test_that("lead/lag works on more complex expressions (#1588)", {
@@ -614,9 +662,18 @@ test_that("ntile falls back to R (#1750)", {
   expect_equal(res$a, rep(1, 150))
 })
 
-test_that("mutate fails gracefully on raw columns (#1803)", {
+
+# Error messages ----------------------------------------------------------
+
+test_that("mutate fails gracefully on non-vector columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(mutate(df, a = 1), 'Unsupported type RAWSXP for column "b"')
-  expect_error(mutate(df, b = 1), 'Unsupported type RAWSXP for column "b"')
-  expect_error(mutate(df, c = 1), 'Unsupported type RAWSXP for column "b"')
+  expect_error(mutate(df, a = 1), 'Column `b` must be a vector, not a raw vector')
+  expect_error(mutate(df, b = 1), 'Column `b` must be a vector, not a raw vector')
+  expect_error(mutate(df, c = 1), 'Column `b` must be a vector, not a raw vector')
 })
+
+test_that("grouped mutate errors on incompatible column type (#1641)", {
+  expect_error(tibble(x = 1) %>% mutate(y = mean), "Column `y` must be a vector, not a function")
+  expect_error(tibble(x = 1) %>% mutate(y = quote(a)), "Column `y` must be a vector, not a symbol")
+})
+

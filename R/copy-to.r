@@ -7,10 +7,21 @@
 #' @param dest remote data source
 #' @param df local data frame
 #' @param name name for new remote table.
+#' @param overwrite If `TRUE`, will overwrite an existing table with
+#'   name `name`. If `FALSE`, will throw an error if `name` already
+#'   exists.
 #' @param ... other parameters passed to methods.
+#' @seealso [collect()] for the opposite action; downloading remote data into
+#'   a local dbl.
 #' @return a `tbl` object in the remote source
 #' @export
-copy_to <- function(dest, df, name = deparse(substitute(df)), ...) {
+#' @examples
+#' \dontrun{
+#' iris2 <- src_memdb() %>% copy_to(iris, overwrite = TRUE)
+#' iris2
+#' }
+copy_to <- function(dest, df, name = deparse(substitute(df)),
+                    overwrite = FALSE, ...) {
   UseMethod("copy_to")
 }
 

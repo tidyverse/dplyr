@@ -2,12 +2,9 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include <tools/LazyDots.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/RowwiseDataFrame.h>
-
-#include <dplyr/tbl_cpp.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallReducer.h>
@@ -20,7 +17,7 @@ using namespace Rcpp;
 using namespace dplyr;
 
 template <typename Data, typename Subsets>
-SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
+SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   Data gdf(df);
 
   int nexpr = dots.size();
@@ -33,9 +30,9 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   int i=0;
   List results(nvars + nexpr);
   for (; i<nvars; i++) {
-    LOG_VERBOSE << "copying " << CHAR(PRINTNAME(gdf.symbol(i)));
+    LOG_VERBOSE << "copying " << gdf.symbol(i).get_utf8_cstring();
     results[i] = shared_SEXP(gdf.label(i));
-    accumulator.set(PRINTNAME(gdf.symbol(i)), results[i]);
+    accumulator.set(gdf.symbol(i), results[i]);
   }
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
@@ -44,12 +41,12 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   for (int k=0; k<nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
-    const Lazy& lazy = dots[k];
-    const Environment& env = lazy.env();
+    const NamedQuosure& quosure = dots[k];
+    const Environment& env = quosure.env();
 
-    LOG_VERBOSE << "processing variable " << lazy.name().c_str();
+    LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
 
-    Shield<SEXP> expr_(lazy.expr());
+    Shield<SEXP> expr_(quosure.expr());
     SEXP expr = expr_;
     boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
 
@@ -59,12 +56,12 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
     // special treatment to summary variables, for which hybrid
     // evaluation should be turned off completely (#2312)
     if (!res) {
-      res.reset(new GroupedCallReducer<Data, Subsets>(lazy.expr(), subsets, env));
+      res.reset(new GroupedCallReducer<Data, Subsets>(quosure.expr(), subsets, env));
     }
     RObject result = res->process(gdf);
     results[i] = result;
-    accumulator.set(lazy.name(), result);
-    subsets.input_summarised(lazy.name(), SummarisedVariable(result));
+    accumulator.set(quosure.name(), result);
+    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
 
   }
 
@@ -76,10 +73,10 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
   set_rownames(out, nr);
 
   if (gdf.nvars() > 1) {
-    out.attr("class") = classes_grouped<Data>();
-    List vars = gdf.data().attr("vars");
-    vars.erase(gdf.nvars() - 1);
-    out.attr("vars") = vars;
+    set_class(out, classes_grouped<Data>());
+    SymbolVector vars = get_vars(gdf.data());
+    vars.remove(gdf.nvars() - 1);
+    set_vars(out, vars);
     out.attr("labels") = R_NilValue;
     out.attr("indices") = R_NilValue;
     out.attr("group_sizes") = R_NilValue;
@@ -87,7 +84,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
 
     out.attr("drop") = true;
   } else {
-    out.attr("class") = classes_not_grouped();
+    set_class(out, classes_not_grouped());
     SET_ATTRIB(out, strip_group_attributes(out));
   }
 
@@ -95,7 +92,7 @@ SEXP summarise_grouped(const DataFrame& df, const LazyDots& dots) {
 }
 
 
-SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
+SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
   int nexpr = dots.size();
   if (nexpr == 0) return DataFrame();
 
@@ -106,22 +103,20 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
   for (int i=0; i<nexpr; i++) {
     Rcpp::checkUserInterrupt();
 
-    const Lazy& lazy = dots[i];
-    Environment env = lazy.env();
-    Shield<SEXP> expr_(lazy.expr());
+    const NamedQuosure& quosure = dots[i];
+    Environment env = quosure.env();
+    Shield<SEXP> expr_(quosure.expr());
     SEXP expr = expr_;
     boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
     SEXP result;
     if (res) {
       result = results[i] = res->process(FullDataFrame(df));
     } else {
-      result = results[i] = CallProxy(lazy.expr(), subsets, env).eval();
+      result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
     }
-    if (Rf_length(result) != 1) {
-      stop("expecting result of length one, got : %d", Rf_length(result));
-    }
-    accumulator.set(lazy.name(), result);
-    subsets.input(lazy.name(), result);
+    check_length(Rf_length(result), 1, "a summary value");
+    accumulator.set(quosure.name(), result);
+    subsets.input(quosure.name(), result);
   }
   List data = accumulator;
   copy_most_attributes(data, df);
@@ -131,7 +126,7 @@ SEXP summarise_not_grouped(DataFrame df, const LazyDots& dots) {
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, LazyDots dots) {
+SEXP summarise_impl(DataFrame df, QuosureList dots) {
   if (df.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {

@@ -59,7 +59,7 @@ namespace dplyr {
 
     SEXP get(int n) const {
       Vector<RTYPE> res(n, value);
-      res.attr("class") = classes;
+      set_class(res, classes);
       return res;
     }
 
@@ -97,7 +97,7 @@ namespace dplyr {
 
     SEXP get(int n) const {
       Vector<RTYPE> res(n, value);
-      res.attr("class") = "difftime";
+      set_class(res, "difftime");
       res.attr("units") = units;
       return res;
     }

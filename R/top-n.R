@@ -43,7 +43,7 @@ top_n <- function(x, n, wt) {
     wt <- substitute(wt)
   }
 
-  stopifnot(is.numeric(n), length(n) == 1)
+  stopifnot(is.numeric(n), length(n) == 1, is.name(wt))
   if (n > 0) {
     call <- substitute(
       filter(x, min_rank(desc(wt)) <= n),

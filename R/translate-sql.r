@@ -25,15 +25,12 @@
 #' The SQLite variant currently only adds one additional function: a mapping
 #' from `sd()` to the SQL aggregation function `STDEV`.
 #'
-#' @param ...,dots Expressions to translate. `sql_translate()`
-#'   automatically quotes them for you.  `sql_translate_()` expects
+#' @param ...,dots Expressions to translate. `translate_sql()`
+#'   automatically quotes them for you.  `translate_sql_()` expects
 #'   a list of already quoted objects.
 #' @param con An optional database connection to control the details of
 #'   the translation. The default, `NULL`, generates ANSI SQL.
-#' @param vars A character vector giving variable names in the remote
-#'   data source. If this is supplied, `translate_sql()` will call
-#'   [partial_eval()] to interpolate in the values from local
-#'   variables.
+#' @param vars Deprecated. Now call [partial_eval()] directly.
 #' @param vars_group,vars_order Grouping and ordering variables used for
 #'   windowed functions.
 #' @param window Use `FALSE` to suppress generation of the `OVER`
@@ -62,7 +59,6 @@
 #' translate_sql(first %is% NULL)
 #' translate_sql(first %in% c("John", "Roger", "Robert"))
 #'
-#'
 #' # And be careful if you really want integers
 #' translate_sql(x == 1)
 #' translate_sql(x == 1L)
@@ -70,24 +66,6 @@
 #' # If you have an already quoted object, use translate_sql_:
 #' x <- quote(y + 1 / sin(t))
 #' translate_sql_(list(x))
-#'
-#' # Translation with known variables ------------------------------------------
-#'
-#' # If the variables in the dataset are known, translate_sql will interpolate
-#' # in literal values from the current environment
-#' x <- 10
-#' translate_sql(mpg > x)
-#' translate_sql(mpg > x, vars = names(mtcars))
-#'
-#' # By default all computations happens in sql
-#' translate_sql(cyl == 2 + 2, vars = names(mtcars))
-#' # Use local to force local evaluation
-#' translate_sql(cyl == local(2 + 2), vars = names(mtcars))
-#'
-#' # This is also needed if you call a local function:
-#' inc <- function(x) x + 1
-#' translate_sql(mpg > inc(x), vars = names(mtcars))
-#' translate_sql(mpg > local(inc(x)), vars = names(mtcars))
 #'
 #' # Windowed translation --------------------------------------------
 #' # Known window functions automatically get OVER()
@@ -108,12 +86,13 @@ translate_sql <- function(...,
                           vars_group = NULL,
                           vars_order = NULL,
                           window = TRUE) {
-  dots <- lazyeval::lazy_dots(...)
+  if (!missing(vars)) {
+    abort("`vars` is deprecated. Please use partial_eval() directly.")
+  }
 
   translate_sql_(
-    dots,
+    dots_quosures(...),
     con = con,
-    vars = vars,
     vars_group = vars_group,
     vars_order = vars_order,
     window = window
@@ -124,61 +103,60 @@ translate_sql <- function(...,
 #' @rdname translate_sql
 translate_sql_ <- function(dots,
                            con = NULL,
-                           vars = character(),
                            vars_group = NULL,
                            vars_order = NULL,
                            window = TRUE) {
-  expr <- lazyeval::as.lazy_dots(dots, env = parent.frame())
-  if (!any(has_names(expr))) {
-    names(expr) <- NULL
+
+  if (length(dots) == 0) {
+    return(sql())
   }
 
-  if (length(vars) > 0) {
-    # If variables are known, partially evaluate input
-    expr <- partial_eval2(expr, vars)
-  } else {
-    # Otherwise just extract expressions, ignoring the environment
-    # from which they came
-    expr <- lapply(expr, "[[", "expr")
+  stopifnot(is.list(dots))
+
+  if (!any(have_name(dots))) {
+    names(dots) <- NULL
   }
-  variant <- sql_translate_env(con)
 
   if (window) {
-    old_con <- set_partition_con(con)
-    on.exit(set_partition_con(old_con), add = TRUE)
+    old_con <- set_win_current_con(con)
+    on.exit(set_win_current_con(old_con), add = TRUE)
 
-    old_group <- set_partition_group(vars_group)
-    on.exit(set_partition_group(old_group), add = TRUE)
+    old_group <- set_win_current_group(vars_group)
+    on.exit(set_win_current_group(old_group), add = TRUE)
 
-    old_order <- set_partition_order(vars_order)
-    on.exit(set_partition_order(old_order), add = TRUE)
+    old_order <- set_win_current_order(vars_order)
+    on.exit(set_win_current_order(old_order), add = TRUE)
   }
 
-  pieces <- lapply(expr, function(x) {
-    if (is.atomic(x)) return(escape(x, con = con))
-
-    env <- sql_env(x, variant, con, window = window)
-    escape(eval(x, envir = env))
+  variant <- sql_translate_env(con)
+  pieces <- map(dots, function(x) {
+    if (is_atomic(get_expr(x))) {
+      escape(get_expr(x), con = con)
+    } else {
+      overscope <- sql_overscope(x, variant, con, window = window)
+      on.exit(overscope_clean(overscope))
+      escape(overscope_eval_next(overscope, x))
+    }
   })
 
   sql(unlist(pieces))
 }
 
-sql_env <- function(expr, variant, con, window = FALSE,
-                    strict = getOption("dplyr.strict_sql")) {
+sql_overscope <- function(expr, variant, con, window = FALSE,
+                          strict = getOption("dplyr.strict_sql")) {
   stopifnot(is.sql_variant(variant))
 
   # Default for unknown functions
   if (!strict) {
     unknown <- setdiff(all_calls(expr), names(variant))
-    default_env <- ceply(unknown, default_op, parent = emptyenv())
+    top_env <- ceply(unknown, default_op, parent = empty_env())
   } else {
-    default_env <- new.env(parent = emptyenv())
+    top_env <- child_env(NULL)
   }
 
 
   # Known R -> SQL functions
-  special_calls <- copy_env(variant$scalar, parent = default_env)
+  special_calls <- copy_env(variant$scalar, parent = top_env)
   if (!window) {
     special_calls2 <- copy_env(variant$aggregate, parent = special_calls)
   } else {
@@ -193,12 +171,13 @@ sql_env <- function(expr, variant, con, window = FALSE,
   )
 
   # Known sql expressions
-  symbol_env <- copy_env(base_symbols, parent = name_env)
-  symbol_env
+  symbol_env <- env_clone(base_symbols, parent = name_env)
+
+  new_overscope(symbol_env, top_env)
 }
 
 default_op <- function(x) {
-  assert_that(is.string(x))
+  assert_that(is_string(x))
   infix <- c("::", "$", "@", "^", "*", "/", "+", "-", ">", ">=", "<", "<=",
     "==", "!=", "!", "&", "&&", "|", "||", "~", "<-", "<<-")
 

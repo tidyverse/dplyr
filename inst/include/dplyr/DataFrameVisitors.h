@@ -6,6 +6,7 @@
 #include <dplyr/visitor_set/VisitorSetMixin.h>
 
 #include <dplyr/VectorVisitor.h>
+#include <tools/SymbolVector.h>
 
 namespace dplyr {
 
@@ -19,15 +20,15 @@ namespace dplyr {
 
     const Rcpp::DataFrame& data;
     pointer_vector<VectorVisitor> visitors;
-    Rcpp::CharacterVector visitor_names;
+    SymbolVector visitor_names;
     int nvisitors;
 
   public:
     typedef VectorVisitor visitor_type;
 
-    DataFrameVisitors(const Rcpp::DataFrame& data_);
+    DataFrameVisitors(const DataFrame& data_);
 
-    DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names);
+    DataFrameVisitors(const DataFrame& data_, const SymbolVector& names);
 
     inline int size() const {
       return nvisitors;
@@ -36,7 +37,7 @@ namespace dplyr {
       return visitors[k];
     }
 
-    Rcpp::String name(int k) const {
+    const SymbolString name(int k) const {
       return visitor_names[k];
     }
 

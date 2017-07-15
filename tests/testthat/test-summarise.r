@@ -44,6 +44,17 @@ test_that("summarise can refer to variables that were just created (#138)", {
   expect_equal(res$cyl2, res_direct$cyl2)
 })
 
+test_that("summarise can refer to factor variables that were just created (#2217)", {
+  df <- data_frame(a = 1:3) %>%
+    group_by(a)
+  res <- df %>%
+    summarise(f = factor(if_else(a <= 1, "a", "b")), g = (f == "a"))
+  expect_equal(
+    res,
+    data_frame(a = 1:3, f = factor(c("a", "b", "b")), g = c(TRUE, FALSE, FALSE))
+  )
+})
+
 test_that("summarise refuses to modify grouping variable (#143)", {
   df <- data.frame(a = c(1, 2, 1, 2), b = c(1, 1, 2, 2), x = 1:4)
   ds <- group_by(tbl_df(df), a, b)
@@ -54,16 +65,48 @@ test_that("summarise refuses to modify grouping variable (#143)", {
 })
 
 test_that("summarise gives proper errors (#153)", {
-  df <- data.frame(
-    x = as.numeric(sample(1000, 10000, TRUE)),
-    y = sample(10000, 10000, TRUE),
-    z = runif(10000)
+  df <- data_frame(
+    x = 1,
+    y = c(1, 2, 2),
+    z = runif(3)
   )
-  df <- tbl_df(df)
-  df <- group_by(df, x, y)
-  expect_error(summarise(df, diff(z)), "expecting a single value")
-  expect_error(summarise(df, log(z)), "expecting a single value")
-  expect_error(summarise(df, y[1:2]), "expecting a single value")
+  expect_error(
+    summarise(df, identity(NULL)),
+    "incompatible size (0), expecting one (a summary value)",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(df, log(z)),
+    "incompatible size (3), expecting one (a summary value)",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(df, y[1:2]),
+    "incompatible size (2), expecting one (a summary value)",
+    fixed = TRUE
+  )
+
+  gdf <- group_by(df, x, y)
+  expect_error(
+    summarise(gdf, identity(NULL)),
+    "incompatible size (0), expecting one (a summary value)",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(gdf, z),
+    "incompatible size (2), expecting one (a summary value)",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(gdf, log(z)),
+    "incompatible size (2), expecting one (a summary value)",
+    fixed = TRUE
+  )
+  expect_error(
+    summarise(gdf, y[1:2]),
+    "incompatible size (2), expecting one (a summary value)",
+    fixed = TRUE
+  )
 })
 
 test_that("summarise handles constants (#153)", {
@@ -160,6 +203,17 @@ test_that("summarise propagate attributes (#194)", {
   expect_equal(class(res$max_g) , c("POSIXct", "POSIXt"))
   expect_equal(class(res$min__g), c("POSIXct", "POSIXt"))
 
+})
+
+test_that("summarise strips names (#2231)", {
+  data <- data_frame(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = 1:3) %>% rowwise %>% summarise(b = setNames(nm = a))
+  expect_null(names(data$b))
+
+  data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% summarise(b = setNames(nm = a[[1]]))
+  expect_null(names(data$b))
 })
 
 test_that("summarise fails on missing variables", {
@@ -394,7 +448,15 @@ test_that("LazyGroupSubsets is robust about columns not from the data (#600)", {
   foo <- data_frame(x = 1:10, y = 1:10)
   expect_error(
     foo %>% group_by(x) %>% summarise(first_y = first(z)),
-    "could not find variable"
+    "object 'z' not found",
+    fixed = TRUE
+  )
+})
+
+test_that("can summarise first(x[-1]) (#1980)", {
+  expect_equal(
+    tibble(x = 1:3) %>% summarise(f = first(x[-1])),
+    tibble(f = 2L)
   )
 })
 
@@ -731,7 +793,7 @@ test_that("summarise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_error(
     summarise(df, c = b[[1]]),
-    'Unsupported type RAWSXP for column "c"'
+    "Column `c` must be a vector, not a raw vector"
   )
 })
 
@@ -824,7 +886,6 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
 })
 
 test_that("calculating an ordered factor preserves order (#2200)", {
-  skip("Currently failing")
   test_df <- tibble(
     id = c("a", "b"),
     val = 1:2
@@ -838,7 +899,6 @@ test_that("calculating an ordered factor preserves order (#2200)", {
 })
 
 test_that("min, max preserves ordered factor data  (#2200)", {
-  skip("Currently failing")
   test_df <- tibble(
     id = rep(c("a", "b"), 2),
     ord = ordered(c("A", "B", "B", "A"), levels = c("A", "B"))
@@ -854,4 +914,20 @@ test_that("min, max preserves ordered factor data  (#2200)", {
   expect_s3_class(ret$max_ord, "ordered")
   expect_equal(levels(ret$min_ord), levels(test_df$ord))
   expect_equal(levels(ret$max_ord), levels(test_df$ord))
+})
+
+test_that("ungrouped summarise() uses summary variables correctly (#2404)", {
+  df <- tibble::as_tibble(seq(1:10))
+
+  out <- df %>% summarise(value = mean(value), sd = sd(value))
+  expect_equal(out$value, 5.5)
+  expect_equal(out$sd, NA_real_)
+})
+
+test_that("proper handling of names in summarised list columns (#2231)", {
+  d <- data_frame(x = rep(1:3, 1:3), y = 1:6, names = letters[1:6])
+  res <- d %>% group_by(x) %>% summarise(y = list(setNames(y, names)))
+  expect_equal(names(res$y[[1]]), letters[[1]])
+  expect_equal(names(res$y[[2]]), letters[2:3])
+  expect_equal(names(res$y[[3]]), letters[4:6])
 })

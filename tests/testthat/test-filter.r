@@ -11,7 +11,7 @@ test_that("filter results independent of data tbl (simple)", {
 
   expected <- df[df$a > 6, , drop = FALSE]
   compare_tbls(tbls[c("df", "sqlite")], function(x) {
-    filter_(x, ~ a > 6)
+    filter(x, a > 6)
   }, expected)
 })
 
@@ -35,7 +35,12 @@ test_that("filter fails if inputs incorrect length (#156)", {
 })
 
 test_that("filter gives useful error message when given incorrect input", {
-  expect_error(filter(tbl_df(mtcars), x), "unknown column")
+  expect_error(filter(tbl_df(mtcars), `_x`), "not found")
+})
+
+test_that("filter gives UTF-8 encoded column names (#2441)", {
+  df <- data_frame(a = factor(1:3)) %>% rename("\u5e78" := a)
+  expect_error(filter(df, `<U+798F>`), "object '<U\\+798F>' not found")
 })
 
 test_that("filter complains in inputs are named", {
@@ -222,7 +227,6 @@ test_that("row_number does not segfault with example from #781", {
 
 test_that("filter does not alter expression (#971)", {
   my_filter <- ~ am == 1
-  expect_error(mtcars %>% filter(my_filter))
   expect_equal(my_filter[[2]][[2]], as.name("am"))
 })
 
@@ -291,7 +295,7 @@ test_that("filter(FALSE) drops indices", {
     group_by(cyl) %>%
     filter(FALSE) %>%
     attr("indices")
-  expect_equal(out, NULL)
+  expect_identical(out, list())
 })
 
 test_that("filter handles S4 objects (#1366)", {

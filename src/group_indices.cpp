@@ -6,7 +6,6 @@
 
 #include <dplyr/GroupedDataFrame.h>
 
-#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/Order.h>
 
 #include <dplyr/Result/Count.h>
@@ -38,27 +37,25 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
 }
 
 DataFrame build_index_cpp(DataFrame data) {
-  ListOf<Symbol> symbols(data.attr("vars"));
+  SymbolVector vars(get_vars(data));
+  const int nvars = vars.size();
 
-  int nsymbols = symbols.size();
-  CharacterVector vars(nsymbols);
   CharacterVector names = data.names();
-  for (int i=0; i<nsymbols; i++) {
-    vars[i] = PRINTNAME(symbols[i]);
-  }
-  IntegerVector indx = r_match(vars, names);
+  IntegerVector indx = vars.match_in_table(names);
 
-  for (int i=0; i<nsymbols; i++) {
+  for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
     if (pos == NA_INTEGER) {
-      stop("unknown column '%s' ", CHAR(vars[i]));
+      stop("unknown column '%s' ", vars[i].get_utf8_cstring());
     }
 
     SEXP v = data[pos-1];
 
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
-      const char* name = vars[i];
-      stop("cannot group column %s, of class '%s'", name, get_single_class(v));
+      stop(
+        "cannot group column %s, of class '%s'",
+        vars[i].get_utf8_cstring(),
+        get_single_class(v));
     }
   }
 
@@ -95,6 +92,6 @@ DataFrame build_index_cpp(DataFrame data) {
   data.attr("group_sizes") = group_sizes;
   data.attr("biggest_group_size") = biggest_group;
   data.attr("labels") = labels;
-  data.attr("class") = CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
+  set_class(data, CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame"));
   return data;
 }

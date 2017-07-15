@@ -1,12 +1,11 @@
 #include <dplyr/main.h>
 
-#include <tools/LazyDots.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/white_list.h>
 
 #include <dplyr/GroupedDataFrame.h>
 
-#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/Order.h>
 
 #include <dplyr/Result/CallProxy.h>
@@ -17,25 +16,25 @@ using namespace Rcpp;
 using namespace dplyr;
 
 // [[Rcpp::export]]
-List arrange_impl(DataFrame data, LazyDots dots) {
+List arrange_impl(DataFrame data, QuosureList quosures) {
   if (data.size() == 0) return data;
   check_valid_colnames(data);
   assert_all_white_list(data);
 
-  if (dots.size() == 0 || data.nrows() == 0) return data;
+  if (quosures.size() == 0 || data.nrows() == 0) return data;
 
-  int nargs = dots.size();
+  int nargs = quosures.size();
   List variables(nargs);
   LogicalVector ascending(nargs);
 
   for (int i=0; i<nargs; i++) {
-    const Lazy& lazy = dots[i];
+    const NamedQuosure& quosure = quosures[i];
 
-    Shield<SEXP> call_(lazy.expr());
+    Shield<SEXP> call_(quosure.expr());
     SEXP call = call_;
     bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call);
 
-    CallProxy call_proxy(is_desc ? CADR(call) : call, data, lazy.env());
+    CallProxy call_proxy(is_desc ? CADR(call) : call, data, quosure.env());
 
     Shield<SEXP> v(call_proxy.eval());
     if (!white_list(v)) {
@@ -62,7 +61,7 @@ List arrange_impl(DataFrame data, LazyDots dots) {
   IntegerVector index = o.apply();
 
   DataFrameSubsetVisitors visitors(data, data.names());
-  List res = visitors.subset(index, data.attr("class"));
+  List res = visitors.subset(index, get_class(data));
 
   if (is<GroupedDataFrame>(data)) {
     // so that all attributes are recalculated (indices ... )
@@ -70,7 +69,7 @@ List arrange_impl(DataFrame data, LazyDots dots) {
     // if we don't do that, we get the values of the un-arranged data
     // set for free from subset (#1064)
     res.attr("labels") = R_NilValue;
-    res.attr("vars")  = data.attr("vars");
+    copy_vars(res, data);
     return GroupedDataFrame(res).data();
   }
   SET_ATTRIB(res, strip_group_attributes(res));

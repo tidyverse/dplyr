@@ -1,5 +1,34 @@
 context("binds")
 
+
+# base --------------------------------------------------------------------
+
+test_that("cbind and rbind methods work for tbl_df", {
+  df1 <- tibble(x = 1)
+  df2 <- tibble(y = 2)
+
+  expect_equal(cbind(df1, df2), tibble(x = 1, y = 2))
+  expect_equal(rbind(df1, df2), tibble(x = c(1, NA), y = c(NA, 2)))
+})
+
+
+# error -------------------------------------------------------------------
+
+test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
+  df1 <- memdb_frame(x = 1)
+  df2 <- memdb_frame(y = 2)
+
+  expect_error(
+    bind_cols(df1, df2),
+    "Data-frame-like objects must inherit from class data.frame or be plain lists"
+  )
+  expect_error(
+    bind_rows(df1, df2),
+    "Data-frame-like objects must inherit from class data.frame or be plain lists"
+  )
+})
+
+
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {
@@ -31,6 +60,21 @@ test_that("bind_cols handles lists (#1104)", {
 
 test_that("bind_cols handles empty argument list (#1963)", {
   expect_equal(bind_cols(), data.frame())
+})
+
+test_that("bind_cols handles all-NULL values (#2303)", {
+  expect_equal(bind_cols(list(a = NULL, b = NULL)), data.frame())
+})
+
+test_that("bind_cols repairs names", {
+  df <- tibble(a = 1, b = 2)
+  bound <- bind_cols(df, df)
+
+  repaired <- as_tibble(tibble::repair_names(
+    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE)
+  ))
+
+  expect_equal(bound, repaired)
 })
 
 # rows --------------------------------------------------------------------
@@ -102,23 +146,31 @@ test_that("bind_rows handles data frames with no columns (#1346)", {
   expect_equal(dim(bind_rows(df0, df0)), c(2, 0))
 
   res <- bind_rows(df0, df1)
-  expect_equal(res$x, c(1, NA))
+  expect_equal(res$x, c(NA, 1))
 })
 
 test_that("bind_rows handles lists with NULL values (#2056)", {
-  skip("Currently failing")
   df1 <- data_frame(x = 1, y = 1)
   df2 <- data_frame(x = 2, y = 2)
   lst1 <- list(a = df1, NULL, b = df2)
-  lst2 <- list(a = df1, b = df2)
 
   df3 <- data_frame(
     names = c("a", "b"),
-    x = 1:2,
-    y = 1:2
+    x = c(1, 2),
+    y = c(1, 2)
   )
 
   expect_equal(bind_rows(lst1, .id = "names"), df3)
+})
+
+test_that("bind_rows puts data frames in order received even if no columns (#2175)", {
+  df2 <- data_frame(x = 2, y = "b")
+  df1 <- df2[, 0]
+
+  res <- bind_rows(df1, df2)
+
+  expect_equal(res$x, c(NA, 2))
+  expect_equal(res$y, c(NA, "b"))
 })
 
 # Column coercion --------------------------------------------------------------
@@ -415,4 +467,33 @@ test_that("bind_rows rejects POSIXlt columns (#1789)", {
   df <- data_frame(x = Sys.time() + 1:12)
   df$y <- as.POSIXlt(df$x)
   expect_error(bind_rows(df, df), "not supported")
+})
+
+test_that("bind_rows rejects data frame columns (#2015)", {
+  df <- list(
+    x = 1:10,
+    y = data.frame(a = 1:10, y = 1:10)
+  )
+  class(df) <- "data.frame"
+  attr(df, "row.names") <- .set_row_names(10)
+
+  expect_error(
+    dplyr::bind_rows(df, df),
+    "Columns of class data.frame not supported",
+    fixed = TRUE
+  )
+})
+
+test_that("bind_rows accepts difftime objects", {
+  df1 <- data.frame(x = as.difftime(1, units = "hours"))
+  df2 <- data.frame(x = as.difftime(1, units = "mins"))
+  res <- bind_rows(df1, df2)
+  expect_equal(res$x, as.difftime(c(3600, 60), units = "secs"))
+})
+
+test_that("bind_rows accepts hms objects", {
+  df1 <- data.frame(x = hms::hms(hours = 1))
+  df2 <- data.frame(x = as.difftime(1, units = "mins"))
+  res <- bind_rows(df1, df2)
+  expect_equal(res$x, hms::hms(hours = c(1, 0), minutes = c(0, 1)))
 })

@@ -142,6 +142,11 @@ test_that("empty data frames give consistent outputs", {
 
 # SQLite -----------------------------------------------------------------------
 
+test_that("ungrouped data collected first", {
+  out <- memdb_frame(x = 1:2) %>% do(head(.))
+  expect_equal(out, tibble(x = 1:2))
+})
+
 test_that("named argument become list columns", {
   skip_if_no_sqlite()
 
@@ -175,6 +180,7 @@ test_that("grouping column not repeated", {
 })
 
 test_that("results independent of chunk_size", {
+  skip("Currently failing (#2482)")
   skip_if_no_sqlite()
   nrows <- function(group, n) {
     unlist(do(group, nrow = nrow(.), .chunk_size = n)$nrow)

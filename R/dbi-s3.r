@@ -142,7 +142,7 @@ db_create_table <- function(con, table, types, temporary = FALSE, ...) {
 #' @export
 db_create_table.DBIConnection <- function(con, table, types,
                                           temporary = FALSE, ...) {
-  assert_that(is.string(table), is.character(types))
+  assert_that(is_string(table), is.character(types))
 
   field_names <- escape(ident(names(types)), collapse = NULL, con = con)
   fields <- sql_vector(
@@ -157,7 +157,7 @@ db_create_table.DBIConnection <- function(con, table, types,
     con = con
   )
 
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @name backend_db
@@ -193,7 +193,7 @@ db_create_index <- function(con, table, columns, name = NULL, unique = FALSE,
 #' @export
 db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
                                           unique = FALSE, ...) {
-  assert_that(is.string(table), is.character(columns))
+  assert_that(is_string(table), is.character(columns))
 
   name <- name %||% paste0(c(table, columns), collapse = "_")
   fields <- escape(ident(columns), parens = TRUE, con = con)
@@ -202,7 +202,7 @@ db_create_index.DBIConnection <- function(con, table, columns, name = NULL,
     " ON ", ident(table), " ", fields,
     con = con)
 
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @name backend_db
@@ -216,7 +216,7 @@ db_drop_table.DBIConnection <- function(con, table, force = FALSE, ...) {
     "DROP TABLE ", if (force) sql("IF EXISTS "), ident(table),
     con = con
   )
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @name backend_db
@@ -225,7 +225,7 @@ db_analyze <- function(con, table, ...) UseMethod("db_analyze")
 #' @export
 db_analyze.DBIConnection <- function(con, table, ...) {
   sql <- build_sql("ANALYZE ", ident(table), con = con)
-  dbGetQuery(con, sql)
+  dbExecute(con, sql)
 }
 
 #' @export

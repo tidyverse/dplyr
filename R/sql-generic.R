@@ -96,35 +96,73 @@ sql_subquery.default <- function(con, from, name = unique_name(), ...) {
 
 #' @rdname backend_sql
 #' @export
-sql_join <- function(con, x, y, type = "inner", by = NULL, ...) {
+sql_join <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
   UseMethod("sql_join")
 }
 #' @export
-sql_join.default <- function(con, x, y, type = "inner", by = NULL, ...) {
-  join <- switch(
+sql_join.default <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
+  JOIN <- switch(
     type,
-    left = sql("LEFT"),
-    inner = sql("INNER"),
-    right = sql("RIGHT"),
-    full = sql("FULL"),
+    left = sql("LEFT JOIN"),
+    inner = sql("INNER JOIN"),
+    right = sql("RIGHT JOIN"),
+    full = sql("FULL JOIN"),
     stop("Unknown join type:", type, call. = FALSE)
   )
 
+  select <- sql_vector(c(
+    sql_as(con, names(vars$x), vars$x, table = "TBL_LEFT"),
+    sql_as(con, names(vars$y), vars$y, table = "TBL_RIGHT")
+  ), collapse = ", ", parens = FALSE)
+
   on <- sql_vector(
-    paste0(sql_escape_ident(con, by$x), " = ", sql_escape_ident(con, by$y)),
+    paste0(
+      sql_table_prefix(con, by$x, "TBL_LEFT"),
+      " = ",
+      sql_table_prefix(con, by$y, "TBL_RIGHT")
+    ),
     collapse = " AND ",
     parens = TRUE
   )
-  cond <- build_sql("ON ", on, con = con)
 
   # Wrap with SELECT since callers assume a valid query is returned
   build_sql(
-    "SELECT * FROM ", x, "\n\n",
-    join, " JOIN\n\n" ,
-    y, "\n\n",
-    cond,
+    "SELECT ", select, "\n",
+    "  FROM ", x, "\n",
+    "  ", JOIN, " ", y, "\n",
+    "  ON ", on, "\n",
     con = con
   )
+}
+
+sql_as <- function(con, var, alias = names(var), table = NULL) {
+  if (length(var) == 0)
+    return(ident())
+
+  var <- sql_table_prefix(con, var, table = table)
+  alias <- sql_escape_ident(con, alias)
+
+  sql(paste0(var, " AS ", alias))
+}
+
+sql_table_prefix <- function(con, var, table = NULL) {
+  var <- sql_escape_ident(con, var)
+
+  if (!is.null(table)) {
+    table <- sql_escape_ident(con, table)
+    sql(paste0(table, ".", var))
+  } else {
+    var
+  }
+
+}
+
+#' @export
+sql_join.MySQLConnection <- function(con, x, y, vars, type = "inner", by = NULL, ...) {
+  if (identical(type, "full")) {
+    stop("MySQL does not support full joins", call. = FALSE)
+  }
+  NextMethod()
 }
 
 #' @rdname backend_sql
@@ -134,9 +172,9 @@ sql_semi_join <- function(con, x, y, anti = FALSE, by = NULL, ...) {
 }
 #' @export
 sql_semi_join.default <- function(con, x, y, anti = FALSE, by = NULL, ...) {
-  # X and Y are subqueries named _LEFT and _RIGHT
-  left <- escape(ident("_LEFT"), con = con)
-  right <- escape(ident("_RIGHT"), con = con)
+  # X and Y are subqueries named TBL_LEFT and TBL_RIGHT
+  left <- escape(ident("TBL_LEFT"), con = con)
+  right <- escape(ident("TBL_RIGHT"), con = con)
   on <- sql_vector(
     paste0(
       left,  ".", sql_escape_ident(con, by$x), " = ",
@@ -165,11 +203,22 @@ sql_set_op <- function(con, x, y, method) {
 #' @export
 sql_set_op.default <- function(con, x, y, method) {
   build_sql(
+    "(", x, ")",
+    "\n", sql(method), "\n",
+    "(", y, ")"
+  )
+}
+
+#' @export
+sql_set_op.SQLiteConnection <- function(con, x, y, method) {
+  # SQLite does not allow parentheses
+  build_sql(
     x,
     "\n", sql(method), "\n",
     y
   )
 }
+
 
 #' @rdname backend_sql
 #' @export

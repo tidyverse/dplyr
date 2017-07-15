@@ -2,11 +2,11 @@
 % Please edit documentation in R/tbl-sql.r
 \name{copy_to.src_sql}
 \alias{copy_to.src_sql}
-\title{Copy a local data frame to a sqlite src.}
+\title{Copy a local data frame to a DBI backend.}
 \usage{
 \method{copy_to}{src_sql}(dest, df, name = deparse(substitute(df)),
-  types = NULL, temporary = TRUE, unique_indexes = NULL, indexes = NULL,
-  analyze = TRUE, ...)
+  overwrite = FALSE, types = NULL, temporary = TRUE,
+  unique_indexes = NULL, indexes = NULL, analyze = TRUE, ...)
 }
 \arguments{
 \item{dest}{remote data source}
@@ -14,6 +14,10 @@
 \item{df}{local data frame}
 
 \item{name}{name for new remote table.}
+
+\item{overwrite}{If \code{TRUE}, will overwrite an existing table with
+name \code{name}. If \code{FALSE}, will throw an error if \code{name} already
+exists.}
 
 \item{types}{a character vector giving variable types to use for the columns.
 See \url{http://www.sqlite.org/datatype3.html} for available types.}
@@ -35,25 +39,26 @@ new table so that the query optimiser has useful information.}
 \item{...}{other parameters passed to methods.}
 }
 \value{
-a sqlite \code{\link[=tbl]{tbl()}} object
+A \code{\link[=tbl]{tbl()}} object (invisibly).
 }
 \description{
-This standard method works for all sql sources.
+This \code{\link[=copy_to]{copy_to()}} method works for all DBI sources. It is useful for
+copying small amounts of data to a database for examples, experiments,
+and joins. By default, it creates temporary tables which are typically
+only visible to the current connection to the database.
 }
 \examples{
 if (requireNamespace("RSQLite")) {
-db <- src_sqlite(tempfile(), create = TRUE)
+set.seed(1014)
 
-iris2 <- copy_to(db, iris)
 mtcars$model <- rownames(mtcars)
-mtcars2 <- copy_to(db, mtcars, indexes = list("model"))
+mtcars2 <- src_memdb() \%>\%
+  copy_to(mtcars, indexes = list("model"), overwrite = TRUE)
+mtcars2 \%>\% filter(model == "Hornet 4 Drive")
 
-explain(filter(mtcars2, model == "Hornet 4 Drive"))
-
-# Note that tables are temporary by default, so they're not
-# visible from other connections to the same database.
-src_tbls(db)
-db2 <- src_sqlite(db$path)
-src_tbls(db2)
+# copy_to is called automatically if you set copy = TRUE
+# in the join functions
+df <- tibble(cyl = c(6, 8))
+mtcars2 \%>\% semi_join(df, copy = TRUE)
 }
 }

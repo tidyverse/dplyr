@@ -1,26 +1,19 @@
 #ifndef dplyr_tools_BoolResult_H
 #define dplyr_tools_BoolResult_H
 
+#include <tools/utils.h>
+
 namespace dplyr {
 
   class BoolResult {
   public:
     BoolResult(bool result_) : result(result_) {}
-    BoolResult(bool result_, const std::string& msg) : result(result_), message(msg) {}
-
-    void set_true() {
-      result = true;
-      message.clear();
-    }
-    void set_false(const char* msg) {
-      result = false;
-      message = msg;
-    }
+    BoolResult(bool result_, const CharacterVector& msg) : result(result_), message(msg) {}
 
     inline operator SEXP() const {
       LogicalVector res = LogicalVector::create(result);
       res.attr("comment") = message;
-      res.attr("class")   = "BoolResult";
+      set_class(res, "BoolResult");
       return res;
     }
 
@@ -28,16 +21,29 @@ namespace dplyr {
       return result;
     }
 
-    inline const std::string& why_not() const {
-      return message;
+    inline std::string why_not() const {
+      R_xlen_t n = message.length();
+      if (n == 0)
+        return "";
+
+      if (n == 1)
+        return std::string(message[0]);
+
+      std::stringstream ss;
+      ss << "\n";
+      for (int i = 0; i < n; ++i) {
+        ss << "- " << std::string(message[i]) << "\n";
+      }
+
+      return ss.str();
     }
 
   private:
     bool result;
-    std::string message;
+    CharacterVector message;
   };
 
-  inline BoolResult no_because(const std::string& msg) {
+  inline BoolResult no_because(const CharacterVector& msg) {
     return BoolResult(false, msg);
   }
 

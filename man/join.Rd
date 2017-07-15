@@ -8,7 +8,7 @@
 \alias{full_join}
 \alias{semi_join}
 \alias{anti_join}
-\title{Join two tbls together.}
+\title{Join two tbls together}
 \usage{
 inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
@@ -41,7 +41,8 @@ same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
 \item{suffix}{If there are non-joined duplicate variables in \code{x} and
-\code{y}, these suffixes will be added to the output to diambiguate them.}
+\code{y}, these suffixes will be added to the output to diambiguate them.
+Should be a character vector of length 2.}
 
 \item{...}{other parameters passed onto methods}
 }
@@ -49,8 +50,7 @@ it is a potentially expensive operation so you must opt into it.}
 These are generic functions that dispatch to individual tbl methods - see the
 method documentation for details of individual data sources. \code{x} and
 \code{y} should usually be from the same data source, but if \code{copy} is
-\code{TRUE}, \code{y} will automatically be copied to the same source as
-\code{x} - this may be an expensive operation.
+\code{TRUE}, \code{y} will automatically be copied to the same source as \code{x}.
 }
 \section{Join types}{
 
@@ -94,3 +94,22 @@ Groups are ignored for the purpose of joining, but the result preserves
 the grouping of \code{x}.
 }
 
+\examples{
+# "Mutating" joins add variables to the LHS
+band_members \%>\% inner_join(band_instruments)
+band_members \%>\% left_join(band_instruments)
+band_members \%>\% right_join(band_instruments)
+band_members \%>\% full_join(band_instruments)
+
+# "Filtering" joins keep cases from the LHS
+band_members \%>\% semi_join(band_instruments)
+band_members \%>\% anti_join(band_instruments)
+
+# To suppress the message, supply by
+band_members \%>\% inner_join(band_instruments, by = "name")
+# This is good practice in production code
+
+# Use a named `by` if the join variables have different names
+band_members \%>\% full_join(band_instruments2, by = c("name" = "artist"))
+# Note that only the key from the LHS is kept
+}

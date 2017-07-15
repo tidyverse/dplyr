@@ -2,39 +2,41 @@
 % Please edit documentation in R/manip.r
 \name{summarise}
 \alias{summarise}
-\alias{summarise_}
 \alias{summarize}
-\alias{summarize_}
-\title{Summarise multiple values to a single value.}
+\title{Summarise multiple values to a single value}
 \usage{
 summarise(.data, ...)
 
-summarise_(.data, ..., .dots)
-
 summarize(.data, ...)
-
-summarize_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
-\item{...}{Name-value pairs of summary functions like \code{\link[=min]{min()}},
-\code{\link[=mean]{mean()}}, \code{\link[=max]{max()}} etc.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
+\item{...}{Name-value pairs of summary functions. The name will be the
+name of the variable in the result. The value should be an expression
+that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.}
 }
 \value{
 An object of the same class as \code{.data}. One grouping level will
 be dropped.
-
-Data frame row names are silently dropped. To preserve, convert to an
-explicit variable.
 }
 \description{
-Summarise multiple values to a single value.
+\code{summarise()} is typically used on grouped data created by \code{\link[=group_by]{group_by()}}.
+The output will have one row for each group.
 }
+\section{Useful functions}{
+
+\itemize{
+\item Center: \code{\link[=mean]{mean()}}, \code{\link[=median]{median()}}
+\item Spread: \code{\link[=sd]{sd()}}, \code{\link[=IQR]{IQR()}}, \code{\link[=mad]{mad()}}
+\item Range: \code{\link[=min]{min()}}, \code{\link[=max]{max()}}, \code{\link[=quantile]{quantile()}}
+\item Position: \code{\link[=first]{first()}}, \code{\link[=last]{last()}}, \code{\link[=nth]{nth()}},
+\item Count: \code{\link[=n]{n()}}, \code{\link[=n_distinct]{n_distinct()}}
+\item Logical: \code{\link[=any]{any()}}, \code{\link[=all]{all()}}
+}
+}
+
 \section{Backend variations}{
 
 
@@ -42,24 +44,34 @@ Data frames are the only backend that supports creating a variable and
 using it in the same summary. See examples for more details.
 }
 
-\examples{
-summarise(mtcars, mean(disp))
-summarise(group_by(mtcars, cyl), mean(disp))
-summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
+\section{Tidy data}{
 
-# With data frames, you can create and immediately use summaries
-by_cyl <- mtcars \%>\% group_by(cyl)
-by_cyl \%>\% summarise(a = n(), b = a + 1)
-
-\dontrun{
-# You can't with data tables or databases
-by_cyl_dt <- mtcars \%>\% dtplyr::tbl_dt() \%>\% group_by(cyl)
-by_cyl_dt \%>\% summarise(a = n(), b = a + 1)
-
-by_cyl_db <- src_sqlite(":memory:", create = TRUE) \%>\%
-  copy_to(mtcars) \%>\% group_by(cyl)
-by_cyl_db \%>\% summarise(a = n(), b = a + 1)
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
 }
+
+\examples{
+# A summary applied to ungrouped tbl returns a single row
+mtcars \%>\%
+  summarise(mean = mean(disp), n = n())
+
+# Usually, you'll want to group first
+mtcars \%>\%
+  group_by(cyl) \%>\%
+  summarise(mean = mean(disp), n = n())
+
+# Each summary call removes one grouping level (since that group
+# is now just a single row)
+mtcars \%>\%
+  group_by(cyl, vs) \%>\%
+  summarise(cyl_n = n()) \%>\%
+  group_vars()
+
+# Note that with data frames, newly created summaries immediately
+# overwrite existing variables
+mtcars \%>\%
+  group_by(cyl) \%>\%
+  summarise(disp = mean(disp), sd = sd(disp))
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},

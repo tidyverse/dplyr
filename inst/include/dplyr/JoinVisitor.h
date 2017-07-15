@@ -19,6 +19,8 @@ namespace dplyr {
 
   };
 
+  JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& left_name, const SymbolString& right_name, bool warn, bool accept_na_match = true);
+
 }
 
 #endif

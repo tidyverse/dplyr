@@ -12,7 +12,7 @@ namespace dplyr {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef typename Matrix<RTYPE>::Column Column;
 
-    class ColumnVisitor : public comparisons<RTYPE> {
+    class ColumnVisitor {
     public:
       typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
       typedef comparisons<RTYPE> compare;
@@ -104,10 +104,6 @@ namespace dplyr {
 
     inline std::string get_r_type() const {
       return "matrix";
-    }
-
-    inline bool is_compatible(VectorVisitor* other, std::stringstream&, const std::string&) const {
-      return true;
     }
 
     bool is_na(int i) const {

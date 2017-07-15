@@ -2,41 +2,56 @@
 % Please edit documentation in R/manip.r
 \name{filter}
 \alias{filter}
-\alias{filter_}
-\title{Return rows with matching conditions.}
+\title{Return rows with matching conditions}
 \usage{
 filter(.data, ...)
-
-filter_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
 
-\item{...}{Logical predicates. Multiple conditions are combined with \code{&}.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
+\item{...}{Logical predicates defined in terms of the variables in \code{.data}.
+Multiple conditions are combined with \code{&}. Only rows where the
+conditon evalutes to \code{TRUE} are kept.}
 }
 \value{
 An object of the same class as \code{.data}.
-
-Data frame row names are silently dropped. To preserve, convert to an
-explicit variable.
 }
 \description{
-Return rows with matching conditions.
+Use \code{filter()} find rows/cases where conditions are true. Unlike
+base subsetting, rows where the condition evaluates to \code{NA} are dropped.
 }
+\details{
+Note that dplyr is not yet smart enough to optimise filtering optimisation
+on grouped datasets that don't need grouped calculations. For this reason,
+filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed data.
+}
+\section{Useful filter functions}{
+
+\itemize{
+\item \code{\link{==}}, \code{\link{>}}, \code{\link{>=}} etc
+\item \code{\link{&}}, \code{\link{|}}, \code{\link{!}}, \code{\link[=xor]{xor()}}
+\item \code{\link[=is.na]{is.na()}}
+\item \code{\link[=between]{between()}}, \code{\link[=near]{near()}}
+}
+}
+
+\section{Tidy data}{
+
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
+}
+
 \examples{
-filter(mtcars, cyl == 8)
-filter(mtcars, cyl < 6)
+filter(starwars, species == "Human")
+filter(starwars, mass > 1000)
 
 # Multiple criteria
-filter(mtcars, cyl < 6 & vs == 1)
-filter(mtcars, cyl < 6 | vs == 1)
+filter(starwars, hair_color == "none" & eye_color == "black")
+filter(starwars, hair_color == "none" | eye_color == "black")
 
 # Multiple arguments are equivalent to and
-filter(mtcars, cyl < 6, vs == 1)
+filter(starwars, hair_color == "none", eye_color == "black")
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},

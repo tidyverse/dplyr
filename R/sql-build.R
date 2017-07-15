@@ -22,18 +22,14 @@
 #'   rules that should be very similar to ANSI 92, and allows for testing
 #'   without an active database connection.
 #' @param ... Other arguments passed on to the methods. Not currently used.
-sql_build <- function(op, con, ...) {
+sql_build <- function(op, con = NULL, ...) {
   UseMethod("sql_build")
 }
 
 #' @export
-sql_build.tbl_sql <- function(op, con, ...) {
-  sql_build(op$ops, con, ...)
-}
-
-#' @export
 sql_build.tbl_lazy <- function(op, con = NULL, ...) {
-  sql_build(op$ops, con, ...)
+  qry <- sql_build(op$ops, con, ...)
+  sql_optimise(qry, con = con, ...)
 }
 
 # Base ops --------------------------------------------------------
@@ -52,19 +48,19 @@ sql_build.op_base_local <- function(op, con, ...) {
 
 #' @export
 sql_build.op_select <- function(op, con, ...) {
-  vars <- select_vars_(op_vars(op$x), op$dots, include = op_grps(op$x))
+  vars <- select_vars(op_vars(op$x), !!! op$dots, include = op_grps(op$x))
   select_query(sql_build(op$x, con), ident(vars))
 }
 
 #' @export
 sql_build.op_rename <- function(op, con, ...) {
-  vars <- rename_vars_(op_vars(op$x), op$dots)
+  vars <- rename_vars(op_vars(op$x), !!! op$dots)
   select_query(sql_build(op$x, con), ident(vars))
 }
 
 #' @export
 sql_build.op_arrange <- function(op, con, ...) {
-  order_vars <- translate_sql_(op$dots, con, op_vars(op$x))
+  order_vars <- translate_sql_(op$dots, con)
   group_vars <- c.sql(ident(op_grps(op$x)), con = con)
 
   select_query(sql_build(op$x, con), order_by = order_vars)
@@ -72,7 +68,7 @@ sql_build.op_arrange <- function(op, con, ...) {
 
 #' @export
 sql_build.op_summarise <- function(op, con, ...) {
-  select_vars <- translate_sql_(op$dots, con, op_vars(op$x), window = FALSE)
+  select_vars <- translate_sql_(op$dots, con, window = FALSE)
   group_vars <- c.sql(ident(op_grps(op$x)), con = con)
 
   select_query(
@@ -87,9 +83,9 @@ sql_build.op_mutate <- function(op, con, ...) {
   vars <- op_vars(op$x)
 
   new_vars <- translate_sql_(
-    op$dots, con, vars,
+    op$dots, con,
     vars_group = op_grps(op),
-    vars_order = op_sort(op)
+    vars_order = translate_sql_(op_sort(op), con)
   )
   old_vars <- ident(setdiff(vars, names(new_vars)))
 
@@ -119,7 +115,7 @@ sql_build.op_filter <- function(op, con, ...) {
   vars <- op_vars(op$x)
 
   if (!uses_window_fun(op$dots, con)) {
-    where_sql <- translate_sql_(op$dots, con, vars = vars)
+    where_sql <- translate_sql_(op$dots, con)
 
     select_query(
       sql_build(op$x, con),
@@ -127,18 +123,15 @@ sql_build.op_filter <- function(op, con, ...) {
     )
   } else {
     # Do partial evaluation, then extract out window functions
-    expr <- partial_eval2(op$dots, vars)
-    where <- translate_window_where_all(expr, ls(sql_translate_env(con)$window))
+    where <- translate_window_where_all(op$dots, ls(sql_translate_env(con)$window))
 
     # Convert where$expr back to a lazy dots object, and then
     # create mutate operation
-    mutate_dots <- lapply(where$comp, lazyeval::as.lazy)
-    mutated <- sql_build(op_single("mutate", op$x, dots = mutate_dots), con)
-    where_sql <- translate_sql_(where$expr, con = con, vars = vars)
+    mutated <- sql_build(op_single("mutate", op$x, dots = where$comp), con)
+    where_sql <- translate_sql_(where$expr, con = con)
 
     select_query(mutated, select = ident(vars), where = where_sql)
   }
-
 }
 
 #' @export
@@ -156,7 +149,7 @@ sql_build.op_distinct <- function(op, con, ...) {
       )
     }
 
-    group_vars <- c.sql(ident(names(op$dots)), con = con)
+    group_vars <- c.sql(ident(op_vars(op)), con = con)
     select_query(
       sql_build(op$x, con),
       select = group_vars,
@@ -169,49 +162,13 @@ sql_build.op_distinct <- function(op, con, ...) {
 
 #' @export
 sql_build.op_join <- function(op, con, ...) {
-  # Ensure tables have unique column names
-  x_names <- op_vars(op$x)
-  y_names <- op_vars(op$y)
-  by <- op$args$by
-
-  # by becomes empty to assign an alias to same-name vars
-  uniques <- unique_names(x_names, y_names, by = list(), suffix = op$args$suffix)
-
-  if (is.null(uniques)) {
-    x <- op$x
-    y <- op$y
-
-    join_query(x, y, type = op$args$type, by = by)
-  } else {
-    x <- select_(op$x, .dots = setNames(x_names, uniques$x))
-    y <- select_(op$y, .dots = setNames(y_names, uniques$y))
-
-    new_by <- list(x = unname(uniques$x[by$x]), y = unname(uniques$y[by$y]))
-
-    xy_names <- get_join_xy_names(by, uniques)
-
-    select_query(
-      join_query(
-        x, y,
-        type = op$args$type,
-        by = new_by
-      ),
-      select = ident(xy_names)
-    )
-  }
-}
-
-get_join_xy_names <- function(by, uniques) {
-  xy_by <- by$x[by$x == by$y]
-  x_names <- uniques$x
-  x_rename <- names(x_names) %in% xy_by
-  names(x_names)[!x_rename] <- ""
-
-  y_names <- uniques$y
-  y_remove <- names(y_names) %in% xy_by
-  y_names <- unname(y_names[!y_remove])
-
-  c(x_names, y_names)
+  join_query(
+    op$x, op$y,
+    vars = op$args$vars,
+    type = op$args$type,
+    by = op$args$by,
+    suffix = op$args$suffix
+  )
 }
 
 #' @export

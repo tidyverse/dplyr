@@ -44,6 +44,7 @@ test_that("select doesn't fail if some names missing", {
   # expect_equal(select(df3, x), data.frame(x = 1:10))
 })
 
+
 # Empty selects -------------------------------------------------
 
 test_that("select with no args returns nothing", {
@@ -96,7 +97,7 @@ test_that("select can be before group_by (#309)", {
     select(id, year, var1) %>%
     summarise(var1 = mean(var1))
   expect_equal(names(dfagg), c("id", "year", "var1"))
-  expect_equal(attr(dfagg, "vars"), list(quote(id)))
+  expect_equal(attr(dfagg, "vars"), "id")
 
 })
 
@@ -121,6 +122,19 @@ test_that("select preserves grouping vars", {
 test_that("rename handles grouped data (#640)", {
   res <- data_frame(a = 1, b = 2) %>% group_by(a) %>% rename(c = b)
   expect_equal(names(res), c("a", "c"))
+})
+
+test_that("rename does not crash with invalid grouped data frame (#640)", {
+  df <- data_frame(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
+  df$a <- NULL
+  expect_equal(
+    df %>% rename(e = d) %>% ungroup,
+    data_frame(b = 2:4, e = 3:5)
+  )
+  expect_equal(
+    df %>% rename(e = b) %>% ungroup,
+    data_frame(e = 2:4, d = 3:5)
+  )
 })
 
 # combine_vars ------------------------------------------------------------

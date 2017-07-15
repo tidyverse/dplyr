@@ -1,61 +1,10 @@
 #' Create a data frame tbl.
 #'
-#' Forwards the argument to [tibble::as_data_frame()], see
-#' \link{tibble-package} for more details.
+#' Deprecated: please use [tibble::as_tibble()] instead.
 #'
 #' @export
+#' @keywords internal
 #' @param data a data frame
-#' @examples
-#' ds <- tbl_df(mtcars)
-#' ds
-#' as.data.frame(ds)
-#'
-#' if (require("Lahman") && packageVersion("Lahman") >= "3.0.1") {
-#' batting <- tbl_df(Batting)
-#' dim(batting)
-#' colnames(batting)
-#' head(batting)
-#'
-#' # Data manipulation verbs ---------------------------------------------------
-#' filter(batting, yearID > 2005, G > 130)
-#' select(batting, playerID:lgID)
-#' arrange(batting, playerID, desc(yearID))
-#' summarise(batting, G = mean(G), n = n())
-#' mutate(batting, rbi2 = if(is.null(AB)) 1.0 * R / AB else 0)
-#'
-#' # Group by operations -------------------------------------------------------
-#' # To perform operations by group, create a grouped object with group_by
-#' players <- group_by(batting, playerID)
-#' head(group_size(players), 100)
-#'
-#' summarise(players, mean_g = mean(G), best_ab = max(AB))
-#' best_year <- filter(players, AB == max(AB) | G == max(G))
-#' progress <- mutate(players, cyear = yearID - min(yearID) + 1,
-#'  rank(desc(AB)), cumsum(AB))
-#'
-#' # When you group by multiple level, each summarise peels off one level
-#' \donttest{
-#' per_year <- group_by(batting, playerID, yearID)
-#' stints <- summarise(per_year, stints = max(stint))
-#' filter(stints, stints > 3)
-#' summarise(stints, max(stints))
-#' mutate(stints, cumsum(stints))
-#' }
-#'
-#' # Joins ---------------------------------------------------------------------
-#' player_info <- select(tbl_df(Master), playerID, birthYear)
-#' hof <- select(filter(tbl_df(HallOfFame), inducted == "Y"),
-#'  playerID, votedBy, category)
-#'
-#' # Match players and their hall of fame data
-#' inner_join(player_info, hof)
-#' # Keep all players, match hof data where available
-#' left_join(player_info, hof)
-#' # Find only players in hof
-#' semi_join(player_info, hof)
-#' # Find players not in hof
-#' anti_join(player_info, hof)
-#' }
 tbl_df <- function(data) {
   as_data_frame(data)
 }
@@ -92,38 +41,64 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 # Verbs ------------------------------------------------------------------------
 
 #' @export
-arrange_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+arrange.tbl_df <- function(.data, ...) {
+  dots <- dots_quosures(...)
+  arrange_impl(.data, dots)
+}
+#' @export
+arrange_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   arrange_impl(.data, dots)
 }
 
 #' @export
-filter_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  if (any(has_names(dots))) {
-    stop("filter() takes unnamed arguments. Do you need `==`?", call. = FALSE)
+filter.tbl_df <- function(.data, ...) {
+  dots <- dots_quosures(...)
+  if (any(have_name(dots))) {
+    abort("filter() takes unnamed arguments. Do you need `==`?")
+  } else if (is_empty(dots)) {
+    return(.data)
   }
-  # C++ code assumes that elements are named, so give them automatic names
-  dots <- lazyeval::auto_name(dots)
 
-  filter_impl(.data, dots)
+  quo <- all_of(!!! dots, .vectorised = TRUE)
+  filter_impl(.data, quo)
+}
+#' @export
+filter_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!! dots)
 }
 
 #' @export
-slice_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+slice.tbl_df <- function(.data, ...) {
+  dots <- dots_quosures(..., .named = TRUE)
+  slice_impl(.data, dots)
+}
+#' @export
+slice_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   slice_impl(.data, dots)
 }
 
 #' @export
-mutate_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+mutate.tbl_df <- function(.data, ...) {
+  dots <- dots_quosures(..., .named = TRUE)
+  mutate_impl(.data, dots)
+}
+#' @export
+mutate_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   mutate_impl(.data, dots)
 }
 
 #' @export
-summarise_.tbl_df <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
+summarise.tbl_df <- function(.data, ...) {
+  dots <- dots_quosures(..., .named = TRUE)
+  summarise_impl(.data, dots)
+}
+#' @export
+summarise_.tbl_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
   summarise_impl(.data, dots)
 }
 
@@ -136,6 +111,13 @@ summarise_.tbl_df <- function(.data, ..., .dots) {
 #'
 #' @inheritParams inner_join
 #' @param ... included for compatibility with the generic; otherwise ignored.
+#' @param na_matches
+#'   Use `"na"` to treat two `NA` or `NaN` values as equal, like [merge()].
+#'   The default, `"never"`, always treats two `NA` or `NaN` values as
+#'   different, like joins for database sources, similarly to
+#'   `merge(incomparables = FALSE)`.
+#'   Users and package authors can change the default behavior by calling
+#'   `pkgconfig::set_config("dplyr::na_matches" = "na")`.
 #' @examples
 #' if (require("Lahman")) {
 #' batting_df <- tbl_df(Batting)
@@ -161,69 +143,97 @@ NULL
 #' @export
 #' @rdname join.tbl_df
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...) {
+                              suffix = c(".x", ".y"), ...,
+                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
 
-  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...) {
+                             suffix = c(".x", ".y"), ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
 
-  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                              suffix = c(".x", ".y"), ...) {
+                              suffix = c(".x", ".y"), ...,
+                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
 full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...) {
+                             suffix = c(".x", ".y"), ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
 
   y <- auto_copy(x, y, copy = copy)
-  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y)
+  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
-semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  semi_join_impl(x, y, by$x, by$y)
+  semi_join_impl(x, y, by$x, by$y, accept_na_match)
 }
 
 #' @export
 #' @rdname join.tbl_df
-anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...) {
+anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
+                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  na_matches <- match.arg(na_matches, choices = c("never", "na"))
+  accept_na_match <- (na_matches == "na")
+
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  anti_join_impl(x, y, by$x, by$y)
+  anti_join_impl(x, y, by$x, by$y, accept_na_match)
 }
 
 
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct_.tbl_df <- function(.data, ..., .dots) {
+distinct.tbl_df <- function(.data, ...) {
+  tbl_df(NextMethod())
+}
+#' @export
+distinct_.tbl_df <- function(.data, ..., .dots = list()) {
   tbl_df(NextMethod())
 }

@@ -1,8 +1,6 @@
 #ifndef dplyr_GroupedCallProxy_H
 #define dplyr_GroupedCallProxy_H
 
-#include <dplyr/get_column.h>
-
 #include <dplyr/Hybrid.h>
 
 #include <dplyr/Result/CallElementProxy.h>
@@ -71,7 +69,7 @@ namespace dplyr {
       hybrid_eval.reset();
     }
 
-    void input(Symbol name, SEXP x) {
+    void input(const SymbolString& name, SEXP x) {
       subsets.input(name, x);
       hybrid_eval.reset();
     }
@@ -80,12 +78,12 @@ namespace dplyr {
       return subsets.size();
     }
 
-    inline bool has_variable(SEXP symbol) const {
-      return subsets.count(symbol);
+    inline bool has_variable(const SymbolString& name) const {
+      return subsets.count(name);
     }
 
-    inline SEXP get_variable(Rcpp::String name) const {
-      return subsets.get_variable(Rf_installChar(name.get_sexp()));
+    inline SEXP get_variable(const SymbolString& name) const {
+      return subsets.get_variable(name);
     }
 
     inline bool is_constant() const {

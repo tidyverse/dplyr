@@ -1,8 +1,12 @@
 context("select-helpers")
 
+test_that("no set variables throws error", {
+  expect_error(starts_with("z"), "Variable context not set")
+})
+
 test_that("failed match removes all columns", {
-  set_current_vars(c("x", "y"))
-  on.exit(reset_current_vars())
+  old <- set_current_vars(c("x", "y"))
+  on.exit(set_current_vars(old))
 
   expect_equal(starts_with("z"), integer(0))
   expect_equal(ends_with("z"), integer(0))
@@ -13,8 +17,8 @@ test_that("failed match removes all columns", {
 
 
 test_that("matches return integer positions", {
-  set_current_vars(c("abc", "acd", "bbc", "bbd", "eee"))
-  on.exit(reset_current_vars())
+  old <- set_current_vars(c("abc", "acd", "bbc", "bbd", "eee"))
+  on.exit(set_current_vars(old))
 
   expect_equal(starts_with("a"), c(1L, 2L))
   expect_equal(ends_with("d"),   c(2L, 4L))
@@ -40,7 +44,6 @@ test_that("can use a variable", {
 })
 
 test_that("can use a variable even if it exists in the data (#2266)", {
-  skip("Currently failing")
   vars <- c("x", "y")
   names(vars) <- vars
 
@@ -89,17 +92,17 @@ test_that("one_of works with variables", {
   expected_result <- c(x = "x")
   var <- "x"
   expect_equal(select_vars(vars, one_of(var)), expected_result)
-  expect_error(select_vars(vars, one_of(x)), "must be a character vector")
-  expect_error(select_vars(vars, one_of(y)), "must be a character vector")
+  expect_error(select_vars(vars, one_of(x)), "not found")
+  expect_error(select_vars(vars, one_of(y)), "not found")
 })
 
 test_that("one_of works when passed variable name matches the column name (#2266)", {
-  skip("Currently failing")
   vars <- c("x", "y")
   expected_result <- c(x = "x")
   x <- "x"
   y <- "x"
-  expect_equal(select_vars(vars, one_of(x)), expected_result)
+  expect_equal(select_vars(vars, one_of(!! x)), expected_result)
+  expect_equal(select_vars(vars, one_of(!! y)), expected_result)
   expect_equal(select_vars(vars, one_of(y)), expected_result)
 })
 

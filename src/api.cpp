@@ -10,12 +10,9 @@
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/visitor_impl.h>
 
-#include <dplyr/JoinVisitorImpl.h>
-
-#include <dplyr/Hybrid.h>
+#include <dplyr/JoinVisitor.h>
 
 #include <dplyr/Result/Result.h>
-#include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
 
@@ -34,21 +31,19 @@ namespace dplyr {
     }
   }
 
-  DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::CharacterVector& names) :
+  DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector& names) :
     data(data_),
     visitors(),
     visitor_names(names),
     nvisitors(visitor_names.size())
   {
 
-    std::string name;
     int n = names.size();
-    IntegerVector indices  = r_match(names,  RCPP_GET_NAMES(data));
+    IntegerVector indices  = names.match_in_table(data.names());
 
     for (int i=0; i<n; i++) {
       if (indices[i] == NA_INTEGER) {
-        name = (String)names[i];
-        stop("unknown column '%s' ", name);
+        stop("unknown column '%s' ", names[i].get_utf8_cstring());
       }
       SEXP column = data[indices[i]-1];
       visitors.push_back(visitor(column));
@@ -57,15 +52,13 @@ namespace dplyr {
   }
 
   void DataFrameVisitors::structure(List& x, int nrows, CharacterVector classes) const {
-    x.attr("class") = classes;
+    set_class(x, classes);
     set_rownames(x, nrows);
     x.names() = visitor_names;
-    SEXP vars = data.attr("vars");
-    if (!Rf_isNull(vars))
-      x.attr("vars") = vars;
+    copy_vars(x, data);
   }
 
-  DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, Rcpp::CharacterVector names_left, Rcpp::CharacterVector names_right, bool warn_) :
+  DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataFrame& right_, const SymbolVector& names_left, const SymbolVector& names_right, bool warn_, bool na_match) :
     left(left_), right(right_),
     visitor_names_left(names_left),
     visitor_names_right(names_right),
@@ -73,51 +66,22 @@ namespace dplyr {
     visitors(nvisitors),
     warn(warn_)
   {
-    std::string name_left, name_right;
-
-    IntegerVector indices_left  = r_match(names_left,  RCPP_GET_NAMES(left));
-    IntegerVector indices_right = r_match(names_right, RCPP_GET_NAMES(right));
+    IntegerVector indices_left  = names_left.match_in_table(RCPP_GET_NAMES(left));
+    IntegerVector indices_right = names_right.match_in_table(RCPP_GET_NAMES(right));
 
     for (int i=0; i<nvisitors; i++) {
-      name_left  = names_left[i];
-      name_right = names_right[i];
+      const SymbolString& name_left  = names_left[i];
+      const SymbolString& name_right = names_right[i];
 
       if (indices_left[i] == NA_INTEGER) {
-        stop("'%s' column not found in lhs, cannot join", name_left);
+        stop("'%s' column not found in lhs, cannot join", name_left.get_utf8_cstring());
       }
       if (indices_right[i] == NA_INTEGER) {
-        stop("'%s' column not found in rhs, cannot join", name_right);
+        stop("'%s' column not found in rhs, cannot join", name_right.get_utf8_cstring());
       }
 
-      visitors[i] = join_visitor(left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn);
+      visitors[i] = join_visitor(left[indices_left[i]-1], right[indices_right[i]-1], name_left, name_right, warn, na_match);
     }
-  }
-
-  Symbol extract_column(SEXP arg, const Environment& env) {
-    RObject value;
-    if (TYPEOF(arg) == LANGSXP && CAR(arg) == Rf_install("~")) {
-      if (Rf_length(arg) != 2 || TYPEOF(CADR(arg)) != SYMSXP)
-        stop("unhandled formula in column");
-      value = CharacterVector::create(PRINTNAME(CADR(arg)));
-    } else {
-      value = Rcpp_eval(arg, env);
-    }
-    if (is<Symbol>(value)) {
-      value = CharacterVector::create(PRINTNAME(value));
-    }
-    if (!is<String>(value)) {
-      stop("column must return a single string");
-    }
-    Symbol res(STRING_ELT(value,0));
-    return res;
-  }
-
-  Symbol get_column(SEXP arg, const Environment& env, const ILazySubsets& subsets) {
-    Symbol res = extract_column(arg, env);
-    if (!subsets.count(res)) {
-      stop("result of column() expands to a symbol that is not a variable from the data: %s", CHAR(PRINTNAME(res)));
-    }
-    return res;
   }
 
   CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :

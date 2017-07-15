@@ -12,7 +12,7 @@ using namespace dplyr;
 
 class VerifyHybrid : public Result {
 public:
-  VerifyHybrid(SEXP x_) : x(x_) {}
+  explicit VerifyHybrid(SEXP x_) : x(x_) {}
 
 public:
   SEXP process(const RowwiseDataFrame&) {
@@ -50,7 +50,7 @@ Result* verify_hybrid_prototype(SEXP call, const ILazySubsets& subsets, int narg
 
 class VerifyNotHybrid : public Result {
 public:
-  VerifyNotHybrid(SEXP x_) : x(x_) {}
+  explicit VerifyNotHybrid(SEXP x_) : x(x_) {}
 
 public:
   SEXP process(const RowwiseDataFrame&) {

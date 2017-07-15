@@ -5,11 +5,13 @@
 #include <tools/hash.h>
 #include <tools/utils.h>
 
-#include <dplyr/check_supported_type.h>
+#include <dplyr/checks.h>
 
 #include <dplyr/Result/GroupedCallProxy.h>
 
 #include <dplyr/vector_class.h>
+#include <dplyr/checks.h>
+#include <dplyr/Collecter.h>
 
 namespace dplyr {
 
@@ -19,23 +21,28 @@ namespace dplyr {
     virtual SEXP collect() = 0;
   };
 
-  template <int RTYPE, typename Data, typename Subsets>
+  template <typename Data, typename Subsets>
   class GathererImpl : public Gatherer {
   public:
-    typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     typedef GroupedCallProxy<Data,Subsets> Proxy;
 
-    GathererImpl(RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_) :
-      gdf(gdf_), proxy(proxy_), data(gdf.nrows(), Vector<RTYPE>::get_na()), first_non_na(first_non_na_)
+    GathererImpl(RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+      gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
     {
+      coll = collecter(first, gdf.nrows());
       if (first_non_na < gdf.ngroups())
         grab(first, indices);
-      copy_most_attributes(data, first);
+    }
+
+    ~GathererImpl() {
+      if (coll != 0) {
+        delete coll;
+      }
     }
 
     SEXP collect() {
       int ngroups = gdf.ngroups();
-      if (first_non_na == ngroups) return data;
+      if (first_non_na == ngroups) return coll->get();
       typename Data::group_iterator git = gdf.group_begin();
       int i = 0;
       for (; i<first_non_na; i++) ++git;
@@ -46,54 +53,70 @@ namespace dplyr {
         Shield<SEXP> subset(proxy.get(indices));
         grab(subset, indices);
       }
-      return data;
+      return coll->get();
     }
 
   private:
 
     inline void grab(SEXP subset, const SlicingIndex& indices) {
       int n = Rf_length(subset);
-      if (is<LogicalVector>(subset) && all(is_na(LogicalVector(subset))).is_true()) {
-        grab_rep(Vector<RTYPE>::get_na(), indices);
+      if (n == indices.size()) {
+        grab_along(subset, indices);
+      } else if (n == 1) {
+        grab_rep(subset, indices);
+      } else if (Rf_isNull(subset)) {
+        stop("incompatible types (NULL), expecting %s", coll->describe());
       } else {
-        check_type(subset);
-        if (n == indices.size()) {
-          grab_along(subset, indices);
-        } else if (n == 1) {
-          grab_rep(Rcpp::internal::r_vector_start<RTYPE>(subset)[0], indices);
-        } else {
-          stop(
-            "incompatible size (%d), expecting %d (the group size) or 1",
-            n, indices.size());
-        }
+        check_length(n, indices.size()  , "the group size");
       }
+
     }
 
     void grab_along(SEXP subset, const SlicingIndex& indices) {
-      int n = indices.size();
-      STORAGE* ptr = Rcpp::internal::r_vector_start<RTYPE>(subset);
-      for (int j=0; j<n; j++) {
-        data[ indices[j] ] = ptr[j];
+      if (coll->compatible(subset)) {
+        // if the current source is compatible, collect
+        coll->collect(indices, subset);
+      } else if (coll->can_promote(subset)) {
+        // setup a new Collecter
+        Collecter* new_collecter = promote_collecter(subset, gdf.nrows(), coll);
+
+        // import data from previous collecter.
+        new_collecter->collect(NaturalSlicingIndex(gdf.nrows()), coll->get());
+
+        // import data from this chunk
+        new_collecter->collect(indices, subset);
+
+        // dispose the previous collecter and keep the new one.
+        delete coll;
+        coll = new_collecter;
+      } else if (coll->is_logical_all_na()) {
+        Collecter* new_collecter = collecter(subset, gdf.nrows());
+        new_collecter->collect(indices, subset);
+        delete coll;
+        coll = new_collecter;
+      } else {
+        stop(
+          "Can not automatically convert from %s to %s in column \"%s\".",
+          coll->describe(), get_single_class(subset), name.get_utf8_cstring()
+        );
       }
     }
 
-    void check_type(SEXP subset) {
-      if (TYPEOF(subset) != RTYPE) {
-        stop("incompatible types, expecting a %s vector", vector_class<RTYPE>());
-      }
-    }
-
-    void grab_rep(STORAGE value, const SlicingIndex& indices) {
+    void grab_rep(SEXP value, const SlicingIndex& indices) {
       int n = indices.size();
+      // FIXME: This can be made faster if `source` in `Collecter->collect(source, indices)`
+      //        could be of length 1 recycling the value.
+      // TODO: create Collecter->collect_one(source, indices)?
       for (int j=0; j<n; j++) {
-        data[ indices[j] ] = value;
+        grab_along(value, RowwiseSlicingIndex(indices[j]));
       }
     }
 
     const Data& gdf;
     Proxy& proxy;
-    Vector<RTYPE> data;
+    Collecter* coll;
     int first_non_na;
+    const SymbolString& name;
 
   };
 
@@ -153,9 +176,7 @@ namespace dplyr {
       } else if (n == 1) {
         grab_rep(subset[0], indices);
       } else {
-        stop(
-          "incompatible size (%d), expecting %d (the group size) or 1",
-          n, indices.size());
+        check_length(n, indices.size(), "the group size");
       }
     }
 
@@ -180,85 +201,6 @@ namespace dplyr {
 
   };
 
-  template <typename Data, typename Subsets>
-  class FactorGatherer : public Gatherer {
-  public:
-    typedef GroupedCallProxy<Data,Subsets> Proxy;
-    typedef IntegerVector Factor;
-
-    FactorGatherer(RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_) :
-      levels(), data(gdf_.nrows(), NA_INTEGER), first_non_na(first_non_na_), proxy(proxy_), gdf(gdf_)
-    {
-      if (first_non_na <  gdf.ngroups())
-        grab((SEXP)first, indices);
-      copy_most_attributes(data, first);
-    }
-
-    inline SEXP collect() {
-      int ngroups = gdf.ngroups();
-      typename Data::group_iterator git = gdf.group_begin();
-      int i = 0;
-      for (; i<first_non_na; i++) ++git;
-      for (; i<ngroups; i++, ++git) {
-        const SlicingIndex& indices = *git;
-        Factor subset(proxy.get(indices));
-        grab(subset, indices);
-      }
-      CharacterVector levels_(levels_vector.begin(), levels_vector.end());
-      data.attr("levels") = levels_;
-      return data;
-    }
-
-  private:
-    dplyr_hash_map<SEXP, int> levels;
-    Factor data;
-    int first_non_na;
-    Proxy& proxy;
-    const Data& gdf;
-    std::vector<SEXP> levels_vector;
-
-    void grab(Factor f, const SlicingIndex& indices) {
-      // update levels if needed
-      CharacterVector lev = f.attr("levels");
-      std::vector<int> matches(lev.size());
-      int nlevels = levels.size();
-      for (int i=0; i<lev.size(); i++) {
-        SEXP level = lev[i];
-        if (!levels.count(level)) {
-          nlevels++;
-          levels_vector.push_back(level);
-          levels[level] = nlevels;
-          matches[i] = nlevels;
-        } else {
-          matches[i] = levels[level];
-        }
-      }
-
-      // grab data
-      int n = indices.size();
-
-      int nf = f.size();
-      if (n == nf) {
-        for (int i=0; i<n; i++) {
-          if (f[i] != NA_INTEGER) {
-            data[ indices[i] ] = matches[ f[i] - 1 ];
-          }
-        }
-      } else if (nf == 1) {
-        int value = NA_INTEGER;
-        if (f[0] != NA_INTEGER) {
-          value = matches[ f[0] - 1];
-          for (int i=0; i<n; i++) {
-            data[ indices[i] ] = value;
-          }
-        }
-      } else {
-        stop("incompatible size");
-      }
-    }
-
-
-  };
 
   template <int RTYPE>
   class ConstantGathererImpl : public Gatherer {
@@ -293,27 +235,28 @@ namespace dplyr {
     case CPLXSXP:
       return new ConstantGathererImpl<CPLXSXP>(x, n);
     case VECSXP:
-      return new ConstantGathererImpl<STRSXP>(x, n);
+      return new ConstantGathererImpl<VECSXP>(x, n);
     default:
       break;
     }
     stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
-    return 0;
   }
 
   template <typename Data, typename Subsets>
-  inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, Symbol name) {
+  inline Gatherer* gatherer(GroupedCallProxy<Data,Subsets>& proxy, const Data& gdf, const SymbolString& name) {
     typename Data::group_iterator git = gdf.group_begin();
     typename Data::slicing_index indices = *git;
     RObject first(proxy.get(indices));
-
-    check_supported_type(first, name.c_str());
 
     if (Rf_inherits(first, "POSIXlt")) {
       stop("`mutate` does not support `POSIXlt` results");
     }
 
-    int ng = gdf.ngroups();
+    check_length(Rf_length(first), indices.size(), "the group size");
+
+    check_supported_type(first, name);
+
+    const int ng = gdf.ngroups();
     int i = 0;
     while (all_na(first)) {
       i++;
@@ -323,31 +266,16 @@ namespace dplyr {
       first = proxy.get(indices);
     }
 
-    switch (TYPEOF(first)) {
-    case INTSXP:
-    {
-      if (Rf_inherits(first, "factor"))
-        return new FactorGatherer<Data, Subsets>(first, indices, proxy, gdf, i);
-      return new GathererImpl<INTSXP,Data,Subsets> (first, indices, proxy, gdf, i);
-    }
-    case REALSXP:
-      return new GathererImpl<REALSXP,Data,Subsets> (first, indices, proxy, gdf, i);
-    case LGLSXP:
-      return new GathererImpl<LGLSXP,Data,Subsets> (first, indices, proxy, gdf, i);
-    case STRSXP:
-      return new GathererImpl<STRSXP,Data,Subsets> (first, indices, proxy, gdf, i);
-    case VECSXP:
-      return new ListGatherer<Data,Subsets> (List(first), indices, proxy, gdf, i);
-    case CPLXSXP:
-      return new GathererImpl<CPLXSXP,Data,Subsets> (first, indices, proxy, gdf, i);
-    default:
-      break;
-    }
 
-    return 0;
+    if (TYPEOF(first) == VECSXP) {
+      return new ListGatherer<Data,Subsets> (List(first), indices, proxy, gdf, i);
+    } else {
+      return new GathererImpl<Data,Subsets> (first, indices, proxy, gdf, i, name);
+    }
   }
 
 } // namespace dplyr
 
 
 #endif
+

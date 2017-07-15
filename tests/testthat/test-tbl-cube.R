@@ -20,11 +20,10 @@ test_that("coercion", {
 
 test_that("incomplete", {
   d <- rbind(
-    cbind(data_frame(s = 1), expand.grid(j = 1)),
-    cbind(data_frame(s = 2), expand.grid(j = 1:2))
+    cbind(data.frame(s = 1), expand.grid(j = 1)),
+    cbind(data.frame(s = 2), expand.grid(j = 1:2))
   )
   d$value <- 1:3
-  d <- as_data_frame(d)
 
   cube <- as.tbl_cube(d, met_name = "value")
   expect_true(is.na(as.data.frame(filter(cube, s == 1, j == 2))[["value"]]))
@@ -33,8 +32,8 @@ test_that("incomplete", {
 
 test_that("duplicate", {
   d <- rbind(
-    cbind(data_frame(s = 1), expand.grid(j = c(1, 1))),
-    cbind(data_frame(s = 2), expand.grid(j = 1:2))
+    cbind(data.frame(s = 1), expand.grid(j = c(1, 1))),
+    cbind(data.frame(s = 2), expand.grid(j = 1:2))
   )
   d$value <- 1:4
 

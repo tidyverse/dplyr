@@ -7,9 +7,8 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, CharacterVector new_names) {
-  CharacterVector names = df.names();
-  IntegerVector positions = r_match(keep, names);
+SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names) {
+  IntegerVector positions = keep.match_in_table(df.names());
   int n = keep.size();
   List res(n);
   for (int i=0; i<n; i++) {
@@ -22,7 +21,7 @@ SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, Charac
         s << pos;
       }
       stop("invalid column index : %d for variable: %s = %s",
-           s.str(), CHAR((SEXP)new_names[i]), CHAR((SEXP)keep[i]));
+           s.str(), new_names[i].get_utf8_cstring(), keep[i].get_utf8_cstring());
     }
     res[i] = df[ pos-1 ];
   }
@@ -31,26 +30,25 @@ SEXP select_not_grouped(const DataFrame& df, const CharacterVector& keep, Charac
   return res;
 }
 
-DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, CharacterVector new_names) {
-  int n = keep.size();
+DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const SymbolVector& new_names) {
   DataFrame copy = select_not_grouped(gdf.data(), keep, new_names);
+
+  SymbolMap keep_map(keep);
 
   // handle vars  attribute : make a shallow copy of the list and alter
   //   its names attribute
-  List vars = shallow_copy(copy.attr("vars"));
+  SymbolVector vars(get_vars(copy));
 
   int nv = vars.size();
-  for (int i=0; i<nv; i++) {
-    SEXP s = PRINTNAME(vars[i]);
-    int j = 0;
-    for (; j < n; j++) {
-      if (s == keep[j]) {
-        vars[i] = Rf_installChar(new_names[j]);
-      }
+  for (int i = 0; i < nv; i++) {
+    SymbolString s = vars[i];
+    SymbolMapIndex j = keep_map.get_index(s);
+    if (j.origin != NEW) {
+      vars.set(i, new_names[j.pos]);
     }
   }
 
-  copy.attr("vars") = vars;
+  set_vars(copy, vars);
 
   // handle labels attribute
   //   make a shallow copy of the data frame and alter its names attributes
@@ -61,13 +59,16 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, Char
     DataFrame labels(shallow_copy(original_labels));
     CharacterVector label_names = clone<CharacterVector>(labels.names());
 
-    IntegerVector positions = r_match(label_names, keep);
+    IntegerVector positions = keep.match(label_names);
     int nl = label_names.size();
     for (int i=0; i<nl; i++) {
-      label_names[i] = new_names[ positions[i]-1 ];
+      int pos = positions[i];
+      if (pos != NA_INTEGER) {
+        label_names[i] = new_names[pos - 1].get_string();
+      }
     }
     labels.names() = label_names;
-    labels.attr("vars") = vars;
+    set_vars(labels, vars);
     copy.attr("labels") = labels;
   }
   return copy;
@@ -77,8 +78,8 @@ DataFrame select_grouped(GroupedDataFrame gdf, const CharacterVector& keep, Char
 DataFrame select_impl(DataFrame df, CharacterVector vars) {
   check_valid_colnames(df);
   if (is<GroupedDataFrame>(df)) {
-    return select_grouped(GroupedDataFrame(df), vars, vars.names());
+    return select_grouped(GroupedDataFrame(df), SymbolVector(vars), SymbolVector(vars.names()));
   } else {
-    return select_not_grouped(df, vars, vars.names());
+    return select_not_grouped(df, SymbolVector(vars), SymbolVector(vars.names()));
   }
 }
