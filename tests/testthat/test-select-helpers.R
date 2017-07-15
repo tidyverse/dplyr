@@ -92,8 +92,8 @@ test_that("one_of works with variables", {
   expected_result <- c(x = "x")
   var <- "x"
   expect_equal(select_vars(vars, one_of(var)), expected_result)
-  expect_error(select_vars(vars, one_of(x)), "not found")
-  expect_error(select_vars(vars, one_of(y)), "not found")
+  expect_error(select_vars(vars, one_of(`_x`)), "not found")
+  expect_error(select_vars(vars, one_of(`_y`)), "not found")
 })
 
 test_that("one_of works when passed variable name matches the column name (#2266)", {
@@ -194,5 +194,21 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
   expect_equal(
     select_vars(cn, contains("x"), -contains("foo"), contains("z")),
     cn[c("x", "z")]
+  )
+})
+
+
+
+# rename_vars -------------------------------------------------------------
+
+test_that("when strict = FALSE, rename_vars always succeeds", {
+  expect_error(
+    rename_vars(c("a", "b"), d = e, strict = TRUE),
+    "Unknown variables: e"
+  )
+
+  expect_equal(
+    rename_vars(c("a", "b"), d = e, strict = FALSE),
+    c("a" = "a", "b" = "b")
   )
 })

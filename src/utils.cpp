@@ -10,7 +10,7 @@ using namespace Rcpp;
 void assert_all_white_list(const DataFrame& data) {
   // checking variables are on the white list
   int nc = data.size();
-  for (int i=0; i<nc; i++) {
+  for (int i = 0; i < nc; i++) {
     if (!white_list(data[i])) {
       SymbolVector names = data.names();
       const SymbolString& name_i = names[i];
@@ -19,11 +19,11 @@ void assert_all_white_list(const DataFrame& data) {
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
         stop("column '%s' has unsupported class : %s",
-             name_i.get_utf8_cstring() , get_single_class(v));
+             name_i.get_utf8_cstring(), get_single_class(v));
       }
       else {
         stop("column '%s' has unsupported type : %s",
-             name_i.get_utf8_cstring() , Rf_type2char(TYPEOF(v)));
+             name_i.get_utf8_cstring(), Rf_type2char(TYPEOF(v)));
       }
     }
   }
@@ -38,7 +38,7 @@ SEXP shared_SEXP(SEXP x) {
 SEXP shallow_copy(const List& data) {
   int n = data.size();
   List out(n);
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     out[i] = shared_SEXP(data[i]);
   }
   copy_attributes(out, data);
@@ -78,101 +78,101 @@ void copy_attributes(SEXP out, SEXP data) {
 
 namespace dplyr {
 
-  std::string get_single_class(SEXP x) {
-    SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
-    if (!Rf_isNull(klass)) {
-      CharacterVector classes(klass);
-      return collapse_utf8(classes);
-    }
-
-    if (Rf_isMatrix(x)) {
-      return "matrix";
-    }
-
-    switch (TYPEOF(x)) {
-    case INTSXP:
-      return "integer";
-    case REALSXP :
-      return "numeric";
-    case LGLSXP:
-      return "logical";
-    case STRSXP:
-      return "character";
-
-    case VECSXP:
-      return "list";
-    default:
-      break;
-    }
-
-    // just call R to deal with other cases
-    // we could call R_data_class directly but we might get a "this is not part of the api"
-    klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
-    return CHAR(STRING_ELT(klass,0));
+std::string get_single_class(SEXP x) {
+  SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
+  if (!Rf_isNull(klass)) {
+    CharacterVector classes(klass);
+    return collapse_utf8(classes);
   }
 
-  CharacterVector default_chars(SEXP x, R_xlen_t len) {
-    if (Rf_isNull(x)) return CharacterVector(len);
-    return x;
+  if (Rf_isMatrix(x)) {
+    return "matrix";
   }
 
-  CharacterVector get_class(SEXP x) {
-    SEXP class_attr = Rf_getAttrib(x, R_ClassSymbol);
-    return default_chars(class_attr, 0);
+  switch (TYPEOF(x)) {
+  case INTSXP:
+    return "integer";
+  case REALSXP :
+    return "numeric";
+  case LGLSXP:
+    return "logical";
+  case STRSXP:
+    return "character";
+
+  case VECSXP:
+    return "list";
+  default:
+    break;
   }
 
-  SEXP set_class(SEXP x, const CharacterVector& class_) {
-    SEXP class_attr = class_.length() == 0 ? R_NilValue : (SEXP)class_;
-    return Rf_setAttrib(x, R_ClassSymbol, class_attr);
-  }
+  // just call R to deal with other cases
+  // we could call R_data_class directly but we might get a "this is not part of the api"
+  klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
+  return CHAR(STRING_ELT(klass, 0));
+}
 
-  CharacterVector get_levels(SEXP x) {
-    SEXP levels_attr = Rf_getAttrib(x, R_LevelsSymbol);
-    return default_chars(levels_attr, 0);
-  }
+CharacterVector default_chars(SEXP x, R_xlen_t len) {
+  if (Rf_isNull(x)) return CharacterVector(len);
+  return x;
+}
 
-  SEXP set_levels(SEXP x, const CharacterVector& levels) {
-    return Rf_setAttrib(x, R_LevelsSymbol, levels);
-  }
+CharacterVector get_class(SEXP x) {
+  SEXP class_attr = Rf_getAttrib(x, R_ClassSymbol);
+  return default_chars(class_attr, 0);
+}
 
-  bool same_levels(SEXP left, SEXP right) {
-    return character_vector_equal(get_levels(left), get_levels(right));
-  }
+SEXP set_class(SEXP x, const CharacterVector& class_) {
+  SEXP class_attr = class_.length() == 0 ? R_NilValue : (SEXP)class_;
+  return Rf_setAttrib(x, R_ClassSymbol, class_attr);
+}
 
-  SymbolVector get_vars(SEXP x) {
-    static SEXP vars_symbol = Rf_install("vars");
-    return SymbolVector(Rf_getAttrib(x, vars_symbol));
-  }
+CharacterVector get_levels(SEXP x) {
+  SEXP levels_attr = Rf_getAttrib(x, R_LevelsSymbol);
+  return default_chars(levels_attr, 0);
+}
 
-  SEXP set_vars(SEXP x, const SymbolVector& vars) {
-    static SEXP vars_symbol = Rf_install("vars");
-    return Rf_setAttrib(x, vars_symbol, vars.get_vector());
-  }
+SEXP set_levels(SEXP x, const CharacterVector& levels) {
+  return Rf_setAttrib(x, R_LevelsSymbol, levels);
+}
 
-  SEXP copy_vars(SEXP target, SEXP source) {
-    return set_vars(target, get_vars(source));
-  }
+bool same_levels(SEXP left, SEXP right) {
+  return character_vector_equal(get_levels(left), get_levels(right));
+}
 
-  bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
-    if ((SEXP)x == (SEXP)y) return true;
+SymbolVector get_vars(SEXP x) {
+  static SEXP vars_symbol = Rf_install("vars");
+  return SymbolVector(Rf_getAttrib(x, vars_symbol));
+}
 
-    if (x.length() != y.length())
+SEXP set_vars(SEXP x, const SymbolVector& vars) {
+  static SEXP vars_symbol = Rf_install("vars");
+  return Rf_setAttrib(x, vars_symbol, vars.get_vector());
+}
+
+SEXP copy_vars(SEXP target, SEXP source) {
+  return set_vars(target, get_vars(source));
+}
+
+bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
+  if ((SEXP)x == (SEXP)y) return true;
+
+  if (x.length() != y.length())
+    return false;
+
+  for (R_xlen_t i = 0; i < x.length(); ++i) {
+    SEXP xi = x[i];
+    SEXP yi = y[i];
+
+    // Ideally we'd use Rf_Seql(), but this is not exported.
+    if (Rf_NonNullStringMatch(xi, yi)) continue;
+    if (xi == NA_STRING && yi == NA_STRING) continue;
+    if (xi == NA_STRING || yi == NA_STRING)
       return false;
-
-    for (R_xlen_t i = 0; i < x.length(); ++i) {
-      SEXP xi = x[i];
-      SEXP yi = y[i];
-
-      // Ideally we'd use Rf_Seql(), but this is not exported.
-      if (Rf_NonNullStringMatch(xi, yi)) continue;
-      if (xi == NA_STRING && yi == NA_STRING) continue;
-      if (xi == NA_STRING || yi == NA_STRING)
-        return false;
-      if (CHAR(xi)[0] == 0 && CHAR(yi)[0] == 0) continue;
-      return false;
-    }
-
-    return true;
+    if (CHAR(xi)[0] == 0 && CHAR(yi)[0] == 0) continue;
+    return false;
   }
+
+  return true;
+}
 
 }

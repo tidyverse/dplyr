@@ -39,16 +39,17 @@ test_that("local arrange sorts missing values to end", {
 })
 
 test_that("two arranges equivalent to one", {
-  df1 <- frame_data(
+  df <- tribble(
     ~x,  ~y,
     2,  1,
     2,  -1,
     1,  1
   )
-  tbls <- test_load(df1)
 
-  single <- df1 %>% arrange(x, y)
-  compare_tbls(tbls, function(x) x %>% arrange(y) %>% arrange(x), ref = single)
+  df1 <- df %>% arrange(x, y)
+  df2 <- df %>% arrange(y) %>% arrange(x)
+
+  expect_equal(df1, df2)
 })
 
 test_that("arrange handles list columns (#282)", {

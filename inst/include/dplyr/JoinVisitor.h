@@ -5,21 +5,21 @@
 
 namespace dplyr {
 
-  class DataFrameJoinVisitors;
+class DataFrameJoinVisitors;
 
-  class JoinVisitor {
-  public:
-    virtual ~JoinVisitor() {}
+class JoinVisitor {
+public:
+  virtual ~JoinVisitor() {}
 
-    virtual size_t hash(int i) = 0;
-    virtual bool equal(int i, int j) = 0;
+  virtual size_t hash(int i) = 0;
+  virtual bool equal(int i, int j) = 0;
 
-    virtual SEXP subset(const std::vector<int>& indices) = 0;
-    virtual SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) = 0;
+  virtual SEXP subset(const std::vector<int>& indices) = 0;
+  virtual SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) = 0;
 
-  };
+};
 
-  JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& left_name, const SymbolString& right_name, bool warn, bool accept_na_match = true);
+JoinVisitor* join_visitor(SEXP left, SEXP right, const SymbolString& left_name, const SymbolString& right_name, bool warn, bool accept_na_match = true);
 
 }
 

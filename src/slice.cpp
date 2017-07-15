@@ -21,7 +21,7 @@ class CountIndices {
 public:
   CountIndices(int nr_, IntegerVector test_) : nr(nr_), test(test_), n_pos(0), n_neg(0) {
 
-    for (int j=0; j<test.size(); j++) {
+    for (int j = 0; j < test.size(); j++) {
       int i = test[j];
       if (i > 0 && i <= nr) {
         n_pos++;
@@ -72,7 +72,7 @@ SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
 
   int ngroups = gdf.ngroups();
   GroupedDataFrame::group_iterator git = gdf.group_begin();
-  for (int i=0; i<ngroups; i++, ++git) {
+  for (int i = 0; i < ngroups; i++, ++git) {
     const SlicingIndex& indices = *git;
     int nr = indices.size();
     g_test = check_filter_integer_result(call_proxy.get(indices));
@@ -81,16 +81,16 @@ SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
     if (counter.is_positive()) {
       // positive indexing
       int ntest = g_test.size();
-      for (int j=0; j<ntest; j++) {
+      for (int j = 0; j < ntest; j++) {
         if (!(g_test[j] > nr || g_test[j] == NA_INTEGER)) {
-          indx.push_back(indices[g_test[j]-1]);
+          indx.push_back(indices[g_test[j] - 1]);
         }
       }
     } else if (counter.get_n_negative() != 0) {
       // negative indexing
       std::set<int> drop;
       int n = g_test.size();
-      for (int j=0; j<n; j++) {
+      for (int j = 0; j < n; j++) {
         if (g_test[j] != NA_INTEGER)
           drop.insert(-g_test[j]);
       }
@@ -141,8 +141,8 @@ SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   if (counter.is_positive()) {
     int n_pos = counter.get_n_positive();
     std::vector<int> idx(n_pos);
-    int j=0;
-    for (int i=0; i<n_pos; i++) {
+    int j = 0;
+    for (int i = 0; i < n_pos; i++) {
       while (test[j] > nr || test[j] == NA_INTEGER) j++;
       idx[i] = test[j++] - 1;
     }
@@ -159,7 +159,7 @@ SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
 
   // just negatives (out of range is dealt with early in CountIndices).
   std::set<int> drop;
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     if (test[i] != NA_INTEGER)
       drop.insert(-test[i]);
   }

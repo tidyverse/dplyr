@@ -29,8 +29,8 @@ mtcars \%>\% pull(1)
 mtcars \%>\% pull("cyl")
 
 # Also works for remote sources
-if (requireNamespace("RSQLite", quietly = TRUE)) {
-df <- memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
+if (requireNamespace("dbplyr", quietly = TRUE)) {
+df <- dbplyr::memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
 df \%>\%
   mutate(z = x * y) \%>\%
   pull()

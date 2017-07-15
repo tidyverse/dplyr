@@ -5,7 +5,7 @@
 
 namespace dplyr {
 
-  inline VectorVisitor* visitor(SEXP vec);
+inline VectorVisitor* visitor(SEXP vec);
 
 }
 

@@ -2,7 +2,7 @@
 #'
 #' dplyr provides a flexible grammar of data manipulation. It's the next
 #' iteration of plyr, focused on tools for working with data frames (hence the
-#' \emph{d} in the name).
+#' *d* in the name).
 #'
 #' It has three main goals:
 #'
@@ -18,8 +18,21 @@
 #' To learn more about dplyr, start with the vignettes:
 #' `browseVignettes(package = "dplyr")`
 #'
-#' @docType package
-#' @name dplyr
+#' @section Package options:
+#' \describe{
+#' \item{`dplyr.show_progress`}{Should lengthy operations such as `do()`
+#'   show a progress bar? Default: `TRUE`}
+#' }
+#'
+#' @section Package configurations:
+#' These can be set on a package-by-package basis, or for the global environment.
+#' See [pkgconfig::set_config()] for usage.
+#' \describe{
+#' \item{`dplyr::na_matches`}{Should `NA` values be matched in data frame joins
+#'   by default? Default: `"never"`, alternative value: `"na"`. See also
+#'   [join.tbl_df()].}
+#' }
+#'
 #' @useDynLib dplyr
 #' @import rlang
 #' @importFrom assertthat assert_that is.flag on_failure<-
@@ -27,4 +40,5 @@
 #' @importFrom Rcpp cppFunction Rcpp.plugin.maker
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
-NULL
+#' @importFrom methods is
+"_PACKAGE"

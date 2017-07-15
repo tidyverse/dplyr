@@ -13,14 +13,18 @@ funs(..., .args = list())
 \item The function itself, \code{mean}
 \item A call to the function with \code{.} as a dummy argument,
 \code{mean(., na.rm = TRUE)}
-}}
+}
+
+These arguments are automatically \link[rlang:quo]{quoted}. They
+support \link[rlang:quasiquotation]{unquoting} and splicing. See
+\code{vignette("programming")} for an introduction to these concepts.}
 
 \item{.args, args}{A named list of additional arguments to be added
 to all function calls.}
 }
 \description{
-\code{funs()} provides a flexible way to generate a named list of functions for
-input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
+\code{funs()} provides a flexible way to generate a named list of
+functions for input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
 }
 \examples{
 funs(mean, "mean", mean(., na.rm = TRUE))

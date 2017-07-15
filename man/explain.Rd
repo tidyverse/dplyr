@@ -7,7 +7,7 @@
 \usage{
 explain(x, ...)
 
-show_query(x)
+show_query(x, ...)
 }
 \arguments{
 \item{x}{An object to explain}
@@ -32,7 +32,7 @@ diagnosing performance problems.
 
 \examples{
 \donttest{
-if (require("RSQLite") && has_lahman("sqlite")) {
+if (require("dbplyr")) {
 
 lahman_s <- lahman_sqlite()
 batting <- tbl(lahman_s, "Batting")

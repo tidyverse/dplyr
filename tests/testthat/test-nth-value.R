@@ -38,22 +38,3 @@ test_that("firsts uses default value for 0 length augmented vectors", {
   expect_equal(first(dt[0]), dt[NA])
   expect_equal(first(tm[0]), tm[NA])
 })
-
-test_that("last as part of a compound expression works within mutate (#2090)", {
-  skip("Currently failing")
-
-  df <- data_frame(x = c(NA, 1L, 2L, NA, 3L, 4L, NA))
-  expected <- rep(4L, nrow(df))
-
-  expect_equal(mutate(df, y = last(na.omit(x)))$y,           expected)
-  expect_equal(mutate(df, y = last(x[!is.na(x)]))$y,         expected)
-  expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y, expected)
-  expect_equal(mutate(df, y = x %>% na.omit %>% last)$y,     expected)
-})
-
-test_that("nth and order_by doesn't crash (#2166)", {
-  skip("Currently failing")
-  data_frame(x = c(1, 1)) %>%
-    mutate(y = 1) %>%
-    summarise(z = first(x, order_by = y))
-})

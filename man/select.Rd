@@ -11,14 +11,20 @@ rename(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
 \item{...}{One or more unquoted expressions separated by commas.
 You can treat variable names like they are positions.
 
 Positive values select variables; negative values to drop variables.
 
-Use named arguments to rename selected variables.}
+Use named arguments to rename selected variables.
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in a context where column names
+represent column positions. They support
+\link[rlang:quasiquotation]{unquoting} and splicing. See
+\code{vignette("programming")} for an introduction to these concepts.}
 }
 \value{
 An object of the same class as \code{.data}.
@@ -38,6 +44,15 @@ a number of special functions that only work inside \code{select}
 }
 
 To drop variables, use \code{-}.
+}
+
+\section{Scoped selection and renaming}{
+
+
+The three \link{scoped} variants of \code{select()} (\code{\link[=select_all]{select_all()}},
+\code{\link[=select_if]{select_if()}} and \code{\link[=select_at]{select_at()}}) and the three variants of
+\code{rename()} (\code{\link[=rename_all]{rename_all()}}, \code{\link[=rename_if]{rename_if()}}, \code{\link[=rename_at]{rename_at()}}) make it
+easy to apply a renaming function to a selection of variables.
 }
 
 \section{Tidy data}{

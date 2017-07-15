@@ -18,8 +18,8 @@
 #' mtcars %>% pull("cyl")
 #'
 #' # Also works for remote sources
-#' if (requireNamespace("RSQLite", quietly = TRUE)) {
-#' df <- memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
+#' if (requireNamespace("dbplyr", quietly = TRUE)) {
+#' df <- dbplyr::memdb_frame(x = 1:10, y = 10:1, .name = "pull-ex")
 #' df %>%
 #'   mutate(z = x * y) %>%
 #'   pull()
@@ -33,15 +33,6 @@ pull <- function(.data, var = -1) {
 pull.data.frame <- function(.data, var = -1) {
   var <- find_var(var, names(.data))
   .data[[var]]
-}
-
-#' @export
-pull.tbl_sql <- function(.data, var = -1) {
-  var <- find_var(var, tbl_vars(.data))
-
-  .data <- select(.data, !! sym(var))
-  .data <- collect(.data)
-  .data[[1]]
 }
 
 find_var <- function(var, vars) {

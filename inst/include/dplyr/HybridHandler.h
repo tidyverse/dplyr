@@ -2,8 +2,8 @@
 #define dplyr_dplyr_HybridHandler_H
 
 namespace dplyr {
-  class ILazySubsets;
-  class Result;
+class ILazySubsets;
+class Result;
 }
 
 typedef dplyr::Result* (*HybridHandler)(SEXP, const dplyr::ILazySubsets&, int);

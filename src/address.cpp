@@ -21,7 +21,7 @@ CharacterVector loc(RObject data) {
 CharacterVector dfloc(List df) {
   int n = df.size();
   CharacterVector pointers(n);
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     pointers[i] = address(df[i]);
   }
   pointers.names() = df.names();
@@ -33,7 +33,7 @@ CharacterVector plfloc(Pairlist data) {
   int n = data.size();
   CharacterVector pointers(n), names(n);
   SEXP p = data;
-  int i=0;
+  int i = 0;
   while (! Rf_isNull(p)) {
     pointers[i] = address(CAR(p));
     names[i] = PRINTNAME(TAG(p));
@@ -50,7 +50,7 @@ CharacterVector strings_addresses(CharacterVector s) {
   int n = s.size();
 
   CharacterVector res(n);
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     SEXP x = s[i];
     snprintf(buffer, 20, "%p", reinterpret_cast<void*>(x));
     res[i] = buffer;

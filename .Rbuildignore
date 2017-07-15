@@ -28,3 +28,4 @@ demo/pandas
 ^GTAGS$
 ^TAGS$
 ^\.dir-locals\.el$
+^vignettes/rsconnect$

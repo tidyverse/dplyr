@@ -250,21 +250,6 @@ test_that("join functions error on column not found #371", {
   )
 })
 
-test_that("join functions error on column not found for SQL sources #1928", {
-  expect_error(
-    left_join(memdb_frame(x = 1:5), memdb_frame(y = 1:5), by = "x"),
-    "column not found in rhs"
-  )
-  expect_error(
-    left_join(memdb_frame(x = 1:5), memdb_frame(y = 1:5), by = "y"),
-    "column not found in lhs"
-  )
-  expect_error(
-    left_join(memdb_frame(x = 1:5), memdb_frame(y = 1:5)),
-    "No common variables"
-  )
-})
-
 test_that("inner_join is symmetric (even when joining on character & factor)", {
   foo <- data_frame(id = factor(c("a", "b")), var1 = "foo")
   bar <- data_frame(id = c("a", "b"), var2 = "bar")
@@ -761,4 +746,23 @@ test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
     expect_equal(anti_join(df1, df2, na_matches = na_matches) %>% nrow, 1 - accept_na_match)
     expect_equal(semi_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + accept_na_match)
   }
+})
+
+test_that("joins strip group indexes (#1597)", {
+  df1 <- data_frame(a = 1:3) %>% group_by(a)
+  df2 <- data_frame(a = rep(1:4, 2)) %>% group_by(a)
+
+  expect_stripped <- function(df) {
+    expect_null(attr(df, "indices"))
+    expect_null(attr(df, "group_sizes"))
+    expect_null(attr(df, "biggest_group_size"))
+    expect_null(attr(df, "labels"))
+  }
+
+  expect_stripped(inner_join(df1, df2))
+  expect_stripped(left_join(df1, df2))
+  expect_stripped(right_join(df2, df1))
+  expect_stripped(full_join(df1, df2))
+  expect_stripped(anti_join(df1, df2))
+  expect_stripped(semi_join(df1, df2))
 })

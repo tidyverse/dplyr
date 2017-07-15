@@ -271,23 +271,6 @@ test_hybrid <- function(grouping) {
     )
   })
 
-  test_that("filter understands .env in a pipe (#1469)", {
-    skip("Currently failing")
-
-    b <- 2L
-
-    expect_equal(
-      test_df %>%
-        grouping %>%
-        filter(b < .env$b) %>%
-        select(-e),
-      test_df %>%
-        grouping %>%
-        filter(b < 2) %>%
-        select(-e)
-    )
-  })
-
   test_that("filter understands get(..., .env) in a pipe (#1469)", {
     b <- 2L
 
@@ -363,23 +346,6 @@ test_hybrid <- function(grouping) {
     )
   })
 
-  test_that("mutate understands .env in a pipe (#1469)", {
-    skip("Currently failing")
-
-    b <- 2L
-
-    expect_equal(
-      test_df %>%
-        grouping %>%
-        mutate(f = .env$b) %>%
-        select(-e),
-      test_df %>%
-        grouping %>%
-        mutate(f = 2L) %>%
-        select(-e)
-    )
-  })
-
   test_that("mutate understands get(..., .env) in a pipe (#1469)", {
     b <- 2L
 
@@ -437,21 +403,6 @@ test_hybrid <- function(grouping) {
         test_df %>%
           grouping,
         f = .env$b),
-      test_df %>%
-        grouping %>%
-        summarise(f = 2L)
-    )
-  })
-
-  test_that("summarise understands .env in a pipe (#1469)", {
-    skip("Currently failing")
-
-    b <- 2L
-
-    expect_equal(
-      test_df %>%
-        grouping %>%
-        summarise(f = .env$b),
       test_df %>%
         grouping %>%
         summarise(f = 2L)

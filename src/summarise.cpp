@@ -27,9 +27,9 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE << "copying " << nvars << " variables to accumulator";
 
   NamedListAccumulator<Data> accumulator;
-  int i=0;
+  int i = 0;
   List results(nvars + nexpr);
-  for (; i<nvars; i++) {
+  for (; i < nvars; i++) {
     LOG_VERBOSE << "copying " << gdf.symbol(i).get_utf8_cstring();
     results[i] = shared_SEXP(gdf.label(i));
     accumulator.set(gdf.symbol(i), results[i]);
@@ -38,7 +38,7 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
   Subsets subsets(gdf);
-  for (int k=0; k<nexpr; k++, i++) {
+  for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[k];
@@ -77,12 +77,9 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     SymbolVector vars = get_vars(gdf.data());
     vars.remove(gdf.nvars() - 1);
     set_vars(out, vars);
-    out.attr("labels") = R_NilValue;
-    out.attr("indices") = R_NilValue;
-    out.attr("group_sizes") = R_NilValue;
-    out.attr("biggest_group_size") = R_NilValue;
-
     out.attr("drop") = true;
+
+    strip_index(out);
   } else {
     set_class(out, classes_not_grouped());
     SET_ATTRIB(out, strip_group_attributes(out));
@@ -100,7 +97,7 @@ SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
   NamedListAccumulator<DataFrame> accumulator;
   List results(nexpr);
 
-  for (int i=0; i<nexpr; i++) {
+  for (int i = 0; i < nexpr; i++) {
     Rcpp::checkUserInterrupt();
 
     const NamedQuosure& quosure = dots[i];

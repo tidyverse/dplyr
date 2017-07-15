@@ -5,18 +5,18 @@
 
 namespace dplyr {
 
-  class CharacterVectorOrderer {
-  public:
+class CharacterVectorOrderer {
+public:
 
-    CharacterVectorOrderer(const CharacterVector& data_);
+  CharacterVectorOrderer(const CharacterVector& data_);
 
-    inline IntegerVector get() const {
-      return orders;
-    }
+  inline IntegerVector get() const {
+    return orders;
+  }
 
-  private:
-    IntegerVector orders;
-  };
+private:
+  IntegerVector orders;
+};
 
 }
 

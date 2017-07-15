@@ -5,7 +5,7 @@
 #' automatic progress bar can be disabled by setting option
 #' `dplyr.show_progress` to `FALSE`.
 #'
-#' @param n Total number of
+#' @param n Total number of items
 #' @param min_time Progress bar will wait until at least `min_time`
 #'   seconds have elapsed before displaying any results.
 #' @return A ref class with methods `tick()`, `print()`,

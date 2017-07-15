@@ -319,7 +319,7 @@ rename_.tbl_cube <- function(.data, ..., .dots = list()) {
 
 #' @export
 filter.tbl_cube <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
 
   idx <- map_int(dots, function(d) find_index_check(f_rhs(d), names(.data$dims)))
   for (i in seq_along(dots)) {
@@ -380,7 +380,7 @@ groups.tbl_cube <- function(x) {
 
 #' @export
 group_vars.tbl_cube <- function(x) {
-  x$dims[x$group]
+  names(x$dims[x$group])
 }
 
 # mutate and summarise operate similarly need to evaluate variables in special
@@ -389,7 +389,7 @@ group_vars.tbl_cube <- function(x) {
 
 #' @export
 summarise.tbl_cube <- function(.data, ...) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
 
   out_dims <- .data$dims[.data$groups]
   n <- map_int(out_dims, length)
@@ -444,7 +444,7 @@ subs_index <- function(x, i, val, drop = FALSE) {
   args$drop <- drop
 
   call <- as.call(c(quote(`[`), quote(x), args))
-  eval(call)
+  eval_bare(call)
 }
 
 

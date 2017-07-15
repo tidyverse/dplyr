@@ -10,6 +10,8 @@
 #'   The LHS must evaluate to a logical vector. Each logical vector can
 #'   either have length 1 or a common length. All RHSs must evaluate to
 #'   the same type of vector.
+#'
+#'   These dots are evaluated with [explicit splicing][rlang::dots_list].
 #' @export
 #' @return A vector as long as the longest LHS, with the type (and
 #'   attributes) of the first RHS.  Inconsistent lengths or types will
@@ -44,8 +46,17 @@
 #'       TRUE                      ~  "other"
 #'     )
 #'   )
+#'
+#' # Dots support splicing:
+#' patterns <- list(
+#'   TRUE ~ as.character(x),
+#'   x %%  5 == 0 ~ "fizz",
+#'   x %%  7 == 0 ~ "buzz",
+#'   x %% 35 == 0 ~ "fizz buzz"
+#' )
+#' case_when(!!! patterns)
 case_when <- function(...) {
-  formulas <- list(...)
+  formulas <- dots_list(...)
   n <- length(formulas)
 
   if (n == 0) {
@@ -68,7 +79,7 @@ case_when <- function(...) {
 
     env <- environment(f)
 
-    query[[i]] <- eval(f[[2]], envir = env)
+    query[[i]] <- eval_bare(f[[2]], env)
     if (!is.logical(query[[i]])) {
       stop(
         "LHS of case ", i, " (", deparse_trunc(f_lhs(f)), ") is ",
@@ -77,7 +88,7 @@ case_when <- function(...) {
       )
     }
 
-    value[[i]] <- eval(f[[3]], envir = env)
+    value[[i]] <- eval_bare(f[[3]], env)
   }
 
   m <- max(vapply(query, length, integer(1)))

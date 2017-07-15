@@ -42,7 +42,7 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 
 #' @export
 arrange.tbl_df <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   arrange_impl(.data, dots)
 }
 #' @export
@@ -53,14 +53,14 @@ arrange_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 filter.tbl_df <- function(.data, ...) {
-  dots <- dots_quosures(...)
+  dots <- quos(...)
   if (any(have_name(dots))) {
     abort("filter() takes unnamed arguments. Do you need `==`?")
   } else if (is_empty(dots)) {
     return(.data)
   }
 
-  quo <- all_of(!!! dots, .vectorised = TRUE)
+  quo <- all_exprs(!!! dots, .vectorised = TRUE)
   filter_impl(.data, quo)
 }
 #' @export
@@ -71,34 +71,34 @@ filter_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 slice.tbl_df <- function(.data, ...) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   slice_impl(.data, dots)
 }
 #' @export
 slice_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   slice_impl(.data, dots)
 }
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   mutate_impl(.data, dots)
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   mutate_impl(.data, dots)
 }
 
 #' @export
 summarise.tbl_df <- function(.data, ...) {
-  dots <- dots_quosures(..., .named = TRUE)
+  dots <- quos(..., .named = TRUE)
   summarise_impl(.data, dots)
 }
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
   summarise_impl(.data, dots)
 }
 

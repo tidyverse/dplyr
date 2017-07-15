@@ -1,6 +1,6 @@
 Package: dplyr
 Type: Package
-Version: 0.5.0.9000
+Version: 0.5.0.9001
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
@@ -16,20 +16,21 @@ Depends:
 Imports: 
     assertthat,
     bindrcpp,
-    DBI (>= 0.5),
     glue,
     magrittr,
     methods,
     pkgconfig,
-    rlang (>= 0.0.0.9002),
+    rlang (>= 0.0.0.9006),
     R6,
     Rcpp (>= 0.12.6),
     tibble (>= 1.2),
     utils
 Suggests: 
-    RSQLite (>= 1.0.0),
+    dbplyr,
+    DBI,
     RMySQL,
     RPostgreSQL,
+    RSQLite,
     testthat,
     knitr,
     microbenchmark,
@@ -49,99 +50,9 @@ LinkingTo: Rcpp (>= 0.12.0),
     plogr
 LazyData: yes
 License: MIT + file LICENSE
-Collate: 
-    'RcppExports.R'
-    'all-equal.r'
-    'bench-compare.r'
-    'bind.r'
-    'case_when.R'
-    'coalesce.R'
-    'colwise.R'
-    'compat-lazyeval.R'
-    'compat-purrr.R'
-    'compute-collect.r'
-    'copy-to.r'
-    'count-tally.R'
-    'data-bands.R'
-    'data-lahman.r'
-    'data-nasa.r'
-    'data-nycflights13.r'
-    'data-starwars.R'
-    'data-storms.R'
-    'data-temp.r'
-    'data.r'
-    'dataframe.R'
-    'db-mysql.r'
-    'db-postgres.r'
-    'db-sqlite.r'
-    'dbi-s3.r'
-    'desc.r'
-    'distinct.R'
-    'do.r'
-    'dplyr.r'
-    'explain.r'
-    'failwith.r'
-    'funs-predicates.R'
-    'funs.R'
-    'group-by.r'
-    'group-indices.R'
-    'group-size.r'
-    'grouped-df.r'
-    'hybrid.R'
-    'id.r'
-    'if_else.R'
-    'inline.r'
-    'join.r'
-    'lazy-ops.R'
-    'lead-lag.R'
-    'location.R'
-    'manip.r'
-    'na_if.R'
-    'near.R'
-    'nth-value.R'
-    'order-by.R'
-    'partial-eval.r'
-    'progress.R'
-    'pull.R'
-    'query.r'
-    'rank.R'
-    'recode.R'
-    'rowwise.r'
-    'sample.R'
-    'select-utils.R'
-    'select-vars.R'
-    'sets.r'
-    'sql-build.R'
-    'sql-escape.r'
-    'sql-generic.R'
-    'sql-optimise.R'
-    'sql-query.R'
-    'sql-render.R'
-    'sql-star.r'
-    'src-local.r'
-    'src-sql.r'
-    'src-test.r'
-    'src.r'
-    'src_dbi.R'
-    'tbl-cube.r'
-    'tbl-df.r'
-    'tbl-lazy.R'
-    'tbl-sql.r'
-    'tbl.r'
-    'tibble-reexport.r'
-    'top-n.R'
-    'translate-sql-helpers.r'
-    'translate-sql-window.r'
-    'translate-sql-base.r'
-    'translate-sql.r'
-    'ts.R'
-    'utils-expr.R'
-    'utils-format.r'
-    'utils-replace-with.R'
-    'utils.r'
-    'zzz.r'
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 Remotes:
-    hadley/rlang@27d7953,
+    hadley/rlang@0756eaf3,
+    hadley/dbplyr,
     tidyverse/glue

@@ -11,10 +11,16 @@ transmute(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[=tbl_sql]{tbl_sql()}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
 \item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
-a variable.}
+a variable.
+
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 }
 \value{
 An object of the same class as \code{.data}.
@@ -37,6 +43,16 @@ An object of the same class as \code{.data}.
 }
 }
 
+\section{Scoped mutation and transmuation}{
+
+
+The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mutate_all()}},
+\code{\link[=mutate_if]{mutate_if()}} and \code{\link[=mutate_at]{mutate_at()}}) and the three variants of
+\code{transmute()} (\code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}},
+\code{\link[=transmute_at]{transmute_at()}}) make it easy to apply a transformation to a
+selection of variables.
+}
+
 \section{Tidy data}{
 
 When applied to a data frame, row names are silently dropped. To preserve,
@@ -45,10 +61,18 @@ convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibb
 
 \examples{
 # Newly created variables are available immediately
-mtcars \%>\% mutate(
+mtcars \%>\% as_tibble() \%>\% mutate(
   cyl2 = cyl * 2,
   cyl4 = cyl2 * 2
 )
+
+# You can also use mutate() to remove variables and
+# modify existing variables
+mtcars \%>\% as_tibble() \%>\% mutate(
+  mpg = NULL,
+  disp = disp * 0.0163871 # convert to litres
+)
+
 
 # window functions are useful for grouped mutates
 mtcars \%>\%

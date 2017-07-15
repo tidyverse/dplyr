@@ -43,6 +43,18 @@ as.tbl.tbl <- function(x, ...) x
 
 #' List variables provided by a tbl.
 #'
+#' `tbl_vars()` returns all variables while `tbl_nongroup_vars()`
+#' returns only non-grouping variables.
+#'
 #' @export
 #' @param x A tbl object
-tbl_vars <- function(x) UseMethod("tbl_vars")
+#' @seealso [group_vars()] for a function that returns grouping
+#'   variables.
+tbl_vars <- function(x) {
+  UseMethod("tbl_vars")
+}
+#' @rdname tbl_vars
+#' @export
+tbl_nongroup_vars <- function(x) {
+  setdiff(tbl_vars(x), group_vars(x))
+}

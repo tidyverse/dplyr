@@ -14,7 +14,9 @@ is.src(x)
 must supply this value. \code{src_} is automatically prepended to the
 class name}
 
-\item{...}{fields used by object}
+\item{...}{fields used by object.
+
+These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
 
 \item{x}{object to test for "src"-ness.}
 }

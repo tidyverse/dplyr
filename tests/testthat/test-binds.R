@@ -15,8 +15,8 @@ test_that("cbind and rbind methods work for tbl_df", {
 # error -------------------------------------------------------------------
 
 test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
-  df1 <- memdb_frame(x = 1)
-  df2 <- memdb_frame(y = 2)
+  df1 <- structure(list(x = 1), class = "blah_frame")
+  df2 <- structure(list(x = 1), class = "blah_frame")
 
   expect_error(
     bind_cols(df1, df2),

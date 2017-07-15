@@ -15,14 +15,6 @@ using namespace Rcpp;
 using namespace dplyr;
 
 inline
-void strip_index(DataFrame x) {
-  x.attr("indices") = R_NilValue;
-  x.attr("group_sizes") = R_NilValue;
-  x.attr("biggest_group_size") = R_NilValue;
-  x.attr("labels") = R_NilValue;
-}
-
-inline
 SEXP empty_subset(const DataFrame& df, const CharacterVector& classes) {
   DataFrame res = DataFrameSubsetVisitors(df).subset(EmptySubset(), classes);
   strip_index(res);
@@ -54,19 +46,19 @@ DataFrame filter_grouped(const SlicedTibble& gdf, const NamedQuosure& quo) {
 
   int ngroups = gdf.ngroups();
   typename SlicedTibble::group_iterator git = gdf.group_begin();
-  for (int i=0; i<ngroups; i++, ++git) {
+  for (int i = 0; i < ngroups; i++, ++git) {
     const SlicingIndex& indices = *git;
     int chunk_size = indices.size();
 
     g_test = check_result_lgl_type(call_proxy.get(indices));
     if (g_test.size() == 1) {
       int val = g_test[0] == TRUE;
-      for (int j=0; j<chunk_size; j++) {
+      for (int j = 0; j < chunk_size; j++) {
         test[indices[j]] = val;
       }
     } else {
       check_result_length(g_test, chunk_size);
-      for (int j=0; j<chunk_size; j++) {
+      for (int j = 0; j < chunk_size; j++) {
         if (g_test[j] != TRUE) test[ indices[j] ] = FALSE;
       }
     }

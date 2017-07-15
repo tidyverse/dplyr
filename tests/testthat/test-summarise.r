@@ -22,16 +22,11 @@ test_that("repeated outputs applied progressively (grouped_df)", {
 })
 
 
-df <- data.frame(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
-tbls <- test_load(df)
-
 test_that("summarise peels off a single layer of grouping", {
-  for (i in seq_along(tbls)) {
-    grouped <- group_by(tbls[[i]], x, y)
-    summed <- summarise(grouped, n())
-
-    expect_groups(summed, "x", info = names(tbls)[i])
-  }
+  df <- tibble(x = rep(1:4, each = 4), y = rep(1:2, each = 8), z = runif(16))
+  grouped <- df %>% group_by(x, y, z)
+  expect_equal(group_vars(grouped), c("x", "y", "z"))
+  expect_equal(group_vars(grouped %>% summarise(n = n())), c("x", "y"))
 })
 
 test_that("summarise can refer to variables that were just created (#138)", {
@@ -930,4 +925,14 @@ test_that("proper handling of names in summarised list columns (#2231)", {
   expect_equal(names(res$y[[1]]), letters[[1]])
   expect_equal(names(res$y[[2]]), letters[2:3])
   expect_equal(names(res$y[[3]]), letters[4:6])
+})
+
+test_that("proper handling of NA factors (#2588)", {
+  df <- tibble(
+    x = c(1, 1, 2, 2, 3, 3),
+    y = factor(c(NA, NA, NA, "2", "3", "3"))
+  )
+
+  ret <- df %>% group_by(x) %>% summarise(y = y[1])
+  expect_identical(as.character(ret$y), c(NA, NA, "3"))
 })

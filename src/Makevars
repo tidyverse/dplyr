@@ -2,9 +2,3 @@
 PKG_CPPFLAGS = -I../inst/include -DCOMPILING_DPLYR -DBOOST_NO_INT64_T -DBOOST_NO_INTEGRAL_INT64_T -DBOOST_NO_LONG_LONG -DRCPP_USING_UTF8_ERROR_STRING
 
 all: $(SHLIB)
-
-# This file exists only for R CMD INSTALL, is created as empty file
-# for building from source archive
-Makevars.local:
-	touch "$@"
-include Makevars.local
