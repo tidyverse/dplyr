@@ -1,5 +1,8 @@
 # dplyr 0.7.1.9000
 
+* Fix protection error that occurred when creating a character column
+  using grouped `mutate()` (#2971).
+
 # dplyr 0.7.1
 
 * Use new versions of bindrcpp and glue to avoid protection problems.
