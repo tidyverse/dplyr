@@ -19,7 +19,7 @@ Depends:
 Imports:
     assertthat,
     bindrcpp (>= 0.2),
-    glue (>= 1.1.0),
+    glue (>= 1.1.1),
     magrittr,
     methods,
     pkgconfig,

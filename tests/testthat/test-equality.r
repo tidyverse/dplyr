@@ -168,8 +168,6 @@ test_that("returns vector for more than one difference (#1819)", {
 })
 
 test_that("returns UTF-8 column names (#2441)", {
-  skip("Re-enable for glue 1.1.1")
-
   df1 <- data_frame(a = 1) %>% rename("\u5e78" := a)
   df2 <- data_frame(a = 1) %>% rename("\u798f" := a)
 
