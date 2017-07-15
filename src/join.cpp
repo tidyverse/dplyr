@@ -59,11 +59,11 @@ void check_attribute_compatibility(const Column& left, const Column& right) {
 
 CharacterVector reencode_factor(IntegerVector x);
 
-R_xlen_t get_first_reencode_pos(const CharacterVector& xc) {
-  R_xlen_t len = xc.length();
+R_xlen_t get_first_reencode_pos(const CharacterVector& x) {
+  R_xlen_t len = x.length();
   for (R_xlen_t i = 0; i < len; ++i) {
-    SEXP xci = xc[i];
-    if (xci != NA_STRING && !IS_ASCII(xci) && !IS_UTF8(xci)) {
+    SEXP xi = x[i];
+    if (xi != NA_STRING && !IS_ASCII(xi) && !IS_UTF8(xi)) {
       return i;
     }
   }
@@ -74,11 +74,11 @@ R_xlen_t get_first_reencode_pos(const CharacterVector& xc) {
 CharacterVector reencode_char(SEXP x) {
   if (Rf_isFactor(x)) return reencode_factor(x);
 
-  CharacterVector xc(x);
-  R_xlen_t first = get_first_reencode_pos(xc);
-  if (first >= xc.length()) return x;
+  CharacterVector ret(x);
+  R_xlen_t first = get_first_reencode_pos(ret);
+  if (first >= ret.length()) return ret;
 
-  CharacterVector ret(Rf_duplicate(xc));
+  ret = clone(ret);
 
   R_xlen_t len = ret.length();
   for (R_xlen_t i = first; i < len; ++i) {
