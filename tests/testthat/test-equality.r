@@ -176,7 +176,8 @@ test_that("returns UTF-8 column names (#2441)", {
     c(
       "Cols in y but not x: `\u798f`. ",
       "Cols in x but not y: `\u5e78`. "
-    )
+    ),
+    fixed = TRUE
   )
 })
 
