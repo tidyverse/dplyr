@@ -93,8 +93,8 @@ first row of values.}
 \item{env}{The environment in which functions should be evaluated.}
 
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
-override existing groups. To instead add to the existing groups,
-use \code{add = TRUE}}
+override existing groups. To add to the existing groups, use
+\code{add = TRUE}.}
 
 \item{include}{Character vector of column names to always
 include/exclude.}
@@ -118,3 +118,4 @@ the result within the captured expression. This result can be a
 value or an expression to be evaluated later with the rest of the
 argument. See \code{vignette("programming")} for more information.
 }
+\keyword{internal}

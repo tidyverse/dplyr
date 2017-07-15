@@ -29,11 +29,12 @@
 #' See [pkgconfig::set_config()] for usage.
 #' \describe{
 #' \item{`dplyr::na_matches`}{Should `NA` values be matched in data frame joins
-#'   by default? Default: `"never"`, alternative value: `"na"`. See also
-#'   [join.tbl_df()].}
+#'   by default? Default: `"na"` (for compatibility with dplyr v0.5.0 and earlier,
+#'   subject to change), alternative value: `"never"` (the default
+#'   for database backends, see [join.tbl_df()]).}
 #' }
 #'
-#' @useDynLib dplyr
+#' @useDynLib dplyr, .registration = TRUE
 #' @import rlang
 #' @importFrom assertthat assert_that is.flag on_failure<-
 #' @importFrom glue glue
@@ -41,4 +42,6 @@
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
 #' @importFrom methods is
+#' @importFrom bindrcpp create_env
+#' @importFrom pkgconfig get_config
 "_PACKAGE"

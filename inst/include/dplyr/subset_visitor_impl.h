@@ -5,18 +5,24 @@
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/DataFrameColumnSubsetVisitor.h>
 #include <dplyr/MatrixColumnSubsetVectorVisitor.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
 inline SubsetVectorVisitor* subset_visitor_matrix(SEXP vec);
 inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec);
 
-inline SubsetVectorVisitor* subset_visitor(SEXP vec) {
-  if (Rf_isMatrix(vec)) {
-    return subset_visitor_matrix(vec);
+inline SubsetVectorVisitor* subset_visitor(SEXP vec, const SymbolString& name) {
+  try {
+    if (Rf_isMatrix(vec)) {
+      return subset_visitor_matrix(vec);
+    }
+    else {
+      return subset_visitor_vector(vec);
+    }
   }
-  else {
-    return subset_visitor_vector(vec);
+  catch (const Rcpp::exception& e) {
+    bad_col(name, e.what());
   }
 }
 
@@ -38,7 +44,7 @@ inline SubsetVectorVisitor* subset_visitor_matrix(SEXP vec) {
     break;
   }
 
-  stop("Unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
+  stop("unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
 }
 
 inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
@@ -74,7 +80,7 @@ inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
   }
 
   // should not happen, safeguard against segfaults anyway
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(vec)));
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(vec)));
 }
 
 }

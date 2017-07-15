@@ -89,13 +89,21 @@ test_that("group_by orders by groups. #242", {
 test_that("group_by uses the white list", {
   df <- data.frame(times = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
-  expect_error(group_by(df, times))
+  expect_error(
+    group_by(df, times),
+    "Column `times` is of unsupported class POSIXlt/POSIXt",
+    fixed = TRUE
+  )
 })
 
 test_that("group_by fails when lists are used as grouping variables (#276)", {
   df <- data.frame(x = 1:3)
   df$y <- list(1:2, 1:3, 1:4)
-  expect_error(group_by(df, y))
+  expect_error(
+    group_by(df, y),
+    "Column `y` can't be used as a grouping variable because it's a list",
+    fixed = TRUE
+  )
 })
 
 
@@ -108,12 +116,19 @@ test_that("grouped_df errors on empty vars (#398)", {
   m <- mtcars %>% group_by(cyl)
   attr(m, "vars") <- NULL
   attr(m, "indices") <- NULL
-  expect_error(m %>% do(mpg = mean(.$mpg)))
+  expect_error(
+    m %>% do(mpg = mean(.$mpg)),
+    "no variables to group by",
+    fixed = TRUE
+  )
 })
 
 test_that("grouped_df errors on non-existent var (#2330)", {
   df <- data.frame(x = 1:5)
-  expect_error(grouped_df(df, list(quote(y))), "unknown column 'y'")
+  expect_error(
+    grouped_df(df, list(quote(y))),
+    "Column `y` is unknown"
+  )
 })
 
 test_that("group_by only creates one group for NA (#401)", {
@@ -165,11 +180,16 @@ test_that("group_by works with zero-row data frames (#486)", {
 
 test_that("grouped_df requires a list of symbols (#665)", {
   features <- list("feat1", "feat2", "feat3")
+  # error message by assertthat
   expect_error(grouped_df(data.frame(feat1 = 1, feat2 = 2, feat3 = 3), features))
 })
 
 test_that("group_by gives meaningful message with unknow column (#716)", {
-  expect_error(group_by(iris, wrong_name_of_variable), "unknown column")
+  expect_error(
+    group_by(iris, wrong_name_of_variable),
+    "Column `wrong_name_of_variable` is unknown",
+    fixed = TRUE
+  )
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
@@ -209,7 +229,7 @@ test_that("group_by keeps attributes", {
 
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
   res <- tbl_df(mtcars) %>% rowwise %>% ungroup %>% class
-  expect_equal(res, c("tbl_df", "data.frame"))
+  expect_equal(res, c("tbl_df", "tbl", "data.frame"))
 })
 
 test_that(paste0("group_by handles encodings for native strings (#1507)"), {
@@ -239,11 +259,28 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
 
 test_that("group_by fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(group_by(df, a), "unsupported type")
-  expect_error(group_by(df, b), "unsupported type")
+  expect_error(
+    group_by(df, a),
+    "Column `b` is of unsupported type raw",
+    fixed = TRUE
+  )
+  expect_error(
+    group_by(df, b),
+    "Column `b` is of unsupported type raw",
+    fixed = TRUE
+  )
 })
 
 test_that("rowwise fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(rowwise(df), "unsupported type")
+  expect_error(
+    rowwise(df),
+    "Column `b` is of unsupported type raw",
+    fixed = TRUE
+  )
+})
+
+test_that("group_by() names pronouns correctly (#2686)", {
+  expect_named(group_by(tibble(x = 1), .data$x), "x")
+  expect_named(group_by(tibble(x = 1), .data[["x"]]), "x")
 })

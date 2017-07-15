@@ -11,13 +11,17 @@ pull(.data, var = -1)
 
 \item{var}{A variable specified as:
 \itemize{
-\item a single string, the variable name
+\item a literal variable name
 \item a positive integer, giving the position counting from the left
 \item a negative integer, giving the position counting from the right.
 }
 
 The default returns the last column (on the assumption that's the
-column you've created most recently).}
+column you've created most recently).
+
+This argument is taken by expression and supports
+\link[rlang:quasiquotation]{quasiquotation} (you can unquote column
+names and column positions).}
 }
 \description{
 This works like \code{[[} for local data frames, and automatically collects
@@ -26,7 +30,7 @@ before indexing for remote data tables.
 \examples{
 mtcars \%>\% pull(-1)
 mtcars \%>\% pull(1)
-mtcars \%>\% pull("cyl")
+mtcars \%>\% pull(cyl)
 
 # Also works for remote sources
 if (requireNamespace("dbplyr", quietly = TRUE)) {

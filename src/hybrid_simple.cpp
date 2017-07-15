@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <dplyr/HybridHandlerMap.h>
@@ -31,11 +32,11 @@ Result* simple_prototype_impl(SEXP arg, bool is_summary) {
 template <template <int, bool> class Fun>
 Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs == 0) return 0;
-  SEXP arg = CADR(call);
+  SEXP arg = maybe_rhs(CADR(call));
   bool is_summary = false;
   if (TYPEOF(arg) == SYMSXP) {
     SymbolString name = SymbolString(Symbol(arg));
-    if (subsets.count(name)) {
+    if (subsets.has_variable(name)) {
       // we have a symbol from the data - great
       is_summary = subsets.is_summary(name);
       arg = subsets.get_variable(name);

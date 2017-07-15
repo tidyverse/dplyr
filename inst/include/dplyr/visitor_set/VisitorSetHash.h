@@ -12,7 +12,7 @@ public:
     const Class& obj = static_cast<const Class&>(*this);
     int n = obj.size();
     if (n == 0) {
-      stop("need at least one column for hash()");
+      stop("Need at least one column for `hash()`");
     }
     size_t seed = obj.get(0)->hash(j);
     for (int k = 1; k < n; k++) {

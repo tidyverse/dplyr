@@ -106,7 +106,7 @@ slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
-#' Summarise multiple values to a single value
+#' Reduces multiple values down to a single value
 #'
 #' `summarise()` is typically used on grouped data created by [group_by()].
 #' The output will have one row for each group.
@@ -162,6 +162,12 @@ slice_ <- function(.data, ..., .dots = list()) {
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp))
+#'
+#'
+#' # summarise() supports quasiquotation. You can unquote raw
+#' # expressions or quosures:
+#' var <- quo(mean(cyl))
+#' summarise(mtcars, !! var)
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
@@ -259,9 +265,15 @@ summarize_ <- summarise_
 #' mtcars %>%
 #'   transmute(displ_l = disp / 61.0237)
 #'
+#'
+#' # mutate() supports quasiquotation. You can unquote quosures, which
+#' # can refer to both contextual variables and variable names:
+#' var <- 100
+#' as_tibble(mtcars) %>% mutate(cyl = !! quo(cyl * var))
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
+#' @export
 mutate.default <- function(.data, ...) {
   mutate_(.data, .dots = compat_as_lazy_dots(...))
 }
@@ -284,7 +296,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   out <- mutate(.data, !!! dots)
 
   keep <- names(dots)
@@ -314,6 +326,12 @@ transmute_.default <- function(.data, ..., .dots = list()) {
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
+#'
+#' # grouped arrange ignores groups
+#' by_cyl <- mtcars %>% group_by(cyl)
+#' by_cyl %>% arrange(desc(wt))
+#' # Unless you specifically ask:
+#' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
 arrange <- function(.data, ...) {
   UseMethod("arrange")
 }
@@ -325,6 +343,20 @@ arrange.default <- function(.data, ...) {
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
   UseMethod("arrange_")
+}
+
+#' @export
+#' @rdname arrange
+#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
+#'   grouped data frames only.
+arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
+  if (.by_group) {
+    dots <- quos(!!!groups(.data), ...)
+  } else {
+    dots <- quos(...)
+  }
+
+  arrange_impl(.data, dots)
 }
 
 #' Select/rename variables by name
@@ -342,6 +374,11 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'
 #' To drop variables, use `-`.
 #'
+#' Note that except for `:`, `-` and `c()`, all complex expressions
+#' are evaluated outside the data frame context. This is to prevent
+#' accidental matching of data frame variables when you refer to
+#' variables from the calling context.
+#'
 #' @section Scoped selection and renaming:
 #'
 #' The three [scoped] variants of `select()` ([select_all()],
@@ -355,6 +392,8 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'   You can treat variable names like they are positions.
 #'
 #'   Positive values select variables; negative values to drop variables.
+#'   If the first expression is negative, `select()` will automatically
+#'   start with all variables.
 #'
 #'   Use named arguments to rename selected variables.
 #'
@@ -381,6 +420,16 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'
 #' # Drop variables with -
 #' select(iris, -starts_with("Petal"))
+#'
+#'
+#' # The .data pronoun is available:
+#' select(mtcars, .data$cyl)
+#' select(mtcars, .data$mpg : .data$disp)
+#'
+#' # However it isn't available within calls since those are evaluated
+#' # outside of the data context. This would fail if run:
+#' # select(mtcars, identical(.data$cyl))
+#'
 #'
 #' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify
@@ -456,4 +505,5 @@ n <- function() {
 #' @param dots,.dots,... Pair/values of expressions coercible to lazy objects.
 #' @param vars Various meanings depending on the verb.
 #' @param args Various meanings depending on the verb.
+#' @keywords internal
 NULL

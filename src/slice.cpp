@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <tools/Quosure.h>
@@ -31,7 +32,7 @@ public:
     }
 
     if (n_neg > 0 && n_pos > 0) {
-      stop("found %d positive indices and %d negative indices", n_pos, n_neg);
+      stop("Found %d positive indices and %d negative indices", n_pos, n_neg);
     }
 
   }
@@ -53,7 +54,7 @@ private:
   int n_neg;
 };
 
-SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
+DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
   typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
 
   const DataFrame& data = gdf.data();
@@ -111,18 +112,17 @@ SEXP slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
         indx.push_back(indices[j++]);
         k++;
       }
-
     }
   }
+
   DataFrame res = subset(data, indx, names, classes_grouped<GroupedDataFrame>());
   set_vars(res, get_vars(data));
   strip_index(res);
 
   return GroupedDataFrame(res).data();
-
 }
 
-SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   CharacterVector names = df.names();
 
   const NamedQuosure& quosure = dots[0];
@@ -153,8 +153,7 @@ SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   // special case where only NA
   if (counter.get_n_negative() == 0) {
     std::vector<int> indices;
-    DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-    return res;
+    return subset(df, indices, df.names(), classes_not_grouped());
   }
 
   // just negatives (out of range is dealt with early in CountIndices).
@@ -180,9 +179,7 @@ SEXP slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
     indices[i++] = j++;
   }
 
-  DataFrame res = subset(df, indices, df.names(), classes_not_grouped());
-  return res;
-
+  return subset(df, indices, df.names(), classes_not_grouped());
 }
 
 // [[Rcpp::export]]

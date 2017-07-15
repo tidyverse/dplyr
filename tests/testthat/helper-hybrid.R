@@ -11,7 +11,8 @@ check_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
 }
 
 check_hybrid_result_ <- function(expr, ..., expected, test_eval) {
-  expect_error(expect_predicate(with_hybrid_(expr, ...), expected), NA)
+  expect_error(
+    expect_predicate(with_hybrid_(expr, ...), expected), NA)
   if (test_eval) {
     expect_predicate(eval_dots_(expr, ...), expected)
   }
@@ -22,7 +23,8 @@ check_not_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
 }
 
 check_not_hybrid_result_ <- function(expr, ..., expected, test_eval) {
-  expect_error(expect_predicate(without_hybrid_(expr, ...), expected), NA)
+  expect_error(
+    expect_predicate(without_hybrid_(expr, ...), expected), NA)
   if (test_eval) {
     expect_predicate(eval_dots_(expr, ...), expected)
   }
@@ -60,3 +62,5 @@ expect_environments_clean <- function(x, stop_env = parent.frame()) {
 
   expect_environments_clean(parent.env(x), stop_env = stop_env)
 }
+
+bad_hybrid_handler <- function(...) stop("Expected hybrid evaluation")

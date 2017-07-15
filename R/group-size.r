@@ -13,6 +13,7 @@
 #' n_groups(by_dest)
 #' group_size(by_dest)
 #' }
+#' @keywords internal
 group_size <- function(x) UseMethod("group_size")
 
 #' @export

@@ -1,4 +1,4 @@
-#' Copy a local data frame to a remote src.
+#' Copy a local data frame to a remote src
 #'
 #' This function uploads a local data frame into a remote data source, creating
 #' the table definition as needed. Wherever possible, the new object will be
@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' \dontrun{
-#' iris2 <- src_memdb() %>% copy_to(iris, overwrite = TRUE)
+#' iris2 <- dbplyr::src_memdb() %>% copy_to(iris, overwrite = TRUE)
 #' iris2
 #' }
 copy_to <- function(dest, df, name = deparse(substitute(df)),
@@ -25,7 +25,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)),
   UseMethod("copy_to")
 }
 
-#' Copy tables to same source, if necessary.
+#' Copy tables to same source, if necessary
 #'
 #' @param x,y `y` will be copied to `x`, if neccessary.
 #' @param copy If `x` and `y` are not from the same data source,
@@ -38,8 +38,9 @@ auto_copy <- function(x, y, copy = FALSE, ...) {
   if (same_src(x, y)) return(y)
 
   if (!copy) {
-    stop("x and y don't share the same src. Set copy = TRUE to copy y into ",
-      "x's source (this may be time consuming).", call. = FALSE)
+    glubort(NULL, "`x` and `y` must share the same src, ",
+      "set `copy` = TRUE (may be slow)"
+    )
   }
 
   UseMethod("auto_copy")

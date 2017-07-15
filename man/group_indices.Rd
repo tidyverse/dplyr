@@ -9,8 +9,8 @@ group_indices(.data, ...)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Variables to group by. All tbls accept variable names,
-some will also accept functions of variables. Duplicated groups
+\item{...}{Variables to group by. All tbls accept variable names.
+Some tbls will accept functions of variables. Duplicated groups
 will be silently dropped.}
 }
 \description{
@@ -22,3 +22,4 @@ group_indices(mtcars, cyl)
 \seealso{
 \code{\link[=group_by]{group_by()}}
 }
+\keyword{internal}

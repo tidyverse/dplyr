@@ -13,10 +13,6 @@
 #'
 #' * `summarise_if`(), `mutate_if`() and `transmute_if()` operate on
 #'   columns for which a predicate returns `TRUE`.
-#'
-#' * [summarise_each()] and [mutate_each()] are older variants that
-#'   are now deprecated.
-#'
 #' @inheritParams scoped
 #' @param .cols This argument has been renamed to `.vars` to fit
 #'   dplyr's terminology and is deprecated.
@@ -153,7 +149,7 @@ check_dot_cols <- function(vars, cols) {
   if (is_null(cols)) {
     vars
   } else {
-    warn("`.cols` has been renamed and is deprecated, please use `.vars`")
+    inform("`.cols` has been renamed and is deprecated, please use `.vars`")
     if (missing(vars)) cols else vars
   }
 }
@@ -192,10 +188,21 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
 #' Summarise and mutate multiple columns.
 #'
+#' @description
+#'
 #' `mutate_each()` and `summarise_each()` are deprecated in favour of
 #' a more featureful family of functions: [mutate_all()],
 #' [mutate_at()], [mutate_if()], [summarise_all()], [summarise_at()]
 #' and [summarise_if()].
+#'
+#' The `_each()` functions have two replacements depending on what
+#' variables you want to apply `funs` to. To apply a function to all
+#' variables, use [mutate_all()] or [summarise_all()]. To apply a
+#' function to a selection of variables, use [mutate_at()] or
+#' [summarise_at()].
+#'
+#' See the relevant section of `vignette("compatibility")` for more
+#' information.
 #'
 #' @keywords internal
 #' @export
@@ -205,10 +212,15 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  .Deprecated("summarise_all")
+  msg <- glue(
+    "`summarise_each()` is deprecated.
+     Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead."
+  )
   if (is_empty(vars)) {
+    inform(glue(msg, "\nTo map `funs` over all variables, use `summarise_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
+    inform(glue(msg, "\nTo map `funs` over a selection of variables, use `summarise_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
@@ -232,28 +244,20 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  .Deprecated("mutate_all")
+  msg <- glue(
+    "`mutate_each()` is deprecated.
+     Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead."
+  )
   if (is_empty(vars)) {
+    inform(glue(msg, "\nTo map `funs` over all variables, use `mutate_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
+    inform(glue(msg, "\nTo map `funs` over a selection of variables, use `mutate_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- select_vars(tbl_nongroup_vars(tbl), !!! vars)
   }
   funs <- manip_apply_syms(funs, syms(vars), tbl)
   mutate(tbl, !!! funs)
-}
-
-#' @export
-#' @rdname summarise_each
-summarise_each_q <- function(...) {
-  .Deprecated("summarise_all")
-  summarise_each_(...)
-}
-#' @export
-#' @rdname summarise_each
-mutate_each_q <- function(...) {
-  .Deprecated("mutate_all")
-  mutate_each_(...)
 }
 
 #' @rdname summarise_each

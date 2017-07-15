@@ -1,6 +1,5 @@
 ---
 title: "Two-table verbs"
-date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Two-table verbs}
@@ -238,4 +237,4 @@ full_join(df1, df2) %>% str()
 
 ## Multiple-table verbs
 
-dplyr does not provide any functions for working with three or more tables. Instead use `Reduce()`, as described in [Advanced R](http://adv-r.had.co.nz/Functionals.html#functionals-fp), to iteratively combine the two-table verbs to handle as many tables as you need.
+dplyr does not provide any functions for working with three or more tables. Instead use `purrr::reduce()` or `Reduce()`, as described in [Advanced R](http://adv-r.had.co.nz/Functionals.html#functionals-fp), to iteratively combine the two-table verbs to handle as many tables as you need.

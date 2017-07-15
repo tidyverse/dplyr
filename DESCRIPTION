@@ -1,48 +1,52 @@
-Package: dplyr
 Type: Package
-Version: 0.5.0.9001
+Package: dplyr
+Version: 0.7.1.9000
 Title: A Grammar of Data Manipulation
 Description: A fast, consistent tool for working with data frame like objects,
     both in memory and out of memory.
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
     person("Romain", "Francois", , "romain@r-enthusiasts.com", role = "aut"),
-    person("RStudio", role = "cph")
+    person("Lionel", "Henry", role = "aut"),
+    person("Kirill", "Müller", role = "aut"),
+    person("RStudio", role = c("cph", "fnd"))
     )
-URL: https://github.com/hadley/dplyr
-BugReports: https://github.com/hadley/dplyr/issues
-Depends: 
+URL: http://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
+BugReports: https://github.com/tidyverse/dplyr/issues
+Encoding: UTF-8
+Depends:
     R (>= 3.1.2)
-Imports: 
+Imports:
     assertthat,
-    bindrcpp,
-    glue,
+    bindrcpp (>= 0.2),
+    glue (>= 1.1.0),
     magrittr,
     methods,
     pkgconfig,
-    rlang (>= 0.0.0.9006),
+    rlang (>= 0.1),
     R6,
-    Rcpp (>= 0.12.6),
-    tibble (>= 1.2),
+    Rcpp (>= 0.12.7),
+    tibble (>= 1.3.1),
     utils
-Suggests: 
+Suggests:
+    bit64,
+    covr,
     dbplyr,
+    dtplyr,
     DBI,
+    ggplot2,
+    hms,
+    knitr,
+    Lahman (>= 3.0-1),
+    mgcv,
+    microbenchmark,
+    nycflights13,
+    rmarkdown,
     RMySQL,
     RPostgreSQL,
     RSQLite,
     testthat,
-    knitr,
-    microbenchmark,
-    ggplot2,
-    mgcv,
-    Lahman (>= 3.0-1),
-    nycflights13,
-    rmarkdown,
-    covr,
-    dtplyr,
-    bit64,
-    hms
+    withr
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
     BH (>= 1.58.0-1),
@@ -52,7 +56,3 @@ LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
-Remotes:
-    hadley/rlang@0756eaf3,
-    hadley/dbplyr,
-    tidyverse/glue

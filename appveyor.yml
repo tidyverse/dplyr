@@ -19,11 +19,14 @@ environment:
   matrix:
   - R_VERSION: devel
     R_ARCH: x64
+    GCC_PATH: mingw_64
 
   - R_VERSION: patched
+    GCC_PATH: mingw_32
 
 build_script:
-  - travis-tool.sh install_github rstats-db/RSQLite
+  - travis-tool.sh install_github r-pkgs/remotes@303db43
+  - travis-tool.sh install_github tidyverse/dbplyr
   - travis-tool.sh install_deps
 
 test_script:

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <tools/hash.h>
@@ -10,6 +11,8 @@
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
+
+#include <dplyr/bad.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -24,13 +27,13 @@ SEXP empty_subset(const DataFrame& df, const CharacterVector& classes) {
 inline
 void check_result_length(const LogicalVector& test, int n) {
   if (test.size() != n) {
-    stop("incorrect length (%d), expecting: %d", test.size(), n);
+    stop("Result must have length %d, not %d", n, test.size());
   }
 }
 inline
 SEXP check_result_lgl_type(SEXP tmp) {
   if (TYPEOF(tmp) != LGLSXP) {
-    stop("filter condition does not evaluate to a logical vector. ");
+    bad_pos_arg(2, "filter condition does not evaluate to a logical vector");
   }
   return tmp;
 }

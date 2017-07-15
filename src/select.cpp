@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <tools/utils.h>
@@ -20,7 +21,7 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
       } else {
         s << pos;
       }
-      stop("invalid column index : %d for variable: %s = %s",
+      stop("invalid column index : %d for variable: '%s' = '%s'",
            s.str(), new_names[i].get_utf8_cstring(), keep[i].get_utf8_cstring());
     }
     res[i] = df[ pos - 1 ];

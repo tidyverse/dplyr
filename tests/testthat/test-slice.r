@@ -34,7 +34,11 @@ test_that("slice works with negative indices", {
 })
 
 test_that("slice forbids positive and negative together", {
-  expect_error(mtcars %>% slice(c(-1, 2)))
+  expect_error(
+    mtcars %>% slice(c(-1, 2)),
+    "Found 1 positive indices and 1 negative indices",
+    fixed = TRUE
+  )
 })
 
 test_that("slice works with grouped data", {
@@ -102,4 +106,10 @@ test_that("slice works with zero-column data frames (#2490)", {
     data_frame(a = 1:3) %>% select(-a) %>% slice(1) %>% nrow,
     1L
   )
+})
+
+test_that("slice works under gctorture2", {
+  x <- tibble(y = 1:10)
+  with_gctorture2(999, x2 <- slice(x, 1:10))
+  expect_identical(x, x2)
 })

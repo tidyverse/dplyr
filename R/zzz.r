@@ -12,14 +12,14 @@ R_version <- R.version.string
     )
   }
 
-  if (R_version != R.version.string) {
-    warning(
-      "Installed R (", R.version.string, ") different from ",
-      "R used to build dplyr (", R_version, ").\n",
-      "Please reinstall dplyr to avoid random crashes or undefined behavior.",
-      call. = FALSE
-    )
-  }
+  # if (R_version != R.version.string) {
+  #   warning(
+  #     "Installed R (", R.version.string, ") different from ",
+  #     "R used to build dplyr (", R_version, ").\n",
+  #     "Please reinstall dplyr to avoid random crashes or undefined behavior.",
+  #     call. = FALSE
+  #   )
+  # }
 
   op <- options()
   op.dplyr <- list(

@@ -10,7 +10,7 @@
 #' @keywords internal
 #' @export
 failwith <- function(default = NULL, f, quiet = FALSE) {
-  warning("Deprecated: please use purrr::possibly instead", call. = FALSE)
+  warn("Deprecated: please use `purrr::possibly()` instead")
 
   function(...) {
     out <- default

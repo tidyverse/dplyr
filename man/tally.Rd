@@ -5,7 +5,7 @@
 \alias{count}
 \alias{add_tally}
 \alias{add_count}
-\title{Counts/tally observations by group.}
+\title{Count/tally observations by group}
 \usage{
 tally(x, wt, sort = FALSE)
 
@@ -36,8 +36,8 @@ A tbl, grouped the same way as \code{x}.
 \description{
 \code{tally()} is a convenient wrapper for summarise that will either call
 \code{\link[=n]{n()}} or \code{\link{sum}(n)} depending on whether you're tallying
-for the first time, or re-tallying. \code{count()} is similar, but also
-does the \code{\link[=group_by]{group_by()}} for you.
+for the first time, or re-tallying. \code{count()} is similar but calls
+\code{\link[=group_by]{group_by()}} before and \code{\link[=ungroup]{ungroup()}} after.
 
 \code{add_tally()} adds a column "n" to a table based on the number
 of items within each existing group, while \code{add_count()} is a shortcut that

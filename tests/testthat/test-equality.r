@@ -35,9 +35,18 @@ test_that("data frames not equal if missing row", {
 })
 
 test_that("data frames not equal if missing col", {
-  expect_match(all.equal(tbl_df(mtcars), mtcars[, -1]), "Cols in x but not y: mpg")
-  expect_match(all.equal(tbl_df(iris), iris[, -1]),     "Cols in x but not y: Sepal.Length")
-  expect_match(all.equal(tbl_df(df_all), df_all[, -1]), "Cols in x but not y: a")
+  expect_match(
+    all.equal(tbl_df(mtcars), mtcars[, -1]),
+    "Cols in x but not y: `mpg`"
+  )
+  expect_match(
+    all.equal(tbl_df(iris), iris[, -1]),
+    "Cols in x but not y: `Sepal.Length`"
+  )
+  expect_match(
+    all.equal(tbl_df(df_all), df_all[, -1]),
+    "Cols in x but not y: `a`"
+  )
 })
 
 test_that("factors equal only if levels equal", {
@@ -45,11 +54,11 @@ test_that("factors equal only if levels equal", {
   df2 <- data_frame(x = factor(c("a", "d")))
   expect_equal(
     all.equal(df1, df2),
-    "Factor levels not equal for column 'x'"
+    "Factor levels not equal for column `x`"
   )
   expect_equal(
     all.equal(df2, df1),
-    "Factor levels not equal for column 'x'"
+    "Factor levels not equal for column `x`"
   )
 })
 
@@ -58,11 +67,11 @@ test_that("factor comparison requires strict equality of levels (#2440)", {
   df2 <- data_frame(x = factor("a", levels = c("a", "b")))
   expect_equal(
     all.equal(df1, df2),
-    "Factor levels not equal for column 'x'"
+    "Factor levels not equal for column `x`"
   )
   expect_equal(
     all.equal(df2, df1),
-    "Factor levels not equal for column 'x'"
+    "Factor levels not equal for column `x`"
   )
   expect_warning(expect_true(all.equal(df1, df2, convert = TRUE)), "joining factors")
   expect_warning(expect_true(all.equal(df2, df1, convert = TRUE)), "joining factors")
@@ -108,7 +117,10 @@ test_that("equality test fails when convert is FALSE and types don't match (#148
   df1 <- data_frame(x = "a")
   df2 <- data_frame(x = factor("a"))
 
-  expect_equal(all_equal(df1, df2, convert = FALSE), "Incompatible type for column 'x': x character, y factor")
+  expect_equal(
+    all_equal(df1, df2, convert = FALSE),
+    "Incompatible type for column `x`: x character, y factor"
+  )
   expect_warning(all_equal(df1, df2, convert = TRUE))
 })
 
@@ -124,7 +136,11 @@ test_that("equality handles data frames with 0 columns (#1506)", {
 
 test_that("equality cannot be checked in presence of raw columns", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(all.equal(df, df), "Unsupported vector type raw")
+  expect_error(
+    all.equal(df, df),
+    "Column `b` is of unsupported type raw",
+    fixed = TRUE
+  )
 })
 
 test_that("equality returns a message for convert = TRUE", {
@@ -145,21 +161,23 @@ test_that("returns vector for more than one difference (#1819)", {
   expect_equal(
     all.equal(data_frame(a = 1, b = 2), data_frame(a = 1L, b = 2L)),
     c(
-      "Incompatible type for column 'a': x numeric, y integer",
-      "Incompatible type for column 'b': x numeric, y integer"
+      "Incompatible type for column `a`: x numeric, y integer",
+      "Incompatible type for column `b`: x numeric, y integer"
     )
   )
 })
 
 test_that("returns UTF-8 column names (#2441)", {
+  skip("Re-enable for glue 1.1.1")
+
   df1 <- data_frame(a = 1) %>% rename("\u5e78" := a)
   df2 <- data_frame(a = 1) %>% rename("\u798f" := a)
 
   expect_equal(
     all.equal(df1, df2),
     c(
-      "Cols in y but not x: \u798f. ",
-      "Cols in x but not y: \u5e78. "
+      "Cols in y but not x: `\u798f`. ",
+      "Cols in x but not y: `\u5e78`. "
     ),
     fixed = TRUE
   )
@@ -168,13 +186,13 @@ test_that("returns UTF-8 column names (#2441)", {
 test_that("proper message formatting for set operations", {
   expect_error(
     union(data_frame(a = 1), data_frame(a = "1")),
-    "not compatible: Incompatible type for column 'a': x numeric, y character",
+    "not compatible: Incompatible type for column `a`: x numeric, y character",
     fixed = TRUE
   )
 
   expect_error(
     union(data_frame(a = 1, b = 2), data_frame(a = "1", b = "2")),
-    "not compatible: \n- Incompatible type for column 'a': x numeric, y character\n- Incompatible type for column 'b': x numeric, y character",
+    "not compatible: \n- Incompatible type for column `a`: x numeric, y character\n- Incompatible type for column `b`: x numeric, y character",
     fixed = TRUE
   )
 })
@@ -187,6 +205,6 @@ test_that("ignore column order", {
 
   expect_equal(
     all.equal(data_frame(a = 1, b = 2), data_frame(a = 1), ignore_col_order = FALSE),
-    "Cols in x but not y: b. "
+    "Cols in x but not y: `b`. "
   )
 })

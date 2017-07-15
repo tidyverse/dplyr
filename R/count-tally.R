@@ -1,10 +1,10 @@
-#' Counts/tally observations by group.
+#' Count/tally observations by group
 #'
 #' @description
 #' `tally()` is a convenient wrapper for summarise that will either call
 #' [n()] or \code{\link{sum}(n)} depending on whether you're tallying
-#' for the first time, or re-tallying. `count()` is similar, but also
-#' does the [group_by()] for you.
+#' for the first time, or re-tallying. `count()` is similar but calls
+#' [group_by()] before and [ungroup()] after.
 #'
 #' `add_tally()` adds a column "n" to a table based on the number
 #' of items within each existing group, while `add_count()` is a shortcut that
@@ -63,10 +63,10 @@ tally <- function(x, wt, sort = FALSE) {
 
   if (quo_is_missing(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
-    wt <- ~n
+    wt <- quo(n)
   }
 
-  if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
+  if (quo_is_missing(wt) || quo_is_null(wt)) {
     n <- quo(n())
   } else {
     n <- quo(sum(!! wt, na.rm = TRUE))
@@ -113,7 +113,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
-  wt <- wt %||% ~NULL
+  wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
   count(x, !!! vars, wt = !! wt, sort = sort)
 }
@@ -125,10 +125,10 @@ add_tally <- function(x, wt, sort = FALSE) {
 
   if (quo_is_missing(wt) && "n" %in% names(x)) {
     inform("Using `n` as weighting variable")
-    wt <- ~n
+    wt <- quo(n)
   }
 
-  if (quo_is_missing(wt) || is_null(f_rhs(wt))) {
+  if (quo_is_missing(wt) || quo_is_null(wt)) {
     n <- quo(n())
   } else {
     n <- quo(sum(!! wt, na.rm = TRUE))
@@ -164,7 +164,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
-  wt <- wt %||% ~NULL
+  wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
   add_count(x, !!! vars, wt = !! wt, sort = sort)
 }

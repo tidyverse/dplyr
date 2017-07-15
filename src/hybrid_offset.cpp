@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <dplyr/HybridHandlerMap.h>
@@ -18,7 +19,7 @@ struct LeadLag {
     SEXP tag = TAG(p);
     if (tag != R_NilValue && tag != Rf_install("x"))
       return;
-    data = CAR(p);
+    data = maybe_rhs(CAR(p));
     p = CDR(p);
 
     SEXP tag_default = Rf_install("default");
@@ -59,7 +60,7 @@ struct LeadLag {
 };
 
 template < template<int> class Templ>
-Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNUSED int nargs) {
+Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int) {
   LeadLag args(call);
   if (!args.ok) return 0;
   RObject& data = args.data;
@@ -68,7 +69,7 @@ Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUT
     return 0;
 
   SymbolString name = SymbolString(Symbol(data));
-  if (subsets.count(name) == 0)
+  if (subsets.has_variable(name) == 0)
     return 0;
 
   bool is_summary = subsets.is_summary(name);

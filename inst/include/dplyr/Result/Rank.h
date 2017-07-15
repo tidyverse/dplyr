@@ -26,7 +26,7 @@ struct min_rank_increment {
   }
 
   template <typename Container>
-  inline int pre_increment(const Container& x, int) const {
+  inline int pre_increment(const Container&, int) const {
     return 0;
   }
 
@@ -66,7 +66,7 @@ struct percent_rank_increment {
   }
 
   template <typename Container>
-  inline double pre_increment(const Container& x, int m) const {
+  inline double pre_increment(const Container&, int) const {
     return 0.0;
   }
 
@@ -82,7 +82,7 @@ struct cume_dist_increment {
   typedef double scalar_type;
 
   template <typename Container>
-  inline double post_increment(const Container& x, int m) const {
+  inline double post_increment(const Container&, int) const {
     return 0.0;
   }
 
@@ -258,7 +258,8 @@ public:
 
       Slice slice(data, index);
       // order( gdf.group(i) )
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(Visitor(slice)));
+      Visitor visitor(slice);
+      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[ tmp[j] ])) {
@@ -289,7 +290,8 @@ public:
     if (nrows == 0) return IntegerVector(0);
     IntegerVector x = seq(0, nrows - 1);
     Slice slice(data, index);
-    std::sort(x.begin(), x.end(), Comparer(Visitor(slice)));
+    Visitor visitor(slice);
+    std::sort(x.begin(), x.end(), Comparer(visitor));
     IntegerVector out = no_init(nrows);
     int j = nrows - 1;
     for (; j >= 0; j--) {
@@ -337,7 +339,8 @@ public:
       Slice slice(data, index);
 
       // order( gdf.group(i) )
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(Visitor(slice)));
+      Visitor visitor(slice);
+      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[tmp[j]])) {

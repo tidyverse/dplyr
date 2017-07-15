@@ -7,7 +7,7 @@
 #' Currently, rowwise grouping only works with data frames. Its
 #' main impact is to allow you to work with list-variables in
 #' [summarise()] and [mutate()] without having to
-#' use `[[1]]`. This makes `summarise()` on a rowwise tbl
+#' use \code{[[1]]}. This makes `summarise()` on a rowwise tbl
 #' effectively equivalent to [plyr::ldply()].
 #'
 #' @param data Input data frame.
@@ -23,6 +23,8 @@ rowwise <- function(data) {
   structure(data, class = c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 }
 
+setOldClass(c("rowwise_df", "tbl_df", "tbl", "data.frame"))
+
 #' @export
 print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
   cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
@@ -34,7 +36,7 @@ print.rowwise_df <- function(x, ..., n = NULL, width = NULL) {
 
 #' @export
 ungroup.rowwise_df <- function(x, ...) {
-  class(x) <- c("tbl_df", "data.frame")
+  class(x) <- c("tbl_df", "tbl", "data.frame")
   x
 }
 #' @export
@@ -84,8 +86,7 @@ do.rowwise_df <- function(.data, ...) {
   # of this function because of usual scoping rules.
   env <- child_env(NULL)
   current_row <- function() lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
-  env_assign_active(env, ".", current_row)
-  env_assign_active(env, ".data", current_row)
+  env_bind_fns(.env = env, . = current_row, .data = current_row)
 
   overscope <- new_overscope(env)
   on.exit(overscope_clean(overscope))

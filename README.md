@@ -1,210 +1,116 @@
+
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-dplyr
-=====
+dplyr <img src="man/figures/logo.png" align="right" />
+======================================================
 
-[![Build Status](https://travis-ci.org/hadley/dplyr.svg?branch=master)](https://travis-ci.org/hadley/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/hadley/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/hadley/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/hadley/dplyr/master.svg)](https://codecov.io/github/hadley/dplyr?branch=master)
+[![Build Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr) [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr) [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr) [![Coverage Status](https://img.shields.io/codecov/c/github/tidyverse/dplyr/master.svg)](https://codecov.io/github/tidyverse/dplyr?branch=master)
 
-dplyr is the next iteration of plyr, focussed on tools for working with data frames (hence the `d` in the name). It has three main goals:
+Overview
+--------
 
--   Identify the most important data manipulation tools needed for data analysis and make them easy to use from R.
+dplyr is a grammar of data manipulation, providing a consistent set of verbs that help you solve the most common data manipulation challenges:
 
--   Provide blazing fast performance for in-memory data by writing key pieces in [C++](http://www.rcpp.org/).
+-   `mutate()` adds new variables that are functions of existing variables
+-   `select()` picks variables based on their names.
+-   `filter()` picks cases based on their values.
+-   `summarise()` reduces multiple values down to a single summary.
+-   `arrange()` changes the ordering of the rows.
 
--   Use the same interface to work with data no matter where it's stored, whether in a data frame, a data table or database.
+These all combine naturally with `group_by()` which allows you to perform any operation "by group". You can learn more about them in `vignette("dplyr")`. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in `vignette("two-table")`.
 
-You can install:
+dplyr is designed to abstract over how the data is stored. That means as well as working with local data frames, you can also work with remote database tables, using exactly the same R code. Install the dbplyr package then read `vignette("databases", package = "dbplyr")`.
 
--   the latest released version from CRAN with
+If you are new to dplyr, the best place to start is the [data import chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
 
-    ``` r
-    install.packages("dplyr")
-    ```
-
--   the latest development version from github with
-
-    ``` r
-    if (packageVersion("devtools") < 1.6) {
-      install.packages("devtools")
-    }
-    devtools::install_github("hadley/lazyeval")
-    devtools::install_github("hadley/dplyr")
-    ```
-
-You'll probably also want to install the data packages used in most examples: `install.packages(c("nycflights13", "Lahman"))`.
-
-If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/hadley/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
-
-Learning dplyr
---------------
-
-To get started, read the notes below, then read the intro vignette: `vignette("introduction", package = "dplyr")`. To make the most of dplyr, I also recommend that you familiarise yourself with the principles of [tidy data](http://vita.had.co.nz/papers/tidy-data.html): this will help you get your data into a form that works well with dplyr, ggplot2 and R's many modelling functions.
-
-If you need more help, I recommend the following (paid) resources:
-
--   [dplyr](https://www.datacamp.com/courses/dplyr) on datacamp, by Garrett Grolemund. Learn the basics of dplyr at your own pace in this interactive online course.
-
--   [Introduction to Data Science with R](http://shop.oreilly.com/product/0636920034834.do): How to Manipulate, Visualize, and Model Data with the R Language, by Garrett Grolemund. This O'Reilly video series will teach you the basics needed to be an effective analyst in R.
-
-Key data structures
--------------------
-
-The key object in dplyr is a *tbl*, a representation of a tabular data structure. Currently `dplyr` supports:
-
--   data frames
--   [data tables](https://github.com/Rdatatable/data.table/wiki)
--   [SQLite](http://sqlite.org/)
--   [PostgreSQL](http://www.postgresql.org/)/[Redshift](http://aws.amazon.com/redshift/)
--   [MySQL](http://www.mysql.com/)/[MariaDB](https://mariadb.com/)
--   [Bigquery](https://developers.google.com/bigquery/)
--   [MonetDB](http://www.monetdb.org/)
--   data cubes with arrays (partial implementation)
-
-You can create them as follows:
+Installation
+------------
 
 ``` r
-library(dplyr) # for functions
-library(nycflights13) # for data
-flights
-#> # A tibble: 336,776 × 19
-#>     year month   day dep_time sched_dep_time dep_delay arr_time
-#>    <int> <int> <int>    <int>          <int>     <dbl>    <int>
-#> 1   2013     1     1      517            515         2      830
-#> 2   2013     1     1      533            529         4      850
-#> 3   2013     1     1      542            540         2      923
-#> 4   2013     1     1      544            545        -1     1004
-#> 5   2013     1     1      554            600        -6      812
-#> 6   2013     1     1      554            558        -4      740
-#> 7   2013     1     1      555            600        -5      913
-#> 8   2013     1     1      557            600        -3      709
-#> 9   2013     1     1      557            600        -3      838
-#> 10  2013     1     1      558            600        -2      753
-#> # ... with 336,766 more rows, and 12 more variables: sched_arr_time <int>,
-#> #   arr_delay <dbl>, carrier <chr>, flight <int>, tailnum <chr>,
-#> #   origin <chr>, dest <chr>, air_time <dbl>, distance <dbl>, hour <dbl>,
-#> #   minute <dbl>, time_hour <dttm>
+# The easiest way to get dplyr is to install the whole tidyverse:
+install.packages("tidyverse")
 
-# Caches data in local SQLite db
-flights_db1 <- tbl(nycflights13_sqlite(), "flights")
+# Alternatively, install just dplyr:
+install.packages("dplyr")
 
-# Caches data in local postgres db
-flights_db2 <- tbl(nycflights13_postgres(host = "localhost"), "flights")
+# Or the the development version from GitHub:
+# install.packages("devtools")
+devtools::install_github("tidyverse/dplyr")
 ```
 
-Each tbl also comes in a grouped variant which allows you to easily perform operations "by group":
+If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
+
+Usage
+-----
 
 ``` r
-carriers_df  <- flights %>% group_by(carrier)
-carriers_db1 <- flights_db1 %>% group_by(carrier)
-carriers_db2 <- flights_db2 %>% group_by(carrier)
+library(dplyr)
+
+starwars %>% 
+  filter(species == "Droid")
+#> # A tibble: 5 x 13
+#>    name height  mass hair_color  skin_color eye_color birth_year gender
+#>   <chr>  <int> <dbl>      <chr>       <chr>     <chr>      <dbl>  <chr>
+#> 1 C-3PO    167    75       <NA>        gold    yellow        112   <NA>
+#> 2 R2-D2     96    32       <NA> white, blue       red         33   <NA>
+#> 3 R5-D4     97    32       <NA>  white, red       red         NA   <NA>
+#> 4 IG-88    200   140       none       metal       red         15   none
+#> 5   BB8     NA    NA       none        none     black         NA   none
+#> # ... with 5 more variables: homeworld <chr>, species <chr>, films <list>,
+#> #   vehicles <list>, starships <list>
+
+starwars %>% 
+  select(name, ends_with("color"))
+#> # A tibble: 87 x 4
+#>             name hair_color  skin_color eye_color
+#>            <chr>      <chr>       <chr>     <chr>
+#> 1 Luke Skywalker      blond        fair      blue
+#> 2          C-3PO       <NA>        gold    yellow
+#> 3          R2-D2       <NA> white, blue       red
+#> 4    Darth Vader       none       white    yellow
+#> 5    Leia Organa      brown       light     brown
+#> # ... with 82 more rows
+
+starwars %>% 
+  mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
+  select(name:mass, bmi)
+#> # A tibble: 87 x 4
+#>             name height  mass      bmi
+#>            <chr>  <int> <dbl>    <dbl>
+#> 1 Luke Skywalker    172    77 26.02758
+#> 2          C-3PO    167    75 26.89232
+#> 3          R2-D2     96    32 34.72222
+#> 4    Darth Vader    202   136 33.33007
+#> 5    Leia Organa    150    49 21.77778
+#> # ... with 82 more rows
+
+starwars %>% 
+  arrange(desc(mass))
+#> # A tibble: 87 x 13
+#>                    name height  mass hair_color       skin_color
+#>                   <chr>  <int> <dbl>      <chr>            <chr>
+#> 1 Jabba Desilijic Tiure    175  1358       <NA> green-tan, brown
+#> 2              Grievous    216   159       none     brown, white
+#> 3                 IG-88    200   140       none            metal
+#> 4           Darth Vader    202   136       none            white
+#> 5               Tarfful    234   136      brown            brown
+#> # ... with 82 more rows, and 8 more variables: eye_color <chr>,
+#> #   birth_year <dbl>, gender <chr>, homeworld <chr>, species <chr>,
+#> #   films <list>, vehicles <list>, starships <list>
+
+starwars %>%
+  group_by(species) %>%
+  summarise(
+    n = n(),
+    mass = mean(mass, na.rm = TRUE)
+  ) %>%
+  filter(n > 1)
+#> # A tibble: 9 x 3
+#>    species     n     mass
+#>      <chr> <int>    <dbl>
+#> 1    Droid     5 69.75000
+#> 2   Gungan     3 74.00000
+#> 3    Human    35 82.78182
+#> 4 Kaminoan     2 88.00000
+#> 5 Mirialan     2 53.10000
+#> # ... with 4 more rows
 ```
-
-Single table verbs
-------------------
-
-`dplyr` implements the following verbs useful for data manipulation:
-
--   `select()`: focus on a subset of variables
--   `filter()`: focus on a subset of rows
--   `mutate()`: add new columns
--   `summarise()`: reduce each group to a smaller number of summary statistics
--   `arrange()`: re-order the rows
-
-They all work as similarly as possible across the range of data sources. The main difference is performance:
-
-``` r
-system.time(carriers_df %>% summarise(delay = mean(arr_delay)))
-#>    user  system elapsed 
-#>   0.048   0.001   0.051
-system.time(carriers_db1 %>% summarise(delay = mean(arr_delay)) %>% collect())
-#>    user  system elapsed 
-#>   0.231   0.201   0.750
-system.time(carriers_db2 %>% summarise(delay = mean(arr_delay)) %>% collect())
-#>    user  system elapsed 
-#>   0.005   0.001   0.133
-```
-
-Data frame methods are much much faster than the plyr equivalent. The database methods are slower, but can work with data that don't fit in memory.
-
-``` r
-system.time(plyr::ddply(flights, "carrier", plyr::summarise,
-  delay = mean(arr_delay, na.rm = TRUE)))
-#>    user  system elapsed 
-#>   0.119   0.041   0.163
-```
-
-### `do()`
-
-As well as the specialised operations described above, `dplyr` also provides the generic `do()` function which applies any R function to each group of the data.
-
-Let's take the batting database from the built-in Lahman database. We'll group it by year, and then fit a model to explore the relationship between their number of at bats and runs:
-
-``` r
-by_year <- lahman_df() %>% 
-  tbl("Batting") %>%
-  group_by(yearID)
-by_year %>% 
-  do(mod = lm(R ~ AB, data = .))
-#> Source: local data frame [145 x 2]
-#> Groups: <by row>
-#> 
-#> # A tibble: 145 × 2
-#>    yearID      mod
-#> *   <int>   <list>
-#> 1    1871 <S3: lm>
-#> 2    1872 <S3: lm>
-#> 3    1873 <S3: lm>
-#> 4    1874 <S3: lm>
-#> 5    1875 <S3: lm>
-#> 6    1876 <S3: lm>
-#> 7    1877 <S3: lm>
-#> 8    1878 <S3: lm>
-#> 9    1879 <S3: lm>
-#> 10   1880 <S3: lm>
-#> # ... with 135 more rows
-```
-
-Note that if you are fitting lots of linear models, it's a good idea to use `biglm` because it creates model objects that are considerably smaller:
-
-``` r
-by_year %>% 
-  do(mod = lm(R ~ AB, data = .)) %>%
-  object.size() %>%
-  print(unit = "MB")
-#> 23.1 Mb
-
-by_year %>% 
-  do(mod = biglm::biglm(R ~ AB, data = .)) %>%
-  object.size() %>%
-  print(unit = "MB")
-#> 0.8 Mb
-```
-
-Multiple table verbs
---------------------
-
-As well as verbs that work on a single tbl, there are also a set of useful verbs that work with two tbls at a time: joins and set operations.
-
-dplyr implements the four most useful joins from SQL:
-
--   `inner_join(x, y)`: matching x + y
--   `left_join(x, y)`: all x + matching y
--   `semi_join(x, y)`: all x with match in y
--   `anti_join(x, y)`: all x without match in y
-
-And provides methods for:
-
--   `intersect(x, y)`: all rows in both x and y
--   `union(x, y)`: rows in either x or y
--   `setdiff(x, y)`: rows in x, but not y
-
-Plyr compatibility
-------------------
-
-You'll need to be a little careful if you load both plyr and dplyr at the same time. I'd recommend loading plyr first, then dplyr, so that the faster dplyr functions come first in the search path. By and large, any function provided by both dplyr and plyr works in a similar way, although dplyr functions tend to be faster and more general.
-
-Related approaches
-------------------
-
--   [Blaze](http://blaze.pydata.org)
--   [|Stat](http://oldwww.acm.org/perlman/stat/)
--   [Pig](http://dx.doi.org/10.1145/1376616.1376726)

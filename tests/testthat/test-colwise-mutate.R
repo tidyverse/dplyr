@@ -31,7 +31,7 @@ test_that("default names are smallest unique set", {
   expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
 })
 
-test_that("named arguments force complete namd", {
+test_that("named arguments force complete named", {
   df <- data.frame(x = 1:3, y = 1:3)
   expect_named(summarise_at(df, vars(x:y), funs(mean = mean)), c("x_mean", "y_mean"))
   expect_named(summarise_at(df, vars(x = x), funs(mean, sd)), c("x_mean", "x_sd"))
@@ -75,8 +75,9 @@ test_that("empty selection does not select everything (#2009, #1989)", {
 })
 
 test_that("error is thrown with improper additional arguments", {
-  expect_error(mutate_all(mtcars, round, 0, 0), "3 arguments passed")
-  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE), "matched by multiple")
+  # error messages by base R, not checked
+  expect_error(mutate_all(mtcars, round, 0, 0))
+  expect_error(mutate_all(mtcars, mean, na.rm = TRUE, na.rm = TRUE))
 })
 
 test_that("predicate can be quoted", {
@@ -95,17 +96,38 @@ test_that("can rename with vars() (#2594)", {
   expect_equal(mutate_at(tibble(x = 1:3), vars(y = x), mean), tibble(x = 1:3, y = c(2, 2, 2)))
 })
 
+test_that("selection works with grouped data frames (#2624)", {
+  gdf <- group_by(iris, Species)
+  expect_identical(mutate_if(gdf, is.factor, as.character), gdf)
+})
+
+test_that("at selection works even if not all ops are named (#2634)", {
+  df <- tibble(x = 1, y = 2)
+  expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
+})
+
+test_that("can use a purrr-style lambda", {
+  expect_identical(summarise_at(mtcars, vars(1:2), ~mean(.x)), summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl)))
+})
+
 
 # Deprecated ---------------------------------------------------------
 
 test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_warning(expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean)), "deprecated")
-  expect_warning(expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean)), "deprecated")
-  expect_warning(expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean)), "deprecated")
+  expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
+  expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
+  expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
 
-  expect_warning(expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean)), "deprecated")
-  expect_warning(expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean)), "deprecated")
-  expect_warning(expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean)), "deprecated")
+  expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
+  expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
+  expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
+})
+
+test_that("specific directions are given for _all() and _at() versions", {
+  summarise_each(mtcars, funs(mean))
+  summarise_each(mtcars, funs(mean), cyl)
+  mutate_each(mtcars, funs(mean))
+  mutate_each(mtcars, funs(mean), cyl)
 })

@@ -25,7 +25,7 @@ grouped_df <- function(data, vars, drop = TRUE) {
   grouped_df_impl(data, unname(vars), drop)
 }
 
-setOldClass(c("grouped_df", "tbl_df", "data.frame"))
+setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
 #' @rdname grouped_df
 #' @export
@@ -35,17 +35,12 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 is_grouped_df <- is.grouped_df
 
 #' @export
-print.grouped_df <- function(x, ..., n = NULL, width = NULL) {
-  cat("Source: local data frame ", dim_desc(x), "\n", sep = "")
-
+tbl_sum.grouped_df <- function(x) {
   grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
-  cat(
-    "Groups: ", commas(deparse_all(groups(x))), " [", big_mark(grps), "]\n",
-    sep = ""
+  c(
+    NextMethod(),
+    c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
   )
-  cat("\n")
-  print(trunc_mat(x, n = n, width = width), ...)
-  invisible(x)
 }
 
 #' @export
@@ -60,12 +55,15 @@ n_groups.grouped_df <- function(x) {
 
 #' @export
 groups.grouped_df <- function(x) {
-  lapply(group_vars(x), as.name)
+  syms(group_vars(x))
 }
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  attr(x, "vars")
+  vars <- attr(x, "vars")
+  # Need this for compatibility with existing packages that might
+  if (is.list(vars)) vars <- map_chr(vars, as_string)
+  vars
 }
 
 #' @export
@@ -116,9 +114,12 @@ cbind.grouped_df <- function(...) {
 
 # One-table verbs --------------------------------------------------------------
 
+# see arrange.r for arrange.grouped_df
+
 #' @export
 select.grouped_df <- function(.data, ...) {
-  vars <- select_vars(names(.data), ...)
+  # Pass via splicing to avoid matching select_vars() arguments
+  vars <- select_vars(names(.data), !!! quos(...))
   vars <- ensure_group_vars(vars, .data)
   select_impl(.data, vars)
 }
@@ -147,7 +148,7 @@ ensure_group_vars <- function(vars, data, notify = TRUE) {
 
 #' @export
 rename.grouped_df <- function(.data, ...) {
-  vars <- rename_vars(names(.data), ...)
+  vars <- rename_vars(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export
@@ -188,7 +189,7 @@ do.grouped_df <- function(.data, ...) {
       out <- set_names(out, names(args))
       out <- label_output_list(labels, out, groups(.data))
     } else {
-      env_bind(env, list(. = group_data, .data = group_data))
+      env_bind(.env = env, . = group_data, .data = group_data)
       out <- eval_tidy_(args[[1]], env)[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
@@ -205,8 +206,7 @@ do.grouped_df <- function(.data, ...) {
       group_data[index[[`_i`]] + 1L, ] <<- value
     }
   }
-  env_assign_active(env, ".", group_slice)
-  env_assign_active(env, ".data", group_slice)
+  env_bind_fns(.env = env, . = group_slice, .data = group_slice)
 
   overscope <- new_overscope(env)
   on.exit(overscope_clean(overscope))
@@ -238,7 +238,12 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 
 #' @export
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., !!! groups(.data), .keep_all = .keep_all)
+  dist <- distinct_vars(
+    .data,
+    vars = named_quos(...),
+    group_vars = group_vars(.data),
+    .keep_all = .keep_all
+  )
   grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
 }
 #' @export
@@ -257,7 +262,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
 
   assert_that(is_scalar_integerish(size), size >= 0)
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    inform("`.env` is deprecated and no longer has any effect")
   }
   weight <- enquo(weight)
 
@@ -279,10 +284,12 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL) {
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    inform("`.env` is deprecated and no longer has any effect")
   }
   if (size > 1 && !replace) {
-    abort("Sampled fraction can't be greater than one unless replace = TRUE")
+    bad_args("size", "of sampled fraction must be less or equal to one, ",
+      "set `replace` = TRUE to use sampling with replacement"
+    )
   }
   weight <- enquo(weight)
 
@@ -301,9 +308,12 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
 
 sample_group <- function(tbl, i, frac, size, replace, weight) {
   n <- length(i)
-  if (frac) size <- round(size * n)
-
-  check_size(size, n, replace)
+  if (frac) {
+    check_frac(size, replace)
+    size <- round(size * n)
+  } else {
+    check_size(size, n, replace)
+  }
 
   weight <- eval_tidy(weight, tbl[i + 1, , drop = FALSE])
   if (!is_null(weight)) {

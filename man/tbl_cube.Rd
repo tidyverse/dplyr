@@ -2,7 +2,7 @@
 % Please edit documentation in R/tbl-cube.r
 \name{tbl_cube}
 \alias{tbl_cube}
-\title{A data cube tbl.}
+\title{A data cube tbl}
 \usage{
 tbl_cube(dimensions, measures)
 }

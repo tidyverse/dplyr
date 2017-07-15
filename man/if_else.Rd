@@ -2,7 +2,7 @@
 % Please edit documentation in R/if_else.R
 \name{if_else}
 \alias{if_else}
-\title{Vectorised if.}
+\title{Vectorised if}
 \usage{
 if_else(condition, true, false, missing = NULL)
 }

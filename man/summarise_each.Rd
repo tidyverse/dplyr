@@ -5,8 +5,6 @@
 \alias{summarise_each_}
 \alias{mutate_each}
 \alias{mutate_each_}
-\alias{summarise_each_q}
-\alias{mutate_each_q}
 \alias{summarize_each}
 \alias{summarize_each_}
 \title{Summarise and mutate multiple columns.}
@@ -19,10 +17,6 @@ mutate_each(tbl, funs, ...)
 
 mutate_each_(tbl, funs, vars)
 
-summarise_each_q(...)
-
-mutate_each_q(...)
-
 summarize_each(tbl, funs, ...)
 
 summarize_each_(tbl, funs, vars)
@@ -32,5 +26,14 @@ summarize_each_(tbl, funs, vars)
 a more featureful family of functions: \code{\link[=mutate_all]{mutate_all()}},
 \code{\link[=mutate_at]{mutate_at()}}, \code{\link[=mutate_if]{mutate_if()}}, \code{\link[=summarise_all]{summarise_all()}}, \code{\link[=summarise_at]{summarise_at()}}
 and \code{\link[=summarise_if]{summarise_if()}}.
+
+The \code{_each()} functions have two replacements depending on what
+variables you want to apply \code{funs} to. To apply a function to all
+variables, use \code{\link[=mutate_all]{mutate_all()}} or \code{\link[=summarise_all]{summarise_all()}}. To apply a
+function to a selection of variables, use \code{\link[=mutate_at]{mutate_at()}} or
+\code{\link[=summarise_at]{summarise_at()}}.
+
+See the relevant section of \code{vignette("compatibility")} for more
+information.
 }
 \keyword{internal}

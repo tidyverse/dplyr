@@ -76,7 +76,7 @@ inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
   default:
     break;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(x)));
 }
 
 
@@ -129,7 +129,7 @@ inline GroupedSubset* summarised_subset(SummarisedVariable x) {
   default:
     break;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(x)));
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(x)));
 }
 }
 

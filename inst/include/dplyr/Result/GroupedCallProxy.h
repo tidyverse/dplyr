@@ -79,7 +79,7 @@ public:
   }
 
   inline bool has_variable(const SymbolString& name) const {
-    return subsets.count(name);
+    return subsets.has_variable(name);
   }
 
   inline SEXP get_variable(const SymbolString& name) const {

@@ -2,6 +2,13 @@
 #'
 #' These functions power [select()] and [rename()].
 #'
+#' For historic reasons, the `vars` and `include` arguments are not
+#' prefixed with `.`. This means that any argument starting with `v`
+#' might partial-match on `vars` if it is not explicitly named. Also
+#' `...` cannot accept arguments named `exclude` or `include`. You can
+#' enquose and splice the dots to work around these limitations (see
+#' examples).
+#'
 #' @param vars A character vector of existing column names.
 #' @param ...,args Expressions to compute
 #'
@@ -11,8 +18,14 @@
 #'   `vars`. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
 #'   these concepts.
+#'
+#'   Note that except for `:`, `-` and `c()`, all complex expressions
+#'   are evaluated outside that context. This is to prevent accidental
+#'   matching to `vars` elements when you refer to variables from the
+#'   calling context.
 #' @param include,exclude Character vector of column names to always
 #'   include/exclude.
+#' @seealso [select_var()]
 #' @export
 #' @keywords internal
 #' @return A named character vector. Values are existing column names,
@@ -46,12 +59,34 @@
 #' rename_vars(names(iris), petal_length = Petal.Length)
 #'
 #' # You can unquote names or formulas (or lists of)
-#' select_vars(names(iris), !!! list(~Petal.Length))
+#' select_vars(names(iris), !!! list(quo(Petal.Length)))
 #' select_vars(names(iris), !! quote(Petal.Length))
+#'
+#' # The .data pronoun is available:
+#' select_vars(names(mtcars), .data$cyl)
+#' select_vars(names(mtcars), .data$mpg : .data$disp)
+#'
+#' # However it isn't available within calls since those are evaluated
+#' # outside of the data context. This would fail if run:
+#' # select_vars(names(mtcars), identical(.data$cyl))
+#'
+#'
+#' # If you're writing a wrapper around select_vars(), pass the dots
+#' # via splicing to avoid matching dotted arguments to select_vars()
+#' # named arguments (`vars`, `include` and `exclude`):
+#' wrapper <- function(...) {
+#'   select_vars(names(mtcars), !!! quos(...))
+#' }
+#'
+#' # This won't partial-match on `vars`:
+#' wrapper(var = cyl)
+#'
+#' # This won't match on `include`:
+#' wrapper(include = cyl)
 select_vars <- function(vars, ..., include = character(), exclude = character()) {
-  args <- quos(...)
+  quos <- quos(...)
 
-  if (is_empty(args)) {
+  if (is_empty(quos)) {
     vars <- setdiff(include, exclude)
     return(set_names(vars, vars))
   }
@@ -64,28 +99,29 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   names_list <- set_names(as.list(seq_along(vars)), vars)
 
   # if the first selector is exclusive (negative), start with all columns
-  initial_case <- if (is_negated(args[[1]])) list(seq_along(vars)) else integer(0)
+  first <- f_rhs(quos[[1]])
+  initial_case <- if (is_negated(first)) list(seq_along(vars)) else integer(0)
 
   # Evaluate symbols in an environment where columns are bound, but
   # not calls (select helpers are scoped in the calling environment)
-  is_helper <- map_lgl(args, function(x) is_lang(x) && !is_lang(x, c("-", ":")))
-  ind_list <- map_if(args, is_helper, eval_tidy)
-  ind_list <- map_if(ind_list, !is_helper, eval_tidy, names_list)
+  is_helper <- map_lgl(quos, quo_is_helper)
+  ind_list <- map_if(quos, is_helper, eval_tidy)
+  ind_list <- map_if(ind_list, !is_helper, eval_tidy, data = names_list)
 
   ind_list <- c(initial_case, ind_list)
-  names(ind_list) <- c(names2(initial_case), names2(args))
+  names(ind_list) <- c(names2(initial_case), names2(quos))
 
-  is_numeric <- map_lgl(ind_list, is.numeric)
-  if (any(!is_numeric)) {
-    bad_inputs <- map(args[!is_numeric], f_rhs)
-    labels <- map_chr(bad_inputs, deparse_trunc)
+  # Match strings to variable positions
+  ind_list <- map_if(ind_list, is_character, match_var, table = vars)
 
-    abort(glue(
-      "All select() inputs must resolve to integer column positions. \\
-       The following do not:
-       {labels}",
-      labels = paste("* ", labels, collapse = "\n")
-    ))
+  is_integerish <- map_lgl(ind_list, is_integerish)
+  if (any(!is_integerish)) {
+    bad <- quos[!is_integerish]
+    first <- ind_list[!is_integerish][[1]]
+    first_type <- friendly_type(type_of(first))
+    bad_calls(bad,
+      "must resolve to integer column positions, not {first_type}"
+    )
   }
 
   incl <- combine_vars(vars, ind_list)
@@ -106,6 +142,32 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   sel
 }
 
+quo_is_helper <- function(quo) {
+  expr <- f_rhs(quo)
+
+  if (!is_lang(expr)) {
+    return(FALSE)
+  }
+
+  if (is_data_pronoun(expr)) {
+    return(FALSE)
+  }
+
+  if (is_lang(expr, c("-", ":", "c"))) {
+    return(FALSE)
+  }
+
+  TRUE
+}
+match_var <- function(chr, table) {
+  pos <- match(chr, table)
+  if (any(are_na(pos))) {
+    chr <- glue::collapse(chr[are_na(pos)], ", ")
+    abort(glue("Strings must match column names. Unknown columns: {chr}"))
+  }
+  pos
+}
+
 #' @rdname se-deprecated
 #' @inheritParams select_vars
 #' @export
@@ -123,28 +185,17 @@ setdiff2 <- function(x, y) {
 #' @param strict If `TRUE`, will throw an error if you attempt to rename a
 #'   variable that doesn't exist.
 rename_vars <- function(vars, ..., strict = TRUE) {
-  args <- quos(...)
-  if (any(names2(args) == "")) {
-    abort("All arguments to `rename()` must be named.")
+  exprs <- exprs(...)
+  if (any(names2(exprs) == "")) {
+    abort("All arguments must be named")
   }
 
-  is_name <- map_lgl(args, is_symbol)
-  if (!all(is_name)) {
-    n <- sum(!is_name)
-    bad <- paste0("`", names(args)[!is_name], "`", collapse = ", ")
-
-    abort(glue(
-      "Arguments to `rename()` must be unquoted variable names.\n",
-      sprintf(ngettext(n, "Argument %s is not.", "Arguments %s are not."), bad)
-    ))
-  }
-
-  old_vars <- map_chr(args, as_name)
-  new_vars <- names(args)
+  old_vars <- map2(exprs, names(exprs), switch_rename)
+  new_vars <- names(exprs)
 
   unknown_vars <- setdiff(old_vars, vars)
   if (strict && length(unknown_vars) > 0) {
-    abort(glue("Unknown variables: ", paste0(unknown_vars, collapse = ", "), "."))
+    bad_args(unknown_vars, "contains unknown variables")
   }
 
   select <- set_names(vars, vars)
@@ -152,10 +203,30 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 
   select
 }
-
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
   args <- compat_lazy_dots(args, caller_env())
   rename_vars(vars, !!! args)
+}
+
+# FIXME: that's not a tidy implementation yet because we need to
+# handle non-existing symbols silently when `strict = FALSE`
+switch_rename <- function(expr, name) {
+  switch_type(expr,
+    string = ,
+    symbol =
+      return(as_string(expr)),
+    language =
+      if (is_data_pronoun(expr)) {
+        args <- node_cdr(expr)
+        return(switch_rename(node_cadr(args)))
+      } else {
+        abort("Expressions are currently not supported in `rename()`")
+      }
+  )
+
+  actual_type <- friendly_type(type_of(expr))
+  named_call <- ll(!! name := expr)
+  bad_named_calls(named_call, "must be a symbol or a string, not {actual_type}")
 }

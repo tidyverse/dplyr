@@ -23,9 +23,28 @@ node_walk_replace <- function(node, old, new) {
 expr_substitute <- function(expr, old, new) {
   expr <- duplicate(expr)
   switch_type(expr,
-    quosure = ,
+    formula = ,
     language = node_walk_replace(node_cdr(expr), old, new),
     symbol = if (identical(expr, old)) return(new)
   )
   expr
+}
+
+sym_dollar <- quote(`$`)
+sym_brackets2 <- quote(`[[`)
+is_data_pronoun <- function(expr) {
+  is_lang(expr, list(sym_dollar, sym_brackets2)) &&
+    identical(node_cadr(expr), quote(.data))
+}
+tidy_text <- function(quo, width = 60L) {
+  expr <- f_rhs(quo)
+  if (is_data_pronoun(expr)) {
+    as_string(node_cadr(node_cdr(expr)))
+  } else {
+    quo_text(quo, width = width)
+  }
+}
+named_quos <- function(...) {
+  quos <- quos(...)
+  exprs_auto_name(quos, printer = tidy_text)
 }

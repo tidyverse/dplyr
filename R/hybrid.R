@@ -1,5 +1,5 @@
 verify_hybrid <- function(x) {
-  stop("Not in hybrid evaluation", call. = FALSE)
+  abort("Not in hybrid evaluation")
 }
 
 verify_not_hybrid <- function(x) {

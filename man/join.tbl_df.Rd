@@ -8,7 +8,7 @@
 \alias{full_join.tbl_df}
 \alias{semi_join.tbl_df}
 \alias{anti_join.tbl_df}
-\title{Join data frame tbls.}
+\title{Join data frame tbls}
 \usage{
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), ...,
@@ -56,12 +56,12 @@ Should be a character vector of length 2.}
 
 \item{...}{included for compatibility with the generic; otherwise ignored.}
 
-\item{na_matches}{Use \code{"na"} to treat two \code{NA} or \code{NaN} values as equal, like \code{\link[=merge]{merge()}}.
-The default, \code{"never"}, always treats two \code{NA} or \code{NaN} values as
+\item{na_matches}{Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as
 different, like joins for database sources, similarly to
 \code{merge(incomparables = FALSE)}.
+The default,\code{"na"}, always treats two \code{NA} or \code{NaN} values as equal, like \code{\link[=merge]{merge()}}.
 Users and package authors can change the default behavior by calling
-\code{pkgconfig::set_config("dplyr::na_matches" = "na")}.}
+\code{pkgconfig::set_config("dplyr::na_matches" = "never")}.}
 }
 \description{
 See \link{join} for a description of the general purpose of the

@@ -32,11 +32,9 @@ test_that("if no variables specified, uses all", {
   expect_equal(distinct(df), data_frame(x = 1, y = 2))
 })
 
-test_that("by default distinct keeps only specified cols", {
-  df <- data_frame(x = c(1, 1, 1))
-
+test_that("distinct keeps only specified cols", {
+  df <- data_frame(x = c(1, 1, 1), y = c(1, 1, 1))
   expect_equal(df %>% distinct(x), data_frame(x = 1))
-  expect_equal(df %>% group_by(x) %>% distinct(), data_frame(x = 1))
 })
 
 test_that("unless .keep_all = TRUE", {
@@ -51,4 +49,21 @@ test_that("distinct doesn't duplicate columns", {
 
   expect_named(df %>% distinct(a, a), "a")
   expect_named(df %>% group_by(a) %>% distinct(a), "a")
+})
+
+
+test_that("grouped distinct always includes group cols", {
+  df <- tibble(g = c(1, 2), x = c(1, 2))
+
+  out <- df %>% group_by(g) %>% distinct(x)
+  expect_equal(df, out)
+})
+
+test_that("empty grouped distinct equivalent to empty ungrouped", {
+  df <- tibble(g = c(1, 2), x = c(1, 2))
+
+  df1 <- df %>% distinct() %>% group_by(g)
+  df2 <- df %>% group_by(g) %>% distinct()
+
+  expect_equal(df1, df2)
 })

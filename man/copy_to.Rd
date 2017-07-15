@@ -2,7 +2,7 @@
 % Please edit documentation in R/copy-to.r
 \name{copy_to}
 \alias{copy_to}
-\title{Copy a local data frame to a remote src.}
+\title{Copy a local data frame to a remote src}
 \usage{
 copy_to(dest, df, name = deparse(substitute(df)), overwrite = FALSE, ...)
 }
@@ -29,7 +29,7 @@ temporary, limited to the current connection to the source.
 }
 \examples{
 \dontrun{
-iris2 <- src_memdb() \%>\% copy_to(iris, overwrite = TRUE)
+iris2 <- dbplyr::src_memdb() \%>\% copy_to(iris, overwrite = TRUE)
 iris2
 }
 }

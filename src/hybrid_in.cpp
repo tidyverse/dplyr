@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <dplyr/HybridHandlerMap.h>
@@ -9,9 +10,9 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-Result* in_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNUSED int nargs) {
-  SEXP lhs = CADR(call);
-  SEXP rhs = CADDR(call);
+Result* in_prototype(SEXP call, const ILazySubsets& subsets, int) {
+  SEXP lhs = maybe_rhs(CADR(call));
+  SEXP rhs = maybe_rhs(CADDR(call));
 
   // if lhs is not a symbol, let R handle it
   if (TYPEOF(lhs) != SYMSXP) return 0;
@@ -19,7 +20,7 @@ Result* in_prototype(SEXP call, const ILazySubsets& subsets, BOOST_ATTRIBUTE_UNU
   SymbolString name = SymbolString(Symbol(lhs));
 
   // if the lhs is not in the data, let R handle it
-  if (!subsets.count(name)) return 0;
+  if (!subsets.has_variable(name)) return 0;
 
   SEXP v = subsets.get_variable(name);
 

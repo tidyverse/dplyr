@@ -17,6 +17,8 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 You can treat variable names like they are positions.
 
 Positive values select variables; negative values to drop variables.
+If the first expression is negative, \code{select()} will automatically
+start with all variables.
 
 Use named arguments to rename selected variables.
 
@@ -44,6 +46,11 @@ a number of special functions that only work inside \code{select}
 }
 
 To drop variables, use \code{-}.
+
+Note that except for \code{:}, \code{-} and \code{c()}, all complex expressions
+are evaluated outside the data frame context. This is to prevent
+accidental matching of data frame variables when you refer to
+variables from the calling context.
 }
 
 \section{Scoped selection and renaming}{
@@ -76,6 +83,16 @@ select(df, num_range("V", 4:6))
 
 # Drop variables with -
 select(iris, -starts_with("Petal"))
+
+
+# The .data pronoun is available:
+select(mtcars, .data$cyl)
+select(mtcars, .data$mpg : .data$disp)
+
+# However it isn't available within calls since those are evaluated
+# outside of the data context. This would fail if run:
+# select(mtcars, identical(.data$cyl))
+
 
 # Renaming -----------------------------------------
 # * select() keeps only the variables you specify

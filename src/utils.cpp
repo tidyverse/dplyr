@@ -1,8 +1,10 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <tools/utils.h>
 #include <dplyr/white_list.h>
 #include <tools/collapse.h>
+#include <dplyr/bad.h>
 
 using namespace Rcpp;
 
@@ -18,12 +20,11 @@ void assert_all_white_list(const DataFrame& data) {
 
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
-        stop("column '%s' has unsupported class : %s",
-             name_i.get_utf8_cstring(), get_single_class(v));
+        bad_col(name_i, "is of unsupported class {type}",
+                _["type"] = get_single_class(v));
       }
       else {
-        stop("column '%s' has unsupported type : %s",
-             name_i.get_utf8_cstring(), Rf_type2char(TYPEOF(v)));
+        bad_col(name_i, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
       }
     }
   }
@@ -76,13 +77,21 @@ void copy_attributes(SEXP out, SEXP data) {
   if (IS_S4_OBJECT(data)) SET_S4_OBJECT(out);
 }
 
+SEXP null_if_empty(SEXP x) {
+  if (Rf_length(x))
+    return x;
+  else
+    return R_NilValue;
+}
+
+
 namespace dplyr {
 
 std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
     CharacterVector classes(klass);
-    return collapse_utf8(classes);
+    return collapse_utf8(classes, "/");
   }
 
   if (Rf_isMatrix(x)) {
@@ -139,18 +148,57 @@ bool same_levels(SEXP left, SEXP right) {
   return character_vector_equal(get_levels(left), get_levels(right));
 }
 
+SEXP list_as_chr(SEXP x) {
+  int n = Rf_length(x);
+  CharacterVector chr(n);
+
+  for (int i = 0; i != n; ++i) {
+    SEXP elt = VECTOR_ELT(x, i);
+    switch (TYPEOF(elt)) {
+    case STRSXP:
+      if (Rf_length(chr) == 1) {
+        chr[i] = elt;
+        continue;
+      }
+      break;
+    case SYMSXP:
+      chr[i] = PRINTNAME(elt);
+      continue;
+    default:
+      break;
+    }
+
+    stop("The tibble's `vars` attribute has unexpected contents");
+  }
+
+  return chr;
+}
+
 SymbolVector get_vars(SEXP x) {
   static SEXP vars_symbol = Rf_install("vars");
-  return SymbolVector(Rf_getAttrib(x, vars_symbol));
+  RObject vars = Rf_getAttrib(x, vars_symbol);
+
+  switch (TYPEOF(vars)) {
+  case NILSXP:
+  case STRSXP:
+    break;
+  case VECSXP:
+    vars = list_as_chr(vars);
+    break;
+  default:
+    stop("The tibble's `vars` attribute has unexpected type");
+  }
+
+  return SymbolVector(vars);
 }
 
-SEXP set_vars(SEXP x, const SymbolVector& vars) {
+void set_vars(SEXP x, const SymbolVector& vars) {
   static SEXP vars_symbol = Rf_install("vars");
-  return Rf_setAttrib(x, vars_symbol, vars.get_vector());
+  Rf_setAttrib(x, vars_symbol, null_if_empty(vars.get_vector()));
 }
 
-SEXP copy_vars(SEXP target, SEXP source) {
-  return set_vars(target, get_vars(source));
+void copy_vars(SEXP target, SEXP source) {
+  set_vars(target, get_vars(source));
 }
 
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
@@ -175,4 +223,67 @@ bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) 
   return true;
 }
 
+}
+
+bool is_vector(SEXP x) {
+  switch (TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP:
+  case VECSXP:
+    return true;
+  default:
+    return false;
+  }
+}
+bool is_atomic(SEXP x) {
+  switch (TYPEOF(x)) {
+  case LGLSXP:
+  case INTSXP:
+  case REALSXP:
+  case CPLXSXP:
+  case STRSXP:
+  case RAWSXP:
+    return true;
+  default:
+    return false;
+  }
+}
+
+SEXP vec_names(SEXP x) {
+  return Rf_getAttrib(x, R_NamesSymbol);
+}
+bool is_str_empty(SEXP str) {
+  const char* c_str = CHAR(str);
+  return strcmp(c_str, "") == 0;
+}
+bool has_name_at(SEXP x, R_len_t i) {
+  SEXP nms = vec_names(x);
+  return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
+}
+SEXP name_at(SEXP x, size_t i) {
+  SEXP names = vec_names(x);
+  if (Rf_isNull(names))
+    return Rf_mkChar("");
+  else
+    return STRING_ELT(names, i);
+}
+
+SEXP f_env(SEXP x) {
+  return Rf_getAttrib(x, Rf_install(".Environment"));
+}
+bool is_quosure(SEXP x) {
+  return TYPEOF(x) == LANGSXP
+    && Rf_length(x) == 2
+    && Rf_inherits(x, "quosure")
+    && TYPEOF(f_env(x)) == ENVSXP;
+}
+SEXP maybe_rhs(SEXP x) {
+  if (is_quosure(x))
+    return CADR(x);
+  else
+    return x;
 }

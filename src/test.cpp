@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <dplyr/comparisons.h>
@@ -102,4 +103,26 @@ List test_matches() {
         !real_int::is_match(NA_REAL, NA_INTEGER)
       )
     );
+}
+
+// [[Rcpp::export]]
+LogicalVector test_length_wrap() {
+  R_xlen_t small = R_LEN_T_MAX / 2;
+
+#ifdef LONG_VECTOR_SUPPORT
+  R_xlen_t large = (R_xlen_t)(R_LEN_T_MAX * 2.0);
+  R_xlen_t missing = NA_INTEGER;
+
+  return
+    LogicalVector::create(
+      as<double>(wrap(small)) == (double)small,
+      as<double>(wrap(large)) == (double)large,
+      as<double>(wrap(missing)) == (double)missing
+    );
+#else
+  return
+    LogicalVector::create(
+      as<double>(wrap(small)) == (double)small
+    );
+#endif
 }

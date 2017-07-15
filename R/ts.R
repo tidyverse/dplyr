@@ -1,4 +1,4 @@
 #' @export
 filter.ts <- function(.data, ...) {
-  abort("dplyr::filter() called with ts object. Do you want stats::filter()?")
+  bad_args(".data", "must be a data source, not a ts object, do you want `stats::filter()`?")
 }

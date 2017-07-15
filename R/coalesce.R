@@ -38,7 +38,11 @@ coalesce <- function(...) {
   values <- values[-1]
 
   for (i in seq_along(values)) {
-    x <- replace_with(x, is.na(x), values[[i]], paste0("Vector ", i))
+    x <- replace_with(
+      x, is.na(x), values[[i]],
+      glue("Argument {i + 1}"),
+      glue("length of {fmt_args(~x)}")
+    )
   }
   x
 }

@@ -4,8 +4,8 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   # Can't use pipe here, f and g should have top-level parent.env()
   df <- data_frame(x = 1)
   df <- mutate(df, f = list(function(){}))
-  df <- mutate(df, g = list(~.))
-  df <- mutate(df, h = list(UQF(~.)))
+  df <- mutate(df, g = list(quo(.)))
+  df <- mutate(df, h = list(~.))
 
   expect_environments_clean(df$f[[1]])
   expect_environments_clean(df$g[[1]])
@@ -56,7 +56,7 @@ test_that("n() and n_distinct() work", {
 
   expect_not_hybrid_error(
     n_distinct(), a = 1:5,
-    error = "need at least one column"
+    error = "Need at least one column for `n_distinct[(][)]`"
   )
 })
 
@@ -273,6 +273,14 @@ test_that("first(), last(), and nth() work", {
     first(a, order_by = b), a = 1:5, b = 5:1,
     expected = 5L
   )
+
+  expect_equal(
+    tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
+      group_by(a) %>%
+      summarize(b = b[1], b = first(b)) %>%
+      ungroup,
+    tibble(a = c(1, 2), b = c("a", "c"))
+  )
 })
 
 test_that("lead() and lag() work", {
@@ -392,7 +400,7 @@ test_that("mean(), var(), sd() and sum() work", {
 
   check_hybrid_result(
     sd(a), a = c(1:3, NA),
-    expected = NA_real_
+    expected = is.na
   )
 })
 
@@ -471,6 +479,14 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
   check_not_hybrid_result(
     ntile("a", 2), a = 5:1,
     expected = 1L
+  )
+
+  expect_equal(
+    tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
+      group_by(a) %>%
+      summarize(b = b[1], b = min_rank(desc(b))) %>%
+      ungroup,
+    tibble(a = c(1, 2), b = c(1L, 1L))
   )
 })
 
@@ -752,4 +768,115 @@ test_that("constant folding and argument matching in hybrid evaluator (#2299)", 
   data_frame(x = c(1, 1)) %>%
     mutate(y = 1) %>%
     summarise(z = first(x, order_by = y))
+})
+
+test_that("simple handlers supports quosured symbols", {
+  mean <- sum <- var <- sd <- bad_hybrid_handler
+
+  expect_identical(
+    pull(summarise(mtcars, mean(!! quo(cyl)))),
+    base::mean(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, sum(!! quo(cyl)))),
+    base::sum(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, sd(!! quo(cyl)))),
+    stats::sd(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, var(!! quo(cyl)))),
+    stats::var(mtcars$cyl)
+  )
+})
+
+test_that("%in% handler supports quosured symbols", {
+  `%in%` <- bad_hybrid_handler
+  expect_identical(
+    pull(mutate(mtcars, UQ(quo(cyl)) %in% 4)),
+    base::`%in%`(mtcars$cyl, 4)
+  )
+})
+
+test_that("min() and max() handlers supports quosured symbols", {
+  min <- max <- bad_hybrid_handler
+
+  expect_identical(
+    pull(summarise(mtcars, min(!! quo(cyl)))),
+    base::min(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, max(!! quo(cyl)))),
+    base::max(mtcars$cyl)
+  )
+})
+
+test_that("lead/lag handlers support quosured symbols", {
+  lead <- lag <- bad_hybrid_handler
+
+  expect_identical(
+    pull(mutate(mtcars, lead(!! quo(cyl)))),
+    dplyr::lead(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, lag(!! quo(cyl)))),
+    dplyr::lag(mtcars$cyl)
+  )
+})
+
+test_that("window handlers supports quosured symbols", {
+  ntile <- min_rank <- percent_rank <- dense_rank <- cume_dist <- bad_hybrid_handler
+
+  expect_identical(
+    pull(mutate(mtcars, ntile(!! quo(disp), 2))),
+    dplyr::ntile(mtcars$disp, 2)
+  )
+  expect_identical(
+    pull(mutate(mtcars, min_rank(!! quo(cyl)))),
+    dplyr::min_rank(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, percent_rank(!! quo(cyl)))),
+    dplyr::percent_rank(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, dense_rank(!! quo(cyl)))),
+    dplyr::dense_rank(mtcars$cyl)
+  )
+  expect_identical(
+    pull(mutate(mtcars, cume_dist(!! quo(cyl)))),
+    dplyr::cume_dist(mtcars$cyl)
+  )
+})
+
+test_that("n_distinct() handler supports quosured symbols", {
+  n_distinct <- bad_hybrid_handler
+
+  expect_identical(
+    pull(summarise(mtcars, n_distinct(!! quo(cyl)))),
+    dplyr::n_distinct(mtcars$cyl)
+  )
+})
+
+test_that("nth handlers support quosured symbols", {
+  first <- last <- nth <- bad_hybrid_handler
+
+  expect_identical(
+    pull(summarise(mtcars, first(!! quo(cyl)))),
+    dplyr::first(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, last(!! quo(cyl)))),
+    dplyr::last(mtcars$cyl)
+  )
+  expect_identical(
+    pull(summarise(mtcars, nth(!! quo(cyl), 2))),
+    dplyr::nth(mtcars$cyl, 2)
+  )
+})
+
+test_that("top_n() is hybridised (#2822)", {
+  min_rank <- bad_hybrid_handler
+  expect_error(top_n(mtcars, 1, cyl), NA)
 })

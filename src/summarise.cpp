@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <boost/scoped_ptr.hpp>
@@ -10,14 +11,29 @@
 #include <dplyr/Result/GroupedCallReducer.h>
 #include <dplyr/Result/CallProxy.h>
 
+#include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 
 using namespace Rcpp;
 using namespace dplyr;
 
+static
+SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
+  int n = Rf_length(value);
+  check_length(n, nrows, "the number of groups", name);
+
+  // Recycle length 1 vectors
+  if (n == 1) {
+    boost::scoped_ptr<Gatherer> gather(constant_gatherer(value, nrows, name));
+    value = gather->collect();
+  }
+
+  return value;
+}
+
 template <typename Data, typename Subsets>
-SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   Data gdf(df);
 
   int nexpr = dots.size();
@@ -48,21 +64,29 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
     Shield<SEXP> expr_(quosure.expr());
     SEXP expr = expr_;
-    boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+    RObject result;
 
-    // If we could not find a direct Result,
-    // we can use a GroupedCallReducer which will callback to R.
-    // Note that the GroupedCallReducer currently doesn't apply
-    // special treatment to summary variables, for which hybrid
-    // evaluation should be turned off completely (#2312)
-    if (!res) {
-      res.reset(new GroupedCallReducer<Data, Subsets>(quosure.expr(), subsets, env));
+    // Unquoted vectors are directly used as column. Expressions are
+    // evaluated in each group.
+    if (is_vector(expr)) {
+      result = validate_unquoted_value(expr, gdf.ngroups(), quosure.name());
+    } else {
+      boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+
+      // If we could not find a direct Result,
+      // we can use a GroupedCallReducer which will callback to R.
+      // Note that the GroupedCallReducer currently doesn't apply
+      // special treatment to summary variables, for which hybrid
+      // evaluation should be turned off completely (#2312)
+      if (!res) {
+        res.reset(new GroupedCallReducer<Data, Subsets>(quosure.expr(), subsets, env, quosure.name()));
+      }
+      result = res->process(gdf);
     }
-    RObject result = res->process(gdf);
+
     results[i] = result;
     accumulator.set(quosure.name(), result);
     subsets.input_summarised(quosure.name(), SummarisedVariable(result));
-
   }
 
   List out = accumulator;
@@ -89,7 +113,7 @@ SEXP summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 }
 
 
-SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
+DataFrame summarise_not_grouped(DataFrame df, const QuosureList& dots) {
   int nexpr = dots.size();
   if (nexpr == 0) return DataFrame();
 
@@ -104,17 +128,26 @@ SEXP summarise_not_grouped(DataFrame df, const QuosureList& dots) {
     Environment env = quosure.env();
     Shield<SEXP> expr_(quosure.expr());
     SEXP expr = expr_;
-    boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
     SEXP result;
-    if (res) {
-      result = results[i] = res->process(FullDataFrame(df));
+
+    // Unquoted vectors are directly used as column. Expressions are
+    // evaluated in each group.
+    if (is_vector(expr)) {
+      result = validate_unquoted_value(expr, 1, quosure.name());
     } else {
-      result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
+      boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+      if (res) {
+        result = results[i] = res->process(FullDataFrame(df));
+      } else {
+        result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
+      }
+      check_supported_type(result, quosure.name());
+      check_length(Rf_length(result), 1, "a summary value", quosure.name());
     }
-    check_length(Rf_length(result), 1, "a summary value");
     accumulator.set(quosure.name(), result);
-    subsets.input(quosure.name(), result);
+    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
   }
+
   List data = accumulator;
   copy_most_attributes(data, df);
   data.names() = accumulator.names();

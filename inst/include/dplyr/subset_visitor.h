@@ -5,7 +5,7 @@
 
 namespace dplyr {
 
-inline SubsetVectorVisitor* subset_visitor(SEXP vec);
+inline SubsetVectorVisitor* subset_visitor(SEXP vec, const SymbolString& name);
 
 }
 

@@ -99,6 +99,20 @@ test_that("rename does not crash with invalid grouped data frame (#640)", {
   )
 })
 
+test_that("can select with character vectors", {
+  expect_identical(select_vars(letters, "b", !! "z", c("b", "c")), set_names(c("b", "z", "c")))
+})
+
+test_that("abort on unknown columns", {
+  expect_error(select_vars(letters, "foo"), "must match column names")
+  expect_error(select_vars(letters, c("a", "bar", "foo", "d")), "bar, foo")
+})
+
+test_that("rename() handles data pronoun", {
+  expect_identical(rename(tibble(x = 1), y = .data$x), tibble(y = 1))
+})
+
+
 # combine_vars ------------------------------------------------------------
 # This is the low C++ function which works on integer indices
 
@@ -141,9 +155,21 @@ test_that("if one name for multiple vars, use integer index", {
 })
 
 test_that("invalid inputs raise error", {
-  expect_error(combine_vars(names(mtcars), list(0)), "positive or negative")
-  expect_error(combine_vars(names(mtcars), list(c(-1, 1))), "positive or negative")
-  expect_error(combine_vars(names(mtcars), list(12)), "must be between")
+  expect_error(
+    combine_vars(names(mtcars), list(0)),
+    "Each argument must yield either positive or negative integers",
+    fixed = TRUE
+  )
+  expect_error(
+    combine_vars(names(mtcars), list(c(-1, 1))),
+    "Each argument must yield either positive or negative integers",
+    fixed = TRUE
+  )
+  expect_error(
+    combine_vars(names(mtcars), list(12)),
+    "Position must be between 0 and n",
+    fixed = TRUE
+  )
 })
 
 test_that("select succeeds in presence of raw columns (#1803)", {
@@ -151,4 +177,30 @@ test_that("select succeeds in presence of raw columns (#1803)", {
   expect_identical(select(df, a), df["a"])
   expect_identical(select(df, b), df["b"])
   expect_identical(select(df, -b), df["a"])
+})
+
+test_that("arguments to select() don't match select_vars() arguments", {
+  df <- tibble(a = 1)
+  expect_identical(select(df, var = a), tibble(var = 1))
+  expect_identical(select(group_by(df, a), var = a), group_by(tibble(var = 1), var))
+  expect_identical(select(df, exclude = a), tibble(exclude = 1))
+  expect_identical(select(df, include = a), tibble(include = 1))
+  expect_identical(select(group_by(df, a), exclude = a), group_by(tibble(exclude = 1), exclude))
+  expect_identical(select(group_by(df, a), include = a), group_by(tibble(include = 1), include))
+})
+
+test_that("arguments to rename() don't match rename_vars() arguments (#2861)", {
+  df <- tibble(a = 1)
+  expect_identical(rename(df, var = a), tibble(var = 1))
+  expect_identical(rename(group_by(df, a), var = a), group_by(tibble(var = 1), var))
+  expect_identical(rename(df, strict = a), tibble(strict = 1))
+  expect_identical(rename(group_by(df, a), strict = a), group_by(tibble(strict = 1), strict))
+})
+
+test_that("can select() with .data pronoun (#2715)", {
+  expect_identical(select(mtcars, .data$cyl), select(mtcars, cyl))
+})
+
+test_that("can select() with character vectors", {
+  expect_identical(select(mtcars, "cyl", !! "disp", c("cyl", "am", "drat")), mtcars[c("cyl", "disp", "am", "drat")])
 })

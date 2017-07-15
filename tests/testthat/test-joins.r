@@ -178,19 +178,41 @@ test_that("can handle empty string in suffix argument, right side (#2228, #2182,
 test_that("disallow empty string in both sides of suffix argument (#2228)", {
   expect_error(
     inner_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
+    fixed = TRUE
   )
   expect_error(
     left_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
+    fixed = TRUE
   )
   expect_error(
     right_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
+    fixed = TRUE
   )
   expect_error(
     full_join(e, f, "x", suffix = c("", "")),
-    "Cannot use empty string for both x and y suffixes"
+    "`suffix` can't be empty string for both `x` and `y` suffixes",
+    fixed = TRUE
+  )
+})
+
+test_that("check suffix input", {
+  expect_error(
+    inner_join(e, f, "x", suffix = letters[1:3]),
+    "`suffix` must be a character vector of length 2, not character of length 3",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(e, f, "x", suffix = letters[1]),
+    "`suffix` must be a character vector of length 2, not string of length 1",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(e, f, "x", suffix = 1:2),
+    "`suffix` must be a character vector of length 2, not integer of length 2",
+    fixed = TRUE
   )
 })
 
@@ -238,15 +260,24 @@ test_that("indices don't get mixed up when nrow(x) > nrow(y). #365", {
 test_that("join functions error on column not found #371", {
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "x"),
-    "column not found in rhs"
+    "`by` can't contain join column `x` which is missing from RHS",
+    fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = "y"),
-    "column not found in lhs"
+    "`by` can't contain join column `y` which is missing from LHS",
+    fixed = TRUE
   )
   expect_error(
     left_join(data.frame(x = 1:5), data.frame(y = 1:5)),
-    "No common variables"
+    "`by` required, because the data sources have no common variables",
+    fixed = TRUE
+  )
+
+  expect_error(
+    left_join(data.frame(x = 1:5), data.frame(y = 1:5), by = 1:3),
+    "`by` must be a (named) character vector, list, or NULL for natural joins (not recommended in production code), not integer",
+    fixed = TRUE
   )
 })
 
@@ -344,12 +375,20 @@ test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", 
     stringsAsFactors = F
   )
 
-  expect_warning(res <- left_join(x, y, by = "Greek"), "joining character vector")
+  expect_warning(
+    res <- left_join(x, y, by = "Greek"),
+    "Column `Greek` joining factor and character vector, coercing into character vector",
+    fixed = TRUE
+  )
   expect_true(is.na(res$Greek[3]))
   expect_true(is.na(res$Letters[3]))
   expect_equal(res$numbers, 1:3)
 
-  expect_warning(res <- left_join(y, x, by = "Greek"), "joining factor")
+  expect_warning(
+    res <- left_join(y, x, by = "Greek"),
+    "Column `Greek` joining character vector and factor, coercing into character vector",
+    fixed = TRUE
+  )
   expect_equal(res$Greek, y$Greek)
   expect_equal(res$Letters, y$Letters)
   expect_equal(res$numbers[1:2], 1:2)
@@ -473,7 +512,7 @@ test_that("join creates correctly named results (#855)", {
   expect_equal(res$r, x$r)
 })
 
-test_that("inner join gives same result as merge if na_matches = 'na' (#1281)", {
+test_that("inner join gives same result as merge by default (#1281)", {
   set.seed(75)
   x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
@@ -481,7 +520,7 @@ test_that("inner join gives same result as merge if na_matches = 'na' (#1281)", 
   y <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
     stringsAsFactors = FALSE)
-  ij <- inner_join(x, y, by = c("cat1", "cat2"), na_matches = "na")
+  ij <- inner_join(x, y, by = c("cat1", "cat2"))
   me <- merge(x, y, by = c("cat1", "cat2"))
   expect_true(equal_data_frame(ij, me))
 })
@@ -517,7 +556,7 @@ test_that("joins handle tzone differences (#819)", {
   expect_equal(attr(left_join(df1, df1)$date, "tzone"), "America/Chicago")
 })
 
-test_that("joins matches NA in character vector if na_matches = 'na' (#892, #2033)", {
+test_that("joins matches NA in character vector by default (#892, #2033)", {
   x <- data.frame(
     id = c(NA_character_, NA_character_),
     stringsAsFactors = F
@@ -529,7 +568,7 @@ test_that("joins matches NA in character vector if na_matches = 'na' (#892, #203
     stringsAsFactors = F
   )
 
-  res <- left_join(x, y, by = "id", na_matches = "na")
+  res <- left_join(x, y, by = "id")
   expect_true(all(is.na(res$id)))
   expect_equal(res$LETTER, rep(rep(c("A", "B"), each = 2), 2))
 })
@@ -547,12 +586,36 @@ test_that("joins avoid name repetition (#1460)", {
 test_that("join functions are protected against empty by (#1496)", {
   x <- data.frame()
   y <- data.frame(a = 1)
-  expect_error(left_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(right_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(semi_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(full_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(anti_join(x, y, by = names(x)), "no variable to join by")
-  expect_error(inner_join(x, y, by = names(x)), "no variable to join by")
+  expect_error(
+    left_join(x, y, by = names(x)),
+    "`by` must specify variables to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(x, y, by = names(x)),
+    "`by` must specify variables to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    semi_join(x, y, by = names(x)),
+    "`by` must specify variables to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(x, y, by = names(x)),
+    "`by` must specify variables to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    anti_join(x, y, by = names(x)),
+    "`by` must specify variables to join by",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(x, y, by = names(x)),
+    "`by` must specify variables to join by",
+    fixed = TRUE
+  )
 })
 
 test_that("joins takes care of duplicates in by (#1192)", {
@@ -619,11 +682,19 @@ test_that("joins work with factors of different levels (#1712)", {
 test_that("anti and semi joins give correct result when by variable is a factor (#1571)", {
   big <- data.frame(letter = rep(c("a", "b"), each = 2), number = 1:2)
   small <- data.frame(letter = "b")
-  expect_warning(aj_result <- anti_join(big, small, by = "letter"), NA)
+  expect_warning(
+    aj_result <- anti_join(big, small, by = "letter"),
+    "Column `letter` joining factors with different levels, coercing to character vector",
+    fixed = TRUE
+  )
   expect_equal(aj_result$number, 1:2)
   expect_equal(aj_result$letter, factor(c("a", "a"), levels = c("a", "b")))
 
-  expect_warning(sj_result <- semi_join(big, small, by = "letter"), NA)
+  expect_warning(
+    sj_result <- semi_join(big, small, by = "letter"),
+    "Column `letter` joining factors with different levels, coercing to character vector",
+    fixed = TRUE
+  )
   expect_equal(sj_result$number, 1:2)
   expect_equal(sj_result$letter, factor(c("b", "b"), levels = c("a", "b")))
 })
@@ -699,15 +770,13 @@ test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
               expect_equal_df(
                 semi_join(df1, df2, by = "x"),
                 data.frame(x = special, y = 1, stringsAsFactors = factor1)
-              ),
-              msg = NA
+              )
             )
             expect_warning_msg(
               expect_equal_df(
                 anti_join(df1, df2, by = "x"),
                 data.frame(x = special, y = 1, stringsAsFactors = factor1)[0,]
-              ),
-              msg = NA
+              )
             )
           }
         }
@@ -765,4 +834,56 @@ test_that("joins strip group indexes (#1597)", {
   expect_stripped(full_join(df1, df2))
   expect_stripped(anti_join(df1, df2))
   expect_stripped(semi_join(df1, df2))
+})
+
+
+test_that("join accepts tz attributes (#2643)", {
+  # It's the same time:
+  df1 <- data_frame(a = as.POSIXct("2009-01-01 10:00:00", tz = "Europe/London"))
+  df2 <- data_frame(a = as.POSIXct("2009-01-01 11:00:00", tz = "Europe/Paris"))
+  result <- inner_join(df1, df2, by = "a")
+  expect_equal(nrow(result), 1)
+})
+
+test_that("join takes LHS with warning if attributes inconsistent", {
+  df1 <- tibble(a = 1:2, b = 2:1)
+  df2 <- tibble(
+    a = structure(1:2, foo = "bar"),
+    c = 2:1
+  )
+
+  expect_warning(
+    out1 <- left_join(df1, df2, by = "a"),
+    "Column `a` has different attributes on LHS and RHS of join"
+  )
+  expect_warning(out2 <- left_join(df2, df1, by = "a"))
+  expect_warning(
+    out3 <- left_join(df1, df2, by = c("b" = "a")),
+    "Column `b`/`a` has different attributes on LHS and RHS of join"
+  )
+
+  expect_equal(attr(out1$a, "foo"), NULL)
+  expect_equal(attr(out2$a, "foo"), "bar")
+})
+
+test_that("common_by() message", {
+  df <- tibble(!!! set_names(letters, letters))
+
+  expect_message(
+    left_join(df, df %>% select(1)),
+    'Joining, by = "a"',
+    fixed = TRUE
+  )
+
+  expect_message(
+    left_join(df, df %>% select(1:3)),
+    'Joining, by = c("a", "b", "c")',
+    fixed = TRUE
+  )
+
+  expect_message(
+    left_join(df, df),
+    paste0("Joining, by = c(", paste0('"', letters, '"', collapse = ", "), ")"),
+    fixed = TRUE
+  )
 })

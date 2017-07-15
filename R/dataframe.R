@@ -1,5 +1,3 @@
-methods::setOldClass(c("grouped_df", "tbl_df", "data.frame"))
-
 # Grouping methods ------------------------------------------------------------
 
 #' Convert row names to an explicit variable.
@@ -63,12 +61,13 @@ filter.data.frame <- function(.data, ...) {
 }
 #' @export
 filter_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(filter_(tbl_df(.data), ..., .dots = .dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!! dots)
 }
 
 #' @export
 slice.data.frame <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- named_quos(...)
   slice_impl(.data, dots)
 }
 #' @export
@@ -83,7 +82,8 @@ summarise.data.frame <- function(.data, ...) {
 }
 #' @export
 summarise_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(summarise_(tbl_df(.data), ..., .dots = .dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  summarise(.data, !!! dots)
 }
 
 #' @export
@@ -92,7 +92,8 @@ mutate.data.frame <- function(.data, ...) {
 }
 #' @export
 mutate_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(mutate_(tbl_df(.data), ..., .dots = .dots))
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  mutate(.data, !!! dots)
 }
 
 #' @export
@@ -101,12 +102,14 @@ arrange.data.frame <- function(.data, ...) {
 }
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots = list()) {
-  as.data.frame(arrange_(tbl_df(.data), ...), .dots = .dots)
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  arrange(.data, !!! dots)
 }
 
 #' @export
 select.data.frame <- function(.data, ...) {
-  vars <- select_vars(names(.data), ...)
+  # Pass via splicing to avoid matching select_vars() arguments
+  vars <- select_vars(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export
@@ -117,7 +120,7 @@ select_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- rename_vars(names(.data), ...)
+  vars <- rename_vars(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export
@@ -178,7 +181,7 @@ setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., .keep_all = .keep_all)
+  dist <- distinct_vars(.data, named_quos(...), .keep_all = .keep_all)
   distinct_impl(dist$data, dist$vars, dist$keep)
 }
 #' @export
@@ -196,12 +199,14 @@ do.data.frame <- function(.data, ...) {
   named <- named_args(args)
 
   # Create custom dynamic scope with `.` pronoun
-  overscope <- child_env(data = list(. = .data, .data = .data))
+  # FIXME: Pass without splicing once child_env() calls env_bind()
+  # with explicit arguments
+  overscope <- child_env(NULL, !!! list(. = .data, .data = .data))
 
   if (!named) {
     out <- eval_tidy_(args[[1]], overscope)
     if (!inherits(out, "data.frame")) {
-      abort("Result must be a data frame")
+      bad("Result must be a data frame, not {fmt_classes(out)}")
     }
   } else {
     out <- map(args, function(arg) list(eval_tidy_(arg, overscope)))
@@ -224,11 +229,11 @@ do_.data.frame <- function(.data, ..., .dots = list()) {
 sample_n.data.frame <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL) {
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    inform("`.env` is deprecated and no longer has any effect")
   }
 
   weight <- eval_tidy(enquo(weight), tbl)
-  sample_n_basic(tbl, size, replace = replace, weight = weight)
+  sample_n_basic(tbl, size, FALSE, replace = replace, weight = weight)
 }
 
 
@@ -236,19 +241,25 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
 sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL) {
   if (!is_null(.env)) {
-    warn("`.env` is deprecated and no longer has any effect")
+    inform("`.env` is deprecated and no longer has any effect")
   }
 
   weight <- eval_tidy(enquo(weight), tbl)
-  sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
+  sample_n_basic(tbl, size, TRUE, replace = replace, weight = weight)
 }
 
-sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
+sample_n_basic <- function(tbl, size, frac, replace = FALSE, weight = NULL) {
   n <- nrow(tbl)
 
   weight <- check_weight(weight, n)
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  check_size(size, n, replace)
+
+  if (frac) {
+    check_frac(size, replace)
+    size <- round(size * n)
+  } else {
+    check_size(size, n, replace)
+  }
 
   idx <- sample.int(n, size, replace = replace, prob = weight)
   tbl[idx, , drop = FALSE]

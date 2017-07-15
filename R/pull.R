@@ -4,18 +4,12 @@
 #' before indexing for remote data tables.
 #'
 #' @param .data A table of data
-#' @param var A variable specified as:
-#'   * a single string, the variable name
-#'   * a positive integer, giving the position counting from the left
-#'   * a negative integer, giving the position counting from the right.
-#'
-#'   The default returns the last column (on the assumption that's the
-#'   column you've created most recently).
+#' @inheritParams select_var
 #' @export
 #' @examples
 #' mtcars %>% pull(-1)
 #' mtcars %>% pull(1)
-#' mtcars %>% pull("cyl")
+#' mtcars %>% pull(cyl)
 #'
 #' # Also works for remote sources
 #' if (requireNamespace("dbplyr", quietly = TRUE)) {
@@ -28,34 +22,31 @@
 pull <- function(.data, var = -1) {
   UseMethod("pull")
 }
-
 #' @export
 pull.data.frame <- function(.data, var = -1) {
-  var <- find_var(var, names(.data))
+  var <- select_var(names(.data), !! enquo(var))
   .data[[var]]
 }
 
-find_var <- function(var, vars) {
-  if (is_string(var)) {
-    if (!var %in% vars) {
-      abort(glue("Unknown variable '{var}'", var = var))
-    }
-    var
-  } else if (is.numeric(var) && length(var) == 1) {
-    var <- as.integer(var)
-    n <- length(vars)
+# FIXME: remove this once dbplyr uses select_var()
+find_var <- function(expr, vars) {
+  var_env <- set_names(as.list(seq_along(vars)), vars)
+  var <- eval_tidy(expr, var_env)
 
-    if (is.na(var) || abs(var) > n || var == 0L) {
-      abort(glue("`var` must take a value between -{n} and {n}"))
-    }
-
-    if (var < 0) {
-      var <- var + n + 1
-    }
-
-    vars[[var]]
-
-  } else {
-    abort("`var` must be a numeric or character vector of length 1")
+  if (!is.numeric(var) || length(var) != 1) {
+    bad_args("var", "must evaluate to a single number")
   }
+
+  var <- as.integer(var)
+  n <- length(vars)
+
+  if (is.na(var) || abs(var) > n || var == 0L) {
+    bad_args("var", "must be a value between {-n} and {n} (excluding zero), not {var}")
+  }
+
+  if (var < 0) {
+    var <- var + n + 1
+  }
+
+  vars[[var]]
 }

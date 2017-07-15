@@ -2,6 +2,7 @@ context("DBI")
 
 test_that("can work directly with DBI connection", {
   skip_if_not_installed("RSQLite")
+  skip_if_not_installed("dbplyr")
 
   con <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
 

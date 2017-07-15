@@ -1,10 +1,9 @@
-
-replace_with <- function(x, i, val, name) {
+replace_with <- function(x, i, val, name, reason = NULL) {
   if (is.null(val)) {
     return(x)
   }
 
-  check_length(val, x, name)
+  check_length(val, x, name, reason)
   check_type(val, x, name)
   check_class(val, x, name)
 
@@ -17,31 +16,42 @@ replace_with <- function(x, i, val, name) {
   x
 }
 
-check_length <- function(x, template, name = deparse(substitute(x))) {
-  n <- length(template)
-  if (length(x) == n) {
-    return()
-  }
-
-  if (length(x) == 1L) {
-    return()
-  }
-
-  stop(name, " is length ", length(x), " not 1 or ", n, ".", call. = FALSE)
+check_length <- function(x, template, header, reason = NULL) {
+  check_length_val(length(x), length(template), header, reason)
 }
 
-check_type <- function(x, template, name = deparse(substitute(x))) {
+check_length_col <- function(length_x, n, name, reason = NULL, .abort = abort) {
+  check_length_val(length_x, n, fmt_cols(name), reason, .abort = .abort)
+}
+
+check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort) {
+  if (length_x == n) {
+    return()
+  }
+
+  if (length_x == 1L) {
+    return()
+  }
+
+  if (is.null(reason)) reason <- ""
+  else reason <- glue(" ({reason})")
+
+  if (n == 1) {
+    glubort(header, "must be length 1{reason}, not {length_x}", .abort = .abort)
+  } else {
+    glubort(header, "must be length {n}{reason} or one, not {length_x}", .abort = .abort)
+  }
+}
+
+check_type <- function(x, template, header) {
   if (identical(typeof(x), typeof(template))) {
     return()
   }
 
-  stop(
-    name, " has type '", typeof(x), "' not '", typeof(template), "'",
-    call. = FALSE
-  )
+  glubort(header, "must be type {type_of(template)}, not {typeof(x)}")
 }
 
-check_class <- function(x, template, name = deparse(substitute(x))) {
+check_class <- function(x, template, header) {
   if (!is.object(x)) {
     return()
   }
@@ -50,9 +60,5 @@ check_class <- function(x, template, name = deparse(substitute(x))) {
     return()
   }
 
-  stop(
-    name, " has class ", paste(class(x), collapse = "/"),
-    " not ", paste(class(template), collapse = "/"),
-    call. = FALSE
-  )
+  glubort(header, "must be {fmt_classes(template)}, not {fmt_classes(x)}")
 }

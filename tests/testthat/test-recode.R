@@ -1,9 +1,32 @@
 context("recode")
 
 test_that("error if no arguments", {
-  expect_error(recode(1:5), "No replacements provided")
-  expect_error(recode("a"), "No replacements provided")
-  expect_error(recode(factor("a")), "No replacements provided")
+  expect_error(
+    recode(1:5), "No replacements provided")
+  expect_error(
+    recode("a"), "No replacements provided")
+  expect_error(
+    recode(factor("a")), "No replacements provided")
+})
+
+test_that("error if unnamed", {
+  expect_error(
+    recode("a", b = 5, "c"),
+    "Argument 3 must be named, not unnamed"
+  )
+  expect_error(
+    recode(factor("a"), b = 5, "c"),
+    "Argument 3 must be named, not unnamed",
+    fixed = TRUE
+  )
+})
+
+test_that("error if missing given for factors", {
+  expect_error(
+    recode(factor("a"), a = 5, .missing = 10),
+    "`.missing` is not supported for factors",
+    fixed = TRUE
+  )
 })
 
 test_that("positional substitution works", {

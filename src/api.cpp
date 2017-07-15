@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <boost/scoped_ptr.hpp>
@@ -15,6 +16,8 @@
 #include <dplyr/Result/Result.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
+
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -43,7 +46,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector&
 
   for (int i = 0; i < n; i++) {
     if (indices[i] == NA_INTEGER) {
-      stop("unknown column '%s' ", names[i].get_utf8_cstring());
+      bad_col(names[i], "is unknown");
     }
     SEXP column = data[indices[i] - 1];
     visitors.push_back(visitor(column));
@@ -80,7 +83,12 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
       stop("'%s' column not found in rhs, cannot join", name_right.get_utf8_cstring());
     }
 
-    visitors[i] = join_visitor(left[indices_left[i] - 1], right[indices_right[i] - 1], name_left, name_right, warn, na_match);
+    visitors[i] =
+      join_visitor(
+        Column(left[indices_left[i] - 1], name_left),
+        Column(right[indices_right[i] - 1], name_right),
+        warn, na_match
+      );
   }
 }
 

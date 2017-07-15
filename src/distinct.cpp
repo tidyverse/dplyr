@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
@@ -40,7 +41,7 @@ SEXP distinct_impl(DataFrame df, const SymbolVector& vars, const SymbolVector& k
 // [[Rcpp::export]]
 SEXP n_distinct_multi(List variables, bool na_rm = false) {
   if (variables.length() == 0) {
-    stop("need at least one column for n_distinct()");
+    stop("Need at least one column for `n_distinct()`");
   }
 
   MultipleVectorVisitors visitors(variables);

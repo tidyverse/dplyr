@@ -1,7 +1,11 @@
 context("select-helpers")
 
 test_that("no set variables throws error", {
-  expect_error(starts_with("z"), "Variable context not set")
+  expect_error(
+    starts_with("z"),
+    "Variable context not set",
+    fixed = TRUE
+  )
 })
 
 test_that("failed match removes all columns", {
@@ -27,6 +31,7 @@ test_that("matches return integer positions", {
 })
 
 test_that("throws with empty pattern is provided", {
+  # error messages from rlang
   expect_error(starts_with(""))
   expect_error(ends_with(""))
   expect_error(contains(""))
@@ -66,11 +71,23 @@ test_that("num_range selects numeric ranges", {
   expect_equal(select_vars(vars, num_range("x", 10:11, width = 2)), vars[5:6])
 })
 
+test_that("position must resolve to numeric variables throws error", {
+  expect_error(
+    select_vars(letters, !! list()),
+    'must resolve to integer column positions',
+    fixed = TRUE
+  )
+})
+
 
 # one_of ------------------------------------------------------------------
 
 test_that("one_of gives useful errors", {
-  expect_error(one_of(1L, vars = c("x", "y")), "must be a character vector")
+  expect_error(
+    one_of(1L, vars = c("x", "y")),
+    "All arguments must be character vectors, not integer",
+    fixed = TRUE
+  )
 })
 
 test_that("one_of tolerates but warns for unknown variables", {
@@ -92,6 +109,7 @@ test_that("one_of works with variables", {
   expected_result <- c(x = "x")
   var <- "x"
   expect_equal(select_vars(vars, one_of(var)), expected_result)
+  # error messages from rlang
   expect_error(select_vars(vars, one_of(`_x`)), "not found")
   expect_error(select_vars(vars, one_of(`_y`)), "not found")
 })
@@ -122,8 +140,8 @@ test_that("initial (single) selector defaults correctly (issue #2275)", {
   expect_equal(select_vars(cn, -contains("x")), cn[c("y", "z")])
 
   # single columns (not present), explicit
-  expect_error(select_vars(cn, foo), "object 'foo' not found")
-  expect_error(select_vars(cn, -foo), "object 'foo' not found")
+  expect_error(select_vars(cn, foo), "not found")
+  expect_error(select_vars(cn, -foo), "not found")
 
   # single columns (not present), matched
   expect_equal(select_vars(cn, contains("foo")), cn[integer()])
@@ -197,6 +215,17 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
   )
 })
 
+test_that("can select with c() (#2685)", {
+  expect_identical(select_vars(letters, c(a, z)), c(a = "a", z = "z"))
+})
+
+test_that("can select with .data pronoun (#2715)", {
+  expect_identical(select_vars("foo", .data$foo), c(foo = "foo"))
+  expect_identical(select_vars("foo", .data[["foo"]]), c(foo = "foo"))
+
+  expect_identical(select_vars(c("a", "b", "c"), .data$a : .data$b), c(a = "a", b = "b"))
+  expect_identical(select_vars(c("a", "b", "c"), .data[["a"]] : .data[["b"]]), c(a = "a", b = "b"))
+})
 
 
 # rename_vars -------------------------------------------------------------
@@ -204,11 +233,44 @@ test_that("middle (no-match) selector should not clear previous selectors (issue
 test_that("when strict = FALSE, rename_vars always succeeds", {
   expect_error(
     rename_vars(c("a", "b"), d = e, strict = TRUE),
-    "Unknown variables: e"
+    "`e` contains unknown variables",
+    fixed = TRUE
   )
 
   expect_equal(
     rename_vars(c("a", "b"), d = e, strict = FALSE),
     c("a" = "a", "b" = "b")
+  )
+})
+
+test_that("rename_vars() expects symbol or string", {
+  expect_error(
+    rename_vars(letters, d = 1),
+    '`d` = 1 must be a symbol or a string',
+    fixed = TRUE
+  )
+})
+
+
+
+# tbl_at_vars -------------------------------------------------------------
+
+test_that("tbl_at_vars() errs on bad input", {
+  expect_error(
+    tbl_at_vars(iris, raw(3)),
+    "`.vars` must be a character/numeric vector or a `vars()` object, not raw",
+    fixed = TRUE
+  )
+})
+
+
+
+# tbl_if_vars -------------------------------------------------------------
+
+test_that("tbl_if_vars() errs on bad input", {
+  expect_error(
+    tbl_if_vars(iris, funs(identity, force), environment()),
+    "`.predicate` must have length 1, not 2",
+    fixed = TRUE
   )
 })

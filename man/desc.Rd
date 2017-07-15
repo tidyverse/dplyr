@@ -2,7 +2,7 @@
 % Please edit documentation in R/desc.r
 \name{desc}
 \alias{desc}
-\title{Descending order.}
+\title{Descending order}
 \usage{
 desc(x)
 }

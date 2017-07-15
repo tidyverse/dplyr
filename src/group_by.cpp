@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <tools/match.h>
@@ -34,4 +35,9 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   DataFrame copy(shallow_copy(df));
   SET_ATTRIB(copy, strip_group_attributes(df));
   return copy;
+}
+
+// [[Rcpp::export]]
+SEXP test_grouped_df(DataFrame data) {
+  return GroupedDataFrame(data).data();
 }

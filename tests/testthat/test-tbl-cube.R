@@ -1,5 +1,31 @@
 context("tbl_cube")
 
+test_that("construction errors", {
+  expect_error(
+    tbl_cube(1:3, 1:3),
+    "`dimensions` must be a named list of vectors, not integer",
+    fixed = TRUE
+  )
+
+  expect_error(
+    tbl_cube(list(a = 1:3), 1:3),
+    "`measures` must be a named list of arrays, not integer",
+    fixed = TRUE
+  )
+
+  expect_error(
+    tbl_cube(list(a = 1:3), list(b = 1:3)),
+    "`measures` must be a named list of arrays, not list",
+    fixed = TRUE
+  )
+
+  expect_error(
+    tbl_cube(list(a = 1:3), list(b = array(1:3), c = array(1:2))),
+    "Measure `c` needs dimensions [3], not [2]",
+    fixed = TRUE
+  )
+})
+
 test_that("coercion", {
   grid <- expand.grid(x = letters[1:3], y = letters[1:5], stringsAsFactors = FALSE)
   tbl <- table(x = grid$x, y = grid$y)
@@ -37,7 +63,33 @@ test_that("duplicate", {
   )
   d$value <- 1:4
 
-  expect_error(as.tbl_cube(d, met_name = "value"), "Duplicate.*s = 1, j = 1")
+  expect_error(
+    as.tbl_cube(d, met_name = "value"),
+    "`x` must be unique in all combinations of dimension variables, duplicates: `s` = 1, `j` = 1",
+    fixed = TRUE
+  )
+})
+
+test_that("filter", {
+  expect_equal(
+    nasa %>% filter(month == 1) %>% filter(year == 2000),
+    nasa %>% filter(year == 2000) %>% filter(month == 1)
+  )
+
+  expect_equal(
+    nasa %>% filter(month == 1) %>% filter(year == 2000),
+    filter(nasa, month == 1, year == 2000)
+  )
+
+  expect_equal(
+    filter(nasa, month == 1, year == 2000),
+    filter(nasa, year == 2000, month == 1)
+  )
+
+  expect_error(
+    filter(nasa, month == 1 & year == 2000),
+    "`month == 1 & year == 2000` must refer to exactly one dimension, not `month`, `year`"
+  )
 })
 
 test_that("summarise works with single group", {

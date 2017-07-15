@@ -1,4 +1,4 @@
-#' Select top (or bottom) n rows (by value).
+#' Select top (or bottom) n rows (by value)
 #'
 #' This is a convenient wrapper that uses [filter()] and
 #' [min_rank()] to select the top or bottom entries in each group,
@@ -44,15 +44,19 @@ top_n <- function(x, n, wt) {
 
   if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
-    inform(glue("Selecting by ", vars[length(vars)]))
-    wt <- new_quosure(sym(vars[length(vars)]))
+    wt_name <- vars[length(vars)]
+    inform(glue("Selecting by ", wt_name))
+    wt <- sym(wt_name)
   }
 
-  stopifnot(is_scalar_integerish(n), is_symbol(wt))
+  if (!is_scalar_integerish(n)) {
+    abort("`n` must be a scalar integer")
+  }
+
   if (n > 0) {
-    quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
+    quo <- quo(filter(x, min_rank(desc(!! wt)) <= !! n))
   } else {
-    quo <- quo(filter(x, min_rank(!!wt) <= !!abs(n)))
+    quo <- quo(filter(x, min_rank(!! wt) <= !! abs(n)))
   }
 
   eval_tidy(quo)

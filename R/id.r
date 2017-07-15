@@ -14,7 +14,7 @@
 #' @keywords internal
 #' @export
 id <- function(.variables, drop = FALSE) {
-  warning("id() is deprecated", call. = FALSE)
+  warn("`id()` is deprecated")
 
   # Drop all zero length inputs
   lengths <- vapply(.variables, length, integer(1))

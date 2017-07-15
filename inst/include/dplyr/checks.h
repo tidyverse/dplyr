@@ -2,6 +2,7 @@
 #define dplyr_checks_H
 
 #include <tools/SymbolString.h>
+#include <dplyr/bad.h>
 
 namespace dplyr {
 
@@ -70,30 +71,22 @@ inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Str
     return DPLYR_VECSXP;
   default:
     if (name.is_empty()) {
-      Rcpp::stop("Unsupported type %s", type_name(x));
+      Rcpp::stop("is of unsupported type %s", type_name(x));
     } else {
-      Rcpp::stop("Column `%s` must be a vector, not a %s", name.get_utf8_cstring(), type_name(x));
+      bad_col(name, "is of unsupported type {type}",
+              _["type"] = type_name(x));
     }
   }
 }
 
-inline void check_length(const int actual, const int expected, const char* comment) {
-  if (expected == 1) {
-    if (actual != expected) {
-      stop(
-        "incompatible size (%d), expecting one (%s)",
-        actual, comment
-      );
-    }
-  }
-  else {
-    if (actual != expected && actual != 1) {
-      stop(
-        "incompatible size (%d), expecting %d (%s) or one",
-        actual, expected, comment
-      );
-    }
-  }
+inline void check_length(const int actual, const int expected, const char* comment, const SymbolString& name) {
+  if (actual == expected || actual == 1) return;
+
+  static Function check_length_col("check_length_col", Environment::namespace_env("dplyr"));
+  static Function identity("identity", Environment::base_env());
+  String message = check_length_col(actual, expected, CharacterVector::create(name.get_sexp()), std::string(comment), _[".abort"] = identity);
+  message.set_encoding(CE_UTF8);
+  stop(message.get_cstring());
 }
 
 }

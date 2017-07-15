@@ -6,12 +6,13 @@
 
 #include <dplyr/join_match.h>
 #include <dplyr/JoinVisitor.h>
+#include <dplyr/Column.h>
 
 namespace dplyr {
 
 CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& right);
 
-void check_attribute_compatibility(SEXP left, SEXP right);
+void check_attribute_compatibility(const Column& left, const Column& right);
 
 template <int LHS_RTYPE, int RHS_RTYPE>
 class DualVector {
@@ -27,9 +28,7 @@ public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
 public:
-  DualVector(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {
-    check_attribute_compatibility(left, right);
-  }
+  DualVector(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {}
 
   LHS_STORAGE get_left_value(const int i) const {
     if (i < 0) stop("get_left_value() called with negative argument");
@@ -134,7 +133,9 @@ protected:
   typedef typename Storage::Vec Vec;
 
 public:
-  JoinVisitorImpl(typename Storage::LHS_Vec left, typename Storage::RHS_Vec right) : dual(left, right) {}
+  JoinVisitorImpl(const Column& left, const Column& right, const bool warn) : dual((SEXP)left.get_data(), (SEXP)right.get_data()) {
+    if (warn) check_attribute_compatibility(left, right);
+  }
 
   inline size_t hash(int i) {
     // If NAs don't match, we want to distribute their hashes as evenly as possible
@@ -180,12 +181,12 @@ class POSIXctJoinVisitor : public JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MA
   typedef JoinVisitorImpl<REALSXP, REALSXP, ACCEPT_NA_MATCH> Parent;
 
 public:
-  POSIXctJoinVisitor(NumericVector left, NumericVector right) :
-    Parent(left, right),
+  POSIXctJoinVisitor(const Column& left, const Column& right) :
+    Parent(left, right, false),
     tzone(R_NilValue)
   {
-    RObject tzone_left  = left.attr("tzone");
-    RObject tzone_right = right.attr("tzone");
+    RObject tzone_left  = left.get_data().attr("tzone");
+    RObject tzone_right = right.get_data().attr("tzone");
     if (tzone_left.isNULL() && tzone_right.isNULL()) return;
 
     if (tzone_left.isNULL()) {
@@ -236,7 +237,7 @@ class DateJoinVisitor : public JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_M
   typedef JoinVisitorImpl<LHS_RTYPE, RHS_RTYPE, ACCEPT_NA_MATCH> Parent;
 
 public:
-  DateJoinVisitor(typename Parent::LHS_Vec left, typename Parent::RHS_Vec right) : Parent(left, right) {}
+  DateJoinVisitor(const Column& left, const Column& right) : Parent(left, right, false) {}
 
   inline SEXP subset(const std::vector<int>& indices) {
     return promote(Parent::subset(indices));

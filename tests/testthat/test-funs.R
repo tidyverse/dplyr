@@ -2,8 +2,8 @@ context("funs")
 
 test_that("fun_list is merged with new args", {
   funs <- funs(fn = bar)
-  funs <- as_fun_list(funs, ~bar, env(), baz = "baz")
-  expect_identical(funs$fn, ~bar(., baz = "baz"))
+  funs <- as_fun_list(funs, quo(bar), env(), baz = "baz")
+  expect_identical(funs$fn, quo(bar(., baz = "baz")))
 })
 
 test_that("funs() works with namespaced calls", {
@@ -17,7 +17,7 @@ test_that("funs() accepts quoted functions", {
 
 test_that("funs() accepts unquoted functions", {
   funs <- funs(fn = !! mean)
-  expect_identical(funs$fn, new_formula(NULL, new_language(base::mean, quote(.))))
+  expect_identical(funs$fn, new_quosure(lang(base::mean, quote(.))))
 })
 
 test_that("funs() accepts quoted calls", {
@@ -47,10 +47,15 @@ test_that("local objects are not treated as symbols", {
   expect_identical(enfun(mean), mean)
 })
 
-test_that("can enfun() quosures", {
-  expect_identical(enfun(~mean(.)), funs(mean(.)))
-})
-
 test_that("can enfun() character vectors", {
   expect_identical(enfun(c("min", "max")), funs(min, max))
+})
+
+test_that("can enfun() quosures", {
+  expect_identical(enfun(quo(mean(.))), funs(mean(.)))
+})
+
+test_that("can enfun() purrr-style lambdas", {
+  my_mean <- as_function(~mean(.x))
+  expect_identical(enfun(~mean(.x)), funs(!! my_mean))
 })

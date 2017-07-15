@@ -1,4 +1,4 @@
-#' Do arbitrary operations on a tbl.
+#' Do anything
 #'
 #' This is a general purpose complement to the specialised manipulation
 #' functions [filter()], [select()], [mutate()],
@@ -107,10 +107,9 @@ do_.NULL <- function(.data, ..., .dots = list()) {
 label_output_dataframe <- function(labels, out, groups) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
-    stop(
-      "Results are not data frames at positions: ",
-      paste(which(!data_frame), collapse = ", "),
-      call. = FALSE
+    bad("Results {bad} must be data frames, not {first_bad_class}",
+      bad = fmt_comma(which(!data_frame)),
+      first_bad_class = fmt_classes(out[[1]][[which.min(data_frame)]])
     )
   }
 
@@ -146,21 +145,15 @@ named_args <- function(args) {
   # Arguments must either be all named or all unnamed.
   named <- sum(names2(args) != "")
   if (!(named == 0 || named == length(args))) {
-    stop(
-      "Arguments to do() must either be all named or all unnamed",
-      call. = FALSE
-    )
+    abort("Arguments must either be all named or all unnamed")
   }
   if (named == 0 && length(args) > 1) {
-    stop("Can only supply single unnamed argument to do()", call. = FALSE)
+    bad("Can only supply one unnamed argument, not {length(args)}")
   }
 
   # Check for old syntax
   if (named == 1 && names(args) == ".f") {
-    stop(
-      "do syntax changed in dplyr 0.2. Please see documentation for details",
-      call. = FALSE
-    )
+    abort("do syntax changed in dplyr 0.2. Please see documentation for details")
   }
 
   named != 0

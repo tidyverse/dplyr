@@ -1,4 +1,4 @@
-#' Sample n rows from a table.
+#' Sample n rows from a table
 #'
 #' This is a wrapper around [sample.int()] to make it easy to
 #' select random rows from a table. It currently only works for local
@@ -68,20 +68,14 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame()) {
 
-  stop(
-    "Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE
-  )
+  bad_args("tbl", "must be a data frame, not {fmt_classes(tbl)}")
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
 
-  stop(
-    "Don't know how to sample from objects of class ", class(tbl)[1],
-    call. = FALSE
-  )
+  bad_args("tbl", "must be a data frame, not {fmt_classes(tbl)}")
 }
 
 # Helper functions -------------------------------------------------------------
@@ -90,13 +84,17 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    stop("Weights must be numeric", call. = FALSE)
+    bad_args("weight", "must be a numeric, not {type_of(x)}")
   }
   if (any(x < 0)) {
-    stop("Weights must all be greater than 0", call. = FALSE)
+    bad_args("weight", "must be a vector with all values nonnegative, ",
+      "not {x[x < 0][[1]]}"
+    )
   }
   if (length(x) != n) {
-    stop("Weights must be same length as data (", n, ")", call. = FALSE)
+    bad_args("weight", "must be a length {n} (same as data), ",
+      "not {length(x)}"
+    )
   }
 
   x / sum(x)
@@ -105,9 +103,15 @@ check_weight <- function(x, n) {
 check_size <- function(size, n, replace = FALSE) {
   if (size <= n || replace) return()
 
-  stop(
-    "Sample size (", size, ") greater than population size (", n, ").",
-    " Do you want replace = TRUE?",
-    call. = FALSE
+  bad_args("size", "must be less or equal than {n} (size of data), ",
+    "set `replace` = TRUE to use sampling with replacement"
+  )
+}
+
+check_frac <- function(size, replace = FALSE) {
+  if (size <= 1 || replace) return()
+
+  bad_args("size", "of sampled fraction must be less or equal to one, ",
+    "set `replace` = TRUE to use sampling with replacement"
   )
 }

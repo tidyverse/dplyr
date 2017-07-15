@@ -1,22 +1,37 @@
 context("Filter")
 
 test_that("filter fails if inputs incorrect length (#156)", {
-  expect_error(filter(tbl_df(mtcars), c(F, T)))
-  expect_error(filter(group_by(mtcars, am), c(F, T)))
+  expect_error(
+    filter(tbl_df(mtcars), c(F, T)),
+    "Result must have length 32, not 2",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(group_by(mtcars, am), c(F, T)),
+    "Result must have length 19, not 2",
+    fixed = TRUE
+  )
 })
 
 test_that("filter gives useful error message when given incorrect input", {
-  expect_error(filter(tbl_df(mtcars), `_x`), "not found")
-})
-
-test_that("filter gives UTF-8 encoded column names (#2441)", {
-  df <- data_frame(a = factor(1:3)) %>% rename("\u5e78" := a)
-  expect_error(filter(df, `<U+798F>`), "object '<U\\+798F>' not found")
+  # error message by rlang
+  expect_error(filter(tbl_df(mtcars), `_x`),
+    "_x",
+    fixed = TRUE
+  )
 })
 
 test_that("filter complains in inputs are named", {
-  expect_error(filter(mtcars, x = 1), "takes unnamed arguments")
-  expect_error(filter(mtcars, x = 1 & y > 2), "takes unnamed arguments")
+  expect_error(
+    filter(mtcars, x = 1),
+    "`x` (`x = 1`) must not be named, do you need `==`?",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(mtcars, x = 1 & y > 2),
+    "`x` (`x = 1 & y > 2`) must not be named, do you need `==`?",
+    fixed = TRUE
+  )
 })
 
 test_that("filter handles passing ...", {
@@ -37,7 +52,6 @@ test_that("filter handles passing ...", {
   df <- group_by(df, x)
   res <- g()
   expect_equal(res$x, 3L)
-
 })
 
 test_that("filter handles simple symbols", {
@@ -84,8 +98,16 @@ test_that("filter propagates attributes", {
 })
 
 test_that("filter fails on integer indices", {
-  expect_error(filter(mtcars, 1:2))
-  expect_error(filter(group_by(mtcars, cyl), 1:2))
+  expect_error(
+    filter(mtcars, 1:2),
+    "Argument 2 filter condition does not evaluate to a logical vector",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(group_by(mtcars, cyl), 1:2),
+    "Argument 2 filter condition does not evaluate to a logical vector",
+    fixed = TRUE
+  )
 })
 
 test_that("filter discards NA", {
@@ -153,7 +175,11 @@ test_that("GroupedDataFrame checks consistency of data (#606)", {
   ) %>% group_by(g)
   attr(df1, "group_sizes") <- c(2, 2)
 
-  expect_error(df1 %>% filter(x == 1), "corrupt 'grouped_df'")
+  expect_error(
+    df1 %>% filter(x == 1),
+    "`.data` is a corrupt grouped_df, contains 10 rows, and 4 rows in groups",
+    fixed = TRUE
+  )
 })
 
 test_that("filter uses the white list (#566)", {
@@ -166,10 +192,8 @@ X
 ")
 
   datesDF$X <- as.POSIXlt(datesDF$X)
-  expect_error(
-    filter(datesDF, X > as.POSIXlt("2014-03-13")),
-    "column 'X' has unsupported class|POSIXct, not POSIXlt.*'X'"
-  )
+  # error message from tibble
+  expect_error(filter(datesDF, X > as.POSIXlt("2014-03-13")))
 })
 
 test_that("filter handles complex vectors (#436)", {
@@ -303,6 +327,18 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
 
 test_that("filter fails gracefully on raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(filter(df, a == 1), "unsupported type")
-  expect_error(filter(df, b == 1), "unsupported type")
+  expect_error(
+    filter(df, a == 1),
+    "Column `b` is of unsupported type raw",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(df, b == 1),
+    "Column `b` is of unsupported type raw",
+    fixed = TRUE
+  )
+})
+
+test_that("`vars` attribute is not added if empty (#2772)", {
+  expect_identical(tibble(x = 1:2) %>% filter(x == 1), tibble(x = 1L))
 })

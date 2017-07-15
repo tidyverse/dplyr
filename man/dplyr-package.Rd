@@ -39,16 +39,18 @@ These can be set on a package-by-package basis, or for the global environment.
 See \code{\link[pkgconfig:set_config]{pkgconfig::set_config()}} for usage.
 \describe{
 \item{\code{dplyr::na_matches}}{Should \code{NA} values be matched in data frame joins
-by default? Default: \code{"never"}, alternative value: \code{"na"}. See also
-\code{\link[=join.tbl_df]{join.tbl_df()}}.}
+by default? Default: \code{"na"} (for compatibility with dplyr v0.5.0 and earlier,
+subject to change), alternative value: \code{"never"} (the default
+for database backends, see \code{\link[=join.tbl_df]{join.tbl_df()}}).}
 }
 }
 
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/hadley/dplyr}
-  \item Report bugs at \url{https://github.com/hadley/dplyr/issues}
+  \item \url{http://dplyr.tidyverse.org}
+  \item \url{https://github.com/tidyverse/dplyr}
+  \item Report bugs at \url{https://github.com/tidyverse/dplyr/issues}
 }
 
 }
@@ -58,11 +60,13 @@ Useful links:
 Authors:
 \itemize{
   \item Romain Francois \email{romain@r-enthusiasts.com}
+  \item Lionel Henry
+  \item Kirill Müller
 }
 
 Other contributors:
 \itemize{
-  \item RStudio [copyright holder]
+  \item RStudio [copyright holder, funder]
 }
 
 }

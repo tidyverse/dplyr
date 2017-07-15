@@ -143,30 +143,13 @@ src_sqlite <- function(path, create = FALSE) {
   check_dbplyr()
 
   if (!create && !file.exists(path)) {
-    stop("Path does not exist and create = FALSE", call. = FALSE)
+    bad_args("path", "must not already exist, unless `create` = TRUE")
   }
 
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
   RSQLite::initExtension(con)
 
-  dbplyr::src_dbi(con)
-}
-
-
-# Checking available ------------------------------------------------------
-
-check_pkg <- function(name, reason) {
-  if (requireNamespace(name, quietly = TRUE))
-    return(invisible(TRUE))
-
-  abort(glue('
-    The {name} package is required to {reason}.
-    Please install it with `install.packages("{name}")`
-  '))
-}
-
-check_dbplyr <- function() {
-  check_pkg("dplyr", "communicate with database backends")
+  dbplyr::src_dbi(con, auto_disconnect = TRUE)
 }
 
 # S3 methods --------------------------------------------------------------

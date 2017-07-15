@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <dplyr/Order.h>
@@ -84,11 +85,43 @@ private:
   STORAGE def;
 };
 
+Result* nth_(SEXP data, int idx) {
+  switch (TYPEOF(data)) {
+  case LGLSXP:
+    return new Nth<LGLSXP>(data, idx);
+  case INTSXP:
+    return new Nth<INTSXP>(data, idx);
+  case REALSXP:
+    return new Nth<REALSXP>(data, idx);
+  case CPLXSXP:
+    return new Nth<CPLXSXP>(data, idx);
+  case STRSXP:
+    return new Nth<STRSXP>(data, idx);
+  default:
+    return 0;
+  }
 }
 
 template <int RTYPE>
 Result* nth_noorder_default(Vector<RTYPE> data, int idx, Vector<RTYPE> def) {
   return new Nth<RTYPE>(data, idx, def[0]);
+}
+
+Result* nth_noorder_default_(SEXP data, int idx, SEXP def) {
+  switch (TYPEOF(data)) {
+  case LGLSXP:
+    return nth_noorder_default<LGLSXP>(data, idx, def);
+  case INTSXP:
+    return nth_noorder_default<INTSXP>(data, idx, def);
+  case REALSXP:
+    return nth_noorder_default<REALSXP>(data, idx, def);
+  case CPLXSXP:
+    return nth_noorder_default<CPLXSXP>(data, idx, def);
+  case STRSXP:
+    return nth_noorder_default<STRSXP>(data, idx, def);
+  default:
+    return 0;
+  }
 }
 
 template <int RTYPE>
@@ -107,7 +140,24 @@ Result* nth_with(Vector<RTYPE> data, int idx, SEXP order) {
   default:
     break;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order)));
+  bad_arg(SymbolString("order"), "is of unsupported type %s", Rf_type2char(TYPEOF(order)));
+}
+
+Result* nth_with_(SEXP data, int idx, SEXP order_by) {
+  switch (TYPEOF(data)) {
+  case LGLSXP:
+    return nth_with<LGLSXP>(data, idx, order_by);
+  case INTSXP:
+    return nth_with<INTSXP>(data, idx, order_by);
+  case REALSXP:
+    return nth_with<REALSXP>(data, idx, order_by);
+  case CPLXSXP:
+    return nth_with<CPLXSXP>(data, idx, order_by);
+  case STRSXP:
+    return nth_with<STRSXP>(data, idx, order_by);
+  default:
+    return 0;
+  }
 }
 
 template <int RTYPE>
@@ -126,10 +176,25 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
   default:
     break;
   }
-  stop("Unsupported vector type %s", Rf_type2char(TYPEOF(order)));
+  bad_arg(SymbolString("order"), "is of unsupported type %s", Rf_type2char(TYPEOF(order)));
 }
 
-namespace dplyr {
+Result* nth_with_default_(SEXP data, int idx, SEXP order_by, SEXP def) {
+  switch (TYPEOF(data)) {
+  case LGLSXP:
+    return nth_with_default<LGLSXP>(data, idx, order_by, def);
+  case INTSXP:
+    return nth_with_default<INTSXP>(data, idx, order_by, def);
+  case REALSXP:
+    return nth_with_default<REALSXP>(data, idx, order_by, def);
+  case CPLXSXP:
+    return nth_with_default<CPLXSXP>(data, idx, order_by, def);
+  case STRSXP:
+    return nth_with_default<STRSXP>(data, idx, order_by, def);
+  default:
+    return 0;
+  }
+}
 
 Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   // has to have at least two arguments
@@ -139,12 +204,12 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (tag != R_NilValue && tag != Rf_install("x")) {
     return 0;
   }
-  SEXP data = CADR(call);
+  SEXP data = maybe_rhs(CADR(call));
   if (TYPEOF(data) != SYMSXP)
     return 0;
 
   SymbolString name = SymbolString(Symbol(data));
-  if (subsets.count(name) == 0) {
+  if (subsets.has_non_summary_variable(name) == 0) {
     return 0;
   }
   data = subsets.get_variable(name);
@@ -164,23 +229,10 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 
   // easy case : just a single variable: first(x,n)
   if (nargs == 2) {
-    switch (TYPEOF(data)) {
-    case LGLSXP:
-      return new Nth<LGLSXP>(data, idx);
-    case INTSXP:
-      return new Nth<INTSXP>(data, idx);
-    case REALSXP:
-      return new Nth<REALSXP>(data, idx);
-    case CPLXSXP:
-      return new Nth<CPLXSXP>(data, idx);
-    case STRSXP:
-      return new Nth<STRSXP>(data, idx);
-    default:
-      return 0;
-    }
+    return nth_(data, idx);
   }
 
-  // now get `order_by` and default
+  // now get `order_by` and `default`
   SEXP order_by = R_NilValue;
   SEXP def    = R_NilValue;
   bool has_order_by = false;
@@ -212,67 +264,28 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
       return 0;
 
     SymbolString order_by_name = SymbolString(Symbol(order_by));
-    if (subsets.count(order_by_name) == 0)
+    if (subsets.has_non_summary_variable(order_by_name) == 0)
       return 0;
 
     order_by = subsets.get_variable(order_by_name);
 
-    switch (TYPEOF(data)) {
-    case LGLSXP:
-      return nth_with<LGLSXP>(data, idx, order_by);
-    case INTSXP:
-      return nth_with<INTSXP>(data, idx, order_by);
-    case REALSXP:
-      return nth_with<REALSXP>(data, idx, order_by);
-    case CPLXSXP:
-      return nth_with<CPLXSXP>(data, idx, order_by);
-    case STRSXP:
-      return nth_with<STRSXP>(data, idx, order_by);
-    default:
-      return 0;
-    }
+    return nth_with_(data, idx, order_by);
   }
 
   if (Rf_isNull(order_by)) {
-    switch (TYPEOF(data)) {
-    case LGLSXP:
-      return nth_noorder_default<LGLSXP>(data, idx, def);
-    case INTSXP:
-      return nth_noorder_default<INTSXP>(data, idx, def);
-    case REALSXP:
-      return nth_noorder_default<REALSXP>(data, idx, def);
-    case CPLXSXP:
-      return nth_noorder_default<CPLXSXP>(data, idx, def);
-    case STRSXP:
-      return nth_noorder_default<STRSXP>(data, idx, def);
-    default:
-      return 0;
-    }
+    return nth_noorder_default_(data, idx, def);
   }
 
   if (TYPEOF(order_by) != SYMSXP)
     return 0;
 
   SymbolString order_by_name = SymbolString(Symbol(order_by));
-  if (subsets.count(order_by_name) == 0)
+  if (subsets.has_non_summary_variable(order_by_name) == 0)
     return 0;
 
   order_by = subsets.get_variable(order_by_name);
 
-  switch (TYPEOF(data)) {
-  case LGLSXP:
-    return nth_with_default<LGLSXP>(data, idx, order_by, def);
-  case INTSXP:
-    return nth_with_default<INTSXP>(data, idx, order_by, def);
-  case REALSXP:
-    return nth_with_default<REALSXP>(data, idx, order_by, def);
-  case CPLXSXP:
-    return nth_with_default<CPLXSXP>(data, idx, order_by, def);
-  case STRSXP:
-    return nth_with_default<STRSXP>(data, idx, order_by, def);
-  default:
-    return 0;
-  }
+  return nth_with_default_(data, idx, order_by, def);
 }
 
 Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, int pos) {

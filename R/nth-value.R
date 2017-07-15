@@ -1,4 +1,4 @@
-#' Extract the first, last or nth value from a vector.
+#' Extract the first, last or nth value from a vector
 #'
 #' These are straightforward wrappers around \code{\link{[[}}. The main
 #' advantage is that you can provide an optional secondary vector that defines

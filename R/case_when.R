@@ -1,4 +1,4 @@
-#' A general vectorised if.
+#' A general vectorised if
 #'
 #' This function allows you to vectorise multiple `if` and `else if`
 #' statements. It is an R equivalent of the SQL `CASE WHEN` statement.
@@ -49,10 +49,10 @@
 #'
 #' # Dots support splicing:
 #' patterns <- list(
-#'   TRUE ~ as.character(x),
-#'   x %%  5 == 0 ~ "fizz",
-#'   x %%  7 == 0 ~ "buzz",
-#'   x %% 35 == 0 ~ "fizz buzz"
+#'   x %% 35 == 0 ~ "fizz buzz",
+#'   x %% 5 == 0 ~ "fizz",
+#'   x %% 7 == 0 ~ "buzz",
+#'   TRUE ~ as.character(x)
 #' )
 #' case_when(!!! patterns)
 case_when <- function(...) {
@@ -60,7 +60,7 @@ case_when <- function(...) {
   n <- length(formulas)
 
   if (n == 0) {
-    stop("No cases provided", call. = FALSE)
+    abort("No cases provided")
   }
 
   query <- vector("list", n)
@@ -70,22 +70,16 @@ case_when <- function(...) {
     f <- formulas[[i]]
     if (!inherits(f, "formula") || length(f) != 3) {
       non_formula_arg <- substitute(list(...))[[i + 1]]
-      stop(
-        "Case ", i, " (", deparse_trunc(non_formula_arg),
-        ") is not a two-sided formula",
-        call. = FALSE
-      )
+      header <- glue("Case {i} ({deparsed})", deparsed = fmt_obj1(deparse_trunc(non_formula_arg)))
+      glubort(header, "must be a two-sided formula, not a {type_of(f)}")
     }
 
     env <- environment(f)
 
     query[[i]] <- eval_bare(f[[2]], env)
     if (!is.logical(query[[i]])) {
-      stop(
-        "LHS of case ", i, " (", deparse_trunc(f_lhs(f)), ") is ",
-        typeof(query[[i]]), ", not logical",
-        call. = FALSE
-      )
+      header <- glue("LHS of case {i} ({deparsed})", deparsed = fmt_obj1(deparse_trunc(f_lhs(f))))
+      glubort(header, "must be a logical, not {type_of(query[[i]])}")
     }
 
     value[[i]] <- eval_bare(f[[3]], env)
@@ -98,11 +92,15 @@ case_when <- function(...) {
   for (i in seq_len(n)) {
     check_length(
       query[[i]], out,
-      paste0("LHS of case ", i, " (", deparse_trunc(f_lhs(formulas[[i]])), ")"))
+      paste0("LHS of case ", i, " (", fmt_obj1(deparse_trunc(f_lhs(formulas[[i]]))), ")"),
+      "the longest input"
+    )
 
     out <- replace_with(
       out, query[[i]] & !replaced, value[[i]],
-      paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"))
+      paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"),
+      "the first output"
+    )
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
 

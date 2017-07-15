@@ -15,23 +15,16 @@ public:
   OrderVisitors(List args, LogicalVector ascending, int n_) :
     visitors(n_), n(n_), nrows(0) {
     nrows = Rf_length(args[0]);
-    for (int i = 0; i < n; i++)
-      visitors[i]  = order_visitor(args[i], ascending[i]);
+    for (int i = 0; i < n; i++) {
+      visitors[i]  = order_visitor(args[i], ascending[i], i);
+    }
   }
+
   OrderVisitors(DataFrame data) :
     visitors(data.size()), n(data.size()), nrows(data.nrows())
   {
     for (int i = 0; i < n; i++)
-      visitors[i]  = order_visitor(data[i], true);
-  }
-
-  OrderVisitors(DataFrame data, CharacterVector names) :
-    visitors(data.size()), n(names.size()), nrows(data.nrows())
-  {
-    for (int i = 0; i < n; i++) {
-      String name = names[i];
-      visitors[i]  = order_visitor(data[name], true);
-    }
+      visitors[i]  = order_visitor(data[i], true, i);
   }
 
   Rcpp::IntegerVector apply() const;

@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <dplyr/main.h>
 
 #include <dplyr/HybridHandlerMap.h>
@@ -11,6 +12,7 @@ using namespace dplyr;
 
 template<template <int, bool, bool> class Tmpl, bool MINIMUM, bool NA_RM>
 Result* minmax_prototype_impl(SEXP arg, bool is_summary) {
+  arg = maybe_rhs(arg);
   if (!hybridable(arg)) return 0;
 
   switch (TYPEOF(arg)) {
@@ -31,12 +33,12 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs == 0 || nargs > 2) return 0;
 
   // the first argument is the data to operate on
-  SEXP arg = CADR(call);
+  SEXP arg = maybe_rhs(CADR(call));
 
   bool is_summary = false;
   if (TYPEOF(arg) == SYMSXP) {
     SymbolString name = SymbolString(Symbol(arg));
-    if (subsets.count(name)) {
+    if (subsets.has_variable(name)) {
       is_summary = subsets.is_summary(name);
       arg = subsets.get_variable(name);
     }

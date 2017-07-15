@@ -11,6 +11,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
+set.seed(1014)
 ```
 
 Most dplyr functions use non-standard evaluation (NSE). This is a catch-all term that means they don't follow the usual R rules of evaluation. Instead, they capture the expression that you typed and evaluate it in a custom way. This has two main benefits for dplyr code:
@@ -40,7 +41,7 @@ Unfortunately these benefits do not come for free. There are two main drawbacks:
     
     ```{r, error = TRUE}
     my_var <- x
-    filter(df, var == 1)
+    filter(df, my_var == 1)
     ```
     
     nor to this code:
@@ -77,7 +78,7 @@ This vignette has two goals:
     
 *   To teach you the underlying theory including __quosures__, the data 
     structure that stores both an expression and an environment, and 
-    and __tidyeval__, the underlying toolkit.
+    __tidyeval__, the underlying toolkit.
 
 We'll start with a warmup, tying this problem to something you're more familiar with, then move on to some practical tools, then dive into the deeper theory.
 
@@ -101,7 +102,7 @@ greet <- function(name) {
 greet("Hadley")
 ```
 
-Another approach is exemplified by the glue package: it allows you to "unquote" components of a string, replacing the string, with the value of the R expression. This allows an elegant implementation of our function because `{name}` is replaced with the value of the `name` argument.
+Another approach is exemplified by the __glue__ package: it allows you to "unquote" components of a string, replacing the string with the value of the R expression. This allows an elegant implementation of our function because `{name}` is replaced with the value of the `name` argument.
 
 ```{r}
 greet <- function(name) {
@@ -149,7 +150,6 @@ mutate_y <- function(df) {
 }
 
 mutate_y(df1)
-# Before dplyr is released, this will give a nice error message
 ```
 
 If this function is in a package, using `.data` also prevents `R CMD check` from giving a NOTE about undefined global variables (provided that you've also imported `rlang::.data` with `@importFrom rlang .data`).
@@ -197,9 +197,9 @@ my_summarise(df, "g2")
 
 Nope.
 
-If you look carefully at the error message, you'll see that it's the same in both cases. `group_by()` works like to `"`: it doesn't evaluate its input; it quotes it.
+If you look carefully at the error message, you'll see that it's the same in both cases. `group_by()` works like `"`: it doesn't evaluate its input; it quotes it.
 
-To make this function work, we need to do two things. We need to quote the input ourselves (so `my_summarise()` can take a bare variable name like `group_by`), and then we need to tell `group_by()` not to quote its input (because we've done the quoting).
+To make this function work, we need to do two things. We need to quote the input ourselves (so `my_summarise()` can take a bare variable name like `group_by()`), and then we need to tell `group_by()` not to quote its input (because we've done the quoting).
 
 How do we quote the input? We can't use `""` to quote the input, because that gives us a string. Instead we need a function that captures the expression and its environment (we'll come back to why this is important later on). There are two possible options we could use in base R, the function `quote()` and the operator `~`. Neither of these work quite the way we want, so we need a new function: `quo()`.
 
@@ -219,9 +219,9 @@ Now that we've captured this expression, how do we use it with `group_by()`? It 
 my_summarise(df, quo(g1))
 ```
 
-We get the same error as before, because we haven't yet told `group_by()` that we're taking care of the quoting. In other words, we need to tell `group_by()` not to quote its input, because it has been pre-quoted by `my_summarise()`. Yet another way of saying the same thing is that we want to __unquote__` the `my_var`.
+We get the same error as before, because we haven't yet told `group_by()` that we're taking care of the quoting. In other words, we need to tell `group_by()` not to quote its input, because it has been pre-quoted by `my_summarise()`. Yet another way of saying the same thing is that we want to __unquote__ `group_var`.
 
-In dplyr (and in the tidyeval in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a funtion that actually does what we want.
+In dplyr (and in tidyeval in general) you use `!!` to say that you want to unquote an input so that it's evaluated, not quoted. This gives us a function that actually does what we want.
 
 ```{r}
 my_summarise <- function(df, group_var) {
@@ -244,29 +244,29 @@ my_summarise(df, g1)
 This doesn't work because there's no object called `g1`. We need to capture what the user of the function typed and quote it for them. You might try using `quo()` to do that:
 
 ```{r, error = TRUE}
-my_summarise <- function(df, group_by) {
-  quo_group_by <- quo(group_by)
-  print(quo_group_by)
+my_summarise <- function(df, group_var) {
+  quo_group_var <- quo(group_var)
+  print(quo_group_var)
 
   df %>%
-    group_by(!!quo_group_by) %>%
+    group_by(!!quo_group_var) %>%
     summarise(a = mean(a))
 }
 
 my_summarise(df, g1)
 ```
 
-I've added a `print()` call to make it obvious what's going wrong here: `quo(group_by)` always returns `~group_by`. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return `~g1`.
+I've added a `print()` call to make it obvious what's going wrong here: `quo(group_var)` always returns `~group_var`. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return `~g1`.
 
-By analogy to strings, we don't want `""`, instead we want some function that turns an argument into a string. That's the job of `enquo()`. `enquo()` uses some dark magic too look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a __promise__.)
+By analogy to strings, we don't want `""`, instead we want some function that turns an argument into a string. That's the job of `enquo()`. `enquo()` uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a __promise__.)
 
 ```{r}
-my_summarise <- function(df, group_by) {
-  group_by <- enquo(group_by)
-  print(group_by)
+my_summarise <- function(df, group_var) {
+  group_var <- enquo(group_var)
+  print(group_var)
 
   df %>%
-    group_by(!!group_by) %>%
+    group_by(!!group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -364,10 +364,10 @@ It would be nice to extend `my_summarise()` to accept any number of grouping var
 
 ```{r}
 my_summarise <- function(df, ...) {
-  group_by <- quos(...)
+  group_var <- quos(...)
 
   df %>%
-    group_by(!!!group_by) %>%
+    group_by(!!!group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -407,29 +407,35 @@ quote(toupper(letters[1:5]))
 
 (Note that despite being called the double quote, `"` is not a quoting operator in this context, because it generates a string, not an expression.)
 
-In practice, the formula is the better of the two options because captures the code and its execution __environment__. This important because even simple expression can yield different values in different environments. For example, the `x` in the following two expressions refers to different values:
+In practice, the formula is the better of the two options because it captures the code and its execution __environment__. This is important because even simple expression can yield different values in different environments. For example, the `x` in the following two expressions refers to different values:
 
 ```{r}
 f <- function(x) {
-  ~ x
+  quo(x)
 }
 
 x1 <- f(10)
 x2 <- f(100)
 ```
 
-It might look like the expressions are the same if you print them out. But look carefully at the environments --- they're different.
+It might look like the expressions are the same if you print them out.
 
 ```{r}
 x1
 x2
 ```
 
-When we evaluate those formulas using `rlang::eval_tidy()`, we see that they yield different values:
-
+But if you inspect the environments using `rlang::get_env()` --- they're different.
 ```{r, message = FALSE}
 library(rlang)
 
+get_env(x1)
+get_env(x2)
+```
+
+Further, when we evaluate those formulas using `rlang::eval_tidy()`, we see that they yield different values:
+
+```{r}
 eval_tidy(x1)
 eval_tidy(x2)
 ```
@@ -441,7 +447,7 @@ user_var <- 1000
 mtcars %>% summarise(cyl = mean(cyl) * user_var)
 ```
 
-When an object keep tracks of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
+When an object keeps track of an environment, it is said to have an enclosure. This is the reason that functions in R are sometimes referred to as closures:
 
 ```{r}
 typeof(mean)
@@ -491,7 +497,7 @@ quo(toupper(UQ(letters[1:5])))
 ```
 
 It is also possible to unquote other quoted expressions. Unquoting such
-symbolic objects provides a powerful a way of manipulating expressions. 
+symbolic objects provides a powerful way of manipulating expressions. 
 
 ```{r}
 var1 <- quo(letters[1:5])
@@ -528,7 +534,7 @@ quo(filter(df, !!my_var == 1))
 quo(filter(df, UQ(my_var) == 1))
 ```
 
-You'll note above that `UQ()` yields an quosure containing a formula. That ensures that when the quosure is evaluated, it'll be looked up in the right environment. In certain code-generation scenarios you just want to use expression and ignore the environment. That's the job of `UQE()`:
+You'll note above that `UQ()` yields a quosure containing a formula. That ensures that when the quosure is evaluated, it'll be looked up in the right environment. In certain code-generation scenarios you just want to use expression and ignore the environment. That's the job of `UQE()`:
 
 ```{r}
 quo(UQE(my_fun)(x, y, z))
@@ -549,14 +555,14 @@ A very useful feature of unquote-splicing is that the vector names
 become argument names:
 
 ```{r}
-x <- list(foo = 1L, bar = quote(baz))
+x <- list(foo = 1L, bar = quo(baz))
 quo(list(!!! x))
 ```
 
 This makes it easy to program with dplyr verbs that take named dots:
 
 ```{r}
-args <- list(mean = ~mean(cyl), count = ~n())
+args <- list(mean = quo(mean(cyl)), count = quo(n())) 
 mtcars %>%
   group_by(am) %>%
   summarise(!!! args)
@@ -564,7 +570,7 @@ mtcars %>%
 
 ### Setting variable names
 
-The final unquote operation is setting argument names. You've seen one way to do that above, but you can also use the definition operator `:=` instead of `=`. `:=` supports  supports unquoting on both the LHS and the RHS. 
+The final unquote operation is setting argument names. You've seen one way to do that above, but you can also use the definition operator `:=` instead of `=`. `:=` supports unquoting on both the LHS and the RHS. 
 
 The rules on the LHS are slightly different: the unquoted operand should evaluate to a string or a symbol.
 
