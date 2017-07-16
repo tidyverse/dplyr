@@ -79,7 +79,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
   vars <- unique(c(names(vars), group_vars))
   missing_vars <- setdiff(vars, names(.data))
 
-  if(length(missing_vars) > 0) {
+  if (length(missing_vars) > 0) {
     bad_cols(missing_vars, "not found")
   }
 
