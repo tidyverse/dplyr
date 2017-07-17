@@ -1,5 +1,7 @@
 # dplyr 0.7.1.9000
 
+* `distinct()` now throws an error when used on unknown columns (#2867, @foo-bar-baz-qux).
+
 # dplyr 0.7.1
 
 * Use new versions of bindrcpp and glue to avoid protection problems.
