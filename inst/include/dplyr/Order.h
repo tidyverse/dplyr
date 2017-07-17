@@ -28,7 +28,7 @@ public:
   }
 
   OrderVisitors(SEXP data, bool ascending) :
-  visitors(1), n(1), nrows(Rf_length(data))
+    visitors(1), n(1), nrows(Rf_length(data))
   {
     visitors[0]  = order_visitor(data, ascending, 0);
   }

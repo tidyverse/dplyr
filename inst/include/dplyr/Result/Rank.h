@@ -251,7 +251,8 @@ public:
     for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
       Slice slice(data, index);
-      OrderVisitors ordering_obj((SEXP) slice, ascending);
+      SEXP data_subset = slice;
+      OrderVisitors ordering_obj(data_subset, ascending);
       IntegerVector tmp = ordering_obj.apply();
 
       int m = index.size();
@@ -284,8 +285,8 @@ public:
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
     Slice slice(data, index);
-
-    OrderVisitors ordering_obj((SEXP) slice, ascending);
+    SEXP data_subset = slice;
+    OrderVisitors ordering_obj(data_subset, ascending);
     IntegerVector x = ordering_obj.apply();
     IntegerVector out = no_init(nrows);
     int j = nrows - 1;
@@ -326,7 +327,8 @@ public:
     for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
       Slice slice(data, index);
-      OrderVisitors ordering_obj((SEXP) slice, ascending);
+      SEXP data_subset = slice;
+      OrderVisitors ordering_obj(data_subset, ascending);
       IntegerVector tmp = ordering_obj.apply();
 
       int m = index.size();
@@ -360,7 +362,8 @@ public:
     if (nrows == 0) return IntegerVector(0);
 
     Slice slice(data, index);
-    OrderVisitors ordering_obj((SEXP) slice, ascending);
+    SEXP data_subset = slice;
+    OrderVisitors ordering_obj(data_subset, ascending);
     IntegerVector x = ordering_obj.apply();
 
     IntegerVector out = no_init(nrows);
