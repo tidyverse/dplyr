@@ -83,7 +83,7 @@
 #'
 #' # This won't match on `include`:
 #' wrapper(include = cyl)
-select_vars <- function(vars, ..., include = character(), exclude = character()) {
+select_vars <- function(vars, ..., include = character(), exclude = character(), strict = TRUE) {
   quos <- quos(...)
 
   if (is_empty(quos)) {
@@ -106,10 +106,17 @@ select_vars <- function(vars, ..., include = character(), exclude = character())
   # not calls (select helpers are scoped in the calling environment)
   is_helper <- map_lgl(quos, quo_is_helper)
   ind_list <- map_if(quos, is_helper, eval_tidy)
-  ind_list <- map_if(ind_list, !is_helper, eval_tidy, data = names_list)
+
+  if (strict)
+    ind_list <- map_if(ind_list, !is_helper, eval_tidy, data = names_list)
+  else
+    ind_list <- map_if(ind_list, !is_helper, eval_safely, data = names_list)
+
+  nulls <- map_lgl(ind_list, is.null)
+  ind_list <- ind_list[!nulls]
 
   ind_list <- c(initial_case, ind_list)
-  names(ind_list) <- c(names2(initial_case), names2(quos))
+  names(ind_list) <- c(names2(initial_case), names2(quos)[!nulls])
 
   # Match strings to variable positions
   ind_list <- map_if(ind_list, is_character, match_var, table = vars)
@@ -182,7 +189,7 @@ setdiff2 <- function(x, y) {
 
 #' @export
 #' @rdname select_vars
-#' @param strict If `TRUE`, will throw an error if you attempt to rename a
+#' @param strict If `TRUE`, will throw an error if you attempt to select or rename a
 #'   variable that doesn't exist.
 rename_vars <- function(vars, ..., strict = TRUE) {
   exprs <- exprs(...)
@@ -230,3 +237,10 @@ switch_rename <- function(expr, name) {
   named_call <- ll(!! name := expr)
   bad_named_calls(named_call, "must be a symbol or a string, not {actual_type}")
 }
+
+
+eval_safely <- function(expr, data = NULL, env = caller_env()) {
+  evl <- safely(eval_tidy)
+  evl(expr, data = data, env = env)$result
+}
+
