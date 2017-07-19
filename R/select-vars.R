@@ -240,7 +240,7 @@ switch_rename <- function(expr, name) {
 
 
 eval_safely <- function(expr, data = NULL, env = caller_env()) {
-  evl <- safely(eval_tidy)
+  evl <- purrr::safely(eval_tidy)
   evl(expr, data = data, env = env)$result
 }
 
