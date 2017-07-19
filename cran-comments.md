@@ -1,6 +1,6 @@
 ## Release summary
 
-This submission includes a number of fixes to C/C++ bugs causing various problems detected by valgrind and rchk, and an C++ problem only detected by Mac CRAN.
+This submission moves run-time vs build-time checks out of .onLoad and into a new function that can be run on demand (`dr_dplyr()`)
 
 ## Test environments
 
@@ -15,8 +15,7 @@ This submission includes a number of fixes to C/C++ bugs causing various problem
 * checking installed package size ... NOTE
 
   This is all compiled code in the libs/ directory.
-    
 
 ## Reverse dependencies
 
-As no changes affected behaviour (except to fix crashes!) we only casually checked the revdeps. However, we still ran R CMD check on all reverse dependencies, and did not see any new problems compared to the CRAN release.
+As no changes affected behaviour I did not re-run the revdep checks.

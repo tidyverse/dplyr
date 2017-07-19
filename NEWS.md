@@ -1,3 +1,7 @@
+# dplyr 0.7.2
+
+* Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
+
 # dplyr 0.7.1
 
 * Use new versions of bindrcpp and glue to avoid protection problems.
