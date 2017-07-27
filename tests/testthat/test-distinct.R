@@ -67,3 +67,18 @@ test_that("empty grouped distinct equivalent to empty ungrouped", {
 
   expect_equal(df1, df2)
 })
+
+test_that("distinct returns an error when selecting an unknown column", {
+  df <- tibble(g = c(1, 2), x = c(1, 2))
+
+  expect_error(distinct(df, aa))
+})
+
+test_that("distinct on a new, mutated variable is equivalent to mutate followed by distinct", {
+  df <- tibble(g = c(1, 2), x = c(1, 2))
+
+  df1 <- df %>% distinct(aa = g * 2)
+  df2 <- df %>% mutate(aa = g * 2) %>% distinct(aa)
+
+  expect_equal(df1, df2)
+})

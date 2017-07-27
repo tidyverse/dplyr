@@ -766,6 +766,16 @@ test_that("can reuse new variables", {
   )
 })
 
+test_that("can use character vectors in grouped mutate (#2971)", {
+  df <-
+    data_frame(x = 1:10000) %>%
+    group_by(x) %>%
+    mutate(y = as.character(runif(1L)),
+           z = as.character(runif(1L)))
+
+  expect_error(df %>% distinct(x, .keep_all = TRUE), NA)
+})
+
 test_that("mutate() to UTF-8 column names", {
   df <- data_frame(a = 1) %>% mutate("\u5e78" := a)
 
