@@ -11,102 +11,102 @@
 */
 
 /* .Call calls */
-extern SEXP dplyr_anti_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_arrange_impl(SEXP, SEXP);
-extern SEXP dplyr_as_regular_df(SEXP);
-extern SEXP dplyr_assert_all_white_list(SEXP);
-extern SEXP dplyr_between(SEXP, SEXP, SEXP);
-extern SEXP dplyr_bind_rows_(SEXP, SEXP);
-extern SEXP dplyr_cbind_all(SEXP);
-extern SEXP dplyr_combine_all(SEXP);
-extern SEXP dplyr_combine_vars(SEXP, SEXP);
-extern SEXP dplyr_compatible_data_frame(SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_compatible_data_frame_nonames(SEXP, SEXP, SEXP);
-extern SEXP dplyr_cumall(SEXP);
-extern SEXP dplyr_cumany(SEXP);
-extern SEXP dplyr_cummean(SEXP);
-extern SEXP dplyr_dfloc(SEXP);
-extern SEXP dplyr_distinct_impl(SEXP, SEXP, SEXP);
-extern SEXP dplyr_equal_data_frame(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_filter_impl(SEXP, SEXP);
-extern SEXP dplyr_flatten_bindable(SEXP x);
-extern SEXP dplyr_full_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_gp(SEXP);
-extern SEXP dplyr_group_size_grouped_cpp(SEXP);
-extern SEXP dplyr_grouped_df_impl(SEXP, SEXP, SEXP);
-extern SEXP dplyr_grouped_indices_grouped_df_impl(SEXP);
-extern SEXP dplyr_init_logging(SEXP);
-extern SEXP dplyr_inner_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_intersect_data_frame(SEXP, SEXP);
-extern SEXP dplyr_left_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_loc(SEXP);
-extern SEXP dplyr_mutate_impl(SEXP, SEXP);
-extern SEXP dplyr_n_distinct_multi(SEXP, SEXP);
-extern SEXP dplyr_plfloc(SEXP);
-extern SEXP dplyr_RcppExport_registerCCallable();
-extern SEXP dplyr_right_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_select_impl(SEXP, SEXP);
-extern SEXP dplyr_semi_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP);
-extern SEXP dplyr_setdiff_data_frame(SEXP, SEXP);
-extern SEXP dplyr_shallow_copy(SEXP);
-extern SEXP dplyr_slice_impl(SEXP, SEXP);
-extern SEXP dplyr_strings_addresses(SEXP);
-extern SEXP dplyr_summarise_impl(SEXP, SEXP);
-extern SEXP dplyr_test_comparisons();
-extern SEXP dplyr_test_matches();
-extern SEXP dplyr_test_length_wrap();
-extern SEXP dplyr_test_grouped_df(SEXP);
-extern SEXP dplyr_ungroup_grouped_df(SEXP);
-extern SEXP dplyr_union_data_frame(SEXP, SEXP);
+extern SEXP _dplyr_anti_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_arrange_impl(SEXP, SEXP);
+extern SEXP _dplyr_as_regular_df(SEXP);
+extern SEXP _dplyr_assert_all_white_list(SEXP);
+extern SEXP _dplyr_between(SEXP, SEXP, SEXP);
+extern SEXP _dplyr_bind_rows_(SEXP, SEXP);
+extern SEXP _dplyr_cbind_all(SEXP);
+extern SEXP _dplyr_combine_all(SEXP);
+extern SEXP _dplyr_combine_vars(SEXP, SEXP);
+extern SEXP _dplyr_compatible_data_frame(SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_compatible_data_frame_nonames(SEXP, SEXP, SEXP);
+extern SEXP _dplyr_cumall(SEXP);
+extern SEXP _dplyr_cumany(SEXP);
+extern SEXP _dplyr_cummean(SEXP);
+extern SEXP _dplyr_dfloc(SEXP);
+extern SEXP _dplyr_distinct_impl(SEXP, SEXP, SEXP);
+extern SEXP _dplyr_equal_data_frame(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_filter_impl(SEXP, SEXP);
+extern SEXP _dplyr_flatten_bindable(SEXP x);
+extern SEXP _dplyr_full_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_gp(SEXP);
+extern SEXP _dplyr_group_size_grouped_cpp(SEXP);
+extern SEXP _dplyr_grouped_df_impl(SEXP, SEXP, SEXP);
+extern SEXP _dplyr_grouped_indices_grouped_df_impl(SEXP);
+extern SEXP _dplyr_init_logging(SEXP);
+extern SEXP _dplyr_inner_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_intersect_data_frame(SEXP, SEXP);
+extern SEXP _dplyr_left_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_loc(SEXP);
+extern SEXP _dplyr_mutate_impl(SEXP, SEXP);
+extern SEXP _dplyr_n_distinct_multi(SEXP, SEXP);
+extern SEXP _dplyr_plfloc(SEXP);
+extern SEXP _dplyr_RcppExport_registerCCallable();
+extern SEXP _dplyr_right_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_select_impl(SEXP, SEXP);
+extern SEXP _dplyr_semi_join_impl(SEXP, SEXP, SEXP, SEXP, SEXP);
+extern SEXP _dplyr_setdiff_data_frame(SEXP, SEXP);
+extern SEXP _dplyr_shallow_copy(SEXP);
+extern SEXP _dplyr_slice_impl(SEXP, SEXP);
+extern SEXP _dplyr_strings_addresses(SEXP);
+extern SEXP _dplyr_summarise_impl(SEXP, SEXP);
+extern SEXP _dplyr_test_comparisons();
+extern SEXP _dplyr_test_matches();
+extern SEXP _dplyr_test_length_wrap();
+extern SEXP _dplyr_test_grouped_df(SEXP);
+extern SEXP _dplyr_ungroup_grouped_df(SEXP);
+extern SEXP _dplyr_union_data_frame(SEXP, SEXP);
 
 static const R_CallMethodDef CallEntries[] = {
-  {"dplyr_anti_join_impl",                  (DL_FUNC) &dplyr_anti_join_impl,                  5},
-  {"dplyr_arrange_impl",                    (DL_FUNC) &dplyr_arrange_impl,                    2},
-  {"dplyr_as_regular_df",                   (DL_FUNC) &dplyr_as_regular_df,                   1},
-  {"dplyr_assert_all_white_list",           (DL_FUNC) &dplyr_assert_all_white_list,           1},
-  {"dplyr_between",                         (DL_FUNC) &dplyr_between,                         3},
-  {"dplyr_bind_rows_",                      (DL_FUNC) &dplyr_bind_rows_,                      2},
-  {"dplyr_cbind_all",                       (DL_FUNC) &dplyr_cbind_all,                       1},
-  {"dplyr_combine_all",                     (DL_FUNC) &dplyr_combine_all,                     1},
-  {"dplyr_combine_vars",                    (DL_FUNC) &dplyr_combine_vars,                    2},
-  {"dplyr_compatible_data_frame",           (DL_FUNC) &dplyr_compatible_data_frame,           4},
-  {"dplyr_compatible_data_frame_nonames",   (DL_FUNC) &dplyr_compatible_data_frame_nonames,   3},
-  {"dplyr_cumall",                          (DL_FUNC) &dplyr_cumall,                          1},
-  {"dplyr_cumany",                          (DL_FUNC) &dplyr_cumany,                          1},
-  {"dplyr_cummean",                         (DL_FUNC) &dplyr_cummean,                         1},
-  {"dplyr_dfloc",                           (DL_FUNC) &dplyr_dfloc,                           1},
-  {"dplyr_distinct_impl",                   (DL_FUNC) &dplyr_distinct_impl,                   3},
-  {"dplyr_equal_data_frame",                (DL_FUNC) &dplyr_equal_data_frame,                5},
-  {"dplyr_filter_impl",                     (DL_FUNC) &dplyr_filter_impl,                     2},
-  {"dplyr_flatten_bindable",                (DL_FUNC) &dplyr_flatten_bindable,                1},
-  {"dplyr_full_join_impl",                  (DL_FUNC) &dplyr_full_join_impl,                  7},
-  {"dplyr_gp",                              (DL_FUNC) &dplyr_gp,                              1},
-  {"dplyr_group_size_grouped_cpp",          (DL_FUNC) &dplyr_group_size_grouped_cpp,          1},
-  {"dplyr_grouped_df_impl",                 (DL_FUNC) &dplyr_grouped_df_impl,                 3},
-  {"dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &dplyr_grouped_indices_grouped_df_impl, 1},
-  {"dplyr_init_logging",                    (DL_FUNC) &dplyr_init_logging,                    1},
-  {"dplyr_inner_join_impl",                 (DL_FUNC) &dplyr_inner_join_impl,                 7},
-  {"dplyr_intersect_data_frame",            (DL_FUNC) &dplyr_intersect_data_frame,            2},
-  {"dplyr_left_join_impl",                  (DL_FUNC) &dplyr_left_join_impl,                  7},
-  {"dplyr_loc",                             (DL_FUNC) &dplyr_loc,                             1},
-  {"dplyr_mutate_impl",                     (DL_FUNC) &dplyr_mutate_impl,                     2},
-  {"dplyr_n_distinct_multi",                (DL_FUNC) &dplyr_n_distinct_multi,                2},
-  {"dplyr_plfloc",                          (DL_FUNC) &dplyr_plfloc,                          1},
-  {"dplyr_RcppExport_registerCCallable",    (DL_FUNC) &dplyr_RcppExport_registerCCallable,    0},
-  {"dplyr_right_join_impl",                 (DL_FUNC) &dplyr_right_join_impl,                 7},
-  {"dplyr_select_impl",                     (DL_FUNC) &dplyr_select_impl,                     2},
-  {"dplyr_semi_join_impl",                  (DL_FUNC) &dplyr_semi_join_impl,                  5},
-  {"dplyr_setdiff_data_frame",              (DL_FUNC) &dplyr_setdiff_data_frame,              2},
-  {"dplyr_shallow_copy",                    (DL_FUNC) &dplyr_shallow_copy,                    1},
-  {"dplyr_slice_impl",                      (DL_FUNC) &dplyr_slice_impl,                      2},
-  {"dplyr_strings_addresses",               (DL_FUNC) &dplyr_strings_addresses,               1},
-  {"dplyr_summarise_impl",                  (DL_FUNC) &dplyr_summarise_impl,                  2},
-  {"dplyr_test_comparisons",                (DL_FUNC) &dplyr_test_comparisons,                0},
-  {"dplyr_test_matches",                    (DL_FUNC) &dplyr_test_matches,                    0},
-  {"dplyr_test_length_wrap",                (DL_FUNC) &dplyr_test_length_wrap,                0},
-  {"dplyr_test_grouped_df",                 (DL_FUNC) &dplyr_test_grouped_df,                 1},
-  {"dplyr_ungroup_grouped_df",              (DL_FUNC) &dplyr_ungroup_grouped_df,              1},
-  {"dplyr_union_data_frame",                (DL_FUNC) &dplyr_union_data_frame,                2},
+  {"_dplyr_anti_join_impl",                  (DL_FUNC) &_dplyr_anti_join_impl,                  5},
+  {"_dplyr_arrange_impl",                    (DL_FUNC) &_dplyr_arrange_impl,                    2},
+  {"_dplyr_as_regular_df",                   (DL_FUNC) &_dplyr_as_regular_df,                   1},
+  {"_dplyr_assert_all_white_list",           (DL_FUNC) &_dplyr_assert_all_white_list,           1},
+  {"_dplyr_between",                         (DL_FUNC) &_dplyr_between,                         3},
+  {"_dplyr_bind_rows_",                      (DL_FUNC) &_dplyr_bind_rows_,                      2},
+  {"_dplyr_cbind_all",                       (DL_FUNC) &_dplyr_cbind_all,                       1},
+  {"_dplyr_combine_all",                     (DL_FUNC) &_dplyr_combine_all,                     1},
+  {"_dplyr_combine_vars",                    (DL_FUNC) &_dplyr_combine_vars,                    2},
+  {"_dplyr_compatible_data_frame",           (DL_FUNC) &_dplyr_compatible_data_frame,           4},
+  {"_dplyr_compatible_data_frame_nonames",   (DL_FUNC) &_dplyr_compatible_data_frame_nonames,   3},
+  {"_dplyr_cumall",                          (DL_FUNC) &_dplyr_cumall,                          1},
+  {"_dplyr_cumany",                          (DL_FUNC) &_dplyr_cumany,                          1},
+  {"_dplyr_cummean",                         (DL_FUNC) &_dplyr_cummean,                         1},
+  {"_dplyr_dfloc",                           (DL_FUNC) &_dplyr_dfloc,                           1},
+  {"_dplyr_distinct_impl",                   (DL_FUNC) &_dplyr_distinct_impl,                   3},
+  {"_dplyr_equal_data_frame",                (DL_FUNC) &_dplyr_equal_data_frame,                5},
+  {"_dplyr_filter_impl",                     (DL_FUNC) &_dplyr_filter_impl,                     2},
+  {"_dplyr_flatten_bindable",                (DL_FUNC) &_dplyr_flatten_bindable,                1},
+  {"_dplyr_full_join_impl",                  (DL_FUNC) &_dplyr_full_join_impl,                  7},
+  {"_dplyr_gp",                              (DL_FUNC) &_dplyr_gp,                              1},
+  {"_dplyr_group_size_grouped_cpp",          (DL_FUNC) &_dplyr_group_size_grouped_cpp,          1},
+  {"_dplyr_grouped_df_impl",                 (DL_FUNC) &_dplyr_grouped_df_impl,                 3},
+  {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
+  {"_dplyr_init_logging",                    (DL_FUNC) &_dplyr_init_logging,                    1},
+  {"_dplyr_inner_join_impl",                 (DL_FUNC) &_dplyr_inner_join_impl,                 7},
+  {"_dplyr_intersect_data_frame",            (DL_FUNC) &_dplyr_intersect_data_frame,            2},
+  {"_dplyr_left_join_impl",                  (DL_FUNC) &_dplyr_left_join_impl,                  7},
+  {"_dplyr_loc",                             (DL_FUNC) &_dplyr_loc,                             1},
+  {"_dplyr_mutate_impl",                     (DL_FUNC) &_dplyr_mutate_impl,                     2},
+  {"_dplyr_n_distinct_multi",                (DL_FUNC) &_dplyr_n_distinct_multi,                2},
+  {"_dplyr_plfloc",                          (DL_FUNC) &_dplyr_plfloc,                          1},
+  {"_dplyr_RcppExport_registerCCallable",    (DL_FUNC) &_dplyr_RcppExport_registerCCallable,    0},
+  {"_dplyr_right_join_impl",                 (DL_FUNC) &_dplyr_right_join_impl,                 7},
+  {"_dplyr_select_impl",                     (DL_FUNC) &_dplyr_select_impl,                     2},
+  {"_dplyr_semi_join_impl",                  (DL_FUNC) &_dplyr_semi_join_impl,                  5},
+  {"_dplyr_setdiff_data_frame",              (DL_FUNC) &_dplyr_setdiff_data_frame,              2},
+  {"_dplyr_shallow_copy",                    (DL_FUNC) &_dplyr_shallow_copy,                    1},
+  {"_dplyr_slice_impl",                      (DL_FUNC) &_dplyr_slice_impl,                      2},
+  {"_dplyr_strings_addresses",               (DL_FUNC) &_dplyr_strings_addresses,               1},
+  {"_dplyr_summarise_impl",                  (DL_FUNC) &_dplyr_summarise_impl,                  2},
+  {"_dplyr_test_comparisons",                (DL_FUNC) &_dplyr_test_comparisons,                0},
+  {"_dplyr_test_matches",                    (DL_FUNC) &_dplyr_test_matches,                    0},
+  {"_dplyr_test_length_wrap",                (DL_FUNC) &_dplyr_test_length_wrap,                0},
+  {"_dplyr_test_grouped_df",                 (DL_FUNC) &_dplyr_test_grouped_df,                 1},
+  {"_dplyr_ungroup_grouped_df",              (DL_FUNC) &_dplyr_ungroup_grouped_df,              1},
+  {"_dplyr_union_data_frame",                (DL_FUNC) &_dplyr_union_data_frame,                2},
   {NULL, NULL, 0}
 };
 
