@@ -147,12 +147,10 @@ seconds have elapsed before displaying any results.</p></td>
 <span class='co'># If min_time is set, progress bar not shown until that many</span>
 <span class='co'># seconds have elapsed</span>
 <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>3</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>3</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.1</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()
-
-<span class='fu'>not_run</span>({
-  <span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>10</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
-  <span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>10</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.5</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()
-})</div></pre>
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>3</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.1</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()</div><span class='co'># NOT RUN {</span>
+<span class='no'>p</span> <span class='kw'>&lt;-</span> <span class='fu'>progress_estimated</span>(<span class='fl'>10</span>, <span class='kw'>min_time</span> <span class='kw'>=</span> <span class='fl'>3</span>)
+<span class='kw'>for</span> (<span class='no'>i</span> <span class='kw'>in</span> <span class='fl'>1</span>:<span class='fl'>10</span>) <span class='no'>p</span>$<span class='fu'>pause</span>(<span class='fl'>0.5</span>)$<span class='fu'>tick</span>()$<span class='fu'>print</span>()
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -173,7 +171,7 @@ seconds have elapsed before displaying any results.</p></td>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

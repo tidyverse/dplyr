@@ -149,7 +149,7 @@ src_sqlite <- function(path, create = FALSE) {
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
   RSQLite::initExtension(con)
 
-  dbplyr::src_dbi(con)
+  dbplyr::src_dbi(con, auto_disconnect = TRUE)
 }
 
 # S3 methods --------------------------------------------------------------

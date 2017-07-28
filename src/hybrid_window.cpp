@@ -84,12 +84,12 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 2) return 0;
 
   // handle 2nd arg
-  SEXP ntiles = CADDR(call);
+  SEXP ntiles = maybe_rhs(CADDR(call));
   if (TYPEOF(ntiles) != INTSXP && TYPEOF(ntiles) != REALSXP) return 0;
   int number_tiles = as<int>(ntiles);
   if (number_tiles == NA_INTEGER) return 0;
 
-  RObject data(CADR(call));
+  RObject data(maybe_rhs(CADR(call)));
   bool ascending = true;
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
     data = CADR(data);
@@ -135,11 +135,11 @@ template <typename Increment>
 Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs != 1) return 0;
 
-  RObject data(CADR(call));
+  RObject data(maybe_rhs(CADR(call)));
   bool ascending = true;
 
   if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
-    data = CADR(data);
+    data = maybe_rhs(CADR(data));
     ascending = false;
   }
 

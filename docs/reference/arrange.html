@@ -224,8 +224,8 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; 32 33.9   4  71.1  65 4.22 1.835 19.90  1  1    4    1</div><div class='input'>
 <span class='co'># grouped arrange ignores groups</span>
 <span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>))</div><div class='output co'>#&gt; # A tibble: 32 × 11
-#&gt; # Groups: cyl [3]
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>))</div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  10.4     8 460.0   215  3.00 5.424 17.82     0     0     3     4
@@ -239,8 +239,8 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt;  9  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
 #&gt; 10  15.0     8 301.0   335  3.54 3.570 14.60     0     1     5     8
 #&gt; # ... with 22 more rows</div><div class='input'><span class='co'># Unless you specifically ask:</span>
-<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>), <span class='kw'>.by_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
-#&gt; # Groups: cyl [3]
+<span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>arrange</span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>wt</span>), <span class='kw'>.by_group</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
@@ -280,7 +280,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

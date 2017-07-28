@@ -157,8 +157,8 @@ functions and strings representing function names.</p></td>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='reexports.html'>as_tibble</a></span>(<span class='no'>mtcars</span>)
-<span class='no'>df</span></div><div class='output co'>#&gt; # A tibble: 32 × 11
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>(<span class='no'>mtcars</span>)
+<span class='no'>df</span></div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
@@ -171,7 +171,7 @@ functions and strings representing function names.</p></td>
 #&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
 #&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
 #&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
-#&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
+#&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  10.4     8 460.0   215  3.00 5.424 17.82     0     0     3     4
@@ -188,7 +188,7 @@ functions and strings representing function names.</p></td>
 <span class='co'># You can supply a function that will be applied before taking the</span>
 <span class='co'># ordering of the variables. The variables of the sorted tibble</span>
 <span class='co'># keep their original values.</span>
-<span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='no'>desc</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 11
+<span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='no'>desc</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  33.9     4  71.1    65  4.22 1.835 19.90     1     1     4     1
@@ -201,7 +201,7 @@ functions and strings representing function names.</p></td>
 #&gt;  8  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
 #&gt;  9  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
 #&gt; 10  21.5     4 120.1    97  3.70 2.465 20.01     1     0     3     1
-#&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='fu'><a href='funs.html'>funs</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 32 × 11
+#&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='fu'><a href='funs.html'>funs</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  33.9     4  71.1    65  4.22 1.835 19.90     1     1     4     1
@@ -233,7 +233,7 @@ functions and strings representing function names.</p></td>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

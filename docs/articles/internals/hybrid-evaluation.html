@@ -97,7 +97,7 @@
 <p>Evaluating the R expression might carry costs that can be avoided, i.e. S3 dispatch, …</p>
 <p><code>dplyr</code> recognizes the expression <code>sum(flights)</code> as the <code>sum</code> function applied to a known column of the data, making it possible to handle the dispatch early and once, avoid unneeded memory allocations and compute the result faster.</p>
 <p>Hybrid evaluation is able to work on subexpressions. Consider:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">foo &lt;-<span class="st"> </span>function(x) x*x 
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">foo &lt;-<span class="st"> </span><span class="cf">function</span>(x) x<span class="op">*</span>x 
 <span class="kw"><a href="../../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">foo</span>(<span class="kw">sum</span>(flights)) )</code></pre></div>
 <p><code>dplyr</code> will substitute the subexpressions it knows how to handle and leave the rest to standard R evaluation. Instead of evaluating <code>foo(sum(flights))</code>, R will only have to evaluate <code>foo(z)</code> where <code>z</code> is the result of the internal evaluation of <code>sum(flights)</code>.</p>
 <div id="implementation" class="section level1">
@@ -111,12 +111,12 @@
         Result(){}
         <span class="kw">virtual</span> ~Result(){} ;
         
-        <span class="kw">virtual</span> SEXP process( <span class="dt">const</span> GroupedDataFrame&amp; gdf) = <span class="dv">0</span> ;
+        <span class="kw">virtual</span> SEXP process( <span class="at">const</span> GroupedDataFrame&amp; gdf) = <span class="dv">0</span> ;
         
-        <span class="kw">virtual</span> SEXP process( <span class="dt">const</span> FullDataFrame&amp; df ) = <span class="dv">0</span> ;
+        <span class="kw">virtual</span> SEXP process( <span class="at">const</span> FullDataFrame&amp; df ) = <span class="dv">0</span> ;
         
-        <span class="kw">virtual</span> SEXP process( <span class="dt">const</span> SlicingIndex&amp; index ){
-            <span class="kw">return</span> R_NilValue ;    
+        <span class="kw">virtual</span> SEXP process( <span class="at">const</span> SlicingIndex&amp; index ){
+            <span class="cf">return</span> R_NilValue ;    
         }
         
     } ;
@@ -126,18 +126,18 @@
 <p>Hybrid evaluation really just is deriving from the <code>Result</code> class. Let’s consider a simpler version of <code>sum</code> that only handles numeric vectors. (The internal version is more complete, handles missing values, …).</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">class</span> Sum : <span class="kw">public</span> Result {
   <span class="kw">public</span>:
-    Sum( NumericVector data_ ): data(data_){}
+    Sum( NumericVector <span class="va">data_</span> ): data(<span class="va">data_</span>){}
     
-    SEXP process( <span class="dt">const</span> SlicingIndex&amp; index ){
+    SEXP process( <span class="at">const</span> SlicingIndex&amp; index ){
       <span class="dt">double</span> res = <span class="fl">0.0</span> ;
-      <span class="kw">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
-      <span class="kw">return</span> NumericVector::create( res );
+      <span class="cf">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
+      <span class="cf">return</span> NumericVector::create( res );
     }
     
-    <span class="kw">virtual</span> SEXP process( <span class="dt">const</span> GroupedDataFrame&amp; gdf){
+    <span class="kw">virtual</span> SEXP process( <span class="at">const</span> GroupedDataFrame&amp; gdf){
       ...
     }
-    <span class="kw">virtual</span> SEXP process( <span class="dt">const</span> FullDataFrame&amp; df ){
+    <span class="kw">virtual</span> SEXP process( <span class="at">const</span> FullDataFrame&amp; df ){
       ...
     }
         
@@ -157,12 +157,12 @@
 <p>A possible <code>Sum</code> implementation would then look something like this:</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">class</span> Sum : <span class="kw">public</span> Processor&lt;REALSXP, Sum&gt; {
   <span class="kw">public</span>:
-    Sum( NumericVector data_ ): data(data_){}
+    Sum( NumericVector <span class="va">data_</span> ): data(<span class="va">data_</span>){}
     
-    <span class="dt">double</span> process_chunk( <span class="dt">const</span> SlicingIndex&amp; index ){
+    <span class="dt">double</span> process_chunk( <span class="at">const</span> SlicingIndex&amp; index ){
       <span class="dt">double</span> res = <span class="fl">0.0</span> ;
-      <span class="kw">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
-      <span class="kw">return</span> res;
+      <span class="cf">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
+      <span class="cf">return</span> res;
     }
     
   <span class="kw">private</span>:
@@ -172,14 +172,14 @@
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">template</span> &lt;<span class="dt">int</span> RTYPE&gt;
 <span class="kw">class</span> Sum : <span class="kw">public</span> Processor&lt;REALSXP, Sum&lt;RTYPE&gt; &gt; {
   <span class="kw">public</span>:
-    <span class="kw">typedef</span> <span class="kw">typename</span> Rcpp::traits::storage_type&lt;RTYPE&gt;::type STORAGE ;
+    <span class="kw">typedef</span> <span class="kw">typename</span> Rcpp::traits::<span class="dt">storage_type</span>&lt;RTYPE&gt;::type STORAGE ;
     
-    Sum( Vector&lt;RTYPE&gt; data_ ): data(data_){}
+    Sum( Vector&lt;RTYPE&gt; <span class="va">data_</span> ): data(<span class="va">data_</span>){}
     
-    STORAGE process_chunk( <span class="dt">const</span> SlicingIndex&amp; index ){
+    STORAGE process_chunk( <span class="at">const</span> SlicingIndex&amp; index ){
       STORAGE res = <span class="fl">0.0</span> ;
-      <span class="kw">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
-      <span class="kw">return</span> res;
+      <span class="cf">for</span>( <span class="dt">int</span> i=<span class="dv">0</span>; i&lt;index.size(); i++) res += data[ index[i] ] ;
+      <span class="cf">return</span> res;
     }
     
   <span class="kw">private</span>:
@@ -191,19 +191,19 @@
 <h2 class="hasAnchor">
 <a href="#retrieving-hybrid-handlers" class="anchor"></a>Retrieving hybrid handlers</h2>
 <p><code>dplyr</code> functions use the <code>get_handler</code> function to retrieve handlers for particular expressions.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Result* get_handler( SEXP call, <span class="dt">const</span> ILazySubsets&amp; subsets ){
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Result* get_handler( SEXP call, <span class="at">const</span> ILazySubsets&amp; subsets ){
     <span class="dt">int</span> depth = Rf_length(call) ;
     HybridHandlerMap&amp; handlers = get_handlers() ;
     SEXP fun_symbol = CAR(call) ;
-    <span class="kw">if</span>( TYPEOF(fun_symbol) != SYMSXP ) <span class="kw">return</span> <span class="dv">0</span> ;
+    <span class="cf">if</span>( TYPEOF(fun_symbol) != SYMSXP ) <span class="cf">return</span> <span class="dv">0</span> ;
     
     HybridHandlerMap::const_iterator it = handlers.find( fun_symbol ) ;
-    <span class="kw">if</span>( it == handlers.end() ) <span class="kw">return</span> <span class="dv">0</span> ;
+    <span class="cf">if</span>( it == handlers.end() ) <span class="cf">return</span> <span class="dv">0</span> ;
     
-    <span class="kw">return</span> it-&gt;second( call, subsets, depth - <span class="dv">1</span> );
+    <span class="cf">return</span> it-&gt;second( call, subsets, depth - <span class="dv">1</span> );
 }</code></pre></div>
 <p>The <code>get_handler</code> performs a lookup in a hash table of type <code>HybridHandlerMap</code>.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> dplyr::Result* (*HybridHandler)(SEXP, <span class="dt">const</span> dplyr::ILazySubsets&amp;, <span class="dt">int</span>) ;
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> dplyr::Result* (*HybridHandler)(SEXP, <span class="at">const</span> dplyr::ILazySubsets&amp;, <span class="dt">int</span>) ;
 <span class="kw">typedef</span> dplyr_hash_map&lt;SEXP,HybridHandler&gt; HybridHandlerMap ;</code></pre></div>
 <p><code>HybridHandlerMap</code> is simply a hash map where the map key is the symbol of the function and the map value type is a function pointer defined by <code>HybridHandler</code>.</p>
 <p>The parameters of the <code>HybridHandler</code> function pointer type are:</p>
@@ -215,32 +215,32 @@
 </ul>
 <p>The purpose of the hybrid handler function is to return a <code>Result*</code> if it can handle the call or 0 if it cannot.</p>
 <p>with our previous <code>Sum</code> template class, we could define a hybrid handler function like this:</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Result* sum_handler(SEXP call, <span class="dt">const</span> ILazySubsets&amp; subsets, <span class="dt">int</span> nargs ){
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">Result* sum_handler(SEXP call, <span class="at">const</span> ILazySubsets&amp; subsets, <span class="dt">int</span> nargs ){
   <span class="co">// we only know how to deal with argument</span>
-  <span class="kw">if</span>( nargs != <span class="dv">1</span> ) <span class="kw">return</span> <span class="dv">0</span> ;
+  <span class="cf">if</span>( nargs != <span class="dv">1</span> ) <span class="cf">return</span> <span class="dv">0</span> ;
   
   <span class="co">// get the first argument</span>
   SEXP arg = CADR(call) ;
   
   <span class="co">// if this is a symbol, extract the variable from the subsets</span>
-  <span class="kw">if</span>( TYPEOF(arg) == SYMSXP ) arg = subsets.get_variable(arg) ;
+  <span class="cf">if</span>( TYPEOF(arg) == SYMSXP ) arg = subsets.get_variable(arg) ;
   
   <span class="co">// we know how to handle integer vectors and numeric vectors</span>
-  <span class="kw">switch</span>( TYPEOF(arg) ){
-  <span class="kw">case</span> INTSXP: <span class="kw">return</span> <span class="kw">new</span> Sum&lt;INTSXP&gt;(arg) ;
-  <span class="kw">case</span> REALSXP: <span class="kw">return</span> <span class="kw">new</span> Sum&lt;REALSXP&gt;(arg) ;
-  <span class="kw">default</span>: <span class="kw">break</span> ;
+  <span class="cf">switch</span>( TYPEOF(arg) ){
+  <span class="cf">case</span> INTSXP: <span class="cf">return</span> <span class="kw">new</span> Sum&lt;INTSXP&gt;(arg) ;
+  <span class="cf">case</span> REALSXP: <span class="cf">return</span> <span class="kw">new</span> Sum&lt;REALSXP&gt;(arg) ;
+  <span class="cf">default</span>: <span class="cf">break</span> ;
   }
   
   <span class="co">// we are here if we could not handle the call</span>
-  <span class="kw">return</span> <span class="dv">0</span> ;
+  <span class="cf">return</span> <span class="dv">0</span> ;
 }</code></pre></div>
 </div>
 <div id="registering-hybrid-handlers" class="section level2">
 <h2 class="hasAnchor">
 <a href="#registering-hybrid-handlers" class="anchor"></a>Registering hybrid handlers</h2>
 <p><code>dplyr</code> enables users, most likely packages, to register their own hybrid handlers through the <code>registerHybridHandler</code>.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> registerHybridHandler( <span class="dt">const</span> <span class="dt">char</span>* , HybridHandler ) ;</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> registerHybridHandler( <span class="at">const</span> <span class="dt">char</span>* , HybridHandler ) ;</code></pre></div>
 <p>To register the handler we created above, we then simply:</p>
 <div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">registerHybridHandler( <span class="st">"sum"</span>, sum_handler )  ;</code></pre></div>
 </div>
@@ -249,7 +249,7 @@
 <a href="#putting-it-all-together" class="anchor"></a>Putting it all together</h2>
 <p>We are going to register a handler called <code>hitchhiker</code> that always returns the answer to everything, i.e. <code>42</code>.</p>
 <p>The code below is suitable to run through <code>sourceCpp</code>.</p>
-<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="ot">#include &lt;dplyr.h&gt;</span>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="pp">#include </span><span class="im">&lt;dplyr.h&gt;</span>
 <span class="co">// [[Rcpp::depends(dplyr,BH)]]</span>
 
 <span class="kw">using</span> <span class="kw">namespace</span> dplyr ;
@@ -260,15 +260,15 @@
 <span class="kw">public</span>:
     
     <span class="co">// always returns 42, as it is the answer to everything</span>
-    <span class="dt">int</span> process_chunk( <span class="dt">const</span> SlicingIndex&amp; ){
-        <span class="kw">return</span> <span class="dv">42</span> ;    
+    <span class="dt">int</span> process_chunk( <span class="at">const</span> SlicingIndex&amp; ){
+        <span class="cf">return</span> <span class="dv">42</span> ;    
     }
 } ;
 
 <span class="co">// we actually don't need the arguments</span>
 <span class="co">// we can just let this handler return a new Hitchhiker pointer</span>
-Result* hitchhiker_handler( SEXP, <span class="dt">const</span> ILazySubsets&amp;, <span class="dt">int</span> ){
-    <span class="kw">return</span> <span class="kw">new</span> Hitchhiker ;        
+Result* hitchhiker_handler( SEXP, <span class="at">const</span> ILazySubsets&amp;, <span class="dt">int</span> ){
+    <span class="cf">return</span> <span class="kw">new</span> Hitchhiker ;        
 }
 
 <span class="co">// registration of the register, called from R, so exprted through Rcpp::export</span>
@@ -329,7 +329,8 @@ extern "C" void R_init_mypack( DllInfo* info ){
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
         <div id="tocnav">
-      <h2>Contents</h2>
+      <h2 class="hasAnchor">
+<a href="#tocnav" class="anchor"></a>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
 <li>
 <a href="#implementation">Implementation</a><ul class="nav nav-pills nav-stacked">
@@ -352,7 +353,7 @@ extern "C" void R_init_mypack( DllInfo* info ){
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" height="24"></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

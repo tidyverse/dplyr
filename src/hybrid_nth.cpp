@@ -204,7 +204,7 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (tag != R_NilValue && tag != Rf_install("x")) {
     return 0;
   }
-  SEXP data = CADR(call);
+  SEXP data = maybe_rhs(CADR(call));
   if (TYPEOF(data) != SYMSXP)
     return 0;
 

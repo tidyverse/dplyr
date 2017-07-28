@@ -151,13 +151,13 @@ extension to storing data frames for indices rather than vectors).</p>
 
     
     <p>Manipulation functions:</p><ul>
-<li><p><code>select()</code> (M)</p></li>
-<li><p><code>summarise()</code> (M), corresponds to roll-up, but rather more
+<li><p><code><a href='select.html'>select()</a></code> (M)</p></li>
+<li><p><code><a href='summarise.html'>summarise()</a></code> (M), corresponds to roll-up, but rather more
 limited since there are no hierarchies.</p></li>
-<li><p><code>filter()</code> (D), corresponds to slice/dice.</p></li>
-<li><p><code>mutate()</code> (M) is not implemented, but should be relatively
+<li><p><code><a href='filter.html'>filter()</a></code> (D), corresponds to slice/dice.</p></li>
+<li><p><code><a href='mutate.html'>mutate()</a></code> (M) is not implemented, but should be relatively
 straightforward given the implementation of <code>summarise</code>.</p></li>
-<li><p><code>arrange()</code> (D?) Not implemented: not obvious how much sense
+<li><p><code><a href='arrange.html'>arrange()</a></code> (D?) Not implemented: not obvious how much sense
 it would make</p></li>
 </ul>
     <p>Joins: not implemented. See <code>vignettes/joins.graffle</code> for ideas.
@@ -250,10 +250,11 @@ structures into a <code>tbl_cube</code>.</p>
 #&gt; M: ozone [dbl]
 #&gt; M: pressure [dbl]
 #&gt; M: surftemp [dbl]
-#&gt; M: temperature [dbl]</div><div class='input'><span class='co'># Each component can only refer to one dimensions, ensuring that you always</span>
-<span class='co'># create a rectangular subset</span>
-<span class='co'>## Not run: filter(nasa, lat &amp;gt; long)</span>
-
+#&gt; M: temperature [dbl]</div><div class='input'># Each component can only refer to one dimensions, ensuring that you always
+# create a rectangular subset
+</div><span class='co'># NOT RUN {</span>
+<span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>nasa</span>, <span class='no'>lat</span> <span class='kw'>&gt;</span> <span class='no'>long</span>)
+<span class='co'># }</span><div class='input'>
 <span class='co'># Arrange is meaningless for tbl_cubes</span>
 
 <span class='no'>by_loc</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>nasa</span>, <span class='no'>lat</span>, <span class='no'>long</span>)
@@ -286,7 +287,7 @@ structures into a <code>tbl_cube</code>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 

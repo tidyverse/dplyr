@@ -271,3 +271,19 @@ SEXP name_at(SEXP x, size_t i) {
   else
     return STRING_ELT(names, i);
 }
+
+SEXP f_env(SEXP x) {
+  return Rf_getAttrib(x, Rf_install(".Environment"));
+}
+bool is_quosure(SEXP x) {
+  return TYPEOF(x) == LANGSXP
+    && Rf_length(x) == 2
+    && Rf_inherits(x, "quosure")
+    && TYPEOF(f_env(x)) == ENVSXP;
+}
+SEXP maybe_rhs(SEXP x) {
+  if (is_quosure(x))
+    return CADR(x);
+  else
+    return x;
+}

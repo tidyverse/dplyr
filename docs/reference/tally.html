@@ -172,14 +172,14 @@ yourself.</p>
     <pre class="examples"><div class='input'><span class='co'># tally() is short-hand for mutate()</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>tally</span>()</div><div class='output co'>#&gt;    n
 #&gt; 1 32</div><div class='input'><span class='co'># count() is a short-hand for group_by() + tally()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt; # A tibble: 3 × 2
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt;     cyl     n
 #&gt;   &lt;dbl&gt; &lt;int&gt;
 #&gt; 1     4    11
 #&gt; 2     6     7
 #&gt; 3     8    14</div><div class='input'>
 <span class='co'># add_tally() is short-hand for mutate()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>()</div><div class='output co'>#&gt; # A tibble: 32 × 12
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>()</div><div class='output co'>#&gt; # A tibble: 32 x 12
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb     n
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
 #&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4    32
@@ -193,7 +193,7 @@ yourself.</p>
 #&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2    32
 #&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4    32
 #&gt; # ... with 22 more rows</div><div class='input'><span class='co'># add_count() is a short-hand for group_by() + add_tally()</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt; # A tibble: 32 × 12
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_count</span>(<span class='no'>cyl</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 12
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb     n
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
 #&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4     7
@@ -210,7 +210,7 @@ yourself.</p>
 <span class='co'># count and tally are designed so that you can call</span>
 <span class='co'># them repeatedly, each time rolling up a level of detail</span>
 <span class='no'>species</span> <span class='kw'>&lt;-</span> <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-<span class='no'>species</span></div><div class='output co'>#&gt; # A tibble: 58 × 3
+<span class='no'>species</span></div><div class='output co'>#&gt; # A tibble: 58 x 3
 #&gt;     species homeworld     n
 #&gt;       &lt;chr&gt;     &lt;chr&gt; &lt;int&gt;
 #&gt;  1    Human  Tatooine     8
@@ -223,7 +223,7 @@ yourself.</p>
 #&gt;  8    Human  Corellia     2
 #&gt;  9    Human Coruscant     2
 #&gt; 10 Kaminoan    Kamino     2
-#&gt; # ... with 48 more rows</div><div class='input'><span class='no'>species</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 × 2
+#&gt; # ... with 48 more rows</div><div class='input'><span class='no'>species</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;     species    nn
 #&gt;       &lt;chr&gt; &lt;int&gt;
 #&gt;  1    Human    16
@@ -241,7 +241,7 @@ yourself.</p>
 <span class='co'># e.g.: show only species that have a single member</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>add_count</span>(<span class='no'>species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>n</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 29 × 14
+  <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>n</span> <span class='kw'>==</span> <span class='fl'>1</span>)</div><div class='output co'>#&gt; # A tibble: 29 x 14
 #&gt;                     name height  mass hair_color       skin_color eye_color
 #&gt;                    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;
 #&gt;  1                Greedo    173    74       &lt;NA&gt;            green     black
@@ -279,7 +279,7 @@ yourself.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
   <p>Site built by <a href="http://hadley.github.io/pkgdown/">pkgdown</a>.</p>
 </div>
 
