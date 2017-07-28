@@ -9,7 +9,7 @@ n_distinct(..., na.rm = FALSE)
 \arguments{
 \item{\dots}{vectors of values}
 
-\item{na.rm}{id \code{TRUE} missing values don't count}
+\item{na.rm}{if \code{TRUE} missing values don't count}
 }
 \description{
 This is a faster and more concise equivalent of \code{length(unique(x))}
