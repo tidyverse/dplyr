@@ -1,7 +1,7 @@
 #ifndef dplyr_tools_SymbolString_h
 #define dplyr_tools_SymbolString_h
 
-#include <tools/Encoding.h>
+#include <tools/encoding.h>
 
 namespace dplyr {
 

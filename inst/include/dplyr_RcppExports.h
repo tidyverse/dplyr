@@ -17,7 +17,7 @@ namespace dplyr {
             require("dplyr", Rcpp::Named("quietly") = true);
             typedef int(*Ptr_validate)(const char*);
             static Ptr_validate p_validate = (Ptr_validate)
-                R_GetCCallable("dplyr", "dplyr_RcppExport_validate");
+                R_GetCCallable("dplyr", "_dplyr_RcppExport_validate");
             if (!p_validate(sig)) {
                 throw Rcpp::function_not_exported(
                     "C++ function with signature '" + std::string(sig) + "' not found in dplyr");
@@ -30,7 +30,7 @@ namespace dplyr {
         static Ptr_get_date_classes p_get_date_classes = NULL;
         if (p_get_date_classes == NULL) {
             validateSignature("SEXP(*get_date_classes)()");
-            p_get_date_classes = (Ptr_get_date_classes)R_GetCCallable("dplyr", "dplyr_get_date_classes");
+            p_get_date_classes = (Ptr_get_date_classes)R_GetCCallable("dplyr", "_dplyr_get_date_classes");
         }
         RObject rcpp_result_gen;
         {
@@ -49,7 +49,7 @@ namespace dplyr {
         static Ptr_get_time_classes p_get_time_classes = NULL;
         if (p_get_time_classes == NULL) {
             validateSignature("SEXP(*get_time_classes)()");
-            p_get_time_classes = (Ptr_get_time_classes)R_GetCCallable("dplyr", "dplyr_get_time_classes");
+            p_get_time_classes = (Ptr_get_time_classes)R_GetCCallable("dplyr", "_dplyr_get_time_classes");
         }
         RObject rcpp_result_gen;
         {
@@ -68,12 +68,12 @@ namespace dplyr {
         static Ptr_build_index_cpp p_build_index_cpp = NULL;
         if (p_build_index_cpp == NULL) {
             validateSignature("DataFrame(*build_index_cpp)(DataFrame)");
-            p_build_index_cpp = (Ptr_build_index_cpp)R_GetCCallable("dplyr", "dplyr_build_index_cpp");
+            p_build_index_cpp = (Ptr_build_index_cpp)R_GetCCallable("dplyr", "_dplyr_build_index_cpp");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_build_index_cpp(Shield<SEXP>(Rcpp::wrap(data)));
+            rcpp_result_gen = p_build_index_cpp(Rcpp::wrap(data));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
