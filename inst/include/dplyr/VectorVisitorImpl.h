@@ -7,6 +7,7 @@
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
+#include <tools/encoding.h>
 
 namespace dplyr {
 
@@ -138,7 +139,7 @@ class VectorVisitorImpl<STRSXP> : public VectorVisitor {
 public:
 
   VectorVisitorImpl(const CharacterVector& vec_) :
-    vec(vec_), has_orders(false)
+    vec(reencode_char(vec_)), has_orders(false)
   {}
 
   size_t hash(int i) const {
