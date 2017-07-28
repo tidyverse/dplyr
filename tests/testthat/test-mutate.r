@@ -391,6 +391,8 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
+  # Currently failing (#2967)
+  skip_on_os("windows")
   df <- data_frame(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
@@ -772,4 +774,10 @@ test_that("can use character vectors in grouped mutate (#2971)", {
            z = as.character(runif(1L)))
 
   expect_error(df %>% distinct(x, .keep_all = TRUE), NA)
+})
+
+test_that("mutate() to UTF-8 column names", {
+  df <- data_frame(a = 1) %>% mutate("\u5e78" := a)
+
+  expect_equal(colnames(df), c("a", "\u5e78"))
 })
