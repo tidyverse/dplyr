@@ -73,7 +73,7 @@ namespace dplyr {
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_build_index_cpp(Rcpp::wrap(data));
+            rcpp_result_gen = p_build_index_cpp(Shield<SEXP>(Rcpp::wrap(data)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
