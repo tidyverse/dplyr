@@ -54,4 +54,12 @@ struct sxpinfo_struct {
 #define UNSET_DPLYR_SHRINKABLE_VECTOR(x) (reinterpret_cast<sxpinfo_struct*>(x)->gp &= (~DPLYR_SHRINKABLE_MASK) )
 
 
+namespace dplyr {
+
+CharacterVector reencode_factor(IntegerVector x);
+CharacterVector reencode_char(SEXP x);
+
+}
+
+
 #endif

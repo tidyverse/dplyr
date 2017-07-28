@@ -1,7 +1,7 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <tools/Encoding.h>
+#include <tools/encoding.h>
 
 using namespace Rcpp;
 
