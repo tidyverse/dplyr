@@ -92,13 +92,13 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
   }
 }
 
-CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
-  data(data_),
-  set(data.size()),
+CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   orders(no_init(data.size()))
 {
   int n = data.size();
   if (n == 0) return;
+
+  dplyr_hash_set<SEXP> set(n);
 
   // 1 - gather unique SEXP pointers from data
   SEXP* p_data = Rcpp::internal::r_vector_start<STRSXP>(data);
@@ -117,6 +117,8 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
 
   // retrieve unique strings from the set
   int n_uniques = set.size();
+  LOG_VERBOSE << "Sorting " <<  n_uniques << " unique character elements";
+
   CharacterVector uniques(set.begin(), set.end());
   CharacterVector s_uniques = Language("sort", uniques).fast_eval();
 
@@ -124,7 +126,7 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
   IntegerVector o = r_match(uniques, s_uniques);
 
   // combine uniques and o into a hash map for fast retrieval
-  dplyr_hash_map<SEXP, int> map;
+  dplyr_hash_map<SEXP, int> map(n_uniques);
   for (int i = 0; i < n_uniques; i++) {
     map.insert(std::make_pair(uniques[i], o[i]));
   }
@@ -136,7 +138,7 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data_) :
   int o_pos;
   orders[0] = o_pos = map.find(previous)->second;
 
-  for (int i = 1; i < n; i++, p_data++) {
+  for (int i = 1; i < n; ++i, ++p_data) {
     SEXP s = *p_data;
     if (s == previous) {
       orders[i] = o_pos;
