@@ -277,9 +277,9 @@ SEXP f_env(SEXP x) {
 }
 bool is_quosure(SEXP x) {
   return TYPEOF(x) == LANGSXP
-    && Rf_length(x) == 2
-    && Rf_inherits(x, "quosure")
-    && TYPEOF(f_env(x)) == ENVSXP;
+         && Rf_length(x) == 2
+         && Rf_inherits(x, "quosure")
+         && TYPEOF(f_env(x)) == ENVSXP;
 }
 SEXP maybe_rhs(SEXP x) {
   if (is_quosure(x))
