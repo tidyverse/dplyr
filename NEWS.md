@@ -1,5 +1,7 @@
 # dplyr 0.7.2.9000
 
+* Grouping by character vectors is now faster (#2204).
+
 * Fix protection error that occurred when creating a character column
   using grouped `mutate()` (#2971).
 
