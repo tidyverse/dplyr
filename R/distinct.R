@@ -97,7 +97,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 #' This is a faster and more concise equivalent of `length(unique(x))`
 #'
 #' @param \dots vectors of values
-#' @param na.rm id `TRUE` missing values don't count
+#' @param na.rm if `TRUE` missing values don't count
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
 #' length(unique(x))
