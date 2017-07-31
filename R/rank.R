@@ -1,6 +1,6 @@
 #' Windowed rank functions.
 #'
-#' Six variations on ranking functions, mimicing the ranking functions
+#' Six variations on ranking functions, mimicking the ranking functions
 #' described in SQL2003. They are currently implemented using the built in
 #' `rank` function, and are provided mainly as a convenience when
 #' converting between R and SQL. All ranking functions map smallest inputs
