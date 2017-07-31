@@ -9,9 +9,11 @@ tidyselect::vars_rename
 #' @export
 tidyselect::vars_pull
 
-#' @importFrom tidyselect current_vars
+#' @rdname reexports
+#' @usage NULL
+#' @importFrom tidyselect peek_vars
 #' @export
-tidyselect::current_vars
+current_vars <- tidyselect::peek_vars
 
 #' @importFrom tidyselect contains
 #' @export
