@@ -1,5 +1,15 @@
 # dplyr 0.7.4.9000
 
+# dplyr 0.7.2.9001
+
+* dplyr now depends on the new tidyselect package to power `select()`,
+  `rename()`, `pull()` and their variants (#2896). Consequently
+  `select_vars()`, `select_var()` and `rename_vars()` are
+  soft-deprecated and will start issuing warnings in a future version.
+
+
+# dplyr 0.7.2.9000
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
@@ -11,6 +21,9 @@
 * Fixed protection error that occurred when creating a character column using grouped `mutate()` (#2971).
 
 * Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
+* `distinct()` now throws an error when used on unknown columns
+  (#2867, @foo-bar-baz-qux).
+
 
 * Fixed rare out-of-bounds memory write in `slice()` when negative indices beyond the number of rows were involved (#3073).
 
@@ -34,11 +47,6 @@
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
-
-* dplyr now depends on the new tidyselect package to power `select()`,
-  `rename()`, `pull()` and their variants (#2896). Consequently
-  `select_vars()`, `select_var()` and `rename_vars()` are
-  soft-deprecated and will start issuing warnings in the next version.
 
 
 # dplyr 0.7.1
