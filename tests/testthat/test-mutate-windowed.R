@@ -1,7 +1,8 @@
 context("Mutate - windowed")
 
 test_that("desc is correctly handled by window functions", {
-  df <- data.frame(x = 1:10, y = seq(1, 10, by = 1), g = rep(c(1, 2), each = 5))
+  df <- data.frame(x = 1:10, y = seq(1, 10, by = 1),
+                   g = rep(c(1, 2), each = 5), s = c(letters[1:3], LETTERS[1:5], letters[4:5]))
 
   expect_equal(mutate(df, rank = min_rank(desc(x)))$rank, 10:1)
   expect_equal(mutate(group_by(df, g), rank = min_rank(desc(x)))$rank, rep(5:1, 2))
@@ -9,12 +10,28 @@ test_that("desc is correctly handled by window functions", {
   expect_equal(mutate(df, rank = row_number(desc(x)))$rank, 10:1)
   expect_equal(mutate(group_by(df, g), rank = row_number(desc(x)))$rank, rep(5:1, 2))
 
+  # Test character vector sorting
+  expect_equal(mutate(df, rank = row_number(desc(s)))$rank,
+               mutate(df, rank = dplyr::row_number(desc(s)))$rank)
+  expect_equal(mutate(group_by(df, g), rank = row_number(desc(s)))$rank,
+               mutate(group_by(df, g), rank = dplyr::row_number(desc(s)))$rank)
 })
 
 test_that("row_number gives correct results", {
-  tmp <- data.frame(id = rep(c(1, 2), each = 5), value = c(1, 1, 2, 5, 0, 6, 4, 0, 0, 2))
+  tmp <- data.frame(id = rep(c(1, 2), each = 5), value = c(1, 1, 2, 5, 0, 6, 4, 0, 0, 2),
+                    s = c(letters[1:2], LETTERS[1:4], letters[2:5]))
+
   res <- group_by(tmp, id) %>% mutate(var = row_number(value))
   expect_equal(res$var, c(2, 3, 4, 5, 1, 5, 4, 1, 2, 3))
+
+  # Test character vector sorting by comparing C and R function outputs
+  # Should be careful of testing against static return values due to locale differences
+  res2 <- group_by(tmp, id) %>% mutate(var = row_number(s), var_d = dplyr::row_number(s))
+  expect_equal(res2$var, res2$var_d)
+
+  res3 <- data.frame(s = c("[", "]", NA, "a", "Z")) %>% mutate(var = row_number(s), var_d = dplyr::row_number(s))
+  expect_equal(res3$var, res3$var_d)
+
 })
 
 test_that("row_number works with 0 arguments", {
