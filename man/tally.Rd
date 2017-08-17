@@ -58,7 +58,7 @@ need to change the default, you'll have to write the \code{\link[=summarise]{sum
 yourself.
 }
 \examples{
-# tally() is short-hand for mutate()
+# tally() is short-hand for summarise()
 mtcars \%>\% tally()
 # count() is a short-hand for group_by() + tally()
 mtcars \%>\% count(cyl)
