@@ -171,6 +171,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   int n_y = y.nrows();
   // this will collect indices from rows in x that match rows in y
   std::vector<int> indices;
+  indices.reserve(x.nrow());
   for (int i = 0; i < n_y; i++) {
     // find a row in x that matches row i from y
     Map::iterator it = map.find(-i - 1);
@@ -213,6 +214,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   // collect what's left
   std::vector<int> indices;
+  indices.reserve(map.size());
   for (Map::iterator it = map.begin(); it != map.end(); ++it)
     push_back(indices, it->second);
 
