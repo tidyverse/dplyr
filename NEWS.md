@@ -9,6 +9,8 @@
 
 * Semi- and anti-joins now preserve order of left-hand-side data frame (#3089).
 
+* `select()`, `rename()` and `summarise()` no longer changes the grouped vars of the original data (#3038).
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.

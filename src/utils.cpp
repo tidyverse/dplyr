@@ -174,9 +174,10 @@ SEXP list_as_chr(SEXP x) {
   return chr;
 }
 
-SymbolVector get_vars(SEXP x) {
+SymbolVector get_vars(SEXP x, bool duplicate) {
   static SEXP vars_symbol = Rf_install("vars");
   RObject vars = Rf_getAttrib(x, vars_symbol);
+  if (duplicate && MAYBE_SHARED(vars)) vars = Rf_duplicate(vars);
 
   switch (TYPEOF(vars)) {
   case NILSXP:
