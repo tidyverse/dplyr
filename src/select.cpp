@@ -38,7 +38,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
 
   // handle vars  attribute : make a shallow copy of the list and alter
   //   its names attribute
-  SymbolVector vars(get_vars(copy));
+  SymbolVector vars(get_vars(copy, true));
 
   int nv = vars.size();
   for (int i = 0; i < nv; i++) {
