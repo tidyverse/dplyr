@@ -37,7 +37,7 @@
 #' @return A tbl, grouped the same way as `x`.
 #' @export
 #' @examples
-#' # tally() is short-hand for mutate()
+#' # tally() is short-hand for summarise()
 #' mtcars %>% tally()
 #' # count() is a short-hand for group_by() + tally()
 #' mtcars %>% count(cyl)

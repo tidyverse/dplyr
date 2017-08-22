@@ -30,7 +30,7 @@ with Inf or -Inf before ranking.}
 \item{n}{number of groups to split up into.}
 }
 \description{
-Six variations on ranking functions, mimicing the ranking functions
+Six variations on ranking functions, mimicking the ranking functions
 described in SQL2003. They are currently implemented using the built in
 \code{rank} function, and are provided mainly as a convenience when
 converting between R and SQL. All ranking functions map smallest inputs
