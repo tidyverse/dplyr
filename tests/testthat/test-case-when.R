@@ -80,3 +80,13 @@ test_that("missing values can be replaced (#1999)", {
     c(1, 2, NA, 0)
   )
 })
+
+test_that("NA conditions (#2927)", {
+  expect_equal(
+    case_when(
+      c(TRUE, FALSE, NA) ~ 1:3,
+      TRUE ~ 4L
+    ),
+    c(1L, 4L, 4L)
+  )
+})

@@ -7,6 +7,8 @@ replace_with <- function(x, i, val, name, reason = NULL) {
   check_type(val, x, name)
   check_class(val, x, name)
 
+  i[is.na(i)] <- FALSE
+
   if (length(val) == 1L) {
     x[i] <- val
   } else {
