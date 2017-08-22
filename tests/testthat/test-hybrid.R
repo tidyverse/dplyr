@@ -274,6 +274,12 @@ test_that("first(), last(), and nth() work", {
     expected = 5L
   )
 
+  default_value <- 6L
+  check_not_hybrid_result(
+    nth(a, 6, default = default_value), a = 1:5,
+    expected = 6L
+  )
+
   expect_equal(
     tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
       group_by(a) %>%
