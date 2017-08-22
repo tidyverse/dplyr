@@ -41,7 +41,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1:3,
       c(FALSE, TRUE) ~ 1:2
     ),
-    "RHS of case 1 (1:3) must be length 2 (the first output) or one, not 3",
+    "LHS of case 1 (`c(TRUE, FALSE)`) must be length 3 (the longest input) or one, not 2",
     fixed = TRUE
   )
 })
@@ -88,5 +88,22 @@ test_that("NA conditions (#2927)", {
       TRUE ~ 4L
     ),
     c(1L, 4L, 4L)
+  )
+})
+
+test_that("atomic conditions (#2909)", {
+  expect_equal(
+    case_when(
+      TRUE ~ 1:3,
+      FALSE ~ 4:6
+    ),
+    1:3
+  )
+  expect_equal(
+    case_when(
+      NA ~ 1:3,
+      TRUE ~ 4:6
+    ),
+    4:6
   )
 })
