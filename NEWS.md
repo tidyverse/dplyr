@@ -7,6 +7,8 @@
 
 * `distinct()` now throws an error when used on unknown columns (#2867, @foo-bar-baz-qux).
 
+* `select()`, `rename()` and `summarise()` no longer changes the grouped vars of the original data (#3038).
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
