@@ -30,9 +30,10 @@ test_that("cases must yield compatible lengths", {
   expect_error(
     case_when(
       c(TRUE, FALSE) ~ 1,
-      c(FALSE, TRUE, FALSE) ~ 2
+      c(FALSE, TRUE, FALSE) ~ 2,
+      c(FALSE, TRUE, FALSE, NA) ~ 3
     ),
-    "All conditions and values must be length 1 or 2 (the first non-atomic value), not 3",
+    "`c(FALSE, TRUE, FALSE) ~ 2`, `c(FALSE, TRUE, FALSE, NA) ~ 3` must be length 2 or one, not 3, 4",
     fixed = TRUE
   )
 
@@ -41,7 +42,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1:3,
       c(FALSE, TRUE) ~ 1:2
     ),
-    "All conditions and values must be length 1 or 2 (the first non-atomic value), not 3",
+    "`c(TRUE, FALSE) ~ 1:3` must be length 2 or one, not 3",
     fixed = TRUE
   )
 })

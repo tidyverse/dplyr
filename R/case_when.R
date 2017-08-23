@@ -85,15 +85,23 @@ case_when <- function(...) {
     value[[i]] <- eval_bare(f[[3]], env)
   }
 
-  all_lengths <- unique(c(map_int(query, length), map_int(value, length)))
+  lhs_lengths <- map_int(query, length)
+  rhs_lengths <- map_int(value, length)
+  all_lengths <- unique(c(lhs_lengths, rhs_lengths))
   if (length(all_lengths) <= 1) {
     m <- all_lengths[[1]]
   } else {
     non_atomic_lengths <- all_lengths[all_lengths != 1]
     m <- non_atomic_lengths[[1]]
     if (length(non_atomic_lengths) > 1) {
-      inconsistent_lengths <- non_atomic_lengths[non_atomic_lengths != m]
-      glubort(NULL, "All conditions and values must be length 1 or {m} (the first non-atomic value), not {commas(inconsistent_lengths)}")
+      inconsistent_lengths <- non_atomic_lengths[-1]
+      lhs_problems <- lhs_lengths %in% inconsistent_lengths
+      rhs_problems <- rhs_lengths %in% inconsistent_lengths
+      problems <- lhs_problems | rhs_problems
+      bad_calls(
+        formulas[problems],
+        check_length_val(inconsistent_lengths, m, header = NULL, .abort = identity)
+      )
     }
   }
 
