@@ -91,23 +91,17 @@ case_when <- function(...) {
   } else {
     non_atomic_lengths <- all_lengths[all_lengths != 1]
     m <- non_atomic_lengths[[1]]
+    if (length(non_atomic_lengths) > 1) {
+      inconsistent_lengths <- non_atomic_lengths[non_atomic_lengths != m]
+      glubort(NULL, "All conditions and values must be length 1 or {m} (the first non-atomic value), not {commas(inconsistent_lengths)}")
+    }
   }
 
   out <- value[[1]][rep(NA_integer_, m)]
   replaced <- rep(FALSE, m)
 
   for (i in seq_len(n)) {
-    check_length(
-      query[[i]], out,
-      paste0("LHS of case ", i, " (", fmt_obj1(deparse_trunc(f_lhs(formulas[[i]]))), ")"),
-      "the first non-atomic input or value"
-    )
-
-    out <- replace_with(
-      out, query[[i]] & !replaced, value[[i]],
-      paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"),
-      "the first non-atomic input or value"
-    )
+    out <- replace_with(out, query[[i]] & !replaced, value[[i]])
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
 
