@@ -13,7 +13,7 @@
 
 * `nth(default = var)`, `first(default = var)` and `last(default = var)` fall back to standard evaluation in a grouped operation instead of triggering an error (#3045).
 
-* `case_when()` now works if all LHS are atomic (#2909).
+* `case_when()` now works if all LHS are atomic (#2909), or when LHS or RHS values are zero-length vectors (#3048).
 
 * `case_when()` accepts `NA` on the LHS (#2927).
 
