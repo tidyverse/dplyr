@@ -17,6 +17,8 @@
 
 * `case_when()` accepts `NA` on the LHS (#2927).
 
+* In hybrid evaluation, `min()` and `max()` now always return integers for integer arguments. `min(integer())` is returned as `NA_integer_` (#3047).
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.

@@ -6,15 +6,106 @@
 
 namespace dplyr {
 
+namespace detail {
+
+template <int RTYPE, bool MINIMUM>
+struct MinMaxDefault {
+};
+
+template <bool MINIMUM>
+struct MinMaxDefault<INTSXP, MINIMUM> {
+  static int get_worst() {
+    if (MINIMUM)
+      return INT_MAX;
+    else
+      return -INT_MAX;
+  }
+
+  static int get_default() {
+    return NA_INTEGER;
+  }
+};
+
+template <bool MINIMUM>
+struct MinMaxDefault<REALSXP, MINIMUM> {
+  static double get_worst() {
+    if (MINIMUM)
+      return R_PosInf;
+    else
+      return R_NegInf;
+  }
+
+  static double get_default() {
+    return get_worst();
+  }
+};
+
+}
+
 template <int RTYPE, bool MINIMUM, bool NA_RM>
-class MinMax : public Processor<REALSXP, MinMax<RTYPE, MINIMUM, NA_RM> > {
+class MinMax : public Processor<RTYPE, MinMax<RTYPE, MINIMUM, NA_RM> > {
 
 public:
-  typedef Processor<REALSXP, MinMax<RTYPE, MINIMUM, NA_RM> > Base;
+  typedef Processor<RTYPE, MinMax<RTYPE, MINIMUM, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
 private:
-  static const double Inf;
+  class Aggregator {
+  public:
+    Aggregator(const STORAGE* data_ptr_, const SlicingIndex& indices_) :
+      data_ptr(data_ptr_),
+      indices(indices_),
+      i(0),
+      res(detail::MinMaxDefault<RTYPE, MINIMUM>::get_worst()) {}
+
+  public:
+    STORAGE run() {
+      if (!fetch_next()) {
+        return detail::MinMaxDefault<RTYPE, MINIMUM>::get_default();
+      }
+
+      while (fetch_next()) {}
+      return res;
+    }
+
+  private:
+    bool fetch_next() {
+      for (; i < indices.size(); ++i) {
+        STORAGE current = data_ptr[indices[i]];
+
+        if (Rcpp::Vector<RTYPE>::is_na(current)) {
+          if (NA_RM)
+            continue;
+          else {
+            res = Rcpp::Vector<RTYPE>::get_na();
+            i = indices.size();
+            return true;
+          }
+        }
+
+        if (is_better(current, res)) {
+          res = current;
+          return true;
+        }
+      }
+
+      return false;
+    }
+
+    inline static bool is_better(const STORAGE current, const STORAGE res) {
+      if (MINIMUM)
+        return internal::is_smaller<RTYPE>(current, res);
+      else
+        return internal::is_smaller<RTYPE>(res, current);
+    }
+
+  private:
+    const STORAGE* data_ptr;
+    const SlicingIndex& indices;
+    int i;
+    STORAGE res;
+  };
+
 
 public:
   MinMax(SEXP x, bool is_summary_ = false) :
@@ -24,45 +115,16 @@ public:
   {}
   ~MinMax() {}
 
-  double process_chunk(const SlicingIndex& indices) {
+  STORAGE process_chunk(const SlicingIndex& indices) {
     if (is_summary) return data_ptr[ indices.group() ];
 
-    const int n = indices.size();
-    double res = Inf;
-
-    for (int i = 0; i < n; ++i) {
-      STORAGE current = data_ptr[indices[i]];
-
-      if (Rcpp::Vector<RTYPE>::is_na(current)) {
-        if (NA_RM)
-          continue;
-        else
-          return NA_REAL;
-      }
-      else {
-        double current_res = current;
-        if (is_better(current_res, res))
-          res = current_res;
-      }
-    }
-
-    return res;
-  }
-
-  inline static bool is_better(const double current, const double res) {
-    if (MINIMUM)
-      return internal::is_smaller<REALSXP>(current, res);
-    else
-      return internal::is_smaller<REALSXP>(res, current);
+    return Aggregator(data_ptr, indices).run();
   }
 
 private:
-  STORAGE* data_ptr;
+  const STORAGE* data_ptr;
   bool is_summary;
 };
-
-template <int RTYPE, bool MINIMUM, bool NA_RM>
-const double MinMax<RTYPE, MINIMUM, NA_RM>::Inf = (MINIMUM ? R_PosInf : R_NegInf);
 
 }
 
