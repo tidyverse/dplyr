@@ -284,3 +284,15 @@ test_that("group_by() names pronouns correctly (#2686)", {
   expect_named(group_by(tibble(x = 1), .data$x), "x")
   expect_named(group_by(tibble(x = 1), .data[["x"]]), "x")
 })
+
+test_that("group_by() does not affect input data (#3028)", {
+  x <-
+    data.frame(old1 = c(1, 2, 3), old2 = c(4, 5, 6)) %>%
+    group_by(old1)
+
+  y <-
+    x %>%
+    select(new1 = old1, new2 = old2)
+
+  expect_identical(groups(x), syms(quote(old1)))
+})

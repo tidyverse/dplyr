@@ -1,9 +1,21 @@
 # dplyr 0.7.2.9000
 
+* Grouping by character vectors is now faster (#2204).
+
 * Fix protection error that occurred when creating a character column
   using grouped `mutate()` (#2971).
 
 * `distinct()` now throws an error when used on unknown columns (#2867, @foo-bar-baz-qux).
+
+* Semi- and anti-joins now preserve order of left-hand-side data frame (#3089).
+
+* `select()`, `rename()` and `summarise()` no longer changes the grouped vars of the original data (#3038).
+
+* `nth(default = var)`, `first(default = var)` and `last(default = var)` fall back to standard evaluation in a grouped operation instead of triggering an error (#3045).
+
+* `case_when()` now works if all LHS are atomic (#2909).
+
+* `case_when()` accepts `NA` on the LHS (#2927).
 
 # dplyr 0.7.2
 

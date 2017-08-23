@@ -247,6 +247,7 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     }
     else if (!has_default && (Rf_isNull(tag) || argmatch("default", CHAR(PRINTNAME(tag))))) {
       def = CAR(p);
+      if (TYPEOF(def) == SYMSXP || TYPEOF(def) == LANGSXP) return 0;
       has_default = true;
     }
     else {

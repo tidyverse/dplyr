@@ -35,7 +35,7 @@ SEXP set_levels(SEXP x, const CharacterVector& levels);
 bool same_levels(SEXP left, SEXP right);
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
 
-SymbolVector get_vars(SEXP x);
+SymbolVector get_vars(SEXP x, bool duplicate = false);
 void set_vars(SEXP x, const SymbolVector& vars);
 void copy_vars(SEXP target, SEXP source);
 

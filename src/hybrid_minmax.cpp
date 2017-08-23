@@ -10,23 +10,23 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-template<template <int, bool, bool> class Tmpl, bool MINIMUM, bool NA_RM>
+template<bool MINIMUM, bool NA_RM>
 Result* minmax_prototype_impl(SEXP arg, bool is_summary) {
   arg = maybe_rhs(arg);
   if (!hybridable(arg)) return 0;
 
   switch (TYPEOF(arg)) {
   case INTSXP:
-    return new Tmpl<INTSXP, MINIMUM, NA_RM>(arg, is_summary);
+    return new MinMax<INTSXP, MINIMUM, NA_RM>(arg, is_summary);
   case REALSXP:
-    return new Tmpl<REALSXP, MINIMUM, NA_RM>(arg, is_summary);
+    return new MinMax<REALSXP, MINIMUM, NA_RM>(arg, is_summary);
   default:
     break;
   }
   return 0;
 }
 
-template<template <int, bool, bool> class Tmpl, bool MINIMUM>
+template<bool MINIMUM>
 Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   using namespace dplyr;
   // we only can handle 1 or two arguments
@@ -48,7 +48,7 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   }
 
   if (nargs == 1) {
-    return minmax_prototype_impl<Tmpl, MINIMUM, false>(arg, is_summary);
+    return minmax_prototype_impl<MINIMUM, false>(arg, is_summary);
   } else if (nargs == 2) {
     SEXP arg2 = CDDR(call);
     // we know how to handle fun( ., na.rm = TRUE/FALSE )
@@ -56,9 +56,9 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
       SEXP narm = CAR(arg2);
       if (TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1) {
         if (LOGICAL(narm)[0] == TRUE) {
-          return minmax_prototype_impl<Tmpl, MINIMUM, true>(arg, is_summary);
+          return minmax_prototype_impl<MINIMUM, true>(arg, is_summary);
         } else {
-          return minmax_prototype_impl<Tmpl, MINIMUM, false>(arg, is_summary);
+          return minmax_prototype_impl<MINIMUM, false>(arg, is_summary);
         }
       }
     }
@@ -67,6 +67,6 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 }
 
 void install_minmax_handlers(HybridHandlerMap& handlers) {
-  handlers[Rf_install("min")] = minmax_prototype<dplyr::MinMax, true>;
-  handlers[Rf_install("max")] = minmax_prototype<dplyr::MinMax, false>;
+  handlers[Rf_install("min")] = minmax_prototype<true>;
+  handlers[Rf_install("max")] = minmax_prototype<false>;
 }
