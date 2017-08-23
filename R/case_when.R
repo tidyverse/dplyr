@@ -85,7 +85,14 @@ case_when <- function(...) {
     value[[i]] <- eval_bare(f[[3]], env)
   }
 
-  m <- max(map_int(query, length), map_int(value, length))
+  all_lengths <- unique(c(map_int(query, length), map_int(value, length)))
+  if (length(all_lengths) <= 1) {
+    m <- all_lengths[[1]]
+  } else {
+    non_atomic_lengths <- all_lengths[all_lengths != 1]
+    m <- non_atomic_lengths[[1]]
+  }
+
   out <- value[[1]][rep(NA_integer_, m)]
   replaced <- rep(FALSE, m)
 
@@ -93,13 +100,13 @@ case_when <- function(...) {
     check_length(
       query[[i]], out,
       paste0("LHS of case ", i, " (", fmt_obj1(deparse_trunc(f_lhs(formulas[[i]]))), ")"),
-      "the longest input"
+      "the first non-atomic input or value"
     )
 
     out <- replace_with(
       out, query[[i]] & !replaced, value[[i]],
       paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"),
-      "the first output"
+      "the first non-atomic input or value"
     )
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }

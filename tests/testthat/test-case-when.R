@@ -32,7 +32,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1,
       c(FALSE, TRUE, FALSE) ~ 2
     ),
-    "LHS of case 1 (`c(TRUE, FALSE)`) must be length 3 (the longest input) or one, not 2",
+    "LHS of case 2 (`c(FALSE, TRUE, FALSE)`) must be length 2 (the first non-atomic input or value) or one, not 3",
     fixed = TRUE
   )
 
@@ -41,7 +41,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1:3,
       c(FALSE, TRUE) ~ 1:2
     ),
-    "LHS of case 1 (`c(TRUE, FALSE)`) must be length 3 (the longest input) or one, not 2",
+    "RHS of case 1 (1:3) must be length 2 (the first non-atomic input or value) or one, not 3",
     fixed = TRUE
   )
 })
@@ -105,5 +105,22 @@ test_that("atomic conditions (#2909)", {
       TRUE ~ 4:6
     ),
     4:6
+  )
+})
+
+test_that("zero-length conditions and values (#3041)", {
+  expect_equal(
+    case_when(
+      TRUE ~ integer(),
+      FALSE ~ integer()
+    ),
+    integer()
+  )
+  expect_equal(
+    case_when(
+      logical() ~ 1,
+      logical() ~ 2
+    ),
+    numeric()
   )
 })
