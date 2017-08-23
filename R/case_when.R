@@ -13,7 +13,7 @@
 #'
 #'   These dots are evaluated with [explicit splicing][rlang::dots_list].
 #' @export
-#' @return A vector as long as the longest LHS, with the type (and
+#' @return A vector as long as the longest LHS or RHS, with the type (and
 #'   attributes) of the first RHS.  Inconsistent lengths or types will
 #'   generate an error.
 #' @examples
@@ -85,7 +85,7 @@ case_when <- function(...) {
     value[[i]] <- eval_bare(f[[3]], env)
   }
 
-  m <- max(vapply(query, length, integer(1)))
+  m <- max(map_int(query, length), map_int(value, length))
   out <- value[[1]][rep(NA_integer_, m)]
   replaced <- rep(FALSE, m)
 
