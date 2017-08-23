@@ -18,7 +18,7 @@ the same type of vector.
 These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
 }
 \value{
-A vector as long as the longest LHS, with the type (and
+A vector as long as the longest LHS or RHS, with the type (and
 attributes) of the first RHS.  Inconsistent lengths or types will
 generate an error.
 }

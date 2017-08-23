@@ -13,6 +13,10 @@
 
 * `nth(default = var)`, `first(default = var)` and `last(default = var)` fall back to standard evaluation in a grouped operation instead of triggering an error (#3045).
 
+* `case_when()` now works if all LHS are atomic (#2909).
+
+* `case_when()` accepts `NA` on the LHS (#2927).
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
