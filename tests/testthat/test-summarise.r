@@ -963,6 +963,16 @@ test_that("can refer to previously summarised symbols", {
   expect_identical(summarise(group_by(mtcars, cyl), x = n(), z = x)[2:3], tibble(x = c(11L, 7L, 14L), z = x))
 })
 
+test_that("can refer to symbols if group size is one overall", {
+  df <- tibble(x = LETTERS[3:1], y = 1:3)
+  expect_identical(
+    df %>%
+      group_by(x) %>%
+      summarise(z = y),
+    tibble(x = LETTERS[1:3], z = 3:1)
+  )
+})
+
 test_that("summarise() supports unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
   expect_identical(summarise(df, out = !! 1), tibble(out = 1))
