@@ -101,7 +101,7 @@ case_when <- function(...) {
   replaced <- rep(FALSE, m)
 
   for (i in seq_len(n)) {
-    out <- replace_with(out, query[[i]] & !replaced, value[[i]])
+    out <- replace_with(out, query[[i]] & !replaced, value[[i]], NULL)
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
 
