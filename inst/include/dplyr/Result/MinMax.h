@@ -92,12 +92,12 @@ private:
       return false;
     }
 
-  inline static bool is_better(const STORAGE current, const STORAGE res) {
-    if (MINIMUM)
-      return internal::is_smaller<RTYPE>(current, res);
-    else
-      return internal::is_smaller<RTYPE>(res, current);
-  }
+    inline static bool is_better(const STORAGE current, const STORAGE res) {
+      if (MINIMUM)
+        return internal::is_smaller<RTYPE>(current, res);
+      else
+        return internal::is_smaller<RTYPE>(res, current);
+    }
 
   private:
     const STORAGE* data_ptr;
