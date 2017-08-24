@@ -7,6 +7,8 @@
   `select_vars()`, `select_var()` and `rename_vars()` are
   soft-deprecated and will start issuing warnings in a future version.
 
+* `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
+
 
 # dplyr 0.7.2.9000
 

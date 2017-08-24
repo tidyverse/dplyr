@@ -122,3 +122,7 @@ test_that("rename() to UTF-8 column names", {
 
   expect_equal(colnames(df), "\u5e78")
 })
+
+test_that("select() treats NULL inputs as empty", {
+  expect_identical(select(mtcars, cyl), select(mtcars, NULL, cyl, NULL))
+})

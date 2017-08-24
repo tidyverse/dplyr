@@ -8,6 +8,11 @@ test_that("tbl_at_vars() errs on bad input", {
   )
 })
 
+test_that("tbl_at_vars() treats `NULL` as empty inputs", {
+  expect_identical(tbl_at_vars(mtcars, vars(NULL)), tbl_at_vars(mtcars, vars()))
+  expect_identical(mutate_at(mtcars, vars(NULL), `*`, 100), mtcars)
+})
+
 test_that("tbl_if_vars() errs on bad input", {
   expect_error(
     tbl_if_vars(iris, funs(identity, force), environment()),
