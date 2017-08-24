@@ -17,6 +17,8 @@
 
 * `case_when()` accepts `NA` on the LHS (#2927).
 
+* Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
