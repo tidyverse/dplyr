@@ -109,8 +109,7 @@ public:
       // No need to check length since the summary has already been checked
       return subsets.get_variable(name);
     } else {
-      check_length(gdf.max_group_size(), 1, "a summary value", name);
-      return process(*gdf.group_begin());
+      stop("VariableResult::process() needs a summary variable");
     }
   }
 
@@ -166,6 +165,8 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
     LOG_VERBOSE << "Searching hybrid handler for symbol " << sym.get_utf8_cstring();
 
     if (subsets.has_variable(sym)) {
+      if (!subsets.is_summary(sym)) return 0;
+
       LOG_VERBOSE << "Using hybrid variable handler";
       return variable_handler(subsets, sym);
     }
