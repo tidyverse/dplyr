@@ -27,11 +27,7 @@ check_length_col <- function(length_x, n, name, reason = NULL, .abort = abort) {
 }
 
 check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort) {
-  if (length_x == n) {
-    return()
-  }
-
-  if (length_x == 1L) {
+  if (all(length_x %in% c(1L, n))) {
     return()
   }
 
@@ -39,9 +35,9 @@ check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort)
   else reason <- paste0(" ", glue("({reason})"))
 
   if (n == 1) {
-    glubort(header, "must be length 1{reason}, not {length_x}", .abort = .abort)
+    glubort(header, "must be length 1{reason}, not {commas(length_x)}", .abort = .abort)
   } else {
-    glubort(header, "must be length {n}{reason} or one, not {length_x}", .abort = .abort)
+    glubort(header, "must be length {n}{reason} or one, not {commas(length_x)}", .abort = .abort)
   }
 }
 
