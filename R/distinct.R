@@ -76,15 +76,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
-  new_vars <- unique(c(names(vars), group_vars))
-  missing_vars <- setdiff(new_vars, names(.data))
-
-  if (length(missing_vars) > 0) {
-    bad_cols(missing_vars, "not found")
-  }
-
-  # Keep the order of the variables
-  out_vars <- intersect(names(.data), new_vars)
+  out_vars <- intersect(names(.data), c(names(vars), group_vars))
 
   if (.keep_all) {
     keep <- names(.data)
