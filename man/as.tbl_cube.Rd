@@ -28,7 +28,7 @@ tables and data frames.}
 
 \item{...}{Passed on to individual methods; otherwise ignored.}
 
-\item{dim_names}{names of the dimesions. Defaults to the names of}
+\item{dim_names}{names of the dimensions. Defaults to the names of}
 
 \item{met_name}{a string to use as the name for the measure
 the \code{\link[=dimnames]{dimnames()}}.}

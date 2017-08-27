@@ -13,7 +13,7 @@ lag(x, n = 1L, default = NA, order_by = NULL, ...)
 \arguments{
 \item{x}{a vector of values}
 
-\item{n}{a postive integer of length 1, giving the number of positions to
+\item{n}{a positive integer of length 1, giving the number of positions to
 lead or lag by}
 
 \item{default}{value used for non-existant rows. Defaults to \code{NA}.}

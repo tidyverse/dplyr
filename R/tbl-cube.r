@@ -203,7 +203,7 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 
 #' @export
 #' @rdname as.tbl_cube
-#' @param dim_names names of the dimesions. Defaults to the names of
+#' @param dim_names names of the dimensions. Defaults to the names of
 #' @param met_name a string to use as the name for the measure
 #'   the [dimnames()].
 as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)),

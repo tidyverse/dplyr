@@ -21,7 +21,7 @@
 #' that you are grouping by. Use [explain()] to check that the database is using
 #' the indexes that you expect.
 #'
-#' There is one excpetion: [do()] is not lazy since it must pull the data
+#' There is one exception: [do()] is not lazy since it must pull the data
 #' into R.
 #'
 #' @param dbname Database name
@@ -136,7 +136,7 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
 #' @param path Path to SQLite database. You can use the special path
 #'   ":memory:" to create a temporary in memory database.
 #' @param create if `FALSE`, `path` must already exist. If
-#'   `TRUE`, will create a new SQlite3 database at `path` if
+#'   `TRUE`, will create a new SQLite3 database at `path` if
 #'   `path` does not exist and connect to the existing database if
 #'   `path` does exist.
 src_sqlite <- function(path, create = FALSE) {
