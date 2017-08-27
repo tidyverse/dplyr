@@ -5,8 +5,6 @@
 * Fix protection error that occurred when creating a character column
   using grouped `mutate()` (#2971).
 
-* `distinct()` now throws an error when used on unknown columns (#2867, @foo-bar-baz-qux).
-
 * Semi- and anti-joins now preserve order of left-hand-side data frame (#3089).
 
 * `select()`, `rename()` and `summarise()` no longer changes the grouped vars of the original data (#3038).
