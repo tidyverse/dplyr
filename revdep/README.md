@@ -44,12 +44,6 @@
 |[MonetDBLite](problems.md#monetdblite)     |0.4.1   |1     |        |1    |
 |prodest                                    |?       |      |        |     |
 
-## Broken (1)
-
-|package                      |version |error |warning |note |
-|:----------------------------|:-------|:-----|:-------|:----|
-|[pRoloc](problems.md#proloc) |1.16.1  |      |__+1__  |4    |
-
 ## All (779)
 
 |package                                                      |version   |error |warning |note |
@@ -551,7 +545,7 @@
 |processmapR                                                  |0.1.0     |      |        |     |
 |processmonitR                                                |0.1.0     |      |        |     |
 |prodest                                                      |?         |      |        |     |
-|[pRoloc](problems.md#proloc)                                 |1.16.1    |      |__+1__  |4    |
+|[pRoloc](problems.md#proloc)                                 |1.16.1    |      |        |4    |
 |[pRolocGUI](problems.md#prolocgui)                           |1.10.0    |      |        |2    |
 |[prophet](problems.md#prophet)                               |0.1.1     |      |        |1    |
 |[proteoQC](problems.md#proteoqc)                             |1.12.3    |      |1       |2    |

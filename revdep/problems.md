@@ -6161,34 +6161,6 @@ Version: 0.1.0
 
 Version: 1.16.1
 
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    Loading required package: GO.db
-    Retaining 84 out of 524 in GOAnnotations
-    Retaining 79 out of 84 in GOAnnotations
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:16 sigma:0.1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:16 sigma:0.1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:2 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:8 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:4 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:4 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:8 sigma:1.
-    Quitting from lines 564-572 (pRoloc-transfer-learning.Rnw) 
-    Error: processing vignette 'pRoloc-transfer-learning.Rnw' failed with diagnostics:
-    cannot open the connection
-    Execution halted
-    ```
-
 ## In both
 
 *   checking installed package size ... NOTE
