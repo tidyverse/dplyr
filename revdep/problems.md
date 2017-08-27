@@ -3239,33 +3239,6 @@ Version: 0.4.4
       Execution halted
     ```
 
-# fold
-
-Version: 0.2.2
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘fold-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: as.folded.character
-    > ### Title: Coerce to Folded from Character
-    > ### Aliases: as.folded.character
-    > 
-    > ### ** Examples
-    > 
-    > library(magrittr)
-    > library(csv)
-    > data(eventsf)
-    > file <- tempfile()
-    > eventsf %>% as.csv(file)
-    > as.folded(file)
-    Error: Columns `"VARIABLE"`, `"META"`, `"USUBJID"`, `"TIME"` not found
-    Execution halted
-    ```
-
 # fourierin
 
 Version: 0.2.2
@@ -5238,38 +5211,6 @@ Version: 1.8.1
     to your NAMESPACE file.
     ```
 
-# metaplot
-
-Version: 0.1.6
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-        filter
-    
-    > 
-    > # find paths to example data and specification
-    > x <- system.file(package='metaplot','extdata','drug1001.csv')
-    > spec <- system.file(package='metaplot','extdata','drug1001.spec')
-    > 
-    > # verify agreement at file level
-    > x %matches% spec
-    [1] TRUE
-    > 
-    > # read and verify in memory
-    > x %<>% as.csv
-    > spec %<>% as.spec
-    > x %matches% spec
-    [1] TRUE
-    > 
-    > # convert specifaction to folded format
-    > spec %<>%  as.folded
-    Error: Columns `"VARIABLE"`, `"META"` not found
-    Execution halted
-    ```
-
 # mnis
 
 Version: 0.2.7
@@ -5693,38 +5634,6 @@ Version: 0.1.0
       ‘RColorBrewer’ ‘XML’ ‘choroplethr’ ‘choroplethrMaps’ ‘data.table’
       ‘forcats’ ‘hurricaneexposure’ ‘plyr’
       All declared Imports should be used.
-    ```
-
-# nonmemica
-
-Version: 0.7.6
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    7       NA
-    8       NA
-    9       NA
-    10      NA
-    11      NA
-    12      NA
-    13      NA
-    14      NA
-    15      NA
-    16      NA
-    17      NA
-    18      NA
-    19      NA
-    20      NA
-    21      NA
-    22      NA
-    23      NA
-    24      NA
-    > 1001 %>% specfile %>% read.spec %>% as.folded
-    Error: Columns `"VARIABLE"`, `"META"` not found
-    Execution halted
     ```
 
 # nullabor
