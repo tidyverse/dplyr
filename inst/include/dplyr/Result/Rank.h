@@ -226,7 +226,7 @@ private:
   }
 
 
-  SEXP data;
+  Vector<RTYPE> data;
   Map map;
 };
 
