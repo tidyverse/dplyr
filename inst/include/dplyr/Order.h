@@ -47,7 +47,7 @@ public:
   }
 
 private:
-  const OrderVisitors& obj;
+  OrderVisitors obj;
   int n;
 
 };
@@ -64,7 +64,7 @@ public:
   }
 
 private:
-  const OrderVisitorClass& obj;
+  OrderVisitorClass obj;
 };
 
 inline Rcpp::IntegerVector OrderVisitors::apply() const {
