@@ -1,6 +1,6 @@
 ## Release summary
 
-This is a minor bugfix release in response to CRAN's request.
+This is a minor bugfix release in response to CRAN's request. This is the second release attempt (with the same version), following up test failures with reverse dependencies.
 
 ## Test environments
 
