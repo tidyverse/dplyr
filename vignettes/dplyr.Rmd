@@ -33,7 +33,7 @@ The dplyr package makes these steps fast and easy:
 
 * It uses efficient backends, so you spend less time waiting for the computer.
 
-This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you've installed, read `vignette("dbplyr")` to learn more.
+This document introduces you to dplyr's basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you've installed, read `vignette("dplyr")` to learn more.
 
 ## Data: nycflights13
 
