@@ -1,13 +1,10 @@
-# dplyr 0.7.2.9000
+# dplyr 0.7.3
 
-* Grouping by character vectors is now faster (#2204).
+* Fixed protection error that occurred when creating a character column using grouped `mutate()` (#2971).
 
-* Fix protection error that occurred when creating a character column
-  using grouped `mutate()` (#2971).
+* Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
 
-* Semi- and anti-joins now preserve order of left-hand-side data frame (#3089).
-
-* `select()`, `rename()` and `summarise()` no longer changes the grouped vars of the original data (#3038).
+* `select()`, `rename()` and `summarise()` no longer change the grouped vars of the original data (#3038).
 
 * `nth(default = var)`, `first(default = var)` and `last(default = var)` fall back to standard evaluation in a grouped operation instead of triggering an error (#3045).
 
@@ -15,7 +12,9 @@
 
 * `case_when()` accepts `NA` on the LHS (#2927).
 
-* Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
+* Semi- and anti-joins now preserve the order of left-hand-side data frame (#3089).
+
+* Grouping by character vectors is now faster (#2204).
 
 # dplyr 0.7.2
 

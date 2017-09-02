@@ -28,7 +28,7 @@
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
 #' @param ... Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
-#'   conditon evalutes to `TRUE` are kept.
+#'   condition evaluates to `TRUE` are kept.
 #'
 #'   These arguments are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
@@ -211,7 +211,7 @@ summarize_ <- summarise_
 #'
 #' * [if_else()], [recode()], [case_when()]
 #'
-#' @section Scoped mutation and transmuation:
+#' @section Scoped mutation and transmutation:
 #'
 #' The three [scoped] variants of `mutate()` ([mutate_all()],
 #' [mutate_if()] and [mutate_at()]) and the three variants of

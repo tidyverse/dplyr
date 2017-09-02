@@ -43,7 +43,7 @@ An object of the same class as \code{.data}.
 }
 }
 
-\section{Scoped mutation and transmuation}{
+\section{Scoped mutation and transmutation}{
 
 
 The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mutate_all()}},

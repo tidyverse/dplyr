@@ -226,7 +226,7 @@ private:
   }
 
 
-  SEXP data;
+  Vector<RTYPE> data;
   Map map;
 };
 
@@ -259,7 +259,8 @@ public:
       Slice slice(data, index);
       // order( gdf.group(i) )
       Visitor visitor(slice);
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
+      Comparer comparer = Comparer(visitor);
+      std::sort(tmp.begin(), tmp.begin() + m, comparer);
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[ tmp[j] ])) {
@@ -340,7 +341,8 @@ public:
 
       // order( gdf.group(i) )
       Visitor visitor(slice);
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
+      Comparer comparer = Comparer(visitor);
+      std::sort(tmp.begin(), tmp.begin() + m, comparer);
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[tmp[j]])) {
