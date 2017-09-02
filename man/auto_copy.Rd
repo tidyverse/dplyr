@@ -7,7 +7,7 @@
 auto_copy(x, y, copy = FALSE, ...)
 }
 \arguments{
-\item{x, y}{\code{y} will be copied to \code{x}, if neccessary.}
+\item{x, y}{\code{y} will be copied to \code{x}, if necessary.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the

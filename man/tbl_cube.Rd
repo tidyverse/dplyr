@@ -8,7 +8,7 @@ tbl_cube(dimensions, measures)
 }
 \arguments{
 \item{dimensions}{A named list of vectors. A dimension is a variable
-whose values are known before the experiement is conducted; they are
+whose values are known before the experiment is conducted; they are
 fixed by design (in \pkg{reshape2} they are known as id variables).
 \code{tbl_cubes} are dense which means that almost every combination of
 the dimensions should have associated measurements: missing values require
