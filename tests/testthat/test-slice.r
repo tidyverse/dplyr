@@ -113,3 +113,8 @@ test_that("slice works under gctorture2", {
   with_gctorture2(999, x2 <- slice(x, 1:10))
   expect_identical(x, x2)
 })
+
+test_that("slice correctly computes the positive indices", {
+  x <- tibble(y = 1:10)
+  expect_identical(slice(x, -10:-30), tibble(y = 1:9))
+})
