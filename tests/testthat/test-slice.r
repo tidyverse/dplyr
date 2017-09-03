@@ -114,7 +114,7 @@ test_that("slice works under gctorture2", {
   expect_identical(x, x2)
 })
 
-test_that("slice correctly computes the positive indices", {
+test_that("slice correctly computes positive indices from negative indices (#3073)", {
   x <- tibble(y = 1:10)
   expect_identical(slice(x, -10:-30), tibble(y = 1:9))
 })

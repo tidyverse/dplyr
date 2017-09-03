@@ -66,7 +66,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
   Call call(quosure.expr());
 
   std::vector<int> indx;
-  indx.reserve(1000);
+  indx.reserve(gdf.nrows());
 
   IntegerVector g_test;
   Proxy call_proxy(call, gdf, env);
@@ -162,21 +162,21 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
     if (test[i] != NA_INTEGER)
       drop.insert(-test[i]);
   }
-  int n_drop = drop.size();
-  std::vector<int> indices(nr - n_drop);
+  std::vector<int> indices;
+  indices.reserve(nr);
   std::set<int>::const_iterator drop_it = drop.begin();
 
-  int i = 0, j = 0;
+  int j = 0;
   while (drop_it != drop.end()) {
     int next_drop = *drop_it - 1;
-    while (j < next_drop) {
-      indices[i++] = j++;
+    for (; j < next_drop; ++j) {
+      indices.push_back(j);
     }
     j++;
     ++drop_it;
   }
-  while (i < nr - n_drop) {
-    indices[i++] = j++;
+  for (; j < nr; ++j) {
+    indices.push_back(j);
   }
 
   return subset(df, indices, df.names(), classes_not_grouped());
