@@ -115,8 +115,14 @@ test_that("bind_rows ignores NULL", {
   expect_equal(bind_rows(list(df, NULL)), df)
 })
 
-test_that("bind_rows only accepts data frames or vectors", {
+test_that("bind_rows only accepts data frames or named vectors", {
   ll <- list(1:5, rlang::get_env())
+  expect_error(
+    bind_rows(ll),
+    "Argument 1 must have names",
+    fixed = TRUE
+  )
+  ll <- list(tibble(a = 1:5), rlang::get_env())
   expect_error(
     bind_rows(ll),
     "Argument 2 is a list, must contain atomic vectors",

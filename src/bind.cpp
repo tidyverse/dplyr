@@ -86,17 +86,18 @@ void rbind_vector_check(SEXP x, R_xlen_t nrows, int arg) {
                 _["expected_size"] = rows_length(x, true), _["actual_size"] = nrows);
   }
 
+  if (vec_names(x) == R_NilValue) {
+    bad_pos_arg(arg + 1, "must have names");
+  }
+
   switch (TYPEOF(x)) {
   case LGLSXP:
   case INTSXP:
   case REALSXP:
   case CPLXSXP:
   case STRSXP:
-  case RAWSXP: {
-    if (vec_names(x) != R_NilValue)
-      return;
-    bad_pos_arg(arg + 1, "must have names");
-  }
+  case RAWSXP:
+    return;
   case VECSXP: {
     if (!OBJECT(x) || Rf_inherits(x, "data.frame"))
       return;
