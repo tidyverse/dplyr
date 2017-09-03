@@ -207,7 +207,6 @@ List rbind__impl(List dots, const SymbolString& id) {
   SymbolVector names;
 
   k = 0;
-  Function enc2native("enc2native");
   for (int i = 0; i < ndata; i++) {
     Rcpp::checkUserInterrupt();
 
