@@ -1,6 +1,6 @@
 ## Release summary
 
-This is a minor bugfix release in response to CRAN's request. This is the second release attempt (with the same version), following up test failures with reverse dependencies.
+This is a minor bugfix release in response to CRAN's request. This is the third release attempt (with the same version), following up test failures with reverse dependencies from CRAN's incoming checks.
 
 ## Test environments
 
@@ -22,14 +22,19 @@ We could not replicate the ASAN errors on Fedora with clang.  We changed code th
 
 ## Reverse dependencies
 
-We checked 779 reverse dependencies (702 from CRAN + 77 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 795 reverse dependencies (721 from CRAN + 74 from BioConductor) by running R CMD check twice, once with the CRAN version installed, and once with this version installed. We saw 3 new problems. We failed to check 4 packages. Issues are summarised below.
 
- * We saw 0 new problems
- * We failed to check 2 packages
+### New problems
 
-Issues with CRAN packages are summarised below.
+Most likely web API problems:
+
+* censusr
+* hansard
+* roadoi
 
 ### Failed to check
 
-* loon        (failed to install)
-* MonetDBLite (check timed out)
+* flowWorkspace (failed to install)
+* loon          (failed to install)
+* naniar        (check timed out)
+* visdat        (check timed out)
