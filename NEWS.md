@@ -4,6 +4,8 @@
 
 * Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
 
+* Fixed rare out-of-bounds memory write in `slice()` when negative indices beyond the number of rows were involved (#3073).
+
 * `select()`, `rename()` and `summarise()` no longer change the grouped vars of the original data (#3038).
 
 * `nth(default = var)`, `first(default = var)` and `last(default = var)` fall back to standard evaluation in a grouped operation instead of triggering an error (#3045).
