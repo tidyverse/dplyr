@@ -76,6 +76,18 @@ Version: 0.0.1
       All declared Imports should be used.
     ```
 
+# alphavantager
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘devtools’
+      All declared Imports should be used.
+    ```
+
 # ameco
 
 Version: 0.2.7
@@ -128,27 +140,6 @@ Version: 1.2.1
 
 ## In both
 
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(testthat)
-      > library(annotatr)
-      
-      
-      
-      
-      > 
-      > test_check("annotatr")
-      Error in function (type, msg, asError = TRUE)  : 
-        Operation timed out after 0 milliseconds with 0 out of 0 bytes received
-      Calls: test_check ... getURL -> curlPerform -> .Call -> <Anonymous> -> fun
-      testthat results ================================================================
-      OK: 43 SKIPPED: 0 FAILED: 0
-      Execution halted
-    ```
-
 *   checking R code for possible problems ... NOTE
     ```
     plot_coannotations: no visible binding for global variable ‘.’
@@ -156,19 +147,6 @@ Version: 1.2.1
       ‘.’
     Undefined global functions or variables:
       .
-    ```
-
-# anomalyDetection
-
-Version: 0.1.2
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘RColorBrewer’ ‘gplots’ ‘tidyverse’
-      All declared Imports should be used.
     ```
 
 # ArchaeoPhases
@@ -211,6 +189,34 @@ Version: 0.0-3
     Package unavailable to check Rd xrefs: ‘pryr’
     ```
 
+# atlantistools
+
+Version: 0.4.3
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      0.21% data is lost due to missing diet data despite available eat data.
+      21.97% data is lost due to missing eat data despite available diet data.
+      Joining, by = "species"
+      Joining, by = "polygon"
+      Joining, by = c("time", "polygon")
+      Joining, by = c("time", "pred", "agecl", "prey")
+      Joining, by = c("time", "pred", "agecl", "prey")
+      Read in data from out.nc, init.nc and prm.biol!
+      `.cols` has been renamed and is deprecated, please use `.vars`
+      testthat results ================================================================
+      OK: 197 SKIPPED: 0 FAILED: 1
+      1. Error: check visually (@test-plot-species.R#12) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # backtestGraphics
 
 Version: 0.1.6
@@ -243,19 +249,29 @@ Version: 0.1.6
 
 Version: 0.2.0
 
-## Newly fixed
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 47-49 (geocode.Rmd) 
-    Error: processing vignette 'geocode.Rmd' failed with diagnostics:
-    The API sent back an error 503
-    Execution halted
-    ```
-
 ## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      1. Error: Geocode_tbl works with a single-column input data.frame (@test_geocodetbl.R#48) 
+      The API sent back an error 503
+      1: expect_is(banR::geocode_tbl(tbl = table_test, adresse = city), "tbl_df") at testthat/test_geocodetbl.R:48
+      2: klass(object)
+      3: paste(class(x), collapse = "/")
+      4: banR::geocode_tbl(tbl = table_test, adresse = city)
+      5: stop("The API sent back an error ", httr::status_code(query_results))
+      
+      testthat results ================================================================
+      OK: 6 SKIPPED: 0 FAILED: 1
+      1. Error: Geocode_tbl works with a single-column input data.frame (@test_geocodetbl.R#48) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -275,6 +291,23 @@ Version: 1.3.0
       sub-directories of 1Mb or more:
         R     1.6Mb
         doc   2.9Mb
+    ```
+
+# billboard
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘tibble’
+      All declared Imports should be used.
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 660 marked UTF-8 strings
     ```
 
 # biobroom
@@ -352,18 +385,18 @@ Version: 0.5.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+             download_url, "' currently available?", call. = FALSE)
       
       trying URL 'ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME_REPORTS/overview.txt'
-      Content type 'unknown' length 2250186 bytes (2.1 MB)
+      Content type 'unknown' length 2267572 bytes (2.2 MB)
       ==================================================
       trying URL 'ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/metagenomes/assembly_summary.txt'
-      Content type 'unknown' length 360867 bytes (352 KB)
+      Content type 'unknown' length 361166 bytes (352 KB)
       ==================================================
       testthat results ================================================================
-      OK: 49 SKIPPED: 0 FAILED: 2
+      OK: 46 SKIPPED: 0 FAILED: 1
       1. Error: The getAssemblyStats() downloads assembly stats file and reads raw
                 input: NCBI Genbank .. (@test-getAssemblyStats.R#34) 
-      2. Error: The getCDS() interface to NCBI Genbank works properly.. (@test-getCDS.R#16) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -553,6 +586,18 @@ Version: 2.6.0
       queryHits
     ```
 
+# caffsim
+
+Version: 0.2.2
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘markdown’
+      All declared Imports should be used.
+    ```
+
 # cbsodataR
 
 Version: 0.2.1
@@ -649,6 +694,33 @@ Version: 1.0.0
 *   checking for unstated dependencies in vignettes ... NOTE
     ```
     'library' or 'require' call not declared from: ‘devtools’
+    ```
+
+# censusr
+
+Version: 0.0.3
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘censusr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: append_geoid
+    > ### Title: Retrieve GEOID from the Census Geocoder by address
+    > ### Aliases: append_geoid
+    > 
+    > ### ** Examples
+    > 
+    > airports <- dplyr::data_frame(
+    +   street = "700 Catalina Dr", city = "Daytona Beach", state = "FL"
+    + )
+    > append_geoid(airports, 'tr')
+    Error in call_geolocator(as.character(address$street[i]), as.character(address$city[i]),  : 
+      Internal Server Error (HTTP 500).
+    Calls: append_geoid -> call_geolocator -> <Anonymous>
+    Execution halted
     ```
 
 # cepR
@@ -763,6 +835,20 @@ Version: 0.1.0
     ```
     Namespace in Imports field not imported from: ‘methods’
       All declared Imports should be used.
+    ```
+
+# clustermq
+
+Version: 0.7.0
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘rzmq’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # clustRcompaR
@@ -897,6 +983,34 @@ Version: 0.1.5
     ```
     Packages which this enhances but not available for checking:
       ‘knitr’ ‘shiny’
+    ```
+
+# comtradr
+
+Version: 0.0.2
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      testthat results ================================================================
+      OK: 46 SKIPPED: 0 FAILED: 9
+      1. Failure: search return values are correct, and fail when expected (@test-ct_search.R#62) 
+      2. Failure: search return values are correct, and fail when expected (@test-ct_search.R#65) 
+      3. Failure: search return values are correct, and fail when expected (@test-ct_search.R#68) 
+      4. Failure: search return values are correct, and fail when expected (@test-ct_search.R#71) 
+      5. Failure: search return values are correct, and fail when expected (@test-ct_search.R#74) 
+      6. Failure: search return values are correct, and fail when expected (@test-ct_search.R#77) 
+      7. Failure: search return values are correct, and fail when expected (@test-ct_search.R#80) 
+      8. Failure: search return values are correct, and fail when expected (@test-ct_search.R#83) 
+      9. Failure: search return values are correct, and fail when expected (@test-ct_search.R#139) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # condformat
@@ -1325,13 +1439,13 @@ Version: 0.2.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-      tests/testthat/test-tbl-cube.R:119:1: style: lines should not be more than 80 characters.
-        expect_identical(as.table(nasa, measure = "ozone"), as.table(select(nasa, ozone)))
       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       tests/testthat/test-ts.R:8:1: style: lines should not be more than 80 characters.
           "`.data` must be a data source, not a ts object, do you want `stats::filter()`?",
       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      tests/testthat/test-window.R:63:1: style: lines should not be more than 80 characters.
+        expect_error(order_by(NULL, !! 1L), "`call` must be a function call, not an integer vector")
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       
       
       testthat results ================================================================
@@ -1414,48 +1528,6 @@ Version: 1.4.0
     structure’ in the ‘Writing R Extensions’ manual.
     ```
 
-# docxtools
-
-Version: 0.1.1
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > set.seed(20161221)
-    > n <- 5
-    > a <- sample(letters, n)
-    > b <- sample(letters, n)
-    > w <- runif(n, min =  -5, max =  50) * 1e+5
-    > y <- runif(n, min = -25, max =  40) / 1e+3
-    > z <- runif(n, min =  -5, max = 100)
-    > x <- data.frame(z, b, y, a, w, stringsAsFactors = FALSE)
-    > 
-    > # format different objects
-    > print(x)
-              z b            y a         w
-    1  6.501440 c  0.001051893 q 2846529.3
-    2 28.374092 o  0.000347614 y 4874357.1
-    3 -3.849624 i  0.004599897 g -111651.4
-    4 44.500979 a -0.003045062 a 1314715.7
-    5 92.411835 x -0.001069473 i  417385.0
-    > format_engr(x)
-    Error in FUN(X[[i]], ...) : object 'm_numeric_cols' not found
-    Calls: format_engr ... <Anonymous> -> map_if -> map -> lapply -> FUN -> .Call
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 63-64 (numbers-in-engineering-format.Rmd) 
-    Error: processing vignette 'numbers-in-engineering-format.Rmd' failed with diagnostics:
-    object 'm_numeric_cols' not found
-    Execution halted
-    ```
-
 # dotwhisker
 
 Version: 0.3.0
@@ -1507,7 +1579,7 @@ Version: 1.1
     
     Quitting from lines 155-172 (exploring-election-data.Rmd) 
     Error: processing vignette 'exploring-election-data.Rmd' failed with diagnostics:
-    Value of SET_STRING_ELT() must be a 'CHARSXP' not a 'character'
+    Value of SET_STRING_ELT() must be a 'CHARSXP' not a 'logical'
     Execution halted
     ```
 
@@ -1755,7 +1827,7 @@ Version: 0.3.1
 
 # fastLink
 
-Version: 0.1.1
+Version: 0.2.0
 
 ## In both
 
@@ -1765,6 +1837,18 @@ Version: 0.1.1
       sub-directories of 1Mb or more:
         data   4.8Mb
         libs   2.4Mb
+    ```
+
+# fastR2
+
+Version: 0.2.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘magrittr’
+      All declared Imports should be used.
     ```
 
 # FindMyFriends
@@ -1828,30 +1912,47 @@ Version: 0.1.0
 
 # flextable
 
-Version: 0.2.0
+Version: 0.3.0
 
 ## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      6: pmap_chr(x, function(image_src, width, height) {
+             format(external_img(src = image_src, width = width, height = height), type = type)
+         })
+      7: .f(image_src = .l[[c(1L, i)]], width = .l[[c(2L, i)]], height = .l[[c(3L, i)]], ...)
+      8: format(external_img(src = image_src, width = width, height = height), type = type)
+      9: external_img(src = image_src, width = width, height = height)
+      10: stopifnot(file.exists(src))
+      11: stop(msg, call. = FALSE, domain = NA)
+      
+      testthat results ================================================================
+      OK: 67 SKIPPED: 0 FAILED: 1
+      1. Error: images (@test-images.R#44) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error in re-building vignettes:
       ...
     Loading required package: officer
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 280-293 (format.Rmd) 
+    Quitting from lines 323-336 (format.Rmd) 
     Error: processing vignette 'format.Rmd' failed with diagnostics:
     file.exists(src) is not TRUE
     Execution halted
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘magrittr’
+      All declared Imports should be used.
     ```
 
 # flowWorkspace
@@ -2514,31 +2615,31 @@ cp include/* /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWork
 cp -r protobuf-2.6.0/src/google /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/include
 cp GatingSet.pb.h /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/include #GatingSet.pb.h is autogenerated by protoc and thus kept at the same folder as GatingSet.proto
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c delimitedMessage.cpp -o delimitedMessage.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c global.cpp -o global.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c calibrationTable.cpp -o calibrationTable.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c ellipse2points.cpp -o ellipse2points.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c compensation.cpp -o compensation.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c global.cpp -o global.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.pb.cc -o GatingSet.pb.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c gate.cpp -o gate.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c calibrationTable.cpp -o calibrationTable.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c POPINDICES.cpp -o POPINDICES.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c compensation.cpp -o compensation.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowData.cpp -o flowData.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c gate.cpp -o gate.o
 mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib"
 ar rs "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a" pb_build/src/google/protobuf/.libs/*.o pb_build/src/google/protobuf/stubs/.libs/*.o pb_build/src/google/protobuf/io/.libs/*.o
 ar: creating /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c spline.cpp -o spline.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c nodeProperties.cpp -o nodeProperties.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c transformation.cpp -o transformation.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c wsNode.cpp -o wsNode.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingSet.cpp -o R_GatingSet.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c spline.cpp -o spline.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c winFlowJoWorkspace.cpp -o winFlowJoWorkspace.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c getSingleCellExpression.cpp -o getSingleCellExpression.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c workspace.cpp -o workspace.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.cpp -o GatingSet.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c transformation.cpp -o transformation.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_API.cpp -o R_API.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c macFlowJoWorkspace.cpp -o macFlowJoWorkspace.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c RcppExports.cpp -o RcppExports.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowJoWorkspace.cpp -o flowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c winFlowJoWorkspace.cpp -o winFlowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c macFlowJoWorkspace.cpp -o macFlowJoWorkspace.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingHierarchy.cpp -o R_GatingHierarchy.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_API.cpp -o R_API.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingHierarchy.cpp -o GatingHierarchy.o
 mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib"
 ar rs "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a" GatingHierarchy.o GatingSet.o GatingSet.pb.o POPINDICES.o R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o calibrationTable.o compensation.o delimitedMessage.o ellipse2points.o flowData.o flowJoWorkspace.o gate.o getSingleCellExpression.o global.o macFlowJoWorkspace.o nodeProperties.o spline.o transformation.o winFlowJoWorkspace.o workspace.o wsNode.o
@@ -3163,30 +3264,30 @@ cp include/* /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWork
 cp -r protobuf-2.6.0/src/google /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/include
 cp GatingSet.pb.h /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/include #GatingSet.pb.h is autogenerated by protoc and thus kept at the same folder as GatingSet.proto
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c delimitedMessage.cpp -o delimitedMessage.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c calibrationTable.cpp -o calibrationTable.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c global.cpp -o global.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.pb.cc -o GatingSet.pb.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c ellipse2points.cpp -o ellipse2points.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c calibrationTable.cpp -o calibrationTable.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c compensation.cpp -o compensation.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c POPINDICES.cpp -o POPINDICES.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowData.cpp -o flowData.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.pb.cc -o GatingSet.pb.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c gate.cpp -o gate.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c global.cpp -o global.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c compensation.cpp -o compensation.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c spline.cpp -o spline.o
 mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib"
 ar rs "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a" pb_build/src/google/protobuf/.libs/*.o pb_build/src/google/protobuf/stubs/.libs/*.o pb_build/src/google/protobuf/io/.libs/*.o
 ar: creating /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c spline.cpp -o spline.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c wsNode.cpp -o wsNode.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c getSingleCellExpression.cpp -o getSingleCellExpression.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingSet.cpp -o R_GatingSet.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c nodeProperties.cpp -o nodeProperties.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c workspace.cpp -o workspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c gate.cpp -o gate.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c transformation.cpp -o transformation.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.cpp -o GatingSet.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_API.cpp -o R_API.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c macFlowJoWorkspace.cpp -o macFlowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowJoWorkspace.cpp -o flowJoWorkspace.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c wsNode.cpp -o wsNode.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c workspace.cpp -o workspace.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c getSingleCellExpression.cpp -o getSingleCellExpression.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c winFlowJoWorkspace.cpp -o winFlowJoWorkspace.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingSet.cpp -o R_GatingSet.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c macFlowJoWorkspace.cpp -o macFlowJoWorkspace.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_API.cpp -o R_API.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowJoWorkspace.cpp -o flowJoWorkspace.o
+g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.cpp -o GatingSet.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingHierarchy.cpp -o R_GatingHierarchy.o
 g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingHierarchy.cpp -o GatingHierarchy.o
 mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib"
@@ -3222,18 +3323,18 @@ Version: 0.4.4
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      5: withVisible(code)
+      6: show_cran_results("rotl", show_log = FALSE)
+      7: parse_cran_results(pkg)
+      8: parse_cran_checks_pkg(pkg)
+      9: stop("Invalid package name(s): ", pkg[bad], call. = FALSE)
+      
       testthat results ================================================================
-      OK: 49 SKIPPED: 0 FAILED: 10
-      1.  Failure: output of summary cran results (@test-foghorn.R#176) 
-      2.  Failure: output of summary cran results (@test-foghorn.R#178) 
-      3.  Failure: output of summary cran results (@test-foghorn.R#189) 
-      4.  Failure: output of summary cran results (@test-foghorn.R#201) 
-      5.  Failure: output of summary cran results (@test-foghorn.R#213) 
-      6.  Failure: output of summary cran results (@test-foghorn.R#226) 
-      7.  Failure: output of summary cran results (@test-foghorn.R#233) 
-      8.  Failure: output of summary cran results (@test-foghorn.R#239) 
-      9.  Failure: output of show cran results (@test-foghorn.R#264) 
-      10. Failure: output of show cran results (@test-foghorn.R#266) 
+      OK: 32 SKIPPED: 0 FAILED: 4
+      1. Failure: output of summary cran results (@test-foghorn.R#176) 
+      2. Failure: output of summary cran results (@test-foghorn.R#178) 
+      3. Error: output of summary cran results (@test-foghorn.R#187) 
+      4. Error: output of show cran results (@test-foghorn.R#264) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -3250,6 +3351,17 @@ Version: 0.2.2
       installed size is  5.1Mb
       sub-directories of 1Mb or more:
         libs   4.5Mb
+    ```
+
+# freqweights
+
+Version: 1.0.4
+
+## In both
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘Hmisc’
     ```
 
 # FRK
@@ -3282,6 +3394,20 @@ Version: 0.8.14
 *   checking Rd cross-references ... NOTE
     ```
     Packages unavailable to check Rd xrefs: ‘alr3’, ‘doBy’, ‘psych’, ‘prettyR’, ‘fBasics’, ‘RMark’, ‘asbio’, ‘PMCMR’, ‘pgirmess’, ‘agricolae’, ‘DescTools’
+    ```
+
+# FSelectorRcpp
+
+Version: 0.1.8
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 11.0Mb
+      sub-directories of 1Mb or more:
+        doc    2.2Mb
+        libs   8.6Mb
     ```
 
 # ftDK
@@ -3320,21 +3446,21 @@ Version: 1.0.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      27: eval(exprs, env)
-      28: source_file(path, new.env(parent = env), chdir = TRUE)
-      29: force(code)
-      30: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE)        end_context()    })
-      31: FUN(X[[i]], ...)
-      32: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE)
-      33: force(code)
-      34: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE))
-      35: test_files(paths, reporter = reporter, env = env, ...)
-      36: test_dir(test_path, reporter = reporter, env = env, filter = filter,     ...)
-      37: with_top_env(env, {    test_dir(test_path, reporter = reporter, env = env, filter = filter,         ...)})
-      38: run_tests(package, test_path, filter, reporter, ...)
-      39: test_check("GA4GHclient")
-      An irrecoverable exception occurred. R is aborting now ...
-      Segmentation fault (core dumped)
+      testthat results ================================================================
+      OK: 129 SKIPPED: 0 FAILED: 15
+      1. Error: getVariant works (@test-getVariant.R#8) 
+      2. Error: getVariant asVCF=FALSE works (@test-getVariant.R#19) 
+      3. Error: getVariant multiple alt bases works (@test-getVariant.R#32) 
+      4. Error: makeVCFFromGA4GHResponse works (@test-makeVCFFromGA4GHResponse.R#10) 
+      5. Failure: searchCallSets works (@test-searchCallSets.R#10) 
+      6. Failure: searchCallSets responseSize parameter works (@test-searchCallSets.R#28) 
+      7. Error: searchReads works (@test-searchReads.R#11) 
+      8. Failure: searchVariantSets works (@test-searchVariantSets.R#12) 
+      9. Error: searchVariants works (@test-searchVariants.R#8) 
+      1. ...
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # GADMTools
@@ -3373,6 +3499,18 @@ Version: 0.4.01
       installed size is 58.6Mb
       sub-directories of 1Mb or more:
         libs  58.2Mb
+    ```
+
+# geex
+
+Version: 1.0.3
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘rootSolve’
+      All declared Imports should be used.
     ```
 
 # gender
@@ -3450,18 +3588,18 @@ Version: 1.5.5
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      16: stop("cannot find defined namespace(s) with prefix(es) ", paste(namespaces[i][is.na(idx)], 
-             collapse = ", "))
+          url
       
+      1. Failure: error on url (@test-geoknife_utils.R#15) ---------------------------
+      error$message does not match "Couldn't resolve host name".
+      Actual value: "Could not resolve host: bad.url.html"
+      
+      
+      XPath error : Undefined namespace prefix
+      XPath error : Invalid expression
       testthat results ================================================================
-      OK: 174 SKIPPED: 0 FAILED: 7
+      OK: 181 SKIPPED: 0 FAILED: 1
       1. Failure: error on url (@test-geoknife_utils.R#15) 
-      2. Error: webdata query returns a datagroup (@test-query_webdatasets.R#6) 
-      3. Error: webdata query returns a list (@test-query_webdatasets.R#12) 
-      4. Error: webdata title returns a title (@test-query_webdatasets.R#18) 
-      5. Error: webdata url returns a url (@test-query_webdatasets.R#23) 
-      6. Error: webdata abstract returns an abstract (@test-query_webdatasets.R#30) 
-      7. Error: show datagroup (@test-show_object.R#24) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -3659,6 +3797,18 @@ Version: 0.1.0
       All declared Imports should be used.
     ```
 
+# ggconf
+
+Version: 0.1
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘tibble’
+      All declared Imports should be used.
+    ```
+
 # ggenealogy
 
 Version: 0.3.0
@@ -3674,17 +3824,6 @@ Version: 0.3.0
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 2356 marked UTF-8 strings
-    ```
-
-# ggformula
-
-Version: 0.6
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘mosaic’
     ```
 
 # ggfortify
@@ -4193,31 +4332,9 @@ Version: 1.0.0
 
 # grattan
 
-Version: 1.5.1.1
+Version: 1.5.1.2
 
 ## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      The following object is masked from 'package:graphics':
-      
-          dotchart
-      
-      
-      Attaching package: 'zoo'
-      
-      The following objects are masked from 'package:base':
-      
-          as.Date, as.Date.numeric
-      
-      
-       *** caught segfault ***
-      address (nil), cause 'memory not mapped'
-      Segmentation fault (core dumped)
-    ```
 
 *   checking package dependencies ... NOTE
     ```
@@ -4252,27 +4369,6 @@ Version: 0.1.3
 
 ## In both
 
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(testthat)
-      > library(gutenbergr)
-      > 
-      > test_check("gutenbergr")
-      1. Failure: read_zip_url can download and read a zip file (@test-utils.R#9) ----
-      any(z == "Congress shall make no law respecting an establishment of religion,") isn't true.
-      
-      
-      testthat results ================================================================
-      OK: 46 SKIPPED: 0 FAILED: 1
-      1. Failure: read_zip_url can download and read a zip file (@test-utils.R#9) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 13617 marked UTF-8 strings
@@ -4282,15 +4378,15 @@ Version: 0.1.3
 
 Version: 0.5.2
 
-## In both
+## Newly broken
 
 *   checking tests ...
     ```
      ERROR
-    Running the tests in ‘tests/testthat-ep.R’ failed.
+    Running the tests in ‘tests/testthat-misc2.R’ failed.
     Last 13 lines of output:
-      3: jsonlite::fromJSON(paste0(baseurl, status_query, min_sig_query, max_sig_query, dates, 
-             extra_args), flatten = TRUE)
+             tidy = tidy, tidy_style = tidy_style)
+      3: jsonlite::fromJSON(paste0(baseurl, query, dates, extra_args), flatten = TRUE)
       4: fromJSON_string(txt = txt, simplifyVector = simplifyVector, simplifyDataFrame = simplifyDataFrame, 
              simplifyMatrix = simplifyMatrix, flatten = flatten, ...)
       5: parseJSON(txt, bigint_as_char)
@@ -4299,8 +4395,8 @@ Version: 0.5.2
       8: open.connection(con, "rb")
       
       testthat results ================================================================
-      OK: 6 SKIPPED: 0 FAILED: 1
-      1. Error: epetitions functions return expected format (@test_epetition.R#18) 
+      OK: 0 SKIPPED: 0 FAILED: 1
+      1. Error: papers laid, publications, sessions, tv  functions return expected format (@test_misc2.R#8) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -4905,6 +5001,18 @@ Version: 0.2
       All declared Imports should be used.
     ```
 
+# lmeresampler
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘boot’
+      All declared Imports should be used.
+    ```
+
 # LocFDRPois
 
 Version: 1.0.0
@@ -5110,7 +5218,7 @@ Version: 0.3.0
     > 
     > macleish <- etl("macleish")
     Not a valid src. Creating a src_sqlite for you at:
-    /home/muelleki/tmp/Rtmp2mAH00/file27e453979e3e.sqlite3
+    /home/muelleki/tmp/RtmpMTCVkE/filef0b068090750.sqlite3
     Error: The dbplyr package is required to communicate with database backends.
     Execution halted
     ```
@@ -5222,18 +5330,17 @@ Version: 0.2.7
      ERROR
     Running the tests in ‘tests/testthat-a.R’ failed.
     Last 13 lines of output:
+      > library(testthat)
+      > library(mnis)
+      > 
+      > test_check("mnis", filter= "a")
       1. Failure: mnis_additional returns expected format (@test_additional.R#80) ----
       `xi` has length 349, not length 285.
       
       
-      2. Failure: mnis_mps_on_date return expected format (@test_members_on_dates.R#18) 
-      nrow(xmpon2) == 1730 isn't true.
-      
-      
       testthat results ================================================================
-      OK: 97 SKIPPED: 0 FAILED: 2
+      OK: 98 SKIPPED: 0 FAILED: 1
       1. Failure: mnis_additional returns expected format (@test_additional.R#80) 
-      2. Failure: mnis_mps_on_date return expected format (@test_members_on_dates.R#18) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -5330,9 +5437,6 @@ Version: 1.1.6
 Version: 0.4.1
 
 ## In both
-
-*   R CMD check timed out
-    
 
 *   checking installed package size ... NOTE
     ```
@@ -5467,7 +5571,7 @@ Version: 3.1.0
 
 # mrgsolve
 
-Version: 0.8.6
+Version: 0.8.9
 
 ## In both
 
@@ -5585,6 +5689,15 @@ Version: 0.2.1
     See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
     manual.
     ```
+
+# naniar
+
+Version: 0.1.0
+
+## In both
+
+*   R CMD check timed out
+    
 
 # neuropsychology
 
@@ -5715,7 +5828,7 @@ Version: 0.1.2
 
 # officer
 
-Version: 0.1.5
+Version: 0.1.6
 
 ## In both
 
@@ -5744,6 +5857,8 @@ Version: 0.1.5
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      6: freduce(value, `_function_list`)
+      7: withVisible(function_list[[k]](value))
       8: function_list[[k]](value)
       9: ph_with_img(., type = "body", src = img.file, height = 1.06, width = 1.39)
       10: external_img(src, width = width, height = height)
@@ -5751,11 +5866,9 @@ Version: 0.1.5
       12: stop(msg, call. = FALSE, domain = NA)
       
       testthat results ================================================================
-      OK: 342 SKIPPED: 0 FAILED: 4
+      OK: 341 SKIPPED: 1 FAILED: 2
       1. Error: image add  (@test-docx-add.R#68) 
-      2. Error: pml fp_border (@test-fp_cell.R#75) 
-      3. Error: css fp_border (@test-fp_cell.R#165) 
-      4. Error: add img into placeholder (@test-pptx-add.R#67) 
+      2. Error: add img into placeholder (@test-pptx-add.R#67) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -5874,28 +5987,6 @@ Version: 1.2.1
 Version: 0.2.0
 
 ## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      1. Failure: mps_on_date return expected format (@test_mps_on_date.R#18) --------
-      nrow(xmpon2) == 1730 isn't true.
-      
-      
-      2. Failure: mps_on_date return expected format (@test_mps_on_date.R#24) --------
-      nrow(xmpon3) == 1730 isn't true.
-      
-      
-      testthat results ================================================================
-      OK: 13 SKIPPED: 0 FAILED: 2
-      1. Failure: mps_on_date return expected format (@test_mps_on_date.R#18) 
-      2. Failure: mps_on_date return expected format (@test_mps_on_date.R#24) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
 
 *   checking data for non-ASCII characters ... NOTE
     ```
@@ -6161,6 +6252,34 @@ Version: 0.1.0
 
 Version: 1.16.1
 
+## Newly fixed
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    Retaining 79 out of 84 in GOAnnotations
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:2 sigma:1.
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:4 sigma:1.
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:16 sigma:1.
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:2 sigma:1.
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:16 sigma:1.
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:16 sigma:0.1.
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:1 sigma:1.
+    Warning in lapply(X = X, FUN = FUN, ...) :
+      NaNs found in 'precision' with hyperparameters cost:16 sigma:0.1.
+    Quitting from lines 564-572 (pRoloc-transfer-learning.Rnw) 
+    Error: processing vignette 'pRoloc-transfer-learning.Rnw' failed with diagnostics:
+    cannot open the connection
+    Execution halted
+    ```
+
 ## In both
 
 *   checking installed package size ... NOTE
@@ -6231,6 +6350,30 @@ Version: 0.1.1
 # proteoQC
 
 Version: 1.12.3
+
+## Newly fixed
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘proteoQC-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: labelRatio
+    > ### Title: Calculate the labeling efficiency of isobaric labeling data
+    > ### Aliases: labelRatio
+    > 
+    > ### ** Examples
+    > 
+    > mgf.zip <- system.file("extdata/mgf.zip", package = "proteoQC")
+    > unzip(mgf.zip)
+    > a <- labelRatio("test.mgf",reporter=2)
+    Warning in socketConnection(host, port, TRUE, TRUE, "a+b", timeout = timeout) :
+      port 11161 cannot be opened
+    Error in socketConnection(host, port, TRUE, TRUE, "a+b", timeout = timeout) : 
+      cannot open the connection
+    Calls: labelRatio ... .local -> .bpfork -> .bpforkConnect -> socketConnection
+    Execution halted
+    ```
 
 ## In both
 
@@ -6315,7 +6458,7 @@ Version: 0.0.2
 
 # qdap
 
-Version: 2.2.5
+Version: 2.2.8
 
 ## In both
 
@@ -6447,31 +6590,6 @@ Version: 0.1.0
       Execution halted
     ```
 
-# radiant.data
-
-Version: 0.8.1
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘radiant.data-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: dtab.explore
-    > ### Title: Make a tabel of summary statistics in DT
-    > ### Aliases: dtab.explore
-    > 
-    > ### ** Examples
-    > 
-    > tab <- explore("diamonds", "price:x") %>% dtab
-    > tab <- explore("diamonds", "price", byvar = "cut", fun = c("length", "skew"), top = "byvar") %>%
-    +   dtab
-    Error in length(byvar) : could not find function "length"
-    Calls: %>% ... <Anonymous> -> map_if -> map -> lapply -> FUN -> .Call
-    Execution halted
-    ```
-
 # radiant.model
 
 Version: 0.8.0
@@ -6571,7 +6689,7 @@ Version: 1.12.0
 
 # rattle
 
-Version: 4.1.0
+Version: 5.1.0
 
 ## In both
 
@@ -6603,19 +6721,10 @@ Version: 4.1.0
       ‘gWidgetsRGtk2’ ‘playwith’
     ```
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.9Mb
-      sub-directories of 1Mb or more:
-        data   2.5Mb
-        etc    1.9Mb
-        po     1.2Mb
-    ```
-
 *   checking dependencies in R code ... NOTE
     ```
     
-    (R:25953): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+    (R:3449): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
     ```
 
 # RBesT
@@ -6691,8 +6800,8 @@ Version: 0.7.0
       3. Failure: cr_members fails correctly (@test_cr_members.R#47) -----------------
       `warnings` does not match "500: java.lang.NumberFormatException: For input string: \"323234343434\"".
       Actual values:
-      * 500: {"status":"error","message-type":"exception","message-version":"1.0.0","message":{"name":"class java.lang.NumberFormatException","description":"java.lang.NumberFormatException: For input string: \\"323234343434\\"","message":"For input string: \\"323234343434\\"","stack":["java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)","java.lang.Integer.parseInt(Integer.java:583)","java.lang.Integer.parseInt(Integer.java:615)","cayenne.data.member$get_id_from_context.invokeStatic(member.clj:34)","cayenne.data.member$get_id_from_context.invoke(member.clj:30)","cayenne.data.member$fetch_one$fn__17559.invoke(member.clj:75)","cayenne.data.member$fetch_one.invokeStatic(member.clj:72)","cayenne.data.member$fetch_one.invoke(member.clj:71)","cayenne.api.v1.routes$member_works_resource$fn__22165$fn__22166.invoke(routes.clj:374)","liberator.core$decide.invokeStatic(core.clj:98)","liberator.core$decide.invoke(core.clj:91)","liberator.core$exists_QMARK_.invokeStatic(core.clj:406)","liberator.core$exists_QMARK_.invoke(core.clj:406)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$processable_QMARK_.invokeStatic(core.clj:409)","liberator.core$processable_QMARK_.invoke(core.clj:409)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$encoding_available_QMARK_.invokeStatic(core.clj:413)","liberator.core$encoding_available_QMARK_.invoke(core.clj:413)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_encoding_exists_QMARK_.invokeStatic(core.clj:428)","liberator.core$accept_encoding_exists_QMARK_.invoke(core.clj:428)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_charset_exists_QMARK_.invokeStatic(core.clj:441)","liberator.core$accept_charset_exists_QMARK_.invoke(core.clj:441)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_language_exists_QMARK_.invokeStatic(core.clj:455)","liberator.core$accept_language_exists_QMARK_.invoke(core.clj:455)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$media_type_available_QMARK_.invokeStatic(core.clj:465)","liberator.core$media_type_available_QMARK_.invoke(core.clj:465)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_exists_QMARK_.invokeStatic(core.clj:468)","liberator.core$accept_exists_QMARK_.invoke(core.clj:468)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$is_options_QMARK_.invokeStatic(core.clj:485)","liberator.core$is_options_QMARK_.invoke(core.clj:485)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_entity_length_QMARK_.invokeStatic(core.clj:488)","liberator.core$valid_entity_length_QMARK_.invoke(core.clj:488)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_content_type_QMARK_.invokeStatic(core.clj:491)","liberator.core$known_content_type_QMARK_.invoke(core.clj:491)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_content_header_QMARK_.invokeStatic(core.clj:493)","liberator.core$valid_content_header_QMARK_.invoke(core.clj:493)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$allowed_QMARK_.invokeStatic(core.clj:496)","liberator.core$allowed_QMARK_.invoke(core.clj:496)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$authorized_QMARK_.invokeStatic(core.clj:499)","liberator.core$authorized_QMARK_.invoke(core.clj:499)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$malformed_QMARK_.invokeStatic(core.clj:502)","liberator.core$malformed_QMARK_.invoke(core.clj:502)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$method_allowed_QMARK_.invokeStatic(core.clj:505)","liberator.core$method_allowed_QMARK_.invoke(core.clj:505)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$uri_too_long_QMARK_.invokeStatic(core.clj:508)","liberator.core$uri_too_long_QMARK_.invoke(core.clj:508)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_method_QMARK_.invokeStatic(core.clj:511)","liberator.core$known_method_QMARK_.invoke(core.clj:511)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$service_available_QMARK_.invokeStatic(core.clj:514)","liberator.core$service_available_QMARK_.invoke(core.clj:514)","liberator.core$run_resource.invokeStatic(core.clj:599)","liberator.core$run_resource.invoke(core.clj:597)","cayenne.api.v1.routes$member_works_resource$fn__22165.invoke(routes.clj:363)","compojure.response$eval21276$fn__21277.invoke(response.clj:47)","compojure.response$eval21198$fn__21199$G__21189__21206.invoke(response.clj:7)","compojure.core$wrap_response$fn__21868.invoke(core.clj:158)","compojure.core$wrap_route_middleware$fn__21852.invoke(core.clj:128)","compojure.core$wrap_route_info$fn__21857.invoke(core.clj:137)","compojure.core$wrap_route_matches$fn__21861.invoke(core.clj:146)","compojure.core$routing$fn__21876.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21880.invoke(core.clj:192)","compojure.core$routing$fn__21876.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21880.invoke(core.clj:192)","compojure.core$routing$fn__21876.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21880.invoke(core.clj:192)","ring.middleware.logstash$wrap_logstash$fn__23197.invoke(logstash.clj:110)","ring.middleware.keyword_params$wrap_keyword_params$fn__24059.invoke(keyword_params.clj:36)","ring.middleware.nested_params$wrap_nested_params$fn__24107.invoke(nested_params.clj:89)","ring.middleware.params$wrap_params$fn__24023.invoke(params.clj:67)","cayenne.api.route$wrap_cors$fn__24643.invoke(route.clj:101)","metrics.ring.expose$expose_metrics_as_json$fn__23583.invoke(expose.clj:94)","metrics.ring.instrument$instrument$fn__23599$fn__23600.invoke(instrument.clj:44)","metrics.ring.instrument.proxy$java.lang.Object$Callable$7da976d4.call(Unknown Source)","com.yammer.metrics.core.Timer.time(Timer.java:91)","metrics.ring.instrument$instrument$fn__23599.invoke(instrument.clj:43)","heartbeat.ring$wrap_heartbeat$fn__23285.invoke(ring.clj:18)","cayenne.api.conneg$wrap_accept$fn__19739.invoke(conneg.clj:53)","cayenne.api.route$wrap_exception_handler$fn__24648.invoke(route.clj:110)","cayenne.api.route$wrap_ignore_trailing_slash$fn__24656.invoke(route.clj:136)","org.httpkit.server.HttpHandler.run(RingHandler.java:91)","java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)","java.util.concurrent.Future
-      * 500: {"status":"error","message-type":"exception","message-version":"1.0.0","message":{"name":"class java.lang.NumberFormatException","description":"java.lang.NumberFormatException: For input string: \\"3434343434\\"","message":"For input string: \\"3434343434\\"","stack":["java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)","java.lang.Integer.parseInt(Integer.java:583)","java.lang.Integer.parseInt(Integer.java:615)","cayenne.data.member$get_id_from_context.invokeStatic(member.clj:34)","cayenne.data.member$get_id_from_context.invoke(member.clj:30)","cayenne.data.member$fetch_one$fn__17559.invoke(member.clj:75)","cayenne.data.member$fetch_one.invokeStatic(member.clj:72)","cayenne.data.member$fetch_one.invoke(member.clj:71)","cayenne.api.v1.routes$member_works_resource$fn__22165$fn__22166.invoke(routes.clj:374)","liberator.core$decide.invokeStatic(core.clj:98)","liberator.core$decide.invoke(core.clj:91)","liberator.core$exists_QMARK_.invokeStatic(core.clj:406)","liberator.core$exists_QMARK_.invoke(core.clj:406)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$processable_QMARK_.invokeStatic(core.clj:409)","liberator.core$processable_QMARK_.invoke(core.clj:409)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$encoding_available_QMARK_.invokeStatic(core.clj:413)","liberator.core$encoding_available_QMARK_.invoke(core.clj:413)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_encoding_exists_QMARK_.invokeStatic(core.clj:428)","liberator.core$accept_encoding_exists_QMARK_.invoke(core.clj:428)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_charset_exists_QMARK_.invokeStatic(core.clj:441)","liberator.core$accept_charset_exists_QMARK_.invoke(core.clj:441)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_language_exists_QMARK_.invokeStatic(core.clj:455)","liberator.core$accept_language_exists_QMARK_.invoke(core.clj:455)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$media_type_available_QMARK_.invokeStatic(core.clj:465)","liberator.core$media_type_available_QMARK_.invoke(core.clj:465)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_exists_QMARK_.invokeStatic(core.clj:468)","liberator.core$accept_exists_QMARK_.invoke(core.clj:468)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$is_options_QMARK_.invokeStatic(core.clj:485)","liberator.core$is_options_QMARK_.invoke(core.clj:485)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_entity_length_QMARK_.invokeStatic(core.clj:488)","liberator.core$valid_entity_length_QMARK_.invoke(core.clj:488)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_content_type_QMARK_.invokeStatic(core.clj:491)","liberator.core$known_content_type_QMARK_.invoke(core.clj:491)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_content_header_QMARK_.invokeStatic(core.clj:493)","liberator.core$valid_content_header_QMARK_.invoke(core.clj:493)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$allowed_QMARK_.invokeStatic(core.clj:496)","liberator.core$allowed_QMARK_.invoke(core.clj:496)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$authorized_QMARK_.invokeStatic(core.clj:499)","liberator.core$authorized_QMARK_.invoke(core.clj:499)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$malformed_QMARK_.invokeStatic(core.clj:502)","liberator.core$malformed_QMARK_.invoke(core.clj:502)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$method_allowed_QMARK_.invokeStatic(core.clj:505)","liberator.core$method_allowed_QMARK_.invoke(core.clj:505)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$uri_too_long_QMARK_.invokeStatic(core.clj:508)","liberator.core$uri_too_long_QMARK_.invoke(core.clj:508)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_method_QMARK_.invokeStatic(core.clj:511)","liberator.core$known_method_QMARK_.invoke(core.clj:511)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$service_available_QMARK_.invokeStatic(core.clj:514)","liberator.core$service_available_QMARK_.invoke(core.clj:514)","liberator.core$run_resource.invokeStatic(core.clj:599)","liberator.core$run_resource.invoke(core.clj:597)","cayenne.api.v1.routes$member_works_resource$fn__22165.invoke(routes.clj:363)","compojure.response$eval21276$fn__21277.invoke(response.clj:47)","compojure.response$eval21198$fn__21199$G__21189__21206.invoke(response.clj:7)","compojure.core$wrap_response$fn__21868.invoke(core.clj:158)","compojure.core$wrap_route_middleware$fn__21852.invoke(core.clj:128)","compojure.core$wrap_route_info$fn__21857.invoke(core.clj:137)","compojure.core$wrap_route_matches$fn__21861.invoke(core.clj:146)","compojure.core$routing$fn__21876.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21880.invoke(core.clj:192)","compojure.core$routing$fn__21876.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21880.invoke(core.clj:192)","compojure.core$routing$fn__21876.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21880.invoke(core.clj:192)","ring.middleware.logstash$wrap_logstash$fn__23197.invoke(logstash.clj:110)","ring.middleware.keyword_params$wrap_keyword_params$fn__24059.invoke(keyword_params.clj:36)","ring.middleware.nested_params$wrap_nested_params$fn__24107.invoke(nested_params.clj:89)","ring.middleware.params$wrap_params$fn__24023.invoke(params.clj:67)","cayenne.api.route$wrap_cors$fn__24643.invoke(route.clj:101)","metrics.ring.expose$expose_metrics_as_json$fn__23583.invoke(expose.clj:94)","metrics.ring.instrument$instrument$fn__23599$fn__23600.invoke(instrument.clj:44)","metrics.ring.instrument.proxy$java.lang.Object$Callable$7da976d4.call(Unknown Source)","com.yammer.metrics.core.Timer.time(Timer.java:91)","metrics.ring.instrument$instrument$fn__23599.invoke(instrument.clj:43)","heartbeat.ring$wrap_heartbeat$fn__23285.invoke(ring.clj:18)","cayenne.api.conneg$wrap_accept$fn__19739.invoke(conneg.clj:53)","cayenne.api.route$wrap_exception_handler$fn__24648.invoke(route.clj:110)","cayenne.api.route$wrap_ignore_trailing_slash$fn__24656.invoke(route.clj:136)","org.httpkit.server.HttpHandler.run(RingHandler.java:91)","java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)","java.util.concurrent.FutureTask
+      * 500: {"status":"error","message-type":"exception","message-version":"1.0.0","message":{"name":"class java.lang.NumberFormatException","description":"java.lang.NumberFormatException: For input string: \\"323234343434\\"","message":"For input string: \\"323234343434\\"","stack":["java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)","java.lang.Integer.parseInt(Integer.java:583)","java.lang.Integer.parseInt(Integer.java:615)","cayenne.data.member$get_id_from_context.invokeStatic(member.clj:34)","cayenne.data.member$get_id_from_context.invoke(member.clj:30)","cayenne.data.member$fetch_one$fn__17560.invoke(member.clj:75)","cayenne.data.member$fetch_one.invokeStatic(member.clj:72)","cayenne.data.member$fetch_one.invoke(member.clj:71)","cayenne.api.v1.routes$member_works_resource$fn__22168$fn__22169.invoke(routes.clj:375)","liberator.core$decide.invokeStatic(core.clj:98)","liberator.core$decide.invoke(core.clj:91)","liberator.core$exists_QMARK_.invokeStatic(core.clj:406)","liberator.core$exists_QMARK_.invoke(core.clj:406)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$processable_QMARK_.invokeStatic(core.clj:409)","liberator.core$processable_QMARK_.invoke(core.clj:409)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$encoding_available_QMARK_.invokeStatic(core.clj:413)","liberator.core$encoding_available_QMARK_.invoke(core.clj:413)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_encoding_exists_QMARK_.invokeStatic(core.clj:428)","liberator.core$accept_encoding_exists_QMARK_.invoke(core.clj:428)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_charset_exists_QMARK_.invokeStatic(core.clj:441)","liberator.core$accept_charset_exists_QMARK_.invoke(core.clj:441)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_language_exists_QMARK_.invokeStatic(core.clj:455)","liberator.core$accept_language_exists_QMARK_.invoke(core.clj:455)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$media_type_available_QMARK_.invokeStatic(core.clj:465)","liberator.core$media_type_available_QMARK_.invoke(core.clj:465)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_exists_QMARK_.invokeStatic(core.clj:468)","liberator.core$accept_exists_QMARK_.invoke(core.clj:468)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$is_options_QMARK_.invokeStatic(core.clj:485)","liberator.core$is_options_QMARK_.invoke(core.clj:485)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_entity_length_QMARK_.invokeStatic(core.clj:488)","liberator.core$valid_entity_length_QMARK_.invoke(core.clj:488)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_content_type_QMARK_.invokeStatic(core.clj:491)","liberator.core$known_content_type_QMARK_.invoke(core.clj:491)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_content_header_QMARK_.invokeStatic(core.clj:493)","liberator.core$valid_content_header_QMARK_.invoke(core.clj:493)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$allowed_QMARK_.invokeStatic(core.clj:496)","liberator.core$allowed_QMARK_.invoke(core.clj:496)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$authorized_QMARK_.invokeStatic(core.clj:499)","liberator.core$authorized_QMARK_.invoke(core.clj:499)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$malformed_QMARK_.invokeStatic(core.clj:502)","liberator.core$malformed_QMARK_.invoke(core.clj:502)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$method_allowed_QMARK_.invokeStatic(core.clj:505)","liberator.core$method_allowed_QMARK_.invoke(core.clj:505)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$uri_too_long_QMARK_.invokeStatic(core.clj:508)","liberator.core$uri_too_long_QMARK_.invoke(core.clj:508)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_method_QMARK_.invokeStatic(core.clj:511)","liberator.core$known_method_QMARK_.invoke(core.clj:511)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$service_available_QMARK_.invokeStatic(core.clj:514)","liberator.core$service_available_QMARK_.invoke(core.clj:514)","liberator.core$run_resource.invokeStatic(core.clj:599)","liberator.core$run_resource.invoke(core.clj:597)","cayenne.api.v1.routes$member_works_resource$fn__22168.invoke(routes.clj:364)","compojure.response$eval21279$fn__21280.invoke(response.clj:47)","compojure.response$eval21201$fn__21202$G__21192__21209.invoke(response.clj:7)","compojure.core$wrap_response$fn__21871.invoke(core.clj:158)","compojure.core$wrap_route_middleware$fn__21855.invoke(core.clj:128)","compojure.core$wrap_route_info$fn__21860.invoke(core.clj:137)","compojure.core$wrap_route_matches$fn__21864.invoke(core.clj:146)","compojure.core$routing$fn__21879.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21883.invoke(core.clj:192)","compojure.core$routing$fn__21879.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21883.invoke(core.clj:192)","compojure.core$routing$fn__21879.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21883.invoke(core.clj:192)","ring.middleware.logstash$wrap_logstash$fn__23200.invoke(logstash.clj:110)","ring.middleware.keyword_params$wrap_keyword_params$fn__24062.invoke(keyword_params.clj:36)","ring.middleware.nested_params$wrap_nested_params$fn__24110.invoke(nested_params.clj:89)","ring.middleware.params$wrap_params$fn__24026.invoke(params.clj:67)","cayenne.api.route$wrap_cors$fn__24646.invoke(route.clj:101)","metrics.ring.expose$expose_metrics_as_json$fn__23586.invoke(expose.clj:94)","metrics.ring.instrument$instrument$fn__23602$fn__23603.invoke(instrument.clj:44)","metrics.ring.instrument.proxy$java.lang.Object$Callable$7da976d4.call(Unknown Source)","com.yammer.metrics.core.Timer.time(Timer.java:91)","metrics.ring.instrument$instrument$fn__23602.invoke(instrument.clj:43)","heartbeat.ring$wrap_heartbeat$fn__23288.invoke(ring.clj:18)","cayenne.api.conneg$wrap_accept$fn__19742.invoke(conneg.clj:53)","cayenne.api.route$wrap_exception_handler$fn__24651.invoke(route.clj:110)","cayenne.api.route$wrap_ignore_trailing_slash$fn__24659.invoke(route.clj:136)","org.httpkit.server.HttpHandler.run(RingHandler.java:91)","java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)","java.util.concurrent.Future
+      * 500: {"status":"error","message-type":"exception","message-version":"1.0.0","message":{"name":"class java.lang.NumberFormatException","description":"java.lang.NumberFormatException: For input string: \\"3434343434\\"","message":"For input string: \\"3434343434\\"","stack":["java.lang.NumberFormatException.forInputString(NumberFormatException.java:65)","java.lang.Integer.parseInt(Integer.java:583)","java.lang.Integer.parseInt(Integer.java:615)","cayenne.data.member$get_id_from_context.invokeStatic(member.clj:34)","cayenne.data.member$get_id_from_context.invoke(member.clj:30)","cayenne.data.member$fetch_one$fn__17560.invoke(member.clj:75)","cayenne.data.member$fetch_one.invokeStatic(member.clj:72)","cayenne.data.member$fetch_one.invoke(member.clj:71)","cayenne.api.v1.routes$member_works_resource$fn__22168$fn__22169.invoke(routes.clj:375)","liberator.core$decide.invokeStatic(core.clj:98)","liberator.core$decide.invoke(core.clj:91)","liberator.core$exists_QMARK_.invokeStatic(core.clj:406)","liberator.core$exists_QMARK_.invoke(core.clj:406)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$processable_QMARK_.invokeStatic(core.clj:409)","liberator.core$processable_QMARK_.invoke(core.clj:409)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$encoding_available_QMARK_.invokeStatic(core.clj:413)","liberator.core$encoding_available_QMARK_.invoke(core.clj:413)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_encoding_exists_QMARK_.invokeStatic(core.clj:428)","liberator.core$accept_encoding_exists_QMARK_.invoke(core.clj:428)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_charset_exists_QMARK_.invokeStatic(core.clj:441)","liberator.core$accept_charset_exists_QMARK_.invoke(core.clj:441)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_language_exists_QMARK_.invokeStatic(core.clj:455)","liberator.core$accept_language_exists_QMARK_.invoke(core.clj:455)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$media_type_available_QMARK_.invokeStatic(core.clj:465)","liberator.core$media_type_available_QMARK_.invoke(core.clj:465)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$accept_exists_QMARK_.invokeStatic(core.clj:468)","liberator.core$accept_exists_QMARK_.invoke(core.clj:468)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$is_options_QMARK_.invokeStatic(core.clj:485)","liberator.core$is_options_QMARK_.invoke(core.clj:485)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_entity_length_QMARK_.invokeStatic(core.clj:488)","liberator.core$valid_entity_length_QMARK_.invoke(core.clj:488)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_content_type_QMARK_.invokeStatic(core.clj:491)","liberator.core$known_content_type_QMARK_.invoke(core.clj:491)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$valid_content_header_QMARK_.invokeStatic(core.clj:493)","liberator.core$valid_content_header_QMARK_.invoke(core.clj:493)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$allowed_QMARK_.invokeStatic(core.clj:496)","liberator.core$allowed_QMARK_.invoke(core.clj:496)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$authorized_QMARK_.invokeStatic(core.clj:499)","liberator.core$authorized_QMARK_.invoke(core.clj:499)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$malformed_QMARK_.invokeStatic(core.clj:502)","liberator.core$malformed_QMARK_.invoke(core.clj:502)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$method_allowed_QMARK_.invokeStatic(core.clj:505)","liberator.core$method_allowed_QMARK_.invoke(core.clj:505)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$uri_too_long_QMARK_.invokeStatic(core.clj:508)","liberator.core$uri_too_long_QMARK_.invoke(core.clj:508)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$known_method_QMARK_.invokeStatic(core.clj:511)","liberator.core$known_method_QMARK_.invoke(core.clj:511)","liberator.core$decide.invokeStatic(core.clj:103)","liberator.core$decide.invoke(core.clj:91)","liberator.core$service_available_QMARK_.invokeStatic(core.clj:514)","liberator.core$service_available_QMARK_.invoke(core.clj:514)","liberator.core$run_resource.invokeStatic(core.clj:599)","liberator.core$run_resource.invoke(core.clj:597)","cayenne.api.v1.routes$member_works_resource$fn__22168.invoke(routes.clj:364)","compojure.response$eval21279$fn__21280.invoke(response.clj:47)","compojure.response$eval21201$fn__21202$G__21192__21209.invoke(response.clj:7)","compojure.core$wrap_response$fn__21871.invoke(core.clj:158)","compojure.core$wrap_route_middleware$fn__21855.invoke(core.clj:128)","compojure.core$wrap_route_info$fn__21860.invoke(core.clj:137)","compojure.core$wrap_route_matches$fn__21864.invoke(core.clj:146)","compojure.core$routing$fn__21879.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21883.invoke(core.clj:192)","compojure.core$routing$fn__21879.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21883.invoke(core.clj:192)","compojure.core$routing$fn__21879.invoke(core.clj:185)","clojure.core$some.invokeStatic(core.clj:2592)","clojure.core$some.invoke(core.clj:2583)","compojure.core$routing.invokeStatic(core.clj:185)","compojure.core$routing.doInvoke(core.clj:182)","clojure.lang.RestFn.applyTo(RestFn.java:139)","clojure.core$apply.invokeStatic(core.clj:648)","clojure.core$apply.invoke(core.clj:641)","compojure.core$routes$fn__21883.invoke(core.clj:192)","ring.middleware.logstash$wrap_logstash$fn__23200.invoke(logstash.clj:110)","ring.middleware.keyword_params$wrap_keyword_params$fn__24062.invoke(keyword_params.clj:36)","ring.middleware.nested_params$wrap_nested_params$fn__24110.invoke(nested_params.clj:89)","ring.middleware.params$wrap_params$fn__24026.invoke(params.clj:67)","cayenne.api.route$wrap_cors$fn__24646.invoke(route.clj:101)","metrics.ring.expose$expose_metrics_as_json$fn__23586.invoke(expose.clj:94)","metrics.ring.instrument$instrument$fn__23602$fn__23603.invoke(instrument.clj:44)","metrics.ring.instrument.proxy$java.lang.Object$Callable$7da976d4.call(Unknown Source)","com.yammer.metrics.core.Timer.time(Timer.java:91)","metrics.ring.instrument$instrument$fn__23602.invoke(instrument.clj:43)","heartbeat.ring$wrap_heartbeat$fn__23288.invoke(ring.clj:18)","cayenne.api.conneg$wrap_accept$fn__19742.invoke(conneg.clj:53)","cayenne.api.route$wrap_exception_handler$fn__24651.invoke(route.clj:110)","cayenne.api.route$wrap_ignore_trailing_slash$fn__24659.invoke(route.clj:136)","org.httpkit.server.HttpHandler.run(RingHandler.java:91)","java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)","java.util.concurrent.FutureTask
       
       
       testthat results ================================================================
@@ -6730,9 +6839,53 @@ Version: 0.3.0
         libs   4.8Mb
     ```
 
+# REDCapR
+
+Version: 0.9.8
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 13 lines of output:
+      6. Failure: Write Batch -Insert (@test-write-batch.R#58) -----------------------
+      returned_object$success isn't true.
+      
+      
+      testthat results ================================================================
+      OK: 564 SKIPPED: 0 FAILED: 6
+      1. Error: NameComesFromREDCap (@test-file-oneshot.R#30) 
+      2. Failure: Write Batch -Insert (@test-write-batch.R#16) 
+      3. Failure: Write Batch -Insert (@test-write-batch.R#52) 
+      4. Failure: Write Batch -Insert (@test-write-batch.R#54) 
+      5. Failure: Write Batch -Insert (@test-write-batch.R#57) 
+      6. Failure: Write Batch -Insert (@test-write-batch.R#58) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Failed with error:  'there is no package called 'kableExtra''
+    Quitting from lines 70-73 (BasicREDCapROperations.Rmd) 
+    Error: processing vignette 'BasicREDCapROperations.Rmd' failed with diagnostics:
+    there is no package called 'kableExtra'
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘kableExtra’
+    ```
+
 # replyr
 
-Version: 0.5.2
+Version: 0.5.3
 
 ## In both
 
@@ -6789,6 +6942,18 @@ Version: 2.1.2
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 44 marked UTF-8 strings
+    ```
+
+# Rilostat
+
+Version: 0.1
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘lazyeval’
+      All declared Imports should be used.
     ```
 
 # rmapzen
@@ -6871,18 +7036,18 @@ Version: 1.1.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      Content type 'text/html; charset=utf-8' length 481918 bytes (470 KB)
       ==================================================
       downloaded 470 KB
       
       testthat results ================================================================
-      OK: 109 SKIPPED: 0 FAILED: 7
-      1. Error: it can recode data and demographics (@test_data_files.R#180) 
-      2. Failure: nhanes_search on variables passes spot check (@test_search.R#13) 
-      3. Failure: nhanes_search on variables passes spot check (@test_search.R#14) 
-      4. Failure: nhanes_search on files passes spot check (@test_search.R#20) 
-      5. Failure: nhanes_search on files passes spot check (@test_search.R#21) 
-      6. Failure: fuzzy search works on files (@test_search.R#33) 
-      7. Failure: fuzzy search works on files (@test_search.R#34) 
+      OK: 112 SKIPPED: 0 FAILED: 6
+      1. Failure: nhanes_search on variables passes spot check (@test_search.R#13) 
+      2. Failure: nhanes_search on variables passes spot check (@test_search.R#14) 
+      3. Failure: nhanes_search on files passes spot check (@test_search.R#20) 
+      4. Failure: nhanes_search on files passes spot check (@test_search.R#21) 
+      5. Failure: fuzzy search works on files (@test_search.R#33) 
+      6. Failure: fuzzy search works on files (@test_search.R#34) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -6914,6 +7079,35 @@ Version: 0.7.0
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+# roadoi
+
+Version: 0.3
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Error : Oops, API did not return json after calling '§dldl  ':
+            check your query - or api.oadoi.org may experience problems
+    
+    Attaching package: 'dplyr'
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
+    Quitting from lines 141-142 (intro.Rmd) 
+    Error: processing vignette 'intro.Rmd' failed with diagnostics:
+    Timeout was reached: Operation timed out after 10001 milliseconds with 0 bytes received
+    Execution halted
     ```
 
 # rODE
@@ -7046,18 +7240,18 @@ Version: 0.2.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      4. Failure: Test transformation from dataframe to h2o frame (@test_transforms.R#81) 
+      
+      
+      2. Failure: Test transformation from dataframe to h2o frame (@test_transforms.R#81) 
       ncol(mtcars_tbl) not equal to ncol(mtcars_hf).
       Modes: logical, numeric
       target is logical, current is numeric
       
       
       testthat results ================================================================
-      OK: 20 SKIPPED: 0 FAILED: 4
-      1. Error: Test transformation from h2o frame to data frame (@test_transforms.R#5) 
-      2. Error: Test transformation of a spark data_frame of bools to an h2o frame of bools (@test_transforms.R#17) 
-      3. Error: Test transformation of a spark data_frame of complex types to an h2o frame of complex types (@test_transforms.R#29) 
-      4. Failure: Test transformation from dataframe to h2o frame (@test_transforms.R#81) 
+      OK: 31 SKIPPED: 0 FAILED: 2
+      1. Failure: Test transformation from h2o frame to data frame (@test_transforms.R#12) 
+      2. Failure: Test transformation from dataframe to h2o frame (@test_transforms.R#81) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -7071,41 +7265,35 @@ Version: 1.6.0
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘RTCGA-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: boxplotTCGA
-    > ### Title: Create Boxplots for TCGA Datasets
-    > ### Aliases: boxplotTCGA
+    ...
+    + 	MET = `MET|4233`) %>%  
+    + 	#cancer samples
+    + 	filter(substr(bcr_patient_barcode, 14, 15) == "01") -> ACC_BLCA_BRCA_OV.rnaseq
+    > 	
     > 
-    > ### ** Examples
+    > boxplotTCGA(ACC_BLCA_BRCA_OV.rnaseq, "cohort", "MET")
+    > boxplotTCGA(ACC_BLCA_BRCA_OV.rnaseq, "cohort", "log1p(MET)")
+    > boxplotTCGA(ACC_BLCA_BRCA_OV.rnaseq, "reorder(cohort,log1p(MET), median)", "log1p(MET)")
+    > boxplotTCGA(ACC_BLCA_BRCA_OV.rnaseq, "reorder(cohort,log1p(MET), max)", "log1p(MET)")
+    > boxplotTCGA(ACC_BLCA_BRCA_OV.rnaseq, "reorder(cohort,log1p(MET), median)", "log1p(MET)",
+    + xlab = "Cohort Type", ylab = "Logarithm of MET")
+    > boxplotTCGA(ACC_BLCA_BRCA_OV.rnaseq, "reorder(cohort,log1p(MET), median)", "log1p(MET)", 
+    + xlab = "Cohort Type", ylab = "Logarithm of MET", legend.title = "Cohorts")
+    > boxplotTCGA(ACC_BLCA_BRCA_OV.rnaseq, "reorder(cohort,log1p(MET), median)", "log1p(MET)", 
+    + xlab = "Cohort Type", ylab = "Logarithm of MET", legend.title = "Cohorts", legend = "bottom")
     > 
-    > library(RTCGA.rnaseq)
-    Error in library(RTCGA.rnaseq) : 
-      there is no package called ‘RTCGA.rnaseq’
+    > ## facet example
+    > library(RTCGA.mutations)
+    Error in library(RTCGA.mutations) : 
+      there is no package called ‘RTCGA.mutations’
     Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(RTCGA)
-      Welcome to the RTCGA (version: 1.6.0).
-      > library(RTCGA.rnaseq)
-      Error in library(RTCGA.rnaseq) : 
-        there is no package called 'RTCGA.rnaseq'
-      Execution halted
     ```
 
 *   checking package dependencies ... NOTE
     ```
     Packages suggested but not available for checking:
-      ‘RTCGA.rnaseq’ ‘RTCGA.clinical’ ‘RTCGA.mutations’ ‘RTCGA.RPPA’
-      ‘RTCGA.mRNA’ ‘RTCGA.miRNASeq’ ‘RTCGA.methylation’ ‘RTCGA.CNV’
-      ‘RTCGA.PANCAN12’
+      ‘RTCGA.clinical’ ‘RTCGA.mutations’ ‘RTCGA.RPPA’ ‘RTCGA.mRNA’
+      ‘RTCGA.miRNASeq’ ‘RTCGA.methylation’ ‘RTCGA.CNV’ ‘RTCGA.PANCAN12’
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -7128,7 +7316,7 @@ Version: 1.6.0
 
 *   checking Rd cross-references ... NOTE
     ```
-    Packages unavailable to check Rd xrefs: ‘RTCGA.rnaseq’, ‘RTCGA.clinical’, ‘RTCGA.mutations’, ‘RTCGA.CNV’, ‘RTCGA.RPPA’, ‘RTCGA.mRNA’, ‘RTCGA.miRNASeq’, ‘RTCGA.methylation’
+    Packages unavailable to check Rd xrefs: ‘RTCGA.clinical’, ‘RTCGA.mutations’, ‘RTCGA.CNV’, ‘RTCGA.RPPA’, ‘RTCGA.mRNA’, ‘RTCGA.miRNASeq’, ‘RTCGA.methylation’
     ```
 
 # rtimes
@@ -7243,7 +7431,7 @@ Version: 1.3.4
 
 # seplyr
 
-Version: 0.1.4
+Version: 0.1.5
 
 ## In both
 
@@ -7303,7 +7491,7 @@ Version: 2.0.1
 
 # sf
 
-Version: 0.5-3
+Version: 0.5-4
 
 ## In both
 
@@ -7470,18 +7658,18 @@ Version: 0.4.0
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
     Last 13 lines of output:
-             url), call. = FALSE)
-      
       testthat results ================================================================
-      OK: 208 SKIPPED: 0 FAILED: 8
+      OK: 160 SKIPPED: 0 FAILED: 12
       1. Error: core_create works (@test-core_create.R#6) 
       2. Error: ping works against (@test-ping.R#7) 
       3. Error: ping gives raw data correctly (@test-ping.R#20) 
       4. Error: ping fails well (@test-ping.R#31) 
       5. Error: schema works against (@test-schema.R#7) 
       6. Error: schema fails well (@test-schema.R#32) 
-      7. Error: solr_connect to local Solr server works (@test-solr_connect.R#19) 
-      8. Error: solr_connect works with a proxy (@test-solr_connect.R#33) 
+      7. Error: solr_all works (@test-solr_all.R#9) 
+      8. Error: solr_connect to local Solr server works (@test-solr_connect.R#19) 
+      9. Error: solr_connect works with a proxy (@test-solr_connect.R#33) 
+      1. ...
       
       Error: testthat unit tests failed
       Execution halted
@@ -7559,7 +7747,6 @@ Version: 1.3.1
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
     Last 13 lines of output:
-      RMarkdown syntax allows R code, outputs, and figures to be rendered in the documm[19;1Hentation.
       
       For help writing in RMarkdown, see http://rmarkdown.rstudio.com/.
       
@@ -7567,12 +7754,13 @@ Version: 1.3.1
       
       Vim: Finished.
       [24;1Htestthat results ================================================================
-      OK: 955 SKIPPED: 15 FAILED: 1
+      OK: 960 SKIPPED: 15 FAILED: 4
       1. Failure: downloadModule downloads and unzips a single module (@test-downloadModule.R#26) 
+      2. Failure: downloadData downloads and unzips module data (@test-downloadModule.R#77) 
+      3. Failure: downloadData downloads and unzips module data (@test-downloadModule.R#81) 
+      4. Error: downloadData downloads and unzips module data (@test-downloadModule.R#98) 
       
       Error: testthat unit tests failed
-      In addition: Warning message:
-      no DISPLAY variable so Tk is not available 
       Execution halted
     ```
 
@@ -7594,6 +7782,48 @@ Version: 1.3.1
       All declared Imports should be used.
     ```
 
+# SpaDES.core
+
+Version: 0.1.0
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 13 lines of output:
+      3: downloadModule(name, path, version, repo, data, quiet)
+      4: downloadModule(name, path, version, repo, data, quiet)
+      5: checkModule(name, repo)
+      6: checkModule(name, repo)
+      7: stop_for_status(request)
+      
+      testthat results ================================================================
+      OK: 299 SKIPPED: 2 FAILED: 2
+      1. Error: downloadModule downloads and unzips a parent module (@test-downloadModule.R#46) 
+      2. Error: downloadData downloads and unzips module data (@test-downloadModule.R#73) 
+      
+      Error: testthat unit tests failed
+      In addition: Warning message:
+      no DISPLAY variable so Tk is not available 
+      Execution halted
+    ```
+
+*   checking whether package ‘SpaDES.core’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: no DISPLAY variable so Tk is not available
+    See ‘/home/muelleki/git/R/dplyr/revdep/checks/SpaDES.core/new/SpaDES.core.Rcheck/00install.out’ for details.
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘CircStats’ ‘RandomFields’ ‘grDevices’ ‘sp’
+      All declared Imports should be used.
+    ```
+
 # SpaDES.tools
 
 Version: 0.1.0
@@ -7604,6 +7834,34 @@ Version: 0.1.0
     ```
     Namespace in Imports field not imported from: ‘fastdigest’
       All declared Imports should be used.
+    ```
+
+# sparklyr
+
+Version: 0.6.2
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+          Log: /home/muelleki/tmp/RtmpA1IyMK/fileae30636f8bd_spark.log
+      
+      
+      ---- Output Log ----
+      17/09/05 19:10:21 INFO sparklyr: Session (1904) is starting under 127.0.0.1 port 8880
+      17/09/05 19:10:21 INFO sparklyr: Session (1904) found port 8880 is not available
+      17/09/05 19:10:21 INFO sparklyr: Backend (1904) is registering session in gateway
+      17/09/05 19:10:21 INFO sparklyr: Backend (1904) is waiting for registration in gateway
+      (17/09/05 19:10:21 ERROR sparklyr: Backend (1904) is shutting down from init() with exception ,java.net.SocketException: Connection reset)
+      
+      ---- Error Log ----
+      Calls: test_check ... tryCatchOne -> <Anonymous> -> abort_shell -> <Anonymous> -> force
+      testthat results ================================================================
+      OK: 0 SKIPPED: 0 FAILED: 0
+      Execution halted
     ```
 
 # sparseHessianFD
@@ -7636,7 +7894,7 @@ Version: 0.3.3
 
 # SpatialEpiApp
 
-Version: 0.2
+Version: 0.3
 
 ## In both
 
@@ -8185,7 +8443,7 @@ Version: 0.5.3
 
 # tidyr
 
-Version: 0.7.0
+Version: 0.7.1
 
 ## In both
 
@@ -8503,6 +8761,15 @@ Version: 4.7.0
     Packages unavailable to check Rd xrefs: ‘mvoutlier’, ‘StatDA’, ‘mi’, ‘tkrplot’
     ```
 
+# visdat
+
+Version: 0.1.0
+
+## In both
+
+*   R CMD check timed out
+    
+
 # vqtl
 
 Version: 1.2.0
@@ -8539,33 +8806,35 @@ Version: 3.44.0
 
 Version: 0.1.0
 
-## In both
+## Newly fixed
 
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
-    7f2b8c974000-7f2b8cb74000 ---p 002ae000 08:01 790438                     /usr/lib/R/lib/libR.so
-    7f2b8cb74000-7f2b8cb91000 r--p 002ae000 08:01 790438                     /usr/lib/R/lib/libR.so
-    7f2b8cb91000-7f2b8cb9c000 rw-p 002cb000 08:01 790438                     /usr/lib/R/lib/libR.so
-    7f2b8cb9c000-7f2b8cced000 rw-p 00000000 00:00 0 
-    7f2b8cced000-7f2b8cd13000 r-xp 00000000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
-    7f2b8cd1d000-7f2b8cef5000 rw-p 00000000 00:00 0 
-    7f2b8cef6000-7f2b8cef7000 rw-p 00000000 00:00 0 
-    7f2b8cef7000-7f2b8cf06000 r-xp 00000000 08:21 10758034                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7f2b8cf06000-7f2b8cf07000 ---p 0000f000 08:21 10758034                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7f2b8cf07000-7f2b8cf08000 r--p 0000f000 08:21 10758034                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7f2b8cf08000-7f2b8cf09000 rw-p 00010000 08:21 10758034                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7f2b8cf09000-7f2b8cf10000 r--s 00000000 08:01 27320                      /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
-    7f2b8cf10000-7f2b8cf12000 rw-p 00000000 00:00 0 
-    7f2b8cf12000-7f2b8cf13000 r--p 00025000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
-    7f2b8cf13000-7f2b8cf14000 rw-p 00026000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
-    7f2b8cf14000-7f2b8cf15000 rw-p 00000000 00:00 0 
-    7fff7fb1d000-7fff7fb95000 rw-p 00000000 00:00 0                          [stack]
-    7fff7fbdc000-7fff7fbde000 r--p 00000000 00:00 0                          [vvar]
-    7fff7fbde000-7fff7fbe0000 r-xp 00000000 00:00 0                          [vdso]
+    7efc7d0f3000-7efc7d244000 rw-p 00000000 00:00 0 
+    7efc7d244000-7efc7d26a000 r-xp 00000000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
+    7efc7d270000-7efc7d272000 r-xp 00000000 08:21 9044237                    /home/muelleki/git/R/dplyr/revdep/library/dplyr/old/glue/libs/glue.so
+    7efc7d272000-7efc7d273000 r--p 00001000 08:21 9044237                    /home/muelleki/git/R/dplyr/revdep/library/dplyr/old/glue/libs/glue.so
+    7efc7d273000-7efc7d274000 rw-p 00002000 08:21 9044237                    /home/muelleki/git/R/dplyr/revdep/library/dplyr/old/glue/libs/glue.so
+    7efc7d274000-7efc7d44c000 rw-p 00000000 00:00 0 
+    7efc7d44d000-7efc7d44e000 rw-p 00000000 00:00 0 
+    7efc7d44e000-7efc7d45d000 r-xp 00000000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
+    7efc7d45d000-7efc7d45e000 ---p 0000f000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
+    7efc7d45e000-7efc7d45f000 r--p 0000f000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
+    7efc7d45f000-7efc7d460000 rw-p 00010000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
+    7efc7d460000-7efc7d467000 r--s 00000000 08:01 27320                      /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
+    7efc7d467000-7efc7d469000 rw-p 00000000 00:00 0 
+    7efc7d469000-7efc7d46a000 r--p 00025000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
+    7efc7d46a000-7efc7d46b000 rw-p 00026000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
+    7efc7d46b000-7efc7d46c000 rw-p 00000000 00:00 0 
+    7ffe13e80000-7ffe13ef9000 rw-p 00000000 00:00 0                          [stack]
+    7ffe13f1c000-7ffe13f1e000 r--p 00000000 00:00 0                          [vvar]
+    7ffe13f1e000-7ffe13f20000 r-xp 00000000 00:00 0                          [vdso]
     ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
     Aborted (core dumped)
     ```
+
+## In both
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -8672,7 +8941,7 @@ Version: 1.1.10
       
       
       Error in curl::curl_fetch_memory(url, handle = handle) : 
-        Timeout was reached: Connection timed out after 10001 milliseconds
+        Timeout was reached: Connection timed out after 10000 milliseconds
       Error in curl::curl_fetch_memory(url, handle = handle) : 
         Timeout was reached: Connection timed out after 10001 milliseconds
       testthat results ================================================================
@@ -8697,11 +8966,11 @@ Version: 1.1.10
     
     
     Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10000 milliseconds
+      Timeout was reached: Connection timed out after 10001 milliseconds
     http://stats.grok.se/json/en/201511/Main_page
     
     data from server was: Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10000 milliseconds
+      Timeout was reached: Connection timed out after 10001 milliseconds
     
     
     Quitting from lines 108-112 (using-wikipediatrend.Rmd) 
@@ -8797,36 +9066,6 @@ Version: 0.1-1
     Package unavailable to check Rd xrefs: ‘microbenchmark’
     ```
 
-# WRTDStidal
-
-Version: 1.1.0
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘WRTDStidal-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: dynaplot
-    > ### Title: Plot model response to salinity or flow as a lineplot for all
-    > ###   months
-    > ### Aliases: dynaplot dynaplot.tidal dynaplot.tidalmean
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > # load a fitted tidal object
-    > data(tidfit)
-    > 
-    > # plot using defaults, 
-    > # defaults to the fiftieth quantile for all years
-    > dynaplot(tidfit)
-    Error in ncol(to_plo) : could not find function "ncol"
-    Calls: dynaplot ... <Anonymous> -> map_if -> map -> lapply -> FUN -> .Call
-    Execution halted
-    ```
-
 # XBSeq
 
 Version: 1.6.0
@@ -8892,6 +9131,18 @@ Version: 1.6.0
     to your NAMESPACE file.
     ```
 
+# xxIRT
+
+Version: 2.0.3
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘graphics’
+      All declared Imports should be used.
+    ```
+
 # zeligverse
 
 Version: 0.1.1
@@ -8910,32 +9161,6 @@ Version: 0.1.1
 Version: 0.1.6
 
 ## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > ## calculate for one Tpr curve at a Ppr
-    > z.DranchukPurvisRobinson(pres.pr = 1.5, temp.pr = 2.0)
-    [1] 0.9546382
-    > 
-    > ## For vectors of Ppr and Tpr:
-    > ppr <- c(0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5)
-    > tpr <- c(1.3, 1.5, 1.7, 2)
-    > z.DranchukPurvisRobinson(pres.pr = ppr, temp.pr = tpr)
-              0.5       1.5       2.5       3.5       4.5       5.5       6.5
-    1.3 0.9197157 0.7525940 0.6366665 0.6337883 0.6891997 0.7650171 0.8480804
-    1.5 0.9504834 0.8583491 0.7926325 0.7720713 0.7914322 0.8348883 0.8915239
-    1.7 0.9677844 0.9121791 0.8752677 0.8630002 0.8743271 0.9033216 0.9440582
-    2   0.9822021 0.9546382 0.9399310 0.9391490 0.9512966 0.9740256 1.0047347
-    > 
-    > ## create a matrix of z values
-    > tpr2 <- c(1.05, 1.1, 1.2, 1.3)
-    > ppr2 <- c(0.5, 1.0, 1.5, 2, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0, 5.5, 6.0, 6.5)
-    > sk_corr_2 <- createTidyFromMatrix(ppr2, tpr2, correlation = "DPR")
-    Error in ncol(sk_df) : could not find function "ncol"
-    Calls: createTidyFromMatrix ... <Anonymous> -> map_if -> map -> lapply -> FUN -> .Call
-    Execution halted
-    ```
 
 *   checking dependencies in R code ... NOTE
     ```

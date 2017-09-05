@@ -1,5 +1,5 @@
 package,old,new,delta
-dplyr,0.7.2,0.7.2.9000,*
+dplyr,0.7.2,0.7.3,*
 assertthat,0.2.0,0.2.0,
 BH,1.65.0-1,1.65.0-1,
 bindr,0.1,0.1,
