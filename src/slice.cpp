@@ -66,7 +66,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
   Call call(quosure.expr());
 
   std::vector<int> indx;
-  indx.reserve(gdf.nrows());
+  indx.reserve(1000);
 
   IntegerVector g_test;
   Proxy call_proxy(call, gdf, env);
