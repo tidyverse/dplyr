@@ -20,6 +20,9 @@
 
 * Grouping by character vectors is now faster (#2204).
 
+* Fixed a crash that occurred when an unexpected input was supplied to
+  the `call` argument of `order_by()` (#3065).
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
