@@ -80,7 +80,19 @@ void inner_vector_check(SEXP x, int nrows, int arg) {
 }
 
 static
+bool is_non_data_frame_object(SEXP x) {
+  if (TYPEOF(x) != VECSXP) return false;
+  if (!OBJECT(x)) return false;
+  return !Rf_inherits(x, "data.frame");
+}
+
+static
 void rbind_vector_check(SEXP x, R_xlen_t nrows, int arg) {
+  if (!is_vector(x) || is_non_data_frame_object(x)) {
+    bad_pos_arg(arg + 1, "must be a data frame or a named atomic vector, not a {type}",
+                _["type"] = get_single_class(x));
+  }
+
   if (rows_length(x, true) != nrows) {
     bad_pos_arg(arg + 1, "must be length {expected_size}, not {actual_size}",
                 _["expected_size"] = rows_length(x, true), _["actual_size"] = nrows);
@@ -89,25 +101,6 @@ void rbind_vector_check(SEXP x, R_xlen_t nrows, int arg) {
   if (vec_names(x) == R_NilValue) {
     bad_pos_arg(arg + 1, "must have names");
   }
-
-  switch (TYPEOF(x)) {
-  case LGLSXP:
-  case INTSXP:
-  case REALSXP:
-  case CPLXSXP:
-  case STRSXP:
-  case RAWSXP:
-    return;
-  case VECSXP: {
-    if (!OBJECT(x) || Rf_inherits(x, "data.frame"))
-      return;
-    break;
-  }
-  default:
-    break;
-  }
-  bad_pos_arg(arg + 1, "must be a data frame or a named atomic vector, not a {type}",
-              _["type"] = get_single_class(x));
 }
 static
 void cbind_vector_check(SEXP x, R_xlen_t nrows, SEXP contr, int arg) {

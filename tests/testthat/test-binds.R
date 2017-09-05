@@ -125,7 +125,7 @@ test_that("bind_rows only accepts data frames or named vectors", {
   ll <- list(tibble(a = 1:5), rlang::get_env())
   expect_error(
     bind_rows(ll),
-    "Argument 2 must have names",
+    "Argument 2 must be a data frame or a named atomic vector, not a environment",
     fixed = TRUE
   )
 })
