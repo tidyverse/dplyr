@@ -16,6 +16,8 @@
 
 * Semi- and anti-joins now preserve the order of left-hand-side data frame (#3089).
 
+* Improved error message for invalid list arguments to `bind_rows()` (#3068).
+
 * Grouping by character vectors is now faster (#2204).
 
 * Fixed a crash that occurred when an unexpected input was supplied to
