@@ -103,6 +103,11 @@ starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 starwars \%>\% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
 starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
 
+# mutate_at can transform a selection of variables using regular
+# expressions to select columns. You can supply selection helpers to
+# _at() functions but you have to quote them with vars():
+iris \%>\% mutate_at(vars(matches("Sepal")), log)
+
 # mutate_if is particularly useful for transforming variables from
 # one type to another
 iris \%>\% as_tibble() \%>\% mutate_if(is.factor, as.character)
