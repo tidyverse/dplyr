@@ -1,3 +1,7 @@
+# dplyr 0.7.3.9000
+
+* Attempt to fix recent Fedora and ASAN check errors (#3098).
+
 # dplyr 0.7.3
 
 * Fixed protection error that occurred when creating a character column using grouped `mutate()` (#2971).
