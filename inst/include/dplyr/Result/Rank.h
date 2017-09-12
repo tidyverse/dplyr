@@ -259,7 +259,7 @@ public:
       Slice slice(data, index);
       // order( gdf.group(i) )
       Visitor visitor(slice);
-      Comparer comparer = Comparer(visitor);
+      Comparer comparer(visitor);
       std::sort(tmp.begin(), tmp.begin() + m, comparer);
       int j = m - 1;
       for (; j >= 0; j--) {
@@ -341,7 +341,7 @@ public:
 
       // order( gdf.group(i) )
       Visitor visitor(slice);
-      Comparer comparer = Comparer(visitor);
+      Comparer comparer(visitor);
       std::sort(tmp.begin(), tmp.begin() + m, comparer);
       int j = m - 1;
       for (; j >= 0; j--) {
