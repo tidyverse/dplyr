@@ -309,7 +309,7 @@ public:
   }
 
 private:
-  SEXP data;
+  Vector<RTYPE> data;
 };
 
 template <int RTYPE, bool ascending = true>
@@ -393,7 +393,7 @@ public:
   }
 
 private:
-  SEXP data;
+  Vector<RTYPE> data;
   double ntiles;
 };
 
