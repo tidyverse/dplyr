@@ -45,6 +45,7 @@ Suggests:
     RMySQL,
     RPostgreSQL,
     RSQLite,
+    RSQLServer,
     testthat,
     withr
 VignetteBuilder: knitr

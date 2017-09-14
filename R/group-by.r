@@ -17,6 +17,7 @@
 #'   \item SQLite: [src_sqlite()]
 #'   \item PostgreSQL: [src_postgres()]
 #'   \item MySQL: [src_mysql()]
+#'   \item SQLServer: [src_sqlserver()]
 #' }
 #'
 #' @section Scoped grouping:
@@ -30,7 +31,7 @@
 #'   Some tbls will accept functions of variables. Duplicated groups
 #'   will be silently dropped.
 #' @param add When `add = FALSE`, the default, `group_by()` will
-#'   override existing groups. To add to the existing groups, use 
+#'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
 #' @inheritParams filter
 #' @export

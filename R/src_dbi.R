@@ -1,12 +1,13 @@
 #' Source for database backends
 #'
 #' @description
-#' For backward compatibility dplyr provides three srcs for popular
+#' For backward compatibility dplyr provides four srcs for popular
 #' open source databases:
 #'
 #' * `src_mysql()` connects to a MySQL or MariaDB database using [RMySQL::MySQL()].
 #' * `src_postgres()` connects to PostgreSQL using [RPostgreSQL::PostgreSQL()]
 #' * `src_sqlite()` to connect to a SQLite database using [RSQLite::SQLite()].
+#' * `src_sqlserver()` to connect to a SQLServer database using [RSQLServer::SQLServer()].
 #'
 #' However, modern best practice is to use [tbl()] directly on an `DBIConnection`.
 #'
@@ -148,6 +149,25 @@ src_sqlite <- function(path, create = FALSE) {
 
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
   RSQLite::initExtension(con)
+
+  dbplyr::src_dbi(con, auto_disconnect = TRUE)
+}
+
+#' @rdname src_dbi
+#' @export
+src_sqlserver <- function(dbname = NULL, host = NULL, port = NULL,
+                         user = NULL, password = NULL, ...) {
+  check_dbplyr()
+  dplyr:::check_pkg("RSQLServer", "connect to SQL Server")
+
+  con <- DBI::dbConnect(
+    RSQLServer::SQLServer(),
+    database = dbname,
+    server = host,
+    port = port,
+    type = 'sqlserver',
+    properties = list(user = user, password = password),
+    ...)
 
   dbplyr::src_dbi(con, auto_disconnect = TRUE)
 }
