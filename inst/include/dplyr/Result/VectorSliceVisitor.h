@@ -29,7 +29,7 @@ public:
   }
 
 private:
-  const Vector<RTYPE>& data;
+  Vector<RTYPE> data;
   int n;
   const SlicingIndex& index;
 };
