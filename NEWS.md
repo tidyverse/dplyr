@@ -1,6 +1,6 @@
-# dplyr 0.7.3.9000
+# dplyr 0.7.4
 
-* Attempt to fix recent Fedora and ASAN check errors (#3098).
+* Fix recent Fedora and ASAN check errors (#3098).
 
 # dplyr 0.7.3
 
