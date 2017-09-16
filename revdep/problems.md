@@ -82,6 +82,28 @@ Version: 0.1.0
 
 ## In both
 
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      > library(testthat)
+      > library(alphavantager)
+      > 
+      > test_check("alphavantager")
+      1. Error: call TIMES_SERIES_INTRADAY (@test_av_get.R#13) -----------------------
+      The intraday time series encountered an internal or external error - we apologize for the inconvenience. If you would like to obtain the realtime stock quote for the current trading day, please refer to the latest data point of our DAILY and DAILY ADJUSTED functions (e.g., https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=MSFT&apikey=demo | https://www.alphavantage.co/query?function=TIME_SERIES_DAILY_ADJUSTED&symbol=MSFT&apikey=demo).. API parameters used: symbol=MSFT, function=TIME_SERIES_INTRADAY, interval=15min, apikey=HIDDEN_FOR_YOUR_SAFETY
+      1: av_get(symbol, av_fun, interval = interval) at testthat/test_av_get.R:13
+      2: stop(content, call. = F)
+      
+      testthat results ================================================================
+      OK: 9 SKIPPED: 0 FAILED: 1
+      1. Error: call TIMES_SERIES_INTRADAY (@test_av_get.R#13) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘devtools’
@@ -189,34 +211,6 @@ Version: 0.0-3
     Package unavailable to check Rd xrefs: ‘pryr’
     ```
 
-# atlantistools
-
-Version: 0.4.3
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      0.21% data is lost due to missing diet data despite available eat data.
-      21.97% data is lost due to missing eat data despite available diet data.
-      Joining, by = "species"
-      Joining, by = "polygon"
-      Joining, by = c("time", "polygon")
-      Joining, by = c("time", "pred", "agecl", "prey")
-      Joining, by = c("time", "pred", "agecl", "prey")
-      Read in data from out.nc, init.nc and prm.biol!
-      `.cols` has been renamed and is deprecated, please use `.vars`
-      testthat results ================================================================
-      OK: 197 SKIPPED: 0 FAILED: 1
-      1. Error: check visually (@test-plot-species.R#12) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # backtestGraphics
 
 Version: 0.1.6
@@ -249,15 +243,13 @@ Version: 0.1.6
 
 Version: 0.2.0
 
-## In both
+## Newly broken
 
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      
-      1. Error: Geocode_tbl works with a single-column input data.frame (@test_geocodetbl.R#48) 
       The API sent back an error 503
       1: expect_is(banR::geocode_tbl(tbl = table_test, adresse = city), "tbl_df") at testthat/test_geocodetbl.R:48
       2: klass(object)
@@ -266,12 +258,16 @@ Version: 0.2.0
       5: stop("The API sent back an error ", httr::status_code(query_results))
       
       testthat results ================================================================
-      OK: 6 SKIPPED: 0 FAILED: 1
-      1. Error: Geocode_tbl works with a single-column input data.frame (@test_geocodetbl.R#48) 
+      OK: 4 SKIPPED: 0 FAILED: 3
+      1. Error: Geocode tbl works  (@test_geocodetbl.R#16) 
+      2. Error: Input and output DFs have a similar number of rows (@test_geocodetbl.R#31) 
+      3. Error: Geocode_tbl works with a single-column input data.frame (@test_geocodetbl.R#48) 
       
       Error: testthat unit tests failed
       Execution halted
     ```
+
+## In both
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -281,16 +277,16 @@ Version: 0.2.0
 
 # bayesplot
 
-Version: 1.3.0
+Version: 1.4.0
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.1Mb
+      installed size is  5.8Mb
       sub-directories of 1Mb or more:
         R     1.6Mb
-        doc   2.9Mb
+        doc   3.6Mb
     ```
 
 # billboard
@@ -385,18 +381,18 @@ Version: 0.5.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-             download_url, "' currently available?", call. = FALSE)
-      
-      trying URL 'ftp://ftp.ncbi.nlm.nih.gov/genomes/GENOME_REPORTS/overview.txt'
-      Content type 'unknown' length 2267572 bytes (2.2 MB)
-      ==================================================
-      trying URL 'ftp://ftp.ncbi.nlm.nih.gov/genomes/genbank/metagenomes/assembly_summary.txt'
-      Content type 'unknown' length 361166 bytes (352 KB)
-      ==================================================
-      testthat results ================================================================
-      OK: 46 SKIPPED: 0 FAILED: 1
-      1. Error: The getAssemblyStats() downloads assembly stats file and reads raw
-                input: NCBI Genbank .. (@test-getAssemblyStats.R#34) 
+      1.  Error: The getAssemblyStats() downloads assembly stats file and reads
+                raw input: NCBI RefSeq .. (@test-getAssemblyStats.R#19) 
+      2.  Error: The getAssemblyStats() downloads assembly stats file and reads raw
+                input: NCBI Genbank .. (@test-getAssemblyStats.R#41) 
+      3.  Error: The getCDS() interface to NCBI RefSeq works properly.. (@test-getCDS.R#6) 
+      4.  Error: The getCDS() interface to NCBI Genbank works properly.. (@test-getCDS.R#16) 
+      5.  Error: The getGenome() interface works properly for NCBI RefSeq.. (@test-getGenome.R#7) 
+      6.  Error: The getGenome() interface works properly for NCBI Genbank.. (@test-getGenome.R#31) 
+      7.  Error: The getProteome() interface to NCBI RefSeq works properly.. (@test-getProteome.R#7) 
+      8.  Error: The getProteome() interface to NCBI Genbank works properly.. (@test-getProteome.R#33) 
+      9.  Error: The getRNA() interface to NCBI RefSeq works properly.. (@test-getRNA.R#8) 
+      10. Error: The getRNA() interface to NCBI Genbank works properly.. (@test-getRNA.R#23) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -404,13 +400,15 @@ Version: 0.5.1
 
 # biotmle
 
-Version: 1.0.0
+Version: 1.0.4
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    package 'methods' is used but not declared
+    Namespaces in Imports field not imported from:
+      ‘Matrix’ ‘SuperLearner’ ‘biotmleData’
+      All declared Imports should be used.
     ```
 
 # blkbox
@@ -696,33 +694,6 @@ Version: 1.0.0
     'library' or 'require' call not declared from: ‘devtools’
     ```
 
-# censusr
-
-Version: 0.0.3
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘censusr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: append_geoid
-    > ### Title: Retrieve GEOID from the Census Geocoder by address
-    > ### Aliases: append_geoid
-    > 
-    > ### ** Examples
-    > 
-    > airports <- dplyr::data_frame(
-    +   street = "700 Catalina Dr", city = "Daytona Beach", state = "FL"
-    + )
-    > append_geoid(airports, 'tr')
-    Error in call_geolocator(as.character(address$street[i]), as.character(address$city[i]),  : 
-      Internal Server Error (HTTP 500).
-    Calls: append_geoid -> call_geolocator -> <Anonymous>
-    Execution halted
-    ```
-
 # cepR
 
 Version: 0.1.0
@@ -736,7 +707,7 @@ Version: 0.1.0
 
 # childsds
 
-Version: 0.6.5
+Version: 0.6.6
 
 ## In both
 
@@ -983,34 +954,6 @@ Version: 0.1.5
     ```
     Packages which this enhances but not available for checking:
       ‘knitr’ ‘shiny’
-    ```
-
-# comtradr
-
-Version: 0.0.2
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      testthat results ================================================================
-      OK: 46 SKIPPED: 0 FAILED: 9
-      1. Failure: search return values are correct, and fail when expected (@test-ct_search.R#62) 
-      2. Failure: search return values are correct, and fail when expected (@test-ct_search.R#65) 
-      3. Failure: search return values are correct, and fail when expected (@test-ct_search.R#68) 
-      4. Failure: search return values are correct, and fail when expected (@test-ct_search.R#71) 
-      5. Failure: search return values are correct, and fail when expected (@test-ct_search.R#74) 
-      6. Failure: search return values are correct, and fail when expected (@test-ct_search.R#77) 
-      7. Failure: search return values are correct, and fail when expected (@test-ct_search.R#80) 
-      8. Failure: search return values are correct, and fail when expected (@test-ct_search.R#83) 
-      9. Failure: search return values are correct, and fail when expected (@test-ct_search.R#139) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # condformat
@@ -1292,17 +1235,18 @@ Version: 2.7.2
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      > library(testthat)
-      > library(dataRetrieval)
-      > test_check("dataRetrieval")
-      1. Failure: Unit value data returns correct types (@tests_userFriendly_fxns.R#38) 
+      5: stop("Unrecognized response from the web service")
+      
+      3. Failure: Unit value data returns correct types (@tests_userFriendly_fxns.R#38) 
       all(...) isn't true.
       
       
       Read 7 items
       testthat results ================================================================
-      OK: 187 SKIPPED: 0 FAILED: 1
-      1. Failure: Unit value data returns correct types (@tests_userFriendly_fxns.R#38) 
+      OK: 161 SKIPPED: 0 FAILED: 3
+      1. Error: General NWIS retrievals working (@tests_general.R#58) 
+      2. Error: NGWMN functions working (@tests_general.R#262) 
+      3. Failure: Unit value data returns correct types (@tests_userFriendly_fxns.R#38) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -1331,7 +1275,7 @@ Version: 0.4.0
     
     Quitting from lines 78-85 (Introduction_to_datasus.Rmd) 
     Error: processing vignette 'Introduction_to_datasus.Rmd' failed with diagnostics:
-    Timeout was reached: Connection timed out after 10001 milliseconds
+    Timeout was reached: Connection timed out after 10000 milliseconds
     Execution halted
     ```
 
@@ -1555,34 +1499,6 @@ Version: 1.11.0
 
 Version: 1.1
 
-## Newly fixed
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    
-        intersect, setdiff, setequal, union
-    
-    
-    Attaching package: 'purrr'
-    
-    The following object is masked from 'package:plyr':
-    
-        compact
-    
-    
-    Attaching package: 'scales'
-    
-    The following object is masked from 'package:purrr':
-    
-        discard
-    
-    Quitting from lines 155-172 (exploring-election-data.Rmd) 
-    Error: processing vignette 'exploring-election-data.Rmd' failed with diagnostics:
-    Value of SET_STRING_ELT() must be a 'CHARSXP' not a 'logical'
-    Execution halted
-    ```
-
 ## In both
 
 *   checking installed package size ... NOTE
@@ -1741,13 +1657,13 @@ Version: 0.1.0
 
 # EventStudy
 
-Version: 0.32
+Version: 0.33
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.4Mb
+      installed size is  6.5Mb
       sub-directories of 1Mb or more:
         doc   5.8Mb
     ```
@@ -1755,7 +1671,7 @@ Version: 0.32
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
-      ‘curl’ ‘stringr’
+      ‘curl’ ‘openxlsx’ ‘stringr’
       All declared Imports should be used.
     ```
 
@@ -1791,27 +1707,8 @@ Version: 0.1.6
     Execution halted
     ```
 
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Computing t.test for each time bin...
-      Computing t.test for each time bin...
-      `mutate_each()` is deprecated.
-      Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead.
-      To map `funs` over a selection of variables, use `mutate_at()`
-      Avg. window length in new data will be 5500
-      Performing Trackloss Analysis...
-      Will exclude trials whose trackloss proportion is greater than : 0.25
-      	...removed  33  trials.
-      Error in UseMethod("make_time_cluster_data") : 
-        no applicable method for 'make_time_cluster_data' applied to an object of class "data.frame"
-      Calls: test_check ... source_file -> eval -> eval -> make_time_cluster_data
-      testthat results ================================================================
-      OK: 38 SKIPPED: 0 FAILED: 0
-      Execution halted
-    ```
+*   R CMD check timed out
+    
 
 # factorMerger
 
@@ -1851,6 +1748,34 @@ Version: 0.2.0
       All declared Imports should be used.
     ```
 
+# FedData
+
+Version: 2.4.6
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      Attaching package: 'raster'
+      
+      The following objects are masked from 'package:aqp':
+      
+          metadata, metadata<-
+      
+      testthat results ================================================================
+      OK: 24 SKIPPED: 0 FAILED: 1
+      1. Error: ITRDB version files are available (@test.ITRDB.R#23) 
+      
+      Error: testthat unit tests failed
+      In addition: Warning message:
+      closing unused connection 3 (ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/chronologies/) 
+      Execution halted
+    ```
+
 # FindMyFriends
 
 Version: 1.6.0
@@ -1870,44 +1795,6 @@ Version: 1.6.0
     Unexported objects imported by ':::' calls:
       ‘gtable:::insert.unit’ ‘gtable:::z_arrange_gtables’
       See the note in ?`:::` about the use of this operator.
-    ```
-
-# fingertipsR
-
-Version: 0.1.0
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      
-      2. Failure: the dimensions of deprivation decile function are as expected (@test-deprivation.R#14) 
-      dim(dep_101) not equal to c(326, 3).
-      1/2 mismatches
-      [1] 0 - 326 == -326
-      
-      
-      testthat results ================================================================
-      OK: 29 SKIPPED: 0 FAILED: 2
-      1. Failure: the dimensions of deprivation decile function are as expected (@test-deprivation.R#12) 
-      2. Failure: the dimensions of deprivation decile function are as expected (@test-deprivation.R#14) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 135-150 (lifeExpectancy.Rmd) 
-    Error: processing vignette 'lifeExpectancy.Rmd' failed with diagnostics:
-    Faceting variables must have at least one value
-    Execution halted
     ```
 
 # flextable
@@ -1961,12 +1848,6 @@ Version: 3.24.4
 
 ## In both
 
-*   checking whether package ‘flowWorkspace’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00install.out’ for details.
-    ```
-
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘ggcyto’
@@ -2012,1306 +1893,73 @@ Version: 3.24.4
     structure’ in the ‘Writing R Extensions’ manual.
     ```
 
-## Installation
+*   checking installed package size ... NOTE
+    ```
+      installed size is 107.9Mb
+      sub-directories of 1Mb or more:
+        doc       1.1Mb
+        include   2.7Mb
+        lib      72.8Mb
+        libs     30.6Mb
+    ```
 
-### Devel
+*   checking DESCRIPTION meta-information ... NOTE
+    ```
+    Versioned 'LinkingTo' value for ‘BH’ is only usable in R >= 3.0.2
+    ```
 
-```
-* installing *source* package ‘flowWorkspace’ ...
-checking whether the C++ compiler works... yes
-checking for C++ compiler default output file name... a.out
-checking for suffix of executables... 
-checking whether we are cross compiling... no
-checking for suffix of object files... o
-checking whether we are using the GNU C++ compiler... yes
-checking whether g++ -std=gnu++11 accepts -g... yes
-checking for gcc... gcc -std=gnu99
-checking whether we are using the GNU C compiler... yes
-checking whether gcc -std=gnu99 accepts -g... yes
-checking for gcc -std=gnu99 option to accept ISO C89... none needed
-configure: setting xml2 flags...
-configure: No directory was specified for --with-xml2. Trying to find xml2 using other methods.
-checking for xml2-config... /usr/bin/xml2-config
-configure: setting protobuf flags...
-configure: No directory was specified for --with-protobuf. Using bundled protocol buffer.
-found  protobuf-2.6.0  header sources and tar archive;using what is there.
-libtoolize: putting auxiliary files in '.'.
-libtoolize: copying file './ltmain.sh'
-libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
-libtoolize: copying file 'm4/libtool.m4'
-libtoolize: copying file 'm4/ltoptions.m4'
-libtoolize: copying file 'm4/ltsugar.m4'
-libtoolize: copying file 'm4/ltversion.m4'
-libtoolize: copying file 'm4/lt~obsolete.m4'
-configure.ac:45: installing './compile'
-configure.ac:32: installing './missing'
-/usr/share/automake-1.15/am/ltlibrary.am: warning: 'libprotobuf.la': linking libtool libraries using a non-POSIX
-/usr/share/automake-1.15/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
-src/Makefile.am:81:   while processing Libtool library 'libprotobuf.la'
-src/Makefile.am: installing './depcomp'
-building protobuf...
-found  pb_build  ;using what is there.
-checking whether to enable maintainer-specific portions of Makefiles... yes
-checking build system type... x86_64-pc-linux-gnu
-checking host system type... x86_64-pc-linux-gnu
-checking target system type... x86_64-pc-linux-gnu
-checking for a BSD-compatible install... /usr/bin/install -c
-checking whether build environment is sane... yes
-checking for a thread-safe mkdir -p... /bin/mkdir -p
-checking for gawk... gawk
-checking whether make sets $(MAKE)... yes
-checking whether make supports nested variables... yes
-checking for gcc... gcc -std=gnu99
-checking whether the C compiler works... yes
-checking for C compiler default output file name... a.out
-checking for suffix of executables... 
-checking whether we are cross compiling... no
-checking for suffix of object files... o
-checking whether we are using the GNU C compiler... yes
-checking whether gcc -std=gnu99 accepts -g... yes
-checking for gcc -std=gnu99 option to accept ISO C89... none needed
-checking whether gcc -std=gnu99 understands -c and -o together... yes
-checking for style of include used by make... GNU
-checking dependency style of gcc -std=gnu99... gcc3
-checking whether we are using the GNU C++ compiler... yes
-checking whether g++ -std=gnu++11 accepts -g... yes
-checking dependency style of g++ -std=gnu++11... gcc3
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for grep that handles long lines and -e... /bin/grep
-checking for egrep... /bin/grep -E
-checking for ANSI C header files... yes
-checking for sys/types.h... yes
-checking for sys/stat.h... yes
-checking for stdlib.h... yes
-checking for string.h... yes
-checking for memory.h... yes
-checking for strings.h... yes
-checking for inttypes.h... yes
-checking for stdint.h... yes
-checking for unistd.h... yes
-checking minix/config.h usability... no
-checking minix/config.h presence... no
-checking for minix/config.h... no
-checking whether it is safe to define __EXTENSIONS__... yes
-checking C++ compiler flags...... use user-supplied: -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g
-checking whether __SUNPRO_CC is declared... no
-checking how to print strings... printf
-checking for a sed that does not truncate output... /bin/sed
-checking for fgrep... /bin/grep -F
-checking for ld used by gcc -std=gnu99... /usr/bin/ld
-checking if the linker (/usr/bin/ld) is GNU ld... yes
-checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
-checking the name lister (/usr/bin/nm -B) interface... BSD nm
-checking whether ln -s works... yes
-checking the maximum length of command line arguments... 1572864
-checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
-checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-checking for /usr/bin/ld option to reload object files... -r
-checking for objdump... objdump
-checking how to recognize dependent libraries... pass_all
-checking for dlltool... no
-checking how to associate runtime and link libraries... printf %s\n
-checking for ar... ar
-checking for archiver @FILE support... @
-checking for strip... strip
-checking for ranlib... ranlib
-checking command to parse /usr/bin/nm -B output from gcc -std=gnu99 object... ok
-checking for sysroot... no
-checking for a working dd... /bin/dd
-checking how to truncate binary pipes... /bin/dd bs=4096 count=1
-checking for mt... mt
-checking if mt is a manifest tool... no
-checking for dlfcn.h... yes
-checking for objdir... .libs
-checking if gcc -std=gnu99 supports -fno-rtti -fno-exceptions... no
-checking for gcc -std=gnu99 option to produce PIC... -fPIC -DPIC
-checking if gcc -std=gnu99 PIC flag -fPIC -DPIC works... yes
-checking if gcc -std=gnu99 static flag -static works... yes
-checking if gcc -std=gnu99 supports -c -o file.o... yes
-checking if gcc -std=gnu99 supports -c -o file.o... (cached) yes
-checking whether the gcc -std=gnu99 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking whether -lc should be explicitly linked in... no
-checking dynamic linker characteristics... GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking whether stripping libraries is possible... yes
-checking if libtool supports shared libraries... yes
-checking whether to build shared libraries... yes
-checking whether to build static libraries... no
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for ld used by g++ -std=gnu++11... /usr/bin/ld -m elf_x86_64
-checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking for g++ -std=gnu++11 option to produce PIC... -fPIC -DPIC
-checking if g++ -std=gnu++11 PIC flag -fPIC -DPIC works... yes
-checking if g++ -std=gnu++11 static flag -static works... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... (cached) yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking for ANSI C header files... (cached) yes
-checking fcntl.h usability... yes
-checking fcntl.h presence... yes
-checking for fcntl.h... yes
-checking for inttypes.h... (cached) yes
-checking limits.h usability... yes
-checking limits.h presence... yes
-checking for limits.h... yes
-checking for stdlib.h... (cached) yes
-checking for unistd.h... (cached) yes
-checking for working memcmp... yes
-checking for working strtod... yes
-checking for ftruncate... yes
-checking for memset... yes
-checking for mkdir... yes
-checking for strchr... yes
-checking for strerror... yes
-checking for strtol... yes
-checking zlib version... ok (1.2.0.4 or later)
-checking for library containing zlibVersion... -lz
-checking for the pthreads library -lpthreads... no
-checking whether pthreads work without any flags... no
-checking whether pthreads work with -Kthread... no
-checking whether pthreads work with -kthread... no
-checking for the pthreads library -llthread... no
-checking whether pthreads work with -pthread... yes
-checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
-checking if more special flags are required for pthreads... no
-checking whether to check for GCC pthread/shared inconsistencies... yes
-checking whether -pthread is sufficient with -shared... yes
-checking whether what we have so far is sufficient with -nostdlib... no
-checking whether -lpthread saves the day... yes
-checking the location of hash_map... <unordered_map>
-checking that generated files are newer than configure... done
-configure: creating ./config.status
-config.status: creating Makefile
-config.status: creating src/Makefile
-config.status: creating protobuf.pc
-config.status: creating protobuf-lite.pc
-config.status: creating config.h
-config.status: config.h is unchanged
-config.status: executing depfiles commands
-config.status: executing libtool commands
-CDPATH="${ZSH_VERSION+.}:" && cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing aclocal-1.15 -I m4
- cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing automake-1.15 --foreign
-CDPATH="${ZSH_VERSION+.}:" && cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing autoconf
-/bin/bash ./config.status --recheck
-running CONFIG_SHELL=/bin/bash /bin/bash ../protobuf-2.6.0/configure --enable-static=no CXX=g++ -std=gnu++11 CXXFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g CC=gcc -std=gnu99 CFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g --no-create --no-recursion
-checking whether to enable maintainer-specific portions of Makefiles... yes
-checking build system type... x86_64-pc-linux-gnu
-checking host system type... x86_64-pc-linux-gnu
-checking target system type... x86_64-pc-linux-gnu
-checking for a BSD-compatible install... /usr/bin/install -c
-checking whether build environment is sane... yes
-checking for a thread-safe mkdir -p... /bin/mkdir -p
-checking for gawk... gawk
-checking whether make sets $(MAKE)... yes
-checking whether make supports nested variables... yes
-checking for gcc... gcc -std=gnu99
-checking whether the C compiler works... yes
-checking for C compiler default output file name... a.out
-checking for suffix of executables... 
-checking whether we are cross compiling... no
-checking for suffix of object files... o
-checking whether we are using the GNU C compiler... yes
-checking whether gcc -std=gnu99 accepts -g... yes
-checking for gcc -std=gnu99 option to accept ISO C89... none needed
-checking whether gcc -std=gnu99 understands -c and -o together... yes
-checking for style of include used by make... GNU
-checking dependency style of gcc -std=gnu99... gcc3
-checking whether we are using the GNU C++ compiler... yes
-checking whether g++ -std=gnu++11 accepts -g... yes
-checking dependency style of g++ -std=gnu++11... gcc3
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for grep that handles long lines and -e... /bin/grep
-checking for egrep... /bin/grep -E
-checking for ANSI C header files... yes
-checking for sys/types.h... yes
-checking for sys/stat.h... yes
-checking for stdlib.h... yes
-checking for string.h... yes
-checking for memory.h... yes
-checking for strings.h... yes
-checking for inttypes.h... yes
-checking for stdint.h... yes
-checking for unistd.h... yes
-checking minix/config.h usability... no
-checking minix/config.h presence... no
-checking for minix/config.h... no
-checking whether it is safe to define __EXTENSIONS__... yes
-checking C++ compiler flags...... use user-supplied: -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g
-checking whether __SUNPRO_CC is declared... no
-checking how to print strings... printf
-checking for a sed that does not truncate output... /bin/sed
-checking for fgrep... /bin/grep -F
-checking for ld used by gcc -std=gnu99... /usr/bin/ld
-checking if the linker (/usr/bin/ld) is GNU ld... yes
-checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
-checking the name lister (/usr/bin/nm -B) interface... BSD nm
-checking whether ln -s works... yes
-checking the maximum length of command line arguments... 1572864
-checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
-checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-checking for /usr/bin/ld option to reload object files... -r
-checking for objdump... objdump
-checking how to recognize dependent libraries... pass_all
-checking for dlltool... no
-checking how to associate runtime and link libraries... printf %s\n
-checking for ar... ar
-checking for archiver @FILE support... @
-checking for strip... strip
-checking for ranlib... ranlib
-checking command to parse /usr/bin/nm -B output from gcc -std=gnu99 object... ok
-checking for sysroot... no
-checking for a working dd... /bin/dd
-checking how to truncate binary pipes... /bin/dd bs=4096 count=1
-checking for mt... mt
-checking if mt is a manifest tool... no
-checking for dlfcn.h... yes
-checking for objdir... .libs
-checking if gcc -std=gnu99 supports -fno-rtti -fno-exceptions... no
-checking for gcc -std=gnu99 option to produce PIC... -fPIC -DPIC
-checking if gcc -std=gnu99 PIC flag -fPIC -DPIC works... yes
-checking if gcc -std=gnu99 static flag -static works... yes
-checking if gcc -std=gnu99 supports -c -o file.o... yes
-checking if gcc -std=gnu99 supports -c -o file.o... (cached) yes
-checking whether the gcc -std=gnu99 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking whether -lc should be explicitly linked in... no
-checking dynamic linker characteristics... GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking whether stripping libraries is possible... yes
-checking if libtool supports shared libraries... yes
-checking whether to build shared libraries... yes
-checking whether to build static libraries... no
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for ld used by g++ -std=gnu++11... /usr/bin/ld -m elf_x86_64
-checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking for g++ -std=gnu++11 option to produce PIC... -fPIC -DPIC
-checking if g++ -std=gnu++11 PIC flag -fPIC -DPIC works... yes
-checking if g++ -std=gnu++11 static flag -static works... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... (cached) yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking for ANSI C header files... (cached) yes
-checking fcntl.h usability... yes
-checking fcntl.h presence... yes
-checking for fcntl.h... yes
-checking for inttypes.h... (cached) yes
-checking limits.h usability... yes
-checking limits.h presence... yes
-checking for limits.h... yes
-checking for stdlib.h... (cached) yes
-checking for unistd.h... (cached) yes
-checking for working memcmp... yes
-checking for working strtod... yes
-checking for ftruncate... yes
-checking for memset... yes
-checking for mkdir... yes
-checking for strchr... yes
-checking for strerror... yes
-checking for strtol... yes
-checking zlib version... ok (1.2.0.4 or later)
-checking for library containing zlibVersion... -lz
-checking for the pthreads library -lpthreads... no
-checking whether pthreads work without any flags... no
-checking whether pthreads work with -Kthread... no
-checking whether pthreads work with -kthread... no
-checking for the pthreads library -llthread... no
-checking whether pthreads work with -pthread... yes
-checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
-checking if more special flags are required for pthreads... no
-checking whether to check for GCC pthread/shared inconsistencies... yes
-checking whether -pthread is sufficient with -shared... yes
-checking whether what we have so far is sufficient with -nostdlib... no
-checking whether -lpthread saves the day... yes
-checking the location of hash_map... <unordered_map>
-checking that generated files are newer than configure... done
-configure: creating ./config.status
- /bin/bash ./config.status
-config.status: creating Makefile
-config.status: creating src/Makefile
-config.status: creating protobuf.pc
-config.status: creating protobuf-lite.pc
-config.status: creating config.h
-config.status: config.h is unchanged
-config.status: executing depfiles commands
-config.status: executing libtool commands
-(CDPATH="${ZSH_VERSION+.}:" && cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing autoheader)
-rm -f stamp-h1
-touch ../protobuf-2.6.0/config.h.in
-cd . && /bin/bash ./config.status config.h
-config.status: creating config.h
-config.status: config.h is unchanged
-make  all-recursive
-make[1]: Entering directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-Making all in .
-make[2]: Entering directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-make[2]: Leaving directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-Making all in src
-make[2]: Entering directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build/src'
-depbase=`echo google/protobuf/stubs/atomicops_internals_x86_gcc.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_gcc.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/atomicops_internals_x86_gcc.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_gcc.lo -MD -MP -MF google/protobuf/stubs/.deps/atomicops_internals_x86_gcc.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/atomicops_internals_x86_gcc.o
-depbase=`echo google/protobuf/stubs/atomicops_internals_x86_msvc.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_msvc.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/atomicops_internals_x86_msvc.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_msvc.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_msvc.lo -MD -MP -MF google/protobuf/stubs/.deps/atomicops_internals_x86_msvc.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_msvc.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/atomicops_internals_x86_msvc.o
-depbase=`echo google/protobuf/stubs/common.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/common.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/common.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/common.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/common.lo -MD -MP -MF google/protobuf/stubs/.deps/common.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/common.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/common.o
-depbase=`echo google/protobuf/stubs/once.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/once.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/once.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/once.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/once.lo -MD -MP -MF google/protobuf/stubs/.deps/once.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/once.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/once.o
-depbase=`echo google/protobuf/stubs/stringprintf.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/stringprintf.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/stringprintf.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/stringprintf.lo -MD -MP -MF google/protobuf/stubs/.deps/stringprintf.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/stringprintf.o
-../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc: In function 'std::__cxx11::string google::protobuf::StringPrintfVector(const char*, const std::vector<std::__cxx11::basic_string<char> >&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc:164:97: warning: typedef 'arg_count_mismatch' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/extension_set.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/extension_set.lo ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set.lo -MD -MP -MF google/protobuf/.deps/extension_set.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc  -fPIC -DPIC -o google/protobuf/.libs/extension_set.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/generated_message_util.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_util.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/generated_message_util.lo ../../protobuf-2.6.0/src/google/protobuf/generated_message_util.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_util.lo -MD -MP -MF google/protobuf/.deps/generated_message_util.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/generated_message_util.cc  -fPIC -DPIC -o google/protobuf/.libs/generated_message_util.o
-depbase=`echo google/protobuf/message_lite.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message_lite.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/message_lite.lo ../../protobuf-2.6.0/src/google/protobuf/message_lite.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message_lite.lo -MD -MP -MF google/protobuf/.deps/message_lite.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/message_lite.cc  -fPIC -DPIC -o google/protobuf/.libs/message_lite.o
-depbase=`echo google/protobuf/repeated_field.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/repeated_field.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/repeated_field.lo ../../protobuf-2.6.0/src/google/protobuf/repeated_field.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/repeated_field.lo -MD -MP -MF google/protobuf/.deps/repeated_field.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/repeated_field.cc  -fPIC -DPIC -o google/protobuf/.libs/repeated_field.o
-depbase=`echo google/protobuf/wire_format_lite.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format_lite.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/wire_format_lite.lo ../../protobuf-2.6.0/src/google/protobuf/wire_format_lite.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format_lite.lo -MD -MP -MF google/protobuf/.deps/wire_format_lite.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/wire_format_lite.cc  -fPIC -DPIC -o google/protobuf/.libs/wire_format_lite.o
-depbase=`echo google/protobuf/io/coded_stream.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/coded_stream.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/coded_stream.lo ../../protobuf-2.6.0/src/google/protobuf/io/coded_stream.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/coded_stream.lo -MD -MP -MF google/protobuf/io/.deps/coded_stream.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/coded_stream.cc  -fPIC -DPIC -o google/protobuf/io/.libs/coded_stream.o
-depbase=`echo google/protobuf/io/zero_copy_stream.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/zero_copy_stream.lo ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream.lo -MD -MP -MF google/protobuf/io/.deps/zero_copy_stream.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream.cc  -fPIC -DPIC -o google/protobuf/io/.libs/zero_copy_stream.o
-depbase=`echo google/protobuf/io/zero_copy_stream_impl_lite.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl_lite.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/zero_copy_stream_impl_lite.lo ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl_lite.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl_lite.lo -MD -MP -MF google/protobuf/io/.deps/zero_copy_stream_impl_lite.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl_lite.cc  -fPIC -DPIC -o google/protobuf/io/.libs/zero_copy_stream_impl_lite.o
-depbase=`echo google/protobuf/stubs/strutil.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/strutil.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/strutil.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/strutil.lo -MD -MP -MF google/protobuf/stubs/.deps/strutil.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/strutil.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:33:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:33:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc: In function 'char* google::protobuf::DoubleToBuffer(double, char*)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:1172:72: warning: typedef 'DBL_DIG_is_too_big' locally defined but not used [-Wunused-local-typedefs]
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc: In function 'char* google::protobuf::FloatToBuffer(float, char*)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:1227:71: warning: typedef 'FLT_DIG_is_too_big' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/stubs/substitute.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/substitute.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/substitute.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/substitute.lo -MD -MP -MF google/protobuf/stubs/.deps/substitute.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/substitute.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.h:36:0,
-                 from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc:33:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.h:36:0,
-                 from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc:33:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/stubs/structurally_valid.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/structurally_valid.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/structurally_valid.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/structurally_valid.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/structurally_valid.lo -MD -MP -MF google/protobuf/stubs/.deps/structurally_valid.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/structurally_valid.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/structurally_valid.o
-depbase=`echo google/protobuf/descriptor.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/descriptor.lo ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.lo -MD -MP -MF google/protobuf/.deps/descriptor.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc  -fPIC -DPIC -o google/protobuf/.libs/descriptor.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:57:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:57:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:59:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:59:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/descriptor.pb.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.pb.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/descriptor.pb.lo ../../protobuf-2.6.0/src/google/protobuf/descriptor.pb.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.pb.lo -MD -MP -MF google/protobuf/.deps/descriptor.pb.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/descriptor.pb.cc  -fPIC -DPIC -o google/protobuf/.libs/descriptor.pb.o
-depbase=`echo google/protobuf/descriptor_database.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor_database.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/descriptor_database.lo ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor_database.lo -MD -MP -MF google/protobuf/.deps/descriptor_database.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc  -fPIC -DPIC -o google/protobuf/.libs/descriptor_database.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:41:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:41:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/dynamic_message.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/dynamic_message.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/dynamic_message.lo ../../protobuf-2.6.0/src/google/protobuf/dynamic_message.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/dynamic_message.lo -MD -MP -MF google/protobuf/.deps/dynamic_message.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/dynamic_message.cc  -fPIC -DPIC -o google/protobuf/.libs/dynamic_message.o
-depbase=`echo google/protobuf/extension_set_heavy.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set_heavy.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/extension_set_heavy.lo ../../protobuf-2.6.0/src/google/protobuf/extension_set_heavy.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set_heavy.lo -MD -MP -MF google/protobuf/.deps/extension_set_heavy.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/extension_set_heavy.cc  -fPIC -DPIC -o google/protobuf/.libs/extension_set_heavy.o
-depbase=`echo google/protobuf/generated_message_reflection.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_reflection.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/generated_message_reflection.lo ../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_reflection.lo -MD -MP -MF google/protobuf/.deps/generated_message_reflection.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc  -fPIC -DPIC -o google/protobuf/.libs/generated_message_reflection.o
-../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc: In member function 'void google::protobuf::internal::GeneratedMessageReflection::SwapOneofField(google::protobuf::Message*, google::protobuf::Message*, const google::protobuf::OneofDescriptor*) const':
-../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc:506:89: warning: 'field1' may be used uninitialized in this function [-Wmaybe-uninitialized]
-../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc:516:60: warning: 'temp_message' may be used uninitialized in this function [-Wmaybe-uninitialized]
-         SetAllocatedMessage(message2, temp_message, field1);
-                                                            ^
-depbase=`echo google/protobuf/message.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/message.lo ../../protobuf-2.6.0/src/google/protobuf/message.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message.lo -MD -MP -MF google/protobuf/.deps/message.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/message.cc  -fPIC -DPIC -o google/protobuf/.libs/message.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:50:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:50:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:51:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:51:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/reflection_ops.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/reflection_ops.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/reflection_ops.lo ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/reflection_ops.lo -MD -MP -MF google/protobuf/.deps/reflection_ops.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc  -fPIC -DPIC -o google/protobuf/.libs/reflection_ops.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc:42:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc:42:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/service.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/service.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/service.lo ../../protobuf-2.6.0/src/google/protobuf/service.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/service.lo -MD -MP -MF google/protobuf/.deps/service.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/service.cc  -fPIC -DPIC -o google/protobuf/.libs/service.o
-depbase=`echo google/protobuf/text_format.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/text_format.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/text_format.lo ../../protobuf-2.6.0/src/google/protobuf/text_format.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/text_format.lo -MD -MP -MF google/protobuf/.deps/text_format.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/text_format.cc  -fPIC -DPIC -o google/protobuf/.libs/text_format.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:53:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:53:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:54:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:54:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/unknown_field_set.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/unknown_field_set.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/unknown_field_set.lo ../../protobuf-2.6.0/src/google/protobuf/unknown_field_set.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/unknown_field_set.lo -MD -MP -MF google/protobuf/.deps/unknown_field_set.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/unknown_field_set.cc  -fPIC -DPIC -o google/protobuf/.libs/unknown_field_set.o
-depbase=`echo google/protobuf/wire_format.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/wire_format.lo ../../protobuf-2.6.0/src/google/protobuf/wire_format.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format.lo -MD -MP -MF google/protobuf/.deps/wire_format.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/wire_format.cc  -fPIC -DPIC -o google/protobuf/.libs/wire_format.o
-depbase=`echo google/protobuf/io/gzip_stream.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/gzip_stream.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/gzip_stream.lo ../../protobuf-2.6.0/src/google/protobuf/io/gzip_stream.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/gzip_stream.lo -MD -MP -MF google/protobuf/io/.deps/gzip_stream.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/gzip_stream.cc  -fPIC -DPIC -o google/protobuf/io/.libs/gzip_stream.o
-depbase=`echo google/protobuf/io/printer.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/printer.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/printer.lo ../../protobuf-2.6.0/src/google/protobuf/io/printer.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/printer.lo -MD -MP -MF google/protobuf/io/.deps/printer.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/printer.cc  -fPIC -DPIC -o google/protobuf/io/.libs/printer.o
-depbase=`echo google/protobuf/io/strtod.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/strtod.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/strtod.lo ../../protobuf-2.6.0/src/google/protobuf/io/strtod.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/strtod.lo -MD -MP -MF google/protobuf/io/.deps/strtod.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/strtod.cc  -fPIC -DPIC -o google/protobuf/io/.libs/strtod.o
-depbase=`echo google/protobuf/io/tokenizer.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/tokenizer.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/tokenizer.lo ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/tokenizer.lo -MD -MP -MF google/protobuf/io/.deps/tokenizer.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc  -fPIC -DPIC -o google/protobuf/io/.libs/tokenizer.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc:96:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc:96:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/io/zero_copy_stream_impl.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/zero_copy_stream_impl.lo ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl.lo -MD -MP -MF google/protobuf/io/.deps/zero_copy_stream_impl.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl.cc  -fPIC -DPIC -o google/protobuf/io/.libs/zero_copy_stream_impl.o
-/bin/bash ../libtool  --tag=CXX   --mode=link g++ -std=gnu++11 -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -version-info 9:0:0 -export-dynamic -no-undefined  -o libprotobuf.la -rpath /usr/local/lib google/protobuf/stubs/atomicops_internals_x86_gcc.lo google/protobuf/stubs/atomicops_internals_x86_msvc.lo google/protobuf/stubs/common.lo google/protobuf/stubs/once.lo google/protobuf/stubs/stringprintf.lo google/protobuf/extension_set.lo google/protobuf/generated_message_util.lo google/protobuf/message_lite.lo google/protobuf/repeated_field.lo google/protobuf/wire_format_lite.lo google/protobuf/io/coded_stream.lo google/protobuf/io/zero_copy_stream.lo google/protobuf/io/zero_copy_stream_impl_lite.lo google/protobuf/stubs/strutil.lo google/protobuf/stubs/substitute.lo google/protobuf/stubs/structurally_valid.lo google/protobuf/descriptor.lo google/protobuf/descriptor.pb.lo google/protobuf/descriptor_database.lo google/protobuf/dynamic_message.lo google/protobuf/extension_set_heavy.lo google/protobuf/generated_message_reflection.lo google/protobuf/message.lo google/protobuf/reflection_ops.lo google/protobuf/service.lo google/protobuf/text_format.lo google/protobuf/unknown_field_set.lo google/protobuf/wire_format.lo google/protobuf/io/gzip_stream.lo google/protobuf/io/printer.lo google/protobuf/io/strtod.lo google/protobuf/io/tokenizer.lo google/protobuf/io/zero_copy_stream_impl.lo -lpthread -lz 
-libtool: link: rm -fr  .libs/libprotobuf.la .libs/libprotobuf.lai .libs/libprotobuf.so .libs/libprotobuf.so.9 .libs/libprotobuf.so.9.0.0
-libtool: link: g++ -std=gnu++11  -fPIC -DPIC -shared -nostdlib /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbeginS.o  google/protobuf/stubs/.libs/atomicops_internals_x86_gcc.o google/protobuf/stubs/.libs/atomicops_internals_x86_msvc.o google/protobuf/stubs/.libs/common.o google/protobuf/stubs/.libs/once.o google/protobuf/stubs/.libs/stringprintf.o google/protobuf/.libs/extension_set.o google/protobuf/.libs/generated_message_util.o google/protobuf/.libs/message_lite.o google/protobuf/.libs/repeated_field.o google/protobuf/.libs/wire_format_lite.o google/protobuf/io/.libs/coded_stream.o google/protobuf/io/.libs/zero_copy_stream.o google/protobuf/io/.libs/zero_copy_stream_impl_lite.o google/protobuf/stubs/.libs/strutil.o google/protobuf/stubs/.libs/substitute.o google/protobuf/stubs/.libs/structurally_valid.o google/protobuf/.libs/descriptor.o google/protobuf/.libs/descriptor.pb.o google/protobuf/.libs/descriptor_database.o google/protobuf/.libs/dynamic_message.o google/protobuf/.libs/extension_set_heavy.o google/protobuf/.libs/generated_message_reflection.o google/protobuf/.libs/message.o google/protobuf/.libs/reflection_ops.o google/protobuf/.libs/service.o google/protobuf/.libs/text_format.o google/protobuf/.libs/unknown_field_set.o google/protobuf/.libs/wire_format.o google/protobuf/io/.libs/gzip_stream.o google/protobuf/io/.libs/printer.o google/protobuf/io/.libs/strtod.o google/protobuf/io/.libs/tokenizer.o google/protobuf/io/.libs/zero_copy_stream_impl.o   -lpthread -lz -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. -lstdc++ -lm -lc -lgcc_s /usr/lib/gcc/x86_64-linux-gnu/5/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o  -pthread -g -O2 -fstack-protector-strong -g   -pthread -Wl,-soname -Wl,libprotobuf.so.9 -o .libs/libprotobuf.so.9.0.0
-libtool: link: (cd ".libs" && rm -f "libprotobuf.so.9" && ln -s "libprotobuf.so.9.0.0" "libprotobuf.so.9")
-libtool: link: (cd ".libs" && rm -f "libprotobuf.so" && ln -s "libprotobuf.so.9.0.0" "libprotobuf.so")
-libtool: link: ( cd ".libs" && rm -f "libprotobuf.la" && ln -s "../libprotobuf.la" "libprotobuf.la" )
-make[2]: Leaving directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build/src'
-make[1]: Leaving directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-configure: Using the following compilation and linking flags for flowWorkspace
-configure:    PKG_CPPFLAGS=-I/usr/include/libxml2 -Iprotobuf-2.6.0/src
-configure:    PB_INCLUDE=protobuf-2.6.0/src
-configure:    PKG_LIBS=-lxml2 
-configure: creating ./config.status
-config.status: creating src/Makevars
-** libs
-mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/include/flowWorkspace"
-cp include/* /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/include/flowWorkspace
-cp -r protobuf-2.6.0/src/google /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/include
-cp GatingSet.pb.h /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/include #GatingSet.pb.h is autogenerated by protoc and thus kept at the same folder as GatingSet.proto
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c delimitedMessage.cpp -o delimitedMessage.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c ellipse2points.cpp -o ellipse2points.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c global.cpp -o global.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.pb.cc -o GatingSet.pb.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c calibrationTable.cpp -o calibrationTable.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c POPINDICES.cpp -o POPINDICES.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c compensation.cpp -o compensation.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowData.cpp -o flowData.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c gate.cpp -o gate.o
-mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib"
-ar rs "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a" pb_build/src/google/protobuf/.libs/*.o pb_build/src/google/protobuf/stubs/.libs/*.o pb_build/src/google/protobuf/io/.libs/*.o
-ar: creating /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c spline.cpp -o spline.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c nodeProperties.cpp -o nodeProperties.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c transformation.cpp -o transformation.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c wsNode.cpp -o wsNode.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingSet.cpp -o R_GatingSet.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c winFlowJoWorkspace.cpp -o winFlowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c getSingleCellExpression.cpp -o getSingleCellExpression.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c workspace.cpp -o workspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.cpp -o GatingSet.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c macFlowJoWorkspace.cpp -o macFlowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c RcppExports.cpp -o RcppExports.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowJoWorkspace.cpp -o flowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingHierarchy.cpp -o R_GatingHierarchy.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_API.cpp -o R_API.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/new/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingHierarchy.cpp -o GatingHierarchy.o
-mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib"
-ar rs "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a" GatingHierarchy.o GatingSet.o GatingSet.pb.o POPINDICES.o R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o calibrationTable.o compensation.o delimitedMessage.o ellipse2points.o flowData.o flowJoWorkspace.o gate.o getSingleCellExpression.o global.o macFlowJoWorkspace.o nodeProperties.o spline.o transformation.o winFlowJoWorkspace.o workspace.o wsNode.o
-ar: creating /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a
-g++ -std=gnu++11 -shared -L/usr/lib/R/lib -Wl,-Bsymbolic-functions -Wl,-z,relro -o flowWorkspace.so GatingHierarchy.o GatingSet.o GatingSet.pb.o POPINDICES.o R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o calibrationTable.o compensation.o delimitedMessage.o ellipse2points.o flowData.o flowJoWorkspace.o gate.o getSingleCellExpression.o global.o macFlowJoWorkspace.o nodeProperties.o spline.o transformation.o winFlowJoWorkspace.o workspace.o wsNode.o /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a /home/muelleki/git/R/dplyr/revdep/library/flowWorkspace/flowCore/lib/libboost_regex.a -lxml2 -L/usr/lib/R/lib -lR
-installing to /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/libs
-** R
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded
-Error: package or namespace load failed for ‘flowWorkspace’ in dyn.load(file, DLLpath = DLLpath, ...):
- unable to load shared object '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/libs/flowWorkspace.so':
-  /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/libs/flowWorkspace.so: undefined symbol: _ZN5boost16re_detail_10650012perl_matcherIN9__gnu_cxx17__normal_iteratorIPKcNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEESaINS_9sub_matchISC_EEENS_12regex_traitsIcNS_16cpp_regex_traitsIcEEEEE14construct_initERKNS_11basic_regexIcSJ_EENS_15regex_constants12_match_flagsE
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace’
+*   checking dependencies in R code ... NOTE
+    ```
+    'library' or 'require' calls in package code:
+      ‘RSVGTipsDevice’ ‘parallel’
+      Please use :: or requireNamespace() instead.
+      See section 'Suggested packages' in the 'Writing R Extensions' manual.
+    Namespaces in Imports field not imported from:
+      ‘RBGL’ ‘graphics’
+      All declared Imports should be used.
+    Unexported objects imported by ':::' calls:
+      ‘Rgraphviz:::getRenderPar’ ‘flowCore:::.estimateLogicle’
+      ‘flowCore:::checkClass’ ‘flowCore:::copyFlowSet’ ‘flowCore:::guid’
+      ‘flowCore:::logicle_transform’ ‘graph:::.makeEdgeKeys’
+      ‘lattice:::updateList’ ‘ncdfFlow:::.isValidSamples’
+      ‘stats:::.splinefun’
+      See the note in ?`:::` about the use of this operator.
+    There are ::: calls to the package's namespace in its code. A package
+      almost never needs to use ::: for its own objects:
+      ‘.load_gs’ ‘.preprocessMap’ ‘.uuid_gen’ ‘isNegated’
+    ```
 
-```
-### CRAN
+*   checking R code for possible problems ... NOTE
+    ```
+    ...
+    rbind2,GatingSetList-missing: no visible global function definition for
+      ‘new’
+    rbind2,GatingSetList-missing: no visible binding for global variable
+      ‘slot’
+    recompute,GatingSetList: no visible global function definition for
+      ‘selectMethod’
+    transform,GatingSet: no visible global function definition for ‘is’
+    Undefined global functions or variables:
+      . .hasSlot IQR as as.formula callNextMethod decade dev.off dev.prev
+      dev.set extends gray groupName is max_val median min_val new node
+      offset old openCyto.count polygon rect sampleName selectMethod slot
+      strheight strwidth symbols text validObject xml.count
+    Consider adding
+      importFrom("grDevices", "dev.off", "dev.prev", "dev.set", "gray")
+      importFrom("graphics", "polygon", "rect", "strheight", "strwidth",
+                 "symbols", "text")
+      importFrom("methods", ".hasSlot", "as", "callNextMethod", "extends",
+                 "is", "new", "selectMethod", "slot", "validObject")
+      importFrom("stats", "IQR", "as.formula", "median", "offset")
+    to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
+    contains 'methods').
+    ```
 
-```
-* installing *source* package ‘flowWorkspace’ ...
-checking whether the C++ compiler works... yes
-checking for C++ compiler default output file name... a.out
-checking for suffix of executables... 
-checking whether we are cross compiling... no
-checking for suffix of object files... o
-checking whether we are using the GNU C++ compiler... yes
-checking whether g++ -std=gnu++11 accepts -g... yes
-checking for gcc... gcc -std=gnu99
-checking whether we are using the GNU C compiler... yes
-checking whether gcc -std=gnu99 accepts -g... yes
-checking for gcc -std=gnu99 option to accept ISO C89... none needed
-configure: setting xml2 flags...
-configure: No directory was specified for --with-xml2. Trying to find xml2 using other methods.
-checking for xml2-config... /usr/bin/xml2-config
-configure: setting protobuf flags...
-configure: No directory was specified for --with-protobuf. Using bundled protocol buffer.
-found  protobuf-2.6.0  header sources and tar archive;using what is there.
-libtoolize: putting auxiliary files in '.'.
-libtoolize: copying file './ltmain.sh'
-libtoolize: putting macros in AC_CONFIG_MACRO_DIRS, 'm4'.
-libtoolize: copying file 'm4/libtool.m4'
-libtoolize: copying file 'm4/ltoptions.m4'
-libtoolize: copying file 'm4/ltsugar.m4'
-libtoolize: copying file 'm4/ltversion.m4'
-libtoolize: copying file 'm4/lt~obsolete.m4'
-configure.ac:45: installing './compile'
-configure.ac:32: installing './missing'
-/usr/share/automake-1.15/am/ltlibrary.am: warning: 'libprotobuf.la': linking libtool libraries using a non-POSIX
-/usr/share/automake-1.15/am/ltlibrary.am: archiver requires 'AM_PROG_AR' in 'configure.ac'
-src/Makefile.am:81:   while processing Libtool library 'libprotobuf.la'
-src/Makefile.am: installing './depcomp'
-building protobuf...
-found  pb_build  ;using what is there.
-checking whether to enable maintainer-specific portions of Makefiles... yes
-checking build system type... x86_64-pc-linux-gnu
-checking host system type... x86_64-pc-linux-gnu
-checking target system type... x86_64-pc-linux-gnu
-checking for a BSD-compatible install... /usr/bin/install -c
-checking whether build environment is sane... yes
-checking for a thread-safe mkdir -p... /bin/mkdir -p
-checking for gawk... gawk
-checking whether make sets $(MAKE)... yes
-checking whether make supports nested variables... yes
-checking for gcc... gcc -std=gnu99
-checking whether the C compiler works... yes
-checking for C compiler default output file name... a.out
-checking for suffix of executables... 
-checking whether we are cross compiling... no
-checking for suffix of object files... o
-checking whether we are using the GNU C compiler... yes
-checking whether gcc -std=gnu99 accepts -g... yes
-checking for gcc -std=gnu99 option to accept ISO C89... none needed
-checking whether gcc -std=gnu99 understands -c and -o together... yes
-checking for style of include used by make... GNU
-checking dependency style of gcc -std=gnu99... gcc3
-checking whether we are using the GNU C++ compiler... yes
-checking whether g++ -std=gnu++11 accepts -g... yes
-checking dependency style of g++ -std=gnu++11... gcc3
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for grep that handles long lines and -e... /bin/grep
-checking for egrep... /bin/grep -E
-checking for ANSI C header files... yes
-checking for sys/types.h... yes
-checking for sys/stat.h... yes
-checking for stdlib.h... yes
-checking for string.h... yes
-checking for memory.h... yes
-checking for strings.h... yes
-checking for inttypes.h... yes
-checking for stdint.h... yes
-checking for unistd.h... yes
-checking minix/config.h usability... no
-checking minix/config.h presence... no
-checking for minix/config.h... no
-checking whether it is safe to define __EXTENSIONS__... yes
-checking C++ compiler flags...... use user-supplied: -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g
-checking whether __SUNPRO_CC is declared... no
-checking how to print strings... printf
-checking for a sed that does not truncate output... /bin/sed
-checking for fgrep... /bin/grep -F
-checking for ld used by gcc -std=gnu99... /usr/bin/ld
-checking if the linker (/usr/bin/ld) is GNU ld... yes
-checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
-checking the name lister (/usr/bin/nm -B) interface... BSD nm
-checking whether ln -s works... yes
-checking the maximum length of command line arguments... 1572864
-checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
-checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-checking for /usr/bin/ld option to reload object files... -r
-checking for objdump... objdump
-checking how to recognize dependent libraries... pass_all
-checking for dlltool... no
-checking how to associate runtime and link libraries... printf %s\n
-checking for ar... ar
-checking for archiver @FILE support... @
-checking for strip... strip
-checking for ranlib... ranlib
-checking command to parse /usr/bin/nm -B output from gcc -std=gnu99 object... ok
-checking for sysroot... no
-checking for a working dd... /bin/dd
-checking how to truncate binary pipes... /bin/dd bs=4096 count=1
-checking for mt... mt
-checking if mt is a manifest tool... no
-checking for dlfcn.h... yes
-checking for objdir... .libs
-checking if gcc -std=gnu99 supports -fno-rtti -fno-exceptions... no
-checking for gcc -std=gnu99 option to produce PIC... -fPIC -DPIC
-checking if gcc -std=gnu99 PIC flag -fPIC -DPIC works... yes
-checking if gcc -std=gnu99 static flag -static works... yes
-checking if gcc -std=gnu99 supports -c -o file.o... yes
-checking if gcc -std=gnu99 supports -c -o file.o... (cached) yes
-checking whether the gcc -std=gnu99 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking whether -lc should be explicitly linked in... no
-checking dynamic linker characteristics... GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking whether stripping libraries is possible... yes
-checking if libtool supports shared libraries... yes
-checking whether to build shared libraries... yes
-checking whether to build static libraries... no
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for ld used by g++ -std=gnu++11... /usr/bin/ld -m elf_x86_64
-checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking for g++ -std=gnu++11 option to produce PIC... -fPIC -DPIC
-checking if g++ -std=gnu++11 PIC flag -fPIC -DPIC works... yes
-checking if g++ -std=gnu++11 static flag -static works... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... (cached) yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking for ANSI C header files... (cached) yes
-checking fcntl.h usability... yes
-checking fcntl.h presence... yes
-checking for fcntl.h... yes
-checking for inttypes.h... (cached) yes
-checking limits.h usability... yes
-checking limits.h presence... yes
-checking for limits.h... yes
-checking for stdlib.h... (cached) yes
-checking for unistd.h... (cached) yes
-checking for working memcmp... yes
-checking for working strtod... yes
-checking for ftruncate... yes
-checking for memset... yes
-checking for mkdir... yes
-checking for strchr... yes
-checking for strerror... yes
-checking for strtol... yes
-checking zlib version... ok (1.2.0.4 or later)
-checking for library containing zlibVersion... -lz
-checking for the pthreads library -lpthreads... no
-checking whether pthreads work without any flags... no
-checking whether pthreads work with -Kthread... no
-checking whether pthreads work with -kthread... no
-checking for the pthreads library -llthread... no
-checking whether pthreads work with -pthread... yes
-checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
-checking if more special flags are required for pthreads... no
-checking whether to check for GCC pthread/shared inconsistencies... yes
-checking whether -pthread is sufficient with -shared... yes
-checking whether what we have so far is sufficient with -nostdlib... no
-checking whether -lpthread saves the day... yes
-checking the location of hash_map... <unordered_map>
-checking that generated files are newer than configure... done
-configure: creating ./config.status
-config.status: creating Makefile
-config.status: creating src/Makefile
-config.status: creating protobuf.pc
-config.status: creating protobuf-lite.pc
-config.status: creating config.h
-config.status: config.h is unchanged
-config.status: executing depfiles commands
-config.status: executing libtool commands
-CDPATH="${ZSH_VERSION+.}:" && cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing aclocal-1.15 -I m4
- cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing automake-1.15 --foreign
-CDPATH="${ZSH_VERSION+.}:" && cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing autoconf
-/bin/bash ./config.status --recheck
-running CONFIG_SHELL=/bin/bash /bin/bash ../protobuf-2.6.0/configure --enable-static=no CXX=g++ -std=gnu++11 CXXFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g CC=gcc -std=gnu99 CFLAGS=-g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g --no-create --no-recursion
-checking whether to enable maintainer-specific portions of Makefiles... yes
-checking build system type... x86_64-pc-linux-gnu
-checking host system type... x86_64-pc-linux-gnu
-checking target system type... x86_64-pc-linux-gnu
-checking for a BSD-compatible install... /usr/bin/install -c
-checking whether build environment is sane... yes
-checking for a thread-safe mkdir -p... /bin/mkdir -p
-checking for gawk... gawk
-checking whether make sets $(MAKE)... yes
-checking whether make supports nested variables... yes
-checking for gcc... gcc -std=gnu99
-checking whether the C compiler works... yes
-checking for C compiler default output file name... a.out
-checking for suffix of executables... 
-checking whether we are cross compiling... no
-checking for suffix of object files... o
-checking whether we are using the GNU C compiler... yes
-checking whether gcc -std=gnu99 accepts -g... yes
-checking for gcc -std=gnu99 option to accept ISO C89... none needed
-checking whether gcc -std=gnu99 understands -c and -o together... yes
-checking for style of include used by make... GNU
-checking dependency style of gcc -std=gnu99... gcc3
-checking whether we are using the GNU C++ compiler... yes
-checking whether g++ -std=gnu++11 accepts -g... yes
-checking dependency style of g++ -std=gnu++11... gcc3
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for grep that handles long lines and -e... /bin/grep
-checking for egrep... /bin/grep -E
-checking for ANSI C header files... yes
-checking for sys/types.h... yes
-checking for sys/stat.h... yes
-checking for stdlib.h... yes
-checking for string.h... yes
-checking for memory.h... yes
-checking for strings.h... yes
-checking for inttypes.h... yes
-checking for stdint.h... yes
-checking for unistd.h... yes
-checking minix/config.h usability... no
-checking minix/config.h presence... no
-checking for minix/config.h... no
-checking whether it is safe to define __EXTENSIONS__... yes
-checking C++ compiler flags...... use user-supplied: -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g
-checking whether __SUNPRO_CC is declared... no
-checking how to print strings... printf
-checking for a sed that does not truncate output... /bin/sed
-checking for fgrep... /bin/grep -F
-checking for ld used by gcc -std=gnu99... /usr/bin/ld
-checking if the linker (/usr/bin/ld) is GNU ld... yes
-checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
-checking the name lister (/usr/bin/nm -B) interface... BSD nm
-checking whether ln -s works... yes
-checking the maximum length of command line arguments... 1572864
-checking how to convert x86_64-pc-linux-gnu file names to x86_64-pc-linux-gnu format... func_convert_file_noop
-checking how to convert x86_64-pc-linux-gnu file names to toolchain format... func_convert_file_noop
-checking for /usr/bin/ld option to reload object files... -r
-checking for objdump... objdump
-checking how to recognize dependent libraries... pass_all
-checking for dlltool... no
-checking how to associate runtime and link libraries... printf %s\n
-checking for ar... ar
-checking for archiver @FILE support... @
-checking for strip... strip
-checking for ranlib... ranlib
-checking command to parse /usr/bin/nm -B output from gcc -std=gnu99 object... ok
-checking for sysroot... no
-checking for a working dd... /bin/dd
-checking how to truncate binary pipes... /bin/dd bs=4096 count=1
-checking for mt... mt
-checking if mt is a manifest tool... no
-checking for dlfcn.h... yes
-checking for objdir... .libs
-checking if gcc -std=gnu99 supports -fno-rtti -fno-exceptions... no
-checking for gcc -std=gnu99 option to produce PIC... -fPIC -DPIC
-checking if gcc -std=gnu99 PIC flag -fPIC -DPIC works... yes
-checking if gcc -std=gnu99 static flag -static works... yes
-checking if gcc -std=gnu99 supports -c -o file.o... yes
-checking if gcc -std=gnu99 supports -c -o file.o... (cached) yes
-checking whether the gcc -std=gnu99 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking whether -lc should be explicitly linked in... no
-checking dynamic linker characteristics... GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking whether stripping libraries is possible... yes
-checking if libtool supports shared libraries... yes
-checking whether to build shared libraries... yes
-checking whether to build static libraries... no
-checking how to run the C++ preprocessor... g++ -std=gnu++11 -E
-checking for ld used by g++ -std=gnu++11... /usr/bin/ld -m elf_x86_64
-checking if the linker (/usr/bin/ld -m elf_x86_64) is GNU ld... yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking for g++ -std=gnu++11 option to produce PIC... -fPIC -DPIC
-checking if g++ -std=gnu++11 PIC flag -fPIC -DPIC works... yes
-checking if g++ -std=gnu++11 static flag -static works... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... yes
-checking if g++ -std=gnu++11 supports -c -o file.o... (cached) yes
-checking whether the g++ -std=gnu++11 linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
-checking dynamic linker characteristics... (cached) GNU/Linux ld.so
-checking how to hardcode library paths into programs... immediate
-checking for ANSI C header files... (cached) yes
-checking fcntl.h usability... yes
-checking fcntl.h presence... yes
-checking for fcntl.h... yes
-checking for inttypes.h... (cached) yes
-checking limits.h usability... yes
-checking limits.h presence... yes
-checking for limits.h... yes
-checking for stdlib.h... (cached) yes
-checking for unistd.h... (cached) yes
-checking for working memcmp... yes
-checking for working strtod... yes
-checking for ftruncate... yes
-checking for memset... yes
-checking for mkdir... yes
-checking for strchr... yes
-checking for strerror... yes
-checking for strtol... yes
-checking zlib version... ok (1.2.0.4 or later)
-checking for library containing zlibVersion... -lz
-checking for the pthreads library -lpthreads... no
-checking whether pthreads work without any flags... no
-checking whether pthreads work with -Kthread... no
-checking whether pthreads work with -kthread... no
-checking for the pthreads library -llthread... no
-checking whether pthreads work with -pthread... yes
-checking for joinable pthread attribute... PTHREAD_CREATE_JOINABLE
-checking if more special flags are required for pthreads... no
-checking whether to check for GCC pthread/shared inconsistencies... yes
-checking whether -pthread is sufficient with -shared... yes
-checking whether what we have so far is sufficient with -nostdlib... no
-checking whether -lpthread saves the day... yes
-checking the location of hash_map... <unordered_map>
-checking that generated files are newer than configure... done
-configure: creating ./config.status
- /bin/bash ./config.status
-config.status: creating Makefile
-config.status: creating src/Makefile
-config.status: creating protobuf.pc
-config.status: creating protobuf-lite.pc
-config.status: creating config.h
-config.status: config.h is unchanged
-config.status: executing depfiles commands
-config.status: executing libtool commands
-(CDPATH="${ZSH_VERSION+.}:" && cd ../protobuf-2.6.0 && /bin/bash /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/protobuf-2.6.0/missing autoheader)
-rm -f stamp-h1
-touch ../protobuf-2.6.0/config.h.in
-cd . && /bin/bash ./config.status config.h
-config.status: creating config.h
-config.status: config.h is unchanged
-make  all-recursive
-make[1]: Entering directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-Making all in .
-make[2]: Entering directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-make[2]: Leaving directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-Making all in src
-make[2]: Entering directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build/src'
-depbase=`echo google/protobuf/stubs/atomicops_internals_x86_gcc.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_gcc.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/atomicops_internals_x86_gcc.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_gcc.lo -MD -MP -MF google/protobuf/stubs/.deps/atomicops_internals_x86_gcc.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/atomicops_internals_x86_gcc.o
-depbase=`echo google/protobuf/stubs/atomicops_internals_x86_msvc.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_msvc.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/atomicops_internals_x86_msvc.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_msvc.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/atomicops_internals_x86_msvc.lo -MD -MP -MF google/protobuf/stubs/.deps/atomicops_internals_x86_msvc.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/atomicops_internals_x86_msvc.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/atomicops_internals_x86_msvc.o
-depbase=`echo google/protobuf/stubs/common.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/common.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/common.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/common.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/common.lo -MD -MP -MF google/protobuf/stubs/.deps/common.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/common.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/common.o
-depbase=`echo google/protobuf/stubs/once.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/once.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/once.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/once.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/once.lo -MD -MP -MF google/protobuf/stubs/.deps/once.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/once.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/once.o
-depbase=`echo google/protobuf/stubs/stringprintf.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/stringprintf.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/stringprintf.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/stringprintf.lo -MD -MP -MF google/protobuf/stubs/.deps/stringprintf.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/stringprintf.o
-../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc: In function 'std::__cxx11::string google::protobuf::StringPrintfVector(const char*, const std::vector<std::__cxx11::basic_string<char> >&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/stringprintf.cc:164:97: warning: typedef 'arg_count_mismatch' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/extension_set.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/extension_set.lo ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set.lo -MD -MP -MF google/protobuf/.deps/extension_set.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc  -fPIC -DPIC -o google/protobuf/.libs/extension_set.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/extension_set.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/generated_message_util.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_util.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/generated_message_util.lo ../../protobuf-2.6.0/src/google/protobuf/generated_message_util.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_util.lo -MD -MP -MF google/protobuf/.deps/generated_message_util.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/generated_message_util.cc  -fPIC -DPIC -o google/protobuf/.libs/generated_message_util.o
-depbase=`echo google/protobuf/message_lite.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message_lite.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/message_lite.lo ../../protobuf-2.6.0/src/google/protobuf/message_lite.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message_lite.lo -MD -MP -MF google/protobuf/.deps/message_lite.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/message_lite.cc  -fPIC -DPIC -o google/protobuf/.libs/message_lite.o
-depbase=`echo google/protobuf/repeated_field.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/repeated_field.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/repeated_field.lo ../../protobuf-2.6.0/src/google/protobuf/repeated_field.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/repeated_field.lo -MD -MP -MF google/protobuf/.deps/repeated_field.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/repeated_field.cc  -fPIC -DPIC -o google/protobuf/.libs/repeated_field.o
-depbase=`echo google/protobuf/wire_format_lite.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format_lite.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/wire_format_lite.lo ../../protobuf-2.6.0/src/google/protobuf/wire_format_lite.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format_lite.lo -MD -MP -MF google/protobuf/.deps/wire_format_lite.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/wire_format_lite.cc  -fPIC -DPIC -o google/protobuf/.libs/wire_format_lite.o
-depbase=`echo google/protobuf/io/coded_stream.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/coded_stream.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/coded_stream.lo ../../protobuf-2.6.0/src/google/protobuf/io/coded_stream.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/coded_stream.lo -MD -MP -MF google/protobuf/io/.deps/coded_stream.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/coded_stream.cc  -fPIC -DPIC -o google/protobuf/io/.libs/coded_stream.o
-depbase=`echo google/protobuf/io/zero_copy_stream.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/zero_copy_stream.lo ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream.lo -MD -MP -MF google/protobuf/io/.deps/zero_copy_stream.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream.cc  -fPIC -DPIC -o google/protobuf/io/.libs/zero_copy_stream.o
-depbase=`echo google/protobuf/io/zero_copy_stream_impl_lite.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl_lite.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/zero_copy_stream_impl_lite.lo ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl_lite.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl_lite.lo -MD -MP -MF google/protobuf/io/.deps/zero_copy_stream_impl_lite.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl_lite.cc  -fPIC -DPIC -o google/protobuf/io/.libs/zero_copy_stream_impl_lite.o
-depbase=`echo google/protobuf/stubs/strutil.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/strutil.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/strutil.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/strutil.lo -MD -MP -MF google/protobuf/stubs/.deps/strutil.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/strutil.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:33:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:33:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc: In function 'char* google::protobuf::DoubleToBuffer(double, char*)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:1172:72: warning: typedef 'DBL_DIG_is_too_big' locally defined but not used [-Wunused-local-typedefs]
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc: In function 'char* google::protobuf::FloatToBuffer(float, char*)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.cc:1227:71: warning: typedef 'FLT_DIG_is_too_big' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/stubs/substitute.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/substitute.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/substitute.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/substitute.lo -MD -MP -MF google/protobuf/stubs/.deps/substitute.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/substitute.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.h:36:0,
-                 from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc:33:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.h:36:0,
-                 from ../../protobuf-2.6.0/src/google/protobuf/stubs/substitute.cc:33:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/stubs/structurally_valid.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/structurally_valid.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/stubs/structurally_valid.lo ../../protobuf-2.6.0/src/google/protobuf/stubs/structurally_valid.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/stubs/structurally_valid.lo -MD -MP -MF google/protobuf/stubs/.deps/structurally_valid.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/stubs/structurally_valid.cc  -fPIC -DPIC -o google/protobuf/stubs/.libs/structurally_valid.o
-depbase=`echo google/protobuf/descriptor.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/descriptor.lo ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.lo -MD -MP -MF google/protobuf/.deps/descriptor.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc  -fPIC -DPIC -o google/protobuf/.libs/descriptor.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:57:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:57:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:59:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor.cc:59:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/descriptor.pb.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.pb.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/descriptor.pb.lo ../../protobuf-2.6.0/src/google/protobuf/descriptor.pb.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor.pb.lo -MD -MP -MF google/protobuf/.deps/descriptor.pb.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/descriptor.pb.cc  -fPIC -DPIC -o google/protobuf/.libs/descriptor.pb.o
-depbase=`echo google/protobuf/descriptor_database.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor_database.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/descriptor_database.lo ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/descriptor_database.lo -MD -MP -MF google/protobuf/.deps/descriptor_database.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc  -fPIC -DPIC -o google/protobuf/.libs/descriptor_database.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:41:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:41:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/descriptor_database.cc:43:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/dynamic_message.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/dynamic_message.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/dynamic_message.lo ../../protobuf-2.6.0/src/google/protobuf/dynamic_message.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/dynamic_message.lo -MD -MP -MF google/protobuf/.deps/dynamic_message.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/dynamic_message.cc  -fPIC -DPIC -o google/protobuf/.libs/dynamic_message.o
-depbase=`echo google/protobuf/extension_set_heavy.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set_heavy.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/extension_set_heavy.lo ../../protobuf-2.6.0/src/google/protobuf/extension_set_heavy.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/extension_set_heavy.lo -MD -MP -MF google/protobuf/.deps/extension_set_heavy.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/extension_set_heavy.cc  -fPIC -DPIC -o google/protobuf/.libs/extension_set_heavy.o
-depbase=`echo google/protobuf/generated_message_reflection.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_reflection.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/generated_message_reflection.lo ../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/generated_message_reflection.lo -MD -MP -MF google/protobuf/.deps/generated_message_reflection.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc  -fPIC -DPIC -o google/protobuf/.libs/generated_message_reflection.o
-../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc: In member function 'void google::protobuf::internal::GeneratedMessageReflection::SwapOneofField(google::protobuf::Message*, google::protobuf::Message*, const google::protobuf::OneofDescriptor*) const':
-../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc:506:89: warning: 'field1' may be used uninitialized in this function [-Wmaybe-uninitialized]
-../../protobuf-2.6.0/src/google/protobuf/generated_message_reflection.cc:516:60: warning: 'temp_message' may be used uninitialized in this function [-Wmaybe-uninitialized]
-         SetAllocatedMessage(message2, temp_message, field1);
-                                                            ^
-depbase=`echo google/protobuf/message.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/message.lo ../../protobuf-2.6.0/src/google/protobuf/message.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/message.lo -MD -MP -MF google/protobuf/.deps/message.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/message.cc  -fPIC -DPIC -o google/protobuf/.libs/message.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:50:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:50:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:51:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/message.cc:51:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/reflection_ops.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/reflection_ops.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/reflection_ops.lo ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/reflection_ops.lo -MD -MP -MF google/protobuf/.deps/reflection_ops.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc  -fPIC -DPIC -o google/protobuf/.libs/reflection_ops.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc:42:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/reflection_ops.cc:42:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/service.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/service.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/service.lo ../../protobuf-2.6.0/src/google/protobuf/service.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/service.lo -MD -MP -MF google/protobuf/.deps/service.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/service.cc  -fPIC -DPIC -o google/protobuf/.libs/service.o
-depbase=`echo google/protobuf/text_format.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/text_format.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/text_format.lo ../../protobuf-2.6.0/src/google/protobuf/text_format.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/text_format.lo -MD -MP -MF google/protobuf/.deps/text_format.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/text_format.cc  -fPIC -DPIC -o google/protobuf/.libs/text_format.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:53:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:53:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:54:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDie(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:356:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-In file included from ../../protobuf-2.6.0/src/google/protobuf/text_format.cc:54:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h: In function 'void google::protobuf::InsertOrDieNoPrint(Collection*, const typename Collection::value_type::first_type&, const typename Collection::value_type::second_type&)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/map_util.h:367:43: warning: typedef 'value_type' locally defined but not used [-Wunused-local-typedefs]
-   typedef typename Collection::value_type value_type;
-                                           ^
-depbase=`echo google/protobuf/unknown_field_set.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/unknown_field_set.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/unknown_field_set.lo ../../protobuf-2.6.0/src/google/protobuf/unknown_field_set.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/unknown_field_set.lo -MD -MP -MF google/protobuf/.deps/unknown_field_set.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/unknown_field_set.cc  -fPIC -DPIC -o google/protobuf/.libs/unknown_field_set.o
-depbase=`echo google/protobuf/wire_format.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/wire_format.lo ../../protobuf-2.6.0/src/google/protobuf/wire_format.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/wire_format.lo -MD -MP -MF google/protobuf/.deps/wire_format.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/wire_format.cc  -fPIC -DPIC -o google/protobuf/.libs/wire_format.o
-depbase=`echo google/protobuf/io/gzip_stream.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/gzip_stream.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/gzip_stream.lo ../../protobuf-2.6.0/src/google/protobuf/io/gzip_stream.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/gzip_stream.lo -MD -MP -MF google/protobuf/io/.deps/gzip_stream.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/gzip_stream.cc  -fPIC -DPIC -o google/protobuf/io/.libs/gzip_stream.o
-depbase=`echo google/protobuf/io/printer.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/printer.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/printer.lo ../../protobuf-2.6.0/src/google/protobuf/io/printer.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/printer.lo -MD -MP -MF google/protobuf/io/.deps/printer.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/printer.cc  -fPIC -DPIC -o google/protobuf/io/.libs/printer.o
-depbase=`echo google/protobuf/io/strtod.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/strtod.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/strtod.lo ../../protobuf-2.6.0/src/google/protobuf/io/strtod.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/strtod.lo -MD -MP -MF google/protobuf/io/.deps/strtod.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/strtod.cc  -fPIC -DPIC -o google/protobuf/io/.libs/strtod.o
-depbase=`echo google/protobuf/io/tokenizer.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/tokenizer.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/tokenizer.lo ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/tokenizer.lo -MD -MP -MF google/protobuf/io/.deps/tokenizer.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc  -fPIC -DPIC -o google/protobuf/io/.libs/tokenizer.o
-In file included from ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc:96:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::int64 google::protobuf::strto64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:340:99: warning: typedef 'sizeof_int64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-In file included from ../../protobuf-2.6.0/src/google/protobuf/io/tokenizer.cc:96:0:
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h: In function 'google::protobuf::uint64 google::protobuf::strtou64(const char*, char**, int)':
-../../protobuf-2.6.0/src/google/protobuf/stubs/strutil.h:346:109: warning: typedef 'sizeof_uint64_is_not_sizeof_long_long' locally defined but not used [-Wunused-local-typedefs]
-depbase=`echo google/protobuf/io/zero_copy_stream_impl.lo | sed 's|[^/]*$|.deps/&|;s|\.lo$||'`;\
-/bin/bash ../libtool  --tag=CXX   --mode=compile g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I..    -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl.lo -MD -MP -MF $depbase.Tpo -c -o google/protobuf/io/zero_copy_stream_impl.lo ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl.cc &&\
-mv -f $depbase.Tpo $depbase.Plo
-libtool: compile:  g++ -std=gnu++11 -DHAVE_CONFIG_H -I. -I../../protobuf-2.6.0/src -I.. -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -MT google/protobuf/io/zero_copy_stream_impl.lo -MD -MP -MF google/protobuf/io/.deps/zero_copy_stream_impl.Tpo -c ../../protobuf-2.6.0/src/google/protobuf/io/zero_copy_stream_impl.cc  -fPIC -DPIC -o google/protobuf/io/.libs/zero_copy_stream_impl.o
-/bin/bash ../libtool  --tag=CXX   --mode=link g++ -std=gnu++11 -pthread -Wall -Wwrite-strings -Woverloaded-virtual -Wno-sign-compare -Wno-return-type  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -version-info 9:0:0 -export-dynamic -no-undefined  -o libprotobuf.la -rpath /usr/local/lib google/protobuf/stubs/atomicops_internals_x86_gcc.lo google/protobuf/stubs/atomicops_internals_x86_msvc.lo google/protobuf/stubs/common.lo google/protobuf/stubs/once.lo google/protobuf/stubs/stringprintf.lo google/protobuf/extension_set.lo google/protobuf/generated_message_util.lo google/protobuf/message_lite.lo google/protobuf/repeated_field.lo google/protobuf/wire_format_lite.lo google/protobuf/io/coded_stream.lo google/protobuf/io/zero_copy_stream.lo google/protobuf/io/zero_copy_stream_impl_lite.lo google/protobuf/stubs/strutil.lo google/protobuf/stubs/substitute.lo google/protobuf/stubs/structurally_valid.lo google/protobuf/descriptor.lo google/protobuf/descriptor.pb.lo google/protobuf/descriptor_database.lo google/protobuf/dynamic_message.lo google/protobuf/extension_set_heavy.lo google/protobuf/generated_message_reflection.lo google/protobuf/message.lo google/protobuf/reflection_ops.lo google/protobuf/service.lo google/protobuf/text_format.lo google/protobuf/unknown_field_set.lo google/protobuf/wire_format.lo google/protobuf/io/gzip_stream.lo google/protobuf/io/printer.lo google/protobuf/io/strtod.lo google/protobuf/io/tokenizer.lo google/protobuf/io/zero_copy_stream_impl.lo -lpthread -lz 
-libtool: link: rm -fr  .libs/libprotobuf.la .libs/libprotobuf.lai .libs/libprotobuf.so .libs/libprotobuf.so.9 .libs/libprotobuf.so.9.0.0
-libtool: link: g++ -std=gnu++11  -fPIC -DPIC -shared -nostdlib /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/5/crtbeginS.o  google/protobuf/stubs/.libs/atomicops_internals_x86_gcc.o google/protobuf/stubs/.libs/atomicops_internals_x86_msvc.o google/protobuf/stubs/.libs/common.o google/protobuf/stubs/.libs/once.o google/protobuf/stubs/.libs/stringprintf.o google/protobuf/.libs/extension_set.o google/protobuf/.libs/generated_message_util.o google/protobuf/.libs/message_lite.o google/protobuf/.libs/repeated_field.o google/protobuf/.libs/wire_format_lite.o google/protobuf/io/.libs/coded_stream.o google/protobuf/io/.libs/zero_copy_stream.o google/protobuf/io/.libs/zero_copy_stream_impl_lite.o google/protobuf/stubs/.libs/strutil.o google/protobuf/stubs/.libs/substitute.o google/protobuf/stubs/.libs/structurally_valid.o google/protobuf/.libs/descriptor.o google/protobuf/.libs/descriptor.pb.o google/protobuf/.libs/descriptor_database.o google/protobuf/.libs/dynamic_message.o google/protobuf/.libs/extension_set_heavy.o google/protobuf/.libs/generated_message_reflection.o google/protobuf/.libs/message.o google/protobuf/.libs/reflection_ops.o google/protobuf/.libs/service.o google/protobuf/.libs/text_format.o google/protobuf/.libs/unknown_field_set.o google/protobuf/.libs/wire_format.o google/protobuf/io/.libs/gzip_stream.o google/protobuf/io/.libs/printer.o google/protobuf/io/.libs/strtod.o google/protobuf/io/.libs/tokenizer.o google/protobuf/io/.libs/zero_copy_stream_impl.o   -lpthread -lz -L/usr/lib/gcc/x86_64-linux-gnu/5 -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/5/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/5/../../.. -lstdc++ -lm -lc -lgcc_s /usr/lib/gcc/x86_64-linux-gnu/5/crtendS.o /usr/lib/gcc/x86_64-linux-gnu/5/../../../x86_64-linux-gnu/crtn.o  -pthread -g -O2 -fstack-protector-strong -g   -pthread -Wl,-soname -Wl,libprotobuf.so.9 -o .libs/libprotobuf.so.9.0.0
-libtool: link: (cd ".libs" && rm -f "libprotobuf.so.9" && ln -s "libprotobuf.so.9.0.0" "libprotobuf.so.9")
-libtool: link: (cd ".libs" && rm -f "libprotobuf.so" && ln -s "libprotobuf.so.9.0.0" "libprotobuf.so")
-libtool: link: ( cd ".libs" && rm -f "libprotobuf.la" && ln -s "../libprotobuf.la" "libprotobuf.la" )
-make[2]: Leaving directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build/src'
-make[1]: Leaving directory '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/src/pb_build'
-configure: Using the following compilation and linking flags for flowWorkspace
-configure:    PKG_CPPFLAGS=-I/usr/include/libxml2 -Iprotobuf-2.6.0/src
-configure:    PB_INCLUDE=protobuf-2.6.0/src
-configure:    PKG_LIBS=-lxml2 
-configure: creating ./config.status
-config.status: creating src/Makevars
-** libs
-mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/include/flowWorkspace"
-cp include/* /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/include/flowWorkspace
-cp -r protobuf-2.6.0/src/google /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/include
-cp GatingSet.pb.h /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/include #GatingSet.pb.h is autogenerated by protoc and thus kept at the same folder as GatingSet.proto
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c delimitedMessage.cpp -o delimitedMessage.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c global.cpp -o global.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.pb.cc -o GatingSet.pb.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c ellipse2points.cpp -o ellipse2points.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c calibrationTable.cpp -o calibrationTable.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c compensation.cpp -o compensation.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c POPINDICES.cpp -o POPINDICES.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowData.cpp -o flowData.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c spline.cpp -o spline.o
-mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib"
-ar rs "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a" pb_build/src/google/protobuf/.libs/*.o pb_build/src/google/protobuf/stubs/.libs/*.o pb_build/src/google/protobuf/io/.libs/*.o
-ar: creating /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c nodeProperties.cpp -o nodeProperties.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c gate.cpp -o gate.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c transformation.cpp -o transformation.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c wsNode.cpp -o wsNode.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c workspace.cpp -o workspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c getSingleCellExpression.cpp -o getSingleCellExpression.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c winFlowJoWorkspace.cpp -o winFlowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingSet.cpp -o R_GatingSet.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c RcppExports.cpp -o RcppExports.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c macFlowJoWorkspace.cpp -o macFlowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_API.cpp -o R_API.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c flowJoWorkspace.cpp -o flowJoWorkspace.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingSet.cpp -o GatingSet.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c R_GatingHierarchy.cpp -o R_GatingHierarchy.o
-g++ -std=gnu++11 -I/usr/share/R/include -DNDEBUG -DROUT -I/usr/include/libxml2 -Iprotobuf-2.6.0/src -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/Rcpp/include" -I"/home/muelleki/git/R/dplyr/revdep/library/dplyr/old/BH/include"    -fpic  -g -O2 -fstack-protector-strong -Wformat -Werror=format-security -Wdate-time -D_FORTIFY_SOURCE=2 -g -c GatingHierarchy.cpp -o GatingHierarchy.o
-mkdir -p "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib"
-ar rs "/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a" GatingHierarchy.o GatingSet.o GatingSet.pb.o POPINDICES.o R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o calibrationTable.o compensation.o delimitedMessage.o ellipse2points.o flowData.o flowJoWorkspace.o gate.o getSingleCellExpression.o global.o macFlowJoWorkspace.o nodeProperties.o spline.o transformation.o winFlowJoWorkspace.o workspace.o wsNode.o
-ar: creating /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a
-g++ -std=gnu++11 -shared -L/usr/lib/R/lib -Wl,-Bsymbolic-functions -Wl,-z,relro -o flowWorkspace.so GatingHierarchy.o GatingSet.o GatingSet.pb.o POPINDICES.o R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o calibrationTable.o compensation.o delimitedMessage.o ellipse2points.o flowData.o flowJoWorkspace.o gate.o getSingleCellExpression.o global.o macFlowJoWorkspace.o nodeProperties.o spline.o transformation.o winFlowJoWorkspace.o workspace.o wsNode.o /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libprotobuf.a /home/muelleki/git/R/dplyr/revdep/library/flowWorkspace/flowCore/lib/libboost_regex.a -lxml2 -L/usr/lib/R/lib -lR
-installing to /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/libs
-** R
-** inst
-** preparing package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** installing vignettes
-** testing if installed package can be loaded
-Error: package or namespace load failed for ‘flowWorkspace’ in dyn.load(file, DLLpath = DLLpath, ...):
- unable to load shared object '/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/libs/flowWorkspace.so':
-  /home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/libs/flowWorkspace.so: undefined symbol: _ZN5boost16re_detail_10650012perl_matcherIN9__gnu_cxx17__normal_iteratorIPKcNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEEESaINS_9sub_matchISC_EEENS_12regex_traitsIcNS_16cpp_regex_traitsIcEEEEE14construct_initERKNS_11basic_regexIcSJ_EENS_15regex_constants12_match_flagsE
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/home/muelleki/git/R/dplyr/revdep/checks/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace’
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
 
-```
 # foghorn
 
 Version: 0.4.4
@@ -3323,18 +1971,18 @@ Version: 0.4.4
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      5: withVisible(code)
-      6: show_cran_results("rotl", show_log = FALSE)
-      7: parse_cran_results(pkg)
-      8: parse_cran_checks_pkg(pkg)
-      9: stop("Invalid package name(s): ", pkg[bad], call. = FALSE)
+      
       
       testthat results ================================================================
-      OK: 32 SKIPPED: 0 FAILED: 4
+      OK: 51 SKIPPED: 0 FAILED: 8
       1. Failure: output of summary cran results (@test-foghorn.R#176) 
       2. Failure: output of summary cran results (@test-foghorn.R#178) 
-      3. Error: output of summary cran results (@test-foghorn.R#187) 
-      4. Error: output of show cran results (@test-foghorn.R#264) 
+      3. Failure: output of summary cran results (@test-foghorn.R#189) 
+      4. Failure: output of summary cran results (@test-foghorn.R#201) 
+      5. Failure: output of summary cran results (@test-foghorn.R#213) 
+      6. Failure: output of summary cran results (@test-foghorn.R#226) 
+      7. Failure: output of summary cran results (@test-foghorn.R#233) 
+      8. Failure: output of summary cran results (@test-foghorn.R#239) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -3387,7 +2035,7 @@ Version: 0.1.5
 
 # FSA
 
-Version: 0.8.14
+Version: 0.8.16
 
 ## In both
 
@@ -3902,6 +2550,35 @@ Version: 0.1.3
       All declared Imports should be used.
     ```
 
+# ggmap
+
+Version: 2.6.1
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘ggmap-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: print.ggmap
+    > ### Title: Print a map
+    > ### Aliases: print.ggmap
+    > 
+    > ### ** Examples
+    > 
+    > 
+    > get_map()
+    Map from URL : http://maps.googleapis.com/maps/api/staticmap?center=29.763284,-95.363271&zoom=10&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false
+    1280x1280 terrain map image from Google Maps.  see ?ggmap to plot it.> ggmap(get_map())
+    Warning in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb") :
+      cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=29.763284,-95.363271&zoom=10&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false': HTTP status was '403 Forbidden'
+    Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb") : 
+      cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=29.763284,-95.363271&zoom=10&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false'
+    Calls: ggmap -> get_map -> get_googlemap -> download.file
+    Execution halted
+    ```
+
 # ggmosaic
 
 Version: 0.1.2
@@ -4374,34 +3051,6 @@ Version: 0.1.3
       Note: found 13617 marked UTF-8 strings
     ```
 
-# hansard
-
-Version: 0.5.2
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat-misc2.R’ failed.
-    Last 13 lines of output:
-             tidy = tidy, tidy_style = tidy_style)
-      3: jsonlite::fromJSON(paste0(baseurl, query, dates, extra_args), flatten = TRUE)
-      4: fromJSON_string(txt = txt, simplifyVector = simplifyVector, simplifyDataFrame = simplifyDataFrame, 
-             simplifyMatrix = simplifyMatrix, flatten = flatten, ...)
-      5: parseJSON(txt, bigint_as_char)
-      6: parse_con(txt, bigint_as_char)
-      7: open(con, "rb")
-      8: open.connection(con, "rb")
-      
-      testthat results ================================================================
-      OK: 0 SKIPPED: 0 FAILED: 1
-      1. Error: papers laid, publications, sessions, tv  functions return expected format (@test_misc2.R#8) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # harrietr
 
 Version: 0.2.2
@@ -4449,11 +3098,65 @@ Version: 0.1
     Execution halted
     ```
 
+# hei
+
+Version: 0.1.0
+
+## In both
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+      Files named as vignettes but with no recognized vignette engine:
+       ‘vignettes/Analysis.Rmd’
+    (Is a VignetteBuilder field missing?)
+    
+    Attaching package: 'dplyr'
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
+    simpleWarning in download.file(url, tf, mode = "wb", quiet = TRUE): downloaded length 10292897 != reported length 13640000
+    
+    
+    Quitting from lines 36-39 (GettingStarted.Rmd) 
+    Error: processing vignette 'GettingStarted.Rmd' failed with diagnostics:
+    attempt to set an attribute on NULL
+    Execution halted
+    ```
+
 # hiAnnotator
 
 Version: 1.10.0
 
 ## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/runTests.R’ failed.
+    Last 13 lines of output:
+      Component "queryHits": Numeric: lengths (5, 4) differ
+      Component "subjectHits": Numeric: lengths (5, 4) differ
+      Component "dist": Numeric: lengths (5, 4) differ
+      Component "qStrand": Lengths (5, 4) differ (string compare on first 4)
+      Component "u2": Numeric: lengths (5, 4) differ
+      Component "u1": Numeric: lengths (5, 4) differ
+      Component "d1": Numeric: lengths (5, 4) differ
+      Component "d2": Numeric: lengths (5, 4) differ
+      
+      
+      DONE ===========================================================================
+      Error: Test failures
+      In addition: Warning message:
+      Placing tests in `inst/tests/` is deprecated. Please use `tests/testthat/` instead 
+      Execution halted
+    ```
 
 *   checking R code for possible problems ... NOTE
     ```
@@ -4555,7 +3258,7 @@ Version: 0.0.1
 
 # huxtable
 
-Version: 0.3.0
+Version: 0.3.1
 
 ## In both
 
@@ -4574,12 +3277,21 @@ Version: 0.3.0
       9: stop("pandoc document conversion failed with error ", result, call. = FALSE)
       
       testthat results ================================================================
-      OK: 208 SKIPPED: 14 FAILED: 1
+      OK: 218 SKIPPED: 49 FAILED: 1
       1. Error: Row heights do not screw up latex multicol (@test-with-pandoc.R#20) 
       
       Error: testthat unit tests failed
       Execution halted
     ```
+
+# hypothesisr
+
+Version: 0.1.1
+
+## Newly broken
+
+*   R CMD check timed out
+    
 
 # IATscores
 
@@ -5218,7 +3930,7 @@ Version: 0.3.0
     > 
     > macleish <- etl("macleish")
     Not a valid src. Creating a src_sqlite for you at:
-    /home/muelleki/tmp/RtmpMTCVkE/filef0b068090750.sqlite3
+    /home/muelleki/tmp/RtmpA2EjS7/file7f0f2d70803.sqlite3
     Error: The dbplyr package is required to communicate with database backends.
     Execution halted
     ```
@@ -5335,7 +4047,7 @@ Version: 0.2.7
       > 
       > test_check("mnis", filter= "a")
       1. Failure: mnis_additional returns expected format (@test_additional.R#80) ----
-      `xi` has length 349, not length 285.
+      `xi` has length 339, not length 285.
       
       
       testthat results ================================================================
@@ -5437,6 +4149,9 @@ Version: 1.1.6
 Version: 0.4.1
 
 ## In both
+
+*   R CMD check timed out
+    
 
 *   checking installed package size ... NOTE
     ```
@@ -5690,15 +4405,6 @@ Version: 0.2.1
     manual.
     ```
 
-# naniar
-
-Version: 0.1.0
-
-## In both
-
-*   R CMD check timed out
-    
-
 # neuropsychology
 
 Version: 0.5.0
@@ -5747,6 +4453,17 @@ Version: 0.1.0
       ‘RColorBrewer’ ‘XML’ ‘choroplethr’ ‘choroplethrMaps’ ‘data.table’
       ‘forcats’ ‘hurricaneexposure’ ‘plyr’
       All declared Imports should be used.
+    ```
+
+# nos
+
+Version: 1.1.0
+
+## In both
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘bipartite’
     ```
 
 # nullabor
@@ -5948,6 +4665,18 @@ Version: 0.1.2
     Execution halted
     ```
 
+# opendotaR
+
+Version: 0.1.4
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘dplyr’
+      All declared Imports should be used.
+    ```
+
 # openwindfarm
 
 Version: 0.1.0
@@ -6062,6 +4791,19 @@ Version: 0.1
 *   checking for GNU extensions in Makefiles ... NOTE
     ```
     GNU make is a SystemRequirements.
+    ```
+
+# perccalc
+
+Version: 1.0.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘MASS’ ‘devtools’ ‘ggplot2’ ‘haven’ ‘tidyverse’
+      All declared Imports should be used.
     ```
 
 # philr
@@ -6237,6 +4979,18 @@ Version: 0.99.17.3
     Execution halted
     ```
 
+# powerlmm
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘testthat’
+      All declared Imports should be used.
+    ```
+
 # prisonbrief
 
 Version: 0.1.0
@@ -6251,34 +5005,6 @@ Version: 0.1.0
 # pRoloc
 
 Version: 1.16.1
-
-## Newly fixed
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    Retaining 79 out of 84 in GOAnnotations
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:2 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:4 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:16 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:2 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:16 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:16 sigma:0.1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:1 sigma:1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:16 sigma:0.1.
-    Quitting from lines 564-572 (pRoloc-transfer-learning.Rnw) 
-    Error: processing vignette 'pRoloc-transfer-learning.Rnw' failed with diagnostics:
-    cannot open the connection
-    Execution halted
-    ```
 
 ## In both
 
@@ -6321,6 +5047,14 @@ Version: 1.10.0
 
 ## In both
 
+*   checking whether package ‘pRolocGUI’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: namespace ‘lme4’ is not available and has been replaced
+      Warning: namespace ‘MatrixModels’ is not available and has been replaced
+    See ‘/home/muelleki/git/R/dplyr/revdep/checks/pRolocGUI/new/pRolocGUI.Rcheck/00install.out’ for details.
+    ```
+
 *   checking DESCRIPTION meta-information ... NOTE
     ```
     Authors@R field gives more than one person with maintainer role:
@@ -6336,44 +5070,20 @@ Version: 1.10.0
 
 # prophet
 
-Version: 0.1.1
+Version: 0.2
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 22.7Mb
+      installed size is 22.9Mb
       sub-directories of 1Mb or more:
-        libs  21.5Mb
+        libs  21.7Mb
     ```
 
 # proteoQC
 
 Version: 1.12.3
-
-## Newly fixed
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘proteoQC-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: labelRatio
-    > ### Title: Calculate the labeling efficiency of isobaric labeling data
-    > ### Aliases: labelRatio
-    > 
-    > ### ** Examples
-    > 
-    > mgf.zip <- system.file("extdata/mgf.zip", package = "proteoQC")
-    > unzip(mgf.zip)
-    > a <- labelRatio("test.mgf",reporter=2)
-    Warning in socketConnection(host, port, TRUE, TRUE, "a+b", timeout = timeout) :
-      port 11161 cannot be opened
-    Error in socketConnection(host, port, TRUE, TRUE, "a+b", timeout = timeout) : 
-      cannot open the connection
-    Calls: labelRatio ... .local -> .bpfork -> .bpforkConnect -> socketConnection
-    Execution halted
-    ```
 
 ## In both
 
@@ -6724,7 +5434,7 @@ Version: 5.1.0
 *   checking dependencies in R code ... NOTE
     ```
     
-    (R:3449): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
+    (R:55283): Gtk-WARNING **: gtk_disable_setlocale() must be called before gtk_init()
     ```
 
 # RBesT
@@ -6850,18 +5560,18 @@ Version: 0.9.8
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
     Last 13 lines of output:
-      6. Failure: Write Batch -Insert (@test-write-batch.R#58) -----------------------
-      returned_object$success isn't true.
+      
+      3. Failure: Write One Shot -Insert (@test-write-oneshot.R#52) ------------------
+      The returned data.frame should be correct not equal to `expected_data_frame`.
+      Component "address": Modes: numeric, character
+      Component "address": target is numeric, current is character
       
       
       testthat results ================================================================
-      OK: 564 SKIPPED: 0 FAILED: 6
-      1. Error: NameComesFromREDCap (@test-file-oneshot.R#30) 
-      2. Failure: Write Batch -Insert (@test-write-batch.R#16) 
-      3. Failure: Write Batch -Insert (@test-write-batch.R#52) 
-      4. Failure: Write Batch -Insert (@test-write-batch.R#54) 
-      5. Failure: Write Batch -Insert (@test-write-batch.R#57) 
-      6. Failure: Write Batch -Insert (@test-write-batch.R#58) 
+      OK: 567 SKIPPED: 0 FAILED: 3
+      1. Error: Full Directory Specific (@test-file-oneshot.R#183) 
+      2. Failure: Write Batch -Update Two Fields (@test-write-batch.R#173) 
+      3. Failure: Write One Shot -Insert (@test-write-oneshot.R#52) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -6944,18 +5654,6 @@ Version: 2.1.2
       Note: found 44 marked UTF-8 strings
     ```
 
-# Rilostat
-
-Version: 0.1
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘lazyeval’
-      All declared Imports should be used.
-    ```
-
 # rmapzen
 
 Version: 0.3.3
@@ -7036,18 +5734,18 @@ Version: 1.1.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      Content type 'text/html; charset=utf-8' length 481918 bytes (470 KB)
-      ==================================================
       downloaded 470 KB
       
       testthat results ================================================================
-      OK: 112 SKIPPED: 0 FAILED: 6
-      1. Failure: nhanes_search on variables passes spot check (@test_search.R#13) 
-      2. Failure: nhanes_search on variables passes spot check (@test_search.R#14) 
-      3. Failure: nhanes_search on files passes spot check (@test_search.R#20) 
-      4. Failure: nhanes_search on files passes spot check (@test_search.R#21) 
-      5. Failure: fuzzy search works on files (@test_search.R#33) 
-      6. Failure: fuzzy search works on files (@test_search.R#34) 
+      OK: 110 SKIPPED: 0 FAILED: 8
+      1. Error: it can download a file with demographics (@test_data_files.R#132) 
+      2. Failure: it can recode just data (@test_data_files.R#148) 
+      3. Failure: nhanes_search on variables passes spot check (@test_search.R#13) 
+      4. Failure: nhanes_search on variables passes spot check (@test_search.R#14) 
+      5. Failure: nhanes_search on files passes spot check (@test_search.R#20) 
+      6. Failure: nhanes_search on files passes spot check (@test_search.R#21) 
+      7. Failure: fuzzy search works on files (@test_search.R#33) 
+      8. Failure: fuzzy search works on files (@test_search.R#34) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -7064,50 +5762,21 @@ Version: 0.7.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      
       testthat results ================================================================
-      OK: 168 SKIPPED: 1 FAILED: 15
+      OK: 181 SKIPPED: 1 FAILED: 9
       1. Error: check_response returns an error (@test-check_response.r#7) 
       2. Error: check_response returns the correct error messages (@test-check_response.r#26) 
-      3. Error: gefs time and ensemble selection returns correct indices. (@test-gefs.R#25) 
-      4. Error: gefs_variables returns characters. (@test-gefs.R#52) 
-      5. Error: gefs_latitudes returns numeric. (@test-gefs.R#63) 
-      6. Error: gefs_longitudes returns numeric. (@test-gefs.R#73) 
-      7. Error: gefs_dimensions returns character list. (@test-gefs.R#83) 
-      8. Error: gefs_dimension_values returns numeric array. (@test-gefs.R#93) 
-      9. Error: ncdc returns the correct ... (@test-ncdc.r#8) 
-      1. ...
+      3. Error: ncdc returns the correct ... (@test-ncdc.r#8) 
+      4. Error: ncdc_datacats returns the correct ... (@test-ncdc_datacats.r#7) 
+      5. Error: ncdc_datasets returns the correct class (@test-ncdc_datasets.r#7) 
+      6. Error: ncdc_datatypes returns the correct class (@test-ncdc_datatypes.r#7) 
+      7. Error: ncdc_locs returns the correct class (@test-ncdc_locs.r#7) 
+      8. Error: ncdc_locs_cats returns the correct ... (@test-ncdc_locs_cats.r#7) 
+      9. Error: ncdc_stations returns the correct... (@test-ncdc_stations.r#7) 
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# roadoi
-
-Version: 0.3
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Error : Oops, API did not return json after calling '§dldl  ':
-            check your query - or api.oadoi.org may experience problems
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 141-142 (intro.Rmd) 
-    Error: processing vignette 'intro.Rmd' failed with diagnostics:
-    Timeout was reached: Operation timed out after 10001 milliseconds with 0 bytes received
-    Execution halted
     ```
 
 # rODE
@@ -7240,18 +5909,18 @@ Version: 0.2.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      
-      
-      2. Failure: Test transformation from dataframe to h2o frame (@test_transforms.R#81) 
-      ncol(mtcars_tbl) not equal to ncol(mtcars_hf).
-      Modes: logical, numeric
       target is logical, current is numeric
       
       
       testthat results ================================================================
-      OK: 31 SKIPPED: 0 FAILED: 2
-      1. Failure: Test transformation from h2o frame to data frame (@test_transforms.R#12) 
-      2. Failure: Test transformation from dataframe to h2o frame (@test_transforms.R#81) 
+      OK: 6 SKIPPED: 0 FAILED: 7
+      1. Error: Test transformation from h2o frame to data frame (@test_transforms.R#5) 
+      2. Error: Test transformation of a spark data_frame of bools to an h2o frame of bools (@test_transforms.R#17) 
+      3. Error: Test transformation of a spark data_frame of complex types to an h2o frame of complex types (@test_transforms.R#29) 
+      4. Error: Test transformation of a spark data_frame of float types to an h2o frame of floats (@test_transforms.R#43) 
+      5. Error: Test transformation of a spark data_frame of int types to an h2o frame of ints (@test_transforms.R#54) 
+      6. Error: Test transformation of a spark data_frame of str types to an h2o frame of str (@test_transforms.R#67) 
+      7. Failure: Test transformation from dataframe to h2o frame (@test_transforms.R#81) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -7371,6 +6040,34 @@ Version: 0.1.0
       All declared Imports should be used.
     ```
 
+# rvertnet
+
+Version: 0.6.0
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      > library("rvertnet")
+      > 
+      > test_check("rvertnet")
+      1. Failure: searchbyterm works correctly (@test-searchbyterm.R#12) -------------
+      NROW(searchbyterm(limit = 1, messages = FALSE)$data) not equal to 1.
+      1/1 mismatches
+      [1] 0 - 1 == -1
+      
+      
+      testthat results ================================================================
+      OK: 109 SKIPPED: 0 FAILED: 1
+      1. Failure: searchbyterm works correctly (@test-searchbyterm.R#12) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # SanFranBeachWater
 
 Version: 0.1.0
@@ -7380,6 +6077,25 @@ Version: 0.1.0
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘tibble’
+      All declared Imports should be used.
+    ```
+
+# scanstatistics
+
+Version: 1.0.0
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.8Mb
+      sub-directories of 1Mb or more:
+        libs   6.3Mb
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘gamlss.dist’
       All declared Imports should be used.
     ```
 
@@ -7414,6 +6130,19 @@ Version: 1.4.0
     their full name.
     See chapter ‘Writing R documentation files’ in the ‘Writing R
     Extensions’ manual.
+    ```
+
+# SCORPIUS
+
+Version: 1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘Rcpp’ ‘testthat’
+      All declared Imports should be used.
     ```
 
 # sejmRP
@@ -7594,7 +6323,7 @@ Version: 3.6.3
 
 # sjlabelled
 
-Version: 1.0.1
+Version: 1.0.2
 
 ## In both
 
@@ -7625,15 +6354,12 @@ Version: 2.3.3
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘ggeffects’
-      All declared Imports should be used.
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘plm’
+    Package required but not available: ‘effects’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # sjstats
@@ -7658,18 +6384,18 @@ Version: 0.4.0
      ERROR
     Running the tests in ‘tests/test-all.R’ failed.
     Last 13 lines of output:
+             url), call. = FALSE)
+      
       testthat results ================================================================
-      OK: 160 SKIPPED: 0 FAILED: 12
+      OK: 208 SKIPPED: 0 FAILED: 8
       1. Error: core_create works (@test-core_create.R#6) 
       2. Error: ping works against (@test-ping.R#7) 
       3. Error: ping gives raw data correctly (@test-ping.R#20) 
       4. Error: ping fails well (@test-ping.R#31) 
       5. Error: schema works against (@test-schema.R#7) 
       6. Error: schema fails well (@test-schema.R#32) 
-      7. Error: solr_all works (@test-solr_all.R#9) 
-      8. Error: solr_connect to local Solr server works (@test-solr_connect.R#19) 
-      9. Error: solr_connect works with a proxy (@test-solr_connect.R#33) 
-      1. ...
+      7. Error: solr_connect to local Solr server works (@test-solr_connect.R#19) 
+      8. Error: solr_connect works with a proxy (@test-solr_connect.R#33) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -7736,79 +6462,11 @@ Version: 1.0.1
       All declared Imports should be used.
     ```
 
-# SpaDES
-
-Version: 1.3.1
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/test-all.R’ failed.
-    Last 13 lines of output:
-      
-      For help writing in RMarkdown, see http://rmarkdown.rstudio.com/.
-      
-      [35m# Usage[0m[24;63H1,1[11CTop[1;1H[34h[?25h[24;1H[?1l>[?1049lVim: Error reading input, exiting...
-      
-      Vim: Finished.
-      [24;1Htestthat results ================================================================
-      OK: 960 SKIPPED: 15 FAILED: 4
-      1. Failure: downloadModule downloads and unzips a single module (@test-downloadModule.R#26) 
-      2. Failure: downloadData downloads and unzips module data (@test-downloadModule.R#77) 
-      3. Failure: downloadData downloads and unzips module data (@test-downloadModule.R#81) 
-      4. Error: downloadData downloads and unzips module data (@test-downloadModule.R#98) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking whether package ‘SpaDES’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: no DISPLAY variable so Tk is not available
-    See ‘/home/muelleki/git/R/dplyr/revdep/checks/SpaDES/new/SpaDES.Rcheck/00install.out’ for details.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘fastshp’
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘rstudioapi’
-      All declared Imports should be used.
-    ```
-
 # SpaDES.core
 
 Version: 0.1.0
 
 ## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/test-all.R’ failed.
-    Last 13 lines of output:
-      3: downloadModule(name, path, version, repo, data, quiet)
-      4: downloadModule(name, path, version, repo, data, quiet)
-      5: checkModule(name, repo)
-      6: checkModule(name, repo)
-      7: stop_for_status(request)
-      
-      testthat results ================================================================
-      OK: 299 SKIPPED: 2 FAILED: 2
-      1. Error: downloadModule downloads and unzips a parent module (@test-downloadModule.R#46) 
-      2. Error: downloadData downloads and unzips module data (@test-downloadModule.R#73) 
-      
-      Error: testthat unit tests failed
-      In addition: Warning message:
-      no DISPLAY variable so Tk is not available 
-      Execution halted
-    ```
 
 *   checking whether package ‘SpaDES.core’ can be installed ... WARNING
     ```
@@ -7834,34 +6492,6 @@ Version: 0.1.0
     ```
     Namespace in Imports field not imported from: ‘fastdigest’
       All declared Imports should be used.
-    ```
-
-# sparklyr
-
-Version: 0.6.2
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-          Log: /home/muelleki/tmp/RtmpA1IyMK/fileae30636f8bd_spark.log
-      
-      
-      ---- Output Log ----
-      17/09/05 19:10:21 INFO sparklyr: Session (1904) is starting under 127.0.0.1 port 8880
-      17/09/05 19:10:21 INFO sparklyr: Session (1904) found port 8880 is not available
-      17/09/05 19:10:21 INFO sparklyr: Backend (1904) is registering session in gateway
-      17/09/05 19:10:21 INFO sparklyr: Backend (1904) is waiting for registration in gateway
-      (17/09/05 19:10:21 ERROR sparklyr: Backend (1904) is shutting down from init() with exception ,java.net.SocketException: Connection reset)
-      
-      ---- Error Log ----
-      Calls: test_check ... tryCatchOne -> <Anonymous> -> abort_shell -> <Anonymous> -> force
-      testthat results ================================================================
-      OK: 0 SKIPPED: 0 FAILED: 0
-      Execution halted
     ```
 
 # sparseHessianFD
@@ -8016,6 +6646,19 @@ Version: 0.3.0
     ```
     Namespaces in Imports field not imported from:
       ‘magrittr’ ‘rpart’
+      All declared Imports should be used.
+    ```
+
+# statsDK
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘dplyr’ ‘ggplot2’ ‘stringr’ ‘tidyverse’
       All declared Imports should be used.
     ```
 
@@ -8190,7 +6833,7 @@ Version: 0.1.2
 
 # TCGAbiolinks
 
-Version: 2.5.7
+Version: 2.5.9
 
 ## In both
 
@@ -8222,18 +6865,16 @@ Version: 2.5.7
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 66.0Mb
+      installed size is 61.0Mb
       sub-directories of 1Mb or more:
         R      1.1Mb
-        data   6.4Mb
-        doc   58.2Mb
+        data   2.3Mb
+        doc   57.4Mb
     ```
 
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      ‘limmamakeContrasts’
-    TCGAanalyze_DEA_Affy: no visible global function definition for
       ‘limmacontrasts.fit’
     TCGAanalyze_analyseGRN: no visible global function definition for
       ‘knnmi.cross’
@@ -8250,9 +6891,11 @@ Version: 2.5.7
     TCGAvisualize_SurvivalCoxNET: no visible global function definition for
       ‘visNet’
     TCGAvisualize_oncoprint: no visible binding for global variable ‘value’
+    getTSS: no visible global function definition for ‘promoters’
     Undefined global functions or variables:
       c3net dCommSignif dNetInduce dNetPipeline knnmi.cross
-      limmacontrasts.fit limmamakeContrasts minet portions value visNet
+      limmacontrasts.fit limmamakeContrasts minet portions promoters value
+      visNet
     ```
 
 *   checking for unstated dependencies in vignettes ... NOTE
@@ -8450,6 +7093,18 @@ Version: 0.7.1
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 23 marked UTF-8 strings
+    ```
+
+# tidyRSS
+
+Version: 1.2.2
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘testthat’
+      All declared Imports should be used.
     ```
 
 # tilegramsR
@@ -8761,15 +7416,6 @@ Version: 4.7.0
     Packages unavailable to check Rd xrefs: ‘mvoutlier’, ‘StatDA’, ‘mi’, ‘tkrplot’
     ```
 
-# visdat
-
-Version: 0.1.0
-
-## In both
-
-*   R CMD check timed out
-    
-
 # vqtl
 
 Version: 1.2.0
@@ -8805,34 +7451,6 @@ Version: 3.44.0
 # waccR
 
 Version: 0.1.0
-
-## Newly fixed
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    7efc7d0f3000-7efc7d244000 rw-p 00000000 00:00 0 
-    7efc7d244000-7efc7d26a000 r-xp 00000000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
-    7efc7d270000-7efc7d272000 r-xp 00000000 08:21 9044237                    /home/muelleki/git/R/dplyr/revdep/library/dplyr/old/glue/libs/glue.so
-    7efc7d272000-7efc7d273000 r--p 00001000 08:21 9044237                    /home/muelleki/git/R/dplyr/revdep/library/dplyr/old/glue/libs/glue.so
-    7efc7d273000-7efc7d274000 rw-p 00002000 08:21 9044237                    /home/muelleki/git/R/dplyr/revdep/library/dplyr/old/glue/libs/glue.so
-    7efc7d274000-7efc7d44c000 rw-p 00000000 00:00 0 
-    7efc7d44d000-7efc7d44e000 rw-p 00000000 00:00 0 
-    7efc7d44e000-7efc7d45d000 r-xp 00000000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7efc7d45d000-7efc7d45e000 ---p 0000f000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7efc7d45e000-7efc7d45f000 r--p 0000f000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7efc7d45f000-7efc7d460000 rw-p 00010000 08:21 12064918                   /home/muelleki/git/R/dplyr/revdep/library/waccR/htmltools/libs/htmltools.so
-    7efc7d460000-7efc7d467000 r--s 00000000 08:01 27320                      /usr/lib/x86_64-linux-gnu/gconv/gconv-modules.cache
-    7efc7d467000-7efc7d469000 rw-p 00000000 00:00 0 
-    7efc7d469000-7efc7d46a000 r--p 00025000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
-    7efc7d46a000-7efc7d46b000 rw-p 00026000 08:01 16865                      /lib/x86_64-linux-gnu/ld-2.23.so
-    7efc7d46b000-7efc7d46c000 rw-p 00000000 00:00 0 
-    7ffe13e80000-7ffe13ef9000 rw-p 00000000 00:00 0                          [stack]
-    7ffe13f1c000-7ffe13f1e000 r--p 00000000 00:00 0                          [vvar]
-    7ffe13f1e000-7ffe13f20000 r-xp 00000000 00:00 0                          [vdso]
-    ffffffffff600000-ffffffffff601000 r-xp 00000000 00:00 0                  [vsyscall]
-    Aborted (core dumped)
-    ```
 
 ## In both
 
@@ -8941,7 +7559,7 @@ Version: 1.1.10
       
       
       Error in curl::curl_fetch_memory(url, handle = handle) : 
-        Timeout was reached: Connection timed out after 10000 milliseconds
+        Timeout was reached: Connection timed out after 10001 milliseconds
       Error in curl::curl_fetch_memory(url, handle = handle) : 
         Timeout was reached: Connection timed out after 10001 milliseconds
       testthat results ================================================================
@@ -8958,11 +7576,11 @@ Version: 1.1.10
     ...
       The vignette engine knitr::rmarkdown is not available, because the rmarkdown package is not installed. Please install it.
     Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10001 milliseconds
+      Timeout was reached: Connection timed out after 10000 milliseconds
     http://stats.grok.se/json/en/201510/Main_page
     
     data from server was: Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10001 milliseconds
+      Timeout was reached: Connection timed out after 10000 milliseconds
     
     
     Error in curl::curl_fetch_memory(url, handle = handle) : 
