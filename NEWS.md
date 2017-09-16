@@ -2,6 +2,8 @@
 
 * Fix recent Fedora and ASAN check errors (#3098).
 
+* Avoid dependency on Rcpp 0.12.10 (#3106).
+
 # dplyr 0.7.3
 
 * Fixed protection error that occurred when creating a character column using grouped `mutate()` (#2971).
