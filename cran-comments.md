@@ -22,19 +22,18 @@ This is a minor bugfix release in response to errors with ASAN, UBSAN, and Fedor
 
 ## Reverse dependencies
 
-We checked 795 reverse dependencies (721 from CRAN + 74 from BioConductor) by running R CMD check twice, once with the CRAN version installed, and once with this version installed. We saw 3 new problems. We failed to check 4 packages. Issues are summarised below.
+We checked 804 reverse dependencies (730 from CRAN + 74 from BioConductor) by running R CMD check twice, once with the CRAN version installed, and once with this version installed. We saw 2 new problems. We failed to check 4 packages. Issues are summarised below.
 
 ### New problems
 
 Most likely web API problems:
 
-* censusr
-* hansard
-* roadoi
+* banR
+* FedData
 
 ### Failed to check
 
-* flowWorkspace (failed to install)
-* loon          (failed to install)
-* naniar        (check timed out)
-* visdat        (check timed out)
+* eyetrackingR (check timed out)
+* hypothesisr  (check timed out)
+* loon         (failed to install)
+* MonetDBLite  (check timed out)
