@@ -31,8 +31,15 @@ test_that("ntile always returns an integer", {
 })
 
 test_that("ntile handles character vectors consistently", {
-  x1 <- c("[", "]", NA, "B", "y", "a", "Z")
-  x2 <- c("a", "b", "C")
-  expect_equal(ntile_h(x1, 3), ntile_h_dplyr(x1, 3))
-  expect_equal(ntile_h(x2, 2), ntile_h_dplyr(x2, 2))
+  charvec_sort_test <- function() {
+    x1 <- c("[", "]", NA, "B", "y", "a", "Z")
+    x2 <- c("a", "b", "C")
+
+    expect_equal(ntile_h(x1, 3), ntile_h_dplyr(x1, 3))
+    expect_equal(ntile_h(x2, 2), ntile_h_dplyr(x2, 2))
+  }
+
+  # Test against both the local, and the C locale for collation
+  charvec_sort_test()
+  withr::with_collate("C", charvec_sort_test())
 })

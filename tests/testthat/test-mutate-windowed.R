@@ -11,10 +11,16 @@ test_that("desc is correctly handled by window functions", {
   expect_equal(mutate(group_by(df, g), rank = row_number(desc(x)))$rank, rep(5:1, 2))
 
   # Test character vector sorting
-  expect_equal(mutate(df, rank = row_number(desc(s)))$rank,
-               mutate(df, rank = dplyr::row_number(desc(s)))$rank)
-  expect_equal(mutate(group_by(df, g), rank = row_number(desc(s)))$rank,
-               mutate(group_by(df, g), rank = dplyr::row_number(desc(s)))$rank)
+  charvec_sort_test <- function(df) {
+    expect_equal(mutate(df, rank = row_number(desc(s)))$rank,
+                 mutate(df, rank = dplyr::row_number(desc(s)))$rank)
+    expect_equal(mutate(group_by(df, g), rank = row_number(desc(s)))$rank,
+                 mutate(group_by(df, g), rank = dplyr::row_number(desc(s)))$rank)
+  }
+
+  # Test against both the local, and the C locale for collation
+  charvec_sort_test(df)
+  withr::with_collate("C", charvec_sort_test(df))
 })
 
 test_that("row_number gives correct results", {
@@ -26,12 +32,17 @@ test_that("row_number gives correct results", {
 
   # Test character vector sorting by comparing C and R function outputs
   # Should be careful of testing against static return values due to locale differences
-  res2 <- group_by(tmp, id) %>% mutate(var = row_number(s), var_d = dplyr::row_number(s))
-  expect_equal(res2$var, res2$var_d)
+  charvec_sort_test <- function(tmp) {
+    res2 <- group_by(tmp, id) %>% mutate(var = row_number(s), var_d = dplyr::row_number(s))
+    expect_equal(res2$var, res2$var_d)
 
-  res3 <- data.frame(s = c("[", "]", NA, "a", "Z")) %>% mutate(var = row_number(s), var_d = dplyr::row_number(s))
-  expect_equal(res3$var, res3$var_d)
+    res3 <- data.frame(s = c("[", "]", NA, "a", "Z")) %>% mutate(var = row_number(s), var_d = dplyr::row_number(s))
+    expect_equal(res3$var, res3$var_d)
+  }
 
+  # Test against both the local, and the C locale for collation
+  charvec_sort_test(tmp)
+  withr::with_collate("C", charvec_sort_test(tmp))
 })
 
 test_that("row_number works with 0 arguments", {
