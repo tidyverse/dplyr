@@ -27,7 +27,7 @@ copy_to <- function(dest, df, name = deparse(substitute(df)),
 
 #' Copy tables to same source, if necessary
 #'
-#' @param x,y `y` will be copied to `x`, if neccessary.
+#' @param x,y `y` will be copied to `x`, if necessary.
 #' @param copy If `x` and `y` are not from the same data source,
 #'   and `copy` is `TRUE`, then `y` will be copied into the
 #'   same src as `x`.  This allows you to join tables across srcs, but

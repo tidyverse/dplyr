@@ -58,3 +58,7 @@ test_that("order_by() works in arbitrary envs (#2297)", {
     rev(cumsum(rev(1:5)))
   )
 })
+
+test_that("order_by() fails when not supplied a call (#3065)", {
+  expect_error(order_by(NULL, !! 1L), "`call` must be a function call, not an integer vector")
+})

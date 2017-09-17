@@ -27,3 +27,4 @@ demo/pandas
 ^vignettes/rsconnect$
 ^docs$
 ^_pkgdown\.yml$
+^issues$

@@ -1,11 +1,27 @@
-# dplyr 0.7.2.9000
+# dplyr 0.7.3
+
+* Fixed protection error that occurred when creating a character column using grouped `mutate()` (#2971).
+
+* Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
+
+* Fixed rare out-of-bounds memory write in `slice()` when negative indices beyond the number of rows were involved (#3073).
+
+* `select()`, `rename()` and `summarise()` no longer change the grouped vars of the original data (#3038).
+
+* `nth(default = var)`, `first(default = var)` and `last(default = var)` fall back to standard evaluation in a grouped operation instead of triggering an error (#3045).
+
+* `case_when()` now works if all LHS are atomic (#2909), or when LHS or RHS values are zero-length vectors (#3048).
+
+* `case_when()` accepts `NA` on the LHS (#2927).
+
+* Semi- and anti-joins now preserve the order of left-hand-side data frame (#3089).
+
+* Improved error message for invalid list arguments to `bind_rows()` (#3068).
 
 * Grouping by character vectors is now faster (#2204).
 
-* Fix protection error that occurred when creating a character column
-  using grouped `mutate()` (#2971).
-
-* `distinct()` now throws an error when used on unknown columns (#2867, @foo-bar-baz-qux).
+* Fixed a crash that occurred when an unexpected input was supplied to
+  the `call` argument of `order_by()` (#3065).
 
 # dplyr 0.7.2
 

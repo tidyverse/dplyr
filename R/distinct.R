@@ -76,20 +76,15 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
-  vars <- unique(c(names(vars), group_vars))
-  missing_vars <- setdiff(vars, names(.data))
-
-  if (length(missing_vars) > 0) {
-    bad_cols(missing_vars, "not found")
-  }
+  out_vars <- intersect(names(.data), c(names(vars), group_vars))
 
   if (.keep_all) {
     keep <- names(.data)
   } else {
-    keep <- unique(vars)
+    keep <- unique(out_vars)
   }
 
-  list(data = .data, vars = vars, keep = keep)
+  list(data = .data, vars = out_vars, keep = keep)
 }
 
 #' Efficiently count the number of unique values in a set of vector

@@ -58,7 +58,7 @@
 #'   same src as `x`.  This allows you to join tables across srcs, but
 #'   it is a potentially expensive operation so you must opt into it.
 #' @param suffix If there are non-joined duplicate variables in `x` and
-#'   `y`, these suffixes will be added to the output to diambiguate them.
+#'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
 #' @param ... other parameters passed onto methods
 #' @name join

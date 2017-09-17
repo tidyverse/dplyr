@@ -13,7 +13,7 @@
 #'
 #'   These dots are evaluated with [explicit splicing][rlang::dots_list].
 #' @export
-#' @return A vector as long as the longest LHS, with the type (and
+#' @return A vector as long as the longest LHS or RHS, with the type (and
 #'   attributes) of the first RHS.  Inconsistent lengths or types will
 #'   generate an error.
 #' @examples
@@ -85,22 +85,31 @@ case_when <- function(...) {
     value[[i]] <- eval_bare(f[[3]], env)
   }
 
-  m <- max(vapply(query, length, integer(1)))
+  lhs_lengths <- map_int(query, length)
+  rhs_lengths <- map_int(value, length)
+  all_lengths <- unique(c(lhs_lengths, rhs_lengths))
+  if (length(all_lengths) <= 1) {
+    m <- all_lengths[[1]]
+  } else {
+    non_atomic_lengths <- all_lengths[all_lengths != 1]
+    m <- non_atomic_lengths[[1]]
+    if (length(non_atomic_lengths) > 1) {
+      inconsistent_lengths <- non_atomic_lengths[-1]
+      lhs_problems <- lhs_lengths %in% inconsistent_lengths
+      rhs_problems <- rhs_lengths %in% inconsistent_lengths
+      problems <- lhs_problems | rhs_problems
+      bad_calls(
+        formulas[problems],
+        check_length_val(inconsistent_lengths, m, header = NULL, .abort = identity)
+      )
+    }
+  }
+
   out <- value[[1]][rep(NA_integer_, m)]
   replaced <- rep(FALSE, m)
 
   for (i in seq_len(n)) {
-    check_length(
-      query[[i]], out,
-      paste0("LHS of case ", i, " (", fmt_obj1(deparse_trunc(f_lhs(formulas[[i]]))), ")"),
-      "the longest input"
-    )
-
-    out <- replace_with(
-      out, query[[i]] & !replaced, value[[i]],
-      paste0("RHS of case ", i, " (", deparse_trunc(f_rhs(formulas[[i]])), ")"),
-      "the first output"
-    )
+    out <- replace_with(out, query[[i]] & !replaced, value[[i]], NULL)
     replaced <- replaced | (query[[i]] & !is.na(query[[i]]))
   }
 

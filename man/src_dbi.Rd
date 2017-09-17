@@ -36,7 +36,7 @@ as described in \code{\link[RMySQL:MySQL]{RMySQL::MySQL()}}.}
 ":memory:" to create a temporary in memory database.}
 
 \item{create}{if \code{FALSE}, \code{path} must already exist. If
-\code{TRUE}, will create a new SQlite3 database at \code{path} if
+\code{TRUE}, will create a new SQLite3 database at \code{path} if
 \code{path} does not exist and connect to the existing database if
 \code{path} does exist.}
 }
@@ -65,7 +65,7 @@ For best performance, the database should have an index on the variables
 that you are grouping by. Use \code{\link[=explain]{explain()}} to check that the database is using
 the indexes that you expect.
 
-There is one excpetion: \code{\link[=do]{do()}} is not lazy since it must pull the data
+There is one exception: \code{\link[=do]{do()}} is not lazy since it must pull the data
 into R.
 }
 \examples{

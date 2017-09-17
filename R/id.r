@@ -4,11 +4,11 @@
 #' \itemize{
 #'   \item `order(id)` is equivalent to `do.call(order, df)`
 #'   \item rows containing the same data have the same value
-#'   \item if `drop = FALSE` then room for all possibilites
+#'   \item if `drop = FALSE` then room for all possibilities
 #' }
 #'
 #' @param .variables list of variables
-#' @param drop drop unusued factor levels?
+#' @param drop drop unused factor levels?
 #' @return a numeric vector with attribute n, giving total number of
 #'   possibilities
 #' @keywords internal
