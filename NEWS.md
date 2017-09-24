@@ -43,13 +43,13 @@
 
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
+* Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
 
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
 
 * Avoid dependency on Rcpp 0.12.10 (#3106).
-
 
 # dplyr 0.7.3
 
