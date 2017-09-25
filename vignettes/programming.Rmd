@@ -278,7 +278,7 @@ that actually does what we want.
 ```{r}
 my_summarise <- function(df, group_var) {
   df %>%
-    group_by(!!group_var) %>%
+    group_by(!! group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -304,7 +304,7 @@ my_summarise <- function(df, group_var) {
   print(quo_group_var)
 
   df %>%
-    group_by(!!quo_group_var) %>%
+    group_by(!! quo_group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -327,7 +327,7 @@ my_summarise <- function(df, group_var) {
   print(group_var)
 
   df %>%
-    group_by(!!group_var) %>%
+    group_by(!! group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -359,7 +359,7 @@ expression.
 
 ```{r}
 my_var <- quo(a)
-summarise(df, mean = mean(!!my_var), sum = sum(!!my_var), n = n())
+summarise(df, mean = mean(!! my_var), sum = sum(!! my_var), n = n())
 ```
 
 You can also wrap `quo()` around the dplyr call to see what will happen from
@@ -367,8 +367,8 @@ dplyr's perspective. This is a very useful tool for debugging.
 
 ```{r}
 quo(summarise(df,
-  mean = mean(!!my_var),
-  sum = sum(!!my_var),
+  mean = mean(!! my_var),
+  sum = sum(!! my_var),
   n = n()
 ))
 ```
@@ -381,8 +381,8 @@ my_summarise2 <- function(df, expr) {
   expr <- enquo(expr)
 
   summarise(df,
-    mean = mean(!!expr),
-    sum = sum(!!expr),
+    mean = mean(!! expr),
+    sum = sum(!! expr),
     n = n()
   )
 }
@@ -405,7 +405,7 @@ This code is similar to the previous example, but there are two new wrinkles:
 * We create the new names by pasting together strings, so
   we need `quo_name()` to convert the input expression to a string.
 
-* `!!mean_name = mean(!!expr)` isn't valid R code, so we need to
+* `!! mean_name = mean(!! expr)` isn't valid R code, so we need to
   use the `:=` helper provided by rlang.
 
 ```{r}
@@ -415,8 +415,8 @@ my_mutate <- function(df, expr) {
   sum_name <- paste0("sum_", quo_name(expr))
 
   mutate(df,
-    !!mean_name := mean(!!expr),
-    !!sum_name := sum(!!expr)
+    !! mean_name := mean(!! expr),
+    !! sum_name := sum(!! expr)
   )
 }
 
@@ -441,7 +441,7 @@ my_summarise <- function(df, ...) {
   group_var <- quos(...)
 
   df %>%
-    group_by(!!!group_var) %>%
+    group_by(!!! group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -597,7 +597,7 @@ form, `UQ()`, and as syntactic-sugar, `!!`.
 quo(toupper(letters[1:5]))
 
 # Here we capture the value of `letters[1:5]`
-quo(toupper(!!letters[1:5]))
+quo(toupper(!! letters[1:5]))
 quo(toupper(UQ(letters[1:5])))
 ```
 
@@ -606,7 +606,7 @@ symbolic objects provides a powerful way of manipulating expressions.
 
 ```{r}
 var1 <- quo(letters[1:5])
-quo(toupper(!!var1))
+quo(toupper(!! var1))
 ```
 
 You can safely unquote quosures because they track their environments, and
@@ -634,11 +634,11 @@ problems:
 
 ```{r, error = TRUE}
 my_fun <- quo(fun)
-quo(!!my_fun(x, y, z))
+quo(!! my_fun(x, y, z))
 quo(UQ(my_fun)(x, y, z))
 
 my_var <- quo(x)
-quo(filter(df, !!my_var == 1))
+quo(filter(df, !! my_var == 1))
 quo(filter(df, UQ(my_var) == 1))
 ```
 
@@ -700,7 +700,7 @@ count_nm <- "count"
 mtcars %>%
   group_by(am) %>%
   summarise(
-    !!mean_nm := mean(cyl),
-    !!count_nm := n()
+    !! mean_nm := mean(cyl),
+    !! count_nm := n()
   )
 ```
