@@ -106,7 +106,7 @@ src_mysql <- function(dbname, host = NULL, port = 0L, username = "root",
     password = password,
     ...
   )
-  dbplyr::src_dbi(con, auto_disconnect = TRUE)
+  dbplyr::src_dbi(con, auto_disconnect = TRUE, quiet = TRUE)
 }
 
 #' @rdname src_dbi
@@ -128,7 +128,7 @@ src_postgres <- function(dbname = NULL, host = NULL, port = NULL,
     ...
   )
 
-  dbplyr::src_dbi(con, auto_disconnect = TRUE)
+  dbplyr::src_dbi(con, auto_disconnect = TRUE, quiet = TRUE)
 }
 
 #' @rdname src_dbi
@@ -149,7 +149,7 @@ src_sqlite <- function(path, create = FALSE) {
   con <- DBI::dbConnect(RSQLite::SQLite(), path)
   RSQLite::initExtension(con)
 
-  dbplyr::src_dbi(con, auto_disconnect = TRUE)
+  dbplyr::src_dbi(con, auto_disconnect = TRUE, quiet = TRUE)
 }
 
 # S3 methods --------------------------------------------------------------
@@ -157,14 +157,16 @@ src_sqlite <- function(path, create = FALSE) {
 #' @export
 tbl.DBIConnection <- function(src, from, ...) {
   check_dbplyr()
-  tbl(dbplyr::src_dbi(src), from = from, ...)
+  tbl(dbplyr::src_dbi(src, auto_disconnect = TRUE, quiet = TRUE),
+      from = from, ...)
 }
 
 #' @export
 copy_to.DBIConnection <- function(dest, df, name = deparse(substitute(df)),
                                   overwrite = FALSE, ...) {
   check_dbplyr()
-  copy_to(dbplyr::src_dbi(dest), df = df, name = name, overwrite = overwrite, ...)
+  copy_to(dbplyr::src_dbi(dest, auto_disconnect = TRUE, quiet = TRUE),
+          df = df, name = name, overwrite = overwrite, ...)
 }
 
 # S4 ----------------------------------------------------------------------
