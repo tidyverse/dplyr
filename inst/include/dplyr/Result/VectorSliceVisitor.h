@@ -10,8 +10,8 @@ class VectorSliceVisitor {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  VectorSliceVisitor(const Vector<RTYPE>& data_, const SlicingIndex& index_) :
-    data(data_),
+  VectorSliceVisitor(const Vector<RTYPE>* data_, const SlicingIndex& index_) :
+    data(*data_),
     n(index_.size()),
     index(index_)
   {}

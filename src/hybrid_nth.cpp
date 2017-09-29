@@ -68,7 +68,7 @@ public:
 
     // Need explicit variables because constructors take const&, and this does not work
     // with unnamed temporaries.
-    Slice slice(order, indices);
+    Slice slice(&order, indices);
     Visitor visitor(slice);
     Comparer comparer(visitor);
 
