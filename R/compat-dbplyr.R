@@ -17,6 +17,8 @@
 #' }
 check_dbplyr <- function() {
   check_pkg("dbplyr", "communicate with database backends", install = FALSE)
+  if (utils::packageVersion("dbplyr") < "1.1.0.9001")
+    bad("'dbplyr' version must be >= 1.1.0.9001")
 }
 
 #' @export
