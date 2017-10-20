@@ -371,6 +371,8 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #' * [starts_with()], [ends_with()], [contains()]
 #' * [matches()]
 #' * [num_range()]
+#' * [one_of()]
+#' * [everything()]
 #'
 #' To drop variables, use `-`.
 #'
