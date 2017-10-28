@@ -40,6 +40,7 @@ methods for more details:
 \item SQLite: \code{\link[=src_sqlite]{src_sqlite()}}
 \item PostgreSQL: \code{\link[=src_postgres]{src_postgres()}}
 \item MySQL: \code{\link[=src_mysql]{src_mysql()}}
+\item SQLServer: \code{\link[=src_sqlserver]{src_sqlserver()}}
 }
 }
 

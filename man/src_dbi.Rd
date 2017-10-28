@@ -5,6 +5,7 @@
 \alias{src_mysql}
 \alias{src_postgres}
 \alias{src_sqlite}
+\alias{src_sqlserver}
 \title{Source for database backends}
 \usage{
 src_mysql(dbname, host = NULL, port = 0L, username = "root",
@@ -14,6 +15,9 @@ src_postgres(dbname = NULL, host = NULL, port = NULL, user = NULL,
   password = NULL, ...)
 
 src_sqlite(path, create = FALSE)
+
+src_sqlserver(dbname = NULL, host = NULL, port = NULL, user = NULL,
+  password = NULL, ...)
 }
 \arguments{
 \item{dbname}{Database name}
@@ -44,12 +48,13 @@ as described in \code{\link[RMySQL:MySQL]{RMySQL::MySQL()}}.}
 An S3 object with class \code{src_dbi}, \code{src_sql}, \code{src}.
 }
 \description{
-For backward compatibility dplyr provides three srcs for popular
+For backward compatibility dplyr provides four srcs for popular
 open source databases:
 \itemize{
 \item \code{src_mysql()} connects to a MySQL or MariaDB database using \code{\link[RMySQL:MySQL]{RMySQL::MySQL()}}.
 \item \code{src_postgres()} connects to PostgreSQL using \code{\link[RPostgreSQL:PostgreSQL]{RPostgreSQL::PostgreSQL()}}
 \item \code{src_sqlite()} to connect to a SQLite database using \code{\link[RSQLite:SQLite]{RSQLite::SQLite()}}.
+\item \code{src_sqlserver()} to connect to a SQLServer database using \code{\link[RSQLServer:SQLServer]{RSQLServer::SQLServer()}}.
 }
 
 However, modern best practice is to use \code{\link[=tbl]{tbl()}} directly on an \code{DBIConnection}.
