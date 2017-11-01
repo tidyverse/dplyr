@@ -259,20 +259,29 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 #' @export
 sample_n.grouped_df <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL) {
+  index <- attr(tbl, "indices")
 
-  assert_that(is_scalar_integerish(size), size >= 0)
+  assert_that(
+    is_scalar_integerish(size) || is_integerish(size, length(index)),
+    all(size >= 0),
+    is_scalar_logical(replace) || is_logical(replace, length(index))
+  )
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }
   weight <- enquo(weight)
+  weight <- mutate(tbl, w = !!weight)[["w"]]
 
-  index <- attr(tbl, "indices")
-  sampled <- lapply(index, sample_group,
-    frac = FALSE,
-    tbl = tbl,
+  sampled <- mapply(sample_group,
+    i = index,
     size = size,
     replace = replace,
-    weight = weight
+    MoreArgs = list(
+      frac = FALSE,
+      tbl = tbl,
+      weight = weight
+    ),
+    SIMPLIFY = FALSE
   )
   idx <- unlist(sampled) + 1
 
@@ -282,7 +291,14 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
 #' @export
 sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL) {
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
+  index <- attr(tbl, "indices")
+
+  assert_that(
+    is.numeric(size),
+    length(size) == 1 || length(size) == length(index),
+    all(size >= 0),
+    is_scalar_logical(replace) || is_logical(replace, length(index))
+  )
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }
@@ -292,14 +308,18 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     )
   }
   weight <- enquo(weight)
+  weight <- mutate(tbl, w = !!weight)[["w"]]
 
-  index <- attr(tbl, "indices")
-  sampled <- lapply(index, sample_group,
-    frac = TRUE,
-    tbl = tbl,
+  sampled <- mapply(sample_group,
+    i = index,
     size = size,
     replace = replace,
-    weight = weight
+    MoreArgs = list(
+      frac = TRUE,
+      tbl = tbl,
+      weight = weight
+    ),
+    SIMPLIFY = FALSE
   )
   idx <- unlist(sampled) + 1
 
@@ -315,9 +335,8 @@ sample_group <- function(tbl, i, frac, size, replace, weight) {
     check_size(size, n, replace)
   }
 
-  weight <- eval_tidy(weight, tbl[i + 1, , drop = FALSE])
   if (!is_null(weight)) {
-    weight <- check_weight(weight, n)
+    weight <- weight[i + 1]
   }
 
   i[sample.int(n, size, replace = replace, prob = weight)]
