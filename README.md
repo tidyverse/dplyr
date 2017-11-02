@@ -20,7 +20,7 @@ These all combine naturally with `group_by()` which allows you to perform any op
 
 dplyr is designed to abstract over how the data is stored. That means as well as working with local data frames, you can also work with remote database tables, using exactly the same R code. Install the dbplyr package then read `vignette("databases", package = "dbplyr")`.
 
-If you are new to dplyr, the best place to start is the [data import chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
+If you are new to dplyr, the best place to start is the [data transformation chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
 
 Installation
 ------------
