@@ -45,6 +45,7 @@ select_var <- function(vars, var = -1) {
     pos <- match_var(var, vars)
   } else if (is_integerish(var, 1)) {
     if (is_na(var) || abs(var) > n || var == 0L) {
+      if (is_na(var)) var <- "NA"
       abort(glue(
         "`var` must be a value between {-n} and {n} (excluding zero), not {var}"
       ))
