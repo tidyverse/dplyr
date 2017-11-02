@@ -264,7 +264,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
   assert_that(
     is_scalar_integerish(size) || is_integerish(size, length(index)),
     all(size >= 0),
-    is_scalar_logical(replace) || is_logical(replace, length(index))
+    is_scalar_logical(replace)
   )
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
@@ -272,16 +272,15 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
   weight <- enquo(weight)
   weight <- mutate(tbl, w = !!weight)[["w"]]
 
-  sampled <- mapply(sample_group,
-    i = index,
-    size = size,
-    replace = replace,
-    MoreArgs = list(
-      frac = FALSE,
-      tbl = tbl,
-      weight = weight
+  sampled <- pmap(
+    list(
+      i = index,
+      size = size
     ),
-    SIMPLIFY = FALSE
+    sample_group,
+    replace = replace,
+    frac = FALSE,
+    weight = weight
   )
   idx <- unlist(sampled) + 1
 
@@ -297,7 +296,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     is.numeric(size),
     length(size) == 1 || length(size) == length(index),
     all(size >= 0),
-    is_scalar_logical(replace) || is_logical(replace, length(index))
+    is_scalar_logical(replace)
   )
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
@@ -310,23 +309,22 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
   weight <- enquo(weight)
   weight <- mutate(tbl, w = !!weight)[["w"]]
 
-  sampled <- mapply(sample_group,
-    i = index,
-    size = size,
-    replace = replace,
-    MoreArgs = list(
-      frac = TRUE,
-      tbl = tbl,
-      weight = weight
+  sampled <- pmap(
+    list(
+      i = index,
+      size = size
     ),
-    SIMPLIFY = FALSE
+    sample_group,
+    replace = replace,
+    frac = TRUE,
+    weight = weight
   )
   idx <- unlist(sampled) + 1
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
 
-sample_group <- function(tbl, i, frac, size, replace, weight) {
+sample_group <- function(i, frac, size, replace, weight) {
   n <- length(i)
   if (frac) {
     check_frac(size, replace)
