@@ -36,7 +36,8 @@ is_grouped_df <- is.grouped_df
 
 #' @export
 tbl_sum.grouped_df <- function(x) {
-  grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
+  index <- grouped_df_r_indices(x)
+  grps <- if (is_null(index)) "?" else length(index)
   c(
     NextMethod(),
     c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
@@ -50,7 +51,7 @@ group_size.grouped_df <- function(x) {
 
 #' @export
 n_groups.grouped_df <- function(x) {
-  length(attr(x, "indices"))
+  length(grouped_df_r_indices(x))
 }
 
 #' @export
@@ -163,13 +164,13 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 do.grouped_df <- function(.data, ...) {
   # Force computation of indices
-  if (is_null(attr(.data, "indices"))) {
+  if (is_null(grouped_df_r_indices(.data))) {
     .data <- grouped_df_impl(
       .data, attr(.data, "vars"),
       attr(.data, "drop") %||% TRUE
     )
   }
-  index <- attr(.data, "indices")
+  index <- grouped_df_r_indices(.data)
   labels <- attr(.data, "labels")
 
   # Create ungroup version of data frame suitable for subsetting
@@ -201,9 +202,9 @@ do.grouped_df <- function(.data, ...) {
   # usual scoping rules.
   group_slice <- function(value) {
     if (missing(value)) {
-      group_data[index[[`_i`]] + 1L, , drop = FALSE]
+      group_data[index[[`_i`]], , drop = FALSE]
     } else {
-      group_data[index[[`_i`]] + 1L, ] <<- value
+      group_data[index[[`_i`]], ] <<- value
     }
   }
   env_bind_fns(.env = env, . = group_slice, .data = group_slice)
@@ -259,7 +260,7 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 #' @export
 sample_n.grouped_df <- function(tbl, size, replace = FALSE,
                                 weight = NULL, .env = NULL) {
-  index <- attr(tbl, "indices")
+  index <- grouped_df_r_indices(tbl)
 
   assert_that(
     is_scalar_integerish(size) || is_integerish(size, length(index)),
@@ -282,7 +283,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
     frac = FALSE,
     weight = weight
   )
-  idx <- unlist(sampled) + 1
+  idx <- unlist(sampled)
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
@@ -290,7 +291,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
 #' @export
 sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL) {
-  index <- attr(tbl, "indices")
+  index <- grouped_df_r_indices(tbl)
 
   assert_that(
     is.numeric(size),
@@ -319,7 +320,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     frac = TRUE,
     weight = weight
   )
-  idx <- unlist(sampled) + 1
+  idx <- unlist(sampled)
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
@@ -334,8 +335,20 @@ sample_group <- function(i, frac, size, replace, weight) {
   }
 
   if (!is_null(weight)) {
-    weight <- weight[i + 1]
+    weight <- weight[i]
   }
 
   i[sample.int(n, size, replace = replace, prob = weight)]
+}
+
+
+# Utility ----------------------------------------------------------------------
+
+grouped_df_r_indices <- function(tbl) {
+  index <- attr(tbl, "indices")
+  if (is_null(index)) {
+    NULL
+  } else {
+    map(index, function(x) x + 1)
+  }
 }
