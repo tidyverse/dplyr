@@ -270,18 +270,24 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }
+
   weight <- enquo(weight)
   weight <- mutate(tbl, w = !!weight)[["w"]]
+  check_weight(weight, nrow(tbl))
 
   sampled <- pmap(
     list(
       i = index,
       size = size
     ),
-    sample_group,
-    replace = replace,
-    frac = FALSE,
-    weight = weight
+    function(i, size) {
+      n <- length(i)
+      check_size(size, n, replace)
+
+      weight <- if (is_null(weight)) NULL else weight[i]
+
+      i[sample.int(n, size, replace = replace, prob = weight)]
+    }
   )
   idx <- unlist(sampled)
 
@@ -291,56 +297,22 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
 #' @export
 sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
                                    weight = NULL, .env = NULL) {
-  index <- grouped_df_r_indices(tbl)
+  group_sizes <- group_size(tbl)
 
   assert_that(
     is.numeric(size),
-    length(size) == 1 || length(size) == length(index),
-    all(size >= 0),
-    is_scalar_logical(replace)
+    length(size) == 1 || length(size) == length(group_sizes),
+    all(size >= 0)
   )
-  if (!is_null(.env)) {
-    inform("`.env` is deprecated and no longer has any effect")
-  }
-  if (size > 1 && !replace) {
-    bad_args("size", "of sampled fraction must be less or equal to one, ",
-      "set `replace` = TRUE to use sampling with replacement"
-    )
-  }
+
+  check_frac(size, replace)
+
+  # calculate count for each group based on fraction
+  size <- round(size * group_sizes)
+
   weight <- enquo(weight)
-  weight <- mutate(tbl, w = !!weight)[["w"]]
-
-  sampled <- pmap(
-    list(
-      i = index,
-      size = size
-    ),
-    sample_group,
-    replace = replace,
-    frac = TRUE,
-    weight = weight
-  )
-  idx <- unlist(sampled)
-
-  grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
+  sample_n(tbl, size, replace, !!weight, .env)
 }
-
-sample_group <- function(i, frac, size, replace, weight) {
-  n <- length(i)
-  if (frac) {
-    check_frac(size, replace)
-    size <- round(size * n)
-  } else {
-    check_size(size, n, replace)
-  }
-
-  if (!is_null(weight)) {
-    weight <- weight[i]
-  }
-
-  i[sample.int(n, size, replace = replace, prob = weight)]
-}
-
 
 # Utility ----------------------------------------------------------------------
 
