@@ -1,22 +1,34 @@
-# dplyr 0.7.4.9000
 
-# dplyr 0.7.2.9001
+# dplyr 0.7.4.9000
 
 * dplyr now depends on the new tidyselect package to power `select()`,
   `rename()`, `pull()` and their variants (#2896). Consequently
   `select_vars()`, `select_var()` and `rename_vars()` are
   soft-deprecated and will start issuing warnings in a future version.
 
+  Following the switch to tidyselect, `select()` and `rename()` fully support
+  character vectors. You can now unquote variables like this:
+
+  ```
+  vars <- c("disp", "cyl")
+  select(mtcars, !! vars)
+  select(mtcars, -(!! vars))
+  ```
+
+  Note that this only works in selecting functions because in other contexts
+  strings and character vectors are ambiguous. For instance strings are a valid
+  input in mutating operations and `mutate(df, "foo")` creates a new column by
+  recycling "foo" to the number of rows.
+
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
-
-# dplyr 0.7.2.9000
 
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
 
 * Avoid dependency on Rcpp 0.12.10 (#3106).
+
 
 # dplyr 0.7.3
 
@@ -45,6 +57,7 @@
 
 * Fixed a crash that occurred when an unexpected input was supplied to
   the `call` argument of `order_by()` (#3065).
+
 
 # dplyr 0.7.2
 
