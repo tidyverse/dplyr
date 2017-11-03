@@ -1,4 +1,27 @@
+
 # dplyr 0.7.4.9000
+
+* dplyr now depends on the new tidyselect package to power `select()`,
+  `rename()`, `pull()` and their variants (#2896). Consequently
+  `select_vars()`, `select_var()` and `rename_vars()` are
+  soft-deprecated and will start issuing warnings in a future version.
+
+  Following the switch to tidyselect, `select()` and `rename()` fully support
+  character vectors. You can now unquote variables like this:
+
+  ```
+  vars <- c("disp", "cyl")
+  select(mtcars, !! vars)
+  select(mtcars, -(!! vars))
+  ```
+
+  Note that this only works in selecting functions because in other contexts
+  strings and character vectors are ambiguous. For instance strings are a valid
+  input in mutating operations and `mutate(df, "foo")` creates a new column by
+  recycling "foo" to the number of rows.
+
+* `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
+
 
 # dplyr 0.7.4
 
@@ -6,11 +29,15 @@
 
 * Avoid dependency on Rcpp 0.12.10 (#3106).
 
+
 # dplyr 0.7.3
 
 * Fixed protection error that occurred when creating a character column using grouped `mutate()` (#2971).
 
 * Fixed a rare problem with accessing variable values in `summarise()` when all groups have size one (#3050).
+* `distinct()` now throws an error when used on unknown columns
+  (#2867, @foo-bar-baz-qux).
+
 
 * Fixed rare out-of-bounds memory write in `slice()` when negative indices beyond the number of rows were involved (#3073).
 
@@ -31,9 +58,11 @@
 * Fixed a crash that occurred when an unexpected input was supplied to
   the `call` argument of `order_by()` (#3065).
 
+
 # dplyr 0.7.2
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
+
 
 # dplyr 0.7.1
 
@@ -54,6 +83,7 @@
 
 * Quosured symbols do not prevent hybrid handling anymore. This should
   fix many performance issues introduced with tidyeval (#2822).
+
 
 # dplyr 0.7.0
 

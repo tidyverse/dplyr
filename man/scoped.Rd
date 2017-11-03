@@ -52,7 +52,7 @@ of the variable selection on which operations are applied:
 \item Verbs suffixed with \code{_all()} apply an operation on all variables.
 \item Verbs suffixed with \code{_at()} apply an operation on a subset of
 variables specified with the quoting function \code{\link[=vars]{vars()}}. This
-quoting function accepts \code{\link[=select_vars]{select_vars()}} helpers like
+quoting function accepts \code{\link[tidyselect:vars_select]{tidyselect::vars_select()}} helpers like
 \code{\link[=starts_with]{starts_with()}}. Instead of a \code{\link[=vars]{vars()}} selection, you can also
 supply an \link[rlang:is_integerish]{integerish} vector of column
 positions or a character vector of column names.

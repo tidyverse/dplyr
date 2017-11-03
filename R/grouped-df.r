@@ -118,8 +118,8 @@ cbind.grouped_df <- function(...) {
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  # Pass via splicing to avoid matching select_vars() arguments
-  vars <- select_vars(names(.data), !!! quos(...))
+  # Pass via splicing to avoid matching vars_select() arguments
+  vars <- tidyselect::vars_select(names(.data), !!! quos(...))
   vars <- ensure_group_vars(vars, .data)
   select_impl(.data, vars)
 }
@@ -148,7 +148,7 @@ ensure_group_vars <- function(vars, data, notify = TRUE) {
 
 #' @export
 rename.grouped_df <- function(.data, ...) {
-  vars <- rename_vars(names(.data), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data), !!! quos(...))
   select_impl(.data, vars)
 }
 #' @export
