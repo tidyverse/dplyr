@@ -126,3 +126,13 @@ test_that("rename() to UTF-8 column names", {
 test_that("select() treats NULL inputs as empty", {
   expect_identical(select(mtcars, cyl), select(mtcars, NULL, cyl, NULL))
 })
+
+test_that("can select() or rename() with strings and character vectors", {
+  vars <- c(foo = "cyl", bar = "am")
+
+  expect_identical(select(mtcars, !!! vars), select(mtcars, foo = cyl, bar = am))
+  expect_identical(select(mtcars, !! vars), select(mtcars, foo = cyl, bar = am))
+
+  expect_identical(rename(mtcars, !!! vars), rename(mtcars, foo = cyl, bar = am))
+  expect_identical(rename(mtcars, !! vars), rename(mtcars, foo = cyl, bar = am))
+})

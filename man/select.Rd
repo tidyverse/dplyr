@@ -102,6 +102,23 @@ select(iris, petal_length = Petal.Length)
 
 # * rename() keeps all variables
 rename(iris, petal_length = Petal.Length)
+
+
+# Unquoting ----------------------------------------
+
+# Like all dplyr verbs, select() supports unquoting of symbols:
+vars <- list(
+  var1 = sym("cyl"),
+  var2 = sym("am")
+)
+select(mtcars, !!! vars)
+
+# For convenience it also supports strings and character
+# vectors. This is unlike other verbs where strings would be
+# ambiguous.
+vars <- c(var1 = "cyl", var2 ="am")
+select(mtcars, !! vars)
+rename(mtcars, !! vars)
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},
