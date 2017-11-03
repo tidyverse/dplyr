@@ -54,7 +54,7 @@ LinkingTo: Rcpp (>= 0.12.0),
     bindrcpp,
     plogr
 Remotes:
-    lionel-/tidyselect@fix-uq-named
+    tidyverse/tidyselect
 LazyData: yes
 License: MIT + file LICENSE
 RoxygenNote: 6.0.1
