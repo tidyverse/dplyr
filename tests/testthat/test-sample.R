@@ -78,6 +78,17 @@ test_that("sampling grouped tbl samples each group", {
   expect_equal(sampled$cyl, rep(c(4, 6, 8), each = 2))
 })
 
+test_that("sampling grouped tbl samples each group with different sizes", {
+  # sizes must be 1 or the number of groups (3)
+  expect_error(mtcars %>% group_by(cyl) %>% sample_n(c(1, 2)))
+
+  sampled <- mtcars %>% group_by(cyl) %>% sample_n(c(1, 2, 3))
+  expect_is(sampled, "grouped_df")
+  expect_groups(sampled, "cyl")
+  expect_equal(nrow(sampled), 6)
+  expect_equal(sampled$cyl, rep(c(4, 6, 8), times = c(1, 2, 3)))
+})
+
 test_that("can't sample more values than obs (without replacement)", {
   by_cyl <- mtcars %>% group_by(cyl)
   expect_error(
@@ -86,6 +97,7 @@ test_that("can't sample more values than obs (without replacement)", {
     fixed = TRUE
   )
 })
+
 
 df2 <- data.frame(
   x = rep(1:2, 2),
