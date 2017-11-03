@@ -1,19 +1,7 @@
 
-#' @importFrom tidyselect vars_select
-#' @export
-tidyselect::vars_select
-#' @importFrom tidyselect vars_rename
-#' @export
-tidyselect::vars_rename
-#' @importFrom tidyselect vars_pull
-#' @export
-tidyselect::vars_pull
+# Flag to disable hotpatching from old tidyselect versions
+peek_vars <- tidyselect::peek_vars
 
-#' @rdname reexports
-#' @usage NULL
-#' @importFrom tidyselect peek_vars
-#' @export
-current_vars <- tidyselect::peek_vars
 
 #' @importFrom tidyselect contains
 #' @export
@@ -40,10 +28,10 @@ tidyselect::starts_with
 
 #' Select variables
 #'
-#' These functions now live in the tidyselect package as
+#' **Retired**: These functions now live in the tidyselect package as
 #' [tidyselect::vars_select()], [tidyselect::vars_rename()] and
-#' [tidyselect::vars_pull()]. These dplyr aliases will be deprecated
-#' sometimes in the future.
+#' [tidyselect::vars_pull()]. These dplyr aliases are soft-deprecated
+#' and will be deprecated sometimes in the future.
 #'
 #' @param vars A character vector of existing column names.
 #' @param ... Expressions to compute.
@@ -69,6 +57,12 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 select_var <- function(vars, var = -1) {
   tidyselect::vars_pull(vars, !! enquo(var))
 }
+#' @rdname select_vars
+#' @export
+current_vars <- function(...) {
+  tidyselect::peek_vars(...)
+}
+
 
 #' @rdname se-deprecated
 #' @param include,exclude Character vector of column names to always

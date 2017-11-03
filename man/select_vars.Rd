@@ -4,6 +4,7 @@
 \alias{select_vars}
 \alias{rename_vars}
 \alias{select_var}
+\alias{current_vars}
 \title{Select variables}
 \usage{
 select_vars(vars, ..., include = chr(), exclude = chr())
@@ -11,6 +12,8 @@ select_vars(vars, ..., include = chr(), exclude = chr())
 rename_vars(vars, ..., strict = TRUE)
 
 select_var(vars, var = -1)
+
+current_vars(...)
 }
 \arguments{
 \item{vars}{A character vector of existing column names.}
@@ -27,8 +30,8 @@ rename a variable that doesn't exist.}
 \code{\link[tidyselect:vars_pull]{tidyselect::vars_pull()}}.}
 }
 \description{
-These functions now live in the tidyselect package as
+\strong{Retired}: These functions now live in the tidyselect package as
 \code{\link[tidyselect:vars_select]{tidyselect::vars_select()}}, \code{\link[tidyselect:vars_rename]{tidyselect::vars_rename()}} and
-\code{\link[tidyselect:vars_pull]{tidyselect::vars_pull()}}. These dplyr aliases will be deprecated
-sometimes in the future.
+\code{\link[tidyselect:vars_pull]{tidyselect::vars_pull()}}. These dplyr aliases are soft-deprecated
+and will be deprecated sometimes in the future.
 }
