@@ -45,6 +45,8 @@
 
 * Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
 
+* `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
