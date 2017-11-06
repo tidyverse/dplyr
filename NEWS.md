@@ -1,6 +1,12 @@
 
 # dplyr 0.7.4.9000
 
+* `sym()`, `syms()`, `expr()`, `exprs()` and `enexpr()` are now
+  exported. `sym()` and `syms()` construct symbols from strings or character
+  vectors. The `expr()` variants are equivalent to `quo()`, `quos()` and
+  `enquo()` but return simple expressions rather than quosures. They support
+  quasiquotation.
+
 * dplyr now depends on the new tidyselect package to power `select()`,
   `rename()`, `pull()` and their variants (#2896). Consequently
   `select_vars()`, `select_var()` and `rename_vars()` are
