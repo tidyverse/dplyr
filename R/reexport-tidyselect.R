@@ -4,6 +4,7 @@ peek_vars <- tidyselect::peek_vars
 
 
 #' @importFrom tidyselect contains
+#' @aliases select_helpers
 #' @export
 tidyselect::contains
 #' @importFrom tidyselect ends_with
