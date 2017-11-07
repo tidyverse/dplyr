@@ -1,6 +1,27 @@
 
 # dplyr 0.7.4.9000
 
+## Breaking changes for package developers
+
+* The major change in this version is that dplyr now depends on the selecting
+  backend of the tidyselect package. If you have been linking to
+  `dplyr::select_helpers` documentation topic, you should update the link to
+  point to `tidyselect::select_helpers`.
+
+* Another change that causes warnings in packages is that dplyr now exports the
+  `exprs()` function. This causes a collision with `Biobase::exprs()`. Either
+  import functions from dplyr selectively rather than in bulk, or do not import
+  `Biobase::exprs()` and refer to it with a namespace qualifier.
+
+
+## Changes
+
+* `sym()`, `syms()`, `expr()`, `exprs()` and `enexpr()` are now
+  exported. `sym()` and `syms()` construct symbols from strings or character
+  vectors. The `expr()` variants are equivalent to `quo()`, `quos()` and
+  `enquo()` but return simple expressions rather than quosures. They support
+  quasiquotation.
+
 * dplyr now depends on the new tidyselect package to power `select()`,
   `rename()`, `pull()` and their variants (#2896). Consequently
   `select_vars()`, `select_var()` and `rename_vars()` are
