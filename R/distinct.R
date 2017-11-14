@@ -61,6 +61,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # If no input, keep all variables
   if (length(vars) == 0) {
+    list_cols_error(.data, names(.data))
     return(list(
       data = .data,
       vars = names(.data),
@@ -84,7 +85,17 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
     keep <- unique(out_vars)
   }
 
+  list_cols_error(.data, keep)
   list(data = .data, vars = out_vars, keep = keep)
+}
+
+#' Throw an error if there are tbl columns of type list
+#'
+#' @noRd
+list_cols_error <- function(df, keep_cols) {
+  if(any(map_lgl(df[keep_cols], is.list)))
+    stop("distinct() does not support columns of type `list`",
+            call. = FALSE)
 }
 
 #' Efficiently count the number of unique values in a set of vector
