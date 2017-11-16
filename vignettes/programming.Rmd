@@ -366,10 +366,7 @@ the risk of writing a typo and would make our code more concise as well as
 clearer if we choose a good name for this function.
 
 We know from the previous sections that this kind of naive wrapper will not
-work. The variable names will be automatically quoted. The column names they
-contain will be at best ignored (in the example below `group_by()` looks for a
-column named `group`) or at worst misused (`summarise()` would try to take the
-average of the string `"height"`):
+work because the variable names will be automatically quoted:
 
 ```{r, error = TRUE}
 mean_by <- function(data, var, group) {
@@ -381,8 +378,14 @@ mean_by <- function(data, var, group) {
 mean_by(starwars, "species", "height")
 ```
 
-Our wrapper simply needs to construct symbols from its inputs and unquote them
-in the pipeline:
+* In the best case the column names they contain will be ignored. For instance `group_by()`
+  looks for a column named `group` and doesn't see the string `"species"`.
+
+* In the worst case they will be misused. For instance `summarise()` would try
+  to take the average of the string `"height"`.
+
+To avoid this, our wrapper simply needs to construct symbols from its inputs and
+unquote them in the pipeline:
 
 ```{r}
 mean_by <- function(data, var, group) {
@@ -402,7 +405,7 @@ mean_by(starwars, "mass", "eye_color")
 
 ### Creating your own quoting functions
 
-The wrapper that we just created is a regular function. It takes strings and
+The wrapper that we just created is a regular function that takes strings and
 doesn't quote any of its inputs. This has the advantage that it is easy to
 program with but the inconvenient that it doesn't integrate well with the rest
 of the tidyverse verbs. Fortunately it is easy to transform the wrapper into a
@@ -411,7 +414,7 @@ quoting function.
 First we need to choose which of our wrapper arguments should be quoted. Given
 the friction that quotation causes for programming, it is best to only quote
 arguments when absolutely necessary, i.e. when it makes sense to refer to data
-frames columns. In dplyr, the argument that takes a data frame (which is always
+frame columns. In dplyr, the argument that takes a data frame (which is always
 the first argument in order to be compatible with pipes) is never quoted. We'll
 apply the same logic to our wrapper and only quote the `group` and `var`
 arguments.
@@ -516,7 +519,7 @@ implications:
     mean_by_species(starwars, height)
     ```
 
-Thanks to `enquo()` now have a wrapper function that quotes its inputs and
+Thanks to `enquo()` we now have a wrapper function that quotes its inputs and
 interacts with dplyr verbs via quasiquotation. It is getting pretty close to a
 real tidyverse-like user interface! However we could still improve a few things,
 like the automatic labelling of column names which could be better. It would
@@ -673,11 +676,11 @@ quoting(bar(baz))
 
 We'll first experiment with a simple `group_by()` wrapper before applying our
 new knowledge to the `mean_by()` wrapper. This wrapper will prefix all grouping
-variables with `grp_`. To achieve there are two problems to solve: modifying the
-names, and forwarding the list of captured arguments to `group_by()` once we are
-done changing the names. Let's start this function with a bare skeleton. It will
-take a data frame, a prefix for the group names, and an undefined number of
-grouping arguments:
+variables with `grp_`. To achieve this there are two problems to solve:
+modifying the names, and forwarding the list of captured arguments to
+`group_by()` once we are done changing the names. Let's start this function with
+a bare skeleton. It will take a data frame, a prefix for the group names, and an
+undefined number of grouping arguments:
 
 ```{r}
 prefixed_group_by <- function(data, prefix, ...) {
@@ -803,10 +806,10 @@ be applied to R functions. Quosures and closures (the technical name of R
 functions) have a lot in common!
 
 
-## TODO Quosures and contexts of evaluation
+## Where do quoting verbs find things?
 
-### Quosures versus raw expressions
-
-### Hierarchical ambiguity
+### Contexts and hierarchical ambiguity
 
 ### Solving ambiguity with quasiquotation and the `.data` pronoun
+
+### Raw expressions versus contextual expressions (quosures)
