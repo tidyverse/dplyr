@@ -1,22 +1,42 @@
-> revdepcheck::revdep_report_cran()
 ## revdepcheck results
 
-We checked 804 reverse dependencies (730 from CRAN + 74 from BioConductor) by running R CMD check twice, once with the CRAN version installed, and once with this version installed. We saw 2 new problems. We failed to check 4 packages. Issues are summarised below.
+We checked 893 reverse dependencies (821 from CRAN + 72 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 8 new problems
+ * We failed to check 3 packages
+
+Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
-* banR
+* assertr
   checking tests ...
 
-* FedData
+* breathtestcore
   checking tests ...
+
+* desctable
+  checking examples ... ERROR
+  checking re-building of vignette outputs ... WARNING
+
+* GSODR
+  checking tests ...
+
+* keyholder
+  checking tests ...
+
+* mrgsolve
+  checking examples ... ERROR
+
+* neuropsychology
+  checking examples ... ERROR
+
+* sf
+  checking examples ... ERROR
 
 ### Failed to check
 
-* eyetrackingR (check timed out)
-* hypothesisr  (check timed out)
-* loon         (failed to install)
-* MonetDBLite  (check timed out)
-> 
-> 
+* cdcfluview    (failed to install)
+* dataRetrieval (check timed out)
+* loon          (failed to install)
