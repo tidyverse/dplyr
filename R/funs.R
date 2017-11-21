@@ -82,7 +82,7 @@ as_fun <- function(.x, .env, .args) {
   # empty environment and need to be switched to the caller environment.
   f_env(quo) <- fun_env(quo, .env)
 
-  expr <- get_expr(.x)
+  expr <- get_expr(quo)
   if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
     expr <- lang_modify(expr, !!! .args)
   } else {

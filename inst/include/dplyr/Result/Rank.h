@@ -186,7 +186,7 @@ private:
 
   void process_slice(OutputVector& out, const SlicingIndex& index) {
     map.clear();
-    Slice slice(data, index);
+    Slice slice(&data, index);
     int m = index.size();
     for (int j = 0; j < m; j++) {
       map[ slice[j] ].push_back(j);
@@ -250,7 +250,7 @@ public:
     IntegerVector out(n);
     for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
-      Slice slice(data, index);
+      Slice slice(&data, index);
       Shield<SEXP> data_subset(slice);
       OrderVisitors ordering_obj(data_subset, ascending);
       IntegerVector tmp = ordering_obj.apply();
@@ -284,7 +284,8 @@ public:
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
-    Slice slice(data, index);
+
+    Slice slice(&data, index);
     Shield<SEXP> data_subset(slice);
     OrderVisitors ordering_obj(data_subset, ascending);
     IntegerVector x = ordering_obj.apply();
@@ -304,7 +305,7 @@ public:
   }
 
 private:
-  SEXP data;
+  Vector<RTYPE> data;
 };
 
 template <int RTYPE, bool ascending = true>
@@ -326,7 +327,8 @@ public:
     IntegerVector out(n);
     for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
-      Slice slice(data, index);
+
+      Slice slice(&data, index);
       Shield<SEXP> data_subset(slice);
       OrderVisitors ordering_obj(data_subset, ascending);
       IntegerVector tmp = ordering_obj.apply();
@@ -361,7 +363,7 @@ public:
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
 
-    Slice slice(data, index);
+    Slice slice(&data, index);
     Shield<SEXP> data_subset(slice);
     OrderVisitors ordering_obj(data_subset, ascending);
     IntegerVector x = ordering_obj.apply();
@@ -384,7 +386,7 @@ public:
   }
 
 private:
-  SEXP data;
+  Vector<RTYPE> data;
   double ntiles;
 };
 
