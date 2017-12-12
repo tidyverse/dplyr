@@ -141,7 +141,7 @@ class VectorVisitorImpl<RAWSXP> : public VectorVisitor {
 public:
 
   VectorVisitorImpl(const RawVector& vec_) :
-  vec(vec_)
+    vec(vec_)
   {}
 
   size_t hash(int i) const {
