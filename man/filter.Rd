@@ -12,7 +12,7 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 
 \item{...}{Logical predicates defined in terms of the variables in \code{.data}.
 Multiple conditions are combined with \code{&}. Only rows where the
-conditon evalutes to \code{TRUE} are kept.
+condition evaluates to \code{TRUE} are kept.
 
 These arguments are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in the context of the data

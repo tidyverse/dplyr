@@ -1,12 +1,8 @@
 Hi,
 
-This is an automated email to let you know about the release of {{{ my_package }}}, which will be submitted to CRAN in the near future (on {{{ date }}}). 
+This is an automated email to let you know about the release of {{{ my_package }}}, which will be submitted to CRAN in the near future (on {{{ date }}}).
 
-* Major changes: <https://blog.rstudio.org/2017/04/13/dplyr-0-6-0-coming-soon/>
-* All changes: <https://github.com/tidyverse/dplyr/releases/tag/v0.6.0-rc>
-* Backward compatibility guide: <http://dplyr.tidyverse.org/articles/compatibility.html>
-
-To check for potential problems, I ran `R CMD check` on your package {{{your_package}}} ({{{your_version}}}). 
+To check for potential problems, I ran `R CMD check` on your package {{{your_package}}} ({{{your_version}}}).
 
 I found: {{{your_summary}}}.
 
@@ -21,7 +17,7 @@ To get the development version of {{{ my_package }}} so you can run the checks y
 
     # install.packages("devtools")
     devtools::install_github("{{my_github}}")
-    
+
 {{/you_have_problems}}
 {{^you_have_problems}}
 It looks like everything is ok with your package, so no action is necessary at this time.

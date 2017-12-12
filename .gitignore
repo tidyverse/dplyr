@@ -17,3 +17,4 @@ vignettes/*.R
 /GTAGS
 /TAGS
 /.dir-locals.el
+/issues

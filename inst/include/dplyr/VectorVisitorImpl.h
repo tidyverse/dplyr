@@ -7,6 +7,7 @@
 #include <dplyr/CharacterVectorOrderer.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/VectorVisitor.h>
+#include <tools/encoding.h>
 
 namespace dplyr {
 
@@ -184,26 +185,27 @@ class VectorVisitorImpl<STRSXP> : public VectorVisitor {
 public:
 
   VectorVisitorImpl(const CharacterVector& vec_) :
-    vec(vec_),
-    orders(CharacterVectorOrderer(vec).get())
+    vec(reencode_char(vec_)), has_orders(false)
   {}
 
   size_t hash(int i) const {
-    return orders[i];
+    return reinterpret_cast<size_t>(get_item(i));
   }
   inline bool equal(int i, int j) const {
-    return orders[i] == orders[j];
+    return equal_or_both_na(i, j);
   }
 
   inline bool less(int i, int j) const {
+    provide_orders();
     return orders[i] < orders[j];
   }
 
   inline bool equal_or_both_na(int i, int j) const {
-    return orders[i] == orders[j];
+    return get_item(i) == get_item(j);
   }
 
   inline bool greater(int i, int j) const {
+    provide_orders();
     return orders[i] > orders[j];
   }
 
@@ -219,9 +221,23 @@ public:
     return CharacterVector::is_na(vec[i]);
   }
 
-protected:
+private:
+  SEXP get_item(const int i) const {
+    return static_cast<SEXP>(vec[i]);
+  }
+
+  void provide_orders() const {
+    if (has_orders)
+      return;
+
+    orders = CharacterVectorOrderer(vec).get();
+    has_orders = true;
+  }
+
+private:
   CharacterVector vec;
-  IntegerVector orders;
+  mutable IntegerVector orders;
+  mutable bool has_orders;
 
 };
 

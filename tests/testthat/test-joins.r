@@ -887,3 +887,14 @@ test_that("common_by() message", {
     fixed = TRUE
   )
 })
+
+test_that("semi- and anti-joins preserve order (#2964)", {
+  expect_identical(
+    data_frame(a = 3:1) %>% semi_join(data_frame(a = 1:3)),
+    data_frame(a = 3:1)
+  )
+  expect_identical(
+    data_frame(a = 3:1) %>% anti_join(data_frame(a = 4:6)),
+    data_frame(a = 3:1)
+  )
+})

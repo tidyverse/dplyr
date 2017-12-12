@@ -186,7 +186,7 @@ private:
 
   void process_slice(OutputVector& out, const SlicingIndex& index) {
     map.clear();
-    Slice slice(data, index);
+    Slice slice(&data, index);
     int m = index.size();
     for (int j = 0; j < m; j++) {
       map[ slice[j] ].push_back(j);
@@ -226,7 +226,7 @@ private:
   }
 
 
-  SEXP data;
+  Vector<RTYPE> data;
   Map map;
 };
 
@@ -338,10 +338,11 @@ public:
       int m = index.size();
       for (int j = 0; j < m; j++) tmp[j] = j;
 
-      Slice slice(data, index);
+      Slice slice(&data, index);
       // order( gdf.group(i) )
       Visitor visitor(slice);
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
+      Comparer comparer(visitor);
+      std::sort(tmp.begin(), tmp.begin() + m, comparer);
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[ tmp[j] ])) {
@@ -371,7 +372,7 @@ public:
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
     IntegerVector x = seq(0, nrows - 1);
-    Slice slice(data, index);
+    Slice slice(&data, index);
     Visitor visitor(slice);
     std::sort(x.begin(), x.end(), Comparer(visitor));
     IntegerVector out = no_init(nrows);
@@ -390,7 +391,7 @@ public:
   }
 
 private:
-  SEXP data;
+  Vector<RTYPE> data;
 };
 
 template <int RTYPE, bool ascending = true>
@@ -418,11 +419,12 @@ public:
       // tmp <- 0:(m-1)
       int m = index.size();
       for (int j = 0; j < m; j++) tmp[j] = j;
-      Slice slice(data, index);
+      Slice slice(&data, index);
 
       // order( gdf.group(i) )
       Visitor visitor(slice);
-      std::sort(tmp.begin(), tmp.begin() + m, Comparer(visitor));
+      Comparer comparer(visitor);
+      std::sort(tmp.begin(), tmp.begin() + m, comparer);
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[tmp[j]])) {
@@ -452,7 +454,7 @@ public:
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
     IntegerVector x = seq(0, nrows - 1);
-    Slice slice(data, index);
+    Slice slice(&data, index);
     Visitor visitor(slice);
     std::sort(x.begin(), x.end(), Comparer(visitor));
     IntegerVector out = no_init(nrows);
@@ -473,7 +475,7 @@ public:
   }
 
 private:
-  SEXP data;
+  Vector<RTYPE> data;
   double ntiles;
 };
 

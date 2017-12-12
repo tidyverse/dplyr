@@ -61,6 +61,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # If no input, keep all variables
   if (length(vars) == 0) {
+    list_cols_error(.data, names(.data))
     return(list(
       data = .data,
       vars = names(.data),
@@ -76,15 +77,25 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
-  vars <- intersect(names(.data), c(names(vars), group_vars))
+  out_vars <- intersect(names(.data), c(names(vars), group_vars))
 
   if (.keep_all) {
     keep <- names(.data)
   } else {
-    keep <- unique(vars)
+    keep <- unique(out_vars)
   }
 
-  list(data = .data, vars = vars, keep = keep)
+  list_cols_error(.data, keep)
+  list(data = .data, vars = out_vars, keep = keep)
+}
+
+#' Throw an error if there are tbl columns of type list
+#'
+#' @noRd
+list_cols_error <- function(df, keep_cols) {
+  if(any(map_lgl(df[keep_cols], is.list)))
+    stop("distinct() does not support columns of type `list`",
+            call. = FALSE)
 }
 
 #' Efficiently count the number of unique values in a set of vector
@@ -92,7 +103,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 #' This is a faster and more concise equivalent of `length(unique(x))`
 #'
 #' @param \dots vectors of values
-#' @param na.rm id `TRUE` missing values don't count
+#' @param na.rm if `TRUE` missing values don't count
 #' @examples
 #' x <- sample(1:10, 1e5, rep = TRUE)
 #' length(unique(x))

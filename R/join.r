@@ -7,7 +7,9 @@
 #'
 #' @section Join types:
 #'
-#' Currently dplyr supports four join types:
+#' Currently dplyr supports four types of mutating joins and two types of filtering joins.
+#'
+#' \strong{Mutating joins} combine variables from the two data.frames:
 #'
 #' \describe{
 #'    \item{`inner_join()`}{return all rows from `x` where there are matching
@@ -23,7 +25,15 @@
 #'    and y. Rows in `y` with no match in `x` will have `NA` values in the new
 #'    columns. If there are multiple matches between `x` and `y`, all combinations
 #'    of the matches are returned.}
+
+#'    \item{`full_join()`}{return all rows and all columns from both `x` and `y`.
+#'    Where there are not matching values, returns `NA` for the one missing.}
+#' }
 #'
+#'
+#' \strong{Filtering joins} keep cases from the left-hand data.frame:
+#'
+#' \describe{
 #'    \item{`semi_join()`}{return all rows from `x` where there are matching
 #'    values in `y`, keeping just columns from `x`.
 #'
@@ -33,9 +43,6 @@
 #'
 #'    \item{`anti_join()`}{return all rows from `x` where there are not
 #'    matching values in `y`, keeping just columns from `x`.}
-#'
-#'    \item{`full_join()`}{return all rows and all columns from both `x` and `y`.
-#'    Where there are not matching values, returns `NA` for the one missing.}
 #' }
 #'
 #' @section Grouping:
@@ -58,12 +65,13 @@
 #'   same src as `x`.  This allows you to join tables across srcs, but
 #'   it is a potentially expensive operation so you must opt into it.
 #' @param suffix If there are non-joined duplicate variables in `x` and
-#'   `y`, these suffixes will be added to the output to diambiguate them.
+#'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
-#' @param ... other parameters passed onto methods
+#' @param ... other parameters passed onto methods, for instance, `na_matches`
+#'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
 #' @name join
 #' @examples
-#' # "Mutating" joins add variables to the LHS
+#' # "Mutating" joins combine variables from the LHS and RHS
 #' band_members %>% inner_join(band_instruments)
 #' band_members %>% left_join(band_instruments)
 #' band_members %>% right_join(band_instruments)

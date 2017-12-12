@@ -28,7 +28,7 @@
 #'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
 #' @param ... Logical predicates defined in terms of the variables in `.data`.
 #'   Multiple conditions are combined with `&`. Only rows where the
-#'   conditon evalutes to `TRUE` are kept.
+#'   condition evaluates to `TRUE` are kept.
 #'
 #'   These arguments are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
@@ -211,7 +211,7 @@ summarize_ <- summarise_
 #'
 #' * [if_else()], [recode()], [case_when()]
 #'
-#' @section Scoped mutation and transmuation:
+#' @section Scoped mutation and transmutation:
 #'
 #' The three [scoped] variants of `mutate()` ([mutate_all()],
 #' [mutate_if()] and [mutate_at()]) and the three variants of
@@ -371,6 +371,8 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #' * [starts_with()], [ends_with()], [contains()]
 #' * [matches()]
 #' * [num_range()]
+#' * [one_of()]
+#' * [everything()]
 #'
 #' To drop variables, use `-`.
 #'
@@ -437,6 +439,23 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
+#'
+#'
+#' # Unquoting ----------------------------------------
+#'
+#' # Like all dplyr verbs, select() supports unquoting of symbols:
+#' vars <- list(
+#'   var1 = sym("cyl"),
+#'   var2 = sym("am")
+#' )
+#' select(mtcars, !!! vars)
+#'
+#' # For convenience it also supports strings and character
+#' # vectors. This is unlike other verbs where strings would be
+#' # ambiguous.
+#' vars <- c(var1 = "cyl", var2 ="am")
+#' select(mtcars, !! vars)
+#' rename(mtcars, !! vars)
 select <- function(.data, ...) {
   UseMethod("select")
 }

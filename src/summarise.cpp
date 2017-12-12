@@ -98,7 +98,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   if (gdf.nvars() > 1) {
     set_class(out, classes_grouped<Data>());
-    SymbolVector vars = get_vars(gdf.data());
+    SymbolVector vars = get_vars(gdf.data(), true);
     vars.remove(gdf.nvars() - 1);
     set_vars(out, vars);
     out.attr("drop") = true;

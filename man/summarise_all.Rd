@@ -99,11 +99,20 @@ iris \%>\%
 # * _at affects variables selected with a character vector or vars()
 # * _if affects variables selected with a predicate function:
 
-starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
+# The _at() variants directly support strings:
 starwars \%>\% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
+
+# You can also supply selection helpers to _at() functions but you have
+# to quote them with vars():
+iris \%>\% mutate_at(vars(matches("Sepal")), log)
+starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
+
+# The _if() variants apply a predicate function (a function that
+# returns TRUE or FALSE) to determine the relevant subset of
+# columns. Here we apply mean() to the numeric columns:
 starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
 
-# mutate_if is particularly useful for transforming variables from
+# mutate_if() is particularly useful for transforming variables from
 # one type to another
 iris \%>\% as_tibble() \%>\% mutate_if(is.factor, as.character)
 iris \%>\% as_tibble() \%>\% mutate_if(is.double, as.integer)

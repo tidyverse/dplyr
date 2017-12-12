@@ -39,7 +39,7 @@
 #'
 #' @export
 #' @param dimensions A named list of vectors. A dimension is a variable
-#'   whose values are known before the experiement is conducted; they are
+#'   whose values are known before the experiment is conducted; they are
 #'   fixed by design (in \pkg{reshape2} they are known as id variables).
 #'   `tbl_cubes` are dense which means that almost every combination of
 #'   the dimensions should have associated measurements: missing values require
@@ -203,7 +203,7 @@ as.tbl_cube <- function(x, ...) UseMethod("as.tbl_cube")
 
 #' @export
 #' @rdname as.tbl_cube
-#' @param dim_names names of the dimesions. Defaults to the names of
+#' @param dim_names names of the dimensions. Defaults to the names of
 #' @param met_name a string to use as the name for the measure
 #'   the [dimnames()].
 as.tbl_cube.array <- function(x, dim_names = names(dimnames(x)), met_name = deparse(substitute(x)),
@@ -290,7 +290,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 
 #' @export
 select.tbl_cube <- function(.data, ...) {
-  vars <- select_vars(names(.data$mets), ...)
+  vars <- tidyselect::vars_select(names(.data$mets), ...)
   .data$mets <- .data$mets[vars]
   .data
 }
@@ -302,7 +302,7 @@ select_.tbl_cube <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- rename_vars(names(.data$mets), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data$mets), !!! quos(...))
   .data$mets <- .data$mets[vars]
   .data
 }

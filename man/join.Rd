@@ -41,10 +41,11 @@ same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
 \item{suffix}{If there are non-joined duplicate variables in \code{x} and
-\code{y}, these suffixes will be added to the output to diambiguate them.
+\code{y}, these suffixes will be added to the output to disambiguate them.
 Should be a character vector of length 2.}
 
-\item{...}{other parameters passed onto methods}
+\item{...}{other parameters passed onto methods, for instance, \code{na_matches}
+to control how \code{NA} values are matched.  See \link{join.tbl_df} for more.}
 }
 \description{
 These are generic functions that dispatch to individual tbl methods - see the
@@ -55,7 +56,9 @@ method documentation for details of individual data sources. \code{x} and
 \section{Join types}{
 
 
-Currently dplyr supports four join types:
+Currently dplyr supports four types of mutating joins and two types of filtering joins.
+
+\strong{Mutating joins} combine variables from the two data.frames:
 
 \describe{
 \item{\code{inner_join()}}{return all rows from \code{x} where there are matching
@@ -71,7 +74,13 @@ of the matches are returned.}
 and y. Rows in \code{y} with no match in \code{x} will have \code{NA} values in the new
 columns. If there are multiple matches between \code{x} and \code{y}, all combinations
 of the matches are returned.}
+\item{\code{full_join()}}{return all rows and all columns from both \code{x} and \code{y}.
+Where there are not matching values, returns \code{NA} for the one missing.}
+}
 
+\strong{Filtering joins} keep cases from the left-hand data.frame:
+
+\describe{
 \item{\code{semi_join()}}{return all rows from \code{x} where there are matching
 values in \code{y}, keeping just columns from \code{x}.
 
@@ -81,9 +90,6 @@ join will never duplicate rows of \code{x}.}
 
 \item{\code{anti_join()}}{return all rows from \code{x} where there are not
 matching values in \code{y}, keeping just columns from \code{x}.}
-
-\item{\code{full_join()}}{return all rows and all columns from both \code{x} and \code{y}.
-Where there are not matching values, returns \code{NA} for the one missing.}
 }
 }
 
@@ -95,7 +101,7 @@ the grouping of \code{x}.
 }
 
 \examples{
-# "Mutating" joins add variables to the LHS
+# "Mutating" joins combine variables from the LHS and RHS
 band_members \%>\% inner_join(band_instruments)
 band_members \%>\% left_join(band_instruments)
 band_members \%>\% right_join(band_instruments)

@@ -10,13 +10,13 @@ env:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
 
-include:
-- r: release
-- r: oldrel
-- r: devel
+r:
+- release
+- oldrel
+- devel
 
 before_script:
-- R -q -e 'devtools::install_github("tidyverse/dbplyr")'
+- mkdir -p ~/.R; echo 'PKG_CXXFLAGS := ${PKG_CXXFLAGS} -Wall -Wextra -pedantic -Werror' > ~/.R/Makevars
 
 after_success:
 - Rscript -e 'covr::codecov()'

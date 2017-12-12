@@ -206,20 +206,18 @@ protected:
 private:
 
   void collect_logicalNA(const SlicingIndex& index, LogicalVector) {
-    SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
     int n = index.size();
     for (int i = 0; i < n; i++) {
-      p_data[index[i]] = NA_STRING;
+      SET_STRING_ELT(data, index[i], NA_STRING);
     }
   }
 
   void collect_strings(const SlicingIndex& index, CharacterVector source,
                        int offset = 0) {
     SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source) + offset;
-    SEXP* p_data   = Rcpp::internal::r_vector_start<STRSXP>(data);
     int n = index.size();
     for (int i = 0; i < n; i++) {
-      p_data[index[i]] = p_source[i];
+      SET_STRING_ELT(data, index[i], p_source[i]);
     }
   }
 

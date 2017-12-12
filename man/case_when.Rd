@@ -18,7 +18,7 @@ the same type of vector.
 These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
 }
 \value{
-A vector as long as the longest LHS, with the type (and
+A vector as long as the longest LHS or RHS, with the type (and
 attributes) of the first RHS.  Inconsistent lengths or types will
 generate an error.
 }
@@ -59,10 +59,10 @@ starwars \%>\%
 
 # Dots support splicing:
 patterns <- list(
-  TRUE ~ as.character(x),
-  x \%\%  5 == 0 ~ "fizz",
-  x \%\%  7 == 0 ~ "buzz",
-  x \%\% 35 == 0 ~ "fizz buzz"
+  x \%\% 35 == 0 ~ "fizz buzz",
+  x \%\% 5 == 0 ~ "fizz",
+  x \%\% 7 == 0 ~ "buzz",
+  TRUE ~ as.character(x)
 )
 case_when(!!! patterns)
 }

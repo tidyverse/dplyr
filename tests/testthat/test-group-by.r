@@ -75,15 +75,14 @@ test_that("FactorVisitor handles NA. #183", {
 })
 
 test_that("group_by orders by groups. #242", {
-  df <- data.frame(a = sample(1:10, 100, replace = TRUE)) %>% group_by(a)
+  df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) %>% group_by(a)
   expect_equal(attr(df, "labels")$a, 1:10)
 
-  df <- data.frame(a = sample(letters[1:10], 100, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
+  df <- data.frame(a = sample(letters[1:10], 3000, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
   expect_equal(attr(df, "labels")$a, letters[1:10])
 
-  df <- data.frame(a = sample(sqrt(1:10), 100, replace = TRUE)) %>% group_by(a)
+  df <- data.frame(a = sample(sqrt(1:10), 3000, replace = TRUE)) %>% group_by(a)
   expect_equal(attr(df, "labels")$a, sqrt(1:10))
-
 })
 
 test_that("group_by uses the white list", {
@@ -271,4 +270,16 @@ test_that("rowwise handles raw columns (#1803)", {
 test_that("group_by() names pronouns correctly (#2686)", {
   expect_named(group_by(tibble(x = 1), .data$x), "x")
   expect_named(group_by(tibble(x = 1), .data[["x"]]), "x")
+})
+
+test_that("group_by() does not affect input data (#3028)", {
+  x <-
+    data.frame(old1 = c(1, 2, 3), old2 = c(4, 5, 6)) %>%
+    group_by(old1)
+
+  y <-
+    x %>%
+    select(new1 = old1, new2 = old2)
+
+  expect_identical(groups(x), syms(quote(old1)))
 })

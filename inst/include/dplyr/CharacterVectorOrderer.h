@@ -15,8 +15,6 @@ public:
   }
 
 private:
-  CharacterVector data;
-  dplyr_hash_set<SEXP> set;
   IntegerVector orders;
 };
 
