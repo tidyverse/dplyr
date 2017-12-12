@@ -110,8 +110,6 @@ Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 template <typename Increment, bool ascending>
 Result* rank_asc(const RObject& data) {
   switch (TYPEOF(data)) {
-  case RAWSXP:
-    return new Rank_Impl<RAWSXP, Increment, ascending>(data);
   case INTSXP:
     return new Rank_Impl<INTSXP, Increment, ascending>(data);
   case REALSXP:
