@@ -171,7 +171,7 @@ public:
     return vec.size();
   }
 
-  bool is_na(int i) const {
+  bool is_na(int) const {
     return false ;
   }
 
