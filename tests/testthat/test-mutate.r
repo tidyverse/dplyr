@@ -733,7 +733,7 @@ test_that("gathering handles promotion from raw", {
   )
   expect_identical(
     df %>% group_by(g) %>% mutate( b = if(all(a<3)) as.raw(a) else as.numeric(a) ) %>% pull(b),
-    1:4
+    as.numeric(1:4)
   )
 })
 
