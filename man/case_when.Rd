@@ -44,6 +44,31 @@ case_when(
   x \%\% 35 == 0 ~ "fizz buzz"
 )
 
+# All RHS needs to be the same type. Inconsitent types will throw an error.
+# This applies also to NA values used in RHS - NA is logical so you must use other
+# typed value like NA_real_, NA_complex, NA_character_, NA_integer_ in other cases
+case_when(
+  x \%\% 35 == 0 ~ NA_character_,
+  x \%\% 5 == 0 ~ "fizz",
+  x \%\% 7 == 0 ~ "buzz",
+  TRUE ~ as.character(x)
+)
+case_when(
+  x \%\% 35 == 0 ~ 35,
+  x \%\% 5 == 0 ~ 5,
+  x \%\% 7 == 0 ~ 7,
+  TRUE ~ NA_real_
+)
+# This throws an error as NA is logical not numeric
+\dontrun{
+case_when(
+  x \%\% 35 == 0 ~ 35,
+  x \%\% 5 == 0 ~ 5,
+  x \%\% 7 == 0 ~ 7,
+  TRUE ~ NA
+)
+}
+
 # case_when is particularly useful inside mutate when you want to
 # create a new variable that relies on a complex combination of existing
 # variables
