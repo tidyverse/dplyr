@@ -6,19 +6,19 @@
 #' for the first time, or re-tallying. `count()` is similar but calls
 #' [group_by()] before and [ungroup()] after.
 #'
-#' `add_tally()` adds a column "n" to a table based on the number
+#' `add_tally()` adds a column "nn" to a table based on the number
 #' of items within each existing group, while `add_count()` is a shortcut that
 #' does the grouping as well. These functions are to [tally()]
 #' and [count()] as [mutate()] is to [summarise()]:
 #' they add an additional column rather than collapsing each group.
 #'
 #' @note
-#' The column name in the returned data is usually `n`, even if you
-#' have supplied a weight.
+#' The column name in the returned data is `n` for `tally` and `¢ount`,
+#' even if you have supplied a weight.
 #'
-#' If the data already already has a column named `n`, the output column
-#' will be called `nn`. If the table already has columns called `n` and `nn`
-#' then the column returned will be `nnn`, and so on.
+#' For `add_tally` (and `add_count`), the output column
+#' will be called `nn` even if no column `n` exists. If the table already
+#' has columns called `nn` then the column returned will be `nnn`, and so on.
 #'
 #' There is currently no way to control the output variable name - if you
 #' need to change the default, you'll have to write the [summarise()]
@@ -61,7 +61,7 @@
 tally <- function(x, wt, sort = FALSE) {
   wt <- enquo(wt)
 
-  if (quo_is_missing(wt) && "n" %in% names(x)) {
+  if (quo_is_missing(wt) && "n" %in% tbl_nongroup_vars(x)) {
     inform("Using `n` as weighting variable")
     wt <- quo(n)
   }
@@ -72,7 +72,14 @@ tally <- function(x, wt, sort = FALSE) {
     n <- quo(sum(!! wt, na.rm = TRUE))
   }
 
-  n_name <- n_name(tbl_vars(x))
+  if (("n" %in% tbl_vars(x))&(!("n" %in% tbl_nongroup_vars(x)))) {
+    n_name <- nn_name(tbl_vars(x))
+    warning(paste0("Using `",n_name,"` as count/tally variables"))
+  } else {
+    n_name <- "n"
+  }
+
+
   out <- summarise(x, !! n_name := !! n)
 
   if (sort) {
@@ -89,8 +96,8 @@ tally_ <- function(x, wt, sort = FALSE) {
   tally(x, wt = !! wt, sort = sort)
 }
 
-n_name <- function(x) {
-  name <- "n"
+nn_name <- function(x) {
+  name <- "nn"
   while (name %in% x) {
     name <- paste0(name, "n")
   }
@@ -123,7 +130,7 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE) {
 add_tally <- function(x, wt, sort = FALSE) {
   wt <- enquo(wt)
 
-  if (quo_is_missing(wt) && "n" %in% names(x)) {
+  if (quo_is_missing(wt) && "n" %in% tbl_nongroup_vars(x)) {
     inform("Using `n` as weighting variable")
     wt <- quo(n)
   }
@@ -134,11 +141,11 @@ add_tally <- function(x, wt, sort = FALSE) {
     n <- quo(sum(!! wt, na.rm = TRUE))
   }
 
-  n_name <- n_name(tbl_vars(x))
-  out <- mutate(x, !! n_name := !! n)
+  nn_name <- nn_name(tbl_vars(x))
+  out <- mutate(x, !! nn_name := !! n)
 
   if (sort) {
-    out <- arrange(out, desc(!! sym(n_name)))
+    out <- arrange(out, desc(!! sym(nn_name)))
   }
 
   grouped_df(out, group_vars(x))
