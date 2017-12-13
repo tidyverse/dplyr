@@ -724,6 +724,18 @@ test_that("mutate() supports unquoted values", {
   expect_error(mutate(gdf, out = !! get_env()), "unsupported type")
 })
 
+test_that("gathering handles promotion from raw", {
+  df <- data_frame(a = 1:4, g = c(1,1,2,2))
+  # collecting raw in the first group, then other types
+  expect_identical(
+    df %>% group_by(g) %>% mutate( b = if(all(a<3)) as.raw(a) else a ) %>% pull(b),
+    1:4
+  )
+  expect_identical(
+    df %>% group_by(g) %>% mutate( b = if(all(a<3)) as.raw(a) else as.numeric(a) ) %>% pull(b),
+    1:4
+  )
+})
 
 # Error messages ----------------------------------------------------------
 
