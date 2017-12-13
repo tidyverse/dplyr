@@ -34,9 +34,9 @@
 #'   x %% 35 == 0 ~ "fizz buzz"
 #' )
 #'
-#' # All RHS needs to be the same type. Inconsitent types will throw an error.
-#' # This applies also to NA values used in RHS - NA is logical so you must use other
-#' # typed value like NA_real_, NA_complex, NA_character_, NA_integer_ in other cases
+#' # All RHS values need to be of the same type. Inconsistent types will throw an error.
+#' # This applies also to NA values used in RHS: NA is logical, use
+#' # typed values like NA_real_, NA_complex, NA_character_, NA_integer_ as appropriate.
 #' case_when(
 #'   x %% 35 == 0 ~ NA_character_,
 #'   x %% 5 == 0 ~ "fizz",
