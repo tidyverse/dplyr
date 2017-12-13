@@ -733,6 +733,10 @@ test_that("mutate handles raw vectors in columns (#1803)", {
   expect_identical( mutate(df, b = 1), data_frame(a = 1:3, b = 1) )
   expect_identical( mutate(df, c = 1), data_frame(a = 1:3, b = as.raw(1:3), c = 1) )
   expect_identical( mutate(df, c = as.raw(a)), data_frame(a = 1:3, b = as.raw(1:3), c = as.raw(1:3)) )
+
+  df <- data_frame(a = 1:4, g = c(1,1,2,2))
+  expect_identical( mutate(df, b = as.raw(a)) %>% group_by(g) %>% pull(b), as.raw(1:4) )
+  expect_identical( mutate(df, b = as.raw(a)) %>% rowwise() %>% pull(b), as.raw(1:4) )
 })
 
 test_that("grouped mutate errors on incompatible column type (#1641)", {

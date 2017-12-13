@@ -188,12 +188,10 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     } else {
       variable = validate_unquoted_value(call, gdf.nrows(), name);
     }
-
     Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
     proxy.input(name, variable);
     accumulator.set(name, variable);
   }
-
   return structure_mutate(accumulator, df, get_class(df));
 }
 

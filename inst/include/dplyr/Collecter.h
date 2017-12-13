@@ -659,6 +659,8 @@ inline Collecter* collecter(SEXP model, int n) {
       stop("Columns of class data.frame not supported");
     }
     return new Collecter_Impl<VECSXP>(n);
+  case RAWSXP:
+    return new Collecter_Impl<RAWSXP>(n);
   default:
     break;
   }
