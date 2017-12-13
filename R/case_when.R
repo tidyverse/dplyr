@@ -49,6 +49,15 @@
 #'   x %% 7 == 0 ~ 7,
 #'   TRUE ~ NA_real_
 #' )
+#' # This throws an error as NA is logical not numeric
+#' \dontrun{
+#' case_when(
+#'   x %% 35 == 0 ~ 35,
+#'   x %% 5 == 0 ~ 5,
+#'   x %% 7 == 0 ~ 7,
+#'   TRUE ~ NA
+#' )
+#' }
 #'
 #' # case_when is particularly useful inside mutate when you want to
 #' # create a new variable that relies on a complex combination of existing
