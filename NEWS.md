@@ -45,6 +45,8 @@
 
 * Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
 
+* Better error message if dbplyr is not installed when accessing database backends (#3225).
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
