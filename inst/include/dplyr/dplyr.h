@@ -25,6 +25,7 @@
 #include <dplyr/DataFrameJoinVisitors.h>
 #include <dplyr/Order.h>
 #include <dplyr/Hybrid.h>
+#include <dplyr/default_value.h>
 #include <dplyr/Result/all.h>
 #include <dplyr/Gatherer.h>
 #include <dplyr/Replicator.h>

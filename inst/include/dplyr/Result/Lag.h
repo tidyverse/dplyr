@@ -16,7 +16,7 @@ public:
   Lag(SEXP data_, int n_, const RObject& def_, bool is_summary_) :
     data(data_),
     n(n_),
-    def(Vector<RTYPE>::get_na()),
+    def(default_value<RTYPE>()),
     is_summary(is_summary_)
   {
     if (!Rf_isNull(def_)) {
@@ -85,18 +85,6 @@ private:
   STORAGE def;
   bool is_summary;
 };
-
-template <>
-inline Lag<RAWSXP>::Lag(SEXP data_, int n_, const RObject& def_, bool is_summary_) :
-  data(data_),
-  n(n_),
-  def((Rbyte)0),
-  is_summary(is_summary_)
-{
-  if (!Rf_isNull(def_)) {
-    def = as<STORAGE>(def_);
-  }
-}
 
 }
 

@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <dplyr/main.h>
+#include <dplyr/default_value.h>
 
 #include <dplyr/Order.h>
 #include <dplyr/HybridHandlerMap.h>
@@ -12,19 +13,6 @@ using namespace Rcpp;
 using namespace dplyr;
 
 namespace dplyr {
-
-template <int RTYPE>
-inline typename Rcpp::traits::storage_type<RTYPE>::type default_value() {
-  return Rcpp::Vector<RTYPE>::get_na() ;
-}
-template <>
-inline Rbyte default_value<RAWSXP>() {
-  return (Rbyte)0 ;
-}
-template <>
-inline SEXP default_value<VECSXP>() {
-  return R_NilValue ;
-}
 
 bool argmatch(const std::string& target, const std::string& s) {
   if (s.size() > target.size()) return false;
