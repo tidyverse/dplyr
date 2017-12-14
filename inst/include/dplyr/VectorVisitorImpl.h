@@ -137,50 +137,6 @@ private:
 };
 
 template <>
-class VectorVisitorImpl<RAWSXP> : public VectorVisitor {
-public:
-
-  VectorVisitorImpl(const RawVector& vec_) :
-    vec(vec_)
-  {}
-
-  size_t hash(int i) const {
-    return vec[i];
-  }
-  inline bool equal(int i, int j) const {
-    return vec[i] == vec[j];
-  }
-
-  inline bool less(int i, int j) const {
-    return vec[i] < vec[j];
-  }
-
-  inline bool equal_or_both_na(int i, int j) const {
-    return vec[i] == vec[j];
-  }
-
-  inline bool greater(int i, int j) const {
-    return vec[i] > vec[j];
-  }
-
-  inline std::string get_r_type() const {
-    return VectorVisitorType<RAWSXP>();
-  }
-
-  int size() const {
-    return vec.size();
-  }
-
-  bool is_na(int) const {
-    return false ;
-  }
-
-protected:
-  RawVector vec;
-
-};
-
-template <>
 class VectorVisitorImpl<STRSXP> : public VectorVisitor {
 public:
 
