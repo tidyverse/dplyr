@@ -44,7 +44,7 @@ struct comparisons<RAWSXP> {
     return lhs == rhs;
   }
 
-  static inline bool is_na(STORAGE x) {
+  static inline bool is_na(STORAGE) {
     return false ;
   }
 
