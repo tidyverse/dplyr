@@ -246,6 +246,17 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
     }
     break;
   }
+  case RAWSXP:
+  {
+    switch (TYPEOF(right.get_data())) {
+    case RAWSXP:
+    {
+      return new JoinVisitorImpl<RAWSXP, RAWSXP, ACCEPT_NA_MATCH> (left, right, warn_);
+    }
+    default:
+      break ;
+    }
+  }
   default:
     break;
   }

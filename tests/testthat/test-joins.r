@@ -898,3 +898,28 @@ test_that("semi- and anti-joins preserve order (#2964)", {
     data_frame(a = 3:1)
   )
 })
+
+test_that( "join handles raw vectors", {
+  df1 <- data_frame( r = as.raw(1:4), x = 1:4 )
+  df2 <- data_frame( r = as.raw(3:6), y = 3:6 )
+
+  expect_identical(
+    left_join( df1, df2, by = "r" ),
+    data_frame(r = as.raw(1:4), x = 1:4, y = c(NA,NA,3:4))
+  )
+
+  expect_identical(
+    right_join( df1, df2, by = "r" ),
+    data_frame(r = as.raw(3:6), x = c(3:4,NA,NA), y = c(3:6))
+  )
+
+  expect_identical(
+    full_join( df1, df2, by = "r" ),
+    data_frame(r = as.raw(1:6), x = c(1:4,NA,NA), y = c(NA,NA,3:6))
+  )
+
+  expect_identical(
+    inner_join( df1, df2, by = "r" ),
+    data_frame(r = as.raw(3:4), x = c(3:4), y = c(3:4))
+  )
+})

@@ -135,7 +135,7 @@ public:
 };
 
 // powers both dense_rank and min_rank, see dplyr.cpp for how it is used
-template <int RTYPE, typename Increment, bool ascending = true>
+template <int RTYPE, typename Increment, bool ascending>
 class Rank_Impl : public Result, public Increment {
 public:
   typedef typename Increment::OutputVector OutputVector;

@@ -73,6 +73,8 @@ inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
     return new GroupedSubsetTemplate<VECSXP>(x, max_size);
   case CPLXSXP:
     return new GroupedSubsetTemplate<CPLXSXP>(x, max_size);
+  case RAWSXP:
+    return new GroupedSubsetTemplate<RAWSXP>(x, max_size);
   default:
     break;
   }
@@ -126,6 +128,8 @@ inline GroupedSubset* summarised_subset(SummarisedVariable x) {
     return new SummarisedSubsetTemplate<VECSXP>(x);
   case CPLXSXP:
     return new SummarisedSubsetTemplate<CPLXSXP>(x);
+  case RAWSXP:
+    return new SummarisedSubsetTemplate<RAWSXP>(x);
   default:
     break;
   }
