@@ -36,6 +36,8 @@ inline SubsetVectorVisitor* subset_visitor_matrix(SEXP vec) {
     return new MatrixColumnSubsetVisitor<REALSXP>(vec);
   case LGLSXP:
     return new MatrixColumnSubsetVisitor<LGLSXP>(vec);
+  case RAWSXP:
+    return new MatrixColumnSubsetVisitor<RAWSXP>(vec);
   case STRSXP:
     return new MatrixColumnSubsetVisitor<STRSXP>(vec);
   case VECSXP:
@@ -63,6 +65,8 @@ inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
     return new SubsetVectorVisitorImpl<REALSXP>(vec);
   case LGLSXP:
     return new SubsetVectorVisitorImpl<LGLSXP>(vec);
+  case RAWSXP:
+    return new SubsetVectorVisitorImpl<RAWSXP>(vec);
   case STRSXP:
     return new SubsetVectorVisitorImpl<STRSXP>(vec);
 

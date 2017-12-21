@@ -87,6 +87,9 @@
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
 
 
+* Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
+  and joins (minimal `raw` x `raw` support initially) (#1803). 
+
 # dplyr 0.7.1
 
 * Use new versions of bindrcpp and glue to avoid protection problems.

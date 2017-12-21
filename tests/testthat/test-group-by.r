@@ -256,27 +256,15 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
   })
 })
 
-test_that("group_by fails gracefully on raw columns (#1803)", {
+test_that("group_by handles raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(
-    group_by(df, a),
-    "Column `b` is of unsupported type raw",
-    fixed = TRUE
-  )
-  expect_error(
-    group_by(df, b),
-    "Column `b` is of unsupported type raw",
-    fixed = TRUE
-  )
+  expect_identical( ungroup(group_by(df, a)), df )
+  expect_identical( ungroup(group_by(df, b)), df )
 })
 
-test_that("rowwise fails gracefully on raw columns (#1803)", {
+test_that("rowwise handles raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(
-    rowwise(df),
-    "Column `b` is of unsupported type raw",
-    fixed = TRUE
-  )
+  expect_is( rowwise(df), "rowwise_df" )
 })
 
 test_that("group_by() names pronouns correctly (#2686)", {

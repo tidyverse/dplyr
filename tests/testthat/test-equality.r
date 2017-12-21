@@ -134,13 +134,9 @@ test_that("equality handles data frames with 0 columns (#1506)", {
   expect_equal(df0, df0)
 })
 
-test_that("equality cannot be checked in presence of raw columns", {
+test_that("equality handle raw columns", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(
-    all.equal(df, df),
-    "Column `b` is of unsupported type raw",
-    fixed = TRUE
-  )
+  expect_true( all.equal(df, df) )
 })
 
 test_that("equality returns a message for convert = TRUE", {

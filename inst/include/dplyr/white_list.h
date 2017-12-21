@@ -9,6 +9,8 @@ inline bool white_list(SEXP x) {
     return true;
   }
   switch (TYPEOF(x)) {
+  case RAWSXP:
+    return true;
   case INTSXP:
     return true;
   case REALSXP:

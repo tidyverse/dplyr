@@ -241,6 +241,8 @@ inline OrderVisitor* order_visitor_asc_matrix(SEXP vec) {
     return new OrderVisitorMatrix<STRSXP, ascending>(vec);
   case DPLYR_CPLXSXP:
     return new OrderVisitorMatrix<CPLXSXP, ascending>(vec);
+  case DPLYR_RAWSXP:
+    return new OrderVisitorMatrix<RAWSXP, ascending>(vec);
   case DPLYR_VECSXP:
     stop("Matrix can't be a list");
   }
@@ -262,6 +264,8 @@ inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
     return new OrderCharacterVectorVisitorImpl<ascending>(vec);
   case CPLXSXP:
     return new OrderVectorVisitorImpl<CPLXSXP, ascending, Vector<CPLXSXP > >(vec);
+  case RAWSXP:
+    return new OrderVectorVisitorImpl<RAWSXP, ascending, Vector<RAWSXP > >(vec);
   case VECSXP:
   {
     if (Rf_inherits(vec, "data.frame")) {
