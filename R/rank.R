@@ -58,7 +58,7 @@ ntile <- function(x, n) {
   if (len == 0L) {
     rep(NA_integer_, length(x))
   } else {
-    as.integer(floor(n * (row_number(x) - 1)/len + 1))
+    as.integer(floor(n * (row_number(x) - 1) / len + 1))
   }
 }
 

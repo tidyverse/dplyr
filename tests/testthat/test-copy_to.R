@@ -63,4 +63,3 @@ test_that("src_sqlite() errs if path does not exist", {
     fixed = TRUE
   )
 })
-

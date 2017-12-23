@@ -68,4 +68,3 @@ test_that("intersect does not unnecessarily coerce (#1722)", {
   res <- intersect(df, df)
   expect_is(res$a, "integer")
 })
-

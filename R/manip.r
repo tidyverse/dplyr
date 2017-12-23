@@ -351,7 +351,7 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'   grouped data frames only.
 arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
   if (.by_group) {
-    dots <- quos(!!!groups(.data), ...)
+    dots <- quos(!!! groups(.data), ...)
   } else {
     dots <- quos(...)
   }

@@ -327,8 +327,8 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
 
 test_that("filter handles raw vectors (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_identical( filter(df, a == 1), data_frame( a = 1L, b = as.raw(1)) )
-  expect_identical( filter(df, b == 1), data_frame( a = 1L, b = as.raw(1)) )
+  expect_identical(filter(df, a == 1), data_frame(a = 1L, b = as.raw(1)))
+  expect_identical(filter(df, b == 1), data_frame(a = 1L, b = as.raw(1)))
 })
 
 test_that("`vars` attribute is not added if empty (#2772)", {

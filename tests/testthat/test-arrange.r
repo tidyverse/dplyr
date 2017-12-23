@@ -161,10 +161,10 @@ test_that("arrange fails gracefully on list columns (#1489)", {
 
 test_that("arrange supports raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_identical(arrange(df, a),df)
-  expect_identical(arrange(df, b),df)
-  expect_identical(arrange(df, desc(a)),df[3:1,])
-  expect_identical(arrange(df, desc(b)),df[3:1,])
+  expect_identical(arrange(df, a), df)
+  expect_identical(arrange(df, b), df)
+  expect_identical(arrange(df, desc(a)), df[3:1, ])
+  expect_identical(arrange(df, desc(b)), df[3:1, ])
 })
 
 test_that("arrange fails gracefully on matrix input (#1870)", {
@@ -187,4 +187,3 @@ test_that("can choose to include grouping vars", {
 
   expect_equal(df1, df2)
 })
-

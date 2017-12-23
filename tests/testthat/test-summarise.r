@@ -200,12 +200,12 @@ test_that("summarise propagate attributes (#194)", {
     min__g = min_(g)
   )
 
-  expect_equal(class(res$min_f) , "Date")
-  expect_equal(class(res$max_f) , "Date")
+  expect_equal(class(res$min_f), "Date")
+  expect_equal(class(res$max_f), "Date")
   expect_equal(class(res$min__f), "Date")
 
-  expect_equal(class(res$min_g) , c("POSIXct", "POSIXt"))
-  expect_equal(class(res$max_g) , c("POSIXct", "POSIXt"))
+  expect_equal(class(res$min_g), c("POSIXct", "POSIXt"))
+  expect_equal(class(res$max_g), c("POSIXct", "POSIXt"))
   expect_equal(class(res$min__g), c("POSIXct", "POSIXt"))
 
 })
@@ -796,7 +796,7 @@ test_that("summarise() correctly coerces factors with different levels (#1678)",
 test_that("summarise handles raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
   expect_equal(summarise(df, c = sum(a)), data_frame(c = 6L))
-  expect_identical( summarise(df, c = b[[1]]), data_frame(c = as.raw(1) ) )
+  expect_identical(summarise(df, c = b[[1]]), data_frame(c = as.raw(1)))
 })
 
 test_that("dim attribute is stripped from grouped summarise (#1918)", {

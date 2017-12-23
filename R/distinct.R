@@ -93,7 +93,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 #'
 #' @noRd
 list_cols_error <- function(df, keep_cols) {
-  if(any(map_lgl(df[keep_cols], is.list)))
+  if (any(map_lgl(df[keep_cols], is.list)))
     stop("distinct() does not support columns of type `list`",
             call. = FALSE)
 }

@@ -106,9 +106,9 @@ test_that("mutate recycles results of length 1", {
   list <- list(NULL)
 
   res <- mutate(group_by(df, x), int = int, str = str, num = num, bool = bool, list = list)
-  expect_equal(res$int , rep(int , 4))
-  expect_equal(res$str , rep(str , 4))
-  expect_equal(res$num , rep(num , 4))
+  expect_equal(res$int, rep(int, 4))
+  expect_equal(res$str, rep(str, 4))
+  expect_equal(res$num, rep(num, 4))
   expect_equal(res$bool, rep(bool, 4))
   expect_equal(res$list, rep(list, 4))
 })
@@ -131,12 +131,12 @@ test_that("mutate handles out of data variables", {
     gdf,
     int = int, str = str, num = num, bool = bool, dat = dat, tim = tim
   )
-  expect_equal(res$int , rep(int , 2))
-  expect_equal(res$str , rep(str , 2))
-  expect_equal(res$num , rep(num , 2))
+  expect_equal(res$int, rep(int, 2))
+  expect_equal(res$str, rep(str, 2))
+  expect_equal(res$num, rep(num, 2))
   expect_equal(res$bool, rep(bool, 2))
-  expect_equal(res$dat , rep(dat , 2))
-  expect_equal(res$tim , rep(tim , 2))
+  expect_equal(res$dat, rep(dat, 2))
+  expect_equal(res$tim, rep(tim, 2))
 
   int <- 1:6
   expect_error(
@@ -161,12 +161,12 @@ test_that("mutate handles out of data variables", {
     tbl_df(df),
     int = int, str = str, num = num, bool = bool, tim = tim, dat = dat
   )
-  expect_equal(res$int , int)
-  expect_equal(res$str , str)
-  expect_equal(res$num , num)
+  expect_equal(res$int, int)
+  expect_equal(res$str, str)
+  expect_equal(res$num, num)
   expect_equal(res$bool, bool)
-  expect_equal(res$dat , dat)
-  expect_equal(res$tim , tim)
+  expect_equal(res$dat, dat)
+  expect_equal(res$tim, tim)
 })
 
 test_that("mutate handles passing ...", {
@@ -650,7 +650,7 @@ test_that("grouped mutate coerces integer + double -> double (#1892)", {
 })
 
 test_that("grouped mutate coerces factor + character -> character (WARN) (#1892)", {
-  factor_or_character <- function(x)  {
+  factor_or_character <- function(x) {
     if (x > 3) {
       return(factor("hello"))
     } else {
@@ -725,14 +725,14 @@ test_that("mutate() supports unquoted values", {
 })
 
 test_that("gathering handles promotion from raw", {
-  df <- data_frame(a = 1:4, g = c(1,1,2,2))
+  df <- data_frame(a = 1:4, g = c(1, 1, 2, 2))
   # collecting raw in the first group, then other types
   expect_identical(
-    df %>% group_by(g) %>% mutate( b = if(all(a<3)) as.raw(a) else a ) %>% pull(b),
+    df %>% group_by(g) %>% mutate(b = if (all(a < 3)) as.raw(a) else a) %>% pull(b),
     1:4
   )
   expect_identical(
-    df %>% group_by(g) %>% mutate( b = if(all(a<3)) as.raw(a) else as.numeric(a) ) %>% pull(b),
+    df %>% group_by(g) %>% mutate(b = if (all(a < 3)) as.raw(a) else as.numeric(a)) %>% pull(b),
     as.numeric(1:4)
   )
 })
@@ -741,14 +741,14 @@ test_that("gathering handles promotion from raw", {
 
 test_that("mutate handles raw vectors in columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_identical( mutate(df, a = 1), data_frame(a = 1, b = as.raw(1:3)) )
-  expect_identical( mutate(df, b = 1), data_frame(a = 1:3, b = 1) )
-  expect_identical( mutate(df, c = 1), data_frame(a = 1:3, b = as.raw(1:3), c = 1) )
-  expect_identical( mutate(df, c = as.raw(a)), data_frame(a = 1:3, b = as.raw(1:3), c = as.raw(1:3)) )
+  expect_identical(mutate(df, a = 1), data_frame(a = 1, b = as.raw(1:3)))
+  expect_identical(mutate(df, b = 1), data_frame(a = 1:3, b = 1))
+  expect_identical(mutate(df, c = 1), data_frame(a = 1:3, b = as.raw(1:3), c = 1))
+  expect_identical(mutate(df, c = as.raw(a)), data_frame(a = 1:3, b = as.raw(1:3), c = as.raw(1:3)))
 
-  df <- data_frame(a = 1:4, g = c(1,1,2,2))
-  expect_identical( mutate(df, b = as.raw(a)) %>% group_by(g) %>% pull(b), as.raw(1:4) )
-  expect_identical( mutate(df, b = as.raw(a)) %>% rowwise() %>% pull(b), as.raw(1:4) )
+  df <- data_frame(a = 1:4, g = c(1, 1, 2, 2))
+  expect_identical(mutate(df, b = as.raw(a)) %>% group_by(g) %>% pull(b), as.raw(1:4))
+  expect_identical(mutate(df, b = as.raw(a)) %>% rowwise() %>% pull(b), as.raw(1:4))
 })
 
 test_that("grouped mutate errors on incompatible column type (#1641)", {

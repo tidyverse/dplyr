@@ -29,7 +29,7 @@ df_names <- c("date", "time", "record_type", "status", "lat", "long", "wind", "p
 storm_dfs <- vector("list", nrow(headers_df))
 names(storm_dfs) <- headers_df$name
 
-for(i in seq_along(headers_df$name)) {
+for (i in seq_along(headers_df$name)) {
   storm_dfs[[i]] <- read_csv("data-raw/hurdat2.txt",
                              skip = headers_df$skip[i],
                              n_max = headers_df$n_obs[i],
@@ -94,4 +94,3 @@ storms <- storms %>%
   mutate(name = if_else(str_sub(name, 1, 3) %in% c("AL0", "AL1"), name, str_to_title(name)))
 
 devtools::use_data(storms)
-

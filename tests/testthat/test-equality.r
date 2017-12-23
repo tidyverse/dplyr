@@ -136,7 +136,7 @@ test_that("equality handles data frames with 0 columns (#1506)", {
 
 test_that("equality handle raw columns", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_true( all.equal(df, df) )
+  expect_true(all.equal(df, df))
 })
 
 test_that("equality returns a message for convert = TRUE", {

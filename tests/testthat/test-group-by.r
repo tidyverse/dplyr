@@ -258,13 +258,13 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
 
 test_that("group_by handles raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_identical( ungroup(group_by(df, a)), df )
-  expect_identical( ungroup(group_by(df, b)), df )
+  expect_identical(ungroup(group_by(df, a)), df)
+  expect_identical(ungroup(group_by(df, b)), df)
 })
 
 test_that("rowwise handles raw columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_is( rowwise(df), "rowwise_df" )
+  expect_is(rowwise(df), "rowwise_df")
 })
 
 test_that("group_by() names pronouns correctly (#2686)", {

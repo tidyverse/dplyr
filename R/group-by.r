@@ -30,7 +30,7 @@
 #'   Some tbls will accept functions of variables. Duplicated groups
 #'   will be silently dropped.
 #' @param add When `add = FALSE`, the default, `group_by()` will
-#'   override existing groups. To add to the existing groups, use 
+#'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
 #' @inheritParams filter
 #' @export
@@ -157,4 +157,3 @@ group_vars <- function(x) {
 group_vars.default <- function(x) {
   deparse_names(groups(x))
 }
-
