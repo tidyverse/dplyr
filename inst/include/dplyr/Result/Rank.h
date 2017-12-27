@@ -242,7 +242,6 @@ public:
   RowNumber(SEXP data_) : data(data_) {}
 
   virtual SEXP process(const GroupedDataFrame& gdf) {
-    std::vector<int> tmp(gdf.max_group_size());
 
     int ng = gdf.ngroups();
     int n  = gdf.nrows();
@@ -251,16 +250,12 @@ public:
     IntegerVector out(n);
     for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
-
-      // tmp <- 0:(m-1)
-      int m = index.size();
-      for (int j = 0; j < m; j++) tmp[j] = j;
-
       Slice slice(&data, index);
-      // order( gdf.group(i) )
-      Visitor visitor(slice);
-      Comparer comparer(visitor);
-      std::sort(tmp.begin(), tmp.begin() + m, comparer);
+      Shield<SEXP> data_subset(slice);
+      OrderVisitors ordering_obj(data_subset, ascending);
+      IntegerVector tmp = ordering_obj.apply();
+
+      int m = index.size();
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[ tmp[j] ])) {
@@ -289,10 +284,11 @@ public:
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
-    IntegerVector x = seq(0, nrows - 1);
+
     Slice slice(&data, index);
-    Visitor visitor(slice);
-    std::sort(x.begin(), x.end(), Comparer(visitor));
+    Shield<SEXP> data_subset(slice);
+    OrderVisitors ordering_obj(data_subset, ascending);
+    IntegerVector x = ordering_obj.apply();
     IntegerVector out = no_init(nrows);
     int j = nrows - 1;
     for (; j >= 0; j--) {
@@ -324,8 +320,6 @@ public:
   Ntile(SEXP data_, double ntiles_) : data(data_), ntiles(ntiles_) {}
 
   virtual SEXP process(const GroupedDataFrame& gdf) {
-    std::vector<int> tmp(gdf.max_group_size());
-
     int ng = gdf.ngroups();
     int n  = gdf.nrows();
     if (n == 0) return IntegerVector(0);
@@ -334,15 +328,12 @@ public:
     for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;
 
-      // tmp <- 0:(m-1)
-      int m = index.size();
-      for (int j = 0; j < m; j++) tmp[j] = j;
       Slice slice(&data, index);
+      Shield<SEXP> data_subset(slice);
+      OrderVisitors ordering_obj(data_subset, ascending);
+      IntegerVector tmp = ordering_obj.apply();
 
-      // order( gdf.group(i) )
-      Visitor visitor(slice);
-      Comparer comparer(visitor);
-      std::sort(tmp.begin(), tmp.begin() + m, comparer);
+      int m = index.size();
       int j = m - 1;
       for (; j >= 0; j--) {
         if (Rcpp::traits::is_na<RTYPE>(slice[tmp[j]])) {
@@ -371,10 +362,12 @@ public:
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
-    IntegerVector x = seq(0, nrows - 1);
+
     Slice slice(&data, index);
-    Visitor visitor(slice);
-    std::sort(x.begin(), x.end(), Comparer(visitor));
+    Shield<SEXP> data_subset(slice);
+    OrderVisitors ordering_obj(data_subset, ascending);
+    IntegerVector x = ordering_obj.apply();
+
     IntegerVector out = no_init(nrows);
     int i = nrows - 1;
     for (; i >= 0; i--) {
