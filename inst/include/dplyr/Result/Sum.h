@@ -84,20 +84,17 @@ public:
   typedef Processor< RTYPE, Sum<RTYPE, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  Sum(SEXP x, bool is_summary_ = false) :
+  Sum(SEXP x) :
     Base(x),
-    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(x)),
-    is_summary(is_summary_)
+    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(x))
   {}
   ~Sum() {}
 
   inline STORAGE process_chunk(const SlicingIndex& indices) {
-    if (is_summary) return data_ptr[indices.group()];
     return internal::Sum<RTYPE, NA_RM, SlicingIndex>::process(data_ptr, indices);
   }
 
   STORAGE* data_ptr;
-  bool is_summary;
 };
 
 }

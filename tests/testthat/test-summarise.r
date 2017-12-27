@@ -762,6 +762,34 @@ test_that("summarise handles min/max of already summarised variable (#1622)", {
   expect_equal(df_summary$FIRST_DAY, df_summary$LAST_DAY)
 })
 
+test_that("summarise handles double summary (#3233)", {
+  df <- data.frame(a = 1:3)
+
+  df_summary <-
+    df %>%
+    summarise(b = sum(a), c = sum(b))
+
+  expect_equal(df_summary, data.frame(b = 6, c = 6))
+
+  df_summary <-
+    df %>%
+    summarise(b = mean(a), c = mean(b))
+
+  expect_equal(df_summary, data.frame(b = 2, c = 2))
+
+  df_summary <-
+    df %>%
+    summarise(b = var(a), c = var(b))
+
+  expect_equal(df_summary, data.frame(b = 1, c = NA_real_))
+
+  df_summary <-
+    df %>%
+    summarise(b = sd(a), c = sd(b))
+
+  expect_equal(df_summary, data.frame(b = 1, c = NA_real_))
+})
+
 test_that("group_by keeps classes (#1631)", {
   df <- data.frame(a = 1, b = as.Date(NA)) %>%
     group_by(a) %>%
