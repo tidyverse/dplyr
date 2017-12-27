@@ -21,4 +21,5 @@ before_script:
 - echo 'PKG_CXXFLAGS := ${PKG_CXXFLAGS} $${TRAVIS_CXXFLAGS}' > ~/.R/Makevars
 
 after_success:
+- rm -rf ~/.R
 - Rscript -e 'covr::codecov()'
