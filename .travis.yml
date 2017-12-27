@@ -9,12 +9,3 @@ env:
   global:
   - _R_CHECK_FORCE_SUGGESTS_=false
   - MAKEFLAGS="-j 2"
-  - TRAVIS_CXXFLAGS="-Wall -Wextra -pedantic -Werror"
-
-r:
-- release
-- oldrel
-- devel
-
-after_success:
-- Rscript -e 'covr::codecov()'
