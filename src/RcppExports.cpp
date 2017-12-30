@@ -603,6 +603,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// check_valid_colnames_export
+void check_valid_colnames_export(const DataFrame& df, bool warn_only);
+RcppExport SEXP _dplyr_check_valid_colnames_export(SEXP dfSEXP, SEXP warn_onlySEXP) {
+BEGIN_RCPP
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< const DataFrame& >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< bool >::type warn_only(warn_onlySEXP);
+    check_valid_colnames_export(df, warn_only);
+    return R_NilValue;
+END_RCPP
+}
 // assert_all_white_list
 void assert_all_white_list(const DataFrame& data);
 RcppExport SEXP _dplyr_assert_all_white_list(SEXP dataSEXP) {
@@ -723,6 +734,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
+    {"_dplyr_check_valid_colnames_export", (DL_FUNC) &_dplyr_check_valid_colnames_export, 2},
     {"_dplyr_assert_all_white_list", (DL_FUNC) &_dplyr_assert_all_white_list, 1},
     {"_dplyr_shallow_copy", (DL_FUNC) &_dplyr_shallow_copy, 1},
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},

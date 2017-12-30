@@ -188,7 +188,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   std::sort(indices.begin(), indices.end());
 
-  const DataFrame& out = subset(x, indices, x.names(), get_class(x));
+  const DataFrame& out = subset(x, indices, get_class(x));
   strip_index(out);
   return out;
 }
@@ -220,7 +220,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   std::sort(indices.begin(), indices.end());
 
-  const DataFrame& out = subset(x, indices, x.names(), get_class(x));
+  const DataFrame& out = subset(x, indices, get_class(x));
   strip_index(out);
   return out;
 }

@@ -68,7 +68,7 @@ DataFrame filter_grouped(const SlicedTibble& gdf, const NamedQuosure& quo) {
   }
 
   // Subset the grouped data frame
-  DataFrame res = subset(data, test, data.names(), classes_grouped<SlicedTibble>());
+  DataFrame res = subset(data, test, classes_grouped<SlicedTibble>());
   copy_vars(res, data);
   strip_index(res);
   return SlicedTibble(res).data();

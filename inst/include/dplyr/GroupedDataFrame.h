@@ -13,29 +13,6 @@
 
 namespace dplyr {
 
-inline void check_valid_colnames(const DataFrame& df) {
-  if (df.size()) {
-    CharacterVector names(df.names());
-    LogicalVector dup = duplicated(names);
-    if (any(dup).is_true()) {
-      std::stringstream s;
-      s << "found duplicated column name: ";
-      bool first = true;
-      for (int i = 0; i < df.size(); i++) {
-        if (dup[i] == TRUE) {
-          if (first) {
-            first = false;
-          } else {
-            s << ", ";
-          }
-          s << names[i];
-        }
-      }
-      stop(s.str());
-    }
-  }
-}
-
 class GroupedDataFrame;
 
 class GroupedDataFrameIndexIterator {
