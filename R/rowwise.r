@@ -76,7 +76,6 @@ group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE) {
 do.rowwise_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
-  index <- attr(.data, "indices")
 
   args <- quos(...)
   named <- named_args(args)
