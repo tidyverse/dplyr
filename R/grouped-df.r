@@ -265,16 +265,16 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
     inform("`.env` is deprecated and no longer has any effect")
   }
   weight <- enquo(weight)
+  weight <- mutate(tbl, w = !! weight)[["w"]]
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,
     frac = FALSE,
-    tbl = tbl,
     size = size,
     replace = replace,
     weight = weight
   )
-  idx <- unlist(sampled) + 1
+  idx <- unlist(sampled)
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
@@ -292,21 +292,24 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     )
   }
   weight <- enquo(weight)
+  weight <- mutate(tbl, w = !! weight)[["w"]]
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,
     frac = TRUE,
-    tbl = tbl,
     size = size,
     replace = replace,
     weight = weight
   )
-  idx <- unlist(sampled) + 1
+  idx <- unlist(sampled)
 
   grouped_df(tbl[idx, , drop = FALSE], vars = groups(tbl))
 }
 
-sample_group <- function(tbl, i, frac, size, replace, weight) {
+sample_group <- function(i, frac, size, replace, weight) {
+  # i: zero-based on input, return-value is one-based
+  i <- i + 1L
+
   n <- length(i)
   if (frac) {
     check_frac(size, replace)
@@ -315,9 +318,8 @@ sample_group <- function(tbl, i, frac, size, replace, weight) {
     check_size(size, n, replace)
   }
 
-  weight <- eval_tidy(weight, tbl[i + 1, , drop = FALSE])
   if (!is_null(weight)) {
-    weight <- check_weight(weight, n)
+    weight <- check_weight(weight[i], n)
   }
 
   i[sample.int(n, size, replace = replace, prob = weight)]

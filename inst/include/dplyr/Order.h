@@ -27,6 +27,12 @@ public:
       visitors[i]  = order_visitor(data[i], true, i);
   }
 
+  OrderVisitors(SEXP data, bool ascending) :
+    visitors(1), n(1), nrows(Rf_length(data))
+  {
+    visitors[0]  = order_visitor(data, ascending, 0);
+  }
+
   Rcpp::IntegerVector apply() const;
 
   pointer_vector<OrderVisitor> visitors;

@@ -14,15 +14,15 @@ using namespace Rcpp;
 using namespace dplyr;
 
 template <template <int, bool> class Fun, bool narm>
-Result* simple_prototype_impl(SEXP arg, bool is_summary) {
+Result* simple_prototype_impl(SEXP arg) {
   // if not hybridable, just let R handle it
   if (!hybridable(arg)) return 0;
 
   switch (TYPEOF(arg)) {
   case INTSXP:
-    return new Fun<INTSXP, narm>(arg, is_summary);
+    return new Fun<INTSXP, narm>(arg);
   case REALSXP:
-    return new Fun<REALSXP, narm>(arg, is_summary);
+    return new Fun<REALSXP, narm>(arg);
   default:
     break;
   }
@@ -33,12 +33,15 @@ template <template <int, bool> class Fun>
 Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   if (nargs == 0) return 0;
   SEXP arg = maybe_rhs(CADR(call));
-  bool is_summary = false;
+
   if (TYPEOF(arg) == SYMSXP) {
     SymbolString name = SymbolString(Symbol(arg));
     if (subsets.has_variable(name)) {
-      // we have a symbol from the data - great
-      is_summary = subsets.is_summary(name);
+      // we have a symbol but it's the result of a summary, let R handle it
+      // (why would you take a summary from a summary?)
+      if (subsets.is_summary(name))
+        return 0;
+      // we have a vectorized symbol from the data - great
       arg = subsets.get_variable(name);
     } else {
       // we have a symbol but we don't know about it, so we give up and let R evaluation handle it
@@ -52,7 +55,7 @@ Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   }
 
   if (nargs == 1) {
-    return simple_prototype_impl<Fun, false>(arg, is_summary);
+    return simple_prototype_impl<Fun, false>(arg);
   } else if (nargs == 2) {
     SEXP arg2 = CDDR(call);
     // we know how to handle fun( ., na.rm = TRUE/FALSE )
@@ -60,9 +63,9 @@ Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
       SEXP narm = CAR(arg2);
       if (TYPEOF(narm) == LGLSXP && LENGTH(narm) == 1) {
         if (LOGICAL(narm)[0] == TRUE) {
-          return simple_prototype_impl<Fun, true>(arg, is_summary);
+          return simple_prototype_impl<Fun, true>(arg);
         } else {
-          return simple_prototype_impl<Fun, false>(arg, is_summary);
+          return simple_prototype_impl<Fun, false>(arg);
         }
       }
     }

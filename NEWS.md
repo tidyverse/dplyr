@@ -16,6 +16,10 @@
 
 ## Changes
 
+* Summaries of summaries (such as `summarise(b = sum(a), c = sum(b))`) are now
+  computed using standard evaluation for simplicity and correctness, but
+  slightly slower (#3233).
+
 * `sym()`, `syms()`, `expr()`, `exprs()` and `enexpr()` are now
   exported. `sym()` and `syms()` construct symbols from strings or character
   vectors. The `expr()` variants are equivalent to `quo()`, `quos()` and
@@ -45,7 +49,11 @@
 
 * Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
 
+* `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
+
 * Better error message if dbplyr is not installed when accessing database backends (#3225).
+
+*  Fix `row_number()` and `ntile()` ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
 
 # dplyr 0.7.4
 
