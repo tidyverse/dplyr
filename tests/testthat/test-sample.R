@@ -87,21 +87,21 @@ test_that("can't sample more values than obs (without replacement)", {
   )
 })
 
-df2 <- data.frame(
-  x = rep(1:2, 2),
-  y = rep(c(0, 1), 2),
-  g = rep(1:2, each = 2)
+df2 <- tibble(
+  x = rep(1:2, 100),
+  y = rep(c(0, 1), 100),
+  g = rep(1:2, each = 100)
 )
 
 
 test_that("grouped sample respects weight", {
-  grp <- df2 %>% group_by(g)
+  grp <- df2 %>% sample_frac() %>% group_by(g)
 
   # error message from base R
-  expect_error(sample_n(grp, 2, weight = y))
+  expect_error(sample_n(grp, nrow(df2) / 2 + 1, weight = y))
   expect_equal(sample_n(grp, 1, weight = y)$x, c(2, 2))
 
   # error message from base R
   expect_error(sample_frac(grp, 1, weight = y))
-  expect_equal(sample_frac(grp, 0.5, weight = y)$x, c(2, 2))
+  expect_equal(sample_frac(grp, 0.5, weight = y)$x, rep(2, nrow(df2) / 2))
 })
