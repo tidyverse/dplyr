@@ -86,6 +86,17 @@ protected:
 
 template <>
 template <typename Container>
+SEXP SubsetVectorVisitorImpl<RAWSXP>::subset_int_index(const Container& index) const {
+  int n = output_size(index);
+  RawVector out(n);
+  for (int i = 0; i < n; i++)
+    out[i] = (index[i] < 0) ? (Rbyte)0 : vec[ index[i] ];
+  copy_most_attributes(out, vec);
+  return out;
+}
+
+template <>
+template <typename Container>
 SEXP SubsetVectorVisitorImpl<VECSXP>::subset_int_index(const Container& index) const {
   int n = output_size(index);
   List out(n);

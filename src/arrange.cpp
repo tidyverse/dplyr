@@ -28,7 +28,6 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
 
   check_valid_colnames(data);
   assert_all_white_list(data);
-
   List variables(nargs);
   LogicalVector ascending(nargs);
 
@@ -63,10 +62,8 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
     ascending[i] = !is_desc;
   }
   variables.names() = quosures.names();
-
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector index = o.apply();
-
   DataFrameSubsetVisitors visitors(data, data.names());
   List res = visitors.subset(index, get_class(data));
 

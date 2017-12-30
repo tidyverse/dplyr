@@ -29,6 +29,29 @@ struct comparisons {
 };
 
 template <>
+struct comparisons<RAWSXP> {
+  typedef Rbyte STORAGE;
+
+  static inline bool is_less(STORAGE lhs, STORAGE rhs) {
+    return lhs < rhs;
+  }
+
+  static inline bool is_greater(STORAGE lhs, STORAGE rhs) {
+    return lhs > rhs;
+  }
+
+  static inline bool equal_or_both_na(STORAGE lhs, STORAGE rhs) {
+    return lhs == rhs;
+  }
+
+  static inline bool is_na(STORAGE) {
+    return false ;
+  }
+
+};
+
+
+template <>
 struct comparisons<STRSXP> {
   static inline bool is_less(SEXP lhs, SEXP rhs) {
     // we need this because CHAR(NA_STRING) gives "NA"

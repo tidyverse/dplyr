@@ -54,6 +54,8 @@ inline VectorVisitor* visitor_vector(SEXP vec) {
     return new VectorVisitorImpl<LGLSXP>(vec);
   case STRSXP:
     return new VectorVisitorImpl<STRSXP>(vec);
+  case RAWSXP:
+    return new VectorVisitorImpl<RAWSXP>(vec);
 
   case VECSXP: {
     if (Rf_inherits(vec, "data.frame")) {

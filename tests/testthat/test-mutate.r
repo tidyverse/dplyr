@@ -724,26 +724,31 @@ test_that("mutate() supports unquoted values", {
   expect_error(mutate(gdf, out = !! get_env()), "unsupported type")
 })
 
+test_that("gathering handles promotion from raw", {
+  df <- data_frame(a = 1:4, g = c(1,1,2,2))
+  # collecting raw in the first group, then other types
+  expect_identical(
+    df %>% group_by(g) %>% mutate( b = if(all(a<3)) as.raw(a) else a ) %>% pull(b),
+    1:4
+  )
+  expect_identical(
+    df %>% group_by(g) %>% mutate( b = if(all(a<3)) as.raw(a) else as.numeric(a) ) %>% pull(b),
+    as.numeric(1:4)
+  )
+})
 
 # Error messages ----------------------------------------------------------
 
-test_that("mutate fails gracefully on non-vector columns (#1803)", {
+test_that("mutate handles raw vectors in columns (#1803)", {
   df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_error(
-    mutate(df, a = 1),
-    "Column `b` is of unsupported type raw vector",
-    fixed = TRUE
-  )
-  expect_error(
-    mutate(df, b = 1),
-    "Column `b` is of unsupported type raw vector",
-    fixed = TRUE
-  )
-  expect_error(
-    mutate(df, c = 1),
-    "Column `b` is of unsupported type raw vector",
-    fixed = TRUE
-  )
+  expect_identical( mutate(df, a = 1), data_frame(a = 1, b = as.raw(1:3)) )
+  expect_identical( mutate(df, b = 1), data_frame(a = 1:3, b = 1) )
+  expect_identical( mutate(df, c = 1), data_frame(a = 1:3, b = as.raw(1:3), c = 1) )
+  expect_identical( mutate(df, c = as.raw(a)), data_frame(a = 1:3, b = as.raw(1:3), c = as.raw(1:3)) )
+
+  df <- data_frame(a = 1:4, g = c(1,1,2,2))
+  expect_identical( mutate(df, b = as.raw(a)) %>% group_by(g) %>% pull(b), as.raw(1:4) )
+  expect_identical( mutate(df, b = as.raw(a)) %>% rowwise() %>% pull(b), as.raw(1:4) )
 })
 
 test_that("grouped mutate errors on incompatible column type (#1641)", {

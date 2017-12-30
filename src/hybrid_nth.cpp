@@ -1,5 +1,6 @@
 #include "pch.h"
 #include <dplyr/main.h>
+#include <dplyr/default_value.h>
 
 #include <dplyr/Order.h>
 #include <dplyr/HybridHandlerMap.h>
@@ -24,7 +25,7 @@ public:
   typedef Processor< RTYPE, Nth<RTYPE> >  Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  Nth(Vector<RTYPE> data_, int idx_, STORAGE def_ = Vector<RTYPE>::get_na()) :
+  Nth(Vector<RTYPE> data_, int idx_, STORAGE def_ = default_value<RTYPE>()) :
     Base(data_),
     data(data_),
     idx(idx_),
@@ -49,7 +50,7 @@ public:
   typedef Processor< RTYPE, NthWith<RTYPE, ORDER_RTYPE> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  NthWith(Vector<RTYPE> data_, int idx_, Vector<ORDER_RTYPE> order_, STORAGE def_ = Vector<RTYPE>::get_na()) :
+  NthWith(Vector<RTYPE> data_, int idx_, Vector<ORDER_RTYPE> order_, STORAGE def_ = default_value<RTYPE>()) :
     Base(data_),
     data(data_),
     idx(idx_),
@@ -97,6 +98,8 @@ Result* nth_(SEXP data, int idx) {
     return new Nth<CPLXSXP>(data, idx);
   case STRSXP:
     return new Nth<STRSXP>(data, idx);
+  case RAWSXP:
+    return new Nth<RAWSXP>(data, idx);
   default:
     return 0;
   }
@@ -119,6 +122,8 @@ Result* nth_noorder_default_(SEXP data, int idx, SEXP def) {
     return nth_noorder_default<CPLXSXP>(data, idx, def);
   case STRSXP:
     return nth_noorder_default<STRSXP>(data, idx, def);
+  case RAWSXP:
+    return nth_noorder_default<RAWSXP>(data, idx, def);
   default:
     return 0;
   }
@@ -137,6 +142,8 @@ Result* nth_with(Vector<RTYPE> data, int idx, SEXP order) {
     return new NthWith<RTYPE, CPLXSXP>(data, idx, order);
   case STRSXP:
     return new NthWith<RTYPE, STRSXP>(data, idx, order);
+  case RAWSXP:
+    return new NthWith<RTYPE, RAWSXP>(data, idx, order);
   default:
     break;
   }
@@ -155,6 +162,8 @@ Result* nth_with_(SEXP data, int idx, SEXP order_by) {
     return nth_with<CPLXSXP>(data, idx, order_by);
   case STRSXP:
     return nth_with<STRSXP>(data, idx, order_by);
+  case RAWSXP:
+    return nth_with<RAWSXP>(data, idx, order_by);
   default:
     return 0;
   }
@@ -173,6 +182,8 @@ Result* nth_with_default(Vector<RTYPE> data, int idx, SEXP order, Vector<RTYPE> 
     return new NthWith<RTYPE, CPLXSXP>(data, idx, order, def[0]);
   case STRSXP:
     return new NthWith<RTYPE, STRSXP>(data, idx, order, def[0]);
+  case RAWSXP:
+    return new NthWith<RTYPE, RAWSXP>(data, idx, order, def[0]);
   default:
     break;
   }
@@ -191,6 +202,8 @@ Result* nth_with_default_(SEXP data, int idx, SEXP order_by, SEXP def) {
     return nth_with_default<CPLXSXP>(data, idx, order_by, def);
   case STRSXP:
     return nth_with_default<STRSXP>(data, idx, order_by, def);
+  case RAWSXP:
+    return nth_with_default<RAWSXP>(data, idx, order_by, def);
   default:
     return 0;
   }
