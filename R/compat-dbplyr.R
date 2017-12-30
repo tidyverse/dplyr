@@ -35,8 +35,8 @@ wrap_dbplyr_obj <- function(obj_name) {
     args <- formals()
     pass_on <- map(set_names(names(args)), sym)
 
-    dbplyr_call <- expr(UQ(dbplyr_sym)(!!! pass_on))
-    dplyr_call <- expr(UQ(dplyr_sym)(!!! pass_on))
+    dbplyr_call <- expr((!!dbplyr_sym)(!!! pass_on))
+    dplyr_call <- expr((!!dplyr_sym)(!!! pass_on))
   } else {
     args <- list()
 
@@ -47,15 +47,16 @@ wrap_dbplyr_obj <- function(obj_name) {
   body <- expr({
     if (utils::packageVersion("dplyr") > "0.5.0") {
       dplyr::check_dbplyr()
-      UQ(dbplyr_call)
+      !!dbplyr_call
     } else {
-      UQ(dplyr_call)
+      !!dplyr_call
     }
   })
   wrapper <- new_function(args, body, caller_env())
 
-  expr(UQ(obj_sym) <- UQE(wrapper))
+  expr(!!obj_sym <- !!get_expr(wrapper))
 }
+utils::globalVariables("!<-")
 
 #' @inherit dbplyr::sql
 #' @export
