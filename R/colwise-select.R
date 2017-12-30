@@ -84,7 +84,10 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   if (length(funs) > 1) {
     bad_args(".funs", "must contain one renaming function, not {length(funs)}")
   } else if (length(funs) == 1) {
-    fun <- as_function(funs[[1]])
+    fun <- funs[[1]]
+    if (is_quosure(fun)) {
+      fun <- quo_as_function(fun)
+    }
     syms <- set_names(syms(vars), fun(vars))
   } else if (!strict) {
     syms <- syms(vars)

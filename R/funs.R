@@ -92,6 +92,10 @@ as_fun <- function(.x, .env, .args) {
   set_expr(quo, expr)
 }
 
+quo_as_function <- function(quo) {
+  new_function(exprs(. = ), quo_get_expr(quo))
+}
+
 fun_env <- function(quo, default_env) {
   env <- f_env(quo)
   if (is_null(env) || identical(env, empty_env())) {
