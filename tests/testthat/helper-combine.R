@@ -1,5 +1,5 @@
 combine_pair_test <- function(item_pair, var1, var2, result,
-                              can_combine = TRUE, warning = FALSE)  {
+                              can_combine = TRUE, warning = FALSE) {
   label_if_fail <- paste0(
     "combine(items[c(\"", var1, "\", \"", var2, "\")])"
   )

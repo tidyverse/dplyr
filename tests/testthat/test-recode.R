@@ -178,4 +178,3 @@ test_that("can recode factor with redundant levels", {
     factor(c("a", "a", "c", "c"), levels = c("c", "a"))
   )
 })
-

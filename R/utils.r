@@ -116,4 +116,3 @@ attr_equal <- function(x, y) {
 
   isTRUE(all.equal(attr_x, attr_y))
 }
-

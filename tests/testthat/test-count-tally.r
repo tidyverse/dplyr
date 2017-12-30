@@ -104,4 +104,3 @@ test_that("add_tally can be given a weighting variable", {
   out <- df %>% group_by(a) %>% add_tally(wt = w + 1)
   expect_equal(out$n, c(4, 4, 12, 12, 12))
 })
-

@@ -775,7 +775,7 @@ test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
             expect_warning_msg(
               expect_equal_df(
                 anti_join(df1, df2, by = "x"),
-                data.frame(x = special, y = 1, stringsAsFactors = factor1)[0,]
+                data.frame(x = special, y = 1, stringsAsFactors = factor1)[0, ]
               )
             )
           }
@@ -899,27 +899,27 @@ test_that("semi- and anti-joins preserve order (#2964)", {
   )
 })
 
-test_that( "join handles raw vectors", {
-  df1 <- data_frame( r = as.raw(1:4), x = 1:4 )
-  df2 <- data_frame( r = as.raw(3:6), y = 3:6 )
+test_that("join handles raw vectors", {
+  df1 <- data_frame(r = as.raw(1:4), x = 1:4)
+  df2 <- data_frame(r = as.raw(3:6), y = 3:6)
 
   expect_identical(
-    left_join( df1, df2, by = "r" ),
-    data_frame(r = as.raw(1:4), x = 1:4, y = c(NA,NA,3:4))
+    left_join(df1, df2, by = "r"),
+    data_frame(r = as.raw(1:4), x = 1:4, y = c(NA, NA, 3:4))
   )
 
   expect_identical(
-    right_join( df1, df2, by = "r" ),
-    data_frame(r = as.raw(3:6), x = c(3:4,NA,NA), y = c(3:6))
+    right_join(df1, df2, by = "r"),
+    data_frame(r = as.raw(3:6), x = c(3:4, NA, NA), y = c(3:6))
   )
 
   expect_identical(
-    full_join( df1, df2, by = "r" ),
-    data_frame(r = as.raw(1:6), x = c(1:4,NA,NA), y = c(NA,NA,3:6))
+    full_join(df1, df2, by = "r"),
+    data_frame(r = as.raw(1:6), x = c(1:4, NA, NA), y = c(NA, NA, 3:6))
   )
 
   expect_identical(
-    inner_join( df1, df2, by = "r" ),
+    inner_join(df1, df2, by = "r"),
     data_frame(r = as.raw(3:4), x = c(3:4), y = c(3:4))
   )
 })

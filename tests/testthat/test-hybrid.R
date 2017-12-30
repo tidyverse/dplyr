@@ -3,7 +3,7 @@ context("hybrid")
 test_that("hybrid evaluation environment is cleaned up (#2358)", {
   # Can't use pipe here, f and g should have top-level parent.env()
   df <- data_frame(x = 1)
-  df <- mutate(df, f = list(function(){}))
+  df <- mutate(df, f = list(function() {}))
   df <- mutate(df, g = list(quo(.)))
   df <- mutate(df, h = list(~.))
 

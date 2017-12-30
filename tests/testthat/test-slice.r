@@ -119,12 +119,12 @@ test_that("slice correctly computes positive indices from negative indices (#307
   expect_identical(slice(x, -10:-30), tibble(y = 1:9))
 })
 
-test_that( "slice handles raw matrices", {
-  df <- data.frame( a = 1:4 )
+test_that("slice handles raw matrices", {
+  df <- data.frame(a = 1:4)
   df$b <- matrix(as.raw(1:8), ncol = 2)
 
   expect_identical(
-    slice( df, 1:2 )$b,
-    matrix(as.raw(c(1,2,5,6)), ncol = 2)
+    slice(df, 1:2)$b,
+    matrix(as.raw(c(1, 2, 5, 6)), ncol = 2)
   )
 })

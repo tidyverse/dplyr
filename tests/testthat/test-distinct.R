@@ -78,9 +78,9 @@ test_that("distinct on a new, mutated variable is equivalent to mutate followed 
 })
 
 test_that("distinct on a dataframe or tibble with columns of type list throws an error", {
-  df <- tibble(a = c("1", "1", "2", "2", "3","3"),
+  df <- tibble(a = c("1", "1", "2", "2", "3", "3"),
                b = c(list("A"), list("A"), list("B"), list("B"), list("C"), list("C")))
-  df2 <- data.frame(x = 1:5, y=I(list(1:3, 1:3, 1:3, 1:3, 1:3)))
+  df2 <- data.frame(x = 1:5, y = I(list(1:3, 1:3, 1:3, 1:3, 1:3)))
 
   expect_error(df %>% distinct())
   expect_error(df2 %>% distinct())

@@ -16,7 +16,7 @@ grouped_df <- function(data, vars, drop = TRUE) {
   }
   assert_that(
     is.data.frame(data),
-    (is.list(vars) && all(sapply(vars,is.name))) || is.character(vars),
+    (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars),
     is.flag(drop)
   )
   if (is.list(vars)) {

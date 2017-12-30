@@ -12,7 +12,7 @@ switch_expr <- function(.x, ...) {
 }
 
 node_walk_replace <- function(node, old, new) {
-  while(!is_null(node)) {
+  while (!is_null(node)) {
     switch_expr(node_car(node),
       language = node_walk_replace(node_cdar(node), old, new),
       symbol = if (identical(node_car(node), old)) mut_node_car(node, new)

@@ -187,7 +187,7 @@ test_that("lag and lead work on factors inside mutate (#955)", {
     is_diff_lag  = (test != lag(test)),
     is_diff_lead = (test != lead(test))
     )
-  expect_equal(exp_lag , res$is_diff_lag)
+  expect_equal(exp_lag, res$is_diff_lag)
   expect_equal(exp_lead, res$is_diff_lead)
 
 })

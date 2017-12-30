@@ -275,7 +275,7 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
     dupe <- unlist(all[dupe_row, dim_names])
 
     bad_args("x", "must be unique in all combinations of dimension variables, ",
-      'duplicates: {fmt_named(dupe)}'
+      "duplicates: {fmt_named(dupe)}"
     )
   }
 

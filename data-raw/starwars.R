@@ -4,7 +4,7 @@ library(httr)
 get_all <- function(url) {
   out <- NULL
 
-  while(!is.null(url)) {
+  while (!is.null(url)) {
     message("Getting ", url)
     req <- GET(url)
     stop_for_status(req)
