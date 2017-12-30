@@ -28,4 +28,5 @@ demo/pandas
 ^docs$
 ^_pkgdown\.yml$
 ^issues$
+^tic\.R$
 ^CONDUCT\.md$
