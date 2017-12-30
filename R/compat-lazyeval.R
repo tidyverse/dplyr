@@ -1,4 +1,4 @@
-# nocov - compat-lazyeval (last updated: rlang 0.0.0.9018)
+# nocov start - compat-lazyeval (last updated: rlang 0.2.0)
 
 # This file serves as a reference for compatibility functions for lazyeval.
 # Please find the most recent version in rlang's repository.
@@ -23,15 +23,19 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
   if (missing(lazy)) {
     return(quo())
   }
+  if (is_quosure(lazy)) {
+    return(lazy)
+  }
+  if (is_formula(lazy)) {
+    return(as_quosure(lazy, env))
+  }
 
-  coerce_type(lazy, "a quosure",
-    formula = as_quosure(lazy, env),
+  out <- switch(typeof(lazy),
     symbol = ,
     language = new_quosure(lazy, env),
-    string = ,
     character = {
       if (warn) warn_text_se()
-      parse_quosure(lazy[[1]], env)
+      parse_quo(lazy[[1]], env)
     },
     logical = ,
     integer = ,
@@ -43,10 +47,16 @@ compat_lazy <- function(lazy, env = caller_env(), warn = TRUE) {
       new_quosure(lazy, env)
     },
     list =
-      coerce_class(lazy, "a quosure",
+      if (inherits(lazy, "lazy")) {
         lazy = new_quosure(lazy$expr, lazy$env)
-      )
+      }
   )
+
+  if (is_null(out)) {
+    abort(sprintf("Can't convert a %s to a quosure", typeof(lazy)))
+  } else {
+    out
+  }
 }
 
 compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
@@ -68,7 +78,7 @@ compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
 
   named <- have_name(dots)
   if (.named && any(!named)) {
-    nms <- map_chr(dots[!named], f_text)
+    nms <- map_chr(dots[!named], function(x) expr_text(get_expr(x)))
     names(dots)[!named] <- nms
   }
 
@@ -78,8 +88,8 @@ compat_lazy_dots <- function(dots, env, ..., .named = FALSE) {
 
 compat_as_lazy <- function(quo) {
   structure(class = "lazy", list(
-    expr = f_rhs(quo),
-    env = f_env(quo)
+    expr = get_expr(quo),
+    env = get_env(quo)
   ))
 }
 compat_as_lazy_dots <- function(...) {
