@@ -37,7 +37,7 @@ is_data_pronoun <- function(expr) {
     identical(node_cadr(expr), quote(.data))
 }
 tidy_text <- function(quo, width = 60L) {
-  expr <- f_rhs(quo)
+  expr <- quo_get_expr(quo)
   if (is_data_pronoun(expr)) {
     as_string(node_cadr(node_cdr(expr)))
   } else {

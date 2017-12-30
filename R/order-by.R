@@ -34,7 +34,7 @@ order_by <- function(order_by, call) {
 
   fn <- set_expr(quo, node_car(get_expr(quo)))
   args <- node_cdr(get_expr(quo))
-  args <- map(args, new_quosure, f_env(quo))
+  args <- map(args, new_quosure, quo_get_env(quo))
 
   quo <- quo(with_order(!! order_by, !! fn, !!! args))
   eval_tidy(quo)
