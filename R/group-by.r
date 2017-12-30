@@ -108,17 +108,11 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   new_groups <- c(quos(...), compat_lazy_dots(.dots, caller_env()))
 
   # If any calls, use mutate to add new columns, then group by those
-  is_symbol <- map_lgl(new_groups, quo_is_symbol)
-  named <- have_name(new_groups)
+  .data <- add_computed_columns(.data, new_groups)
 
-  needs_mutate <- named | !is_symbol
-  if (any(needs_mutate)) {
-    .data <- mutate(.data, !!! new_groups[needs_mutate])
-  }
-
-  # Once we've done the mutate, we no longer need lazy objects, and
-  # can instead just use symbols
+  # Once we've done the mutate, we need to name all objects
   new_groups <- exprs_auto_name(new_groups, printer = tidy_text)
+
   group_names <- names(new_groups)
   if (add) {
     group_names <- c(group_vars(.data), group_names)
@@ -130,6 +124,20 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
     groups = syms(group_names),
     group_names = group_names
   )
+}
+
+add_computed_columns <- function(.data, vars) {
+  is_symbol <- map_lgl(vars, quo_is_symbol)
+  named <- have_name(vars)
+
+  needs_mutate <- named | !is_symbol
+
+  # Shortcut necessary, otherwise all columns are analyzed in mutate(),
+  # this can change behavior
+  mutate_vars <- vars[needs_mutate]
+  if (length(mutate_vars) == 0L) return(.data)
+
+  mutate(.data, !!! mutate_vars)
 }
 
 #' Return grouping variables

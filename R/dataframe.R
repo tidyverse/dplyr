@@ -181,7 +181,7 @@ setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, named_quos(...), .keep_all = .keep_all)
+  dist <- distinct_vars(.data, quos(...), .keep_all = .keep_all)
   distinct_impl(dist$data, dist$vars, dist$keep)
 }
 #' @export

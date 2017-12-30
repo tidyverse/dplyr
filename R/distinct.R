@@ -70,13 +70,10 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
-  needs_mutate <- map_lgl(vars, quo_is_lang)
-  if (any(needs_mutate)) {
-    .data <- mutate(.data, !!! vars[needs_mutate])
-  }
+  .data <- add_computed_columns(.data, vars)
 
-  # Once we've done the mutate, we no longer need lazy objects, and
-  # can instead just use their names
+  # Once we've done the mutate, we need to name all objects
+  vars <- exprs_auto_name(vars, printer = tidy_text)
   out_vars <- intersect(names(.data), c(names(vars), group_vars))
 
   if (.keep_all) {
@@ -93,9 +90,9 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 #'
 #' @noRd
 list_cols_error <- function(df, keep_cols) {
-  if (any(map_lgl(df[keep_cols], is.list)))
-    stop("distinct() does not support columns of type `list`",
-            call. = FALSE)
+  if (any(map_lgl(df[keep_cols], is.list))) {
+    abort("distinct() does not support columns of type `list`")
+  }
 }
 
 #' Efficiently count the number of unique values in a set of vector

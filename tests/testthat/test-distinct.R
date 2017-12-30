@@ -77,6 +77,15 @@ test_that("distinct on a new, mutated variable is equivalent to mutate followed 
   expect_equal(df1, df2)
 })
 
+test_that("distinct on a new, copied variable is equivalent to mutate followed by distinct (#3234)", {
+  df <- tibble(g = c(1, 2), x = c(1, 2))
+
+  df1 <- df %>% distinct(aa = g)
+  df2 <- df %>% mutate(aa = g) %>% distinct(aa)
+
+  expect_equal(df1, df2)
+})
+
 test_that("distinct on a dataframe or tibble with columns of type list throws an error", {
   df <- tibble(a = c("1", "1", "2", "2", "3", "3"),
                b = c(list("A"), list("A"), list("B"), list("B"), list("C"), list("C")))

@@ -55,6 +55,8 @@
 
 *  Fix `row_number()` and `ntile()` ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
 
+*  `distinct()` now supports renaming columns (#3234).
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
