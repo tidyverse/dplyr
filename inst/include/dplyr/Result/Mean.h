@@ -95,21 +95,18 @@ public:
   typedef Processor< REALSXP, Mean<RTYPE, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  Mean(SEXP x, bool is_summary_ = false) :
+  Mean(SEXP x) :
     Base(x),
-    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(x)),
-    is_summary(is_summary_)
+    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(x))
   {}
   ~Mean() {}
 
   inline double process_chunk(const SlicingIndex& indices) {
-    if (is_summary) return data_ptr[indices.group()];
     return internal::Mean_internal<RTYPE, NA_RM, SlicingIndex>::process(data_ptr, indices);
   }
 
 private:
   STORAGE* data_ptr;
-  bool is_summary;
 };
 
 }

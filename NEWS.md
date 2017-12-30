@@ -16,6 +16,10 @@
 
 ## Changes
 
+* Summaries of summaries (such as `summarise(b = sum(a), c = sum(b))`) are now
+  computed using standard evaluation for simplicity and correctness, but
+  slightly slower (#3233).
+
 * `sym()`, `syms()`, `expr()`, `exprs()` and `enexpr()` are now
   exported. `sym()` and `syms()` construct symbols from strings or character
   vectors. The `expr()` variants are equivalent to `quo()`, `quos()` and

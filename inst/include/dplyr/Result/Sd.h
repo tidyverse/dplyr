@@ -10,9 +10,9 @@ class Sd : public Processor<REALSXP, Sd<RTYPE, NA_RM> > {
 public:
   typedef Processor<REALSXP, Sd<RTYPE, NA_RM> > Base;
 
-  Sd(SEXP x, bool is_summary = false) :
+  Sd(SEXP x) :
     Base(x),
-    var(x, is_summary)
+    var(x)
   {}
   ~Sd() {}
 
