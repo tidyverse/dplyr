@@ -45,6 +45,8 @@
 
 * Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
 
+* `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
+
 * Better error message if dbplyr is not installed when accessing database backends (#3225).
 
 *  Fix `row_number()` and `ntile()` ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
