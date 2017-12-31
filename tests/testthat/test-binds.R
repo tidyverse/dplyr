@@ -582,12 +582,12 @@ test_that("accepts named columns", {
 test_that("uncompatible sizes fail", {
   expect_error(
     bind_cols(a = 1, mtcars),
-    "Argument 2 must be length 32, not 1",
+    "Argument 2 must be length 1, not 32",
     fixed = TRUE
   )
   expect_error(
-    bind_cols(mtcars, a = 1),
-    "Argument 2 must be length 1, not 32",
+    bind_cols(mtcars, a = 1:3),
+    "Argument 2 must be length 32, not 3",
     fixed = TRUE
   )
 })
