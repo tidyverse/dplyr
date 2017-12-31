@@ -157,7 +157,6 @@ DataFrame summarise_not_grouped(DataFrame df, const QuosureList& dots) {
 
 // [[Rcpp::export]]
 SEXP summarise_impl(DataFrame df, QuosureList dots) {
-  if (df.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
     return summarise_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots);
