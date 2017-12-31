@@ -45,6 +45,8 @@
   input in mutating operations and `mutate(df, "foo")` creates a new column by
   recycling "foo" to the number of rows.
 
+* Fixed rare column name clash in joins with non-join columns of the same name in both tables (#3266).
+
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
 * Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).

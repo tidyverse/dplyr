@@ -198,6 +198,33 @@ test_that("disallow empty string in both sides of suffix argument (#2228)", {
   )
 })
 
+g <- data.frame(A = 1, A.x = 2)
+h <- data.frame(B = 3, A.x = 4, A = 5)
+
+test_that("can handle 'by' columns with suffix (#3266)", {
+  j1 <- inner_join(g, h, "A.x")
+  j2 <- left_join(g, h, "A.x")
+  j3 <- right_join(g, h, "A.x")
+  j4 <- full_join(g, h, "A.x")
+
+  expect_named(j1, c("A.x.x", "A.x", "B", "A.y"))
+  expect_named(j2, c("A.x.x", "A.x", "B", "A.y"))
+  expect_named(j3, c("A.x.x", "A.x", "B", "A.y"))
+  expect_named(j4, c("A.x.x", "A.x", "B", "A.y"))
+})
+
+test_that("can handle 'by' columns with suffix, reverse (#3266)", {
+  j1 <- inner_join(h, g, "A.x")
+  j2 <- left_join(h, g, "A.x")
+  j3 <- right_join(h, g, "A.x")
+  j4 <- full_join(h, g, "A.x")
+
+  expect_named(j1, c("B", "A.x", "A.x.x", "A.y"))
+  expect_named(j2, c("B", "A.x", "A.x.x", "A.y"))
+  expect_named(j3, c("B", "A.x", "A.x.x", "A.y"))
+  expect_named(j4, c("B", "A.x", "A.x.x", "A.y"))
+})
+
 test_that("check suffix input", {
   expect_error(
     inner_join(e, f, "x", suffix = letters[1:3]),
@@ -215,6 +242,9 @@ test_that("check suffix input", {
     fixed = TRUE
   )
 })
+
+
+# Misc --------------------------------------------------------------------
 
 test_that("inner_join does not segfault on NA in factors (#306)", {
   a <- data.frame(x = c("p", "q", NA), y = c(1, 2, 3), stringsAsFactors = TRUE)
@@ -721,6 +751,9 @@ test_that("inner join not crashing (#1559)", {
   for (i in 2:100) expect_equal(res[, 1], res[, i])
 })
 
+
+# Encoding ----------------------------------------------------------------
+
 test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
   with_non_utf8_encoding({
     special <- get_native_lang_string()
@@ -803,8 +836,11 @@ test_that("left_join handles mix of encodings in column names (#1571)", {
   })
 })
 
+# Misc --------------------------------------------------------------------
+
 test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
   df1 <- data_frame(a = NA)
+
   df2 <- data_frame(a = NA, b = 1:3)
   for (na_matches in c("na", "never")) {
     accept_na_match <- (na_matches == "na")
