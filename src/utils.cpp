@@ -31,7 +31,7 @@ void assert_all_white_list(const DataFrame& data) {
 }
 
 SEXP shared_SEXP(SEXP x) {
-  SET_NAMED(x, 2);
+  MARK_NOT_MUTABLE(x);
   return x;
 }
 
