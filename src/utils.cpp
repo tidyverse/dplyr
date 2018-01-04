@@ -10,9 +10,6 @@ using namespace Rcpp;
 
 // [[Rcpp::export(name = "check_valid_colnames")]]
 void check_valid_colnames_export(const DataFrame& df, bool warn_only = false) {
-  if (df.size() == 0)
-    return;
-
   CharacterVector names(df.names());
   LogicalVector dup = duplicated(names);
   if (any(dup).is_true()) {
