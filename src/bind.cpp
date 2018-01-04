@@ -106,9 +106,11 @@ static
 void cbind_vector_check(SEXP x, R_xlen_t nrows, SEXP contr, int arg) {
   if (is_atomic(x) && !has_name_at(contr, arg))
     bad_pos_arg(arg + 1, "must have names");
-  if (rows_length(x, false) != nrows) {
+
+  const R_xlen_t actual_nrows = rows_length(x, false);
+  if (actual_nrows != nrows) {
     bad_pos_arg(arg + 1, "must be length {expected_size}, not {actual_size}",
-                _["expected_size"] = rows_length(x, true), _["actual_size"] = nrows);
+                _["expected_size"] = nrows, _["actual_size"] = actual_nrows);
   }
 }
 
