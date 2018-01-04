@@ -279,8 +279,8 @@ test_that("summarise creates an empty data frame when no parameters are used", {
 })
 
 test_that("summarise works with zero-row data frames", {
-  res <- summarise(mtcars[0, ], n = n())
-  expect_equal(res, data.frame(n = 0L))
+  res <- summarise(mtcars[0, ], n = n(), sum = sum(cyl), mean = mean(mpg), var = var(drat))
+  expect_equal(res, data.frame(n = 0L, sum = 0, mean = NaN, var = NA_real_))
 })
 
 test_that("summarise works with zero-column data frames (#3071)", {
