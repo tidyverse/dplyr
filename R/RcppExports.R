@@ -186,6 +186,10 @@ test_length_wrap <- function() {
     .Call(`_dplyr_test_length_wrap`)
 }
 
+check_valid_colnames <- function(df, warn_only = FALSE) {
+    invisible(.Call(`_dplyr_check_valid_colnames_export`, df, warn_only))
+}
+
 assert_all_white_list <- function(data) {
     invisible(.Call(`_dplyr_assert_all_white_list`, data))
 }

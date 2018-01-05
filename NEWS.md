@@ -59,6 +59,8 @@
 
 *  Fix `row_number()` and `ntile()` ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
 
+* Better error message when joining data frames with duplicate column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (#3243).
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).

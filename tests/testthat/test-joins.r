@@ -349,7 +349,7 @@ test_that("left_join by different variable names (#617)", {
   expect_equal(res$y2, c("foo", "bar", "foo"))
 })
 
-test_that("joins support comple vectors", {
+test_that("joins support complex vectors", {
   a <- data.frame(x = c(1, 1, 2, 3) * 1i, y = 1:4)
   b <- data.frame(x = c(1, 2, 2, 4) * 1i, z = 1:4)
   j <- inner_join(a, b, "x")
@@ -956,5 +956,91 @@ test_that("join handles raw vectors", {
   expect_identical(
     inner_join(df1, df2, by = "r"),
     data_frame(r = as.raw(3:4), x = c(3:4), y = c(3:4))
+  )
+})
+
+test_that("joins reject data frames with duplicate columns (#3243)", {
+  df1 <- data.frame(x1 = 1:3, x2 = 1:3, y = 1:3)
+  names(df1)[1:2] <- "x"
+  df2 <- data.frame(x = 2:4, y = 2:4)
+
+  expect_error(
+    left_join(df1, df2, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    left_join(df2, df1, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    right_join(df1, df2, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    right_join(df2, df1, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    inner_join(df1, df2, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    inner_join(df2, df1, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    full_join(df1, df2, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    full_join(df2, df1, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    semi_join(df1, df2, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  # FIXME: Compatibility, should throw an error eventually
+  expect_warning(
+    expect_equal(
+      semi_join(df2, df1, by = c("x", "y")),
+      data.frame(x = 2:3, y = 2:3)
+    ),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    anti_join(df1, df2, by = c("x", "y")),
+    "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+
+  # FIXME: Compatibility, should throw an error eventually
+  expect_warning(
+    expect_equal(
+      anti_join(df2, df1, by = c("x", "y")),
+      data.frame(x = 4L, y = 4L)
+    ),
+    "Column `x` must have a unique name",
+    fixed = TRUE
   )
 })
