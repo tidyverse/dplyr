@@ -3,6 +3,7 @@
 
 #include <tools/SymbolVector.h>
 
+void check_valid_colnames(const DataFrame& df, bool warn_only = false);
 void assert_all_white_list(const DataFrame&);
 SEXP shared_SEXP(SEXP x);
 SEXP shallow_copy(const List& data);

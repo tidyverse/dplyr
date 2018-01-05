@@ -64,7 +64,7 @@
 #' by_species %>% mutate_all(funs(. / 2.54))
 #'
 #' # Function names will be included if .funs has names or multiple inputs
-#' by_species %>% mutate_all(funs(cm = . / 2.54))
+#' by_species %>% mutate_all(funs(in = . / 2.54))
 #' by_species %>% summarise_all(funs(med = median))
 #' by_species %>% summarise_all(funs(Q3 = quantile), probs = 0.75)
 #' by_species %>% summarise_all(c("min", "max"))

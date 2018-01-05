@@ -8,6 +8,24 @@
 
 using namespace Rcpp;
 
+// [[Rcpp::export(name = "check_valid_colnames")]]
+void check_valid_colnames_export(const DataFrame& df, bool warn_only = false) {
+  CharacterVector names(df.names());
+  LogicalVector dup = duplicated(names);
+  if (any(dup).is_true()) {
+    String msg = msg_bad_cols(SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
+    if (warn_only)
+      warning(msg.get_cstring());
+    else
+      stop(msg.get_cstring());
+  }
+}
+
+// Need forwarder to avoid compilation warning for default argument
+void check_valid_colnames(const DataFrame& df, bool warn_only) {
+  check_valid_colnames_export(df, warn_only);
+}
+
 // [[Rcpp::export]]
 void assert_all_white_list(const DataFrame& data) {
   // checking variables are on the white list
@@ -31,7 +49,7 @@ void assert_all_white_list(const DataFrame& data) {
 }
 
 SEXP shared_SEXP(SEXP x) {
-  SET_NAMED(x, 2);
+  MARK_NOT_MUTABLE(x);
   return x;
 }
 
@@ -240,6 +258,7 @@ bool is_vector(SEXP x) {
     return false;
   }
 }
+
 bool is_atomic(SEXP x) {
   switch (TYPEOF(x)) {
   case LGLSXP:
@@ -257,14 +276,17 @@ bool is_atomic(SEXP x) {
 SEXP vec_names(SEXP x) {
   return Rf_getAttrib(x, R_NamesSymbol);
 }
+
 bool is_str_empty(SEXP str) {
   const char* c_str = CHAR(str);
   return strcmp(c_str, "") == 0;
 }
+
 bool has_name_at(SEXP x, R_len_t i) {
   SEXP nms = vec_names(x);
   return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
 }
+
 SEXP name_at(SEXP x, size_t i) {
   SEXP names = vec_names(x);
   if (Rf_isNull(names))
@@ -276,12 +298,14 @@ SEXP name_at(SEXP x, size_t i) {
 SEXP f_env(SEXP x) {
   return Rf_getAttrib(x, Rf_install(".Environment"));
 }
+
 bool is_quosure(SEXP x) {
   return TYPEOF(x) == LANGSXP
          && Rf_length(x) == 2
          && Rf_inherits(x, "quosure")
          && TYPEOF(f_env(x)) == ENVSXP;
 }
+
 SEXP maybe_rhs(SEXP x) {
   if (is_quosure(x))
     return CADR(x);
