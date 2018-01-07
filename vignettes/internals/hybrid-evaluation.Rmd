@@ -254,7 +254,7 @@ The code below is suitable to run through `sourceCpp`.
 
 ```cpp
 #include <dplyr.h>
-// [[Rcpp::depends(dplyr,BH)]]
+// [[Rcpp::depends(dplyr,BH,plogr)]]
 
 using namespace dplyr ;
 using namespace Rcpp ;
