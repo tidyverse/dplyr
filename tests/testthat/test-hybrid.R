@@ -362,11 +362,23 @@ test_that("mean(), var(), sd() and sum() work", {
     expected = 3
   )
   check_hybrid_result(
+    mean(a), a = as.numeric(1:5),
+    expected = 3
+  )
+  check_hybrid_result(
     var(a), a = 1:3,
     expected = 1
   )
   check_hybrid_result(
+    var(a), a = as.numeric(1:3),
+    expected = 1
+  )
+  check_hybrid_result(
     sd(a), a = 1:3,
+    expected = 1
+  )
+  check_hybrid_result(
+    sd(a), a = as.numeric(1:3),
     expected = 1
   )
   check_hybrid_result(
@@ -383,7 +395,23 @@ test_that("mean(), var(), sd() and sum() work", {
     expected = NA_real_
   )
   check_hybrid_result(
+    mean(a), a = as.numeric(c(1:5, NA)),
+    expected = NA_real_
+  )
+  check_hybrid_result(
     var(a), a = c(1:3, NA),
+    expected = NA_real_
+  )
+  check_hybrid_result(
+    var(a), a = as.numeric(c(1:3, NA)),
+    expected = NA_real_
+  )
+  check_hybrid_result(
+    sd(a), a = c(1:3, NA),
+    expected = NA_real_
+  )
+  check_hybrid_result(
+    sd(a), a = as.numeric(c(1:3, NA)),
     expected = NA_real_
   )
   check_hybrid_result(
@@ -393,6 +421,39 @@ test_that("mean(), var(), sd() and sum() work", {
   check_hybrid_result(
     sum(a), a = c(as.numeric(1:5), NA),
     expected = NA_real_
+  )
+
+  check_hybrid_result(
+    mean(a, na.rm = TRUE), a = c(1:5, NA),
+    expected = 3
+  )
+  check_hybrid_result(
+    mean(a, na.rm = TRUE), a = as.numeric(c(1:5, NA)),
+    expected = 3
+  )
+  check_hybrid_result(
+    var(a, na.rm = TRUE), a = c(1:3, NA),
+    expected = 1
+  )
+  check_hybrid_result(
+    var(a, na.rm = TRUE), a = as.numeric(c(1:3, NA)),
+    expected = 1
+  )
+  check_hybrid_result(
+    sd(a, na.rm = TRUE), a = c(1:3, NA),
+    expected = 1
+  )
+  check_hybrid_result(
+    sd(a, na.rm = TRUE), a = as.numeric(c(1:3, NA)),
+    expected = 1
+  )
+  check_hybrid_result(
+    sum(a, na.rm = TRUE), a = c(1:5, NA),
+    expected = 15L
+  )
+  check_hybrid_result(
+    sum(a, na.rm = TRUE), a = c(as.numeric(1:5), NA),
+    expected = 15
   )
 
   check_not_hybrid_result(
