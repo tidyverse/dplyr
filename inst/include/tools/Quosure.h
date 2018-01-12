@@ -39,7 +39,7 @@ public:
   }
 
 private:
-  SEXP data;
+  RObject data;
   SymbolString name_;
 };
 
