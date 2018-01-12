@@ -4,19 +4,13 @@
 #include <boost/scoped_ptr.hpp>
 
 #include <tools/Call.h>
+#include <tools/utils.h>
 
 #include <dplyr/Result/Result.h>
 
 #include <bindrcpp.h>
 
 namespace dplyr {
-
-inline static
-SEXP rlang_object(const char* name) {
-  static Environment rlang = Rcpp::Environment::namespace_env("rlang");
-  return rlang[name];
-}
-
 
 class IHybridCallback {
 protected:
@@ -37,8 +31,7 @@ public:
 
   ~GroupedHybridEnv() {
     if (has_overscope) {
-      static Function overscope_clean = rlang_object("overscope_clean");
-      overscope_clean(overscope);
+      internal::rlang_data_mask_clean(overscope);
     }
   }
 
@@ -63,23 +56,12 @@ private:
     // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
     // call to Rcpp_eval() triggered by active_env.new_child()
     Environment bottom = active_env.new_child(true);
-    bottom[".data"] = rlang_new_data_source(active_env);
+    bottom[".data"] = internal::rlang_as_data_pronoun(active_env);
 
     // Install definitions for formula self-evaluation and unguarding
-    Function new_overscope = rlang_object("new_overscope");
-    overscope = new_overscope(bottom, active_env, env);
+    overscope = internal::rlang_new_data_mask(bottom, active_env, env);
 
     has_overscope = true;
-  }
-
-  static List rlang_new_data_source(Environment env) {
-    static Function as_dictionary = rlang_object("as_dictionary");
-    return
-      as_dictionary(
-        env,
-        _["lookup_msg"] = "Column `%s`: not found in data",
-        _["read_only"] = true
-      );
   }
 
   static SEXP hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {
