@@ -2,16 +2,14 @@
 #define dplyr__Quosure_h
 
 #include <tools/SymbolString.h>
+#include <tools/utils.h>
 #include "SymbolVector.h"
 
 
 namespace dplyr {
 
 inline SEXP quosure(SEXP expr, SEXP env) {
-  Language quo("~", expr);
-  quo.attr(".Environment") = env;
-  quo.attr("class") = CharacterVector("formula");
-  return quo;
+  return internal::rlang_new_quosure(expr, env);
 }
 
 
@@ -31,18 +29,17 @@ public:
   {}
 
   SEXP expr() const {
-    return Rf_duplicate(CADR(data));
+    return Rf_duplicate(internal::rlang_quo_get_expr(data));
   }
   SEXP env() const {
-    static SEXP sym_dotenv = Rf_install(".Environment");
-    return Rf_getAttrib(data, sym_dotenv);
+    return internal::rlang_quo_get_env(data);
   }
   SymbolString name() const {
     return name_;
   }
 
 private:
-  Formula data;
+  SEXP data;
   SymbolString name_;
 };
 
@@ -55,15 +52,7 @@ using namespace dplyr;
 
 template <>
 inline bool is<NamedQuosure>(SEXP x) {
-  bool is_tilde =
-    TYPEOF(x) == LANGSXP &&
-    Rf_length(x) == 2 &&
-    CAR(x) == Rf_install("~");
-
-  SEXP env = Rf_getAttrib(x, Rf_install(".Environment"));
-  bool has_env = TYPEOF(env) == ENVSXP;
-
-  return is_tilde && has_env;
+  return dplyr::internal::rlang_is_quosure(x);
 }
 
 } // namespace Rcpp
