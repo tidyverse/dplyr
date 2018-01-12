@@ -163,7 +163,11 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
     }
     .p <- .p[[1]]
   }
-  .p <- as_function(.p, .env)
+  if (is_quosure(.p)) {
+    .p <- quo_as_function(.p)
+  } else {
+    .p <- as_function(.p, .env)
+  }
 
   n <- length(vars)
   selected <- lgl_len(n)

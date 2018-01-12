@@ -189,7 +189,7 @@ test_hybrid <- function(grouping) {
     expect_equal(
       test_df %>%
         grouping %>%
-        mutate(., f = mean(UQ(var))) %>%
+        mutate(., f = mean(!!var)) %>%
         select(-e),
       test_df %>%
         grouping %>%

@@ -23,6 +23,7 @@ node_walk_replace <- function(node, old, new) {
 expr_substitute <- function(expr, old, new) {
   expr <- duplicate(expr)
   switch_type(expr,
+    quosure = node_walk_replace(quo_get_expr(expr), old, new),
     formula = ,
     language = node_walk_replace(node_cdr(expr), old, new),
     symbol = if (identical(expr, old)) return(new)
@@ -37,7 +38,7 @@ is_data_pronoun <- function(expr) {
     identical(node_cadr(expr), quote(.data))
 }
 tidy_text <- function(quo, width = 60L) {
-  expr <- f_rhs(quo)
+  expr <- quo_get_expr(quo)
   if (is_data_pronoun(expr)) {
     as_string(node_cadr(node_cdr(expr)))
   } else {

@@ -1,4 +1,5 @@
 .onLoad <- function(libname, pkgname) {
+  dplyr_onload()
   op <- options()
   op.dplyr <- list(
     dplyr.show_progress = TRUE
