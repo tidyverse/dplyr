@@ -22,6 +22,10 @@ Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
 operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
 }
+\details{
+Positive values select rows to keep; negative values drop rows. The
+values provided must be either all positive or all negative.
+}
 \section{Tidy data}{
 
 When applied to a data frame, row names are silently dropped. To preserve,
@@ -32,6 +36,10 @@ convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibb
 slice(mtcars, 1L)
 slice(mtcars, n())
 slice(mtcars, 5:n())
+# Rows can be dropped with negative indices:
+slice(mtcars, -5:-n())
+# In this case, the result will be equivalent to:
+slice(mtcars, 1:4)
 
 by_cyl <- group_by(mtcars, cyl)
 slice(by_cyl, 1:2)
