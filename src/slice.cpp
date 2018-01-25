@@ -32,7 +32,7 @@ public:
     }
 
     if (n_neg > 0 && n_pos > 0) {
-      stop("Found %d positive indices and %d negative indices", n_pos, n_neg);
+      stop("Indices must be either all positive or all negative, not a mix of both. Found %d positive indices and %d negative indices", n_pos, n_neg);
     }
 
   }
