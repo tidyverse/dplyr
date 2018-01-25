@@ -49,7 +49,7 @@ Suggests:
     testthat,
     withr
 Remotes:
-    tidyverse/rlang
+    tidyverse/rlang,
     hannesmuehleisen/tpchr
 VignetteBuilder: knitr
 LinkingTo: Rcpp (>= 0.12.0),
