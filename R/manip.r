@@ -67,6 +67,9 @@ filter_ <- function(.data, ..., .dots = list()) {
 #' intrinsic notion of row order. If you want to perform the equivalent
 #' operation, use [filter()] and [row_number()].
 #'
+#' Positive values select rows to keep; negative values drop rows. The
+#' values provided must be either all positive or all negative.
+#'
 #' @family single table verbs
 #' @param .data A tbl.
 #' @param ... Integer row values.
@@ -83,6 +86,10 @@ filter_ <- function(.data, ..., .dots = list()) {
 #' slice(mtcars, 1L)
 #' slice(mtcars, n())
 #' slice(mtcars, 5:n())
+#' # Rows can be dropped with negative indices:
+#' slice(mtcars, -5:-n())
+#' # In this case, the result will be equivalent to:
+#' slice(mtcars, 1:4)
 #'
 #' by_cyl <- group_by(mtcars, cyl)
 #' slice(by_cyl, 1:2)
