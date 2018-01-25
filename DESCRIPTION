@@ -47,7 +47,8 @@ Suggests:
     RPostgreSQL,
     RSQLite,
     testthat,
-    withr
+    tpchr,
+    withr,
 Remotes:
     tidyverse/rlang,
     hannesmuehleisen/tpchr
