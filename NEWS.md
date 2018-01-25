@@ -16,6 +16,8 @@
 
 ## Changes
 
+* Bumped Rcpp dependency to 0.12.15 to avoid imperfect detection of `NA` values in hybrid evaluation fixed in RcppCore/Rcpp#790 (#2919).
+
 * Summaries of summaries (such as `summarise(b = sum(a), c = sum(b))`) are now
   computed using standard evaluation for simplicity and correctness, but
   slightly slower (#3233).
