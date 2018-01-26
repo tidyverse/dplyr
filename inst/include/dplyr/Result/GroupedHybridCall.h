@@ -67,10 +67,10 @@ private:
     // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
     // call to Rcpp_eval() triggered by mask_active.new_child()
     mask_bottom = mask_active.new_child(true);
-    mask_bottom[".data"] = internal::rlang_as_data_pronoun(mask_active);
+    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
 
     // Install definitions for formula self-evaluation and unguarding
-    overscope = internal::rlang_new_data_mask(mask_bottom, mask_active, env);
+    overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_active, env);
 
     has_overscope = true;
   }

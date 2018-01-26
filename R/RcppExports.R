@@ -138,10 +138,6 @@ mutate_impl <- function(df, dots) {
     .Call(`_dplyr_mutate_impl`, df, dots)
 }
 
-dplyr_onload <- function() {
-    .Call(`_dplyr_dplyr_onload`)
-}
-
 select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
