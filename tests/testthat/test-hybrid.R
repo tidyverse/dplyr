@@ -7,9 +7,9 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   df <- mutate(df, g = list(quo(.)))
   df <- mutate(df, h = list(~.))
 
-  expect_environments_clean(df$f[[1]])
-  expect_environments_clean(df$g[[1]])
-  expect_environments_clean(df$h[[1]])
+  expect_environments_clean(env_parent(df$f[[1]]))
+  expect_environments_clean(env_parent(df$g[[1]]))
+  expect_environments_clean(env_parent(df$h[[1]]))
 
   # Avoids "Empty test" message
   expect_true(TRUE)
