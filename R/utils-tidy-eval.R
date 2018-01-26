@@ -1,16 +1,35 @@
 #' Tidy eval helpers
 #'
-#' These six functions provide tidy eval-compatible ways to capture
-#' symbols (`sym()`, `syms()`), expressions (`expr()`,
-#' `exprs()`, `enexpr()`), and quosures (`quo()`, `quos()`, `enquo()`).
-#' To learn more about tidy eval and how to use these tools, read
-#' <http://rlang.tidyverse.org/articles/tidy-evaluation.html>
+#' @description
+#'
+#' * \code{\link[rlang]{sym}()} creates a symbol from a string and
+#'   \code{\link[rlang]{syms}()} creates a list of symbols from a
+#'   character vector.
+#'
+#' * \code{\link[rlang]{expr}()} and \code{\link[rlang]{quo}()} quote
+#'   one expression. `quo()` wraps the quoted expression in a quosure.
+#'
+#'   The plural variants \code{\link[rlang]{exprs}()} and
+#'   \code{\link[rlang]{quos}()} return a list of quoted expressions or
+#'   quosures.
+#'
+#' * \code{\link[rlang]{enexpr}()} and \code{\link[rlang]{enquo}()}
+#'   capture the expression supplied as argument by the user of the
+#'   current function (`enquo()` wraps this expression in a quosure).
+#'
+#'   \code{\link[rlang]{enexprs}()} and \code{\link[rlang]{enquos}()}
+#'   capture multiple expressions supplied as arguments, including
+#'   `...`.
 #'
 #' @md
 #' @name tidyeval
 #' @keywords internal
-#' @aliases          quo quos enquo sym syms expr exprs enexpr quo_name
-#' @export           quo quos enquo quo_name
-#' @export           sym syms
-#' @export           expr exprs enexpr
+#' @aliases          quo quos enquo enquos quo_name
+#'                   sym ensym syms ensyms
+#'                   expr exprs enexpr enexprs
+#'                   .data
+#' @export           quo quos enquo enquos quo_name
+#' @export           sym ensym syms ensyms
+#' @export           expr exprs enexpr enexprs
+#' @export           .data
 NULL
