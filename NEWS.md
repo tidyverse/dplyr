@@ -52,6 +52,7 @@
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
 * Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
+* `distinct()` now retains the ordering of variables provided by the user (#3195, @foo-bar-baz-qux)
 
 * `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
 

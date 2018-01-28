@@ -77,7 +77,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # Once we've done the mutate, we no longer need lazy objects, and
   # can instead just use their names
-  out_vars <- intersect(names(.data), c(names(vars), group_vars))
+  out_vars <- intersect(c(names(vars), group_vars), names(.data))
 
   if (.keep_all) {
     keep <- names(.data)

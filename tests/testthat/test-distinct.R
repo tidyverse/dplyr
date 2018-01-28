@@ -85,3 +85,12 @@ test_that("distinct on a dataframe or tibble with columns of type list throws an
   expect_error(df %>% distinct())
   expect_error(df2 %>% distinct())
 })
+
+test_that("distinct retains the variable ordering specified by the user", {
+  df <- tibble(g = c(1, 2, 1), x = c(1, 2, 1))
+
+  expect_equal(colnames(distinct(df, g, x)), c("g", "x"))
+  expect_equal(colnames(distinct(df, x, g)), c("x", "g"))
+  expect_equal(colnames(distinct(df, y = x + 1, g)), c("y", "g"))
+  expect_equal(colnames(distinct(df, g, y = x + 1)), c("g", "y"))
+})
