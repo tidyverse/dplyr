@@ -118,3 +118,7 @@ attr_equal <- function(x, y) {
 
   isTRUE(all.equal(attr_x, attr_y))
 }
+
+env_wipe <- function(env) {
+  rm(list = env_names(env), envir = env)
+}

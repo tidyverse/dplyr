@@ -14,7 +14,6 @@ SEXP (*rlang_is_quosure)(SEXP x) = NULL;
 SEXP (*rlang_as_data_pronoun)(SEXP data) = NULL;
 SEXP (*rlang_as_data_mask)(SEXP data, SEXP parent) = NULL;
 SEXP (*rlang_new_data_mask)(SEXP bottom, SEXP top, SEXP parent) = NULL;
-SEXP (*rlang_data_mask_clean)(SEXP mask) = NULL;
 
 } // namespace internal
 } // namespace dplyr
@@ -31,6 +30,5 @@ SEXP dplyr_onload() {
   dplyr::internal::rlang_as_data_pronoun =  (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
   dplyr::internal::rlang_as_data_mask =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_as_data_mask");
   dplyr::internal::rlang_new_data_mask =    (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_new_data_mask");
-  dplyr::internal::rlang_data_mask_clean =  (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_data_mask_clean");
   return R_NilValue;
 }

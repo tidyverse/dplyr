@@ -57,7 +57,6 @@ extern SEXP (*rlang_is_quosure)(SEXP x);
 extern SEXP (*rlang_as_data_pronoun)(SEXP data);
 extern SEXP (*rlang_as_data_mask)(SEXP data, SEXP parent);
 extern SEXP (*rlang_new_data_mask)(SEXP bottom, SEXP top, SEXP parent);
-extern SEXP (*rlang_data_mask_clean)(SEXP mask);
 
 } // internal
 
