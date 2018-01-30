@@ -9,7 +9,7 @@
 namespace dplyr {
 
 inline SEXP quosure(SEXP expr, SEXP env) {
-  return internal::rlang_new_quosure(expr, env);
+  return internal::rlang_api().new_quosure(expr, env);
 }
 
 
@@ -29,10 +29,10 @@ public:
   {}
 
   SEXP expr() const {
-    return Rf_duplicate(internal::rlang_quo_get_expr(data));
+    return Rf_duplicate(internal::rlang_api().quo_get_expr(data));
   }
   SEXP env() const {
-    return internal::rlang_quo_get_env(data);
+    return internal::rlang_api().quo_get_env(data);
   }
   SymbolString name() const {
     return name_;
@@ -52,7 +52,7 @@ using namespace dplyr;
 
 template <>
 inline bool is<NamedQuosure>(SEXP x) {
-  return dplyr::internal::rlang_is_quosure(x);
+  return dplyr::internal::rlang_api().is_quosure(x);
 }
 
 } // namespace Rcpp

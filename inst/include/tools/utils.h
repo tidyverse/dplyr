@@ -48,17 +48,33 @@ inline void copy_most_attributes(SEXP out, SEXP data) {
 
 namespace internal {
 
-extern SEXP (*rlang_quo_get_expr)(SEXP quo);
-extern SEXP (*rlang_quo_set_expr)(SEXP quo, SEXP expr);
-extern SEXP (*rlang_quo_get_env)(SEXP quo);
-extern SEXP (*rlang_quo_set_env)(SEXP quo, SEXP env);
-extern SEXP (*rlang_new_quosure)(SEXP expr, SEXP env);
-extern SEXP (*rlang_is_quosure)(SEXP x);
-extern SEXP (*rlang_as_data_pronoun)(SEXP data);
-extern SEXP (*rlang_as_data_mask)(SEXP data, SEXP parent);
-extern SEXP (*rlang_new_data_mask)(SEXP bottom, SEXP top, SEXP parent);
+struct rlang_api_ptrs_t {
+  SEXP (*quo_get_expr)(SEXP quo);
+  SEXP (*quo_set_expr)(SEXP quo, SEXP expr);
+  SEXP (*quo_get_env)(SEXP quo);
+  SEXP (*quo_set_env)(SEXP quo, SEXP env);
+  SEXP (*new_quosure)(SEXP expr, SEXP env);
+  SEXP (*is_quosure)(SEXP x);
+  SEXP (*as_data_pronoun)(SEXP data);
+  SEXP (*as_data_mask)(SEXP data, SEXP parent);
+  SEXP (*new_data_mask)(SEXP bottom, SEXP top, SEXP parent);
 
-} // internal
+  rlang_api_ptrs_t() {
+    quo_get_expr =     (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_expr");
+    quo_set_expr =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_quo_set_expr");
+    quo_get_env =      (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_env");
+    quo_set_env =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_quo_set_env");
+    new_quosure =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_quosure");
+    is_quosure =       (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_is_quosure");
+    as_data_pronoun =  (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
+    as_data_mask =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_as_data_mask");
+    new_data_mask =    (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_new_data_mask");
+  }
+};
+
+const rlang_api_ptrs_t& rlang_api();
+
+} // namespace internal
 
 
 } // dplyr

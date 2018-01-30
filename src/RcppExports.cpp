@@ -459,16 +459,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// dplyr_onload
-SEXP dplyr_onload();
-RcppExport SEXP _dplyr_dplyr_onload() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    rcpp_result_gen = Rcpp::wrap(dplyr_onload());
-    return rcpp_result_gen;
-END_RCPP
-}
 // select_impl
 DataFrame select_impl(DataFrame df, CharacterVector vars);
 RcppExport SEXP _dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
@@ -732,7 +722,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_right_join_impl", (DL_FUNC) &_dplyr_right_join_impl, 7},
     {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 7},
     {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 2},
-    {"_dplyr_dplyr_onload", (DL_FUNC) &_dplyr_dplyr_onload, 0},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
     {"_dplyr_compatible_data_frame_nonames", (DL_FUNC) &_dplyr_compatible_data_frame_nonames, 3},
     {"_dplyr_compatible_data_frame", (DL_FUNC) &_dplyr_compatible_data_frame, 4},
