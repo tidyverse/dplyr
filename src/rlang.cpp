@@ -4,7 +4,7 @@
 namespace dplyr {
 namespace internal {
 
-rlang_api_ptrs_t rlang_api() {
+const rlang_api_ptrs_t& rlang_api() {
   static rlang_api_ptrs_t ptrs;
   return ptrs;
 }

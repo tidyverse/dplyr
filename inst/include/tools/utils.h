@@ -72,7 +72,7 @@ struct rlang_api_ptrs_t {
   }
 };
 
-rlang_api_ptrs_t rlang_api();
+const rlang_api_ptrs_t& rlang_api();
 
 } // namespace internal
 
