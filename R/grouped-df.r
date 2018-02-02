@@ -240,7 +240,7 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   dist <- distinct_vars(
     .data,
-    vars = named_quos(...),
+    vars = quos(...),
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
