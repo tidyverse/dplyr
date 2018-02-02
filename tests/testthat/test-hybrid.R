@@ -106,22 +106,22 @@ test_that("min() and max() work", {
   )
   check_hybrid_result(
     min(a), a = c(1:5, NA),
-    expected = NA_real_,
+    expected = is.na,
     test_eval = FALSE
   )
   check_hybrid_result(
     max(a), a = c(1:5, NA),
-    expected = NA_real_,
+    expected = is.na,
     test_eval = FALSE
   )
   check_hybrid_result(
     min(a), a = c(NA, 1:5),
-    expected = NA_real_,
+    expected = is.na,
     test_eval = FALSE
   )
   check_hybrid_result(
     max(a), a = c(NA, 1:5),
-    expected = NA_real_,
+    expected = is.na,
     test_eval = FALSE
   )
 
@@ -392,27 +392,27 @@ test_that("mean(), var(), sd() and sum() work", {
 
   check_hybrid_result(
     mean(a), a = c(1:5, NA),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     mean(a), a = as.numeric(c(1:5, NA)),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     var(a), a = c(1:3, NA),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     var(a), a = as.numeric(c(1:3, NA)),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     sd(a), a = c(1:3, NA),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     sd(a), a = as.numeric(c(1:3, NA)),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     sum(a), a = c(1:5, NA),
@@ -420,7 +420,7 @@ test_that("mean(), var(), sd() and sum() work", {
   )
   check_hybrid_result(
     sum(a), a = c(as.numeric(1:5), NA),
-    expected = NA_real_
+    expected = is.na
   )
 
   check_hybrid_result(
@@ -561,7 +561,7 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
 test_that("hybrid handlers don't nest", {
   check_not_hybrid_result(
     mean(lag(a)), a = 1:5,
-    expected = NA_real_
+    expected = is.na
   )
   check_not_hybrid_result(
     mean(row_number()), a = 1:5,
@@ -749,15 +749,15 @@ test_that("constant folding and argument matching in hybrid evaluator (#2299)", 
   skip("Currently failing")
   check_hybrid_result(
     mean(a, na.rm = (1 == 0)), a = c(1:5, NA),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     var(a, na.rm = (1 == 0)), a = c(1:3, NA),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     sd(a, na.rm = (1 == 0)), a = c(1:3, NA),
-    expected = NA_real_
+    expected = is.na
   )
   check_hybrid_result(
     sum(a, na.rm = (1 == 0)), a = c(1:5, NA),
@@ -765,7 +765,7 @@ test_that("constant folding and argument matching in hybrid evaluator (#2299)", 
   )
   check_hybrid_result(
     sum(a, na.rm = (1 == 0)), a = c(as.numeric(1:5), NA),
-    expected = NA_real_
+    expected = is.na
   )
 
   check_hybrid_result(
