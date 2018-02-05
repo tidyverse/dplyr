@@ -45,7 +45,7 @@ dim(flights)
 flights
 ```
 
-Note that `nycflights13::flights` is a tibble, a modern reimagining of the data frame. It's particular useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
+Note that `nycflights13::flights` is a tibble, a modern reimagining of the data frame. It's particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <http://tibble.tidyverse.org>; in particular you can convert data frames to tibbles with `as_tibble()`.
 
 ## Single table verbs
 
