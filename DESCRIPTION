@@ -18,7 +18,7 @@ Depends:
     R (>= 3.1.2)
 Imports: 
     assertthat,
-    bindrcpp (>= 0.2),
+    bindrcpp (>= 0.2.0.9000),
     glue (>= 1.1.1),
     magrittr,
     methods,
@@ -54,8 +54,10 @@ LinkingTo:
     plogr,
     Rcpp (>= 0.12.15)
 VignetteBuilder: knitr
+Remotes: 
+    krlmlr/bindrcpp,
+    tidyverse/rlang
 Encoding: UTF-8
 LazyData: yes
-Remotes: tidyverse/rlang
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.0.1
