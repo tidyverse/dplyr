@@ -33,7 +33,6 @@
 \alias{tbl_sum}
 \alias{reexports}
 \alias{contains}
-\alias{select_helpers}
 \alias{reexports}
 \alias{ends_with}
 \alias{reexports}
