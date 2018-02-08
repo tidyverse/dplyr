@@ -56,6 +56,7 @@ LinkingTo:
 VignetteBuilder: knitr
 Remotes: 
     krlmlr/bindrcpp,
+    krlmlr/plogr,
     tidyverse/rlang
 Encoding: UTF-8
 LazyData: yes
