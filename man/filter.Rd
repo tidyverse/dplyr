@@ -73,3 +73,4 @@ Other single table verbs: \code{\link{arrange}},
   \code{\link{mutate}}, \code{\link{select}},
   \code{\link{slice}}, \code{\link{summarise}}
 }
+\concept{single table verbs}
