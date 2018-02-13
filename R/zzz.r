@@ -19,6 +19,10 @@
   })
 }
 
+.onDetach <- function(libname, pkgname) {
+  setHook(packageEvent("plyr", "attach"), NULL, "replace")
+}
+
 when_attached <- function(pkg, action) {
   if (is_attached(pkg)) {
     action
