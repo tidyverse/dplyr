@@ -95,6 +95,8 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
     bad_args(".funs", "must specify a renaming function")
   }
 
-  group_syms <- base::setdiff(syms(group_vars(tbl)), syms)
+  group_vars <- group_vars(tbl)
+  group_syms <- base::setdiff(syms(group_vars), syms)
+  group_syms <- set_names(group_syms, group_vars)
   c(group_syms, syms)
 }

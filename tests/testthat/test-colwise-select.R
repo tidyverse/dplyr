@@ -71,3 +71,9 @@ test_that("select_if() handles quoted predicates", {
   expect_identical(select_if(mtcars, "is_integerish"), expected)
   expect_identical(select_if(mtcars, ~is_integerish(.x)), expected)
 })
+
+test_that("rename_all() works with grouped data", {
+  df <- data.frame(a = 1, b = 2)
+  out <- df %>% group_by(a) %>% rename_all(toupper)
+  expect_identical(out, group_by(data.frame(a = 1, B = 2), a))
+})
