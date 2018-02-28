@@ -67,6 +67,8 @@
 
 * Better error message when joining data frames with duplicate column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (#3243).
 
+* Added an `.onDetach()` hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (#3359).
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
