@@ -128,51 +128,51 @@ frames</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x102c85ea0&gt;
+    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x10e217e00&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x101c28d80&gt;
-#&gt;  * cyl:       &lt;0x101c28eb0&gt;
-#&gt;  * disp:      &lt;0x101c48380&gt;
-#&gt;  * hp:        &lt;0x101c484b0&gt;
-#&gt;  * drat:      &lt;0x101c4da40&gt;
-#&gt;  * wt:        &lt;0x101c4db70&gt;
-#&gt;  * qsec:      &lt;0x101c4e8c0&gt;
-#&gt;  * vs:        &lt;0x101c4e9f0&gt;
-#&gt;  * am:        &lt;0x101c20610&gt;
-#&gt;  * gear:      &lt;0x101c20740&gt;
-#&gt;  * carb:      &lt;0x101c5adf0&gt;
+#&gt;  * mpg:       &lt;0x1101c53c0&gt;
+#&gt;  * cyl:       &lt;0x110148310&gt;
+#&gt;  * disp:      &lt;0x1101d3d50&gt;
+#&gt;  * hp:        &lt;0x1101b6d50&gt;
+#&gt;  * drat:      &lt;0x1101e7800&gt;
+#&gt;  * wt:        &lt;0x1101469d0&gt;
+#&gt;  * qsec:      &lt;0x1101cfa30&gt;
+#&gt;  * vs:        &lt;0x1101a8500&gt;
+#&gt;  * am:        &lt;0x10cd63110&gt;
+#&gt;  * gear:      &lt;0x1101bb9d0&gt;
+#&gt;  * carb:      &lt;0x1101b66c0&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x102c85f48&gt;
-#&gt;  * row.names: &lt;0x101c5af20&gt;
-#&gt;  * class:     &lt;0x11177b2c8&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x10e217ea8&gt;
+#&gt;  * row.names: &lt;0x10cdd1ba0&gt;
+#&gt;  * class:     &lt;0x1149950f8&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x116945158&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x1150d2550&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x101c28d80&gt;
-#&gt;  * cyl:       &lt;0x101c28eb0&gt;
-#&gt;  * disp:      &lt;0x101c48380&gt;
-#&gt;  * hp:        &lt;0x101c484b0&gt;
-#&gt;  * drat:      &lt;0x101c4da40&gt;
-#&gt;  * wt:        &lt;0x101c4db70&gt;
-#&gt;  * qsec:      &lt;0x101c4e8c0&gt;
-#&gt;  * vs:        &lt;0x101c4e9f0&gt;
-#&gt;  * am:        &lt;0x101c20610&gt;
-#&gt;  * gear:      &lt;0x101c20740&gt;
-#&gt;  * carb:      &lt;0x101c5adf0&gt;
-#&gt;  * cyl2:      &lt;0x109f9de10&gt;
+#&gt;  * mpg:       &lt;0x1101c53c0&gt;
+#&gt;  * cyl:       &lt;0x110148310&gt;
+#&gt;  * disp:      &lt;0x1101d3d50&gt;
+#&gt;  * hp:        &lt;0x1101b6d50&gt;
+#&gt;  * drat:      &lt;0x1101e7800&gt;
+#&gt;  * wt:        &lt;0x1101469d0&gt;
+#&gt;  * qsec:      &lt;0x1101cfa30&gt;
+#&gt;  * vs:        &lt;0x1101a8500&gt;
+#&gt;  * am:        &lt;0x10cd63110&gt;
+#&gt;  * gear:      &lt;0x1101bb9d0&gt;
+#&gt;  * carb:      &lt;0x1101b66c0&gt;
+#&gt;  * cyl2:      &lt;0x101f6a1d0&gt;
 #&gt; Attributes:
-#&gt;  * class:     &lt;0x1123e26c8&gt;
-#&gt;  * names:     &lt;0x116948698&gt;
-#&gt;  * row.names: &lt;0x1169418b0&gt;</div><div class='input'>
+#&gt;  * class:     &lt;0x114b29568&gt;
+#&gt;  * names:     &lt;0x1150d2400&gt;
+#&gt;  * row.names: &lt;0x1150d1208&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new        
-#&gt; cyl2      &lt;added&gt; 0x109f9de10
+#&gt; cyl2      &lt;added&gt; 0x101f6a1d0
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old         new        
-#&gt; names     0x102c85f48 0x116948698
-#&gt; row.names 0x101c5af20 0x115b6a408
-#&gt; class     0x11177b2c8 0x1123e26c8</div></pre>
+#&gt; names     0x10e217ea8 0x1150d2400
+#&gt; row.names 0x10cdd1ba0 0x11216cd48
+#&gt; class     0x1149950f8 0x114b29568</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -191,7 +191,7 @@ frames</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

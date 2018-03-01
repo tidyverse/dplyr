@@ -131,7 +131,7 @@ selects the bottom <code>n</code> rows.</p></td>
       <th>wt</th>
       <td><p>(Optional). The variable to use for ordering. If not
 specified, defaults to the last variable in the tbl.</p>
-<p>This argument is automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and later
+<p>This argument is automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and later
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
 frame. It supports <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a>. See
 <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
@@ -161,23 +161,23 @@ frame. It supports <a href='http://www.rdocumentation.org/packages/rlang/topics/
 
 <span class='co'># Find year with most games for each player</span>
 <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>Batting</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>1</span>, <span class='no'>G</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; # A tibble: 19,516 x 22
-#&gt; # Groups:   playerID [18,659]
-#&gt;     playerID yearID stint teamID   lgID     G    AB     R     H   X2B   X3B
-#&gt;        &lt;chr&gt;  &lt;int&gt; &lt;int&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
-#&gt;  1 abercda01   1871     1    TRO     NA     1     4     0     0     0     0
-#&gt;  2 armstbo01   1871     1    FW1     NA    12    49     9    11     2     1
-#&gt;  3 barkeal01   1871     1    RC1     NA     1     4     0     1     0     0
-#&gt;  4 barrebi01   1871     1    FW1     NA     1     5     1     1     1     0
-#&gt;  5 barrofr01   1871     1    BS1     NA    18    86    13    13     2     1
-#&gt;  6  bassjo01   1871     1    CL1     NA    22    89    18    27     1    10
-#&gt;  7 bellast01   1871     1    TRO     NA    29   128    26    32     3     3
-#&gt;  8 berkena01   1871     1    PH1     NA     1     4     0     0     0     0
-#&gt;  9 berryto01   1871     1    PH1     NA     1     4     0     1     0     0
-#&gt; 10 berthha01   1871     1    WS3     NA    17    73    17    17     1     1
-#&gt; # ... with 19,506 more rows, and 11 more variables: HR &lt;int&gt;, RBI &lt;int&gt;,
-#&gt; #   SB &lt;int&gt;, CS &lt;int&gt;, BB &lt;int&gt;, SO &lt;int&gt;, IBB &lt;int&gt;, HBP &lt;int&gt;, SH &lt;int&gt;,
-#&gt; #   SF &lt;int&gt;, GIDP &lt;int&gt;</div></pre>
+}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; # A tibble: 19,791 x 22
+#&gt; # Groups:   playerID [18,915]
+#&gt;    playerID yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
+#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
+#&gt;  1 abercda…   1871     1 TRO    NA        1     4     0     0     0     0     0
+#&gt;  2 armstbo…   1871     1 FW1    NA       12    49     9    11     2     1     0
+#&gt;  3 barkeal…   1871     1 RC1    NA        1     4     0     1     0     0     0
+#&gt;  4 barrebi…   1871     1 FW1    NA        1     5     1     1     1     0     0
+#&gt;  5 barrofr…   1871     1 BS1    NA       18    86    13    13     2     1     0
+#&gt;  6 bassjo01   1871     1 CL1    NA       22    89    18    27     1    10     3
+#&gt;  7 bellast…   1871     1 TRO    NA       29   128    26    32     3     3     0
+#&gt;  8 berkena…   1871     1 PH1    NA        1     4     0     0     0     0     0
+#&gt;  9 berryto…   1871     1 PH1    NA        1     4     0     1     0     0     0
+#&gt; 10 berthha…   1871     1 WS3    NA       17    73    17    17     1     1     0
+#&gt; # ... with 19,781 more rows, and 10 more variables: RBI &lt;int&gt;, SB &lt;int&gt;,
+#&gt; #   CS &lt;int&gt;, BB &lt;int&gt;, SO &lt;int&gt;, IBB &lt;int&gt;, HBP &lt;int&gt;, SH &lt;int&gt;, SF &lt;int&gt;,
+#&gt; #   GIDP &lt;int&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -196,7 +196,7 @@ frame. It supports <a href='http://www.rdocumentation.org/packages/rlang/topics/
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

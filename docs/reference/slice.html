@@ -122,13 +122,18 @@ operation, use <code><a href='filter.html'>filter()</a></code> and <code><a href
     <tr>
       <th>...</th>
       <td><p>Integer row values.</p>
-<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and
+<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
 frame. They support <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and
 splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
 these concepts.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Positive values select rows to keep; negative values drop rows. The
+values provided must be either all positive or all negative.</p>
     
     <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
 
@@ -147,34 +152,48 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
     <pre class="examples"><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>1L</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 11
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    21     6   160   110   3.9  2.62 16.46     0     1     4     4</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 1 x 11
+#&gt; 1   21.    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 1 x 11
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  21.4     4   121   109  4.11  2.78  18.6     1     1     4     2</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>5</span>:<span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 28 x 11
+#&gt; 1  21.4    4.  121.  109.  4.11  2.78  18.6    1.    1.    4.    2.</div><div class='input'><span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>5</span>:<span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 28 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  18.7     8 360.0   175  3.15  3.44 17.02     0     0     3     2
-#&gt;  2  18.1     6 225.0   105  2.76  3.46 20.22     1     0     3     1
-#&gt;  3  14.3     8 360.0   245  3.21  3.57 15.84     0     0     3     4
-#&gt;  4  24.4     4 146.7    62  3.69  3.19 20.00     1     0     4     2
-#&gt;  5  22.8     4 140.8    95  3.92  3.15 22.90     1     0     4     2
-#&gt;  6  19.2     6 167.6   123  3.92  3.44 18.30     1     0     4     4
-#&gt;  7  17.8     6 167.6   123  3.92  3.44 18.90     1     0     4     4
-#&gt;  8  16.4     8 275.8   180  3.07  4.07 17.40     0     0     3     3
-#&gt;  9  17.3     8 275.8   180  3.07  3.73 17.60     0     0     3     3
-#&gt; 10  15.2     8 275.8   180  3.07  3.78 18.00     0     0     3     3
-#&gt; # ... with 18 more rows</div><div class='input'>
+#&gt;  1  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  2  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  3  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  4  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  5  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt;  6  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
+#&gt;  7  17.8    6.  168.  123.  3.92  3.44  18.9    1.    0.    4.    4.
+#&gt;  8  16.4    8.  276.  180.  3.07  4.07  17.4    0.    0.    3.    3.
+#&gt;  9  17.3    8.  276.  180.  3.07  3.73  17.6    0.    0.    3.    3.
+#&gt; 10  15.2    8.  276.  180.  3.07  3.78  18.0    0.    0.    3.    3.
+#&gt; # ... with 18 more rows</div><div class='input'><span class='co'># Rows can be dropped with negative indices:</span>
+<span class='fu'>slice</span>(<span class='no'>mtcars</span>, -<span class='fl'>5</span>:-<span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 4 x 11
+#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt; 2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt; 3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt; 4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.</div><div class='input'><span class='co'># In this case, the result will be equivalent to:</span>
+<span class='fu'>slice</span>(<span class='no'>mtcars</span>, <span class='fl'>1</span>:<span class='fl'>4</span>)</div><div class='output co'>#&gt; # A tibble: 4 x 11
+#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt; 2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt; 3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt; 4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.</div><div class='input'>
 <span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>)
 <span class='fu'>slice</span>(<span class='no'>by_cyl</span>, <span class='fl'>1</span>:<span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 6 x 11
 #&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt; 2  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt; 3  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
-#&gt; 4  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
-#&gt; 5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
-#&gt; 6  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4</div><div class='input'>
+#&gt; 1  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt; 2  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt; 3  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt; 4  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt; 5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt; 6  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.</div><div class='input'>
 <span class='co'># Equivalent code using filter that will also work with databases,</span>
 <span class='co'># but won't be as fast for in-memory data. For many databases, you'll</span>
 <span class='co'># need to supply an explicit variable to use to compute the row number.</span>
@@ -215,6 +234,8 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
+      <li><a href="#details">Details</a></li>
+
       <li><a href="#tidy-data">Tidy data</a></li>
 
       <li><a href="#see-also">See also</a></li>
@@ -231,7 +252,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
