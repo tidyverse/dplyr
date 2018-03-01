@@ -21,7 +21,7 @@ Imports:
     bindrcpp (>= 0.2.0.9000),
     glue (>= 1.1.1),
     magrittr (>= 1.5),
-    methods (>= 3.4.3),
+    methods,
     pkgconfig (>= 2.0.1),
     R6 (>= 2.2.2),
     Rcpp (>= 0.12.15),
