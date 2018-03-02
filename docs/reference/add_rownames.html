@@ -128,31 +128,31 @@
     <pre class="examples"><div class='input'><span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>()</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
-#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
-#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
-#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
-#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
-#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
-#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
-#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_rownames</span>()</div><div class='output co'>#&gt; <span class='warning'>Warning: Deprecated, use tibble::rownames_to_column() instead.</span></div><div class='output co'>#&gt; # A tibble: 32 x 12
-#&gt;              rowname   mpg   cyl  disp    hp  drat    wt  qsec    vs    am
-#&gt;                &lt;chr&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1         Mazda RX4  21.0     6 160.0   110  3.90 2.620 16.46     0     1
-#&gt;  2     Mazda RX4 Wag  21.0     6 160.0   110  3.90 2.875 17.02     0     1
-#&gt;  3        Datsun 710  22.8     4 108.0    93  3.85 2.320 18.61     1     1
-#&gt;  4    Hornet 4 Drive  21.4     6 258.0   110  3.08 3.215 19.44     1     0
-#&gt;  5 Hornet Sportabout  18.7     8 360.0   175  3.15 3.440 17.02     0     0
-#&gt;  6           Valiant  18.1     6 225.0   105  2.76 3.460 20.22     1     0
-#&gt;  7        Duster 360  14.3     8 360.0   245  3.21 3.570 15.84     0     0
-#&gt;  8         Merc 240D  24.4     4 146.7    62  3.69 3.190 20.00     1     0
-#&gt;  9          Merc 230  22.8     4 140.8    95  3.92 3.150 22.90     1     0
-#&gt; 10          Merc 280  19.2     6 167.6   123  3.92 3.440 18.30     1     0
-#&gt; # ... with 22 more rows, and 2 more variables: gear &lt;dbl&gt;, carb &lt;dbl&gt;</div></pre>
+#&gt;    rowname      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1 Mazda RX4   21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt;  2 Mazda RX4…  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt;  3 Datsun 710  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt;  4 Hornet 4 …  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt;  5 Hornet Sp…  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  6 Valiant     18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  7 Duster 360  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  8 Merc 240D   24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  9 Merc 230    22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt; 10 Merc 280    19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
+#&gt; # ... with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -171,7 +171,7 @@
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

@@ -123,8 +123,8 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='http://www.r
       <th>...</th>
       <td><p>Logical predicates defined in terms of the variables in <code>.data</code>.
 Multiple conditions are combined with <code>&amp;</code>. Only rows where the
-conditon evalutes to <code>TRUE</code> are kept.</p>
-<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and
+condition evaluates to <code>TRUE</code> are kept.</p>
+<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
 frame. They support <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and
 splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
@@ -175,70 +175,69 @@ selection of variables.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>species</span> <span class='kw'>==</span> <span class='st'>"Human"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 13
-#&gt;                  name height  mass    hair_color skin_color eye_color
-#&gt;                 &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;         &lt;chr&gt;      &lt;chr&gt;     &lt;chr&gt;
-#&gt;  1     Luke Skywalker    172    77         blond       fair      blue
-#&gt;  2        Darth Vader    202   136          none      white    yellow
-#&gt;  3        Leia Organa    150    49         brown      light     brown
-#&gt;  4          Owen Lars    178   120   brown, grey      light      blue
-#&gt;  5 Beru Whitesun lars    165    75         brown      light      blue
-#&gt;  6  Biggs Darklighter    183    84         black      light     brown
-#&gt;  7     Obi-Wan Kenobi    182    77 auburn, white       fair blue-gray
-#&gt;  8   Anakin Skywalker    188    84         blond       fair      blue
-#&gt;  9     Wilhuff Tarkin    180    NA  auburn, grey       fair      blue
-#&gt; 10           Han Solo    180    80         brown       fair     brown
-#&gt; # ... with 25 more rows, and 7 more variables: birth_year &lt;dbl&gt;, gender &lt;chr&gt;,
-#&gt; #   homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;,
-#&gt; #   starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 13
-#&gt;                    name height  mass hair_color       skin_color eye_color
-#&gt;                   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;
-#&gt; 1 Jabba Desilijic Tiure    175  1358       &lt;NA&gt; green-tan, brown    orange
-#&gt; # ... with 7 more variables: birth_year &lt;dbl&gt;, gender &lt;chr&gt;, homeworld &lt;chr&gt;,
-#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;    name         height  mass hair_color  skin_color eye_color birth_year gender
+#&gt;    &lt;chr&gt;         &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+#&gt;  1 Luke Skywal…    172   77. blond       fair       blue            19.0 male  
+#&gt;  2 Darth Vader     202  136. none        white      yellow          41.9 male  
+#&gt;  3 Leia Organa     150   49. brown       light      brown           19.0 female
+#&gt;  4 Owen Lars       178  120. brown, grey light      blue            52.0 male  
+#&gt;  5 Beru Whites…    165   75. brown       light      blue            47.0 female
+#&gt;  6 Biggs Darkl…    183   84. black       light      brown           24.0 male  
+#&gt;  7 Obi-Wan Ken…    182   77. auburn, wh… fair       blue-gray       57.0 male  
+#&gt;  8 Anakin Skyw…    188   84. blond       fair       blue            41.9 male  
+#&gt;  9 Wilhuff Tar…    180   NA  auburn, gr… fair       blue            64.0 male  
+#&gt; 10 Han Solo        180   80. brown       fair       brown           29.0 male  
+#&gt; # ... with 25 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>mass</span> <span class='kw'>&gt;</span> <span class='fl'>1000</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 13
+#&gt;   name       height  mass hair_color skin_color   eye_color birth_year gender  
+#&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;   
+#&gt; 1 Jabba Des…    175 1358. &lt;NA&gt;       green-tan, … orange          600. hermaph…
+#&gt; # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># Multiple criteria</span>
 <span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>&amp;</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 13
-#&gt;         name height  mass hair_color       skin_color eye_color birth_year
-#&gt;        &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
-#&gt; 1  Nien Nunb    160    68       none             grey     black         NA
-#&gt; 2    Gasgano    122    NA       none      white, blue     black         NA
-#&gt; 3  Kit Fisto    196    87       none            green     black         NA
-#&gt; 4   Plo Koon    188    80       none           orange     black         22
-#&gt; 5    Lama Su    229    88       none             grey     black         NA
-#&gt; 6    Taun We    213    NA       none             grey     black         NA
-#&gt; 7   Shaak Ti    178    57       none red, blue, white     black         NA
-#&gt; 8 Tion Medon    206    80       none             grey     black         NA
-#&gt; 9        BB8     NA    NA       none             none     black         NA
-#&gt; # ... with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 13
-#&gt;             name height  mass hair_color    skin_color eye_color birth_year
-#&gt;            &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;         &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
-#&gt;  1   Darth Vader    202   136       none         white    yellow       41.9
-#&gt;  2        Greedo    173    74       &lt;NA&gt;         green     black       44.0
-#&gt;  3         IG-88    200   140       none         metal       red       15.0
-#&gt;  4         Bossk    190   113       none         green       red       53.0
-#&gt;  5         Lobot    175    79       none         light      blue       37.0
-#&gt;  6        Ackbar    180    83       none  brown mottle    orange       41.0
-#&gt;  7     Nien Nunb    160    68       none          grey     black         NA
-#&gt;  8   Nute Gunray    191    90       none mottled green       red         NA
-#&gt;  9 Jar Jar Binks    196    66       none        orange    orange       52.0
-#&gt; 10  Roos Tarpals    224    82       none          grey    orange         NA
-#&gt; # ... with 28 more rows, and 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;,
-#&gt; #   species &lt;chr&gt;, films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
+#&gt;   name       height  mass hair_color skin_color     eye_color birth_year gender
+#&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+#&gt; 1 Nien Nunb     160   68. none       grey           black            NA  male  
+#&gt; 2 Gasgano       122   NA  none       white, blue    black            NA  male  
+#&gt; 3 Kit Fisto     196   87. none       green          black            NA  male  
+#&gt; 4 Plo Koon      188   80. none       orange         black            22. male  
+#&gt; 5 Lama Su       229   88. none       grey           black            NA  male  
+#&gt; 6 Taun We       213   NA  none       grey           black            NA  female
+#&gt; 7 Shaak Ti      178   57. none       red, blue, wh… black            NA  female
+#&gt; 8 Tion Medon    206   80. none       grey           black            NA  male  
+#&gt; 9 BB8            NA   NA  none       none           black            NA  none  
+#&gt; # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'><span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span> <span class='kw'>|</span> <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 13
+#&gt;    name        height  mass hair_color skin_color   eye_color birth_year gender
+#&gt;    &lt;chr&gt;        &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+#&gt;  1 Darth Vader    202  136. none       white        yellow          41.9 male  
+#&gt;  2 Greedo         173   74. &lt;NA&gt;       green        black           44.0 male  
+#&gt;  3 IG-88          200  140. none       metal        red             15.0 none  
+#&gt;  4 Bossk          190  113. none       green        red             53.0 male  
+#&gt;  5 Lobot          175   79. none       light        blue            37.0 male  
+#&gt;  6 Ackbar         180   83. none       brown mottle orange          41.0 male  
+#&gt;  7 Nien Nunb      160   68. none       grey         black           NA   male  
+#&gt;  8 Nute Gunray    191   90. none       mottled gre… red             NA   male  
+#&gt;  9 Jar Jar Bi…    196   66. none       orange       orange          52.0 male  
+#&gt; 10 Roos Tarpa…    224   82. none       grey         orange          NA   male  
+#&gt; # ... with 28 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># Multiple arguments are equivalent to and</span>
 <span class='fu'>filter</span>(<span class='no'>starwars</span>, <span class='no'>hair_color</span> <span class='kw'>==</span> <span class='st'>"none"</span>, <span class='no'>eye_color</span> <span class='kw'>==</span> <span class='st'>"black"</span>)</div><div class='output co'>#&gt; # A tibble: 9 x 13
-#&gt;         name height  mass hair_color       skin_color eye_color birth_year
-#&gt;        &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;      &lt;chr&gt;            &lt;chr&gt;     &lt;chr&gt;      &lt;dbl&gt;
-#&gt; 1  Nien Nunb    160    68       none             grey     black         NA
-#&gt; 2    Gasgano    122    NA       none      white, blue     black         NA
-#&gt; 3  Kit Fisto    196    87       none            green     black         NA
-#&gt; 4   Plo Koon    188    80       none           orange     black         22
-#&gt; 5    Lama Su    229    88       none             grey     black         NA
-#&gt; 6    Taun We    213    NA       none             grey     black         NA
-#&gt; 7   Shaak Ti    178    57       none red, blue, white     black         NA
-#&gt; 8 Tion Medon    206    80       none             grey     black         NA
-#&gt; 9        BB8     NA    NA       none             none     black         NA
-#&gt; # ... with 6 more variables: gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,
-#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
+#&gt;   name       height  mass hair_color skin_color     eye_color birth_year gender
+#&gt;   &lt;chr&gt;       &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;          &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+#&gt; 1 Nien Nunb     160   68. none       grey           black            NA  male  
+#&gt; 2 Gasgano       122   NA  none       white, blue    black            NA  male  
+#&gt; 3 Kit Fisto     196   87. none       green          black            NA  male  
+#&gt; 4 Plo Koon      188   80. none       orange         black            22. male  
+#&gt; 5 Lama Su       229   88. none       grey           black            NA  male  
+#&gt; 6 Taun We       213   NA  none       grey           black            NA  female
+#&gt; 7 Shaak Ti      178   57. none       red, blue, wh… black            NA  female
+#&gt; 8 Tion Medon    206   80. none       grey           black            NA  male  
+#&gt; 9 BB8            NA   NA  none       none           black            NA  none  
+#&gt; # ... with 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;, films &lt;list&gt;,
+#&gt; #   vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -269,7 +268,7 @@ selection of variables.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

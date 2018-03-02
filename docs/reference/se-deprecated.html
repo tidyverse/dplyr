@@ -151,7 +151,7 @@ with NSE verbs. Thus, the underscored versions are now superfluous.</p>
 
 <span class='fu'>rename_</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'>list</span>())
 
-<span class='fu'>select_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>character</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>character</span>())
+<span class='fu'>select_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
 
 <span class='fu'>rename_vars_</span>(<span class='no'>vars</span>, <span class='no'>args</span>)</pre>
     
@@ -167,7 +167,7 @@ with NSE verbs. Thus, the underscored versions are now superfluous.</p>
       <td><p>(Optional) If omitted, will count the number of rows. If
 specified, will perform a "weighted" tally by summing the
 (non-missing) values of variable <code>wt</code>. This argument is
-automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and later
+automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and later
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
 frame. It supports <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a>. See
 <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
@@ -209,12 +209,7 @@ override existing groups. To add to the existing groups, use
 <code>add = TRUE</code>.</p></td>
     </tr>
     <tr>
-      <th>include</th>
-      <td><p>Character vector of column names to always
-include/exclude.</p></td>
-    </tr>
-    <tr>
-      <th>exclude</th>
+      <th>include, exclude</th>
       <td><p>Character vector of column names to always
 include/exclude.</p></td>
     </tr>
@@ -246,7 +241,7 @@ argument. See <code><a href='../articles/programming.html'>vignette("programming
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

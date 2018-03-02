@@ -126,7 +126,7 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='http://www.r
       <td><p>Name-value pairs of summary functions. The name will be the
 name of the variable in the result. The value should be an expression
 that returns a single value like <code>min(x)</code>, <code><a href='n.html'>n()</a></code>, or <code>sum(is.na(y))</code>.</p>
-<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and
+<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
 frame. They support <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and
 splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
@@ -179,11 +179,11 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>disp</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;     cyl     mean     n
-#&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     4 105.1364    11
-#&gt; 2     6 183.3143     7
-#&gt; 3     8 353.1000    14</div><div class='input'>
+#&gt;     cyl  mean     n
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+#&gt; 1    4.  105.    11
+#&gt; 2    6.  183.     7
+#&gt; 3    8.  353.    14</div><div class='input'>
 <span class='co'># Each summary call removes one grouping level (since that group</span>
 <span class='co'># is now just a single row)</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
@@ -195,15 +195,15 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'>sd</span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;     cyl     disp    sd
-#&gt;   &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4 105.1364    NA
-#&gt; 2     6 183.3143    NA
-#&gt; 3     8 353.1000    NA</div><div class='input'>
+#&gt;     cyl  disp    sd
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1    4.  105.    NA
+#&gt; 2    6.  183.    NA
+#&gt; 3    8.  353.    NA</div><div class='input'>
 
 <span class='co'># summarise() supports quasiquotation. You can unquote raw</span>
 <span class='co'># expressions or quosures:</span>
-<span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quo</a></span>(<span class='fu'>mean</span>(<span class='no'>cyl</span>))
+<span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tidyeval.html'>quo</a></span>(<span class='fu'>mean</span>(<span class='no'>cyl</span>))
 <span class='fu'>summarise</span>(<span class='no'>mtcars</span>, !! <span class='no'>var</span>)</div><div class='output co'>#&gt;   mean(cyl)
 #&gt; 1    6.1875</div></pre>
   </div>
@@ -234,7 +234,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

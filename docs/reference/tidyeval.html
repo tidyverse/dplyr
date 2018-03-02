@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List all tbls provided by a source. — src_tbls • dplyr</title>
+<title>Tidy eval helpers — tidyeval • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -101,32 +101,35 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List all tbls provided by a source.</h1>
+    <h1>Tidy eval helpers</h1>
     </div>
 
     
-    <p>This is a generic method which individual src's will provide methods for.
-Most methods will not be documented because it's usually pretty obvious what
-possible results will be.</p>
+    <ul>
+<li><p><code><a href='http://www.rdocumentation.org/packages/rlang/topics/sym'>sym</a>()</code> creates a symbol from a string and
+<code><a href='http://www.rdocumentation.org/packages/rlang/topics/sym'>syms</a>()</code> creates a list of symbols from a
+character vector.</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>expr</a>()</code> and <code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quo</a>()</code> quote
+one expression. <code>quo()</code> wraps the quoted expression in a quosure.</p>
+<p>The plural variants <code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>exprs</a>()</code> and
+<code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quos</a>()</code> return a list of quoted expressions or
+quosures.</p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>enexpr</a>()</code> and <code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>enquo</a>()</code>
+capture the expression supplied as argument by the user of the
+current function (<code>enquo()</code> wraps this expression in a quosure).
+
+    <code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>enexprs</a>()</code> and <code><a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>enquos</a>()</code>
+capture multiple expressions supplied as arguments, including
+<code>...</code>.</p></li>
+</ul>
     
 
-    <pre class="usage"><span class='fu'>src_tbls</span>(<span class='no'>x</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>a data src.</p></td>
-    </tr>
-    </table>
-    
+        
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
                 </ul>
 
   </div>

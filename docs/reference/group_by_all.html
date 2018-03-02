@@ -136,7 +136,7 @@ lambda-formula.</p></td>
     <tr>
       <th>...</th>
       <td><p>Additional arguments for the function calls in
-<code>.funs</code>. These are evaluated only once, with <a href='http://www.rdocumentation.org/packages/rlang/topics/dots_list'>explicit
+<code>.funs</code>. These are evaluated only once, with <a href='http://www.rdocumentation.org/packages/rlang/topics/tidy-dots'>explicit
 splicing</a>.</p></td>
     </tr>
     <tr>
@@ -166,79 +166,79 @@ functions and strings representing function names.</p></td>
 #&gt; # Groups:   mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb [32]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
-#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
-#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
-#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
-#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
-#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
-#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
-#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># Group by variables selected with a predicate:</span>
 <span class='fu'>group_by_if</span>(<span class='no'>iris</span>, <span class='no'>is.factor</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt; # Groups:   Species [3]
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;fctr&gt;
-#&gt;  1          5.1         3.5          1.4         0.2  setosa
-#&gt;  2          4.9         3.0          1.4         0.2  setosa
-#&gt;  3          4.7         3.2          1.3         0.2  setosa
-#&gt;  4          4.6         3.1          1.5         0.2  setosa
-#&gt;  5          5.0         3.6          1.4         0.2  setosa
-#&gt;  6          5.4         3.9          1.7         0.4  setosa
-#&gt;  7          4.6         3.4          1.4         0.3  setosa
-#&gt;  8          5.0         3.4          1.5         0.2  setosa
-#&gt;  9          4.4         2.9          1.4         0.2  setosa
-#&gt; 10          4.9         3.1          1.5         0.1  setosa
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+#&gt;  1         5.10        3.50         1.40       0.200 setosa 
+#&gt;  2         4.90        3.00         1.40       0.200 setosa 
+#&gt;  3         4.70        3.20         1.30       0.200 setosa 
+#&gt;  4         4.60        3.10         1.50       0.200 setosa 
+#&gt;  5         5.00        3.60         1.40       0.200 setosa 
+#&gt;  6         5.40        3.90         1.70       0.400 setosa 
+#&gt;  7         4.60        3.40         1.40       0.300 setosa 
+#&gt;  8         5.00        3.40         1.50       0.200 setosa 
+#&gt;  9         4.40        2.90         1.40       0.200 setosa 
+#&gt; 10         4.90        3.10         1.50       0.100 setosa 
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Group by variables selected by name:</span>
 <span class='fu'>group_by_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>vs</span>, <span class='no'>am</span>))</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt; # Groups:   vs, am [4]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
-#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
-#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
-#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
-#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
-#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
-#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
-#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># Like group_by(), the scoped variants have optional mutate</span>
 <span class='co'># semantics. This provide a shortcut for group_by() + mutate():</span>
 <span class='fu'>group_by_all</span>(<span class='no'>mtcars</span>, <span class='no'>as.factor</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt; # Groups:   mpg, cyl, disp, hp, drat, wt, qsec, vs, am, gear, carb [32]
-#&gt;       mpg    cyl   disp     hp   drat     wt   qsec     vs     am   gear   carb
-#&gt;    &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt; &lt;fctr&gt;
-#&gt;  1     21      6    160    110    3.9   2.62  16.46      0      1      4      4
-#&gt;  2     21      6    160    110    3.9  2.875  17.02      0      1      4      4
-#&gt;  3   22.8      4    108     93   3.85   2.32  18.61      1      1      4      1
-#&gt;  4   21.4      6    258    110   3.08  3.215  19.44      1      0      3      1
-#&gt;  5   18.7      8    360    175   3.15   3.44  17.02      0      0      3      2
-#&gt;  6   18.1      6    225    105   2.76   3.46  20.22      1      0      3      1
-#&gt;  7   14.3      8    360    245   3.21   3.57  15.84      0      0      3      4
-#&gt;  8   24.4      4  146.7     62   3.69   3.19     20      1      0      4      2
-#&gt;  9   22.8      4  140.8     95   3.92   3.15   22.9      1      0      4      2
-#&gt; 10   19.2      6  167.6    123   3.92   3.44   18.3      1      0      4      4
+#&gt;    mpg   cyl   disp  hp    drat  wt    qsec  vs    am    gear  carb 
+#&gt;    &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt; &lt;fct&gt;
+#&gt;  1 21    6     160   110   3.9   2.62  16.46 0     1     4     4    
+#&gt;  2 21    6     160   110   3.9   2.875 17.02 0     1     4     4    
+#&gt;  3 22.8  4     108   93    3.85  2.32  18.61 1     1     4     1    
+#&gt;  4 21.4  6     258   110   3.08  3.215 19.44 1     0     3     1    
+#&gt;  5 18.7  8     360   175   3.15  3.44  17.02 0     0     3     2    
+#&gt;  6 18.1  6     225   105   2.76  3.46  20.22 1     0     3     1    
+#&gt;  7 14.3  8     360   245   3.21  3.57  15.84 0     0     3     4    
+#&gt;  8 24.4  4     146.7 62    3.69  3.19  20    1     0     4     2    
+#&gt;  9 22.8  4     140.8 95    3.92  3.15  22.9  1     0     4     2    
+#&gt; 10 19.2  6     167.6 123   3.92  3.44  18.3  1     0     4     4    
 #&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>group_by_if</span>(<span class='no'>iris</span>, <span class='no'>is.factor</span>, <span class='no'>as.character</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt; # Groups:   Species [3]
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;   &lt;chr&gt;
-#&gt;  1          5.1         3.5          1.4         0.2  setosa
-#&gt;  2          4.9         3.0          1.4         0.2  setosa
-#&gt;  3          4.7         3.2          1.3         0.2  setosa
-#&gt;  4          4.6         3.1          1.5         0.2  setosa
-#&gt;  5          5.0         3.6          1.4         0.2  setosa
-#&gt;  6          5.4         3.9          1.7         0.4  setosa
-#&gt;  7          4.6         3.4          1.4         0.3  setosa
-#&gt;  8          5.0         3.4          1.5         0.2  setosa
-#&gt;  9          4.4         2.9          1.4         0.2  setosa
-#&gt; 10          4.9         3.1          1.5         0.1  setosa
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
+#&gt;  1         5.10        3.50         1.40       0.200 setosa 
+#&gt;  2         4.90        3.00         1.40       0.200 setosa 
+#&gt;  3         4.70        3.20         1.30       0.200 setosa 
+#&gt;  4         4.60        3.10         1.50       0.200 setosa 
+#&gt;  5         5.00        3.60         1.40       0.200 setosa 
+#&gt;  6         5.40        3.90         1.70       0.400 setosa 
+#&gt;  7         4.60        3.40         1.40       0.300 setosa 
+#&gt;  8         5.00        3.40         1.50       0.200 setosa 
+#&gt;  9         4.40        2.90         1.40       0.200 setosa 
+#&gt; 10         4.90        3.10         1.50       0.100 setosa 
 #&gt; # ... with 140 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -258,7 +258,7 @@ functions and strings representing function names.</p></td>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

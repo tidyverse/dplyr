@@ -125,7 +125,7 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='http://www.r
       <th>...</th>
       <td><p>Name-value pairs of expressions. Use <code>NULL</code> to drop
 a variable.</p>
-<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and
+<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
 frame. They support <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and
 splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
@@ -151,7 +151,7 @@ these concepts.</p></td>
 <li><p><code><a href='if_else.html'>if_else()</a></code>, <code><a href='recode.html'>recode()</a></code>, <code><a href='case_when.html'>case_when()</a></code></p></li>
 </ul>
     
-    <h2 class="hasAnchor" id="scoped-mutation-and-transmuation"><a class="anchor" href="#scoped-mutation-and-transmuation"></a>Scoped mutation and transmuation</h2>
+    <h2 class="hasAnchor" id="scoped-mutation-and-transmutation"><a class="anchor" href="#scoped-mutation-and-transmutation"></a>Scoped mutation and transmutation</h2>
 
     
     <p>The three <a href='scoped.html'>scoped</a> variants of <code>mutate()</code> (<code><a href='summarise_all.html'>mutate_all()</a></code>,
@@ -181,35 +181,35 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 )</div><div class='output co'>#&gt; # A tibble: 32 x 13
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  cyl2
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4    12
-#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4    12
-#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1     8
-#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1    12
-#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2    16
-#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1    12
-#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4    16
-#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2     8
-#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2     8
-#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4    12
-#&gt; # ... with 22 more rows, and 1 more variables: cyl4 &lt;dbl&gt;</div><div class='input'>
+#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.   12.
+#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.   12.
+#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.    8.
+#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.   12.
+#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.   16.
+#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.   12.
+#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.   16.
+#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.    8.
+#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.    8.
+#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.   12.
+#&gt; # ... with 22 more rows, and 1 more variable: cyl4 &lt;dbl&gt;</div><div class='input'>
 <span class='co'># You can also use mutate() to remove variables and</span>
 <span class='co'># modify existing variables</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
   <span class='kw'>mpg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>disp</span> <span class='kw'>=</span> <span class='no'>disp</span> * <span class='fl'>0.0163871</span> <span class='co'># convert to litres</span>
 )</div><div class='output co'>#&gt; # A tibble: 32 x 10
-#&gt;      cyl     disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1     6 2.621936   110  3.90 2.620 16.46     0     1     4     4
-#&gt;  2     6 2.621936   110  3.90 2.875 17.02     0     1     4     4
-#&gt;  3     4 1.769807    93  3.85 2.320 18.61     1     1     4     1
-#&gt;  4     6 4.227872   110  3.08 3.215 19.44     1     0     3     1
-#&gt;  5     8 5.899356   175  3.15 3.440 17.02     0     0     3     2
-#&gt;  6     6 3.687098   105  2.76 3.460 20.22     1     0     3     1
-#&gt;  7     8 5.899356   245  3.21 3.570 15.84     0     0     3     4
-#&gt;  8     4 2.403988    62  3.69 3.190 20.00     1     0     4     2
-#&gt;  9     4 2.307304    95  3.92 3.150 22.90     1     0     4     2
-#&gt; 10     6 2.746478   123  3.92 3.440 18.30     1     0     4     4
+#&gt;      cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1    6.  2.62  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt;  2    6.  2.62  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt;  3    4.  1.77   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt;  4    6.  4.23  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt;  5    8.  5.90  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  6    6.  3.69  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  7    8.  5.90  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  8    4.  2.40   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  9    4.  2.31   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt; 10    6.  2.75  123.  3.92  3.44  18.3    1.    0.    4.    4.
 #&gt; # ... with 22 more rows</div><div class='input'>
 
 <span class='co'># window functions are useful for grouped mutates</span>
@@ -219,16 +219,16 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  rank
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4     2
-#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4     2
-#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1     8
-#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1     1
-#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2     2
-#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1     6
-#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4    11
-#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2     7
-#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2     8
-#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4     5
+#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.     2
+#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.     2
+#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.     8
+#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.     1
+#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.     2
+#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.     6
+#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.    11
+#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.     7
+#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.     8
+#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.     5
 #&gt; # ... with 22 more rows</div><div class='input'><span class='co'># see `vignette("window-functions")` for more details</span>
 
 <span class='co'># You can drop variables by setting them to NULL</span>
@@ -340,19 +340,19 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='co'># mutate() supports quasiquotation. You can unquote quosures, which</span>
 <span class='co'># can refer to both contextual variables and variable names:</span>
 <span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='fl'>100</span>
-<span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>(<span class='no'>mtcars</span>) <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>cyl</span> <span class='kw'>=</span> !! <span class='fu'><a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quo</a></span>(<span class='no'>cyl</span> * <span class='no'>var</span>))</div><div class='output co'>#&gt; # A tibble: 32 x 11
+<span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>(<span class='no'>mtcars</span>) <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(<span class='kw'>cyl</span> <span class='kw'>=</span> !! <span class='fu'><a href='tidyeval.html'>quo</a></span>(<span class='no'>cyl</span> * <span class='no'>var</span>))</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0   600 160.0   110  3.90 2.620 16.46     0     1     4     4
-#&gt;  2  21.0   600 160.0   110  3.90 2.875 17.02     0     1     4     4
-#&gt;  3  22.8   400 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt;  4  21.4   600 258.0   110  3.08 3.215 19.44     1     0     3     1
-#&gt;  5  18.7   800 360.0   175  3.15 3.440 17.02     0     0     3     2
-#&gt;  6  18.1   600 225.0   105  2.76 3.460 20.22     1     0     3     1
-#&gt;  7  14.3   800 360.0   245  3.21 3.570 15.84     0     0     3     4
-#&gt;  8  24.4   400 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt;  9  22.8   400 140.8    95  3.92 3.150 22.90     1     0     4     2
-#&gt; 10  19.2   600 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt;  1  21.0  600.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt;  2  21.0  600.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt;  3  22.8  400.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt;  4  21.4  600.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt;  5  18.7  800.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  6  18.1  600.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  7  14.3  800.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  8  24.4  400.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  9  22.8  400.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt; 10  19.2  600.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
 #&gt; # ... with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -364,7 +364,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 
       <li><a href="#useful-functions">Useful functions</a></li>
 
-      <li><a href="#scoped-mutation-and-transmuation">Scoped mutation and transmuation</a></li>
+      <li><a href="#scoped-mutation-and-transmutation">Scoped mutation and transmutation</a></li>
 
       <li><a href="#tidy-data">Tidy data</a></li>
 
@@ -382,7 +382,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
