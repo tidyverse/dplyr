@@ -399,7 +399,6 @@ List cbind_all(List dots) {
 // [[Rcpp::export]]
 SEXP combine_all(List data) {
   int nv = data.size();
-  if (nv == 0) return LogicalVector();
 
   // get the size of the output
   int n = 0;
