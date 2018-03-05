@@ -254,6 +254,10 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
     bad_col(name, "is of unsupported class POSIXlt");
   }
 
+  if (Rf_inherits(first, "data.frame")) {
+    bad_col(name, "is of unsupported class data.frame");
+  }
+
   check_supported_type(first, name);
   check_length(Rf_length(first), indices.size(), "the group size", name);
 
