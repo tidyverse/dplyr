@@ -43,8 +43,8 @@ static bool is_class_known(SEXP x) {
 
 static inline void warn_loss_attr(SEXP x) {
   /* Attributes are lost with unknown classes */
-  if (!is_class_known(x)) {
-    SEXP classes = Rf_getAttrib(x, R_ClassSymbol);
+  SEXP classes = Rf_getAttrib(x, R_ClassSymbol);
+  if (!Rf_isNull(classes) && !is_class_known(x)) {
     Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
                CHAR(STRING_ELT(classes, 0)));
   }
