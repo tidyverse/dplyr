@@ -21,7 +21,7 @@
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
 #'
-#'   These dots are evaluated with [explicit splicing][rlang::list2].
+#'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @param .default If supplied, all values not otherwise matched will
 #'   be given this value. If not supplied and if the replacements are
 #'   the same type as the original values in `.x`, unmatched

@@ -11,7 +11,7 @@
 #'   either have length 1 or a common length. All RHSs must evaluate to
 #'   the same type of vector.
 #'
-#'   These dots are evaluated with [explicit splicing][rlang::list2].
+#'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @export
 #' @return A vector as long as the longest LHS or RHS, with the type (and
 #'   attributes) of the first RHS.  Inconsistent lengths or types will
