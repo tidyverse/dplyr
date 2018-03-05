@@ -15,7 +15,7 @@ The LHS must evaluate to a logical vector. Each logical vector can
 either have length 1 or a common length. All RHSs must evaluate to
 the same type of vector.
 
-These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
+These dots are evaluated with \link[rlang:list2]{explicit splicing}.}
 }
 \value{
 A vector as long as the longest LHS or RHS, with the type (and

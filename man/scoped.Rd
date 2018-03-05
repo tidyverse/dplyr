@@ -26,7 +26,7 @@ returns \code{TRUE} are selected. This argument is passed to
 functions and strings representing function names.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:dots_list]{explicit
+\code{.funs}. These are evaluated only once, with \link[rlang:list2]{explicit
 splicing}.}
 }
 \description{

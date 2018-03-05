@@ -1,5 +1,5 @@
 list_or_dots <- function(...) {
-  dots <- dots_list(...)
+  dots <- list2(...)
   if (!length(dots)) {
     return(dots)
   }

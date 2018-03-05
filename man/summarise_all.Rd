@@ -52,7 +52,7 @@ supply functions like \code{mean()} directly rather than in a
 lambda-formula.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:dots_list]{explicit
+\code{.funs}. These are evaluated only once, with \link[rlang:list2]{explicit
 splicing}.}
 
 \item{.predicate}{A predicate function to be applied to the columns

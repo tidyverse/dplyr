@@ -28,7 +28,7 @@ rename_at(.tbl, .vars, .funs = list(), ...)
 quosure, a string naming a function, or a function.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:dots_list]{explicit
+\code{.funs}. These are evaluated only once, with \link[rlang:list2]{explicit
 splicing}.}
 
 \item{.predicate}{A predicate function to be applied to the columns

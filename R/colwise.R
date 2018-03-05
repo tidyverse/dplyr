@@ -49,7 +49,7 @@
 #'   functions and strings representing function names.
 #' @param ... Additional arguments for the function calls in
 #'   `.funs`. These are evaluated only once, with [explicit
-#'   splicing][rlang::dots_list].
+#'   splicing][rlang::list2].
 #' @name scoped
 NULL
 

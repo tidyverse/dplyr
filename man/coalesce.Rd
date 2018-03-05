@@ -10,7 +10,7 @@ coalesce(...)
 \item{...}{Vectors. All inputs should either be length 1, or the
 same length as the first argument.
 
-These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
+These dots are evaluated with \link[rlang:list2]{explicit splicing}.}
 }
 \value{
 A vector the same length as the first \code{...} argument with
