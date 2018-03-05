@@ -111,6 +111,10 @@ DataFrame mutate_not_grouped(DataFrame df, const QuosureList& dots) {
       bad_col(quosure.name(), "is of unsupported class POSIXlt");
     }
 
+    if (Rf_inherits(variable, "data.frame")) {
+      bad_col(quosure.name(), "is of unsupported class data.frame");
+    }
+
     const int n_res = Rf_length(variable);
     check_supported_type(variable, name);
     check_length(n_res, nrows, "the number of rows", name);

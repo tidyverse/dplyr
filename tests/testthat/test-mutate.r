@@ -491,13 +491,21 @@ test_that("mutate handles 0 rows rowwise (#1300)", {
 
   expect_error(
     a %>% mutate(b = f()),
-    "Column `b` must be length 1 (the number of rows), not 2",
+    "Column `b` is of unsupported class data.frame",
     fixed = TRUE
   )
   expect_error(
     a %>% rowwise() %>% mutate(b = f()),
     "Column `b` must be length 1 (the group size), not 2",
     fixed = TRUE
+  )
+})
+
+test_that("rhs of mutate cannot be a data frame (#3298)",{
+  df <- data.frame("a" = c(1, 2, 3), "b" = c(2, 3, 4), "base_col" = c(3, 4, 5))
+  expect_error(
+    mutate(df, new_col = data.frame(1:3) ),
+    "Column `new_col` is of unsupported class data.frame"
   )
 })
 
