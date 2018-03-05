@@ -475,6 +475,21 @@ test_that("mutate works on empty data frames (#1142)", {
   expect_equal(length(res), 1L)
 })
 
+test_that("mutate handles 0 rows rowwise (#1300)", {
+  a <- data_frame(x = 1)
+  b <- data_frame(y = character())
+
+  g <- function(y) {
+    1
+  }
+  f <- function() {
+    b %>% rowwise() %>% mutate(z = g(y))
+  }
+
+  res <- f()
+  expect_equal(nrow(res), 0L)
+})
+
 test_that("rhs of mutate cannot be a data frame (#3298)",{
   df <- data.frame("a" = c(1, 2, 3), "b" = c(2, 3, 4), "base_col" = c(3, 4, 5))
   expect_error(
