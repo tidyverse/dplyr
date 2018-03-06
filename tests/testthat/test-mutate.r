@@ -241,10 +241,13 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
 })
 
 test_that("assignments don't overwrite variables (#315)", {
-   expect_equal(
-     mutate(mtcars, cyl2 = { mpg <- cyl ^ 2; -mpg }),
-     mutate(mtcars, cyl2 = -cyl ^ 2)
-   )
+  expect_equal(
+    mutate(mtcars, cyl2 = {
+      mpg <- cyl ^ 2
+      -mpg
+    }),
+    mutate(mtcars, cyl2 = -cyl ^ 2)
+  )
 })
 
 test_that("hybrid evaluator uses correct environment (#403)", {
@@ -268,7 +271,7 @@ test_that("mutate strips names, but only if grouped (#1689, #2675)", {
   data <- data_frame(a = 1:3) %>% mutate(b = setNames(nm = a))
   expect_equal(names(data$b), as.character(1:3))
 
-  data <- data_frame(a = 1:3) %>% rowwise %>% mutate(b = setNames(nm = a))
+  data <- data_frame(a = 1:3) %>% rowwise() %>% mutate(b = setNames(nm = a))
   expect_null(names(data$b))
 
   data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a))
@@ -307,7 +310,7 @@ test_that("mutate gives a nice error message if an expression evaluates to NULL 
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
   one_mod <- data.frame(grp = "a", x = runif(5, 0, 1)) %>%
-    tbl_df %>%
+    tbl_df() %>%
     mutate(y = rnorm(x, x * 2, 1)) %>%
     group_by(grp) %>%
     do(mod = lm(y~x, data = .))
@@ -396,7 +399,7 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   df <- data_frame(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
-  res <- df %>% mutate_all(funs(as.numeric)) %>% names
+  res <- df %>% mutate_all(funs(as.numeric)) %>% names()
   expect_equal(res, names(df))
 })
 
@@ -452,8 +455,8 @@ test_that("row_number handles empty data frames (#762)", {
   )
   expect_equal(
     names(res),
-     c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist")
-   )
+    c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist")
+  )
   expect_equal(nrow(res), 0L)
 })
 
@@ -465,7 +468,7 @@ test_that("no utf8 invasion (#722)", {
 
 test_that("mutate works on empty data frames (#1142)", {
   df <- data.frame()
-  res <- df %>% mutate
+  res <- df %>% mutate()
   expect_equal(nrow(res), 0L)
   expect_equal(length(res), 0L)
 
@@ -490,20 +493,20 @@ test_that("mutate handles 0 rows rowwise (#1300)", {
   expect_equal(nrow(res), 0L)
 })
 
-test_that("rhs of mutate cannot be a data frame (#3298)",{
+test_that("rhs of mutate cannot be a data frame (#3298)", {
   df <- data.frame("a" = c(1, 2, 3), "b" = c(2, 3, 4), "base_col" = c(3, 4, 5))
   expect_error(
-    mutate(df, new_col = data.frame(1:3) ),
+    mutate(df, new_col = data.frame(1:3)),
     "Column `new_col` is of unsupported class data.frame"
   )
 
   expect_error(
-    mutate(group_by(df,a), new_col = data.frame(1:3) ),
+    mutate(group_by(df, a), new_col = data.frame(1:3)),
     "Column `new_col` is of unsupported class data.frame"
   )
 
   expect_error(
-    mutate(rowwise(df), new_col = data.frame(1:3) ),
+    mutate(rowwise(df), new_col = data.frame(1:3)),
     "Column `new_col` is of unsupported class data.frame"
   )
 
@@ -594,7 +597,7 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
   expect_true(is.nan(res$pass2[1]))
 
   res <- Pass %>%
-    rowwise %>%
+    rowwise() %>%
     mutate(pass2 = P2 / (P2 + F2))
   expect_true(is.nan(res$pass2[1]))
 
@@ -695,7 +698,7 @@ test_that("Adding a Column of NA to a Grouped Table gives expected results (#164
 
 test_that("Deep copies are performed when needed (#1463)", {
   res <- data.frame(prob = c(F, T)) %>%
-    rowwise %>%
+    rowwise() %>%
     mutate(model = list(x = prob))
   expect_equal(unlist(res$model), c(FALSE, TRUE))
 
@@ -718,18 +721,18 @@ test_that("mutate() names pronouns correctly (#2686)", {
 
 test_that("mutate() supports unquoted values", {
   df <- tibble(g = c(1, 1, 2, 2, 2), x = 1:5)
-  expect_identical(mutate(df, out = !!1), mutate(df, out = 1))
-  expect_identical(mutate(df, out = !!(1:5)), mutate(df, out = 1:5))
-  expect_identical(mutate(df, out = !!quote(1:5)), mutate(df, out = 1:5))
-  expect_error(mutate(df, out = !!(1:2)), "must be length 5 (the number of rows)", fixed = TRUE)
-  expect_error(mutate(df, out = !!get_env()), "unsupported type")
+  expect_identical(mutate(df, out = !! 1), mutate(df, out = 1))
+  expect_identical(mutate(df, out = !! (1:5)), mutate(df, out = 1:5))
+  expect_identical(mutate(df, out = !! quote(1:5)), mutate(df, out = 1:5))
+  expect_error(mutate(df, out = !! (1:2)), "must be length 5 (the number of rows)", fixed = TRUE)
+  expect_error(mutate(df, out = !! get_env()), "unsupported type")
 
   gdf <- group_by(df, g)
-  expect_identical(mutate(gdf, out = !!1), mutate(gdf, out = 1))
-  expect_identical(mutate(gdf, out = !!(1:5)), group_by(mutate(df, out = 1:5), g))
-  expect_error(mutate(gdf, out = !!quote(1:5)), "must be length 2 (the group size)", fixed = TRUE)
-  expect_error(mutate(gdf, out = !!(1:2)), "must be length 5 (the number of rows)", fixed = TRUE)
-  expect_error(mutate(gdf, out = !!get_env()), "unsupported type")
+  expect_identical(mutate(gdf, out = !! 1), mutate(gdf, out = 1))
+  expect_identical(mutate(gdf, out = !! (1:5)), group_by(mutate(df, out = 1:5), g))
+  expect_error(mutate(gdf, out = !! quote(1:5)), "must be length 2 (the group size)", fixed = TRUE)
+  expect_error(mutate(gdf, out = !! (1:2)), "must be length 5 (the number of rows)", fixed = TRUE)
+  expect_error(mutate(gdf, out = !! get_env()), "unsupported type")
 })
 
 test_that("gathering handles promotion from raw", {
@@ -784,7 +787,7 @@ test_that("can use character vectors in grouped mutate (#2971)", {
     data_frame(x = 1:10000) %>%
     group_by(x) %>%
     mutate(y = as.character(runif(1L)),
-           z = as.character(runif(1L)))
+      z = as.character(runif(1L)))
 
   expect_error(df %>% distinct(x, .keep_all = TRUE), NA)
 })
