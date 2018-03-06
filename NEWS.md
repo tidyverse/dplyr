@@ -69,6 +69,8 @@
 
 * Added an `.onDetach()` hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (#3359, @jwnorman).
 
+* It is now illegal to use `data.frame` in the rhs of `mutate()` (#3298). 
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
