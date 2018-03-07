@@ -69,6 +69,8 @@
 
 * Added an `.onDetach()` hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (#3359, @jwnorman).
 
+* `arrange()` fails gracefully on `data.frame` columns (#3153)
+
 * `slice()` no longer enforce tibble classes when input is a simple `data.frame` (#3297). 
 
 # dplyr 0.7.4

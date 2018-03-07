@@ -46,11 +46,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
     }
 
     if (Rf_inherits(v, "data.frame")) {
-      DataFrame df(v);
-      int nr = df.nrows();
-      if (nr != data.nrows()) {
-        stop("data frame column with incompatible number of rows (%d), expecting : %d", nr, data.nrows());
-      }
+      bad_pos_arg(i + 1, "is of unsupported type data.frame");
     } else if (Rf_isMatrix(v)) {
       bad_pos_arg(i + 1, "is of unsupported type matrix");
     } else {
