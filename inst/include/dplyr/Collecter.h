@@ -34,7 +34,7 @@ static bool is_class_known(SEXP x) {
     known_classes.insert("integer64");
     known_classes.insert("table");
   }
-  if (OBJECT(x)) {
+  if (OBJECT(x) && !Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
     return inherits_from(x, known_classes);
   } else {
     return true;
@@ -43,10 +43,9 @@ static bool is_class_known(SEXP x) {
 
 static inline void warn_loss_attr(SEXP x) {
   /* Attributes are lost with unknown classes */
-  SEXP classes = Rf_getAttrib(x, R_ClassSymbol);
-  if (!Rf_isNull(classes) && !is_class_known(x)) {
+  if (!is_class_known(x)) {
     Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-               CHAR(STRING_ELT(classes, 0)));
+               CHAR(STRING_ELT(Rf_getAttrib(x, R_ClassSymbol), 0)));
   }
 }
 
