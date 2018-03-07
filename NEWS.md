@@ -71,6 +71,8 @@
 
 * `arrange()` fails gracefully on `data.frame` columns (#3153)
 
+* `slice()` no longer enforce tibble classes when input is a simple `data.frame` (#3297). 
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
