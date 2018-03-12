@@ -169,33 +169,33 @@ variables.</p>
 #&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4
-#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4
-#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1
-#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
-#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2
-#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1
-#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4
-#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2
-#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4
+#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
+#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
+#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
+#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
+#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
+#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
+#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
+#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># It changes how it acts with the other dplyr verbs:</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(
   <span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>disp</span>),
   <span class='kw'>hp</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>hp</span>)
 )</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;     cyl     disp        hp
-#&gt;   &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
-#&gt; 1     4 105.1364  82.63636
-#&gt; 2     6 183.3143 122.28571
-#&gt; 3     8 353.1000 209.21429</div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'>max</span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 11
+#&gt;     cyl  disp    hp
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1    4.  105.  82.6
+#&gt; 2    6.  183. 122. 
+#&gt; 3    8.  353. 209. </div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'>max</span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 11
 #&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1
-#&gt; 2  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2
-#&gt; 3  10.4     8 472.0   205  2.93 5.250 17.98     0     0     3     4</div><div class='input'>
+#&gt; 1  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
+#&gt; 2  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
+#&gt; 3  10.4    8.  472.  205.  2.93  5.25  18.0    0.    0.    3.    4.</div><div class='input'>
 <span class='co'># Each call to summarise() removes a layer of grouping</span>
 <span class='no'>by_vs_am</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='no'>vs</span>, <span class='no'>am</span>)
 <span class='no'>by_vs</span> <span class='kw'>&lt;-</span> <span class='no'>by_vs_am</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>())
@@ -203,14 +203,14 @@ variables.</p>
 #&gt; # Groups:   vs [?]
 #&gt;      vs    am     n
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     0     0    12
-#&gt; 2     0     1     6
-#&gt; 3     1     0     7
-#&gt; 4     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>sum</span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt; 1    0.    0.    12
+#&gt; 2    0.    1.     6
+#&gt; 3    1.    0.     7
+#&gt; 4    1.    1.     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>sum</span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      vs     n
 #&gt;   &lt;dbl&gt; &lt;int&gt;
-#&gt; 1     0    18
-#&gt; 2     1    14</div><div class='input'>
+#&gt; 1    0.    18
+#&gt; 2    1.    14</div><div class='input'>
 <span class='co'># To removing grouping, use ungroup</span>
 <span class='no'>by_vs</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>ungroup</span>() <span class='kw'>%&gt;%</span>
@@ -224,16 +224,16 @@ variables.</p>
 #&gt; # Groups:   vsam [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb  vsam
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0     6 160.0   110  3.90 2.620 16.46     0     1     4     4     1
-#&gt;  2  21.0     6 160.0   110  3.90 2.875 17.02     0     1     4     4     1
-#&gt;  3  22.8     4 108.0    93  3.85 2.320 18.61     1     1     4     1     2
-#&gt;  4  21.4     6 258.0   110  3.08 3.215 19.44     1     0     3     1     1
-#&gt;  5  18.7     8 360.0   175  3.15 3.440 17.02     0     0     3     2     0
-#&gt;  6  18.1     6 225.0   105  2.76 3.460 20.22     1     0     3     1     1
-#&gt;  7  14.3     8 360.0   245  3.21 3.570 15.84     0     0     3     4     0
-#&gt;  8  24.4     4 146.7    62  3.69 3.190 20.00     1     0     4     2     1
-#&gt;  9  22.8     4 140.8    95  3.92 3.150 22.90     1     0     4     2     1
-#&gt; 10  19.2     6 167.6   123  3.92 3.440 18.30     1     0     4     4     1
+#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.    1.
+#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.    1.
+#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.    2.
+#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.    1.
+#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.    0.
+#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.    1.
+#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.    0.
+#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.    1.
+#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.    1.
+#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.    1.
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># By default, group_by overrides existing grouping</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span>
@@ -265,7 +265,7 @@ variables.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

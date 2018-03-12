@@ -105,8 +105,10 @@
     </div>
 
     
-    <p><code>ident()</code> takes unquoted strings and quotes them for you; <code>ident_q()</code>
-assumes its input has already been quoted.</p>
+    <p><code>ident()</code> takes unquoted strings and flags them as identifiers.
+<code>ident_q()</code> assumes its input has already been quoted, and ensures
+it does not get quoted again. This is currently used only for
+for <code>schema.table</code>.</p>
     
 
     <pre class="usage"><span class='fu'>ident</span>(<span class='no'>...</span>)</pre>
@@ -120,20 +122,24 @@ assumes its input has already been quoted.</p>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>These two <code>ident</code> clsases are used during SQL generation to make sure
-the values will be quoted as, not as strings.</p>
-    
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># SQL92 quotes strings with '</span>
+<span class='fu'>escape</span>(<span class='st'>"x"</span>)</div><div class='output co'>#&gt; &lt;SQL&gt; 'x'</div><div class='input'>
+<span class='co'># And identifiers with "</span>
+<span class='fu'>ident</span>(<span class='st'>"x"</span>)</div><div class='output co'>#&gt; &lt;IDENT&gt; x</div><div class='input'><span class='fu'>escape</span>(<span class='fu'>ident</span>(<span class='st'>"x"</span>))</div><div class='output co'>#&gt; &lt;SQL&gt; "x"</div><div class='input'>
+<span class='co'># You can supply multiple inputs</span>
+<span class='fu'>ident</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; &lt;IDENT&gt; x
+#&gt; &lt;IDENT&gt; y</div><div class='input'><span class='fu'>ident_q</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"x"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; &lt;IDENT&gt; x
+#&gt; &lt;IDENT&gt; y</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#details">Details</a></li>
-          </ul>
+            
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>
@@ -144,7 +150,7 @@ the values will be quoted as, not as strings.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

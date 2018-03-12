@@ -127,20 +127,19 @@ This is useful within <code><a href='arrange.html'>arrange()</a></code>.</p>
 <span class='no'>first_day</span> <span class='kw'>&lt;-</span> <span class='fu'>seq</span>(<span class='fu'>as.Date</span>(<span class='st'>"1910/1/1"</span>), <span class='fu'>as.Date</span>(<span class='st'>"1920/1/1"</span>), <span class='st'>"years"</span>)
 <span class='fu'>desc</span>(<span class='no'>first_day</span>)</div><div class='output co'>#&gt;  [1] 21915 21550 21185 20819 20454 20089 19724 19358 18993 18628 18263</div><div class='input'>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='fu'>desc</span>(<span class='no'>mass</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 13
-#&gt;                     name height  mass  hair_color       skin_color
-#&gt;                    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;       &lt;chr&gt;            &lt;chr&gt;
-#&gt;  1 Jabba Desilijic Tiure    175  1358        &lt;NA&gt; green-tan, brown
-#&gt;  2              Grievous    216   159        none     brown, white
-#&gt;  3                 IG-88    200   140        none            metal
-#&gt;  4           Darth Vader    202   136        none            white
-#&gt;  5               Tarfful    234   136       brown            brown
-#&gt;  6             Owen Lars    178   120 brown, grey            light
-#&gt;  7                 Bossk    190   113        none            green
-#&gt;  8             Chewbacca    228   112       brown          unknown
-#&gt;  9      Jek Tono Porkins    180   110       brown             fair
-#&gt; 10       Dexter Jettster    198   102        none            brown
-#&gt; # ... with 77 more rows, and 8 more variables: eye_color &lt;chr&gt;,
-#&gt; #   birth_year &lt;dbl&gt;, gender &lt;chr&gt;, homeworld &lt;chr&gt;, species &lt;chr&gt;,
+#&gt;    name      height  mass hair_color  skin_color   eye_color birth_year gender 
+#&gt;    &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  
+#&gt;  1 Jabba De…    175 1358. &lt;NA&gt;        green-tan, … orange         600.  hermap…
+#&gt;  2 Grievous     216  159. none        brown, white green, y…       NA   male   
+#&gt;  3 IG-88        200  140. none        metal        red             15.0 none   
+#&gt;  4 Darth Va…    202  136. none        white        yellow          41.9 male   
+#&gt;  5 Tarfful      234  136. brown       brown        blue            NA   male   
+#&gt;  6 Owen Lars    178  120. brown, grey light        blue            52.0 male   
+#&gt;  7 Bossk        190  113. none        green        red             53.0 male   
+#&gt;  8 Chewbacca    228  112. brown       unknown      blue           200.  male   
+#&gt;  9 Jek Tono…    180  110. brown       fair         blue            NA   male   
+#&gt; 10 Dexter J…    198  102. none        brown        yellow          NA   male   
+#&gt; # ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -160,7 +159,7 @@ This is useful within <code><a href='arrange.html'>arrange()</a></code>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

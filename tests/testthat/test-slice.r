@@ -128,3 +128,9 @@ test_that("slice handles raw matrices", {
     matrix(as.raw(c(1, 2, 5, 6)), ncol = 2)
   )
 })
+
+test_that("slice on ungrouped data.frame (not tibble) does not enforce tibble", {
+  expect_equal( class(slice(mtcars, 2)), "data.frame")
+  expect_equal( class(slice(mtcars, -2)), "data.frame")
+  expect_equal( class(slice(mtcars, NA)), "data.frame")
+})

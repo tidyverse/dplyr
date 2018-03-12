@@ -151,19 +151,21 @@ it is a potentially expensive operation so you must opt into it.</p></td>
     <tr>
       <th>suffix</th>
       <td><p>If there are non-joined duplicate variables in <code>x</code> and
-<code>y</code>, these suffixes will be added to the output to diambiguate them.
+<code>y</code>, these suffixes will be added to the output to disambiguate them.
 Should be a character vector of length 2.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>other parameters passed onto methods</p></td>
+      <td><p>other parameters passed onto methods, for instance, <code>na_matches</code>
+to control how <code>NA</code> values are matched.  See <a href='join.tbl_df.html'>join.tbl_df</a> for more.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="join-types"><a class="anchor" href="#join-types"></a>Join types</h2>
 
     
-    <p>Currently dplyr supports four join types:</p><dl class='dl-horizontal'>
+    <p>Currently dplyr supports four types of mutating joins and two types of filtering joins.
+    <strong>Mutating joins</strong> combine variables from the two data.frames:</p><dl class='dl-horizontal'>
 <dt><code>inner_join()</code></dt><dd><p>return all rows from <code>x</code> where there are matching
 values in <code>y</code>, and all columns from <code>x</code> and <code>y</code>. If there are multiple matches
 between <code>x</code> and <code>y</code>, all combination of the matches are returned.</p></dd>
@@ -175,15 +177,16 @@ of the matches are returned.</p></dd>
 and y. Rows in <code>y</code> with no match in <code>x</code> will have <code>NA</code> values in the new
 columns. If there are multiple matches between <code>x</code> and <code>y</code>, all combinations
 of the matches are returned.</p></dd>
-    <dt><code>semi_join()</code></dt><dd><p>return all rows from <code>x</code> where there are matching
+<dt><code>full_join()</code></dt><dd><p>return all rows and all columns from both <code>x</code> and <code>y</code>.
+Where there are not matching values, returns <code>NA</code> for the one missing.</p></dd>
+</dl><p><strong>Filtering joins</strong> keep cases from the left-hand data.frame:</p><dl class='dl-horizontal'>
+<dt><code>semi_join()</code></dt><dd><p>return all rows from <code>x</code> where there are matching
 values in <code>y</code>, keeping just columns from <code>x</code>.
     A semi join differs from an inner join because an inner join will return
 one row of <code>x</code> for each matching row  of <code>y</code>, where a semi
 join will never duplicate rows of <code>x</code>.</p></dd>
     <dt><code>anti_join()</code></dt><dd><p>return all rows from <code>x</code> where there are not
 matching values in <code>y</code>, keeping just columns from <code>x</code>.</p></dd>
-    <dt><code>full_join()</code></dt><dd><p>return all rows and all columns from both <code>x</code> and <code>y</code>.
-Where there are not matching values, returns <code>NA</code> for the one missing.</p></dd>
 </dl>
     
     <h2 class="hasAnchor" id="grouping"><a class="anchor" href="#grouping"></a>Grouping</h2>
@@ -194,52 +197,52 @@ the grouping of <code>x</code>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># "Mutating" joins add variables to the LHS</span>
+    <pre class="examples"><div class='input'><span class='co'># "Mutating" joins combine variables from the LHS and RHS</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;    name    band  plays
-#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1  John Beatles guitar
-#&gt; 2  Paul Beatles   bass</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;    name    band  plays
-#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1  Mick  Stones   &lt;NA&gt;
-#&gt; 2  John Beatles guitar
-#&gt; 3  Paul Beatles   bass</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;    name    band  plays
-#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1  John Beatles guitar
-#&gt; 2  Paul Beatles   bass
-#&gt; 3 Keith    &lt;NA&gt; guitar</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
-#&gt;    name    band  plays
-#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1  Mick  Stones   &lt;NA&gt;
-#&gt; 2  John Beatles guitar
-#&gt; 3  Paul Beatles   bass
-#&gt; 4 Keith    &lt;NA&gt; guitar</div><div class='input'>
+#&gt;   name  band    plays 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt; 1 John  Beatles guitar
+#&gt; 2 Paul  Beatles bass  </div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>left_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   name  band    plays 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt; 1 Mick  Stones  &lt;NA&gt;  
+#&gt; 2 John  Beatles guitar
+#&gt; 3 Paul  Beatles bass  </div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>right_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 3 x 3
+#&gt;   name  band    plays 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt; 1 John  Beatles guitar
+#&gt; 2 Paul  Beatles bass  
+#&gt; 3 Keith &lt;NA&gt;    guitar</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 4 x 3
+#&gt;   name  band    plays 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt; 1 Mick  Stones  &lt;NA&gt;  
+#&gt; 2 John  Beatles guitar
+#&gt; 3 Paul  Beatles bass  
+#&gt; 4 Keith &lt;NA&gt;    guitar</div><div class='input'>
 <span class='co'># "Filtering" joins keep cases from the LHS</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>semi_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;    name    band
-#&gt;   &lt;chr&gt;   &lt;chr&gt;
-#&gt; 1  John Beatles
-#&gt; 2  Paul Beatles</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>anti_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 1 x 2
-#&gt;    name   band
-#&gt;   &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1  Mick Stones</div><div class='input'>
+#&gt;   name  band   
+#&gt;   &lt;chr&gt; &lt;chr&gt;  
+#&gt; 1 John  Beatles
+#&gt; 2 Paul  Beatles</div><div class='input'><span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>anti_join</span>(<span class='no'>band_instruments</span>)</div><div class='output co'>#&gt; <span class='message'>Joining, by = "name"</span></div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt;   name  band  
+#&gt;   &lt;chr&gt; &lt;chr&gt; 
+#&gt; 1 Mick  Stones</div><div class='input'>
 <span class='co'># To suppress the message, supply by</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>inner_join</span>(<span class='no'>band_instruments</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='st'>"name"</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 3
-#&gt;    name    band  plays
-#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1  John Beatles guitar
-#&gt; 2  Paul Beatles   bass</div><div class='input'><span class='co'># This is good practice in production code</span>
+#&gt;   name  band    plays 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt; 1 John  Beatles guitar
+#&gt; 2 Paul  Beatles bass  </div><div class='input'><span class='co'># This is good practice in production code</span>
 
 <span class='co'># Use a named `by` if the join variables have different names</span>
 <span class='no'>band_members</span> <span class='kw'>%&gt;%</span> <span class='fu'>full_join</span>(<span class='no'>band_instruments2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"name"</span> <span class='kw'>=</span> <span class='st'>"artist"</span>))</div><div class='output co'>#&gt; # A tibble: 4 x 3
-#&gt;    name    band  plays
-#&gt;   &lt;chr&gt;   &lt;chr&gt;  &lt;chr&gt;
-#&gt; 1  Mick  Stones   &lt;NA&gt;
-#&gt; 2  John Beatles guitar
-#&gt; 3  Paul Beatles   bass
-#&gt; 4 Keith    &lt;NA&gt; guitar</div><div class='input'># Note that only the key from the LHS is kept
+#&gt;   name  band    plays 
+#&gt;   &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; 
+#&gt; 1 Mick  Stones  &lt;NA&gt;  
+#&gt; 2 John  Beatles guitar
+#&gt; 3 Paul  Beatles bass  
+#&gt; 4 Keith &lt;NA&gt;    guitar</div><div class='input'># Note that only the key from the LHS is kept
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -263,7 +266,7 @@ the grouping of <code>x</code>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

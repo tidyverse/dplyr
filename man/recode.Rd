@@ -20,7 +20,7 @@ current values to be replaced, and the argument values should be the new
 All replacements must be the same type, and must have either
 length one or the same length as x.
 
-These dots are evaluated with \link[rlang:dots_list]{explicit splicing}.}
+These dots support \link[rlang:tidy-dots]{tidy dots} features.}
 
 \item{.default}{If supplied, all values not otherwise matched will
 be given this value. If not supplied and if the replacements are

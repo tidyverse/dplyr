@@ -10,10 +10,10 @@
 namespace dplyr {
 
 static inline bool inherits_from(SEXP x, const std::set<std::string>& classes) {
-  std::vector<std::string> x_classes, inherited_classes;
-  if (!OBJECT(x)) {
-    return false;
+  if (Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
+    return true ;
   }
+  std::vector<std::string> x_classes, inherited_classes;
   x_classes = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
   std::sort(x_classes.begin(), x_classes.end());
   std::set_intersection(x_classes.begin(), x_classes.end(),
@@ -44,9 +44,8 @@ static bool is_class_known(SEXP x) {
 static inline void warn_loss_attr(SEXP x) {
   /* Attributes are lost with unknown classes */
   if (!is_class_known(x)) {
-    SEXP classes = Rf_getAttrib(x, R_ClassSymbol);
     Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-               CHAR(STRING_ELT(classes, 0)));
+               CHAR(STRING_ELT(Rf_getAttrib(x, R_ClassSymbol), 0)));
   }
 }
 

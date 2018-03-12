@@ -129,7 +129,7 @@ You can treat variable names like they are positions.</p>
 If the first expression is negative, <code>select()</code> will automatically
 start with all variables.</p>
 <p>Use named arguments to rename selected variables.</p>
-<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quosure'>quoted</a> and
+<p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in a context where column names
 represent column positions. They support
 <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and splicing. See
@@ -146,9 +146,11 @@ represent column positions. They support
     
     <p>As well as using existing functions like <code>:</code> and <code>c()</code>, there are
 a number of special functions that only work inside <code>select</code></p><ul>
-<li><p><code><a href='select_helpers.html'>starts_with()</a></code>, <code><a href='select_helpers.html'>ends_with()</a></code>, <code><a href='select_helpers.html'>contains()</a></code></p></li>
-<li><p><code><a href='select_helpers.html'>matches()</a></code></p></li>
-<li><p><code><a href='select_helpers.html'>num_range()</a></code></p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with()</a></code>, <code><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>ends_with()</a></code>, <code><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>contains()</a></code></p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>matches()</a></code></p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>num_range()</a></code></p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>one_of()</a></code></p></li>
+<li><p><code><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>everything()</a></code></p></li>
 </ul>
     <p>To drop variables, use <code>-</code>.</p>
 <p>Note that except for <code>:</code>, <code>-</code> and <code>c()</code>, all complex expressions
@@ -179,90 +181,89 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>(<span class='no'>iris</span>) <span class='co'># so it prints a little nicer</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
 #&gt;    Petal.Length Petal.Width
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1          1.4         0.2
-#&gt;  2          1.4         0.2
-#&gt;  3          1.3         0.2
-#&gt;  4          1.5         0.2
-#&gt;  5          1.4         0.2
-#&gt;  6          1.7         0.4
-#&gt;  7          1.4         0.3
-#&gt;  8          1.5         0.2
-#&gt;  9          1.4         0.2
-#&gt; 10          1.5         0.1
-#&gt; # ... with 140 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='select_helpers.html'>ends_with</a></span>(<span class='st'>"Width"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
+#&gt;  1         1.40       0.200
+#&gt;  2         1.40       0.200
+#&gt;  3         1.30       0.200
+#&gt;  4         1.50       0.200
+#&gt;  5         1.40       0.200
+#&gt;  6         1.70       0.400
+#&gt;  7         1.40       0.300
+#&gt;  8         1.50       0.200
+#&gt;  9         1.40       0.200
+#&gt; 10         1.50       0.100
+#&gt; # ... with 140 more rows</div><div class='input'><span class='fu'>select</span>(<span class='no'>iris</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>ends_with</a></span>(<span class='st'>"Width"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 2
 #&gt;    Sepal.Width Petal.Width
 #&gt;          &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1         3.5         0.2
-#&gt;  2         3.0         0.2
-#&gt;  3         3.2         0.2
-#&gt;  4         3.1         0.2
-#&gt;  5         3.6         0.2
-#&gt;  6         3.9         0.4
-#&gt;  7         3.4         0.3
-#&gt;  8         3.4         0.2
-#&gt;  9         2.9         0.2
-#&gt; 10         3.1         0.1
+#&gt;  1        3.50       0.200
+#&gt;  2        3.00       0.200
+#&gt;  3        3.20       0.200
+#&gt;  4        3.10       0.200
+#&gt;  5        3.60       0.200
+#&gt;  6        3.90       0.400
+#&gt;  7        3.40       0.300
+#&gt;  8        3.40       0.200
+#&gt;  9        2.90       0.200
+#&gt; 10        3.10       0.100
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># Move Species variable to the front</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='select_helpers.html'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='fu'>select</span>(<span class='no'>iris</span>, <span class='no'>Species</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>everything</a></span>())</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Species Sepal.Length Sepal.Width Petal.Length Petal.Width
-#&gt;     &lt;fctr&gt;        &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1  setosa          5.1         3.5          1.4         0.2
-#&gt;  2  setosa          4.9         3.0          1.4         0.2
-#&gt;  3  setosa          4.7         3.2          1.3         0.2
-#&gt;  4  setosa          4.6         3.1          1.5         0.2
-#&gt;  5  setosa          5.0         3.6          1.4         0.2
-#&gt;  6  setosa          5.4         3.9          1.7         0.4
-#&gt;  7  setosa          4.6         3.4          1.4         0.3
-#&gt;  8  setosa          5.0         3.4          1.5         0.2
-#&gt;  9  setosa          4.4         2.9          1.4         0.2
-#&gt; 10  setosa          4.9         3.1          1.5         0.1
+#&gt;    &lt;fct&gt;          &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
+#&gt;  1 setosa          5.10        3.50         1.40       0.200
+#&gt;  2 setosa          4.90        3.00         1.40       0.200
+#&gt;  3 setosa          4.70        3.20         1.30       0.200
+#&gt;  4 setosa          4.60        3.10         1.50       0.200
+#&gt;  5 setosa          5.00        3.60         1.40       0.200
+#&gt;  6 setosa          5.40        3.90         1.70       0.400
+#&gt;  7 setosa          4.60        3.40         1.40       0.300
+#&gt;  8 setosa          5.00        3.40         1.50       0.200
+#&gt;  9 setosa          4.40        2.90         1.40       0.200
+#&gt; 10 setosa          4.90        3.10         1.50       0.100
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'>as.data.frame</span>(<span class='fu'>matrix</span>(<span class='fu'>runif</span>(<span class='fl'>100</span>), <span class='kw'>nrow</span> <span class='kw'>=</span> <span class='fl'>10</span>))
 <span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>df</span>[<span class='fu'>c</span>(<span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>7</span>, <span class='fl'>1</span>, <span class='fl'>9</span>, <span class='fl'>8</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>6</span>, <span class='fl'>10</span>)])
 <span class='fu'>select</span>(<span class='no'>df</span>, <span class='no'>V4</span>:<span class='no'>V6</span>)</div><div class='output co'>#&gt; # A tibble: 10 x 8
-#&gt;            V4         V7        V1        V9          V8         V5         V2
-#&gt;         &lt;dbl&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;      &lt;dbl&gt;
-#&gt;  1 0.87959719 0.00250323 0.6477019 0.6523589 0.789947051 0.26714756 0.79909120
-#&gt;  2 0.37491998 0.84770109 0.0647610 0.6675703 0.004801874 0.60840493 0.13193857
-#&gt;  3 0.43416063 0.66004509 0.3374612 0.1980866 0.252908190 0.77196657 0.54759937
-#&gt;  4 0.80684989 0.29450061 0.5698746 0.8681269 0.563169963 0.51975041 0.09701772
-#&gt;  5 0.63560582 0.57010194 0.3383233 0.1732694 0.952278358 0.86047988 0.98637755
-#&gt;  6 0.06871643 0.83903090 0.4992534 0.2049636 0.685113066 0.79302051 0.83954213
-#&gt;  7 0.14484133 0.63062556 0.3084174 0.2171490 0.470041074 0.78391104 0.39959635
-#&gt;  8 0.29457026 0.49672970 0.8404281 0.1508981 0.289851467 0.42372128 0.95222495
-#&gt;  9 0.04144781 0.38952535 0.0651790 0.7745374 0.510124689 0.01551256 0.05949630
-#&gt; 10 0.11654699 0.73144890 0.4399482 0.5330259 0.750690085 0.41620118 0.27691599
-#&gt; # ... with 1 more variables: V6 &lt;dbl&gt;</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='select_helpers.html'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
-#&gt;            V4         V5          V6
-#&gt;         &lt;dbl&gt;      &lt;dbl&gt;       &lt;dbl&gt;
-#&gt;  1 0.87959719 0.26714756 0.006950771
-#&gt;  2 0.37491998 0.60840493 0.390183412
-#&gt;  3 0.43416063 0.77196657 0.238652540
-#&gt;  4 0.80684989 0.51975041 0.384401472
-#&gt;  5 0.63560582 0.86047988 0.073094374
-#&gt;  6 0.06871643 0.79302051 0.766595044
-#&gt;  7 0.14484133 0.78391104 0.687511492
-#&gt;  8 0.29457026 0.42372128 0.841570623
-#&gt;  9 0.04144781 0.01551256 0.105449455
-#&gt; 10 0.11654699 0.41620118 0.340091229</div><div class='input'>
+#&gt;        V4     V7    V1     V9     V8       V5     V2     V6
+#&gt;     &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 0.659  0.808  0.194 0.977  0.880  0.954    0.146  0.805 
+#&gt;  2 0.758  0.0111 0.237 0.110  0.253  0.155    0.643  0.120 
+#&gt;  3 0.944  0.911  0.688 0.999  0.906  0.918    0.886  0.115 
+#&gt;  4 0.839  0.926  0.145 0.0962 0.0534 0.567    0.921  0.0111
+#&gt;  5 0.675  0.250  0.313 0.0623 0.519  0.963    0.613  0.871 
+#&gt;  6 0.884  0.921  0.282 0.807  0.924  0.813    0.167  0.771 
+#&gt;  7 0.361  0.746  0.753 0.810  0.249  0.956    0.0275 0.885 
+#&gt;  8 0.0652 0.469  0.115 0.812  0.537  0.752    0.729  0.862 
+#&gt;  9 0.522  0.813  0.617 0.202  0.654  0.617    0.759  0.647 
+#&gt; 10 0.351  0.884  0.644 0.627  0.131  0.000652 0.381  0.0831</div><div class='input'><span class='fu'>select</span>(<span class='no'>df</span>, <span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>num_range</a></span>(<span class='st'>"V"</span>, <span class='fl'>4</span>:<span class='fl'>6</span>))</div><div class='output co'>#&gt; # A tibble: 10 x 3
+#&gt;        V4       V5     V6
+#&gt;     &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt;
+#&gt;  1 0.659  0.954    0.805 
+#&gt;  2 0.758  0.155    0.120 
+#&gt;  3 0.944  0.918    0.115 
+#&gt;  4 0.839  0.567    0.0111
+#&gt;  5 0.675  0.963    0.871 
+#&gt;  6 0.884  0.813    0.771 
+#&gt;  7 0.361  0.956    0.885 
+#&gt;  8 0.0652 0.752    0.862 
+#&gt;  9 0.522  0.617    0.647 
+#&gt; 10 0.351  0.000652 0.0831</div><div class='input'>
 <span class='co'># Drop variables with -</span>
-<span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='select_helpers.html'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
+<span class='fu'>select</span>(<span class='no'>iris</span>, -<span class='fu'><a href='http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"Petal"</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 3
 #&gt;    Sepal.Length Sepal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;  &lt;fctr&gt;
-#&gt;  1          5.1         3.5  setosa
-#&gt;  2          4.9         3.0  setosa
-#&gt;  3          4.7         3.2  setosa
-#&gt;  4          4.6         3.1  setosa
-#&gt;  5          5.0         3.6  setosa
-#&gt;  6          5.4         3.9  setosa
-#&gt;  7          4.6         3.4  setosa
-#&gt;  8          5.0         3.4  setosa
-#&gt;  9          4.4         2.9  setosa
-#&gt; 10          4.9         3.1  setosa
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+#&gt;  1         5.10        3.50 setosa 
+#&gt;  2         4.90        3.00 setosa 
+#&gt;  3         4.70        3.20 setosa 
+#&gt;  4         4.60        3.10 setosa 
+#&gt;  5         5.00        3.60 setosa 
+#&gt;  6         5.40        3.90 setosa 
+#&gt;  7         4.60        3.40 setosa 
+#&gt;  8         5.00        3.40 setosa 
+#&gt;  9         4.40        2.90 setosa 
+#&gt; 10         4.90        3.10 setosa 
 #&gt; # ... with 140 more rows</div><div class='input'>
 
 <span class='co'># The .data pronoun is available:</span>
@@ -341,32 +342,142 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='fu'>select</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 1
 #&gt;    petal_length
 #&gt;           &lt;dbl&gt;
-#&gt;  1          1.4
-#&gt;  2          1.4
-#&gt;  3          1.3
-#&gt;  4          1.5
-#&gt;  5          1.4
-#&gt;  6          1.7
-#&gt;  7          1.4
-#&gt;  8          1.5
-#&gt;  9          1.4
-#&gt; 10          1.5
+#&gt;  1         1.40
+#&gt;  2         1.40
+#&gt;  3         1.30
+#&gt;  4         1.50
+#&gt;  5         1.40
+#&gt;  6         1.70
+#&gt;  7         1.40
+#&gt;  8         1.50
+#&gt;  9         1.40
+#&gt; 10         1.50
 #&gt; # ... with 140 more rows</div><div class='input'>
 <span class='co'># * rename() keeps all variables</span>
 <span class='fu'>rename</span>(<span class='no'>iris</span>, <span class='kw'>petal_length</span> <span class='kw'>=</span> <span class='no'>Petal.Length</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width petal_length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;fctr&gt;
-#&gt;  1          5.1         3.5          1.4         0.2  setosa
-#&gt;  2          4.9         3.0          1.4         0.2  setosa
-#&gt;  3          4.7         3.2          1.3         0.2  setosa
-#&gt;  4          4.6         3.1          1.5         0.2  setosa
-#&gt;  5          5.0         3.6          1.4         0.2  setosa
-#&gt;  6          5.4         3.9          1.7         0.4  setosa
-#&gt;  7          4.6         3.4          1.4         0.3  setosa
-#&gt;  8          5.0         3.4          1.5         0.2  setosa
-#&gt;  9          4.4         2.9          1.4         0.2  setosa
-#&gt; 10          4.9         3.1          1.5         0.1  setosa
-#&gt; # ... with 140 more rows</div></pre>
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
+#&gt;  1         5.10        3.50         1.40       0.200 setosa 
+#&gt;  2         4.90        3.00         1.40       0.200 setosa 
+#&gt;  3         4.70        3.20         1.30       0.200 setosa 
+#&gt;  4         4.60        3.10         1.50       0.200 setosa 
+#&gt;  5         5.00        3.60         1.40       0.200 setosa 
+#&gt;  6         5.40        3.90         1.70       0.400 setosa 
+#&gt;  7         4.60        3.40         1.40       0.300 setosa 
+#&gt;  8         5.00        3.40         1.50       0.200 setosa 
+#&gt;  9         4.40        2.90         1.40       0.200 setosa 
+#&gt; 10         4.90        3.10         1.50       0.100 setosa 
+#&gt; # ... with 140 more rows</div><div class='input'>
+
+<span class='co'># Unquoting ----------------------------------------</span>
+
+<span class='co'># Like all dplyr verbs, select() supports unquoting of symbols:</span>
+<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(
+  <span class='kw'>var1</span> <span class='kw'>=</span> <span class='fu'><a href='tidyeval.html'>sym</a></span>(<span class='st'>"cyl"</span>),
+  <span class='kw'>var2</span> <span class='kw'>=</span> <span class='fu'><a href='tidyeval.html'>sym</a></span>(<span class='st'>"am"</span>)
+)
+<span class='fu'>select</span>(<span class='no'>mtcars</span>, !!! <span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
+#&gt; Mazda RX4              6    1
+#&gt; Mazda RX4 Wag          6    1
+#&gt; Datsun 710             4    1
+#&gt; Hornet 4 Drive         6    0
+#&gt; Hornet Sportabout      8    0
+#&gt; Valiant                6    0
+#&gt; Duster 360             8    0
+#&gt; Merc 240D              4    0
+#&gt; Merc 230               4    0
+#&gt; Merc 280               6    0
+#&gt; Merc 280C              6    0
+#&gt; Merc 450SE             8    0
+#&gt; Merc 450SL             8    0
+#&gt; Merc 450SLC            8    0
+#&gt; Cadillac Fleetwood     8    0
+#&gt; Lincoln Continental    8    0
+#&gt; Chrysler Imperial      8    0
+#&gt; Fiat 128               4    1
+#&gt; Honda Civic            4    1
+#&gt; Toyota Corolla         4    1
+#&gt; Toyota Corona          4    0
+#&gt; Dodge Challenger       8    0
+#&gt; AMC Javelin            8    0
+#&gt; Camaro Z28             8    0
+#&gt; Pontiac Firebird       8    0
+#&gt; Fiat X1-9              4    1
+#&gt; Porsche 914-2          4    1
+#&gt; Lotus Europa           4    1
+#&gt; Ford Pantera L         8    1
+#&gt; Ferrari Dino           6    1
+#&gt; Maserati Bora          8    1
+#&gt; Volvo 142E             4    1</div><div class='input'>
+<span class='co'># For convenience it also supports strings and character</span>
+<span class='co'># vectors. This is unlike other verbs where strings would be</span>
+<span class='co'># ambiguous.</span>
+<span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='st'>"cyl"</span>, <span class='kw'>var2</span> <span class='kw'>=</span><span class='st'>"am"</span>)
+<span class='fu'>select</span>(<span class='no'>mtcars</span>, !! <span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
+#&gt; Mazda RX4              6    1
+#&gt; Mazda RX4 Wag          6    1
+#&gt; Datsun 710             4    1
+#&gt; Hornet 4 Drive         6    0
+#&gt; Hornet Sportabout      8    0
+#&gt; Valiant                6    0
+#&gt; Duster 360             8    0
+#&gt; Merc 240D              4    0
+#&gt; Merc 230               4    0
+#&gt; Merc 280               6    0
+#&gt; Merc 280C              6    0
+#&gt; Merc 450SE             8    0
+#&gt; Merc 450SL             8    0
+#&gt; Merc 450SLC            8    0
+#&gt; Cadillac Fleetwood     8    0
+#&gt; Lincoln Continental    8    0
+#&gt; Chrysler Imperial      8    0
+#&gt; Fiat 128               4    1
+#&gt; Honda Civic            4    1
+#&gt; Toyota Corolla         4    1
+#&gt; Toyota Corona          4    0
+#&gt; Dodge Challenger       8    0
+#&gt; AMC Javelin            8    0
+#&gt; Camaro Z28             8    0
+#&gt; Pontiac Firebird       8    0
+#&gt; Fiat X1-9              4    1
+#&gt; Porsche 914-2          4    1
+#&gt; Lotus Europa           4    1
+#&gt; Ford Pantera L         8    1
+#&gt; Ferrari Dino           6    1
+#&gt; Maserati Bora          8    1
+#&gt; Volvo 142E             4    1</div><div class='input'><span class='fu'>rename</span>(<span class='no'>mtcars</span>, !! <span class='no'>vars</span>)</div><div class='output co'>#&gt;                      mpg var1  disp  hp drat    wt  qsec vs var2 gear carb
+#&gt; Mazda RX4           21.0    6 160.0 110 3.90 2.620 16.46  0    1    4    4
+#&gt; Mazda RX4 Wag       21.0    6 160.0 110 3.90 2.875 17.02  0    1    4    4
+#&gt; Datsun 710          22.8    4 108.0  93 3.85 2.320 18.61  1    1    4    1
+#&gt; Hornet 4 Drive      21.4    6 258.0 110 3.08 3.215 19.44  1    0    3    1
+#&gt; Hornet Sportabout   18.7    8 360.0 175 3.15 3.440 17.02  0    0    3    2
+#&gt; Valiant             18.1    6 225.0 105 2.76 3.460 20.22  1    0    3    1
+#&gt; Duster 360          14.3    8 360.0 245 3.21 3.570 15.84  0    0    3    4
+#&gt; Merc 240D           24.4    4 146.7  62 3.69 3.190 20.00  1    0    4    2
+#&gt; Merc 230            22.8    4 140.8  95 3.92 3.150 22.90  1    0    4    2
+#&gt; Merc 280            19.2    6 167.6 123 3.92 3.440 18.30  1    0    4    4
+#&gt; Merc 280C           17.8    6 167.6 123 3.92 3.440 18.90  1    0    4    4
+#&gt; Merc 450SE          16.4    8 275.8 180 3.07 4.070 17.40  0    0    3    3
+#&gt; Merc 450SL          17.3    8 275.8 180 3.07 3.730 17.60  0    0    3    3
+#&gt; Merc 450SLC         15.2    8 275.8 180 3.07 3.780 18.00  0    0    3    3
+#&gt; Cadillac Fleetwood  10.4    8 472.0 205 2.93 5.250 17.98  0    0    3    4
+#&gt; Lincoln Continental 10.4    8 460.0 215 3.00 5.424 17.82  0    0    3    4
+#&gt; Chrysler Imperial   14.7    8 440.0 230 3.23 5.345 17.42  0    0    3    4
+#&gt; Fiat 128            32.4    4  78.7  66 4.08 2.200 19.47  1    1    4    1
+#&gt; Honda Civic         30.4    4  75.7  52 4.93 1.615 18.52  1    1    4    2
+#&gt; Toyota Corolla      33.9    4  71.1  65 4.22 1.835 19.90  1    1    4    1
+#&gt; Toyota Corona       21.5    4 120.1  97 3.70 2.465 20.01  1    0    3    1
+#&gt; Dodge Challenger    15.5    8 318.0 150 2.76 3.520 16.87  0    0    3    2
+#&gt; AMC Javelin         15.2    8 304.0 150 3.15 3.435 17.30  0    0    3    2
+#&gt; Camaro Z28          13.3    8 350.0 245 3.73 3.840 15.41  0    0    3    4
+#&gt; Pontiac Firebird    19.2    8 400.0 175 3.08 3.845 17.05  0    0    3    2
+#&gt; Fiat X1-9           27.3    4  79.0  66 4.08 1.935 18.90  1    1    4    1
+#&gt; Porsche 914-2       26.0    4 120.3  91 4.43 2.140 16.70  0    1    5    2
+#&gt; Lotus Europa        30.4    4  95.1 113 3.77 1.513 16.90  1    1    5    2
+#&gt; Ford Pantera L      15.8    8 351.0 264 4.22 3.170 14.50  0    1    5    4
+#&gt; Ferrari Dino        19.7    6 145.0 175 3.62 2.770 15.50  0    1    5    6
+#&gt; Maserati Bora       15.0    8 301.0 335 3.54 3.570 14.60  0    1    5    8
+#&gt; Volvo 142E          21.4    4 121.0 109 4.11 2.780 18.60  1    1    4    2</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -395,7 +506,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 

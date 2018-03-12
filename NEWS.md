@@ -71,6 +71,12 @@
 
 * `combine()` returns `logical()` when all inputs are `NULL` (or when there are no inputs) (#3365, @zeehio).
 
+* `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
+
+* `arrange()` fails gracefully on `data.frame` columns (#3153)
+
+* `slice()` no longer enforce tibble classes when input is a simple `data.frame` (#3297). 
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
