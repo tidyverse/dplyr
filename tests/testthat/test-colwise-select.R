@@ -102,3 +102,13 @@ test_that("scoping (#3426)", {
     select_all(mtcars, .funs = list(toupper))
   )
 })
+
+test_that("rename_at can rename a grouping variable", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    rename_at(tbl, vars(gr1), toupper),
+    rename(tbl, GR1 = gr1)
+  )
+})
