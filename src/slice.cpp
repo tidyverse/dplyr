@@ -83,7 +83,9 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
       // positive indexing
       int ntest = g_test.size();
       for (int j = 0; j < ntest; j++) {
-        if (!(g_test[j] > nr || g_test[j] == NA_INTEGER)) {
+        // only keep things inside inside 1:nr
+        // this skips 0 and NA (which is negative (-2^31) for INTSXP)
+        if (g_test[j] >=1 && g_test[j] <= nr) {
           indx.push_back(indices[g_test[j] - 1]);
         }
       }
@@ -92,7 +94,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
       std::set<int> drop;
       int n = g_test.size();
       for (int j = 0; j < n; j++) {
-        if (g_test[j] != NA_INTEGER)
+        if (g_test[j] != NA_INTEGER && g_test[j] != 0)
           drop.insert(-g_test[j]);
       }
       int n_drop = drop.size();
@@ -144,7 +146,9 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
     std::vector<int> idx(n_pos);
     int j = 0;
     for (int i = 0; i < n_pos; i++) {
-      while (test[j] > nr || test[j] == NA_INTEGER) j++;
+      // skip until we are inside 1:nr
+      // this skips 0 and NA (which is negative (-2^31) for INTSXP)
+      while (test[j] > nr || test[j] < 1) j++;
       idx[i] = test[j++] - 1;
     }
 
@@ -160,7 +164,7 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   // just negatives (out of range is dealt with early in CountIndices).
   std::set<int> drop;
   for (int i = 0; i < n; i++) {
-    if (test[i] != NA_INTEGER)
+    if (test[i] != NA_INTEGER && test[i] != 0)
       drop.insert(-test[i]);
   }
   std::vector<int> indices;
