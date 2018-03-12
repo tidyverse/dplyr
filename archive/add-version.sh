@@ -17,7 +17,7 @@ rm -rf ${version}
 mkdir ${version}
 cd ${version}
 
-R -q -e 'packrat::init(options = list(vcs.ignore.src = TRUE))'
+R -q -e 'options(repos = "https://cran.microsoft.com/snapshot/'${date}'"); packrat::init(options = list(vcs.ignore.src = TRUE))'
 git add .
 
 sed -r -i".bak" "s#Repos: CRAN=.*\$#Repos: CRAN=https://cran.microsoft.com/snapshot/${date}#" packrat/packrat.lock
