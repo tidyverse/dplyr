@@ -62,6 +62,8 @@ inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
       return new SubsetFactorVisitor(vec);
     return new SubsetVectorVisitorImpl<INTSXP>(vec);
   case REALSXP:
+    if( Rf_inherits(vec, "Period") )
+      stop("Period not currently supported. https://github.com/tidyverse/dplyr/issues/2568") ;
     return new SubsetVectorVisitorImpl<REALSXP>(vec);
   case LGLSXP:
     return new SubsetVectorVisitorImpl<LGLSXP>(vec);
