@@ -113,6 +113,16 @@ test_that("can use a purrr-style lambda", {
   expect_identical(summarise_at(mtcars, vars(1:2), ~ mean(.x)), summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl)))
 })
 
+test_that("mutate_at refuses to mutate a grouping variable (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+      group_by(gr1)
+
+  expect_error(
+    mutate_at(tbl, vars(gr1), sqrt),
+    "Column `gr1` can't be modified because it's a grouping variable"
+  )
+
+})
 
 # Deprecated ---------------------------------------------------------
 
