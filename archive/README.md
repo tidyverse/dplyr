@@ -6,7 +6,7 @@ A set of packrats for various dplyr versions, connected to MRAN to be able to co
 
 1. Change to a directory
 1. Start R
-    - If the packrat hasn't been initialized yet, it will do now
+    - If the packrat hasn't been initialized yet, run `packrat::restore()`
 1. Run the code
 
 Example:
