@@ -43,7 +43,7 @@ positions.}
 }
 \description{
 These \link{scoped} variants of \code{\link[=select]{select()}} and \code{\link[=rename]{rename()}} operate on a
-selection of variables. The semantics of these verbs have simple
+selection of variables. The semantics of these verbs have subtle
 but important differences:
 \itemize{
 \item Selection drops variables that are not in the selection while
@@ -51,6 +51,8 @@ renaming retains them.
 \item The renaming function is optional for selection but not for
 renaming.
 }
+
+The \code{_if} variants always retain grouping variables for grouped data frames.
 }
 \examples{
 # Supply a renaming function:

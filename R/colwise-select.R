@@ -3,7 +3,7 @@
 #' @description
 #'
 #' These [scoped] variants of [select()] and [rename()] operate on a
-#' selection of variables. The semantics of these verbs have simple
+#' selection of variables. The semantics of these verbs have subtle
 #' but important differences:
 #'
 #' * Selection drops variables that are not in the selection while
@@ -11,6 +11,8 @@
 #'
 #' * The renaming function is optional for selection but not for
 #'   renaming.
+#'
+#' The `_if` variants always retain grouping variables for grouped data frames.
 #'
 #' @inheritParams scoped
 #' @param .funs A single expression quoted with [funs()] or within a
