@@ -52,7 +52,8 @@ renaming retains them.
 renaming.
 }
 
-The \code{_if} variants always retain grouping variables for grouped data frames.
+The \code{_if} and \code{_at} variants always retain grouping variables for grouped
+data frames.
 }
 \examples{
 # Supply a renaming function:

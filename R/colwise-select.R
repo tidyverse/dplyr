@@ -12,7 +12,8 @@
 #' * The renaming function is optional for selection but not for
 #'   renaming.
 #'
-#' The `_if` variants always retain grouping variables for grouped data frames.
+#' The `_if` and `_at` variants always retain grouping variables for grouped
+#' data frames.
 #'
 #' @inheritParams scoped
 #' @param .funs A single expression quoted with [funs()] or within a
