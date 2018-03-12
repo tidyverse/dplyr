@@ -144,7 +144,7 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
     std::vector<int> idx(n_pos);
     int j = 0;
     for (int i = 0; i < n_pos; i++) {
-      while (test[j] > nr || test[j] == NA_INTEGER) j++;
+      while (test[j] > nr || test[j] < 1) j++;
       idx[i] = test[j++] - 1;
     }
 

@@ -134,3 +134,10 @@ test_that("slice on ungrouped data.frame (not tibble) does not enforce tibble", 
   expect_equal( class(slice(mtcars, -2)), "data.frame")
   expect_equal( class(slice(mtcars, NA)), "data.frame")
 })
+
+test_that("slice skips 0 (#)",{
+  d <- tibble(x = 1:5, y = LETTERS[1:5])
+  expect_identical(slice(d, 0), slice(d, integer(0)))
+  expect_identical(slice(d, c(0, 1)), slice(d, 1))
+  expect_identical(slice(d, c(0, 1, 2)), slice(d, c(1,2)))
+})
