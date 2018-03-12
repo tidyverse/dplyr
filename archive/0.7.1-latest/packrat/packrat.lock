@@ -1,0 +1,78 @@
+PackratFormat: 1.4
+PackratVersion: 0.4.9
+RVersion: 3.4.3
+Repos: CRAN=https://cran.microsoft.com/snapshot/2017-07-19
+
+Package: BH
+Source: CRAN
+Version: 1.62.0-1
+Hash: 14dfb3e8ffe20996118306ff4de1fab2
+
+Package: R6
+Source: CRAN
+Version: 2.2.2
+Hash: b2366cd9d2f3851a5704b4e192b985c2
+
+Package: Rcpp
+Source: CRAN
+Version: 0.12.12
+Hash: 8b3d5ebb9a9a4ab5c86b3a81b0cfb774
+
+Package: assertthat
+Source: CRAN
+Version: 0.2.0
+Hash: e8805df54c65ac96d50235c44a82615c
+
+Package: bindr
+Source: CRAN
+Version: 0.1
+Hash: e3a02070cf705d3ad1c5af1635a515a3
+
+Package: bindrcpp
+Source: CRAN
+Version: 0.2
+Hash: 8ab2dbf7ea120cf2d31183e0bf388485
+Requires: Rcpp, bindr, plogr
+
+Package: dplyr
+Source: CRAN
+Version: 0.7.1
+Hash: 669f4d38aaac878ede74800b408b09fa
+Requires: BH, R6, Rcpp, assertthat, bindrcpp, glue, magrittr,
+    pkgconfig, plogr, rlang, tibble
+
+Package: glue
+Source: CRAN
+Version: 1.1.1
+Hash: dfd5a27768175ae51d08dc6beba1ef11
+
+Package: magrittr
+Source: CRAN
+Version: 1.5
+Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: packrat
+Source: CRAN
+Version: 0.4.9
+Hash: 8259e557d49b2cb5c6806445da137f76
+
+Package: pkgconfig
+Source: CRAN
+Version: 2.0.1
+Hash: 0dda4a2654a22b36a715c2b0b6fbacac
+
+Package: plogr
+Source: CRAN
+Version: 0.1-1
+Hash: fb19215402e2d9f1c7f803dcaa806fc2
+
+Package: rlang
+Source: CRAN
+Version: 0.1.1
+Hash: 86c53487ce7f82f0a7cc11c816060910
+
+Package: tibble
+Source: CRAN
+Version: 1.3.3
+Hash: 6a18f6da2887d2c4c4a6554027161483
+Requires: Rcpp, rlang
