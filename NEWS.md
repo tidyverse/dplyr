@@ -69,6 +69,8 @@
 
 * Added an `.onDetach()` hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (#3359, @jwnorman).
 
+* `combine()` returns `logical()` when all inputs are `NULL` (or when there are no inputs) (#3365, @zeehio).
+
 * `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
 
 * `arrange()` fails gracefully on `data.frame` columns (#3153)

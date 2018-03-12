@@ -399,7 +399,6 @@ List cbind_all(List dots) {
 // [[Rcpp::export]]
 SEXP combine_all(List data) {
   int nv = data.size();
-  if (nv == 0) stop("combine_all needs at least one vector");
 
   // get the size of the output
   int n = 0;
@@ -412,7 +411,7 @@ SEXP combine_all(List data) {
   for (; i < nv; i++) {
     if (!Rf_isNull(data[i])) break;
   }
-  if (i == nv) stop("no data to combine, all elements are NULL");
+  if (i == nv) return LogicalVector();
 
   // collect
   boost::scoped_ptr<Collecter> coll(collecter(data[i], n));
