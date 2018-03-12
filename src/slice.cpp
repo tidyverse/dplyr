@@ -160,7 +160,7 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   // just negatives (out of range is dealt with early in CountIndices).
   std::set<int> drop;
   for (int i = 0; i < n; i++) {
-    if (test[i] != NA_INTEGER)
+    if (test[i] != NA_INTEGER && test[i] != 0)
       drop.insert(-test[i]);
   }
   std::vector<int> indices;
