@@ -10,10 +10,13 @@
 namespace dplyr {
 
 static inline bool inherits_from(SEXP x, const std::set<std::string>& classes) {
-  std::vector<std::string> x_classes, inherited_classes;
   if (!OBJECT(x)) {
     return false;
   }
+  if(Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))){
+    return true ;
+  }
+  std::vector<std::string> x_classes, inherited_classes;
   x_classes = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
   std::sort(x_classes.begin(), x_classes.end());
   std::set_intersection(x_classes.begin(), x_classes.end(),
@@ -34,7 +37,7 @@ static bool is_class_known(SEXP x) {
     known_classes.insert("integer64");
     known_classes.insert("table");
   }
-  if (OBJECT(x) && !Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
+  if (OBJECT(x)) {
     return inherits_from(x, known_classes);
   } else {
     return true;
