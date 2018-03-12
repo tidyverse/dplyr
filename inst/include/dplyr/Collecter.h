@@ -10,9 +10,6 @@
 namespace dplyr {
 
 static inline bool inherits_from(SEXP x, const std::set<std::string>& classes) {
-  if (!OBJECT(x)) {
-    return false;
-  }
   if(Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))){
     return true ;
   }
