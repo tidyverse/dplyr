@@ -299,7 +299,7 @@ test_that("filter(FALSE) drops indices", {
   expect_identical(out, list())
 })
 
-test_that("filter handles S4 objects (#1366)", {
+test_that("filter refuses S4 objects (#3313)", {
   env <- environment()
   Numbers <- suppressWarnings(setClass(
     "Numbers",
@@ -308,10 +308,7 @@ test_that("filter handles S4 objects (#1366)", {
   on.exit(removeClass("Numbers", where = env))
 
   df <- data.frame(x = Numbers(1:10, foo = 10))
-  res <- filter(df, x > 3)
-  expect_true(isS4(res$x))
-  expect_is(res$x, "Numbers")
-  expect_equal(res$x@foo, 10)
+  expect_error(filter(df, x > 3))
 })
 
 test_that("hybrid lag and default value for string columns work (#1403)", {
