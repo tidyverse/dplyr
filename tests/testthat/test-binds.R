@@ -571,6 +571,13 @@ test_that("bind_rows() accepts lists of dataframe-like lists as first argument",
   expect_identical(bind_rows(list(list(a = 1, b = 2))), tibble(a = 1, b = 2))
 })
 
+test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
+  mod <- lm(y~ ., data = freeny)
+  data <- model.frame(mod)
+  data_list <- list(data, data)
+  res <- bind_rows(data_list)
+  expect_equal(names(res), names(data))
+})
 
 # Vectors ------------------------------------------------------------
 
