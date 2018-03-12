@@ -19,7 +19,7 @@
   })
 }
 
-.onDetach <- function(libname, pkgname) {
+.onDetach <- function(libpath) {
   setHook(packageEvent("plyr", "attach"), NULL, "replace")
 }
 
