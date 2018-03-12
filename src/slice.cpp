@@ -83,7 +83,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
       // positive indexing
       int ntest = g_test.size();
       for (int j = 0; j < ntest; j++) {
-        if (!(g_test[j] > nr || g_test[j] == NA_INTEGER)) {
+        if (!(g_test[j] > nr || g_test[j] < 1)) {
           indx.push_back(indices[g_test[j] - 1]);
         }
       }
@@ -92,7 +92,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
       std::set<int> drop;
       int n = g_test.size();
       for (int j = 0; j < n; j++) {
-        if (g_test[j] != NA_INTEGER)
+        if (g_test[j] != NA_INTEGER && g_test[j] != 0)
           drop.insert(-g_test[j]);
       }
       int n_drop = drop.size();
