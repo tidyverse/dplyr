@@ -6,7 +6,7 @@
 #' for the first time, or re-tallying. `count()` is similar but calls
 #' [group_by()] before and [ungroup()] after.
 #'
-#' `add_tally()` adds a column "n" to a table based on the number
+#' `add_tally()` adds a column `n` to a table based on the number
 #' of items within each existing group, while `add_count()` is a shortcut that
 #' does the grouping as well. These functions are to [tally()]
 #' and [count()] as [mutate()] is to [summarise()]:
@@ -26,10 +26,12 @@
 #'
 #' @param x a [tbl()] to tally/count.
 #' @param ... Variables to group by.
-#' @param wt (Optional) If omitted, will count the number of rows. If
-#'   specified, will perform a "weighted" tally by summing the
-#'   (non-missing) values of variable `wt`. This argument is
-#'   automatically [quoted][rlang::quo] and later
+#' @param wt (Optional) If omitted (and no variable named `n` exists in the
+#'   data), will count the number of rows.
+#'   If specified, will perform a "weighted" tally by summing the
+#'   (non-missing) values of variable `wt`. A column named `n` (but not `nn` or
+#'   `nnn`) will be used as weighting variable by default in `tally()`, but not
+#'   in `count()`. This argument is automatically [quoted][rlang::quo] and later
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. It supports [unquoting][rlang::quasiquotation]. See
 #'   `vignette("programming")` for an introduction to these concepts.

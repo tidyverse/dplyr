@@ -18,10 +18,12 @@ add_count(x, ..., wt = NULL, sort = FALSE)
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
 
-\item{wt}{(Optional) If omitted, will count the number of rows. If
-specified, will perform a "weighted" tally by summing the
-(non-missing) values of variable \code{wt}. This argument is
-automatically \link[rlang:quo]{quoted} and later
+\item{wt}{(Optional) If omitted (and no variable named \code{n} exists in the
+data), will count the number of rows.
+If specified, will perform a "weighted" tally by summing the
+(non-missing) values of variable \code{wt}. A column named \code{n} (but not \code{nn} or
+\code{nnn}) will be used as weighting variable by default in \code{tally()}, but not
+in \code{count()}. This argument is automatically \link[rlang:quo]{quoted} and later
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 \code{vignette("programming")} for an introduction to these concepts.}
@@ -39,7 +41,7 @@ A tbl, grouped the same way as \code{x}.
 for the first time, or re-tallying. \code{count()} is similar but calls
 \code{\link[=group_by]{group_by()}} before and \code{\link[=ungroup]{ungroup()}} after.
 
-\code{add_tally()} adds a column "n" to a table based on the number
+\code{add_tally()} adds a column \code{n} to a table based on the number
 of items within each existing group, while \code{add_count()} is a shortcut that
 does the grouping as well. These functions are to \code{\link[=tally]{tally()}}
 and \code{\link[=count]{count()}} as \code{\link[=mutate]{mutate()}} is to \code{\link[=summarise]{summarise()}}:
