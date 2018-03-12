@@ -1,0 +1,56 @@
+PackratFormat: 1.4
+PackratVersion: 0.4.9
+RVersion: 3.4.3
+Repos: CRAN=https://cran.microsoft.com/snapshot/2016-06-27
+
+Package: BH
+Source: CRAN
+Version: 1.60.0-2
+Hash: be2967bcff307e561d9ba17faf03205c
+
+Package: DBI
+Source: CRAN
+Version: 0.4-1
+Hash: 6524d5c5d30ff74084ac028eeb19eb1b
+
+Package: R6
+Source: CRAN
+Version: 2.1.2
+Hash: c515e41c73294952cbb33ee1c1be5a2d
+
+Package: Rcpp
+Source: CRAN
+Version: 0.12.5
+Hash: 625a95cb4ef523a77ad02e140b715db6
+
+Package: assertthat
+Source: CRAN
+Version: 0.1
+Hash: 0afb92b59b02593c70ff8046700ba9d3
+
+Package: dplyr
+Source: CRAN
+Version: 0.5.0
+Hash: bdfac738899f1f65b932f4c6f10c2cff
+Requires: BH, DBI, R6, Rcpp, assertthat, lazyeval, magrittr, tibble
+
+Package: lazyeval
+Source: CRAN
+Version: 0.2.0
+Hash: 3d6e7608e65bbf5cb170dab1e3c9ed8b
+
+Package: magrittr
+Source: CRAN
+Version: 1.5
+Hash: bdc4d48c3135e8f3b399536ddf160df4
+
+Package: packrat
+Source: CRAN
+Version: 0.4.9
+Hash: 8259e557d49b2cb5c6806445da137f76
+
+Package: tibble
+Source: CRAN
+Version: 1.0
+Hash: 135bebe37e899e9ebabcfdf74cb86ade
+Requires: Rcpp, assertthat, lazyeval
