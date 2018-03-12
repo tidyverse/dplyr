@@ -1,12 +1,12 @@
 #' dbplyr compatibility functions
 #'
 #' @description
-#' In dplyr 0.6.0, a number of database and SQL functions moved from dplyr to
+#' In dplyr 0.7.0, a number of database and SQL functions moved from dplyr to
 #' dbplyr. The generic functions stayed in dplyr (since there is no easy way
 #' to conditionally import a generic from different packages), but many other
 #' SQL and database helper functions moved. If you have written a backend,
 #' these functions generate the code you need to work with both dplyr 0.5.0
-#' dplyr 0.6.0.
+#' dplyr 0.7.0.
 #'
 #' @keywords internal
 #' @export
@@ -67,6 +67,9 @@ sql <- function(...) {
 
 #' @inherit dbplyr::ident
 #' @export
+#' @examples
+#' # Identifiers are escaped with "
+#' ident("x")
 ident <- function(...) {
   check_dbplyr()
   dbplyr::ident(...)

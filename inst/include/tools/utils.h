@@ -48,6 +48,7 @@ inline void copy_most_attributes(SEXP out, SEXP data) {
 
 namespace internal {
 
+// *INDENT-OFF*
 struct rlang_api_ptrs_t {
   SEXP (*quo_get_expr)(SEXP quo);
   SEXP (*quo_set_expr)(SEXP quo, SEXP expr);
@@ -71,6 +72,7 @@ struct rlang_api_ptrs_t {
     new_data_mask =    (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_new_data_mask");
   }
 };
+// *INDENT-ON*
 
 const rlang_api_ptrs_t& rlang_api();
 

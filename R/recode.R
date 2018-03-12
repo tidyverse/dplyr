@@ -21,7 +21,7 @@
 #'   All replacements must be the same type, and must have either
 #'   length one or the same length as x.
 #'
-#'   These dots are evaluated with [explicit splicing][rlang::dots_list].
+#'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @param .default If supplied, all values not otherwise matched will
 #'   be given this value. If not supplied and if the replacements are
 #'   the same type as the original values in `.x`, unmatched
@@ -81,7 +81,7 @@ recode <- function(.x, ..., .default = NULL, .missing = NULL) {
 
 #' @export
 recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
-  values <- dots_list(...)
+  values <- list2(...)
 
   nms <- have_name(values)
   if (all(nms)) {
@@ -110,7 +110,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
 
 #' @export
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
-  values <- dots_list(...)
+  values <- list2(...)
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
     bad_pos_args(bad, "must be named, not unnamed")
@@ -134,7 +134,7 @@ recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
 
 #' @export
 recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
-  values <- dots_list(...)
+  values <- list2(...)
   if (length(values) == 0) {
     abort("No replacements provided")
   }

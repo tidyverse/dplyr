@@ -124,6 +124,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
 
 DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   CharacterVector names = df.names();
+  CharacterVector classes = Rf_getAttrib(df, R_ClassSymbol) ;
 
   const NamedQuosure& quosure = dots[0];
   Call call(quosure.expr());
@@ -147,13 +148,13 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
       idx[i] = test[j++] - 1;
     }
 
-    return subset(df, idx, df.names(), classes_not_grouped());
+    return subset(df, idx, df.names(), classes);
   }
 
   // special case where only NA
   if (counter.get_n_negative() == 0) {
     std::vector<int> indices;
-    return subset(df, indices, df.names(), classes_not_grouped());
+    return subset(df, indices, df.names(), classes);
   }
 
   // just negatives (out of range is dealt with early in CountIndices).
@@ -179,7 +180,7 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
     indices.push_back(j);
   }
 
-  return subset(df, indices, df.names(), classes_not_grouped());
+  return subset(df, indices, df.names(), classes);
 }
 
 // [[Rcpp::export]]

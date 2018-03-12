@@ -148,7 +148,7 @@ ensure_group_vars <- function(vars, data, notify = TRUE) {
 
 #' @export
 rename.grouped_df <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data), ...)
   select_impl(.data, vars)
 }
 #' @export

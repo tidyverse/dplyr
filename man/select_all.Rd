@@ -28,8 +28,8 @@ rename_at(.tbl, .vars, .funs = list(), ...)
 quosure, a string naming a function, or a function.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:dots_list]{explicit
-splicing}.}
+\code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy
+dots} support.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or
@@ -43,7 +43,7 @@ positions.}
 }
 \description{
 These \link{scoped} variants of \code{\link[=select]{select()}} and \code{\link[=rename]{rename()}} operate on a
-selection of variables. The semantics of these verbs have simple
+selection of variables. The semantics of these verbs have subtle
 but important differences:
 \itemize{
 \item Selection drops variables that are not in the selection while
@@ -51,6 +51,8 @@ renaming retains them.
 \item The renaming function is optional for selection but not for
 renaming.
 }
+
+The \code{_if} variants always retain grouping variables for grouped data frames.
 }
 \examples{
 # Supply a renaming function:

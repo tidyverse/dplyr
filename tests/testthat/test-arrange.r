@@ -176,6 +176,10 @@ test_that("arrange fails gracefully on matrix input (#1870)", {
   )
 })
 
+test_that("arrange fails gracefully on data.frame input (#3153)", {
+  df <- tibble(x = 1:150, iri = rnorm(150))
+  expect_error(arrange(df, iris), "Argument 1 is of unsupported type data.frame")
+})
 
 # grouped_df --------------------------------------------------------------
 
