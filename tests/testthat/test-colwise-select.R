@@ -57,7 +57,13 @@ test_that("can select/rename with vars()", {
 })
 
 test_that("select_at can use grouping variables", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
 
+  expect_identical(
+    select(tbl, gr1),
+    select_at(tbl, vars(gr1))
+  )
 })
 
 test_that("select_if keeps grouping cols", {
