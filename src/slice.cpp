@@ -83,7 +83,9 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
       // positive indexing
       int ntest = g_test.size();
       for (int j = 0; j < ntest; j++) {
-        if (!(g_test[j] > nr || g_test[j] < 1)) {
+        // only keep things inside inside 1:nr
+        // this skips 0 and NA (which is negative (-2^31) for INTSXP)
+        if (g_test[j] >=1 && g_test[j] <= nr) {
           indx.push_back(indices[g_test[j] - 1]);
         }
       }
@@ -144,6 +146,8 @@ DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
     std::vector<int> idx(n_pos);
     int j = 0;
     for (int i = 0; i < n_pos; i++) {
+      // skip until we are inside 1:nr
+      // this skips 0 and NA (which is negative (-2^31) for INTSXP)
       while (test[j] > nr || test[j] < 1) j++;
       idx[i] = test[j++] - 1;
     }
