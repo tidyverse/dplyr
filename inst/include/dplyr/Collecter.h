@@ -11,7 +11,7 @@ namespace dplyr {
 
 static inline bool inherits_from(SEXP x, const std::set<std::string>& classes) {
   if (Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
-    return true ;
+    return true;
   }
   std::vector<std::string> x_classes, inherited_classes;
   x_classes = Rcpp::as< std::vector<std::string> >(Rf_getAttrib(x, R_ClassSymbol));
