@@ -39,6 +39,11 @@ test_that("slice forbids positive and negative together", {
     "Found 1 positive indices and 1 negative indices",
     fixed = TRUE
   )
+  expect_error(
+    mtcars %>% slice(c(2:3, -1)),
+    "Found 2 positive indices and 1 negative indices",
+    fixed = TRUE
+  )
 })
 
 test_that("slice works with grouped data", {
