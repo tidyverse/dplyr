@@ -27,6 +27,6 @@ if diff packrat/packrat.lock packrat/packrat.lock.bak; then
 fi
 rm packrat/packrat.lock.bak
 
-R -q -e 'install.packages("dplyr")'
+R -q -e 'install.packages(c("dplyr", "testthat", "roxygen2", "devtools"))'
 R -q -e 'packrat::snapshot()'
 git add .
