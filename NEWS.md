@@ -97,6 +97,8 @@
 
 * `group_by_at` can group by an existing grouping variable (#3351). 
 
+* `arrange_at` can use grouping variables (#3332). 
+
 # dplyr 0.7.4
 
 * Fix recent Fedora and ASAN check errors (#3098).
