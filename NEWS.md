@@ -1,5 +1,4 @@
-
-# dplyr 0.7.4.9000
+# dplyr 0.7.4.9001 (2018-03-13)
 
 ## Breaking changes for package developers
 
@@ -77,7 +76,10 @@
 
 * `arrange()` fails gracefully on `data.frame` columns (#3153)
 
-* `slice()` no longer enforce tibble classes when input is a simple `data.frame` (#3297). 
+* `slice()` no longer enforce tibble classes when input is a simple `data.frame`, and ignores 0 (#3297, #3313).
+
+* Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
+  and joins (minimal `raw` x `raw` support initially) (#1803). 
 
 # dplyr 0.7.4
 
@@ -118,9 +120,6 @@
 
 * Move build-time vs. run-time checks out of `.onLoad()` and into `dr_dplyr()`.
 
-
-* Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
-  and joins (minimal `raw` x `raw` support initially) (#1803). 
 
 # dplyr 0.7.1
 

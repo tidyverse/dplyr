@@ -89,5 +89,5 @@ patterns <- list(
   x \%\% 7 == 0 ~ "buzz",
   TRUE ~ as.character(x)
 )
-case_when(!!! patterns)
+case_when(!!!patterns)
 }

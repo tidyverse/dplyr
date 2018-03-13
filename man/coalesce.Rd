@@ -36,7 +36,7 @@ vecs <- list(
   c(1, 2, NA, NA, 5),
   c(NA, NA, 3, 4, 5)
 )
-coalesce(!!! vecs)
+coalesce(!!!vecs)
 }
 \seealso{
 \code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
