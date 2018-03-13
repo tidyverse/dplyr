@@ -1,6 +1,9 @@
 # unknown
 
-## DiagrammeR
+## DiagrammeR (introduced in 89a6476b)
+
+- `library(DiagrammeR); example(add_balanced_tree)`
+- Pinged maintainer on https://github.com/tidyverse/dplyr/commit/89a6476b
 
 Version: 1.0.0
 
@@ -54,7 +57,10 @@ Version: 1.0.0
       Execution halted
     ```
 
-## mudata2
+## mudata2 (introduced in 68d90b4d)
+
+- `library(mudata2); example(ns_climate)`
+- https://github.com/paleolimbot/mudata/issues/26
 
 Version: 1.0.0
 
@@ -120,6 +126,9 @@ Version: 1.0.0
     ```
 
 ## nonmemica
+
+- `library(nonmemica); example(nonmemica)`
+- reason unclear
 
 Version: 0.7.9
 
