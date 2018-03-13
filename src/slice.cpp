@@ -85,7 +85,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
       for (int j = 0; j < ntest; j++) {
         // only keep things inside inside 1:nr
         // this skips 0 and NA (which is negative (-2^31) for INTSXP)
-        if (g_test[j] >=1 && g_test[j] <= nr) {
+        if (g_test[j] >= 1 && g_test[j] <= nr) {
           indx.push_back(indices[g_test[j] - 1]);
         }
       }
