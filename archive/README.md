@@ -21,9 +21,9 @@ R -q -e 'dplyr::slice(c(-1, 1))'
 1. Change to the `archive` directory.
 1. Use the `add-version.sh` script.
 
-Example: dplyr 0.7.5 has been released on March 16, 2018. We add dplyr 0.7.4 snapshotted on March 14, and dplyr 0.7.5 on March 18:
+Example: dplyr 0.7.4 has been released on September 28, 2017. We add dplyr 0.7.3 snapshotted on September 26, and dplyr 0.7.4 on September 30:
 
 ```sh
-./add-version.sh 0.7.4-latest 2018-03-14
-./add-version.sh 0.7.5-earliest 2018-03-18
+./add-version.sh 0.7.3-latest 2017-09-26
+./add-version.sh 0.7.4-earliest 2017-09-30
 ```
