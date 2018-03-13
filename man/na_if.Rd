@@ -2,18 +2,18 @@
 % Please edit documentation in R/na_if.R
 \name{na_if}
 \alias{na_if}
-\title{Convert values to NA.}
+\title{Convert values to NA}
 \usage{
 na_if(x, y)
 }
 \arguments{
 \item{x}{Vector to modify}
 
-\item{y}{If th}
+\item{y}{Value to replace with NA}
 }
 \value{
 A modified version of \code{x} that replaces any values that
-  are equal to \code{y} with NA.
+are equal to \code{y} with NA.
 }
 \description{
 This is a translation of the SQL command \code{NULL_IF}. It is useful
@@ -30,7 +30,6 @@ y <- c("abc", "def", "", "ghi")
 na_if(y, "")
 }
 \seealso{
-\code{\link{coalesce}()} to replace missing values with a specified
-  value.
+\code{\link[=coalesce]{coalesce()}} to replace missing values with a specified
+value.
 }
-

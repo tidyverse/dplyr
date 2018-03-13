@@ -1,28 +1,12 @@
 # Grouping methods ------------------------------------------------------------
 
-#' Convert to a data frame
-#'
-#' Functions that convert the input to a \code{data_frame}.
-#'
-#' @details For a grouped data frame, the \code{\link[tibble]{as_data_frame}}
-#' S3 generic simply removes the grouping.
-#'
-#' @inheritParams tibble::as_data_frame
-#' @seealso \code{\link[tibble]{as_data_frame}}
-#' @name grouped_df
-#' @export
-as_data_frame.grouped_df <- function(x, ...) {
-  x <- ungroup(x)
-  class(x) <- c("tbl_df", "tbl", "data.frame")
-  x
-}
-
 #' Convert row names to an explicit variable.
 #'
-#' Deprecated, use \code{\link[tibble]{rownames_to_column}} instead.
+#' Deprecated, use [tibble::rownames_to_column()] instead.
 #'
 #' @param df Input data frame with rownames.
 #' @param var Name of variable to use
+#' @keywords internal
 #' @export
 #' @examples
 #' mtcars %>% tbl_df()
@@ -31,7 +15,8 @@ as_data_frame.grouped_df <- function(x, ...) {
 add_rownames <- function(df, var = "rowname") {
   warning(
     "Deprecated, use tibble::rownames_to_column() instead.",
-    call. = FALSE)
+    call. = FALSE
+  )
 
   stopifnot(is.data.frame(df))
 
@@ -44,9 +29,14 @@ add_rownames <- function(df, var = "rowname") {
 # Grouping methods ------------------------------------------------------------
 
 #' @export
-group_by_.data.frame <- function(.data, ..., .dots, add = FALSE) {
-  groups <- group_by_prepare(.data, ..., .dots = .dots, add = add)
-  grouped_df(groups$data, groups$groups)
+group_by.data.frame <- function(.data, ..., add = FALSE) {
+  groups <- group_by_prepare(.data, ..., add = add)
+  grouped_df(groups$data, groups$group_names)
+}
+#' @export
+group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  group_by(.data, !!!dots, add = add)
 }
 
 #' @export
@@ -67,41 +57,77 @@ n_groups.data.frame <- function(x) 1L
 # is just a convenience layer, I didn't bother. They should still be fast.
 
 #' @export
-filter_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  as.data.frame(filter_(tbl_df(.data), .dots = dots))
+filter.data.frame <- function(.data, ...) {
+  as.data.frame(filter(tbl_df(.data), ...))
 }
 #' @export
-slice_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  as.data.frame(slice_(tbl_df(.data), .dots = dots))
+filter_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  filter(.data, !!!dots)
+}
+
+#' @export
+slice.data.frame <- function(.data, ...) {
+  dots <- named_quos(...)
+  slice_impl(.data, dots)
 }
 #' @export
-summarise_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  as.data.frame(summarise_(tbl_df(.data), .dots = dots))
+slice_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  slice_impl(.data, dots)
+}
+
+#' @export
+summarise.data.frame <- function(.data, ...) {
+  as.data.frame(summarise(tbl_df(.data), ...))
 }
 #' @export
-mutate_.data.frame <-  function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  as.data.frame(mutate_(tbl_df(.data), .dots = dots))
+summarise_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  summarise(.data, !!!dots)
+}
+
+#' @export
+mutate.data.frame <- function(.data, ...) {
+  as.data.frame(mutate(tbl_df(.data), ...))
 }
 #' @export
-arrange_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  as.data.frame(arrange_(tbl_df(.data), .dots = dots))
+mutate_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  mutate(.data, !!!dots)
+}
+
+#' @export
+arrange.data.frame <- function(.data, ...) {
+  as.data.frame(arrange(tbl_df(.data), ...))
 }
 #' @export
-select_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- select_vars_(names(.data), dots)
+arrange_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  arrange(.data, !!!dots)
+}
+
+#' @export
+select.data.frame <- function(.data, ...) {
+  # Pass via splicing to avoid matching vars_select() arguments
+  vars <- tidyselect::vars_select(names(.data), !!!quos(...))
   select_impl(.data, vars)
 }
 #' @export
-rename_.data.frame <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ...)
-  vars <- rename_vars_(names(.data), dots)
+select_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  select(.data, !!!dots)
+}
+
+#' @export
+rename.data.frame <- function(.data, ...) {
+  vars <- tidyselect::vars_rename(names(.data), !!!quos(...))
   select_impl(.data, vars)
+}
+#' @export
+rename_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  rename(.data, !!!dots)
 }
 
 
@@ -143,85 +169,98 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
 
 #' @export
-union.data.frame <-     function(x, y, ...) union_data_frame(x, y)
+union.data.frame <- function(x, y, ...) union_data_frame(x, y)
 
 #' @export
 union_all.data.frame <- function(x, y, ...) bind_rows(x, y)
 
 #' @export
-setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
+setdiff.data.frame <- function(x, y, ...) setdiff_data_frame(x, y)
 
 #' @export
-setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
+setequal.data.frame <- function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
-distinct_.data.frame <- function(.data, ..., .dots, .keep_all = FALSE) {
-  dist <- distinct_vars(.data, ..., .dots = .dots, .keep_all = .keep_all)
+distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
+  dist <- distinct_vars(.data, quos(...), .keep_all = .keep_all)
   distinct_impl(dist$data, dist$vars, dist$keep)
+}
+#' @export
+distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  distinct(.data, !!!dots, .keep_all = .keep_all)
 }
 
 
 # Do ---------------------------------------------------------------------------
 
 #' @export
-do_.data.frame <- function(.data, ..., .dots) {
-  args <- lazyeval::all_dots(.dots, ...)
+do.data.frame <- function(.data, ...) {
+  args <- quos(...)
   named <- named_args(args)
 
-  data <- list(. = .data)
+  # Create custom dynamic scope with `.` pronoun
+  # FIXME: Pass without splicing once child_env() calls env_bind()
+  # with explicit arguments
+  overscope <- child_env(NULL, !!!list(. = .data, .data = .data))
 
   if (!named) {
-    env <- new.env(parent = args[[1]]$env)
-    env$. <- .data
-
-    out <- lazyeval::lazy_eval(args[[1]], data)
-    if (!is.data.frame(out)) {
-      stop("Result must be a data frame", call. = FALSE)
+    out <- eval_tidy_(args[[1]], overscope)
+    if (!inherits(out, "data.frame")) {
+      bad("Result must be a data frame, not {fmt_classes(out)}")
     }
   } else {
-    out <- lapply(args, function(arg) {
-      list(lazyeval::lazy_eval(arg, data))
-    })
+    out <- map(args, function(arg) list(eval_tidy_(arg, overscope)))
     names(out) <- names(args)
-    attr(out, "row.names") <- .set_row_names(1L)
-    # Use tbl_df to ensure safe printing of list columns
-    class(out) <- c("tbl_df", "data.frame")
+    out <- tibble::as_tibble(out, validate = FALSE)
   }
 
   out
+}
+#' @export
+do_.data.frame <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  do(.data, !!!dots)
 }
 
 # Random samples ---------------------------------------------------------------
 
 
 #' @export
-sample_n.data.frame <- function(tbl, size, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
+sample_n.data.frame <- function(tbl, size, replace = FALSE,
+                                weight = NULL, .env = NULL) {
+  if (!is_null(.env)) {
+    inform("`.env` is deprecated and no longer has any effect")
   }
 
-  sample_n_basic(tbl, size, replace = replace, weight = weight)
+  weight <- eval_tidy(enquo(weight), tbl)
+  sample_n_basic(tbl, size, FALSE, replace = replace, weight = weight)
 }
 
 
 #' @export
-sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame()) {
-
-  if (!missing(weight)) {
-    weight <- eval(substitute(weight), tbl, .env)
+sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
+                                   weight = NULL, .env = NULL) {
+  if (!is_null(.env)) {
+    inform("`.env` is deprecated and no longer has any effect")
   }
 
-  sample_n_basic(tbl, round(size * nrow(tbl)), replace = replace, weight = weight)
+  weight <- eval_tidy(enquo(weight), tbl)
+  sample_n_basic(tbl, size, TRUE, replace = replace, weight = weight)
 }
 
-sample_n_basic <- function(tbl, size, replace = FALSE, weight = NULL) {
+sample_n_basic <- function(tbl, size, frac, replace = FALSE, weight = NULL) {
   n <- nrow(tbl)
 
   weight <- check_weight(weight, n)
   assert_that(is.numeric(size), length(size) == 1, size >= 0)
-  check_size(size, n, replace)
+
+  if (frac) {
+    check_frac(size, replace)
+    size <- round(size * n)
+  } else {
+    check_size(size, n, replace)
+  }
 
   idx <- sample.int(n, size, replace = replace, prob = weight)
   tbl[idx, , drop = FALSE]

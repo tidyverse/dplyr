@@ -9,19 +9,18 @@ id(.variables, drop = FALSE)
 \arguments{
 \item{.variables}{list of variables}
 
-\item{drop}{drop unusued factor levels?}
+\item{drop}{drop unused factor levels?}
 }
 \value{
 a numeric vector with attribute n, giving total number of
-  possibilities
+possibilities
 }
 \description{
 Properties:
 \itemize{
-  \item \code{order(id)} is equivalent to \code{do.call(order, df)}
-  \item rows containing the same data have the same value
-  \item if \code{drop = FALSE} then room for all possibilites
+\item \code{order(id)} is equivalent to \code{do.call(order, df)}
+\item rows containing the same data have the same value
+\item if \code{drop = FALSE} then room for all possibilities
 }
 }
 \keyword{internal}
-

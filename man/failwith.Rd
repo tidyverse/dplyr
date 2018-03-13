@@ -17,22 +17,9 @@ failwith(default = NULL, f, quiet = FALSE)
 a function
 }
 \description{
-Modify a function so that it returns a default value when there is an
-error.
-}
-\examples{
-f <- function(x) if (x == 1) stop("Error!") else 1
-\dontrun{
-f(1)
-f(2)
-}
-
-safef <- failwith(NULL, f)
-safef(1)
-safef(2)
+Deprecated. Please use \code{\link[purrr:possibly]{purrr::possibly()}} instead.
 }
 \seealso{
-\code{\link[plyr]{try_default}}
+\code{\link[plyr:try_default]{plyr::try_default()}}
 }
-\keyword{debugging}
-
+\keyword{internal}

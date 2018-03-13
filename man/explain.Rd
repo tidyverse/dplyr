@@ -3,21 +3,24 @@
 \name{explain}
 \alias{explain}
 \alias{show_query}
-\title{Explain details of a tbl.}
+\title{Explain details of a tbl}
 \usage{
 explain(x, ...)
 
-show_query(x)
+show_query(x, ...)
 }
 \arguments{
 \item{x}{An object to explain}
 
 \item{...}{Other parameters possibly used by generic}
 }
+\value{
+The first argument, invisibly.
+}
 \description{
 This is a generic function which gives more details about an object than
-\code{\link{print}}, and is more focussed on human readable output than
-\code{\link{str}}.
+\code{\link[=print]{print()}}, and is more focused on human readable output than
+\code{\link[=str]{str()}}.
 }
 \section{Databases}{
 
@@ -26,9 +29,10 @@ will describe the query plan. This requires a little bit of knowledge about
 how \code{EXPLAIN} works for your database, but is very useful for
 diagnosing performance problems.
 }
+
 \examples{
 \donttest{
-if (require("RSQLite") && has_lahman("sqlite")) {
+if (require("dbplyr")) {
 
 lahman_s <- lahman_sqlite()
 batting <- tbl(lahman_s, "Batting")
@@ -48,4 +52,3 @@ batting \%>\% left_join(teams, c("yearID", "teamID")) \%>\% explain()
 }
 }
 }
-

@@ -2,7 +2,7 @@
 % Please edit documentation in R/order-by.R
 \name{order_by}
 \alias{order_by}
-\title{A helper function for ordering window function output.}
+\title{A helper function for ordering window function output}
 \usage{
 order_by(order_by, call)
 }
@@ -13,13 +13,13 @@ order_by(order_by, call)
 is the vector being operated on}
 }
 \description{
-This is a useful function to control the order of window functions in 
-R that don't have a specific ordering parameter. When translated to SQL
+This function makes it possible to control the ordering of window functions
+in R that don't have a specific ordering parameter. When translated to SQL
 it will modify the order clause of the OVER function.
 }
 \details{
 This function works by changing the \code{call} to instead call
-\code{\link{with_order}} with the appropriate arguments.
+\code{\link[=with_order]{with_order()}} with the appropriate arguments.
 }
 \examples{
 order_by(10:1, cumsum(1:10))
@@ -36,4 +36,3 @@ arrange(wrong, year)
 right <- mutate(scrambled, running = order_by(year, cumsum(value)))
 arrange(right, year)
 }
-

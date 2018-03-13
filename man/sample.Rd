@@ -2,34 +2,38 @@
 % Please edit documentation in R/sample.R
 \name{sample}
 \alias{sample}
-\alias{sample_frac}
 \alias{sample_n}
-\title{Sample n rows from a table.}
+\alias{sample_frac}
+\title{Sample n rows from a table}
 \usage{
-sample_n(tbl, size, replace = FALSE, weight = NULL, .env = parent.frame())
+sample_n(tbl, size, replace = FALSE, weight = NULL, .env = NULL)
 
-sample_frac(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = parent.frame())
+sample_frac(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL)
 }
 \arguments{
 \item{tbl}{tbl of data.}
 
-\item{size}{For \code{sample_n}, the number of rows to select.
-For \code{sample_frac}, the fraction of rows to select.
+\item{size}{For \code{sample_n()}, the number of rows to select.
+For \code{sample_frac()}, the fraction of rows to select.
 If \code{tbl} is grouped, \code{size} applies to each group.}
 
 \item{replace}{Sample with or without replacement?}
 
-\item{weight}{Sampling weights. This expression is evaluated in the
-context of the data frame. It must return a vector of non-negative
-numbers the same length as the input. Weights are automatically
-standardised to sum to 1.}
+\item{weight}{Sampling weights. This must evaluate to a vector of
+non-negative numbers the same length as the input. Weights are
+automatically standardised to sum to 1.
 
-\item{.env}{Environment in which to look for non-data names used in
-\code{weight}. Non-default settings for experts only.}
+This argument is automatically \link[rlang:quo]{quoted} and later
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. It supports \link[rlang:quasiquotation]{unquoting}. See
+\code{vignette("programming")} for an introduction to these concepts.}
+
+\item{.env}{This variable is deprecated and no longer has any
+effect. To evaluate \code{weight} in a particular context, you can
+now unquote a \link[rlang:quosure]{quosure}.}
 }
 \description{
-This is a wrapper around \code{\link{sample.int}} to make it easy to
+This is a wrapper around \code{\link[=sample.int]{sample.int()}} to make it easy to
 select random rows from a table. It currently only works for local
 tbls.
 }
@@ -56,4 +60,3 @@ sample_frac(mtcars, 0.1, weight = 1 / mpg)
 sample_frac(by_cyl, 0.2)
 sample_frac(by_cyl, 1, replace = TRUE)
 }
-

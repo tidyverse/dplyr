@@ -1,125 +1,121 @@
 #ifndef dplyr_tools_SymbolMap_h
 #define dplyr_tools_SymbolMap_h
 
-namespace dplyr{
+#include <tools/hash.h>
+#include <tools/match.h>
 
-    enum Origin { HASH, RMATCH, NEW } ;
+namespace dplyr {
 
-    struct SymbolMapIndex {
-        int pos ;
-        Origin origin ;
+enum Origin { HASH, RMATCH, NEW };
 
-        SymbolMapIndex( int pos_, Origin origin_ ) :
-            pos(pos_), origin(origin_)
-        {}
-    } ;
+struct SymbolMapIndex {
+  int pos;
+  Origin origin;
 
-    class SymbolMap {
-        public:
-            SymbolMap(): lookup(), names(){}
+  SymbolMapIndex(int pos_, Origin origin_) :
+    pos(pos_), origin(origin_)
+  {}
+};
 
-            SymbolMapIndex insert( SEXP name ){
-                if( TYPEOF(name) == SYMSXP ) {
-                    name = PRINTNAME(name) ;
-                }
-                SymbolMapIndex index = get_index(name) ;
-                int idx = index.pos ;
-                switch( index.origin ){
-                case HASH:
-                    break;
-                case RMATCH:
-                    lookup.insert( std::make_pair(name, idx ) ) ;
-                    break ;
-                case NEW:
-                    names.push_back(name) ;
-                    lookup.insert( std::make_pair(name, idx ) ) ;
-                    break ;
-                } ;
-                return index ;
-            }
+class SymbolMap {
+private:
+  dplyr_hash_map<SEXP, int> lookup;
+  SymbolVector names;
 
-            int size() const {
-                return names.size() ;
-            }
+public:
+  SymbolMap(): lookup(), names() {}
 
-            bool has( SEXP name ) const {
-                if( TYPEOF(name) == SYMSXP ) {
-                    name = PRINTNAME(name) ;
-                }
-                SymbolMapIndex index = get_index(name) ;
-                return index.origin != NEW ;
-            }
+  SymbolMap(const SymbolVector& names_): lookup(), names(names_) {}
 
-            SymbolMapIndex get_index(SEXP name) const {
-                if( TYPEOF(name) == SYMSXP ) {
-                    name = PRINTNAME(name) ;
-                }
+  SymbolMapIndex insert(const SymbolString& name) {
+    SymbolMapIndex index = get_index(name);
+    int idx = index.pos;
+    switch (index.origin) {
+    case HASH:
+      break;
+    case RMATCH:
+      lookup.insert(std::make_pair(name.get_sexp(), idx));
+      break;
+    case NEW:
+      names.push_back(name.get_string());
+      lookup.insert(std::make_pair(name.get_sexp(), idx));
+      break;
+    };
+    return index;
+  }
 
-                // first, lookup the map
-                dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name) ;
-                if( it != lookup.end() ){
-                    return SymbolMapIndex( it->second, HASH ) ;
-                }
+  SymbolVector get_names() const {
+    return names;
+  }
 
-                CharacterVector v = CharacterVector::create(name) ;
-                int idx = as<int>( r_match( v, names ) );
-                if( idx != NA_INTEGER ){
-                    // we have a match
-                    return SymbolMapIndex( idx-1, RMATCH ) ;
-                }
+  SymbolString get_name(const int i) const {
+    return names[i];
+  }
 
-                // no match
-                return SymbolMapIndex( names.size(), NEW ) ;
-            }
+  int size() const {
+    return names.size();
+  }
 
-            int get( SEXP name ) const {
-                if( TYPEOF(name) == SYMSXP ) {
-                    name = PRINTNAME(name) ;
-                }
-                SymbolMapIndex index = get_index(name) ;
-                if( index.origin == NEW ){
-                    stop( "variable '%s' not found", CHAR(name) ) ;
-                }
-                return index.pos ;
-            }
+  bool has(const SymbolString& name) const {
+    SymbolMapIndex index = get_index(name);
+    return index.origin != NEW;
+  }
 
-            SymbolMapIndex rm( SEXP name ){
-                if( TYPEOF(name) == SYMSXP ) {
-                    name = PRINTNAME(name) ;
-                }
-                SymbolMapIndex index = get_index(name) ;
-                if( index.origin != NEW ){
-                    int idx = index.pos ;
-                    names.erase( names.begin() + idx ) ;
+  SymbolMapIndex get_index(const SymbolString& name) const {
+    // first, lookup the map
+    dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
+    if (it != lookup.end()) {
+      return SymbolMapIndex(it->second, HASH);
+    }
 
-                    for( dplyr_hash_map<SEXP, int>::iterator it=lookup.begin(); it != lookup.end(); ){
-                        int k = it->second ;
+    int idx = names.match(name);
+    if (idx != NA_INTEGER) {
+      // we have a match
+      return SymbolMapIndex(idx - 1, RMATCH);
+    }
 
-                        if( k < idx ) {
-                          // nothing to do in that case
-                          ++it ;
-                          continue ;
-                        } else if( k == idx ){
-                            // need to remove the data from the hash table
-                            it = lookup.erase(it) ;
-                            continue ;
-                        } else {
-                            // decrement the index
-                            it->second-- ;
-                            ++it ;
-                        }
-                    }
+    // no match
+    return SymbolMapIndex(names.size(), NEW);
+  }
 
-                }
+  int get(const SymbolString& name) const {
+    SymbolMapIndex index = get_index(name);
+    if (index.origin == NEW) {
+      stop("variable '%s' not found", name.get_utf8_cstring());
+    }
+    return index.pos;
+  }
 
-                return index ;
-            }
+  SymbolMapIndex rm(const SymbolString& name) {
+    SymbolMapIndex index = get_index(name);
+    if (index.origin != NEW) {
+      int idx = index.pos;
+      names.remove(idx);
 
+      for (dplyr_hash_map<SEXP, int>::iterator it = lookup.begin(); it != lookup.end();) {
+        int k = it->second;
 
-            dplyr_hash_map<SEXP, int> lookup ;
-            CharacterVector names ;
+        if (k < idx) {
+          // nothing to do in that case
+          ++it;
+          continue;
+        } else if (k == idx) {
+          // need to remove the data from the hash table
+          it = lookup.erase(it);
+          continue;
+        } else {
+          // decrement the index
+          it->second--;
+          ++it;
+        }
+      }
 
-    } ;
+    }
+
+    return index;
+  }
+
+};
 
 }
 

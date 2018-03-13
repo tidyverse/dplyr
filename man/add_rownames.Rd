@@ -12,11 +12,11 @@ add_rownames(df, var = "rowname")
 \item{var}{Name of variable to use}
 }
 \description{
-Deprecated, use \code{\link[tibble]{rownames_to_column}} instead.
+Deprecated, use \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}} instead.
 }
 \examples{
 mtcars \%>\% tbl_df()
 
 mtcars \%>\% add_rownames()
 }
-
+\keyword{internal}

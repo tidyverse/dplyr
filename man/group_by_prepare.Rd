@@ -4,12 +4,12 @@
 \alias{group_by_prepare}
 \title{Prepare for grouping.}
 \usage{
-group_by_prepare(.data, ..., .dots, add = FALSE)
+group_by_prepare(.data, ..., .dots = list(), add = FALSE)
 }
 \value{
 A list
-  \item{data}{Modified tbl}
-  \item{groups}{Modified groups}
+\item{data}{Modified tbl}
+\item{groups}{Modified groups}
 }
 \description{
 Performs standard operations that should happen before individual methods
@@ -17,4 +17,3 @@ process the data. This includes mutating the tbl to add new grouping columns
 and updating the groups (based on add)
 }
 \keyword{internal}
-

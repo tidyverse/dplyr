@@ -3,29 +3,29 @@
 #' These functions support the comparison of results and timings across
 #' multiple sources.
 #'
-#' @param tbls A list of \code{\link{tbl}}s.
+#' @param tbls,tbls_x,tbls_y A list of [tbl()]s.
 #' @param op A function with a single argument, called often with each
-#'   element of \code{tbls}.
+#'   element of `tbls`.
 #' @param ref For checking, an data frame to test results against. If not
-#'   supplied, defaults to the results from the first \code{src}.
+#'   supplied, defaults to the results from the first `src`.
 #' @param compare A function used to compare the results. Defaults to
-#'   \code{equal_data_frame} which ignores the order of rows and columns.
+#'   `equal_data_frame` which ignores the order of rows and columns.
 #' @param times For benchmarking, the number of times each operation is
 #'   repeated.
 #' @param \dots
-#'    For \code{compare_tbls}: additional parameters passed on the
-#'      \code{compare} function
+#'    For `compare_tbls()`: additional parameters passed on the
+#'      `compare()` function
 #'
-#'    For \code{bench_tbls}: additional benchmarks to run.
+#'    For `bench_tbls()`: additional benchmarks to run.
 #' @return
-#'   \code{eval_tbls}: a list of data frames.
+#'   `eval_tbls()`: a list of data frames.
 #'
-#'   \code{compare_tbls}: an invisible \code{TRUE} on success, otherwise
+#'   `compare_tbls()`: an invisible `TRUE` on success, otherwise
 #'   an error is thrown.
 #'
-#'   \code{bench_tbls}: an object of class
-#'   \code{\link[microbenchmark]{microbenchmark}}
-#' @seealso \code{\link{src_local}} for working with local data
+#'   `bench_tbls()`: an object of class
+#'   [microbenchmark::microbenchmark()]
+#' @seealso [src_local()] for working with local data
 #' @examples
 #' \dontrun{
 #' if (require("microbenchmark") && has_lahman()) {
@@ -58,14 +58,13 @@
 #' }
 #' }
 #' @name bench_compare
+#' @keywords internal
 NULL
 
 #' @export
 #' @rdname bench_compare
 bench_tbls <- function(tbls, op, ..., times = 10) {
-  if (!requireNamespace("microbenchmark")) {
-    stop("Please install the microbenchmark package", call. = FALSE)
-  }
+  check_pkg("microbenchmark", "compute table benchmarks")
 
   # Generate call to microbenchmark function that evaluates op for each tbl
   calls <- lapply(seq_along(tbls), function(i) {
@@ -73,22 +72,34 @@ bench_tbls <- function(tbls, op, ..., times = 10) {
   })
   names(calls) <- names(tbls)
 
-  mb <- as.call(c(quote(microbenchmark::microbenchmark), calls, dots(...),
-    list(times = times)))
+  mb <- as.call(c(
+    quote(microbenchmark::microbenchmark), calls, dots(...),
+    list(times = times)
+  ))
   eval(mb)
 }
 
 #' @export
 #' @rdname bench_compare
 compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) {
-  if (length(tbls) < 2 && is.null(ref)) {
+  results <- eval_tbls(tbls, op)
+  expect_equal_tbls(results, compare = compare, ...)
+}
+
+#' @export
+#' @rdname bench_compare
+compare_tbls2 <- function(tbls_x, tbls_y, op, ref = NULL, compare = equal_data_frame, ...) {
+  results <- eval_tbls2(tbls_x, tbls_y, op)
+  expect_equal_tbls(results, compare = compare, ...)
+}
+
+expect_equal_tbls <- function(results, ref = NULL, compare = equal_data_frame, ...) {
+  check_pkg("testthat", "compare tables")
+
+  if (length(results) < 2 && is.null(ref)) {
     testthat::skip("Need at least two srcs to compare")
   }
-  if (!requireNamespace("testthat", quietly = TRUE)) {
-    stop("Please install the testthat package", call. = FALSE)
-  }
 
-  results <- eval_tbls(tbls, op)
 
   if (is.null(ref)) {
     ref <- results[[1]]
@@ -99,17 +110,18 @@ compare_tbls <- function(tbls, op, ref = NULL, compare = equal_data_frame, ...) 
     ref_name <- "supplied comparison"
   }
 
-  for(i in seq_along(rest)) {
+  for (i in seq_along(rest)) {
     ok <- compare(ref, rest[[i]], ...)
     # if (!ok) browser()
-    msg <- paste0(names(rest)[[i]], " not equal to ", ref_name, "\n",
-      attr(ok, "comment"))
+    msg <- paste0(
+      names(rest)[[i]], " not equal to ", ref_name, "\n",
+      attr(ok, "comment")
+    )
     testthat::expect_true(ok, info = msg)
   }
 
   invisible(TRUE)
 }
-
 
 #' @export
 #' @rdname bench_compare
@@ -117,3 +129,8 @@ eval_tbls <- function(tbls, op) {
   lapply(tbls, function(x) as.data.frame(op(x)))
 }
 
+#' @export
+#' @rdname bench_compare
+eval_tbls2 <- function(tbls_x, tbls_y, op) {
+  Map(function(x, y) as.data.frame(op(x, y)), tbls_x, tbls_y)
+}

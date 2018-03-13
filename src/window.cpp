@@ -1,14 +1,14 @@
-#include <Rcpp.h>
-using namespace Rcpp;
+#include "pch.h"
+#include <dplyr/main.h>
 
 //' Cumulativate versions of any, all, and mean
 //'
-//' dplyr adds \code{cumall}, \code{cumany}, and \code{cummean} to complete
+//' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
 //' R's set of cumulate functions to match the aggregation functions available
 //' in most databases
 //'
-//' @param x For \code{cumall} & \code{cumany}, a logical vector; for
-//'   \code{cummean} an integer or numeric vector
+//' @param x For `cumall()` and `cumany()`, a logical vector; for
+//'   `cummean()` an integer or numeric vector
 //' @export
 // [[Rcpp::export]]
 LogicalVector cumall(LogicalVector x) {
@@ -16,17 +16,17 @@ LogicalVector cumall(LogicalVector x) {
   LogicalVector out(n, NA_LOGICAL);
 
   int current = out[0] = x[0];
-  if( current == NA_LOGICAL) return out ;
-  if( current == FALSE){
-    std::fill( out.begin(), out.end(), FALSE ) ;
-    return out ;
+  if (current == NA_LOGICAL) return out;
+  if (current == FALSE) {
+    std::fill(out.begin(), out.end(), FALSE);
+    return out;
   }
   for (int i = 1; i < n; i++) {
-    current = x[i] ;
-    if( current == NA_LOGICAL ) break ;
-    if( current == FALSE ){
-      std::fill( out.begin() + i, out.end(), FALSE ) ;
-      break ;
+    current = x[i];
+    if (current == NA_LOGICAL) break;
+    if (current == FALSE) {
+      std::fill(out.begin() + i, out.end(), FALSE);
+      break;
     }
     out[i] = current && out[i - 1];
   }
@@ -41,17 +41,17 @@ LogicalVector cumany(LogicalVector x) {
   LogicalVector out(n, NA_LOGICAL);
 
   int current = out[0] = x[0];
-  if( current == NA_LOGICAL ) return out ;
-  if( current == TRUE ){
-    std::fill( out.begin(), out.end(), TRUE ) ;
-    return out ;
+  if (current == NA_LOGICAL) return out;
+  if (current == TRUE) {
+    std::fill(out.begin(), out.end(), TRUE);
+    return out;
   }
   for (int i = 1; i < n; i++) {
-    current = x[i] ;
-    if( current == NA_LOGICAL ) break ;
-    if( current == TRUE ){
-      std::fill( out.begin() + i, out.end(), TRUE ) ;
-      break ;
+    current = x[i];
+    if (current == NA_LOGICAL) break;
+    if (current == TRUE) {
+      std::fill(out.begin() + i, out.end(), TRUE);
+      break;
     }
     out[i] = current || out[i - 1];
   }
@@ -67,7 +67,7 @@ NumericVector cummean(NumericVector x) {
   NumericVector out = no_init(n);
 
   double sum = out[0] = x[0];
-  for (int i = 1; i < n; i++ ) {
+  for (int i = 1; i < n; i++) {
     sum += x[i];
     out[i] = sum / (i + 1.0);
   }

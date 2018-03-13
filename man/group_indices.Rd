@@ -2,22 +2,16 @@
 % Please edit documentation in R/group-indices.R
 \name{group_indices}
 \alias{group_indices}
-\alias{group_indices_}
 \title{Group id.}
 \usage{
 group_indices(.data, ...)
-
-group_indices_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{variables to group by. All tbls accept variable names,
-some will also accept functions of variables. Duplicated groups
+\item{...}{Variables to group by. All tbls accept variable names.
+Some tbls will accept functions of variables. Duplicated groups
 will be silently dropped.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \description{
 Generate a unique id for each group
@@ -26,6 +20,6 @@ Generate a unique id for each group
 group_indices(mtcars, cyl)
 }
 \seealso{
-\code{\link{group_by}}
+\code{\link[=group_by]{group_by()}}
 }
-
+\keyword{internal}

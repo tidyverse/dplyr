@@ -2,13 +2,13 @@
 % Please edit documentation in R/tbl-cube.r
 \name{tbl_cube}
 \alias{tbl_cube}
-\title{A data cube tbl.}
+\title{A data cube tbl}
 \usage{
 tbl_cube(dimensions, measures)
 }
 \arguments{
 \item{dimensions}{A named list of vectors. A dimension is a variable
-whose values are known before the experiement is conducted; they are
+whose values are known before the experiment is conducted; they are
 fixed by design (in \pkg{reshape2} they are known as id variables).
 \code{tbl_cubes} are dense which means that almost every combination of
 the dimensions should have associated measurements: missing values require
@@ -43,24 +43,25 @@ extension to storing data frames for indices rather than vectors).
 Manipulation functions:
 
 \itemize{
-  \item \code{select} (M)
+\item \code{select()} (M)
 
-  \item \code{summarise} (M), corresponds to roll-up, but rather more
-    limited since there are no hierarchies.
+\item \code{summarise()} (M), corresponds to roll-up, but rather more
+limited since there are no hierarchies.
 
-  \item \code{filter} (D), corresponds to slice/dice.
+\item \code{filter()} (D), corresponds to slice/dice.
 
-  \item \code{mutate} (M) is not implemented, but should be relatively
-  straightforward given the implementation of \code{summarise}.
+\item \code{mutate()} (M) is not implemented, but should be relatively
+straightforward given the implementation of \code{summarise}.
 
-  \item \code{arrange} (D?) Not implemented: not obvious how much sense
-    it would make
+\item \code{arrange()} (D?) Not implemented: not obvious how much sense
+it would make
 }
 
 Joins: not implemented. See \code{vignettes/joins.graffle} for ideas.
 Probably straightforward if you get the indexes right, and that's probably
 some straightforward array/tensor operation.
 }
+
 \examples{
 # The built in nasa dataset records meterological data (temperature,
 # cloud cover, ozone etc) for a 4d spatio-temporal dataset (lat, long,
@@ -94,7 +95,6 @@ by_loc <- group_by(nasa, lat, long)
 summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
 }
 \seealso{
-\code{\link{as.tbl_cube}} for ways of coercing existing data
-  structures into a \code{tbl_cube}.
+\code{\link[=as.tbl_cube]{as.tbl_cube()}} for ways of coercing existing data
+structures into a \code{tbl_cube}.
 }
-

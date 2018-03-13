@@ -10,20 +10,19 @@ rowwise(data)
 \item{data}{Input data frame.}
 }
 \description{
-\code{rowwise} is used for the results of \code{\link{do}} when you
+\code{rowwise()} is used for the results of \code{\link[=do]{do()}} when you
 create list-variables. It is also useful to support arbitrary
 complex operations that need to be applied to each row.
 }
 \details{
-Currently \code{rowwise} grouping only works with data frames. Its
+Currently, rowwise grouping only works with data frames. Its
 main impact is to allow you to work with list-variables in
-\code{\link{summarise}} and \code{\link{mutate}} without having to
+\code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}} without having to
 use \code{[[1]]}. This makes \code{summarise()} on a rowwise tbl
-effectively equivalent to plyr's \code{ldply}.
+effectively equivalent to \code{\link[plyr:ldply]{plyr::ldply()}}.
 }
 \examples{
 df <- expand.grid(x = 1:3, y = 3:1)
 df \%>\% rowwise() \%>\% do(i = seq(.$x, .$y))
 .Last.value \%>\% summarise(n = length(i))
 }
-

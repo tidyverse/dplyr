@@ -2,48 +2,105 @@
 % Please edit documentation in R/manip.r
 \name{mutate}
 \alias{mutate}
-\alias{mutate_}
 \alias{transmute}
-\alias{transmute_}
-\title{Add new variables.}
+\title{Add new variables}
 \usage{
 mutate(.data, ...)
 
-mutate_(.data, ..., .dots)
-
 transmute(.data, ...)
-
-transmute_(.data, ..., .dots)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
 \item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
-a variable.}
+a variable.
 
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 }
 \value{
 An object of the same class as \code{.data}.
-
-  Data frame row names are silently dropped. To preserve, convert to an
-  explicit variable.
 }
 \description{
-Mutate adds new variables and preserves existing; transmute drops existing
-variables.
+\code{mutate()} adds new variables and preserves existing;
+\code{transmute()} drops existing variables.
 }
-\examples{
-mutate(mtcars, displ_l = disp / 61.0237)
-transmute(mtcars, displ_l = disp / 61.0237)
+\section{Useful functions}{
 
-mutate(mtcars, cyl = NULL)
+\itemize{
+\item \code{\link{+}}, \code{\link{-}} etc
+\item \code{\link[=log]{log()}}
+\item \code{\link[=lead]{lead()}}, \code{\link[=lag]{lag()}}
+\item \code{\link[=dense_rank]{dense_rank()}}, \code{\link[=min_rank]{min_rank()}}, \code{\link[=percent_rank]{percent_rank()}}, \code{\link[=row_number]{row_number()}},
+\code{\link[=cume_dist]{cume_dist()}}, \code{\link[=ntile]{ntile()}}
+\item \code{\link[=cumsum]{cumsum()}}, \code{\link[=cummean]{cummean()}}, \code{\link[=cummin]{cummin()}}, \code{\link[=cummax]{cummax()}}, \code{\link[=cumany]{cumany()}}, \code{\link[=cumall]{cumall()}}
+\item \code{\link[=na_if]{na_if()}}, \code{\link[=coalesce]{coalesce()}}
+\item \code{\link[=if_else]{if_else()}}, \code{\link[=recode]{recode()}}, \code{\link[=case_when]{case_when()}}
+}
+}
+
+\section{Scoped mutation and transmutation}{
+
+
+The three \link{scoped} variants of \code{mutate()} (\code{\link[=mutate_all]{mutate_all()}},
+\code{\link[=mutate_if]{mutate_if()}} and \code{\link[=mutate_at]{mutate_at()}}) and the three variants of
+\code{transmute()} (\code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}},
+\code{\link[=transmute_at]{transmute_at()}}) make it easy to apply a transformation to a
+selection of variables.
+}
+
+\section{Tidy data}{
+
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
+}
+
+\examples{
+# Newly created variables are available immediately
+mtcars \%>\% as_tibble() \%>\% mutate(
+  cyl2 = cyl * 2,
+  cyl4 = cyl2 * 2
+)
+
+# You can also use mutate() to remove variables and
+# modify existing variables
+mtcars \%>\% as_tibble() \%>\% mutate(
+  mpg = NULL,
+  disp = disp * 0.0163871 # convert to litres
+)
+
+
+# window functions are useful for grouped mutates
+mtcars \%>\%
+ group_by(cyl) \%>\%
+ mutate(rank = min_rank(desc(mpg)))
+# see `vignette("window-functions")` for more details
+
+# You can drop variables by setting them to NULL
+mtcars \%>\% mutate(cyl = NULL)
+
+# mutate() vs transmute --------------------------
+# mutate() keeps all existing variables
+mtcars \%>\%
+  mutate(displ_l = disp / 61.0237)
+
+# transmute keeps only the variables you create
+mtcars \%>\%
+  transmute(displ_l = disp / 61.0237)
+
+
+# mutate() supports quasiquotation. You can unquote quosures, which
+# can refer to both contextual variables and variable names:
+var <- 100
+as_tibble(mtcars) \%>\% mutate(cyl = !! quo(cyl * var))
 }
 \seealso{
-Other single.table.verbs: \code{\link{arrange}},
+Other single table verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{select}},
   \code{\link{slice}}, \code{\link{summarise}}
 }
-
+\concept{single table verbs}

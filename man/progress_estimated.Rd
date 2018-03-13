@@ -7,14 +7,14 @@
 progress_estimated(n, min_time = 0)
 }
 \arguments{
-\item{n}{Total number of}
+\item{n}{Total number of items}
 
 \item{min_time}{Progress bar will wait until at least \code{min_time}
 seconds have elapsed before displaying any results.}
 }
 \value{
 A ref class with methods \code{tick()}, \code{print()},
-  \code{pause()}, and \code{stop()}.
+\code{pause()}, and \code{stop()}.
 }
 \description{
 This reference class represents a text progress bar displayed estimated
@@ -46,4 +46,3 @@ for (i in 1:10) p$pause(0.5)$tick()$print()
 }
 }
 \keyword{internal}
-

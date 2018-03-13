@@ -2,79 +2,91 @@
 % Please edit documentation in R/group-by.r
 \name{group_by}
 \alias{group_by}
-\alias{group_by_}
-\alias{regroup}
-\title{Group a tbl by one or more variables.}
+\alias{ungroup}
+\title{Group by one or more variables}
 \usage{
 group_by(.data, ..., add = FALSE)
 
-group_by_(.data, ..., .dots, add = FALSE)
+ungroup(x, ...)
 }
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{variables to group by. All tbls accept variable names,
-some will also accept functions of variables. Duplicated groups
+\item{...}{Variables to group by. All tbls accept variable names.
+Some tbls will accept functions of variables. Duplicated groups
 will be silently dropped.}
 
-\item{add}{By default, when \code{add = FALSE}, \code{group_by} will
-override existing groups. To instead add to the existing groups,
-use \code{add = TRUE}}
+\item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
+override existing groups. To add to the existing groups, use
+\code{add = TRUE}.}
 
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
+\item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \description{
-Most data operations are useful done on groups defined by variables in the
-the dataset. The \code{group_by} function takes an existing tbl
-and converts it into a grouped tbl where operations are performed
-"by group".
+Most data operations are done on groups defined by variables.
+\code{group_by()} takes an existing tbl and converts it into a grouped tbl
+where operations are performed "by group". \code{ungroup()} removes grouping.
 }
 \section{Tbl types}{
 
 
-\code{group_by} is an S3 generic with methods for the three built-in
+\code{group_by()} is an S3 generic with methods for the three built-in
 tbls. See the help for the corresponding classes and their manip
 methods for more details:
 
 \itemize{
-  \item data.frame: \link{grouped_df}
-  \item data.table: \link[dtplyr]{grouped_dt}
-  \item SQLite: \code{\link{src_sqlite}}
-  \item PostgreSQL: \code{\link{src_postgres}}
-  \item MySQL: \code{\link{src_mysql}}
+\item data.frame: \link{grouped_df}
+\item data.table: \link[dtplyr:grouped_dt]{dtplyr::grouped_dt}
+\item SQLite: \code{\link[=src_sqlite]{src_sqlite()}}
+\item PostgreSQL: \code{\link[=src_postgres]{src_postgres()}}
+\item MySQL: \code{\link[=src_mysql]{src_mysql()}}
 }
 }
-\examples{
-by_cyl <- group_by(mtcars, cyl)
-summarise(by_cyl, mean(disp), mean(hp))
-filter(by_cyl, disp == max(disp))
 
-# summarise peels off a single layer of grouping
-by_vs_am <- group_by(mtcars, vs, am)
-by_vs <- summarise(by_vs_am, n = n())
+\section{Scoped grouping}{
+
+
+The three \link{scoped} variants (\code{\link[=group_by_all]{group_by_all()}}, \code{\link[=group_by_if]{group_by_if()}} and
+\code{\link[=group_by_at]{group_by_at()}}) make it easy to group a dataset by a selection of
+variables.
+}
+
+\examples{
+by_cyl <- mtcars \%>\% group_by(cyl)
+
+# grouping doesn't change how the data looks (apart from listing
+# how it's grouped):
+by_cyl
+
+# It changes how it acts with the other dplyr verbs:
+by_cyl \%>\% summarise(
+  disp = mean(disp),
+  hp = mean(hp)
+)
+by_cyl \%>\% filter(disp == max(disp))
+
+# Each call to summarise() removes a layer of grouping
+by_vs_am <- mtcars \%>\% group_by(vs, am)
+by_vs <- by_vs_am \%>\% summarise(n = n())
 by_vs
-summarise(by_vs, n = sum(n))
-# use ungroup() to remove if not wanted
-summarise(ungroup(by_vs), n = sum(n))
+by_vs \%>\% summarise(n = sum(n))
+
+# To removing grouping, use ungroup
+by_vs \%>\%
+  ungroup() \%>\%
+  summarise(n = sum(n))
 
 # You can group by expressions: this is just short-hand for
 # a mutate/rename followed by a simple group_by
-group_by(mtcars, vsam = vs + am)
-group_by(mtcars, vs2 = vs)
+mtcars \%>\% group_by(vsam = vs + am)
 
-# You can also group by a constant, but it's not very useful
-group_by(mtcars, "vs")
+# By default, group_by overrides existing grouping
+by_cyl \%>\%
+  group_by(vs, am) \%>\%
+  group_vars()
 
-# By default, group_by sets groups. Use add = TRUE to add groups
-groups(group_by(by_cyl, vs, am))
-groups(group_by(by_cyl, vs, am, add = TRUE))
-
-# Duplicate groups are silently dropped
-groups(group_by(by_cyl, cyl, cyl))
+# Use add = TRUE to instead append
+by_cyl \%>\%
+  group_by(vs, am, add = TRUE) \%>\%
+  group_vars()
 }
-\seealso{
-\code{\link{ungroup}} for the inverse operation,
-  \code{\link{groups}} for accessors that don't do special evaluation.
-}
-

@@ -3,13 +3,13 @@
 #' This reference class represents a text progress bar displayed estimated
 #' time remaining. When finished, it displays the total duration.  The
 #' automatic progress bar can be disabled by setting option
-#' \code{dplyr.show_progress} to \code{FALSE}.
+#' `dplyr.show_progress` to `FALSE`.
 #'
-#' @param n Total number of
-#' @param min_time Progress bar will wait until at least \code{min_time}
+#' @param n Total number of items
+#' @param min_time Progress bar will wait until at least `min_time`
 #'   seconds have elapsed before displaying any results.
-#' @return A ref class with methods \code{tick()}, \code{print()},
-#'   \code{pause()}, and \code{stop()}.
+#' @return A ref class with methods `tick()`, `print()`,
+#'   `pause()`, and `stop()`.
 #' @keywords internal
 #' @export
 #' @examples
@@ -77,7 +77,7 @@ Progress <- R6::R6Class("Progress",
       "Process one element"
       if (self$stopped) return(self)
 
-      if (self$i == self$n) stop("No more ticks")
+      if (self$i == self$n) abort("No more ticks")
       self$i <- self$i + 1
       self
     },
@@ -91,9 +91,9 @@ Progress <- R6::R6Class("Progress",
     },
 
     print = function(...) {
-      if(!isTRUE(getOption("dplyr.show_progress")) || # user sepecifies no progress
-         !interactive() || # not an interactive session
-         !is.null(getOption("knitr.in.progress"))) { # dplyr used within knitr document
+      if (!isTRUE(getOption("dplyr.show_progress")) || # user sepecifies no progress
+        !interactive() || # not an interactive session
+        !is.null(getOption("knitr.in.progress"))) { # dplyr used within knitr document
         return(invisible(self))
       }
 
@@ -127,7 +127,6 @@ Progress <- R6::R6Class("Progress",
 
       invisible(self)
     }
-
   )
 )
 

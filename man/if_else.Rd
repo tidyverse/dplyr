@@ -2,7 +2,7 @@
 % Please edit documentation in R/if_else.R
 \name{if_else}
 \alias{if_else}
-\title{Vectorised if.}
+\title{Vectorised if}
 \usage{
 if_else(condition, true, false, missing = NULL)
 }
@@ -11,7 +11,7 @@ if_else(condition, true, false, missing = NULL)
 
 \item{true, false}{Values to use for \code{TRUE} and \code{FALSE} values of
 \code{condition}. They must be either the same length as \code{condition},
-or length 1. They must also be the same type: \code{if_else} checks that
+or length 1. They must also be the same type: \code{if_else()} checks that
 they have the same type and same class. All other attributes are
 taken from \code{true}.}
 
@@ -20,11 +20,11 @@ values.}
 }
 \value{
 Where \code{condition} is \code{TRUE}, the matching value from
-  \code{true}, where it's \code{FALSE}, the matching value from \code{false},
-  otherwise \code{NA}.
+\code{true}, where it's \code{FALSE}, the matching value from \code{false},
+otherwise \code{NA}.
 }
 \description{
-Compared to the base \code{\link{ifelse}()}, this function is more strict.
+Compared to the base \code{\link[=ifelse]{ifelse()}}, this function is more strict.
 It checks that \code{true} and \code{false} are the same type. This
 strictness makes the output type more predictable, and makes it somewhat
 faster.
@@ -40,4 +40,3 @@ ifelse(x \%in\% c("a", "b", "c"), x, factor(NA))
 if_else(x \%in\% c("a", "b", "c"), x, factor(NA))
 # Attributes are taken from the `true` vector,
 }
-

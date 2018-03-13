@@ -1,17 +1,17 @@
-#' Flexible equality comparison for data frames.
+#' Flexible equality comparison for data frames
 #'
-#' You can use \code{all_equal} with any data frame, and dplyr also provides
-#' \code{tbl_df} methods for \code{\link{all.equal}}.
+#' You can use `all_equal()` with any data frame, and dplyr also provides
+#' `tbl_df` methods for [all.equal()].
 #'
 #' @param target,current Two data frames to compare.
 #' @param ignore_col_order Should order of columns be ignored?
 #' @param ignore_row_order Should order of rows be ignored?
 #' @param convert Should similar classes be converted? Currently this will
 #'   convert factor to character and integer to double.
-#' @param ... Ignored. Needed for compatibility with \code{all.equal}.
-#' @return \code{TRUE} if equal, otherwise a character vector describing
-#'   the reasons why they're not equal. Use \code{\link{isTRUE}} if using the
-#'   result in an \code{if} expression.
+#' @param ... Ignored. Needed for compatibility with `all.equal()`.
+#' @return `TRUE` if equal, otherwise a character vector describing
+#'   the reasons why they're not equal. Use [isTRUE()] if using the
+#'   result in an `if` expression.
 #' @export
 #' @examples
 #' scramble <- function(x) x[sample(nrow(x)), sample(ncol(x))]
@@ -32,8 +32,10 @@
 all_equal <- function(target, current, ignore_col_order = TRUE,
                       ignore_row_order = TRUE, convert = FALSE, ...) {
 
-  res <- equal_data_frame(target, current, ignore_col_order = ignore_col_order,
-    ignore_row_order = ignore_row_order, convert = convert)
+  res <- equal_data_frame(target, current,
+    ignore_col_order = ignore_col_order,
+    ignore_row_order = ignore_row_order, convert = convert
+  )
 
   if (res) {
     TRUE

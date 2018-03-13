@@ -12,17 +12,22 @@ recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
 \arguments{
 \item{.x}{A vector to modify}
 
-\item{...}{Replacments. These should be named for character and factor
-  \code{.x}, and can be named for numeric \code{.x}.
+\item{...}{Replacements. These should be named for character and factor
+\code{.x}, and can be named for numeric \code{.x}. The argument names should be the
+current values to be replaced, and the argument values should be the new
+(replacement) values.
 
-  All replacements must be the same type, and must have either
-  length one or the same length as x.}
+All replacements must be the same type, and must have either
+length one or the same length as x.
+
+These dots support \link[rlang:tidy-dots]{tidy dots} features.}
 
 \item{.default}{If supplied, all values not otherwise matched will
 be given this value. If not supplied and if the replacements are
 the same type as the original values in \code{.x}, unmatched
 values are not changed. If not supplied and if the replacements
 are not compatible, unmatched values are replaced with \code{NA}.
+
 \code{.default} must be either length 1 or the same length as
 \code{.x}.}
 
@@ -35,15 +40,23 @@ ordered factor.}
 }
 \value{
 A vector the same length as \code{.x}, and the same type as
-  the first of \code{...}, \code{.default}, or \code{.missing}.
-  \code{recode_factor()} returns a factor whose levels are in the
-  same order as in \code{...}.
+the first of \code{...}, \code{.default}, or \code{.missing}.
+\code{recode_factor()} returns a factor whose levels are in the
+same order as in \code{...}.
 }
 \description{
-This is a vectorised version of \code{\link{switch}()}: you can replace
+This is a vectorised version of \code{\link[=switch]{switch()}}: you can replace
 numeric values based on their position, and character values by their
 name. This is an S3 generic: dplyr provides methods for numeric, character,
-and factors. For logical vectors, use \code{\link{if_else}}
+and factors. For logical vectors, use \code{\link[=if_else]{if_else()}}. For more complicated
+criteria, use \code{\link[=case_when]{case_when()}}.
+}
+\details{
+You can use \code{recode()} directly with factors; it will preserve the existing
+order of levels while changing the values. Alternatively, you can
+use \code{recode_factor()}, which will change the order of levels to match
+the order of replacements. See the \href{http://forcats.tidyverse.org/}{forcats}
+package for more tools for working with factors and their levels.
 }
 \examples{
 # Recode values with named arguments
@@ -81,4 +94,3 @@ recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M")
 recode_factor(letters[1:3], b = "z", c = "y")
 recode_factor(factor(letters[1:3]), b = "z", c = "y")
 }
-

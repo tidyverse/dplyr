@@ -1,43 +1,79 @@
-#' Efficiently bind multiple data frames by row and column.
+#' Efficiently bind multiple data frames by row and column
 #'
 #' This is an efficient implementation of the common pattern of
-#' \code{do.call(rbind, dfs)} or \code{do.call(cbind, dfs)} for binding many
-#' data frames into one. \code{combine()} acts like \code{\link{c}()} or
-#' \code{\link{unlist}()} but uses consistent dplyr coercion rules.
+#' `do.call(rbind, dfs)` or `do.call(cbind, dfs)` for binding many
+#' data frames into one.
+#'
+#' The output of `bind_rows()` will contain a column if that column
+#' appears in any of the inputs.
 #'
 #' @section Deprecated functions:
-#' \code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
-#' \code{bind_rows()}.
+#' `rbind_list()` and `rbind_all()` have been deprecated. Instead use
+#' `bind_rows()`.
 #'
 #' @param ... Data frames to combine.
 #'
 #'   Each argument can either be a data frame, a list that could be a data
 #'   frame, or a list of data frames.
 #'
-#'   When column-binding, rows are matched by position, not value so all data
-#'   frames must have the same number of rows. To match by value, not
-#'   position, see \code{left_join} etc. When row-binding, columns are
-#'   matched by name, and any values that don't match will be filled with NA.
-#' @param .id Data frames identifier.
+#'   When row-binding, columns are matched by name, and any missing
+#'   columns with be filled with NA.
 #'
-#'   When \code{.id} is supplied, a new column of identifiers is
+#'   When column-binding, rows are matched by position, so all data
+#'   frames must have the same number of rows. To match by value, not
+#'   position, see [join].
+#' @param .id Data frame identifier.
+#'
+#'   When `.id` is supplied, a new column of identifiers is
 #'   created to link each row to its original data frame. The labels
-#'   are taken from the named arguments to \code{bind_rows()}. When a
+#'   are taken from the named arguments to `bind_rows()`. When a
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
-#' @return \code{bind_rows} and \code{bind_cols} return the same type as
-#'   the first input, either a data frame, \code{tbl_df}, or \code{grouped_df}.
+#' @return `bind_rows()` and `bind_cols()` return the same type as
+#'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @aliases rbind_all rbind_list
 #' @examples
 #' one <- mtcars[1:4, ]
 #' two <- mtcars[11:14, ]
 #'
-#' # You can either supply data frames as arguments
+#' # You can supply data frames as arguments:
 #' bind_rows(one, two)
-#' # Or a single argument containing a list of data frames
+#'
+#' # The contents of lists is automatically spliced:
 #' bind_rows(list(one, two))
 #' bind_rows(split(mtcars, mtcars$cyl))
+#' bind_rows(list(one, two), list(two, one))
+#'
+#'
+#' # In addition to data frames, you can supply vectors. In the rows
+#' # direction, the vectors represent rows and should have inner
+#' # names:
+#' bind_rows(
+#'   c(a = 1, b = 2),
+#'   c(a = 3, b = 4)
+#' )
+#'
+#' # You can mix vectors and data frames:
+#' bind_rows(
+#'   c(a = 1, b = 2),
+#'   data_frame(a = 3:4, b = 5:6),
+#'   c(a = 7, b = 8)
+#' )
+#'
+#'
+#' # Note that for historical reasons, lists containg vectors are
+#' # always treated as data frames. Thus their vectors are treated as
+#' # columns rather than rows, and their inner names are ignored:
+#' ll <- list(
+#'   a = c(A = 1, B = 2),
+#'   b = c(A = 3, B = 4)
+#' )
+#' bind_rows(ll)
+#'
+#' # You can circumvent that behaviour with explicit splicing:
+#' bind_rows(!!!ll)
+#'
 #'
 #' # When you supply a column name with the `.id` argument, a new
 #' # column is created to link each row to its original data frame
@@ -69,26 +105,49 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  x <- list_or_dots(...)
+  x <- flatten_bindable(dots_values(...))
 
-  if (!is.null(.id)) {
-    if (!(is.character(.id) && length(.id) == 1)) {
-      stop(".id is not a string", call. = FALSE)
+  if (!length(x)) {
+    # Handle corner cases gracefully, but always return a tibble
+    if (inherits(x, "data.frame")) {
+      return(x)
+    } else {
+      return(tibble())
     }
-    names(x) <- names(x) %||% seq_along(x)
+  }
+
+  if (!is_null(.id)) {
+    if (!(is_string(.id))) {
+      bad_args(".id", "must be a scalar string, ",
+        "not {type_of(.id)} of length {length(.id)}"
+      )
+    }
+    if (!all(have_name(x) | map_lgl(x, is_empty))) {
+      x <- compact(x)
+      names(x) <- seq_along(x)
+    }
   }
 
   bind_rows_(x, .id)
 }
 
-
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- list_or_dots(...)
-  cbind_all(x)
+  x <- flatten_bindable(dots_values(...))
+  out <- cbind_all(x)
+  tibble::repair_names(out)
 }
 
+#' @description
+#' `combine()` acts like [c()] or
+#' [unlist()] but uses consistent dplyr coercion rules.
+#'
+#' @details
+#' If `combine()` it is called with exactly one list argument, the list is
+#' simplified (similarly to `unlist(recursive = FALSE)`. `NULL` arguments are
+#' ignored. If the result is empty, `logical()` is returned.
+#'
 #' @export
 #' @rdname bind
 combine <- function(...) {
@@ -98,66 +157,4 @@ combine <- function(...) {
   } else {
     combine_all(args)
   }
-}
-
-list_or_dots <- function(...) {
-  dots <- list(...)
-
-  # Need to ensure that each component is a data list:
-  data_lists <- vapply(dots, is_data_list, logical(1))
-  dots[data_lists] <- lapply(dots[data_lists], list)
-
-  unlist(dots, recursive = FALSE)
-}
-
-# Is this object a
-is_data_list <- function(x) {
-  # data frames are trivially data list, and so are nulls
-  if (is.data.frame(x) || is.null(x))
-    return(TRUE)
-
-  # Must be a list
-  if (!is.list(x))
-    return(FALSE)
-
-  # 0 length named list (#1515)
-  if( !is.null(names(x)) && length(x) == 0)
-    return(TRUE)
-
-  # With names
-  if (any(!has_names(x)))
-    return(FALSE)
-
-  # Where each element is an 1d vector or list
-  is_1d <- vapply(x, is_1d, logical(1))
-  if (any(!is_1d))
-    return(FALSE)
-
-  # All of which have the same length
-  n <- vapply(x, length, integer(1))
-  if (any(n != n[1]))
-    return(FALSE)
-
-  TRUE
-}
-
-
-# Deprecated functions ----------------------------------------------------
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_list <- function(...){
-  warning("`rbind_list()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE)
-  rbind_list__impl(environment())
-}
-
-#' @export
-#' @rdname bind
-#' @usage NULL
-rbind_all <- function(x, id = NULL) {
-  warning("`rbind_all()` is deprecated. Please use `bind_rows()` instead.",
-    call. = FALSE)
-  bind_rows_(x, id = id)
 }

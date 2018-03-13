@@ -2,12 +2,12 @@
 % Please edit documentation in R/copy-to.r
 \name{auto_copy}
 \alias{auto_copy}
-\title{Copy tables to same source, if necessary.}
+\title{Copy tables to same source, if necessary}
 \usage{
 auto_copy(x, y, copy = FALSE, ...)
 }
 \arguments{
-\item{x, y}{\code{y} will be copied to \code{x}, if neccessary.}
+\item{x, y}{\code{y} will be copied to \code{x}, if necessary.}
 
 \item{copy}{If \code{x} and \code{y} are not from the same data source,
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
@@ -17,6 +17,5 @@ it is a potentially expensive operation so you must opt into it.}
 \item{...}{Other arguments passed on to methods.}
 }
 \description{
-Copy tables to same source, if necessary.
+Copy tables to same source, if necessary
 }
-

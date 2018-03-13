@@ -1,18 +1,23 @@
-#' Select top (or bottom) n rows (by value).
+#' Select top (or bottom) n rows (by value)
 #'
-#' This is a convenient wrapper that uses \code{\link{filter}} and
-#' \code{\link{min_rank}} to select the top or bottom entries in each group,
-#' ordered by \code{wt}.
+#' This is a convenient wrapper that uses [filter()] and
+#' [min_rank()] to select the top or bottom entries in each group,
+#' ordered by `wt`.
 #'
-#' @param x a \code{\link{tbl}} to filter
-#' @param n number of rows to return. If \code{x} is grouped, this is the
-#'   number of rows per group. Will include more than \code{n} rows if
+#' @param x a [tbl()] to filter
+#' @param n number of rows to return. If `x` is grouped, this is the
+#'   number of rows per group. Will include more than `n` rows if
 #'   there are ties.
 #'
-#'   If \code{n} is positive, selects the top \code{n} rows. If negative,
-#'   selects the bottom \code{n} rows.
-#' @param wt (Optional). The variable to use for ordering. If not specified,
-#'   defaults to the last variable in the tbl.
+#'   If `n` is positive, selects the top `n` rows. If negative,
+#'   selects the bottom `n` rows.
+#' @param wt (Optional). The variable to use for ordering. If not
+#'   specified, defaults to the last variable in the tbl.
+#'
+#'   This argument is automatically [quoted][rlang::quo] and later
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. It supports [unquoting][rlang::quasiquotation]. See
+#'   `vignette("programming")` for an introduction to these concepts.
 #' @export
 #' @examples
 #' df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
@@ -35,22 +40,24 @@
 #' tbl_df(Batting) %>% group_by(playerID) %>% top_n(1, G)
 #' }
 top_n <- function(x, n, wt) {
-  if (missing(wt)) {
+  wt <- enquo(wt)
+
+  if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
-    message("Selecting by ", vars[length(vars)])
-    wt <- as.name(vars[length(vars)])
-  } else {
-    wt <- substitute(wt)
+    wt_name <- vars[length(vars)]
+    inform(glue("Selecting by ", wt_name))
+    wt <- sym(wt_name)
   }
 
-  stopifnot(is.numeric(n), length(n) == 1)
+  if (!is_scalar_integerish(n)) {
+    abort("`n` must be a scalar integer")
+  }
+
   if (n > 0) {
-    call <- substitute(filter(x, min_rank(desc(wt)) <= n),
-      list(n = n, wt = wt))
+    quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
   } else {
-    call <- substitute(filter(x, min_rank(wt) <= n),
-      list(n = abs(n), wt = wt))
+    quo <- quo(filter(x, min_rank(!!wt) <= !!abs(n)))
   }
 
-  eval(call)
+  eval_tidy(quo)
 }

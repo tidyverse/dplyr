@@ -10,7 +10,7 @@ test_that("sample preserves class", {
   expect_is(sample_frac(tbl_df(mtcars), 1), "tbl_df")
 })
 
-# Ungrouped  -------------------------------------------------------------------
+# Ungrouped --------------------------------------------------------------------
 
 df <- data.frame(
   x = 1:2,
@@ -18,15 +18,54 @@ df <- data.frame(
 )
 
 test_that("sample respects weight", {
-  expect_error(sample_n(df, 2, weight = y), "too few positive probabilities")
+  # error message from base R
+  expect_error(sample_n(df, 2, weight = y))
   expect_equal(sample_n(df, 1, weight = y)$x, 2)
 
-  expect_error(sample_frac(df, 1, weight = y), "too few positive probabilities")
+  expect_error(
+    sample_frac(df, 2),
+    "`size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement",
+    fixed = TRUE
+  )
+  expect_error(
+    sample_frac(df %>% group_by(y), 2),
+    "`size` of sampled fraction must be less or equal to one, set `replace` = TRUE to use sampling with replacement",
+    fixed = TRUE
+  )
+  # error message from base R
+  expect_error(sample_frac(df, 1, weight = y))
   expect_equal(sample_frac(df, 0.5, weight = y)$x, 2)
 })
 
+test_that("sample_* error message", {
+  expect_error(
+    check_weight(letters[1:2], 2),
+    "`weight` must be a numeric, not character",
+    fixed = TRUE
+  )
+  expect_error(
+    check_weight(-1:-2, 2),
+    "`weight` must be a vector with all values nonnegative, not -1",
+    fixed = TRUE
+  )
+  expect_error(
+    check_weight(letters, 2),
+    "`weight` must be a numeric, not character"
+  )
+})
+
 test_that("sample gives informative error for unknown type", {
-  expect_error(sample_n(list()), "Don't know how to sample")
+  expect_error(
+    sample_n(list()),
+    "`tbl` must be a data frame, not list",
+    fixed = TRUE
+  )
+
+  expect_error(
+    sample_frac(list()),
+    "`tbl` must be a data frame, not list",
+    fixed = TRUE
+  )
 })
 
 # Grouped ----------------------------------------------------------------------
@@ -34,29 +73,35 @@ test_that("sample gives informative error for unknown type", {
 test_that("sampling grouped tbl samples each group", {
   sampled <- mtcars %>% group_by(cyl) %>% sample_n(2)
   expect_is(sampled, "grouped_df")
-  expect_equal(groups(sampled), list(quote(cyl)))
+  expect_groups(sampled, "cyl")
   expect_equal(nrow(sampled), 6)
   expect_equal(sampled$cyl, rep(c(4, 6, 8), each = 2))
 })
 
 test_that("can't sample more values than obs (without replacement)", {
   by_cyl <- mtcars %>% group_by(cyl)
-  expect_error(sample_n(by_cyl, 10), "Do you want replace = TRUE")
+  expect_error(
+    sample_n(by_cyl, 10),
+    "`size` must be less or equal than 7 (size of data), set `replace` = TRUE to use sampling with replacement",
+    fixed = TRUE
+  )
 })
 
-df2 <- data.frame(
-  x = rep(1:2, 2),
-  y = rep(c(0, 1), 2),
-  g = rep(1:2, each = 2)
+df2 <- tibble(
+  x = rep(1:2, 100),
+  y = rep(c(0, 1), 100),
+  g = rep(1:2, each = 100)
 )
 
 
 test_that("grouped sample respects weight", {
-  grp <- df2 %>% group_by(g)
+  grp <- df2 %>% sample_frac() %>% group_by(g)
 
-  expect_error(sample_n(grp, 2, weight = y), "too few positive probabilities")
+  # error message from base R
+  expect_error(sample_n(grp, nrow(df2) / 2 + 1, weight = y))
   expect_equal(sample_n(grp, 1, weight = y)$x, c(2, 2))
 
-  expect_error(sample_frac(grp, 1, weight = y), "too few positive probabilities")
-  expect_equal(sample_frac(grp, 0.5, weight = y)$x, c(2, 2))
+  # error message from base R
+  expect_error(sample_frac(grp, 1, weight = y))
+  expect_equal(sample_frac(grp, 0.5, weight = y)$x, rep(2, nrow(df2) / 2))
 })

@@ -1,67 +1,93 @@
-#' Join two tbls together.
+#' Join two tbls together
 #'
 #' These are generic functions that dispatch to individual tbl methods - see the
-#' method documentation for details of individual data sources. \code{x} and
-#' \code{y} should usually be from the same data source, but if \code{copy} is
-#' \code{TRUE}, \code{y} will automatically be copied to the same source as
-#' \code{x} - this may be an expensive operation.
+#' method documentation for details of individual data sources. `x` and
+#' `y` should usually be from the same data source, but if `copy` is
+#' `TRUE`, `y` will automatically be copied to the same source as `x`.
 #'
 #' @section Join types:
 #'
-#' Currently dplyr supports four join types:
+#' Currently dplyr supports four types of mutating joins and two types of filtering joins.
+#'
+#' \strong{Mutating joins} combine variables from the two data.frames:
 #'
 #' \describe{
-#'    \item{\code{inner_join}}{return all rows from \code{x} where there are matching
-#'    values in \code{y}, and all columns from \code{x} and \code{y}. If there are multiple matches
-#'    between \code{x} and \code{y}, all combination of the matches are returned.}
+#'    \item{`inner_join()`}{return all rows from `x` where there are matching
+#'    values in `y`, and all columns from `x` and `y`. If there are multiple matches
+#'    between `x` and `y`, all combination of the matches are returned.}
 #'
-#'    \item{\code{left_join}}{return all rows from \code{x}, and all columns from \code{x}
-#'    and \code{y}. Rows in \code{x} with no match in \code{y} will have \code{NA} values in the new
-#'    columns. If there are multiple matches between \code{x} and \code{y}, all combinations
+#'    \item{`left_join()`}{return all rows from `x`, and all columns from `x`
+#'    and `y`. Rows in `x` with no match in `y` will have `NA` values in the new
+#'    columns. If there are multiple matches between `x` and `y`, all combinations
 #'    of the matches are returned.}
 #'
-#'   \item{\code{right_join}}{return all rows from \code{y}, and all columns from \code{x}
-#'    and y. Rows in \code{y} with no match in \code{x} will have \code{NA} values in the new
-#'    columns. If there are multiple matches between \code{x} and \code{y}, all combinations
+#'   \item{`right_join()`}{return all rows from `y`, and all columns from `x`
+#'    and y. Rows in `y` with no match in `x` will have `NA` values in the new
+#'    columns. If there are multiple matches between `x` and `y`, all combinations
 #'    of the matches are returned.}
+
+#'    \item{`full_join()`}{return all rows and all columns from both `x` and `y`.
+#'    Where there are not matching values, returns `NA` for the one missing.}
+#' }
 #'
-#'    \item{\code{semi_join}}{return all rows from \code{x} where there are matching
-#'    values in \code{y}, keeping just columns from \code{x}.
+#'
+#' \strong{Filtering joins} keep cases from the left-hand data.frame:
+#'
+#' \describe{
+#'    \item{`semi_join()`}{return all rows from `x` where there are matching
+#'    values in `y`, keeping just columns from `x`.
 #'
 #'    A semi join differs from an inner join because an inner join will return
-#'    one row of \code{x} for each matching row  of \code{y}, where a semi
-#'    join will never duplicate rows of \code{x}.}
+#'    one row of `x` for each matching row  of `y`, where a semi
+#'    join will never duplicate rows of `x`.}
 #'
-#'    \item{\code{anti_join}}{return all rows from \code{x} where there are not
-#'    matching values in \code{y}, keeping just columns from \code{x}.}
-#'
-#'    \item{\code{full_join}}{return all rows and all columns from both \code{x} and \code{y}.
-#'    Where there are not matching values, returns \code{NA} for the one missing.}
+#'    \item{`anti_join()`}{return all rows from `x` where there are not
+#'    matching values in `y`, keeping just columns from `x`.}
 #' }
 #'
 #' @section Grouping:
 #'
 #' Groups are ignored for the purpose of joining, but the result preserves
-#' the grouping of \code{x}.
+#' the grouping of `x`.
 #'
 #' @param x,y tbls to join
-#' @param by a character vector of variables to join by.  If \code{NULL}, the
-#'   default, \code{join} will do a natural join, using all variables with
+#' @param by a character vector of variables to join by.  If `NULL`, the
+#'   default, `*_join()` will do a natural join, using all variables with
 #'   common names across the two tables. A message lists the variables so
 #'   that you can check they're right (to suppress the message, simply
 #'   explicitly list the variables that you want to join).
 #'
 #'   To join by different variables on x and y use a named vector.
-#'   For example, \code{by = c("a" = "b")} will match \code{x.a} to
-#'   \code{y.b}.
-#' @param copy If \code{x} and \code{y} are not from the same data source,
-#'   and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
-#'   same src as \code{x}.  This allows you to join tables across srcs, but
+#'   For example, `by = c("a" = "b")` will match `x.a` to
+#'   `y.b`.
+#' @param copy If `x` and `y` are not from the same data source,
+#'   and `copy` is `TRUE`, then `y` will be copied into the
+#'   same src as `x`.  This allows you to join tables across srcs, but
 #'   it is a potentially expensive operation so you must opt into it.
-#' @param suffix If there are non-joined duplicate variables in \code{x} and
-#'   \code{y}, these suffixes will be added to the output to diambiguate them.
-#' @param ... other parameters passed onto methods
+#' @param suffix If there are non-joined duplicate variables in `x` and
+#'   `y`, these suffixes will be added to the output to disambiguate them.
+#'   Should be a character vector of length 2.
+#' @param ... other parameters passed onto methods, for instance, `na_matches`
+#'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
 #' @name join
+#' @examples
+#' # "Mutating" joins combine variables from the LHS and RHS
+#' band_members %>% inner_join(band_instruments)
+#' band_members %>% left_join(band_instruments)
+#' band_members %>% right_join(band_instruments)
+#' band_members %>% full_join(band_instruments)
+#'
+#' # "Filtering" joins keep cases from the LHS
+#' band_members %>% semi_join(band_instruments)
+#' band_members %>% anti_join(band_instruments)
+#'
+#' # To suppress the message, supply by
+#' band_members %>% inner_join(band_instruments, by = "name")
+#' # This is good practice in production code
+#'
+#' # Use a named `by` if the join variables have different names
+#' band_members %>% full_join(band_instruments2, by = c("name" = "artist"))
+#' # Note that only the key from the LHS is kept
 NULL
 
 #' @rdname join
@@ -104,25 +130,51 @@ anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 #'
 #' @export
 #' @keywords internal
-common_by <- function(by = NULL, x, y) {
-  if (is.list(by)) return(by)
+common_by <- function(by = NULL, x, y) UseMethod("common_by", by)
 
-  if (!is.null(by)) {
-    by <- by[!duplicated(by)]
-    x <- names(by) %||% by
-    y <- unname(by)
+#' @export
+common_by.character <- function(by, x, y) {
+  by <- common_by_from_vector(by)
+  common_by.list(by, x, y)
+}
 
-    # If x partially named, assume unnamed are the same in both tables
-    x[x == ""] <- y[x == ""]
+common_by_from_vector <- function(by) {
+  by <- by[!duplicated(by)]
+  by_x <- names(by) %||% by
+  by_y <- unname(by)
 
-    return(list(x = x, y = y))
+  # If x partially named, assume unnamed are the same in both tables
+  by_x[by_x == ""] <- by_y[by_x == ""]
+
+  list(x = by_x, y = by_y)
+}
+
+#' @export
+common_by.list <- function(by, x, y) {
+  x_vars <- tbl_vars(x)
+  if (!all(by$x %in% x_vars)) {
+    bad_args("by", "can't contain join column {missing} which is missing from LHS",
+      missing = fmt_obj(setdiff(by$x, x_vars))
+    )
   }
 
+  y_vars <- tbl_vars(y)
+  if (!all(by$y %in% y_vars)) {
+    bad_args("by", "can't contain join column {missing} which is missing from RHS",
+      missing = fmt_obj(setdiff(by$y, y_vars))
+    )
+  }
+
+  by
+}
+
+#' @export
+common_by.NULL <- function(by, x, y) {
   by <- intersect(tbl_vars(x), tbl_vars(y))
   if (length(by) == 0) {
-    stop("No common variables. Please specify `by` param.", call. = FALSE)
+    bad_args("by", "required, because the data sources have no common variables")
   }
-  message("Joining, by = ", utils::capture.output(dput(by)))
+  inform(auto_by_msg(by))
 
   list(
     x = by,
@@ -130,28 +182,28 @@ common_by <- function(by = NULL, x, y) {
   )
 }
 
-# Returns NULL if variables don't need to be renamed
-unique_names <- function(x_names, y_names, by, suffix = c(".x", ".y")) {
+auto_by_msg <- function(by) {
+  by_quoted <- encodeString(by, quote = '"')
+  if (length(by_quoted) == 1L) {
+    by_code <- by_quoted
+  } else {
+    by_code <- paste0("c(", paste(by_quoted, collapse = ", "), ")")
+  }
+  paste0("Joining, by = ", by_code)
+}
 
-  common <- setdiff(intersect(x_names, y_names), by$x[by$x == by$y])
-  if (length(common) == 0) return(NULL)
-
-  suffix <- check_suffix(suffix)
-
-  x_match <- match(common, x_names)
-  x_new <- x_names
-  x_new[x_match] <- paste0(x_names[x_match], suffix$x)
-
-  y_match <- match(common, y_names)
-  y_new <- y_names
-  y_new[y_match] <- paste0(y_names[y_match], suffix$y)
-
-  list(x = setNames(x_new, x_names), y = setNames(y_new, y_names))
+#' @export
+common_by.default <- function(by, x, y) {
+  bad_args("by", "must be a (named) character vector, list, or NULL for ",
+    "natural joins (not recommended in production code), not {type_of(by)}"
+  )
 }
 
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
-    stop("`suffix` must be a character vector of length 2.", call. = FALSE)
+    bad_args("suffix", "must be a character vector of length 2, ",
+      "not {type_of(x)} of length {length(x)}"
+    )
   }
 
   list(x = x[1], y = x[2])

@@ -2,31 +2,44 @@
 % Please edit documentation in R/manip.r
 \name{slice}
 \alias{slice}
-\alias{slice_}
-\title{Select rows by position.}
+\title{Select rows by position}
 \usage{
 slice(.data, ...)
-
-slice_(.data, ..., .dots)
 }
 \arguments{
-\item{.data}{A tbl. All main verbs are S3 generics and provide methods
-for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.}
+\item{.data}{A tbl.}
 
-\item{...}{Integer row values}
+\item{...}{Integer row values.
 
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
+These arguments are automatically \link[rlang:quo]{quoted} and
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. They support \link[rlang:quasiquotation]{unquoting} and
+splicing. See \code{vignette("programming")} for an introduction to
+these concepts.}
 }
 \description{
 Slice does not work with relational databases because they have no
 intrinsic notion of row order. If you want to perform the equivalent
-operation, use \code{\link{filter}()} and \code{\link{row_number}()}.
+operation, use \code{\link[=filter]{filter()}} and \code{\link[=row_number]{row_number()}}.
 }
+\details{
+Positive values select rows to keep; negative values drop rows. The
+values provided must be either all positive or all negative.
+}
+\section{Tidy data}{
+
+When applied to a data frame, row names are silently dropped. To preserve,
+convert to an explicit variable with \code{\link[tibble:rownames_to_column]{tibble::rownames_to_column()}}.
+}
+
 \examples{
 slice(mtcars, 1L)
 slice(mtcars, n())
 slice(mtcars, 5:n())
+# Rows can be dropped with negative indices:
+slice(mtcars, -5:-n())
+# In this case, the result will be equivalent to:
+slice(mtcars, 1:4)
 
 by_cyl <- group_by(mtcars, cyl)
 slice(by_cyl, 1:2)
@@ -39,8 +52,8 @@ filter(mtcars, row_number() == n())
 filter(mtcars, between(row_number(), 5, n()))
 }
 \seealso{
-Other single.table.verbs: \code{\link{arrange}},
+Other single table verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{mutate}},
   \code{\link{select}}, \code{\link{summarise}}
 }
-
+\concept{single table verbs}

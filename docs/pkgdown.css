@@ -1,0 +1,236 @@
+img.icon {
+  float: left;
+  margin-left: -35px;
+  width: 30px;
+  height: 30px;
+}
+
+body {font-size: 16px;}
+h1 {font-size: 40px;}
+h2 {font-size: 30px;}
+
+/* Fixes for fixed navbar --------------------------*/
+
+body {
+  position: relative;
+  padding-top: 65px;
+}
+
+.contents h1, .contents h2, .contents h3, .contents h4 {
+  padding-top: 65px;
+  margin-top: -45px;
+}
+
+.page-header {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding-bottom: 0px;
+}
+
+/* Static header placement on mobile devices */
+@media (max-width: 767px) {
+  .navbar-fixed-top {
+    position: absolute;
+  }
+}
+
+.navbar-toggle {
+  margin-top: 8px;
+  margin-bottom: 5px;
+}
+
+.navbar-nav li a {
+  padding-bottom: 10px;
+}
+.navbar-default .navbar-nav > .active > a,
+.navbar-default .navbar-nav > .active > a:hover,
+.navbar-default .navbar-nav > .active > a:focus {
+  background-color: #eee;
+}
+
+/* Table of contents --------------------------*/
+
+#sidebar {
+  /*
+    Needed to avoid bug in sticky-kit:
+    https://github.com/leafo/sticky-kit/issues/169
+  */
+  position:static;
+}
+
+#sidebar h2 {
+  font-size: 1.6em;
+  margin-top: 1em;
+  margin-bottom: 0.25em;
+}
+
+#sidebar .list-unstyled li {
+  margin-bottom: 0.5em;
+  line-height: 1.4;
+}
+
+#sidebar small {
+  color: #777;
+}
+
+/* Syntax highlighting ---------------------------------------------------- */
+
+pre {
+  word-wrap: normal;
+  word-break: normal;
+  border: none;
+}
+
+pre, code {
+  background-color: #fafafa;
+  color: #000000;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+pre img {
+  background-color: #fff;
+  display: block;
+}
+
+code a, pre a {
+  color: #375f84;
+}
+
+.fl      {color: #1514b5;}
+.fu      {color: #000000;} /* function */
+.ch,.st  {color: #036a07;} /* string */
+.kw      {color: #264D66;} /* keyword */
+.co      {color: #777777;} /* comment */
+
+.message { color: black;   font-weight: bolder;}
+.error   { color: orange;  font-weight: bolder;}
+.warning { color: orange; font-weight: normal;}
+
+
+/* Status --------------------------- */
+
+.status-container {
+  padding-top:32px;
+}
+
+.status-container  a {
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* For shrinking navbar ------------------ */
+
+/* For big header
+
+  &-brand {
+    font-family: $font-family-monospace;
+    font-weight: normal;
+    font-size: 48px;
+    padding: 35px 15px;
+
+    padding-left: 84px;
+    background-image:url(../logo.png);
+    background-size: 60px auto;
+    background-repeat: no-repeat;
+    background-position: 15px center;
+
+  }
+*/
+
+/* Reference index & topics ----------------------------------------------- */
+
+.ref-index th {font-weight: normal;}
+.ref-index h2 {font-size: 20px;}
+
+.ref-index td {vertical-align: top;}
+.ref-index .alias {width: 40%;}
+.ref-index .title {width: 60%;}
+
+.ref-index .alias {width: 40%;}
+.ref-index .title {width: 60%;}
+
+.ref-arguments th {text-align: right; padding-right: 10px;}
+.ref-arguments th, .ref-arguments td {vertical-align: top;}
+.ref-arguments .name {width: 10%;}
+.ref-arguments .desc {width: 90%;}
+
+/* For the rstudio footer ------- */
+
+footer {
+  margin-top: 45px;
+  padding: 35px 0 36px;
+  border-top: 1px solid #e5e5e5;
+
+  display: flex;
+  color: #666;
+}
+footer p {
+  margin-bottom: 0;
+}
+footer .tidyverse {
+  flex: 1;
+}
+footer .author {
+  flex: 1;
+  text-align: right;
+}
+
+/* ---------------------- hover anchor tags */
+
+.hasAnchor {
+  margin-left: -30px;
+}
+
+a.anchor {
+  display:inline-block;
+  width: 30px;
+  height: 30px;
+  visibility: hidden;
+
+  background-image: url(./link.svg);
+  background-repeat: no-repeat;
+  background-size: 20px 20px;
+  background-position: center center;
+}
+
+.hasAnchor:hover a.anchor {
+  visibility: visible;
+}
+
+@media (max-width: 767px) {
+  .hasAnchor {margin-left: 0;}
+  a.anchor {float: right;}
+}
+
+/* Tweak appearance of navigation in sidebar ---------------------- */
+
+#sidebar .nav {
+  padding-left: 0px;
+  list-style-type: none;
+  color: #5a9ddb;
+}
+
+#sidebar .nav > li {
+  padding: 10px 0 0px 20px;
+  display: list-item;
+  line-height: 20px;
+  background-image: url(./tocBullet.svg);
+  background-repeat: no-repeat;
+  background-size: 16px 280px;
+  background-position: left 0px;
+}
+
+#sidebar .nav > li.active {
+  background-position: left -240px;
+}
+
+#sidebar a {
+  padding: 0px;
+  color: #5a9ddb;
+  background-color: transparent;
+}
+
+#sidebar a:hover {
+  background-color: transparent;
+  text-decoration: underline;
+}

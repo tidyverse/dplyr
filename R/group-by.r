@@ -1,71 +1,96 @@
-#' Group a tbl by one or more variables.
+#' Group by one or more variables
 #'
-#' Most data operations are useful done on groups defined by variables in the
-#' the dataset. The \code{group_by} function takes an existing tbl
-#' and converts it into a grouped tbl where operations are performed
-#' "by group".
+#' @description
+#' Most data operations are done on groups defined by variables.
+#' `group_by()` takes an existing tbl and converts it into a grouped tbl
+#' where operations are performed "by group". `ungroup()` removes grouping.
 #'
 #' @section Tbl types:
 #'
-#' \code{group_by} is an S3 generic with methods for the three built-in
+#' `group_by()` is an S3 generic with methods for the three built-in
 #' tbls. See the help for the corresponding classes and their manip
 #' methods for more details:
 #'
 #' \itemize{
-#'   \item data.frame: \link{grouped_df}
-#'   \item data.table: \link[dtplyr]{grouped_dt}
-#'   \item SQLite: \code{\link{src_sqlite}}
-#'   \item PostgreSQL: \code{\link{src_postgres}}
-#'   \item MySQL: \code{\link{src_mysql}}
+#'   \item data.frame: [grouped_df]
+#'   \item data.table: [dtplyr::grouped_dt]
+#'   \item SQLite: [src_sqlite()]
+#'   \item PostgreSQL: [src_postgres()]
+#'   \item MySQL: [src_mysql()]
 #' }
 #'
-#' @seealso \code{\link{ungroup}} for the inverse operation,
-#'   \code{\link{groups}} for accessors that don't do special evaluation.
+#' @section Scoped grouping:
+#'
+#' The three [scoped] variants ([group_by_all()], [group_by_if()] and
+#' [group_by_at()]) make it easy to group a dataset by a selection of
+#' variables.
+#'
 #' @param .data a tbl
-#' @param ... variables to group by. All tbls accept variable names,
-#'   some will also accept functions of variables. Duplicated groups
+#' @param ... Variables to group by. All tbls accept variable names.
+#'   Some tbls will accept functions of variables. Duplicated groups
 #'   will be silently dropped.
-#' @param add By default, when \code{add = FALSE}, \code{group_by} will
-#'   override existing groups. To instead add to the existing groups,
-#'   use \code{add = TRUE}
+#' @param add When `add = FALSE`, the default, `group_by()` will
+#'   override existing groups. To add to the existing groups, use
+#'   `add = TRUE`.
 #' @inheritParams filter
 #' @export
 #' @examples
-#' by_cyl <- group_by(mtcars, cyl)
-#' summarise(by_cyl, mean(disp), mean(hp))
-#' filter(by_cyl, disp == max(disp))
+#' by_cyl <- mtcars %>% group_by(cyl)
 #'
-#' # summarise peels off a single layer of grouping
-#' by_vs_am <- group_by(mtcars, vs, am)
-#' by_vs <- summarise(by_vs_am, n = n())
+#' # grouping doesn't change how the data looks (apart from listing
+#' # how it's grouped):
+#' by_cyl
+#'
+#' # It changes how it acts with the other dplyr verbs:
+#' by_cyl %>% summarise(
+#'   disp = mean(disp),
+#'   hp = mean(hp)
+#' )
+#' by_cyl %>% filter(disp == max(disp))
+#'
+#' # Each call to summarise() removes a layer of grouping
+#' by_vs_am <- mtcars %>% group_by(vs, am)
+#' by_vs <- by_vs_am %>% summarise(n = n())
 #' by_vs
-#' summarise(by_vs, n = sum(n))
-#' # use ungroup() to remove if not wanted
-#' summarise(ungroup(by_vs), n = sum(n))
+#' by_vs %>% summarise(n = sum(n))
+#'
+#' # To removing grouping, use ungroup
+#' by_vs %>%
+#'   ungroup() %>%
+#'   summarise(n = sum(n))
 #'
 #' # You can group by expressions: this is just short-hand for
 #' # a mutate/rename followed by a simple group_by
-#' group_by(mtcars, vsam = vs + am)
-#' group_by(mtcars, vs2 = vs)
+#' mtcars %>% group_by(vsam = vs + am)
 #'
-#' # You can also group by a constant, but it's not very useful
-#' group_by(mtcars, "vs")
+#' # By default, group_by overrides existing grouping
+#' by_cyl %>%
+#'   group_by(vs, am) %>%
+#'   group_vars()
 #'
-#' # By default, group_by sets groups. Use add = TRUE to add groups
-#' groups(group_by(by_cyl, vs, am))
-#' groups(group_by(by_cyl, vs, am, add = TRUE))
-#'
-#' # Duplicate groups are silently dropped
-#' groups(group_by(by_cyl, cyl, cyl))
-#' @aliases regroup
+#' # Use add = TRUE to instead append
+#' by_cyl %>%
+#'   group_by(vs, am, add = TRUE) %>%
+#'   group_vars()
 group_by <- function(.data, ..., add = FALSE) {
-  group_by_(.data, .dots = lazyeval::lazy_dots(...), add = add)
+  UseMethod("group_by")
+}
+#' @export
+group_by.default <- function(.data, ..., add = FALSE) {
+  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
+}
+#' @export
+#' @rdname se-deprecated
+#' @inheritParams group_by
+group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
+  UseMethod("group_by_")
 }
 
-#' @export
 #' @rdname group_by
-group_by_ <- function(.data, ..., .dots, add = FALSE) {
-  UseMethod("group_by_")
+#' @export
+#' @param x A [tbl()]
+ungroup <- function(x, ...) {
+  UseMethod("ungroup")
 }
 
 #' Prepare for grouping.
@@ -79,56 +104,64 @@ group_by_ <- function(.data, ..., .dots, add = FALSE) {
 #'   \item{groups}{Modified groups}
 #' @export
 #' @keywords internal
-group_by_prepare <- function(.data, ..., .dots, add = FALSE) {
-  new_groups <- lazyeval::all_dots(.dots, ...)
-  new_groups <- resolve_vars(new_groups, tbl_vars(.data))
+group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
+  new_groups <- c(quos(...), compat_lazy_dots(.dots, caller_env()))
 
   # If any calls, use mutate to add new columns, then group by those
-  is_name <- vapply(new_groups, function(x) is.name(x$expr), logical(1))
-  has_name <- names2(new_groups) != ""
+  .data <- add_computed_columns(.data, new_groups)
 
-  needs_mutate <- has_name | !is_name
-  if (any(needs_mutate)) {
-    .data <- mutate_(.data, .dots = new_groups[needs_mutate])
-  }
+  # Once we've done the mutate, we need to name all objects
+  new_groups <- exprs_auto_name(new_groups, printer = tidy_text)
 
-  # Once we've done the mutate, we no longer need lazy objects, and
-  # can instead just use symbols
-  new_groups <- lazyeval::auto_name(new_groups)
-  groups <- lapply(names(new_groups), as.name)
+  group_names <- names(new_groups)
   if (add) {
-    groups <- c(groups(.data), groups)
+    group_names <- c(group_vars(.data), group_names)
   }
-  groups <- groups[!duplicated(groups)]
+  group_names <- unique(group_names)
 
-  list(data = .data, groups = groups)
+  list(
+    data = .data,
+    groups = syms(group_names),
+    group_names = group_names
+  )
 }
 
-#' Get/set the grouping variables for tbl.
+add_computed_columns <- function(.data, vars) {
+  is_symbol <- map_lgl(vars, quo_is_symbol)
+  named <- have_name(vars)
+
+  needs_mutate <- named | !is_symbol
+
+  # Shortcut necessary, otherwise all columns are analyzed in mutate(),
+  # this can change behavior
+  mutate_vars <- vars[needs_mutate]
+  if (length(mutate_vars) == 0L) return(.data)
+
+  mutate(.data, !!!mutate_vars)
+}
+
+#' Return grouping variables
 #'
-#' These functions do not perform non-standard evaluation, and so are useful
-#' when programming against \code{tbl} objects. \code{ungroup} is a convenient
-#' inline way of removing existing grouping.
+#' `group_vars()` returns a character vector; `groups()` returns a list of
+#' symbols.
 #'
-#' @param x data \code{\link{tbl}}
-#' @param ... Additional arguments that maybe used by methods.
+#' @param x A [tbl()]
 #' @export
 #' @examples
-#' grouped <- group_by(mtcars, cyl)
-#' groups(grouped)
-#' groups(ungroup(grouped))
+#' df <- tibble(x = 1, y = 2) %>% group_by(x, y)
+#' group_vars(df)
+#' groups(df)
 groups <- function(x) {
   UseMethod("groups")
 }
 
+#' @rdname groups
 #' @export
-regroup <- function(x, value) {
-  .Deprecated("group_by_")
-  group_by_(x, .dots = value)
+group_vars <- function(x) {
+  UseMethod("group_vars")
 }
 
 #' @export
-#' @rdname groups
-ungroup <- function(x, ...) {
-  UseMethod("ungroup")
+group_vars.default <- function(x) {
+  deparse_names(groups(x))
 }

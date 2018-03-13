@@ -1,0 +1,119 @@
+url: http://dplyr.tidyverse.org
+
+template:
+  package: tidytemplate
+  default_assets: false
+
+home:
+  strip_header: true
+
+  links:
+  - text: Learn more
+    href: http://r4ds.had.co.nz/transform.html
+
+reference:
+- title: Single-table verbs
+  contents:
+  - arrange
+  - distinct
+  - do
+  - filter
+  - group_by
+  - mutate
+  - select
+  - sample
+  - summarise
+  - transmute
+  - pull
+  - rename
+  - slice
+
+- title: Single-table helpers
+  contents:
+  - count
+  - top_n
+  - scoped
+  - ends_with("_at")
+  - all_vars
+  - vars
+  - funs
+
+- title: Two-table verbs
+  contents:
+  - all_equal
+  - bind
+  - intersect
+  - ends_with("join")
+  - join.tbl_df
+
+- title: Remote tables
+  contents:
+  - auto_copy
+  - compute
+  - copy_to
+  - ident
+  - explain
+  - tbl
+  - src_dbi
+  - sql
+
+- title: Metadata
+  contents:
+  - groups
+
+- title: Vector functions
+  contents:
+  - between
+  - case_when
+  - coalesce
+  - cumany
+  - desc
+  - if_else
+  - lead
+  - order_by
+  - "n"
+  - n_distinct
+  - na_if
+  - near
+  - nth
+  - ranking
+  - recode
+
+- title: Data
+  contents:
+  - band_members
+  - nasa
+  - starwars
+  - storms
+
+- title: Other backends
+  contents:
+  - tbl_cube
+  - as.table.tbl_cube
+  - as.tbl_cube
+  - rowwise
+
+navbar:
+  type: default
+  left:
+  - text: Intro
+    href: articles/dplyr.html
+  - text: Reference
+    href: reference/index.html
+  - text: Articles
+    menu:
+    - text: Two-table verbs
+      href: articles/two-table.html
+    - text: Window functions
+      href: articles/window-functions.html
+    - text: Databases with dbplyr
+      href: http://dbplyr.tidyverse.org/articles/dbplyr.html
+    - text: Programming with dplyr
+      href: articles/programming.html
+    - text: Compatibility
+      href: articles/compatibility.html
+  - text: News
+    href: news/index.html
+  right:
+  - icon: fa-github fa-lg
+    href: https://github.com/tidyverse/dplyr

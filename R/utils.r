@@ -3,23 +3,7 @@
 magrittr::`%>%`
 
 dots <- function(...) {
-  eval(substitute(alist(...)))
-}
-
-named_dots <- function(...) {
-  auto_name(dots(...))
-}
-
-auto_names <- function(x) {
-  nms <- names2(x)
-  missing <- nms == ""
-  if (all(!missing)) return(nms)
-
-  deparse2 <- function(x) paste(deparse(x, 500L), collapse = "")
-  defaults <- vapply(x[missing], deparse2, character(1), USE.NAMES = FALSE)
-
-  nms[missing] <- defaults
-  nms
+  eval_bare(substitute(alist(...)))
 }
 
 deparse_trunc <- function(x, width = getOption("width")) {
@@ -29,41 +13,13 @@ deparse_trunc <- function(x, width = getOption("width")) {
   paste0(substr(text[1], 1, width - 3), "...")
 }
 
-auto_name <- function(x) {
-  names(x) <- auto_names(x)
-  x
-}
-
-is.lang <- function(x) {
-  is.name(x) || is.atomic(x) || is.call(x)
-}
-is.lang.list <- function(x) {
-  if (is.null(x)) return(TRUE)
-
-  is.list(x) && all_apply(x, is.lang)
-}
-on_failure(is.lang.list) <- function(call, env) {
-  paste0(call$x, " is not a list containing only names, calls and atomic vectors")
-}
-
-only_has_names <- function(x, nms) {
-  all(names(x) %in% nms)
-}
-on_failure(all_names) <- function(call, env) {
-  x_nms <- names(eval(call$x, env))
-  nms <- eval(call$nms, env)
-  extra <- setdiff(x_nms, nms)
-
-  paste0(call$x, " has named components: ", paste0(extra, collapse = ", "), ".",
-    "Should only have names: ", paste0(nms, collapse = ","))
-}
-
 all_apply <- function(xs, f) {
   for (x in xs) {
     if (!f(x)) return(FALSE)
   }
   TRUE
 }
+
 any_apply <- function(xs, f) {
   for (x in xs) {
     if (f(x)) return(TRUE)
@@ -76,50 +32,20 @@ drop_last <- function(x) {
   x[-length(x)]
 }
 
-compact <- function(x) Filter(Negate(is.null), x)
-
-names2 <- function(x) {
-  names(x) %||% rep("", length(x))
-}
-
-has_names <- function(x) {
-  nms <- names(x)
-  if (is.null(nms)) {
-    rep(FALSE, length(x))
-  } else {
-    !is.na(nms) & nms != ""
-  }
-}
-
-"%||%" <- function(x, y) if(is.null(x)) y else x
-
-is.wholenumber <- function(x, tol = .Machine$double.eps ^ 0.5) {
-  abs(x - round(x)) < tol
-}
-
-as_df <- function(x) {
-  class(x) <- "data.frame"
-  attr(x, "row.names") <- c(NA_integer_, -length(x[[1]]))
-
-  x
+is.wholenumber <- function(x) {
+  trunc(x) == x
 }
 
 deparse_all <- function(x) {
-  deparse2 <- function(x) paste(deparse(x, width.cutoff = 500L), collapse = "")
-  vapply(x, deparse2, FUN.VALUE = character(1))
+  x <- map_if(x, is_quosure, quo_expr)
+  x <- map_if(x, is_formula, f_rhs)
+  map_chr(x, expr_text, width = 500L)
 }
 
-#' Provides comma-separated string out ot the parameters
-#' @export
-#' @keywords internal
-#' @param ... Arguments to be constructed into the string
-named_commas <- function(...) {
-  x <- c(...)
-  if (is.null(names(x))) {
-    paste0(x, collapse = ", ")
-  } else {
-    paste0(names(x), " = ", x, collapse = ", ")
-  }
+deparse_names <- function(x) {
+  x <- map_if(x, is_quosure, quo_expr)
+  x <- map_if(x, is_formula, f_rhs)
+  map_chr(x, deparse)
 }
 
 commas <- function(...) paste0(..., collapse = ", ")
@@ -144,31 +70,56 @@ unique_name <- local({
   }
 })
 
-isFALSE <- function(x) identical(x, FALSE)
-
-f_lhs <- function(x) if (length(x) >= 3) x[[2]] else NULL
-f_rhs <- function(x) x[[length(x)]]
-
-
-substitute_q <- function(x, env) {
-  call <- substitute(substitute(x, env), list(x = x))
-  eval(call)
-}
-
-
 succeeds <- function(x, quiet = FALSE) {
-  tryCatch({x; TRUE}, error = function(e) {
-    if (!quiet) message("Error: ", e$message)
-    FALSE
-  })
+  tryCatch( #
+    {
+      x
+      TRUE
+    },
+    error = function(e) {
+      if (!quiet) {
+        inform(paste0("Error: ", e$message))
+      }
+      FALSE
+    }
+  )
 }
-
-# is.atomic() is TRUE for atomic vectors AND NULL!
-is_atomic <- function(x) is.atomic(x) && !is.null(x)
 
 is_1d <- function(x) {
   # dimension check is for matrices and data.frames
   (is_atomic(x) || is.list(x)) && length(dim(x)) <= 1
 }
 
-is_bare_list <- function(x) is.list(x) && !is.object(x)
+is_negated <- function(x) {
+  is_lang(x, "-", n = 1)
+}
+
+inc_seq <- function(from, to) {
+  if (from > to) {
+    integer()
+  } else {
+    seq.int(from, to)
+  }
+}
+
+random_table_name <- function(n = 10) {
+  paste0(sample(letters, n, replace = TRUE), collapse = "")
+}
+
+attr_equal <- function(x, y) {
+  attr_x <- attributes(x)
+  if (!is.null(attr_x)) {
+    attr_x <- attr_x[sort(names(attr_x))]
+  }
+
+  attr_y <- attributes(y)
+  if (!is.null(attr_y)) {
+    attr_y <- attr_y[sort(names(attr_y))]
+  }
+
+  isTRUE(all.equal(attr_x, attr_y))
+}
+
+env_wipe <- function(env) {
+  rm(list = env_names(env), envir = env)
+}

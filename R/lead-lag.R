@@ -1,12 +1,12 @@
 #' Lead and lag.
 #'
-#' Lead and lag are useful for comparing values offset by a constant (e.g. the
-#' previous or next value)
+#' Find the "next" or "previous" values in a vector. Useful for comparing values
+#' ahead of or behind the current values.
 #'
 #' @param x a vector of values
-#' @param n a postive integer of length 1, giving the number of positions to
+#' @param n a positive integer of length 1, giving the number of positions to
 #'   lead or lag by
-#' @param default value used for non-existant rows. Defaults to \code{NA}.
+#' @param default value used for non-existent rows. Defaults to `NA`.
 #' @param order_by override the default ordering to use another vector
 #' @param ... Needed for compatibility with lag generic.
 #' @importFrom stats lag
@@ -39,8 +39,12 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
 
+  if (length(n) != 1 || !is.numeric(n) || n < 0) {
+    bad_args("n", "must be a nonnegative integer scalar, ",
+      "not {type_of(n)} of length {length(n)}"
+    )
+  }
   if (n == 0) return(x)
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
   xlen <- length(x)
   n <- pmin(n, xlen)
@@ -57,8 +61,16 @@ lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
     return(with_order(order_by, lag, x, n = n, default = default))
   }
 
+  if (inherits(x, "ts")) {
+    bad_args("x", "must be a vector, not a ts object, do you want `stats::lag()`?")
+  }
+
+  if (length(n) != 1 || !is.numeric(n) || n < 0) {
+    bad_args("n", "must be a nonnegative integer scalar, ",
+      "not {type_of(n)} of length {length(n)}"
+    )
+  }
   if (n == 0) return(x)
-  if (n < 0 || length(n) > 1) stop("n must be a single positive integer")
 
   xlen <- length(x)
   n <- pmin(n, xlen)

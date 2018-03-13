@@ -1,13 +1,13 @@
-#' Convert values to NA.
+#' Convert values to NA
 #'
-#' This is a translation of the SQL command \code{NULL_IF}. It is useful
-#' if you want to convert an annoying value to \code{NA}.
+#' This is a translation of the SQL command `NULL_IF`. It is useful
+#' if you want to convert an annoying value to `NA`.
 #'
 #' @param x Vector to modify
-#' @param y If th
-#' @return A modified version of \code{x} that replaces any values that
-#'   are equal to \code{y} with NA.
-#' @seealso \code{\link{coalesce}()} to replace missing values with a specified
+#' @param y Value to replace with NA
+#' @return A modified version of `x` that replaces any values that
+#'   are equal to `y` with NA.
+#' @seealso [coalesce()] to replace missing values with a specified
 #'   value.
 #' @export
 #' @examples
@@ -20,9 +20,7 @@
 #' y <- c("abc", "def", "", "ghi")
 #' na_if(y, "")
 na_if <- function(x, y) {
-  if (length(y) != length(x) && length(y) != 1) {
-    stop("`y` must be length 1 or same length as `x`", call. = FALSE)
-  }
+  check_length(y, x, fmt_args("y"), glue("same as {fmt_args(~x)}"))
 
   x[x == y] <- NA
   x

@@ -2,12 +2,9 @@
 % Please edit documentation in R/distinct.R
 \name{distinct}
 \alias{distinct}
-\alias{distinct_}
-\title{Select distinct/unique rows.}
+\title{Select distinct/unique rows}
 \usage{
 distinct(.data, ..., .keep_all = FALSE)
-
-distinct_(.data, ..., .dots, .keep_all = FALSE)
 }
 \arguments{
 \item{.data}{a tbl}
@@ -19,16 +16,13 @@ row will be preserved. If omitted, will use all variables.}
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the
 first row of values.}
-
-\item{.dots}{Used to work around non-standard evaluation. See
-\code{vignette("nse")} for details.}
 }
 \description{
 Retain only unique/distinct rows from an input tbl. This is similar
-to \code{\link{unique.data.frame}}, but considerably faster.
+to \code{\link[=unique.data.frame]{unique.data.frame()}}, but considerably faster.
 }
 \examples{
-df <- data.frame(
+df <- tibble(
   x = sample(10, 100, rep = TRUE),
   y = sample(10, 100, rep = TRUE)
 )
@@ -45,5 +39,13 @@ distinct(df, y, .keep_all = TRUE)
 
 # You can also use distinct on computed variables
 distinct(df, diff = abs(x - y))
-}
 
+# The same behaviour applies for grouped data frames
+# except that the grouping variables are always included
+df <- tibble(
+  g = c(1, 1, 2, 2),
+  x = c(1, 1, 2, 1)
+) \%>\% group_by(g)
+df \%>\% distinct()
+df \%>\% distinct(x)
+}

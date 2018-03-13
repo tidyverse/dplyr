@@ -2,26 +2,22 @@
 % Please edit documentation in R/group-by.r
 \name{groups}
 \alias{groups}
-\alias{ungroup}
-\title{Get/set the grouping variables for tbl.}
+\alias{group_vars}
+\title{Return grouping variables}
 \usage{
 groups(x)
 
-ungroup(x, ...)
+group_vars(x)
 }
 \arguments{
-\item{x}{data \code{\link{tbl}}}
-
-\item{...}{Additional arguments that maybe used by methods.}
+\item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \description{
-These functions do not perform non-standard evaluation, and so are useful
-when programming against \code{tbl} objects. \code{ungroup} is a convenient
-inline way of removing existing grouping.
+\code{group_vars()} returns a character vector; \code{groups()} returns a list of
+symbols.
 }
 \examples{
-grouped <- group_by(mtcars, cyl)
-groups(grouped)
-groups(ungroup(grouped))
+df <- tibble(x = 1, y = 2) \%>\% group_by(x, y)
+group_vars(df)
+groups(df)
 }
-

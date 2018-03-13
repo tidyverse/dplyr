@@ -2,19 +2,19 @@
 #'
 #' Properties:
 #' \itemize{
-#'   \item \code{order(id)} is equivalent to \code{do.call(order, df)}
+#'   \item `order(id)` is equivalent to `do.call(order, df)`
 #'   \item rows containing the same data have the same value
-#'   \item if \code{drop = FALSE} then room for all possibilites
+#'   \item if `drop = FALSE` then room for all possibilities
 #' }
 #'
 #' @param .variables list of variables
-#' @param drop drop unusued factor levels?
+#' @param drop drop unused factor levels?
 #' @return a numeric vector with attribute n, giving total number of
 #'   possibilities
 #' @keywords internal
 #' @export
 id <- function(.variables, drop = FALSE) {
-  warning("id() is deprecated", call. = FALSE)
+  warn("`id()` is deprecated")
 
   # Drop all zero length inputs
   lengths <- vapply(.variables, length, integer(1))
@@ -35,10 +35,9 @@ id <- function(.variables, drop = FALSE) {
   p <- length(ids)
 
   # Calculate dimensions
-  ndistinct <- vapply(ids, attr, "n", FUN.VALUE = numeric(1),
-    USE.NAMES = FALSE)
+  ndistinct <- vapply(ids, attr, "n", FUN.VALUE = numeric(1), USE.NAMES = FALSE)
   n <- prod(ndistinct)
-  if (n > 2 ^ 31) {
+  if (n > 2^31) {
     # Too big for integers, have to use strings, which will be much slower :(
 
     char_id <- do.call("paste", c(ids, sep = "\r"))

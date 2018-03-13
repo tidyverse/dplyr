@@ -1,7 +1,7 @@
 #' Describing dimensions
 #'
 #' Prints the dimensions of an array-like object in a user-friendly manner,
-#' substituting \code{NA} with ?? (for SQL queries).
+#' substituting `NA` with ?? (for SQL queries).
 #'
 #' @param x Object to show dimensions for.
 #' @export
@@ -13,13 +13,17 @@ dim_desc <- function(x) {
   d2 <- big_mark(d)
   d2[is.na(d)] <- "??"
 
-  paste0("[", paste0(d2, collapse = " x "), "]")
+  fmt_dims(d2)
 }
 
 wrap <- function(..., indent = 0) {
   x <- paste0(..., collapse = "")
-  wrapped <- strwrap(x, indent = indent, exdent = indent + 2,
-    width = getOption("width"))
+  wrapped <- strwrap(
+    x,
+    indent = indent,
+    exdent = indent + 2,
+    width = getOption("width")
+  )
 
   paste0(wrapped, collapse = "\n")
 }

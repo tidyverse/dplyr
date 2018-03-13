@@ -3,8 +3,8 @@
 
 // installChar was introduced in R 3.2.0
 #ifndef installChar
-  #define installChar(x) Rf_install(CHAR(x))
-  #define Rf_installChar installChar
+#define installChar(x) Rf_install(CHAR(x))
+#define Rf_installChar installChar
 #endif
 
 #endif

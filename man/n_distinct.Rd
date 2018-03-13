@@ -7,9 +7,9 @@
 n_distinct(..., na.rm = FALSE)
 }
 \arguments{
-\item{na.rm}{id \code{TRUE} missing values don't count}
-
 \item{\dots}{vectors of values}
+
+\item{na.rm}{if \code{TRUE} missing values don't count}
 }
 \description{
 This is a faster and more concise equivalent of \code{length(unique(x))}
@@ -19,4 +19,3 @@ x <- sample(1:10, 1e5, rep = TRUE)
 length(unique(x))
 n_distinct(x)
 }
-

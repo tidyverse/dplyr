@@ -2,26 +2,28 @@
 % Please edit documentation in R/case_when.R
 \name{case_when}
 \alias{case_when}
-\title{A general vectorised if.}
+\title{A general vectorised if}
 \usage{
 case_when(...)
 }
 \arguments{
 \item{...}{A sequence of two-sided formulas. The left hand side (LHS)
-  determines which values match this case. The right hand side (RHS)
-  provides the replacement value.
+determines which values match this case. The right hand side (RHS)
+provides the replacement value.
 
-  The LHS must evaluate to a logical vector. Each logical vector can
-  either have length 1 or a common length. All RHSs must evaluate to
-  the same type of vector.}
+The LHS must evaluate to a logical vector. Each logical vector can
+either have length 1 or a common length. All RHSs must evaluate to
+the same type of vector.
+
+These dots support \link[rlang:tidy-dots]{tidy dots} features.}
 }
 \value{
-A vector as long as the longest LHS, with the type (and
-  attributes) of the first RHS.  Inconsistent lengths of types will
-  generate an error.
+A vector as long as the longest LHS or RHS, with the type (and
+attributes) of the first RHS.  Inconsistent lengths or types will
+generate an error.
 }
 \description{
-This function allows you to vectorise mutiple \code{if} and \code{else if}
+This function allows you to vectorise multiple \code{if} and \code{else if}
 statements. It is an R equivalent of the SQL \code{CASE WHEN} statement.
 }
 \examples{
@@ -41,5 +43,51 @@ case_when(
   x \%\%  7 == 0 ~ "buzz",
   x \%\% 35 == 0 ~ "fizz buzz"
 )
+
+# All RHS values need to be of the same type. Inconsistent types will throw an error.
+# This applies also to NA values used in RHS: NA is logical, use
+# typed values like NA_real_, NA_complex, NA_character_, NA_integer_ as appropriate.
+case_when(
+  x \%\% 35 == 0 ~ NA_character_,
+  x \%\% 5 == 0 ~ "fizz",
+  x \%\% 7 == 0 ~ "buzz",
+  TRUE ~ as.character(x)
+)
+case_when(
+  x \%\% 35 == 0 ~ 35,
+  x \%\% 5 == 0 ~ 5,
+  x \%\% 7 == 0 ~ 7,
+  TRUE ~ NA_real_
+)
+# This throws an error as NA is logical not numeric
+\dontrun{
+case_when(
+  x \%\% 35 == 0 ~ 35,
+  x \%\% 5 == 0 ~ 5,
+  x \%\% 7 == 0 ~ 7,
+  TRUE ~ NA
+)
 }
 
+# case_when is particularly useful inside mutate when you want to
+# create a new variable that relies on a complex combination of existing
+# variables
+starwars \%>\%
+  select(name:mass, gender, species) \%>\%
+  mutate(
+    type = case_when(
+      height > 200 | mass > 200 ~ "large",
+      species == "Droid"        ~ "robot",
+      TRUE                      ~  "other"
+    )
+  )
+
+# Dots support splicing:
+patterns <- list(
+  x \%\% 35 == 0 ~ "fizz buzz",
+  x \%\% 5 == 0 ~ "fizz",
+  x \%\% 7 == 0 ~ "buzz",
+  TRUE ~ as.character(x)
+)
+case_when(!!! patterns)
+}

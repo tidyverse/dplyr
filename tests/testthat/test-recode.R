@@ -1,9 +1,35 @@
 context("recode")
 
 test_that("error if no arguments", {
-  expect_error(recode(1:5), "No replacements provided")
-  expect_error(recode("a"), "No replacements provided")
-  expect_error(recode(factor("a")), "No replacements provided")
+  expect_error(
+    recode(1:5), "No replacements provided"
+  )
+  expect_error(
+    recode("a"), "No replacements provided"
+  )
+  expect_error(
+    recode(factor("a")), "No replacements provided"
+  )
+})
+
+test_that("error if unnamed", {
+  expect_error(
+    recode("a", b = 5, "c"),
+    "Argument 3 must be named, not unnamed"
+  )
+  expect_error(
+    recode(factor("a"), b = 5, "c"),
+    "Argument 3 must be named, not unnamed",
+    fixed = TRUE
+  )
+})
+
+test_that("error if missing given for factors", {
+  expect_error(
+    recode(factor("a"), a = 5, .missing = 10),
+    "`.missing` is not supported for factors",
+    fixed = TRUE
+  )
 })
 
 test_that("positional substitution works", {
@@ -32,11 +58,13 @@ test_that("named substitution works", {
 test_that("missing values replaced by missing argument", {
   expect_equal(recode(c(1, NA), "a"), c("a", NA))
   expect_equal(recode(c(1, NA), "a", .missing = "b"), c("a", "b"))
+  expect_equal(recode(c(letters[1:3], NA), .missing = "A"), c("a", "b", "c", "A"))
 })
 
 test_that("unmatched value replaced by default argument", {
   expect_warning(expect_equal(recode(c(1, 2), "a"), c("a", NA)))
   expect_equal(recode(c(1, 2), "a", .default = "b"), c("a", "b"))
+  expect_equal(recode(letters[1:3], .default = "A"), c("A", "A", "A"))
 })
 
 test_that("missing and default place nicely together", {
@@ -71,34 +99,85 @@ test_that(".default is not aliased to .x when missing and not compatible", {
   expect_warning(expect_equal(recode(n, `1` = "a"), c("a", NA, NA)))
 })
 
+test_that("conversion of unreplaced values to NA gives warning", {
+  expect_warning(recode(1:3, `1` = "a"), "treated as NA")
+  expect_warning(recode_factor(letters[1:3], b = 1, c = 2))
+})
+
+test_that(".dot argument works correctly (PR #2110)", {
+  x1 <- letters[1:3]
+  x2 <- 1:3
+
+  expect_equal(
+    recode(x1, a = "apple", b = "banana", .default = NA_character_),
+    recode(x1, .default = NA_character_, !!!list(a = "apple", b = "banana"))
+  )
+  expect_equal(
+    recode(x1, a = "apple", b = "banana", .default = NA_character_),
+    recode(x1, a = "apple", .default = NA_character_, !!!list(b = "banana"))
+  )
+  expect_equal(
+    recode(x2, "1" = 4, "2" = 5, .default = NA_real_),
+    recode(x2, .default = NA_real_, !!!list("1" = 4, "2" = 5))
+  )
+  expect_equal(
+    recode(x2, "1" = 4, "2" = 5, .default = NA_real_),
+    recode(x2, "1" = 4, .default = NA_real_, !!!list("2" = 5))
+  )
+})
+
+
+# factor ------------------------------------------------------------------
+
 test_that("default .default works with factors", {
   expect_equal(recode(factor(letters[1:3]), a = "A"), factor(c("A", "b", "c")))
 })
 
+test_that("can recode factor to double", {
+  f <- factor(letters[1:3])
+
+  expect_equal(recode(f, a = 1, b = 2, c = 3), c(1, 2, 3))
+  expect_equal(recode(f, a = 1, b = 2), c(1, 2, NA))
+  expect_equal(recode(f, a = 1, b = 2, .default = 99), c(1, 2, 99))
+})
+
 test_that("recode_factor() handles .missing and .default levels", {
   x <- c(1:3, NA)
-  expect_warning(expect_equal(recode_factor(x, `1` = "z", `2` = "y"), factor(c("z", "y", NA, NA), levels = c("z", "y"))))
-  expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D"), factor(c("z", "y", "D", NA), levels = c("z", "y", "D")))
-  expect_equal(recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M"), factor(c("z", "y", "D", "M"), c("z", "y", "D", "M")))
+  expect_warning(
+    expect_equal(
+      recode_factor(x, `1` = "z", `2` = "y"),
+      factor(c("z", "y", NA, NA), levels = c("z", "y"))
+    )
+  )
+  expect_equal(
+    recode_factor(x, `1` = "z", `2` = "y", .default = "D"),
+    factor(c("z", "y", "D", NA), levels = c("z", "y", "D"))
+  )
+  expect_equal(
+    recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M"),
+    factor(c("z", "y", "D", "M"), c("z", "y", "D", "M"))
+  )
 })
 
 test_that("recode_factor() handles vector .default", {
-  character_default <- recode_factor(factor(letters[1:3]), b = "z", c = "y", .default = letters[1:3])
-  implicit_factor_default <- recode_factor(factor(letters[1:3]), b = "z", c = "y")
-  implicit_character_default <- recode_factor(letters[1:3], b = "z", c = "y")
-
   expected <- factor(c("a", "z", "y"), levels = c("z", "y", "a"))
-  expect_equal(character_default, expected)
-  expect_equal(implicit_factor_default, expected)
-  expect_equal(implicit_character_default, expected)
+  x1 <- letters[1:3]
+  x2 <- factor(x1)
+
+  expect_equal(recode_factor(x1, b = "z", c = "y"), expected)
+  expect_equal(recode_factor(x2, b = "z", c = "y"), expected)
+
+  expect_equal(recode_factor(x1, b = "z", c = "y", .default = x1), expected)
+  expect_equal(recode_factor(x2, b = "z", c = "y", .default = x1), expected)
 })
 
 test_that("can recode factor with redundant levels", {
-  expect_equal(recode(factor(letters[1:4]), d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("a", "c")))
-  expect_equal(recode_factor(letters[1:4], d = "c", b = "a"), factor(c("a", "a", "c", "c"), levels = c("c", "a")))
-})
-
-test_that("conversion of unreplaced values to NA gives warning", {
-  expect_warning(recode(1:3, `1` = "a"), "treated as NA")
-  expect_warning(recode_factor(letters[1:3], b = 1, c = 2))
+  expect_equal(
+    recode(factor(letters[1:4]), d = "c", b = "a"),
+    factor(c("a", "a", "c", "c"), levels = c("a", "c"))
+  )
+  expect_equal(
+    recode_factor(letters[1:4], d = "c", b = "a"),
+    factor(c("a", "a", "c", "c"), levels = c("c", "a"))
+  )
 })

@@ -5,6 +5,7 @@
 #'
 #' @param df a data frame
 #' @param x,y two data frames to compare
+#' @keywords internal
 #' @export
 #' @examples
 #' location(mtcars)
@@ -72,12 +73,11 @@ changes <- function(x, y) {
     cat("Changed attributes:\n")
     print(attr, quote = FALSE)
   }
-
 }
 
 match_up <- function(x, y) {
-  both <-    intersect(names(x), names(y))
-  added <-   setdiff(names(x), names(y))
+  both <- intersect(names(x), names(y))
+  added <- setdiff(names(x), names(y))
   deleted <- setdiff(names(y), names(x))
 
   out <- cbind(

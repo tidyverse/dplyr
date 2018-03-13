@@ -10,69 +10,54 @@ test_that("If n = length(x), returns all missing", {
 
   expect_equal(lead(1:2, 2), miss)
   expect_equal(lag(1:2, 2), miss)
-
 })
 
 test_that("cumany handles NA (#408)", {
-  batman <- c(NA,NA,NA,NA,NA)
+  batman <- c(NA, NA, NA, NA, NA)
   expect_true(all(is.na(cumany(batman))))
   expect_true(all(is.na(cumall(batman))))
 
-  x <- c(FALSE,NA)
-  expect_true( all( !cumall(x) ) )
+  x <- c(FALSE, NA)
+  expect_true(all(!cumall(x)))
 
-  x <- c(TRUE,NA)
-  expect_true( all( cumany(x) ) )
-
+  x <- c(TRUE, NA)
+  expect_true(all(cumany(x)))
 })
 
 test_that("percent_rank ignores NAs (#1132)", {
-  expect_equal( percent_rank(c(1:3, NA)), c(0, 0.5, 1, NA) )
+  expect_equal(percent_rank(c(1:3, NA)), c(0, 0.5, 1, NA))
 })
 
 test_that("cume_dist ignores NAs (#1132)", {
-  expect_equal( cume_dist(c(1:3, NA)), c(1/3, 2/3, 1, NA) )
+  expect_equal(cume_dist(c(1:3, NA)), c(1 / 3, 2 / 3, 1, NA))
 })
 
-test_that( "cummean is not confused by FP error (#1387)", {
+test_that("cummean is not confused by FP error (#1387)", {
   a <- rep(99, 9)
-  expect_true( all( cummean(a) == a) )
+  expect_true(all(cummean(a) == a))
 })
 
-# Databases ---------------------------------------------------------------
+test_that("order_by() returns correct value", {
+  expected <- int(15, 14, 12, 9, 5)
+  expect_identical(order_by(5:1, cumsum(1:5)), expected)
 
-test_that("over() only requires first argument", {
-  expect_equal(over("X"), sql("'X' OVER ()"))
+  x <- 5:1
+  y <- 1:5
+  expect_identical(order_by(x, cumsum(y)), expected)
 })
 
-test_that("multiple group by or order values don't have parens", {
+test_that("order_by() works in arbitrary envs (#2297)", {
+  env <- child_env("base")
   expect_equal(
-    over(ident("x"), order = c("x", "y")),
-    sql('"x" OVER (ORDER BY "x", "y")')
+    with_env(env, dplyr::order_by(5:1, cumsum(1:5))),
+    rev(cumsum(rev(1:5)))
   )
   expect_equal(
-    over(ident("x"), partition = c("x", "y")),
-    sql('"x" OVER (PARTITION BY "x", "y")')
+    order_by(5:1, cumsum(1:5)),
+    rev(cumsum(rev(1:5)))
   )
 })
 
-test_that("connection affects quoting window function fields", {
-  dbiTest <- structure(list(), class = "DBITestConnection")
-  dbTest <- src_sql("test", con = dbiTest)
-  testTable <- tbl_sql("test", src = dbTest, from = "table1")
-
-  out <- filter(group_by(testTable, field1), min_rank(desc(field1)) < 2)
-  sqlText <- sql_render(out)
-
-  testthat::expect_equal(
-    grep(paste(
-      "^SELECT `field1`",
-      "FROM \\(SELECT `field1`, rank\\(\\) OVER \\(PARTITION BY `field1` ORDER BY `field1` DESC\\) AS `[a-zA-Z0-9]+`",
-      "FROM `table1`\\) `[a-zA-Z0-9]+`",
-      "WHERE \\(`[a-zA-Z0-9]+` < 2.0\\)$",
-      sep = "\n"
-    ), sqlText),
-    1,
-    info = sqlText
-  )
+test_that("order_by() fails when not supplied a call (#3065)", {
+  expect_error(order_by(NULL, !!1L), "`call` must be a function call, not an integer vector")
 })

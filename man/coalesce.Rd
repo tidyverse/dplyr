@@ -4,18 +4,20 @@
 \alias{coalesce}
 \title{Find first non-missing element}
 \usage{
-coalesce(x, ...)
+coalesce(...)
 }
 \arguments{
-\item{x, ...}{Vectors. All inputs should either be length 1, or the
-same length as \code{x}}
+\item{...}{Vectors. All inputs should either be length 1, or the
+same length as the first argument.
+
+These dots support \link[rlang:tidy-dots]{tidy dots} features.}
 }
 \value{
-A vector the same length as \code{x} with missing values replaced
-  by the first non-missing value.
+A vector the same length as the first \code{...} argument with
+missing values replaced by the first non-missing value.
 }
 \description{
-Given a set of vectors, \code{coelesce} finds the first non-missing value
+Given a set of vectors, \code{coalesce()} finds the first non-missing value
 at each position. This is inspired by the SQL \code{COALESCE} function
 which does the same thing for \code{NULL}s.
 }
@@ -28,8 +30,14 @@ coalesce(x, 0L)
 y <- c(1, 2, NA, NA, 5)
 z <- c(NA, NA, 3, 4, 5)
 coalesce(y, z)
+
+# Supply lists by splicing them into dots:
+vecs <- list(
+  c(1, 2, NA, NA, 5),
+  c(NA, NA, 3, 4, 5)
+)
+coalesce(!!! vecs)
 }
 \seealso{
-\code{\link{na_if}()} to replace specified values with a \code{NA}.
+\code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
 }
-

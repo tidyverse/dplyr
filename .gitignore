@@ -1,6 +1,7 @@
-*.o
-src/*.o-*
-*.so
+/src/*.o
+/src/*.o-*
+/src/*.d
+/src/*.so
 *.dll
 .RData
 .Rproj.user
@@ -9,3 +10,11 @@ inst/doc
 .httr-oauth
 vignettes/*.R
 .DS_Store
+/clion-test.R
+/BROWSE
+/GPATH
+/GRTAGS
+/GTAGS
+/TAGS
+/.dir-locals.el
+/issues

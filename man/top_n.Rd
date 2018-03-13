@@ -2,26 +2,31 @@
 % Please edit documentation in R/top-n.R
 \name{top_n}
 \alias{top_n}
-\title{Select top (or bottom) n rows (by value).}
+\title{Select top (or bottom) n rows (by value)}
 \usage{
 top_n(x, n, wt)
 }
 \arguments{
-\item{x}{a \code{\link{tbl}} to filter}
+\item{x}{a \code{\link[=tbl]{tbl()}} to filter}
 
 \item{n}{number of rows to return. If \code{x} is grouped, this is the
-  number of rows per group. Will include more than \code{n} rows if
-  there are ties.
+number of rows per group. Will include more than \code{n} rows if
+there are ties.
 
-  If \code{n} is positive, selects the top \code{n} rows. If negative,
-  selects the bottom \code{n} rows.}
+If \code{n} is positive, selects the top \code{n} rows. If negative,
+selects the bottom \code{n} rows.}
 
-\item{wt}{(Optional). The variable to use for ordering. If not specified,
-defaults to the last variable in the tbl.}
+\item{wt}{(Optional). The variable to use for ordering. If not
+specified, defaults to the last variable in the tbl.
+
+This argument is automatically \link[rlang:quo]{quoted} and later
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. It supports \link[rlang:quasiquotation]{unquoting}. See
+\code{vignette("programming")} for an introduction to these concepts.}
 }
 \description{
-This is a convenient wrapper that uses \code{\link{filter}} and
-\code{\link{min_rank}} to select the top or bottom entries in each group,
+This is a convenient wrapper that uses \code{\link[=filter]{filter()}} and
+\code{\link[=min_rank]{min_rank()}} to select the top or bottom entries in each group,
 ordered by \code{wt}.
 }
 \examples{
@@ -45,4 +50,3 @@ tbl_df(Batting) \%>\%
 tbl_df(Batting) \%>\% group_by(playerID) \%>\% top_n(1, G)
 }
 }
-

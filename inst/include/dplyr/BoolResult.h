@@ -1,43 +1,55 @@
 #ifndef dplyr_tools_BoolResult_H
 #define dplyr_tools_BoolResult_H
 
-namespace dplyr{
+#include <tools/utils.h>
 
-    class BoolResult {
-    public:
-        BoolResult(bool result_) : result(result_){}
-        BoolResult(bool result_, const std::string& msg) : result(result_), message(msg){}
+namespace dplyr {
 
-        void set_true(){ result = true ; message.clear() ; }
-        void set_false( const char* msg ){ result = false; message = msg ; }
+class BoolResult {
+public:
+  BoolResult(bool result_) : result(result_) {}
+  BoolResult(bool result_, const CharacterVector& msg) : result(result_), message(msg) {}
 
-        inline operator SEXP() const {
-            LogicalVector res = LogicalVector::create( result ) ;
-            res.attr("comment") = message ;
-            res.attr("class")   = "BoolResult" ;
-            return res;
-        }
+  inline operator SEXP() const {
+    LogicalVector res = LogicalVector::create(result);
+    res.attr("comment") = message;
+    set_class(res, "BoolResult");
+    return res;
+  }
 
-        inline operator bool() const {
-            return result ;
-        }
+  inline operator bool() const {
+    return result;
+  }
 
-        inline const std::string& why_not() const {
-            return message ;
-        }
+  inline std::string why_not() const {
+    R_xlen_t n = message.length();
+    if (n == 0)
+      return "";
 
-    private:
-        bool result ;
-        std::string message ;
-    } ;
+    if (n == 1)
+      return std::string(message[0]);
 
-    inline BoolResult no_because( const std::string& msg ){
-        return BoolResult( false, msg );
+    std::stringstream ss;
+    ss << "\n";
+    for (int i = 0; i < n; ++i) {
+      ss << "- " << std::string(message[i]) << "\n";
     }
 
-    inline BoolResult yes(){
-        return true ;
-    }
+    return ss.str();
+  }
+
+private:
+  bool result;
+  CharacterVector message;
+};
+
+inline BoolResult no_because(const CharacterVector& msg) {
+  return BoolResult(false, msg);
+}
+
+inline BoolResult yes() {
+  return true;
+}
 
 }
 

@@ -1,52 +1,95 @@
-#' Return rows with matching conditions.
+#' Return rows with matching conditions
+#'
+#' Use `filter()` find rows/cases where conditions are true. Unlike
+#' base subsetting, rows where the condition evaluates to `NA` are dropped.
+#'
+#' Note that dplyr is not yet smart enough to optimise filtering optimisation
+#' on grouped datasets that don't need grouped calculations. For this reason,
+#' filtering is often considerably faster on [ungroup()]ed data.
+#'
+#' @section Useful filter functions:
+#'
+#' * [`==`], [`>`], [`>=`] etc
+#' * [`&`], [`|`], [`!`], [xor()]
+#' * [is.na()]
+#' * [between()], [near()]
+#'
+#' @section Tidy data:
+#' When applied to a data frame, row names are silently dropped. To preserve,
+#' convert to an explicit variable with [tibble::rownames_to_column()].
+#'
+#' @section Scoped filtering:
+#' The three [scoped] variants ([filter_all()], [filter_if()] and
+#' [filter_at()]) make it easy to apply a filtering condition to a
+#' selection of variables.
 #'
 #' @family single table verbs
 #' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
-#' @param ... Logical predicates. Multiple conditions are combined with \code{&}.
-#' @param .dots Used to work around non-standard evaluation. See
-#'   \code{vignette("nse")} for details.
-#' @return An object of the same class as \code{.data}.
+#'   for [tbl_df()], [dtplyr::tbl_dt()] and [dbplyr::tbl_dbi()].
+#' @param ... Logical predicates defined in terms of the variables in `.data`.
+#'   Multiple conditions are combined with `&`. Only rows where the
+#'   condition evaluates to `TRUE` are kept.
 #'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
+#' @return An object of the same class as `.data`.
+#' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
 #' @examples
-#' filter(mtcars, cyl == 8)
-#' filter(mtcars, cyl < 6)
+#' filter(starwars, species == "Human")
+#' filter(starwars, mass > 1000)
 #'
 #' # Multiple criteria
-#' filter(mtcars, cyl < 6 & vs == 1)
-#' filter(mtcars, cyl < 6 | vs == 1)
+#' filter(starwars, hair_color == "none" & eye_color == "black")
+#' filter(starwars, hair_color == "none" | eye_color == "black")
 #'
 #' # Multiple arguments are equivalent to and
-#' filter(mtcars, cyl < 6, vs == 1)
+#' filter(starwars, hair_color == "none", eye_color == "black")
 filter <- function(.data, ...) {
-  filter_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("filter")
 }
-
 #' @export
-#' @rdname filter
-filter_ <- function(.data, ..., .dots) {
+filter.default <- function(.data, ...) {
+  filter_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
+#' @rdname se-deprecated
+filter_ <- function(.data, ..., .dots = list()) {
   UseMethod("filter_")
 }
 
-#' Select rows by position.
+#' Select rows by position
 #'
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
-#' operation, use \code{\link{filter}()} and \code{\link{row_number}()}.
+#' operation, use [filter()] and [row_number()].
+#'
+#' Positive values select rows to keep; negative values drop rows. The
+#' values provided must be either all positive or all negative.
 #'
 #' @family single table verbs
-#' @param .data A tbl. All main verbs are S3 generics and provide methods
-#'   for \code{\link{tbl_df}}, \code{\link[dtplyr]{tbl_dt}} and \code{\link{tbl_sql}}.
-#' @param ... Integer row values
+#' @param .data A tbl.
+#' @param ... Integer row values.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @inheritParams filter
+#' @inheritSection filter Tidy data
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
 #' slice(mtcars, n())
 #' slice(mtcars, 5:n())
+#' # Rows can be dropped with negative indices:
+#' slice(mtcars, -5:-n())
+#' # In this case, the result will be equivalent to:
+#' slice(mtcars, 1:4)
 #'
 #' by_cyl <- group_by(mtcars, cyl)
 #' slice(by_cyl, 1:2)
@@ -58,16 +101,31 @@ filter_ <- function(.data, ..., .dots) {
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
 slice <- function(.data, ...) {
-  slice_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("slice")
 }
-
 #' @export
-#' @rdname slice
-slice_ <- function(.data, ..., .dots) {
+slice.default <- function(.data, ...) {
+  slice_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
+#' @rdname se-deprecated
+slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
-#' Summarise multiple values to a single value.
+#' Reduces multiple values down to a single value
+#'
+#' `summarise()` is typically used on grouped data created by [group_by()].
+#' The output will have one row for each group.
+#'
+#' @section Useful functions:
+#'
+#' * Center: [mean()], [median()]
+#' * Spread: [sd()], [IQR()], [mad()]
+#' * Range: [min()], [max()], [quantile()]
+#' * Position: [first()], [last()], [nth()],
+#' * Count: [n()], [n_distinct()]
+#' * Logical: [any()], [all()]
 #'
 #' @section Backend variations:
 #'
@@ -76,255 +134,368 @@ slice_ <- function(.data, ..., .dots) {
 #'
 #' @export
 #' @inheritParams filter
-#' @param ... Name-value pairs of summary functions like \code{\link{min}()},
-#'   \code{\link{mean}()}, \code{\link{max}()} etc.
+#' @inheritSection filter Tidy data
+#' @param ... Name-value pairs of summary functions. The name will be the
+#'   name of the variable in the result. The value should be an expression
+#'   that returns a single value like `min(x)`, `n()`, or `sum(is.na(y))`.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @family single table verbs
-#' @return An object of the same class as \code{.data}. One grouping level will
+#' @return An object of the same class as `.data`. One grouping level will
 #'   be dropped.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
 #' @examples
-#' summarise(mtcars, mean(disp))
-#' summarise(group_by(mtcars, cyl), mean(disp))
-#' summarise(group_by(mtcars, cyl), m = mean(disp), sd = sd(disp))
+#' # A summary applied to ungrouped tbl returns a single row
+#' mtcars %>%
+#'   summarise(mean = mean(disp), n = n())
 #'
-#' # With data frames, you can create and immediately use summaries
-#' by_cyl <- mtcars %>% group_by(cyl)
-#' by_cyl %>% summarise(a = n(), b = a + 1)
+#' # Usually, you'll want to group first
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   summarise(mean = mean(disp), n = n())
 #'
-#' \dontrun{
-#' # You can't with data tables or databases
-#' by_cyl_dt <- mtcars %>% dtplyr::tbl_dt() %>% group_by(cyl)
-#' by_cyl_dt %>% summarise(a = n(), b = a + 1)
+#' # Each summary call removes one grouping level (since that group
+#' # is now just a single row)
+#' mtcars %>%
+#'   group_by(cyl, vs) %>%
+#'   summarise(cyl_n = n()) %>%
+#'   group_vars()
 #'
-#' by_cyl_db <- src_sqlite(":memory:", create = TRUE) %>%
-#'   copy_to(mtcars) %>% group_by(cyl)
-#' by_cyl_db %>% summarise(a = n(), b = a + 1)
-#' }
+#' # Note that with data frames, newly created summaries immediately
+#' # overwrite existing variables
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   summarise(disp = mean(disp), sd = sd(disp))
+#'
+#'
+#' # summarise() supports quasiquotation. You can unquote raw
+#' # expressions or quosures:
+#' var <- quo(mean(cyl))
+#' summarise(mtcars, !!var)
 summarise <- function(.data, ...) {
-  summarise_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("summarise")
 }
-
 #' @export
-#' @rdname summarise
-summarise_ <- function(.data, ..., .dots) {
+summarise.default <- function(.data, ...) {
+  summarise_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
+#' @rdname se-deprecated
+summarise_ <- function(.data, ..., .dots = list()) {
   UseMethod("summarise_")
 }
 
 #' @rdname summarise
 #' @export
 summarize <- summarise
-
-#' @rdname summarise
+#' @rdname se-deprecated
 #' @export
 summarize_ <- summarise_
 
 
-#' Add new variables.
+#' Add new variables
 #'
-#' Mutate adds new variables and preserves existing; transmute drops existing
-#' variables.
+#' `mutate()` adds new variables and preserves existing;
+#' `transmute()` drops existing variables.
+#'
+#' @section Useful functions:
+#'
+#' * [`+`], [`-`] etc
+#'
+#' * [log()]
+#'
+#' * [lead()], [lag()]
+#'
+#' * [dense_rank()], [min_rank()], [percent_rank()], [row_number()],
+#'   [cume_dist()], [ntile()]
+#'
+#' * [cumsum()], [cummean()], [cummin()], [cummax()], [cumany()], [cumall()]
+#'
+#' * [na_if()], [coalesce()]
+#'
+#' * [if_else()], [recode()], [case_when()]
+#'
+#' @section Scoped mutation and transmutation:
+#'
+#' The three [scoped] variants of `mutate()` ([mutate_all()],
+#' [mutate_if()] and [mutate_at()]) and the three variants of
+#' `transmute()` ([transmute_all()], [transmute_if()],
+#' [transmute_at()]) make it easy to apply a transformation to a
+#' selection of variables.
 #'
 #' @export
 #' @inheritParams filter
-#' @param ... Name-value pairs of expressions. Use \code{NULL} to drop
+#' @inheritSection filter Tidy data
+#' @param ... Name-value pairs of expressions. Use `NULL` to drop
 #'   a variable.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in the context of the data
+#'   frame. They support [unquoting][rlang::quasiquotation] and
+#'   splicing. See `vignette("programming")` for an introduction to
+#'   these concepts.
 #' @family single table verbs
-#' @return An object of the same class as \code{.data}.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
+#' @return An object of the same class as `.data`.
 #' @examples
-#' mutate(mtcars, displ_l = disp / 61.0237)
-#' transmute(mtcars, displ_l = disp / 61.0237)
+#' # Newly created variables are available immediately
+#' mtcars %>% as_tibble() %>% mutate(
+#'   cyl2 = cyl * 2,
+#'   cyl4 = cyl2 * 2
+#' )
 #'
-#' mutate(mtcars, cyl = NULL)
+#' # You can also use mutate() to remove variables and
+#' # modify existing variables
+#' mtcars %>% as_tibble() %>% mutate(
+#'   mpg = NULL,
+#'   disp = disp * 0.0163871 # convert to litres
+#' )
+#'
+#'
+#' # window functions are useful for grouped mutates
+#' mtcars %>%
+#'  group_by(cyl) %>%
+#'  mutate(rank = min_rank(desc(mpg)))
+#' # see `vignette("window-functions")` for more details
+#'
+#' # You can drop variables by setting them to NULL
+#' mtcars %>% mutate(cyl = NULL)
+#'
+#' # mutate() vs transmute --------------------------
+#' # mutate() keeps all existing variables
+#' mtcars %>%
+#'   mutate(displ_l = disp / 61.0237)
+#'
+#' # transmute keeps only the variables you create
+#' mtcars %>%
+#'   transmute(displ_l = disp / 61.0237)
+#'
+#'
+#' # mutate() supports quasiquotation. You can unquote quosures, which
+#' # can refer to both contextual variables and variable names:
+#' var <- 100
+#' as_tibble(mtcars) %>% mutate(cyl = !!quo(cyl * var))
 mutate <- function(.data, ...) {
-  mutate_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("mutate")
 }
-
 #' @export
-#' @rdname mutate
-mutate_ <- function(.data, ..., .dots) {
+mutate.default <- function(.data, ...) {
+  mutate_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
+#' @rdname se-deprecated
+mutate_ <- function(.data, ..., .dots = list()) {
   UseMethod("mutate_")
 }
 
 #' @rdname mutate
 #' @export
 transmute <- function(.data, ...) {
-  transmute_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("transmute")
 }
-
-#' @rdname mutate
+#' @rdname se-deprecated
 #' @export
-transmute_ <- function(.data, ..., .dots) {
+transmute_ <- function(.data, ..., .dots = list()) {
   UseMethod("transmute_")
 }
 
-
 #' @export
-transmute_.default <- function(.data, ..., .dots) {
-  dots <- lazyeval::all_dots(.dots, ..., all_named = TRUE)
-  out <- mutate_(.data, .dots = dots)
+transmute.default <- function(.data, ...) {
+  dots <- named_quos(...)
+  out <- mutate(.data, !!!dots)
 
   keep <- names(dots)
   select(out, one_of(keep))
 }
+#' @export
+transmute_.default <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  transmute(.data, !!!dots)
+}
 
-#' Arrange rows by variables.
+#' Arrange rows by variables
 #'
-#' Use \code{\link{desc}} to sort a variable in descending order. Generally,
-#' this will not also automatically order by grouping variables.
+#' Use [desc()] to sort a variable in descending order.
 #'
 #' @section Locales:
-#'
-#' Note that for local data frames, the ordering is done in C++ code which
-#' does not have access to the local specific ordering usually done in R.
-#' This means that strings are ordered as if in the C locale.
+#' The sort order for character vectors will depend on the collating sequence
+#' of the locale in use: see [locales()].
 #'
 #' @export
 #' @inheritParams filter
+#' @inheritSection filter Tidy data
 #' @param ... Comma separated list of unquoted variable names. Use
-#'   \code{\link{desc}} to sort a variable in descending order.
+#'   [desc()] to sort a variable in descending order.
 #' @family single table verbs
-#' @return An object of the same class as \code{.data}.
-#'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
+#' @return An object of the same class as `.data`.
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
+#'
+#' # grouped arrange ignores groups
+#' by_cyl <- mtcars %>% group_by(cyl)
+#' by_cyl %>% arrange(desc(wt))
+#' # Unless you specifically ask:
+#' by_cyl %>% arrange(desc(wt), .by_group = TRUE)
 arrange <- function(.data, ...) {
-  arrange_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("arrange")
+}
+#' @export
+arrange.default <- function(.data, ...) {
+  arrange_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
+#' @rdname se-deprecated
+arrange_ <- function(.data, ..., .dots = list()) {
+  UseMethod("arrange_")
 }
 
 #' @export
 #' @rdname arrange
-arrange_ <- function(.data, ..., .dots) {
-  UseMethod("arrange_")
+#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
+#'   grouped data frames only.
+arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
+  if (.by_group) {
+    dots <- quos(!!!groups(.data), ...)
+  } else {
+    dots <- quos(...)
+  }
+
+  arrange_impl(.data, dots)
 }
 
-#' Select/rename variables by name.
+#' Select/rename variables by name
 #'
-#' \code{select()} keeps only the variables you mention; \code{rename()}
+#' `select()` keeps only the variables you mention; `rename()`
 #' keeps all variables.
 #'
-#' @section Special functions:
-#' As well as using existing functions like \code{:} and \code{c}, there are
-#' a number of special functions that only work inside \code{select}
+#' @section Useful functions:
+#' As well as using existing functions like `:` and `c()`, there are
+#' a number of special functions that only work inside `select`
 #'
-
+#' * [starts_with()], [ends_with()], [contains()]
+#' * [matches()]
+#' * [num_range()]
+#' * [one_of()]
+#' * [everything()]
 #'
-#' To drop variables, use \code{-}. You can rename variables with
-#' named arguments.
+#' To drop variables, use `-`.
+#'
+#' Note that except for `:`, `-` and `c()`, all complex expressions
+#' are evaluated outside the data frame context. This is to prevent
+#' accidental matching of data frame variables when you refer to
+#' variables from the calling context.
+#'
+#' @section Scoped selection and renaming:
+#'
+#' The three [scoped] variants of `select()` ([select_all()],
+#' [select_if()] and [select_at()]) and the three variants of
+#' `rename()` ([rename_all()], [rename_if()], [rename_at()]) make it
+#' easy to apply a renaming function to a selection of variables.
 #'
 #' @inheritParams filter
-#' @param ... Comma separated list of unquoted expressions. You can treat
-#'   variable names like they are positions. Use positive values to select
-#'   variables; use negative values to drop variables.
-#' @param .dots Use \code{select_()} to do standard evaluation. See
-#'   \code{vignette("nse")} for details
-#' @return An object of the same class as \code{.data}.
+#' @inheritSection filter Tidy data
+#' @param ... One or more unquoted expressions separated by commas.
+#'   You can treat variable names like they are positions.
 #'
-#'   Data frame row names are silently dropped. To preserve, convert to an
-#'   explicit variable.
+#'   Positive values select variables; negative values to drop variables.
+#'   If the first expression is negative, `select()` will automatically
+#'   start with all variables.
+#'
+#'   Use named arguments to rename selected variables.
+#'
+#'   These arguments are automatically [quoted][rlang::quo] and
+#'   [evaluated][rlang::eval_tidy] in a context where column names
+#'   represent column positions. They support
+#'   [unquoting][rlang::quasiquotation] and splicing. See
+#'   `vignette("programming")` for an introduction to these concepts.
+#' @return An object of the same class as `.data`.
 #' @family single table verbs
 #' @export
 #' @examples
-#' iris <- tbl_df(iris) # so it prints a little nicer
+#' iris <- as_tibble(iris) # so it prints a little nicer
 #' select(iris, starts_with("Petal"))
 #' select(iris, ends_with("Width"))
-#' select(iris, contains("etal"))
-#' select(iris, matches(".t."))
-#' select(iris, Petal.Length, Petal.Width)
-#' vars <- c("Petal.Length", "Petal.Width")
-#' select(iris, one_of(vars))
+#'
+#' # Move Species variable to the front
+#' select(iris, Species, everything())
 #'
 #' df <- as.data.frame(matrix(runif(100), nrow = 10))
 #' df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 #' select(df, V4:V6)
 #' select(df, num_range("V", 4:6))
 #'
-#' # Drop variables
+#' # Drop variables with -
 #' select(iris, -starts_with("Petal"))
-#' select(iris, -ends_with("Width"))
-#' select(iris, -contains("etal"))
-#' select(iris, -matches(".t."))
-#' select(iris, -Petal.Length, -Petal.Width)
 #'
-#' # Rename variables:
+#'
+#' # The .data pronoun is available:
+#' select(mtcars, .data$cyl)
+#' select(mtcars, .data$mpg : .data$disp)
+#'
+#' # However it isn't available within calls since those are evaluated
+#' # outside of the data context. This would fail if run:
+#' # select(mtcars, identical(.data$cyl))
+#'
+#'
+#' # Renaming -----------------------------------------
 #' # * select() keeps only the variables you specify
 #' select(iris, petal_length = Petal.Length)
-#' # Renaming multiple variables uses a prefix:
-#' select(iris, petal = starts_with("Petal"))
-#'
-#' # Reorder variables: keep the variable "Species" in the front
-#' select(iris, Species, everything())
 #'
 #' # * rename() keeps all variables
 #' rename(iris, petal_length = Petal.Length)
 #'
-#' # Programming with select ---------------------------------------------------
-#' select_(iris, ~Petal.Length)
-#' select_(iris, "Petal.Length")
-#' select_(iris, lazyeval::interp(~matches(x), x = ".t."))
-#' select_(iris, quote(-Petal.Length), quote(-Petal.Width))
-#' select_(iris, .dots = list(quote(-Petal.Length), quote(-Petal.Width)))
+#'
+#' # Unquoting ----------------------------------------
+#'
+#' # Like all dplyr verbs, select() supports unquoting of symbols:
+#' vars <- list(
+#'   var1 = sym("cyl"),
+#'   var2 = sym("am")
+#' )
+#' select(mtcars, !!!vars)
+#'
+#' # For convenience it also supports strings and character
+#' # vectors. This is unlike other verbs where strings would be
+#' # ambiguous.
+#' vars <- c(var1 = "cyl", var2 ="am")
+#' select(mtcars, !!vars)
+#' rename(mtcars, !!vars)
 select <- function(.data, ...) {
-  select_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("select")
 }
-
 #' @export
-#' @rdname select
-select_ <- function(.data, ..., .dots) {
+select.default <- function(.data, ...) {
+  select_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @export
+#' @rdname se-deprecated
+select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
-}
-
-#' Select columns using a predicate
-#'
-#' This verb is analogous to \code{\link{summarise_if}()} and
-#' \code{\link{mutate_if}()} in that it lets you use a predicate on
-#' the columns of a data frame. Only those columns for which the
-#' predicate returns \code{TRUE} will be selected.
-#'
-#' Predicates can only be used with local sources like a data frame.
-#'
-#' @inheritParams summarise_all
-#' @param .data A local tbl source.
-#' @param ... Additional arguments passed to \code{.predicate}.
-#' @export
-#' @examples
-#' iris %>% select_if(is.factor)
-#' iris %>% select_if(is.numeric)
-#' iris %>% select_if(function(col) is.numeric(col) && mean(col) > 3.5)
-select_if <- function(.data, .predicate, ...) {
-  if (inherits(.data, "tbl_lazy")) {
-    stop("Selection with predicate currently require local sources",
-      call. = FALSE)
-  }
-  vars <- probe_colwise_names(.data, .predicate, ...)
-  vars <- ensure_grouped_vars(vars, .data, notify = FALSE)
-  select_(.data, .dots = vars)
 }
 
 #' @rdname select
 #' @export
 rename <- function(.data, ...) {
-  rename_(.data, .dots = lazyeval::lazy_dots(...))
+  UseMethod("rename")
 }
-
-#' @rdname select
 #' @export
-rename_ <- function(.data, ..., .dots) {
+rename.default <- function(.data, ...) {
+  rename_(.data, .dots = compat_as_lazy_dots(...))
+}
+#' @rdname se-deprecated
+#' @export
+rename_ <- function(.data, ..., .dots = list()) {
   UseMethod("rename_")
 }
 
 #' The number of observations in the current group.
 #'
-#' This function is implemented special for each data source and can only
-#' be used from within \code{\link{summarise}}, \code{\link{mutate}} and
-#' \code{\link{filter}}
+#' This function is implemented specifically for each data source and can only
+#' be used from within [summarise()], [mutate()] and
+#' [filter()].
 #'
 #' @export
 #' @examples
@@ -335,5 +506,30 @@ rename_ <- function(.data, ..., .dots) {
 #' filter(carriers, n() < 100)
 #' }
 n <- function() {
-  stop("This function should not be called directly")
+  abort("This function should not be called directly")
 }
+
+
+#' Deprecated SE versions of main verbs.
+#'
+#' dplyr used to offer twin versions of each verb suffixed with an
+#' underscore. These versions had standard evaluation (SE) semantics:
+#' rather than taking arguments by code, like NSE verbs, they took
+#' arguments by value. Their purpose was to make it possible to
+#' program with dplyr. However, dplyr now uses tidy evaluation
+#' semantics. NSE verbs still capture their arguments, but you can now
+#' unquote parts of these arguments. This offers full programmability
+#' with NSE verbs. Thus, the underscored versions are now superfluous.
+#'
+#' Unquoting triggers immediate evaluation of its operand and inlines
+#' the result within the captured expression. This result can be a
+#' value or an expression to be evaluated later with the rest of the
+#' argument. See `vignette("programming")` for more information.
+#'
+#' @name se-deprecated
+#' @param .data A data frame.
+#' @param dots,.dots,... Pair/values of expressions coercible to lazy objects.
+#' @param vars Various meanings depending on the verb.
+#' @param args Various meanings depending on the verb.
+#' @keywords internal
+NULL

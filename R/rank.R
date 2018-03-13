@@ -1,29 +1,26 @@
 #' Windowed rank functions.
 #'
-#' Six variations on ranking functions, mimicing the ranking functions
+#' Six variations on ranking functions, mimicking the ranking functions
 #' described in SQL2003. They are currently implemented using the built in
-#' \code{rank} function, and are provided mainly as a convenience when
+#' `rank` function, and are provided mainly as a convenience when
 #' converting between R and SQL. All ranking functions map smallest inputs
-#' to smallest outputs. Use \code{\link{desc}} to reverse the direction..
+#' to smallest outputs. Use [desc()] to reverse the direction.
 #'
-#' \itemize{
-#' \item \code{row_number}: equivalent to \code{rank(ties.method = "first")}
+#' * `row_number()`: equivalent to `rank(ties.method = "first")`
 #'
-#' \item \code{min_rank}: equivalent to \code{rank(ties.method = "min")}
+#' * `min_rank()`: equivalent to `rank(ties.method = "min")`
 #'
-#' \item \code{dense_rank}: like \code{min_rank}, but with no gaps between
+#' * `dense_rank()`: like `min_rank()`, but with no gaps between
 #'   ranks
 #'
-#' \item \code{percent_rank}: a number between 0 and 1 computed by
-#'   rescaling \code{min_rank} to [0, 1]
+#' * `percent_rank()`: a number between 0 and 1 computed by
+#'   rescaling `min_rank` to `[0, 1]`
 #'
-#' \item \code{cume_dist}: a cumulative distribution function. Proportion
+#' * `cume_dist()`: a cumulative distribution function. Proportion
 #'   of all values less than or equal to the current rank.
 #'
-#' \item \code{ntile}: a rough rank, which breaks the input vector into
-#'   \code{n} buckets.
-#'
-#' }
+#' * `ntile()`: a rough rank, which breaks the input vector into
+#'   `n` buckets.
 #'
 #' @name ranking
 #' @param x a vector of values to rank. Missing values are left as is.
@@ -39,6 +36,11 @@
 #'
 #' ntile(x, 2)
 #' ntile(runif(100), 10)
+#'
+#' # row_number can be used with single table verbs without specifying x
+#' # (for data frames and databases that support windowing)
+#' mutate(mtcars, row_number() == 1L)
+#' mtcars %>% filter(between(row_number(), 1, 10))
 NULL
 
 #' @export
@@ -51,7 +53,13 @@ row_number <- function(x) rank(x, ties.method = "first", na.last = "keep")
 #' @export
 #' @rdname ranking
 ntile <- function(x, n) {
-  floor((n * (row_number(x) - 1) / length(x)) + 1)
+  len <- sum(!is.na(x))
+
+  if (len == 0L) {
+    rep(NA_integer_, length(x))
+  } else {
+    as.integer(floor(n * (row_number(x) - 1) / len + 1))
+  }
 }
 
 #' @export
@@ -76,4 +84,3 @@ percent_rank <- function(x) {
 cume_dist <- function(x) {
   rank(x, ties.method = "max", na.last = "keep") / sum(!is.na(x))
 }
-
