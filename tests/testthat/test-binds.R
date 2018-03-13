@@ -622,3 +622,9 @@ test_that("unnamed vectors fail", {
 test_that("supports NULL values", {
   expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
 })
+
+test_that("bind_cols handles unnamed list (#3402)", {
+  expect_identical(
+    bind_cols(list(1, 2))
+  )
+})

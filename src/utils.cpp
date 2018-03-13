@@ -277,6 +277,14 @@ SEXP vec_names(SEXP x) {
   return Rf_getAttrib(x, R_NamesSymbol);
 }
 
+SEXP vec_names_or_empty(SEXP x) {
+  SEXP nms = Rf_getAttrib(x, R_NamesSymbol);
+  if (Rf_isNull(nms)) {
+    return Rf_allocVector(STRSXP, LENGTH(x)) ;
+  }
+  return nms ;
+}
+
 bool is_str_empty(SEXP str) {
   const char* c_str = CHAR(str);
   return strcmp(c_str, "") == 0;

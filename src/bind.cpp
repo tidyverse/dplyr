@@ -368,7 +368,8 @@ List cbind_all(List dots) {
       continue;
 
     if (TYPEOF(current) == VECSXP) {
-      CharacterVector current_names = vec_names(current);
+      CharacterVector current_names = vec_names_or_empty(current);
+
       int nc = Rf_length(current);
       for (int j = 0; j < nc; j++, k++) {
         out[k] = shared_SEXP(VECTOR_ELT(current, j));
