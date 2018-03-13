@@ -83,7 +83,7 @@ mtcars \%>\%
 # summarise() supports quasiquotation. You can unquote raw
 # expressions or quosures:
 var <- quo(mean(cyl))
-summarise(mtcars, !! var)
+summarise(mtcars, !!var)
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},
