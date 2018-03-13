@@ -21,7 +21,7 @@ arrange_all <- function(.tbl, .funs = list(), ...) {
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  arrange(.tbl, !!! funs)
+  arrange(.tbl, !!!funs)
 }
 #' @rdname arrange_all
 #' @export
@@ -30,7 +30,7 @@ arrange_at <- function(.tbl, .vars, .funs = list(), ...) {
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars)
   }
-  arrange(.tbl, !!! funs)
+  arrange(.tbl, !!!funs)
 }
 #' @rdname arrange_all
 #' @export
@@ -39,5 +39,5 @@ arrange_if <- function(.tbl, .predicate, .funs = list(), ...) {
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate)
   }
-  arrange(.tbl, !!! funs)
+  arrange(.tbl, !!!funs)
 }

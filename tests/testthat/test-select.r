@@ -63,18 +63,17 @@ test_that("select can be before group_by (#309)", {
     summarise(var1 = mean(var1))
   expect_equal(names(dfagg), c("id", "year", "var1"))
   expect_equal(attr(dfagg, "vars"), "id")
-
 })
 
 test_that("rename does not crash with invalid grouped data frame (#640)", {
   df <- data_frame(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
   df$a <- NULL
   expect_equal(
-    df %>% rename(e = d) %>% ungroup,
+    df %>% rename(e = d) %>% ungroup(),
     data_frame(b = 2:4, e = 3:5)
   )
   expect_equal(
-    df %>% rename(e = b) %>% ungroup,
+    df %>% rename(e = b) %>% ungroup(),
     data_frame(e = 2:4, d = 3:5)
   )
 })
@@ -113,7 +112,7 @@ test_that("can select() with .data pronoun (#2715)", {
 })
 
 test_that("can select() with character vectors", {
-  expect_identical(select(mtcars, "cyl", !! "disp", c("cyl", "am", "drat")), mtcars[c("cyl", "disp", "am", "drat")])
+  expect_identical(select(mtcars, "cyl", !!"disp", c("cyl", "am", "drat")), mtcars[c("cyl", "disp", "am", "drat")])
 })
 
 test_that("rename() to UTF-8 column names", {
@@ -130,9 +129,9 @@ test_that("select() treats NULL inputs as empty", {
 test_that("can select() or rename() with strings and character vectors", {
   vars <- c(foo = "cyl", bar = "am")
 
-  expect_identical(select(mtcars, !!! vars), select(mtcars, foo = cyl, bar = am))
-  expect_identical(select(mtcars, !! vars), select(mtcars, foo = cyl, bar = am))
+  expect_identical(select(mtcars, !!!vars), select(mtcars, foo = cyl, bar = am))
+  expect_identical(select(mtcars, !!vars), select(mtcars, foo = cyl, bar = am))
 
-  expect_identical(rename(mtcars, !!! vars), rename(mtcars, foo = cyl, bar = am))
-  expect_identical(rename(mtcars, !! vars), rename(mtcars, foo = cyl, bar = am))
+  expect_identical(rename(mtcars, !!!vars), rename(mtcars, foo = cyl, bar = am))
+  expect_identical(rename(mtcars, !!vars), rename(mtcars, foo = cyl, bar = am))
 })

@@ -17,7 +17,7 @@ with_hybrid <- function(expr, ...) {
   eval_env$verify_hybrid <- verify_hybrid
   environment(expr) <- eval_env
 
-  summarise(data, out = !! expr)["out"][[1]]
+  summarise(data, out = !!expr)["out"][[1]]
 }
 
 without_hybrid <- function(expr, ...) {
@@ -31,7 +31,7 @@ without_hybrid <- function(expr, ...) {
   eval_env$verify_not_hybrid <- verify_not_hybrid
   environment(expr) <- eval_env
 
-  summarise(data, out = !! expr)["out"][[1]]
+  summarise(data, out = !!expr)["out"][[1]]
 }
 
 eval_dots <- function(expr, ...) {

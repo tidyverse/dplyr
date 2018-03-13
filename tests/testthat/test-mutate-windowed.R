@@ -1,8 +1,10 @@
 context("Mutate - windowed")
 
 test_that("desc is correctly handled by window functions", {
-  df <- data.frame(x = 1:10, y = seq(1, 10, by = 1),
-                   g = rep(c(1, 2), each = 5), s = c(letters[1:3], LETTERS[1:5], letters[4:5]))
+  df <- data.frame(
+    x = 1:10, y = seq(1, 10, by = 1),
+    g = rep(c(1, 2), each = 5), s = c(letters[1:3], LETTERS[1:5], letters[4:5])
+  )
 
   expect_equal(mutate(df, rank = min_rank(desc(x)))$rank, 10:1)
   expect_equal(mutate(group_by(df, g), rank = min_rank(desc(x)))$rank, rep(5:1, 2))
@@ -12,10 +14,14 @@ test_that("desc is correctly handled by window functions", {
 
   # Test character vector sorting
   charvec_sort_test <- function(df) {
-    expect_equal(mutate(df, rank = row_number(desc(s)))$rank,
-                 mutate(df, rank = dplyr::row_number(desc(s)))$rank)
-    expect_equal(mutate(group_by(df, g), rank = row_number(desc(s)))$rank,
-                 mutate(group_by(df, g), rank = dplyr::row_number(desc(s)))$rank)
+    expect_equal(
+      mutate(df, rank = row_number(desc(s)))$rank,
+      mutate(df, rank = dplyr::row_number(desc(s)))$rank
+    )
+    expect_equal(
+      mutate(group_by(df, g), rank = row_number(desc(s)))$rank,
+      mutate(group_by(df, g), rank = dplyr::row_number(desc(s)))$rank
+    )
   }
 
   # Test against both the local, and the C locale for collation
@@ -24,8 +30,10 @@ test_that("desc is correctly handled by window functions", {
 })
 
 test_that("row_number gives correct results", {
-  tmp <- data.frame(id = rep(c(1, 2), each = 5), value = c(1, 1, 2, 5, 0, 6, 4, 0, 0, 2),
-                    s = c(letters[1:2], LETTERS[1:4], letters[2:5]))
+  tmp <- data.frame(
+    id = rep(c(1, 2), each = 5), value = c(1, 1, 2, 5, 0, 6, 4, 0, 0, 2),
+    s = c(letters[1:2], LETTERS[1:4], letters[2:5])
+  )
 
   res <- group_by(tmp, id) %>% mutate(var = row_number(value))
   expect_equal(res$var, c(2, 3, 4, 5, 1, 5, 4, 1, 2, 3))
@@ -69,7 +77,7 @@ test_that("cum(sum,min,max) works", {
     csumx = cumsum(x), csumy = cumsum(y),
     cminx = cummin(x), cminy = cummin(y),
     cmaxx = cummax(x), cmaxy = cummax(y)
-    )
+  )
   expect_equal(res$csumx, c(cumsum(df$x[1:5]), cumsum(df$x[6:10])))
   expect_equal(res$csumy, c(cumsum(df$y[1:5]), cumsum(df$y[6:10])))
   expect_equal(res$cminx, c(cummin(df$x[1:5]), cummin(df$x[6:10])))
@@ -92,7 +100,6 @@ test_that("cum(sum,min,max) works", {
 
   expect_true(all(is.na(res$cmaxx[3:10])))
   expect_true(all(is.na(res$cmaxy[4:10])))
-
 })
 
 test_that("lead and lag simple hybrid version gives correct results (#133)", {
@@ -174,7 +181,6 @@ test_that("rank functions deal correctly with NA (#774)", {
   expect_equal(res$cume_dist[ c(1, 2, 4, 5, 7, 8, 10, 11) ], rep(c(.75, 1, .75, .25), 2))
   expect_equal(res$ntile[ c(1, 2, 4, 5, 7, 8, 10, 11) ], rep(c(1L, 2L, 2L, 1L), 2))
   expect_equal(res$row_number[ c(1, 2, 4, 5, 7, 8, 10, 11) ], rep(c(2L, 4L, 3L, 1L), 2))
-
 })
 
 test_that("lag and lead work on factors inside mutate (#955)", {
@@ -186,10 +192,9 @@ test_that("lag and lead work on factors inside mutate (#955)", {
   res <- test_df %>% mutate(
     is_diff_lag  = (test != lag(test)),
     is_diff_lead = (test != lead(test))
-    )
+  )
   expect_equal(exp_lag, res$is_diff_lag)
   expect_equal(exp_lead, res$is_diff_lead)
-
 })
 
 test_that("lag handles default argument in mutate (#915)", {

@@ -70,20 +70,20 @@
 #' by_species %>% summarise_all(c("min", "max"))
 summarise_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
-  summarise(.tbl, !!! funs)
+  summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_if <- function(.tbl, .predicate, .funs, ...) {
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
-  summarise(.tbl, !!! funs)
+  summarise(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
-  summarise(.tbl, !!! funs)
+  summarise(.tbl, !!!funs)
 }
 
 #' @rdname summarise_all
@@ -100,40 +100,40 @@ summarize_at <- summarise_at
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
-  mutate(.tbl, !!! funs)
+  mutate(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
-  mutate(.tbl, !!! funs)
+  mutate(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
-  mutate(.tbl, !!! funs)
+  mutate(.tbl, !!!funs)
 }
 
 #' @rdname summarise_all
 #' @export
 transmute_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
-  transmute(.tbl, !!! funs)
+  transmute(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 transmute_if <- function(.tbl, .predicate, .funs, ...) {
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
-  transmute(.tbl, !!! funs)
+  transmute(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
-  transmute(.tbl, !!! funs)
+  transmute(.tbl, !!!funs)
 }
 
 # Helpers -----------------------------------------------------------------
@@ -231,14 +231,14 @@ summarise_each_ <- function(tbl, funs, vars) {
   } else {
     inform(glue(msg, "\nTo map `funs` over a selection of variables, use `summarise_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
-    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!! vars)
+    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
   }
   if (is_character(funs)) {
     funs <- funs_(funs)
   }
 
   funs <- manip_apply_syms(funs, syms(vars), tbl)
-  summarise(tbl, !!! funs)
+  summarise(tbl, !!!funs)
 }
 
 #' @export
@@ -263,10 +263,10 @@ mutate_each_ <- function(tbl, funs, vars) {
   } else {
     inform(glue(msg, "\nTo map `funs` over a selection of variables, use `mutate_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
-    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!! vars)
+    vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
   }
   funs <- manip_apply_syms(funs, syms(vars), tbl)
-  mutate(tbl, !!! funs)
+  mutate(tbl, !!!funs)
 }
 
 #' @rdname summarise_each

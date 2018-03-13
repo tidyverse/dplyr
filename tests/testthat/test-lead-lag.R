@@ -12,10 +12,10 @@ test_that("lead and lag preserves dates and times", {
   y <- as.POSIXct(x)
 
   expect_is(lead(x), "Date")
-  expect_is(lag(x),  "Date")
+  expect_is(lag(x), "Date")
 
   expect_is(lead(y), "POSIXct")
-  expect_is(lag(y),  "POSIXct")
+  expect_is(lag(y), "POSIXct")
 })
 
 test_that("#925 is fixed", {

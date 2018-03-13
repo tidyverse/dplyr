@@ -83,7 +83,7 @@ test_that("error is thrown with improper additional arguments", {
 test_that("predicate can be quoted", {
   expected <- mutate_if(mtcars, is_integerish, mean)
   expect_identical(mutate_if(mtcars, "is_integerish", mean), expected)
-  expect_identical(mutate_if(mtcars, ~is_integerish(.x), mean), expected)
+  expect_identical(mutate_if(mtcars, ~ is_integerish(.x), mean), expected)
 })
 
 test_that("transmute verbs do not retain original variables", {
@@ -107,7 +107,7 @@ test_that("at selection works even if not all ops are named (#2634)", {
 })
 
 test_that("can use a purrr-style lambda", {
-  expect_identical(summarise_at(mtcars, vars(1:2), ~mean(.x)), summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl)))
+  expect_identical(summarise_at(mtcars, vars(1:2), ~ mean(.x)), summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl)))
 })
 
 

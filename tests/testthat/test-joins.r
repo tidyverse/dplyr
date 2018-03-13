@@ -67,11 +67,13 @@ test_that("univariate right join has all columns, all rows", {
 c <- data.frame(
   x = c(1, 1, 2, 3),
   y = c(1, 1, 2, 3),
-  a = 1:4)
+  a = 1:4
+)
 d <- data.frame(
   x = c(1, 2, 2, 4),
   y = c(1, 2, 2, 4),
-  b = 1:4)
+  b = 1:4
+)
 
 test_that("bivariate inner join has all columns, repeated matching rows", {
   j <- inner_join(c, d, c("x", "y"))
@@ -368,7 +370,6 @@ test_that("joins suffix variable names (#655)", {
   a <- data.frame(x = 1:10, z = 2:11)
   b <- data.frame(z = 5:14, x = 3:12) # x from this gets suffixed by .y
   res <- left_join(a, b, by = c("x" = "z"))
-
 })
 
 test_that("right_join gets the column in the right order #96", {
@@ -381,7 +382,6 @@ test_that("right_join gets the column in the right order #96", {
   b <- data.frame(z = 5:14, a = 3:12)
   res <- right_join(a, b, by = c("x" = "z"))
   expect_equal(names(res), c("x", "y", "a"))
-
 })
 
 test_that("full_join #96", {
@@ -394,7 +394,6 @@ test_that("full_join #96", {
 
   expect_true(all(is.na(res$z[1:2])))
   expect_equal(res$z[3:5], 3:5)
-
 })
 
 test_that("JoinStringFactorVisitor and JoinFactorStringVisitor handle NA #688", {
@@ -456,7 +455,6 @@ test_that("joins coerce factors with different levels to character (#684)", {
   attr(d2$a, "levels") <- c("c", "b", "a")
   expect_warning(res <- inner_join(d1, d2))
   expect_is(res$a, "character")
-
 })
 
 test_that("joins between factor and character coerces to character with a warning (#684)", {
@@ -467,7 +465,6 @@ test_that("joins between factor and character coerces to character with a warnin
 
   expect_warning(res <- inner_join(d2, d1))
   expect_is(res$a, "character")
-
 })
 
 test_that("group column names reflect renamed duplicate columns (#2330)", {
@@ -544,12 +541,16 @@ test_that("join creates correctly named results (#855)", {
 
 test_that("inner join gives same result as merge by default (#1281)", {
   set.seed(75)
-  x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+  x <- data.frame(
+    cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
-    stringsAsFactors = FALSE)
-  y <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+    stringsAsFactors = FALSE
+  )
+  y <- data.frame(
+    cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
-    stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE
+  )
   ij <- inner_join(x, y, by = c("cat1", "cat2"))
   me <- merge(x, y, by = c("cat1", "cat2"))
   expect_true(equal_data_frame(ij, me))
@@ -557,7 +558,7 @@ test_that("inner join gives same result as merge by default (#1281)", {
 
 test_that("join handles matrices #1230", {
   df1 <- data_frame(x = 1:10, text = letters[1:10])
-  df2 <- data_frame(x = 1:5,  text = "")
+  df2 <- data_frame(x = 1:5, text = "")
   df2$text <- matrix(LETTERS[1:10], nrow = 5)
 
   res <- left_join(df1, df2, by = c("x" = "x")) %>% filter(x > 5)
@@ -568,8 +569,8 @@ test_that("join handles matrices #1230", {
 })
 
 test_that("ordering of strings is not confused by R's collate order (#1315)", {
-  a = data.frame(character = c("\u0663"), set = c("arabic_the_language"), stringsAsFactors = F)
-  b = data.frame(character = c("3"), set = c("arabic_the_numeral_set"), stringsAsFactors = F)
+  a <- data.frame(character = c("\u0663"), set = c("arabic_the_language"), stringsAsFactors = F)
+  b <- data.frame(character = c("3"), set = c("arabic_the_numeral_set"), stringsAsFactors = F)
   res <- b %>% inner_join(a, by = c("character"))
   expect_equal(nrow(res), 0L)
   res <- a %>% inner_join(b, by = c("character"))
@@ -607,7 +608,8 @@ test_that("joins avoid name repetition (#1460)", {
   d1 <- data.frame(id = 1:5, foo = rnorm(5))
   d2 <- data.frame(id = 1:5, foo = rnorm(5))
   d3 <- data.frame(id = 1:5, foo = rnorm(5))
-  d <- d1 %>% left_join(d1, by = "id") %>%
+  d <- d1 %>%
+    left_join(d1, by = "id") %>%
     left_join(d2, by = "id") %>%
     left_join(d3, by = "id")
   expect_equal(names(d), c("id", "foo.x", "foo.y", "foo.x.x", "foo.y.y"))
@@ -671,7 +673,6 @@ test_that("result of joining POSIXct is POSIXct (#1578)", {
 })
 
 test_that("joins allows extra attributes if they are identical (#1636)", {
-
   tbl_left <- data_frame(
     i = rep(c(1, 2, 3), each = 2),
     x1 = letters[1:6]
@@ -776,13 +777,17 @@ test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
               Encoding(as.character(df2$x))
             )
 
-            if (factor1 != factor2) warning_msg <- "coercing"
-            else warning_msg <- NA
+            if (factor1 != factor2) {
+              warning_msg <- "coercing"
+            } else {
+              warning_msg <- NA
+            }
 
             expect_warning_msg <- function(code, msg = warning_msg) {
               expect_warning(
                 code, msg,
-                info = paste(deparse(substitute(code)[[2]][[1]]), info))
+                info = paste(deparse(substitute(code)[[2]][[1]]), info)
+              )
             }
 
             expect_equal_df <- function(code, df_ = df) {
@@ -843,12 +848,12 @@ test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
   df2 <- data_frame(a = NA, b = 1:3)
   for (na_matches in c("na", "never")) {
     accept_na_match <- (na_matches == "na")
-    expect_equal(inner_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + 3 * accept_na_match)
-    expect_equal(left_join(df1, df2, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
-    expect_equal(right_join(df2, df1, na_matches = na_matches) %>% nrow, 1 + 2 * accept_na_match)
-    expect_equal(full_join(df1, df2, na_matches = na_matches) %>% nrow, 4 - accept_na_match)
-    expect_equal(anti_join(df1, df2, na_matches = na_matches) %>% nrow, 1 - accept_na_match)
-    expect_equal(semi_join(df1, df2, na_matches = na_matches) %>% nrow, 0 + accept_na_match)
+    expect_equal(inner_join(df1, df2, na_matches = na_matches) %>% nrow(), 0 + 3 * accept_na_match)
+    expect_equal(left_join(df1, df2, na_matches = na_matches) %>% nrow(), 1 + 2 * accept_na_match)
+    expect_equal(right_join(df2, df1, na_matches = na_matches) %>% nrow(), 1 + 2 * accept_na_match)
+    expect_equal(full_join(df1, df2, na_matches = na_matches) %>% nrow(), 4 - accept_na_match)
+    expect_equal(anti_join(df1, df2, na_matches = na_matches) %>% nrow(), 1 - accept_na_match)
+    expect_equal(semi_join(df1, df2, na_matches = na_matches) %>% nrow(), 0 + accept_na_match)
   }
 })
 
@@ -902,7 +907,7 @@ test_that("join takes LHS with warning if attributes inconsistent", {
 })
 
 test_that("common_by() message", {
-  df <- tibble(!!! set_names(letters, letters))
+  df <- tibble(!!!set_names(letters, letters))
 
   expect_message(
     left_join(df, df %>% select(1)),

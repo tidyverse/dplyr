@@ -38,7 +38,8 @@ test_that("cbind uses shallow copies", {
     int = 1:10,
     num = rnorm(10),
     cha = letters[1:10],
-    stringsAsFactors = FALSE)
+    stringsAsFactors = FALSE
+  )
   df2 <- data.frame(
     log = sample(c(T, F), 10, replace = TRUE),
     dat = seq.Date(Sys.Date(), length.out = 10, by = "day"),
@@ -262,17 +263,23 @@ test_that("bind_rows doesn't promote integer/numeric to factor", {
 
 
 test_that("bind_rows preserves timezones #298", {
-  dates1 <- data.frame(ID = c("a", "b", "c"),
+  dates1 <- data.frame(
+    ID = c("a", "b", "c"),
     dates = structure(c(-247320000, -246196800, -245073600),
       tzone = "GMT",
-      class = c("POSIXct", "POSIXt")),
-    stringsAsFactors = FALSE)
+      class = c("POSIXct", "POSIXt")
+    ),
+    stringsAsFactors = FALSE
+  )
 
-  dates2 <- data.frame(ID = c("d", "e", "f"),
+  dates2 <- data.frame(
+    ID = c("d", "e", "f"),
     dates = structure(c(-243864000, -242654400, -241444800),
       tzone = "GMT",
-      class = c("POSIXct", "POSIXt")),
-    stringsAsFactors = FALSE)
+      class = c("POSIXct", "POSIXt")
+    ),
+    stringsAsFactors = FALSE
+  )
 
   alldates <- bind_rows(dates1, dates2)
   expect_equal(attr(alldates$dates, "tzone"), "GMT")
@@ -294,7 +301,6 @@ test_that("bind_rows handles all NA columns (#493)", {
   res <- bind_rows(mydata)
   expect_true(is.na(res$x[1]))
   expect_is(res$x, "factor")
-
 })
 
 test_that("bind_rows handles complex. #933", {
@@ -382,7 +388,6 @@ test_that("bind handles POSIXct of different tz ", {
 
   res <- bind_rows(df1, df2, df3)
   expect_equal(attr(res$date, "tzone"), "UTC")
-
 })
 
 test_that("bind_rows() creates a column of identifiers (#1337)", {
@@ -555,12 +560,14 @@ test_that("bind_rows() fails with unnamed vectors", {
 })
 
 test_that("bind_rows() handles rowwise vectors", {
-  expect_warning(regex = "character and factor",
+  expect_warning(
+    regex = "character and factor",
     tbl <- bind_rows(
       tibble(a = "foo", b = "bar"),
       c(a = "A", b = "B"),
       set_names(factor(c("B", "B")), c("a", "b"))
-    ))
+    )
+  )
   expect_identical(tbl, tibble(a = c("foo", "A", "B"), b = c("bar", "B", "B")))
 
   id_tbl <- bind_rows(a = c(a = 1, b = 2), b = c(a = 3, b = 4), .id = "id")
@@ -572,7 +579,7 @@ test_that("bind_rows() accepts lists of dataframe-like lists as first argument",
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
-  mod <- lm(y~ ., data = freeny)
+  mod <- lm(y ~ ., data = freeny)
   data <- model.frame(mod)
   data_list <- list(data, data)
   res <- bind_rows(data_list)
@@ -583,7 +590,7 @@ test_that("columns that are OBJECT but have NULL class are handled gracefully (#
 
 test_that("accepts named columns", {
   expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
-  expect_equal(bind_cols(!!! mtcars), as_tibble(mtcars))
+  expect_equal(bind_cols(!!!mtcars), as_tibble(mtcars))
 })
 
 test_that("uncompatible sizes fail", {
@@ -606,7 +613,7 @@ test_that("unnamed vectors fail", {
     fixed = TRUE
   )
   expect_error(
-    bind_cols(!!! list(1:2)),
+    bind_cols(!!!list(1:2)),
     "Argument 1 must have names",
     fixed = TRUE
   )

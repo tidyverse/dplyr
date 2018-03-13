@@ -43,6 +43,6 @@ quo_reduce <- function(..., .op) {
   op_quo <- as_quosure(.op, base_env())
   op <- quo_get_expr(op_quo)
 
-  expr <- reduce(dots, function(x, y) expr((!!op)((!! x), (!! y))))
+  expr <- reduce(dots, function(x, y) expr((!!op)((!!x), (!!y))))
   new_quosure(expr, quo_get_env(op_quo))
 }

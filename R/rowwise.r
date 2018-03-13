@@ -66,7 +66,7 @@ group_by.rowwise_df <- function(.data, ..., add = FALSE) {
 #' @export
 group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!! dots, add = add)
+  group_by(.data, !!!dots, add = add)
 }
 
 
@@ -113,5 +113,5 @@ do.rowwise_df <- function(.data, ...) {
 #' @export
 do_.rowwise_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  do(.data, !!! dots)
+  do(.data, !!!dots)
 }

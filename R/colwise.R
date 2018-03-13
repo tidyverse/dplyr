@@ -127,7 +127,7 @@ tbl_at_vars <- function(tbl, vars) {
   } else if (is_integerish(vars)) {
     tibble_vars[vars]
   } else if (is_quosures(vars)) {
-    out <- tidyselect::vars_select(tibble_vars, !!! vars)
+    out <- tidyselect::vars_select(tibble_vars, !!!vars)
     if (!any(have_name(vars))) {
       names(out) <- NULL
     }

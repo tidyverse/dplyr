@@ -40,10 +40,10 @@ setequal <- function(x, y, ...) UseMethod("setequal")
 #' @export
 intersect.default <- function(x, y, ...) base::intersect(x, y, ...)
 #' @export
-union.default <-     function(x, y, ...) base::union(x, y, ...)
+union.default <- function(x, y, ...) base::union(x, y, ...)
 #' @export
 union_all.default <- function(x, y, ...) combine(x, y, ...)
 #' @export
-setdiff.default <-   function(x, y, ...) base::setdiff(x, y, ...)
+setdiff.default <- function(x, y, ...) base::setdiff(x, y, ...)
 #' @export
-setequal.default <-  function(x, y, ...) base::setequal(x, y, ...)
+setequal.default <- function(x, y, ...) base::setequal(x, y, ...)

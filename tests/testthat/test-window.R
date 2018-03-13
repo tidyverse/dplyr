@@ -10,7 +10,6 @@ test_that("If n = length(x), returns all missing", {
 
   expect_equal(lead(1:2, 2), miss)
   expect_equal(lag(1:2, 2), miss)
-
 })
 
 test_that("cumany handles NA (#408)", {
@@ -23,7 +22,6 @@ test_that("cumany handles NA (#408)", {
 
   x <- c(TRUE, NA)
   expect_true(all(cumany(x)))
-
 })
 
 test_that("percent_rank ignores NAs (#1132)", {
@@ -43,7 +41,8 @@ test_that("order_by() returns correct value", {
   expected <- int(15, 14, 12, 9, 5)
   expect_identical(order_by(5:1, cumsum(1:5)), expected)
 
-  x <- 5:1; y <- 1:5
+  x <- 5:1
+  y <- 1:5
   expect_identical(order_by(x, cumsum(y)), expected)
 })
 
@@ -60,5 +59,5 @@ test_that("order_by() works in arbitrary envs (#2297)", {
 })
 
 test_that("order_by() fails when not supplied a call (#3065)", {
-  expect_error(order_by(NULL, !! 1L), "`call` must be a function call, not an integer vector")
+  expect_error(order_by(NULL, !!1L), "`call` must be a function call, not an integer vector")
 })

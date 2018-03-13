@@ -43,7 +43,7 @@ test_that("rbind_list reorders columns", {
 })
 
 test_that("rbind_list promotes integer to numeric", {
-  df  <- data.frame(a = 1:5, b = 1:5)
+  df <- data.frame(a = 1:5, b = 1:5)
   df2 <- df
   df2$a <- as.numeric(df$a)
 
@@ -53,7 +53,7 @@ test_that("rbind_list promotes integer to numeric", {
 })
 
 test_that("rbind_list promotes factor to character", {
-  df  <- data.frame(a = letters[1:5], b = 1:5, stringsAsFactors = TRUE)
+  df <- data.frame(a = letters[1:5], b = 1:5, stringsAsFactors = TRUE)
   df2 <- df
   df2$a <- as.character(df$a)
 
@@ -78,10 +78,13 @@ test_that("rbind_list doesn't coerce integer to factor", {
 test_that("rbind_list coerces factor to character when levels don't match", {
   df1 <- data.frame(a = 1:3, b = factor(c("a", "b", "c")))
   df2 <- data.frame(a = 1:3, b = factor(c("a", "b", "c"),
-      levels = c("b", "c", "a", "d")))
+    levels = c("b", "c", "a", "d")
+  ))
 
-  expect_warning(res <- rbind_list(df1, df2),
-    "Unequal factor levels: coercing to character")
+  expect_warning(
+    res <- rbind_list(df1, df2),
+    "Unequal factor levels: coercing to character"
+  )
   expect_equal(res$b, c("a", "b", "c", "a", "b", "c"))
 })
 
@@ -100,7 +103,6 @@ test_that("rbind handles NA in factors #279", {
   expect_equal(res$a, c(NA, 1.0))
   expect_equal(res$b, c("c", NA))
   expect_equal(res$c, c("d", "b"))
-
 })
 
 test_that("rbind_all only accepts data frames #288", {
@@ -109,17 +111,23 @@ test_that("rbind_all only accepts data frames #288", {
 })
 
 test_that("rbind propagates timezone for POSIXct #298", {
-  dates1 <- data.frame(ID = c("a", "b", "c"),
-                     dates = structure(c(-247320000, -246196800, -245073600),
-                                     tzone = "GMT",
-                                     class = c("POSIXct", "POSIXt")),
-                     stringsAsFactors = FALSE)
+  dates1 <- data.frame(
+    ID = c("a", "b", "c"),
+    dates = structure(c(-247320000, -246196800, -245073600),
+      tzone = "GMT",
+      class = c("POSIXct", "POSIXt")
+    ),
+    stringsAsFactors = FALSE
+  )
 
-  dates2 <- data.frame(ID = c("d", "e", "f"),
-                       dates = structure(c(-243864000, -242654400, -241444800),
-                                       tzone = "GMT",
-                                       class = c("POSIXct", "POSIXt")),
-                       stringsAsFactors = FALSE)
+  dates2 <- data.frame(
+    ID = c("d", "e", "f"),
+    dates = structure(c(-243864000, -242654400, -241444800),
+      tzone = "GMT",
+      class = c("POSIXct", "POSIXt")
+    ),
+    stringsAsFactors = FALSE
+  )
 
   alldates <- rbind_list_warn(dates1, dates2)
   expect_equal(attr(alldates$dates, "tzone"), "GMT")
@@ -131,7 +139,7 @@ test_that("Collecter_Impl<REALSXP> can collect INTSXP. #321", {
 })
 
 test_that("Collecter_Impl<INTSXP> can collect LGLSXP. #321", {
-  res <-  rbind_list_warn(data.frame(x = 1:3), data.frame(x = NA))
+  res <- rbind_list_warn(data.frame(x = 1:3), data.frame(x = NA))
   expect_equal(res$x, c(1:3, NA))
 })
 
@@ -178,7 +186,6 @@ test_that("rbind handles all NA columns (#493)", {
   res <- rbind_all_warn(mydata)
   expect_true(is.na(res$x[1]))
   expect_is(res$x, "factor")
-
 })
 
 test_that("bind_rows handles complex. #933", {
@@ -190,8 +197,10 @@ test_that("bind_rows handles complex. #933", {
 })
 
 test_that("bind_rows is careful about column names encoding #1265", {
-  one <- data.frame(foo = 1:3, bar = 1:3);  names(one) <- c("f\u00fc", "bar")
-  two <- data.frame(foo = 1:3, bar = 1:3);  names(two) <- c("f\u00fc", "bar")
+  one <- data.frame(foo = 1:3, bar = 1:3)
+  names(one) <- c("f\u00fc", "bar")
+  two <- data.frame(foo = 1:3, bar = 1:3)
+  names(two) <- c("f\u00fc", "bar")
   Encoding(names(one)[1]) <- "UTF-8"
   expect_equal(names(one), names(two))
   res <- bind_rows(one, two)
@@ -264,7 +273,6 @@ test_that("bind handles POSIXct of different tz ", {
 
   res <- bind_rows(df1, df2, df3)
   expect_equal(attr(res$date, "tzone"), "UTC")
-
 })
 
 test_that("bind_rows() creates a column of identifiers (#1337)", {

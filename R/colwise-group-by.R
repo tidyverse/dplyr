@@ -26,7 +26,7 @@ group_by_all <- function(.tbl, .funs = list(), ...) {
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  group_by(.tbl, !!! funs)
+  group_by(.tbl, !!!funs)
 }
 #' @rdname group_by_all
 #' @export
@@ -35,7 +35,7 @@ group_by_at <- function(.tbl, .vars, .funs = list(), ..., .add = FALSE) {
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars)
   }
-  group_by(.tbl, !!! funs, add = .add)
+  group_by(.tbl, !!!funs, add = .add)
 }
 #' @rdname group_by_all
 #' @export
@@ -44,5 +44,5 @@ group_by_if <- function(.tbl, .predicate, .funs = list(), ..., .add = FALSE) {
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate)
   }
-  group_by(.tbl, !!! funs, add = .add)
+  group_by(.tbl, !!!funs, add = .add)
 }

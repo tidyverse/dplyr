@@ -71,14 +71,15 @@ unique_name <- local({
 })
 
 succeeds <- function(x, quiet = FALSE) {
-  tryCatch(
+  tryCatch( #
     {
       x
       TRUE
     },
     error = function(e) {
-      if (!quiet)
+      if (!quiet) {
         inform(paste0("Error: ", e$message))
+      }
       FALSE
     }
   )

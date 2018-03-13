@@ -14,9 +14,9 @@ test_that("joins preserve grouping", {
   g <- group_by(df, x)
 
   expect_groups(inner_join(g, g, by = c("x", "y")), "x")
-  expect_groups(left_join (g, g, by = c("x", "y")), "x")
-  expect_groups(semi_join (g, g, by = c("x", "y")), "x")
-  expect_groups(anti_join (g, g, by = c("x", "y")), "x")
+  expect_groups(left_join(g, g, by = c("x", "y")), "x")
+  expect_groups(semi_join(g, g, by = c("x", "y")), "x")
+  expect_groups(anti_join(g, g, by = c("x", "y")), "x")
 })
 
 test_that("constructors drops groups", {
@@ -48,7 +48,7 @@ test_that("local group_by preserves variable types", {
     expected <- data_frame(unique(df_var[[var]]), n = 1L)
     names(expected)[1] <- var
 
-    summarised <- df_var %>% group_by(!! sym(var)) %>% summarise(n = n())
+    summarised <- df_var %>% group_by(!!sym(var)) %>% summarise(n = n())
     expect_equal(summarised, expected, info = var)
   }
 })
@@ -56,7 +56,7 @@ test_that("local group_by preserves variable types", {
 test_that("mutate does not loose variables (#144)", {
   df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
   by_ab <- group_by(df, a, b)
-  by_a  <- summarise(by_ab, x = sum(x))
+  by_a <- summarise(by_ab, x = sum(x))
   by_a_quartile <- group_by(by_a, quartile = ntile(x, 4))
 
   expect_equal(names(by_a_quartile), c("a", "b", "x", "quartile"))
@@ -171,7 +171,7 @@ test_that("group_by works with zero-row data frames (#486)", {
   expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
 
-  x <- select(dfg, a)  # Only select 'a' column; should result in 'g' and 'a'
+  x <- select(dfg, a) # Only select 'a' column; should result in 'g' and 'a'
   expect_equal(dim(x), c(0, 2))
   expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
@@ -194,11 +194,11 @@ test_that("group_by gives meaningful message with unknow column (#716)", {
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
   df <- data_frame(x = 1:5, ` ` = 6:10)
   by_x <- df %>% group_by(x)
-  expect_equal(by_x %>% groups(), by_x %>% `[`(1:2) %>% groups)
+  expect_equal(by_x %>% groups(), by_x %>% `[`(1:2) %>% groups())
 
   # non-syntactic name
   by_ns <- df %>% group_by(` `)
-  expect_equal(by_ns %>% groups(), by_ns %>% `[`(1:2) %>% groups)
+  expect_equal(by_ns %>% groups(), by_ns %>% `[`(1:2) %>% groups())
 })
 
 
@@ -211,7 +211,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
 })
 
 test_that("group_by works after arrange (#959)", {
-  df  <- data_frame(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
+  df <- data_frame(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
   res <- df %>%
     arrange(Time) %>%
     group_by(Log) %>%
@@ -227,7 +227,7 @@ test_that("group_by keeps attributes", {
 })
 
 test_that("ungroup.rowwise_df gives a tbl_df (#936)", {
-  res <- tbl_df(mtcars) %>% rowwise %>% ungroup %>% class
+  res <- tbl_df(mtcars) %>% rowwise() %>% ungroup() %>% class()
   expect_equal(res, c("tbl_df", "tbl", "data.frame"))
 })
 
@@ -240,7 +240,7 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
     for (names_converter in c(enc2native, enc2utf8)) {
       for (dots_converter in c(enc2native, enc2utf8)) {
         names(df) <- names_converter(c(special, "Eng"))
-        res <- group_by(df, !!! syms(dots_converter(special)))
+        res <- group_by(df, !!!syms(dots_converter(special)))
         expect_equal(names(res), names(df))
         expect_groups(res, special)
       }
@@ -249,7 +249,7 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
     for (names_converter in c(enc2native, enc2utf8)) {
       names(df) <- names_converter(c(special, "Eng"))
 
-      res <- group_by(df, !!! special)
+      res <- group_by(df, !!!special)
       expect_equal(names(res), c(names(df), deparse(special)))
       expect_equal(groups(res), list(as.name(enc2native(deparse(special)))))
     }

@@ -79,7 +79,7 @@
 #'   x %% 7 == 0 ~ "buzz",
 #'   TRUE ~ as.character(x)
 #' )
-#' case_when(!!! patterns)
+#' case_when(!!!patterns)
 case_when <- function(...) {
   formulas <- list2(...)
   n <- length(formulas)

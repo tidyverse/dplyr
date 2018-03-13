@@ -170,7 +170,6 @@ recode.factor <- function(.x, ..., .default = NULL, .missing = NULL) {
   } else {
     out[as.integer(.x)]
   }
-
 }
 
 find_template <- function(values, .default = NULL, .missing = NULL) {

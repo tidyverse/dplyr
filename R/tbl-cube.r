@@ -85,7 +85,7 @@
 #' summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
 tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
-      is.null(names(dimensions))) {
+    is.null(names(dimensions))) {
     bad_args("dimensions", "must be a named list of vectors, ",
       "not {type_of(dimensions)}"
     )
@@ -297,19 +297,19 @@ select.tbl_cube <- function(.data, ...) {
 #' @export
 select_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  select(.data, !!! dots)
+  select(.data, !!!dots)
 }
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data$mets), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data$mets), !!!quos(...))
   .data$mets <- .data$mets[vars]
   .data
 }
 #' @export
 rename_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  rename(.data, !!! dots)
+  rename(.data, !!!dots)
 }
 
 
@@ -334,7 +334,7 @@ filter.tbl_cube <- function(.data, ...) {
 #' @export
 filter_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!! dots)
+  filter(.data, !!!dots)
 }
 
 find_index_check <- function(i, x, names) {
@@ -371,7 +371,7 @@ group_by.tbl_cube <- function(.data, ..., add = FALSE) {
 #' @export
 group_by_.tbl_cube <- function(.data, ..., .dots = list(), add = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!! dots, add = add)
+  group_by(.data, !!!dots, add = add)
 }
 
 #' @export
@@ -406,7 +406,8 @@ summarise.tbl_cube <- function(.data, ...) {
   for (i in seq_len(nrow(slices))) {
     index <- as_list(slices[i, , drop = FALSE])
     mets <- map(
-      .data$mets, subs_index, i = .data$groups, val = index,
+      .data$mets, subs_index,
+      i = .data$groups, val = index,
       drop = TRUE
     )
 
@@ -422,7 +423,7 @@ summarise.tbl_cube <- function(.data, ...) {
 #' @export
 summarise_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  summarise(.data, !!! dots)
+  summarise(.data, !!!dots)
 }
 
 subs_index <- function(x, i, val, drop = FALSE) {

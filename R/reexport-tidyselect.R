@@ -55,7 +55,7 @@ rename_vars <- function(vars, ..., strict = TRUE) {
 #' @inheritParams tidyselect::vars_pull
 #' @export
 select_var <- function(vars, var = -1) {
-  tidyselect::vars_pull(vars, !! enquo(var))
+  tidyselect::vars_pull(vars, !!enquo(var))
 }
 #' @rdname select_vars
 #' @export
@@ -70,11 +70,11 @@ current_vars <- function(...) {
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
   args <- compat_lazy_dots(args, caller_env())
-  select_vars(vars, !!! args, include = include, exclude = exclude)
+  select_vars(vars, !!!args, include = include, exclude = exclude)
 }
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
   args <- compat_lazy_dots(args, caller_env())
-  rename_vars(vars, !!! args)
+  rename_vars(vars, !!!args)
 }

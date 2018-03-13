@@ -35,17 +35,17 @@ if_else <- function(condition, true, false, missing = NULL) {
   out <- true[rep(NA_integer_, length(condition))]
   out <- replace_with(
     out, condition, true,
-    fmt_args(~true),
+    fmt_args(~ true),
     glue("length of {fmt_args(~condition)}")
   )
   out <- replace_with(
     out, !condition, false,
-    fmt_args(~false),
+    fmt_args(~ false),
     glue("length of {fmt_args(~condition)}")
   )
   out <- replace_with(
     out, is.na(condition), missing,
-    fmt_args(~missing),
+    fmt_args(~ missing),
     glue("length of {fmt_args(~condition)}")
   )
 

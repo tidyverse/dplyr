@@ -54,9 +54,9 @@ top_n <- function(x, n, wt) {
   }
 
   if (n > 0) {
-    quo <- quo(filter(x, min_rank(desc(!! wt)) <= !! n))
+    quo <- quo(filter(x, min_rank(desc(!!wt)) <= !!n))
   } else {
-    quo <- quo(filter(x, min_rank(!! wt) <= !! abs(n)))
+    quo <- quo(filter(x, min_rank(!!wt) <= !!abs(n)))
   }
 
   eval_tidy(quo)
