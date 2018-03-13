@@ -242,7 +242,11 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
 
 test_that("assignments don't overwrite variables (#315)", {
   expect_equal(
-    mutate(mtcars, cyl2 = { mpg <- cyl^2; -mpg }),
+    mutate(mtcars,
+      cyl2 = {
+        mpg <- cyl^2; -mpg
+      }
+    ),
     mutate(mtcars, cyl2 = -cyl^2)
   )
 })

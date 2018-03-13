@@ -71,7 +71,7 @@ unique_name <- local({
 })
 
 succeeds <- function(x, quiet = FALSE) {
-  tryCatch(
+  tryCatch( #
     {
       x
       TRUE

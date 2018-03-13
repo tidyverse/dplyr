@@ -151,7 +151,11 @@ test_hybrid <- function(grouping) {
     expect_error(
       test_df %>%
         grouping %>%
-        mutate(f = { xx <- 5; xx }, g = xx),
+        mutate(
+          f = {
+            xx <- 5; xx
+          },
+          g = xx),
       "xx"
     )
   })
@@ -367,7 +371,9 @@ test_hybrid <- function(grouping) {
     expect_equal(
       test_df %>%
         grouping %>%
-        summarise(f = { b <- 5; sum(.data$b) }),
+        summarise(f = {
+          b <- 5; sum(.data$b)
+        }),
       test_df %>%
         grouping %>%
         summarise(f = sum(b)))
