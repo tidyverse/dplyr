@@ -147,7 +147,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
     // interpret dplyr::fun() as fun(). #3309
     SEXP fun_symbol = CAR(call);
     if (TYPEOF(fun_symbol) == LANGSXP &&
-        CAR(fun_symbol) == Rf_install("::") &&
+        CAR(fun_symbol) == R_DoubleColonSymbol &&
         CADR(fun_symbol) == Rf_install("dplyr")
        ) {
       fun_symbol = CADDR(fun_symbol) ;
