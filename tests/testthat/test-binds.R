@@ -262,13 +262,15 @@ test_that("bind_rows doesn't promote integer/numeric to factor", {
 
 
 test_that("bind_rows preserves timezones #298", {
-  dates1 <- data.frame(ID = c("a", "b", "c"),
+  dates1 <- data.frame(
+    ID = c("a", "b", "c"),
     dates = structure(c(-247320000, -246196800, -245073600),
       tzone = "GMT",
       class = c("POSIXct", "POSIXt")),
     stringsAsFactors = FALSE)
 
-  dates2 <- data.frame(ID = c("d", "e", "f"),
+  dates2 <- data.frame(
+    ID = c("d", "e", "f"),
     dates = structure(c(-243864000, -242654400, -241444800),
       tzone = "GMT",
       class = c("POSIXct", "POSIXt")),
@@ -555,7 +557,8 @@ test_that("bind_rows() fails with unnamed vectors", {
 })
 
 test_that("bind_rows() handles rowwise vectors", {
-  expect_warning(regex = "character and factor",
+  expect_warning(
+    regex = "character and factor",
     tbl <- bind_rows(
       tibble(a = "foo", b = "bar"),
       c(a = "A", b = "B"),

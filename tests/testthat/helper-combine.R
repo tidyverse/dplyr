@@ -61,7 +61,7 @@ can_be_combined <- function(item1, item2,
 
   # coerce factor with character
   if ((class1 == "factor" && class2 == "character") ||
-      (class2 == "factor" && class1 == "character")) {
+    (class2 == "factor" && class1 == "character")) {
     return(TRUE)
   }
 
@@ -87,7 +87,7 @@ give_a_warning <- function(item1, item2,
 
   # factor and character give a warning when combined (coercion to character)
   if ((class1 == "factor" && class2 == "character") ||
-      (class1 == "character" && class2 == "factor")) {
+    (class1 == "character" && class2 == "factor")) {
     return(TRUE)
   }
 
@@ -124,13 +124,13 @@ combine_result <- function(item1, item2,
     # Otherwise use the default approach with unlist and add classes
     # if needed.
     if ((class1 == "factor" && class2 == "character") ||
-        (class2 == "factor" && class1 == "character")) {
+      (class2 == "factor" && class1 == "character")) {
       result <- c(as.character(item1), as.character(item2))
     } else if ((class1 == "factor" && class2 == "factor") &&
-               !identical(levels(item1), levels(item2))) {
+      !identical(levels(item1), levels(item2))) {
       result <- c(as.character(item1), as.character(item2))
     } else if ((is.factor(item1) && all(is.na(item2))) ||
-               (is.factor(item2) && all(is.na(item1)))) {
+      (is.factor(item2) && all(is.na(item1)))) {
       result <- factor(c(as.character(item1), as.character(item2)))
     } else {
       # Default combination result
@@ -142,8 +142,8 @@ combine_result <- function(item1, item2,
 
       # Add classes and attributes in some cases to the default
       if ((all(is.na(item1)) && "POSIXct" %in% class2) ||
-          (all(is.na(item2)) && "POSIXct" %in% class1) ||
-          ("POSIXct" %in% class1 && "POSIXct" %in% class2)) {
+        (all(is.na(item2)) && "POSIXct" %in% class1) ||
+        ("POSIXct" %in% class1 && "POSIXct" %in% class2)) {
         class(result) <- c("POSIXct", "POSIXt")
         attr(result, "tzone") <- ""
       } else if (all_na1 && known_to_dplyr2) {
@@ -195,10 +195,10 @@ prepare_table_with_coercion_rules <- function() {
     all_na2 <- all(is.na(item2))
     known_to_dplyr1 <-
       is.vector(item1) ||
-      any(class1 %in% special_non_vector_classes)
+        any(class1 %in% special_non_vector_classes)
     known_to_dplyr2 <-
       is.vector(item2) ||
-      any(class2 %in% special_non_vector_classes)
+        any(class2 %in% special_non_vector_classes)
 
     pairs$can_combine[i] <- can_be_combined(
       item1, item2, class1, class2,

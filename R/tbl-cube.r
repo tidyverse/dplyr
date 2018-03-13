@@ -85,7 +85,7 @@
 #' summarise(by_loc, pressure = max(pressure), temp = mean(temperature))
 tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
-      is.null(names(dimensions))) {
+    is.null(names(dimensions))) {
     bad_args("dimensions", "must be a named list of vectors, ",
       "not {type_of(dimensions)}"
     )

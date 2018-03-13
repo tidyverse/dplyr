@@ -8,7 +8,8 @@ test_that("top_n returns n rows", {
 
 test_that("top_n() handles missing `wt`", {
   df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
-  expect_message(regexp = "Selecting by x",
+  expect_message(
+    regexp = "Selecting by x",
     expect_identical(top_n(df, 2)$x, c(10, 6))
   )
 })

@@ -544,10 +544,12 @@ test_that("join creates correctly named results (#855)", {
 
 test_that("inner join gives same result as merge by default (#1281)", {
   set.seed(75)
-  x <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+  x <- data.frame(
+    cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
     stringsAsFactors = FALSE)
-  y <- data.frame(cat1 = sample(c("A", "B", NA), 5, 1),
+  y <- data.frame(
+    cat1 = sample(c("A", "B", NA), 5, 1),
     cat2 = sample(c(1, 2, NA), 5, 1), v = rpois(5, 3),
     stringsAsFactors = FALSE)
   ij <- inner_join(x, y, by = c("cat1", "cat2"))

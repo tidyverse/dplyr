@@ -32,7 +32,8 @@
 all_equal <- function(target, current, ignore_col_order = TRUE,
                       ignore_row_order = TRUE, convert = FALSE, ...) {
 
-  res <- equal_data_frame(target, current, ignore_col_order = ignore_col_order,
+  res <- equal_data_frame(target, current,
+    ignore_col_order = ignore_col_order,
     ignore_row_order = ignore_row_order, convert = convert)
 
   if (res) {

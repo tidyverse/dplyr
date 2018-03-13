@@ -78,7 +78,7 @@ test_that("rbind_list doesn't coerce integer to factor", {
 test_that("rbind_list coerces factor to character when levels don't match", {
   df1 <- data.frame(a = 1:3, b = factor(c("a", "b", "c")))
   df2 <- data.frame(a = 1:3, b = factor(c("a", "b", "c"),
-      levels = c("b", "c", "a", "d")))
+    levels = c("b", "c", "a", "d")))
 
   expect_warning(res <- rbind_list(df1, df2),
     "Unequal factor levels: coercing to character")
@@ -109,17 +109,19 @@ test_that("rbind_all only accepts data frames #288", {
 })
 
 test_that("rbind propagates timezone for POSIXct #298", {
-  dates1 <- data.frame(ID = c("a", "b", "c"),
-                     dates = structure(c(-247320000, -246196800, -245073600),
-                                     tzone = "GMT",
-                                     class = c("POSIXct", "POSIXt")),
-                     stringsAsFactors = FALSE)
+  dates1 <- data.frame(
+    ID = c("a", "b", "c"),
+    dates = structure(c(-247320000, -246196800, -245073600),
+      tzone = "GMT",
+      class = c("POSIXct", "POSIXt")),
+    stringsAsFactors = FALSE)
 
-  dates2 <- data.frame(ID = c("d", "e", "f"),
-                       dates = structure(c(-243864000, -242654400, -241444800),
-                                       tzone = "GMT",
-                                       class = c("POSIXct", "POSIXt")),
-                       stringsAsFactors = FALSE)
+  dates2 <- data.frame(
+    ID = c("d", "e", "f"),
+    dates = structure(c(-243864000, -242654400, -241444800),
+      tzone = "GMT",
+      class = c("POSIXct", "POSIXt")),
+    stringsAsFactors = FALSE)
 
   alldates <- rbind_list_warn(dates1, dates2)
   expect_equal(attr(alldates$dates, "tzone"), "GMT")

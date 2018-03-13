@@ -241,10 +241,10 @@ test_that("mutate errors when results are not compatible accross groups (#299)",
 })
 
 test_that("assignments don't overwrite variables (#315)", {
-   expect_equal(
-     mutate(mtcars, cyl2 = { mpg <- cyl^2; -mpg }),
-     mutate(mtcars, cyl2 = -cyl^2)
-   )
+  expect_equal(
+    mutate(mtcars, cyl2 = { mpg <- cyl^2; -mpg }),
+    mutate(mtcars, cyl2 = -cyl^2)
+  )
 })
 
 test_that("hybrid evaluator uses correct environment (#403)", {
@@ -452,8 +452,8 @@ test_that("row_number handles empty data frames (#762)", {
   )
   expect_equal(
     names(res),
-     c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist")
-   )
+    c("a", "row_number_0", "row_number_a", "ntile", "min_rank", "percent_rank", "dense_rank", "cume_dist")
+  )
   expect_equal(nrow(res), 0L)
 })
 
@@ -783,8 +783,9 @@ test_that("can use character vectors in grouped mutate (#2971)", {
   df <-
     data_frame(x = 1:10000) %>%
     group_by(x) %>%
-    mutate(y = as.character(runif(1L)),
-           z = as.character(runif(1L)))
+    mutate(
+      y = as.character(runif(1L)),
+      z = as.character(runif(1L)))
 
   expect_error(df %>% distinct(x, .keep_all = TRUE), NA)
 })

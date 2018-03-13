@@ -170,8 +170,8 @@ test_that("$ does not end call traversing. #502", {
 
 test_that("GroupedDataFrame checks consistency of data (#606)", {
   df1 <- data_frame(
-   g = rep(1:2, each = 5),
-   x = 1:10
+    g = rep(1:2, each = 5),
+    x = 1:10
   ) %>% group_by(g)
   attr(df1, "group_sizes") <- c(2, 2)
 
@@ -245,8 +245,8 @@ test_that("filter(.,TRUE,TRUE) works (#1210)", {
 
 test_that("filter, slice and arrange preserves attributes (#1064)", {
   df <- structure(
-      data.frame(x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2)),
-      meta = "this is important"
+    data.frame(x = 1:10, g1 = rep(1:2, each = 5), g2 = rep(1:5, 2)),
+    meta = "this is important"
   )
   res <- filter(df, x < 5) %>% attr("meta")
   expect_equal(res, "this is important")
