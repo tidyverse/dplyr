@@ -20,33 +20,40 @@ list_or_dots <- function(...) {
 }
 
 is_dataframe_like <- function(x) {
-  if (is_null(x))
+  if (is_null(x)) {
     return(FALSE)
+  }
 
   # data frames are not data lists
-  if (is.data.frame(x))
+  if (is.data.frame(x)) {
     return(FALSE)
+  }
 
   # Must be a list
-  if (!is_list(x))
+  if (!is_list(x)) {
     return(FALSE)
+  }
 
   # 0 length named list (#1515)
-  if (!is_null(names(x)) && length(x) == 0)
+  if (!is_null(names(x)) && length(x) == 0) {
     return(TRUE)
+  }
 
   # With names
-  if (!is_named(x))
+  if (!is_named(x)) {
     return(FALSE)
+  }
 
   # Where each element is an 1d vector or list
-  if (!every(x, is_1d))
+  if (!every(x, is_1d)) {
     return(FALSE)
+  }
 
   # All of which have the same length
   n <- map_int(x, length)
-  if (any(n != n[1]))
+  if (any(n != n[1])) {
     return(FALSE)
+  }
 
   TRUE
 }

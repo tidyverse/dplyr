@@ -10,7 +10,6 @@ test_that("If n = length(x), returns all missing", {
 
   expect_equal(lead(1:2, 2), miss)
   expect_equal(lag(1:2, 2), miss)
-
 })
 
 test_that("cumany handles NA (#408)", {
@@ -23,7 +22,6 @@ test_that("cumany handles NA (#408)", {
 
   x <- c(TRUE, NA)
   expect_true(all(cumany(x)))
-
 })
 
 test_that("percent_rank ignores NAs (#1132)", {

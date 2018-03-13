@@ -97,7 +97,6 @@ ungroup.grouped_df <- function(x, ...) {
   } else {
     grouped_df(y, group_names)
   }
-
 }
 
 #' @method rbind grouped_df

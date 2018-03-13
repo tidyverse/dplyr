@@ -77,8 +77,9 @@ succeeds <- function(x, quiet = FALSE) {
       TRUE
     },
     error = function(e) {
-      if (!quiet)
+      if (!quiet) {
         inform(paste0("Error: ", e$message))
+      }
       FALSE
     }
   )

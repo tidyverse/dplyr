@@ -156,7 +156,8 @@ test_hybrid <- function(grouping) {
             xx <- 5
             xx
           },
-          g = xx),
+          g = xx
+        ),
       "xx"
     )
   })
@@ -269,7 +270,8 @@ test_hybrid <- function(grouping) {
       filter(
         test_df %>%
           grouping(),
-        b < .env$b) %>%
+        b < .env$b
+      ) %>%
         select(-e),
       test_df %>%
         grouping() %>%
@@ -344,7 +346,8 @@ test_hybrid <- function(grouping) {
       mutate(
         test_df %>%
           grouping(),
-        f = .env$b) %>%
+        f = .env$b
+      ) %>%
         select(-e),
       test_df %>%
         grouping() %>%
@@ -378,7 +381,8 @@ test_hybrid <- function(grouping) {
         }),
       test_df %>%
         grouping() %>%
-        summarise(f = sum(b)))
+        summarise(f = sum(b))
+    )
   })
 
   test_that("summarise understands .data (#1012)", {
@@ -412,7 +416,8 @@ test_hybrid <- function(grouping) {
       summarise(
         test_df %>%
           grouping(),
-        f = .env$b),
+        f = .env$b
+      ),
       test_df %>%
         grouping() %>%
         summarise(f = 2L)
@@ -464,7 +469,6 @@ test_hybrid <- function(grouping) {
         summarise_at(vars(env, data), funs(mean))
     )
   })
-
 }
 
 test_hybrid(identity)

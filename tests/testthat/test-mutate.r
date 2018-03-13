@@ -117,7 +117,7 @@ test_that("mutate recycles results of length 1", {
 test_that("mutate handles out of data variables", {
   today <- Sys.Date()
   now <- Sys.time()
-  df  <- data.frame(x = c(2, 2, 3, 3))
+  df <- data.frame(x = c(2, 2, 3, 3))
   gdf <- group_by(df, x)
 
   int  <- c(1L, 2L)
@@ -204,7 +204,6 @@ test_that("mutate handles passing ...", {
   expect_equal(res$x2, rep(2, 4))
   expect_equal(res$before, rep("before", 4))
   expect_equal(res$after, rep("after", 4))
-
 })
 
 test_that("mutate fails on unsupported column type", {
@@ -328,7 +327,7 @@ test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
 })
 
 test_that("mutate allows list columns (#555)", {
-  df  <- data.frame(x = c("a;b", "c;d;e"), stringsAsFactors = FALSE)
+  df <- data.frame(x = c("a;b", "c;d;e"), stringsAsFactors = FALSE)
   res <- mutate(df, pieces = strsplit(x, ";"))
   expect_equal(res$pieces, list(c("a", "b"), c("c", "d", "e")))
 })
@@ -365,8 +364,8 @@ test_that("hybrid not get in the way of order_by (#169)", {
 
 test_that("mutate supports difftime objects (#390)", {
   df <- data_frame(
-    grp =   c(1, 1,  2, 2),
-    val =   c(1, 3,  4, 6),
+    grp = c(1, 1, 2, 2),
+    val = c(1, 3, 4, 6),
     date1 = c(rep(Sys.Date() - 10, 2), rep(Sys.Date() - 20, 2)),
     date2 = Sys.Date() + c(1, 2, 1, 2),
     diffdate = difftime(date2, date1, unit = "days")
@@ -435,7 +434,6 @@ test_that("mutate forbids POSIXlt results (#670)", {
     "Column `time` is of unsupported class POSIXlt",
     fixed = TRUE
   )
-
 })
 
 test_that("constant factor can be handled by mutate (#715)", {
@@ -511,7 +509,6 @@ test_that("rhs of mutate cannot be a data frame (#3298)", {
     mutate(rowwise(df), new_col = data.frame(1:3)),
     "Column `new_col` is of unsupported class data.frame"
   )
-
 })
 
 test_that("regression test for #637", {
@@ -790,7 +787,8 @@ test_that("can use character vectors in grouped mutate (#2971)", {
     group_by(x) %>%
     mutate(
       y = as.character(runif(1L)),
-      z = as.character(runif(1L)))
+      z = as.character(runif(1L))
+    )
 
   expect_error(df %>% distinct(x, .keep_all = TRUE), NA)
 })

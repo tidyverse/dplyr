@@ -31,8 +31,11 @@ check_length_val <- function(length_x, n, header, reason = NULL, .abort = abort)
     return()
   }
 
-  if (is.null(reason)) reason <- ""
-  else reason <- glue(" ({reason})")
+  if (is.null(reason)) {
+    reason <- ""
+  } else {
+    reason <- glue(" ({reason})")
+  }
 
   if (n == 1) {
     glubort(header, "must be length 1{reason}, not {commas(length_x)}", .abort = .abort)

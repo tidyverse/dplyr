@@ -14,9 +14,9 @@ test_that("joins preserve grouping", {
   g <- group_by(df, x)
 
   expect_groups(inner_join(g, g, by = c("x", "y")), "x")
-  expect_groups(left_join (g, g, by = c("x", "y")), "x")
-  expect_groups(semi_join (g, g, by = c("x", "y")), "x")
-  expect_groups(anti_join (g, g, by = c("x", "y")), "x")
+  expect_groups(left_join(g, g, by = c("x", "y")), "x")
+  expect_groups(semi_join(g, g, by = c("x", "y")), "x")
+  expect_groups(anti_join(g, g, by = c("x", "y")), "x")
 })
 
 test_that("constructors drops groups", {
@@ -56,7 +56,7 @@ test_that("local group_by preserves variable types", {
 test_that("mutate does not loose variables (#144)", {
   df <- tbl_df(data.frame(a = rep(1:4, 2), b = rep(1:4, each = 2), x = runif(8)))
   by_ab <- group_by(df, a, b)
-  by_a  <- summarise(by_ab, x = sum(x))
+  by_a <- summarise(by_ab, x = sum(x))
   by_a_quartile <- group_by(by_a, quartile = ntile(x, 4))
 
   expect_equal(names(by_a_quartile), c("a", "b", "x", "quartile"))
@@ -171,7 +171,7 @@ test_that("group_by works with zero-row data frames (#486)", {
   expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
 
-  x <- select(dfg, a)  # Only select 'a' column; should result in 'g' and 'a'
+  x <- select(dfg, a) # Only select 'a' column; should result in 'g' and 'a'
   expect_equal(dim(x), c(0, 2))
   expect_groups(x, "g")
   expect_equal(group_size(x), integer(0))
@@ -211,7 +211,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
 })
 
 test_that("group_by works after arrange (#959)", {
-  df  <- data_frame(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
+  df <- data_frame(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
   res <- df %>%
     arrange(Time) %>%
     group_by(Log) %>%

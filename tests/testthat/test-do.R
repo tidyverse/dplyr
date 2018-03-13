@@ -18,11 +18,14 @@ test_that("can't use both named and unnamed args", {
 
 test_that("unnamed elements must return data frames", {
   expect_error(
-    df %>% ungroup() %>% do(1), "Result must be a data frame, not numeric")
+    df %>% ungroup() %>% do(1), "Result must be a data frame, not numeric"
+  )
   expect_error(
-    df %>% do(1), "Results 1, 2, 3 must be data frames, not numeric")
+    df %>% do(1), "Results 1, 2, 3 must be data frames, not numeric"
+  )
   expect_error(
-    df %>% do("a"), "Results 1, 2, 3 must be data frames, not character")
+    df %>% do("a"), "Results 1, 2, 3 must be data frames, not character"
+  )
 })
 
 test_that("unnamed results bound together by row", {

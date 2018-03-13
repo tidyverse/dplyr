@@ -41,9 +41,9 @@ test_that("local arrange sorts missing values to end", {
 test_that("two arranges equivalent to one", {
   df <- tribble(
     ~ x,  ~ y,
-    2,  1,
-    2,  -1,
-    1,  1
+    2,      1,
+    2,     -1,
+    1,      1
   )
 
   df1 <- df %>% arrange(x, y)
@@ -103,7 +103,6 @@ test_that("arrange handles complex vectors", {
 
   res <- arrange(d, desc(y))
   expect_true(all(is.na(res$y[9:10])))
-
 })
 
 test_that("arrange respects attributes #1105", {
@@ -131,7 +130,6 @@ test_that("arrange respects locale (#1280)", {
 
   res <- df2 %>% arrange(desc(words))
   expect_equal(res$words, sort(df2$words, decreasing = TRUE))
-
 })
 
 test_that("duplicated column name is explicit about which column (#996)", {

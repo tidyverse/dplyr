@@ -21,10 +21,12 @@ headers_df <- headers %>%
   select(name, skip, n_obs)
 
 # Read in the sub-datasets as data frames
-df_names <- c("date", "time", "record_type", "status", "lat", "long", "wind", "pressure",
-  "extent_34_NE",  "extent_34_SE",  "extent_34_SW",  "extent_34_NW",
-  "extent_50_NE",  "extent_50_SE",  "extent_50_SW",  "extent_50_NW",
-  "extent_64_NE",  "extent_64_SE",  "extent_64_SW",  "extent_64_NW", "nas")
+df_names <- c(
+  "date", "time", "record_type", "status", "lat", "long", "wind", "pressure",
+  "extent_34_NE", "extent_34_SE", "extent_34_SW", "extent_34_NW",
+  "extent_50_NE", "extent_50_SE", "extent_50_SW", "extent_50_NW",
+  "extent_64_NE", "extent_64_SE", "extent_64_SW", "extent_64_NW", "nas"
+)
 
 storm_dfs <- vector("list", nrow(headers_df))
 names(storm_dfs) <- headers_df$name
@@ -50,7 +52,8 @@ for (i in seq_along(headers_df$name)) {
       extent_64_SE = col_integer(),
       extent_64_SW = col_integer(),
       extent_64_NW = col_integer()
-  ))
+    )
+  )
 }
 
 # Combine and clean the data sets
@@ -64,15 +67,17 @@ storms <- storm_dfs %>%
     month = month(date),
     day = day(date),
     hour = as.numeric(str_sub(time, 1, 2)),
-    lat_hemisphere =  str_sub(lat, -1),
+    lat_hemisphere = str_sub(lat, -1),
     lat_sign = if_else(lat_hemisphere == "N", 1, -1),
     lat = as.numeric(str_sub(lat, 1, -2)) * lat_sign,
-    long_hemisphere =  str_sub(long, -1),
+    long_hemisphere = str_sub(long, -1),
     long_sign = if_else(long_hemisphere == "E", 1, -1),
     long = as.numeric(str_sub(long, 1, -2)) * long_sign,
-    category = cut(wind, breaks = c(0, 34, 64, 83, 96, 113, 137, 500),
-    labels = c(-1, 0, 1, 2, 3, 4, 5),
-    include.lowest = TRUE, ordered = TRUE),
+    category = cut(wind,
+      breaks = c(0, 34, 64, 83, 96, 113, 137, 500),
+      labels = c(-1, 0, 1, 2, 3, 4, 5),
+      include.lowest = TRUE, ordered = TRUE
+    ),
     # wind = wind * 1.15078, # transforms knots to mph,
     TSradius1 = extent_34_NE + extent_34_SW,
     TSradius2 = extent_34_NW + extent_34_SE,
@@ -80,7 +85,8 @@ storms <- storm_dfs %>%
     HUradius1 = extent_64_NE + extent_64_SW,
     HUradius2 = extent_64_NW + extent_64_SE,
     hu_diameter = pmax(HUradius1, HUradius2) * 1.15078, # to convert from nautical miles to miles
-    status = recode(status, "HU" = "hurricane", "TS" = "tropical storm", "TD" = "tropical depression")) %>%
+    status = recode(status, "HU" = "hurricane", "TS" = "tropical storm", "TD" = "tropical depression")
+  ) %>%
   select(name, year, month, day, hour, lat, long, status, category, wind, pressure, ts_diameter, hu_diameter)
 
 # Narrow to storms that have complete pressure record
@@ -93,7 +99,8 @@ completeish <- storms %>%
 storms <- storms %>%
   filter(
     status %in% c("hurricane", "tropical storm", "tropical depression"),
-    name %in% completeish) %>%
+    name %in% completeish
+  ) %>%
   mutate(name = if_else(str_sub(name, 1, 3) %in% c("AL0", "AL1"), name, str_to_title(name)))
 
 devtools::use_data(storms)

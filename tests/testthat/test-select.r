@@ -63,7 +63,6 @@ test_that("select can be before group_by (#309)", {
     summarise(var1 = mean(var1))
   expect_equal(names(dfagg), c("id", "year", "var1"))
   expect_equal(attr(dfagg, "vars"), "id")
-
 })
 
 test_that("rename does not crash with invalid grouped data frame (#640)", {

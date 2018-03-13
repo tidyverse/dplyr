@@ -17,7 +17,6 @@ test_that("slice silently ignores out of range values (#226)", {
 
   g <- group_by(mtcars, cyl)
   expect_equal(slice(g, c(2, 100)), slice(g, 2))
-
 })
 
 test_that("slice works with 0 args", {
@@ -56,7 +55,6 @@ test_that("slice works with grouped data", {
   res <- slice(g, -(1:2))
   exp <- filter(g, row_number() >= 3)
   expect_equal(res, exp)
-
 })
 
 test_that("slice gives correct rows (#649)", {
@@ -84,7 +82,6 @@ test_that("slice handles NA (#1235)", {
   expect_equal(nrow(slice(df, NA)), 0L)
   expect_equal(nrow(slice(df, c(1, NA))), 2)
   expect_equal(nrow(slice(df, c(-1, NA))), 2)
-
 })
 
 test_that("slice handles empty data frames (#1219)", {

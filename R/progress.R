@@ -127,7 +127,6 @@ Progress <- R6::R6Class("Progress",
 
       invisible(self)
     }
-
   )
 )
 

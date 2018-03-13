@@ -15,7 +15,8 @@
 add_rownames <- function(df, var = "rowname") {
   warning(
     "Deprecated, use tibble::rownames_to_column() instead.",
-    call. = FALSE)
+    call. = FALSE
+  )
 
   stopifnot(is.data.frame(df))
 
@@ -168,16 +169,16 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
 
 #' @export
-union.data.frame <-     function(x, y, ...) union_data_frame(x, y)
+union.data.frame <- function(x, y, ...) union_data_frame(x, y)
 
 #' @export
 union_all.data.frame <- function(x, y, ...) bind_rows(x, y)
 
 #' @export
-setdiff.data.frame <-   function(x, y, ...) setdiff_data_frame(x, y)
+setdiff.data.frame <- function(x, y, ...) setdiff_data_frame(x, y)
 
 #' @export
-setequal.data.frame <-  function(x, y, ...) equal_data_frame(x, y)
+setequal.data.frame <- function(x, y, ...) equal_data_frame(x, y)
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {

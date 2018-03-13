@@ -406,7 +406,8 @@ summarise.tbl_cube <- function(.data, ...) {
   for (i in seq_len(nrow(slices))) {
     index <- as_list(slices[i, , drop = FALSE])
     mets <- map(
-      .data$mets, subs_index, i = .data$groups, val = index,
+      .data$mets, subs_index,
+      i = .data$groups, val = index,
       drop = TRUE
     )
 

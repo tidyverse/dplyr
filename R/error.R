@@ -1,9 +1,9 @@
 check_pkg <- function(name, reason, install = TRUE) {
-  if (is_installed(name))
+  if (is_installed(name)) {
     return(invisible(TRUE))
+  }
 
-  glubort(NULL,
-    "The {name} package is required to {reason}.",
+  glubort(NULL, "The {name} package is required to {reason}.",
     if (install) '\nPlease install it with `install.packages("{name}")`' else ""
   )
 }
