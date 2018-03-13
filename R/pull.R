@@ -24,7 +24,7 @@ pull <- function(.data, var = -1) {
 }
 #' @export
 pull.data.frame <- function(.data, var = -1) {
-  var <- tidyselect::vars_pull(names(.data), !! enquo(var))
+  var <- tidyselect::vars_pull(names(.data), !!enquo(var))
   .data[[var]]
 }
 

@@ -61,13 +61,13 @@ filter.tbl_df <- function(.data, ...) {
     return(.data)
   }
 
-  quo <- all_exprs(!!! dots, .vectorised = TRUE)
+  quo <- all_exprs(!!!dots, .vectorised = TRUE)
   filter_impl(.data, quo)
 }
 #' @export
 filter_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!! dots)
+  filter(.data, !!!dots)
 }
 
 #' @export

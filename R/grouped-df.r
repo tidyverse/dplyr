@@ -119,14 +119,14 @@ cbind.grouped_df <- function(...) {
 #' @export
 select.grouped_df <- function(.data, ...) {
   # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(names(.data), !!! quos(...))
+  vars <- tidyselect::vars_select(names(.data), !!!quos(...))
   vars <- ensure_group_vars(vars, .data)
   select_impl(.data, vars)
 }
 #' @export
 select_.grouped_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  select.grouped_df(.data, !!! dots)
+  select.grouped_df(.data, !!!dots)
 }
 
 ensure_group_vars <- function(vars, data, notify = TRUE) {
@@ -154,7 +154,7 @@ rename.grouped_df <- function(.data, ...) {
 #' @export
 rename_.grouped_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  rename(.data, !!! dots)
+  rename(.data, !!!dots)
 }
 
 
@@ -231,7 +231,7 @@ do.grouped_df <- function(.data, ...) {
 #' @export
 do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
   dots <- compat_lazy_dots(.dots, env, ...)
-  do(.data, !!! dots)
+  do(.data, !!!dots)
 }
 
 # Set operations ---------------------------------------------------------------
@@ -249,7 +249,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  distinct(.data, !!! dots, .keep_all = .keep_all)
+  distinct(.data, !!!dots, .keep_all = .keep_all)
 }
 
 
@@ -265,7 +265,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
     inform("`.env` is deprecated and no longer has any effect")
   }
   weight <- enquo(weight)
-  weight <- mutate(tbl, w = !! weight)[["w"]]
+  weight <- mutate(tbl, w = !!weight)[["w"]]
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,
@@ -292,7 +292,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     )
   }
   weight <- enquo(weight)
-  weight <- mutate(tbl, w = !! weight)[["w"]]
+  weight <- mutate(tbl, w = !!weight)[["w"]]
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,

@@ -35,7 +35,7 @@ group_by.data.frame <- function(.data, ..., add = FALSE) {
 #' @export
 group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!! dots, add = add)
+  group_by(.data, !!!dots, add = add)
 }
 
 #' @export
@@ -62,7 +62,7 @@ filter.data.frame <- function(.data, ...) {
 #' @export
 filter_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!! dots)
+  filter(.data, !!!dots)
 }
 
 #' @export
@@ -83,7 +83,7 @@ summarise.data.frame <- function(.data, ...) {
 #' @export
 summarise_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  summarise(.data, !!! dots)
+  summarise(.data, !!!dots)
 }
 
 #' @export
@@ -93,7 +93,7 @@ mutate.data.frame <- function(.data, ...) {
 #' @export
 mutate_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  mutate(.data, !!! dots)
+  mutate(.data, !!!dots)
 }
 
 #' @export
@@ -103,30 +103,30 @@ arrange.data.frame <- function(.data, ...) {
 #' @export
 arrange_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange(.data, !!! dots)
+  arrange(.data, !!!dots)
 }
 
 #' @export
 select.data.frame <- function(.data, ...) {
   # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(names(.data), !!! quos(...))
+  vars <- tidyselect::vars_select(names(.data), !!!quos(...))
   select_impl(.data, vars)
 }
 #' @export
 select_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  select(.data, !!! dots)
+  select(.data, !!!dots)
 }
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data), !!!quos(...))
   select_impl(.data, vars)
 }
 #' @export
 rename_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  rename(.data, !!! dots)
+  rename(.data, !!!dots)
 }
 
 
@@ -187,7 +187,7 @@ distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
 #' @export
 distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  distinct(.data, !!! dots, .keep_all = .keep_all)
+  distinct(.data, !!!dots, .keep_all = .keep_all)
 }
 
 
@@ -201,7 +201,7 @@ do.data.frame <- function(.data, ...) {
   # Create custom dynamic scope with `.` pronoun
   # FIXME: Pass without splicing once child_env() calls env_bind()
   # with explicit arguments
-  overscope <- child_env(NULL, !!! list(. = .data, .data = .data))
+  overscope <- child_env(NULL, !!!list(. = .data, .data = .data))
 
   if (!named) {
     out <- eval_tidy_(args[[1]], overscope)
@@ -219,7 +219,7 @@ do.data.frame <- function(.data, ...) {
 #' @export
 do_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  do(.data, !!! dots)
+  do(.data, !!!dots)
 }
 
 # Random samples ---------------------------------------------------------------

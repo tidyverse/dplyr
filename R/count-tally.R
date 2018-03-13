@@ -71,14 +71,14 @@ tally <- function(x, wt, sort = FALSE) {
   if (quo_is_missing(wt) || quo_is_null(wt)) {
     n <- quo(n())
   } else {
-    n <- quo(sum(!! wt, na.rm = TRUE))
+    n <- quo(sum(!!wt, na.rm = TRUE))
   }
 
   n_name <- n_name(tbl_vars(x))
-  out <- summarise(x, !! n_name := !! n)
+  out <- summarise(x, !!n_name := !!n)
 
   if (sort) {
-    arrange(out, desc(!! sym(n_name)))
+    arrange(out, desc(!!sym(n_name)))
   } else {
     out
   }
@@ -88,7 +88,7 @@ tally <- function(x, wt, sort = FALSE) {
 #' @export
 tally_ <- function(x, wt, sort = FALSE) {
   wt <- compat_lazy(wt, caller_env())
-  tally(x, wt = !! wt, sort = sort)
+  tally(x, wt = !!wt, sort = sort)
 }
 
 n_name <- function(x) {
@@ -107,8 +107,8 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
   groups <- group_vars(x)
 
   x <- group_by(x, ..., add = TRUE)
-  x <- tally(x, wt = !! enquo(wt), sort = sort)
-  x <- group_by(x, !!! syms(groups), add = FALSE)
+  x <- tally(x, wt = !!enquo(wt), sort = sort)
+  x <- group_by(x, !!!syms(groups), add = FALSE)
   x
 }
 #' @export
@@ -117,7 +117,7 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
-  count(x, !!! vars, wt = !! wt, sort = sort)
+  count(x, !!!vars, wt = !!wt, sort = sort)
 }
 
 #' @rdname tally
@@ -133,14 +133,14 @@ add_tally <- function(x, wt, sort = FALSE) {
   if (quo_is_missing(wt) || quo_is_null(wt)) {
     n <- quo(n())
   } else {
-    n <- quo(sum(!! wt, na.rm = TRUE))
+    n <- quo(sum(!!wt, na.rm = TRUE))
   }
 
   n_name <- n_name(tbl_vars(x))
-  out <- mutate(x, !! n_name := !! n)
+  out <- mutate(x, !!n_name := !!n)
 
   if (sort) {
-    out <- arrange(out, desc(!! sym(n_name)))
+    out <- arrange(out, desc(!!sym(n_name)))
   }
 
   grouped_df(out, group_vars(x))
@@ -149,7 +149,7 @@ add_tally <- function(x, wt, sort = FALSE) {
 #' @export
 add_tally_ <- function(x, wt, sort = FALSE) {
   wt <- compat_lazy(wt, caller_env())
-  add_tally(x, !! wt, sort = sort)
+  add_tally(x, !!wt, sort = sort)
 }
 
 
@@ -159,7 +159,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
   g <- group_vars(x)
   grouped <- group_by(x, ..., add = TRUE)
 
-  out <- add_tally(grouped, wt = !! enquo(wt), sort = sort)
+  out <- add_tally(grouped, wt = !!enquo(wt), sort = sort)
   grouped_df(out, g)
 }
 #' @rdname se-deprecated
@@ -168,5 +168,5 @@ add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
-  add_count(x, !!! vars, wt = !! wt, sort = sort)
+  add_count(x, !!!vars, wt = !!wt, sort = sort)
 }

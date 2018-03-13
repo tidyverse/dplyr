@@ -54,7 +54,7 @@ as_fun_list <- function(.x, .quo, .env, ...) {
   args <- list2(...)
   if (is_fun_list(.x)) {
     if (!is_empty(args)) {
-      .x[] <- map(.x, lang_modify, !!! args)
+      .x[] <- map(.x, lang_modify, !!!args)
     }
     return(.x)
   }
@@ -84,9 +84,9 @@ as_fun <- function(.x, .env, .args) {
 
   expr <- get_expr(quo)
   if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
-    expr <- lang_modify(expr, !!! .args)
+    expr <- lang_modify(expr, !!!.args)
   } else {
-    expr <- lang(expr, quote(.), !!! .args)
+    expr <- lang(expr, quote(.), !!!.args)
   }
 
   set_expr(quo, expr)
@@ -133,5 +133,5 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
 #' @param env The environment in which functions should be evaluated.
 funs_ <- function(dots, args = list(), env = base_env()) {
   dots <- compat_lazy_dots(dots, caller_env())
-  funs(!!! dots, .args = args)
+  funs(!!!dots, .args = args)
 }

@@ -842,19 +842,19 @@ test_that("simple handlers supports quosured symbols", {
   mean <- sum <- var <- sd <- bad_hybrid_handler
 
   expect_identical(
-    pull(summarise(mtcars, mean(!! quo(cyl)))),
+    pull(summarise(mtcars, mean(!!quo(cyl)))),
     base::mean(mtcars$cyl)
   )
   expect_identical(
-    pull(summarise(mtcars, sum(!! quo(cyl)))),
+    pull(summarise(mtcars, sum(!!quo(cyl)))),
     base::sum(mtcars$cyl)
   )
   expect_identical(
-    pull(summarise(mtcars, sd(!! quo(cyl)))),
+    pull(summarise(mtcars, sd(!!quo(cyl)))),
     stats::sd(mtcars$cyl)
   )
   expect_identical(
-    pull(summarise(mtcars, var(!! quo(cyl)))),
+    pull(summarise(mtcars, var(!!quo(cyl)))),
     stats::var(mtcars$cyl)
   )
 })
@@ -871,11 +871,11 @@ test_that("min() and max() handlers supports quosured symbols", {
   min <- max <- bad_hybrid_handler
 
   expect_identical(
-    pull(summarise(mtcars, min(!! quo(cyl)))),
+    pull(summarise(mtcars, min(!!quo(cyl)))),
     base::min(mtcars$cyl)
   )
   expect_identical(
-    pull(summarise(mtcars, max(!! quo(cyl)))),
+    pull(summarise(mtcars, max(!!quo(cyl)))),
     base::max(mtcars$cyl)
   )
 })
@@ -884,11 +884,11 @@ test_that("lead/lag handlers support quosured symbols", {
   lead <- lag <- bad_hybrid_handler
 
   expect_identical(
-    pull(mutate(mtcars, lead(!! quo(cyl)))),
+    pull(mutate(mtcars, lead(!!quo(cyl)))),
     dplyr::lead(mtcars$cyl)
   )
   expect_identical(
-    pull(mutate(mtcars, lag(!! quo(cyl)))),
+    pull(mutate(mtcars, lag(!!quo(cyl)))),
     dplyr::lag(mtcars$cyl)
   )
 })
@@ -897,23 +897,23 @@ test_that("window handlers supports quosured symbols", {
   ntile <- min_rank <- percent_rank <- dense_rank <- cume_dist <- bad_hybrid_handler
 
   expect_identical(
-    pull(mutate(mtcars, ntile(!! quo(disp), 2))),
+    pull(mutate(mtcars, ntile(!!quo(disp), 2))),
     dplyr::ntile(mtcars$disp, 2)
   )
   expect_identical(
-    pull(mutate(mtcars, min_rank(!! quo(cyl)))),
+    pull(mutate(mtcars, min_rank(!!quo(cyl)))),
     dplyr::min_rank(mtcars$cyl)
   )
   expect_identical(
-    pull(mutate(mtcars, percent_rank(!! quo(cyl)))),
+    pull(mutate(mtcars, percent_rank(!!quo(cyl)))),
     dplyr::percent_rank(mtcars$cyl)
   )
   expect_identical(
-    pull(mutate(mtcars, dense_rank(!! quo(cyl)))),
+    pull(mutate(mtcars, dense_rank(!!quo(cyl)))),
     dplyr::dense_rank(mtcars$cyl)
   )
   expect_identical(
-    pull(mutate(mtcars, cume_dist(!! quo(cyl)))),
+    pull(mutate(mtcars, cume_dist(!!quo(cyl)))),
     dplyr::cume_dist(mtcars$cyl)
   )
 })
@@ -922,7 +922,7 @@ test_that("n_distinct() handler supports quosured symbols", {
   n_distinct <- bad_hybrid_handler
 
   expect_identical(
-    pull(summarise(mtcars, n_distinct(!! quo(cyl)))),
+    pull(summarise(mtcars, n_distinct(!!quo(cyl)))),
     dplyr::n_distinct(mtcars$cyl)
   )
 })
@@ -931,15 +931,15 @@ test_that("nth handlers support quosured symbols", {
   first <- last <- nth <- bad_hybrid_handler
 
   expect_identical(
-    pull(summarise(mtcars, first(!! quo(cyl)))),
+    pull(summarise(mtcars, first(!!quo(cyl)))),
     dplyr::first(mtcars$cyl)
   )
   expect_identical(
-    pull(summarise(mtcars, last(!! quo(cyl)))),
+    pull(summarise(mtcars, last(!!quo(cyl)))),
     dplyr::last(mtcars$cyl)
   )
   expect_identical(
-    pull(summarise(mtcars, nth(!! quo(cyl), 2))),
+    pull(summarise(mtcars, nth(!!quo(cyl), 2))),
     dplyr::nth(mtcars$cyl, 2)
   )
 })

@@ -174,7 +174,7 @@ slice_ <- function(.data, ..., .dots = list()) {
 #' # summarise() supports quasiquotation. You can unquote raw
 #' # expressions or quosures:
 #' var <- quo(mean(cyl))
-#' summarise(mtcars, !! var)
+#' summarise(mtcars, !!var)
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
@@ -276,7 +276,7 @@ summarize_ <- summarise_
 #' # mutate() supports quasiquotation. You can unquote quosures, which
 #' # can refer to both contextual variables and variable names:
 #' var <- 100
-#' as_tibble(mtcars) %>% mutate(cyl = !! quo(cyl * var))
+#' as_tibble(mtcars) %>% mutate(cyl = !!quo(cyl * var))
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
@@ -304,7 +304,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 #' @export
 transmute.default <- function(.data, ...) {
   dots <- named_quos(...)
-  out <- mutate(.data, !!! dots)
+  out <- mutate(.data, !!!dots)
 
   keep <- names(dots)
   select(out, one_of(keep))
@@ -312,7 +312,7 @@ transmute.default <- function(.data, ...) {
 #' @export
 transmute_.default <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  transmute(.data, !!! dots)
+  transmute(.data, !!!dots)
 }
 
 #' Arrange rows by variables
@@ -358,7 +358,7 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'   grouped data frames only.
 arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
   if (.by_group) {
-    dots <- quos(!!! groups(.data), ...)
+    dots <- quos(!!!groups(.data), ...)
   } else {
     dots <- quos(...)
   }
@@ -455,14 +455,14 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'   var1 = sym("cyl"),
 #'   var2 = sym("am")
 #' )
-#' select(mtcars, !!! vars)
+#' select(mtcars, !!!vars)
 #'
 #' # For convenience it also supports strings and character
 #' # vectors. This is unlike other verbs where strings would be
 #' # ambiguous.
 #' vars <- c(var1 = "cyl", var2 ="am")
-#' select(mtcars, !! vars)
-#' rename(mtcars, !! vars)
+#' select(mtcars, !!vars)
+#' rename(mtcars, !!vars)
 select <- function(.data, ...) {
   UseMethod("select")
 }

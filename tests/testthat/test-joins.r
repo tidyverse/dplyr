@@ -902,7 +902,7 @@ test_that("join takes LHS with warning if attributes inconsistent", {
 })
 
 test_that("common_by() message", {
-  df <- tibble(!!! set_names(letters, letters))
+  df <- tibble(!!!set_names(letters, letters))
 
   expect_message(
     left_join(df, df %>% select(1)),

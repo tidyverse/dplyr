@@ -137,7 +137,7 @@ add_computed_columns <- function(.data, vars) {
   mutate_vars <- vars[needs_mutate]
   if (length(mutate_vars) == 0L) return(.data)
 
-  mutate(.data, !!! mutate_vars)
+  mutate(.data, !!!mutate_vars)
 }
 
 #' Return grouping variables

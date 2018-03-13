@@ -297,19 +297,19 @@ select.tbl_cube <- function(.data, ...) {
 #' @export
 select_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  select(.data, !!! dots)
+  select(.data, !!!dots)
 }
 
 #' @export
 rename.tbl_cube <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data$mets), !!! quos(...))
+  vars <- tidyselect::vars_rename(names(.data$mets), !!!quos(...))
   .data$mets <- .data$mets[vars]
   .data
 }
 #' @export
 rename_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  rename(.data, !!! dots)
+  rename(.data, !!!dots)
 }
 
 
@@ -334,7 +334,7 @@ filter.tbl_cube <- function(.data, ...) {
 #' @export
 filter_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!! dots)
+  filter(.data, !!!dots)
 }
 
 find_index_check <- function(i, x, names) {
@@ -371,7 +371,7 @@ group_by.tbl_cube <- function(.data, ..., add = FALSE) {
 #' @export
 group_by_.tbl_cube <- function(.data, ..., .dots = list(), add = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!! dots, add = add)
+  group_by(.data, !!!dots, add = add)
 }
 
 #' @export
@@ -422,7 +422,7 @@ summarise.tbl_cube <- function(.data, ...) {
 #' @export
 summarise_.tbl_cube <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  summarise(.data, !!! dots)
+  summarise(.data, !!!dots)
 }
 
 subs_index <- function(x, i, val, drop = FALSE) {

@@ -583,7 +583,7 @@ test_that("columns that are OBJECT but have NULL class are handled gracefully (#
 
 test_that("accepts named columns", {
   expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
-  expect_equal(bind_cols(!!! mtcars), as_tibble(mtcars))
+  expect_equal(bind_cols(!!!mtcars), as_tibble(mtcars))
 })
 
 test_that("uncompatible sizes fail", {
@@ -606,7 +606,7 @@ test_that("unnamed vectors fail", {
     fixed = TRUE
   )
   expect_error(
-    bind_cols(!!! list(1:2)),
+    bind_cols(!!!list(1:2)),
     "Argument 1 must have names",
     fixed = TRUE
   )
