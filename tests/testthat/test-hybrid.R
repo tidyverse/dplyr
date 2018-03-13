@@ -691,6 +691,19 @@ test_that("hybrid handlers don't nest", {
   )
 })
 
+test_that("row_number() is equivalent to dplyr::row_number() (#3309)", {
+  check_hybrid_result(
+    list(dplyr::row_number()),
+    a = 1:5,
+    expected = list(1:5),
+    test_eval = FALSE
+  )
+  expect_identical(
+    filter(mtcars, dplyr::row_number() == 6L),
+    filter(mtcars, row_number() == 6L)
+  )
+})
+
 test_that("constant folding and argument matching in hybrid evaluator (#2299)", {
   skip("Currently failing")
   skip("Currently failing (external var)")

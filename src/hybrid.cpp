@@ -141,8 +141,18 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
   if (TYPEOF(call) == LANGSXP) {
     int depth = Rf_length(call);
+
     HybridHandlerMap& handlers = get_handlers();
+
+    // interpret dplyr::fun() as fun(). #3309
     SEXP fun_symbol = CAR(call);
+    if (TYPEOF(fun_symbol) == LANGSXP &&
+        CAR(fun_symbol) == Rf_install("::") &&
+        CADR(fun_symbol) == Rf_install("dplyr")
+       ) {
+      fun_symbol = CADDR(fun_symbol) ;
+    }
+
     if (TYPEOF(fun_symbol) != SYMSXP) {
       LOG_VERBOSE << "Not a function: " << type2name(fun_symbol);
       return 0;
