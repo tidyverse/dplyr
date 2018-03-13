@@ -178,40 +178,40 @@ test_that("group_by_ works", {
 
   expect_warning(
     expect_equal(
-      group_by_(df %>% rowwise, ~ a),
-      group_by(df %>% rowwise, a)
+      group_by_(df %>% rowwise(), ~ a),
+      group_by(df %>% rowwise(), a)
     ),
     "rowwise"
   )
 
   expect_warning(
     expect_equal(
-      group_by_(df %>% rowwise, ~ -a),
-      group_by(df %>% rowwise, -a)
+      group_by_(df %>% rowwise(), ~ -a),
+      group_by(df %>% rowwise(), -a)
     ),
     "rowwise"
   )
 
   expect_warning(
     expect_equal(
-      group_by_(df %>% rowwise, .dots = "a"),
-      group_by(df %>% rowwise, a)
+      group_by_(df %>% rowwise(), .dots = "a"),
+      group_by(df %>% rowwise(), a)
     ),
     "rowwise"
   )
 
   expect_warning(
     expect_equal(
-      group_by_(df %>% rowwise, .dots = list(quote(-a))),
-      group_by(df %>% rowwise, -a)
+      group_by_(df %>% rowwise(), .dots = list(quote(-a))),
+      group_by(df %>% rowwise(), -a)
     ),
     "rowwise"
   )
 
   expect_warning(
     expect_equal(
-      group_by_(df %>% rowwise, .dots = list(~ -a)),
-      group_by(df %>% rowwise, -a)
+      group_by_(df %>% rowwise(), .dots = list(~ -a)),
+      group_by(df %>% rowwise(), -a)
     ),
     "rowwise"
   )

@@ -244,7 +244,8 @@ test_that("assignments don't overwrite variables (#315)", {
   expect_equal(
     mutate(mtcars,
       cyl2 = {
-        mpg <- cyl^2; -mpg
+        mpg <- cyl^2
+        -mpg
       }
     ),
     mutate(mtcars, cyl2 = -cyl^2)
@@ -272,7 +273,7 @@ test_that("mutate strips names, but only if grouped (#1689, #2675)", {
   data <- data_frame(a = 1:3) %>% mutate(b = setNames(nm = a))
   expect_equal(names(data$b), as.character(1:3))
 
-  data <- data_frame(a = 1:3) %>% rowwise %>% mutate(b = setNames(nm = a))
+  data <- data_frame(a = 1:3) %>% rowwise() %>% mutate(b = setNames(nm = a))
   expect_null(names(data$b))
 
   data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a))
@@ -311,7 +312,7 @@ test_that("mutate gives a nice error message if an expression evaluates to NULL 
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {
   one_mod <- data.frame(grp = "a", x = runif(5, 0, 1)) %>%
-    tbl_df %>%
+    tbl_df() %>%
     mutate(y = rnorm(x, x * 2, 1)) %>%
     group_by(grp) %>%
     do(mod = lm(y ~ x, data = .))
@@ -400,7 +401,7 @@ test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   df <- data_frame(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
-  res <- df %>% mutate_all(funs(as.numeric)) %>% names
+  res <- df %>% mutate_all(funs(as.numeric)) %>% names()
   expect_equal(res, names(df))
 })
 
@@ -469,7 +470,7 @@ test_that("no utf8 invasion (#722)", {
 
 test_that("mutate works on empty data frames (#1142)", {
   df <- data.frame()
-  res <- df %>% mutate
+  res <- df %>% mutate()
   expect_equal(nrow(res), 0L)
   expect_equal(length(res), 0L)
 
@@ -598,7 +599,7 @@ test_that("mutate disambiguates NA and NaN (#1448)", {
   expect_true(is.nan(res$pass2[1]))
 
   res <- Pass %>%
-    rowwise %>%
+    rowwise() %>%
     mutate(pass2 = P2 / (P2 + F2))
   expect_true(is.nan(res$pass2[1]))
 
@@ -699,7 +700,7 @@ test_that("Adding a Column of NA to a Grouped Table gives expected results (#164
 
 test_that("Deep copies are performed when needed (#1463)", {
   res <- data.frame(prob = c(F, T)) %>%
-    rowwise %>%
+    rowwise() %>%
     mutate(model = list(x = prob))
   expect_equal(unlist(res$model), c(FALSE, TRUE))
 

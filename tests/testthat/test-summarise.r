@@ -214,7 +214,7 @@ test_that("summarise strips names, but only if grouped (#2231, #2675)", {
   data <- data_frame(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
   expect_equal(names(data$b), "1")
 
-  data <- data_frame(a = 1:3) %>% rowwise %>% summarise(b = setNames(nm = a))
+  data <- data_frame(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))
   expect_null(names(data$b))
 
   data <- data_frame(a = c(1, 1, 2)) %>% group_by(a) %>% summarise(b = setNames(nm = a[[1]]))
@@ -585,7 +585,7 @@ test_that("summarise handles list output columns (#832)", {
 
 test_that("summarise works with empty data frame (#1142)", {
   df <- data.frame()
-  res <- df %>% summarise
+  res <- df %>% summarise()
   expect_equal(nrow(res), 0L)
   expect_equal(length(res), 0L)
 })
@@ -893,14 +893,14 @@ test_that("typing and NAs for grouped summarise (#1839)", {
 test_that("typing and NAs for rowwise summarise (#1839)", {
   expect_identical(
     data_frame(id = 1L, a = NA_character_) %>%
-      rowwise %>%
+      rowwise() %>%
       summarise(a = a[[1]]) %>%
       .$a,
     NA_character_)
 
   expect_identical(
     data_frame(id = 1:2, a = c(NA, "a")) %>%
-      rowwise %>%
+      rowwise() %>%
       summarise(a = a[[1]]) %>%
       .$a,
     c(NA, "a"))
@@ -915,7 +915,7 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
 
   expect_error(
     data_frame(id = 1:2, a = list(1, "2")) %>%
-      rowwise %>%
+      rowwise() %>%
       summarise(a = a[[1]]) %>%
       .$a,
     "Column `a` can't promote group 1 to numeric",
@@ -924,7 +924,7 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
 
   expect_error(
     data_frame(id = 1:2, a = list(1, "2")) %>%
-      rowwise %>%
+      rowwise() %>%
       summarise(a = a[1]) %>%
       .$a,
     "Column `a` can't promote group 1 to numeric",

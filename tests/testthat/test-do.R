@@ -18,7 +18,7 @@ test_that("can't use both named and unnamed args", {
 
 test_that("unnamed elements must return data frames", {
   expect_error(
-    df %>% ungroup %>% do(1), "Result must be a data frame, not numeric")
+    df %>% ungroup() %>% do(1), "Result must be a data frame, not numeric")
   expect_error(
     df %>% do(1), "Results 1, 2, 3 must be data frames, not numeric")
   expect_error(
@@ -116,7 +116,7 @@ test_that("empty data frames give consistent outputs", {
   dat %>%
     do(data.frame()) %>%
     vapply(type_sum, character(1)) %>%
-    length %>%
+    length() %>%
     expect_equal(0)
   dat %>%
     do(data.frame(y = integer(0))) %>%

@@ -14,12 +14,12 @@ test_that("$ is parsed correctly (#1400)", {
 
   expect_equal(
     test_df %>%
-      grouping %>%
+      grouping() %>%
       mutate(f = e$x) %>%
       select(-e),
     test_df %>%
       mutate(f = as.numeric(2:4)) %>%
-      grouping %>%
+      grouping() %>%
       select(-e)
   )
 })
@@ -29,12 +29,12 @@ test_that("$ is parsed correctly if column by the same name exists (#1400)", {
 
   expect_equal(
     test_df %>%
-      grouping %>%
+      grouping() %>%
       mutate(f = e$a) %>%
       select(-e),
     test_df %>%
       mutate(f = as.numeric(1:3)) %>%
-      grouping %>%
+      grouping() %>%
       select(-e)
   )
 })
@@ -44,12 +44,12 @@ test_that("[[ works for ungrouped access (#912)", {
 
   expect_equal(
     test_df %>%
-      grouping %>%
+      grouping() %>%
       mutate(f = mean(test_df[["a"]])) %>%
       select(-e),
     test_df %>%
       mutate(f = mean(a)) %>%
-      grouping %>%
+      grouping() %>%
       select(-e)
   )
 })
@@ -73,12 +73,12 @@ test_that("$ works for rle result (#2125)", {
 
   expect_equal(
     test_df %>%
-      grouping %>%
+      grouping() %>%
       mutate(f = rle(b)$lengths) %>%
       select(-e),
     test_df %>%
       mutate(f = rep(1L, 3L)) %>%
-      grouping %>%
+      grouping() %>%
       select(-e)
   )
 })
@@ -87,12 +87,12 @@ test_hybrid <- function(grouping) {
   test_that("case_when() works for LHS (#1719, #2244)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = case_when(a == 1 ~ 1, a == 2 ~ 2, TRUE ~ 3)) %>%
         select(-e),
       test_df %>%
         mutate(f = b) %>%
-        grouping %>%
+        grouping() %>%
         select(-e)
     )
   })
@@ -100,12 +100,12 @@ test_hybrid <- function(grouping) {
   test_that("case_when() works for RHS (#1719, #2244)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = case_when(a == 1 ~ as.numeric(a), a == 2 ~ b, TRUE ~ 3)) %>%
         select(-e),
       test_df %>%
         mutate(f = b) %>%
-        grouping %>%
+        grouping() %>%
         select(-e)
     )
   })
@@ -114,7 +114,7 @@ test_hybrid <- function(grouping) {
     expect_false(env_has(nms = "xx"))
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = {
           xx <- 5
           xx
@@ -122,7 +122,7 @@ test_hybrid <- function(grouping) {
         select(-e),
       test_df %>%
         mutate(f = 5) %>%
-        grouping %>%
+        grouping() %>%
         select(-e)
     )
     expect_false(env_has(nms = "xx"))
@@ -132,7 +132,7 @@ test_hybrid <- function(grouping) {
     expect_false(env_has(nms = "a"))
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = {
           a <- 5
           a
@@ -140,7 +140,7 @@ test_hybrid <- function(grouping) {
         select(-e),
       test_df %>%
         mutate(f = 5) %>%
-        grouping %>%
+        grouping() %>%
         select(-e)
     )
     expect_false(env_has(nms = "a"))
@@ -150,10 +150,11 @@ test_hybrid <- function(grouping) {
     # error messages by bindr/rlang
     expect_error(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(
           f = {
-            xx <- 5; xx
+            xx <- 5
+            xx
           },
           g = xx),
       "xx"
@@ -164,7 +165,7 @@ test_hybrid <- function(grouping) {
     expect_false(env_has(nms = "a"))
     test <-
       test_df %>%
-      grouping %>%
+      grouping() %>%
       mutate(f = {
         xx <- 5
         xx
@@ -174,7 +175,7 @@ test_hybrid <- function(grouping) {
 
   test_that("[ works (#912)", {
     grouped_df <- test_df %>%
-      grouping
+      grouping()
 
     expect_equal(
       grouped_df %>%
@@ -182,7 +183,7 @@ test_hybrid <- function(grouping) {
         select(-e),
       test_df %>%
         mutate(f = mean(a)) %>%
-        grouping %>%
+        grouping() %>%
         select(-e)
     )
   })
@@ -192,11 +193,11 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(., f = mean(!!var)) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = mean(b)) %>%
         select(-e)
     )
@@ -207,11 +208,11 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(., f = 1 - ecdf(b)(b)) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(., f = surv(b)) %>%
         select(-e)
     )
@@ -220,14 +221,14 @@ test_hybrid <- function(grouping) {
   test_that("filter understands .data (#1012)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter({
           b <- 5
           .data$b < 2
         }) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(b < 2) %>%
         select(-e)
     )
@@ -236,11 +237,11 @@ test_hybrid <- function(grouping) {
   test_that("filter understands .data (#1012)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(.data[["b"]] < 2) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(b < 2) %>%
         select(-e)
     )
@@ -251,11 +252,11 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(.data[[letters[[idx]]]] < 2) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(b < 2) %>%
         select(-e)
     )
@@ -267,11 +268,11 @@ test_hybrid <- function(grouping) {
     expect_equal(
       filter(
         test_df %>%
-          grouping,
+          grouping(),
         b < .env$b) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(b < 2) %>%
         select(-e)
     )
@@ -282,11 +283,11 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(b < get("b", envir = .env)) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         filter(b < 2) %>%
         select(-e)
     )
@@ -295,14 +296,14 @@ test_hybrid <- function(grouping) {
   test_that("mutate understands .data (#1012)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = {
           b <- 5
           .data$b
         }) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = b) %>%
         select(-e)
     )
@@ -311,11 +312,11 @@ test_hybrid <- function(grouping) {
   test_that("mutate understands .data (#1012)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = .data[["b"]]) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = b) %>%
         select(-e)
     )
@@ -326,11 +327,11 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = .data[[letters[[idx]]]]) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = b) %>%
         select(-e)
     )
@@ -342,11 +343,11 @@ test_hybrid <- function(grouping) {
     expect_equal(
       mutate(
         test_df %>%
-          grouping,
+          grouping(),
         f = .env$b) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = 2L) %>%
         select(-e)
     )
@@ -357,11 +358,11 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = get("b", .env)) %>%
         select(-e),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         mutate(f = 2L) %>%
         select(-e)
     )
@@ -370,22 +371,23 @@ test_hybrid <- function(grouping) {
   test_that("summarise understands .data (#1012)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = {
-          b <- 5; sum(.data$b)
+          b <- 5
+          sum(.data$b)
         }),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = sum(b)))
   })
 
   test_that("summarise understands .data (#1012)", {
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = sum(.data[["b"]])),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = sum(b))
     )
   })
@@ -395,10 +397,10 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = sum(.data[[letters[[idx]]]])),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = sum(b))
     )
   })
@@ -409,10 +411,10 @@ test_hybrid <- function(grouping) {
     expect_equal(
       summarise(
         test_df %>%
-          grouping,
+          grouping(),
         f = .env$b),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = 2L)
     )
   })
@@ -422,10 +424,10 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = get("b", .env)),
       test_df %>%
-        grouping %>%
+        grouping() %>%
         summarise(f = 2L)
     )
   })
@@ -435,7 +437,7 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       conflict_data %>%
-        grouping %>%
+        grouping() %>%
         summarise(env = list(.env), data = list(.data)) %>%
         ungroup() %>%
         summarise(
@@ -451,14 +453,14 @@ test_hybrid <- function(grouping) {
 
     expect_equal(
       conflict_data %>%
-        grouping %>%
+        grouping() %>%
         summarise(
           env = mean(.data$.env),
           data = mean(.data$.data)
         ),
       conflict_data %>%
         set_names("id", "data", "env") %>%
-        grouping %>%
+        grouping() %>%
         summarise_at(vars(env, data), funs(mean))
     )
   })

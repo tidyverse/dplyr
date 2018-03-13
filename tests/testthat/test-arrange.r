@@ -118,7 +118,7 @@ test_that("arrange respects attributes #1105", {
 
 test_that("arrange works with empty data frame (#1142)", {
   df <- data.frame()
-  res <- df %>% arrange
+  res <- df %>% arrange()
   expect_equal(nrow(res), 0L)
   expect_equal(length(res), 0L)
 })
@@ -139,13 +139,13 @@ test_that("duplicated column name is explicit about which column (#996)", {
   names(df) <- c("x", "x")
 
   # Error message created by tibble
-  expect_error(df %>% arrange)
+  expect_error(df %>% arrange())
 
   df <- data.frame(x = 1:10, x = 1:10, y = 1:10, y = 1:10)
   names(df) <- c("x", "x", "y", "y")
 
   # Error message created by tibble
-  expect_error(df %>% arrange)
+  expect_error(df %>% arrange())
 })
 
 test_that("arrange fails gracefully on list columns (#1489)", {

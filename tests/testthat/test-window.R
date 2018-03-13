@@ -43,7 +43,8 @@ test_that("order_by() returns correct value", {
   expected <- int(15, 14, 12, 9, 5)
   expect_identical(order_by(5:1, cumsum(1:5)), expected)
 
-  x <- 5:1; y <- 1:5
+  x <- 5:1
+  y <- 1:5
   expect_identical(order_by(x, cumsum(y)), expected)
 })
 

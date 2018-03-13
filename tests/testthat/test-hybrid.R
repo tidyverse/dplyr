@@ -285,7 +285,7 @@ test_that("first(), last(), and nth() work", {
     tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
       group_by(a) %>%
       summarize(b = b[1], b = first(b)) %>%
-      ungroup,
+      ungroup(),
     tibble(a = c(1, 2), b = c("a", "c"))
   )
 })
@@ -553,7 +553,7 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
     tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
       group_by(a) %>%
       summarize(b = b[1], b = min_rank(desc(b))) %>%
-      ungroup,
+      ungroup(),
     tibble(a = c(1, 2), b = c(1L, 1L))
   )
 })
@@ -831,7 +831,7 @@ test_that("constant folding and argument matching in hybrid evaluator (#2299)", 
   expect_equal(mutate(df, y = last(na.omit(x)))$y,           expected)
   expect_equal(mutate(df, y = last(x[!is.na(x)]))$y,         expected)
   expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y, expected)
-  expect_equal(mutate(df, y = x %>% na.omit %>% last)$y,     expected)
+  expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y, expected)
 
   data_frame(x = c(1, 1)) %>%
     mutate(y = 1) %>%

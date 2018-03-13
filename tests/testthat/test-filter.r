@@ -154,7 +154,7 @@ test_that("$ does not end call traversing. #502", {
 
   # Generate some dummy data
   d <- expand.grid(Subject = 1:3, TrialNo = 1:2, Time = 1:3) %>%
-    tbl_df %>%
+    tbl_df() %>%
     arrange(Subject, TrialNo, Time) %>%
     mutate(Outcome = (1:18 %% c(5, 7, 11)) / 10)
 
