@@ -572,7 +572,7 @@ test_that("bind_rows() accepts lists of dataframe-like lists as first argument",
 })
 
 test_that("columns that are OBJECT but have NULL class are handled gracefully (#3349)", {
-  mod <- lm(y~ ., data = freeny)
+  mod <- lm(y ~ ., data = freeny)
   data <- model.frame(mod)
   data_list <- list(data, data)
   res <- bind_rows(data_list)

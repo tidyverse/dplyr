@@ -40,7 +40,7 @@ test_that("local arrange sorts missing values to end", {
 
 test_that("two arranges equivalent to one", {
   df <- tribble(
-    ~x,  ~y,
+    ~ x,  ~ y,
     2,  1,
     2,  -1,
     1,  1

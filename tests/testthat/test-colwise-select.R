@@ -69,7 +69,7 @@ test_that("select_if() handles non-syntactic colnames", {
 test_that("select_if() handles quoted predicates", {
   expected <- select_if(mtcars, is_integerish)
   expect_identical(select_if(mtcars, "is_integerish"), expected)
-  expect_identical(select_if(mtcars, ~is_integerish(.x)), expected)
+  expect_identical(select_if(mtcars, ~ is_integerish(.x)), expected)
 })
 
 test_that("rename_all() works with grouped data (#3363)", {

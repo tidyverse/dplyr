@@ -171,8 +171,8 @@ test_that("combine works with NA and complex (#2203)", {
 
 test_that("combine works with integer64 (#1092)", {
   expect_equal(
-    combine(bit64::as.integer64(2 ^ 34), bit64::as.integer64(2 ^ 35)),
-    bit64::as.integer64(c(2 ^ 34, 2 ^ 35))
+    combine(bit64::as.integer64(2^34), bit64::as.integer64(2^35)),
+    bit64::as.integer64(c(2^34, 2^35))
   )
 })
 

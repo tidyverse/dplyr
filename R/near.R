@@ -10,6 +10,6 @@
 #' @examples
 #' sqrt(2) ^ 2 == 2
 #' near(sqrt(2) ^ 2, 2)
-near <- function(x, y, tol = .Machine$double.eps ^ 0.5) {
+near <- function(x, y, tol = .Machine$double.eps^0.5) {
   abs(x - y) < tol
 }
