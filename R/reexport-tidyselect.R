@@ -3,6 +3,8 @@
 peek_vars <- tidyselect::peek_vars
 
 
+# Alias required for help links in downstream packages
+#' @aliases select_helpers
 #' @importFrom tidyselect contains
 #' @export
 tidyselect::contains

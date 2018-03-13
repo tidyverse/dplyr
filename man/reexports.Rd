@@ -19,6 +19,7 @@
 \alias{trunc_mat}
 \alias{tbl_sum}
 \alias{contains}
+\alias{select_helpers}
 \alias{ends_with}
 \alias{everything}
 \alias{matches}
