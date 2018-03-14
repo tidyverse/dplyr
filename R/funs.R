@@ -93,7 +93,7 @@ as_fun <- function(.x, .env, .args) {
 }
 
 quo_as_function <- function(quo) {
-  new_function(exprs(. = ), quo_get_expr(quo))
+  new_function(exprs(. = ), quo_get_expr(quo), quo_get_env(quo))
 }
 
 fun_env <- function(quo, default_env) {
