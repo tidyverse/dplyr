@@ -90,7 +90,7 @@ get_deps <- function(i_pkg) {
 
 create_check_lib <- function(pkg, tarball, lib, ...) {
   pkgs <- c(...)
-  check_lib <- fs::file_path("revdep/libs/check", pkg)
+  check_lib <- fs::path("revdep/libs/check", pkg)
   if (fs::dir_exists(check_lib)) {
     fs::dir_delete(check_lib)
   }
@@ -197,12 +197,10 @@ get_plan <- function() {
     readd(revdeps) %>%
     enframe() %>%
     mutate(
-      old = map(value, make_check, old_lib, readd(deps), readd(first_level_deps), readd(base_pkgs)),
-      new = map(value, make_check, new_lib, readd(deps), readd(first_level_deps), readd(base_pkgs))
+      call = map(value, make_create_check_lib, old_lib, readd(deps), readd(first_level_deps), readd(base_pkgs))
     ) %>%
-    gather(kind, call, old, new) %>%
     transmute(
-      target = glue("l_{value}_{kind}"),
+      target = glue("l_{value}"),
       call
     ) %>%
     deframe() %>%
