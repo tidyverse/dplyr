@@ -13,6 +13,7 @@
 #include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/bad.h>
+#include <dplyr/tbl_cpp.h>
 
 using namespace Rcpp;
 using namespace dplyr;

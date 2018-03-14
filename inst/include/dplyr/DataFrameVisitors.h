@@ -21,7 +21,6 @@ private:
   const Rcpp::DataFrame& data;
   pointer_vector<VectorVisitor> visitors;
   SymbolVector visitor_names;
-  int nvisitors;
 
 public:
   typedef VectorVisitor visitor_type;
@@ -31,7 +30,7 @@ public:
   DataFrameVisitors(const DataFrame& data_, const SymbolVector& names);
 
   inline int size() const {
-    return nvisitors;
+    return visitors.size();
   }
   inline VectorVisitor* get(int k) const {
     return visitors[k];
@@ -44,10 +43,6 @@ public:
   inline int nrows() const {
     return data.nrows();
   }
-
-private:
-
-  void structure(List& x, int nrows, CharacterVector classes) const;
 
 };
 

@@ -15,6 +15,8 @@
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 
+#include <dplyr/tbl_cpp.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 

@@ -116,7 +116,7 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
 #'   Use `"never"` to always treat two `NA` or `NaN` values as
 #'   different, like joins for database sources, similarly to
 #'   `merge(incomparables = FALSE)`.
-#'   The default,`"na"`, always treats two `NA` or `NaN` values as equal, like [merge()].
+#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal, like [merge()].
 #'   Users and package authors can change the default behavior by calling
 #'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
 #' @examples

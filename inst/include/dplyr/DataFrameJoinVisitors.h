@@ -15,8 +15,6 @@ class DataFrameJoinVisitors :
   public VisitorSetHash<DataFrameJoinVisitors>
 {
 public:
-  typedef JoinVisitor visitor_type;
-
   DataFrameJoinVisitors(
     const DataFrame& left_,
     const DataFrame& right_,
@@ -26,18 +24,9 @@ public:
     bool na_match
   );
 
-  inline JoinVisitor* get(int k) const {
-    return visitors[k];
-  }
-  inline JoinVisitor* get(const SymbolString& name) const {
-    for (int i = 0; i < nvisitors; i++) {
-      if (name == visitor_names_left[i]) return get(i);
-    }
-    stop("visitor not found for name '%s' ", name.get_utf8_cstring());
-  }
-  inline int size() const {
-    return nvisitors;
-  }
+  JoinVisitor* get(int k) const;
+  JoinVisitor* get(const SymbolString& name) const;
+  int size() const;
 
   template <typename Container>
   inline DataFrame subset(const Container& index, const CharacterVector& classes) {
@@ -51,13 +40,6 @@ public:
     out.names() = visitor_names_left;
     copy_vars(out, left);
     return (SEXP)out;
-  }
-
-  const SymbolVector& left_names() const {
-    return visitor_names_left;
-  }
-  const SymbolVector& right_names() const {
-    return visitor_names_right;
   }
 
 private:
