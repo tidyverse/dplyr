@@ -264,7 +264,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
     inform("`.env` is deprecated and no longer has any effect")
   }
   weight <- enquo(weight)
-  weight <- mutate(tbl, w = !!weight)[["w"]]
+  weight <- eval_tidy(weight, tbl)
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,
@@ -291,7 +291,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     )
   }
   weight <- enquo(weight)
-  weight <- mutate(tbl, w = !!weight)[["w"]]
+  weight <- eval_tidy(weight, tbl)
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,

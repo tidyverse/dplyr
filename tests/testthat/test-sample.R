@@ -87,21 +87,38 @@ test_that("can't sample more values than obs (without replacement)", {
   )
 })
 
-df2 <- tibble(
-  x = rep(1:2, 100),
-  y = rep(c(0, 1), 100),
-  g = rep(1:2, each = 100)
-)
-
-
 test_that("grouped sample respects weight", {
-  grp <- df2 %>% sample_frac() %>% group_by(g)
+  df2 <- tibble(
+    x = rep(1:2, 100),
+    y = rep(c(0, 1), 100),
+    g = rep(1:2, each = 100)
+  )
+
+  grp <- df2 %>% group_by(g)
 
   # error message from base R
-  expect_error(sample_n(grp, nrow(df2) / 2 + 1, weight = y))
+  expect_error(sample_n(grp, nrow(df2) / 2, weight = y))
   expect_equal(sample_n(grp, 1, weight = y)$x, c(2, 2))
 
   # error message from base R
   expect_error(sample_frac(grp, 1, weight = y))
   expect_equal(sample_frac(grp, 0.5, weight = y)$x, rep(2, nrow(df2) / 2))
+})
+
+test_that("grouped sample accepts NULL weight from variable (for saeSim)", {
+  df <- tibble(
+    x = rep(1:2, 10),
+    y = rep(c(0, 1), 10),
+    g = rep(1:2, each = 10)
+  )
+
+  weight <- NULL
+
+  expect_error(sample_n(df, nrow(df), weight = weight), NA)
+  expect_error(sample_frac(df, weight = weight), NA)
+
+  grp <- df %>% group_by(g)
+
+  expect_error(sample_n(grp, nrow(df) / 2, weight = weight), NA)
+  expect_error(sample_frac(grp, weight = weight), NA)
 })
