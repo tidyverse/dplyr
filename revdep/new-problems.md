@@ -4,6 +4,7 @@
 
 - `library(DiagrammeR); example(add_balanced_tree)`
 - Pinged maintainer on https://github.com/tidyverse/dplyr/commit/89a6476b
+- #3307
 
 Version: 1.0.0
 
@@ -129,6 +130,7 @@ Version: 1.0.0
 
 - `library(nonmemica); example(nonmemica)`
 - reason unclear
+- e-mail sent
 
 Version: 0.7.9
 
@@ -161,6 +163,9 @@ Version: 0.7.9
     ```
 
 ## PPforest
+
+- reason unclear
+- e-mail sent
 
 Version: 0.1.0
 
@@ -220,6 +225,9 @@ Version: 0.1.0
 
 ## rusk
 
+- reason unclear
+- e-mail sent
+
 Version: 0.1
 
 ### Newly broken
@@ -245,6 +253,9 @@ Version: 0.1
 # dimensions
 
 ## pRoloc
+
+- reason unclear
+- e-mail sent
 
 Version: 1.16.1
 
@@ -277,6 +288,9 @@ Version: 1.16.1
     ```
 
 ## TPP
+
+- reason unclear
+- e-mail sent
 
 Version: 3.4.3
 
@@ -395,6 +409,10 @@ Version: 0.4.0
 
 ## desctable
 
+- `example(desctable)`
+- Use of `eval()` a `select()` statement in `desctable:::subTable`
+- https://github.com/MaximeWack/desctable/issues/8
+
 Version: 0.1.1
 
 ### Newly broken
@@ -448,6 +466,32 @@ Version: 0.1.1
 
 ## InformativeCensoring
 
+```
+  data(ScoreInd)
+  data(ScoreTimeDep)
+  set.seed(25)
+  
+  time.dep <- MakeTimeDepScore(ScoreTimeDep,Id="Id",
+                             time.start="start",
+                             time.end="end")
+  
+  #ok if time dep not used 
+  #note do not get same answer without timedep as still use separate
+  #model fits for each censored observation if timedep is not NULL
+  expect_warning(ans <- ScoreImpute(data=ScoreInd,event.model=~Z1+Z3+Z5,
+                        col.control=col.headings(has.event="event",
+                                                 time="time",
+                                                 Id="Id",
+                                                 arm="arm",
+                                                 DCO.time="DCO.time",
+                                                 to.impute="to.impute"),
+                        NN.control=NN.options(NN=5,w.censoring = 0.2),
+                        time.dep = time.dep,m=5,
+                        bootstrap.strata=ScoreInd$arm))
+```
+
+- very likely #3307
+
 Version: 0.3.4
 
 ### Newly broken
@@ -495,6 +539,9 @@ Version: 0.3.4
 # funs, vars
 
 ## keyholder
+
+- `keyholder::key_by_all(iris)`
+- fix in `R/funs.R`?
 
 Version: 0.1.1
 
@@ -588,6 +635,9 @@ Version: 0.5.0
 # list
 
 ## fold
+
+- likely responsible for *nonmemica* failures
+- `example("fold.data.frame")`
 
 Version: 0.2.5
 
@@ -750,6 +800,8 @@ Version: 0.4.2
 # join failure
 
 ## rubias
+
+- maybe #3307? Haven't checked.
 
 Version: 0.1.0
 
