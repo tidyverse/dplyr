@@ -551,6 +551,10 @@ Version: 0.1.1
 
 ## neuropsychology
 
+- `example(fa_loadings)`
+- `select_vars()`
+- Fixed by patch
+
 Version: 0.5.0
 
 ### Newly broken

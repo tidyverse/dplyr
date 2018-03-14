@@ -7,9 +7,9 @@
 \alias{current_vars}
 \title{Select variables}
 \usage{
-select_vars(vars, ..., include = chr(), exclude = chr())
+select_vars(vars = chr(), ..., include = chr(), exclude = chr())
 
-rename_vars(vars, ..., strict = TRUE)
+rename_vars(vars = chr(), ..., strict = TRUE)
 
 select_var(vars, var = -1)
 
