@@ -243,7 +243,10 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
-  grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
+  vars <- match_vars(dist$vars, dist$data)
+  keep <- match_vars(dist$keep, dist$data)
+  out <- distinct_impl(dist$data, vars, keep)
+  grouped_df(out, groups(.data))
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {

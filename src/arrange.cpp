@@ -60,7 +60,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
   variables.names() = quosures.names();
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector index = o.apply();
-  DataFrameSubsetVisitors visitors(data, data.names());
+  DataFrameSubsetVisitors visitors(data, SymbolVector(data.names()));
   List res = visitors.subset(index, get_class(data));
 
   if (is<GroupedDataFrame>(data)) {

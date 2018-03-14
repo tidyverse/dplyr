@@ -53,6 +53,32 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector&
 
 }
 
+DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector& indices) :
+  data(data_),
+  visitors(),
+  visitor_names()
+{
+
+  CharacterVector data_names = vec_names_or_empty(data);
+
+  int n = indices.size();
+  for (int i = 0; i < n; i++) {
+
+    int pos = indices[i];
+
+    // Also covers NA
+    if (pos <= 0 || pos > data.size()) {
+      stop("Index out of range");
+    }
+
+    VectorVisitor* v = visitor(data[pos - 1]);
+    visitors.push_back(v);
+    visitor_names.push_back(data_names[pos - 1]);
+
+  }
+
+}
+
 DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataFrame& right_, const SymbolVector& names_left, const SymbolVector& names_right, bool warn_, bool na_match) :
   left(left_), right(right_),
   visitor_names_left(names_left),
@@ -117,18 +143,46 @@ DataFrameSubsetVisitors::DataFrameSubsetVisitors(const DataFrame& data_, const S
 {
 
   CharacterVector data_names = vec_names_or_empty(data);
-  IntegerVector indx = names.match_in_table(data_names);
+  IntegerVector indices = names.match_in_table(data_names);
 
-  int n = indx.size();
+  int n = indices.size();
   for (int i = 0; i < n; i++) {
 
-    int pos = indx[i];
+    int pos = indices[i];
     if (pos == NA_INTEGER) {
       bad_col(names[i], "is unknown");
     }
 
     SubsetVectorVisitor* v = subset_visitor(data[pos - 1], data_names[pos - 1]);
     visitors.push_back(v);
+
+  }
+
+}
+
+DataFrameSubsetVisitors::DataFrameSubsetVisitors(const DataFrame& data_, const IntegerVector& indices) :
+  data(data_),
+  visitors(),
+  visitor_names()
+{
+
+  CharacterVector data_names = vec_names_or_empty(data);
+
+  int n = indices.size();
+  for (int i = 0; i < n; i++) {
+
+    int pos = indices[i];
+
+    // Also covers NA
+    if (pos <= 0 || pos > data.size()) {
+      stop("Index out of range");
+    }
+
+    const SymbolString& name = data_names[pos - 1];
+
+    SubsetVectorVisitor* v = subset_visitor(data[pos - 1], name);
+    visitors.push_back(v);
+    visitor_names.push_back(name);
 
   }
 

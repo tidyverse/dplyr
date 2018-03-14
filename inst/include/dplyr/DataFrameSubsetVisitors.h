@@ -23,6 +23,8 @@ public:
 
   DataFrameSubsetVisitors(const DataFrame& data_, const SymbolVector& names);
 
+  DataFrameSubsetVisitors(const DataFrame& data_, const IntegerVector& indices);
+
   template <typename Container>
   DataFrame subset(const Container& index, const CharacterVector& classes) const {
     List out = get_subsets(index);
