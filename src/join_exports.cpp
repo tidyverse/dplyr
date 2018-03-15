@@ -46,8 +46,6 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       joiner[i] = true;
     }
   }
-  DataFrameSubsetVisitors visitors_x(x, SymbolVector(x_columns));
-  int nv_x = visitors_x.size();
 
   // then columns from y but not x
   CharacterVector all_y_columns = y.names();
@@ -58,17 +56,16 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       y_columns[k++] = all_y_columns[i];
     }
   }
-  DataFrameSubsetVisitors visitors_y(y, SymbolVector(y_columns));
-
-  int nv_y = visitors_y.size();
 
   // construct out object
   int nrows = indices_x.size();
-  List out(n_join_visitors + nv_x + nv_y);
-  CharacterVector names(n_join_visitors + nv_x + nv_y);
+  List out(all_x_columns.size() + y_columns.size());
+  CharacterVector names(out.size());
 
   int index_join_visitor = 0;
   int index_x_visitor = 0;
+  DataFrameSubsetVisitors visitors_x(x, SymbolVector(x_columns));
+
   // ---- join visitors
   for (int i = 0; i < all_x_columns.size(); i++) {
     String col_name = all_x_columns[i];
@@ -94,8 +91,8 @@ DataFrame subset_join(DataFrame x, DataFrame y,
     names[i] = col_name;
   }
 
-  int k = index_join_visitor +  index_x_visitor;
-  for (int i = 0; i < nv_y; i++, k++) {
+  DataFrameSubsetVisitors visitors_y(y, SymbolVector(y_columns));
+  for (int i = 0, k = all_x_columns.size(); i < y_columns.size(); i++, k++) {
     String col_name = y_columns[i];
 
     // we suffix by .y if this column is in x_columns (and if the suffix is not empty)
