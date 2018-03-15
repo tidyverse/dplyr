@@ -152,8 +152,8 @@ check_na_matches <- function(na_matches) {
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_colnames(x)
-  check_valid_colnames(y)
+  check_valid_names(tbl_vars(x))
+  check_valid_names(tbl_vars(y))
 
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
@@ -168,8 +168,8 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_colnames(x)
-  check_valid_colnames(y)
+  check_valid_names(tbl_vars(x))
+  check_valid_names(tbl_vars(y))
 
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
@@ -184,8 +184,8 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_colnames(x)
-  check_valid_colnames(y)
+  check_valid_names(tbl_vars(x))
+  check_valid_names(tbl_vars(y))
 
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
@@ -199,8 +199,8 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_colnames(x)
-  check_valid_colnames(y)
+  check_valid_names(tbl_vars(x))
+  check_valid_names(tbl_vars(y))
 
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
@@ -213,8 +213,8 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_colnames(x, warn_only = TRUE)
-  check_valid_colnames(y, warn_only = TRUE)
+  check_valid_names(tbl_vars(x), warn_only = TRUE)
+  check_valid_names(tbl_vars(y), warn_only = TRUE)
 
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
@@ -225,8 +225,8 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
 #' @rdname join.tbl_df
 anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  check_valid_colnames(x, warn_only = TRUE)
-  check_valid_colnames(y, warn_only = TRUE)
+  check_valid_names(tbl_vars(x), warn_only = TRUE)
+  check_valid_names(tbl_vars(y), warn_only = TRUE)
 
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)

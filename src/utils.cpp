@@ -8,9 +8,8 @@
 
 using namespace Rcpp;
 
-// [[Rcpp::export(name = "check_valid_colnames")]]
-void check_valid_colnames_export(const DataFrame& df, bool warn_only = false) {
-  CharacterVector names(vec_names_or_empty(df));
+// [[Rcpp::export]]
+void check_valid_names(const CharacterVector& names, bool warn_only = false) {
   LogicalVector dup = duplicated(names);
   if (any(dup).is_true()) {
     String msg = msg_bad_cols(SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
@@ -23,7 +22,7 @@ void check_valid_colnames_export(const DataFrame& df, bool warn_only = false) {
 
 // Need forwarder to avoid compilation warning for default argument
 void check_valid_colnames(const DataFrame& df, bool warn_only) {
-  check_valid_colnames_export(df, warn_only);
+  check_valid_names(vec_names_or_empty(df), warn_only);
 }
 
 // [[Rcpp::export]]
