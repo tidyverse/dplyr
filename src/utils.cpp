@@ -10,7 +10,7 @@ using namespace Rcpp;
 
 // [[Rcpp::export(name = "check_valid_colnames")]]
 void check_valid_colnames_export(const DataFrame& df, bool warn_only = false) {
-  CharacterVector names(df.names());
+  CharacterVector names(vec_names_or_empty(df));
   LogicalVector dup = duplicated(names);
   if (any(dup).is_true()) {
     String msg = msg_bad_cols(SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");

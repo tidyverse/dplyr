@@ -29,6 +29,8 @@ public:
 
   DataFrameVisitors(const DataFrame& data_, const SymbolVector& names);
 
+  DataFrameVisitors(const DataFrame& data_, const IntegerVector& indices);
+
   inline int size() const {
     return visitors.size();
   }
