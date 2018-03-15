@@ -194,15 +194,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // grouped_df_impl
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop);
-RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop, bool build_index);
+RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP, SEXP build_indexSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
     Rcpp::traits::input_parameter< SymbolVector >::type symbols(symbolsSEXP);
     Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
+    Rcpp::traits::input_parameter< bool >::type build_index(build_indexSEXP);
+    rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop, build_index));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -706,7 +707,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 3},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
-    {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
+    {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 4},
     {"_dplyr_as_regular_df", (DL_FUNC) &_dplyr_as_regular_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_test_grouped_df", (DL_FUNC) &_dplyr_test_grouped_df, 1},

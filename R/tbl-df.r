@@ -167,7 +167,8 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   out <- inner_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
   names(out) <- vars$alias
-  out
+
+  reconstruct_join(out, x, vars)
 }
 
 #' @export
@@ -190,7 +191,8 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   out <- left_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
   names(out) <- vars$alias
-  out
+
+  reconstruct_join(out, x, vars)
 }
 
 #' @export
@@ -213,7 +215,8 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   out <- right_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
   names(out) <- vars$alias
-  out
+
+  reconstruct_join(out, x, vars)
 }
 
 #' @export
@@ -236,7 +239,8 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   out <- full_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
   names(out) <- vars$alias
-  out
+
+  reconstruct_join(out, x, vars)
 }
 
 #' @export
@@ -261,6 +265,16 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
   anti_join_impl(x, y, by$x, by$y, check_na_matches(na_matches))
+}
+
+reconstruct_join <- function(out, x, vars) {
+  if (is_grouped_df(x)) {
+    groups_in_old <- match(group_vars(x), tbl_vars(x))
+    groups_in_alias <- match(groups_in_old, vars$x)
+    out <- grouped_df_impl(out, vars$alias[groups_in_alias], group_drop(x), FALSE)
+  }
+
+  out
 }
 
 

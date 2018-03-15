@@ -122,22 +122,6 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   set_rownames(out, nrows);
   out.names() = names;
 
-  // out group columns
-  SymbolVector group_cols_x = get_vars(x);
-  int n_group_cols = group_cols_x.size();
-  SymbolVector group_cols(n_group_cols);
-  IntegerVector group_col_indices = group_cols_x.match_in_table(all_x_columns);
-  // get updated column names
-  for (int i = 0; i < n_group_cols; i++) {
-    int group_col_index = group_col_indices[i];
-    if (group_col_index != NA_INTEGER) {
-      group_cols.set(i, names[group_col_index - 1]);
-    } else {
-      stop("unknown group column '%s'", group_cols_x[i].get_utf8_cstring());
-    }
-  }
-  set_vars(out, group_cols);
-
   return (SEXP)out;
 }
 

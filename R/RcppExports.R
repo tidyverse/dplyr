@@ -86,8 +86,8 @@ filter_impl <- function(df, quo) {
     .Call(`_dplyr_filter_impl`, df, quo)
 }
 
-grouped_df_impl <- function(data, symbols, drop) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols, drop)
+grouped_df_impl <- function(data, symbols, drop, build_index = TRUE) {
+    .Call(`_dplyr_grouped_df_impl`, data, symbols, drop, build_index)
 }
 
 as_regular_df <- function(df) {

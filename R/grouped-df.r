@@ -164,8 +164,8 @@ do.grouped_df <- function(.data, ...) {
   # Force computation of indices
   if (is_null(attr(.data, "indices"))) {
     .data <- grouped_df_impl(
-      .data, attr(.data, "vars"),
-      attr(.data, "drop") %||% TRUE
+      .data, group_vars(.data),
+      group_drop(.data)
     )
   }
   index <- attr(.data, "indices")
@@ -325,4 +325,8 @@ sample_group <- function(i, frac, size, replace, weight) {
   }
 
   i[sample.int(n, size, replace = replace, prob = weight)]
+}
+
+group_drop <- function(x) {
+  attr(.data, "drop") %||% TRUE
 }
