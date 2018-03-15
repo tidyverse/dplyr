@@ -200,6 +200,29 @@ test_that("disallow empty string in both sides of suffix argument (#2228)", {
   )
 })
 
+test_that("disallow NA in any side of suffix argument", {
+  expect_error(
+    inner_join(e, f, "x", suffix = c(".x", NA)),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+  expect_error(
+    left_join(e, f, "x", suffix = c(NA, ".y")),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(e, f, "x", suffix = c(NA_character_, NA)),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(e, f, "x", suffix = c("x", NA)),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+})
+
 test_that("doesn't add suffix to by columns in x (#3307)", {
   j1 <- inner_join(e, f, by = c("x" = "z"))
   j2 <- left_join(e, f, by = c("x" = "z"))

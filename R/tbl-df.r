@@ -165,7 +165,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
 
-  out <- inner_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  out <- inner_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)
@@ -189,7 +189,7 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
 
-  out <- left_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  out <- left_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)
@@ -213,7 +213,7 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
 
-  out <- right_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  out <- right_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)
@@ -237,7 +237,7 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
 
-  out <- full_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  out <- full_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)

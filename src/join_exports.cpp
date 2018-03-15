@@ -23,12 +23,7 @@ template <typename Index>
 DataFrame subset_join(DataFrame x, DataFrame y,
                       const Index& indices_x, const Index& indices_y,
                       const IntegerVector& by_x, const IntegerVector& by_y,
-                      const std::string& suffix_x, const std::string& suffix_y,
                       CharacterVector classes) {
-  if (suffix_x.length() == 0 && suffix_y.length() == 0) {
-    bad_arg("suffix", "can't be empty string for both `x` and `y` suffixes");
-  }
-
   // first the joined columns
   DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, true, false);
   int n_join_visitors = join_visitors.size();
@@ -70,7 +65,6 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   // construct out object
   int nrows = indices_x.size();
   List out(all_x_columns.size() + y_columns.size());
-  CharacterVector names(out.size());
 
   int index_join_visitor = 0;
   int index_x_visitor = 0;
@@ -78,49 +72,22 @@ DataFrame subset_join(DataFrame x, DataFrame y,
 
   // ---- join visitors
   for (int i = 0; i < all_x_columns.size(); i++) {
-    String col_name = all_x_columns[i];
     if (joiner[i]) {
       JoinVisitor* v = join_visitors.get(xm[i] - 1);
       out[i] = v->subset(indices_x);
       index_join_visitor++;
     } else {
-
-      // we suffix by .x if this column is in y_columns (and if the suffix is not empty)
-      if (suffix_x.length() > 0) {
-        while (
-          (std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end()) ||
-          (std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
-        ) {
-          col_name += suffix_x;
-        }
-      }
-
       out[i] = visitors_x.get(index_x_visitor)->subset(indices_x);
       index_x_visitor++;
     }
-    names[i] = col_name;
   }
 
   DataFrameSubsetVisitors visitors_y(y, SymbolVector(y_columns));
   for (int i = 0, k = all_x_columns.size(); i < y_columns.size(); i++, k++) {
-    String col_name = y_columns[i];
-
-    // we suffix by .y if this column is in x_columns (and if the suffix is not empty)
-    if (suffix_y.length() > 0) {
-      while (
-        (std::find(all_x_columns.begin(), all_x_columns.end(), col_name.get_sexp()) != all_x_columns.end()) ||
-        (std::find(names.begin(), names.begin() + k, col_name.get_sexp()) != names.begin() + k)
-      ) {
-        col_name += suffix_y;
-      }
-    }
-
     out[k] = visitors_y.get(i)->subset(indices_y);
-    names[k] = col_name;
   }
   set_class(out, classes);
   set_rownames(out, nrows);
-  out.names() = names;
 
   return (SEXP)out;
 }
@@ -223,7 +190,6 @@ void check_by(const IntegerVector& by) {
 // [[Rcpp::export]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
-                          std::string& suffix_x, std::string& suffix_y,
                           bool na_match) {
   check_by(by_x);
 
@@ -249,7 +215,6 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
-                     suffix_x, suffix_y,
                      get_class(x)
                     );
 }
@@ -257,7 +222,6 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
-                         std::string& suffix_x, std::string& suffix_y,
                          bool na_match) {
   check_by(by_x);
 
@@ -288,7 +252,6 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
-                     suffix_x, suffix_y,
                      get_class(x)
                     );
 }
@@ -296,7 +259,6 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
-                          std::string& suffix_x, std::string& suffix_y,
                           bool na_match) {
   check_by(by_x);
 
@@ -325,7 +287,6 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
-                     suffix_x, suffix_y,
                      get_class(x)
                     );
 }
@@ -333,7 +294,6 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
-                         std::string& suffix_x, std::string& suffix_y,
                          bool na_match) {
   check_by(by_x);
 
@@ -379,7 +339,6 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
-                     suffix_x, suffix_y,
                      get_class(x)
                     );
 }

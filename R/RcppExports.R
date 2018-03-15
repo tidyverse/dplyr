@@ -118,20 +118,20 @@ anti_join_impl <- function(x, y, by_x, by_y, na_match) {
     .Call(`_dplyr_anti_join_impl`, x, y, by_x, by_y, na_match)
 }
 
-inner_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
-    .Call(`_dplyr_inner_join_impl`, x, y, by_x, by_y, suffix_x, suffix_y, na_match)
+inner_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call(`_dplyr_inner_join_impl`, x, y, by_x, by_y, na_match)
 }
 
-left_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
-    .Call(`_dplyr_left_join_impl`, x, y, by_x, by_y, suffix_x, suffix_y, na_match)
+left_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call(`_dplyr_left_join_impl`, x, y, by_x, by_y, na_match)
 }
 
-right_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
-    .Call(`_dplyr_right_join_impl`, x, y, by_x, by_y, suffix_x, suffix_y, na_match)
+right_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call(`_dplyr_right_join_impl`, x, y, by_x, by_y, na_match)
 }
 
-full_join_impl <- function(x, y, by_x, by_y, suffix_x, suffix_y, na_match) {
-    .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, suffix_x, suffix_y, na_match)
+full_join_impl <- function(x, y, by_x, by_y, na_match) {
+    .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, na_match)
 }
 
 mutate_impl <- function(df, dots) {

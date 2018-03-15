@@ -206,5 +206,13 @@ check_suffix <- function(x) {
     )
   }
 
-  list(x = x[1], y = x[2])
+  if (any(is.na(x))) {
+    bad_args("suffix", "can't be NA");
+  }
+
+  if (all(x == "")) {
+    bad_args("suffix", "can't be empty string for both `x` and `y` suffixes");
+  }
+
+  list(x = x[[1]], y = x[[2]])
 }
