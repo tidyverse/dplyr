@@ -29,49 +29,47 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   int n_join_visitors = join_visitors.size();
 
   // then columns from x but not y
-  CharacterVector all_x_columns = x.names();
-  std::vector<bool> joiner(all_x_columns.size());
-  CharacterVector x_columns(all_x_columns.size() - n_join_visitors);
-  IntegerVector xm(all_x_columns.size(), NA_INTEGER);
+  std::vector<bool> joiner(x.ncol());
+  IntegerVector aux_x(x.ncol() - n_join_visitors);
+  IntegerVector xm(x.ncol(), NA_INTEGER);
   for (int by = 0; by < by_x.size(); ++by) {
     const int pos = by_x[by];
     check_range_one_based(pos, xm.size());
     xm[pos - 1] = by + 1;
   }
-  for (int i = 0, k = 0; i < all_x_columns.size(); i++) {
+  for (int i = 0, k = 0; i < x.ncol(); i++) {
     if (xm[i] == NA_INTEGER) {
       joiner[i] = false;
-      x_columns[k++] = all_x_columns[i];
+      aux_x[k++] = i + 1;
     } else {
       joiner[i] = true;
     }
   }
 
   // then columns from y but not x
-  CharacterVector all_y_columns = y.names();
-  CharacterVector y_columns(all_y_columns.size() - n_join_visitors);
-  IntegerVector ym(all_y_columns.size(), NA_INTEGER);
+  IntegerVector aux_y(y.size() - n_join_visitors);
+  IntegerVector ym(y.size(), NA_INTEGER);
   for (int by = 0; by < by_y.size(); ++by) {
     const int pos = by_y[by];
     check_range_one_based(pos, ym.size());
     ym[pos - 1] = by + 1;
   }
-  for (int i = 0, k = 0; i < all_y_columns.size(); i++) {
+  for (int i = 0, k = 0; i < y.size(); i++) {
     if (ym[i] == NA_INTEGER) {
-      y_columns[k++] = all_y_columns[i];
+      aux_y[k++] = i + 1;
     }
   }
 
   // construct out object
   int nrows = indices_x.size();
-  List out(all_x_columns.size() + y_columns.size());
+  List out(x.ncol() + aux_y.size());
 
   int index_join_visitor = 0;
   int index_x_visitor = 0;
-  DataFrameSubsetVisitors visitors_x(x, SymbolVector(x_columns));
+  DataFrameSubsetVisitors visitors_x(x, aux_x);
 
   // ---- join visitors
-  for (int i = 0; i < all_x_columns.size(); i++) {
+  for (int i = 0; i < x.ncol(); i++) {
     if (joiner[i]) {
       JoinVisitor* v = join_visitors.get(xm[i] - 1);
       out[i] = v->subset(indices_x);
@@ -82,8 +80,8 @@ DataFrame subset_join(DataFrame x, DataFrame y,
     }
   }
 
-  DataFrameSubsetVisitors visitors_y(y, SymbolVector(y_columns));
-  for (int i = 0, k = all_x_columns.size(); i < y_columns.size(); i++, k++) {
+  DataFrameSubsetVisitors visitors_y(y, aux_y);
+  for (int i = 0, k = x.ncol(); i < visitors_y.size(); i++, k++) {
     out[k] = visitors_y.get(i)->subset(indices_y);
   }
   set_class(out, classes);
