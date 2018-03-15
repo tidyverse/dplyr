@@ -22,7 +22,7 @@ using namespace dplyr;
 template <typename Index>
 DataFrame subset_join(DataFrame x, DataFrame y,
                       const Index& indices_x, const Index& indices_y,
-                      CharacterVector by_x, CharacterVector by_y,
+                      const IntegerVector& by_x, const IntegerVector& by_y,
                       const std::string& suffix_x, const std::string& suffix_y,
                       CharacterVector classes) {
   if (suffix_x.length() == 0 && suffix_y.length() == 0) {
@@ -30,14 +30,19 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
 
   // first the joined columns
-  DataFrameJoinVisitors join_visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, false);
+  DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, true, false);
   int n_join_visitors = join_visitors.size();
 
   // then columns from x but not y
   CharacterVector all_x_columns = x.names();
   std::vector<bool> joiner(all_x_columns.size());
   CharacterVector x_columns(all_x_columns.size() - n_join_visitors);
-  IntegerVector xm = r_match(all_x_columns, by_x);
+  IntegerVector xm(all_x_columns.size(), NA_INTEGER);
+  for (int by = 0; by < by_x.size(); ++by) {
+    const int pos = by_x[by];
+    check_range_one_based(pos, xm.size());
+    xm[pos - 1] = by + 1;
+  }
   for (int i = 0, k = 0; i < all_x_columns.size(); i++) {
     if (xm[i] == NA_INTEGER) {
       joiner[i] = false;
@@ -50,7 +55,12 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   // then columns from y but not x
   CharacterVector all_y_columns = y.names();
   CharacterVector y_columns(all_y_columns.size() - n_join_visitors);
-  IntegerVector ym = r_match(all_y_columns, by_y);
+  IntegerVector ym(all_y_columns.size(), NA_INTEGER);
+  for (int by = 0; by < by_y.size(); ++by) {
+    const int pos = by_y[by];
+    check_range_one_based(pos, ym.size());
+    ym[pos - 1] = by + 1;
+  }
   for (int i = 0, k = 0; i < all_y_columns.size(); i++) {
     if (ym[i] == NA_INTEGER) {
       y_columns[k++] = all_y_columns[i];
@@ -222,15 +232,19 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   return out;
 }
 
+void check_by(const IntegerVector& by) {
+  if (by.size() == 0) bad_arg("by", "must specify variables to join by");
+}
+
 // [[Rcpp::export]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
-                          CharacterVector by_x, CharacterVector by_y,
+                          IntegerVector by_x, IntegerVector by_y,
                           std::string& suffix_x, std::string& suffix_y,
                           bool na_match) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, na_match);
   Map map(visitors);
 
   int n_x = x.nrows(), n_y = y.nrows();
@@ -258,13 +272,13 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
 
 // [[Rcpp::export]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
-                         CharacterVector by_x, CharacterVector by_y,
+                         IntegerVector by_x, IntegerVector by_y,
                          std::string& suffix_x, std::string& suffix_y,
                          bool na_match) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), false, na_match);
+  DataFrameJoinVisitors visitors(y, x, by_y, by_x, false, na_match);
 
   Map map(visitors);
 
@@ -297,13 +311,13 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
 
 // [[Rcpp::export]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
-                          CharacterVector by_x, CharacterVector by_y,
+                          IntegerVector by_x, IntegerVector by_y,
                           std::string& suffix_x, std::string& suffix_y,
                           bool na_match) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, na_match);
   Map map(visitors);
 
   // train the map in terms of x
@@ -334,13 +348,13 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
 
 // [[Rcpp::export]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
-                         CharacterVector by_x, CharacterVector by_y,
+                         IntegerVector by_x, IntegerVector by_y,
                          std::string& suffix_x, std::string& suffix_y,
                          bool na_match) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(y, x, SymbolVector(by_y), SymbolVector(by_x), false, na_match);
+  DataFrameJoinVisitors visitors(y, x, by_y, by_x, false, na_match);
   Map map(visitors);
 
   // train the map in terms of y
@@ -365,7 +379,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   }
 
   // train a new map in terms of x this time
-  DataFrameJoinVisitors visitors2(x, y, SymbolVector(by_x), SymbolVector(by_y), false, na_match);
+  DataFrameJoinVisitors visitors2(x, y, by_x, by_y, false, na_match);
   Map map2(visitors2);
   train_push_back(map2, x.nrows());
 

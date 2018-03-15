@@ -80,12 +80,16 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
   left(left_), right(right_),
   visitor_names_left(names_left),
   visitor_names_right(names_right),
-  nvisitors(names_left.size()),
-  visitors(nvisitors),
+  visitors(names_left.size()),
   warn(warn_)
 {
   IntegerVector indices_left  = names_left.match_in_table(RCPP_GET_NAMES(left));
   IntegerVector indices_right = names_right.match_in_table(RCPP_GET_NAMES(right));
+
+  const int nvisitors = indices_left.size();
+  if (indices_right.size() != nvisitors) {
+    stop("Different size of join column index vectors");
+  }
 
   for (int i = 0; i < nvisitors; i++) {
     const SymbolString& name_left  = names_left[i];
@@ -107,19 +111,59 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
   }
 }
 
+DataFrameJoinVisitors::DataFrameJoinVisitors(
+  const DataFrame& left_, const DataFrame& right_,
+  const IntegerVector& indices_left, const IntegerVector& indices_right,
+  bool warn_, bool na_match
+) :
+  left(left_), right(right_),
+  visitor_names_left(),
+  visitor_names_right(),
+  visitors(indices_left.size()),
+  warn(warn_)
+{
+  if (indices_right.size() != size()) {
+    stop("Different size of join column index vectors");
+  }
+
+  SymbolVector left_names = left.names();
+  SymbolVector right_names = right.names();
+
+  for (int i = 0; i < size(); i++) {
+    const int index_left = indices_left[i];
+    const int index_right = indices_right[i];
+
+    check_range_one_based(index_left, left.size());
+    check_range_one_based(index_right, right.size());
+
+    const SymbolString& name_left = left_names[index_left - 1];
+    const SymbolString& name_right = right_names[index_right - 1];
+
+    visitors[i] =
+      join_visitor(
+        Column(left[index_left - 1], name_left),
+        Column(right[index_right - 1], name_right),
+        warn, na_match
+      );
+
+    visitor_names_left.push_back(name_left);
+    visitor_names_right.push_back(name_right);
+  }
+}
+
 JoinVisitor* DataFrameJoinVisitors::get(int k) const {
   return visitors[k];
 }
 
 JoinVisitor* DataFrameJoinVisitors::get(const SymbolString& name) const {
-  for (int i = 0; i < nvisitors; i++) {
+  for (int i = 0; i < size(); i++) {
     if (name == visitor_names_left[i]) return get(i);
   }
   stop("visitor not found for name '%s' ", name.get_utf8_cstring());
 }
 
 int DataFrameJoinVisitors::size() const {
-  return nvisitors;
+  return visitors.size();
 }
 
 DataFrameSubsetVisitors::DataFrameSubsetVisitors(const Rcpp::DataFrame& data_) :

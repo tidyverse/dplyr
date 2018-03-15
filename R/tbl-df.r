@@ -154,13 +154,16 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
-
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
+  na_matches <- check_na_matches(na_matches)
 
   y <- auto_copy(x, y, copy = copy)
 
-  inner_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
+  by_x <- match(by$x, tbl_vars(x))
+  by_y <- match(by$y, tbl_vars(y))
+
+  inner_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
 }
 
 #' @export
@@ -170,13 +173,16 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
-
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
+  na_matches <- check_na_matches(na_matches)
 
   y <- auto_copy(x, y, copy = copy)
 
-  left_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
+  by_x <- match(by$x, tbl_vars(x))
+  by_y <- match(by$y, tbl_vars(y))
+
+  left_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
 }
 
 #' @export
@@ -186,12 +192,16 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
-
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
+  na_matches <- check_na_matches(na_matches)
 
   y <- auto_copy(x, y, copy = copy)
-  right_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
+
+  by_x <- match(by$x, tbl_vars(x))
+  by_y <- match(by$y, tbl_vars(y))
+
+  right_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
 }
 
 #' @export
@@ -201,12 +211,16 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
-
   by <- common_by(by, x, y)
   suffix <- check_suffix(suffix)
+  na_matches <- check_na_matches(na_matches)
 
   y <- auto_copy(x, y, copy = copy)
-  full_join_impl(x, y, by$x, by$y, suffix$x, suffix$y, check_na_matches(na_matches))
+
+  by_x <- match(by$x, tbl_vars(x))
+  by_y <- match(by$y, tbl_vars(y))
+
+  full_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
 }
 
 #' @export

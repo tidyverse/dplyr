@@ -24,6 +24,15 @@ public:
     bool na_match
   );
 
+  DataFrameJoinVisitors(
+    const DataFrame& left_,
+    const DataFrame& right_,
+    const IntegerVector& indices_left,
+    const IntegerVector& indices_right,
+    bool warn_,
+    bool na_match
+  );
+
   JoinVisitor* get(int k) const;
   JoinVisitor* get(const SymbolString& name) const;
   int size() const;
@@ -31,6 +40,7 @@ public:
   template <typename Container>
   inline DataFrame subset(const Container& index, const CharacterVector& classes) {
     int nrows = index.size();
+    const int nvisitors = size();
     Rcpp::List out(nvisitors);
     for (int k = 0; k < nvisitors; k++) {
       out[k] = get(k)->subset(index);
@@ -48,7 +58,6 @@ private:
   SymbolVector visitor_names_left;
   SymbolVector visitor_names_right;
 
-  int nvisitors;
   pointer_vector<JoinVisitor> visitors;
   bool warn;
 
