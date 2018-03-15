@@ -163,7 +163,11 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   by_x <- match(by$x, tbl_vars(x))
   by_y <- match(by$y, tbl_vars(y))
 
-  inner_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+
+  out <- inner_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  names(out) <- vars$alias
+  out
 }
 
 #' @export
@@ -182,7 +186,11 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   by_x <- match(by$x, tbl_vars(x))
   by_y <- match(by$y, tbl_vars(y))
 
-  left_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+
+  out <- left_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  names(out) <- vars$alias
+  out
 }
 
 #' @export
@@ -201,7 +209,11 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   by_x <- match(by$x, tbl_vars(x))
   by_y <- match(by$y, tbl_vars(y))
 
-  right_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+
+  out <- right_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  names(out) <- vars$alias
+  out
 }
 
 #' @export
@@ -220,7 +232,11 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   by_x <- match(by$x, tbl_vars(x))
   by_y <- match(by$y, tbl_vars(y))
 
-  full_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+
+  out <- full_join_impl(x, y, by_x, by_y, suffix$x, suffix$y, na_matches)
+  names(out) <- vars$alias
+  out
 }
 
 #' @export

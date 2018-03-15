@@ -384,6 +384,7 @@ test_that("joins suffix variable names (#655)", {
   a <- data.frame(x = 1:10, z = 2:11)
   b <- data.frame(z = 5:14, x = 3:12) # x from this gets suffixed by .y
   res <- left_join(a, b, by = c("x" = "z"))
+  expect_equal(names(res), c("x", "z", "x.y"))
 })
 
 test_that("right_join gets the column in the right order #96", {
