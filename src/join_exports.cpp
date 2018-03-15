@@ -81,7 +81,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
       // we suffix by .x if this column is in y_columns (and if the suffix is not empty)
       if (suffix_x.length() > 0) {
         while (
-          (std::find(all_y_columns.begin(), all_y_columns.end(), col_name.get_sexp()) != all_y_columns.end()) ||
+          (std::find(y_columns.begin(), y_columns.end(), col_name.get_sexp()) != y_columns.end()) ||
           (std::find(names.begin(), names.begin() + i, col_name.get_sexp()) != names.begin() + i)
         ) {
           col_name += suffix_x;
