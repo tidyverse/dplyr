@@ -66,10 +66,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
 
     int pos = indices[i];
 
-    // Also covers NA
-    if (pos <= 0 || pos > data.size()) {
-      stop("Index out of range");
-    }
+    check_range_one_based(pos, data.size());
 
     VectorVisitor* v = visitor(data[pos - 1]);
     visitors.push_back(v);
@@ -173,10 +170,7 @@ DataFrameSubsetVisitors::DataFrameSubsetVisitors(const DataFrame& data_, const I
 
     int pos = indices[i];
 
-    // Also covers NA
-    if (pos <= 0 || pos > data.size()) {
-      stop("Index out of range");
-    }
+    check_range_one_based(pos, data.size());
 
     const SymbolString& name = data_names[pos - 1];
 

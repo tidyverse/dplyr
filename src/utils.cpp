@@ -25,6 +25,13 @@ void check_valid_colnames(const DataFrame& df, bool warn_only) {
   check_valid_names(vec_names_or_empty(df), warn_only);
 }
 
+void check_range_one_based(int x, int max) {
+  // Also covers NA
+  if (x <= 0 || x > max) {
+    stop("Index out of range");
+  }
+}
+
 // [[Rcpp::export]]
 void assert_all_white_list(const DataFrame& data) {
   // checking variables are on the white list
