@@ -77,3 +77,18 @@ test_that("rename_all() works with grouped data (#3363)", {
   out <- df %>% group_by(a) %>% rename_all(toupper)
   expect_identical(out, group_by(data.frame(a = 1, B = 2), a))
 })
+
+test_that("scoping (#3426)", {
+  interface <- function(.tbl, .funs = list()) {
+    impl(.tbl, .funs = .funs)
+  }
+
+  impl <- function(.tbl, ...) {
+    select_all(.tbl, ...)
+  }
+
+  expect_identical(
+    interface(mtcars, .funs = toupper),
+    select_all(mtcars, .funs = list(toupper))
+  )
+})
