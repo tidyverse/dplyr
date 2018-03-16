@@ -36,7 +36,7 @@
 #' select_if(mtcars, is_whole)
 select_all <- function(.tbl, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  vars <- tbl_nongroup_vars(.tbl)
+  vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
 }
@@ -44,7 +44,7 @@ select_all <- function(.tbl, .funs = list(), ...) {
 #' @export
 rename_all <- function(.tbl, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  vars <- tbl_nongroup_vars(.tbl)
+  vars <- tbl_vars(.tbl)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
 }
@@ -53,7 +53,7 @@ rename_all <- function(.tbl, .funs = list(), ...) {
 #' @export
 select_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  vars <- tbl_if_vars(.tbl, .predicate, caller_env())
+  vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
 }
@@ -61,7 +61,7 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @export
 rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
-  vars <- tbl_if_vars(.tbl, .predicate, caller_env())
+  vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
 }
@@ -69,7 +69,7 @@ rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 select_at <- function(.tbl, .vars, .funs = list(), ...) {
-  vars <- tbl_at_vars(.tbl, .vars)
+  vars <- tbl_at_vars(.tbl, .vars, include_group_vars = TRUE)
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
@@ -77,7 +77,7 @@ select_at <- function(.tbl, .vars, .funs = list(), ...) {
 #' @rdname select_all
 #' @export
 rename_at <- function(.tbl, .vars, .funs = list(), ...) {
-  vars <- tbl_at_vars(.tbl, .vars)
+  vars <- tbl_at_vars(.tbl, .vars, include_group_vars = TRUE)
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
@@ -99,7 +99,8 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
   }
 
   group_vars <- group_vars(tbl)
-  group_syms <- base::setdiff(syms(group_vars), syms)
-  group_syms <- set_names(group_syms, group_vars)
-  c(group_syms, syms)
+  group_syms <- syms(group_vars)
+  has_group_sym <- group_syms %in% syms
+  new_group_syms <- set_names(group_syms[!has_group_sym], group_vars[!has_group_sym])
+  c(new_group_syms, syms)
 }

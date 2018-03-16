@@ -105,7 +105,7 @@ fun_env <- function(quo, default_env) {
   }
 }
 
-is_fun_list <- function(x, env) {
+is_fun_list <- function(x) {
   inherits(x, "fun_list")
 }
 #' @export
