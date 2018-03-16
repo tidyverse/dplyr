@@ -102,6 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Select/rename variables by name</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/manip.r'><code>R/manip.r</code></a></small>
     </div>
 
     
@@ -376,7 +377,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
   <span class='kw'>var1</span> <span class='kw'>=</span> <span class='fu'><a href='tidyeval.html'>sym</a></span>(<span class='st'>"cyl"</span>),
   <span class='kw'>var2</span> <span class='kw'>=</span> <span class='fu'><a href='tidyeval.html'>sym</a></span>(<span class='st'>"am"</span>)
 )
-<span class='fu'>select</span>(<span class='no'>mtcars</span>, !!! <span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
+<span class='fu'>select</span>(<span class='no'>mtcars</span>, !!!<span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
 #&gt; Mazda RX4              6    1
 #&gt; Mazda RX4 Wag          6    1
 #&gt; Datsun 710             4    1
@@ -413,7 +414,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='co'># vectors. This is unlike other verbs where strings would be</span>
 <span class='co'># ambiguous.</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='kw'>var1</span> <span class='kw'>=</span> <span class='st'>"cyl"</span>, <span class='kw'>var2</span> <span class='kw'>=</span><span class='st'>"am"</span>)
-<span class='fu'>select</span>(<span class='no'>mtcars</span>, !! <span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
+<span class='fu'>select</span>(<span class='no'>mtcars</span>, !!<span class='no'>vars</span>)</div><div class='output co'>#&gt;                     var1 var2
 #&gt; Mazda RX4              6    1
 #&gt; Mazda RX4 Wag          6    1
 #&gt; Datsun 710             4    1
@@ -445,7 +446,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 #&gt; Ford Pantera L         8    1
 #&gt; Ferrari Dino           6    1
 #&gt; Maserati Bora          8    1
-#&gt; Volvo 142E             4    1</div><div class='input'><span class='fu'>rename</span>(<span class='no'>mtcars</span>, !! <span class='no'>vars</span>)</div><div class='output co'>#&gt;                      mpg var1  disp  hp drat    wt  qsec vs var2 gear carb
+#&gt; Volvo 142E             4    1</div><div class='input'><span class='fu'>rename</span>(<span class='no'>mtcars</span>, !!<span class='no'>vars</span>)</div><div class='output co'>#&gt;                      mpg var1  disp  hp drat    wt  qsec vs var2 gear carb
 #&gt; Mazda RX4           21.0    6 160.0 110 3.90 2.620 16.46  0    1    4    4
 #&gt; Mazda RX4 Wag       21.0    6 160.0 110 3.90 2.875 17.02  0    1    4    4
 #&gt; Datsun 710          22.8    4 108.0  93 3.85 2.320 18.61  1    1    4    1
@@ -506,7 +507,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -524,3 +525,4 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 
   </body>
 </html>
+

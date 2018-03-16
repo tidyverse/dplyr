@@ -102,6 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>A general vectorised if</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/case_when.R'><code>R/case_when.R</code></a></small>
     </div>
 
     
@@ -122,7 +123,7 @@ provides the replacement value.</p>
 <p>The LHS must evaluate to a logical vector. Each logical vector can
 either have length 1 or a common length. All RHSs must evaluate to
 the same type of vector.</p>
-<p>These dots are evaluated with <a href='http://www.rdocumentation.org/packages/rlang/topics/tidy-dots'>explicit splicing</a>.</p></td>
+<p>These dots support <a href='http://www.rdocumentation.org/packages/rlang/topics/tidy-dots'>tidy dots</a> features.</p></td>
     </tr>
     </table>
     
@@ -219,7 +220,7 @@ generate an error.</p>
   <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='st'>"buzz"</span>,
   <span class='fl'>TRUE</span> ~ <span class='fu'>as.character</span>(<span class='no'>x</span>)
 )
-<span class='fu'>case_when</span>(!!! <span class='no'>patterns</span>)</div><div class='output co'>#&gt;  [1] "1"         "2"         "3"         "4"         "fizz"      "6"        
+<span class='fu'>case_when</span>(!!!<span class='no'>patterns</span>)</div><div class='output co'>#&gt;  [1] "1"         "2"         "3"         "4"         "fizz"      "6"        
 #&gt;  [7] "buzz"      "8"         "9"         "fizz"      "11"        "12"       
 #&gt; [13] "13"        "buzz"      "fizz"      "16"        "17"        "18"       
 #&gt; [19] "19"        "fizz"      "buzz"      "22"        "23"        "24"       
@@ -248,7 +249,7 @@ generate an error.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -266,3 +267,4 @@ generate an error.</p>
 
   </body>
 </html>
+

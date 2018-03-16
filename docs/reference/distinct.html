@@ -102,6 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Select distinct/unique rows</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/distinct.R'><code>R/distinct.R</code></a></small>
     </div>
 
     
@@ -131,6 +132,16 @@ If a combination of <code>...</code> is not distinct, this keeps the
 first row of values.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Comparing list columns is not fully supported.
+Elements in list columns are compared by reference.
+A warning will be given when trying to include list columns in the
+computation.
+This behavior is kept for compatibility reasons and may change in a future
+version.
+See examples.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -222,13 +233,37 @@ first row of values.</p></td>
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1    1.    1.
 #&gt; 2    2.    2.
-#&gt; 3    2.    1.</div></pre>
+#&gt; 3    2.    1.</div><div class='input'>
+<span class='co'># Values in list columns are compared by reference, this can lead to</span>
+<span class='co'># surprising results</span>
+<span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>as.list</span>(<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>))) <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/glimpse'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Observations: 3
+#&gt; Variables: 1
+#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
+#&gt; <span class='warning'>List elements are compared by reference, see ?distinct for details.</span>
+#&gt; <span class='warning'>This affects the following columns:</span>
+#&gt; <span class='warning'>- `a`</span></div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt;   a        
+#&gt;   &lt;list&gt;   
+#&gt; 1 &lt;dbl [1]&gt;
+#&gt; 2 &lt;dbl [1]&gt;
+#&gt; 3 &lt;dbl [1]&gt;</div><div class='input'><span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>as.list</span>(<span class='fl'>1</span>:<span class='fl'>2</span>)[<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>)]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/glimpse'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Observations: 3
+#&gt; Variables: 1
+#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
+#&gt; <span class='warning'>List elements are compared by reference, see ?distinct for details.</span>
+#&gt; <span class='warning'>This affects the following columns:</span>
+#&gt; <span class='warning'>- `a`</span></div><div class='output co'>#&gt; # A tibble: 2 x 1
+#&gt;   a        
+#&gt;   &lt;list&gt;   
+#&gt; 1 &lt;int [1]&gt;
+#&gt; 2 &lt;int [1]&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#details">Details</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -241,7 +276,7 @@ first row of values.</p></td>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -259,3 +294,4 @@ first row of values.</p></td>
 
   </body>
 </html>
+

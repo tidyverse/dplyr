@@ -102,12 +102,14 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Efficiently bind multiple data frames by row and column</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/bind.r'><code>R/bind.r</code></a>, <a href='https:/github.com/tidyverse/dplyr/blob/master/R/rbind.R'><code>R/rbind.R</code></a></small>
     </div>
 
     
     <p>This is an efficient implementation of the common pattern of
 <code>do.call(rbind, dfs)</code> or <code>do.call(cbind, dfs)</code> for binding many
-data frames into one. <code>combine()</code> acts like <code>c()</code> or
+data frames into one.</p>
+<p><code>combine()</code> acts like <code>c()</code> or
 <code>unlist()</code> but uses consistent dplyr coercion rules.</p>
     
 
@@ -152,9 +154,13 @@ the first input, either a data frame, <code>tbl_df</code>, or <code>grouped_df</
 
     <p>The output of <code>bind_rows()</code> will contain a column if that column
 appears in any of the inputs.</p>
+<p>If <code>combine()</code> it is called with exactly one list argument, the list is
+simplified (similarly to <code>unlist(recursive = FALSE)</code>. <code>NULL</code> arguments are
+ignored. If the result is empty, <code>logical()</code> is returned.</p>
     
     <h2 class="hasAnchor" id="deprecated-functions"><a class="anchor" href="#deprecated-functions"></a>Deprecated functions</h2>
 
+    
     <p><code>rbind_list()</code> and <code>rbind_all()</code> have been deprecated. Instead use
 <code>bind_rows()</code>.</p>
     
@@ -269,7 +275,7 @@ appears in any of the inputs.</p>
 #&gt; 1    1.    3.
 #&gt; 2    2.    4.</div><div class='input'>
 <span class='co'># You can circumvent that behaviour with explicit splicing:</span>
-<span class='fu'>bind_rows</span>(!!! <span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+<span class='fu'>bind_rows</span>(!!!<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       A     B
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1    1.    2.
@@ -363,7 +369,7 @@ appears in any of the inputs.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -381,3 +387,4 @@ appears in any of the inputs.</p>
 
   </body>
 </html>
+
