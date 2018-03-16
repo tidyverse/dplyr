@@ -1085,3 +1085,109 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
     fixed = TRUE
   )
 })
+
+test_that("joins reject data frames with NA columns (#3417)", {
+  df_a <- tibble::tibble(B = c("a", "b", "c"), AA = 1:3)
+  df_b <- tibble::tibble(AA = 2:4, C = c("aa", "bb", "cc"))
+
+  df_aa <- df_a
+  names(df_aa) <- c(NA, "AA")
+  df_ba <- df_b
+  names(df_ba) <- c("AA", NA)
+
+  expect_error(
+    left_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    left_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    left_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    right_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    inner_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    full_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_warning(
+    semi_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    semi_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    semi_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_warning(
+    anti_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    anti_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    anti_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+})
