@@ -1,4 +1,4 @@
-# dplyr 0.7.4.9001 (2018-03-13)
+# dplyr 0.7.4.9002 (2018-03-16)
 
 ## Breaking changes for package developers
 
@@ -14,6 +14,16 @@
 
 
 ## Changes
+
+* Show clear error message for bad arguments to `funs()` (#3368).
+
+* Improved documentation for `funs()` (#3094).
+
+* Compute variable names for joins in R (#3430).
+
+* Hybrid evaluation simplifies `dplyr::foo` to `foo` (#3309)
+
+* `bind_cols()` handles unnamed list (#3402).
 
 * Bumped Rcpp dependency to 0.12.15 to avoid imperfect detection of `NA` values in hybrid evaluation fixed in RcppCore/Rcpp#790 (#2919).
 
