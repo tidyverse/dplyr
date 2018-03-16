@@ -102,6 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Create a list of functions calls.</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/funs.R'><code>R/funs.R</code></a></small>
     </div>
 
     
@@ -125,7 +126,11 @@ functions for input to other functions like <code><a href='summarise_all.html'>s
 
 <p>These arguments are automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a>. They
 support <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and splicing. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
+<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p>
+<p>The following notations are <strong>not</strong> supported, see examples:</p><ul>
+<li><p>An anonymous function, <code>function(x) mean(x, na.rm = TRUE)</code></p></li>
+<li><p>An anonymous function in <span class="pkg">purrr</span> notation, <code>~mean(., na.rm = TRUE)</code></p></li>
+</ul></td>
     </tr>
     <tr>
       <th>.args, args</th>
@@ -149,7 +154,12 @@ to all function calls.</p></td>
 <span class='no'>fs</span> <span class='kw'>&lt;-</span> <span class='fu'>c</span>(<span class='st'>"min"</span>, <span class='st'>"max"</span>)
 <span class='fu'><a href='se-deprecated.html'>funs_</a></span>(<span class='no'>fs</span>)</div><div class='output co'>#&gt; &lt;fun_calls&gt;
 #&gt; $ min: min(.)
-#&gt; $ max: max(.)</div></pre>
+#&gt; $ max: max(.)</div><div class='input'>
+# Not supported
+</div><span class='co'># NOT RUN {</span>
+<span class='fu'>funs</span>(<span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'>mean</span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+<span class='fu'>funs</span>(~<span class='fu'>mean</span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -168,7 +178,7 @@ to all function calls.</p></td>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -186,3 +196,4 @@ to all function calls.</p></td>
 
   </body>
 </html>
+

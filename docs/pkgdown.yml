@@ -1,6 +1,6 @@
-urls:
-  reference: http://dplyr.tidyverse.org/reference
-  article: http://dplyr.tidyverse.org/articles
+pandoc: 2.1.2
+pkgdown: 0.1.0.9000
+pkgdown_sha: 7cbafcd6b97e5108ccde816a00d300152534a192
 articles:
   compatibility: compatibility.html
   dplyr: dplyr.html
@@ -8,4 +8,7 @@ articles:
   programming: programming.html
   two-table: two-table.html
   window-functions: window-functions.html
+urls:
+  reference: http://dplyr.tidyverse.org/reference
+  article: http://dplyr.tidyverse.org/articles
 
