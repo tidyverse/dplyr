@@ -3,6 +3,8 @@
 peek_vars <- tidyselect::peek_vars
 
 
+# Alias required for help links in downstream packages
+#' @aliases select_helpers
 #' @importFrom tidyselect contains
 #' @export
 tidyselect::contains
@@ -42,13 +44,13 @@ tidyselect::starts_with
 #' @param var A variable specified as in the same argument of
 #'   [tidyselect::vars_pull()].
 #' @export
-select_vars <- function(vars, ..., include = chr(), exclude = chr()) {
+select_vars <- function(vars = chr(), ..., include = chr(), exclude = chr()) {
   tidyselect::vars_select(.vars = vars, ..., .include = include, .exclude = exclude)
 }
 #' @rdname select_vars
 #' @inheritParams tidyselect::vars_rename
 #' @export
-rename_vars <- function(vars, ..., strict = TRUE) {
+rename_vars <- function(vars = chr(), ..., strict = TRUE) {
   tidyselect::vars_rename(.vars = vars, ..., .strict = strict)
 }
 #' @rdname select_vars

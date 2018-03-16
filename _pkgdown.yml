@@ -21,6 +21,7 @@ reference:
   - group_by
   - mutate
   - select
+  - select_helpers
   - sample
   - summarise
   - transmute

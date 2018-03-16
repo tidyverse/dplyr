@@ -200,6 +200,41 @@ test_that("disallow empty string in both sides of suffix argument (#2228)", {
   )
 })
 
+test_that("disallow NA in any side of suffix argument", {
+  expect_error(
+    inner_join(e, f, "x", suffix = c(".x", NA)),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+  expect_error(
+    left_join(e, f, "x", suffix = c(NA, ".y")),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(e, f, "x", suffix = c(NA_character_, NA)),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(e, f, "x", suffix = c("x", NA)),
+    "`suffix` can't be NA",
+    fixed = TRUE
+  )
+})
+
+test_that("doesn't add suffix to by columns in x (#3307)", {
+  j1 <- inner_join(e, f, by = c("x" = "z"))
+  j2 <- left_join(e, f, by = c("x" = "z"))
+  j3 <- right_join(e, f, by = c("x" = "z"))
+  j4 <- full_join(e, f, by = c("x" = "z"))
+
+  expect_named(j1, c("x", "z", "x.y"))
+  expect_named(j2, c("x", "z", "x.y"))
+  expect_named(j3, c("x", "z", "x.y"))
+  expect_named(j4, c("x", "z", "x.y"))
+})
+
 g <- data.frame(A = 1, A.x = 2)
 h <- data.frame(B = 3, A.x = 4, A = 5)
 
@@ -370,6 +405,7 @@ test_that("joins suffix variable names (#655)", {
   a <- data.frame(x = 1:10, z = 2:11)
   b <- data.frame(z = 5:14, x = 3:12) # x from this gets suffixed by .y
   res <- left_join(a, b, by = c("x" = "z"))
+  expect_equal(names(res), c("x", "z", "x.y"))
 })
 
 test_that("right_join gets the column in the right order #96", {
@@ -1046,6 +1082,112 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
       data.frame(x = 4L, y = 4L)
     ),
     "Column `x` must have a unique name",
+    fixed = TRUE
+  )
+})
+
+test_that("joins reject data frames with NA columns (#3417)", {
+  df_a <- tibble::tibble(B = c("a", "b", "c"), AA = 1:3)
+  df_b <- tibble::tibble(AA = 2:4, C = c("aa", "bb", "cc"))
+
+  df_aa <- df_a
+  names(df_aa) <- c(NA, "AA")
+  df_ba <- df_b
+  names(df_ba) <- c("AA", NA)
+
+  expect_error(
+    left_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    left_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    left_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    right_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    right_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    inner_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    inner_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_error(
+    full_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_error(
+    full_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_warning(
+    semi_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    semi_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    semi_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
+    fixed = TRUE
+  )
+
+  expect_warning(
+    anti_join(df_aa, df_b),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    anti_join(df_aa, df_ba),
+    "Column `1` cannot have NA as name",
+    fixed = TRUE
+  )
+  expect_warning(
+    anti_join(df_a, df_ba),
+    "Column `2` cannot have NA as name",
     fixed = TRUE
   )
 })

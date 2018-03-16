@@ -3,6 +3,14 @@
 #' Retain only unique/distinct rows from an input tbl. This is similar
 #' to [unique.data.frame()], but considerably faster.
 #'
+#' Comparing list columns is not fully supported.
+#' Elements in list columns are compared by reference.
+#' A warning will be given when trying to include list columns in the
+#' computation.
+#' This behavior is kept for compatibility reasons and may change in a future
+#' version.
+#' See examples.
+#'
 #' @param .data a tbl
 #' @param ... Optional variables to use when determining uniqueness. If there
 #'   are multiple rows for a given combination of inputs, only the first
@@ -39,6 +47,11 @@
 #' ) %>% group_by(g)
 #' df %>% distinct()
 #' df %>% distinct(x)
+#'
+#' # Values in list columns are compared by reference, this can lead to
+#' # surprising results
+#' tibble(a = as.list(c(1, 1, 2))) %>% glimpse() %>% distinct()
+#' tibble(a = as.list(1:2)[c(1, 1, 2)]) %>% glimpse() %>% distinct()
 distinct <- function(.data, ..., .keep_all = FALSE) {
   UseMethod("distinct")
 }
@@ -61,38 +74,70 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # If no input, keep all variables
   if (length(vars) == 0) {
-    list_cols_error(.data, names(.data))
+    vars <- list_cols_warning(.data, seq_along(.data))
     return(list(
       data = .data,
-      vars = names(.data),
-      keep = names(.data)
+      vars = vars,
+      keep = seq_along(.data)
     ))
   }
 
   # If any calls, use mutate to add new columns, then distinct on those
   .data <- add_computed_columns(.data, vars)
-
-  # Once we've done the mutate, we need to name all objects
   vars <- exprs_auto_name(vars, printer = tidy_text)
-  out_vars <- intersect(names(.data), c(names(vars), group_vars))
+
+  # Once we've done the mutate, we no longer need lazy objects, and
+  # can instead just use their names
+  missing_vars <- setdiff(names(vars), names(.data))
+
+  if (length(missing_vars) > 0) {
+    missing_items <- fmt_items(fmt_obj(missing_vars))
+    vars <- vars[names(vars) %in% names(.data)]
+    if (length(vars) > 0) {
+      true_vars <- glue("The following variables will be used:
+                        {fmt_items(names(vars))}")
+    } else {
+      true_vars <- "The operation will return the input unchanged."
+    }
+    msg <- glue("Trying to compute distinct() for variables not found in the data:
+                {missing_items}
+                This is an error, but only a warning is raised for compatibility reasons.
+                {true_vars}
+                ")
+    warn(msg)
+  }
+
+  new_vars <- unique(c(names(vars), group_vars))
+
+  # Keep the order of the variables
+  out_vars <- intersect(names(.data), new_vars)
 
   if (.keep_all) {
-    keep <- names(.data)
+    keep <- seq_along(.data)
   } else {
     keep <- unique(out_vars)
   }
 
-  list_cols_error(.data, keep)
+  out_vars <- list_cols_warning(.data, out_vars)
   list(data = .data, vars = out_vars, keep = keep)
 }
 
 #' Throw an error if there are tbl columns of type list
 #'
 #' @noRd
-list_cols_error <- function(df, keep_cols) {
-  if (any(map_lgl(df[keep_cols], is.list))) {
-    abort("distinct() does not support columns of type `list`")
+list_cols_warning <- function(df, keep_cols) {
+  df_keep <- df[keep_cols]
+  lists <- map_lgl(df_keep, is.list)
+  if (any(lists)) {
+    items <- fmt_items(fmt_obj(names(df_keep)[lists]))
+    warn(
+      glue("distinct() does not fully support columns of type `list`.
+            List elements are compared by reference, see ?distinct for details.
+            This affects the following columns:
+            {items}")
+    )
   }
+  keep_cols
 }
 
 #' Efficiently count the number of unique values in a set of vector

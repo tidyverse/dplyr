@@ -1,4 +1,4 @@
-# dplyr 0.7.4.9001 (2018-03-13)
+# dplyr 0.7.4.9002 (2018-03-16)
 
 ## Breaking changes for package developers
 
@@ -14,6 +14,14 @@
 
 
 ## Changes
+
+* Improved documentation for `funs()` (#3094).
+
+* Compute variable names for joins in R (#3430).
+
+* Hybrid evaluation simplifies `dplyr::foo` to `foo` (#3309)
+
+* `bind_cols()` handles unnamed list (#3402).
 
 * Bumped Rcpp dependency to 0.12.15 to avoid imperfect detection of `NA` values in hybrid evaluation fixed in RcppCore/Rcpp#790 (#2919).
 
@@ -50,9 +58,11 @@
 
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
+* Scoped select and rename functions (`select_all()`, `rename_if()` etc.) now work with grouped data frames, adapting the grouping as necessary (#2947, #3410).
+
 * Fix `summarise()` for empty data frames with zero columns (#3071).
 
-* Add error for `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
+* Add warning with explanation to `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
 
 * `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
 
@@ -64,13 +74,15 @@
 
 *  `distinct()` now supports renaming columns (#3234).
 
-* Better error message when joining data frames with duplicate column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (#3243).
+* Better error message when joining data frames with duplicate or `NA` column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (#3243, #3417).
 
 * Added an `.onDetach()` hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (#3359, @jwnorman).
 
 * It is now illegal to use `data.frame` in the rhs of `mutate()` (#3298). 
 
 * `combine()` returns `logical()` when all inputs are `NULL` (or when there are no inputs) (#3365, @zeehio).
+
+* `distinct()` now gives a warning when used on unknown columns (#2867, @foo-bar-baz-qux).
 
 * `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
 

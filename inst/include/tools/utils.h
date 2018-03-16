@@ -4,6 +4,7 @@
 #include <tools/SymbolVector.h>
 
 void check_valid_colnames(const DataFrame& df, bool warn_only = false);
+void check_range_one_based(int x, int max);
 void assert_all_white_list(const DataFrame&);
 SEXP shared_SEXP(SEXP x);
 SEXP shallow_copy(const List& data);
@@ -16,6 +17,7 @@ bool is_vector(SEXP x);
 bool is_atomic(SEXP x);
 
 SEXP vec_names(SEXP x);
+SEXP vec_names_or_empty(SEXP x);
 bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
 SEXP name_at(SEXP x, size_t i);

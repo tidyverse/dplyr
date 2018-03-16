@@ -59,7 +59,7 @@ Should be a character vector of length 2.}
 \item{na_matches}{Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as
 different, like joins for database sources, similarly to
 \code{merge(incomparables = FALSE)}.
-The default,\code{"na"}, always treats two \code{NA} or \code{NaN} values as equal, like \code{\link[=merge]{merge()}}.
+The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal, like \code{\link[=merge]{merge()}}.
 Users and package authors can change the default behavior by calling
 \code{pkgconfig::set_config("dplyr::na_matches" = "never")}.}
 }

@@ -1,8 +1,5 @@
 #include "pch.h"
 #include <dplyr/main.h>
-
-#include <tools/match.h>
-
 #include <dplyr/white_list.h>
 
 #include <dplyr/GroupedDataFrame.h>
@@ -14,6 +11,9 @@
 #include <dplyr/train.h>
 
 #include <dplyr/bad.h>
+#include <dplyr/tbl_cpp.h>
+
+#include <tools/match.h>
 
 using namespace Rcpp;
 using namespace dplyr;

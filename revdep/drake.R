@@ -88,6 +88,17 @@ get_deps <- function(i_pkg) {
   attr(i_pkg, "deps")
 }
 
+create_check_lib <- function(pkg, tarball, lib, ...) {
+  pkgs <- c(...)
+  check_lib <- fs::path("revdep/libs/check", pkg)
+  if (fs::dir_exists(check_lib)) {
+    fs::dir_delete(check_lib)
+  }
+  fs::dir_create(check_lib)
+  create_lib(pkgs, check_lib)
+  check_lib
+}
+
 check <- function(tarball, lib, ...) {
   pkgs <- c(...)
   check_lib <- fs::file_temp("checklib")
@@ -169,6 +180,32 @@ get_plan <- function() {
     new_lib = create_new_lib(old_lib, get_new_lib())
   )
 
+  make_create_check_lib <- function(pkg, lib, deps, first_level_deps, base_pkgs) {
+    lib <- enexpr(lib)
+
+    req_pkgs <- first_level_deps[[pkg]]
+    req_pkgs_deps <- deps[c(pkg, req_pkgs)] %>% unname() %>% unlist() %>% unique()
+    all_deps <- c(req_pkgs, req_pkgs_deps) %>% unique()
+
+    i_deps <- create_dep_list(all_deps, base_pkgs)
+    d_dep <- sym(glue("d_{pkg}"))
+
+    expr(create_check_lib(!!pkg, !!d_dep, !!lib, !!!i_deps))
+  }
+
+  plan_create_check_lib <-
+    readd(revdeps) %>%
+    enframe() %>%
+    mutate(
+      call = map(value, make_create_check_lib, old_lib, readd(deps), readd(first_level_deps), readd(base_pkgs))
+    ) %>%
+    transmute(
+      target = glue("l_{value}"),
+      call
+    ) %>%
+    deframe() %>%
+    drake_plan(list = .)
+
   make_check <- function(pkg, lib, deps, first_level_deps, base_pkgs) {
     lib <- enexpr(lib)
 
@@ -215,6 +252,7 @@ get_plan <- function() {
 
   make_compare_all <- function(pkg) {
     check_targets <- set_names(syms(glue("c_{pkg}")), pkg)
+    check_targets <- map(check_targets, function(x) expr(try(!!x)))
     expr(list(!!! check_targets))
   }
 
@@ -234,6 +272,7 @@ get_plan <- function() {
     bind_rows(
       # Put first to give higher priority
       plan_check,
+      plan_create_check_lib,
       plan_compare,
       plan_compare_all,
       plan_install,

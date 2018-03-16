@@ -164,8 +164,8 @@ do.grouped_df <- function(.data, ...) {
   # Force computation of indices
   if (is_null(attr(.data, "indices"))) {
     .data <- grouped_df_impl(
-      .data, attr(.data, "vars"),
-      attr(.data, "drop") %||% TRUE
+      .data, group_vars(.data),
+      group_drop(.data)
     )
   }
   index <- attr(.data, "indices")
@@ -243,7 +243,10 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
-  grouped_df(distinct_impl(dist$data, dist$vars, dist$keep), groups(.data))
+  vars <- match_vars(dist$vars, dist$data)
+  keep <- match_vars(dist$keep, dist$data)
+  out <- distinct_impl(dist$data, vars, keep)
+  grouped_df(out, groups(.data))
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
@@ -264,7 +267,7 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
     inform("`.env` is deprecated and no longer has any effect")
   }
   weight <- enquo(weight)
-  weight <- mutate(tbl, w = !!weight)[["w"]]
+  weight <- eval_tidy(weight, tbl)
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,
@@ -291,7 +294,7 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
     )
   }
   weight <- enquo(weight)
-  weight <- mutate(tbl, w = !!weight)[["w"]]
+  weight <- eval_tidy(weight, tbl)
 
   index <- attr(tbl, "indices")
   sampled <- lapply(index, sample_group,
@@ -322,4 +325,8 @@ sample_group <- function(i, frac, size, replace, weight) {
   }
 
   i[sample.int(n, size, replace = replace, prob = weight)]
+}
+
+group_drop <- function(x) {
+  attr(.data, "drop") %||% TRUE
 }
