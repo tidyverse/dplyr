@@ -119,8 +119,12 @@ print.any_vars <- function(x, ...) {
 
 
 # Requires tbl_vars() method
-tbl_at_vars <- function(tbl, vars) {
-  tibble_vars <- tbl_nongroup_vars(tbl)
+tbl_at_vars <- function(tbl, vars, include_group_vars = FALSE) {
+  if (include_group_vars) {
+    tibble_vars <- tbl_vars(tbl)
+  } else {
+    tibble_vars <- tbl_nongroup_vars(tbl)
+  }
 
   if (is_character(vars)) {
     vars
@@ -138,18 +142,22 @@ tbl_at_vars <- function(tbl, vars) {
     )
   }
 }
-tbl_at_syms <- function(tbl, vars) {
-  vars <- tbl_at_vars(tbl, vars)
+tbl_at_syms <- function(tbl, vars, include_group_vars = FALSE) {
+  vars <- tbl_at_vars(tbl, vars, include_group_vars = include_group_vars)
   set_names(syms(vars), names(vars))
 }
 
 # Requires tbl_vars(), `[[`() and length() methods
-tbl_if_vars <- function(.tbl, .p, .env, ...) {
-  vars <- tbl_nongroup_vars(.tbl)
+tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
+  if (.include_group_vars) {
+    tibble_vars <- tbl_vars(.tbl)
+  } else {
+    tibble_vars <- tbl_nongroup_vars(.tbl)
+  }
 
   if (is_logical(.p)) {
-    stopifnot(length(.p) == length(vars))
-    return(syms(vars[.p]))
+    stopifnot(length(.p) == length(tibble_vars))
+    return(syms(tibble_vars[.p]))
   }
 
   if (inherits(.tbl, "tbl_lazy")) {
@@ -169,14 +177,14 @@ tbl_if_vars <- function(.tbl, .p, .env, ...) {
     .p <- as_function(.p, .env)
   }
 
-  n <- length(vars)
+  n <- length(tibble_vars)
   selected <- lgl_len(n)
   for (i in seq_len(n)) {
-    selected[[i]] <- .p(.tbl[[vars[[i]]]], ...)
+    selected[[i]] <- .p(.tbl[[tibble_vars[[i]]]], ...)
   }
 
-  vars[selected]
+  tibble_vars[selected]
 }
-tbl_if_syms <- function(.tbl, .p, .env, ...) {
-  syms(tbl_if_vars(.tbl, .p, .env, ...))
+tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
+  syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars))
 }

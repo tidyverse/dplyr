@@ -48,6 +48,8 @@
 
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
+* Scoped `select_()` and `rename_()` functions now include grouping variables, adapting the grouping as necessary (#2947, #3410).
+
 * Fix `summarise()` for empty data frames with zero columns (#3071).
 
 * Add warning with explanation to `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
