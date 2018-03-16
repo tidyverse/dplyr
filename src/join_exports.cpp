@@ -23,38 +23,10 @@ template <typename Index>
 DataFrame subset_join(DataFrame x, DataFrame y,
                       const Index& indices_x, const Index& indices_y,
                       const IntegerVector& by_x, const IntegerVector& by_y,
+                      const IntegerVector& aux_x, const IntegerVector& aux_y,
                       CharacterVector classes) {
   // first the joined columns
   DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, true, false);
-  int n_join_visitors = join_visitors.size();
-
-  // then columns from x but not y
-  IntegerVector aux_x(x.ncol() - n_join_visitors);
-  IntegerVector xm(x.ncol(), NA_INTEGER);
-  for (int by = 0; by < by_x.size(); ++by) {
-    const int pos = by_x[by];
-    check_range_one_based(pos, xm.size());
-    xm[pos - 1] = by + 1;
-  }
-  for (int i = 0, k = 0; i < x.ncol(); i++) {
-    if (xm[i] == NA_INTEGER) {
-      aux_x[k++] = i + 1;
-    }
-  }
-
-  // then columns from y but not x
-  IntegerVector aux_y(y.size() - n_join_visitors);
-  IntegerVector ym(y.size(), NA_INTEGER);
-  for (int by = 0; by < by_y.size(); ++by) {
-    const int pos = by_y[by];
-    check_range_one_based(pos, ym.size());
-    ym[pos - 1] = by + 1;
-  }
-  for (int i = 0, k = 0; i < y.size(); i++) {
-    if (ym[i] == NA_INTEGER) {
-      aux_y[k++] = i + 1;
-    }
-  }
 
   // construct out object
   int nrows = indices_x.size();
@@ -182,6 +154,7 @@ void check_by(const IntegerVector& by) {
 // [[Rcpp::export]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
+                          IntegerVector aux_x, IntegerVector aux_y,
                           bool na_match) {
   check_by(by_x);
 
@@ -207,6 +180,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
+                     aux_x, aux_y,
                      get_class(x)
                     );
 }
@@ -214,6 +188,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
+                         IntegerVector aux_x, IntegerVector aux_y,
                          bool na_match) {
   check_by(by_x);
 
@@ -244,6 +219,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
+                     aux_x, aux_y,
                      get_class(x)
                     );
 }
@@ -251,6 +227,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
+                          IntegerVector aux_x, IntegerVector aux_y,
                           bool na_match) {
   check_by(by_x);
 
@@ -279,6 +256,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
+                     aux_x, aux_y,
                      get_class(x)
                     );
 }
@@ -286,6 +264,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
 // [[Rcpp::export]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
+                         IntegerVector aux_x, IntegerVector aux_y,
                          bool na_match) {
   check_by(by_x);
 
@@ -331,6 +310,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
   return subset_join(x, y,
                      indices_x, indices_y,
                      by_x, by_y,
+                     aux_x, aux_y,
                      get_class(x)
                     );
 }
