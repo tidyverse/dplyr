@@ -126,7 +126,9 @@ tbl_at_vars <- function(tbl, vars, include_group_vars = FALSE) {
     tibble_vars <- tbl_nongroup_vars(tbl)
   }
 
-  if (is_character(vars)) {
+  if (is_null(vars)) {
+    character()
+  } else if (is_character(vars)) {
     vars
   } else if (is_integerish(vars)) {
     tibble_vars[vars]

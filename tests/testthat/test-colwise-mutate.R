@@ -44,6 +44,9 @@ expect_classes <- function(tbl, expected) {
 }
 
 test_that("can select colwise", {
+  columns <- iris %>% mutate_at(NULL, as.character)
+  expect_classes(columns, "nnnnf")
+
   columns <- iris %>% mutate_at(vars(starts_with("Petal")), as.character)
   expect_classes(columns, "nnccf")
 
