@@ -102,6 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Reduces multiple values down to a single value</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/manip.r'><code>R/manip.r</code></a></small>
     </div>
 
     
@@ -204,7 +205,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 <span class='co'># summarise() supports quasiquotation. You can unquote raw</span>
 <span class='co'># expressions or quosures:</span>
 <span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tidyeval.html'>quo</a></span>(<span class='fu'>mean</span>(<span class='no'>cyl</span>))
-<span class='fu'>summarise</span>(<span class='no'>mtcars</span>, !! <span class='no'>var</span>)</div><div class='output co'>#&gt;   mean(cyl)
+<span class='fu'>summarise</span>(<span class='no'>mtcars</span>, !!<span class='no'>var</span>)</div><div class='output co'>#&gt;   mean(cyl)
 #&gt; 1    6.1875</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -234,7 +235,7 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -252,3 +253,4 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
 
   </body>
 </html>
+

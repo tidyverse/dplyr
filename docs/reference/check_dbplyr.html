@@ -102,15 +102,16 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>dbplyr compatibility functions</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/compat-dbplyr.R'><code>R/compat-dbplyr.R</code></a></small>
     </div>
 
     
-    <p>In dplyr 0.6.0, a number of database and SQL functions moved from dplyr to
+    <p>In dplyr 0.7.0, a number of database and SQL functions moved from dplyr to
 dbplyr. The generic functions stayed in dplyr (since there is no easy way
 to conditionally import a generic from different packages), but many other
 SQL and database helper functions moved. If you have written a backend,
 these functions generate the code you need to work with both dplyr 0.5.0
-dplyr 0.6.0.</p>
+dplyr 0.7.0.</p>
     
 
     <pre class="usage"><span class='fu'>check_dbplyr</span>()
@@ -149,7 +150,7 @@ dplyr 0.6.0.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -167,3 +168,4 @@ dplyr 0.6.0.</p>
 
   </body>
 </html>
+

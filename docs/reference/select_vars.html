@@ -102,6 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Select variables</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/reexport-tidyselect.R'><code>R/reexport-tidyselect.R</code></a></small>
     </div>
 
     
@@ -111,9 +112,9 @@
 and will be deprecated sometimes in the future.</p>
     
 
-    <pre class="usage"><span class='fu'>select_vars</span>(<span class='no'>vars</span>, <span class='no'>...</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
+    <pre class="usage"><span class='fu'>select_vars</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='no'>...</span>, <span class='kw'>include</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='kw'>exclude</span> <span class='kw'>=</span> <span class='fu'>chr</span>())
 
-<span class='fu'>rename_vars</span>(<span class='no'>vars</span>, <span class='no'>...</span>, <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='fu'>rename_vars</span>(<span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'>chr</span>(), <span class='no'>...</span>, <span class='kw'>strict</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='fu'>select_var</span>(<span class='no'>vars</span>, <span class='kw'>var</span> <span class='kw'>=</span> -<span class='fl'>1</span>)
 
@@ -164,7 +165,7 @@ rename a variable that doesn't exist.</p></td>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -182,3 +183,4 @@ rename a variable that doesn't exist.</p></td>
 
   </body>
 </html>
+

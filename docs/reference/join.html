@@ -102,6 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Join two tbls together</h1>
+    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/join.r'><code>R/join.r</code></a></small>
     </div>
 
     
@@ -164,8 +165,9 @@ to control how <code>NA</code> values are matched.  See <a href='join.tbl_df.htm
     <h2 class="hasAnchor" id="join-types"><a class="anchor" href="#join-types"></a>Join types</h2>
 
     
-    <p>Currently dplyr supports four types of mutating joins and two types of filtering joins.
-    <strong>Mutating joins</strong> combine variables from the two data.frames:</p><dl class='dl-horizontal'>
+    <p>Currently dplyr supports four types of mutating joins and two types of filtering joins.</p>
+<p><strong>Mutating joins</strong> combine variables from the two data.frames:</p>
+<dl class='dl-horizontal'>
 <dt><code>inner_join()</code></dt><dd><p>return all rows from <code>x</code> where there are matching
 values in <code>y</code>, and all columns from <code>x</code> and <code>y</code>. If there are multiple matches
 between <code>x</code> and <code>y</code>, all combination of the matches are returned.</p></dd>
@@ -179,7 +181,9 @@ columns. If there are multiple matches between <code>x</code> and <code>y</code>
 of the matches are returned.</p></dd>
 <dt><code>full_join()</code></dt><dd><p>return all rows and all columns from both <code>x</code> and <code>y</code>.
 Where there are not matching values, returns <code>NA</code> for the one missing.</p></dd>
-</dl><p><strong>Filtering joins</strong> keep cases from the left-hand data.frame:</p><dl class='dl-horizontal'>
+</dl>
+    <p><strong>Filtering joins</strong> keep cases from the left-hand data.frame:</p>
+<dl class='dl-horizontal'>
 <dt><code>semi_join()</code></dt><dd><p>return all rows from <code>x</code> where there are matching
 values in <code>y</code>, keeping just columns from <code>x</code>.
     A semi join differs from an inner join because an inner join will return
@@ -266,7 +270,7 @@ the grouping of <code>x</code>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -284,3 +288,4 @@ the grouping of <code>x</code>.</p>
 
   </body>
 </html>
+
