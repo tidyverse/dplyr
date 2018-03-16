@@ -24,6 +24,22 @@ test_that("funs() accepts quoted calls", {
   expect_identical(funs(mean), funs(mean(.)))
 })
 
+test_that("funs() gives a clear error message (#3368)", {
+  expect_error(
+    funs(function(si) { mp[si] }),
+    glue("`function(si) {{
+             mp[si]
+         }}` must be a function name (quoted or unquoted) or an unquoted call, not `function`"),
+    fixed = TRUE
+  )
+
+  expect_error(
+    funs(~mp[.]),
+    "`~mp[.]` must be a function name (quoted or unquoted) or an unquoted call, not `~`",
+    fixed = TRUE
+  )
+})
+
 test_that("funs() can be merged with new arguments", {
   fns <- funs(foo(.))
   expect_identical(as_fun_list(fns, ~ NULL, get_env(), foo = 1L), funs(foo(., foo = 1L)))
