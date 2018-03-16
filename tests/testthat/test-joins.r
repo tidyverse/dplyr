@@ -239,7 +239,6 @@ g <- data.frame(A = 1, A.x = 2)
 h <- data.frame(B = 3, A.x = 4, A = 5)
 
 test_that("can handle 'by' columns with suffix (#3266)", {
-  skip("Currently failing")
   j1 <- inner_join(g, h, "A.x")
   j2 <- left_join(g, h, "A.x")
   j3 <- right_join(g, h, "A.x")
@@ -252,7 +251,6 @@ test_that("can handle 'by' columns with suffix (#3266)", {
 })
 
 test_that("can handle 'by' columns with suffix, reverse (#3266)", {
-  skip("Currently failing")
   j1 <- inner_join(h, g, "A.x")
   j2 <- left_join(h, g, "A.x")
   j3 <- right_join(h, g, "A.x")

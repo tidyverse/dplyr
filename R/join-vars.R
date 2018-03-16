@@ -2,12 +2,13 @@ join_vars <- function(x_names, y_names, by, suffix = list(x = ".x", y = ".y")) {
   # Record position of join keys
   idx <- get_join_var_idx(x_names, y_names, by)
 
+  x_names_by <- x_names[idx$x$by]
   x_names_aux <- x_names[idx$x$aux]
   y_names_aux <- y_names[idx$y$aux]
 
   # Add suffix where needed
   x_new <- x_names
-  x_new[idx$x$aux] <- add_suffixes(x_names_aux, y_names_aux, suffix$x)
+  x_new[idx$x$aux] <- add_suffixes(x_names_aux, c(x_names_by, y_names_aux), suffix$x)
   y_new <- add_suffixes(y_names_aux, x_names, suffix$y)
 
   x_x <- seq_along(x_names)
