@@ -93,7 +93,13 @@ as_fun <- function(.x, .env, .args) {
   # empty environment and need to be switched to the caller environment.
   quo <- quo_set_env(quo, fun_env(quo, .env))
 
-  expr <- get_expr(quo)
+  expr <- quo_get_expr(quo)
+
+  if (is_lang(expr, c("function", "~"))) {
+    top_level <- fmt_calls(expr[[1]])
+    bad_args(quo_text(expr), "must be a function name (quoted or unquoted) or an unquoted call, not {top_level}")
+  }
+
   if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
     expr <- lang_modify(expr, !!!.args)
   } else {
