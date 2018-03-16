@@ -29,7 +29,6 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   int n_join_visitors = join_visitors.size();
 
   // then columns from x but not y
-  std::vector<bool> joiner(x.ncol());
   IntegerVector aux_x(x.ncol() - n_join_visitors);
   IntegerVector xm(x.ncol(), NA_INTEGER);
   for (int by = 0; by < by_x.size(); ++by) {
@@ -39,10 +38,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
   for (int i = 0, k = 0; i < x.ncol(); i++) {
     if (xm[i] == NA_INTEGER) {
-      joiner[i] = false;
       aux_x[k++] = i + 1;
-    } else {
-      joiner[i] = true;
     }
   }
 
@@ -64,26 +60,24 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   int nrows = indices_x.size();
   List out(x.ncol() + aux_y.size());
 
-  int index_join_visitor = 0;
-  int index_x_visitor = 0;
-  DataFrameSubsetVisitors visitors_x(x, aux_x);
-
   // ---- join visitors
-  for (int i = 0; i < x.ncol(); i++) {
-    if (joiner[i]) {
-      JoinVisitor* v = join_visitors.get(xm[i] - 1);
-      out[i] = v->subset(indices_x);
-      index_join_visitor++;
-    } else {
-      out[i] = visitors_x.get(index_x_visitor)->subset(indices_x);
-      index_x_visitor++;
-    }
+  for (int i = 0; i < by_x.size(); i++) {
+    JoinVisitor* v = join_visitors.get(i);
+    out[by_x[i] - 1] = v->subset(indices_x);
+  }
+
+  DataFrameSubsetVisitors visitors_x(x, aux_x);
+  for (int i = 0; i < aux_x.size(); i++) {
+    SubsetVectorVisitor* const v = visitors_x.get(i);
+    out[aux_x[i] - 1] = v->subset(indices_x);
   }
 
   DataFrameSubsetVisitors visitors_y(y, aux_y);
   for (int i = 0, k = x.ncol(); i < visitors_y.size(); i++, k++) {
-    out[k] = visitors_y.get(i)->subset(indices_y);
+    SubsetVectorVisitor* const v = visitors_y.get(i);
+    out[k] = v->subset(indices_y);
   }
+
   set_class(out, classes);
   set_rownames(out, nrows);
 

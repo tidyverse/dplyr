@@ -160,10 +160,9 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   y <- auto_copy(x, y, copy = copy)
 
-  by_x <- match(by$x, tbl_vars(x))
-  by_y <- match(by$y, tbl_vars(y))
-
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+  by_x <- vars$idx$x$by
+  by_y <- vars$idx$y$by
 
   out <- inner_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
@@ -184,10 +183,9 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   y <- auto_copy(x, y, copy = copy)
 
-  by_x <- match(by$x, tbl_vars(x))
-  by_y <- match(by$y, tbl_vars(y))
-
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+  by_x <- vars$idx$x$by
+  by_y <- vars$idx$y$by
 
   out <- left_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
@@ -208,10 +206,9 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   y <- auto_copy(x, y, copy = copy)
 
-  by_x <- match(by$x, tbl_vars(x))
-  by_y <- match(by$y, tbl_vars(y))
-
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+  by_x <- vars$idx$x$by
+  by_y <- vars$idx$y$by
 
   out <- right_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
@@ -232,10 +229,9 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
   y <- auto_copy(x, y, copy = copy)
 
-  by_x <- match(by$x, tbl_vars(x))
-  by_y <- match(by$y, tbl_vars(y))
-
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+  by_x <- vars$idx$x$by
+  by_y <- vars$idx$y$by
 
   out <- full_join_impl(x, y, by_x, by_y, na_matches)
   names(out) <- vars$alias
