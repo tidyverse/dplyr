@@ -46,6 +46,8 @@
   input in mutating operations and `mutate(df, "foo")` creates a new column by
   recycling "foo" to the number of rows.
 
+* Fixed rare column name clash in joins with non-join columns of the same name in both tables (#3266).
+
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
 * Scoped `select_()` and `rename_()` functions now work with grouped data frames, adapting the grouping as necessary (#2947, #3410).
@@ -64,7 +66,7 @@
 
 *  `distinct()` now supports renaming columns (#3234).
 
-* Better error message when joining data frames with duplicate column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (#3243).
+* Better error message when joining data frames with duplicate or `NA` column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (#3243, #3417).
 
 * Added an `.onDetach()` hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (#3359, @jwnorman).
 
