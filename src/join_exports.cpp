@@ -25,33 +25,34 @@ DataFrame subset_join(DataFrame x, DataFrame y,
                       const IntegerVector& by_x, const IntegerVector& by_y,
                       const IntegerVector& aux_x, const IntegerVector& aux_y,
                       CharacterVector classes) {
-  // first the joined columns
-  DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, true, false);
-
   // construct out object
-  int nrows = indices_x.size();
   List out(x.ncol() + aux_y.size());
 
-  // ---- join visitors
+  // first the joined columns (all x columns keep their location)
+  DataFrameJoinVisitors join_visitors(x, y, by_x, by_y, true, false);
   for (int i = 0; i < by_x.size(); i++) {
     JoinVisitor* v = join_visitors.get(i);
     out[by_x[i] - 1] = v->subset(indices_x);
   }
 
+  // then the auxiliary x columns (all x columns keep their location)
   DataFrameSubsetVisitors visitors_x(x, aux_x);
   for (int i = 0; i < aux_x.size(); i++) {
     SubsetVectorVisitor* const v = visitors_x.get(i);
     out[aux_x[i] - 1] = v->subset(indices_x);
   }
 
+  // then the auxiliary y columns (all y columns keep their relative location)
   DataFrameSubsetVisitors visitors_y(y, aux_y);
   for (int i = 0, k = x.ncol(); i < visitors_y.size(); i++, k++) {
     SubsetVectorVisitor* const v = visitors_y.get(i);
     out[k] = v->subset(indices_y);
   }
 
-  set_class(out, classes);
+  int nrows = indices_x.size();
   set_rownames(out, nrows);
+
+  set_class(out, classes);
 
   return (SEXP)out;
 }
