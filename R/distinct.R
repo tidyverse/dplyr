@@ -84,10 +84,33 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
 
   # If any calls, use mutate to add new columns, then distinct on those
   .data <- add_computed_columns(.data, vars)
-
-  # Once we've done the mutate, we need to name all objects
   vars <- exprs_auto_name(vars, printer = tidy_text)
-  out_vars <- intersect(names(.data), c(names(vars), group_vars))
+
+  # Once we've done the mutate, we no longer need lazy objects, and
+  # can instead just use their names
+  missing_vars <- setdiff(names(vars), names(.data))
+
+  if (length(missing_vars) > 0) {
+    missing_items <- fmt_items(fmt_obj(missing_vars))
+    vars <- vars[names(vars) %in% names(.data)]
+    if (length(vars) > 0) {
+      true_vars <- glue("The following variables will be used:
+                        {fmt_items(names(vars))}")
+    } else {
+      true_vars <- "The operation will return the input unchanged."
+    }
+    msg <- glue("Trying to compute distinct() for variables not found in the data:
+                {missing_items}
+                This is an error, but only a warning is raised for compatibility reasons.
+                {true_vars}
+                ")
+    warn(msg)
+  }
+
+  new_vars <- unique(c(names(vars), group_vars))
+
+  # Keep the order of the variables
+  out_vars <- intersect(names(.data), new_vars)
 
   if (.keep_all) {
     keep <- seq_along(.data)

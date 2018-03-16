@@ -70,6 +70,8 @@
 
 * `combine()` returns `logical()` when all inputs are `NULL` (or when there are no inputs) (#3365, @zeehio).
 
+* `distinct()` now gives a warning when used on unknown columns (#2867, @foo-bar-baz-qux).
+
 * `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
 
 * `arrange()` fails gracefully on `data.frame` columns (#3153)

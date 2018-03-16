@@ -68,6 +68,40 @@ test_that("empty grouped distinct equivalent to empty ungrouped", {
   expect_equal(df1, df2)
 })
 
+test_that("distinct gives a warning when selecting an unknown column (#3140)", {
+  df <- tibble(g = c(1, 2), x = c(1, 2))
+
+  expect_warning(
+    distinct(df, aa),
+    glue("Trying to compute distinct() for variables not found in the data:
+         - `aa`
+         This is an error, but only a warning is raised for compatibility reasons.
+         The operation will return the input unchanged."),
+    fixed = TRUE
+  )
+
+  expect_warning(
+    distinct(df, aa, x),
+    glue("Trying to compute distinct() for variables not found in the data:
+         - `aa`
+         This is an error, but only a warning is raised for compatibility reasons.
+         The following variables will be used:
+         - x"),
+    fixed = TRUE
+  )
+
+  expect_warning(
+    distinct(df, g, aa, x),
+    glue("Trying to compute distinct() for variables not found in the data:
+         - `aa`
+         This is an error, but only a warning is raised for compatibility reasons.
+         The following variables will be used:
+         - g
+         - x"),
+    fixed = TRUE
+  )
+})
+
 test_that("distinct on a new, mutated variable is equivalent to mutate followed by distinct", {
   df <- tibble(g = c(1, 2), x = c(1, 2))
 
