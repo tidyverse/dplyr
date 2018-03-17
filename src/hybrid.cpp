@@ -9,6 +9,7 @@
 #include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
+#include <dplyr/Result/GroupedHybridCall.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -134,6 +135,10 @@ Result* variable_handler(const ILazySubsets& subsets, const SymbolString& variab
   return new VariableResult(subsets, variable);
 }
 
+void registerHybridHandler(const char* name, HybridHandler proto) {
+  get_handlers()[Rf_install(name)] = proto;
+}
+
 namespace dplyr {
 
 Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
@@ -201,8 +206,170 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
   return 0;
 }
 
+SEXP dplyr_object(const char* name) {
+  static Environment dplyr = Rcpp::Environment::namespace_env("dplyr");
+  return dplyr[name];
 }
 
-void registerHybridHandler(const char* name, HybridHandler proto) {
-  get_handlers()[Rf_install(name)] = proto;
+IHybridCallback::~IHybridCallback() {
+}
+
+GroupedHybridEnv::GroupedHybridEnv(const CharacterVector& names_, const Environment& env_,
+                                   const IHybridCallback* callback_) :
+  names(names_), env(env_), callback(callback_), has_overscope(false)
+{
+  LOG_VERBOSE;
+}
+
+GroupedHybridEnv::~GroupedHybridEnv() {
+  if (has_overscope) {
+    // We need to call into R because there is no C API for removing
+    // bindings from environments
+    static Function env_wipe = dplyr_object("env_wipe");
+    env_wipe(mask_active);
+    env_wipe(mask_bottom);
+  }
+}
+
+const Environment& GroupedHybridEnv::get_overscope() const {
+  provide_overscope();
+  return overscope;
+}
+
+void GroupedHybridEnv::provide_overscope() const {
+  if (has_overscope)
+    return;
+
+  // Environment::new_child() performs an R callback, creating the environment
+  // in R should be slightly faster
+  mask_active =
+    create_env_string(
+      names, &GroupedHybridEnv::hybrid_get_callback,
+      PAYLOAD(const_cast<void*>(reinterpret_cast<const void*>(callback))), env);
+
+  // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
+  // call to Rcpp_eval() triggered by mask_active.new_child()
+  mask_bottom = mask_active.new_child(true);
+  mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
+
+  // Install definitions for formula self-evaluation and unguarding
+  overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_active, env);
+
+  has_overscope = true;
+}
+
+SEXP GroupedHybridEnv::hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {
+  LOG_VERBOSE;
+  IHybridCallback* callback_ = reinterpret_cast<IHybridCallback*>(payload.p);
+  return callback_->get_subset(SymbolString(name));
+}
+
+GroupedHybridCall::GroupedHybridCall(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
+  original_call(call_), subsets(subsets_), env(env_)
+{
+  LOG_VERBOSE;
+}
+
+// FIXME: replace the search & replace logic with overscoping
+Call GroupedHybridCall::simplify(const SlicingIndex& indices) const {
+  set_indices(indices);
+  Call call = clone(original_call);
+  while (simplified(call)) {}
+  clear_indices();
+  return call;
+}
+
+bool GroupedHybridCall::simplified(Call& call) const {
+  LOG_VERBOSE;
+  // initial
+  if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
+    boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
+    if (res) {
+      // replace the call by the result of process
+      call = res->process(get_indices());
+
+      // no need to go any further, we simplified the top level
+      return true;
+    }
+    if (TYPEOF(call) == LANGSXP)
+      return replace(CDR(call));
+  }
+  return false;
+}
+
+bool GroupedHybridCall::replace(SEXP p) const {
+  LOG_VERBOSE;
+  SEXP obj = CAR(p);
+  if (TYPEOF(obj) == LANGSXP) {
+    boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
+    if (res) {
+      SETCAR(p, res->process(get_indices()));
+      return true;
+    }
+
+    if (replace(CDR(obj))) return true;
+  }
+
+  if (TYPEOF(p) == LISTSXP) {
+    return replace(CDR(p));
+  }
+
+  return false;
+}
+
+const SlicingIndex& GroupedHybridCall::get_indices() const {
+  return *indices;
+}
+
+void GroupedHybridCall::set_indices(const SlicingIndex& indices_) const {
+  indices = &indices_;
+}
+
+void GroupedHybridCall::clear_indices() const {
+  indices = NULL;
+}
+
+GroupedHybridEval::GroupedHybridEval(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
+  indices(NULL), subsets(subsets_), env(env_),
+  hybrid_env(subsets_.get_variable_names().get_vector(), env_, this),
+  hybrid_call(call_, subsets_, env_)
+{
+  LOG_VERBOSE;
+}
+
+const SlicingIndex& GroupedHybridEval::get_indices() const {
+  return *indices;
+}
+
+SEXP GroupedHybridEval::get_subset(const SymbolString& name) const {
+  LOG_VERBOSE;
+  return subsets.get(name, get_indices());
+}
+
+SEXP GroupedHybridEval::eval(const SlicingIndex& indices_) {
+  set_indices(indices_);
+  SEXP ret = eval_with_indices();
+  clear_indices();
+  return ret;
+}
+
+void GroupedHybridEval::set_indices(const SlicingIndex& indices_) {
+  indices = &indices_;
+}
+
+void GroupedHybridEval::clear_indices() {
+  indices = NULL;
+}
+
+SEXP GroupedHybridEval::eval_with_indices() {
+  Call call = hybrid_call.simplify(get_indices());
+  LOG_INFO << type2name(call);
+
+  if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
+    LOG_VERBOSE << "performing evaluation in overscope";
+    return Rcpp_eval(call, hybrid_env.get_overscope());
+  }
+  return call;
+}
+
 }
