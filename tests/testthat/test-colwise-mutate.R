@@ -120,10 +120,16 @@ test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
   expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
+  expect_equal(summarise_each(df, funs(mean), x), summarise_at(df, vars(x), mean))
+  expect_equal(summarise_each(df, funs(mean = mean), x), summarise_at(df, vars(x), funs(mean = mean)))
+  expect_equal(summarise_each(df, funs(mean = mean), x:y), summarise_at(df, vars(x:y), funs(mean = mean)))
   expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
   expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
 
   expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
+  expect_equal(mutate_each(df, funs(mean), x), mutate_at(df, vars(x), mean))
+  expect_equal(mutate_each(df, funs(mean = mean), x), mutate_at(df, vars(x), funs(mean = mean)))
+  expect_equal(mutate_each(df, funs(mean = mean), x:y), mutate_at(df, vars(x:y), funs(mean = mean)))
   expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
   expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
 })

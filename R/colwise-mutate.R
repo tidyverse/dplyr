@@ -232,6 +232,9 @@ summarise_each_ <- function(tbl, funs, vars) {
     inform(glue(msg, "\nTo map `funs` over a selection of variables, use `summarise_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
+    if (length(vars) == 1 && names(vars) == as_string(vars)) {
+      vars <- unname(vars)
+    }
   }
   if (is_character(funs)) {
     funs <- funs_(funs)
@@ -264,6 +267,9 @@ mutate_each_ <- function(tbl, funs, vars) {
     inform(glue(msg, "\nTo map `funs` over a selection of variables, use `mutate_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
+    if (length(vars) == 1 && names(vars) == as_string(vars)) {
+      vars <- unname(vars)
+    }
   }
   funs <- manip_apply_syms(funs, syms(vars), tbl)
   mutate(tbl, !!!funs)
