@@ -189,7 +189,7 @@ do.grouped_df <- function(.data, ...) {
       out <- label_output_list(labels, out, groups(.data))
     } else {
       env_bind(.env = env, . = group_data, .data = group_data)
-      out <- eval_tidy_(args[[1]], env)[0, , drop = FALSE]
+      out <- overscope_eval_next(env, args[[1]])[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
     return(out)

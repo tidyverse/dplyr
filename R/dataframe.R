@@ -207,12 +207,12 @@ do.data.frame <- function(.data, ...) {
   overscope <- child_env(NULL, !!!list(. = .data, .data = .data))
 
   if (!named) {
-    out <- eval_tidy_(args[[1]], overscope)
+    out <- overscope_eval_next(overscope, args[[1]])
     if (!inherits(out, "data.frame")) {
       bad("Result must be a data frame, not {fmt_classes(out)}")
     }
   } else {
-    out <- map(args, function(arg) list(eval_tidy_(arg, overscope)))
+    out <- map(args, function(arg) list(overscope_eval_next(overscope, arg)))
     names(out) <- names(args)
     out <- tibble::as_tibble(out, validate = FALSE)
   }

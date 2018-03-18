@@ -50,6 +50,13 @@ test_that("named argument become list columns", {
   expect_equal(out$ncol, list(3, 3, 3))
 })
 
+test_that("multiple outputs can access data (#2998)", {
+  out <- do(data_frame(a = 1), g = nrow(.), h = nrow(.))
+  expect_equal(names(out), c("g", "h"))
+  expect_equal(out$g, list(1L))
+  expect_equal(out$h, list(1L))
+})
+
 test_that("colums in output override columns in input", {
   out <- df %>% do(data.frame(g = 1))
   expect_equal(names(out), "g")
