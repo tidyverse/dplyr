@@ -119,8 +119,8 @@ print.any_vars <- function(x, ...) {
 
 
 # Requires tbl_vars() method
-tbl_at_vars <- function(tbl, vars, include_group_vars = FALSE) {
-  if (include_group_vars) {
+tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
+  if (.include_group_vars) {
     tibble_vars <- tbl_vars(tbl)
   } else {
     tibble_vars <- tbl_nongroup_vars(tbl)
@@ -144,8 +144,8 @@ tbl_at_vars <- function(tbl, vars, include_group_vars = FALSE) {
     )
   }
 }
-tbl_at_syms <- function(tbl, vars, include_group_vars = FALSE) {
-  vars <- tbl_at_vars(tbl, vars, include_group_vars = include_group_vars)
+tbl_at_syms <- function(tbl, vars, .include_group_vars = FALSE) {
+  vars <- tbl_at_vars(tbl, vars, .include_group_vars = .include_group_vars)
   set_names(syms(vars), names(vars))
 }
 

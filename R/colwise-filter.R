@@ -46,7 +46,7 @@ filter_if <- function(.tbl, .predicate, .vars_predicate) {
 #' @rdname filter_all
 #' @export
 filter_at <- function(.tbl, .vars, .vars_predicate) {
-  syms <- tbl_at_syms(.tbl, .vars, include_group_vars = TRUE)
+  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred)
 }

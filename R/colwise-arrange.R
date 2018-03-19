@@ -26,9 +26,9 @@ arrange_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname arrange_all
 #' @export
 arrange_at <- function(.tbl, .vars, .funs = list(), ...) {
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), include_group_vars = TRUE, ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
-    funs <- tbl_at_syms(.tbl, .vars, include_group_vars = TRUE)
+    funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
   arrange(.tbl, !!!funs)
 }

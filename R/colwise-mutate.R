@@ -112,7 +112,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), include_group_vars = TRUE, ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   mutate(.tbl, !!!funs)
 }
 
@@ -148,8 +148,8 @@ manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ...) {
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, vars, .tbl)
 }
-manip_at <- function(.tbl, .vars, .funs, .quo, .env, include_group_vars = FALSE, ...) {
-  syms <- tbl_at_syms(.tbl, .vars, include_group_vars = include_group_vars)
+manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE) {
+  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars)
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
 }

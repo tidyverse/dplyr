@@ -31,9 +31,9 @@ group_by_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname group_by_all
 #' @export
 group_by_at <- function(.tbl, .vars, .funs = list(), ..., .add = FALSE) {
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), include_group_vars = TRUE, ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
-    funs <- tbl_at_syms(.tbl, .vars, include_group_vars = TRUE)
+    funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
   group_by(.tbl, !!!funs, add = .add)
 }
