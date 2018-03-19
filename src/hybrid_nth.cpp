@@ -329,7 +329,8 @@ Result* last_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 }
 
 void install_nth_handlers(HybridHandlerMap& handlers) {
-  handlers[ Rf_install("first") ] = HybridHandler(first_prototype, R_NilValue) ;
-  handlers[ Rf_install("last") ] = HybridHandler(last_prototype, R_NilValue) ;
-  handlers[ Rf_install("nth") ] = HybridHandler(nth_prototype, R_NilValue);
+  Environment ns_dplyr = Environment::namespace_env("dplyr") ;
+  handlers[ Rf_install("first") ] = HybridHandler(first_prototype, ns_dplyr["first"]) ;
+  handlers[ Rf_install("last") ] = HybridHandler(last_prototype, ns_dplyr["last"]) ;
+  handlers[ Rf_install("nth") ] = HybridHandler(nth_prototype, ns_dplyr["nth"]);
 }
