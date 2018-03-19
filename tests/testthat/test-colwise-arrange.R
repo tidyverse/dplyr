@@ -36,3 +36,13 @@ test_that("arrange_all arranges by grouping variable (#3351)",{
     arrange(tbl, gr1, gr2, x)
   )
 })
+
+test_that("arrange_if arranges by grouping variable (#3351)",{
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    arrange_if(tbl, is.integer),
+    arrange(tbl, gr1, gr2, x)
+  )
+})

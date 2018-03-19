@@ -35,9 +35,9 @@ arrange_at <- function(.tbl, .vars, .funs = list(), ...) {
 #' @rdname arrange_all
 #' @export
 arrange_if <- function(.tbl, .predicate, .funs = list(), ...) {
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
-    funs <- tbl_if_syms(.tbl, .predicate)
+    funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
   arrange(.tbl, !!!funs)
 }
