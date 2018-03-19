@@ -39,3 +39,14 @@ test_that("aborts when supplied funs()", {
     fixed = TRUE
   )
 })
+
+test_that("filter_if and filter_all includes grouping variables (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  res <- filter_all( tbl, all_vars(.>1) )
+  expect_true( all( res$gr1 > 1 ) )
+
+  res <- filter_if( tbl, is.integer, all_vars(.>1) )
+  expect_true( all( res$gr1 > 1 ) )
+})
