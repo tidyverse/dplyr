@@ -59,9 +59,9 @@ HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
     /*
-    handlers[ Rf_install( "cumsum")      ] = cumfun_prototype<CumSum>;
-    handlers[ Rf_install( "cummin")      ] = cumfun_prototype<CumMin>;
-    handlers[ Rf_install( "cummax")      ] = cumfun_prototype<CumMax>;
+    handlers[ Rf_install( "cumsum")      ] = HybridHandler( cumfun_prototype<CumSum>, R_NilValue );
+    handlers[ Rf_install( "cummin")      ] = HybridHandler( cumfun_prototype<CumMin>, R_NilValue );
+    handlers[ Rf_install( "cummax")      ] = HybridHandler( cumfun_prototype<CumMax>, R_NilValue );
     */
 
     install_simple_handlers(handlers);
@@ -173,7 +173,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
-    return it->second(call, subsets, depth - 1);
+    return it->second.handler(call, subsets, depth - 1);
   } else if (TYPEOF(call) == SYMSXP) {
     SymbolString sym = SymbolString(Symbol(call));
 

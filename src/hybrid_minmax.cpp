@@ -67,6 +67,6 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 }
 
 void install_minmax_handlers(HybridHandlerMap& handlers) {
-  handlers[Rf_install("min")] = minmax_prototype<true>;
-  handlers[Rf_install("max")] = minmax_prototype<false>;
+  handlers[Rf_install("min")] = HybridHandler(minmax_prototype<true>, R_NilValue);
+  handlers[Rf_install("max")] = HybridHandler(minmax_prototype<false>, R_NilValue);
 }

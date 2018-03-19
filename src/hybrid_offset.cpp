@@ -93,6 +93,6 @@ Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int) {
 }
 
 void install_offset_handlers(HybridHandlerMap& handlers) {
-  handlers[ Rf_install("lead") ] = leadlag_prototype<Lead>;
-  handlers[ Rf_install("lag") ] = leadlag_prototype<Lag>;
+  handlers[ Rf_install("lead") ] = HybridHandler(leadlag_prototype<Lead>, R_NilValue);
+  handlers[ Rf_install("lag") ] = HybridHandler(leadlag_prototype<Lag>, R_NilValue);
 }

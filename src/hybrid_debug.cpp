@@ -88,6 +88,6 @@ Result* verify_not_hybrid_prototype(SEXP call, const ILazySubsets&, int nargs) {
 }
 
 void install_debug_handlers(HybridHandlerMap& handlers) {
-  handlers[ Rf_install("verify_hybrid") ] = verify_hybrid_prototype;
-  handlers[ Rf_install("verify_not_hybrid") ] = verify_not_hybrid_prototype;
+  handlers[ Rf_install("verify_hybrid") ] = HybridHandler(verify_hybrid_prototype, R_NilValue) ;
+  handlers[ Rf_install("verify_not_hybrid") ] = HybridHandler(verify_not_hybrid_prototype, R_NilValue);
 }
