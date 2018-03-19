@@ -112,7 +112,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), include_group_vars = TRUE, ...)
   mutate(.tbl, !!!funs)
 }
 
