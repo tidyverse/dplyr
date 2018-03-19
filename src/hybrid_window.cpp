@@ -159,7 +159,7 @@ Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 void install_window_handlers(HybridHandlerMap& handlers) {
   Environment ns_dplyr = Environment::namespace_env("dplyr") ;
 
-  handlers[ Rf_install("row_number") ] = HybridHandler(row_number_prototype, ns_dplyr["row_numner"]);
+  handlers[ Rf_install("row_number") ] = HybridHandler(row_number_prototype, ns_dplyr["row_number"]);
   handlers[ Rf_install("ntile") ] = HybridHandler(ntile_prototype, ns_dplyr["ntile"]);
   handlers[ Rf_install("min_rank") ] = HybridHandler(rank_impl_prototype<dplyr::internal::min_rank_increment>, ns_dplyr["min_rank"]);
   handlers[ Rf_install("percent_rank") ] = HybridHandler(rank_impl_prototype<dplyr::internal::percent_rank_increment>, ns_dplyr["percent_rank"]);
