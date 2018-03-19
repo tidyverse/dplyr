@@ -17,7 +17,7 @@
 #' arrange_all(df, desc)
 #' arrange_all(df, funs(desc(.)))
 arrange_all <- function(.tbl, .funs = list(), ...) {
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }

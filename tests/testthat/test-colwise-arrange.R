@@ -35,6 +35,11 @@ test_that("arrange_all arranges by grouping variable (#3351)",{
     arrange_all(tbl),
     arrange(tbl, gr1, gr2, x)
   )
+
+  expect_identical(
+    arrange_all(tbl, desc),
+    arrange(tbl, desc(gr1), desc(gr2), desc(x))
+  )
 })
 
 test_that("arrange_if arranges by grouping variable (#3351)",{
