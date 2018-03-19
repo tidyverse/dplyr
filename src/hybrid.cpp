@@ -178,7 +178,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
     // mutate( x = mean(x) )
     // if `mean` evaluates to something other than `base::mean` then no hybrid.
     RObject fun = Rf_eval(fun_symbol, env) ;
-    if( fun != it->second.reference ) return 0 ;
+    if (check && fun != it->second.reference) return 0 ;
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
