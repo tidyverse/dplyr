@@ -150,12 +150,14 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
     HybridHandlerMap& handlers = get_handlers();
 
     // interpret dplyr::fun() as fun(). #3309
+    bool check = true ;
     SEXP fun_symbol = CAR(call);
     if (TYPEOF(fun_symbol) == LANGSXP &&
         CAR(fun_symbol) == R_DoubleColonSymbol &&
         CADR(fun_symbol) == Rf_install("dplyr")
        ) {
       fun_symbol = CADDR(fun_symbol) ;
+      check = false ;
     }
 
     if (TYPEOF(fun_symbol) != SYMSXP) {
@@ -170,6 +172,13 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
       LOG_VERBOSE << "Not found";
       return 0;
     }
+
+    // no hybrid evaluation if the symbol evaluates to something else than
+    // is expected. This would happen if e.g. the mean function has been shadowed
+    // mutate( x = mean(x) )
+    // if `mean` evaluates to something other than `base::mean` then no hybrid.
+    RObject fun = Rf_eval(fun_symbol, env) ;
+    if( fun != it->second.reference ) return 0 ;
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
