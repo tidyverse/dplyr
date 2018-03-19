@@ -143,8 +143,8 @@ manip_all <- function(.tbl, .funs, .quo, .env, ...) {
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
 }
-manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ...) {
-  vars <- tbl_if_syms(.tbl, .predicate, .env)
+manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE) {
+  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars)
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, vars, .tbl)
 }

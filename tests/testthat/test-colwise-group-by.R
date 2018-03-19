@@ -29,4 +29,9 @@ test_that("group_by variants can group by an already grouped by data (#3351)", {
     group_by(tbl, gr1, gr2, x)
   )
 
+  expect_identical(
+    group_by_if(tbl, is.integer),
+    group_by(tbl, gr1, gr2, x)
+  )
+
 })
