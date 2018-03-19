@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>All news • dplyr</title>
+<title>Changelog • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -102,22 +102,32 @@
 
   <div class="col-md-9">
     <div class="page-header">
-      <h1>Change log <small>All releases</small></h1>
+      <h1>Change log <small></small></h1>
+      <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
     <div class="contents">
-    <div class="section level1">
-<h1>dplyr 0.7.4.9000</h1>
-<div class="section level2">
-<h2>Breaking changes for package developers</h2>
+    <div id="dplyr-0-7-4-9002-2018-03-16" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-7-4-9002-2018-03-16" class="anchor"></a>dplyr 0.7.4.9002 (2018-03-16)<small> Unreleased </small>
+</h1>
+<div id="breaking-changes-for-package-developers" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes-for-package-developers" class="anchor"></a>Breaking changes for package developers</h2>
 <ul>
-<li><p>The major change in this version is that dplyr now depends on the selecting backend of the tidyselect package. If you have been linking to <code>dplyr::select_helpers</code> documentation topic, you should update the link to point to <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">tidyselect::select_helpers</a></code>.</p></li>
+<li><p>The major change in this version is that dplyr now depends on the selecting backend of the tidyselect package. If you have been linking to <code><a href="http://dplyr.tidyverse.org/reference/reexports.html">dplyr::select_helpers</a></code> documentation topic, you should update the link to point to <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">tidyselect::select_helpers</a></code>.</p></li>
 <li><p>Another change that causes warnings in packages is that dplyr now exports the <code><a href="../reference/tidyeval.html">exprs()</a></code> function. This causes a collision with <code>Biobase::exprs()</code>. Either import functions from dplyr selectively rather than in bulk, or do not import <code>Biobase::exprs()</code> and refer to it with a namespace qualifier.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Changes</h2>
+<div id="changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#changes" class="anchor"></a>Changes</h2>
 <ul>
+<li><p>Show clear error message for bad arguments to <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3368'>#3368</a>).</p></li>
+<li><p>Improved documentation for <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3094'>#3094</a>).</p></li>
+<li><p>Compute variable names for joins in R (<a href='https://github.com/tidyverse/dplyr/issues/3430'>#3430</a>).</p></li>
+<li><p>Hybrid evaluation simplifies <code>dplyr::foo</code> to <code>foo</code> (<a href='https://github.com/tidyverse/dplyr/issues/3309'>#3309</a>)</p></li>
+<li><p><code><a href="../reference/bind.html">bind_cols()</a></code> handles unnamed list (<a href='https://github.com/tidyverse/dplyr/issues/3402'>#3402</a>).</p></li>
 <li><p>Bumped Rcpp dependency to 0.12.15 to avoid imperfect detection of <code>NA</code> values in hybrid evaluation fixed in RcppCore/Rcpp<a href='https://github.com/tidyverse/dplyr/issues/790'>#790</a> (<a href='https://github.com/tidyverse/dplyr/issues/2919'>#2919</a>).</p></li>
 <li><p>Summaries of summaries (such as <code><a href="../reference/summarise.html">summarise(b = sum(a), c = sum(b))</a></code>) are now computed using standard evaluation for simplicity and correctness, but slightly slower (<a href='https://github.com/tidyverse/dplyr/issues/3233'>#3233</a>).</p></li>
 <li><p><code><a href="../reference/tidyeval.html">sym()</a></code>, <code><a href="../reference/tidyeval.html">syms()</a></code>, <code><a href="../reference/tidyeval.html">expr()</a></code>, <code><a href="../reference/tidyeval.html">exprs()</a></code> and <code><a href="../reference/tidyeval.html">enexpr()</a></code> are now exported. <code><a href="../reference/tidyeval.html">sym()</a></code> and <code><a href="../reference/tidyeval.html">syms()</a></code> construct symbols from strings or character vectors. The <code><a href="../reference/tidyeval.html">expr()</a></code> variants are equivalent to <code><a href="../reference/tidyeval.html">quo()</a></code>, <code><a href="../reference/tidyeval.html">quos()</a></code> and <code><a href="../reference/tidyeval.html">enquo()</a></code> but return simple expressions rather than quosures. They support quasiquotation.</p></li>
@@ -131,27 +141,39 @@ select(mtcars, -(!! vars))</code></pre>
 </li>
 <li><p>Fixed rare column name clash in joins with non-join columns of the same name in both tables (<a href='https://github.com/tidyverse/dplyr/issues/3266'>#3266</a>).</p></li>
 <li><p><code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/vars.html">vars()</a></code> now treat <code>NULL</code> as empty inputs (<a href='https://github.com/tidyverse/dplyr/issues/3023'>#3023</a>).</p></li>
+<li><p>Scoped select and rename functions (<code><a href="../reference/select_all.html">select_all()</a></code>, <code><a href="../reference/select_all.html">rename_if()</a></code> etc.) now work with grouped data frames, adapting the grouping as necessary (<a href='https://github.com/tidyverse/dplyr/issues/2947'>#2947</a>, <a href='https://github.com/tidyverse/dplyr/issues/3410'>#3410</a>).</p></li>
 <li><p>Fix <code><a href="../reference/summarise.html">summarise()</a></code> for empty data frames with zero columns (<a href='https://github.com/tidyverse/dplyr/issues/3071'>#3071</a>).</p></li>
-<li><p>Add error for <code><a href="../reference/distinct.html">distinct()</a></code> if any of the selected columns are of type <code>list</code> (<a href='https://github.com/tidyverse/dplyr/issues/3088'>#3088</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
+<li><p>Add warning with explanation to <code><a href="../reference/distinct.html">distinct()</a></code> if any of the selected columns are of type <code>list</code> (<a href='https://github.com/tidyverse/dplyr/issues/3088'>#3088</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
 <li><p><code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> on grouped data frame are now faster especially for those with large number of groups (<a href='https://github.com/tidyverse/dplyr/issues/3193'>#3193</a>, <a href='http://github.com/saurfang'>@saurfang</a>).</p></li>
 <li><p>Better error message if dbplyr is not installed when accessing database backends (<a href='https://github.com/tidyverse/dplyr/issues/3225'>#3225</a>).</p></li>
 <li><p>Corrected error message when calling <code>cbind()</code> with an object of wrong length (<a href='https://github.com/tidyverse/dplyr/issues/3085'>#3085</a>).</p></li>
 <li><p>Fix <code><a href="../reference/ranking.html">row_number()</a></code> and <code><a href="../reference/ranking.html">ntile()</a></code> ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (<a href='https://github.com/tidyverse/dplyr/issues/2792'>#2792</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> now supports renaming columns (<a href='https://github.com/tidyverse/dplyr/issues/3234'>#3234</a>).</p></li>
-<li><p>Better error message when joining data frames with duplicate column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (<a href='https://github.com/tidyverse/dplyr/issues/3243'>#3243</a>).</p></li>
+<li><p>Better error message when joining data frames with duplicate or <code>NA</code> column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (<a href='https://github.com/tidyverse/dplyr/issues/3243'>#3243</a>, <a href='https://github.com/tidyverse/dplyr/issues/3417'>#3417</a>).</p></li>
 <li><p>Added an <code>.onDetach()</code> hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (<a href='https://github.com/tidyverse/dplyr/issues/3359'>#3359</a>, <a href='http://github.com/jwnorman'>@jwnorman</a>).</p></li>
+<li><p>It is now illegal to use <code>data.frame</code> in the rhs of <code><a href="../reference/mutate.html">mutate()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3298'>#3298</a>).</p></li>
+<li><p><code><a href="../reference/bind.html">combine()</a></code> returns <code>logical()</code> when all inputs are <code>NULL</code> (or when there are no inputs) (<a href='https://github.com/tidyverse/dplyr/issues/3365'>#3365</a>, <a href='http://github.com/zeehio'>@zeehio</a>).</p></li>
+<li><p><code><a href="../reference/distinct.html">distinct()</a></code> now gives a warning when used on unknown columns (<a href='https://github.com/tidyverse/dplyr/issues/2867'>#2867</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
+<li><p><code><a href="../reference/bind.html">bind_rows()</a></code> works around corrupt columns that have the object bit set while having no class attribute (<a href='https://github.com/tidyverse/dplyr/issues/3349'>#3349</a>).</p></li>
+<li><p><code><a href="../reference/arrange.html">arrange()</a></code> fails gracefully on <code>data.frame</code> columns (<a href='https://github.com/tidyverse/dplyr/issues/3153'>#3153</a>)</p></li>
+<li><p><code><a href="../reference/slice.html">slice()</a></code> no longer enforce tibble classes when input is a simple <code>data.frame</code>, and ignores 0 (<a href='https://github.com/tidyverse/dplyr/issues/3297'>#3297</a>, <a href='https://github.com/tidyverse/dplyr/issues/3313'>#3313</a>).</p></li>
+<li><p>Support for raw vector columns in <code>mutate</code>, <code>summarise</code>, <code>arrange</code>, <code>group_by</code> and joins (minimal <code>raw</code> x <code>raw</code> support initially) (<a href='https://github.com/tidyverse/dplyr/issues/1803'>#1803</a>).</p></li>
 </ul>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.7.4</h1>
+    <div id="dplyr-0-7-4" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-7-4" class="anchor"></a>dplyr 0.7.4<small> 2017-09-28 </small>
+</h1>
 <ul>
 <li><p>Fix recent Fedora and ASAN check errors (<a href='https://github.com/tidyverse/dplyr/issues/3098'>#3098</a>).</p></li>
 <li><p>Avoid dependency on Rcpp 0.12.10 (<a href='https://github.com/tidyverse/dplyr/issues/3106'>#3106</a>).</p></li>
 </ul>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.7.3</h1>
+    <div id="dplyr-0-7-3" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-7-3" class="anchor"></a>dplyr 0.7.3<small> 2017-09-09 </small>
+</h1>
 <ul>
 <li><p>Fixed protection error that occurred when creating a character column using grouped <code><a href="../reference/mutate.html">mutate()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/2971'>#2971</a>).</p></li>
 <li>Fixed a rare problem with accessing variable values in <code><a href="../reference/summarise.html">summarise()</a></code> when all groups have size one (<a href='https://github.com/tidyverse/dplyr/issues/3050'>#3050</a>).</li>
@@ -167,15 +189,18 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>Fixed a crash that occurred when an unexpected input was supplied to the <code>call</code> argument of <code><a href="../reference/order_by.html">order_by()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3065'>#3065</a>).</p></li>
 </ul>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.7.2</h1>
+    <div id="dplyr-0-7-2" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-7-2" class="anchor"></a>dplyr 0.7.2<small> 2017-07-20 </small>
+</h1>
 <ul>
-<li><p>Move build-time vs. run-time checks out of <code>.onLoad()</code> and into <code><a href="../reference/dr_dplyr.html">dr_dplyr()</a></code>.</p></li>
-<li><p>Support for raw vector columns in <code>mutate</code>, <code>summarise</code>, <code>arrange</code>, <code>group_by</code> and joins (minimal <code>raw</code> x <code>raw</code> support initially) (<a href='https://github.com/tidyverse/dplyr/issues/1803'>#1803</a>).</p></li>
+<li>Move build-time vs. run-time checks out of <code>.onLoad()</code> and into <code><a href="../reference/dr_dplyr.html">dr_dplyr()</a></code>.</li>
 </ul>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.7.1</h1>
+    <div id="dplyr-0-7-1" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-7-1" class="anchor"></a>dplyr 0.7.1<small> 2017-06-22 </small>
+</h1>
 <ul>
 <li><p>Use new versions of bindrcpp and glue to avoid protection problems. Avoid wrapping arguments to internal error functions (<a href='https://github.com/tidyverse/dplyr/issues/2877'>#2877</a>). Fix two protection mistakes found by rchk (<a href='https://github.com/tidyverse/dplyr/issues/2868'>#2868</a>).</p></li>
 <li><p>Fix C++ error that caused compilation to fail on mac cran (<a href='https://github.com/tidyverse/dplyr/issues/2862'>#2862</a>)</p></li>
@@ -185,10 +210,13 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>Quosured symbols do not prevent hybrid handling anymore. This should fix many performance issues introduced with tidyeval (<a href='https://github.com/tidyverse/dplyr/issues/2822'>#2822</a>).</p></li>
 </ul>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.7.0</h1>
-<div class="section level2">
-<h2>New data, functions, and features</h2>
+    <div id="dplyr-0-7-0" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-7-0" class="anchor"></a>dplyr 0.7.0<small> 2017-06-09 </small>
+</h1>
+<div id="new-data-functions-and-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-data-functions-and-features" class="anchor"></a>New data, functions, and features</h2>
 <ul>
 <li>
 <p>Five new datasets provide some interesting built-in datasets to demonstrate dplyr verbs (<a href='https://github.com/tidyverse/dplyr/issues/2094'>#2094</a>):</p>
@@ -210,8 +238,9 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p><code><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_tibble()</a></code> is re-exported from tibble. This is the recommend way to create tibbles from existing data frames. <code><a href="../reference/tbl_df.html">tbl_df()</a></code> has been softly deprecated. <code><a href="http://www.rdocumentation.org/packages/tibble/topics/tribble">tribble()</a></code> is now imported from tibble (<a href='https://github.com/tidyverse/dplyr/issues/2336'>#2336</a>, <a href='http://github.com/chrMongeau'>@chrMongeau</a>); this is now prefered to <code><a href="http://www.rdocumentation.org/packages/tibble/topics/tribble">frame_data()</a></code>.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Deprecated and defunct</h2>
+<div id="deprecated-and-defunct" class="section level2">
+<h2 class="hasAnchor">
+<a href="#deprecated-and-defunct" class="anchor"></a>Deprecated and defunct</h2>
 <ul>
 <li><p>dplyr no longer messages that you need dtplyr to work with data.table (<a href='https://github.com/tidyverse/dplyr/issues/2489'>#2489</a>).</p></li>
 <li><p>Long deprecated <code>regroup()</code>, <code>mutate_each_q()</code> and <code>summarise_each_q()</code> functions have been removed.</p></li>
@@ -220,8 +249,9 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>The <code>.env</code> argument to <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> is defunct, passing a value to this argument print a message which will be changed to a warning in the next release.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Databases</h2>
+<div id="databases" class="section level2">
+<h2 class="hasAnchor">
+<a href="#databases" class="anchor"></a>Databases</h2>
 <p>This version of dplyr includes some major changes to how database connections work. By and large, you should be able to continue using your existing dplyr database code without modification, but there are two big changes that you should be aware of:</p>
 <ul>
 <li><p>Almost all database related code has been moved out of dplyr and into a new package, <a href="http://github.com/hadley/dbplyr/">dbplyr</a>. This makes dplyr simpler, and will make it easier to release fixes for bugs that only affect databases. <code><a href="../reference/src_dbi.html">src_mysql()</a></code>, <code><a href="../reference/src_dbi.html">src_postgres()</a></code>, and <code><a href="../reference/src_dbi.html">src_sqlite()</a></code> will still live dplyr so your existing code continues to work.</p></li>
@@ -238,8 +268,9 @@ select(mtcars, -(!! vars))</code></pre>
 <p>This is particularly useful if you want to perform non-SELECT queries as you can do whatever you want with <code><a href="http://www.rdocumentation.org/packages/DBI/topics/dbGetQuery">DBI::dbGetQuery()</a></code> and <code><a href="http://www.rdocumentation.org/packages/DBI/topics/dbExecute">DBI::dbExecute()</a></code>.</p>
 <p>If you’ve implemented a database backend for dplyr, please read the <a href="https://github.com/hadley/dbplyr/blob/master/NEWS.md#backends">backend news</a> to see what’s changed from your perspective (not much). If you want to ensure your package works with both the current and previous version of dplyr, see <code><a href="../reference/check_dbplyr.html">wrap_dbplyr_obj()</a></code> for helpers.</p>
 </div>
-<div class="section level2">
-<h2>UTF-8</h2>
+<div id="utf-8" class="section level2">
+<h2 class="hasAnchor">
+<a href="#utf-8" class="anchor"></a>UTF-8</h2>
 <ul>
 <li><p>Internally, column names are always represented as character vectors, and not as language symbols, to avoid encoding problems on Windows (<a href='https://github.com/tidyverse/dplyr/issues/1950'>#1950</a>, <a href='https://github.com/tidyverse/dplyr/issues/2387'>#2387</a>, <a href='https://github.com/tidyverse/dplyr/issues/2388'>#2388</a>).</p></li>
 <li><p>Error messages and explanations of data frame inequality are now encoded in UTF-8, also on Windows (<a href='https://github.com/tidyverse/dplyr/issues/2441'>#2441</a>).</p></li>
@@ -249,8 +280,9 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>New <code><a href="../reference/groups.html">group_vars()</a></code> generic that returns the grouping as character vector, to avoid the potentially lossy conversion to language symbols. The list returned by <code><a href="../reference/group_by_prepare.html">group_by_prepare()</a></code> now has a new <code>group_names</code> component (<a href='https://github.com/tidyverse/dplyr/issues/1950'>#1950</a>, <a href='https://github.com/tidyverse/dplyr/issues/2384'>#2384</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Colwise functions</h2>
+<div id="colwise-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#colwise-functions" class="anchor"></a>Colwise functions</h2>
 <ul>
 <li><p><code><a href="../reference/select.html">rename()</a></code>, <code><a href="../reference/select.html">select()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/filter.html">filter()</a></code>, <code><a href="../reference/arrange.html">arrange()</a></code> and <code><a href="../reference/mutate.html">transmute()</a></code> now have scoped variants (verbs suffixed with <code>_if()</code>, <code>_at()</code> and <code>_all()</code>). Like <code><a href="../reference/summarise_all.html">mutate_all()</a></code>, <code><a href="../reference/summarise_all.html">summarise_if()</a></code>, etc, these variants apply an operation to a selection of variables.</p></li>
 <li><p>The scoped verbs taking predicates (<code><a href="../reference/summarise_all.html">mutate_if()</a></code>, <code><a href="../reference/summarise_all.html">summarise_if()</a></code>, etc) now support S3 objects and lazy tables. S3 objects should implement methods for <code>length()</code>, <code>[[</code> and <code><a href="../reference/tbl_vars.html">tbl_vars()</a></code>. For lazy tables, the first 100 rows are collected and the predicate is applied on this subset of the data. This is robust for the common case of checking the type of a column (<a href='https://github.com/tidyverse/dplyr/issues/2129'>#2129</a>).</p></li>
@@ -260,8 +292,9 @@ select(mtcars, -(!! vars))</code></pre>
 <li><p>Fix issue with <code><a href="../reference/summarise_all.html">mutate_if()</a></code> and <code><a href="../reference/summarise_all.html">summarise_if()</a></code> when a predicate function returns a vector of <code>FALSE</code> (<a href='https://github.com/tidyverse/dplyr/issues/1989'>#1989</a>, <a href='https://github.com/tidyverse/dplyr/issues/2009'>#2009</a>, <a href='https://github.com/tidyverse/dplyr/issues/2011'>#2011</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Tidyeval</h2>
+<div id="tidyeval" class="section level2">
+<h2 class="hasAnchor">
+<a href="#tidyeval" class="anchor"></a>Tidyeval</h2>
 <p>dplyr has a new approach to non-standard evaluation (NSE) called tidyeval. It is described in detail in <code><a href="../articles/programming.html">vignette("programming")</a></code> but, in brief, gives you the ability to interpolate values in contexts where dplyr usually works with expressions:</p>
 <pre class="{r}"><code>my_var &lt;- quo(homeworld)
 
@@ -279,10 +312,12 @@ starwars %&gt;%
 <li><p>Expressions in verbs are now interpreted correctly in many cases that failed before (e.g., use of <code>$</code>, <code><a href="../reference/case_when.html">case_when()</a></code>, nonstandard evaluation, …). These expressions are now evaluated in a specially constructed temporary environment that retrieves column data on demand with the help of the <code>bindrcpp</code> package (<a href='https://github.com/tidyverse/dplyr/issues/2190'>#2190</a>). This temporary environment poses restrictions on assignments using <code>&lt;-</code> inside verbs. To prevent leaking of broken bindings, the temporary environment is cleared after the evaluation (<a href='https://github.com/tidyverse/dplyr/issues/2435'>#2435</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Verbs</h2>
-<div class="section level3">
-<h3>Joins</h3>
+<div id="verbs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#verbs" class="anchor"></a>Verbs</h2>
+<div id="joins" class="section level3">
+<h3 class="hasAnchor">
+<a href="#joins" class="anchor"></a>Joins</h3>
 <ul>
 <li><p>[API] <code>xxx_join.tbl_df(na_matches = "never")</code> treats all <code>NA</code> values as different from each other (and from any other value), so that they never match. This corresponds to the behavior of joins for database sources, and of database joins in general. To match <code>NA</code> values, pass <code>na_matches = "na"</code> to the join verbs; this is only supported for data frames. The default is <code>na_matches = "na"</code>, kept for the sake of compatibility to v0.5.0. It can be tweaked by calling <code><a href="http://www.rdocumentation.org/packages/pkgconfig/topics/set_config">pkgconfig::set_config("dplyr::na_matches", "na")</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/2033'>#2033</a>).</p></li>
 <li><p><code><a href="../reference/common_by.html">common_by()</a></code> gets a better error message for unexpected inputs (<a href='https://github.com/tidyverse/dplyr/issues/2091'>#2091</a>)</p></li>
@@ -292,8 +327,9 @@ starwars %&gt;%
 <li><p>Warnings about join column inconsistencies now contain the column names (<a href='https://github.com/tidyverse/dplyr/issues/2728'>#2728</a>).</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Select</h3>
+<div id="select" class="section level3">
+<h3 class="hasAnchor">
+<a href="#select" class="anchor"></a>Select</h3>
 <ul>
 <li><p>For selecting variables, the first selector decides if it’s an inclusive selection (i.e., the initial column list is empty), or an exclusive selection (i.e., the initial column list contains all columns). This means that <code><a href="../reference/select.html">select(mtcars, contains("am"), contains("FOO"), contains("vs"))</a></code> now returns again both <code>am</code> and <code>vs</code> columns like in dplyr 0.4.3 (<a href='https://github.com/tidyverse/dplyr/issues/2275'>#2275</a>, <a href='https://github.com/tidyverse/dplyr/issues/2289'>#2289</a>, <a href='http://github.com/r2evans'>@r2evans</a>).</p></li>
 <li><p>Select helpers now throw an error if called when no variables have been set (<a href='https://github.com/tidyverse/dplyr/issues/2452'>#2452</a>)</p></li>
@@ -301,8 +337,9 @@ starwars %&gt;%
 <li><p><code><a href="../reference/select.html">select()</a></code> (and the internal function <code><a href="../reference/select_vars.html">select_vars()</a></code>) now support column names in addition to column positions. As a result, expressions like <code><a href="../reference/select.html">select(mtcars, "cyl")</a></code> are now allowed.</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Other</h3>
+<div id="other" class="section level3">
+<h3 class="hasAnchor">
+<a href="#other" class="anchor"></a>Other</h3>
 <ul>
 <li><p><code><a href="../reference/recode.html">recode()</a></code>, <code><a href="../reference/case_when.html">case_when()</a></code> and <code><a href="../reference/coalesce.html">coalesce()</a></code> now support splicing of arguments with rlang’s <code>!!!</code> operator.</p></li>
 <li><p><code><a href="../reference/tally.html">count()</a></code> now preserves the grouping of its input (<a href='https://github.com/tidyverse/dplyr/issues/2021'>#2021</a>).</p></li>
@@ -318,8 +355,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-<div class="section level2">
-<h2>Combining and comparing</h2>
+<div id="combining-and-comparing" class="section level2">
+<h2 class="hasAnchor">
+<a href="#combining-and-comparing" class="anchor"></a>Combining and comparing</h2>
 <ul>
 <li><p><code><a href="../reference/all_equal.html">all_equal()</a></code> now reports multiple problems as a character vector (<a href='https://github.com/tidyverse/dplyr/issues/1819'>#1819</a>, <a href='https://github.com/tidyverse/dplyr/issues/2442'>#2442</a>).</p></li>
 <li><p><code><a href="../reference/all_equal.html">all_equal()</a></code> checks that factor levels are equal (<a href='https://github.com/tidyverse/dplyr/issues/2440'>#2440</a>, <a href='https://github.com/tidyverse/dplyr/issues/2442'>#2442</a>).</p></li>
@@ -338,8 +376,9 @@ starwars %&gt;%
 <li><p><code>mutate</code> coerces results from grouped dataframes accepting combinable data types (such as <code>integer</code> and <code>numeric</code>). (<a href='https://github.com/tidyverse/dplyr/issues/1892'>#1892</a>, <a href='http://github.com/zeehio'>@zeehio</a>)</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Vector functions</h2>
+<div id="vector-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#vector-functions" class="anchor"></a>Vector functions</h2>
 <ul>
 <li><p><code>%in%</code> gets new hybrid handler (<a href='https://github.com/tidyverse/dplyr/issues/126'>#126</a>).</p></li>
 <li><p><code><a href="../reference/between.html">between()</a></code> returns NA if <code>left</code> or <code>right</code> is <code>NA</code> (fixes <a href='https://github.com/tidyverse/dplyr/issues/2562'>#2562</a>).</p></li>
@@ -356,8 +395,9 @@ starwars %&gt;%
 <li><p><code><a href="../reference/recode.html">recode()</a></code> gains <code>.dots</code> argument to support passing replacements as list (<a href='https://github.com/tidyverse/dplyr/issues/2110'>#2110</a>, <a href='http://github.com/jlegewie'>@jlegewie</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Other minor changes and bug fixes</h2>
+<div id="other-minor-changes-and-bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-minor-changes-and-bug-fixes" class="anchor"></a>Other minor changes and bug fixes</h2>
 <ul>
 <li><p>Many error messages are more helpful by referring to a column name or a position in the argument list (<a href='https://github.com/tidyverse/dplyr/issues/2448'>#2448</a>).</p></li>
 <li><p>New <code><a href="../reference/grouped_df.html">is_grouped_df()</a></code> alias to <code><a href="../reference/grouped_df.html">is.grouped_df()</a></code>.</p></li>
@@ -382,20 +422,25 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.5.0</h1>
-<div class="section level2">
-<h2>Breaking changes</h2>
-<div class="section level3">
-<h3>Existing functions</h3>
+    <div id="dplyr-0-5-0" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-5-0" class="anchor"></a>dplyr 0.5.0<small> 2016-06-24 </small>
+</h1>
+<div id="breaking-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#breaking-changes" class="anchor"></a>Breaking changes</h2>
+<div id="existing-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#existing-functions" class="anchor"></a>Existing functions</h3>
 <ul>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> once again ignores grouping (<a href='https://github.com/tidyverse/dplyr/issues/1206'>#1206</a>).</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct()</a></code> now only keeps the distinct variables. If you want to return all variables (using the first row for non-distinct values) use <code>.keep_all = TRUE</code> (<a href='https://github.com/tidyverse/dplyr/issues/1110'>#1110</a>). For SQL sources, <code>.keep_all = FALSE</code> is implemented using <code>GROUP BY</code>, and <code>.keep_all = TRUE</code> raises an error (<a href='https://github.com/tidyverse/dplyr/issues/1937'>#1937</a>, <a href='https://github.com/tidyverse/dplyr/issues/1942'>#1942</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>). (The default behaviour of using all variables when none are specified remains - this note only applies if you select some variables).</p></li>
 <li><p>The select helper functions <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">starts_with()</a></code>, <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with()</a></code> etc are now real exported functions. This means that you’ll need to import those functions if you’re using from a package where dplyr is not attached. i.e. <code><a href="../reference/select.html">dplyr::select(mtcars, starts_with("m"))</a></code> used to work, but now you’ll need <code><a href="../reference/select.html">dplyr::select(mtcars, dplyr::starts_with("m"))</a></code>.</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Deprecated and defunct functions</h3>
+<div id="deprecated-and-defunct-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#deprecated-and-defunct-functions" class="anchor"></a>Deprecated and defunct functions</h3>
 <ul>
 <li><p>The long deprecated <code>chain()</code>, <code>chain_q()</code> and <code>%.%</code> have been removed. Please use <code>%&gt;%</code> instead.</p></li>
 <li><p><code><a href="../reference/id.html">id()</a></code> has been deprecated. Please use <code><a href="../reference/group_indices.html">group_indices()</a></code> instead (<a href='https://github.com/tidyverse/dplyr/issues/808'>#808</a>).</p></li>
@@ -405,8 +450,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-<div class="section level2">
-<h2>New functions</h2>
+<div id="new-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="../reference/coalesce.html">coalesce()</a></code> finds the first non-missing value from a set of vectors. (<a href='https://github.com/tidyverse/dplyr/issues/1666'>#1666</a>, thanks to <a href='http://github.com/krlmlr'>@krlmlr</a> for initial implementation).</p></li>
 <li><p><code><a href="../reference/case_when.html">case_when()</a></code> is a general vectorised if + else if (<a href='https://github.com/tidyverse/dplyr/issues/631'>#631</a>).</p></li>
@@ -419,14 +465,17 @@ starwars %&gt;%
 <li><p><code><a href="../reference/select_all.html">select_if()</a></code> lets you select columns with a predicate function. Only compatible with local sources. (<a href='https://github.com/tidyverse/dplyr/issues/497'>#497</a>, <a href='https://github.com/tidyverse/dplyr/issues/1569'>#1569</a>, <a href='http://github.com/lionel'>@lionel</a>-)</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Local backends</h2>
-<div class="section level3">
-<h3>dtplyr</h3>
+<div id="local-backends" class="section level2">
+<h2 class="hasAnchor">
+<a href="#local-backends" class="anchor"></a>Local backends</h2>
+<div id="dtplyr" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dtplyr" class="anchor"></a>dtplyr</h3>
 <p>All data table related code has been separated out in to a new dtplyr package. This decouples the development of the data.table interface from the development of the dplyr package. If both data.table and dplyr are loaded, you’ll get a message reminding you to load dtplyr.</p>
 </div>
-<div class="section level3">
-<h3>Tibble</h3>
+<div id="tibble" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tibble" class="anchor"></a>Tibble</h3>
 <p>Functions related to the creation and coercion of <code>tbl_df</code>s, now live in their own package: <a href="http://blog.rstudio.org/2016/03/24/tibble-1-0-0/">tibble</a>. See <code>vignette("tibble")</code> for more details.</p>
 <ul>
 <li><p><code>$</code> and <code>[[</code> methods that never do partial matching (<a href='https://github.com/tidyverse/dplyr/issues/1504'>#1504</a>), and throw an error if the variable does not exist.</p></li>
@@ -443,8 +492,9 @@ starwars %&gt;%
 <li><p><code>tbl_df</code> automatically generates column names (<a href='https://github.com/tidyverse/dplyr/issues/1606'>#1606</a>).</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>tbl_cube</h3>
+<div id="tbl_cube" class="section level3">
+<h3 class="hasAnchor">
+<a href="#tbl_cube" class="anchor"></a>tbl_cube</h3>
 <ul>
 <li><p>new <code><a href="../reference/as.table.tbl_cube.html">as_data_frame.tbl_cube()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1563'>#1563</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>).</p></li>
 <li><p><code>tbl_cube</code>s are now constructed correctly from data frames, duplicate dimension values are detected, missing dimension values are filled with <code>NA</code>. The construction from data frames now guesses the measure variables by default, and allows specification of dimension and/or measure variables (<a href='https://github.com/tidyverse/dplyr/issues/1568'>#1568</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>).</p></li>
@@ -452,8 +502,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-<div class="section level2">
-<h2>Remote backends</h2>
+<div id="remote-backends" class="section level2">
+<h2 class="hasAnchor">
+<a href="#remote-backends" class="anchor"></a>Remote backends</h2>
 <ul>
 <li><p><code><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_data_frame()</a></code> on SQL sources now returns all rows (<a href='https://github.com/tidyverse/dplyr/issues/1752'>#1752</a>, <a href='https://github.com/tidyverse/dplyr/issues/1821'>#1821</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>).</p></li>
 <li><p><code><a href="../reference/compute.html">compute()</a></code> gets new parameters <code>indexes</code> and <code>unique_indexes</code> that make it easier to add indexes (<a href='https://github.com/tidyverse/dplyr/issues/1499'>#1499</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>).</p></li>
@@ -461,16 +512,18 @@ starwars %&gt;%
 <li><p>The backend testing system has been improved. This lead to the removal of <code>temp_srcs()</code>. In the unlikely event that you were using this function, you can instead use <code>test_register_src()</code>, <code>test_load()</code>, and <code>test_frame()</code>.</p></li>
 <li><p>You can now use <code><a href="../reference/join.html">right_join()</a></code> and <code><a href="../reference/join.html">full_join()</a></code> with remote tables (<a href='https://github.com/tidyverse/dplyr/issues/1172'>#1172</a>).</p></li>
 </ul>
-<div class="section level3">
-<h3>SQLite</h3>
+<div id="sqlite" class="section level3">
+<h3 class="hasAnchor">
+<a href="#sqlite" class="anchor"></a>SQLite</h3>
 <ul>
 <li><p><code>src_memdb()</code> is a session-local in-memory SQLite database. <code>memdb_frame()</code> works like <code><a href="http://www.rdocumentation.org/packages/tibble/topics/tibble">data_frame()</a></code>, but creates a new table in that database.</p></li>
 <li><p><code><a href="../reference/src_dbi.html">src_sqlite()</a></code> now uses a stricter quoting character, <code>`</code>, instead of <code>"</code>. SQLite “helpfully” will convert <code>"x"</code> into a string if there is no identifier called x in the current scope (<a href='https://github.com/tidyverse/dplyr/issues/1426'>#1426</a>).</p></li>
 <li><p><code><a href="../reference/src_dbi.html">src_sqlite()</a></code> throws errors if you try and use it with window functions (<a href='https://github.com/tidyverse/dplyr/issues/907'>#907</a>).</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>SQL translation</h3>
+<div id="sql-translation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#sql-translation" class="anchor"></a>SQL translation</h3>
 <ul>
 <li><p><code>filter.tbl_sql()</code> now puts parens around each argument (<a href='https://github.com/tidyverse/dplyr/issues/934'>#934</a>).</p></li>
 <li><p>Unary <code>-</code> is better translated (<a href='https://github.com/tidyverse/dplyr/issues/1002'>#1002</a>).</p></li>
@@ -488,8 +541,9 @@ starwars %&gt;%
 </li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Internals</h3>
+<div id="internals" class="section level3">
+<h3 class="hasAnchor">
+<a href="#internals" class="anchor"></a>Internals</h3>
 <p>This version includes an almost total rewrite of how dplyr verbs are translated into SQL. Previously, I used a rather ad-hoc approach, which tried to guess when a new subquery was needed. Unfortunately this approach was fraught with bugs, so in this version I’ve implemented a much richer internal data model. Now there is a three step process:</p>
 <ol>
 <li><p>When applied to a <code>tbl_lazy</code>, each dplyr verb captures its inputs and stores in a <code>op</code> (short for operation) object.</p></li>
@@ -510,10 +564,12 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-<div class="section level2">
-<h2>Minor improvements and bug fixes</h2>
-<div class="section level3">
-<h3>Single table verbs</h3>
+<div id="minor-improvements-and-bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements-and-bug-fixes" class="anchor"></a>Minor improvements and bug fixes</h2>
+<div id="single-table-verbs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#single-table-verbs" class="anchor"></a>Single table verbs</h3>
 <ul>
 <li><p>Avoiding segfaults in presence of <code>raw</code> columns (<a href='https://github.com/tidyverse/dplyr/issues/1803'>#1803</a>, <a href='https://github.com/tidyverse/dplyr/issues/1817'>#1817</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>).</p></li>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> fails gracefully on list columns (<a href='https://github.com/tidyverse/dplyr/issues/1489'>#1489</a>) and matrices (<a href='https://github.com/tidyverse/dplyr/issues/1870'>#1870</a>, <a href='https://github.com/tidyverse/dplyr/issues/1945'>#1945</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>).</p></li>
@@ -534,8 +590,9 @@ starwars %&gt;%
 <li><p><code><a href="../reference/group_by.html">ungroup()</a></code> generic gains <code>...</code> (<a href='https://github.com/tidyverse/dplyr/issues/922'>#922</a>).</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Dual table verbs</h3>
+<div id="dual-table-verbs" class="section level3">
+<h3 class="hasAnchor">
+<a href="#dual-table-verbs" class="anchor"></a>Dual table verbs</h3>
 <ul>
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> matches the behaviour of <code><a href="../reference/bind.html">bind_rows()</a></code> and ignores <code>NULL</code> inputs (<a href='https://github.com/tidyverse/dplyr/issues/1148'>#1148</a>). It also handles <code>POSIXct</code>s with integer base type (<a href='https://github.com/tidyverse/dplyr/issues/1402'>#1402</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> handles 0-length named lists (<a href='https://github.com/tidyverse/dplyr/issues/1515'>#1515</a>), promotes factors to characters (<a href='https://github.com/tidyverse/dplyr/issues/1538'>#1538</a>), and warns when binding factor and character (<a href='https://github.com/tidyverse/dplyr/issues/1485'>#1485</a>). bind_rows()` is more flexible in the way it can accept data frames, lists, list of data frames, and list of lists (<a href='https://github.com/tidyverse/dplyr/issues/1389'>#1389</a>).</p></li>
@@ -549,8 +606,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p>There were a number of fixes to enable joining of data frames that don’t have the same encoding of column names (<a href='https://github.com/tidyverse/dplyr/issues/1513'>#1513</a>), including working around bug 16885 regarding <code>match()</code> in R 3.3.0 (<a href='https://github.com/tidyverse/dplyr/issues/1806'>#1806</a>, <a href='https://github.com/tidyverse/dplyr/issues/1810'>#1810</a>, <a href='http://github.com/krlmlr'>@krlmlr</a>).</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Vector functions</h3>
+<div id="vector-functions-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#vector-functions-1" class="anchor"></a>Vector functions</h3>
 <ul>
 <li><p><code><a href="../reference/bind.html">combine()</a></code> silently drops <code>NULL</code> inputs (<a href='https://github.com/tidyverse/dplyr/issues/1596'>#1596</a>).</p></li>
 <li><p>Hybrid <code><a href="../reference/cumall.html">cummean()</a></code> is more stable against floating point errors (<a href='https://github.com/tidyverse/dplyr/issues/1387'>#1387</a>).</p></li>
@@ -564,14 +622,18 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 </div>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.4.3</h1>
-<div class="section level2">
-<h2>Improved encoding support</h2>
+    <div id="dplyr-0-4-3" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-4-3" class="anchor"></a>dplyr 0.4.3<small> 2015-09-01 </small>
+</h1>
+<div id="improved-encoding-support" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improved-encoding-support" class="anchor"></a>Improved encoding support</h2>
 <p>Until now, dplyr’s support for non-UTF8 encodings has been rather shaky. This release brings a number of improvement to fix these problems: it’s probably not perfect, but should be a lot better than the previously version. This includes fixes to <code><a href="../reference/arrange.html">arrange()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1280'>#1280</a>), <code><a href="../reference/bind.html">bind_rows()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1265'>#1265</a>), <code><a href="../reference/distinct.html">distinct()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/1179'>#1179</a>), and joins (<a href='https://github.com/tidyverse/dplyr/issues/1315'>#1315</a>). <code>print.tbl_df()</code> also recieved a fix for strings with invalid encodings (<a href='https://github.com/tidyverse/dplyr/issues/851'>#851</a>).</p>
 </div>
-<div class="section level2">
-<h2>Other minor improvements and bug fixes</h2>
+<div id="other-minor-improvements-and-bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-minor-improvements-and-bug-fixes" class="anchor"></a>Other minor improvements and bug fixes</h2>
 <ul>
 <li><p><code><a href="http://www.rdocumentation.org/packages/tibble/topics/tribble">frame_data()</a></code> provides a means for constructing <code>data_frame</code>s using a simple row-wise language. (<a href='https://github.com/tidyverse/dplyr/issues/1358'>#1358</a>, <a href='http://github.com/kevinushey'>@kevinushey</a>)</p></li>
 <li><p><code>all.equal()</code> no longer runs all outputs together (<a href='https://github.com/tidyverse/dplyr/issues/1130'>#1130</a>).</p></li>
@@ -601,8 +663,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p>When “,” is already being used as the decimal point (<code>getOption("OutDec")</code>), use “.” as the thousands separator when printing out formatted numbers (<a href='http://github.com/ilarischeinin'>@ilarischeinin</a>, <a href='https://github.com/tidyverse/dplyr/issues/988'>#988</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Databases</h2>
+<div id="databases-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#databases-1" class="anchor"></a>Databases</h2>
 <ul>
 <li><p><code>db_query_fields.SQLiteConnection</code> uses <code>build_sql</code> rather than <code>paste0</code> (<a href='https://github.com/tidyverse/dplyr/issues/926'>#926</a>, <a href='http://github.com/NikNakk'>@NikNakk</a>)</p></li>
 <li><p>Improved handling of <code>log()</code> (<a href='https://github.com/tidyverse/dplyr/issues/1330'>#1330</a>).</p></li>
@@ -610,8 +673,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code>print(n = Inf)</code> now works for remote sources (<a href='https://github.com/tidyverse/dplyr/issues/1310'>#1310</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Hybrid evaluation</h2>
+<div id="hybrid-evaluation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#hybrid-evaluation" class="anchor"></a>Hybrid evaluation</h2>
 <ul>
 <li><p>Hybrid evaluation does not take place for objects with a class (<a href='https://github.com/tidyverse/dplyr/issues/1237'>#1237</a>).</p></li>
 <li><p>Improved <code>$</code> handling (<a href='https://github.com/tidyverse/dplyr/issues/1134'>#1134</a>).</p></li>
@@ -622,8 +686,10 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 </ul>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.4.2</h1>
+    <div id="dplyr-0-4-2" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-4-2" class="anchor"></a>dplyr 0.4.2<small> 2015-06-16 </small>
+</h1>
 <p>This is a minor release containing fixes for a number of crashes and issues identified by R CMD CHECK. There is one new “feature”: dplyr no longer complains about unrecognised attributes, and instead just copies them over to the output.</p>
 <ul>
 <li><p><code><a href="../reference/lead-lag.html">lag()</a></code> and <code><a href="../reference/lead-lag.html">lead()</a></code> for grouped data were confused about indices and therefore produced wrong results (<a href='https://github.com/tidyverse/dplyr/issues/925'>#925</a>, <a href='https://github.com/tidyverse/dplyr/issues/937'>#937</a>). <code><a href="../reference/lead-lag.html">lag()</a></code> once again overrides <code><a href="../reference/lead-lag.html">lag()</a></code> instead of just the default method <code>lag.default()</code>. This is necesary due to changes in R CMD check. To use the lag function provided by another package, use <code>pkg::lag</code>.</p></li>
@@ -639,16 +705,21 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p>Improved performance when working with large number of columns (<a href='https://github.com/tidyverse/dplyr/issues/879'>#879</a>).</p></li>
 </ul>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.4.1</h1>
+    <div id="dplyr-0-4-1" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-4-1" class="anchor"></a>dplyr 0.4.1<small> 2015-01-14 </small>
+</h1>
 <ul>
 <li>Don’t assume that RPostgreSQL is available.</li>
 </ul>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.4.0</h1>
-<div class="section level2">
-<h2>New features</h2>
+    <div id="dplyr-0-4-0" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-4-0" class="anchor"></a>dplyr 0.4.0<small> 2015-01-08 </small>
+</h1>
+<div id="new-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features" class="anchor"></a>New features</h2>
 <ul>
 <li><p><code><a href="../reference/add_rownames.html">add_rownames()</a></code> turns row names into an explicit variable (<a href='https://github.com/tidyverse/dplyr/issues/639'>#639</a>).</p></li>
 <li><p><code><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_data_frame()</a></code> efficiently coerces a list into a data frame (<a href='https://github.com/tidyverse/dplyr/issues/749'>#749</a>).</p></li>
@@ -657,15 +728,17 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code><a href="../reference/group_indices.html">group_indices()</a></code> computes a unique integer id for each group (<a href='https://github.com/tidyverse/dplyr/issues/771'>#771</a>). It can be called on a grouped_df without any arguments or on a data frame with same arguments as <code><a href="../reference/group_by.html">group_by()</a></code>.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>New vignettes</h2>
+<div id="new-vignettes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-vignettes" class="anchor"></a>New vignettes</h2>
 <ul>
 <li><p><code>vignette("data_frames")</code> describes dplyr functions that make it easier and faster to create and coerce data frames. It subsumes the old <code>memory</code> vignette.</p></li>
 <li><p><code><a href="../articles/two-table.html">vignette("two-table")</a></code> describes how two-table verbs work in dplyr.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Minor improvements</h2>
+<div id="minor-improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements" class="anchor"></a>Minor improvements</h2>
 <ul>
 <li><p><code><a href="http://www.rdocumentation.org/packages/tibble/topics/tibble">data_frame()</a></code> (and <code><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_data_frame()</a></code> &amp; <code><a href="../reference/tbl_df.html">tbl_df()</a></code>) now explicitly forbid columns that are data frames or matrices (<a href='https://github.com/tidyverse/dplyr/issues/775'>#775</a>). All columns must be either a 1d atomic vector or a 1d list.</p></li>
 <li><p><code><a href="../reference/do.html">do()</a></code> uses lazyeval to correctly evaluate its arguments in the correct environment (<a href='https://github.com/tidyverse/dplyr/issues/744'>#744</a>), and new <code><a href="../reference/se-deprecated.html">do_()</a></code> is the SE equivalent of <code><a href="../reference/do.html">do()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/718'>#718</a>). You can modify grouped data in place: this is probably a bad idea but it’s sometimes convenient (<a href='https://github.com/tidyverse/dplyr/issues/737'>#737</a>). <code><a href="../reference/do.html">do()</a></code> on grouped data tables now passes in all columns (not all columns except grouping vars) (<a href='https://github.com/tidyverse/dplyr/issues/735'>#735</a>, thanks to <a href='http://github.com/kismsu'>@kismsu</a>). <code><a href="../reference/do.html">do()</a></code> with database tables no longer potentially includes grouping variables twice (<a href='https://github.com/tidyverse/dplyr/issues/673'>#673</a>). Finally, <code><a href="../reference/do.html">do()</a></code> gives more consistent outputs when there are no rows or no groups (<a href='https://github.com/tidyverse/dplyr/issues/625'>#625</a>).</p></li>
@@ -697,8 +770,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p>Join functions keep attributes (e.g. time zone information) from the left argument for <code>POSIXct</code> and <code>Date</code> objects (<a href='https://github.com/tidyverse/dplyr/issues/819'>#819</a>), and only only warn once about each incompatibility (<a href='https://github.com/tidyverse/dplyr/issues/798'>#798</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Bug fixes</h2>
+<div id="bug-fixes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p><code>[.tbl_df</code> correctly computes row names for 0-column data frames, avoiding problems with xtable (<a href='https://github.com/tidyverse/dplyr/issues/656'>#656</a>). <code>[.grouped_df</code> will silently drop grouping if you don’t include the grouping columns (<a href='https://github.com/tidyverse/dplyr/issues/733'>#733</a>).</p></li>
 <li><p><code><a href="http://www.rdocumentation.org/packages/tibble/topics/tibble">data_frame()</a></code> now acts correctly if the first argument is a vector to be recycled. (<a href='https://github.com/tidyverse/dplyr/issues/680'>#680</a> thanks <a href='http://github.com/jimhester'>@jimhester</a>)</p></li>
@@ -715,16 +789,21 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 </ul>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.3.0.1</h1>
+    <div id="dplyr-0-3-0-1" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-3-0-1" class="anchor"></a>dplyr 0.3.0.1<small> 2014-10-08 </small>
+</h1>
 <ul>
 <li>Fixed problem with test script on Windows.</li>
 </ul>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.3</h1>
-<div class="section level2">
-<h2>New functions</h2>
+    <div id="dplyr-0-3" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-3" class="anchor"></a>dplyr 0.3<small> 2014-10-04 </small>
+</h1>
+<div id="new-functions-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions-1" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="../reference/between.html">between()</a></code> vector function efficiently determines if numeric values fall in a range, and is translated to special form for SQL (<a href='https://github.com/tidyverse/dplyr/issues/503'>#503</a>).</p></li>
 <li><p><code><a href="../reference/tally.html">count()</a></code> makes it even easier to do (weighted) counts (<a href='https://github.com/tidyverse/dplyr/issues/358'>#358</a>).</p></li>
@@ -738,8 +817,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code><a href="../reference/slice.html">slice()</a></code> allows you to selecting rows by position (<a href='https://github.com/tidyverse/dplyr/issues/226'>#226</a>). It includes positive integers, drops negative integers and you can use expression like <code><a href="../reference/n.html">n()</a></code>.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Programming with dplyr (non-standard evaluation)</h2>
+<div id="programming-with-dplyr-non-standard-evaluation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#programming-with-dplyr-non-standard-evaluation" class="anchor"></a>Programming with dplyr (non-standard evaluation)</h2>
 <ul>
 <li><p>You can now program with dplyr - every function that does non-standard evaluation (NSE) has a standard evaluation (SE) version ending in <code>_</code>. This is powered by the new lazyeval package which provides all the tools needed to implement NSE consistently and correctly.</p></li>
 <li><p>See <code>vignette("nse")</code> for full details.</p></li>
@@ -748,8 +828,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code>funs_q</code> has been replaced with <code>funs_</code>.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Removed and deprecated features</h2>
+<div id="removed-and-deprecated-features" class="section level2">
+<h2 class="hasAnchor">
+<a href="#removed-and-deprecated-features" class="anchor"></a>Removed and deprecated features</h2>
 <ul>
 <li><p><code>%.%</code> has been deprecated: please use <code>%&gt;%</code> instead. <code>chain()</code> is defunct. (<a href='https://github.com/tidyverse/dplyr/issues/518'>#518</a>)</p></li>
 <li><p><code>filter.numeric()</code> removed. Need to figure out how to reimplement with new lazy eval system.</p></li>
@@ -758,8 +839,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code>show_sql()</code> and <code>explain_sql()</code> and matching global options <code>dplyr.show_sql</code> and <code>dplyr.explain_sql</code> have been removed. Instead use <code><a href="../reference/explain.html">show_query()</a></code> and <code><a href="../reference/explain.html">explain()</a></code>.</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Minor improvements and bug fixes</h2>
+<div id="minor-improvements-and-bug-fixes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements-and-bug-fixes-1" class="anchor"></a>Minor improvements and bug fixes</h2>
 <ul>
 <li><p>Main verbs now have individual documentation pages (<a href='https://github.com/tidyverse/dplyr/issues/519'>#519</a>).</p></li>
 <li><p><code>%&gt;%</code> is simply re-exported from magrittr, instead of creating a local copy (<a href='https://github.com/tidyverse/dplyr/issues/496'>#496</a>, thanks to <a href='http://github.com/jimhester'>@jimhester</a>)</p></li>
@@ -776,10 +858,12 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code>rename</code> handles grouped data (<a href='https://github.com/tidyverse/dplyr/issues/640'>#640</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Minor improvements and bug fixes by backend</h2>
-<div class="section level3">
-<h3>Databases</h3>
+<div id="minor-improvements-and-bug-fixes-by-backend" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements-and-bug-fixes-by-backend" class="anchor"></a>Minor improvements and bug fixes by backend</h2>
+<div id="databases-2" class="section level3">
+<h3 class="hasAnchor">
+<a href="#databases-2" class="anchor"></a>Databases</h3>
 <ul>
 <li><p>Correct SQL generation for <code>paste()</code> when used with the collapse parameter targeting a Postgres database. (<a href='http://github.com/rbdixon'>@rbdixon</a>, <a href='https://github.com/tidyverse/dplyr/issues/1357'>#1357</a>)</p></li>
 <li><p>The db backend system has been completely overhauled in order to make it possible to add backends in other packages, and to support a much wider range of databases. See <code>vignette("new-sql-backend")</code> for instruction on how to create your own (<a href='https://github.com/tidyverse/dplyr/issues/568'>#568</a>).</p></li>
@@ -789,8 +873,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code><a href="../reference/order_by.html">order_by()</a></code> now works in conjunction with window functions in databases that support them.</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Data frames/<code>tbl_df</code>
+<div id="data-framestbl_df" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-framestbl_df" class="anchor"></a>Data frames/<code>tbl_df</code>
 </h3>
 <ul>
 <li><p>All verbs now understand how to work with <code>difftime()</code> (<a href='https://github.com/tidyverse/dplyr/issues/390'>#390</a>) and <code>AsIs</code> (<a href='https://github.com/tidyverse/dplyr/issues/453'>#453</a>) objects. They all check that colnames are unique (<a href='https://github.com/tidyverse/dplyr/issues/483'>#483</a>), and are more robust when columns are not present (<a href='https://github.com/tidyverse/dplyr/issues/348'>#348</a>, <a href='https://github.com/tidyverse/dplyr/issues/569'>#569</a>, <a href='https://github.com/tidyverse/dplyr/issues/600'>#600</a>).</p></li>
@@ -822,16 +907,18 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p>Improved handling of hybrid evaluation re $ and @ (<a href='https://github.com/tidyverse/dplyr/issues/645'>#645</a>).</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Data tables</h3>
+<div id="data-tables" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-tables" class="anchor"></a>Data tables</h3>
 <ul>
 <li><p>Fix major omission in <code>tbl_dt()</code> and <code>grouped_dt()</code> methods - I was accidentally doing a deep copy on every result :(</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> and <code><a href="../reference/group_by.html">group_by()</a></code> now retain over-allocation when working with data.tables (<a href='https://github.com/tidyverse/dplyr/issues/475'>#475</a>, <a href='http://github.com/arunsrinivasan'>@arunsrinivasan</a>).</p></li>
 <li><p>joining two data.tables now correctly dispatches to data table methods, and result is a data table (<a href='https://github.com/tidyverse/dplyr/issues/470'>#470</a>)</p></li>
 </ul>
 </div>
-<div class="section level3">
-<h3>Cubes</h3>
+<div id="cubes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#cubes" class="anchor"></a>Cubes</h3>
 <ul>
 <li>
 <code>summarise.tbl_cube()</code> works with single grouping variable (<a href='https://github.com/tidyverse/dplyr/issues/480'>#480</a>).</li>
@@ -839,17 +926,21 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 </div>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.2</h1>
-<div class="section level2">
-<h2>Piping</h2>
+    <div id="dplyr-0-2" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-2" class="anchor"></a>dplyr 0.2<small> 2014-05-21 </small>
+</h1>
+<div id="piping" class="section level2">
+<h2 class="hasAnchor">
+<a href="#piping" class="anchor"></a>Piping</h2>
 <p>dplyr now imports <code>%&gt;%</code> from magrittr (<a href='https://github.com/tidyverse/dplyr/issues/330'>#330</a>). I recommend that you use this instead of <code>%.%</code> because it is easier to type (since you can hold down the shift key) and is more flexible. With you <code>%&gt;%</code>, you can control which argument on the RHS recieves the LHS by using the pronoun <code>.</code>. This makes <code>%&gt;%</code> more useful with base R functions because they don’t always take the data frame as the first argument. For example you could pipe <code>mtcars</code> to <code>xtabs()</code> with:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">mtcars <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">xtabs</span>( <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>vs, <span class="dt">data =</span> .)</a></code></pre></div>
 <p>Thanks to <a href='http://github.com/smbache'>@smbache</a> for the excellent magrittr package. dplyr only provides <code>%&gt;%</code> from magrittr, but it contains many other useful functions. To use them, load <code>magrittr</code> explicitly: <code>library(magrittr)</code>. For more details, see <code>vignette("magrittr")</code>.</p>
 <p><code>%.%</code> will be deprecated in a future version of dplyr, but it won’t happen for a while. I’ve also deprecated <code>chain()</code> to encourage a single style of dplyr usage: please use <code>%&gt;%</code> instead.</p>
 </div>
-<div class="section level2">
-<h2>Do</h2>
+<div id="do" class="section level2">
+<h2 class="hasAnchor">
+<a href="#do" class="anchor"></a>Do</h2>
 <p><code><a href="../reference/do.html">do()</a></code> has been completely overhauled. There are now two ways to use it, either with multiple named arguments or a single unnamed arguments. <code><a href="../reference/group_by.html">group_by()</a></code> + <code><a href="../reference/do.html">do()</a></code> is equivalent to <code><a href="http://www.rdocumentation.org/packages/plyr/topics/dlply">plyr::dlply</a></code>, except it always returns a data frame.</p>
 <p>If you use named arguments, each argument becomes a list-variable in the output. A list-variable can contain any arbitrary R object so it’s particularly well suited for storing models.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode R"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">library</span>(dplyr)</a>
@@ -860,8 +951,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <p>Note the use of the <code>.</code> pronoun to refer to the data in the current group.</p>
 <p><code><a href="../reference/do.html">do()</a></code> also has an automatic progress bar. It appears if the computation takes longer than 5 seconds and lets you know (approximately) how much longer the job will take to complete.</p>
 </div>
-<div class="section level2">
-<h2>New verbs</h2>
+<div id="new-verbs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-verbs" class="anchor"></a>New verbs</h2>
 <p>dplyr 0.2 adds three new verbs:</p>
 <ul>
 <li><p><code><a href="http://www.rdocumentation.org/packages/tibble/topics/glimpse">glimpse()</a></code> makes it possible to see all the columns in a tbl, displaying as much data for each variable as can be fit on a single line.</p></li>
@@ -869,8 +961,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p><code><a href="../reference/summarise_each.html">summarise_each()</a></code> and <code><a href="../reference/summarise_each.html">mutate_each()</a></code> make it easy to apply one or more functions to multiple columns in a tbl (<a href='https://github.com/tidyverse/dplyr/issues/178'>#178</a>).</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Minor improvements</h2>
+<div id="minor-improvements-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-improvements-1" class="anchor"></a>Minor improvements</h2>
 <ul>
 <li><p>If you load plyr after dplyr, you’ll get a message suggesting that you load plyr first (<a href='https://github.com/tidyverse/dplyr/issues/347'>#347</a>).</p></li>
 <li><p><code><a href="../reference/as.tbl_cube.html">as.tbl_cube()</a></code> gains a method for matrices (<a href='https://github.com/tidyverse/dplyr/issues/359'>#359</a>, <a href='http://github.com/paulstaab'>@paulstaab</a>)</p></li>
@@ -894,8 +987,9 @@ create corrupt data frames (<a href='https://github.com/tidyverse/dplyr/issues/1
 <li><p>Special case for call to <code><a href="../reference/arrange.html">arrange()</a></code> on a grouped data frame with no arguments. (<a href='https://github.com/tidyverse/dplyr/issues/369'>#369</a>)</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Bug fixes</h2>
+<div id="bug-fixes-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-1" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p>Code adapted to Rcpp &gt; 0.11.1</p></li>
 <li><p>internal <code>DataDots</code> class protects against missing variables in verbs (<a href='https://github.com/tidyverse/dplyr/issues/314'>#314</a>), including the case where <code>...</code> is missing. (<a href='https://github.com/tidyverse/dplyr/issues/338'>#338</a>)</p></li>
@@ -921,10 +1015,13 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
 </ul>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.1.3</h1>
-<div class="section level2">
-<h2>Bug fixes</h2>
+    <div id="dplyr-0-1-3" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-1-3" class="anchor"></a>dplyr 0.1.3<small> 2014-03-15 </small>
+</h1>
+<div id="bug-fixes-2" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-2" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p><code><a href="../reference/select.html">select()</a></code> actually renames columns in a data table (<a href='https://github.com/tidyverse/dplyr/issues/284'>#284</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">rbind_all()</a></code> and <code><a href="../reference/bind.html">rbind_list()</a></code> now handle missing values in factors (<a href='https://github.com/tidyverse/dplyr/issues/279'>#279</a>).</p></li>
@@ -936,17 +1033,21 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
 </ul>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.1.2</h1>
-<div class="section level2">
-<h2>New features</h2>
+    <div id="dplyr-0-1-2" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-1-2" class="anchor"></a>dplyr 0.1.2<small> 2014-02-24 </small>
+</h1>
+<div id="new-features-1" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-features-1" class="anchor"></a>New features</h2>
 <ul>
 <li><p><code><a href="../reference/select.html">select()</a></code> is substantially more powerful. You can use named arguments to rename existing variables, and new functions <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">starts_with()</a></code>, <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with()</a></code>, <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">contains()</a></code>, <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">matches()</a></code> and <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">num_range()</a></code> to select variables based on their names. It now also makes a shallow copy, substantially reducing its memory impact (<a href='https://github.com/tidyverse/dplyr/issues/158'>#158</a>, <a href='https://github.com/tidyverse/dplyr/issues/172'>#172</a>, <a href='https://github.com/tidyverse/dplyr/issues/192'>#192</a>, <a href='https://github.com/tidyverse/dplyr/issues/232'>#232</a>).</p></li>
 <li><p><code><a href="../reference/summarise.html">summarize()</a></code> added as alias for <code><a href="../reference/summarise.html">summarise()</a></code> for people from countries that don’t don’t spell things correctly ;) (<a href='https://github.com/tidyverse/dplyr/issues/245'>#245</a>)</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Bug fixes</h2>
+<div id="bug-fixes-3" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-3" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p><code><a href="../reference/filter.html">filter()</a></code> now fails when given anything other than a logical vector, and correctly handles missing values (<a href='https://github.com/tidyverse/dplyr/issues/249'>#249</a>). <code>filter.numeric()</code> proxies <code><a href="http://www.rdocumentation.org/packages/stats/topics/filter">stats::filter()</a></code> so you can continue to use <code><a href="../reference/filter.html">filter()</a></code> function with numeric inputs (<a href='https://github.com/tidyverse/dplyr/issues/264'>#264</a>).</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> correctly uses newly created variables (<a href='https://github.com/tidyverse/dplyr/issues/259'>#259</a>).</p></li>
@@ -963,10 +1064,13 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
 </ul>
 </div>
 </div>
-    <div class="section level1">
-<h1>dplyr 0.1.1</h1>
-<div class="section level2">
-<h2>Improvements</h2>
+    <div id="dplyr-0-1-1" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-1-1" class="anchor"></a>dplyr 0.1.1<small> 2014-01-29 </small>
+</h1>
+<div id="improvements" class="section level2">
+<h2 class="hasAnchor">
+<a href="#improvements" class="anchor"></a>Improvements</h2>
 <ul>
 <li><p>new <code><a href="../reference/location.html">location()</a></code> and <code><a href="../reference/location.html">changes()</a></code> functions which provide more information about how data frames are stored in memory so that you can see what gets copied.</p></li>
 <li><p>renamed <code>explain_tbl()</code> to <code><a href="../reference/explain.html">explain()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/182'>#182</a>).</p></li>
@@ -975,8 +1079,9 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
 <li><p>The <code>benchmark-baseball</code> vignette now contains fairer (including grouping times) comparisons with <code>data.table</code>. (<a href='https://github.com/tidyverse/dplyr/issues/222'>#222</a>)</p></li>
 </ul>
 </div>
-<div class="section level2">
-<h2>Bug fixes</h2>
+<div id="bug-fixes-4" class="section level2">
+<h2 class="hasAnchor">
+<a href="#bug-fixes-4" class="anchor"></a>Bug fixes</h2>
 <ul>
 <li><p><code><a href="../reference/filter.html">filter()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/221'>#221</a>) and <code><a href="../reference/summarise.html">summarise()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/194'>#194</a>) correctly propagate attributes.</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> throws an error when asked to summarise an unknown variable instead of crashing (<a href='https://github.com/tidyverse/dplyr/issues/208'>#208</a>).</p></li>
@@ -996,23 +1101,23 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#NA">0.7.4.9000</a></li>
-        <li><a href="#NA">0.7.4</a></li>
-        <li><a href="#NA">0.7.3</a></li>
-        <li><a href="#NA">0.7.2</a></li>
-        <li><a href="#NA">0.7.1</a></li>
-        <li><a href="#NA">0.7.0</a></li>
-        <li><a href="#NA">0.5.0</a></li>
-        <li><a href="#NA">0.4.3</a></li>
-        <li><a href="#NA">0.4.2</a></li>
-        <li><a href="#NA">0.4.1</a></li>
-        <li><a href="#NA">0.4.0</a></li>
-        <li><a href="#NA">0.3.0.1</a></li>
-        <li><a href="#NA">0.3</a></li>
-        <li><a href="#NA">0.2</a></li>
-        <li><a href="#NA">0.1.3</a></li>
-        <li><a href="#NA">0.1.2</a></li>
-        <li><a href="#NA">0.1.1</a></li>
+        <li><a href="#dplyr-0-7-4-9002-2018-03-16">0.7.4.9002</a></li>
+        <li><a href="#dplyr-0-7-4">0.7.4</a></li>
+        <li><a href="#dplyr-0-7-3">0.7.3</a></li>
+        <li><a href="#dplyr-0-7-2">0.7.2</a></li>
+        <li><a href="#dplyr-0-7-1">0.7.1</a></li>
+        <li><a href="#dplyr-0-7-0">0.7.0</a></li>
+        <li><a href="#dplyr-0-5-0">0.5.0</a></li>
+        <li><a href="#dplyr-0-4-3">0.4.3</a></li>
+        <li><a href="#dplyr-0-4-2">0.4.2</a></li>
+        <li><a href="#dplyr-0-4-1">0.4.1</a></li>
+        <li><a href="#dplyr-0-4-0">0.4.0</a></li>
+        <li><a href="#dplyr-0-3-0-1">0.3.0.1</a></li>
+        <li><a href="#dplyr-0-3">0.3</a></li>
+        <li><a href="#dplyr-0-2">0.2</a></li>
+        <li><a href="#dplyr-0-1-3">0.1.3</a></li>
+        <li><a href="#dplyr-0-1-2">0.1.2</a></li>
+        <li><a href="#dplyr-0-1-1">0.1.1</a></li>
       </ul>
     </div>
   </div>
@@ -1025,7 +1130,7 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
@@ -1043,3 +1148,4 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
 
   </body>
 </html>
+
