@@ -103,13 +103,24 @@ test_that("scoping (#3426)", {
   )
 })
 
-test_that("rename_at can rename a grouping variable", {
+test_that("rename variants can rename a grouping variable (#3351)", {
   tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
+  res <- rename(tbl, GR1 = gr1, GR2 = gr2, X = x)
 
   expect_identical(
-    rename_at(tbl, vars(gr1), toupper),
-    rename(tbl, GR1 = gr1)
+    rename_at(tbl, vars(everything()), toupper),
+    res
+  )
+
+  expect_identical(
+    rename_all(tbl, toupper),
+    res
+  )
+
+  expect_identical(
+    rename_if(tbl, is.integer, toupper),
+    res
   )
 })
 
