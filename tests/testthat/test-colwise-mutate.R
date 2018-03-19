@@ -138,7 +138,17 @@ test_that("mutate variants does not mutate grouping variable (#3351)", {
     mutate_if(tbl, is.integer, sqrt),
     mutate(tbl, gr2 = sqrt(gr2), x = sqrt(x))
   )
+})
 
+test_that("summarise_at refuses to treat grouping variables (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_error(
+    summarise_at(tbl, vars(gr1), mean),
+    "Column `gr1` can't be modified because it's a grouping variable",
+    fixed = TRUE
+  )
 })
 
 # Deprecated ---------------------------------------------------------
