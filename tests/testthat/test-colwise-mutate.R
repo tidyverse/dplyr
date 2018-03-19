@@ -119,7 +119,8 @@ test_that("mutate_at refuses to mutate a grouping variable (#3351)", {
 
   expect_error(
     mutate_at(tbl, vars(gr1), sqrt),
-    "Column `gr1` can't be modified because it's a grouping variable"
+    "Column `gr1` can't be modified because it's a grouping variable",
+    fixed = TRUE
   )
 
 })
