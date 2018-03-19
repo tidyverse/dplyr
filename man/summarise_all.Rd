@@ -80,7 +80,7 @@ These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}},
 \item \code{summarise_all()}, \code{mutate_all()} and \code{transmute_all()} apply the
 functions to all (non-grouping) columns.
 \item \code{summarise_at()}, \code{mutate_at()} and \code{transmute_at()} allow you to
-select columns using the same name-based \link{select_helpers} just
+select columns using the same name-based \code{\link[tidyselect:select_helpers]{tidyselect::select_helpers()}} just
 like with \code{\link[=select]{select()}}.
 \item \code{summarise_if}(), \code{mutate_if}() and \code{transmute_if()} operate on
 columns for which a predicate returns \code{TRUE}.
