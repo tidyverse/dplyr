@@ -177,8 +177,8 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
     // is expected. This would happen if e.g. the mean function has been shadowed
     // mutate( x = mean(x) )
     // if `mean` evaluates to something other than `base::mean` then no hybrid.
-    RObject fun = Rf_eval(fun_symbol, env) ;
-    if (check && fun != it->second.reference) return 0 ;
+    RObject fun = Rf_findFun(fun_symbol, env) ;
+    if (check && !Rf_isNull(it->second.reference) && fun != it->second.reference) return 0 ;
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
