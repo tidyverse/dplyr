@@ -49,8 +49,8 @@ inline SubsetVectorVisitor* subset_visitor_matrix(SEXP vec) {
   stop("unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
 }
 
-inline bool is_lubridate_Period(SEXP x) {
-  if (!Rf_inherits(x, "Period")) return false ;
+inline bool is_lubridate_unsupported(SEXP x) {
+  if (!Rf_inherits(x, "Period") && !Rf_inherits(x, "Interval")) return false ;
   SEXP cl = Rf_getAttrib(x, R_ClassSymbol) ;
   if (Rf_isNull(cl)) return false ;
   SEXP pkg = Rf_getAttrib(cl, Rf_install("package")) ;
@@ -71,8 +71,8 @@ inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
       return new SubsetFactorVisitor(vec);
     return new SubsetVectorVisitorImpl<INTSXP>(vec);
   case REALSXP:
-    if (is_lubridate_Period(vec))
-      stop("Period not currently supported. https://github.com/tidyverse/dplyr/issues/2568") ;
+    if (is_lubridate_unsupported(vec))
+      stop("classes Period and Interval from lubridate are currently not supported. https://github.com/tidyverse/dplyr/issues/2568") ;
     return new SubsetVectorVisitorImpl<REALSXP>(vec);
   case LGLSXP:
     return new SubsetVectorVisitorImpl<LGLSXP>(vec);
