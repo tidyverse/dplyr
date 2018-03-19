@@ -56,13 +56,21 @@ test_that("can select/rename with vars()", {
   expect_identical(rename_at(df, vars(x:y), toupper), set_names(df, c("X", "Y", "z")))
 })
 
-test_that("select_at can use grouping variables (#3351)", {
+test_that("select variants can use grouping variables (#3351)", {
   tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
 
   expect_identical(
     select(tbl, gr1),
     select_at(tbl, vars(gr1))
+  )
+  expect_identical(
+    select_all(tbl),
+    tbl
+  )
+  expect_identical(
+    select_if(tbl, is.integer),
+    tbl
   )
 })
 
