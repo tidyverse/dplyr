@@ -125,6 +125,22 @@ test_that("mutate_at refuses to mutate a grouping variable (#3351)", {
 
 })
 
+test_that("mutate variants does not mutate grouping variable (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    mutate_all(tbl, sqrt),
+    mutate(tbl, gr2 = sqrt(gr2), x = sqrt(x))
+  )
+
+  expect_identical(
+    mutate_if(tbl, is.integer, sqrt),
+    mutate(tbl, gr2 = sqrt(gr2), x = sqrt(x))
+  )
+
+})
+
 # Deprecated ---------------------------------------------------------
 
 test_that("_each() and _all() families agree", {
