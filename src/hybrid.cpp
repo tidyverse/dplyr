@@ -149,15 +149,18 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     HybridHandlerMap& handlers = get_handlers();
 
-    // interpret dplyr::fun() as fun(). #3309
-    bool check = true ;
+    // if `check_hybrid_reference` is true, we check that the symbol `fun_symbol`
+    // evaluates to what we expect, i.e. the reference in its HybridHandler
+    // when we have `dplyr::` prefix we don't need to check
+    bool check_hybrid_reference = true ;
     SEXP fun_symbol = CAR(call);
+    // interpret dplyr::fun() as fun(). #3309
     if (TYPEOF(fun_symbol) == LANGSXP &&
         CAR(fun_symbol) == R_DoubleColonSymbol &&
         CADR(fun_symbol) == Rf_install("dplyr")
        ) {
       fun_symbol = CADDR(fun_symbol) ;
-      check = false ;
+      check_hybrid_reference = false ;
     }
 
     if (TYPEOF(fun_symbol) != SYMSXP) {
@@ -178,7 +181,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
     // mutate( x = mean(x) )
     // if `mean` evaluates to something other than `base::mean` then no hybrid.
     RObject fun = Rf_findFun(fun_symbol, env) ;
-    if (check && fun != it->second.reference) return 0 ;
+    if (check_hybrid_reference && fun != it->second.reference) return 0 ;
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
