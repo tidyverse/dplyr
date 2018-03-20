@@ -5,7 +5,7 @@
 
 #if defined(COMPILING_DPLYR)
 
-DataFrame build_index_cpp(DataFrame data);
+void build_index_cpp(DataFrame& data);
 void registerHybridHandler(const char*, HybridHandler);
 SEXP get_time_classes();
 SEXP get_date_classes();
