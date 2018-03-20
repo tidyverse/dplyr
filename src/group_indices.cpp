@@ -98,8 +98,8 @@ DataFrame build_index_cpp(DataFrame data) {
   data.attr("group_sizes") = group_sizes;
   data.attr("biggest_group_size") = biggest_group;
   data.attr("labels") = labels;
-  if (r_match(CharacterVector("grouped_df"), get_class(data))[0] < 0) {
-    set_class(data, CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame"));
+  if (!Rf_inherits(data, "grouped_df")) {
+    set_class(data, classes_grouped<GroupedDataFrame>());
   }
   return data;
 }
