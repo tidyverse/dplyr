@@ -281,3 +281,6 @@ summarize_each <- summarise_each
 #' @rdname summarise_each
 #' @export
 summarize_each_ <- summarise_each_
+
+# Null select_helpers
+select_helpers <- environment()

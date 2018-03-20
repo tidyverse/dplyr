@@ -85,7 +85,10 @@
     <div class="page-header toc-ignore">
       <h1>Introduction to dplyr</h1>
             
-          </div>
+      
+      <small>Source: <a href="https:/github.com/tidyverse/dplyr/blob/master/vignettes/dplyr.Rmd"><code>vignettes/dplyr.Rmd</code></a></small>
+
+    </div>
 
     
     
@@ -103,7 +106,9 @@
 <li><p>It uses efficient backends, so you spend less time waiting for the computer.</p></li>
 </ul>
 <p>This document introduces you to dplyr’s basic set of tools, and shows you how to apply them to data frames. dplyr also supports databases via the dbplyr package, once you’ve installed, read <code>vignette("dbplyr")</code> to learn more.</p>
-<section id="data-nycflights13" class="level2"><h2>Data: nycflights13</h2>
+<div id="data-nycflights13" class="section level2">
+<h2 class="hasAnchor">
+<a href="#data-nycflights13" class="anchor"></a>Data: nycflights13</h2>
 <p>To explore the basic data manipulation verbs of dplyr, we’ll use <code><a href="http://www.rdocumentation.org/packages/nycflights13/topics/flights">nycflights13::flights</a></code>. This dataset contains all 336776 flights that departed from New York City in 2013. The data comes from the US <a href="http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&amp;Link=0">Bureau of Transportation Statistics</a>, and is documented in <code>?nycflights13</code></p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(nycflights13)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">dim</span>(flights)</a>
@@ -121,7 +126,10 @@
 <a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
 <p>Note that <code><a href="http://www.rdocumentation.org/packages/nycflights13/topics/flights">nycflights13::flights</a></code> is a tibble, a modern reimagining of the data frame. It’s particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="http://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_tibble()</a></code>.</p>
-</section><section id="single-table-verbs" class="level2"><h2>Single table verbs</h2>
+</div>
+<div id="single-table-verbs" class="section level2">
+<h2 class="hasAnchor">
+<a href="#single-table-verbs" class="anchor"></a>Single table verbs</h2>
 <p>Dplyr aims to provide a function for each basic verb of data manipulation:</p>
 <ul>
 <li>
@@ -137,7 +145,9 @@
 <li>
 <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> to take random samples.</li>
 </ul>
-<section id="filter-rows-with-filter" class="level3"><h3>Filter rows with <code><a href="../reference/filter.html">filter()</a></code>
+<div id="filter-rows-with-filter" class="section level3">
+<h3 class="hasAnchor">
+<a href="#filter-rows-with-filter" class="anchor"></a>Filter rows with <code><a href="../reference/filter.html">filter()</a></code>
 </h3>
 <p><code><a href="../reference/filter.html">filter()</a></code> allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is <code>TRUE</code>.</p>
 <p>For example, we can select all flights on January 1st with:</p>
@@ -155,7 +165,10 @@
 <a class="sourceLine" id="cb2-12" data-line-number="12"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
 <p>This is rougly equivalent to this base R code:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">flights[flights<span class="op">$</span>month <span class="op">==</span><span class="st"> </span><span class="dv">1</span> <span class="op">&amp;</span><span class="st"> </span>flights<span class="op">$</span>day <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, ]</a></code></pre></div>
-</section><section id="arrange-rows-with-arrange" class="level3"><h3>Arrange rows with <code><a href="../reference/arrange.html">arrange()</a></code>
+</div>
+<div id="arrange-rows-with-arrange" class="section level3">
+<h3 class="hasAnchor">
+<a href="#arrange-rows-with-arrange" class="anchor"></a>Arrange rows with <code><a href="../reference/arrange.html">arrange()</a></code>
 </h3>
 <p><code><a href="../reference/arrange.html">arrange()</a></code> works similarly to <code><a href="../reference/filter.html">filter()</a></code> except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(flights, year, month, day)</a>
@@ -183,7 +196,10 @@
 <a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb5-11" data-line-number="11"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb5-12" data-line-number="12"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-</section><section id="select-columns-with-select" class="level3"><h3>Select columns with <code><a href="../reference/select.html">select()</a></code>
+</div>
+<div id="select-columns-with-select" class="section level3">
+<h3 class="hasAnchor">
+<a href="#select-columns-with-select" class="anchor"></a>Select columns with <code><a href="../reference/select.html">select()</a></code>
 </h3>
 <p>Often you work with large datasets with many columns but only a few are actually of interest to you. <code><a href="../reference/select.html">select()</a></code> allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Select columns by name</span></a>
@@ -242,7 +258,10 @@
 <a class="sourceLine" id="cb8-10" data-line-number="10"><span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tail_num &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb8-11" data-line-number="11"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb8-12" data-line-number="12"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-</section><section id="add-new-columns-with-mutate" class="level3"><h3>Add new columns with <code><a href="../reference/mutate.html">mutate()</a></code>
+</div>
+<div id="add-new-columns-with-mutate" class="section level3">
+<h3 class="hasAnchor">
+<a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code><a href="../reference/mutate.html">mutate()</a></code>
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(flights,</a>
@@ -289,7 +308,10 @@
 <a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; 3   31.         11.6 </span></a>
 <a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; 4  -17.         -5.57</span></a>
 <a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; # ... with 336,772 more rows</span></a></code></pre></div>
-</section><section id="summarise-values-with-summarise" class="level3"><h3>Summarise values with <code><a href="../reference/summarise.html">summarise()</a></code>
+</div>
+<div id="summarise-values-with-summarise" class="section level3">
+<h3 class="hasAnchor">
+<a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code><a href="../reference/summarise.html">summarise()</a></code>
 </h3>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame to a single row.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(flights,</a>
@@ -300,7 +322,10 @@
 <a class="sourceLine" id="cb12-6" data-line-number="6"><span class="co">#&gt;   &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb12-7" data-line-number="7"><span class="co">#&gt; 1  12.6</span></a></code></pre></div>
 <p>It’s not that useful until we learn the <code><a href="../reference/group_by.html">group_by()</a></code> verb below.</p>
-</section><section id="randomly-sample-rows-with-sample_n-and-sample_frac" class="level3"><h3>Randomly sample rows with <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code>
+</div>
+<div id="randomly-sample-rows-with-sample_n-and-sample_frac" class="section level3">
+<h3 class="hasAnchor">
+<a href="#randomly-sample-rows-with-sample_n-and-sample_frac" class="anchor"></a>Randomly sample rows with <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code>
 </h3>
 <p>You can use <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> to take a random sample of rows: use <code><a href="../reference/sample.html">sample_n()</a></code> for a fixed number and <code><a href="../reference/sample.html">sample_frac()</a></code> for a fixed fraction.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/sample.html">sample_n</a></span>(flights, <span class="dv">10</span>)</a>
@@ -328,7 +353,10 @@
 <a class="sourceLine" id="cb13-23" data-line-number="23"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb13-24" data-line-number="24"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
 <p>Use <code>replace = TRUE</code> to perform a bootstrap sample. If needed, you can weight the sample with the <code>weight</code> argument.</p>
-</section><section id="commonalities" class="level3"><h3>Commonalities</h3>
+</div>
+<div id="commonalities" class="section level3">
+<h3 class="hasAnchor">
+<a href="#commonalities" class="anchor"></a>Commonalities</h3>
 <p>You may have noticed that the syntax and function of all these verbs are very similar:</p>
 <ul>
 <li><p>The first argument is a data frame.</p></li>
@@ -337,9 +365,15 @@
 </ul>
 <p>Together these properties make it easy to chain together multiple simple steps to achieve a complex result.</p>
 <p>These five functions provide the basis of a language of data manipulation. At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (<code><a href="../reference/arrange.html">arrange()</a></code>), pick observations and variables of interest (<code><a href="../reference/filter.html">filter()</a></code> and <code><a href="../reference/select.html">select()</a></code>), add new variables that are functions of existing variables (<code><a href="../reference/mutate.html">mutate()</a></code>), or collapse many values to a summary (<code><a href="../reference/summarise.html">summarise()</a></code>). The remainder of the language comes from applying the five functions to different types of data. For example, I’ll discuss how these functions work with grouped data.</p>
-</section></section><section id="patterns-of-operations" class="level2"><h2>Patterns of operations</h2>
+</div>
+</div>
+<div id="patterns-of-operations" class="section level2">
+<h2 class="hasAnchor">
+<a href="#patterns-of-operations" class="anchor"></a>Patterns of operations</h2>
 <p>The dplyr verbs can be classified by the type of operations they accomplish (we sometimes speak of their <strong>semantics</strong>, i.e., their meaning). The most important and useful distinction is between grouped and ungrouped operations. In addition, it is helpful to have a good grasp of the difference between select and mutate operations.</p>
-<section id="grouped-operations" class="level3"><h3>Grouped operations</h3>
+<div id="grouped-operations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#grouped-operations" class="anchor"></a>Grouped operations</h3>
 <p>The dplyr verbs are useful on their own, but they become even more powerful when you apply them to groups of observations within a dataset. In dplyr, you do this with the <code><a href="../reference/group_by.html">group_by()</a></code> function. It breaks down a dataset into specified groups of rows. When you then apply the verbs above on the resulting object they’ll be automatically applied “by group”.</p>
 <p>Grouping affects the verbs as follows:</p>
 <ul>
@@ -412,7 +446,10 @@
 <a class="sourceLine" id="cb16-25" data-line-number="25"><span class="co">#&gt;   &lt;int&gt;   &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb16-26" data-line-number="26"><span class="co">#&gt; 1  2013  336776</span></a></code></pre></div>
 <p>However you need to be careful when progressively rolling up summaries like this: it’s ok for sums and counts, but you need to think about weighting for means and variances (it’s not possible to do this exactly for medians).</p>
-</section><section id="selecting-operations" class="level3"><h3>Selecting operations</h3>
+</div>
+<div id="selecting-operations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#selecting-operations" class="anchor"></a>Selecting operations</h3>
 <p>One of the appealing features of dplyr is that you can refer to columns from the tibble as if they were regular variables. However, the syntactic uniformity of referring to bare column names hides semantical differences across the verbs. A column symbol supplied to <code><a href="../reference/select.html">select()</a></code> does not have the same meaning as the same symbol supplied to <code><a href="../reference/mutate.html">mutate()</a></code>.</p>
 <p>Selecting operations expect column names and positions. Hence, when you call <code><a href="../reference/select.html">select()</a></code> with bare variable names, they actually represent their own positions in the tibble. The following calls are completely equivalent from dplyr’s point of view:</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="co"># `year` represents the integer 1</span></a>
@@ -488,7 +525,10 @@
 <a class="sourceLine" id="cb22-14" data-line-number="14"><span class="co">#&gt; 4  2013     1     1</span></a>
 <a class="sourceLine" id="cb22-15" data-line-number="15"><span class="co">#&gt; # ... with 336,772 more rows</span></a></code></pre></div>
 <p>This operator is very useful when you need to use dplyr within custom functions. You can learn more about it in <code><a href="../articles/programming.html">vignette("programming")</a></code>. However it is important to understand the semantics of the verbs you are unquoting into, that is, the values they understand. As we have just seen, <code><a href="../reference/select.html">select()</a></code> supports names and positions of columns. But that won’t be the case in other verbs like <code><a href="../reference/mutate.html">mutate()</a></code> because they have different semantics.</p>
-</section><section id="mutating-operations" class="level3"><h3>Mutating operations</h3>
+</div>
+<div id="mutating-operations" class="section level3">
+<h3 class="hasAnchor">
+<a href="#mutating-operations" class="anchor"></a>Mutating operations</h3>
 <p>Mutate semantics are quite different from selection semantics. Whereas <code><a href="../reference/select.html">select()</a></code> expects column names or positions, <code><a href="../reference/mutate.html">mutate()</a></code> expects <em>column vectors</em>. Let’s create a smaller tibble for clarity:</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb23-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year<span class="op">:</span>dep_time)</a></code></pre></div>
 <p>When we use <code><a href="../reference/select.html">select()</a></code>, the bare column names stand for ther own positions in the tibble. For <code><a href="../reference/mutate.html">mutate()</a></code> on the other hand, column symbols represent the actual column vectors stored in the tibble. Consider what happens if we give a string or a number to <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
@@ -576,7 +616,11 @@
 <a class="sourceLine" id="cb29-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544</span></a>
 <a class="sourceLine" id="cb29-10" data-line-number="10"><span class="co">#&gt; # ... with 336,772 more rows</span></a></code></pre></div>
 <p>You can read more about the <code>_at()</code> and <code>_if()</code> variants in the <code><a href="../reference/scoped.html">?scoped</a></code> help page.</p>
-</section></section><section id="piping" class="level2"><h2>Piping</h2>
+</div>
+</div>
+<div id="piping" class="section level2">
+<h2 class="hasAnchor">
+<a href="#piping" class="anchor"></a>Piping</h2>
 <p>The dplyr API is functional in the sense that function calls don’t have side-effects. You must always save their results. This doesn’t lead to particularly elegant code, especially if you want to do many operations at once. You either have to do it step-by-step:</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)</a>
 <a class="sourceLine" id="cb30-2" data-line-number="2">a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, arr_delay, dep_delay)</a>
@@ -615,20 +659,36 @@
 <a class="sourceLine" id="cb32-6" data-line-number="6">    <span class="dt">dep =</span> <span class="kw">mean</span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb32-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb32-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
-</section><section id="other-data-sources" class="level2"><h2>Other data sources</h2>
+</div>
+<div id="other-data-sources" class="section level2">
+<h2 class="hasAnchor">
+<a href="#other-data-sources" class="anchor"></a>Other data sources</h2>
 <p>As well as data frames, dplyr works with data that is stored in other ways, like data tables, databases and multidimensional arrays.</p>
-<section id="data-table" class="level3"><h3>Data table</h3>
+<div id="data-table" class="section level3">
+<h3 class="hasAnchor">
+<a href="#data-table" class="anchor"></a>Data table</h3>
 <p>dplyr also provides <a href="http://datatable.r-forge.r-project.org/">data table</a> methods for all verbs through <a href="http://github.com/hadley/dtplyr">dtplyr</a>. If you’re using data.tables already this lets you to use dplyr syntax for data manipulation, and data.table for everything else.</p>
 <p>For multiple operations, data.table can be faster because you usually use it with multiple verbs simultaneously. For example, with data table you can do a mutate and a select in a single step. It’s smart enough to know that there’s no point in computing the new variable for rows you’re about to throw away.</p>
 <p>The advantages of using dplyr with data tables are:</p>
 <ul>
 <li><p>For common data manipulation tasks, it insulates you from the reference semantics of data.tables, and protects you from accidentally modifying your data.</p></li>
 <li><p>Instead of one complex method built on the subscripting operator (<code>[</code>), it provides many simple methods.</p></li>
-</ul></section><section id="databases" class="level3"><h3>Databases</h3>
+</ul>
+</div>
+<div id="databases" class="section level3">
+<h3 class="hasAnchor">
+<a href="#databases" class="anchor"></a>Databases</h3>
 <p>dplyr also allows you to use the same verbs with a remote database. It takes care of generating the SQL for you so that you can avoid the cognitive challenge of constantly switching between languages. To use these capabilities, you’ll need to install the dbplyr package and then read <code>vignette("dbplyr")</code> for the details.</p>
-</section><section id="multidimensional-arrays-cubes" class="level3"><h3>Multidimensional arrays / cubes</h3>
+</div>
+<div id="multidimensional-arrays-cubes" class="section level3">
+<h3 class="hasAnchor">
+<a href="#multidimensional-arrays-cubes" class="anchor"></a>Multidimensional arrays / cubes</h3>
 <p><code><a href="../reference/tbl_cube.html">tbl_cube()</a></code> provides an experimental interface to multidimensional arrays or data cubes. If you’re using this form of data in R, please get in touch so I can better understand your needs.</p>
-</section></section><section id="comparisons" class="level2"><h2>Comparisons</h2>
+</div>
+</div>
+<div id="comparisons" class="section level2">
+<h2 class="hasAnchor">
+<a href="#comparisons" class="anchor"></a>Comparisons</h2>
 <p>Compared to all existing options, dplyr:</p>
 <ul>
 <li><p>abstracts away how your data is stored, so that you can work with data frames, data tables and remote databases using the same set of functions. This lets you focus on what you want to achieve, not on the logistics of data storage.</p></li>
@@ -649,7 +709,8 @@
 <ul>
 <li><p>it doesn’t pretend that you have a data frame: if you want to run lm etc, you’ll still need to manually pull down the data</p></li>
 <li><p>it doesn’t provide methods for R summary functions (e.g. <code>mean()</code>, or <code>sum()</code>)</p></li>
-</ul></section>
+</ul>
+</div>
 </div>
   </div>
 
@@ -676,7 +737,7 @@
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
