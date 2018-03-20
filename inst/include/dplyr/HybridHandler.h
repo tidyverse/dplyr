@@ -5,9 +5,9 @@ namespace dplyr {
 class ILazySubsets;
 class Result;
 
-typedef dplyr::Result* (*HybridHandlerFun)(SEXP, const dplyr::ILazySubsets&, int);
-
 struct HybridHandler {
+  typedef dplyr::Result* (*HybridHandlerFun)(SEXP, const dplyr::ILazySubsets&, int);
+
   HybridHandlerFun handler ;
   SEXP reference ;
 
