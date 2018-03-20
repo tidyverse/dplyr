@@ -1121,7 +1121,7 @@ test_that("top_n() is hybridised (#2822)", {
 })
 
 test_that( "hybrid evaluation can be disabled locally (#3255)", {
-  tbl <- data.frame( x = 1:10)
+  tbl <- data.frame(x = 1:10)
 
   first <- function(...) 42
   expect_equal( summarise( tbl, y = first(x) )$y, 42 )
