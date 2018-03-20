@@ -15,16 +15,17 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop, bool 
   assert_all_white_list(data);
   DataFrame copy(shallow_copy(data));
   set_vars(copy, symbols);
+  set_class(copy, classes_grouped<GroupedDataFrame>());
   copy.attr("drop") = drop;
   if (!symbols.size())
     stop("no variables to group by");
   if (build_index) {
-    return build_index_cpp(copy);
+    build_index_cpp(copy);
   }
   else {
     strip_index(copy);
-    return copy;
   }
+  return copy;
 }
 
 // [[Rcpp::export]]

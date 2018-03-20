@@ -227,20 +227,13 @@ IHybridCallback::~IHybridCallback() {
 }
 
 GroupedHybridEnv::GroupedHybridEnv(const CharacterVector& names_, const Environment& env_,
-                                   const IHybridCallback* callback_) :
+                                   boost::shared_ptr<const IHybridCallback> callback_) :
   names(names_), env(env_), callback(callback_), has_overscope(false)
 {
   LOG_VERBOSE;
 }
 
 GroupedHybridEnv::~GroupedHybridEnv() {
-  if (has_overscope) {
-    // We need to call into R because there is no C API for removing
-    // bindings from environments
-    static Function env_wipe = dplyr_object("env_wipe");
-    env_wipe(mask_active);
-    env_wipe(mask_bottom);
-  }
 }
 
 const Environment& GroupedHybridEnv::get_overscope() const {
@@ -252,12 +245,15 @@ void GroupedHybridEnv::provide_overscope() const {
   if (has_overscope)
     return;
 
+  XPtr<const IHybridCallback> p(new HybridCallbackWeakProxy(callback));
+  List payload = List::create(p);
+
   // Environment::new_child() performs an R callback, creating the environment
   // in R should be slightly faster
   mask_active =
-    create_env_string(
+    create_env_string_wrapped(
       names, &GroupedHybridEnv::hybrid_get_callback,
-      PAYLOAD(const_cast<void*>(reinterpret_cast<const void*>(callback))), env);
+      payload, env);
 
   // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
   // call to Rcpp_eval() triggered by mask_active.new_child()
@@ -270,10 +266,30 @@ void GroupedHybridEnv::provide_overscope() const {
   has_overscope = true;
 }
 
-SEXP GroupedHybridEnv::hybrid_get_callback(const String& name, bindrcpp::PAYLOAD payload) {
+SEXP GroupedHybridEnv::hybrid_get_callback(const String& name, List payload) {
   LOG_VERBOSE;
-  IHybridCallback* callback_ = reinterpret_cast<IHybridCallback*>(payload.p);
+  XPtr<const IHybridCallback> callback_ = payload[0];
   return callback_->get_subset(SymbolString(name));
+}
+
+GroupedHybridEnv::HybridCallbackWeakProxy::HybridCallbackWeakProxy(boost::shared_ptr<const IHybridCallback> real_) :
+  real(real_)
+{
+  LOG_VERBOSE;
+}
+
+GroupedHybridEnv::HybridCallbackWeakProxy::~HybridCallbackWeakProxy() {
+  LOG_VERBOSE;
+}
+
+SEXP GroupedHybridEnv::HybridCallbackWeakProxy::get_subset(const SymbolString& name) const {
+  if (boost::shared_ptr<const IHybridCallback> lock = real.lock()) {
+    return lock.get()->get_subset(name);
+  }
+  else {
+    warning("Hybrid callback proxy out of scope");
+    return R_NilValue;
+  }
 }
 
 GroupedHybridCall::GroupedHybridCall(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
@@ -343,7 +359,8 @@ void GroupedHybridCall::clear_indices() const {
 
 GroupedHybridEval::GroupedHybridEval(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
   indices(NULL), subsets(subsets_), env(env_),
-  hybrid_env(subsets_.get_variable_names().get_vector(), env_, this),
+  proxy(new HybridCallbackProxy(this)),
+  hybrid_env(subsets_.get_variable_names().get_vector(), env_, proxy),
   hybrid_call(call_, subsets_, env_)
 {
   LOG_VERBOSE;
@@ -382,6 +399,20 @@ SEXP GroupedHybridEval::eval_with_indices() {
     return Rcpp_eval(call, hybrid_env.get_overscope());
   }
   return call;
+}
+
+GroupedHybridEval::HybridCallbackProxy::HybridCallbackProxy(const IHybridCallback* real_) :
+  real(real_)
+{
+  LOG_VERBOSE;
+}
+
+GroupedHybridEval::HybridCallbackProxy::~HybridCallbackProxy() {
+  LOG_VERBOSE;
+}
+
+SEXP GroupedHybridEval::HybridCallbackProxy::get_subset(const SymbolString& name) const {
+  return real->get_subset(name);
 }
 
 }

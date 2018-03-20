@@ -39,7 +39,9 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
 
-DataFrame build_index_cpp(DataFrame data) {
+// Updates attributes in data by reference!
+// All these attributes are private to dplyr.
+void build_index_cpp(DataFrame& data) {
   SymbolVector vars(get_vars(data));
   const int nvars = vars.size();
 
@@ -89,14 +91,19 @@ DataFrame build_index_cpp(DataFrame data) {
     biggest_group = std::max(biggest_group, (int)chunk.size());
   }
 
+  // The attributes are injected into data without duplicating it!
+  // The object is mutated, violating R's usual copy-on-write semantics.
+  // This is safe here, because the indices are an auxiliary data structure
+  // that is rebuilt as necessary. Updating the object in-place saves costly
+  // recomputations. We don't touch the "class" attribute here.
   data.attr("indices") = indices;
   data.attr("group_sizes") = group_sizes;
   data.attr("biggest_group_size") = biggest_group;
   data.attr("labels") = labels;
-  set_class(data, CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame"));
-  return data;
 }
 
+// Updates attributes in data by reference!
+// All these attributes are private to dplyr.
 void strip_index(DataFrame x) {
   x.attr("indices") = R_NilValue;
   x.attr("group_sizes") = R_NilValue;
