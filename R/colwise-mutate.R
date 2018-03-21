@@ -8,7 +8,7 @@
 #'   functions to all (non-grouping) columns.
 #'
 #' * `summarise_at()`, `mutate_at()` and `transmute_at()` allow you to
-#'   select columns using the same name-based [select_helpers] just
+#'   select columns using the same name-based [tidyselect::select_helpers()] just
 #'   like with [select()].
 #'
 #' * `summarise_if`(), `mutate_if`() and `transmute_if()` operate on
