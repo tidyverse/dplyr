@@ -102,7 +102,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Print the location in memory of a data frame</h1>
-    <small>Source: <a href='https:/github.com/tidyverse/dplyr/blob/master/R/location.R'><code>R/location.R</code></a></small>
+    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/location.R'><code>R/location.R</code></a></small>
     </div>
 
     
@@ -129,51 +129,51 @@ frames</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x108d693f0&gt;
+    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x113047b50&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x1179323e0&gt;
-#&gt;  * cyl:       &lt;0x10ca00e90&gt;
-#&gt;  * disp:      &lt;0x117959b60&gt;
-#&gt;  * hp:        &lt;0x117959e40&gt;
-#&gt;  * drat:      &lt;0x10ca46080&gt;
-#&gt;  * wt:        &lt;0x1179672c0&gt;
-#&gt;  * qsec:      &lt;0x10ca47ad0&gt;
-#&gt;  * vs:        &lt;0x1179a12b0&gt;
-#&gt;  * am:        &lt;0x1179646a0&gt;
-#&gt;  * gear:      &lt;0x117923af0&gt;
-#&gt;  * carb:      &lt;0x1179c83d0&gt;
+#&gt;  * mpg:       &lt;0x1113cf570&gt;
+#&gt;  * cyl:       &lt;0x1113cf6a0&gt;
+#&gt;  * disp:      &lt;0x1113e4ca0&gt;
+#&gt;  * hp:        &lt;0x1113e4dd0&gt;
+#&gt;  * drat:      &lt;0x1113e4f00&gt;
+#&gt;  * wt:        &lt;0x1113e5030&gt;
+#&gt;  * qsec:      &lt;0x1113e5160&gt;
+#&gt;  * vs:        &lt;0x1113e5290&gt;
+#&gt;  * am:        &lt;0x1113e53c0&gt;
+#&gt;  * gear:      &lt;0x1113e54f0&gt;
+#&gt;  * carb:      &lt;0x1113e5620&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x108d67f58&gt;
-#&gt;  * row.names: &lt;0x10ca42330&gt;
-#&gt;  * class:     &lt;0x10d2a63d8&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x113047aa8&gt;
+#&gt;  * row.names: &lt;0x1113e5750&gt;
+#&gt;  * class:     &lt;0x109a2d888&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x1159e3158&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x116f6c098&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x1179323e0&gt;
-#&gt;  * cyl:       &lt;0x10ca00e90&gt;
-#&gt;  * disp:      &lt;0x117959b60&gt;
-#&gt;  * hp:        &lt;0x117959e40&gt;
-#&gt;  * drat:      &lt;0x10ca46080&gt;
-#&gt;  * wt:        &lt;0x1179672c0&gt;
-#&gt;  * qsec:      &lt;0x10ca47ad0&gt;
-#&gt;  * vs:        &lt;0x1179a12b0&gt;
-#&gt;  * am:        &lt;0x1179646a0&gt;
-#&gt;  * gear:      &lt;0x117923af0&gt;
-#&gt;  * carb:      &lt;0x1179c83d0&gt;
-#&gt;  * cyl2:      &lt;0x10cde1a20&gt;
+#&gt;  * mpg:       &lt;0x1113cf570&gt;
+#&gt;  * cyl:       &lt;0x1113cf6a0&gt;
+#&gt;  * disp:      &lt;0x1113e4ca0&gt;
+#&gt;  * hp:        &lt;0x1113e4dd0&gt;
+#&gt;  * drat:      &lt;0x1113e4f00&gt;
+#&gt;  * wt:        &lt;0x1113e5030&gt;
+#&gt;  * qsec:      &lt;0x1113e5160&gt;
+#&gt;  * vs:        &lt;0x1113e5290&gt;
+#&gt;  * am:        &lt;0x1113e53c0&gt;
+#&gt;  * gear:      &lt;0x1113e54f0&gt;
+#&gt;  * carb:      &lt;0x1113e5620&gt;
+#&gt;  * cyl2:      &lt;0x101ce90c0&gt;
 #&gt; Attributes:
-#&gt;  * class:     &lt;0x1112a8378&gt;
-#&gt;  * names:     &lt;0x1159e3008&gt;
-#&gt;  * row.names: &lt;0x1159e3548&gt;</div><div class='input'>
+#&gt;  * class:     &lt;0x1145ea378&gt;
+#&gt;  * names:     &lt;0x116f6bf48&gt;
+#&gt;  * row.names: &lt;0x116f68950&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new        
-#&gt; cyl2      &lt;added&gt; 0x10cde1a20
+#&gt; cyl2      &lt;added&gt; 0x101ce90c0
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old         new        
-#&gt; names     0x108d67f58 0x1159e3008
-#&gt; row.names 0x10ca42330 0x114857350
-#&gt; class     0x10d2a63d8 0x1112a8378</div></pre>
+#&gt; names     0x113047aa8 0x116f6bf48
+#&gt; row.names 0x1113e5750 0x110dc8ca8
+#&gt; class     0x109a2d888 0x1145ea378</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -196,14 +196,13 @@ frames</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>

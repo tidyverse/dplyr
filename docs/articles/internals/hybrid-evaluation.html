@@ -85,7 +85,10 @@
     <div class="page-header toc-ignore">
       <h1>Hybrid evaluation</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/internals/hybrid-evaluation.Rmd"><code>vignettes/internals/hybrid-evaluation.Rmd</code></a></small>
+
+    </div>
 
     
     
@@ -100,7 +103,9 @@
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">foo &lt;-<span class="st"> </span><span class="cf">function</span>(x) x<span class="op">*</span>x </a>
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw"><a href="../../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw">foo</span>(<span class="kw">sum</span>(flights)) )</a></code></pre></div>
 <p><code>dplyr</code> will substitute the subexpressions it knows how to handle and leave the rest to standard R evaluation. Instead of evaluating <code>foo(sum(flights))</code>, R will only have to evaluate <code>foo(z)</code> where <code>z</code> is the result of the internal evaluation of <code>sum(flights)</code>.</p>
-<section id="implementation" class="level1"><h1>Implementation</h1>
+<div id="implementation" class="section level1">
+<h1 class="hasAnchor">
+<a href="#implementation" class="anchor"></a>Implementation</h1>
 <p>Hybrid evaluation is designed to be extensible. Before we start registering custom hybrid evaluation handlers, we need to understand the system.</p>
 <p>The first building block we need to cover is the <code>Result</code> class.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">namespace</span> dplyr {</a>
@@ -142,7 +147,9 @@
 <a class="sourceLine" id="cb4-18" data-line-number="18">  <span class="kw">private</span>:</a>
 <a class="sourceLine" id="cb4-19" data-line-number="19">    NumericVector data ;</a>
 <a class="sourceLine" id="cb4-20" data-line-number="20">} ;</a></code></pre></div>
-<section id="using-processor" class="level2"><h2>Using Processor</h2>
+<div id="using-processor" class="section level2">
+<h2 class="hasAnchor">
+<a href="#using-processor" class="anchor"></a>Using Processor</h2>
 <p>Implementation of <code>Result</code> derived classes can be facilitated by the template class <code>Processor</code>. <code>Processor</code> is templated by two template parameters:</p>
 <ul>
 <li>the R output type (<code>REALSXP</code>, <code>STRSXP</code>, …)</li>
@@ -182,7 +189,10 @@
 <a class="sourceLine" id="cb6-15" data-line-number="15">    Vector&lt;RTYPE&gt; data ;</a>
 <a class="sourceLine" id="cb6-16" data-line-number="16">}</a></code></pre></div>
 <p>Aside from not dealing with missing data and using internal knowledge of the <code>SlicingIndex</code> class, this implementation of <code>Sum</code> is close to the internal implementation in <code>dplyr</code>.</p>
-</section><section id="retrieving-hybrid-handlers" class="level2"><h2>Retrieving hybrid handlers</h2>
+</div>
+<div id="retrieving-hybrid-handlers" class="section level2">
+<h2 class="hasAnchor">
+<a href="#retrieving-hybrid-handlers" class="anchor"></a>Retrieving hybrid handlers</h2>
 <p><code>dplyr</code> functions use the <code>get_handler</code> function to retrieve handlers for particular expressions.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb7-1" data-line-number="1">Result* get_handler( SEXP call, <span class="at">const</span> ILazySubsets&amp; subsets ){</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">    <span class="dt">int</span> depth = Rf_length(call) ;</a>
@@ -228,12 +238,18 @@
 <a class="sourceLine" id="cb9-18" data-line-number="18">  <span class="co">// we are here if we could not handle the call</span></a>
 <a class="sourceLine" id="cb9-19" data-line-number="19">  <span class="cf">return</span> <span class="dv">0</span> ;</a>
 <a class="sourceLine" id="cb9-20" data-line-number="20">}</a></code></pre></div>
-</section><section id="registering-hybrid-handlers" class="level2"><h2>Registering hybrid handlers</h2>
+</div>
+<div id="registering-hybrid-handlers" class="section level2">
+<h2 class="hasAnchor">
+<a href="#registering-hybrid-handlers" class="anchor"></a>Registering hybrid handlers</h2>
 <p><code>dplyr</code> enables users, most likely packages, to register their own hybrid handlers through the <code>registerHybridHandler</code>.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="dt">void</span> registerHybridHandler( <span class="at">const</span> <span class="dt">char</span>* , HybridHandler ) ;</a></code></pre></div>
 <p>To register the handler we created above, we then simply:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb11-1" data-line-number="1">registerHybridHandler( <span class="st">"sum"</span>, sum_handler )  ;</a></code></pre></div>
-</section><section id="putting-it-all-together" class="level2"><h2>Putting it all together</h2>
+</div>
+<div id="putting-it-all-together" class="section level2">
+<h2 class="hasAnchor">
+<a href="#putting-it-all-together" class="anchor"></a>Putting it all together</h2>
 <p>We are going to register a handler called <code>hitchhiker</code> that always returns the answer to everything, i.e. <code>42</code>.</p>
 <p>The code below is suitable to run through <code>sourceCpp</code>.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode cpp"><code class="sourceCode cpp"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="pp">#include </span><span class="im">&lt;dplyr.h&gt;</span></a>
@@ -293,7 +309,10 @@
 <a class="sourceLine" id="cb12-55" data-line-number="55"><span class="co">    # 3  c 42.01440</span></a>
 <a class="sourceLine" id="cb12-56" data-line-number="56"><span class="co">    # 4  d 41.99160</span></a>
 <a class="sourceLine" id="cb12-57" data-line-number="57"><span class="co">*/</span></a></code></pre></div>
-</section><section id="registering-hybrid-handlers-with-a-package" class="level2"><h2>Registering hybrid handlers with a package</h2>
+</div>
+<div id="registering-hybrid-handlers-with-a-package" class="section level2">
+<h2 class="hasAnchor">
+<a href="#registering-hybrid-handlers-with-a-package" class="anchor"></a>Registering hybrid handlers with a package</h2>
 <p>To register custom handlers in packages, the best place is the <code>init</code> entry point that R automatically calls when a package is loaded.</p>
 <p>Instead of exposing the <code>registerHitchhiker</code> function as above, packages would typically register handlers like this:</p>
 <pre><code>#include &lt;Rcpp.h&gt;
@@ -306,7 +325,8 @@ extern "C" void R_init_mypack( DllInfo* info ){
 <p>For this your package must know about Rcpp and dplyr’s headers, which requires this information in the <code>DESCRIPTION</code> file:</p>
 <pre><code>LinkingTo: Rcpp, dplyr, BH</code></pre>
 <p>The <code>Makevars</code> and <code>Makevars.win</code> are similar to those used for any package that uses <code>Rcpp</code> features. See the <code>Rcpp</code> vignettes for details.</p>
-</section></section>
+</div>
+</div>
 </div>
   </div>
 
@@ -336,18 +356,16 @@ extern "C" void R_init_mypack( DllInfo* info ){
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script></footer>
 </div>
 
