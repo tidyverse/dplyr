@@ -88,6 +88,7 @@ Result* verify_not_hybrid_prototype(SEXP call, const ILazySubsets&, int nargs) {
 }
 
 void install_debug_handlers(HybridHandlerMap& handlers) {
-  handlers[ Rf_install("verify_hybrid") ] = verify_hybrid_prototype;
-  handlers[ Rf_install("verify_not_hybrid") ] = verify_not_hybrid_prototype;
+  Environment ns_dplyr = Environment::namespace_env("dplyr") ;
+  handlers[ Rf_install("verify_hybrid") ] = HybridHandler(verify_hybrid_prototype, ns_dplyr["verify_hybrid"]) ;
+  handlers[ Rf_install("verify_not_hybrid") ] = HybridHandler(verify_not_hybrid_prototype, ns_dplyr["verify_not_hybrid"]);
 }

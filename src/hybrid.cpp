@@ -59,9 +59,9 @@ HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
     /*
-    handlers[ Rf_install( "cumsum")      ] = cumfun_prototype<CumSum>;
-    handlers[ Rf_install( "cummin")      ] = cumfun_prototype<CumMin>;
-    handlers[ Rf_install( "cummax")      ] = cumfun_prototype<CumMax>;
+    handlers[ Rf_install( "cumsum")      ] = HybridHandler( cumfun_prototype<CumSum>, R_NilValue );
+    handlers[ Rf_install( "cummin")      ] = HybridHandler( cumfun_prototype<CumMin>, R_NilValue );
+    handlers[ Rf_install( "cummax")      ] = HybridHandler( cumfun_prototype<CumMax>, R_NilValue );
     */
 
     install_simple_handlers(handlers);
@@ -149,13 +149,18 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     HybridHandlerMap& handlers = get_handlers();
 
-    // interpret dplyr::fun() as fun(). #3309
+    // if `check_hybrid_reference` is true, we check that the symbol `fun_symbol`
+    // evaluates to what we expect, i.e. the reference in its HybridHandler
+    // when we have `dplyr::` prefix we don't need to check
+    bool check_hybrid_reference = true ;
     SEXP fun_symbol = CAR(call);
+    // interpret dplyr::fun() as fun(). #3309
     if (TYPEOF(fun_symbol) == LANGSXP &&
         CAR(fun_symbol) == R_DoubleColonSymbol &&
         CADR(fun_symbol) == Rf_install("dplyr")
        ) {
       fun_symbol = CADDR(fun_symbol) ;
+      check_hybrid_reference = false ;
     }
 
     if (TYPEOF(fun_symbol) != SYMSXP) {
@@ -171,9 +176,16 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
       return 0;
     }
 
+    // no hybrid evaluation if the symbol evaluates to something else than
+    // is expected. This would happen if e.g. the mean function has been shadowed
+    // mutate( x = mean(x) )
+    // if `mean` evaluates to something other than `base::mean` then no hybrid.
+    RObject fun = Rf_findFun(fun_symbol, env) ;
+    if (check_hybrid_reference && fun != it->second.reference) return 0 ;
+
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
-    return it->second(call, subsets, depth - 1);
+    return it->second.handler(call, subsets, depth - 1);
   } else if (TYPEOF(call) == SYMSXP) {
     SymbolString sym = SymbolString(Symbol(call));
 

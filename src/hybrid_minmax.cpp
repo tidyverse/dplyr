@@ -67,6 +67,7 @@ Result* minmax_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 }
 
 void install_minmax_handlers(HybridHandlerMap& handlers) {
-  handlers[Rf_install("min")] = minmax_prototype<true>;
-  handlers[Rf_install("max")] = minmax_prototype<false>;
+  Environment ns_base = Environment::base_namespace() ;
+  handlers[Rf_install("min")] = HybridHandler(minmax_prototype<true>, ns_base["min"]);
+  handlers[Rf_install("max")] = HybridHandler(minmax_prototype<false>, ns_base["max"]);
 }
