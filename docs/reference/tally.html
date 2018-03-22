@@ -102,15 +102,15 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Count/tally observations by group</h1>
+    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/count-tally.R'><code>R/count-tally.R</code></a></small>
     </div>
 
     
     <p><code>tally()</code> is a convenient wrapper for summarise that will either call
 <code><a href='n.html'>n()</a></code> or <code>sum(n)</code> depending on whether you're tallying
 for the first time, or re-tallying. <code>count()</code> is similar but calls
-<code><a href='group_by.html'>group_by()</a></code> before and <code><a href='group_by.html'>ungroup()</a></code> after.
-
-    <code>add_tally()</code> adds a column "n" to a table based on the number
+<code><a href='group_by.html'>group_by()</a></code> before and <code><a href='group_by.html'>ungroup()</a></code> after.</p>
+<p><code>add_tally()</code> adds a column <code>n</code> to a table based on the number
 of items within each existing group, while <code>add_count()</code> is a shortcut that
 does the grouping as well. These functions are to <code>tally()</code>
 and <code>count()</code> as <code><a href='mutate.html'>mutate()</a></code> is to <code><a href='summarise.html'>summarise()</a></code>:
@@ -134,10 +134,12 @@ they add an additional column rather than collapsing each group.</p>
     </tr>
     <tr>
       <th>wt</th>
-      <td><p>(Optional) If omitted, will count the number of rows. If
-specified, will perform a "weighted" tally by summing the
-(non-missing) values of variable <code>wt</code>. This argument is
-automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and later
+      <td><p>(Optional) If omitted (and no variable named <code>n</code> exists in the
+data), will count the number of rows.
+If specified, will perform a "weighted" tally by summing the
+(non-missing) values of variable <code>wt</code>. A column named <code>n</code> (but not <code>nn</code> or
+<code>nnn</code>) will be used as weighting variable by default in <code>tally()</code>, but not
+in <code>count()</code>. This argument is automatically <a href='http://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and later
 <a href='http://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
 frame. It supports <a href='http://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a>. See
 <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
@@ -278,21 +280,21 @@ yourself.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>
 
   </body>
 </html>
+

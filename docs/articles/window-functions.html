@@ -85,7 +85,10 @@
     <div class="page-header toc-ignore">
       <h1>Window functions</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/window-functions.Rmd"><code>vignettes/window-functions.Rmd</code></a></small>
+
+    </div>
 
     
     
@@ -117,7 +120,9 @@
 <a class="sourceLine" id="cb2-13" data-line-number="13"><span class="co"># For each, player compute a z score based on number of games played</span></a>
 <a class="sourceLine" id="cb2-14" data-line-number="14"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw">mean</span>(G)) <span class="op">/</span><span class="st"> </span><span class="kw">sd</span>(G))</a></code></pre></div>
 <p>Before reading this vignette, you should be familiar with <code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code>.</p>
-<section id="types-of-window-functions" class="level2"><h2>Types of window functions</h2>
+<div id="types-of-window-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#types-of-window-functions" class="anchor"></a>Types of window functions</h2>
 <p>There are five main families of window functions. Two families are unrelated to aggregation functions:</p>
 <ul>
 <li><p>Ranking and ordering functions: <code><a href="../reference/ranking.html">row_number()</a></code>, <code><a href="../reference/ranking.html">min_rank()</a></code>, <code><a href="../reference/ranking.html">dense_rank()</a></code>, <code><a href="../reference/ranking.html">cume_dist()</a></code>, <code><a href="../reference/ranking.html">percent_rank()</a></code>, and <code><a href="../reference/ranking.html">ntile()</a></code>. These functions all take a vector to order by, and return various types of ranks.</p></li>
@@ -130,7 +135,10 @@
 <li><p>Recycled aggregates, where an aggregate is repeated to match the length of the input. These are not needed in R because vector recycling automatically recycles aggregates where needed. They are important in SQL, because the presence of an aggregation function usually tells the database to return only one row per group.</p></li>
 </ul>
 <p>Each family is described in more detail below, focussing on the general goals and how to use them with dplyr. For more details, refer to the individual function documentation.</p>
-</section><section id="ranking-functions" class="level2"><h2>Ranking functions</h2>
+</div>
+<div id="ranking-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#ranking-functions" class="anchor"></a>Ranking functions</h2>
 <p>The ranking functions are variations on a theme, differing in how they handle ties:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>)</a>
 <a class="sourceLine" id="cb3-2" data-line-number="2"></a>
@@ -170,7 +178,10 @@
 <a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 3        3     271. </span></a>
 <a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 4        4     975.</span></a></code></pre></div>
 <p>All ranking functions rank from lowest to highest so that small input values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to lowest.</p>
-</section><section id="lead-and-lag" class="level2"><h2>Lead and lag</h2>
+</div>
+<div id="lead-and-lag" class="section level2">
+<h2 class="hasAnchor">
+<a href="#lead-and-lag" class="anchor"></a>Lead and lag</h2>
 <p><code><a href="../reference/lead-lag.html">lead()</a></code> and <code><a href="../reference/lead-lag.html">lag()</a></code> produce offset versions of a input vector that is either ahead of or behind the original vector.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1">x &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="kw"><a href="../reference/lead-lag.html">lead</a></span>(x)</a>
@@ -215,7 +226,10 @@
 <a class="sourceLine" id="cb10-20" data-line-number="20"><span class="co">#&gt; 4 2003     9      14</span></a>
 <a class="sourceLine" id="cb10-21" data-line-number="21"><span class="co">#&gt; 5 2004    16      30</span></a>
 <a class="sourceLine" id="cb10-22" data-line-number="22"><span class="co">#&gt; 6 2005    25      55</span></a></code></pre></div>
-</section><section id="cumulative-aggregates" class="level2"><h2>Cumulative aggregates</h2>
+</div>
+<div id="cumulative-aggregates" class="section level2">
+<h2 class="hasAnchor">
+<a href="#cumulative-aggregates" class="anchor"></a>Cumulative aggregates</h2>
 <p>Base R provides cumulative sum (<code>cumsum()</code>), cumulative min (<code>cummin()</code>) and cumulative max (<code>cummax()</code>). (It also provides <code>cumprod()</code> but that is rarely useful). Other common accumulating functions are <code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code>, cumulative versions of <code>||</code> and <code>&amp;&amp;</code>, and <code><a href="../reference/cumall.html">cummean()</a></code>, a cumulative mean. These are not included in base R, but efficient versions are provided by <code>dplyr</code>.</p>
 <p><code><a href="../reference/cumall.html">cumany()</a></code> and <code><a href="../reference/cumall.html">cumall()</a></code> are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use <code><a href="../reference/cumall.html">cumany()</a></code> to find all records for a player after they played a year with 150 games:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/cumall.html">cumany</a></span>(G <span class="op">&gt;</span><span class="st"> </span><span class="dv">150</span>))</a></code></pre></div>
@@ -225,7 +239,10 @@
 <a class="sourceLine" id="cb12-3" data-line-number="3"><span class="kw"><a href="../reference/order_by.html">order_by</a></span>(y, <span class="kw">cumsum</span>(x))</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt;  [1] 55 54 52 49 45 40 34 27 19 10</span></a></code></pre></div>
 <p>This function uses a bit of non-standard evaluation, so I wouldn’t recommend using it inside another function; use the simpler but less concise <code><a href="../reference/with_order.html">with_order()</a></code> instead.</p>
-</section><section id="recycled-aggregates" class="level2"><h2>Recycled aggregates</h2>
+</div>
+<div id="recycled-aggregates" class="section level2">
+<h2 class="hasAnchor">
+<a href="#recycled-aggregates" class="anchor"></a>Recycled aggregates</h2>
 <p>R’s vector recycling make it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&gt;</span><span class="st"> </span><span class="kw">mean</span>(G))</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, G <span class="op">&lt;</span><span class="st"> </span><span class="kw">median</span>(G))</a></code></pre></div>
@@ -254,7 +271,7 @@
 <a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span></a>
 <a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span></a>
 <a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; # ... with 19,400 more rows</span></a></code></pre></div>
-</section>
+</div>
 </div>
   </div>
 
@@ -280,18 +297,16 @@
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script></footer>
 </div>
 

@@ -85,7 +85,10 @@
     <div class="page-header toc-ignore">
       <h1>Programming with dplyr</h1>
             
-          </div>
+      
+      <small>Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/programming.Rmd"><code>vignettes/programming.Rmd</code></a></small>
+
+    </div>
 
     
     
@@ -133,7 +136,9 @@
 <li><p>To teach you the underlying theory including <strong>quosures</strong>, the data structure that stores both an expression and an environment, and <strong>tidyeval</strong>, the underlying toolkit.</p></li>
 </ul>
 <p>We’ll start with a warmup, tying this problem to something you’re more familiar with, then move on to some practical tools, then dive into the deeper theory.</p>
-<section id="warm-up" class="level2"><h2>Warm up</h2>
+<div id="warm-up" class="section level2">
+<h2 class="hasAnchor">
+<a href="#warm-up" class="anchor"></a>Warm up</h2>
 <p>You might not have realised it, but you’re already accomplished at solving this type of problem in another domain: strings. It’s obvious that this function doesn’t do what you want:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">greet &lt;-<span class="st"> </span><span class="cf">function</span>(name) {</a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">  <span class="st">"How do you do, name?"</span></a>
@@ -152,9 +157,14 @@
 <a class="sourceLine" id="cb7-3" data-line-number="3">}</a>
 <a class="sourceLine" id="cb7-4" data-line-number="4"><span class="kw">greet</span>(<span class="st">"Hadley"</span>)</a>
 <a class="sourceLine" id="cb7-5" data-line-number="5"><span class="co">#&gt; How do you do, Hadley?</span></a></code></pre></div>
-</section><section id="programming-recipes" class="level2"><h2>Programming recipes</h2>
+</div>
+<div id="programming-recipes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#programming-recipes" class="anchor"></a>Programming recipes</h2>
 <p>The following recipes walk you through the basics of tidyeval, with the nominal goal of reducing duplication in dplyr code. The examples here are somewhat inauthentic because we’ve reduced them down to very simple components to make them easier to understand. They’re so simple that you might wonder why we bother writing a function at all. But it’s a good idea to learn the ideas on simple examples, so that you’re better prepared to apply them to the more complex situations you’ll see in your own code.</p>
-<section id="different-data-sets" class="level3"><h3>Different data sets</h3>
+<div id="different-data-sets" class="section level3">
+<h3 class="hasAnchor">
+<a href="#different-data-sets" class="anchor"></a>Different data sets</h3>
 <p>You already know how to write functions that work with the first argument of dplyr verbs: the data. That’s because dplyr doesn’t do anything special with that argument, so it’s referentially transparent. For example, if you saw repeated code like this:</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df1, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df2, <span class="dt">y =</span> a <span class="op">+</span><span class="st"> </span>x)</a>
@@ -182,7 +192,10 @@
 <a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw">mutate_y</span>(df1)</a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; Error in mutate_impl(.data, dots): Evaluation error: Column `a` not found in `.data`.</span></a></code></pre></div>
 <p>If this function is in a package, using <code>.data</code> also prevents <code>R CMD check</code> from giving a NOTE about undefined global variables (provided that you’ve also imported <code><a href="http://www.rdocumentation.org/packages/rlang/topics/tidyeval-data">rlang::.data</a></code> with <code>@importFrom rlang .data</code>).</p>
-</section><section id="different-expressions" class="level3"><h3>Different expressions</h3>
+</div>
+<div id="different-expressions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#different-expressions" class="anchor"></a>Different expressions</h3>
 <p>Writing a function is hard if you want one of the arguments to be a variable name (like <code>x</code>) or an expression (like <code>x + y</code>). That’s because dplyr automatically “quotes” those inputs, so they are not referentially transparent. Let’s start with a simple case: you want to vary the grouping variable for a data summarization.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">df &lt;-<span class="st"> </span><span class="kw"><a href="http://www.rdocumentation.org/packages/tibble/topics/tibble">tibble</a></span>(</a>
 <a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">g1 =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>),</a>
@@ -272,7 +285,7 @@
 <a class="sourceLine" id="cb19-10" data-line-number="10"><span class="kw">my_summarise</span>(df, g1)</a>
 <a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt;   expr: ^group_var</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt;   env:  0x7fac6377e638</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt;   env:  0x7f80d605bf08</span></a>
 <a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></a></code></pre></div>
 <p>I’ve added a <code>print()</code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
 <p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval.html">enquo()</a></code>. <code><a href="../reference/tidyeval.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
@@ -296,7 +309,10 @@
 <a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; 2    2.  3.33</span></a></code></pre></div>
 <p>(If you’re familiar with <code>quote()</code> and <code>substitute()</code> in base R, <code><a href="../reference/tidyeval.html">quo()</a></code> is equivalent to <code>quote()</code> and <code><a href="../reference/tidyeval.html">enquo()</a></code> is equivalent to <code>substitute()</code>.)</p>
 <p>You might wonder how to extend this to handle multiple grouping variables: we’ll come back to that a little later.</p>
-</section><section id="different-input-variable" class="level3"><h3>Different input variable</h3>
+</div>
+<div id="different-input-variable" class="section level3">
+<h3 class="hasAnchor">
+<a href="#different-input-variable" class="anchor"></a>Different input variable</h3>
 <p>Now let’s tackle something a bit more complicated. The code below shows a duplicate <code><a href="../reference/summarise.html">summarise()</a></code> statement where we compute three summaries, varying the input variable.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw">mean</span>(a), <span class="dt">sum =</span> <span class="kw">sum</span>(a), <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>())</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
@@ -344,7 +360,10 @@
 <a class="sourceLine" id="cb24-17" data-line-number="17"><span class="co">#&gt;    mean   sum     n</span></a>
 <a class="sourceLine" id="cb24-18" data-line-number="18"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb24-19" data-line-number="19"><span class="co">#&gt; 1  9.60    48     5</span></a></code></pre></div>
-</section><section id="different-input-and-output-variable" class="level3"><h3>Different input and output variable</h3>
+</div>
+<div id="different-input-and-output-variable" class="section level3">
+<h3 class="hasAnchor">
+<a href="#different-input-and-output-variable" class="anchor"></a>Different input and output variable</h3>
 <p>The next challenge is to vary the name of the output variables:</p>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">mean_a =</span> <span class="kw">mean</span>(a), <span class="dt">sum_a =</span> <span class="kw">sum</span>(a))</a>
 <a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
@@ -389,7 +408,10 @@
 <a class="sourceLine" id="cb26-18" data-line-number="18"><span class="co">#&gt; 3    2.    1.     2     1     3.    15</span></a>
 <a class="sourceLine" id="cb26-19" data-line-number="19"><span class="co">#&gt; 4    2.    2.     5     4     3.    15</span></a>
 <a class="sourceLine" id="cb26-20" data-line-number="20"><span class="co">#&gt; # ... with 1 more row</span></a></code></pre></div>
-</section><section id="capturing-multiple-variables" class="level3"><h3>Capturing multiple variables</h3>
+</div>
+<div id="capturing-multiple-variables" class="section level3">
+<h3 class="hasAnchor">
+<a href="#capturing-multiple-variables" class="anchor"></a>Capturing multiple variables</h3>
 <p>It would be nice to extend <code>my_summarise()</code> to accept any number of grouping variables. We need to make three changes:</p>
 <ul>
 <li><p>Use <code>...</code> in the function definition so our function can accept any number of arguments.</p></li>
@@ -426,7 +448,11 @@
 <a class="sourceLine" id="cb28-10" data-line-number="10"><span class="co">#&gt;   expr: ^mean(^x, na.rm = TRUE, trim = 0.25)</span></a>
 <a class="sourceLine" id="cb28-11" data-line-number="11"><span class="co">#&gt;   env:  global</span></a></code></pre></div>
 <p>Now that you’ve learned the basics of tidyeval through some practical examples, we’ll dive into the theory. This will help you generalise what you’ve learned here to new situations.</p>
-</section></section><section id="quoting" class="level2"><h2>Quoting</h2>
+</div>
+</div>
+<div id="quoting" class="section level2">
+<h2 class="hasAnchor">
+<a href="#quoting" class="anchor"></a>Quoting</h2>
 <p>Quoting is the action of capturing an expression instead of evaluating it. All expression-based functions quote their arguments and get the R code as an expression rather than the result of evaluating that code. If you are an R user, you probably quote expressions on a regular basis. One of the most important quoting operators in R is the <em>formula</em>. It is famously used for the specification of statistical models:</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">disp <span class="op">~</span><span class="st"> </span>cyl <span class="op">+</span><span class="st"> </span>drat</a>
 <a class="sourceLine" id="cb29-2" data-line-number="2"><span class="co">#&gt; disp ~ cyl + drat</span></a></code></pre></div>
@@ -450,18 +476,18 @@
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x1</a>
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt;   expr: ^x</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt;   env:  0x7fac63203ea0</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt;   env:  0x7f80d5c85ab0</span></a>
 <a class="sourceLine" id="cb32-5" data-line-number="5">x2</a>
 <a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt;   expr: ^x</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt;   env:  0x7fac64a76340</span></a></code></pre></div>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt;   env:  0x7f80d5f9f828</span></a></code></pre></div>
 <p>But if you inspect the environments using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">rlang::get_env()</a></code> — they’re different.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">library</span>(rlang)</a>
 <a class="sourceLine" id="cb33-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x1)</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x7fac63203ea0&gt;</span></a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x7f80d5c85ab0&gt;</span></a>
 <a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x2)</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x7fac64a76340&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x7f80d5f9f828&gt;</span></a></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">eval_tidy</a></span>(x1)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>
@@ -488,7 +514,10 @@
 <a class="sourceLine" id="cb37-9" data-line-number="9"><span class="co"># Or inspect its enclosure:</span></a>
 <a class="sourceLine" id="cb37-10" data-line-number="10"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(var)</a>
 <a class="sourceLine" id="cb37-11" data-line-number="11"><span class="co">#&gt; &lt;environment: R_GlobalEnv&gt;</span></a></code></pre></div>
-</section><section id="quasiquotation" class="level2"><h2>Quasiquotation</h2>
+</div>
+<div id="quasiquotation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#quasiquotation" class="anchor"></a>Quasiquotation</h2>
 <blockquote>
 <p>Put simply, quasi-quotation enables one to introduce symbols that stand for a linguistic expression in a given instance and are used as that linguistic expression in a different instance. — <a href="https://en.wikipedia.org/wiki/Quasi-quotation">Willard van Orman Quine</a></p>
 </blockquote>
@@ -499,7 +528,9 @@
 <li>unquote splicing</li>
 <li>unquoting names</li>
 </ul>
-<section id="unquoting" class="level3"><h3>Unquoting</h3>
+<div id="unquoting" class="section level3">
+<h3 class="hasAnchor">
+<a href="#unquoting" class="anchor"></a>Unquoting</h3>
 <p>The first important operation is the basic unquote, which comes in a functional form, <code><a href="http://www.rdocumentation.org/packages/rlang/topics/quasiquotation">UQ()</a></code>, and as syntactic-sugar, <code>!!</code>.</p>
 <div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="co"># Here we capture `letters[1:5]` as an expression:</span></a>
 <a class="sourceLine" id="cb38-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="kw">toupper</span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</a>
@@ -535,21 +566,17 @@
 <a class="sourceLine" id="cb40-10" data-line-number="10">expr2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb40-11" data-line-number="11"></a>
 <a class="sourceLine" id="cb40-12" data-line-number="12"><span class="kw">my_mutate</span>(expr1)</a>
-<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
-<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="co">#&gt;     cyl  cyl2</span></a>
-<a class="sourceLine" id="cb40-15" data-line-number="15"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="co">#&gt; 1    6.  106.</span></a>
-<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="co">#&gt; 2    6.  106.</span></a>
-<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="co">#&gt; 3    4.  104.</span></a>
-<a class="sourceLine" id="cb40-19" data-line-number="19"><span class="co">#&gt; 4    6.  106.</span></a>
-<a class="sourceLine" id="cb40-20" data-line-number="20"><span class="kw">my_mutate</span>(expr2)</a>
-<a class="sourceLine" id="cb40-21" data-line-number="21"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
-<a class="sourceLine" id="cb40-22" data-line-number="22"><span class="co">#&gt;     cyl  cyl2</span></a>
-<a class="sourceLine" id="cb40-23" data-line-number="23"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb40-24" data-line-number="24"><span class="co">#&gt; 1    6.   16.</span></a>
-<a class="sourceLine" id="cb40-25" data-line-number="25"><span class="co">#&gt; 2    6.   16.</span></a>
-<a class="sourceLine" id="cb40-26" data-line-number="26"><span class="co">#&gt; 3    4.   14.</span></a>
-<a class="sourceLine" id="cb40-27" data-line-number="27"><span class="co">#&gt; 4    6.   16.</span></a></code></pre></div>
+<a class="sourceLine" id="cb40-13" data-line-number="13"><span class="co">#&gt;   cyl cyl2</span></a>
+<a class="sourceLine" id="cb40-14" data-line-number="14"><span class="co">#&gt; 1   6  106</span></a>
+<a class="sourceLine" id="cb40-15" data-line-number="15"><span class="co">#&gt; 2   6  106</span></a>
+<a class="sourceLine" id="cb40-16" data-line-number="16"><span class="co">#&gt; 3   4  104</span></a>
+<a class="sourceLine" id="cb40-17" data-line-number="17"><span class="co">#&gt; 4   6  106</span></a>
+<a class="sourceLine" id="cb40-18" data-line-number="18"><span class="kw">my_mutate</span>(expr2)</a>
+<a class="sourceLine" id="cb40-19" data-line-number="19"><span class="co">#&gt;   cyl cyl2</span></a>
+<a class="sourceLine" id="cb40-20" data-line-number="20"><span class="co">#&gt; 1   6   16</span></a>
+<a class="sourceLine" id="cb40-21" data-line-number="21"><span class="co">#&gt; 2   6   16</span></a>
+<a class="sourceLine" id="cb40-22" data-line-number="22"><span class="co">#&gt; 3   4   14</span></a>
+<a class="sourceLine" id="cb40-23" data-line-number="23"><span class="co">#&gt; 4   6   16</span></a></code></pre></div>
 <p>The functional form is useful in cases where the precedence of <code>!</code> causes problems:</p>
 <div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1">my_fun &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(fun)</a>
 <a class="sourceLine" id="cb41-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="op">!!</span><span class="st"> </span><span class="kw">my_fun</span>(x, y, z))</a>
@@ -580,7 +607,10 @@
 <a class="sourceLine" id="cb42-9" data-line-number="9"><span class="co">#&gt;   expr: ^filter(df, x == 1)</span></a>
 <a class="sourceLine" id="cb42-10" data-line-number="10"><span class="co">#&gt;   env:  global</span></a></code></pre></div>
 <p><code><a href="http://www.rdocumentation.org/packages/rlang/topics/quasiquotation">UQE()</a></code> is for expert use only as you’ll have to carefully analyse the environments to ensure that the generated code is correct.</p>
-</section><section id="unquote-splicing" class="level3"><h3>Unquote-splicing</h3>
+</div>
+<div id="unquote-splicing" class="section level3">
+<h3 class="hasAnchor">
+<a href="#unquote-splicing" class="anchor"></a>Unquote-splicing</h3>
 <p>The second unquote operation is unquote-splicing. Its functional form is <code><a href="http://www.rdocumentation.org/packages/rlang/topics/quasiquotation">UQS()</a></code> and the syntactic shortcut is <code>!!!</code>. It takes a vector and inserts each element of the vector in the surrounding function call:</p>
 <div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="kw">list</span>(<span class="op">!!!</span><span class="st"> </span>letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>]))</a>
 <a class="sourceLine" id="cb43-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
@@ -602,7 +632,10 @@
 <a class="sourceLine" id="cb45-7" data-line-number="7"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb45-8" data-line-number="8"><span class="co">#&gt; 1    0.  6.95    19</span></a>
 <a class="sourceLine" id="cb45-9" data-line-number="9"><span class="co">#&gt; 2    1.  5.08    13</span></a></code></pre></div>
-</section><section id="setting-variable-names" class="level3"><h3>Setting variable names</h3>
+</div>
+<div id="setting-variable-names" class="section level3">
+<h3 class="hasAnchor">
+<a href="#setting-variable-names" class="anchor"></a>Setting variable names</h3>
 <p>The final unquote operation is setting argument names. You’ve seen one way to do that above, but you can also use the definition operator <code>:=</code> instead of <code>=</code>. <code>:=</code> supports unquoting on both the LHS and the RHS.</p>
 <p>The rules on the LHS are slightly different: the unquoted operand should evaluate to a string or a symbol.</p>
 <div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">mean_nm &lt;-<span class="st"> "mean"</span></a>
@@ -619,7 +652,8 @@
 <a class="sourceLine" id="cb46-12" data-line-number="12"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb46-13" data-line-number="13"><span class="co">#&gt; 1    0.  6.95    19</span></a>
 <a class="sourceLine" id="cb46-14" data-line-number="14"><span class="co">#&gt; 2    1.  5.08    13</span></a></code></pre></div>
-</section></section>
+</div>
+</div>
 </div>
   </div>
 
@@ -644,18 +678,16 @@
 </div>
 
 <div class="author">
-  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain Francois, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
+  <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="http://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script></footer>
 </div>
 
