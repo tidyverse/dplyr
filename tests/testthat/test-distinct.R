@@ -138,3 +138,20 @@ test_that("distinct on a dataframe or tibble with columns of type list throws an
     fixed = TRUE
   )
 })
+
+test_that("distinct refuses to deal with Period and Interval from lubridate (#2568)", {
+  df <- tibble(
+    x = lubridate::hm("10:30", "10:30", "0:0"),
+    y = c("apple", "apple", "tomato")
+  )
+  expect_error(distinct(df),
+    "classes Period and Interval from lubridate are currently not supported"
+  )
+
+  df <- tibble(
+    lubridate::interval(lubridate::ymd(20090201), lubridate::ymd(20090101))
+  )
+  expect_error(distinct(df),
+    "classes Period and Interval from lubridate are currently not supported"
+  )
+})
