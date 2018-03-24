@@ -315,6 +315,24 @@ transmute_.default <- function(.data, ..., .dots = list()) {
   transmute(.data, !!!dots)
 }
 
+#' @export
+transmute.grouped_df <- function(.data, ...) {
+  dots <- named_quos(...)
+  out <- mutate(.data, !!!dots)
+  keep <- names(dots)
+
+  # extract of select.grouped_df so that we can use `notify=FALSE`
+  vars <- tidyselect::vars_select(names(.data), one_of(keep))
+  vars <- ensure_group_vars(vars, .data, notify = FALSE)
+  select_impl(.data, vars)
+}
+#' @export
+transmute_.grouped_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  transmute(.data, !!!dots)
+}
+
+
 #' Arrange rows by variables
 #'
 #' Use [desc()] to sort a variable in descending order.

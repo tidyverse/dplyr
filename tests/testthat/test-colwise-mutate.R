@@ -138,11 +138,8 @@ test_that("mutate and transmute variants does not mutate grouping variable (#335
   expect_identical(mutate_all(tbl, sqrt), res)
   expect_identical(mutate_if(tbl, is.integer, sqrt), res)
 
-  expect_message(x <- transmute_all(tbl, sqrt), "Adding missing grouping variables: `gr1`", fixed = TRUE)
-  expect_identical(x, res)
-
-  expect_message(x <- transmute_if(tbl, is.integer, sqrt), "Adding missing grouping variables: `gr1`", fixed = TRUE)
-  expect_identical(x, res)
+  expect_identical(transmute_all(tbl, sqrt), res)
+  expect_identical(transmute_if(tbl, is.integer, sqrt), res)
 })
 
 test_that("summarise_at refuses to treat grouping variables (#3351)", {
