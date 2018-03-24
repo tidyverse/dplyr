@@ -1,7 +1,8 @@
 #' Return rows with matching conditions
 #'
 #' Use `filter()` find rows/cases where conditions are true. Unlike
-#' base subsetting, rows where the condition evaluates to `NA` are dropped.
+#' base subsetting with `[`, rows where the condition evaluates to `NA` are
+#' dropped.
 #'
 #' Note that dplyr is not yet smart enough to optimise filtering optimisation
 #' on grouped datasets that don't need grouped calculations. For this reason,
