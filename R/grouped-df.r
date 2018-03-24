@@ -115,12 +115,16 @@ cbind.grouped_df <- function(...) {
 
 # see arrange.r for arrange.grouped_df
 
-#' @export
-select.grouped_df <- function(.data, ...) {
+.select_grouped_df <- function(.data, ..., notify = TRUE){
   # Pass via splicing to avoid matching vars_select() arguments
   vars <- tidyselect::vars_select(names(.data), !!!quos(...))
-  vars <- ensure_group_vars(vars, .data)
+  vars <- ensure_group_vars(vars, .data, notify = notify)
   select_impl(.data, vars)
+}
+
+#' @export
+select.grouped_df <- function(.data, ...) {
+  .select_grouped_df(.data, !!!quos(...), notify = TRUE)
 }
 #' @export
 select_.grouped_df <- function(.data, ..., .dots = list()) {

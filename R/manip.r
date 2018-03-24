@@ -321,10 +321,7 @@ transmute.grouped_df <- function(.data, ...) {
   out <- mutate(.data, !!!dots)
   keep <- names(dots)
 
-  # extract of select.grouped_df so that we can use `notify=FALSE`
-  vars <- tidyselect::vars_select(names(.data), one_of(keep))
-  vars <- ensure_group_vars(vars, .data, notify = FALSE)
-  select_impl(.data, vars)
+  .select_grouped_df(out, one_of(keep), notify=FALSE)
 }
 #' @export
 transmute_.grouped_df <- function(.data, ..., .dots = list()) {
