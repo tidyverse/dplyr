@@ -141,6 +141,32 @@ void registerHybridHandler(const char* name, HybridHandler proto) {
 
 namespace dplyr {
 
+// this is a replacement to Rf_findFun which we cannot call from C++
+// because it might make an R api errorcall -> destructors not called
+// the errorcall is replaced by a Rcpp::stop
+SEXP findFun( SEXP symbol, SEXP rho){
+  SEXP vl ;
+  while (rho != R_EmptyEnv) {
+    vl = Rf_findVarInFrame3(rho, symbol, TRUE);
+    if( vl != R_UnboundValue ){
+      if (TYPEOF(vl) == PROMSXP) {
+        PROTECT(vl);
+        vl = Rf_eval(vl, rho);
+        UNPROTECT(1);
+      }
+
+      if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP)
+        return (vl);
+
+      if (vl == R_MissingArg)
+        stop("argument \"%s\" is missing, with no default", CHAR(PRINTNAME(symbol))) ;
+    }
+    rho = ENCLOS(rho);
+  }
+  stop( "could not find function \"%s\"", CHAR(PRINTNAME(symbol)) ) ;
+  return R_UnboundValue;
+}
+
 Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
   LOG_INFO << "Looking up hybrid handler for call of type " << type2name(call);
 
@@ -149,10 +175,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     HybridHandlerMap& handlers = get_handlers();
 
-    // if `check_hybrid_reference` is true, we check that the symbol `fun_symbol`
-    // evaluates to what we expect, i.e. the reference in its HybridHandler
-    // when we have `dplyr::` prefix we don't need to check
-    bool check_hybrid_reference = true ;
+    bool in_dplyr_namespace = false ;
     SEXP fun_symbol = CAR(call);
     // interpret dplyr::fun() as fun(). #3309
     if (TYPEOF(fun_symbol) == LANGSXP &&
@@ -160,7 +183,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
         CADR(fun_symbol) == Rf_install("dplyr")
        ) {
       fun_symbol = CADDR(fun_symbol) ;
-      check_hybrid_reference = false ;
+      in_dplyr_namespace = true ;
     }
 
     if (TYPEOF(fun_symbol) != SYMSXP) {
@@ -170,18 +193,22 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     LOG_VERBOSE << "Searching hybrid handler for function " << CHAR(PRINTNAME(fun_symbol));
 
+    // give up if the symbol is not known
     HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
     if (it == handlers.end()) {
       LOG_VERBOSE << "Not found";
       return 0;
     }
 
-    // no hybrid evaluation if the symbol evaluates to something else than
-    // is expected. This would happen if e.g. the mean function has been shadowed
-    // mutate( x = mean(x) )
-    // if `mean` evaluates to something other than `base::mean` then no hybrid.
-    RObject fun = Rf_findFun(fun_symbol, env) ;
-    if (check_hybrid_reference && fun != it->second.reference) return 0 ;
+    if(!in_dplyr_namespace){
+      // no hybrid evaluation if the symbol evaluates to something else than
+      // is expected. This would happen if e.g. the mean function has been shadowed
+      // mutate( x = mean(x) )
+      // if `mean` evaluates to something other than `base::mean` then no hybrid.
+
+      SEXP fun = findFun(fun_symbol, env) ;
+      if (fun != it->second.reference) return 0 ;
+    }
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
