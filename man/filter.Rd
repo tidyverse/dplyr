@@ -25,7 +25,8 @@ An object of the same class as \code{.data}.
 }
 \description{
 Use \code{filter()} find rows/cases where conditions are true. Unlike
-base subsetting, rows where the condition evaluates to \code{NA} are dropped.
+base subsetting with \code{[}, rows where the condition evaluates to \code{NA} are
+dropped.
 }
 \details{
 Note that dplyr is not yet smart enough to optimise filtering optimisation
