@@ -7,9 +7,9 @@
 #'   determines which values match this case. The right hand side (RHS)
 #'   provides the replacement value.
 #'
-#'   The LHS must evaluate to a logical vector. Each logical vector can
-#'   either have length 1 or a common length. All RHSs must evaluate to
-#'   the same type of vector.
+#'   The LHS must evaluate to a logical vector. Each logical vector must
+#'   have a the same length. All RHSs must evaluate to the same type of
+#'   vector.
 #'
 #'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @export
