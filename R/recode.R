@@ -225,9 +225,10 @@ recode_default.factor <- function(x, default, out) {
 #' @export
 recode_factor <- function(.x, ..., .default = NULL, .missing = NULL,
                           .ordered = FALSE) {
-  recoded <- recode(.x, ..., .default = .default, .missing = .missing)
+  values <- list2(...)
+  recoded <- recode(.x, !!!values, .default = .default, .missing = .missing)
 
-  all_levels <- unique(c(..., recode_default(.x, .default, recoded), .missing))
+  all_levels <- unique(c(values, recode_default(.x, .default, recoded), .missing))
   recoded_levels <- if (is.factor(recoded)) levels(recoded) else unique(recoded)
   levels <- intersect(all_levels, recoded_levels)
 
