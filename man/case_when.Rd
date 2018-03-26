@@ -11,16 +11,19 @@ case_when(...)
 determines which values match this case. The right hand side (RHS)
 provides the replacement value.
 
-The LHS must evaluate to a logical vector. Each logical vector must
-have a the same length. All RHSs must evaluate to the same type of
-vector.
+The LHS must evaluate to a logical vector. The RHS does need to be
+logical, but all RHSs must evaluate to the same type of vector.
+
+Both LHS and RHS may have the same length of either 1 or \code{n}. The
+value of \code{n} must be consistent across all cases. The case of
+\code{n == 0} is treated as a variant of \code{n != 1}.
 
 These dots support \link[rlang:tidy-dots]{tidy dots} features.}
 }
 \value{
-A vector of length 1 or n, matching the length of the logical
-input vectors, with the type (and attributes) of the first RHS.
-Inconsistent lengths or types will generate an error.
+A vector of length 1 or \code{n}, matching the length of the logical
+input or output vectors, with the type (and attributes) of the first
+RHS. Inconsistent lengths or types will generate an error.
 }
 \description{
 This function allows you to vectorise multiple \code{if} and \code{else if}
