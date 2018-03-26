@@ -62,7 +62,7 @@
 #' # Use a named list for unquote splicing with !!!
 #' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
 #' level_key <- list(a = "apple", b = "banana", c = "carrot")
-#' recode(x, !!! level_key)
+#' recode(x, !!!level_key)
 #'
 #' # Supply default with levels() for factors
 #' x <- factor(c("a", "b", "c"))
