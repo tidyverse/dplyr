@@ -181,6 +181,7 @@ void install_window_handlers(HybridHandlerMap& handlers) {
 }
 
 namespace dplyr {
+
 Ntile_1::Ntile_1(int ntiles_) : ntiles(ntiles_) {}
 
 SEXP Ntile_1::process(const GroupedDataFrame& gdf) {
@@ -188,6 +189,7 @@ SEXP Ntile_1::process(const GroupedDataFrame& gdf) {
   if (n == 0) return IntegerVector(0);
 
   int ng = gdf.ngroups();
+
   GroupedDataFrame::group_iterator git = gdf.group_begin();
   IntegerVector out = no_init(n);
   for (int i = 0; i < ng; i++, ++git) {
@@ -215,10 +217,11 @@ SEXP Ntile_1::process(const SlicingIndex& index) {
 
   IntegerVector out = no_init(nrows);
   for (int i = nrows - 1; i >= 0; i--) {
-    out[ index[i] ] = (int)floor(ntiles * i / nrows) + 1;
+    out[ i ] = (int)floor(ntiles * i / nrows) + 1;
   }
   return out;
 }
+
 }
 
 
