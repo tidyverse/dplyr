@@ -141,30 +141,79 @@ void registerHybridHandler(const char* name, HybridHandler proto) {
 
 namespace dplyr {
 
-// this is a replacement to Rf_findFun which we cannot call from C++
-// because it might make an R api errorcall -> destructors not called
-// the errorcall is replaced by a Rcpp::stop
-SEXP findFun(SEXP symbol, SEXP rho) {
+struct FindFunData {
+  SEXP symbol ;
+  SEXP env ;
+  SEXP res ;
+  bool forced ;
+
+  FindFunData(SEXP symbol_, SEXP env_) :
+    symbol(symbol_),
+    env(env_),
+    res(R_NilValue),
+    forced(false)
+  {}
+
+};
+
+
+void protected_findFun(void* data) {
+  FindFunData* find_data = reinterpret_cast<FindFunData*>(data) ;
+
+  SEXP rho = find_data->env ;
+  SEXP symbol = find_data->symbol ;
   SEXP vl ;
+
   while (rho != R_EmptyEnv) {
-    vl = Rf_findVarInFrame3(rho, symbol, TRUE);
+    vl = Rf_findVarInFrame3(rho, symbol, TRUE) ;
+
     if (vl != R_UnboundValue) {
+      // a promise, we need to evaluate it to find out if it
+      // is a function promise
       if (TYPEOF(vl) == PROMSXP) {
-        PROTECT(vl);
-        vl = Rf_eval(vl, rho);
-        UNPROTECT(1);
+        PROTECT(vl) ;
+        vl = Rf_eval(vl, rho) ;
+        UNPROTECT(1) ;
       }
 
-      if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP)
-        return (vl);
+      // we found a function
+      if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP) {
+        find_data->res = vl ;
+        return ;
+      }
 
-      if (vl == R_MissingArg)
-        stop("argument \"%s\" is missing, with no default", CHAR(PRINTNAME(symbol))) ;
+      // a missing, just let R evaluation work as we have no way to
+      // assert if the missing argument would have evaluated to a function or data
+      if (vl == R_MissingArg) {
+        return ;
+      }
     }
-    rho = ENCLOS(rho);
+
+    // go in the parent environment
+    rho = ENCLOS(rho) ;
   }
-  stop("could not find function \"%s\"", CHAR(PRINTNAME(symbol))) ;
-  return R_UnboundValue;
+
+  // we did not find a suitable function, so we force hybrid evaluation
+  // that happens e.g. when dplyr is not loaded and we use n() in the expression
+  find_data->forced = true ;
+  return ;
+
+}
+
+
+bool HybridHandler::hybrid(SEXP symbol, SEXP rho) const {
+  FindFunData find_data(symbol, rho) ;
+  Rboolean success = R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(&find_data)) ;
+
+  // success longjumped so force hybrid
+  if (!success) return true ;
+
+  if (find_data.forced) {
+    warning("hybrid evaluation forced for `%s`, probably dplyr is not loaded\n", CHAR(PRINTNAME(symbol))) ;
+    return true ;
+  }
+
+  return find_data.res == reference ;
 }
 
 Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
@@ -206,8 +255,8 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
       // mutate( x = mean(x) )
       // if `mean` evaluates to something other than `base::mean` then no hybrid.
 
-      SEXP fun = Rf_findFun(fun_symbol, env) ;
-      if (fun != it->second.reference) return 0 ;
+      if (!it->second.hybrid(fun_symbol, env)) return 0 ;
+
     }
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));

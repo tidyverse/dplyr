@@ -9,18 +9,25 @@ struct HybridHandler {
   typedef dplyr::Result* (*HybridHandlerFun)(SEXP, const dplyr::ILazySubsets&, int);
 
   HybridHandlerFun handler ;
+  SEXP environment ;
   SEXP reference ;
-  SEXP env ;
+  bool is_dplyr ;
 
   HybridHandler():
     handler(0),
-    env(Rcpp::Environment::empty_env()),
-    reference(R_NilValue)
+    environment(Rcpp::Environment::empty_env()),
+    reference(R_NilValue),
+    is_dplyr(false)
   {}
 
-  HybridHandler(HybridHandlerFun handler_, SEXP env_, SEXP reference_):
-    handler(handler_), env(env_), reference(reference_)
+  HybridHandler(HybridHandlerFun handler_, SEXP environment_, SEXP reference_):
+    handler(handler_),
+    environment(environment_),
+    reference(reference_),
+    is_dplyr(environment == Rcpp::Environment::namespace_env("dplyr"))
   {}
+
+  bool hybrid(SEXP symbol, SEXP rho) const ;
 
 };
 
