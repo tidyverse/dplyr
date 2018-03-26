@@ -77,9 +77,9 @@ void install_simple_handlers(HybridHandlerMap& handlers) {
   Environment ns_stats = Environment::namespace_env("stats") ;
   Environment ns_base = Environment::base_namespace() ;
 
-  handlers[ Rf_install("mean") ] = HybridHandler(simple_prototype<dplyr::Mean>, ns_base, ns_base["mean"]);
-  handlers[ Rf_install("sum") ] = HybridHandler(simple_prototype<dplyr::Sum>, ns_base, ns_base["sum"]);
+  handlers[ Rf_install("mean") ] = HybridHandler(simple_prototype<dplyr::Mean>, HybridHandler::BASE, ns_base["mean"]);
+  handlers[ Rf_install("sum") ] = HybridHandler(simple_prototype<dplyr::Sum>, HybridHandler::BASE, ns_base["sum"]);
 
-  handlers[ Rf_install("var") ] = HybridHandler(simple_prototype<dplyr::Var>, ns_stats, ns_stats["var"]);
-  handlers[ Rf_install("sd") ] = HybridHandler(simple_prototype<dplyr::Sd>, ns_stats, ns_stats["sd"]);
+  handlers[ Rf_install("var") ] = HybridHandler(simple_prototype<dplyr::Var>, HybridHandler::STATS, ns_stats["var"]);
+  handlers[ Rf_install("sd") ] = HybridHandler(simple_prototype<dplyr::Sd>, HybridHandler::STATS, ns_stats["sd"]);
 }

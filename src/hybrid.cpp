@@ -202,14 +202,18 @@ void protected_findFun(void* data) {
 
 
 bool HybridHandler::hybrid(SEXP symbol, SEXP rho) const {
+  // the `protected_findFun` above might longjump so
+  // we evaluate it in a top level context
   FindFunData find_data(symbol, rho) ;
   Rboolean success = R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(&find_data)) ;
 
   // success longjumped so force hybrid
   if (!success) return true ;
 
-  if (find_data.forced) {
-    warning("hybrid evaluation forced for `%s`, probably dplyr is not loaded\n", CHAR(PRINTNAME(symbol))) ;
+  if (find_data.forced ) {
+    if (origin == DPLYR && symbol != Rf_install("n")) {
+      warning("hybrid evaluation forced for `%s`. Please use dplyr::%s() or library(dplyr) to remove this warning.", CHAR(PRINTNAME(symbol)), CHAR(PRINTNAME(symbol))) ;
+    }
     return true ;
   }
 
