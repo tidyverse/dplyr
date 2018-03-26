@@ -13,9 +13,9 @@
 #'
 #'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @export
-#' @return A vector as long as the longest LHS or RHS, with the type (and
-#'   attributes) of the first RHS.  Inconsistent lengths or types will
-#'   generate an error.
+#' @return A vector of length 1 or n, matching the length of the logical
+#'   input vectors, with the type (and attributes) of the first RHS.
+#'   Inconsistent lengths or types will generate an error.
 #' @examples
 #' x <- 1:50
 #' case_when(
