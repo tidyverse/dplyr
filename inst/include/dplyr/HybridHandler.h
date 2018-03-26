@@ -10,14 +10,16 @@ struct HybridHandler {
 
   HybridHandlerFun handler ;
   SEXP reference ;
+  SEXP env ;
 
   HybridHandler():
     handler(0),
+    env(Rcpp::Environment::empty_env()),
     reference(R_NilValue)
   {}
 
-  HybridHandler(HybridHandlerFun handler_, SEXP reference_):
-    handler(handler_), reference(reference_)
+  HybridHandler(HybridHandlerFun handler_, SEXP env_, SEXP reference_):
+    handler(handler_), env(env_), reference(reference_)
   {}
 
 };

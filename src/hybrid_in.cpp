@@ -48,5 +48,6 @@ Result* in_prototype(SEXP call, const ILazySubsets& subsets, int) {
 }
 
 void install_in_handlers(HybridHandlerMap& handlers) {
-  handlers[ Rf_install("%in%") ] = HybridHandler(in_prototype, Environment::base_namespace()["%in%"]);
+  Environment ns_base = Environment::base_namespace() ;
+  handlers[ Rf_install("%in%") ] = HybridHandler(in_prototype, ns_base, ns_base["%in%"]);
 }

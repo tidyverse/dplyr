@@ -144,11 +144,11 @@ namespace dplyr {
 // this is a replacement to Rf_findFun which we cannot call from C++
 // because it might make an R api errorcall -> destructors not called
 // the errorcall is replaced by a Rcpp::stop
-SEXP findFun( SEXP symbol, SEXP rho){
+SEXP findFun(SEXP symbol, SEXP rho) {
   SEXP vl ;
   while (rho != R_EmptyEnv) {
     vl = Rf_findVarInFrame3(rho, symbol, TRUE);
-    if( vl != R_UnboundValue ){
+    if (vl != R_UnboundValue) {
       if (TYPEOF(vl) == PROMSXP) {
         PROTECT(vl);
         vl = Rf_eval(vl, rho);
@@ -163,7 +163,7 @@ SEXP findFun( SEXP symbol, SEXP rho){
     }
     rho = ENCLOS(rho);
   }
-  stop( "could not find function \"%s\"", CHAR(PRINTNAME(symbol)) ) ;
+  stop("could not find function \"%s\"", CHAR(PRINTNAME(symbol))) ;
   return R_UnboundValue;
 }
 
@@ -200,13 +200,13 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
       return 0;
     }
 
-    if(!in_dplyr_namespace){
+    if (!in_dplyr_namespace) {
       // no hybrid evaluation if the symbol evaluates to something else than
       // is expected. This would happen if e.g. the mean function has been shadowed
       // mutate( x = mean(x) )
       // if `mean` evaluates to something other than `base::mean` then no hybrid.
 
-      SEXP fun = findFun(fun_symbol, env) ;
+      SEXP fun = Rf_findFun(fun_symbol, env) ;
       if (fun != it->second.reference) return 0 ;
     }
 
