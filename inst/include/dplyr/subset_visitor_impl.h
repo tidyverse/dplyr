@@ -72,7 +72,7 @@ inline SubsetVectorVisitor* subset_visitor_vector(SEXP vec) {
     return new SubsetVectorVisitorImpl<INTSXP>(vec);
   case REALSXP:
     if (is_lubridate_unsupported(vec))
-      stop("classes Period and Interval from lubridate are currently not supported. https://github.com/tidyverse/dplyr/issues/2568") ;
+      stop("classes Period and Interval from lubridate are currently not supported.") ;
     return new SubsetVectorVisitorImpl<REALSXP>(vec);
   case LGLSXP:
     return new SubsetVectorVisitorImpl<LGLSXP>(vec);
