@@ -107,6 +107,7 @@ test_that("conversion of unreplaced values to NA gives warning", {
 test_that(".dot argument works correctly (PR #2110)", {
   x1 <- letters[1:3]
   x2 <- 1:3
+  x3 <- factor(x1)
 
   expect_equal(
     recode(x1, a = "apple", b = "banana", .default = NA_character_),
@@ -123,6 +124,10 @@ test_that(".dot argument works correctly (PR #2110)", {
   expect_equal(
     recode(x2, "1" = 4, "2" = 5, .default = NA_real_),
     recode(x2, "1" = 4, .default = NA_real_, !!!list("2" = 5))
+  )
+  expect_equal(
+    recode_factor(x3, a = "apple", b = "banana", .default = NA_character_),
+    recode_factor(x3, .default = NA_character_, !!!list(a = "apple", b = "banana"))
   )
 })
 
