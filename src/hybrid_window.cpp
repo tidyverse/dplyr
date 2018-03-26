@@ -35,9 +35,9 @@ Result* row_number(const RObject& data, const bool ascending) {
 }
 
 Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
-  if (nargs > 1 || subsets.size() == 0) return 0;
-
   if (nargs == 0) return new RowNumber_0();
+
+  if (nargs > 1) return 0;
 
   RObject data(CADR(call));
   bool ascending = true;

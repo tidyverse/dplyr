@@ -220,6 +220,13 @@ test_that("row_number does not segfault with example from #781", {
   expect_equal(nrow(res), 0L)
 })
 
+test_that("row_number works on 0 length columns (#3454)", {
+  expect_identical(
+    mutate( tibble(), a = row_number()),
+    tibble(a=integer())
+  )
+})
+
 test_that("filter does not alter expression (#971)", {
   my_filter <- ~ am == 1
   expect_equal(my_filter[[2]][[2]], as.name("am"))
