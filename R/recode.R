@@ -59,6 +59,11 @@
 #' recode(x, "a", "b", "c", .default = "other")
 #' recode(x, "a", "b", "c", .default = "other", .missing = "missing")
 #'
+#' # Use a named list for unquote splicing with !!!
+#' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
+#' level_key <- list(a = "apple", b = "banana", c = "carrot")
+#' recode(x, !!!level_key)
+#'
 #' # Supply default with levels() for factors
 #' x <- factor(c("a", "b", "c"))
 #' recode(x, a = "Apple", .default = levels(x))
@@ -75,6 +80,11 @@
 #' # factor), it is reused as default.
 #' recode_factor(letters[1:3], b = "z", c = "y")
 #' recode_factor(factor(letters[1:3]), b = "z", c = "y")
+#'
+#' # Use a named list to recode factor with unquote splicing.
+#' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
+#' level_key <- list(a = "apple", b = "banana", c = "carrot")
+#' recode_factor(x, !!!level_key)
 recode <- function(.x, ..., .default = NULL, .missing = NULL) {
   UseMethod("recode")
 }
