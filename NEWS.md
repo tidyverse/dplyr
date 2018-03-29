@@ -1,3 +1,22 @@
+# dplyr 0.7.4.9003 (2018-03-29)
+
+* `row_number()` works on empty subsets (#3454).
+
+* Support `!!!` in `recode_factor()` (#3390).
+
+* Specify `[`-type base subsetting in filter docs.
+
+* Hybrid functions can now be masked by regular R functions to turn off hybrid evaluation (#3255).
+
+* Reindexing grouped data frames never updates the `"class"` attribute. This also avoids unintended updates to the original object (#3438).
+
+* Avoid cleaning the data mask, a temporary environment used to evaluate expressions. If the environment, in which e.g. a `mutate()` expression is evaluated, is preserved until after the operation, accessing variables from that environment now gives a warning but still returns `NULL` (#3318).
+
+* `do()` operations with more than one named argument can access `.` (#2998).
+
+* Improve column name compatibility for `mutate_each()` and `summarize_each()` with dplyr 0.5.0 and earlier in an edge case (#3020).
+
+
 # dplyr 0.7.4.9002 (2018-03-16)
 
 ## Breaking changes for package developers

@@ -1,7 +1,7 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 0.7.4.9002
+Version: 0.7.4.9003
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
     person("Romain", "Fran\u00e7ois", role = "aut", comment = c(ORCID = "0000-0002-2444-4226")),
