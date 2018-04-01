@@ -3,7 +3,7 @@
 #' These functions override the set functions provided in base to make them
 #' generic so that efficient versions for data frames and other tables can be
 #' provided. The default methods call the base versions. Beware that
-#' intersect, union and setdiff remove duplicates.
+#' `intersect()`, `union()` and `setdiff()` remove duplicates.
 #'
 #' @param x,y objects to perform set function on (ignoring order)
 #' @param ... other arguments passed on to methods
@@ -21,9 +21,9 @@
 #' union_all(first, second)
 #' setequal(mtcars, mtcars[32:1, ])
 #'
-#' # duplicates handling
-#' a <- data.frame(column=c(1:10, 10))
-#' b <- data.frame(column=c(1:5, 5))
+#' # Handling of duplicates:
+#' a <- data.frame(column = c(1:10, 10))
+#' b <- data.frame(column = c(1:5, 5))
 #'
 #' # intersection is 1 to 5, duplicates removed (5)
 #' intersect(a, b)
