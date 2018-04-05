@@ -142,3 +142,15 @@ test_that("select_all does not change the order of columns (#3351)", {
   tbl <- group_by( tibble( x = 1:4, y = 1:4, z = 1:4), y )
   expect_identical( select_all(tbl), tbl )
 })
+
+test_that("mutate_all does not change the order of columns (#3351)", {
+  tbl <- group_by( tibble( x = 1:4, y = 1:4), y )
+  expect_identical( names(mutate_all(tbl, identity)), names(tbl) )
+
+  tbl <- group_by( tibble( x = 1:4, y = 1:4), x )
+  expect_identical( names(mutate_all(tbl, identity)), names(tbl) )
+
+  tbl <- group_by( tibble( x = 1:4, y = 1:4, z = 1:4), y )
+  expect_identical( names(mutate_all(tbl, identity)), names(tbl) )
+})
+
