@@ -113,6 +113,54 @@ test_that("can use a purrr-style lambda", {
   expect_identical(summarise_at(mtcars, vars(1:2), ~ mean(.x)), summarise(mtcars, mpg = mean(mpg), cyl = mean(cyl)))
 })
 
+test_that("mutate_at and transmute_at refuses to mutate a grouping variable (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+      group_by(gr1)
+
+  expect_error(
+    mutate_at(tbl, vars(gr1), sqrt),
+    "Column `gr1` can't be modified because it's a grouping variable",
+    fixed = TRUE
+  )
+
+  expect_error(
+    transmute_at(tbl, vars(gr1), sqrt),
+    "Column `gr1` can't be modified because it's a grouping variable",
+    fixed = TRUE
+  )
+})
+
+test_that("mutate and transmute variants does not mutate grouping variable (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  res <- mutate(tbl, gr2 = sqrt(gr2), x = sqrt(x))
+  expect_identical(mutate_all(tbl, sqrt), res)
+  expect_identical(mutate_if(tbl, is.integer, sqrt), res)
+
+  expect_identical(transmute_all(tbl, sqrt), res)
+  expect_identical(transmute_if(tbl, is.integer, sqrt), res)
+})
+
+test_that("summarise_at refuses to treat grouping variables (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_error(
+    summarise_at(tbl, vars(gr1), mean),
+    "Column `gr1` can't be modified because it's a grouping variable",
+    fixed = TRUE
+  )
+})
+
+test_that("summarise variants does not summarise grouping variable (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+  res <- summarise( tbl, gr2 = mean(gr2), x = mean(x))
+
+  expect_identical( summarise_all(tbl, mean), res)
+  expect_identical( summarise_if(tbl, is.integer, mean), res)
+})
 
 # Deprecated ---------------------------------------------------------
 

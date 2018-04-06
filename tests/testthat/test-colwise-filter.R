@@ -10,6 +10,16 @@ test_that("filter_at()", {
   expect_equal(sepal_large$Sepal.Length, c(5.7, 5.2, 5.5))
 })
 
+test_that("filter_at can filter by grouping variables (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    filter_at(tbl, vars(gr1), all_vars(.>1)),
+    filter(tbl, gr1 > 1)
+  )
+})
+
 test_that("filter_all()", {
   expect_identical(filter_all(mtcars, any_vars(. > 200))$disp, mtcars$disp[mtcars$disp > 200])
 })
@@ -28,4 +38,15 @@ test_that("aborts when supplied funs()", {
     "`.vars_predicate` must be a call to `all_vars()` or `any_vars()`, not list",
     fixed = TRUE
   )
+})
+
+test_that("filter_if and filter_all includes grouping variables (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  res <- filter_all( tbl, all_vars(.>1) )
+  expect_true( all( res$gr1 > 1 ) )
+
+  res <- filter_if( tbl, is.integer, all_vars(.>1) )
+  expect_true( all( res$gr1 > 1 ) )
 })

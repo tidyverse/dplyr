@@ -82,7 +82,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   summarise(.tbl, !!!funs)
 }
 
@@ -112,7 +112,7 @@ mutate_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   mutate(.tbl, !!!funs)
 }
 
@@ -132,24 +132,28 @@ transmute_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   transmute(.tbl, !!!funs)
 }
 
 # Helpers -----------------------------------------------------------------
 
-manip_all <- function(.tbl, .funs, .quo, .env, ...) {
-  syms <- syms(tbl_nongroup_vars(.tbl))
+manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE) {
+  if( .include_group_vars ){
+    syms <- syms(tbl_vars(.tbl))
+  } else {
+    syms <- syms(tbl_nongroup_vars(.tbl))
+  }
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
 }
-manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ...) {
-  vars <- tbl_if_syms(.tbl, .predicate, .env)
+manip_if <- function(.tbl, .predicate, .funs, .quo, .env, ..., .include_group_vars = FALSE) {
+  vars <- tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars)
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, vars, .tbl)
 }
-manip_at <- function(.tbl, .vars, .funs, .quo, .env, ...) {
-  syms <- tbl_at_syms(.tbl, .vars)
+manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = FALSE) {
+  syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars)
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
 }

@@ -17,7 +17,7 @@
 #' arrange_all(df, desc)
 #' arrange_all(df, funs(desc(.)))
 arrange_all <- function(.tbl, .funs = list(), ...) {
-  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
@@ -26,18 +26,18 @@ arrange_all <- function(.tbl, .funs = list(), ...) {
 #' @rdname arrange_all
 #' @export
 arrange_at <- function(.tbl, .vars, .funs = list(), ...) {
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
-    funs <- tbl_at_syms(.tbl, .vars)
+    funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
   arrange(.tbl, !!!funs)
 }
 #' @rdname arrange_all
 #' @export
 arrange_if <- function(.tbl, .predicate, .funs = list(), ...) {
-  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
-    funs <- tbl_if_syms(.tbl, .predicate)
+    funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
   arrange(.tbl, !!!funs)
 }

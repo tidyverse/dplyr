@@ -11,3 +11,43 @@ test_that("scoped arrange is identical to manual arrange", {
 test_that(".funs is applied to variables before sorting", {
   expect_identical(arrange_all(df, `-`), arrange(df, -mpg, -cyl, -disp))
 })
+
+test_that("arrange_at can arrange by grouping variables (#3351, #3332)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    arrange_at(tbl, vars(gr1)),
+    arrange(tbl, gr1)
+  )
+
+  expect_identical(
+    arrange_at(tbl, vars(-x)),
+    arrange(tbl, gr1, gr2)
+  )
+})
+
+test_that("arrange_all arranges by grouping variable (#3351)",{
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    arrange_all(tbl),
+    arrange(tbl, gr1, gr2, x)
+  )
+
+  expect_identical(
+    arrange_all(tbl, desc),
+    arrange(tbl, desc(gr1), desc(gr2), desc(x))
+  )
+})
+
+test_that("arrange_if arranges by grouping variable (#3351)",{
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    arrange_if(tbl, is.integer),
+    arrange(tbl, gr1, gr2, x)
+  )
+})

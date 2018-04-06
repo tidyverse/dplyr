@@ -316,6 +316,21 @@ transmute_.default <- function(.data, ..., .dots = list()) {
   transmute(.data, !!!dots)
 }
 
+#' @export
+transmute.grouped_df <- function(.data, ...) {
+  dots <- named_quos(...)
+  out <- mutate(.data, !!!dots)
+  keep <- names(dots)
+
+  .select_grouped_df(out, one_of(keep), notify=FALSE)
+}
+#' @export
+transmute_.grouped_df <- function(.data, ..., .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  transmute(.data, !!!dots)
+}
+
+
 #' Arrange rows by variables
 #'
 #' Use [desc()] to sort a variable in descending order.

@@ -56,6 +56,24 @@ test_that("can select/rename with vars()", {
   expect_identical(rename_at(df, vars(x:y), toupper), set_names(df, c("X", "Y", "z")))
 })
 
+test_that("select variants can use grouping variables (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+
+  expect_identical(
+    select(tbl, gr1),
+    select_at(tbl, vars(gr1))
+  )
+  expect_identical(
+    select_all(tbl),
+    tbl
+  )
+  expect_identical(
+    select_if(tbl, is.integer),
+    tbl
+  )
+})
+
 test_that("select_if keeps grouping cols", {
   expect_silent(df <- iris %>% group_by(Species) %>% select_if(is.numeric))
   expect_equal(df, tbl_df(iris[c(5, 1:4)]))
@@ -92,3 +110,47 @@ test_that("scoping (#3426)", {
     select_all(mtcars, .funs = list(toupper))
   )
 })
+
+test_that("rename variants can rename a grouping variable (#3351)", {
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+    group_by(gr1)
+  res <- rename(tbl, GR1 = gr1, GR2 = gr2, X = x)
+
+  expect_identical(
+    rename_at(tbl, vars(everything()), toupper),
+    res
+  )
+
+  expect_identical(
+    rename_all(tbl, toupper),
+    res
+  )
+
+  expect_identical(
+    rename_if(tbl, is.integer, toupper),
+    res
+  )
+})
+
+test_that("select_all does not change the order of columns (#3351)", {
+  tbl <- group_by( tibble( x = 1:4, y = 1:4), y )
+  expect_identical( select_all(tbl), tbl )
+
+  tbl <- group_by( tibble( x = 1:4, y = 1:4), x )
+  expect_identical( select_all(tbl), tbl )
+
+  tbl <- group_by( tibble( x = 1:4, y = 1:4, z = 1:4), y )
+  expect_identical( select_all(tbl), tbl )
+})
+
+test_that("mutate_all does not change the order of columns (#3351)", {
+  tbl <- group_by( tibble( x = 1:4, y = 1:4), y )
+  expect_identical( names(mutate_all(tbl, identity)), names(tbl) )
+
+  tbl <- group_by( tibble( x = 1:4, y = 1:4), x )
+  expect_identical( names(mutate_all(tbl, identity)), names(tbl) )
+
+  tbl <- group_by( tibble( x = 1:4, y = 1:4, z = 1:4), y )
+  expect_identical( names(mutate_all(tbl, identity)), names(tbl) )
+})
+

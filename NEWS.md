@@ -107,12 +107,16 @@
 
 * `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
 
-* `arrange()` fails gracefully on `data.frame` columns (#3153)
+* `arrange()` fails gracefully on `data.frame` columns (#3153).
 
 * `slice()` no longer enforce tibble classes when input is a simple `data.frame`, and ignores 0 (#3297, #3313).
 
 * Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
   and joins (minimal `raw` x `raw` support initially) (#1803). 
+
+* `group_by_at` can group by an existing grouping variable (#3351). 
+
+* `arrange_at` can use grouping variables (#3332). 
 
 # dplyr 0.7.4
 
