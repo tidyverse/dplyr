@@ -210,7 +210,7 @@ bool HybridHandler::hybrid(SEXP symbol, SEXP rho) const {
   // success longjumped so force hybrid
   if (!success) return true;
 
-  if (find_data.forced ) {
+  if (find_data.forced) {
     if (origin == DPLYR && symbol != Rf_install("n")) {
       warning("hybrid evaluation forced for `%s`. Please use dplyr::%s() or library(dplyr) to remove this warning.", CHAR(PRINTNAME(symbol)), CHAR(PRINTNAME(symbol)));
     }
