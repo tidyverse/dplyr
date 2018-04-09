@@ -20,10 +20,6 @@ public:
     return Vector<RTYPE>(gdf.ngroups(), value);
   }
 
-  virtual SEXP process(const FullDataFrame&) {
-    return Vector<RTYPE>::create(value);
-  }
-
   virtual SEXP process(const SlicingIndex&) {
     return Vector<RTYPE>::create(value);
   }
@@ -45,10 +41,6 @@ public:
 
   SEXP process(const RowwiseDataFrame& gdf) {
     return get(gdf.ngroups());
-  }
-
-  virtual SEXP process(const FullDataFrame&) {
-    return get(1);
   }
 
   virtual SEXP process(const SlicingIndex&) {
@@ -83,10 +75,6 @@ public:
 
   SEXP process(const RowwiseDataFrame& gdf) {
     return get(gdf.ngroups());
-  }
-
-  virtual SEXP process(const FullDataFrame&) {
-    return get(1);
   }
 
   virtual SEXP process(const SlicingIndex&) {

@@ -31,10 +31,6 @@ public:
     return process_grouped<RowwiseDataFrame>(gdf);
   }
 
-  virtual SEXP process(const Rcpp::FullDataFrame& df) {
-    return promote(process(df.get_index()));
-  }
-
   virtual SEXP process(const SlicingIndex& index) {
     CLASS* obj = static_cast<CLASS*>(this);
     Rcpp::Vector<OUTPUT> res = Rcpp::Vector<OUTPUT>::create(obj->process_chunk(index));
@@ -80,10 +76,6 @@ public:
   }
   virtual SEXP process(const Rcpp::RowwiseDataFrame& gdf) {
     return process_grouped<RowwiseDataFrame>(gdf);
-  }
-
-  virtual SEXP process(const Rcpp::FullDataFrame& df) {
-    return process(df.get_index());
   }
 
   virtual SEXP process(const SlicingIndex& index) {
