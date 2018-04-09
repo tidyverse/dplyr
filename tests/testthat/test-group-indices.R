@@ -44,4 +44,10 @@ test_that("group_indices() can be used inside mutate (#1185)", {
     pull(mutate(df, g = group_indices())),
     rep(0L, 6)
   )
+
+  df <- data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6)
+  expect_identical(
+    pull(mutate(rowwise(df), g = group_indices())),
+    1:6
+  )
 })
