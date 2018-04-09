@@ -14,17 +14,17 @@ using namespace dplyr;
 class GroupHybrid : public Result {
 public:
   SEXP process(const RowwiseDataFrame&) {
-    Rprintf( "GroupHybrid::RowwiseDataFrame()\n" ) ;
+    Rprintf("GroupHybrid::RowwiseDataFrame()\n") ;
     return R_NilValue ;
   }
 
   SEXP process(const GroupedDataFrame&) {
-    Rprintf( "GroupHybrid::GroupedDataFrame()\n" ) ;
+    Rprintf("GroupHybrid::GroupedDataFrame()\n") ;
     return R_NilValue ;
   }
 
   SEXP process(const FullDataFrame&) {
-    Rprintf( "GroupHybrid::FullDataFrame()\n" ) ;
+    Rprintf("GroupHybrid::FullDataFrame()\n") ;
     return R_NilValue ;
   }
 

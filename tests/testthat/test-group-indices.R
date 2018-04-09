@@ -31,3 +31,17 @@ test_that("group indices are updated correctly for joined grouped data frames (#
   res <- inner_join(d1, d2, by = "x")
   expect_equal(group_indices(res), res$x)
 })
+
+test_that("group_indices() can be used inside mutate (#1185)", {
+  df <- data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6) %>% group_by(v1)
+  expect_identical(
+    pull(mutate(df, g = group_indices())),
+    group_indices(df)
+  )
+
+  df <- data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6)
+  expect_identical(
+    pull(mutate(df, g = group_indices())),
+    rep(0L, 6)
+  )
+})

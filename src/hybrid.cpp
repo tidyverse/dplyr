@@ -229,7 +229,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
   if (TYPEOF(call) == LANGSXP) {
     int depth = Rf_length(call);
-    
+
     HybridHandlerMap& handlers = get_handlers();
 
     bool in_dplyr_namespace = false;
