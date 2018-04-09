@@ -166,14 +166,6 @@ public:
     return IntegerVector(gdf.nrows(), 1);
   }
 
-  virtual SEXP process(const FullDataFrame& df) {
-    int n = df.nrows();
-    if (n == 0) return IntegerVector(0);
-    OutputVector out = no_init(n);
-    process_slice(out, df.get_index());
-    return out;
-  }
-
   virtual SEXP process(const SlicingIndex& index) {
     int n = index.size();
     if (n == 0) return IntegerVector(0);
@@ -277,10 +269,6 @@ public:
     return IntegerVector(gdf.nrows(), 1);
   }
 
-  virtual SEXP process(const FullDataFrame& df) {
-    return process(df.get_index());
-  }
-
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
@@ -355,10 +343,6 @@ public:
     return IntegerVector(gdf.nrows(), 1);
   }
 
-  virtual SEXP process(const FullDataFrame& df) {
-    return process(df.get_index());
-  }
-
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     if (nrows == 0) return IntegerVector(0);
@@ -409,12 +393,6 @@ public:
 
   virtual SEXP process(const RowwiseDataFrame& gdf) {
     return IntegerVector(gdf.nrows(), 1);
-  }
-
-  virtual SEXP process(const FullDataFrame& df) {
-    if (df.nrows() == 0) return IntegerVector(0);
-    IntegerVector res = seq(1, df.nrows());
-    return res;
   }
 
   virtual SEXP process(const SlicingIndex& index) {

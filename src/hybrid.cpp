@@ -118,10 +118,6 @@ public:
     return subsets.get_variable(name);
   }
 
-  virtual SEXP process(const FullDataFrame&) {
-    return subsets.get_variable(name);
-  }
-
   virtual SEXP process(const SlicingIndex& index) {
     return subsets.get(name, index);
   }

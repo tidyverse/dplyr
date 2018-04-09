@@ -139,7 +139,7 @@ DataFrame summarise_not_grouped(DataFrame df, const QuosureList& dots) {
     } else {
       boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
       if (res) {
-        result = results[i] = res->process(FullDataFrame(df));
+        result = results[i] = res->process(NaturalSlicingIndex(df.nrows()));
       } else {
         result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
       }

@@ -41,10 +41,6 @@ public:
     return process_data<RowwiseDataFrame>(gdf, obj()).run();
   }
 
-  virtual SEXP process(const Rcpp::FullDataFrame& df) {
-    return obj()->process_chunk(df.get_index());
-  }
-
   virtual SEXP process(const SlicingIndex&) {
     return R_NilValue;
   }

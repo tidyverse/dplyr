@@ -31,13 +31,6 @@ public:
     return out;
   }
 
-  virtual SEXP process(const FullDataFrame& df) {
-    Vector<RTYPE> out = no_init(df.nrows());
-    const SlicingIndex& index = df.get_index();
-    static_cast<Derived&>(*this).process_slice(out, index, index);
-    return out;
-  }
-
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
     Vector<RTYPE> out = no_init(nrows);

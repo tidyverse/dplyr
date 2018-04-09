@@ -24,10 +24,6 @@ public:
     return x;
   }
 
-  SEXP process(const FullDataFrame&) {
-    return x;
-  }
-
   SEXP process(const SlicingIndex&) {
     return x;
   }
@@ -59,10 +55,6 @@ public:
   }
 
   SEXP process(const GroupedDataFrame&) {
-    stop("In hybrid evaluation");
-  }
-
-  SEXP process(const FullDataFrame&) {
     stop("In hybrid evaluation");
   }
 
