@@ -8,7 +8,7 @@ class Result;
 struct HybridHandler {
   typedef dplyr::Result* (*HybridHandlerFun)(SEXP, const dplyr::ILazySubsets&, int);
 
-  enum Origin { DPLYR, STATS, BASE } ;
+  enum Origin { DPLYR, STATS, BASE };
 
   HybridHandlerFun handler ;
   SEXP reference ;
@@ -26,7 +26,7 @@ struct HybridHandler {
     origin(origin_)
   {}
 
-  bool hybrid(SEXP symbol, SEXP rho) const ;
+  bool hybrid(SEXP symbol, SEXP rho) const;
 
 };
 

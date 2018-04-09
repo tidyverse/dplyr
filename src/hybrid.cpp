@@ -142,10 +142,10 @@ void registerHybridHandler(const char* name, HybridHandler proto) {
 namespace dplyr {
 
 struct FindFunData {
-  SEXP symbol ;
-  SEXP env ;
-  SEXP res ;
-  bool forced ;
+  SEXP symbol;
+  SEXP env;
+  SEXP res;
+  bool forced;
 
   FindFunData(SEXP symbol_, SEXP env_) :
     symbol(symbol_),
@@ -158,11 +158,11 @@ struct FindFunData {
 
 
 void protected_findFun(void* data) {
-  FindFunData* find_data = reinterpret_cast<FindFunData*>(data) ;
+  FindFunData* find_data = reinterpret_cast<FindFunData*>(data);
 
-  SEXP rho = find_data->env ;
-  SEXP symbol = find_data->symbol ;
-  SEXP vl ;
+  SEXP rho = find_data->env;
+  SEXP symbol = find_data->symbol;
+  SEXP vl;
 
   while (rho != R_EmptyEnv) {
     vl = Rf_findVarInFrame3(rho, symbol, TRUE) ;
@@ -171,32 +171,32 @@ void protected_findFun(void* data) {
       // a promise, we need to evaluate it to find out if it
       // is a function promise
       if (TYPEOF(vl) == PROMSXP) {
-        PROTECT(vl) ;
-        vl = Rf_eval(vl, rho) ;
-        UNPROTECT(1) ;
+        PROTECT(vl);
+        vl = Rf_eval(vl, rho);
+        UNPROTECT(1);
       }
 
       // we found a function
       if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP) {
-        find_data->res = vl ;
-        return ;
+        find_data->res = vl;
+        return;
       }
 
       // a missing, just let R evaluation work as we have no way to
       // assert if the missing argument would have evaluated to a function or data
       if (vl == R_MissingArg) {
-        return ;
+        return;
       }
     }
 
     // go in the parent environment
-    rho = ENCLOS(rho) ;
+    rho = ENCLOS(rho);
   }
 
   // we did not find a suitable function, so we force hybrid evaluation
   // that happens e.g. when dplyr is not loaded and we use n() in the expression
-  find_data->forced = true ;
-  return ;
+  find_data->forced = true;
+  return;
 
 }
 
@@ -204,20 +204,20 @@ void protected_findFun(void* data) {
 bool HybridHandler::hybrid(SEXP symbol, SEXP rho) const {
   // the `protected_findFun` above might longjump so
   // we evaluate it in a top level context
-  FindFunData find_data(symbol, rho) ;
-  Rboolean success = R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(&find_data)) ;
+  FindFunData find_data(symbol, rho);
+  Rboolean success = R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(&find_data));
 
   // success longjumped so force hybrid
-  if (!success) return true ;
+  if (!success) return true;
 
   if (find_data.forced ) {
     if (origin == DPLYR && symbol != Rf_install("n")) {
-      warning("hybrid evaluation forced for `%s`. Please use dplyr::%s() or library(dplyr) to remove this warning.", CHAR(PRINTNAME(symbol)), CHAR(PRINTNAME(symbol))) ;
+      warning("hybrid evaluation forced for `%s`. Please use dplyr::%s() or library(dplyr) to remove this warning.", CHAR(PRINTNAME(symbol)), CHAR(PRINTNAME(symbol)));
     }
-    return true ;
+    return true;
   }
 
-  return find_data.res == reference ;
+  return find_data.res == reference;
 }
 
 Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
@@ -228,15 +228,15 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     HybridHandlerMap& handlers = get_handlers();
 
-    bool in_dplyr_namespace = false ;
+    bool in_dplyr_namespace = false;
     SEXP fun_symbol = CAR(call);
     // interpret dplyr::fun() as fun(). #3309
     if (TYPEOF(fun_symbol) == LANGSXP &&
         CAR(fun_symbol) == R_DoubleColonSymbol &&
         CADR(fun_symbol) == Rf_install("dplyr")
        ) {
-      fun_symbol = CADDR(fun_symbol) ;
-      in_dplyr_namespace = true ;
+      fun_symbol = CADDR(fun_symbol);
+      in_dplyr_namespace = true;
     }
 
     if (TYPEOF(fun_symbol) != SYMSXP) {
@@ -259,8 +259,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
       // mutate( x = mean(x) )
       // if `mean` evaluates to something other than `base::mean` then no hybrid.
 
-      if (!it->second.hybrid(fun_symbol, env)) return 0 ;
-
+      if (!it->second.hybrid(fun_symbol, env)) return 0;
     }
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));

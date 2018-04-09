@@ -51,7 +51,7 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int) {
 }
 
 void install_count_handlers(HybridHandlerMap& handlers) {
-  Environment ns_dplyr = Environment::namespace_env("dplyr") ;
-  handlers[ Rf_install("n") ] = HybridHandler(count_prototype, HybridHandler::DPLYR, ns_dplyr["n"]) ;
-  handlers[ Rf_install("n_distinct") ] = HybridHandler(count_distinct_prototype, HybridHandler::DPLYR, ns_dplyr["n_distinct"]) ;
+  Environment ns_dplyr = Environment::namespace_env("dplyr");
+  handlers[Rf_install("n")] = HybridHandler(count_prototype, HybridHandler::DPLYR, ns_dplyr["n"]);
+  handlers[Rf_install("n_distinct")] = HybridHandler(count_distinct_prototype, HybridHandler::DPLYR, ns_dplyr["n_distinct"]);
 }
