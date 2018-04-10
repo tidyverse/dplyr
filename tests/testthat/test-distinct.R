@@ -140,7 +140,7 @@ test_that("distinct on a dataframe or tibble with columns of type list throws an
 })
 
 test_that("distinct refuses to deal with Period and Interval from lubridate (#2568)", {
-  skip_if_not( requireNamespace("lubridate", quietly = TRUE) )
+  skip_if_not(requireNamespace("lubridate", quietly = TRUE))
 
   df <- tibble(
     x = lubridate::hm("10:30", "10:30", "0:0"),

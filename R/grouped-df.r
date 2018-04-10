@@ -115,7 +115,7 @@ cbind.grouped_df <- function(...) {
 
 # see arrange.r for arrange.grouped_df
 
-.select_grouped_df <- function(.data, ..., notify = TRUE){
+.select_grouped_df <- function(.data, ..., notify = TRUE) {
   # Pass via splicing to avoid matching vars_select() arguments
   vars <- tidyselect::vars_select(names(.data), !!!quos(...))
   vars <- ensure_group_vars(vars, .data, notify = notify)

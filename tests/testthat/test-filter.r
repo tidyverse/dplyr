@@ -222,8 +222,8 @@ test_that("row_number does not segfault with example from #781", {
 
 test_that("row_number works on 0 length columns (#3454)", {
   expect_identical(
-    mutate( tibble(), a = row_number()),
-    tibble(a=integer())
+    mutate(tibble(), a = row_number()),
+    tibble(a = integer())
   )
 })
 

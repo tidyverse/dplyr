@@ -626,6 +626,6 @@ test_that("supports NULL values", {
 test_that("bind_cols handles unnamed list (#3402)", {
   expect_identical(
     bind_cols(list(1, 2)),
-    bind_cols(list(V1=1, V2=2))
+    bind_cols(list(V1 = 1, V2 = 2))
   )
 })

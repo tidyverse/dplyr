@@ -139,7 +139,7 @@ transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 # Helpers -----------------------------------------------------------------
 
 manip_all <- function(.tbl, .funs, .quo, .env, ..., .include_group_vars = FALSE) {
-  if( .include_group_vars ){
+  if (.include_group_vars) {
     syms <- syms(tbl_vars(.tbl))
   } else {
     syms <- syms(tbl_nongroup_vars(.tbl))

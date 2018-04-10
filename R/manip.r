@@ -322,7 +322,7 @@ transmute.grouped_df <- function(.data, ...) {
   out <- mutate(.data, !!!dots)
   keep <- names(dots)
 
-  .select_grouped_df(out, one_of(keep), notify=FALSE)
+  .select_grouped_df(out, one_of(keep), notify = FALSE)
 }
 #' @export
 transmute_.grouped_df <- function(.data, ..., .dots = list()) {

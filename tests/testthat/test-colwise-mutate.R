@@ -115,7 +115,7 @@ test_that("can use a purrr-style lambda", {
 
 test_that("mutate_at and transmute_at refuses to mutate a grouping variable (#3351)", {
   tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
-      group_by(gr1)
+    group_by(gr1)
 
   expect_error(
     mutate_at(tbl, vars(gr1), sqrt),
@@ -156,10 +156,10 @@ test_that("summarise_at refuses to treat grouping variables (#3351)", {
 test_that("summarise variants does not summarise grouping variable (#3351)", {
   tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
-  res <- summarise( tbl, gr2 = mean(gr2), x = mean(x))
+  res <- summarise(tbl, gr2 = mean(gr2), x = mean(x))
 
-  expect_identical( summarise_all(tbl, mean), res)
-  expect_identical( summarise_if(tbl, is.integer, mean), res)
+  expect_identical(summarise_all(tbl, mean), res)
+  expect_identical(summarise_if(tbl, is.integer, mean), res)
 })
 
 # Deprecated ---------------------------------------------------------

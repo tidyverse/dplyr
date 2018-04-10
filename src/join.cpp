@@ -254,7 +254,7 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
       return new JoinVisitorImpl<RAWSXP, RAWSXP, ACCEPT_NA_MATCH> (left, right, warn_);
     }
     default:
-      break ;
+      break;
     }
   }
   default:

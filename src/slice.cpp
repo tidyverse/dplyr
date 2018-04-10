@@ -128,7 +128,7 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
 
 DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
   CharacterVector names = df.names();
-  CharacterVector classes = Rf_getAttrib(df, R_ClassSymbol) ;
+  CharacterVector classes = Rf_getAttrib(df, R_ClassSymbol);
 
   const NamedQuosure& quosure = dots[0];
   Call call(quosure.expr());

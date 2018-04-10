@@ -16,11 +16,11 @@ test_that("group_by_ verbs accept optional operations", {
 })
 
 test_that("group_by variants can group by an already grouped by data (#3351)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(c(1,2), each = 4), x = 1:8) %>%
+  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(c(1, 2), each = 4), x = 1:8) %>%
     group_by(gr1)
 
   expect_identical(
-    group_by_at(tbl, vars(gr1,gr2)),
+    group_by_at(tbl, vars(gr1, gr2)),
     group_by(tbl, gr1, gr2)
   )
 

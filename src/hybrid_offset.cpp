@@ -93,7 +93,7 @@ Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int) {
 }
 
 void install_offset_handlers(HybridHandlerMap& handlers) {
-  Environment ns_dplyr = Environment::namespace_env("dplyr") ;
+  Environment ns_dplyr = Environment::namespace_env("dplyr");
 
   handlers[ Rf_install("lead") ] = HybridHandler(leadlag_prototype<Lead>, HybridHandler::DPLYR, ns_dplyr["lead"]);
   handlers[ Rf_install("lag") ] = HybridHandler(leadlag_prototype<Lag>, HybridHandler::DPLYR, ns_dplyr["lag"]);

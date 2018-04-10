@@ -27,7 +27,7 @@ test_that("arrange_at can arrange by grouping variables (#3351, #3332)", {
   )
 })
 
-test_that("arrange_all arranges by grouping variable (#3351)",{
+test_that("arrange_all arranges by grouping variable (#3351)", {
   tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
 
@@ -42,7 +42,7 @@ test_that("arrange_all arranges by grouping variable (#3351)",{
   )
 })
 
-test_that("arrange_if arranges by grouping variable (#3351)",{
+test_that("arrange_if arranges by grouping variable (#3351)", {
   tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
 

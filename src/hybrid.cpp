@@ -161,7 +161,7 @@ void protected_findFun(void* data) {
   SEXP vl;
 
   while (rho != R_EmptyEnv) {
-    vl = Rf_findVarInFrame3(rho, symbol, TRUE) ;
+    vl = Rf_findVarInFrame3(rho, symbol, TRUE);
 
     if (vl != R_UnboundValue) {
       // a promise, we need to evaluate it to find out if it

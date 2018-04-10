@@ -74,8 +74,8 @@ Result* simple_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 }
 
 void install_simple_handlers(HybridHandlerMap& handlers) {
-  Environment ns_stats = Environment::namespace_env("stats") ;
-  Environment ns_base = Environment::base_namespace() ;
+  Environment ns_stats = Environment::namespace_env("stats");
+  Environment ns_base = Environment::base_namespace();
 
   handlers[ Rf_install("mean") ] = HybridHandler(simple_prototype<dplyr::Mean>, HybridHandler::BASE, ns_base["mean"]);
   handlers[ Rf_install("sum") ] = HybridHandler(simple_prototype<dplyr::Sum>, HybridHandler::BASE, ns_base["sum"]);

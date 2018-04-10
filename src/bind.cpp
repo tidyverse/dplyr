@@ -24,10 +24,10 @@ int df_rows_length(SEXP df) {
   SEXP attrs = ATTRIB(df);
   while (attrs != R_NilValue) {
     if (TAG(attrs) == R_RowNamesSymbol) {
-      n = CAR(attrs) ;
-      break ;
+      n = CAR(attrs);
+      break;
     }
-    attrs = CDR(attrs) ;
+    attrs = CDR(attrs);
   }
 
   if (n == R_NilValue)

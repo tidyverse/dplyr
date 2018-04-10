@@ -3,10 +3,22 @@ context("hybrid")
 test_that("hybrid evaluation environment is cleaned up (#2358)", {
   # Can't use pipe here, f and g should have top-level parent.env()
   df <- data_frame(a = 1)
-  df <- mutate(df, f = { a; list(function() {}) })
-  df <- mutate(df, g = { f; list(quo(.))})
-  df <- mutate(df, h = { g; list(~ .)})
-  df <- mutate(df, i = { h; list(.data)})
+  df <- mutate(df, f = {
+    a
+    list(function() {})
+  })
+  df <- mutate(df, g = {
+    f
+    list(quo(.))
+  })
+  df <- mutate(df, h = {
+    g
+    list(~ .)
+  })
+  df <- mutate(df, i = {
+    h
+    list(.data)
+  })
 
   expect_true(env_has(df$f[[1]], "a", inherit = TRUE))
   expect_true(env_has(df$g[[1]], "f", inherit = TRUE))
@@ -1138,85 +1150,84 @@ test_that("top_n() is hybridised (#2822)", {
   expect_error(top_n(mtcars, 1, cyl), NA)
 })
 
-test_that( "hybrid evaluation can be disabled locally (#3255)", {
+test_that("hybrid evaluation can be disabled locally (#3255)", {
   tbl <- data.frame(x = 1:10)
 
   first <- function(...) 42
-  expect_equal( summarise( tbl, y = first(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = dplyr::first(x) )$y, 1 )
+  expect_equal(summarise(tbl, y = first(x))$y, 42)
+  expect_equal(summarise(tbl, y = dplyr::first(x))$y, 1)
 
   last <- function(...) 42
-  expect_equal( summarise( tbl, y = last(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = dplyr::last(x) )$y, 10 )
+  expect_equal(summarise(tbl, y = last(x))$y, 42)
+  expect_equal(summarise(tbl, y = dplyr::last(x))$y, 10)
 
   nth <- function(...) 42
-  expect_equal( summarise( tbl, y = nth(x, 2L) )$y, 42 )
-  expect_equal( summarise( tbl, y = dplyr::nth(x, 2) )$y, 2 )
+  expect_equal(summarise(tbl, y = nth(x, 2L))$y, 42)
+  expect_equal(summarise(tbl, y = dplyr::nth(x, 2))$y, 2)
 
   mean <- function(...) 42
-  tbl <- data.frame( x = 1:10)
-  expect_equal( summarise( tbl, y = mean(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = base::mean(x) )$y, 5.5 )
+  tbl <- data.frame(x = 1:10)
+  expect_equal(summarise(tbl, y = mean(x))$y, 42)
+  expect_equal(summarise(tbl, y = base::mean(x))$y, 5.5)
 
   var <- function(...) 42
-  expect_equal( summarise( tbl, y = var(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = stats::var(x) )$y, stats::var(tbl$x) )
+  expect_equal(summarise(tbl, y = var(x))$y, 42)
+  expect_equal(summarise(tbl, y = stats::var(x))$y, stats::var(tbl$x))
 
   sd <- function(...) 42
-  expect_equal( summarise( tbl, y = sd(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = stats::sd(x) )$y, stats::sd(tbl$x) )
+  expect_equal(summarise(tbl, y = sd(x))$y, 42)
+  expect_equal(summarise(tbl, y = stats::sd(x))$y, stats::sd(tbl$x))
 
   row_number <- function() 42
-  expect_equal( mutate( tbl, y = row_number() )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::row_number() )$y, 1:10 )
+  expect_equal(mutate(tbl, y = row_number())$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::row_number())$y, 1:10)
 
   ntile <- function(x, n) 42
-  expect_equal( mutate( tbl, y = ntile(x, 2) )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::ntile(x,2) )$y, rep(1:2, each = 5) )
+  expect_equal(mutate(tbl, y = ntile(x, 2))$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::ntile(x, 2))$y, rep(1:2, each = 5))
 
   min_rank <- function(x) 42
-  expect_equal( mutate( tbl, y = min_rank(x) )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::min_rank(x) )$y, 1:10 )
+  expect_equal(mutate(tbl, y = min_rank(x))$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::min_rank(x))$y, 1:10)
 
   percent_rank <- function(x) 42
-  expect_equal( mutate( tbl, y = percent_rank(x) )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::percent_rank(x) )$y, dplyr::percent_rank(1:10) )
+  expect_equal(mutate(tbl, y = percent_rank(x))$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::percent_rank(x))$y, dplyr::percent_rank(1:10))
 
   dense_rank <- function(x) 42
-  expect_equal( mutate( tbl, y = dense_rank(x) )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::dense_rank(x) )$y, dplyr::dense_rank(1:10) )
+  expect_equal(mutate(tbl, y = dense_rank(x))$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::dense_rank(x))$y, dplyr::dense_rank(1:10))
 
   cume_dist <- function(x) 42
-  expect_equal( mutate( tbl, y = cume_dist(x) )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::cume_dist(x) )$y, dplyr::cume_dist(1:10) )
+  expect_equal(mutate(tbl, y = cume_dist(x))$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::cume_dist(x))$y, dplyr::cume_dist(1:10))
 
   lead <- function(x) 42
-  expect_equal( mutate( tbl, y = lead(x) )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::lead(x) )$y, dplyr::lead(1:10) )
+  expect_equal(mutate(tbl, y = lead(x))$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::lead(x))$y, dplyr::lead(1:10))
 
   lag <- function(x) 42
-  expect_equal( mutate( tbl, y = lag(x) )$y, rep(42, 10) )
-  expect_equal( mutate( tbl, y = dplyr::lag(x) )$y, dplyr::lag(1:10) )
+  expect_equal(mutate(tbl, y = lag(x))$y, rep(42, 10))
+  expect_equal(mutate(tbl, y = dplyr::lag(x))$y, dplyr::lag(1:10))
 
   `%in%` <- function(x, y) TRUE
-  expect_identical( filter( tbl, x %in% 3 ), tbl )
+  expect_identical(filter(tbl, x %in% 3), tbl)
 
   min <- function(x) 42
-  expect_equal( summarise( tbl, y = min(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = base::min(x) )$y, 1L )
+  expect_equal(summarise(tbl, y = min(x))$y, 42)
+  expect_equal(summarise(tbl, y = base::min(x))$y, 1L)
 
   max <- function(x) 42
-  expect_equal( summarise( tbl, y = max(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = base::max(x) )$y, 10L )
+  expect_equal(summarise(tbl, y = max(x))$y, 42)
+  expect_equal(summarise(tbl, y = base::max(x))$y, 10L)
 
   n <- function() 42
-  expect_equal( summarise( tbl, y = n() )$y, 42 )
-  expect_equal( summarise( tbl, y = dplyr::n() )$y, 10L )
+  expect_equal(summarise(tbl, y = n())$y, 42)
+  expect_equal(summarise(tbl, y = dplyr::n())$y, 10L)
 
   n_distinct <- function(x) 42
-  expect_equal( summarise( tbl, y = n_distinct(x) )$y, 42 )
-  expect_equal( summarise( tbl, y = dplyr::n_distinct(x) )$y, 10L )
+  expect_equal(summarise(tbl, y = n_distinct(x))$y, 42)
+  expect_equal(summarise(tbl, y = dplyr::n_distinct(x))$y, 10L)
 
 
 })
-
