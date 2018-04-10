@@ -68,7 +68,9 @@ DataFrame expand_labels(DataFrame labels) {
   // cleanup after expand.grid
   new_labels.attr("out.attrs") = R_NilValue;
 
-  return new_labels ;
+  IntegerVector new_labels_order = OrderVisitors(new_labels).apply();
+  return DataFrameSubsetVisitors(new_labels).subset(new_labels_order, "data.frame");
+
 }
 
 // Updates attributes in data by reference!
