@@ -47,7 +47,8 @@ Suggests:
     RPostgreSQL (>= 0.6.2),
     RSQLite (>= 2.0),
     testthat (>= 2.0.0),
-    withr (>= 2.1.1)
+    withr (>= 2.1.1),
+    lubridate
 LinkingTo: 
     BH (>= 1.58.0-1),
     bindrcpp (>= 0.2.0.9000),
