@@ -39,6 +39,7 @@ Suggests:
     hms (>= 0.4.1),
     knitr (>= 1.19),
     Lahman (>= 3.0-1),
+    lubridate,
     mgcv (>= 1.8.23),
     microbenchmark (>= 1.4.4),
     nycflights13 (>= 0.2.2),
@@ -47,17 +48,13 @@ Suggests:
     RPostgreSQL (>= 0.6.2),
     RSQLite (>= 2.0),
     testthat (>= 2.0.0),
-    withr (>= 2.1.1),
-    lubridate
+    withr (>= 2.1.1)
 LinkingTo: 
     BH (>= 1.58.0-1),
     bindrcpp (>= 0.2.0.9000),
     plogr (>= 0.1.10),
     Rcpp (>= 0.12.15)
 VignetteBuilder: knitr
-Remotes: 
-    krlmlr/bindrcpp,
-    krlmlr/plogr
 Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
