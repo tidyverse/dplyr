@@ -2,7 +2,7 @@ library(drake)
 library(tidyverse)
 library(glue)
 
-options(repos = revdepcheck:::get_repos(TRUE))
+options(repos = revdepcheck:::get_repos(FALSE))
 
 get_this_pkg <- function() {
   desc::desc_get("Package") %>% unname()

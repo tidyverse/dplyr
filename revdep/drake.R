@@ -8,7 +8,7 @@ subset_available <- function(available, pkg) {
   }
 }
 
-download <- function(pkg, available, dep_list) {
+download <- function(pkg, available, ...) {
   dir <- fs::dir_create("revdep/download")
   dir <- fs::path_real(dir)
 
@@ -88,22 +88,11 @@ get_deps <- function(i_pkg) {
   attr(i_pkg, "deps")
 }
 
-create_check_lib <- function(pkg, tarball, lib, ...) {
-  pkgs <- c(...)
-  check_lib <- fs::path("revdep/libs/check", pkg)
-  if (fs::dir_exists(check_lib)) {
-    fs::dir_delete(check_lib)
-  }
-  fs::dir_create(check_lib)
-  create_lib(pkgs, check_lib)
-  check_lib
-}
-
 check <- function(tarball, lib, ...) {
   pkgs <- c(...)
   check_lib <- fs::file_temp("checklib")
   create_lib(pkgs, check_lib)
-  withr::with_libpaths(c(lib, check_lib), rcmdcheck::rcmdcheck(tarball, quiet = TRUE))
+  withr::with_libpaths(c(lib, check_lib), rcmdcheck::rcmdcheck(tarball, quiet = TRUE, timeout = ignore(600)))
 }
 
 compare <- function(old, new) {
@@ -124,12 +113,14 @@ get_plan <- function() {
 # Leads to errors, need to check!
 #options(buildtools.check = identity)
 
+  deps <- readd(deps)
+
   make_subset_available <- function(pkg) {
     expr(subset_available(available, !!pkg))
   }
 
   plan_available <-
-    readd(deps) %>%
+    deps %>%
     enframe() %>%
     transmute(
       target = glue("av_{name}"),
@@ -138,17 +129,22 @@ get_plan <- function() {
     deframe() %>%
     drake_plan(list = .)
 
-  make_download <- function(pkg) {
+  make_download <- function(pkg, my_pkgs) {
     av_pkg <- sym(glue("av_{pkg}"))
-    expr(download(!!pkg, available = !!av_pkg))
+    deps <- list()
+    if (!(pkg %in% my_pkgs)) {
+      deps <- c(deps, expr(old_lib))
+    }
+
+    expr(download(!!pkg, available = !!av_pkg, !!!deps))
   }
 
   plan_download <-
-    readd(deps) %>%
+    deps %>%
     enframe() %>%
     transmute(
       target = glue("d_{name}"),
-      call = map(name, make_download)
+      call = map(name, make_download, c(get_this_pkg(), deps[[get_this_pkg()]]))
     ) %>%
     deframe() %>%
     drake_plan(list = .)
@@ -164,7 +160,7 @@ get_plan <- function() {
   }
 
   plan_install <-
-    readd(deps) %>%
+    deps %>%
     enframe() %>%
     mutate(target = glue("i_{name}")) %>%
     mutate(
@@ -179,32 +175,6 @@ get_plan <- function() {
     old_lib = create_lib(get_pkg_and_deps(!!sym(glue("i_{get_this_pkg()}"))), get_old_lib()),
     new_lib = create_new_lib(old_lib, get_new_lib())
   )
-
-  make_create_check_lib <- function(pkg, lib, deps, first_level_deps, base_pkgs) {
-    lib <- enexpr(lib)
-
-    req_pkgs <- first_level_deps[[pkg]]
-    req_pkgs_deps <- deps[c(pkg, req_pkgs)] %>% unname() %>% unlist() %>% unique()
-    all_deps <- c(req_pkgs, req_pkgs_deps) %>% unique()
-
-    i_deps <- create_dep_list(all_deps, base_pkgs)
-    d_dep <- sym(glue("d_{pkg}"))
-
-    expr(create_check_lib(!!pkg, !!d_dep, !!lib, !!!i_deps))
-  }
-
-  plan_create_check_lib <-
-    readd(revdeps) %>%
-    enframe() %>%
-    mutate(
-      call = map(value, make_create_check_lib, old_lib, readd(deps), readd(first_level_deps), readd(base_pkgs))
-    ) %>%
-    transmute(
-      target = glue("l_{value}"),
-      call
-    ) %>%
-    deframe() %>%
-    drake_plan(list = .)
 
   make_check <- function(pkg, lib, deps, first_level_deps, base_pkgs) {
     lib <- enexpr(lib)
@@ -272,7 +242,6 @@ get_plan <- function() {
     bind_rows(
       # Put first to give higher priority
       plan_check,
-      plan_create_check_lib,
       plan_compare,
       plan_compare_all,
       plan_install,
@@ -287,20 +256,12 @@ get_plan <- function() {
 
 plan <- get_plan()
 
-if ("new_lib" %in% plan$target) {
-  make(
-    plan,
-    "new_lib",
-    #parallelism = "future"
-    , jobs = parallel::detectCores()
-  )
-}
-
 #trace(conditionCall.condition, recover)
 make(
   plan,
   #"compare_all",
   keep_going = TRUE,
   #parallelism = "future"
+  , verbose = 3
   , jobs = parallel::detectCores()
 )
