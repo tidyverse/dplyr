@@ -23,11 +23,6 @@ public:
     return R_NilValue ;
   }
 
-  SEXP process(const FullDataFrame&) {
-    Rprintf("GroupHybrid::FullDataFrame()\n") ;
-    return R_NilValue ;
-  }
-
   SEXP process(const SlicingIndex& i) {
     return IntegerVector(i.size(), clean_group(i.group()));
   }
