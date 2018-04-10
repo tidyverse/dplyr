@@ -138,8 +138,8 @@ void registerHybridHandler(const char* name, HybridHandler proto) {
 namespace dplyr {
 
 struct FindFunData {
-  SEXP symbol;
-  SEXP env;
+  const SEXP symbol;
+  const SEXP env;
   SEXP res;
   bool forced;
 
@@ -150,14 +150,22 @@ struct FindFunData {
     forced(false)
   {}
 
+  Rboolean findFun();
+  static void protected_findFun(void* data);
+  void protected_findFun();
 };
 
+Rboolean FindFunData::findFun() {
+  return R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(this));
+}
 
-void protected_findFun(void* data) {
+void FindFunData::protected_findFun(void* data) {
   FindFunData* find_data = reinterpret_cast<FindFunData*>(data);
+  find_data->protected_findFun();
+}
 
-  SEXP rho = find_data->env;
-  SEXP symbol = find_data->symbol;
+void FindFunData::protected_findFun() {
+  SEXP rho = env;
   SEXP vl;
 
   while (rho != R_EmptyEnv) {
@@ -174,7 +182,7 @@ void protected_findFun(void* data) {
 
       // we found a function
       if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP) {
-        find_data->res = vl;
+        res = vl;
         return;
       }
 
@@ -191,9 +199,8 @@ void protected_findFun(void* data) {
 
   // we did not find a suitable function, so we force hybrid evaluation
   // that happens e.g. when dplyr is not loaded and we use n() in the expression
-  find_data->forced = true;
+  forced = true;
   return;
-
 }
 
 
@@ -201,7 +208,7 @@ bool HybridHandler::hybrid(SEXP symbol, SEXP rho) const {
   // the `protected_findFun` above might longjump so
   // we evaluate it in a top level context
   FindFunData find_data(symbol, rho);
-  Rboolean success = R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(&find_data));
+  Rboolean success = find_data.findFun();
 
   // success longjumped so force hybrid
   if (!success) return true;
