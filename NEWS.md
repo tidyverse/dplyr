@@ -1,3 +1,12 @@
+# dplyr 0.7.4.9004 (2018-04-10)
+
+* The hybrid evaluator finds functions from dplyr even if dplyr is not attached (#3456).
+
+* Dedicated error message when trying to use columns of the `Interval` or `Period` classes (#2568).
+
+* Improved documentation for set operations (#3238, @edublancas).
+
+
 # dplyr 0.7.4.9003 (2018-03-29)
 
 * `row_number()` works on empty subsets (#3454).
