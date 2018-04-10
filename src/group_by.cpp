@@ -20,7 +20,7 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop, bool 
   if (!symbols.size())
     stop("no variables to group by");
   if (build_index) {
-    build_index_cpp(copy);
+    build_index_cpp(copy, drop);
   }
   else {
     strip_index(copy);

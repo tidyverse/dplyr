@@ -37,4 +37,4 @@ SEXP get_time_classes() {
 // work around a problem (?) in Rcpp
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
-void build_index_cpp(DataFrame& data);
+void build_index_cpp(DataFrame& data, bool drop);
