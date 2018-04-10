@@ -47,20 +47,26 @@ DataFrame expand_labels(DataFrame labels) {
   int total_size = 1;
 
   // doing this with R callbacks for now, might revisit later
+  // if this becomes a performance problem
   for (int i = 0; i < nc; i++) {
     SEXP obj = labels[i];
     if (Rf_inherits(obj, "factor")) {
-      uniques[i] = Rf_getAttrib(obj, R_LevelsSymbol);
+      SEXP labels = Rf_getAttrib(obj, R_LevelsSymbol);
+      IntegerVector values = seq_len(Rf_length(labels));
+      copy_attributes(values, obj);
+      uniques[i] = values;
     } else {
       uniques[i] = Rcpp_eval(Language("unique", obj));
     }
     sizes[i] = Rf_length(uniques[i]);
     total_size *= sizes[i];
   }
-  uniques.names() = labels.names() ;
-
-  Language call("do.call", Symbol("expand.grid"), uniques) ;
+  uniques.names() = labels.names();
+  uniques.push_back(false, "stringsAsFactors");
+  Language call("do.call", Symbol("expand.grid"), uniques);
   DataFrame new_labels = Rcpp_eval(call);
+  // cleanup after expand.grid
+  new_labels.attr("out.attrs") = R_NilValue;
 
   return new_labels ;
 }
@@ -112,6 +118,7 @@ void build_index_cpp(DataFrame& data, bool drop) {
     // not dropping zero length groups
     // so we need to expand labels to contain all combinations
     DataFrame expanded_labels = expand_labels(labels) ;
+
     DataFrameJoinVisitors join_visitors(labels, expanded_labels, vars, vars, true, true);
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> ChunkIndexJoinSet;
     ChunkIndexJoinSet join_set(join_visitors);
