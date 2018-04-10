@@ -47,19 +47,19 @@ DataFrame expand_labels(DataFrame labels) {
   int total_size = 1;
 
   // doing this with R callbacks for now, might revisit later
-  for(int i=0; i<nc; i++){
+  for (int i = 0; i < nc; i++) {
     SEXP obj = labels[i];
     if (Rf_inherits(obj, "factor")) {
       uniques[i] = Rf_getAttrib(obj, R_LevelsSymbol);
     } else {
-      uniques[i] = Rcpp_eval( Language( "unique", obj) );
+      uniques[i] = Rcpp_eval(Language("unique", obj));
     }
     sizes[i] = Rf_length(uniques[i]);
     total_size *= sizes[i];
   }
   uniques.names() = labels.names() ;
 
-  Language call( "do.call", Symbol("expand.grid"), uniques ) ;
+  Language call("do.call", Symbol("expand.grid"), uniques) ;
   DataFrame new_labels = Rcpp_eval(call);
 
   return new_labels ;
@@ -112,7 +112,7 @@ void build_index_cpp(DataFrame& data, bool drop) {
     // not dropping zero length groups
     // so we need to expand labels to contain all combinations
     DataFrame expanded_labels = expand_labels(labels) ;
-    DataFrameJoinVisitors join_visitors( labels, expanded_labels, vars, vars, true, true );
+    DataFrameJoinVisitors join_visitors(labels, expanded_labels, vars, vars, true, true);
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> ChunkIndexJoinSet;
     ChunkIndexJoinSet join_set(join_visitors);
 
@@ -125,7 +125,7 @@ void build_index_cpp(DataFrame& data, bool drop) {
 
     for (int i = 0; i < ngroups; i++) {
       // is the group in the row i of expanded labels in labels ?
-      ChunkIndexJoinSet::iterator it = join_set.find(-i-1);
+      ChunkIndexJoinSet::iterator it = join_set.find(-i - 1);
       if (it == join_set.end()) {
         // did not find -> empty indices
         group_sizes[i] = 0 ;
