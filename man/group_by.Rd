@@ -5,7 +5,7 @@
 \alias{ungroup}
 \title{Group by one or more variables}
 \usage{
-group_by(.data, ..., add = FALSE)
+group_by(.data, ..., add = FALSE, drop = TRUE)
 
 ungroup(x, ...)
 }
