@@ -29,7 +29,12 @@ public:
   }
 
   SEXP process(const SlicingIndex& i) {
-    return IntegerVector(i.size(), i.group() + 1);
+    return IntegerVector(i.size(), clean_group(i.group()));
+  }
+
+private:
+  int clean_group(int i) {
+    return i < 0 ? 1 : (i + 1);
   }
 };
 
