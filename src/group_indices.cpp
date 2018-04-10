@@ -3,6 +3,7 @@
 #include <dplyr/white_list.h>
 
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/DataFrameJoinVisitors.h>
 
 #include <dplyr/Order.h>
 
@@ -39,6 +40,31 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
 
+DataFrame expand_labels(DataFrame labels) {
+  int nc = labels.ncol();
+  List uniques(nc);
+  std::vector<int> sizes(nc);
+  int total_size = 1;
+
+  // doing this with R callbacks for now, might revisit later
+  for(int i=0; i<nc; i++){
+    SEXP obj = labels[i];
+    if (Rf_inherits(obj, "factor")) {
+      uniques[i] = Rf_getAttrib(obj, R_LevelsSymbol);
+    } else {
+      uniques[i] = Rcpp_eval( Language( "unique", obj) );
+    }
+    sizes[i] = Rf_length(uniques[i]);
+    total_size *= sizes[i];
+  }
+  uniques.names() = labels.names() ;
+
+  Language call( "do.call", Symbol("expand.grid"), uniques ) ;
+  DataFrame new_labels = Rcpp_eval(call);
+
+  return new_labels ;
+}
+
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
 void build_index_cpp(DataFrame& data, bool drop) {
@@ -67,42 +93,88 @@ void build_index_cpp(DataFrame& data, bool drop) {
 
   train_push_back(map, data.nrows());
 
+  // the labels that are effectively present in the data
   DataFrame labels = DataFrameSubsetVisitors(data, vars).subset(map, "data.frame");
+
   int ngroups = labels.nrows();
   IntegerVector labels_order = OrderVisitors(labels).apply();
 
-  // the labels that are effectively present in the data
   labels = DataFrameSubsetVisitors(labels).subset(labels_order, "data.frame");
-
-
-
-  List indices(ngroups);
-  IntegerVector group_sizes = no_init(ngroups);
-  int biggest_group = 0;
 
   ChunkIndexMap::const_iterator it = map.begin();
   std::vector<const std::vector<int>* > chunks(ngroups);
   for (int i = 0; i < ngroups; i++, ++it) {
     chunks[i] = &it->second;
   }
+  int biggest_group = 0;
 
-  for (int i = 0; i < ngroups; i++) {
-    int idx = labels_order[i];
-    const std::vector<int>& chunk = *chunks[idx];
-    indices[i] = chunk;
-    group_sizes[i] = chunk.size();
-    biggest_group = std::max(biggest_group, (int)chunk.size());
+  if (!drop) {
+    // not dropping zero length groups
+    // so we need to expand labels to contain all combinations
+    DataFrame expanded_labels = expand_labels(labels) ;
+    DataFrameJoinVisitors join_visitors( labels, expanded_labels, vars, vars, true, true );
+    typedef VisitorSetIndexSet<DataFrameJoinVisitors> ChunkIndexJoinSet;
+    ChunkIndexJoinSet join_set(join_visitors);
+
+    // train the join set in terms of labels
+    train_insert(join_set, labels.nrows());
+
+    ngroups = expanded_labels.nrows() ;
+    List indices(ngroups);
+    IntegerVector group_sizes = no_init(ngroups);
+
+    for (int i = 0; i < ngroups; i++) {
+      // is the group in the row i of expanded labels in labels ?
+      ChunkIndexJoinSet::iterator it = join_set.find(-i-1);
+      if (it == join_set.end()) {
+        // did not find -> empty indices
+        group_sizes[i] = 0 ;
+        indices[i] = IntegerVector::create();
+      } else {
+        // the index from labels that corresponds to this row
+        // of expanded_labels
+        int idx = labels_order[*it] ;
+
+        const std::vector<int>& chunk = *chunks[idx];
+        indices[i] = chunk;
+        group_sizes[i] = chunk.size();
+        biggest_group = std::max(biggest_group, (int)chunk.size());
+      }
+
+    }
+
+    data.attr("indices") = indices;
+    data.attr("group_sizes") = group_sizes;
+    data.attr("biggest_group_size") = biggest_group;
+    data.attr("labels") = expanded_labels;
+
+
+  } else {
+    // drop zero length group - so just organise what was
+    // collected by the ChunkIndexMap above
+
+    List indices(ngroups);
+    IntegerVector group_sizes = no_init(ngroups);
+
+    for (int i = 0; i < ngroups; i++) {
+      int idx = labels_order[i];
+      const std::vector<int>& chunk = *chunks[idx];
+      indices[i] = chunk;
+      group_sizes[i] = chunk.size();
+      biggest_group = std::max(biggest_group, (int)chunk.size());
+    }
+
+    // The attributes are injected into data without duplicating it!
+    // The object is mutated, violating R's usual copy-on-write semantics.
+    // This is safe here, because the indices are an auxiliary data structure
+    // that is rebuilt as necessary. Updating the object in-place saves costly
+    // recomputations. We don't touch the "class" attribute here.
+    data.attr("indices") = indices;
+    data.attr("group_sizes") = group_sizes;
+    data.attr("biggest_group_size") = biggest_group;
+    data.attr("labels") = labels;
   }
 
-  // The attributes are injected into data without duplicating it!
-  // The object is mutated, violating R's usual copy-on-write semantics.
-  // This is safe here, because the indices are an auxiliary data structure
-  // that is rebuilt as necessary. Updating the object in-place saves costly
-  // recomputations. We don't touch the "class" attribute here.
-  data.attr("indices") = indices;
-  data.attr("group_sizes") = group_sizes;
-  data.attr("biggest_group_size") = biggest_group;
-  data.attr("labels") = labels;
 }
 
 // Updates attributes in data by reference!
