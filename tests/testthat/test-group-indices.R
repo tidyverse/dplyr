@@ -32,6 +32,20 @@ test_that("group indices are updated correctly for joined grouped data frames (#
   expect_equal(group_indices(res), res$x)
 })
 
+test_that("group_indices() works for rowwise data (#3491)", {
+  df <- rowwise(data.frame(x = 1:10))
+  expect_equal(group_indices(df), 1:10)
+})
+
+test_that("group_indices() warns when passed extra arguments on grouped or rowwise data", {
+  df <- rowwise(data.frame(x = 1:10))
+  expect_warning(idx <- group_indices(df, x))
+  expect_equal(idx, 1:10)
+
+  expect_warning(idx <- group_indices(group_by(df,x), x))
+  expect_equal(idx, 1:10)
+})
+
 test_that("group_indices() can be used inside mutate (#1185)", {
   df <- data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6) %>% group_by(v1)
   expect_identical(
@@ -45,9 +59,9 @@ test_that("group_indices() can be used inside mutate (#1185)", {
     group_indices(df)
   )
 
-  df <- data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6)
+  df <- rowwise(data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6))
   expect_identical(
-    pull(mutate(rowwise(df), g = group_indices())),
-    1:6
+    pull(mutate(df, g = group_indices())),
+    group_indices(df)
   )
 })
