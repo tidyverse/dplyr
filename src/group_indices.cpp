@@ -41,7 +41,7 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
 
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
-void build_index_cpp(DataFrame& data) {
+void build_index_cpp(DataFrame& data, bool drop) {
   SymbolVector vars(get_vars(data));
   const int nvars = vars.size();
 
@@ -71,7 +71,10 @@ void build_index_cpp(DataFrame& data) {
   int ngroups = labels.nrows();
   IntegerVector labels_order = OrderVisitors(labels).apply();
 
+  // the labels that are effectively present in the data
   labels = DataFrameSubsetVisitors(labels).subset(labels_order, "data.frame");
+
+
 
   List indices(ngroups);
   IntegerVector group_sizes = no_init(ngroups);

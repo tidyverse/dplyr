@@ -321,19 +321,20 @@ RcppExport SEXP _dplyr_get_time_classes() {
     return rcpp_result_gen;
 }
 // build_index_cpp
-void build_index_cpp(DataFrame& data);
-static SEXP _dplyr_build_index_cpp_try(SEXP dataSEXP) {
+void build_index_cpp(DataFrame& data, bool drop);
+static SEXP _dplyr_build_index_cpp_try(SEXP dataSEXP, SEXP dropSEXP) {
 BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame& >::type data(dataSEXP);
-    build_index_cpp(data);
+    Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
+    build_index_cpp(data, drop);
     return R_NilValue;
 END_RCPP_RETURN_ERROR
 }
-RcppExport SEXP _dplyr_build_index_cpp(SEXP dataSEXP) {
+RcppExport SEXP _dplyr_build_index_cpp(SEXP dataSEXP, SEXP dropSEXP) {
     SEXP rcpp_result_gen;
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_dplyr_build_index_cpp_try(dataSEXP));
+        rcpp_result_gen = PROTECT(_dplyr_build_index_cpp_try(dataSEXP, dropSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -675,7 +676,7 @@ static int _dplyr_RcppExport_validate(const char* sig) {
     if (signatures.empty()) {
         signatures.insert("SEXP(*get_date_classes)()");
         signatures.insert("SEXP(*get_time_classes)()");
-        signatures.insert("void(*build_index_cpp)(DataFrame&)");
+        signatures.insert("void(*build_index_cpp)(DataFrame&,bool)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -714,7 +715,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
     {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},
     {"_dplyr_get_time_classes", (DL_FUNC) &_dplyr_get_time_classes, 0},
-    {"_dplyr_build_index_cpp", (DL_FUNC) &_dplyr_build_index_cpp, 1},
+    {"_dplyr_build_index_cpp", (DL_FUNC) &_dplyr_build_index_cpp, 2},
     {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 5},
     {"_dplyr_anti_join_impl", (DL_FUNC) &_dplyr_anti_join_impl, 5},
     {"_dplyr_inner_join_impl", (DL_FUNC) &_dplyr_inner_join_impl, 7},

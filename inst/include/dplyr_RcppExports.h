@@ -63,17 +63,17 @@ namespace dplyr {
         return Rcpp::as<SEXP >(rcpp_result_gen);
     }
 
-    inline void build_index_cpp(DataFrame& data) {
-        typedef SEXP(*Ptr_build_index_cpp)(SEXP);
+    inline void build_index_cpp(DataFrame& data, bool drop) {
+        typedef SEXP(*Ptr_build_index_cpp)(SEXP,SEXP);
         static Ptr_build_index_cpp p_build_index_cpp = NULL;
         if (p_build_index_cpp == NULL) {
-            validateSignature("void(*build_index_cpp)(DataFrame&)");
+            validateSignature("void(*build_index_cpp)(DataFrame&,bool)");
             p_build_index_cpp = (Ptr_build_index_cpp)R_GetCCallable("dplyr", "_dplyr_build_index_cpp");
         }
         RObject rcpp_result_gen;
         {
             RNGScope RCPP_rngScope_gen;
-            rcpp_result_gen = p_build_index_cpp(Shield<SEXP>(Rcpp::wrap(data)));
+            rcpp_result_gen = p_build_index_cpp(Shield<SEXP>(Rcpp::wrap(data)), Shield<SEXP>(Rcpp::wrap(drop)));
         }
         if (rcpp_result_gen.inherits("interrupted-error"))
             throw Rcpp::internal::InterruptedException();
