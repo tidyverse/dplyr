@@ -45,8 +45,10 @@ public:
     bool is_lazy = Rf_isNull(data_.attr("group_sizes")) || Rf_isNull(data_.attr("labels"));
 
     if (is_lazy) {
-      bool drop = as<bool>(data_.attr("drop"));
-      build_index_cpp(data_, drop);
+      // when there is no drop attribute, we assumed drop=TRUE
+      // the default for group_by.
+      SEXP drop = data_.attr("drop");
+      build_index_cpp(data_, Rf_isNull(drop) ? true : as<bool>(drop));
     }
     group_sizes = data_.attr("group_sizes");
     biggest_group_size  = data_.attr("biggest_group_size");
