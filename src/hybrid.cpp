@@ -137,6 +137,85 @@ void registerHybridHandler(const char* name, HybridHandler proto) {
 
 namespace dplyr {
 
+struct FindFunData {
+  SEXP symbol;
+  SEXP env;
+  SEXP res;
+  bool forced;
+
+  FindFunData(SEXP symbol_, SEXP env_) :
+    symbol(symbol_),
+    env(env_),
+    res(R_NilValue),
+    forced(false)
+  {}
+
+};
+
+
+void protected_findFun(void* data) {
+  FindFunData* find_data = reinterpret_cast<FindFunData*>(data);
+
+  SEXP rho = find_data->env;
+  SEXP symbol = find_data->symbol;
+  SEXP vl;
+
+  while (rho != R_EmptyEnv) {
+    vl = Rf_findVarInFrame3(rho, symbol, TRUE) ;
+
+    if (vl != R_UnboundValue) {
+      // a promise, we need to evaluate it to find out if it
+      // is a function promise
+      if (TYPEOF(vl) == PROMSXP) {
+        PROTECT(vl);
+        vl = Rf_eval(vl, rho);
+        UNPROTECT(1);
+      }
+
+      // we found a function
+      if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP) {
+        find_data->res = vl;
+        return;
+      }
+
+      // a missing, just let R evaluation work as we have no way to
+      // assert if the missing argument would have evaluated to a function or data
+      if (vl == R_MissingArg) {
+        return;
+      }
+    }
+
+    // go in the parent environment
+    rho = ENCLOS(rho);
+  }
+
+  // we did not find a suitable function, so we force hybrid evaluation
+  // that happens e.g. when dplyr is not loaded and we use n() in the expression
+  find_data->forced = true;
+  return;
+
+}
+
+
+bool HybridHandler::hybrid(SEXP symbol, SEXP rho) const {
+  // the `protected_findFun` above might longjump so
+  // we evaluate it in a top level context
+  FindFunData find_data(symbol, rho);
+  Rboolean success = R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(&find_data));
+
+  // success longjumped so force hybrid
+  if (!success) return true;
+
+  if (find_data.forced) {
+    if (origin == DPLYR && symbol != Rf_install("n")) {
+      warning("hybrid evaluation forced for `%s`. Please use dplyr::%s() or library(dplyr) to remove this warning.", CHAR(PRINTNAME(symbol)), CHAR(PRINTNAME(symbol)));
+    }
+    return true;
+  }
+
+  return find_data.res == reference;
+}
+
 Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& env) {
   LOG_INFO << "Looking up hybrid handler for call of type " << type2name(call);
 
@@ -145,18 +224,15 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     HybridHandlerMap& handlers = get_handlers();
 
-    // if `check_hybrid_reference` is true, we check that the symbol `fun_symbol`
-    // evaluates to what we expect, i.e. the reference in its HybridHandler
-    // when we have `dplyr::` prefix we don't need to check
-    bool check_hybrid_reference = true ;
+    bool in_dplyr_namespace = false;
     SEXP fun_symbol = CAR(call);
     // interpret dplyr::fun() as fun(). #3309
     if (TYPEOF(fun_symbol) == LANGSXP &&
         CAR(fun_symbol) == R_DoubleColonSymbol &&
         CADR(fun_symbol) == Rf_install("dplyr")
        ) {
-      fun_symbol = CADDR(fun_symbol) ;
-      check_hybrid_reference = false ;
+      fun_symbol = CADDR(fun_symbol);
+      in_dplyr_namespace = true;
     }
 
     if (TYPEOF(fun_symbol) != SYMSXP) {
@@ -166,18 +242,21 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
 
     LOG_VERBOSE << "Searching hybrid handler for function " << CHAR(PRINTNAME(fun_symbol));
 
+    // give up if the symbol is not known
     HybridHandlerMap::const_iterator it = handlers.find(fun_symbol);
     if (it == handlers.end()) {
       LOG_VERBOSE << "Not found";
       return 0;
     }
 
-    // no hybrid evaluation if the symbol evaluates to something else than
-    // is expected. This would happen if e.g. the mean function has been shadowed
-    // mutate( x = mean(x) )
-    // if `mean` evaluates to something other than `base::mean` then no hybrid.
-    RObject fun = Rf_findFun(fun_symbol, env) ;
-    if (check_hybrid_reference && fun != it->second.reference) return 0 ;
+    if (!in_dplyr_namespace) {
+      // no hybrid evaluation if the symbol evaluates to something else than
+      // is expected. This would happen if e.g. the mean function has been shadowed
+      // mutate( x = mean(x) )
+      // if `mean` evaluates to something other than `base::mean` then no hybrid.
+
+      if (!it->second.hybrid(fun_symbol, env)) return 0;
+    }
 
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
