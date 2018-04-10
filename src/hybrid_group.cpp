@@ -42,5 +42,5 @@ Result* group_prototype(SEXP call, const ILazySubsets&, int nargs) {
 
 void install_group_handlers(HybridHandlerMap& handlers) {
   Environment ns_dplyr = Environment::namespace_env("dplyr");
-  handlers[ Rf_install("group_indices") ] = HybridHandler(group_prototype, ns_dplyr["group_indices"]);
+  handlers[ Rf_install("group_indices") ] = HybridHandler(group_prototype, HybridHandler::DPLYR, ns_dplyr["group_indices"]);
 }
