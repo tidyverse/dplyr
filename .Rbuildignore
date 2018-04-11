@@ -31,3 +31,4 @@ demo/pandas
 ^tic\.R$
 ^CONDUCT\.md$
 ^archive$
+^\.drake$

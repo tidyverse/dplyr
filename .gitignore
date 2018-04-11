@@ -18,3 +18,4 @@ vignettes/*.R
 /TAGS
 /.dir-locals.el
 /issues
+/.drake

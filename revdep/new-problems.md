@@ -1,57 +1,135 @@
-# unknown
+# amt
 
-## mudata2 (introduced in 68d90b4d)
+Version: 0.0.3.0
 
-- `library(mudata2); example(ns_climate)`
-- https://github.com/paleolimbot/mudata/issues/26
-
-Version: 1.0.0
-
-### Newly broken
+## Newly broken
 
 *   checking examples ... ERROR
     ```
     ...
-    
-    > ns_climate %>% 
-    +   select_locations(sable_island = starts_with("SABLE"),
-    +                    nappan = starts_with("NAPPAN"), 
-    +                    baddeck = starts_with("BADDECK")) %>% 
-    +   select_params(ends_with("temp")) %>%
-    +   filter_data(month(date) == 6) %>% 
-    +   autoplot()
-    Warning: Unknown or uninitialised column: 'param'.
-    Warning: Unknown or uninitialised column: 'location'.
-    Warning: Unknown or uninitialised column: 'dataset'.
-    Not all values were found: SABLE ISLAND 6454, NAPPAN CDA 6414, BADDECK 6297
-    Warning: Unknown or uninitialised column: 'param'.
-    Warning: Unknown or uninitialised column: 'location'.
-    Warning: Unknown or uninitialised column: 'dataset'.
-    Warning: Unknown or uninitialised column: 'param'.
-    Warning: Unknown or uninitialised column: 'location'.
-    Warning: Unknown or uninitialised column: 'dataset'.
-    Error in long_plot_base(.data, ...) : .data contains no data
-    Calls: %>% ... autoplot -> autoplot.mudata -> long_ggplot -> long_plot_base
+    > 
+    > # move
+    > m <- move::move(xy$x, xy$y, lubridate::now() + lubridate::hours(1:10),
+    +  proj = sp::CRS("+init=epsg:4326"))
+    > move::angle(m)
+    [1]   90.00000   90.00000    0.00000   44.41780  -89.58401  -89.16705 -180.00000
+    [8]  134.74039 -134.79070
+    > direction_abs(trk, degrees = TRUE, full_circle = FALSE, zero_dir = "N",
+    +   clockwise = TRUE, append_na = FALSE, lonlat = TRUE)
+     [1]   90.00000   90.00000    0.00000   44.41780  -89.58401  -89.16705
+     [7]  180.00000  134.74039 -134.79070         NA
+    > 
+    > # trajectories
+    > t1 <- trajectories::Track(
+    +   spacetime::STIDF(sp::SpatialPoints(cbind(xy$x, xy$y)),
+    +   lubridate::now() + lubridate::hours(1:10), data = data.frame(1:10)))
+    Warning in with_tz(Sys.time(), tzone) : Unrecognized time zone ''
+    Error in (function (dt, year, month, yday, mday, wday, hour, minute, second,  : 
+      Invalid timezone of input vector: ""
+    Calls: <Anonymous> ... reclass_date.POSIXlt -> as.POSIXlt -> do.call -> <Anonymous> -> .Call
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Loading required package: tidyverse
+    ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+    ✔ ggplot2 2.2.1          ✔ purrr   0.2.4     
+    ✔ tibble  1.4.2          ✔ dplyr   0.7.4.9004
+    ✔ tidyr   0.8.0          ✔ stringr 1.3.0     
+    ✔ readr   1.1.1          ✔ forcats 0.3.0     
+    ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+    ✖ dplyr::filter() masks stats::filter()
+    ✖ dplyr::lag()    masks stats::lag()
+    Loading required package: survival
+    .t missing, creating `track_xy`.
+    Quitting from lines 120-121 (p1_getting_started.Rmd) 
+    Error: processing vignette 'p1_getting_started.Rmd' failed with diagnostics:
+    Column `time` classes Period and Interval from lubridate are currently not supported.
+    Execution halted
+    ```
+
+# bayesplot
+
+Version: 1.5.0
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      9: eval(quote(`_fseq`(`_lhs`)), env, env)
+      10: `_fseq`(`_lhs`)
+      11: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
+      12: withVisible(function_list[[k]](value)) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:20
+      13: function_list[[k]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:20
+      14: summarise(., ss = dplyr::first(.data$Value))
+      15: summarise.tbl_df(., ss = dplyr::first(.data$Value))
+      16: summarise_impl(.data, dots)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 943 SKIPPED: 18 FAILED: 1
+      1. Error: all mcmc_nuts_* (except energy) return gtable objects (@test-mcmc-nuts.R#21) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+# bioset
+
+Version: 0.2.1
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > data
+    # A tibble: 6 x 3
+      names value  conc
+      <chr> <dbl> <dbl>
+    1 A       19.  1.90
+    2 B       59.  5.90
+    3 C       22.  2.20
+    4 A       18.  1.80
+    5 B       63.  6.30
+    6 C       28.  2.80
+    > 
+    > set_calc_variability(
+    +   data = data,
+    +   ids = names,
+    +   value,
+    +   conc
+    + )
+    Error in mutate_impl(.data, dots) : 
+      Column `value_n` is of unsupported type NULL
+    Calls: set_calc_variability ... <Anonymous> -> mutate.tbl_df -> mutate_impl -> .Call
     Execution halted
     ```
 
 *   checking tests ...
     ```
      ERROR
-    Running the tests in ‘tests/test-all.R’ failed.
+    Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      OGR: Unsupported geometry type
+      14: `_fseq`(`_lhs`)
+      15: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
+      16: function_list[[i]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:17
+      17: dplyr::mutate(., `:=`(!(!target_n), n()), `:=`(!(!target_mean), mean(!(!target))), 
+             `:=`(!(!target_sd), stats::sd(!(!target))), `:=`(!(!target_cv), stats::sd(!(!target))/mean(!(!target))))
+      18: mutate.tbl_df(., `:=`(!(!target_n), n()), `:=`(!(!target_mean), mean(!(!target))), 
+             `:=`(!(!target_sd), stats::sd(!(!target))), `:=`(!(!target_cv), stats::sd(!(!target))/mean(!(!target))))
+      19: mutate_impl(.data, dots)
+      
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 836 SKIPPED: 0 FAILED: 9
-      1. Error: read/write JSON functions work (@test_mudata.io.R#141) 
-      2. Error: read/write directory functions work (@test_mudata.io.R#435) 
-      3. Failure: mudata objects subset properly (@test_mudata_subset.R#14) 
-      4. Failure: mudata objects subset properly (@test_mudata_subset.R#23) 
-      5. Failure: mudata objects subset properly (@test_mudata_subset.R#28) 
-      6. Failure: mudata objects subset properly (@test_mudata_subset.R#30) 
-      7. Error: recombined subsetted objects are the same as the original (@test_mudata_subset.R#72) 
-      8. Error: filter_* functions work as expected (@test_mudata_subset.R#79) 
-      9. Error: rename works when some values are factors (@test_rename.R#68) 
+      OK: 75 SKIPPED: 0 FAILED: 1
+      1. Error: variability is calculated correctly (@test_set.R#56) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -61,58 +139,188 @@ Version: 1.0.0
     ```
     Error in re-building vignettes:
       ...
-    Warning: Removed 85 rows containing missing values (geom_path).
-    Quitting from lines 176-184 (mudata.Rmd) 
-    Error: processing vignette 'mudata.Rmd' failed with diagnostics:
-    object 'mean_temp' not found
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Quitting from lines 243-251 (introduction.Rmd) 
+    Error: processing vignette 'introduction.Rmd' failed with diagnostics:
+    Column `value_n` is of unsupported type NULL
     Execution halted
     ```
 
-## nonmemica
+# ddpcr
 
-- `library(nonmemica); example(nonmemica)`
-- reason unclear
-- e-mail sent
-- maintainer will take a look
+Version: 1.8
 
-Version: 0.7.9
+## Newly broken
 
-### Newly broken
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      16: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
+      17: function_list[[i]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:17
+      18: init_data(.)
+      19: dplyr::select_(new_plate_data, "well", x_var, y_var)
+      20: select_.data.frame(new_plate_data, "well", x_var, y_var)
+      21: select(.data, !(!(!dots)))
+      22: select.data.frame(.data, !(!(!dots)))
+      23: select_impl(.data, vars)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 267 SKIPPED: 0 FAILED: 1
+      1. Error: reset works (@test-plate.R#14) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Reading data files into plate... DONE (0 seconds)
+    Initializing plate of type `custom_thresholds`... DONE (0 seconds)
+    Identifying outlier droplets... DONE (0 seconds)
+    Classifying droplets... DONE (0 seconds)
+    Analysis complete
+    Reading data files into plate... DONE (0 seconds)
+    Initializing plate of type `fam_positive_pnpp`... DONE (0 seconds)
+    Identifying failed wells... DONE (0 seconds)
+    Identifying outlier droplets... DONE (0 seconds)
+    Identifying empty droplets... DONE (1 seconds)
+    Classifying droplets... DONE (0 seconds)
+    Reclassifying droplets... skipped (not enough wells with significant mutant clusters)
+    Analysis complete
+    Initializing plate of type `custom_thresholds`... Quitting from lines 348-357 (overview.Rmd) 
+    Error: processing vignette 'overview.Rmd' failed with diagnostics:
+    Column `4` cannot have NA as name
+    Execution halted
+    ```
+
+# desctable
+
+Version: 0.1.1
+
+## Newly broken
 
 *   checking examples ... ERROR
     ```
     ...
-    > ### ** Examples
+    +                                 mpg = "Miles per gallon"))
+                         N      Mean        sd     Med       IQR
+    1  Miles per gallon 32 20.090625 6.0269481      NA        NA
+    2         Cylinders 32        NA        NA   6.000   4.00000
+    3              disp 32        NA        NA 196.300 205.17500
+    4       Horse Power 32        NA        NA 123.000  83.50000
+    5              drat 32  3.596563 0.5346787      NA        NA
+    6                wt 32        NA        NA   3.325   1.02875
+    7              qsec 32 17.848750 1.7869432      NA        NA
+    8                vs 32        NA        NA   0.000   1.00000
+    9                am 32        NA        NA   0.000   1.00000
+    10             gear 32        NA        NA   4.000   1.00000
+    11             carb 32        NA        NA   2.000   2.00000
     > 
-    > library(magrittr)
-    > library(fold)
-    
-    Attaching package: ‘fold’
-    
-    The following object is masked from ‘package:stats’:
-    
-        filter
-    
-    > options(project = system.file('project/model',package='nonmemica'))
-    > 1001 %>% fold(ID,TIME,subset='MDV==0') %>% head
-    Warning in as.folded.data.frame(y) :
-      removing unique values where keys are duplicated
-    Warning in as.folded.data.frame(y) :
-      removing unique values where keys are duplicated
-    Error in `[.data.frame`(res, , c("VARIABLE", "META")) : 
-      undefined columns selected
-    Calls: %>% ... fold.character -> <Anonymous> -> meta.character -> [ -> [.data.frame
+    > # With grouping on a factor
+    > iris %>%
+    +   group_by(Species) %>%
+    +   desctable(stats = stats_default)
+    Error in eval(grps[[1]]) : object 'Species' not found
+    Calls: %>% ... vars_select_eval -> map_if -> map -> .Call -> .f -> eval -> eval
     Execution halted
     ```
 
-## PPforest
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    
+    Attaching package: 'desctable'
+    
+    The following object is masked from 'package:DT':
+    
+        datatable
+    
+    The following objects are masked from 'package:stats':
+    
+        chisq.test, fisher.test, IQR
+    
+    Quitting from lines 217-222 (desctable.Rmd) 
+    Error: processing vignette 'desctable.Rmd' failed with diagnostics:
+    object 'Species' not found
+    Execution halted
+    ```
 
-- reason unclear
-- e-mail sent
+# fold
+
+Version: 0.2.5
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    1   VARIABLE   META   ID   TIME
+    > 
+    > # another example
+    > x <- Theoph
+    > x %<>% mutate(
+    +   conc_LABEL = 'theophylline concentration',
+    +   conc_GUIDE = 'mg/L',
+    +   Time_LABEL = 'time since drug administration',
+    +   Time_GUIDE = 'hr',
+    +   Time_HALF = Time / 2 # to demonstrate variant attribute of key column
+    + )
+    > x %<>% fold(Subject, Time)
+    Warning in as.folded.data.frame(d, sort = sort, ...) :
+      removing unique values where keys are duplicated
+    > x %>% unfold %>% head
+    Warning in is.na(x$META) :
+      is.na() applied to non-(list or vector) of type 'NULL'
+    Error in y[sapply(y, function(i) nrow(i) > 0)] : 
+      invalid subscript type 'list'
+    Calls: %>% ... _fseq -> freduce -> <Anonymous> -> unfold -> unfold.folded
+    Execution halted
+    ```
+
+# keyholder
+
+Version: 0.1.1
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      16: distinct_vars(.data, quos(...), .keep_all = .keep_all)
+      17: list_cols_warning(.data, out_vars)
+      18: df[keep_cols]
+      19: `[.keyed_df`(df, keep_cols)
+      20: `keys<-`(`*tmp*`, value = structure(list(vs = NA_real_, am = NA_real_), .Names = c("vs", 
+         "am"), row.names = c(NA, -1L), class = c("tbl_df", "tbl", "data.frame")))
+      21: stop("Keys object should have the same number of rows as data.")
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 306 SKIPPED: 0 FAILED: 2
+      1. Error: group_by_if works (@test-keyed-df-one-tbl.R#268) 
+      2. Error: distinct works (@test-keyed-df-one-tbl.R#298) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+# PPforest
 
 Version: 0.1.0
 
-### Newly broken
+## Newly broken
 
 *   checking examples ... ERROR
     ```
@@ -121,11 +329,11 @@ Version: 0.1.0
       restarting interrupted promise evaluation
     Warning in PPclassify2(Tree.result = x[[1]], test.data = xnew, Rule = 1) :
       restarting interrupted promise evaluation
-    Warning in PPclassify2(Tree.result = x[[1]], test.data = xnew, Rule = 1) :Warning in PPclassify2(Tree.result = x[[1]], test.data = xnew, Rule = 1) :
+    Warning in PPclassify2(Tree.result = x[[1]], test.data = xnew, Rule = 1) :
       restarting interrupted promise evaluation
     Warning in PPclassify2(Tree.result = x[[1]], test.data = xnew, Rule = 1) :
       restarting interrupted promise evaluation
-    
+    Warning in PPclassify2(Tree.result = x[[1]], test.data = xnew, Rule = 1) :
       restarting interrupted promise evaluation
     Warning in PPclassify2(Tree.result = x[[1]], test.data = xnew, Rule = 1) :
       restarting interrupted promise evaluation
@@ -166,75 +374,28 @@ Version: 0.1.0
     Execution halted
     ```
 
-# dimensions
+# ptstem
 
-## pRoloc
+Version: 0.0.3
 
-- reason unclear
-- e-mail sent
-
-Version: 1.16.1
-
-### Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    
-    This is pRoloc version 1.16.1 
-      Read '?pRoloc' and references therein for information
-      about the package and how to get started.
-    
-    
-    This is pRolocdata version 1.14.0.
-    Use 'pRolocdata()' to list available data sets.
-    Loading required namespace: GO.db
-    
-    Loading required package: GO.db
-    Retaining 85 out of 530 in GOAnnotations
-    Retaining 80 out of 85 in GOAnnotations
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:8 sigma:0.1.
-    Warning in lapply(X = X, FUN = FUN, ...) :
-      NaNs found in 'precision' with hyperparameters cost:8 sigma:1.
-    Quitting from lines 220-223 (pRoloc-transfer-learning.Rnw) 
-    Error: processing vignette 'pRoloc-transfer-learning.Rnw' failed with diagnostics:
-    incorrect number of dimensions
-    Execution halted
-    ```
-
-## TPP
-
-- reason unclear
-- e-mail sent
-
-Version: 3.4.3
-
-### Newly broken
+## Newly broken
 
 *   checking examples ... ERROR
     ```
-    ...
-    Removing duplicate identifiers using quality column 'qupm'...
-    261 out of 261 rows kept for further analysis.
-    Reformating data for input into function 'analyzeTPPCCR' ...
-    Done.
-    No output directory specified. No result files or plots will be produced.
-    Looking for intensity column prefix: 'sumionarea_protein_'
-    Computing fold changes...
-    Done.
-    Found the following column name in attr(data, 'importSettings')$proteinIdCol: 'representative'
-    Found the following column name in attr(data, 'importSettings')$fcStr: 'rel_fc_protein_'
-    Performing median normalization per temperature...
-    Done.
-    Looking for unique ID column: 'unique_ID'
-    Looking for nonZeroCols: 'qusm'
-    Checking which columns in the data table contain the fold change values for fitting and plotting...
-    Normalized data columns detected with prefix 'norm_rel_fc_protein_'. Analysis will be based on these values.
-    This information was found in the attributes of the input data (access with attr(dataTable, 'importSettings'))
-    Performing TPP-CCR dose response curve fitting and generating result table...
-    Error in foldChanges[, refCol] : incorrect number of dimensions
-    Calls: analyze2DTPP ... withCallingHandlers -> analyzeTPPCCR -> tppccrNormalizeToReference
+    Running examples in ‘ptstem-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: ptstem_words
+    > ### Title: Stem Words
+    > ### Aliases: ptstem ptstem_words
+    > 
+    > ### ** Examples
+    > 
+    > words <- c("balões", "aviões", "avião", "gostou", "gosto", "gostaram")
+    > ptstem_words(words, "hunspell")
+    Error in summarise_impl(.data, dots) : 
+      Evaluation error: could not find function "nth".
+    Calls: ptstem_words ... <Anonymous> -> summarise.tbl_df -> summarise_impl -> .Call
     Execution halted
     ```
 
@@ -243,91 +404,90 @@ Version: 3.4.3
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      13: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
+      14: function_list[[i]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:17
+      15: dplyr::summarise(., new_stems = dplyr::first(words, order_by = -n_word))
+      16: summarise.tbl_df(., new_stems = dplyr::first(words, order_by = -n_word))
+      17: summarise_impl(.data, dots)
+      
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 381 SKIPPED: 0 FAILED: 35
-      1. Error: allOK (@test_analyze2DTPP.R#14) 
-      2. Error: allOK_scientific_drug_concentration_format (@test_analyze2DTPP.R#37) 
-      3. Error: warning_deprecated_fct_arg (@test_analyze2DTPP.R#62) 
-      4. Error: NPARC_allok (@test_analyzeTPPTR.R#14) 
-      5. Error: NPARC_allok_output (@test_analyzeTPPTR.R#34) 
-      6. Error: NPARC_allok_plot (@test_analyzeTPPTR.R#61) 
-      7. Error: NPARC_allok_files (@test_analyzeTPPTR.R#94) 
-      8. Error: meltCurves_allOK_no_conditions (@test_analyzeTPPTR.R#153) 
-      9. Error: testApplyCoeffs (@test_applyCoeffs.R#9) 
-      1. ...
+      OK: 12 SKIPPED: 0 FAILED: 4
+      1. Error: Stemming Hunspell Works (@test-ptstem.R#15) 
+      2. Error: Stemming RSLP Works (@test-ptstem.R#26) 
+      3. Error: Stemming Porter Works (@test-ptstem.R#37) 
+      4. Error: n_char argument (@test-ptstem.R#50) 
       
       Error: testthat unit tests failed
       Execution halted
     ```
 
-*   checking whether package ‘TPP’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: replacing previous import ‘Biobase::exprs’ by ‘dplyr::exprs’ when loading ‘TPP’
-    See ‘/home/muelleki/tmp/Rtmp8tFe4G/file182cc725e0494/TPP.Rcheck/00install.out’ for details.
-    ```
-
 *   checking re-building of vignette outputs ... WARNING
     ```
-    ...
-    
-    Filtering by annotation column(s) 'qssm' in treatment group: Panobinostat_1
-      Column qssm between 4 and Inf-> 333 out of 508 proteins passed.
-    
-    333 out of 508 proteins passed in total.
-    
-    Filtering by annotation column(s) 'qssm' in treatment group: Panobinostat_2
-      Column qssm between 4 and Inf-> 364 out of 509 proteins passed.
-    
-    364 out of 509 proteins passed in total.
-    
-    	2. Find jointP:
-    Detecting intersect between treatment groups (jointP).
-    -> JointP contains 261 proteins.
-    
-    	3. Filtering fold changes:
-    Filtering fold changes in treatment group: Vehicle_1
-    Quitting from lines 73-76 (NPARC_analysis_of_TPP_TR_data.Rnw) 
-    Error: processing vignette 'NPARC_analysis_of_TPP_TR_data.Rnw' failed with diagnostics:
-    incorrect number of dimensions
+    Error in re-building vignettes:
+      ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Quitting from lines 58-59 (ptstem.Rmd) 
+    Error: processing vignette 'ptstem.Rmd' failed with diagnostics:
+    Evaluation error: could not find function "nth".
     Execution halted
     ```
 
-# tidyselect problems
+# purrr
 
-## desctable
+Version: 0.2.4
 
-- `example(desctable)`
-- Use of `eval()` a `select()` statement in `desctable:::subTable`
-- https://github.com/MaximeWack/desctable/issues/8
+## Newly broken
 
-Version: 0.1.1
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      The following object is masked from 'package:testthat':
+      
+          is_null
+      
+      > 
+      > test_check("purrr")
+      ── 1. Failure: can flatten to a data frame with named lists (@test-flatten.R#77)
+      `flatten_dfc(list(1))` did not throw an error.
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 393 SKIPPED: 0 FAILED: 1
+      1. Failure: can flatten to a data frame with named lists (@test-flatten.R#77) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
 
-### Newly broken
+# replyr
+
+Version: 0.9.3
+
+## Newly broken
 
 *   checking examples ... ERROR
     ```
-    ...
-    +                                 mpg = "Miles per gallon"))
-                         N      Mean        sd     Med       IQR
-    1  Miles per gallon 32 20.090625 6.0269481      NA        NA
-    2         Cylinders 32        NA        NA   6.000   4.00000
-    3              disp 32        NA        NA 196.300 205.17500
-    4       Horse Power 32        NA        NA 123.000  83.50000
-    5              drat 32  3.596563 0.5346787      NA        NA
-    6                wt 32        NA        NA   3.325   1.02875
-    7              qsec 32 17.848750 1.7869432      NA        NA
-    8                vs 32        NA        NA   0.000   1.00000
-    9                am 32        NA        NA   0.000   1.00000
-    10             gear 32        NA        NA   4.000   1.00000
-    11             carb 32        NA        NA   2.000   2.00000
+    Running examples in ‘replyr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: buildJoinPlan
+    > ### Title: Build a join plan
+    > ### Aliases: buildJoinPlan
     > 
-    > # With grouping on a factor
-    > iris %>%
-    +   group_by(Species) %>%
-    +   desctable(stats = stats_default)
-    Error in eval(grps[[1]]) : object 'Species' not found
-    Calls: %>% ... vars_select_eval -> map_if -> map -> .Call -> .f -> eval -> eval
+    > ### ** Examples
+    > 
+    > 
+    > d <- data.frame(id=1:3, weight= c(200, 140, 98))
+    > tDesc <- rbind(tableDescription('d1', d),
+    +                tableDescription('d2', d))
+    > tDesc$keys[[1]] <- list(PrimaryKey= 'id')
+    > tDesc$keys[[2]] <- list(PrimaryKey= 'id')
+    > buildJoinPlan(tDesc)
+    Error in summarise_impl(.data, dots) : 
+      Column `count` is of unsupported type NULL
+    Calls: buildJoinPlan ... <Anonymous> -> summarise.tbl_df -> summarise_impl -> .Call
     Execution halted
     ```
 
@@ -335,97 +495,154 @@ Version: 0.1.1
     ```
     Error in re-building vignettes:
       ...
-    
-    Attaching package: 'desctable'
-    
-    The following object is masked from 'package:DT':
-    
-        datatable
-    
-    The following objects are masked from 'package:stats':
-    
-        IQR, chisq.test, fisher.test
-    
-    Quitting from lines 217-222 (desctable.Rmd) 
-    Error: processing vignette 'desctable.Rmd' failed with diagnostics:
-    object 'Species' not found
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Quitting from lines 57-59 (DependencySorting.Rmd) 
+    Error: processing vignette 'DependencySorting.Rmd' failed with diagnostics:
+    Column `count` is of unsupported type NULL
     Execution halted
     ```
 
-# list
+# roadoi
 
-## fold
+Version: 0.4.1
 
-- likely responsible for *nonmemica* failures
-- `example("fold.data.frame")`
+## Newly broken
 
-Version: 0.2.5
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Error : Oops, API did not return json after calling '§dldl  ':
+            check your query - or api.oadoi.org may experience problems
+    Quitting from lines 177-178 (intro.Rmd) 
+    Error: processing vignette 'intro.Rmd' failed with diagnostics:
+    Oops, API did not return json after calling '10.3386/w7380':
+            check your query - or api.oadoi.org may experience problems
+    Execution halted
+    ```
 
-### Newly broken
+# ruler
+
+Version: 0.1.2
+
+## Newly broken
 
 *   checking examples ... ERROR
     ```
     ...
-    1   VARIABLE   META   ID   TIME
+     1. dplyr::transmute_at(., c("disp", "qsec"), rules(z_score = abs(. -     mean(.))/sd(.) > 1))
+    
+    Use 'functions' to extract the individual functions. 
+    
     > 
-    > # another example
-    > x <- Theoph
-    > x %<>% mutate(
-    +   conc_LABEL = 'theophylline concentration',
-    +   conc_GUIDE = 'mg/L',
-    +   Time_LABEL = 'time since drug administration',
-    +   Time_GUIDE = 'hr',
-    +   Time_HALF = Time / 2 # to demonstrate variant attribute of key column
+    > # Dealing with one column edge case
+    > improper_pack <- . %>% dplyr::transmute_at(
+    +   dplyr::vars(vs),
+    +   rules(improper_is_neg = . < 0)
     + )
-    > x %<>% fold(Subject, Time)
-    Warning in as.folded.data.frame(d, sort = sort, ...) :
-      removing unique values where keys are duplicated
-    > x %>% unfold %>% head
-    Warning in is.na(x$META) :
-      is.na() applied to non-(list or vector) of type 'NULL'
-    Error in y[sapply(y, function(i) nrow(i) > 0)] : 
-      invalid subscript type 'list'
-    Calls: %>% ... _fseq -> freduce -> <Anonymous> -> unfold -> unfold.folded
+    > 
+    > proper_pack <- . %>% dplyr::transmute_at(
+    +   dplyr::vars(vs = vs),
+    +   rules(proper_is_neg = . < 0)
+    + )
+    > 
+    > mtcars[1:2, ] %>%
+    +   expose(cell_packs(improper_pack, proper_pack)) %>%
+    +   get_report()
+    Error: `~"id"` must be a function name (quoted or unquoted) or an unquoted call, not `~`
     Execution halted
     ```
 
-# exprs
-
-## biobroom
-
-Version: 1.8.0
-
-### Newly broken
-
-*   checking whether package ‘biobroom’ can be installed ... WARNING
+*   checking tests ...
     ```
-    Found the following significant warnings:
-      Warning: replacing previous import ‘dplyr::exprs’ by ‘Biobase::exprs’ when loading ‘biobroom’
-    See ‘/home/muelleki/tmp/Rtmp8tFe4G/file182cf70acbf91/biobroom.Rcheck/00install.out’ for details.
-    ```
-
-## switchde
-
-Version: 1.2.0
-
-### Newly broken
-
-*   checking whether package ‘switchde’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: replacing previous import ‘dplyr::exprs’ by ‘Biobase::exprs’ when loading ‘switchde’
-    See ‘/home/muelleki/tmp/Rtmp8tFe4G/file182cb467e9ca/switchde.Rcheck/00install.out’ for details.
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 276 SKIPPED: 0 FAILED: 9
+      1. Error: expose works (@test-expose.R#136) 
+      2. Error: expose preserves pack names (@test-expose.R#218) 
+      3. Error: expose guesses (@test-expose.R#270) 
+      4. Error: expose_single.default guesses row pack (@test-expose.R#326) 
+      5. Error: expose_single.default guesses cell pack (@test-expose.R#335) 
+      6. Error: expose_single.row_pack works (@test-expose.R#437) 
+      7. Error: expose_single.cell_pack works (@test-expose.R#453) 
+      8. Error: interp_row_pack_out works (@test-expose.R#602) 
+      9. Error: interp_cell_pack_out works (@test-expose.R#620) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
-## IHWpaper
-
-Version: 1.4.0
-
-### Newly broken
-
-*   checking whether package ‘IHWpaper’ can be installed ... WARNING
+*   checking re-building of vignette outputs ... WARNING
     ```
-    Found the following significant warnings:
-      Warning: replacing previous import ‘dplyr::exprs’ by ‘Biobase::exprs’ when loading ‘IHWpaper’
-    See ‘/home/muelleki/tmp/Rtmp8tFe4G/file182ca33b1d350/IHWpaper.Rcheck/00install.out’ for details.
+    Error in re-building vignettes:
+      ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Quitting from lines 188-209 (validation.Rmd) 
+    Error: processing vignette 'validation.Rmd' failed with diagnostics:
+    `~"id"` must be a function name (quoted or unquoted) or an unquoted call, not `~`
+    Execution halted
     ```
+
+# stplanr
+
+Version: 0.2.3
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘stplanr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: onewayid
+    > ### Title: Aggregate ods so they become non-directional
+    > ### Aliases: onewayid onewayid onewayid.data.frame onewayid
+    > ###   onewayid.SpatialLines
+    > 
+    > ### ** Examples
+    > 
+    > data(flow)
+    > flow_oneway = onewayid(flow, attrib = 3)
+    Error in summarise_impl(.data, dots) : 
+      Evaluation error: could not find function "nth".
+    Calls: onewayid ... <Anonymous> -> summarise.tbl_df -> summarise_impl -> .Call
+    Execution halted
+    ```
+
+# xtractomatic
+
+Version: 3.4.2
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘xtractomatic-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: getInfo
+    > ### Title: Extract dataset information for a given dtype name or number
+    > ### Aliases: getInfo
+    > 
+    > ### ** Examples
+    > 
+    > getInfo('atsstamday')
+    Error in charToDate(x) : 
+      character string is not in a standard unambiguous format
+    Calls: getInfo ... getMaxTime -> as.Date -> as.Date.character -> charToDate
+    Execution halted
+    ```
+

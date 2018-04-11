@@ -33,14 +33,12 @@ install <- function(pkg, path, ...) {
 
   lib <- get_i_lib()
 
-  # Avoid flaky check for compiler availability on mclapply()
-  pkgbuild:::cache_set("has_compiler", TRUE)
-
-  withr::with_libpaths(
-    lib, action = "replace",
+  withr::with_envvar(
+    c(R_LIBS_USER = lib),
     # Suppress warnings about loaded packages
-    retry(suppressWarnings(pkginstall::install_source(path, vignettes = FALSE)))
+    retry(system(paste0("R CMD INSTALL ", path)))
   )
+  stopifnot(dir.exists(file.path(lib, pkg)))
 
   structure(
     pkg,
@@ -260,6 +258,7 @@ plan <- get_plan()
 make(
   plan,
   #"compare_all",
+  "c_broom",
   keep_going = TRUE,
   #parallelism = "future"
   , verbose = 3
