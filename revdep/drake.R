@@ -258,7 +258,6 @@ plan <- get_plan()
 make(
   plan,
   #"compare_all",
-  "c_broom",
   keep_going = TRUE,
   #parallelism = "future"
   , verbose = 3

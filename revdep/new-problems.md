@@ -53,34 +53,6 @@ Version: 0.0.3.0
     Execution halted
     ```
 
-# bayesplot
-
-Version: 1.5.0
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      9: eval(quote(`_fseq`(`_lhs`)), env, env)
-      10: `_fseq`(`_lhs`)
-      11: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
-      12: withVisible(function_list[[k]](value)) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:20
-      13: function_list[[k]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:20
-      14: summarise(., ss = dplyr::first(.data$Value))
-      15: summarise.tbl_df(., ss = dplyr::first(.data$Value))
-      16: summarise_impl(.data, dots)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 943 SKIPPED: 18 FAILED: 1
-      1. Error: all mcmc_nuts_* (except energy) return gtable objects (@test-mcmc-nuts.R#21) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # bioset
 
 Version: 0.2.1
@@ -191,7 +163,7 @@ Version: 1.8
     Initializing plate of type `fam_positive_pnpp`... DONE (0 seconds)
     Identifying failed wells... DONE (0 seconds)
     Identifying outlier droplets... DONE (0 seconds)
-    Identifying empty droplets... DONE (1 seconds)
+    Identifying empty droplets... DONE (0 seconds)
     Classifying droplets... DONE (0 seconds)
     Reclassifying droplets... skipped (not enough wells with significant mutant clusters)
     Analysis complete
@@ -374,65 +346,6 @@ Version: 0.1.0
     Execution halted
     ```
 
-# ptstem
-
-Version: 0.0.3
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘ptstem-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: ptstem_words
-    > ### Title: Stem Words
-    > ### Aliases: ptstem ptstem_words
-    > 
-    > ### ** Examples
-    > 
-    > words <- c("balões", "aviões", "avião", "gostou", "gosto", "gostaram")
-    > ptstem_words(words, "hunspell")
-    Error in summarise_impl(.data, dots) : 
-      Evaluation error: could not find function "nth".
-    Calls: ptstem_words ... <Anonymous> -> summarise.tbl_df -> summarise_impl -> .Call
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      13: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
-      14: function_list[[i]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:17
-      15: dplyr::summarise(., new_stems = dplyr::first(words, order_by = -n_word))
-      16: summarise.tbl_df(., new_stems = dplyr::first(words, order_by = -n_word))
-      17: summarise_impl(.data, dots)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 12 SKIPPED: 0 FAILED: 4
-      1. Error: Stemming Hunspell Works (@test-ptstem.R#15) 
-      2. Error: Stemming RSLP Works (@test-ptstem.R#26) 
-      3. Error: Stemming Porter Works (@test-ptstem.R#37) 
-      4. Error: n_char argument (@test-ptstem.R#50) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-    Quitting from lines 58-59 (ptstem.Rmd) 
-    Error: processing vignette 'ptstem.Rmd' failed with diagnostics:
-    Evaluation error: could not find function "nth".
-    Execution halted
-    ```
-
 # purrr
 
 Version: 0.2.4
@@ -505,27 +418,6 @@ Version: 0.9.3
     Execution halted
     ```
 
-# roadoi
-
-Version: 0.4.1
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-    Error : Oops, API did not return json after calling '§dldl  ':
-            check your query - or api.oadoi.org may experience problems
-    Quitting from lines 177-178 (intro.Rmd) 
-    Error: processing vignette 'intro.Rmd' failed with diagnostics:
-    Oops, API did not return json after calling '10.3386/w7380':
-            check your query - or api.oadoi.org may experience problems
-    Execution halted
-    ```
-
 # ruler
 
 Version: 0.1.2
@@ -593,56 +485,6 @@ Version: 0.1.2
     Quitting from lines 188-209 (validation.Rmd) 
     Error: processing vignette 'validation.Rmd' failed with diagnostics:
     `~"id"` must be a function name (quoted or unquoted) or an unquoted call, not `~`
-    Execution halted
-    ```
-
-# stplanr
-
-Version: 0.2.3
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘stplanr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: onewayid
-    > ### Title: Aggregate ods so they become non-directional
-    > ### Aliases: onewayid onewayid onewayid.data.frame onewayid
-    > ###   onewayid.SpatialLines
-    > 
-    > ### ** Examples
-    > 
-    > data(flow)
-    > flow_oneway = onewayid(flow, attrib = 3)
-    Error in summarise_impl(.data, dots) : 
-      Evaluation error: could not find function "nth".
-    Calls: onewayid ... <Anonymous> -> summarise.tbl_df -> summarise_impl -> .Call
-    Execution halted
-    ```
-
-# xtractomatic
-
-Version: 3.4.2
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘xtractomatic-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: getInfo
-    > ### Title: Extract dataset information for a given dtype name or number
-    > ### Aliases: getInfo
-    > 
-    > ### ** Examples
-    > 
-    > getInfo('atsstamday')
-    Error in charToDate(x) : 
-      character string is not in a standard unambiguous format
-    Calls: getInfo ... getMaxTime -> as.Date -> as.Date.character -> charToDate
     Execution halted
     ```
 
