@@ -31,4 +31,7 @@ during the lifetime of a storm.
 \examples{
 storms
 }
+\seealso{
+The script to create the storms data set: \url{https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R}
+}
 \keyword{datasets}

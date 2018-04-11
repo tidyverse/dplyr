@@ -5,6 +5,8 @@
 #' positions and attributes of 198 tropical storms, measured every six hours
 #' during the lifetime of a storm.
 #'
+#' @seealso The script to create the storms data set: \url{https://github.com/tidyverse/dplyr/blob/master/data-raw/storms.R}
+#'
 #' @format A tibble with 10,010 observations and 13 variables:
 #' \describe{
 #' \item{name}{Storm Name}
