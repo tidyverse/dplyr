@@ -218,6 +218,7 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     return 0;
   }
   SEXP data = maybe_rhs(CADR(call));
+
   if (TYPEOF(data) != SYMSXP)
     return 0;
 
@@ -305,8 +306,10 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, int pos) {
   SEXP tail = CDDR(call);
 
-  SETCAR(call, Rf_install("nth"));
+  // replacing `first` or `last` by `dplyr::nth`
+  SETCAR(call, Rf_lang3(R_DoubleColonSymbol, Rf_install("dplyr"), Rf_install("nth")));
 
+  // append pos to the call
   Pairlist p(pos);
   if (Rf_isNull(tail)) {
     SETCDR(CDR(call), p);

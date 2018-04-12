@@ -31,6 +31,7 @@ Imports:
     utils
 Suggests: 
     bit64 (>= 0.9.7),
+    callr,
     covr (>= 3.0.1),
     DBI (>= 0.7.14),
     dbplyr (>= 1.2.0),
