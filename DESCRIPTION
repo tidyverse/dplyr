@@ -31,6 +31,7 @@ Imports:
     utils
 Suggests: 
     bit64 (>= 0.9.7),
+    callr,
     covr (>= 3.0.1),
     DBI (>= 0.7.14),
     dbplyr (>= 1.2.0),
@@ -48,8 +49,7 @@ Suggests:
     RPostgreSQL (>= 0.6.2),
     RSQLite (>= 2.0),
     testthat (>= 2.0.0),
-    withr (>= 2.1.1),
-    callr
+    withr (>= 2.1.1)
 LinkingTo: 
     BH (>= 1.58.0-1),
     bindrcpp (>= 0.2.0.9000),
