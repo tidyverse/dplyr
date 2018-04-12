@@ -259,5 +259,5 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 }
 
 group_drop <- function(x) {
-  attr(.data, "drop") %||% TRUE
+  attr(x, "drop") %||% TRUE
 }

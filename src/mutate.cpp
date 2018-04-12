@@ -142,6 +142,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   if (df.nrows() == 0) {
     DataFrame res = mutate_not_grouped(df, dots);
     copy_vars(res, df);
+    copy_drop(res, df);
     set_class(res, get_class(df));
     return Data(res).data();
   }
