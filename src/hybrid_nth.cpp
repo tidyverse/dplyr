@@ -307,7 +307,7 @@ Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, i
   SEXP tail = CDDR(call);
 
   // replacing `first` or `last` by `dplyr::nth`
-  SETCAR(call, Rf_lang3(R_DoubleColonSymbol, Rf_install("dplyr"), Rf_install("nth")));
+  SETCAR(call, Rf_lang3(Rf_install("::"), Rf_install("dplyr"), Rf_install("nth")));
 
   // append pos to the call
   Pairlist p(pos);
