@@ -33,6 +33,7 @@
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
 #' @inheritParams filter
+#' @param drop if `TRUE` the zero length groups are dropped
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
