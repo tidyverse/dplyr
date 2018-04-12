@@ -218,6 +218,9 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
     return 0;
   }
   SEXP data = maybe_rhs(CADR(call));
+  if (TYPEOF(data) == LANGSXP && CAR(data) == R_DollarSymbol && CADR(data) == Rf_install(".data") && TYPEOF(CADDR(data)) == SYMSXP ){
+    data = CADDR(data);
+  }
   if (TYPEOF(data) != SYMSXP)
     return 0;
 

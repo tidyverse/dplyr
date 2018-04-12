@@ -1018,3 +1018,12 @@ test_that("summarise() supports unquoted values", {
   expect_error(summarise(gdf, out = !!(1:5)), "must be length 2 (the number of groups)", fixed = TRUE)
   expect_error(summarise(gdf, out = !!env(a = 1)), "unsupported type")
 })
+
+test_that("first() and last() can be called without dplyr loaded (#3498)", {
+  skip_if_not_installed("callr")
+  df <- callr::r( function(){
+    dplyr::summarise( tibble::tibble(a = 1:3), first = dplyr::first(.data$a), last = dplyr::last(.data$a) )
+  })
+  expect_equal( df$first, 1L)
+  expect_equal( df$last, 3L)
+})
