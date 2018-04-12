@@ -110,7 +110,7 @@ distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FAL
   new_vars <- unique(c(names(vars), group_vars))
 
   # Keep the order of the variables
-  out_vars <- intersect(names(.data), new_vars)
+  out_vars <- intersect(new_vars, names(.data))
 
   if (.keep_all) {
     keep <- seq_along(.data)
