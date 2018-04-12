@@ -245,8 +245,10 @@ bool get_drop(SEXP x) {
   static SEXP drop_symbol = Rf_install("drop");
   SEXP drop = Rf_getAttrib(x, drop_symbol);
   switch (TYPEOF(drop)) {
-  case LGLSXP: return LOGICAL(drop)[0] ;
-  case NILSXP: return true;
+  case LGLSXP:
+    return LOGICAL(drop)[0] ;
+  case NILSXP:
+    return true;
   default:
     stop("The `drop` attribute has unexpected type");
   }
@@ -259,7 +261,8 @@ void set_drop(SEXP x, bool drop) {
 }
 
 void copy_drop(SEXP target, SEXP source) {
-  set_drop(target, get_drop(source));
+  if (Rf_inherits(source, "grouped_df"))
+    set_drop(target, get_drop(source));
 }
 
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {

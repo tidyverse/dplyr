@@ -315,11 +315,3 @@ test_that("bind_rows warns on binding factor and character (#1485)", {
   df2 <- tail(iris, 1) %>% mutate(Species = as.character(Species))
   expect_warning(bind_rows(df1, df2), "binding factor and character vector, coercing into character vector")
 })
-
-test_that("bind_rows respect the drop attribute of grouped df (#341)",{
-  df <- data_frame( f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4) )
-  g <- group_by(df, f, drop = FALSE)
-
-  gg <- bind_rows(g,g)
-  expect_equal(group_size(gg), c(4L,4L,0L))
-})
