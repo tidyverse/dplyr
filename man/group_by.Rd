@@ -20,6 +20,8 @@ will be silently dropped.}
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
 
+\item{drop}{if \code{TRUE} the zero length groups are dropped}
+
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \description{

@@ -98,6 +98,8 @@ first row of values.}
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
 
+\item{drop}{if \code{TRUE} the zero length groups are dropped}
+
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}
 }
