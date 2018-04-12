@@ -241,6 +241,27 @@ void copy_vars(SEXP target, SEXP source) {
   set_vars(target, get_vars(source));
 }
 
+bool get_drop(SEXP x) {
+  static SEXP drop_symbol = Rf_install("drop");
+  SEXP drop = Rf_getAttrib(x, drop_symbol);
+  switch (TYPEOF(drop)) {
+  case LGLSXP: return LOGICAL(drop)[0] ;
+  case NILSXP: return true;
+  default:
+    stop("The `drop` attribute has unexpected type");
+  }
+  return true;
+}
+
+void set_drop(SEXP x, bool drop) {
+  static SEXP drop_symbol = Rf_install("drop");
+  Rf_setAttrib(x, drop_symbol, Rf_ScalarLogical(drop));
+}
+
+void copy_drop(SEXP target, SEXP source) {
+  set_drop(target, get_drop(source));
+}
+
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
   if ((SEXP)x == (SEXP)y) return true;
 

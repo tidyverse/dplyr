@@ -305,6 +305,7 @@ List rbind__impl(List dots, const SymbolString& id) {
       set_class(out, get_class(first));
       if (Rf_inherits(first, "grouped_df")) {
         copy_vars(out, first);
+        copy_drop(out, first);
         out = GroupedDataFrame(out).data();
       }
     } else {
