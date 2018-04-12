@@ -162,6 +162,8 @@ test_that("distinct handles 0 columns edge case (#2954)", {
   d <- select(data.frame(x= c(1, 1)), one_of(character(0)))
   res <- distinct(d)
   expect_equal(nrow(res), 1L)
+
+  expect_equal(nrow(distinct(tibble())), 0L)
 })
 
 test_that("distinct respects the order of the given variables (#3195)",{

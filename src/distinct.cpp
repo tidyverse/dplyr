@@ -18,7 +18,7 @@ SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector&
   if (df.size() == 0) {
     DataFrame res = DataFrame::create();
     copy_most_attributes(res, df);
-    res.attr("row.names") = IntegerVector::create(NA_INTEGER, -1);
+    res.attr("row.names") = IntegerVector::create(NA_INTEGER, df.nrows() == 0 ? 0 : -1);
     return res ;
   }
 
