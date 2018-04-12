@@ -83,7 +83,10 @@ Result* ntile(const RObject& data, const int number_tiles, const bool ascending)
 Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 
   if (nargs == 1) {
-    // handle 2nd arg
+    // only one arg. We only accept if it is named "n"
+    SEXP cdr = CDR(call);
+    if (TAG(cdr) != Rf_install("n")) return 0;
+
     SEXP ntiles = maybe_rhs(CADR(call));
     if (TYPEOF(ntiles) != INTSXP && TYPEOF(ntiles) != REALSXP) return 0;
     int number_tiles = as<int>(ntiles);
@@ -223,5 +226,3 @@ SEXP Ntile_1::process(const SlicingIndex& index) {
 }
 
 }
-
-
