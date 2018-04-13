@@ -303,21 +303,24 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
   return nth_with_default_(data, idx, order_by, def);
 }
 
-Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, int pos) {
+Result* firstlast_prototype(const SEXP call, const ILazySubsets& subsets, int nargs, int pos) {
+  // duplicate the call to avoid in-place modifications (#3498)
+  RObject new_call = Rf_shallow_duplicate(call);
+
   SEXP tail = CDDR(call);
 
-  // replacing `first` or `last` by `dplyr::nth`
-  SETCAR(call, Rf_lang3(R_DoubleColonSymbol, Rf_install("dplyr"), Rf_install("nth")));
+  // replacing `first` or `last` by `nth` (cosmetic effect only)
+  SETCAR(new_call, Rf_install("nth"));
 
   // append pos to the call
   Pairlist p(pos);
   if (Rf_isNull(tail)) {
-    SETCDR(CDR(call), p);
+    SETCDR(CDR(new_call), p);
   } else {
     SETCDR(p, tail);
-    SETCDR(CDR(call), p);
+    SETCDR(CDR(new_call), p);
   }
-  Result* res = nth_prototype(call, subsets, nargs + 1);
+  Result* res = nth_prototype(new_call, subsets, nargs + 1);
   return res;
 }
 
