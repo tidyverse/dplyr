@@ -69,7 +69,9 @@ sql <- function(...) {
 #' @export
 #' @examples
 #' # Identifiers are escaped with "
-#' ident("x")
+#' if (requireNamespace("dbplyr", quietly = TRUE)) {
+#'   ident("x")
+#' }
 ident <- function(...) {
   check_dbplyr()
   dbplyr::ident(...)
