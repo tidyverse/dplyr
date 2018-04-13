@@ -285,10 +285,8 @@ reconstruct_join <- function(out, x, vars) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-distinct.tbl_df <- function(.data, ...) {
-  tbl_df(NextMethod())
-}
+# Can't use NextMethod() in R 3.1, r-lib/rlang#486
+distinct.tbl_df <- distinct.data.frame
 #' @export
-distinct_.tbl_df <- function(.data, ..., .dots = list()) {
-  tbl_df(NextMethod())
-}
+# Can't use NextMethod() in R 3.1, r-lib/rlang#486
+distinct_.tbl_df <- distinct_.data.frame

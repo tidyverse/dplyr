@@ -17,5 +17,7 @@ for \code{schema.table}.
 }
 \examples{
 # Identifiers are escaped with "
-ident("x")
+if (requireNamespace("dbplyr", quietly = TRUE)) {
+  ident("x")
+}
 }
