@@ -274,6 +274,10 @@ sample_n.grouped_df <- function(tbl, size, replace = FALSE,
   weight <- eval_tidy(weight, tbl)
 
   index <- attr(tbl, "indices")
+  if (is.null(index)) {
+    tbl <- grouped_df(tbl, attr(tbl,"vars"), attr(tbl, "drop"))
+    index <- attr(tbl, "indices")
+  }
   sampled <- lapply(index, sample_group,
     frac = FALSE,
     size = size,
@@ -301,6 +305,10 @@ sample_frac.grouped_df <- function(tbl, size = 1, replace = FALSE,
   weight <- eval_tidy(weight, tbl)
 
   index <- attr(tbl, "indices")
+  if (is.null(index)) {
+    tbl <- grouped_df(tbl, attr(tbl,"vars"), attr(tbl, "drop"))
+    index <- attr(tbl, "indices")
+  }
   sampled <- lapply(index, sample_group,
     frac = TRUE,
     size = size,

@@ -122,3 +122,13 @@ test_that("grouped sample accepts NULL weight from variable (for saeSim)", {
   expect_error(sample_n(grp, nrow(df) / 2, weight = weight), NA)
   expect_error(sample_frac(grp, weight = weight), NA)
 })
+
+test_that("sample_n and sample_frac handles lazy grouped data frames (#3380)", {
+  df1 <- data.frame(x = 1:10, y = rep(1:2, each=5))
+  df2 <- data.frame(x = 6:15, z = 1:10)
+  res <- df1 %>% group_by(y) %>% anti_join(df2, by="x") %>% sample_n(1)
+  expect_equal(nrow(res), 1L)
+
+  res <- df1 %>% group_by(y) %>% anti_join(df2, by="x") %>% sample_frac(0.2)
+  expect_equal(nrow(res), 1L)
+})
