@@ -1,4 +1,4 @@
-# dplyr 0.7.4.9005 (2018-04-13)
+# dplyr 0.7.5 (2018-04-14)
 
 ## Breaking changes for package developers
 
