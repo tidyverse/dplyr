@@ -22,10 +22,10 @@ We checked more than 900 reverse dependenciesby running R CMD check twice, once 
 
 ### New problems
 
-* amt: Package invokes operation that was always broken but now gives an error. Notified author.
-* bioset, replyr: Defines an `n()` function which is now called, instead of doing hybrid evaluation: https://github.com/randomchars42/bioset/issues/1, https://github.com/WinVector/replyr/issues/10.
+* amt: Package invokes operation that was always broken but now gives an error. Notified author, an update has been submitted to CRAN.
+* bioset, replyr: Defines an `n()` function which is now called, instead of doing hybrid evaluation: https://github.com/randomchars42/bioset/issues/1, https://github.com/WinVector/replyr/issues/10. replyr has been updated on CRAN.
 * desctable: Already fixed in devel, https://github.com/MaximeWack/desctable/issues/8.
 * ddpcr: Calling `select()` with `NA` in a column, https://github.com/daattali/ddpcr/issues/22.
 * fold, PPforest: Unknown reason, reported to maintainer.
-* keyholder, ruler: Unknown reason, https://github.com/echasnovski/keyholder/issues/3.
+* keyholder, ruler: Unknown reason, reported to maintainer: https://github.com/echasnovski/keyholder/issues/3.
 * purrr: spurious test failure, sent patch: https://github.com/tidyverse/purrr/pull/494

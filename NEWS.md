@@ -28,6 +28,8 @@
 
 *  Fix `row_number()` and `ntile()` ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
 
+* `distinct(data, "string")` now returns a one-row data frame again. (The previous behavior was to return the data unchanged.)
+
 ## Changes
 
 * `sym()`, `syms()`, `expr()`, `exprs()` and `enexpr()` are now
@@ -79,6 +81,8 @@
 * `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
 
 * `slice()` no longer enforce tibble classes when input is a simple `data.frame`, and ignores 0 (#3297, #3313).
+
+* `transmute()` no longer prints a message when including a group variable.
 
 ## Documentation
 
