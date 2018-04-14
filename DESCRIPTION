@@ -3,7 +3,7 @@ Package: dplyr
 Title: A Grammar of Data Manipulation
 Version: 0.7.4.9005
 Authors@R: c(
-    person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre")),
+    person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre"), comment = c(ORCID = "0000-0003-4757-117X")),
     person("Romain", "Fran\u00e7ois", role = "aut", comment = c(ORCID = "0000-0002-2444-4226")),
     person("Lionel", "Henry", role = "aut"),
     person("Kirill", "M\u00fcller", role = "aut", comment = c(ORCID = "0000-0002-1416-3412")),
