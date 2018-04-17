@@ -17,7 +17,7 @@
 #'   frame, or a list of data frames.
 #'
 #'   When row-binding, columns are matched by name, and any missing
-#'   columns with be filled with NA.
+#'   columns will be filled with NA.
 #'
 #'   When column-binding, rows are matched by position, so all data
 #'   frames must have the same number of rows. To match by value, not
