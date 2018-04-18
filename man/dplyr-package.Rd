@@ -55,7 +55,7 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com}
+\strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com} (0000-0003-4757-117X)
 
 Authors:
 \itemize{
