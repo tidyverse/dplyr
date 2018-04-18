@@ -33,7 +33,7 @@
   </head>
 
   <body>
-    <div class="container template-vignette-index">
+    <div class="container template-article-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html"></a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,12 +98,12 @@
       
       </header>
 
-      <div class="page-header">
-  <h1>Articles <small>version&nbsp;0.7.4.9002</small></h1>
-</div>
-
 <div class="row">
-  <div class="col-md-9">
+  <div class="col-md-9 contents">
+    <div class="page-header">
+      <h1>Articles</h1>
+    </div>
+
     <div class="section ">
       <h3>All vignettes</h3>
       <p class="section-desc"></p>
@@ -112,6 +112,7 @@
         <li><a href="compatibility.html">dplyr compatibility</a></li>
         <li><a href="dplyr.html">Introduction to dplyr</a></li>
         <li><a href="internals/hybrid-evaluation.html">Hybrid evaluation</a></li>
+        <li><a href="internals/rsconnect/documents/hybrid-performance.html">UNKNOWN TITLE</a></li>
         <li><a href="programming.html">Programming with dplyr</a></li>
         <li><a href="two-table.html">Two-table verbs</a></li>
         <li><a href="window-functions.html">Window functions</a></li>
@@ -130,16 +131,19 @@
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

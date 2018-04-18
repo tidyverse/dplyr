@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Flag a character vector as SQL identifiers</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Flag a character vector as SQL identifiers</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/compat-dbplyr.R'><code>R/compat-dbplyr.R</code></a></small>
+    <div class="hidden name"><code>ident.Rd</code></div>
     </div>
 
     
@@ -114,7 +115,7 @@ for <code>schema.table</code>.</p>
 
     <pre class="usage"><span class='fu'>ident</span>(<span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -126,7 +127,9 @@ for <code>schema.table</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Identifiers are escaped with "</span>
-<span class='fu'>ident</span>(<span class='st'>"x"</span>)</div><div class='output co'>#&gt; &lt;IDENT&gt; x</div></pre>
+<span class='kw'>if</span> (<span class='fu'>requireNamespace</span>(<span class='st'>"dbplyr"</span>, <span class='kw'>quietly</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)) {
+  <span class='fu'>ident</span>(<span class='st'>"x"</span>)
+}</div><div class='output co'>#&gt; &lt;IDENT&gt; x</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -149,16 +152,19 @@ for <code>schema.table</code>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Descending order</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Descending order</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/desc.r'><code>R/desc.r</code></a></small>
+    <div class="hidden name"><code>desc.Rd</code></div>
     </div>
 
     
@@ -112,7 +113,7 @@ This is useful within <code><a href='arrange.html'>arrange()</a></code>.</p>
 
     <pre class="usage"><span class='fu'>desc</span>(<span class='no'>x</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -130,16 +131,16 @@ This is useful within <code><a href='arrange.html'>arrange()</a></code>.</p>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='fu'>desc</span>(<span class='no'>mass</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 13
 #&gt;    name      height  mass hair_color  skin_color   eye_color birth_year gender 
 #&gt;    &lt;chr&gt;      &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;        &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt;  
-#&gt;  1 Jabba De…    175 1358. &lt;NA&gt;        green-tan, … orange         600.  hermap…
-#&gt;  2 Grievous     216  159. none        brown, white green, y…       NA   male   
-#&gt;  3 IG-88        200  140. none        metal        red             15.0 none   
-#&gt;  4 Darth Va…    202  136. none        white        yellow          41.9 male   
-#&gt;  5 Tarfful      234  136. brown       brown        blue            NA   male   
-#&gt;  6 Owen Lars    178  120. brown, grey light        blue            52.0 male   
-#&gt;  7 Bossk        190  113. none        green        red             53.0 male   
-#&gt;  8 Chewbacca    228  112. brown       unknown      blue           200.  male   
-#&gt;  9 Jek Tono…    180  110. brown       fair         blue            NA   male   
-#&gt; 10 Dexter J…    198  102. none        brown        yellow          NA   male   
+#&gt;  1 Jabba De…    175  1358 &lt;NA&gt;        green-tan, … orange         600   hermap…
+#&gt;  2 Grievous     216   159 none        brown, white green, y…       NA   male   
+#&gt;  3 IG-88        200   140 none        metal        red             15   none   
+#&gt;  4 Darth Va…    202   136 none        white        yellow          41.9 male   
+#&gt;  5 Tarfful      234   136 brown       brown        blue            NA   male   
+#&gt;  6 Owen Lars    178   120 brown, grey light        blue            52   male   
+#&gt;  7 Bossk        190   113 none        green        red             53   male   
+#&gt;  8 Chewbacca    228   112 brown       unknown      blue           200   male   
+#&gt;  9 Jek Tono…    180   110 brown       fair         blue            NA   male   
+#&gt; 10 Dexter J…    198   102 none        brown        yellow          NA   male   
 #&gt; # ... with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div></pre>
   </div>
@@ -164,16 +165,19 @@ This is useful within <code><a href='arrange.html'>arrange()</a></code>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

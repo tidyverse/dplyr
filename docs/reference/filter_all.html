@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Filter within a selection of variables</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Filter within a selection of variables</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-filter.R'><code>R/colwise-filter.R</code></a></small>
+    <div class="hidden name"><code>filter_all.Rd</code></div>
     </div>
 
     
@@ -118,7 +119,7 @@ with <code><a href='all_vars.html'>all_vars()</a></code> or <code><a href='all_v
 
 <span class='fu'>filter_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='no'>.vars_predicate</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -155,10 +156,10 @@ positions, or <code>NULL</code>.</p></td>
 <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='fu'>is.na</span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate intersection&gt;
 #&gt; &lt;quosure&gt;
 #&gt;   expr: ^is.na(.)
-#&gt;   env:  0x11720dae0</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'>is.na</span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
+#&gt;   env:  0x56401bb0c2b8</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'>is.na</span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
 #&gt; &lt;quosure&gt;
 #&gt;   expr: ^is.na(.)
-#&gt;   env:  0x11720dae0</div><div class='input'>
+#&gt;   env:  0x56401bb0c2b8</div><div class='input'>
 
 <span class='co'># You can take the intersection of the replicated expressions:</span>
 <span class='fu'>filter_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>150</span>))</div><div class='output co'>#&gt;  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb
@@ -174,18 +175,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; 7  19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
 #&gt; 8  17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
 #&gt; 9  16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 10 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 11 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 12 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; 13 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; 14 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; 15 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; 16 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; 17 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; 18 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; 19 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; 20 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; 21 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</div><div class='input'>
+#&gt;  [ reached getOption("max.print") -- omitted 12 rows ]</div><div class='input'>
 
 <span class='co'># You can vary the selection of columns on which to apply the</span>
 <span class='co'># predicate. filter_at() takes a vars() specification:</span>
@@ -199,10 +189,7 @@ positions, or <code>NULL</code>.</p></td>
 #&gt; 7  10.4   8  472 205 2.93 5.250 17.98  0  0    3    4
 #&gt; 8  10.4   8  460 215 3.00 5.424 17.82  0  0    3    4
 #&gt; 9  14.7   8  440 230 3.23 5.345 17.42  0  0    3    4
-#&gt; 10 15.5   8  318 150 2.76 3.520 16.87  0  0    3    2
-#&gt; 11 15.2   8  304 150 3.15 3.435 17.30  0  0    3    2
-#&gt; 12 13.3   8  350 245 3.73 3.840 15.41  0  0    3    4
-#&gt; 13 19.2   8  400 175 3.08 3.845 17.05  0  0    3    2</div><div class='input'>
+#&gt;  [ reached getOption("max.print") -- omitted 4 rows ]</div><div class='input'>
 <span class='co'># And filter_if() selects variables with a predicate function:</span>
 <span class='fu'>filter_if</span>(<span class='no'>mtcars</span>, ~ <span class='fu'>all</span>(<span class='fu'>floor</span>(<span class='no'>.</span>) <span class='kw'>==</span> <span class='no'>.</span>), <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='no'>.</span> <span class='kw'>!=</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt;    mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; 1 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -234,16 +221,19 @@ positions, or <code>NULL</code>.</p></td>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Select distinct/unique rows</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Select distinct/unique rows</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/distinct.R'><code>R/distinct.R</code></a></small>
+    <div class="hidden name"><code>distinct.Rd</code></div>
     </div>
 
     
@@ -112,7 +113,7 @@ to <code>unique.data.frame()</code>, but considerably faster.</p>
 
     <pre class="usage"><span class='fu'>distinct</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -225,20 +226,22 @@ See examples.</p>
 #&gt; # Groups:   g [2]
 #&gt;       g     x
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    1.    1.
-#&gt; 2    2.    2.
-#&gt; 3    2.    1.</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
+#&gt; 1     1     1
+#&gt; 2     2     2
+#&gt; 3     2     1</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 2
 #&gt; # Groups:   g [2]
 #&gt;       g     x
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    1.    1.
-#&gt; 2    2.    2.
-#&gt; 3    2.    1.</div><div class='input'>
+#&gt; 1     1     1
+#&gt; 2     2     2
+#&gt; 3     2     1</div><div class='input'>
 <span class='co'># Values in list columns are compared by reference, this can lead to</span>
 <span class='co'># surprising results</span>
 <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>as.list</span>(<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>))) <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/glimpse'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Observations: 3
 #&gt; Variables: 1
-#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
+#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: 'glue::collapse' is deprecated.</span>
+#&gt; <span class='warning'>Use 'glue_collapse' instead.</span>
+#&gt; <span class='warning'>See help("Deprecated") and help("glue-deprecated").</span></div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
 #&gt; <span class='warning'>List elements are compared by reference, see ?distinct for details.</span>
 #&gt; <span class='warning'>This affects the following columns:</span>
 #&gt; <span class='warning'>- `a`</span></div><div class='output co'>#&gt; # A tibble: 3 x 1
@@ -248,7 +251,9 @@ See examples.</p>
 #&gt; 2 &lt;dbl [1]&gt;
 #&gt; 3 &lt;dbl [1]&gt;</div><div class='input'><span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/tibble'>tibble</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fu'>as.list</span>(<span class='fl'>1</span>:<span class='fl'>2</span>)[<span class='fu'>c</span>(<span class='fl'>1</span>, <span class='fl'>1</span>, <span class='fl'>2</span>)]) <span class='kw'>%&gt;%</span> <span class='fu'><a href='http://www.rdocumentation.org/packages/tibble/topics/glimpse'>glimpse</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>distinct</span>()</div><div class='output co'>#&gt; Observations: 3
 #&gt; Variables: 1
-#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
+#&gt; $ a &lt;list&gt; [1, 1, 2]</div><div class='output co'>#&gt; <span class='warning'>Warning: 'glue::collapse' is deprecated.</span>
+#&gt; <span class='warning'>Use 'glue_collapse' instead.</span>
+#&gt; <span class='warning'>See help("Deprecated") and help("glue-deprecated").</span></div><div class='output co'>#&gt; <span class='warning'>Warning: distinct() does not fully support columns of type `list`.</span>
 #&gt; <span class='warning'>List elements are compared by reference, see ?distinct for details.</span>
 #&gt; <span class='warning'>This affects the following columns:</span>
 #&gt; <span class='warning'>- `a`</span></div><div class='output co'>#&gt; # A tibble: 2 x 1
@@ -280,16 +285,19 @@ See examples.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

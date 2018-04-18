@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">The number of observations in the current group.</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>The number of observations in the current group.</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/manip.r'><code>R/manip.r</code></a></small>
+    <div class="hidden name"><code>n.Rd</code></div>
     </div>
 
     
@@ -124,16 +125,16 @@ be used from within <code><a href='summarise.html'>summarise()</a></code>, <code
 #&gt; # Groups:   carrier [1]
 #&gt;     year month   day dep_time sched_dep_time dep_delay arr_time sched_arr_time
 #&gt;    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;int&gt;          &lt;int&gt;     &lt;dbl&gt;    &lt;int&gt;          &lt;int&gt;
-#&gt;  1  2013     1    30     1222           1115       67.     1402           1215
-#&gt;  2  2013    11     3     1424           1430       -6.     1629           1634
-#&gt;  3  2013    11    10     1443           1430       13.     1701           1634
-#&gt;  4  2013    11    17     1422           1430       -8.     1610           1634
-#&gt;  5  2013    11    25     1803           1759        4.     2011           2017
-#&gt;  6  2013    11    30     1648           1647        1.     1814           1811
-#&gt;  7  2013     6    15     1626           1635       -9.     1810           1830
-#&gt;  8  2013     6    22     1846           1635      131.     2107           1830
-#&gt;  9  2013     8    27     1755           1805      -10.     1956           1953
-#&gt; 10  2013     8    28     2039           1805      154.     2213           1953
+#&gt;  1  2013     1    30     1222           1115        67     1402           1215
+#&gt;  2  2013    11     3     1424           1430        -6     1629           1634
+#&gt;  3  2013    11    10     1443           1430        13     1701           1634
+#&gt;  4  2013    11    17     1422           1430        -8     1610           1634
+#&gt;  5  2013    11    25     1803           1759         4     2011           2017
+#&gt;  6  2013    11    30     1648           1647         1     1814           1811
+#&gt;  7  2013     6    15     1626           1635        -9     1810           1830
+#&gt;  8  2013     6    22     1846           1635       131     2107           1830
+#&gt;  9  2013     8    27     1755           1805       -10     1956           1953
+#&gt; 10  2013     8    28     2039           1805       154     2213           1953
 #&gt; # ... with 22 more rows, and 11 more variables: arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;,
 #&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,
 #&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</div></pre>
@@ -158,16 +159,19 @@ be used from within <code><a href='summarise.html'>summarise()</a></code>, <code
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Arrange rows by a selection of variables</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Arrange rows by a selection of variables</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-arrange.R'><code>R/colwise-arrange.R</code></a></small>
+    <div class="hidden name"><code>arrange_all.Rd</code></div>
     </div>
 
     
@@ -117,7 +118,7 @@ variables before ordering with <code><a href='funs.html'>funs()</a></code>.</p>
 
 <span class='fu'>arrange_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -162,29 +163,29 @@ functions and strings representing function names.</p></td>
 <span class='no'>df</span></div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  21.0    6.  160.  110.  3.90  2.62  16.5    0.    1.    4.    4.
-#&gt;  2  21.0    6.  160.  110.  3.90  2.88  17.0    0.    1.    4.    4.
-#&gt;  3  22.8    4.  108.   93.  3.85  2.32  18.6    1.    1.    4.    1.
-#&gt;  4  21.4    6.  258.  110.  3.08  3.22  19.4    1.    0.    3.    1.
-#&gt;  5  18.7    8.  360.  175.  3.15  3.44  17.0    0.    0.    3.    2.
-#&gt;  6  18.1    6.  225.  105.  2.76  3.46  20.2    1.    0.    3.    1.
-#&gt;  7  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
-#&gt;  8  24.4    4.  147.   62.  3.69  3.19  20.0    1.    0.    4.    2.
-#&gt;  9  22.8    4.  141.   95.  3.92  3.15  22.9    1.    0.    4.    2.
-#&gt; 10  19.2    6.  168.  123.  3.92  3.44  18.3    1.    0.    4.    4.
+#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
 #&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  10.4    8.  460.  215.  3.00  5.42  17.8    0.    0.    3.    4.
-#&gt;  2  10.4    8.  472.  205.  2.93  5.25  18.0    0.    0.    3.    4.
-#&gt;  3  13.3    8.  350.  245.  3.73  3.84  15.4    0.    0.    3.    4.
-#&gt;  4  14.3    8.  360.  245.  3.21  3.57  15.8    0.    0.    3.    4.
-#&gt;  5  14.7    8.  440.  230.  3.23  5.34  17.4    0.    0.    3.    4.
-#&gt;  6  15.0    8.  301.  335.  3.54  3.57  14.6    0.    1.    5.    8.
-#&gt;  7  15.2    8.  276.  180.  3.07  3.78  18.0    0.    0.    3.    3.
-#&gt;  8  15.2    8.  304.  150.  3.15  3.44  17.3    0.    0.    3.    2.
-#&gt;  9  15.5    8.  318.  150.  2.76  3.52  16.9    0.    0.    3.    2.
-#&gt; 10  15.8    8.  351.  264.  4.22  3.17  14.5    0.    1.    5.    4.
+#&gt;  1  10.4     8  460    215  3     5.42  17.8     0     0     3     4
+#&gt;  2  10.4     8  472    205  2.93  5.25  18.0     0     0     3     4
+#&gt;  3  13.3     8  350    245  3.73  3.84  15.4     0     0     3     4
+#&gt;  4  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt;  5  14.7     8  440    230  3.23  5.34  17.4     0     0     3     4
+#&gt;  6  15       8  301    335  3.54  3.57  14.6     0     1     5     8
+#&gt;  7  15.2     8  276.   180  3.07  3.78  18       0     0     3     3
+#&gt;  8  15.2     8  304    150  3.15  3.44  17.3     0     0     3     2
+#&gt;  9  15.5     8  318    150  2.76  3.52  16.9     0     0     3     2
+#&gt; 10  15.8     8  351    264  4.22  3.17  14.5     0     1     5     4
 #&gt; # ... with 22 more rows</div><div class='input'>
 <span class='co'># You can supply a function that will be applied before taking the</span>
 <span class='co'># ordering of the variables. The variables of the sorted tibble</span>
@@ -192,29 +193,29 @@ functions and strings representing function names.</p></td>
 <span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='no'>desc</span>)</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  33.9    4.  71.1   65.  4.22  1.84  19.9    1.    1.    4.    1.
-#&gt;  2  32.4    4.  78.7   66.  4.08  2.20  19.5    1.    1.    4.    1.
-#&gt;  3  30.4    4.  95.1  113.  3.77  1.51  16.9    1.    1.    5.    2.
-#&gt;  4  30.4    4.  75.7   52.  4.93  1.62  18.5    1.    1.    4.    2.
-#&gt;  5  27.3    4.  79.0   66.  4.08  1.94  18.9    1.    1.    4.    1.
-#&gt;  6  26.0    4. 120.    91.  4.43  2.14  16.7    0.    1.    5.    2.
-#&gt;  7  24.4    4. 147.    62.  3.69  3.19  20.0    1.    0.    4.    2.
-#&gt;  8  22.8    4. 141.    95.  3.92  3.15  22.9    1.    0.    4.    2.
-#&gt;  9  22.8    4. 108.    93.  3.85  2.32  18.6    1.    1.    4.    1.
-#&gt; 10  21.5    4. 120.    97.  3.70  2.46  20.0    1.    0.    3.    1.
+#&gt;  1  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
+#&gt;  2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+#&gt;  3  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
+#&gt;  4  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
+#&gt;  5  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
+#&gt;  6  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
+#&gt;  7  24.4     4 147.     62  3.69  3.19  20       1     0     4     2
+#&gt;  8  22.8     4 141.     95  3.92  3.15  22.9     1     0     4     2
+#&gt;  9  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
+#&gt; 10  21.5     4 120.     97  3.7   2.46  20.0     1     0     3     1
 #&gt; # ... with 22 more rows</div><div class='input'><span class='fu'>arrange_all</span>(<span class='no'>df</span>, <span class='fu'><a href='funs.html'>funs</a></span>(<span class='fu'><a href='desc.html'>desc</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  33.9    4.  71.1   65.  4.22  1.84  19.9    1.    1.    4.    1.
-#&gt;  2  32.4    4.  78.7   66.  4.08  2.20  19.5    1.    1.    4.    1.
-#&gt;  3  30.4    4.  95.1  113.  3.77  1.51  16.9    1.    1.    5.    2.
-#&gt;  4  30.4    4.  75.7   52.  4.93  1.62  18.5    1.    1.    4.    2.
-#&gt;  5  27.3    4.  79.0   66.  4.08  1.94  18.9    1.    1.    4.    1.
-#&gt;  6  26.0    4. 120.    91.  4.43  2.14  16.7    0.    1.    5.    2.
-#&gt;  7  24.4    4. 147.    62.  3.69  3.19  20.0    1.    0.    4.    2.
-#&gt;  8  22.8    4. 141.    95.  3.92  3.15  22.9    1.    0.    4.    2.
-#&gt;  9  22.8    4. 108.    93.  3.85  2.32  18.6    1.    1.    4.    1.
-#&gt; 10  21.5    4. 120.    97.  3.70  2.46  20.0    1.    0.    3.    1.
+#&gt;  1  33.9     4  71.1    65  4.22  1.84  19.9     1     1     4     1
+#&gt;  2  32.4     4  78.7    66  4.08  2.2   19.5     1     1     4     1
+#&gt;  3  30.4     4  95.1   113  3.77  1.51  16.9     1     1     5     2
+#&gt;  4  30.4     4  75.7    52  4.93  1.62  18.5     1     1     4     2
+#&gt;  5  27.3     4  79      66  4.08  1.94  18.9     1     1     4     1
+#&gt;  6  26       4 120.     91  4.43  2.14  16.7     0     1     5     2
+#&gt;  7  24.4     4 147.     62  3.69  3.19  20       1     0     4     2
+#&gt;  8  22.8     4 141.     95  3.92  3.15  22.9     1     0     4     2
+#&gt;  9  22.8     4 108      93  3.85  2.32  18.6     1     1     4     1
+#&gt; 10  21.5     4 120.     97  3.7   2.46  20.0     1     0     3     1
 #&gt; # ... with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -238,16 +239,19 @@ functions and strings representing function names.</p></td>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Reduces multiple values down to a single value</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Reduces multiple values down to a single value</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/manip.r'><code>R/manip.r</code></a></small>
+    <div class="hidden name"><code>summarise.Rd</code></div>
     </div>
 
     
@@ -114,7 +115,7 @@ The output will have one row for each group.</p>
 
 <span class='fu'>summarize</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -166,9 +167,9 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other single table verbs: <code><a href='arrange.html'>arrange</a></code>,
+    <div class='dont-index'><p>Other single table verbs: <code><a href='arrange.html'>arrange</a></code>,
   <code><a href='filter.html'>filter</a></code>, <code><a href='mutate.html'>mutate</a></code>,
-  <code><a href='select.html'>select</a></code>, <code><a href='slice.html'>slice</a></code></p>
+  <code><a href='select.html'>select</a></code>, <code><a href='slice.html'>slice</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -182,9 +183,9 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
   <span class='fu'>summarise</span>(<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>disp</span>), <span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>())</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;     cyl  mean     n
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
-#&gt; 1    4.  105.    11
-#&gt; 2    6.  183.     7
-#&gt; 3    8.  353.    14</div><div class='input'>
+#&gt; 1     4  105.    11
+#&gt; 2     6  183.     7
+#&gt; 3     8  353.    14</div><div class='input'>
 <span class='co'># Each summary call removes one grouping level (since that group</span>
 <span class='co'># is now just a single row)</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
@@ -198,9 +199,9 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
   <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'>mean</span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'>sd</span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;     cyl  disp    sd
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    4.  105.    NA
-#&gt; 2    6.  183.    NA
-#&gt; 3    8.  353.    NA</div><div class='input'>
+#&gt; 1     4  105.    NA
+#&gt; 2     6  183.    NA
+#&gt; 3     8  353.    NA</div><div class='input'>
 
 <span class='co'># summarise() supports quasiquotation. You can unquote raw</span>
 <span class='co'># expressions or quosures:</span>
@@ -239,16 +240,19 @@ convert to an explicit variable with <code><a href='http://www.rdocumentation.or
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

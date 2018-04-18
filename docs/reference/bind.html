@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Efficiently bind multiple data frames by row and column</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Efficiently bind multiple data frames by row and column</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/bind.r'><code>R/bind.r</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/rbind.R'><code>R/rbind.R</code></a></small>
+    <div class="hidden name"><code>bind.Rd</code></div>
     </div>
 
     
@@ -119,7 +120,7 @@ data frames into one.</p>
 
 <span class='fu'>combine</span>(<span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -128,7 +129,7 @@ data frames into one.</p>
 <p>Each argument can either be a data frame, a list that could be a data
 frame, or a list of data frames.</p>
 <p>When row-binding, columns are matched by name, and any missing
-columns with be filled with NA.</p>
+columns will be filled with NA.</p>
 <p>When column-binding, rows are matched by position, so all data
 frames must have the same number of rows. To match by value, not
 position, see <a href='join.html'>join</a>.</p></td>
@@ -198,29 +199,7 @@ ignored. If the result is empty, <code>logical()</code> is returned.</p>
 #&gt; 7  21.5   4 120.1  97 3.70 2.465 20.01  1  0    3    1
 #&gt; 8  27.3   4  79.0  66 4.08 1.935 18.90  1  1    4    1
 #&gt; 9  26.0   4 120.3  91 4.43 2.140 16.70  0  1    5    2
-#&gt; 10 30.4   4  95.1 113 3.77 1.513 16.90  1  1    5    2
-#&gt; 11 21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2
-#&gt; 12 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 13 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 14 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 15 18.1   6 225.0 105 2.76 3.460 20.22  1  0    3    1
-#&gt; 16 19.2   6 167.6 123 3.92 3.440 18.30  1  0    4    4
-#&gt; 17 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 18 19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
-#&gt; 19 18.7   8 360.0 175 3.15 3.440 17.02  0  0    3    2
-#&gt; 20 14.3   8 360.0 245 3.21 3.570 15.84  0  0    3    4
-#&gt; 21 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 22 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 23 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 24 10.4   8 472.0 205 2.93 5.250 17.98  0  0    3    4
-#&gt; 25 10.4   8 460.0 215 3.00 5.424 17.82  0  0    3    4
-#&gt; 26 14.7   8 440.0 230 3.23 5.345 17.42  0  0    3    4
-#&gt; 27 15.5   8 318.0 150 2.76 3.520 16.87  0  0    3    2
-#&gt; 28 15.2   8 304.0 150 3.15 3.435 17.30  0  0    3    2
-#&gt; 29 13.3   8 350.0 245 3.73 3.840 15.41  0  0    3    4
-#&gt; 30 19.2   8 400.0 175 3.08 3.845 17.05  0  0    3    2
-#&gt; 31 15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
-#&gt; 32 15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'>list</span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='fu'>list</span>(<span class='no'>two</span>, <span class='no'>one</span>))</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt;  [ reached getOption("max.print") -- omitted 23 rows ]</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'>list</span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='fu'>list</span>(<span class='no'>two</span>, <span class='no'>one</span>))</div><div class='output co'>#&gt;     mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; 1  21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; 2  21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; 3  22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -230,13 +209,7 @@ ignored. If the result is empty, <code>logical()</code> is returned.</p>
 #&gt; 7  17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
 #&gt; 8  15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
 #&gt; 9  17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 10 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 11 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 12 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3
-#&gt; 13 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 14 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 15 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 16 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1</div><div class='input'>
+#&gt;  [ reached getOption("max.print") -- omitted 7 rows ]</div><div class='input'>
 
 <span class='co'># In addition to data frames, you can supply vectors. In the rows</span>
 <span class='co'># direction, the vectors represent rows and should have inner</span>
@@ -247,8 +220,8 @@ ignored. If the result is empty, <code>logical()</code> is returned.</p>
 )</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       a     b
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    1.    2.
-#&gt; 2    3.    4.</div><div class='input'>
+#&gt; 1     1     2
+#&gt; 2     3     4</div><div class='input'>
 <span class='co'># You can mix vectors and data frames:</span>
 <span class='fu'>bind_rows</span>(
   <span class='fu'>c</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
@@ -257,10 +230,10 @@ ignored. If the result is empty, <code>logical()</code> is returned.</p>
 )</div><div class='output co'>#&gt; # A tibble: 4 x 2
 #&gt;       a     b
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    1.    2.
-#&gt; 2    3.    5.
-#&gt; 3    4.    6.
-#&gt; 4    7.    8.</div><div class='input'>
+#&gt; 1     1     2
+#&gt; 2     3     5
+#&gt; 3     4     6
+#&gt; 4     7     8</div><div class='input'>
 
 <span class='co'># Note that for historical reasons, lists containg vectors are</span>
 <span class='co'># always treated as data frames. Thus their vectors are treated as</span>
@@ -272,14 +245,14 @@ ignored. If the result is empty, <code>logical()</code> is returned.</p>
 <span class='fu'>bind_rows</span>(<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       a     b
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    1.    3.
-#&gt; 2    2.    4.</div><div class='input'>
+#&gt; 1     1     3
+#&gt; 2     2     4</div><div class='input'>
 <span class='co'># You can circumvent that behaviour with explicit splicing:</span>
 <span class='fu'>bind_rows</span>(!!!<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       A     B
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1    1.    2.
-#&gt; 2    3.    4.</div><div class='input'>
+#&gt; 1     1     2
+#&gt; 2     3     4</div><div class='input'>
 
 <span class='co'># When you supply a column name with the `.id` argument, a new</span>
 <span class='co'># column is created to link each row to its original data frame</span>
@@ -373,16 +346,19 @@ ignored. If the result is empty, <code>logical()</code> is returned.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

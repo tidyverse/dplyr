@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">Recode values</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Recode values</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/recode.R'><code>R/recode.R</code></a></small>
+    <div class="hidden name"><code>recode.Rd</code></div>
     </div>
 
     
@@ -117,7 +118,7 @@ criteria, use <code><a href='case_when.html'>case_when()</a></code>.</p>
 
 <span class='fu'>recode_factor</span>(<span class='no'>.x</span>, <span class='no'>...</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.missing</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.ordered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -187,6 +188,11 @@ package for more tools for working with factors and their levels.</p>
 <span class='fu'>recode</span>(<span class='no'>x</span>, <span class='kw'>`2`</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>`4`</span> <span class='kw'>=</span> <span class='st'>"d"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] NA  "b" NA  "d" NA  NA </div><div class='input'>
 <span class='co'># If you don't name the arguments, recode() matches by position</span>
 <span class='fu'>recode</span>(<span class='no'>x</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] "a" "b" "c" NA  NA  NA </div><div class='input'><span class='fu'>recode</span>(<span class='no'>x</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='st'>"other"</span>)</div><div class='output co'>#&gt; [1] "a"     "b"     "c"     "other" "other" NA     </div><div class='input'><span class='fu'>recode</span>(<span class='no'>x</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='st'>"other"</span>, <span class='kw'>.missing</span> <span class='kw'>=</span> <span class='st'>"missing"</span>)</div><div class='output co'>#&gt; [1] "a"       "b"       "c"       "other"   "other"   "missing"</div><div class='input'>
+<span class='co'># Use a named list for unquote splicing with !!!</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
+<span class='fu'>recode</span>(<span class='no'>x</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] "banana" "apple"  "carrot" "carrot" "banana" "apple"  "carrot" "banana"
+#&gt;  [9] "carrot" "banana"</div><div class='input'>
 <span class='co'># Supply default with levels() for factors</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>factor</span>(<span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
 <span class='fu'>recode</span>(<span class='no'>x</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fu'>levels</span>(<span class='no'>x</span>))</div><div class='output co'>#&gt; [1] Apple b     c    
@@ -203,7 +209,12 @@ package for more tools for working with factors and their levels.</p>
 <span class='co'># factor), it is reused as default.</span>
 <span class='fu'>recode_factor</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
 #&gt; Levels: z y a</div><div class='input'><span class='fu'>recode_factor</span>(<span class='fu'>factor</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]), <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
-#&gt; Levels: z y a</div></pre>
+#&gt; Levels: z y a</div><div class='input'>
+<span class='co'># Use a named list to recode factor with unquote splicing.</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'>c</span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
+<span class='fu'>recode_factor</span>(<span class='no'>x</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] apple  carrot banana banana apple  banana apple  banana apple  banana
+#&gt; Levels: apple banana carrot</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -230,16 +241,19 @@ package for more tools for working with factors and their levels.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>

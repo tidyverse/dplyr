@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">A general vectorised if</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -98,11 +98,12 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>A general vectorised if</h1>
     <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/case_when.R'><code>R/case_when.R</code></a></small>
+    <div class="hidden name"><code>case_when.Rd</code></div>
     </div>
 
     
@@ -112,7 +113,7 @@ statements. It is an R equivalent of the SQL <code>CASE WHEN</code> statement.</
 
     <pre class="usage"><span class='fu'>case_when</span>(<span class='no'>...</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -120,18 +121,20 @@ statements. It is an R equivalent of the SQL <code>CASE WHEN</code> statement.</
       <td><p>A sequence of two-sided formulas. The left hand side (LHS)
 determines which values match this case. The right hand side (RHS)
 provides the replacement value.</p>
-<p>The LHS must evaluate to a logical vector. Each logical vector can
-either have length 1 or a common length. All RHSs must evaluate to
-the same type of vector.</p>
+<p>The LHS must evaluate to a logical vector. The RHS does need to be
+logical, but all RHSs must evaluate to the same type of vector.</p>
+<p>Both LHS and RHS may have the same length of either 1 or <code>n</code>. The
+value of <code>n</code> must be consistent across all cases. The case of
+<code>n == 0</code> is treated as a variant of <code>n != 1</code>.</p>
 <p>These dots support <a href='http://www.rdocumentation.org/packages/rlang/topics/tidy-dots'>tidy dots</a> features.</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector as long as the longest LHS or RHS, with the type (and
-attributes) of the first RHS.  Inconsistent lengths or types will
-generate an error.</p>
+    <p>A vector of length 1 or <code>n</code>, matching the length of the logical
+input or output vectors, with the type (and attributes) of the first
+RHS. Inconsistent lengths or types will generate an error.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -202,16 +205,16 @@ generate an error.</p>
   )</div><div class='output co'>#&gt; # A tibble: 87 x 6
 #&gt;    name               height  mass gender species type 
 #&gt;    &lt;chr&gt;               &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;
-#&gt;  1 Luke Skywalker        172   77. male   Human   other
-#&gt;  2 C-3PO                 167   75. &lt;NA&gt;   Droid   robot
-#&gt;  3 R2-D2                  96   32. &lt;NA&gt;   Droid   robot
-#&gt;  4 Darth Vader           202  136. male   Human   large
-#&gt;  5 Leia Organa           150   49. female Human   other
-#&gt;  6 Owen Lars             178  120. male   Human   other
-#&gt;  7 Beru Whitesun lars    165   75. female Human   other
-#&gt;  8 R5-D4                  97   32. &lt;NA&gt;   Droid   robot
-#&gt;  9 Biggs Darklighter     183   84. male   Human   other
-#&gt; 10 Obi-Wan Kenobi        182   77. male   Human   other
+#&gt;  1 Luke Skywalker        172    77 male   Human   other
+#&gt;  2 C-3PO                 167    75 &lt;NA&gt;   Droid   robot
+#&gt;  3 R2-D2                  96    32 &lt;NA&gt;   Droid   robot
+#&gt;  4 Darth Vader           202   136 male   Human   large
+#&gt;  5 Leia Organa           150    49 female Human   other
+#&gt;  6 Owen Lars             178   120 male   Human   other
+#&gt;  7 Beru Whitesun lars    165    75 female Human   other
+#&gt;  8 R5-D4                  97    32 &lt;NA&gt;   Droid   robot
+#&gt;  9 Biggs Darklighter     183    84 male   Human   other
+#&gt; 10 Obi-Wan Kenobi        182    77 male   Human   other
 #&gt; # ... with 77 more rows</div><div class='input'>
 <span class='co'># Dots support splicing:</span>
 <span class='no'>patterns</span> <span class='kw'>&lt;-</span> <span class='fu'>list</span>(
@@ -253,16 +256,19 @@ generate an error.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
- gtag('config', 'UA-115082821-1');
+  ga('create', 'UA-67989-18', 'auto');
+  ga('send', 'pageview');
 </script>
       </footer>
    </div>
+
+  
 
   </body>
 </html>
