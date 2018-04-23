@@ -40,7 +40,14 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
 
-DataFrame expand_labels(DataFrame labels) {
+SEXP unique_levels(SEXP f) {
+  SEXP labels = Rf_getAttrib(f, R_LevelsSymbol);
+  IntegerVector values = seq_len(Rf_length(labels));
+  copy_attributes(values, f);
+  return values ;
+}
+
+DataFrame expand_labels(DataFrame labels, bool drop = false) {
   int nc = labels.ncol();
   List uniques(nc);
   std::vector<int> sizes(nc);
@@ -51,10 +58,12 @@ DataFrame expand_labels(DataFrame labels) {
   for (int i = 0; i < nc; i++) {
     SEXP obj = labels[i];
     if (Rf_inherits(obj, "factor")) {
-      SEXP labels = Rf_getAttrib(obj, R_LevelsSymbol);
-      IntegerVector values = seq_len(Rf_length(labels));
-      copy_attributes(values, obj);
-      uniques[i] = values;
+      if (drop) {
+        RObject dropped = Language("droplevels", obj).eval() ;
+        uniques[i] = unique_levels(dropped) ;
+      } else {
+        uniques[i] = unique_levels(obj) ;
+      }
     } else {
       uniques[i] = Rcpp_eval(Language("unique", obj));
     }
@@ -118,8 +127,9 @@ void build_index_cpp(DataFrame& data, bool drop, bool expand) {
 
   if (!drop) {
     // not dropping zero length groups
-    // so we need to expand labels to contain all combinations
-    DataFrame expanded_labels = expand_labels(labels) ;
+
+    // in that case expand is forced to be TRUE
+    DataFrame expanded_labels = expand_labels(labels, false) ;
 
     DataFrameJoinVisitors join_visitors(labels, expanded_labels, vars, vars, true, true);
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> ChunkIndexJoinSet;
@@ -156,11 +166,55 @@ void build_index_cpp(DataFrame& data, bool drop, bool expand) {
     data.attr("group_sizes") = group_sizes;
     data.attr("biggest_group_size") = biggest_group;
     data.attr("labels") = expanded_labels;
+    data.attr("drop") = false;
+    data.attr("expand") = true;
 
+  } else if (expand) {
+    // in that case expand is forced to be TRUE
+    DataFrame expanded_labels = expand_labels(labels, true) ;
+
+    DataFrameJoinVisitors join_visitors(labels, expanded_labels, vars, vars, true, true);
+    typedef VisitorSetIndexSet<DataFrameJoinVisitors> ChunkIndexJoinSet;
+    ChunkIndexJoinSet join_set(join_visitors);
+
+    // train the join set in terms of labels
+    train_insert(join_set, labels.nrows());
+
+    ngroups = expanded_labels.nrows() ;
+    List indices(ngroups);
+    IntegerVector group_sizes = no_init(ngroups);
+
+    for (int i = 0; i < ngroups; i++) {
+      // is the group in the row i of expanded labels in labels ?
+      ChunkIndexJoinSet::iterator it = join_set.find(-i - 1);
+      if (it == join_set.end()) {
+        // did not find -> empty indices
+        group_sizes[i] = 0 ;
+        indices[i] = IntegerVector::create();
+      } else {
+        // the index from labels that corresponds to this row
+        // of expanded_labels
+        int idx = labels_order[*it] ;
+
+        const std::vector<int>& chunk = *chunks[idx];
+        indices[i] = chunk;
+        group_sizes[i] = chunk.size();
+        biggest_group = std::max(biggest_group, (int)chunk.size());
+      }
+
+    }
+
+    data.attr("indices") = indices;
+    data.attr("group_sizes") = group_sizes;
+    data.attr("biggest_group_size") = biggest_group;
+    data.attr("labels") = expanded_labels;
+    data.attr("drop") = false;
+    data.attr("expand") = true;
 
   } else {
-    // drop zero length group - so just organise what was
-    // collected by the ChunkIndexMap above
+    // drop zero length group and no expand
+    // - so just organise what was collected by the ChunkIndexMap above
+    // this was the only case before
 
     List indices(ngroups);
     IntegerVector group_sizes = no_init(ngroups);
