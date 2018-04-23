@@ -17,7 +17,8 @@ grouped_df <- function(data, vars, drop = TRUE, expand = FALSE) {
   assert_that(
     is.data.frame(data),
     (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars),
-    is.flag(drop)
+    is.flag(drop),
+    is.flag(expand)
   )
   if (is.list(vars)) {
     vars <- deparse_names(vars)
