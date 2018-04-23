@@ -20,6 +20,8 @@ grouped_df <- function(data, vars, drop = TRUE, expand = FALSE) {
     is.flag(drop),
     is.flag(expand)
   )
+  if (!drop)
+    assert_that(expand, msg = "if `drop` is FALSE, expand must be `TRUE`")
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
