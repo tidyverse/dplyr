@@ -235,8 +235,11 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
     inform("`.env` is deprecated and no longer has any effect")
   }
 
-  weight <- eval_tidy(enquo(weight), tbl)
-  sample_n_basic(tbl, size, FALSE, replace = replace, weight = weight)
+  size <- enquo(size)
+  weight <- enquo(weight)
+
+  weight <- enquo(weight)
+  slice(tbl, sample.int(n(), check_size(!!size, n(), replace = replace), replace = replace, prob = !!weight))
 }
 
 
@@ -247,28 +250,11 @@ sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
     inform("`.env` is deprecated and no longer has any effect")
   }
 
-  weight <- eval_tidy(enquo(weight), tbl)
-  sample_n_basic(tbl, size, TRUE, replace = replace, weight = weight)
+  size <- enquo(size)
+  weight <- enquo(weight)
+
+  slice(tbl, sample.int(n(), round(n() * check_frac(!!size, replace = replace)), replace = replace, prob = !!weight))
 }
-
-sample_n_basic <- function(tbl, size, frac, replace = FALSE, weight = NULL) {
-  n <- nrow(tbl)
-
-  weight <- check_weight(weight, n)
-  assert_that(is.numeric(size), length(size) == 1, size >= 0)
-
-  if (frac) {
-    check_frac(size, replace)
-    size <- round(size * n)
-  } else {
-    check_size(size, n, replace)
-  }
-
-  idx <- sample.int(n, size, replace = replace, prob = weight)
-  tbl[idx, , drop = FALSE]
-}
-
-
 
 # Misc -------------------------------------------------------------------------
 
