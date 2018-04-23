@@ -170,10 +170,9 @@ void build_index_cpp(DataFrame& data, bool drop, bool expand) {
     data.attr("expand") = true;
 
   } else if (expand) {
-    // in that case expand is forced to be TRUE
     DataFrame expanded_labels = expand_labels(labels, true) ;
 
-    DataFrameJoinVisitors join_visitors(labels, expanded_labels, vars, vars, true, true);
+    DataFrameJoinVisitors join_visitors(labels, expanded_labels, vars, vars, false, true);
     typedef VisitorSetIndexSet<DataFrameJoinVisitors> ChunkIndexJoinSet;
     ChunkIndexJoinSet join_set(join_visitors);
 
