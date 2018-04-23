@@ -73,17 +73,17 @@
 #' by_cyl %>%
 #'   group_by(vs, am, add = TRUE) %>%
 #'   group_vars()
-group_by <- function(.data, ..., add = FALSE, .drop = TRUE) {
+group_by <- function(.data, ..., add = FALSE, .drop = TRUE, .expand = FALSE) {
   UseMethod("group_by")
 }
 #' @export
-group_by.default <- function(.data, ..., add = FALSE, .drop = TRUE) {
+group_by.default <- function(.data, ..., add = FALSE, .drop = TRUE, .expand = FALSE) {
   group_by_(.data, .dots = compat_as_lazy_dots(...), add = add, .drop = .drop)
 }
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
-group_by_ <- function(.data, ..., .dots = list(), add = FALSE, .drop = TRUE) {
+group_by_ <- function(.data, ..., .dots = list(), add = FALSE, .drop = TRUE, .expand = FALSE) {
   UseMethod("group_by_")
 }
 

@@ -275,7 +275,7 @@ reconstruct_join <- function(out, x, vars) {
   if (is_grouped_df(x)) {
     groups_in_old <- match(group_vars(x), tbl_vars(x))
     groups_in_alias <- match(groups_in_old, vars$x)
-    out <- grouped_df_impl(out, vars$alias[groups_in_alias], group_drop(x), FALSE)
+    out <- grouped_df_impl(out, vars$alias[groups_in_alias], group_drop(x), group_expand(x), FALSE)
   }
 
   out
