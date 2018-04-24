@@ -33,7 +33,9 @@
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
 #' @inheritParams filter
-#' @param drop if `TRUE` the zero length groups are dropped
+#' @param .empty indicate which empty groups to keep. "none" discards
+#' all empty groups, "some" discards unused factor levels and expands all combinations,
+#' "all" keeps unused factor levels and expands combinations
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
