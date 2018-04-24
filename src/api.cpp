@@ -291,15 +291,15 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   LOG_VERBOSE << "Sorting " <<  n_uniques << " unique character elements";
 
   CharacterVector uniques(set.begin(), set.end());
-  CharacterVector s_uniques = Language("sort", uniques).fast_eval();
 
   // order the uniques with a callback to R
-  IntegerVector o = r_match(uniques, s_uniques);
+  IntegerVector o = Language("order", uniques, _["na.last"] = true).fast_eval();
 
   // combine uniques and o into a hash map for fast retrieval
   dplyr_hash_map<SEXP, int> map(n_uniques);
   for (int i = 0; i < n_uniques; i++) {
-    map.insert(std::make_pair(uniques[i], o[i]));
+    SEXP s = uniques[o[i]-1];
+    map.insert(std::make_pair(s, s == NA_STRING ? NA_INTEGER : i));
   }
 
   // grab min ranks
