@@ -361,7 +361,7 @@ find_index <- function(x, names) {
 }
 
 #' @export
-group_by.tbl_cube <- function(.data, ..., add = FALSE, .drop = TRUE, .expand = FALSE) {
+group_by.tbl_cube <- function(.data, ..., add = FALSE, .empty = c("none", "some", "all")) {
   groups <- group_by_prepare(.data, ..., add = add)
 
   # Convert symbols to indices
@@ -369,9 +369,9 @@ group_by.tbl_cube <- function(.data, ..., add = FALSE, .drop = TRUE, .expand = F
   groups$data
 }
 #' @export
-group_by_.tbl_cube <- function(.data, ..., .dots = list(), add = FALSE, .drop = TRUE, .expand = FALSE) {
+group_by_.tbl_cube <- function(.data, ..., .dots = list(), add = FALSE, .empty = c("none", "some", "all")) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add, .drop = .drop)
+  group_by(.data, !!!dots, add = add, .empty = .empty)
 }
 
 #' @export

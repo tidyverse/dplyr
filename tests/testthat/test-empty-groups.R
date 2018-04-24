@@ -1,7 +1,7 @@
-context("zero length groups")
+context("empty groups")
 
 df <- data_frame(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
-  group_by( f, .drop = FALSE, .expand = TRUE)
+  group_by( f, .empty = "all")
 
 test_that("filter and slice keep zero length groups", {
   expect_equal( group_size(filter(df, f == 1)), c(2, 0, 0) )
@@ -22,7 +22,7 @@ test_that("arrange keeps zero length groups",{
 
 test_that("bind_rows respect the drop attribute of grouped df",{
   df <- data_frame(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4))
-  g <- group_by(df, f, .drop = FALSE, .expand = TRUE)
+  g <- group_by(df, f, .empty = "all")
 
   gg <- bind_rows(g,g)
   expect_equal(group_size(gg), c(4L,4L,0L))
@@ -30,10 +30,10 @@ test_that("bind_rows respect the drop attribute of grouped df",{
 
 test_that("joins respect zero length groups", {
   df1 <- data_frame(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
-    group_by(f, .drop = FALSE, .expand = TRUE)
+    group_by(f, .empty = "all")
 
   df2 <- data_frame(f = factor( c(2,2,3,3), levels = 1:3), y = c(1,2,3,4)) %>%
-    group_by(f, .drop = FALSE, .expand = TRUE)
+    group_by(f, .empty = "all")
 
   expect_equal(group_size(left_join( df1, df2, by = "f")),  c(2,4,0))
   expect_equal(group_size(right_join( df1, df2, by = "f")),  c(0,4,2))
