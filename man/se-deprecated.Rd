@@ -39,7 +39,8 @@ do_(.data, ..., .dots = list())
 
 funs_(dots, args = list(), env = base_env())
 
-group_by_(.data, ..., .dots = list(), add = FALSE, drop = TRUE)
+group_by_(.data, ..., .dots = list(), add = FALSE, .empty = c("none",
+  "some", "all"))
 
 group_indices_(.data, ..., .dots = list())
 
@@ -98,7 +99,9 @@ first row of values.}
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
 
-\item{drop}{if \code{TRUE} the zero length groups are dropped}
+\item{.empty}{indicate which empty groups to keep. "none" discards
+all empty groups, "some" discards unused factor levels and expands all combinations,
+"all" keeps unused factor levels and expands combinations}
 
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}
