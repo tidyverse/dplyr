@@ -289,9 +289,14 @@ test_that("group_by() does not mutate for nothing when using the .data pronoun (
     iris %>% group_by(Species) %>% group_by(.data$Species),
     iris %>% group_by(Species)
   )
+  expect_equal(
+    iris %>% group_by(Species) %>% group_by(.data[["Species"]]),
+    iris %>% group_by(Species)
+  )
 
   df <- tibble(x = 1:5)
   attr(df, "y") <- 1
 
   expect_equal( df %>% group_by(.data$x) %>% attr("y"), 1 )
+  expect_equal( df %>% group_by(.data[["x"]]) %>% attr("y"), 1 )
 })
