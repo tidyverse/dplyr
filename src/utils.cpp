@@ -342,23 +342,24 @@ SEXP maybe_rhs(SEXP x) {
     return x;
 }
 
-// [[Rcpp::export]]
-bool quo_is_symbol2(SEXP quo) {
-  SEXP expr = CADR(quo);
-
-  // quo(x)
+bool is_symbol2(SEXP expr) {
+  // x
   if (TYPEOF(expr) == SYMSXP) return true;
 
   if (TYPEOF(expr) == LANGSXP && Rf_length(expr) == 3 && CADR(expr) == Rf_install(".data")) {
     SEXP fun = CAR(expr);
 
-    // quo(.data$x)
+    // .data$x
     if (fun == R_DollarSymbol && TYPEOF(CADDR(expr)) == SYMSXP) return true;
 
-    // quo(.data[["x"]])
+    // .data[["x"]]
     if (fun == R_Bracket2Symbol && TYPEOF(CADDR(expr)) == STRSXP) return true;
   }
 
   return false;
 }
 
+// [[Rcpp::export]]
+bool quo_is_symbol2(SEXP quo) {
+  return is_symbol2(CADR(quo));
+}
