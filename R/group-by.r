@@ -127,7 +127,7 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
 }
 
 add_computed_columns <- function(.data, vars) {
-  is_symbol <- map_lgl(vars, quo_is_symbol2)
+  is_symbol <- map_lgl(vars, quo_is_variable_reference)
   named <- have_name(vars)
 
   needs_mutate <- named | !is_symbol

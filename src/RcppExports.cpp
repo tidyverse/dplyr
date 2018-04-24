@@ -635,14 +635,14 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// quo_is_symbol2
-bool quo_is_symbol2(SEXP quo);
-RcppExport SEXP _dplyr_quo_is_symbol2(SEXP quoSEXP) {
+// quo_is_variable_reference
+bool quo_is_variable_reference(SEXP quo);
+RcppExport SEXP _dplyr_quo_is_variable_reference(SEXP quoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< SEXP >::type quo(quoSEXP);
-    rcpp_result_gen = Rcpp::wrap(quo_is_symbol2(quo));
+    rcpp_result_gen = Rcpp::wrap(quo_is_variable_reference(quo));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -748,7 +748,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
     {"_dplyr_assert_all_white_list", (DL_FUNC) &_dplyr_assert_all_white_list, 1},
     {"_dplyr_shallow_copy", (DL_FUNC) &_dplyr_shallow_copy, 1},
-    {"_dplyr_quo_is_symbol2", (DL_FUNC) &_dplyr_quo_is_symbol2, 1},
+    {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},
     {"_dplyr_cumany", (DL_FUNC) &_dplyr_cumany, 1},
     {"_dplyr_cummean", (DL_FUNC) &_dplyr_cummean, 1},

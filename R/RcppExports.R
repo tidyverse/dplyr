@@ -198,8 +198,8 @@ shallow_copy <- function(data) {
     .Call(`_dplyr_shallow_copy`, data)
 }
 
-quo_is_symbol2 <- function(quo) {
-    .Call(`_dplyr_quo_is_symbol2`, quo)
+quo_is_variable_reference <- function(quo) {
+    .Call(`_dplyr_quo_is_variable_reference`, quo)
 }
 
 #' Cumulativate versions of any, all, and mean
