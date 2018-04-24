@@ -126,8 +126,19 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   )
 }
 
+quo_is_symbol_or_dotdatadollar <- function(quo, names){
+  if (quo_is_symbol(quo)) return(TRUE)
+
+  if (quo_is_call(quo, "$", 2)) {
+    xp <- quo_get_expr(quo)
+    return(identical( xp[[2]], sym(".data") ) && is_symbol(xp[[3]]))
+  }
+
+  FALSE
+}
+
 add_computed_columns <- function(.data, vars) {
-  is_symbol <- map_lgl(vars, quo_is_symbol)
+  is_symbol <- map_lgl(vars, quo_is_symbol_or_dotdatadollar, names = tbl_vars(.data))
   named <- have_name(vars)
 
   needs_mutate <- named | !is_symbol
