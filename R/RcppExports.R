@@ -198,6 +198,10 @@ shallow_copy <- function(data) {
     .Call(`_dplyr_shallow_copy`, data)
 }
 
+quo_is_symbol2 <- function(quo) {
+    .Call(`_dplyr_quo_is_symbol2`, quo)
+}
+
 #' Cumulativate versions of any, all, and mean
 #'
 #' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
