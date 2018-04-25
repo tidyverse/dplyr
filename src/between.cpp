@@ -2,6 +2,40 @@
 #include <Rcpp.h>
 using namespace Rcpp;
 
+#include <dplyr/VectorVisitorImpl.h>
+
+// [[Rcpp::export]]
+LogicalVector between_string(CharacterVector x, String left, String right) {
+  int n = x.size();
+
+  LogicalVector out = no_init(n) ;
+  if (left == NA || right == NA) {
+    for (int i = 0; i < n; ++i)
+      out[i] = NA_LOGICAL;
+    return out;
+  }
+
+  CharacterVector y(n + 2) ;
+  for (int i = 0; i < n; i++) {
+    y[i] = x[i];
+  }
+  y[n] = left;
+  y[n + 1] = right;
+
+  dplyr::VectorVisitorImpl<STRSXP> v(y);
+
+  for (int i = 0; i < n; i++) {
+    if (v.is_na(i)) {
+      out[i] = NA_INTEGER;
+    } else {
+      out[i] = v.greater(i, n) && v.less(i, n + 1);
+    }
+
+  }
+  return out;
+}
+
+
 //' Do values in a numeric vector fall in specified range?
 //'
 //' This is a shortcut for `x >= left & x <= right`, implemented

@@ -86,6 +86,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// between_string
+LogicalVector between_string(CharacterVector x, String left, String right);
+RcppExport SEXP _dplyr_between_string(SEXP xSEXP, SEXP leftSEXP, SEXP rightSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< CharacterVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< String >::type left(leftSEXP);
+    Rcpp::traits::input_parameter< String >::type right(rightSEXP);
+    rcpp_result_gen = Rcpp::wrap(between_string(x, left, right));
+    return rcpp_result_gen;
+END_RCPP
+}
 // between
 LogicalVector between(NumericVector x, double left, double right);
 RcppExport SEXP _dplyr_between(SEXP xSEXP, SEXP leftSEXP, SEXP rightSEXP) {
@@ -697,6 +710,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_gp", (DL_FUNC) &_dplyr_gp, 1},
     {"_dplyr_init_logging", (DL_FUNC) &_dplyr_init_logging, 1},
     {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 2},
+    {"_dplyr_between_string", (DL_FUNC) &_dplyr_between_string, 3},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
     {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},

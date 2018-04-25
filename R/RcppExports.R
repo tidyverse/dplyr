@@ -38,6 +38,10 @@ arrange_impl <- function(data, quosures) {
     .Call(`_dplyr_arrange_impl`, data, quosures)
 }
 
+between_string <- function(x, left, right) {
+    .Call(`_dplyr_between_string`, x, left, right)
+}
+
 #' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for `x >= left & x <= right`, implemented
