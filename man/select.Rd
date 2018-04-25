@@ -103,6 +103,8 @@ select(iris, petal_length = Petal.Length)
 # * rename() keeps all variables
 rename(iris, petal_length = Petal.Length)
 
+# * select() can rename variables in a group
+select(iris, obs = starts_with('S'))
 
 # Unquoting ----------------------------------------
 
