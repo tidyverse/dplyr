@@ -9,7 +9,7 @@ namespace dplyr {
 
 class LazySubsets : public ILazySubsets {
 public:
-  LazySubsets(const DataFrame& df) : nr(df.nrows()) {
+  LazySubsets(const DataFrame& df) : symbol_map(df.size(), df.names()), summary_map(), data(df.size()), nr(df.nrows()) {
     int nvars = df.size();
     if (nvars) {
       CharacterVector names = df.names();
@@ -18,8 +18,7 @@ public:
         if (Rf_inherits(column, "matrix")) {
           stop("matrix as column is not supported");
         }
-        symbol_map.insert(names[i]);
-        data.push_back(df[i]);
+        data[i] = df[i];
       }
     }
   }

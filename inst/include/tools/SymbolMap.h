@@ -25,6 +25,12 @@ private:
 public:
   SymbolMap(): lookup(), names() {}
 
+  SymbolMap(int n, const CharacterVector& names_): lookup(n), names((SEXP)names_) {
+    for (int i = 0; i < n; i++) {
+      lookup.insert(std::make_pair(names_[i], i));
+    }
+  }
+
   SymbolMap(const SymbolVector& names_): lookup(), names(names_) {}
 
   SymbolMapIndex insert(const SymbolString& name) {
