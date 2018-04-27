@@ -33,9 +33,6 @@
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
 #' @inheritParams filter
-#' @param .empty indicate which empty groups to keep. "none" discards
-#' all empty groups, "some" discards unused factor levels and expands all combinations,
-#' "all" keeps unused factor levels and expands combinations
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
@@ -75,17 +72,17 @@
 #' by_cyl %>%
 #'   group_by(vs, am, add = TRUE) %>%
 #'   group_vars()
-group_by <- function(.data, ..., add = FALSE, .empty = c("none", "some", "all")) {
+group_by <- function(.data, ..., add = FALSE) {
   UseMethod("group_by")
 }
 #' @export
-group_by.default <- function(.data, ..., add = FALSE, .empty = c("none", "some", "all")) {
-  group_by_(.data, .dots = compat_as_lazy_dots(...), .empty = .empty)
+group_by.default <- function(.data, ..., add = FALSE) {
+  group_by_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
-group_by_ <- function(.data, ..., .dots = list(), add = FALSE, .empty = c("none", "some", "all")) {
+group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
   UseMethod("group_by_")
 }
 

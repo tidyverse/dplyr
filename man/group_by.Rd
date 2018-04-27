@@ -5,7 +5,7 @@
 \alias{ungroup}
 \title{Group by one or more variables}
 \usage{
-group_by(.data, ..., add = FALSE, .empty = c("none", "some", "all"))
+group_by(.data, ..., add = FALSE)
 
 ungroup(x, ...)
 }
@@ -19,10 +19,6 @@ will be silently dropped.}
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
-
-\item{.empty}{indicate which empty groups to keep. "none" discards
-all empty groups, "some" discards unused factor levels and expands all combinations,
-"all" keeps unused factor levels and expands combinations}
 
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
