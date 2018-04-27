@@ -8,24 +8,20 @@
 #' @param data a tbl or data frame.
 #' @param vars a character vector or a list of [name()]
 #' @param drop if `FALSE` preserve all factor levels, even those without data.
-#' @param expand if `TRUE` expand all combinations
 #' @export
-grouped_df <- function(data, vars, drop = TRUE, expand = FALSE) {
+grouped_df <- function(data, vars, drop = TRUE) {
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
   assert_that(
     is.data.frame(data),
     (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars),
-    is.flag(drop),
-    is.flag(expand)
+    is.flag(drop)
   )
-  if (!drop)
-    assert_that(expand, msg = "if `drop` is FALSE, expand must be `TRUE`")
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
-  grouped_df_impl(data, unname(vars), drop, expand)
+  grouped_df_impl(data, unname(vars), drop)
 }
 
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
@@ -170,7 +166,7 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 do.grouped_df <- function(.data, ...) {
   # Force computation of indices
   if (is_null(attr(.data, "indices"))) {
-    .data <- grouped_df_impl(.data, group_vars(.data), group_drop(.data), group_expand(.data))
+    .data <- grouped_df_impl(.data, group_vars(.data), group_drop(.data))
   }
   index <- attr(.data, "indices")
   labels <- attr(.data, "labels")
@@ -260,8 +256,4 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 
 group_drop <- function(x) {
   attr(x, "drop") %||% TRUE
-}
-
-group_expand <- function(x) {
-  attr(x, "expand") %||% TRUE
 }
