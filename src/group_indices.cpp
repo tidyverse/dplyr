@@ -189,7 +189,7 @@ public:
   virtual ~LeafSlicer() {};
 
 private:
-  std::vector<int> index_range ;
+  const std::vector<int>& index_range ;
 };
 
 class FactorSlicer : public Slicer {
@@ -206,13 +206,14 @@ public:
     nlevels(Rf_length(f.attr("levels"))),
 
     indices(nlevels),
+    slicers(nlevels),
     slicer_size(0)
   {
 
     // ---- train the slicer, record the indices for each level
     int n = index_range.size();
     for (int i = 0; i < n; i++) {
-      int idx = index_range[i] ;
+      int idx = index_range[i];
       int value = f[idx];
 
       // will support it later
@@ -222,7 +223,7 @@ public:
 
     // ---- for each level, train child slicers
     for (int i = 0; i < nlevels; i++) {
-      slicers.push_back(slicer(indices[i], depth + 1, data, visitors)) ;
+      slicers[i] = slicer(indices[i], depth + 1, data, visitors);
       slicer_size += slicers[i]->size() ;
     }
 
@@ -252,7 +253,7 @@ public:
 
 private:
   int depth ;
-  std::vector<int> index_range ;
+  const std::vector<int>& index_range ;
 
   const std::vector<SEXP>& data ;
   const DataFrameVisitors& visitors ;
@@ -320,6 +321,11 @@ public:
       }
       std::sort(map_collect.begin(), map_collect.end(), PairCompare(visitors.get(depth))) ;
 
+      // make sure the vectors are not resized
+      indices.reserve(nlevels);
+      agents.reserve(nlevels);
+      slicers.reserve(nlevels);
+
       // ---- for each case, train child slicers
       for (int i = 0; i < nlevels; i++) {
         agents.push_back(map_collect[i].first) ;
@@ -359,7 +365,7 @@ private:
   typedef VisitorSetIndexMap<VectorVisitor, std::vector<int> > Map ;
 
   int depth ;
-  std::vector<int> index_range ;
+  const std::vector<int>& index_range ;
 
   const std::vector<SEXP> data ;
   const DataFrameVisitors& visitors ;
