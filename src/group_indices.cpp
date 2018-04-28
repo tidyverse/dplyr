@@ -308,9 +308,9 @@ public:
 
       agents.push_back(NA_INTEGER) ;         // NA is used as a placeholder
       indices.push_back(std::vector<int>()); // empty indices
-      slicer_size = 1 ;
 
       slicers.push_back(slicer(indices[0], depth + 1, data, visitors)) ;
+      slicer_size = slicers[0]->size() ;
 
     } else {
       Map map(visitor, n) ;
