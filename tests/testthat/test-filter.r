@@ -292,7 +292,7 @@ test_that("grouped filter handles indices (#880)", {
 })
 
 test_that("filter(FALSE) drops indices", {
-  skip()
+  skip("until discussion is #3492 is resolved")
   out <- mtcars %>%
     group_by(cyl) %>%
     filter(FALSE) %>%
