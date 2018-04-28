@@ -15,6 +15,7 @@
 #include <dplyr/tbl_cpp.h>
 
 #include <tools/match.h>
+#include <boost/shared_ptr.hpp>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -46,45 +47,6 @@ SEXP unique_levels(SEXP f) {
   copy_attributes(values, f);
   return values ;
 }
-
-DataFrame expand_labels(DataFrame labels, bool drop = false) {
-  int nc = labels.ncol();
-  List uniques(nc);
-  std::vector<int> sizes(nc);
-  int total_size = 1;
-
-  // doing this with R callbacks for now, might revisit later
-  // if this becomes a performance problem
-  for (int i = 0; i < nc; i++) {
-    SEXP obj = labels[i];
-    if (Rf_inherits(obj, "factor")) {
-      if (drop) {
-        RObject dropped = Language("droplevels", obj).eval() ;
-        uniques[i] = unique_levels(dropped) ;
-      } else {
-        uniques[i] = unique_levels(obj) ;
-      }
-    } else {
-      uniques[i] = Rcpp_eval(Language("unique", obj));
-    }
-    sizes[i] = Rf_length(uniques[i]);
-    total_size *= sizes[i];
-  }
-  uniques.names() = labels.names();
-  uniques.push_back(false, "stringsAsFactors");
-  Language call("do.call", Symbol("expand.grid"), uniques);
-
-  DataFrame new_labels = Rcpp_eval(call);
-
-  // cleanup after expand.grid
-  new_labels.attr("out.attrs") = R_NilValue;
-
-  IntegerVector new_labels_order = OrderVisitors(new_labels).apply();
-  return DataFrameSubsetVisitors(new_labels).subset(new_labels_order, "data.frame");
-
-}
-
-#include <boost/shared_ptr.hpp>
 
 class IntRange {
 public:
