@@ -447,7 +447,7 @@ void build_index_cpp(DataFrame& data, bool drop) {
   vec_labels.attr("names") = label_names ;
   vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases) ;
   vec_labels.attr("class") = "data.frame" ;
-
+  copy_vars(vec_labels, data);
 
   IntegerVector group_sizes = no_init(ncases);
   int biggest_group = 0 ;
