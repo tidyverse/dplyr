@@ -169,8 +169,6 @@ inline CopyVectorVisitor* copy_visitor(SEXP target, SEXP origin) {
 class Slicer {
 public:
   virtual ~Slicer() {} ;
-
-  virtual bool is_factor() = 0 ;
   virtual int size() = 0 ;
   virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) = 0 ;
 } ;
@@ -182,9 +180,6 @@ public:
 
   virtual int size() {
     return 1;
-  }
-  virtual bool is_factor() {
-    return false ;
   }
 
   virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) {
@@ -231,10 +226,6 @@ public:
       slicer_size += slicers[i]->size() ;
     }
 
-  }
-
-  virtual bool is_factor() {
-    return true ;
   }
 
   virtual int size() {
@@ -342,10 +333,6 @@ public:
 
   }
 
-
-  virtual bool is_factor() {
-    return false ;
-  }
   virtual int size() {
     return slicer_size ;
   }
