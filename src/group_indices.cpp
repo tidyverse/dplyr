@@ -16,6 +16,7 @@
 
 #include <tools/match.h>
 #include <boost/shared_ptr.hpp>
+#include <dplyr/default_value.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -101,7 +102,7 @@ public:
   virtual void copy(const IntRange& target_range, int idx_origin) {
     std::fill_n(
       target.begin() + target_range.start, target_range.size,
-      idx_origin == NA_INTEGER ? Vec::get_na() : origin[idx_origin]
+      idx_origin == NA_INTEGER ? default_value<RTYPE>() : origin[idx_origin]
     ) ;
   }
 
@@ -112,8 +113,6 @@ private:
 
 inline CopyVectorVisitor* copy_visitor(SEXP target, SEXP origin) {
   switch (TYPEOF(target)) {
-  case CPLXSXP:
-    return new CopyVectorVisitorImpl<CPLXSXP>(target, origin);
   case INTSXP:
     return new CopyVectorVisitorImpl<INTSXP>(target, origin);
   case REALSXP:
@@ -122,6 +121,10 @@ inline CopyVectorVisitor* copy_visitor(SEXP target, SEXP origin) {
     return new CopyVectorVisitorImpl<LGLSXP>(target, origin);
   case STRSXP:
     return new CopyVectorVisitorImpl<STRSXP>(target, origin);
+  case RAWSXP:
+    return new CopyVectorVisitorImpl<RAWSXP>(target, origin);
+  case CPLXSXP:
+    return new CopyVectorVisitorImpl<CPLXSXP>(target, origin);
   }
 
   return 0;
