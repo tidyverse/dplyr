@@ -228,21 +228,22 @@ private:
   int slicer_size ;
 };
 
-typedef std::pair<int, std::vector<int> > IndicesPair ;
-
-class PairCompare {
-public:
-  PairCompare(VectorVisitor* v_) : v(v_) {} ;
-
-  bool operator()(const IndicesPair& x, const IndicesPair& y) {
-    return v->less(x.first, y.first) ;
-  }
-
-private:
-  VectorVisitor* v ;
-};
-
 class VectorSlicer : public Slicer {
+private:
+  typedef std::pair<int, std::vector<int> > IndicesPair ;
+
+  class PairCompare {
+  public:
+    PairCompare(VectorVisitor* v_) : v(v_) {} ;
+
+    bool operator()(const IndicesPair& x, const IndicesPair& y) {
+      return v->less(x.first, y.first) ;
+    }
+
+  private:
+    VectorVisitor* v ;
+  };
+
 public:
 
   VectorSlicer(int depth_, const std::vector<int>& index_range_, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_) :
