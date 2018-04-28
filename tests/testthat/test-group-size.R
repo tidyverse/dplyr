@@ -18,20 +18,3 @@ test_that("group_size correct for grouped data", {
   expect_equal(n_groups(df), 3L)
   expect_equal(group_size(df), rep(10, 3))
 })
-
-
-# For following tests, add an extra level that's not present in data
-test_that("n_groups drops zero-length groups", {
-  df <- tibble(x = factor(1:3, levels = 1:4)) %>% group_by(x)
-  expect_equal(n_groups(df), 3)
-})
-
-test_that("summarise drops zero-length groups", {
-  df <- tibble(x = factor(rep(1:3, each = 10)))
-
-  out <- df %>%
-    group_by(x) %>%
-    summarise(n = n())
-
-  expect_equal(out$n, c(10L, 10L, 10L))
-})

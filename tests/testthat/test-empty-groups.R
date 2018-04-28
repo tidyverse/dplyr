@@ -41,3 +41,18 @@ test_that("joins respect zero length groups", {
   expect_equal(group_size(anti_join( df1, df2, by = "f")),  c(2,0,0))
   expect_equal(group_size(inner_join( df1, df2, by = "f")),  c(0,4,0))
 })
+
+test_that("n_groups respects zero-length groups (#341)", {
+  df <- tibble(x = factor(1:3, levels = 1:4)) %>% group_by(x)
+  expect_equal(n_groups(df), 4)
+})
+
+test_that("summarise respects zero-length groups (#341)", {
+  df <- tibble(x = factor(rep(1:3, each = 10), levels = 1:4))
+
+  out <- df %>%
+    group_by(x) %>%
+    summarise(n = n())
+
+  expect_equal(out$n, c(10L, 10L, 10L, 0L))
+})
