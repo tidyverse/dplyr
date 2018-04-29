@@ -19,7 +19,8 @@
 #'
 #' # Like group_by(), the scoped variants have optional mutate
 #' # semantics. This provide a shortcut for group_by() + mutate():
-#' group_by_all(mtcars, as.factor)
+#' d <- tibble(x=c(1,1,2,2), y=c(1,2,1,2))
+#' group_by_all(d, as.factor)
 #' group_by_if(iris, is.factor, as.character)
 group_by_all <- function(.tbl, .funs = list(), ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
