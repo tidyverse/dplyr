@@ -164,6 +164,7 @@ public:
   inline int operator[](int i) const {
     return i;
   }
+
   inline int size() const {
     return n;
   }
@@ -348,9 +349,10 @@ private:
 
       std::vector<IndicesPair> map_collect ;
       for (Map::const_iterator it = map.begin(); it != map.end(); ++it) {
-        map_collect.push_back(std::make_pair<const int, std::vector<int> >(it->first, it->second)) ;
+        map_collect.push_back(std::make_pair<int, const std::vector<int>& >( int(it->first), it->second)) ;
       }
-      std::sort(map_collect.begin(), map_collect.end(), PairCompare(visitors.get(depth))) ;
+      PairCompare compare(visitors.get(depth));
+      std::sort(map_collect.begin(), map_collect.end(), compare);
 
       // make sure the vectors are not resized
       indices.reserve(nlevels);
