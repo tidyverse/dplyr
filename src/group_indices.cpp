@@ -348,7 +348,7 @@ private:
 
       std::vector<IndicesPair> map_collect ;
       for (Map::const_iterator it = map.begin(); it != map.end(); ++it) {
-        map_collect.push_back(std::make_pair<int, std::vector<int> >(it->first, it->second)) ;
+        map_collect.push_back(std::make_pair<const int, std::vector<int> >(it->first, it->second)) ;
       }
       std::sort(map_collect.begin(), map_collect.end(), PairCompare(visitors.get(depth))) ;
 
