@@ -4,6 +4,7 @@
 #include <tools/SlicingIndex.h>
 #include <dplyr/DataFrameVisitorsIndexMap.h>
 #include <dplyr/EmptySubset.h>
+#include <dplyr/GroupFilterIndices.h>
 
 namespace dplyr {
 
@@ -34,6 +35,8 @@ public:
   virtual SEXP subset(const ChunkIndexMap& index) const = 0;
 
   virtual SEXP subset(EmptySubset) const = 0;
+
+  virtual SEXP subset(const GroupFilterIndices&) const = 0;
 
   virtual int size() const = 0;
 

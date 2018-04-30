@@ -25,6 +25,10 @@ public:
     return subset_int(index);
   }
 
+  inline SEXP subset(const GroupFilterIndices& index) const {
+    return R_NilValue;
+  }
+
   inline SEXP subset(const ChunkIndexMap& index) const {
     int n = index.size();
     int nc = data.ncol();
