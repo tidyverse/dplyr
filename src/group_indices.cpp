@@ -21,6 +21,12 @@
 using namespace Rcpp;
 using namespace dplyr;
 
+# if __cplusplus >= 201103L
+#define MOVE(x) std::move(x)
+# else
+#define MOVE(x) x
+# endif
+
 // [[Rcpp::export]]
 IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
   int n = gdf.nrows();
@@ -46,7 +52,7 @@ SEXP unique_levels(SEXP f) {
   SEXP labels = Rf_getAttrib(f, R_LevelsSymbol);
   IntegerVector values = seq_len(Rf_length(labels));
   copy_attributes(values, f);
-  return values ;
+  return values;
 }
 
 class IntRange {
@@ -61,11 +67,11 @@ public:
     if (start < 0) {
       start = other.start;
     }
-    size += other.size ;
+    size += other.size;
   }
 
-  int start ;
-  int size ;
+  int start;
+  int size;
 };
 
 class ListCollecter {
@@ -73,27 +79,27 @@ public:
   ListCollecter(List& data_): data(data_), index(0) {}
 
   int collect(const std::vector<int>& indices) {
-    data[index] = indices ;
-    return index++ ;
+    data[index] = indices;
+    return index++;
   }
 
 private:
-  List& data ;
-  int index ;
+  List& data;
+  int index;
 };
 
 
 class CopyVectorVisitor {
 public:
-  virtual ~CopyVectorVisitor() {} ;
+  virtual ~CopyVectorVisitor() {};
 
-  virtual void copy(const IntRange& target_range, int idx_origin) = 0 ;
+  virtual void copy(const IntRange& target_range, int idx_origin) = 0;
 };
 
 template <int RTYPE>
 class CopyVectorVisitorImpl : public CopyVectorVisitor {
 public:
-  typedef typename Rcpp::Vector<RTYPE> Vec ;
+  typedef typename Rcpp::Vector<RTYPE> Vec;
 
   CopyVectorVisitorImpl(Vec target_, Vec origin_) :
     target(target_), origin(origin_)
@@ -103,7 +109,7 @@ public:
     std::fill_n(
       target.begin() + target_range.start, target_range.size,
       idx_origin == NA_INTEGER ? default_value<RTYPE>() : origin[idx_origin]
-    ) ;
+    );
   }
 
 private:
@@ -133,11 +139,11 @@ inline CopyVectorVisitor* copy_visitor(SEXP target, SEXP origin) {
 
 class Slicer {
 public:
-  virtual ~Slicer() {} ;
-  virtual int size() = 0 ;
-  virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) = 0 ;
-} ;
-boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_) ;
+  virtual ~Slicer() {};
+  virtual int size() = 0;
+  virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) = 0;
+};
+boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_);
 
 class LeafSlicer : public Slicer {
 public:
@@ -148,13 +154,13 @@ public:
   }
 
   virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) {
-    return IntRange(indices_collecter.collect(index_range), 1) ;
+    return IntRange(indices_collecter.collect(index_range), 1);
   }
 
   virtual ~LeafSlicer() {};
 
 private:
-  const std::vector<int>& index_range ;
+  const std::vector<int>& index_range;
 };
 
 class EchoVector {
@@ -170,12 +176,12 @@ public:
   }
 
 private:
-  int n ;
+  int n;
 };
 
 class FactorSlicer : public Slicer {
 public:
-  typedef IntegerVector Factor ;
+  typedef IntegerVector Factor;
 
   FactorSlicer(int depth_, const std::vector<int>& index_range, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_) :
     depth(depth_),
@@ -189,7 +195,7 @@ public:
     slicers(nlevels),
     slicer_size(0)
   {
-    train(index_range) ;
+    train(index_range);
   }
 
   virtual int size() {
@@ -197,19 +203,19 @@ public:
   }
 
   virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) {
-    IntRange labels_range ;
-    SEXP x = vec_labels[depth] ;
+    IntRange labels_range;
+    SEXP x = vec_labels[depth];
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, copy_visitors, indices_collecter) ;
-      labels_range.add(idx) ;
+      IntRange idx = slicers[i]->make(vec_labels, copy_visitors, indices_collecter);
+      labels_range.add(idx);
 
       // fill the labels at these indices
       std::fill_n(INTEGER(x) + idx.start, idx.size, i + 1);
     }
 
-    return labels_range ;
+    return labels_range;
   }
 
   virtual ~FactorSlicer() {}
@@ -221,15 +227,15 @@ private:
     // special case for depth==0 so that we don't have to build
     // the 0:(n-1) vector indices
     if (depth == 0) {
-      train_impl(EchoVector(Rf_length(data[0]))) ;
+      train_impl(EchoVector(Rf_length(data[0])));
     } else {
-      train_impl(index_range) ;
+      train_impl(index_range);
     }
 
     // ---- for each level, train child slicers
     for (int i = 0; i < nlevels; i++) {
       slicers[i] = slicer(indices[i], depth + 1, data, visitors);
-      slicer_size += slicers[i]->size() ;
+      slicer_size += slicers[i]->size();
     }
 
   }
@@ -248,34 +254,33 @@ private:
   }
 
 
-  int depth ;
-  // const std::vector<int>& index_range ;
+  int depth;
 
-  const std::vector<SEXP>& data ;
-  const DataFrameVisitors& visitors ;
+  const std::vector<SEXP>& data;
+  const DataFrameVisitors& visitors;
 
-  Factor f ;
-  int nlevels ;
+  Factor f;
+  int nlevels;
 
-  std::vector< std::vector<int> > indices ;
-  std::vector< boost::shared_ptr<Slicer> > slicers ;
-  int slicer_size ;
+  std::vector< std::vector<int> > indices;
+  std::vector< boost::shared_ptr<Slicer> > slicers;
+  int slicer_size;
 };
 
 class VectorSlicer : public Slicer {
 private:
-  typedef std::pair<int, std::vector<int> > IndicesPair ;
+  typedef std::pair<int, const std::vector<int>* > IndicesPair;
 
   class PairCompare {
   public:
-    PairCompare(VectorVisitor* v_) : v(v_) {} ;
+    PairCompare(VectorVisitor* v_) : v(v_) {};
 
     bool operator()(const IndicesPair& x, const IndicesPair& y) {
-      return v->less(x.first, y.first) ;
+      return v->less(x.first, y.first);
     }
 
   private:
-    VectorVisitor* v ;
+    VectorVisitor* v;
   };
 
 public:
@@ -294,23 +299,23 @@ public:
   }
 
   virtual int size() {
-    return slicer_size ;
+    return slicer_size;
   }
 
   virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) {
-    IntRange labels_range ;
+    IntRange labels_range;
     int nlevels = slicers.size();
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, copy_visitors, indices_collecter) ;
-      labels_range.add(idx) ;
+      IntRange idx = slicers[i]->make(vec_labels, copy_visitors, indices_collecter);
+      labels_range.add(idx);
 
       // fill the labels at these indices
-      copy_visitors[depth]->copy(idx, agents[i]) ;
+      copy_visitors[depth]->copy(idx, agents[i]);
     }
 
-    return labels_range ;
+    return labels_range;
   }
 
   virtual ~VectorSlicer() {}
@@ -318,9 +323,9 @@ public:
 private:
   void train(const std::vector<int>& index_range) {
     if (depth == 0) {
-      train_impl(EchoVector(Rf_length(data[0]))) ;
+      train_impl(EchoVector(Rf_length(data[0])));
     } else {
-      train_impl(index_range) ;
+      train_impl(index_range);
     }
   }
 
@@ -330,14 +335,14 @@ private:
     if (n == 0) {
       // deal with special case when index_range is empty
 
-      agents.push_back(NA_INTEGER) ;         // NA is used as a placeholder
+      agents.push_back(NA_INTEGER);         // NA is used as a placeholder
       indices.push_back(std::vector<int>()); // empty indices
 
-      slicers.push_back(slicer(indices[0], depth + 1, data, visitors)) ;
-      slicer_size = slicers[0]->size() ;
+      slicers.push_back(slicer(indices[0], depth + 1, data, visitors));
+      slicer_size = slicers[0]->size();
 
     } else {
-      Map map(visitor, n) ;
+      Map map(visitor, n);
       // train the map
       for (int i = 0; i < n; i++) {
         int idx = index_range[i];
@@ -347,9 +352,9 @@ private:
       // fill agents and indices
       int nlevels = map.size();
 
-      std::vector<IndicesPair> map_collect ;
+      std::vector<IndicesPair> map_collect;
       for (Map::const_iterator it = map.begin(); it != map.end(); ++it) {
-        map_collect.push_back(std::make_pair<int, const std::vector<int>& >( int(it->first), it->second)) ;
+        map_collect.push_back(std::make_pair<int, const std::vector<int>* >(int(it->first), &it->second));
       }
       PairCompare compare(visitors.get(depth));
       std::sort(map_collect.begin(), map_collect.end(), compare);
@@ -361,40 +366,40 @@ private:
 
       // ---- for each case, train child slicers
       for (int i = 0; i < nlevels; i++) {
-        agents.push_back(map_collect[i].first) ;
-        indices.push_back(map_collect[i].second);
-        slicers.push_back(slicer(indices[i], depth + 1, data, visitors)) ;
-        slicer_size += slicers[i]->size() ;
+        agents.push_back(map_collect[i].first);
+        indices.push_back(MOVE(*map_collect[i].second));
+        slicers.push_back(slicer(indices[i], depth + 1, data, visitors));
+        slicer_size += slicers[i]->size();
       }
 
     }
 
   }
 
-  typedef VisitorSetIndexMap<VectorVisitor, std::vector<int> > Map ;
+  typedef VisitorSetIndexMap<VectorVisitor, std::vector<int> > Map;
 
-  int depth ;
+  int depth;
 
-  const std::vector<SEXP> data ;
-  const DataFrameVisitors& visitors ;
+  const std::vector<SEXP> data;
+  const DataFrameVisitors& visitors;
 
-  VectorVisitor* visitor ;
+  VectorVisitor* visitor;
 
-  std::vector< int > agents ;
-  std::vector< std::vector<int> > indices ;
-  std::vector< boost::shared_ptr<Slicer> > slicers ;
-  int slicer_size ;
+  std::vector< int > agents;
+  std::vector< std::vector<int> > indices;
+  std::vector< boost::shared_ptr<Slicer> > slicers;
+  int slicer_size;
 };
 
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data, const DataFrameVisitors& visitors) {
   if (depth == data.size()) {
     return boost::shared_ptr<Slicer>(new LeafSlicer(index_range));
   } else {
-    SEXP x = data[depth] ;
+    SEXP x = data[depth];
     if (Rf_isFactor(x)) {
-      return boost::shared_ptr<Slicer>(new FactorSlicer(depth, index_range, data, visitors)) ;
+      return boost::shared_ptr<Slicer>(new FactorSlicer(depth, index_range, data, visitors));
     } else {
-      return boost::shared_ptr<Slicer>(new VectorSlicer(depth, index_range, data, visitors)) ;
+      return boost::shared_ptr<Slicer>(new VectorSlicer(depth, index_range, data, visitors));
     }
   }
 }
@@ -408,7 +413,7 @@ void build_index_cpp(DataFrame& data, bool drop) {
   CharacterVector names = data.names();
   IntegerVector indx = vars.match_in_table(names);
   std::vector<SEXP> visited_data(nvars);
-  CharacterVector label_names(nvars) ;
+  CharacterVector label_names(nvars);
 
   for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
@@ -417,8 +422,8 @@ void build_index_cpp(DataFrame& data, bool drop) {
     }
 
     SEXP v = data[pos - 1];
-    visited_data[i] = v ;
-    label_names[i] = names[pos - 1] ;
+    visited_data[i] = v;
+    label_names[i] = names[pos - 1];
 
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
       bad_col(vars[i], "can't be used as a grouping variable because it's a {type}",
@@ -428,36 +433,36 @@ void build_index_cpp(DataFrame& data, bool drop) {
 
   DataFrameVisitors visitors(data, vars);
 
-  boost::shared_ptr<Slicer> s = slicer(std::vector<int>(), 0, visited_data, visitors) ;
+  boost::shared_ptr<Slicer> s = slicer(std::vector<int>(), 0, visited_data, visitors);
 
   int ncases = s->size();
 
   // construct the labels data
-  List vec_labels(nvars) ;
+  List vec_labels(nvars);
   List indices(ncases);
-  ListCollecter indices_collecter(indices) ;
+  ListCollecter indices_collecter(indices);
   std::vector< boost::shared_ptr<CopyVectorVisitor> > copy_visitors;
 
   for (int i = 0; i < nvars; i++) {
-    vec_labels[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases) ;
+    vec_labels[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
     copy_most_attributes(vec_labels[i], visited_data[i]);
 
     copy_visitors.push_back(
       boost::shared_ptr<CopyVectorVisitor>(copy_visitor(vec_labels[i], visited_data[i]))
-    ) ;
+    );
   }
 
-  s->make(vec_labels, copy_visitors, indices_collecter) ;
+  s->make(vec_labels, copy_visitors, indices_collecter);
 
-  vec_labels.attr("names") = label_names ;
-  vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases) ;
-  vec_labels.attr("class") = "data.frame" ;
+  vec_labels.attr("names") = label_names;
+  vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
+  vec_labels.attr("class") = "data.frame";
   copy_vars(vec_labels, data);
 
   IntegerVector group_sizes = no_init(ncases);
-  int biggest_group = 0 ;
+  int biggest_group = 0;
   for (int i = 0; i < ncases; i++) {
-    group_sizes[i] = Rf_length(indices[i]) ;
+    group_sizes[i] = Rf_length(indices[i]);
     biggest_group = std::max(biggest_group, group_sizes[i]);
   }
 
