@@ -117,20 +117,68 @@ private:
 
 };
 
+template <int RTYPE>
+class FilterVector {
+public:
+  typedef Rcpp::Vector<RTYPE> type ;
+
+  FilterVector(int n, const type& source_) :
+    source(source_), data(no_init(n))
+  {
+    copy_most_attributes(data, source);
+  }
+
+  inline void copy(int i, int j){
+    data[i] = source[j];
+  }
+
+  inline operator SEXP(){
+    return data;
+  }
+
+private:
+  const type& source ;
+  type data ;
+};
+
+template <int RTYPE>
+class FilterMatrix {
+public:
+  typedef Rcpp::Matrix<RTYPE> type ;
+
+  FilterMatrix(int n, const type& source_) :
+    source(source_), data(n, source.ncol())
+  {
+    copy_most_attributes(data, source);
+  }
+
+  inline void copy(int i, int j){
+    data.row(i) = source.row(j);
+  }
+
+  inline operator SEXP(){
+    return data;
+  }
+
+private:
+  const type& source ;
+  type data ;
+};
+
+
 // subset a vector using indices collected in an Index
-template <int RTYPE, typename Index>
-class FilterVectorVisitor {
+template <int RTYPE, typename Index, template<int> class Data>
+class FilterVisitor {
 public:
-  typedef typename Rcpp::Vector<RTYPE> Vec;
+  typedef typename Data<RTYPE>::type data_type;
 
-  FilterVectorVisitor(Vec data_) :
+  FilterVisitor(data_type data_) :
     data(data_)
   {}
 
   virtual SEXP subset(const GroupFilterIndices<Index>& idx) {
     int n = idx.size();
-    Vec out = Rcpp::no_init(n);
-    copy_most_attributes(out, data);
+    Data<RTYPE> out(n, data);
 
     for (int i = 0; i < idx.ngroups; i++) {
       int group_size = idx.group_sizes[i];
@@ -144,7 +192,7 @@ public:
         if (idx.is_dense(i)) {
           // in that case we can just all the data
           for (int j = 0; j < group_size; j++) {
-            out[new_idx[j]] = data[old_idx[j]];
+            out.copy(new_idx[j], old_idx[j]);
           }
         } else {
           // otherwise we copy only the data for which test is TRUE
@@ -152,7 +200,7 @@ public:
           LogicalVector test = idx.tests[i];
           for (int j = 0, k = 0; j < group_size; j++, k++) {
             while (test[k] != TRUE) k++ ;
-            out[new_idx[j]] = data[old_idx[k]];
+            out.copy(new_idx[j], old_idx[k]);
           }
         }
       }
@@ -161,110 +209,38 @@ public:
   }
 
 private:
-  Vec data;
+  data_type data;
 };
 
-// subset a matrix using indices collected in an Index
-template <int RTYPE, typename Index>
-class FilterMatrixVisitor {
-public:
-  typedef typename Rcpp::Matrix<RTYPE> Mat;
-
-  FilterMatrixVisitor(Mat data_) :
-    data(data_)
-  {}
-
-  virtual SEXP subset(const GroupFilterIndices<Index>& idx) {
-    int n = idx.size();
-    Mat out = Rcpp::no_init(n, data.ncol());
-    copy_most_attributes(out, data);
-
-    for (int i = 0; i < idx.ngroups; i++) {
-      int group_size = idx.group_sizes[i];
-      // because there is nothing to do when the group is empty
-      if (group_size > 0) {
-        // the indices relevant to the original data
-        const Index& old_idx = idx.old_indices[i];
-
-        // the new indices
-        IntegerVector new_idx = idx.new_indices[i];
-        if (idx.is_dense(i)) {
-          // in that case we can just all the data
-          for (int j = 0; j < group_size; j++) {
-            out[new_idx[j]] = data[old_idx[j]];
-          }
-        } else {
-          // otherwise we copy only the data for which test is TRUE
-          // so we discard FALSE and NA
-          LogicalVector test = idx.tests[i];
-          for (int j = 0, k = 0; j < group_size; j++, k++) {
-            while (test[k] != TRUE) k++ ;
-            out.row(new_idx[j]) = data.row(old_idx[k]);
-          }
-        }
-      }
-    }
-    return out;
-  }
-
-private:
-  Mat data;
-};
-
-
-
-template <typename Index>
-inline SEXP filter_visit_vector(SEXP data, const GroupFilterIndices<Index>& idx) {
+template <typename Index, template<int> class Container>
+inline SEXP filter_visit_impl(SEXP data, const GroupFilterIndices<Index>& idx) {
   switch (TYPEOF(data)) {
   case INTSXP:
-    return FilterVectorVisitor<INTSXP, Index>(data).subset(idx);
+    return FilterVisitor<INTSXP, Index, Container>(data).subset(idx);
   case REALSXP:
-    return FilterVectorVisitor<REALSXP, Index>(data).subset(idx);
+    return FilterVisitor<REALSXP, Index, Container>(data).subset(idx);
   case LGLSXP:
-    return FilterVectorVisitor<LGLSXP, Index>(data).subset(idx);
+    return FilterVisitor<LGLSXP, Index, Container>(data).subset(idx);
   case STRSXP:
-    return FilterVectorVisitor<STRSXP, Index>(data).subset(idx);
+    return FilterVisitor<STRSXP, Index, Container>(data).subset(idx);
   case RAWSXP:
-    return FilterVectorVisitor<RAWSXP, Index>(data).subset(idx);
+    return FilterVisitor<RAWSXP, Index, Container>(data).subset(idx);
   case CPLXSXP:
-    return FilterVectorVisitor<CPLXSXP, Index>(data).subset(idx);
+    return FilterVisitor<CPLXSXP, Index, Container>(data).subset(idx);
   case VECSXP:
-    return FilterVectorVisitor<VECSXP, Index>(data).subset(idx);
+    return FilterVisitor<VECSXP, Index, Container>(data).subset(idx);
   }
 
   return R_NilValue;
 }
-
-template <typename Index>
-inline SEXP filter_visit_matrix(SEXP data, const GroupFilterIndices<Index>& idx) {
-  switch (TYPEOF(data)) {
-  case INTSXP:
-    return FilterMatrixVisitor<INTSXP, Index>(data).subset(idx);
-  case REALSXP:
-    return FilterMatrixVisitor<REALSXP, Index>(data).subset(idx);
-  case LGLSXP:
-    return FilterMatrixVisitor<LGLSXP, Index>(data).subset(idx);
-  case STRSXP:
-    return FilterMatrixVisitor<STRSXP, Index>(data).subset(idx);
-  case RAWSXP:
-    return FilterMatrixVisitor<RAWSXP, Index>(data).subset(idx);
-  case CPLXSXP:
-    return FilterMatrixVisitor<CPLXSXP, Index>(data).subset(idx);
-  case VECSXP:
-    return FilterMatrixVisitor<VECSXP, Index>(data).subset(idx);
-  }
-
-  return R_NilValue;
-}
-
 
 // subset `data` with indices collected in `idx`
 template <typename Index>
 inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
   if (Rf_isMatrix(data)) {
-    return filter_visit_matrix<Index>(data, idx) ;
+    return filter_visit_impl<Index, FilterVector>(data, idx) ;
   } else {
-    return filter_visit_vector<Index>(data, idx) ;
+    return filter_visit_impl<Index, FilterMatrix>(data, idx) ;
   }
 }
 
