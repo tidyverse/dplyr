@@ -5,7 +5,6 @@
 
 #include <tools/pointer_vector.h>
 #include <tools/SymbolVector.h>
-#include <dplyr/GroupFilterIndices.h>
 
 namespace dplyr {
 

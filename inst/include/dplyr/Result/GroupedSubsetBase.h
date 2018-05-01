@@ -15,6 +15,7 @@ public:
 };
 
 typedef GroupedSubset RowwiseSubset;
+typedef GroupedSubset NaturalSubset ;
 
 }
 
