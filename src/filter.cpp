@@ -86,8 +86,12 @@ public:
 
   // the group i contains some data, available in g_test
   void add_group_lgl(int i, const Index& old_idx, int n, Rcpp::LogicalVector g_test) {
-    add_group(i, old_idx, n) ;
-    tests[i] = g_test;
+    if ( n == 0) {
+      empty_group(i);
+    } else {
+      add_group(i, old_idx, n) ;
+      tests[i] = g_test;
+    }
   }
 
   // the total number of rows
@@ -106,7 +110,7 @@ private:
   void add_group(int i, const Index& old_idx, int n) {
     old_indices[i] = old_idx;
     group_sizes[i] = n;
-    new_indices[i] = Rcpp::seq(k, k + n - 1) ;
+    new_indices[i] = Rcpp::seq(k, k + n - 1);
     if (biggest_group_size < n) biggest_group_size = n;
     k += n ;
   }
