@@ -173,9 +173,57 @@ private:
   Vec data;
 };
 
-// subset `data` with indices collected in `idx`
+// subset a matrix using indices collected in an Index
+template <int RTYPE, typename Index>
+class FilterMatrixVisitorImpl : public FilterVectorVisitor<Index> {
+public:
+  typedef typename Rcpp::Matrix<RTYPE> Mat;
+
+  FilterMatrixVisitorImpl(Mat data_) :
+    data(data_)
+  {}
+
+  virtual SEXP subset(const GroupFilterIndices<Index>& idx) {
+    int n = idx.size();
+    Mat out = Rcpp::no_init(n, data.ncol());
+    copy_most_attributes(out, data);
+
+    for (int i = 0; i < idx.ngroups; i++) {
+      int group_size = idx.group_sizes[i];
+      // because there is nothing to do when the group is empty
+      if (group_size > 0) {
+        // the indices relevant to the original data
+        const Index& old_idx = idx.old_indices[i];
+
+        // the new indices
+        IntegerVector new_idx = idx.new_indices[i];
+        if (idx.is_dense(i)) {
+          // in that case we can just all the data
+          for (int j = 0; j < group_size; j++) {
+            out[new_idx[j]] = data[old_idx[j]];
+          }
+        } else {
+          // otherwise we copy only the data for which test is TRUE
+          // so we discard FALSE and NA
+          LogicalVector test = idx.tests[i];
+          for (int j = 0, k = 0; j < group_size; j++, k++) {
+            while (test[k] != TRUE) k++ ;
+            out.row(new_idx[j]) = data.row(old_idx[k]);
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+private:
+  Mat data;
+};
+
+
+
 template <typename Index>
-inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
+inline SEXP filter_visit_vector(SEXP data, const GroupFilterIndices<Index>& idx) {
   switch (TYPEOF(data)) {
   case INTSXP:
     return FilterVectorVisitorImpl<INTSXP, Index>(data).subset(idx);
@@ -192,6 +240,37 @@ inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
   }
 
   return R_NilValue;
+}
+
+template <typename Index>
+inline SEXP filter_visit_matrix(SEXP data, const GroupFilterIndices<Index>& idx) {
+  switch (TYPEOF(data)) {
+  case INTSXP:
+    return FilterMatrixVisitorImpl<INTSXP, Index>(data).subset(idx);
+  case REALSXP:
+    return FilterMatrixVisitorImpl<REALSXP, Index>(data).subset(idx);
+  case LGLSXP:
+    return FilterMatrixVisitorImpl<LGLSXP, Index>(data).subset(idx);
+  case STRSXP:
+    return FilterMatrixVisitorImpl<STRSXP, Index>(data).subset(idx);
+  case RAWSXP:
+    return FilterMatrixVisitorImpl<RAWSXP, Index>(data).subset(idx);
+  case CPLXSXP:
+    return FilterMatrixVisitorImpl<CPLXSXP, Index>(data).subset(idx);
+  }
+
+  return R_NilValue;
+}
+
+
+// subset `data` with indices collected in `idx`
+template <typename Index>
+inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
+  if (Rf_isMatrix(data)) {
+    return filter_visit_matrix<Index>(data, idx) ;
+  } else {
+    return filter_visit_vector<Index>(data, idx) ;
+  }
 }
 
 // template class to rebuild the attributes
