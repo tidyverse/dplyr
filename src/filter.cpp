@@ -74,7 +74,7 @@ public:
   {}
 
   // set the group i to be empty
-  void empty_group(int i){
+  void empty_group(int i) {
     group_sizes[i] = 0;
     new_indices[i] = Rcpp::IntegerVector::create();
   }
@@ -85,7 +85,7 @@ public:
   }
 
   // the group i contains some data, available in g_test
-  void add_group_lgl(int i, const Index& old_idx, int n, Rcpp::LogicalVector g_test){
+  void add_group_lgl(int i, const Index& old_idx, int n, Rcpp::LogicalVector g_test) {
     add_group(i, old_idx, n) ;
     tests[i] = g_test;
   }
@@ -106,7 +106,7 @@ private:
   void add_group(int i, const Index& old_idx, int n) {
     old_indices[i] = old_idx;
     group_sizes[i] = n;
-    new_indices[i] = Rcpp::seq(k, k+n-1) ;
+    new_indices[i] = Rcpp::seq(k, k + n - 1) ;
     if (biggest_group_size < n) biggest_group_size = n;
     k += n ;
   }
@@ -137,7 +137,7 @@ public:
     Vec out = Rcpp::no_init(n);
     copy_most_attributes(out, data);
 
-    for(int i=0; i<idx.ngroups; i++){
+    for (int i = 0; i < idx.ngroups; i++) {
       int group_size = idx.group_sizes[i];
       // because there is nothing to do when the group is empty
       if (group_size > 0) {
@@ -148,15 +148,15 @@ public:
         IntegerVector new_idx = idx.new_indices[i];
         if (idx.is_dense(i)) {
           // in that case we can just all the data
-          for (int j=0; j<group_size; j++) {
+          for (int j = 0; j < group_size; j++) {
             out[new_idx[j]] = data[old_idx[j]];
           }
         } else {
           // otherwise we copy only the data for which test is TRUE
           // so we discard FALSE and NA
           LogicalVector test = idx.tests[i];
-          for (int j=0, k=0; j<group_size; j++) {
-            while(test[k] != TRUE) k++ ;
+          for (int j = 0, k = 0; j < group_size; j++) {
+            while (test[k] != TRUE) k++ ;
             out[new_idx[j]] = data[old_idx[k]];
           }
         }
@@ -193,23 +193,23 @@ inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
 // template class to rebuild the attributes
 // in the general case there is nothing to do
 template <typename Index, typename SlicedTibble>
-class SlicedTibbleRebuilder{
+class SlicedTibbleRebuilder {
 public:
-  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index, const DataFrame& data){}
-  void reconstruct(List& out){}
+  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index, const DataFrame& data) {}
+  void reconstruct(List& out) {}
 };
 
 // specific case for GroupedDataFrame
 // we need to take care of the attributes `indices`, `labels`, `vars`, `group_sizes`, `biggest_group_size`
 template <typename Index>
-class SlicedTibbleRebuilder<Index, GroupedDataFrame>{
+class SlicedTibbleRebuilder<Index, GroupedDataFrame> {
 public:
   SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index_, const DataFrame& data_) :
     index(index_),
     data(data_)
   {}
 
-  void reconstruct(List& out){
+  void reconstruct(List& out) {
     out.attr("indices") = index.new_indices;
     out.attr("vars") = data.attr("vars");
     out.attr("group_sizes") = index.group_sizes;
@@ -255,7 +255,7 @@ SEXP filter_impl(const SlicedTibble& gdf, const NamedQuosure& quo) {
     if (g_test.size() == 1) {
       // we get length 1 so either we have an empty group, or a dense group, i.e.
       // a group that has all the rows from the original data
-      if (g_test[0] == TRUE){
+      if (g_test[0] == TRUE) {
         group_indices.add_dense_group(i, indices, chunk_size) ;
       } else {
         group_indices.empty_group(i);
@@ -280,14 +280,14 @@ SEXP filter_impl(const SlicedTibble& gdf, const NamedQuosure& quo) {
   set_rownames(out, group_indices.size());
 
   // extract each column
-  for (int i=0; i<nc; i++) {
+  for (int i = 0; i < nc; i++) {
     out[i] = filter_visit(data[i], group_indices);
   }
 
   // set the specific attributes
   // currently this only does anything for SlicedTibble = GroupedDataFrame
   // i.e. retain the indices, labels, ... attributes
-  SlicedTibbleRebuilder<Index,SlicedTibble>(group_indices, data).reconstruct(out);
+  SlicedTibbleRebuilder<Index, SlicedTibble>(group_indices, data).reconstruct(out);
 
   return out;
 }

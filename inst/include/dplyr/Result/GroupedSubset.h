@@ -20,7 +20,7 @@ public:
     int n = indices.size();
     Vector<RTYPE> data = no_init(n);
     copy_most_attributes(data, object);
-    for (int i=0; i<n; i++){
+    for (int i = 0; i < n; i++) {
       data[i] = start[indices[i]];
     }
     return data;
@@ -37,7 +37,7 @@ private:
   STORAGE* start;
 };
 
-inline NaturalSubset* natural_subset(SEXP x){
+inline NaturalSubset* natural_subset(SEXP x) {
   switch (TYPEOF(x)) {
   case INTSXP:
     return new NaturalSubsetTemplate<INTSXP>(x);
