@@ -311,7 +311,7 @@ private:
 
 
 template <typename SlicedTibble>
-SEXP filter_impl(const SlicedTibble& gdf, const NamedQuosure& quo) {
+SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   typedef LazySplitSubsets<SlicedTibble> LazySubsets;
   typedef GroupedCallProxy<SlicedTibble, LazySubsets> Proxy;
   typedef typename SlicedTibble::group_iterator GroupIterator;
@@ -388,10 +388,10 @@ SEXP filter_impl(DataFrame df, NamedQuosure quo) {
   assert_all_white_list(df);
 
   if (is<GroupedDataFrame>(df)) {
-    return filter_impl<GroupedDataFrame>(GroupedDataFrame(df), quo);
+    return filter_template<GroupedDataFrame>(GroupedDataFrame(df), quo);
   } else if (is<RowwiseDataFrame>(df)) {
-    return filter_impl<RowwiseDataFrame>(RowwiseDataFrame(df), quo);
+    return filter_template<RowwiseDataFrame>(RowwiseDataFrame(df), quo);
   } else {
-    return filter_impl<NaturalDataFrame>(NaturalDataFrame(df), quo);
+    return filter_template<NaturalDataFrame>(NaturalDataFrame(df), quo);
   }
 }
