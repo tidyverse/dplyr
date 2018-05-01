@@ -117,22 +117,13 @@ private:
 
 };
 
-
-template <typename Index>
-class FilterVectorVisitor {
-public:
-  virtual ~FilterVectorVisitor() {};
-
-  virtual SEXP subset(const GroupFilterIndices<Index>&) = 0;
-};
-
 // subset a vector using indices collected in an Index
 template <int RTYPE, typename Index>
-class FilterVectorVisitorImpl : public FilterVectorVisitor<Index> {
+class FilterVectorVisitor {
 public:
   typedef typename Rcpp::Vector<RTYPE> Vec;
 
-  FilterVectorVisitorImpl(Vec data_) :
+  FilterVectorVisitor(Vec data_) :
     data(data_)
   {}
 
@@ -175,11 +166,11 @@ private:
 
 // subset a matrix using indices collected in an Index
 template <int RTYPE, typename Index>
-class FilterMatrixVisitorImpl : public FilterVectorVisitor<Index> {
+class FilterMatrixVisitor {
 public:
   typedef typename Rcpp::Matrix<RTYPE> Mat;
 
-  FilterMatrixVisitorImpl(Mat data_) :
+  FilterMatrixVisitor(Mat data_) :
     data(data_)
   {}
 
@@ -226,19 +217,19 @@ template <typename Index>
 inline SEXP filter_visit_vector(SEXP data, const GroupFilterIndices<Index>& idx) {
   switch (TYPEOF(data)) {
   case INTSXP:
-    return FilterVectorVisitorImpl<INTSXP, Index>(data).subset(idx);
+    return FilterVectorVisitor<INTSXP, Index>(data).subset(idx);
   case REALSXP:
-    return FilterVectorVisitorImpl<REALSXP, Index>(data).subset(idx);
+    return FilterVectorVisitor<REALSXP, Index>(data).subset(idx);
   case LGLSXP:
-    return FilterVectorVisitorImpl<LGLSXP, Index>(data).subset(idx);
+    return FilterVectorVisitor<LGLSXP, Index>(data).subset(idx);
   case STRSXP:
-    return FilterVectorVisitorImpl<STRSXP, Index>(data).subset(idx);
+    return FilterVectorVisitor<STRSXP, Index>(data).subset(idx);
   case RAWSXP:
-    return FilterVectorVisitorImpl<RAWSXP, Index>(data).subset(idx);
+    return FilterVectorVisitor<RAWSXP, Index>(data).subset(idx);
   case CPLXSXP:
-    return FilterVectorVisitorImpl<CPLXSXP, Index>(data).subset(idx);
+    return FilterVectorVisitor<CPLXSXP, Index>(data).subset(idx);
   case VECSXP:
-    return FilterVectorVisitorImpl<VECSXP, Index>(data).subset(idx);
+    return FilterVectorVisitor<VECSXP, Index>(data).subset(idx);
   }
 
   return R_NilValue;
@@ -248,19 +239,19 @@ template <typename Index>
 inline SEXP filter_visit_matrix(SEXP data, const GroupFilterIndices<Index>& idx) {
   switch (TYPEOF(data)) {
   case INTSXP:
-    return FilterMatrixVisitorImpl<INTSXP, Index>(data).subset(idx);
+    return FilterMatrixVisitor<INTSXP, Index>(data).subset(idx);
   case REALSXP:
-    return FilterMatrixVisitorImpl<REALSXP, Index>(data).subset(idx);
+    return FilterMatrixVisitor<REALSXP, Index>(data).subset(idx);
   case LGLSXP:
-    return FilterMatrixVisitorImpl<LGLSXP, Index>(data).subset(idx);
+    return FilterMatrixVisitor<LGLSXP, Index>(data).subset(idx);
   case STRSXP:
-    return FilterMatrixVisitorImpl<STRSXP, Index>(data).subset(idx);
+    return FilterMatrixVisitor<STRSXP, Index>(data).subset(idx);
   case RAWSXP:
-    return FilterMatrixVisitorImpl<RAWSXP, Index>(data).subset(idx);
+    return FilterMatrixVisitor<RAWSXP, Index>(data).subset(idx);
   case CPLXSXP:
-    return FilterMatrixVisitorImpl<CPLXSXP, Index>(data).subset(idx);
+    return FilterMatrixVisitor<CPLXSXP, Index>(data).subset(idx);
   case VECSXP:
-    return FilterMatrixVisitorImpl<VECSXP, Index>(data).subset(idx);
+    return FilterMatrixVisitor<VECSXP, Index>(data).subset(idx);
   }
 
   return R_NilValue;
