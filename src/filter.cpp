@@ -237,6 +237,8 @@ inline SEXP filter_visit_vector(SEXP data, const GroupFilterIndices<Index>& idx)
     return FilterVectorVisitorImpl<RAWSXP, Index>(data).subset(idx);
   case CPLXSXP:
     return FilterVectorVisitorImpl<CPLXSXP, Index>(data).subset(idx);
+  case VECSXP:
+    return FilterVectorVisitorImpl<VECSXP, Index>(data).subset(idx);
   }
 
   return R_NilValue;
@@ -257,6 +259,8 @@ inline SEXP filter_visit_matrix(SEXP data, const GroupFilterIndices<Index>& idx)
     return FilterMatrixVisitorImpl<RAWSXP, Index>(data).subset(idx);
   case CPLXSXP:
     return FilterMatrixVisitorImpl<CPLXSXP, Index>(data).subset(idx);
+  case VECSXP:
+    return FilterMatrixVisitorImpl<VECSXP, Index>(data).subset(idx);
   }
 
   return R_NilValue;
