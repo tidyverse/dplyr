@@ -4,6 +4,7 @@
 #include <tools/Quosure.h>
 
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/NaturalDataFrame.h>
 
 #include <dplyr/Result/GroupedCallProxy.h>
 #include <dplyr/Result/CallProxy.h>
@@ -14,7 +15,7 @@ using namespace Rcpp;
 using namespace dplyr;
 
 inline SEXP check_filter_integer_result(SEXP tmp) {
-  if (TYPEOF(tmp) != INTSXP &&  TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {
+  if (TYPEOF(tmp) != INTSXP && TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {
     stop("slice condition does not evaluate to an integer or numeric vector. ");
   }
   return tmp;
@@ -56,8 +57,13 @@ private:
   int n_neg;
 };
 
-DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
-  typedef GroupedCallProxy<GroupedDataFrame, LazyGroupedSubsets> Proxy;
+template <typename SlicedTibble>
+DataFrame slice_template(const SlicedTibble& gdf, const QuosureList& dots) {
+  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
+  typedef GroupedCallProxy<SlicedTibble, LazySubsets> Proxy;
+  typedef typename SlicedTibble::group_iterator group_iterator;
+  typedef typename SlicedTibble::slicing_index Index ;
+  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
 
   const DataFrame& data = gdf.data();
   const NamedQuosure& quosure = dots[0];
@@ -74,9 +80,9 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
   Proxy call_proxy(call, gdf, env);
 
   int ngroups = gdf.ngroups();
-  GroupedDataFrame::group_iterator git = gdf.group_begin();
+  group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
-    const SlicingIndex& indices = *git;
+    const Index& indices = *git;
     int nr = indices.size();
     g_test = check_filter_integer_result(call_proxy.get(indices));
     CountIndices counter(indices.size(), g_test);
@@ -119,74 +125,12 @@ DataFrame slice_grouped(GroupedDataFrame gdf, const QuosureList& dots) {
     }
   }
 
-  DataFrame res = subset(data, indx, names, classes_grouped<GroupedDataFrame>());
+  DataFrame res = subset(data, indx, names, classes_not_grouped());
+  copy_class(res, data) ;
   set_vars(res, get_vars(data));
   strip_index(res);
 
   return GroupedDataFrame(res).data();
-}
-
-DataFrame slice_not_grouped(const DataFrame& df, const QuosureList& dots) {
-  CharacterVector names = df.names();
-  CharacterVector classes = Rf_getAttrib(df, R_ClassSymbol);
-
-  const NamedQuosure& quosure = dots[0];
-  Call call(quosure.expr());
-  CallProxy proxy(call, df, quosure.env());
-  int nr = df.nrows();
-
-  IntegerVector test = check_filter_integer_result(proxy.eval());
-
-  int n = test.size();
-
-  // count the positive and negatives
-  CountIndices counter(nr, test);
-
-  // just positives -> one based subset
-  if (counter.is_positive()) {
-    int n_pos = counter.get_n_positive();
-    std::vector<int> idx(n_pos);
-    int j = 0;
-    for (int i = 0; i < n_pos; i++) {
-      // skip until we are inside 1:nr
-      // this skips 0 and NA (which is negative (-2^31) for INTSXP)
-      while (test[j] > nr || test[j] < 1) j++;
-      idx[i] = test[j++] - 1;
-    }
-
-    return subset(df, idx, df.names(), classes);
-  }
-
-  // special case where only NA
-  if (counter.get_n_negative() == 0) {
-    std::vector<int> indices;
-    return subset(df, indices, df.names(), classes);
-  }
-
-  // just negatives (out of range is dealt with early in CountIndices).
-  std::set<int> drop;
-  for (int i = 0; i < n; i++) {
-    if (test[i] != NA_INTEGER && test[i] != 0)
-      drop.insert(-test[i]);
-  }
-  std::vector<int> indices;
-  indices.reserve(nr);
-  std::set<int>::const_iterator drop_it = drop.begin();
-
-  int j = 0;
-  while (drop_it != drop.end()) {
-    int next_drop = *drop_it - 1;
-    for (; j < next_drop; ++j) {
-      indices.push_back(j);
-    }
-    j++;
-    ++drop_it;
-  }
-  for (; j < nr; ++j) {
-    indices.push_back(j);
-  }
-
-  return subset(df, indices, df.names(), classes);
 }
 
 // [[Rcpp::export]]
@@ -195,8 +139,8 @@ SEXP slice_impl(DataFrame df, QuosureList dots) {
   if (dots.size() != 1)
     stop("slice only accepts one expression");
   if (is<GroupedDataFrame>(df)) {
-    return slice_grouped(GroupedDataFrame(df), dots);
+    return slice_template<GroupedDataFrame>(GroupedDataFrame(df), dots);
   } else {
-    return slice_not_grouped(df, dots);
+    return slice_template<NaturalDataFrame>(NaturalDataFrame(df), dots);
   }
 }
