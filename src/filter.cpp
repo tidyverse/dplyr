@@ -86,7 +86,7 @@ public:
 
   // the group i contains some data, available in g_test
   void add_group_lgl(int i, const Index& old_idx, int n, Rcpp::LogicalVector g_test) {
-    if ( n == 0) {
+    if (n == 0) {
       empty_group(i);
     } else {
       add_group(i, old_idx, n) ;
@@ -159,7 +159,7 @@ public:
           // otherwise we copy only the data for which test is TRUE
           // so we discard FALSE and NA
           LogicalVector test = idx.tests[i];
-          for (int j = 0, k = 0; j < group_size; j++) {
+          for (int j = 0, k = 0; j < group_size; j++, k++) {
             while (test[k] != TRUE) k++ ;
             out[new_idx[j]] = data[old_idx[k]];
           }
