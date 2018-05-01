@@ -103,7 +103,6 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     SymbolVector vars = get_vars(gdf.data(), true);
     vars.remove(gdf.nvars() - 1);
     set_vars(out, vars);
-    out.attr("drop") = true;
 
     strip_index(out);
   } else {

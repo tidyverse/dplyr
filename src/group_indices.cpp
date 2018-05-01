@@ -406,7 +406,7 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
 
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
-void build_index_cpp(DataFrame& data, bool drop) {
+void build_index_cpp(DataFrame& data) {
   SymbolVector vars(get_vars(data));
   const int nvars = vars.size();
 
@@ -492,15 +492,14 @@ SEXP strip_group_attributes(SEXP df) {
   SET_TAG(attribs, Rf_install("class"));
 
   SEXP p = ATTRIB(df);
-  std::vector<SEXP> black_list(8);
+  std::vector<SEXP> black_list(7);
   black_list[0] = Rf_install("indices");
   black_list[1] = Rf_install("vars");
   black_list[2] = Rf_install("index");
   black_list[3] = Rf_install("labels");
-  black_list[4] = Rf_install("drop");
-  black_list[5] = Rf_install("group_sizes");
-  black_list[6] = Rf_install("biggest_group_size");
-  black_list[7] = Rf_install("class");
+  black_list[4] = Rf_install("group_sizes");
+  black_list[5] = Rf_install("biggest_group_size");
+  black_list[6] = Rf_install("class");
 
   SEXP q = attribs;
   while (! Rf_isNull(p)) {
