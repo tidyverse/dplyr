@@ -46,31 +46,6 @@ public:
     return out;
   }
 
-  inline SEXP subset(const GroupFilterIndices& idx) const {
-    int n = idx.size();
-    VECTOR out = Rcpp::no_init(n);
-    for(int i=0; i<idx.ngroups; i++){
-      int group_size = idx.group_sizes[i];
-      if (group_size > 0) {
-        const SlicingIndex& old_idx = *idx.old_indices[i];
-        IntegerVector new_idx = idx.new_indices[i];
-
-        if (idx.is_full(i)) {
-          for (int j=0; j<group_size; j++) {
-            out[new_idx[j]] = vec[old_idx[j]];
-          }
-        } else {
-          LogicalVector test = idx.tests[i];
-          for (int j=0, k=0; j<group_size; j++) {
-            while(test[k] != TRUE) k++ ;
-            out[new_idx[j]] = vec[old_idx[k]];
-          }
-        }
-      }
-    }
-    return out;
-  }
-
   inline SEXP subset(EmptySubset) const {
     VECTOR out(0);
     copy_most_attributes(out, vec);
@@ -227,10 +202,6 @@ public:
   }
 
   virtual SEXP subset(EmptySubset index) const {
-    return impl->subset(index);
-  }
-
-  virtual SEXP subset(const GroupFilterIndices& index) const {
     return impl->subset(index);
   }
 

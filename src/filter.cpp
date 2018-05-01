@@ -7,7 +7,7 @@
 #include <tools/SymbolString.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/GroupFilterIndices.h>
+#include <dplyr/NaturalDataFrame.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallProxy.h>
@@ -41,16 +41,175 @@ SEXP check_result_lgl_type(SEXP tmp) {
   return tmp;
 }
 
-template <typename SlicedTibble, typename Subsets>
-DataFrame filter_grouped(const SlicedTibble& gdf, const NamedQuosure& quo) {
-  GroupedCallProxy<SlicedTibble, Subsets> call_proxy(quo.expr(), gdf, quo.env()) ;
-  typename SlicedTibble::group_iterator git = gdf.group_begin();
+template <typename Index>
+class GroupFilterIndices {
+public:
+  int ngroups;
+
+  std::vector<Index> old_indices;
+  Rcpp::List tests;
+  Rcpp::List new_indices;
+  Rcpp::IntegerVector group_sizes;
+  int biggest_group_size ;
+
+private:
+
+  int k;
+
+public:
+
+  GroupFilterIndices(int ngroups_) :
+  ngroups(ngroups_),
+
+  old_indices(ngroups),
+  tests(ngroups),
+  new_indices(ngroups),
+  group_sizes(ngroups),
+  biggest_group_size(0),
+  k(0)
+  {}
+
+  void empty_group(int i){
+    group_sizes[i] = 0;
+    new_indices[i] = Rcpp::IntegerVector::create();
+  }
+
+  void add_group(int i, const Index& old_idx, int n) {
+    old_indices[i] = old_idx;
+    group_sizes[i] = n;
+    new_indices[i] = Rcpp::seq(k, k+n-1) ;
+    if (biggest_group_size < n) biggest_group_size = n;
+    k += n ;
+  }
+
+  void add_group_lgl(int i, const Index& old_idx, int n, Rcpp::LogicalVector g_test){
+    add_group(i, old_idx, n) ;
+    tests[i] = g_test;
+  }
+
+  inline int size() const {
+    return k;
+  }
+
+  inline bool is_full(int i) const {
+    return group_sizes[i] == old_indices[i].size();
+  }
+
+};
+
+
+template <typename Index>
+class FilterVectorVisitor {
+public:
+  virtual ~FilterVectorVisitor() {};
+
+  virtual SEXP subset(const GroupFilterIndices<Index>&) = 0;
+};
+
+template <int RTYPE, typename Index>
+class FilterVectorVisitorImpl : public FilterVectorVisitor<Index> {
+public:
+  typedef typename Rcpp::Vector<RTYPE> Vec;
+
+  FilterVectorVisitorImpl(Vec data_) :
+    data(data_)
+  {}
+
+  virtual SEXP subset(const GroupFilterIndices<Index>& idx) {
+    int n = idx.size();
+    Vec out = Rcpp::no_init(n);
+    copy_most_attributes(out, data);
+
+    for(int i=0; i<idx.ngroups; i++){
+      int group_size = idx.group_sizes[i];
+      if (group_size > 0) {
+        const Index& old_idx = idx.old_indices[i];
+
+        IntegerVector new_idx = idx.new_indices[i];
+        if (idx.is_full(i)) {
+          for (int j=0; j<group_size; j++) {
+            out[new_idx[j]] = data[old_idx[j]];
+          }
+        } else {
+          LogicalVector test = idx.tests[i];
+          for (int j=0, k=0; j<group_size; j++) {
+            while(test[k] != TRUE) k++ ;
+            out[new_idx[j]] = data[old_idx[k]];
+          }
+        }
+      }
+    }
+    return out;
+  }
+
+private:
+  Vec data;
+};
+
+template <typename Index>
+inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
+  switch (TYPEOF(data)) {
+  case INTSXP:
+    return FilterVectorVisitorImpl<INTSXP, Index>(data).subset(idx);
+  case REALSXP:
+    return FilterVectorVisitorImpl<REALSXP, Index>(data).subset(idx);
+  case LGLSXP:
+    return FilterVectorVisitorImpl<LGLSXP, Index>(data).subset(idx);
+  case STRSXP:
+    return FilterVectorVisitorImpl<STRSXP, Index>(data).subset(idx);
+  case RAWSXP:
+    return FilterVectorVisitorImpl<RAWSXP, Index>(data).subset(idx);
+  case CPLXSXP:
+    return FilterVectorVisitorImpl<CPLXSXP, Index>(data).subset(idx);
+  }
+
+  return R_NilValue;
+}
+
+template <typename Index, typename SlicedTibble>
+class SlicedTibbleRebuilder{
+public:
+  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index, const DataFrame& data){}
+  void reconstruct(List& out){}
+};
+
+template <typename Index>
+class SlicedTibbleRebuilder<Index, GroupedDataFrame>{
+public:
+  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index_, const DataFrame& data_) :
+    index(index_),
+    data(data_)
+  {}
+
+  void reconstruct(List& out){
+    out.attr("indices") = index.new_indices;
+    out.attr("vars") = data.attr("vars");
+    out.attr("group_sizes") = index.group_sizes;
+    out.attr("labels") = data.attr("labels");
+    out.attr("biggest_group_size") = index.biggest_group_size;
+  }
+
+private:
+  const GroupFilterIndices<Index>& index;
+  const DataFrame& data;
+};
+
+
+template <typename SlicedTibble>
+SEXP filter_impl(const SlicedTibble& gdf, const NamedQuosure& quo) {
+  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
+  typedef GroupedCallProxy<SlicedTibble, LazySubsets> Proxy;
+  typedef typename SlicedTibble::group_iterator GroupIterator;
+  typedef typename SlicedTibble::slicing_index Index ;
+
+  Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
+  GroupIterator git = gdf.group_begin();
 
   int ngroups = gdf.ngroups() ;
-  GroupFilterIndices group_indices(ngroups);
+  GroupFilterIndices<Index> group_indices(ngroups);
 
   for (int i = 0; i < ngroups; i++, ++git) {
-    const SlicingIndex& indices = *git;
+    const Index& indices = *git;
     int chunk_size = indices.size();
 
     // special case with empty group size. no need to evaluate the expression
@@ -63,48 +222,54 @@ DataFrame filter_grouped(const SlicedTibble& gdf, const NamedQuosure& quo) {
     if (g_test.size() == 1) {
       // recycle
       if (g_test[0] == TRUE){
-        group_indices.add_group(i, &indices, chunk_size) ;
+        group_indices.add_group(i, indices, chunk_size) ;
       } else {
         group_indices.empty_group(i);
       }
     } else {
       check_result_length(g_test, chunk_size);
       int yes = std::count(g_test.begin(), g_test.end(), TRUE);
-      group_indices.add_group_lgl(i, &indices, yes, g_test);
+      group_indices.add_group_lgl(i, indices, yes, g_test);
     }
   }
-  DataFrame res = subset(gdf.data(), group_indices, classes_grouped<SlicedTibble>());
-  copy_vars(res, gdf.data());
-  res.attr("indices") = group_indices.new_indices ;
-  res.attr("group_sizes") = group_indices.group_sizes ;
-  res.attr("biggest_group_size") = group_indices.biggest_group_size;
-  res.attr("labels") = gdf.data().attr("labels");
-  return res ;
-  // DataFrameSubsetVisitors visitors(gdf.data()) ;
-  //
-  //
-  // // Subset the grouped data frame
-  // DataFrame res = subset(data, test, classes_grouped<SlicedTibble>());
-  // copy_vars(res, data);
-  // strip_index(res);
-  // return SlicedTibble(res).data();
-}
 
-DataFrame filter_ungrouped(DataFrame df, const NamedQuosure& quo) {
-  CallProxy proxy(quo.expr(), df, quo.env());
-  LogicalVector test = check_result_lgl_type(proxy.eval());
+  const DataFrame& data = gdf.data() ;
 
-  if (test.size() == 1) {
-    if (test[0] == TRUE) {
-      return df;
-    } else {
-      return empty_subset(df, classes_not_grouped());
-    }
-  } else {
-    check_result_length(test, df.nrows());
-    return subset(df, test, classes_not_grouped());
+  int nc = data.size();
+  List out(data.size());
+
+  // this is shared by all types of SlicedTibble
+  copy_most_attributes(out, data);
+  copy_class(out, data);
+  copy_names(out, data);
+  set_rownames(out, group_indices.size());
+
+  // extract each column
+  for (int i=0; i<nc; i++) {
+    out[i] = filter_visit(data[i], group_indices);
   }
+
+  // set the specific attributes
+  SlicedTibbleRebuilder<Index,SlicedTibble>(group_indices, data).reconstruct(out);
+
+  return out;
 }
+
+// DataFrame filter_ungrouped(DataFrame df, const NamedQuosure& quo) {
+//   CallProxy proxy(quo.expr(), df, quo.env());
+//   LogicalVector test = check_result_lgl_type(proxy.eval());
+//
+//   if (test.size() == 1) {
+//     if (test[0] == TRUE) {
+//       return df;
+//     } else {
+//       return empty_subset(df, classes_not_grouped());
+//     }
+//   } else {
+//     check_result_length(test, df.nrows());
+//     return subset(df, test, classes_not_grouped());
+//   }
+// }
 
 // [[Rcpp::export]]
 SEXP filter_impl(DataFrame df, NamedQuosure quo) {
@@ -115,10 +280,10 @@ SEXP filter_impl(DataFrame df, NamedQuosure quo) {
   assert_all_white_list(df);
 
   if (is<GroupedDataFrame>(df)) {
-    return filter_grouped<GroupedDataFrame, LazyGroupedSubsets>(GroupedDataFrame(df), quo);
+    return filter_impl<GroupedDataFrame>(GroupedDataFrame(df), quo);
   } else if (is<RowwiseDataFrame>(df)) {
-    return filter_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(RowwiseDataFrame(df), quo);
+    return filter_impl<RowwiseDataFrame>(RowwiseDataFrame(df), quo);
   } else {
-    return filter_ungrouped(df, quo);
+    return filter_impl<NaturalDataFrame>(NaturalDataFrame(df), quo);
   }
 }

@@ -169,6 +169,18 @@ CharacterVector get_class(SEXP x) {
   return default_chars(class_attr, 0);
 }
 
+inline void copy_attrib(SEXP out, SEXP origin, SEXP symbol){
+  Rf_setAttrib(out, symbol, Rf_getAttrib(origin, symbol));
+}
+
+void copy_class(SEXP out, SEXP origin) {
+  copy_attrib(out,origin, R_ClassSymbol);
+}
+
+void copy_names(SEXP out, SEXP origin) {
+  copy_attrib(out, origin, R_NamesSymbol);
+}
+
 SEXP set_class(SEXP x, const CharacterVector& class_) {
   SEXP class_attr = class_.length() == 0 ? R_NilValue : (SEXP)class_;
   return Rf_setAttrib(x, R_ClassSymbol, class_attr);
