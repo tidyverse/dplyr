@@ -20,7 +20,7 @@ public:
 // It is used in grouped operations (group_by()).
 class GroupedSlicingIndex : public SlicingIndex {
 public:
-  GroupedSlicingIndex(): data(), group_index(-1){}
+  GroupedSlicingIndex(): data(), group_index(-1) {}
   GroupedSlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
   GroupedSlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
 
@@ -45,7 +45,7 @@ private:
 // It is used in rowwise operations (rowwise()).
 class RowwiseSlicingIndex : public SlicingIndex {
 public:
-  RowwiseSlicingIndex(): start(0){}
+  RowwiseSlicingIndex(): start(0) {}
   RowwiseSlicingIndex(const int start_) : start(start_) {}
 
   inline int size() const {
@@ -71,7 +71,7 @@ private:
 // to address the rows.
 class NaturalSlicingIndex : public SlicingIndex {
 public:
-  NaturalSlicingIndex(): n(0){}
+  NaturalSlicingIndex(): n(0) {}
   NaturalSlicingIndex(const int n_) : n(n_) {}
 
   virtual int size() const {
