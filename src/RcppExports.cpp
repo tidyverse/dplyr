@@ -193,6 +193,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// slice_impl
+SEXP slice_impl(DataFrame df, QuosureList dots);
+RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
+    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
+    return rcpp_result_gen;
+END_RCPP
+}
 // grouped_df_impl
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index);
 RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP build_indexSEXP) {
@@ -548,18 +560,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// slice_impl
-SEXP slice_impl(DataFrame df, QuosureList dots);
-RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
-    return rcpp_result_gen;
-END_RCPP
-}
 // summarise_impl
 SEXP summarise_impl(DataFrame df, QuosureList dots);
 RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP) {
@@ -705,6 +705,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 3},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
+    {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
     {"_dplyr_as_regular_df", (DL_FUNC) &_dplyr_as_regular_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
@@ -728,7 +729,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_union_data_frame", (DL_FUNC) &_dplyr_union_data_frame, 2},
     {"_dplyr_intersect_data_frame", (DL_FUNC) &_dplyr_intersect_data_frame, 2},
     {"_dplyr_setdiff_data_frame", (DL_FUNC) &_dplyr_setdiff_data_frame, 2},
-    {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 2},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
