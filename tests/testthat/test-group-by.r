@@ -70,9 +70,8 @@ test_that("group_by uses shallow copy", {
 })
 
 test_that("FactorVisitor handles NA. #183", {
-  skip("until we can group again by a factor that has NA")
-  g <- group_by(MASS::survey, M.I)
-  expect_equal(g$M.I, MASS::survey$M.I)
+  d <- data.frame(x = 1:3, f = factor(c("a", "b", NA)))
+  expect_error(group_by(d, f), "Column `f` contains implicit missing values")
 })
 
 test_that("group_by orders by groups. #242", {
