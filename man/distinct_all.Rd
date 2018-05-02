@@ -40,13 +40,15 @@ functions and strings representing function names.}
 }
 \description{
 These \link{scoped} variants of \code{\link[=distinct]{distinct()}} extract distinct rows by a
-selection of variables. Like \code{\link[=distinct]{distinct()}}, you can modify the
+selection of variables. Like \code{distinct()}, you can modify the
 variables before ordering with \code{\link[=funs]{funs()}}.
 }
 \examples{
-df <- data_frame(x = rep(2:5, each=2) / 2, y = rep(2:3, each = 4) / 2)
+df <- data_frame(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
 df
 distinct_all(df)
+distinct_at(df, vars(x,y))
+distinct_if(df, is.numeric)
 
 # You can supply a function that will be applied before extracting the distinct values
 # The variables of the sorted tibble keep their original values.
