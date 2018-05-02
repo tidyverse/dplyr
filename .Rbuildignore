@@ -32,3 +32,4 @@ demo/pandas
 ^CONDUCT\.md$
 ^archive$
 ^\.drake$
+^CRAN-RELEASE$
