@@ -238,7 +238,6 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
   size <- enquo(size)
   weight <- enquo(weight)
 
-  weight <- enquo(weight)
   slice(tbl, sample.int(n(), check_size(!!size, n(), replace = replace), replace = replace, prob = !!weight))
 }
 
