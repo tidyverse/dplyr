@@ -1,3 +1,12 @@
+- `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
+- `sample_n()` and `sample_frac()` can use `n()` (#3527).
+- `sample_n()` and `sample_frac()` handle lazy grouped data frames (#3380).
+- Added scoped variants for `distinct()`: `distinct_at()`, `distinct_if()`, `distinct_all()` (#2948).
+- `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux).
+- Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
+- Add documentation example for moving variable to back in `?select` (#3051).
+
+
 # dplyr 0.7.5 (2018-04-14)
 
 ## Breaking changes for package developers
