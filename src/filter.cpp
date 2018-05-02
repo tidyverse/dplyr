@@ -34,6 +34,31 @@ SEXP check_result_lgl_type(SEXP tmp) {
   return tmp;
 }
 
+inline SEXP check_filter_integer_result(SEXP tmp) {
+  if (TYPEOF(tmp) != INTSXP && TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {
+    stop("slice condition does not evaluate to an integer or numeric vector. ");
+  }
+  return tmp;
+}
+
+struct SlicePositivePredicate {
+  int max;
+  SlicePositivePredicate(int max_) : max(max_) {}
+
+  inline bool operator()(int i) const {
+    return i > 0 && i <= max ;
+  }
+};
+
+struct SliceNegativePredicate {
+  int min;
+  SliceNegativePredicate(int max_) : min(-max_) {}
+
+  inline bool operator()(int i) const {
+    return i >= min && i < 0;
+  }
+};
+
 // class to collect indices for each group
 template <typename Index>
 class GroupFilterIndices {
@@ -94,6 +119,32 @@ public:
     }
   }
 
+  void add_group_slice_positive(int i, const Index& old_idx, const IntegerVector& g_idx) {
+    int old_group_size = old_idx.size();
+    int new_group_size = std::count_if(g_idx.begin(), g_idx.end(), SlicePositivePredicate(old_group_size));
+    if (new_group_size == 0) {
+      empty_group(i);
+    } else {
+      add_group(i, old_idx, new_group_size);
+      tests[i] = g_idx ;
+    }
+  }
+
+  void add_group_slice_negative(int i, const Index& old_idx, const IntegerVector& g_idx) {
+    int old_group_size = old_idx.size();
+    SliceNegativePredicate pred(old_group_size);
+    LogicalVector test(old_group_size, TRUE);
+    for (int j = 0; j < g_idx.size(); j++) {
+      int idx = g_idx[j];
+      if (pred(idx)) {
+        test[-idx - 1] = FALSE;
+      }
+    }
+    int n = std::count(test.begin(), test.end(), TRUE);
+    add_group_lgl(i, old_idx, n, test);
+  }
+
+
   // the total number of rows
   // only makes sense when the object is fully trained
   inline int size() const {
@@ -128,11 +179,11 @@ public:
     copy_most_attributes(data, source);
   }
 
-  inline void copy(int i, int j){
+  inline void copy(int i, int j) {
     data[i] = source[j];
   }
 
-  inline operator SEXP(){
+  inline operator SEXP() {
     return data;
   }
 
@@ -152,11 +203,11 @@ public:
     copy_most_attributes(data, source);
   }
 
-  inline void copy(int i, int j){
+  inline void copy(int i, int j) {
     data.row(i) = source.row(j);
   }
 
-  inline operator SEXP(){
+  inline operator SEXP() {
     return data;
   }
 
@@ -195,12 +246,12 @@ public:
             out.copy(new_idx[j], old_idx[j]);
           }
         } else {
-          // otherwise we copy only the data for which test is TRUE
-          // so we discard FALSE and NA
-          LogicalVector test = idx.tests[i];
-          for (int j = 0, k = 0; j < group_size; j++, k++) {
-            while (test[k] != TRUE) k++ ;
-            out.copy(new_idx[j], old_idx[k]);
+          SEXP test = idx.tests[i];
+
+          if (is<LogicalVector>(test)) {
+            copy_all_lgl(test, out, group_size, new_idx, old_idx);
+          } else {
+            copy_all_int(test, out, group_size, new_idx, old_idx);
           }
         }
       }
@@ -209,6 +260,22 @@ public:
   }
 
 private:
+
+  void copy_all_lgl(LogicalVector test, Data<RTYPE>& out, int group_size, const IntegerVector& new_idx, const Index& old_idx) {
+    for (int j = 0, k = 0; j < group_size; j++, k++) {
+      while (test[k] != TRUE) k++ ;
+      out.copy(new_idx[j], old_idx[k]);
+    }
+  }
+
+  void copy_all_int(IntegerVector test, Data<RTYPE>& out, int group_size, const IntegerVector& new_idx, const Index& old_idx) {
+    SlicePositivePredicate pred(old_idx.size());
+    for (int j = 0, k = 0; j < group_size; j++, k++) {
+      while (!pred(test[k])) k++ ;
+      out.copy(new_idx[j], old_idx[test[k] - 1]);
+    }
+  }
+
   data_type data;
 };
 
@@ -238,9 +305,9 @@ inline SEXP filter_visit_impl(SEXP data, const GroupFilterIndices<Index>& idx) {
 template <typename Index>
 inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
   if (Rf_isMatrix(data)) {
-    return filter_visit_impl<Index, FilterVector>(data, idx) ;
-  } else {
     return filter_visit_impl<Index, FilterMatrix>(data, idx) ;
+  } else {
+    return filter_visit_impl<Index, FilterVector>(data, idx) ;
   }
 }
 
@@ -275,6 +342,31 @@ private:
   const GroupFilterIndices<Index>& index;
   const DataFrame& data;
 };
+
+template <typename SlicedTibble, typename Index>
+SEXP structure_filter(const DataFrame& data, const GroupFilterIndices<Index>& group_indices) {
+  // create the result data frame
+  int nc = data.size();
+  List out(data.size());
+
+  // this is shared by all types of SlicedTibble
+  copy_most_attributes(out, data);
+  copy_class(out, data);
+  copy_names(out, data);
+  set_rownames(out, group_indices.size());
+
+  // extract each column
+  for (int i = 0; i < nc; i++) {
+    out[i] = filter_visit(data[i], group_indices);
+  }
+
+  // set the specific attributes
+  // currently this only does anything for SlicedTibble = GroupedDataFrame
+  // i.e. retain the indices, labels, ... attributes
+  SlicedTibbleRebuilder<Index, SlicedTibble>(group_indices, data).reconstruct(out);
+
+  return out;
+}
 
 
 template <typename SlicedTibble>
@@ -322,28 +414,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
     }
   }
 
-
-  // create the result data frame
-  int nc = data.size();
-  List out(data.size());
-
-  // this is shared by all types of SlicedTibble
-  copy_most_attributes(out, data);
-  copy_class(out, data);
-  copy_names(out, data);
-  set_rownames(out, group_indices.size());
-
-  // extract each column
-  for (int i = 0; i < nc; i++) {
-    out[i] = filter_visit(data[i], group_indices);
-  }
-
-  // set the specific attributes
-  // currently this only does anything for SlicedTibble = GroupedDataFrame
-  // i.e. retain the indices, labels, ... attributes
-  SlicedTibbleRebuilder<Index, SlicedTibble>(group_indices, data).reconstruct(out);
-
-  return out;
+  return structure_filter<SlicedTibble, Index>(data, group_indices) ;
 }
 
 // [[Rcpp::export]]
@@ -360,5 +431,92 @@ SEXP filter_impl(DataFrame df, NamedQuosure quo) {
     return filter_template<RowwiseDataFrame>(RowwiseDataFrame(df), quo);
   } else {
     return filter_template<NaturalDataFrame>(NaturalDataFrame(df), quo);
+  }
+}
+
+class CountIndices {
+public:
+  CountIndices(int nr_, IntegerVector test_) : nr(nr_), test(test_), n_pos(0), n_neg(0) {
+
+    for (int j = 0; j < test.size(); j++) {
+      int i = test[j];
+      if (i > 0 && i <= nr) {
+        n_pos++;
+      } else if (i < 0 && i >= -nr) {
+        n_neg++;
+      }
+    }
+
+    if (n_neg > 0 && n_pos > 0) {
+      stop("Indices must be either all positive or all negative, not a mix of both. Found %d positive indices and %d negative indices", n_pos, n_neg);
+    }
+
+  }
+
+  inline bool is_positive() const {
+    return n_pos > 0;
+  }
+
+  inline bool is_negative() const {
+    return n_neg > 0;
+  }
+
+  inline int get_n_positive() const {
+    return n_pos;
+  }
+  inline int get_n_negative() const {
+    return n_neg;
+  }
+
+private:
+  int nr;
+  IntegerVector test;
+  int n_pos;
+  int n_neg;
+};
+
+template <typename SlicedTibble>
+DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
+  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
+  typedef GroupedCallProxy<SlicedTibble, LazySubsets> Proxy;
+  typedef typename SlicedTibble::group_iterator group_iterator;
+  typedef typename SlicedTibble::slicing_index Index ;
+  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
+
+  Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
+  const DataFrame& data = gdf.data() ;
+  int ngroups = gdf.ngroups() ;
+  SymbolVector names = data.names();
+
+  GroupFilterIndices<Index> group_indices(ngroups);
+
+  group_iterator git = gdf.group_begin();
+  for (int i = 0; i < ngroups; i++, ++git) {
+    const Index& indices = *git;
+    int nr = indices.size();
+    IntegerVector g_test = check_filter_integer_result(call_proxy.get(indices));
+    CountIndices counter(indices.size(), g_test);
+
+    if (counter.is_positive()) {
+      group_indices.add_group_slice_positive(i, indices, g_test);
+    } else if (counter.is_negative()) {
+      group_indices.add_group_slice_negative(i, indices, g_test);
+    } else {
+      group_indices.empty_group(i);
+    }
+  }
+
+  return structure_filter<SlicedTibble, Index>(data, group_indices);
+}
+
+// [[Rcpp::export]]
+SEXP slice_impl(DataFrame df, QuosureList dots) {
+  if (dots.size() == 0) return df;
+  if (dots.size() != 1)
+    stop("slice only accepts one expression");
+  if (is<GroupedDataFrame>(df)) {
+    return slice_template<GroupedDataFrame>(GroupedDataFrame(df), dots[0]);
+  } else {
+    return slice_template<NaturalDataFrame>(NaturalDataFrame(df), dots[0]);
   }
 }
