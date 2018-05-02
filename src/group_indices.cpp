@@ -247,12 +247,12 @@ private:
       int idx = range[i];
       int value = f[idx];
 
-      // will support it later
-      if (value == NA_INTEGER) stop("NA not supported");
+      if (value == NA_INTEGER) {
+        bad_col(visitors.name(depth), "contains implicit missing values. Consider `forcats::fct_explicit_na` to turn them explicit");
+      }
       indices[value - 1].push_back(idx);
     }
   }
-
 
   int depth;
 
