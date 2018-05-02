@@ -78,6 +78,10 @@ select(iris, ends_with("Width"))
 # Move Species variable to the front
 select(iris, Species, everything())
 
+# Move Sepal.Length variable to back
+# first select all variables except Sepal.Length, then re select Sepal.Length
+select(iris, -Sepal.Length, Sepal.Length)
+
 df <- as.data.frame(matrix(runif(100), nrow = 10))
 df <- tbl_df(df[c(3, 4, 7, 1, 9, 8, 5, 2, 6, 10)])
 select(df, V4:V6)
