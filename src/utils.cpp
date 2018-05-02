@@ -357,8 +357,8 @@ bool is_variable_reference(SEXP expr) {
   SEXP second = CADDR(expr);
   SEXP fun = CAR(expr);
 
-  // .data$x
-  if (fun == R_DollarSymbol && TYPEOF(second) == SYMSXP)
+  // .data$x or .data$"x"
+  if (fun == R_DollarSymbol && (TYPEOF(second) == SYMSXP || TYPEOF(second) == STRSXP) )
     return true;
 
   // .data[["x"]]
