@@ -291,13 +291,12 @@ test_that("grouped filter handles indices (#880)", {
   expect_equal(attr(res, "indices"), attr(res2, "indices"))
 })
 
-test_that("filter(FALSE) drops indices", {
-  skip("until discussion is #3492 is resolved")
+test_that("filter(FALSE) handles indices", {
   out <- mtcars %>%
     group_by(cyl) %>%
     filter(FALSE) %>%
     attr("indices")
-  expect_identical(out, list())
+  expect_identical(out, list(integer(), integer(), integer()))
 })
 
 test_that("filter handles S4 objects (#1366)", {
