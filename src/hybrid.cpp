@@ -386,6 +386,7 @@ Call GroupedHybridCall::simplify(const SlicingIndex& indices) const {
   Call call = clone(original_call);
   while (simplified(call)) {}
   clear_indices();
+
   return call;
 }
 
@@ -410,7 +411,11 @@ bool GroupedHybridCall::simplified(Call& call) const {
 bool GroupedHybridCall::replace(SEXP p) const {
   LOG_VERBOSE;
   SEXP obj = CAR(p);
+
   if (TYPEOF(obj) == LANGSXP) {
+
+    if (CAR(obj) == Rf_install("function")) return false ;
+
     boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
     if (res) {
       SETCAR(p, res->process(get_indices()));
