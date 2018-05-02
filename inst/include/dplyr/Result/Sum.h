@@ -15,7 +15,7 @@ struct Sum {
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
-      double value = ptr[indices[i]];
+      STORAGE value = ptr[indices[i]];
 
       if (Rcpp::traits::is_na<RTYPE>(value)) {
         if (NA_RM) {
@@ -64,9 +64,9 @@ struct Sum<REALSXP, NA_RM, Index> {
 } // namespace internal
 
 template <int RTYPE, bool NA_RM>
-class Sum : public Processor< RTYPE, Sum<RTYPE, NA_RM> > {
-public:
-  typedef Processor< RTYPE, Sum<RTYPE, NA_RM> > Base;
+class Sum : public Processor < RTYPE == REALSXP ? REALSXP : INTSXP, Sum<RTYPE, NA_RM> > {
+public :
+  typedef Processor < RTYPE == REALSXP ? REALSXP : INTSXP, Sum<RTYPE, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   Sum(SEXP x) :

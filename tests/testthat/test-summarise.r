@@ -1032,3 +1032,17 @@ test_that("first() and last() can be called without dplyr loaded (#3498)", {
   expect_equal(df$y, 3L)
   expect_equal(df$z, 1L)
 })
+
+test_that("hybrid sum handles NA correctly (#3528)",{
+  d <- tibble(x = c(1L,2L,NA) )
+
+  expect_equal( summarise(d, x = sum(x, na.rm = TRUE)), tibble(x = 3L))
+  expect_equal( summarise(d, x = sum(x, na.rm = FALSE)), tibble(x = NA_integer_))
+  expect_equal( summarise(d, x = sum(x)), tibble(x = NA_integer_))
+
+  d <- tibble(x = c(TRUE, FALSE, NA) )
+  expect_equal( summarise(d, x = sum(x, na.rm = TRUE)), tibble(x = 1L))
+  expect_equal( summarise(d, x = sum(x, na.rm = FALSE)), tibble(x = NA_integer_))
+  expect_equal( summarise(d, x = sum(x)), tibble(x = NA_integer_))
+
+})
