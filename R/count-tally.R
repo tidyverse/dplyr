@@ -63,7 +63,7 @@
 tally <- function(x, wt, sort = FALSE) {
   wt <- enquo(wt)
 
-  if (quo_is_missing(wt) && "n" %in% names(x)) {
+  if (quo_is_missing(wt) && "n" %in% tbl_vars(x)) {
     inform("Using `n` as weighting variable")
     wt <- quo(n)
   }
