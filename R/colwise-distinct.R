@@ -1,13 +1,13 @@
 #' Select distinct rows by a selection of variables
 #'
 #' These [scoped] variants of [distinct()] extract distinct rows by a
-#' selection of variables. Like [distinct()], you can modify the
+#' selection of variables. Like `distinct()`, you can modify the
 #' variables before ordering with [funs()].
 #'
 #' @inheritParams scoped
 #' @export
 #' @examples
-#' df <- data_frame(x = rep(2:5, each=2) / 2, y = rep(2:3, each = 4) / 2)
+#' df <- data_frame(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
 #' df
 #' distinct_all(df)
 #' distinct_at(df, vars(x,y))
