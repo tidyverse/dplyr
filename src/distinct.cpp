@@ -15,8 +15,12 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
 
 // [[Rcpp::export]]
 SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep) {
-  if (df.size() == 0)
-    return df;
+  if (df.size() == 0) {
+    DataFrame res = DataFrame::create();
+    copy_most_attributes(res, df);
+    res.attr("row.names") = IntegerVector::create(NA_INTEGER, df.nrows() == 0 ? 0 : -1);
+    return res ;
+  }
 
   // No vars means ungrouped data with keep_all = TRUE.
   if (vars.size() == 0)
