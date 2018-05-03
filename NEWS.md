@@ -93,6 +93,8 @@
 
 * `transmute()` no longer prints a message when including a group variable.
 
+* `group_indices()` can be used, without argument inside a dplyr expression (#1185).
+
 ## Documentation
 
 * Improved documentation for set operations (#3238, @edublancas).
