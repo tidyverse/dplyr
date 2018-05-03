@@ -69,9 +69,20 @@ test_that("group_by uses shallow copy", {
   expect_equal(dfloc(mtcars), dfloc(m1))
 })
 
-test_that("FactorVisitor handles NA. #183", {
-  d <- data.frame(x = 1:3, f = factor(c("a", "b", NA)))
-  expect_error(group_by(d, f), "Column `f` contains implicit missing values")
+test_that("group_by handles NA in factors #341", {
+  d <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
+  g <- group_by(d, f)
+  expect_equal(group_size(g), rep(1L, 3L))
+
+  d <- tibble(
+    f1 = factor(c(1,1,2,2)),
+    f2 = factor(c(1,2,1,NA)),
+    x  = 1:4
+  )
+  expect_equal(
+    group_size(group_by(d, f1, f2)),
+    c(1L,1L,1L,0L,1L)
+  )
 })
 
 test_that("group_by orders by groups. #242", {
