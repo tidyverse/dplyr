@@ -8,6 +8,7 @@
 #include <dplyr/checks.h>
 
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/NaturalDataFrame.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/CallProxy.h>
@@ -44,6 +45,7 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
 }
 
 void check_not_groups(const QuosureList&, const RowwiseDataFrame&) {}
+void check_not_groups(const QuosureList&, const NaturalDataFrame&) {}
 
 void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) {
   int n = quosures.size();

@@ -45,9 +45,9 @@ public:
     return NaturalDataFrameIndexIterator(nrows());
   }
 
-  // SymbolString symbol(int i) const {
-  //   return symbols.get_name(i);
-  // }
+  SymbolString symbol(int i) const {
+    return SymbolString() ;
+  }
 
   DataFrame& data() {
     return data_;
@@ -68,26 +68,32 @@ public:
     return data_.nrows();
   }
 
-  // inline SEXP label(int i) const {
-  //   return labels[i];
-  // }
+  inline SEXP label(int i) const {
+    return R_NilValue ;
+  }
 
   inline int max_group_size() const {
     return nrows();
   }
 
-  // inline bool has_group(const SymbolString& g) const {
-  //   return symbols.has(g);
-  // }
+  inline bool has_group(const SymbolString& g) const {
+    return false ;
+  }
 
   inline NaturalSubset* create_subset(SEXP x) const {
     return natural_subset(x);
   }
 
+  inline int size() const {
+    return data_.size() ;
+  }
+  inline SEXP operator[](int i) {
+    return data_[i];
+  }
+
 private:
 
   DataFrame data_;
-  SymbolMap symbols;
 
 };
 

@@ -271,6 +271,7 @@ test_that("summarise can use newly created variable more than once", {
 })
 
 test_that("summarise creates an empty data frame when no parameters are used", {
+  skip("until we discuss it")
   res <- summarise(mtcars)
   expect_equal(res, data.frame())
 })
