@@ -198,8 +198,20 @@ shallow_copy <- function(data) {
     .Call(`_dplyr_shallow_copy`, data)
 }
 
+is_data_pronoun <- function(expr) {
+    .Call(`_dplyr_is_data_pronoun`, expr)
+}
+
+is_variable_reference <- function(expr) {
+    .Call(`_dplyr_is_variable_reference`, expr)
+}
+
 quo_is_variable_reference <- function(quo) {
     .Call(`_dplyr_quo_is_variable_reference`, quo)
+}
+
+quo_is_data_pronoun <- function(quo) {
+    .Call(`_dplyr_quo_is_data_pronoun`, quo)
 }
 
 #' Cumulativate versions of any, all, and mean
