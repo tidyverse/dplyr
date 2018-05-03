@@ -14,8 +14,7 @@ public:
   GroupedCallReducer(Rcpp::Call call, const Subsets& subsets, const Environment& env, const SymbolString& name_) :
     proxy(call, subsets, env),
     name(name_)
-  {
-  }
+  {}
 
   virtual ~GroupedCallReducer() {};
 

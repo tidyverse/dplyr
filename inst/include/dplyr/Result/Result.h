@@ -3,6 +3,7 @@
 
 #include <dplyr/RowwiseDataFrame.h>
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/NaturalDataFrame.h>
 #include <tools/SlicingIndex.h>
 
 namespace dplyr {
@@ -19,6 +20,10 @@ public:
 
   virtual SEXP process(const SlicingIndex&) {
     return R_NilValue;
+  }
+
+  virtual SEXP process(const NaturalDataFrame& gdf) {
+    return process(NaturalSlicingIndex(gdf.nrows()));
   }
 
 };
