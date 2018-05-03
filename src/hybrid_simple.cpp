@@ -23,6 +23,8 @@ Result* simple_prototype_impl(SEXP arg) {
     return new Fun<INTSXP, narm>(arg);
   case REALSXP:
     return new Fun<REALSXP, narm>(arg);
+  case LGLSXP:
+    return new Fun<LGLSXP, narm>(arg);
   default:
     break;
   }
