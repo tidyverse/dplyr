@@ -191,9 +191,10 @@ public:
     f(data[depth]),
     nlevels(Rf_length(f.attr("levels"))),
 
-    indices(nlevels),
-    slicers(nlevels),
-    slicer_size(0)
+    indices(nlevels + 1),
+    slicers(nlevels + 1),
+    slicer_size(0),
+    has_implicit_na(false)
   {
     train(index_range);
   }
@@ -215,6 +216,15 @@ public:
       std::fill_n(INTEGER(x) + idx.start, idx.size, i + 1);
     }
 
+    if (has_implicit_na) {
+      // collect the indices for the implicit NA pseudo group
+      IntRange idx = slicers[nlevels]->make(vec_labels, copy_visitors, indices_collecter);
+      labels_range.add(idx);
+
+      // fill the labels at these indices
+      std::fill_n(INTEGER(x) + idx.start, idx.size, NA_INTEGER);
+    }
+
     return labels_range;
   }
 
@@ -231,9 +241,13 @@ private:
     } else {
       train_impl(index_range);
     }
-
+    if (!has_implicit_na) {
+      indices.pop_back();
+      slicers.pop_back();
+    }
     // ---- for each level, train child slicers
-    for (int i = 0; i < nlevels; i++) {
+    int n = nlevels + has_implicit_na;
+    for (int i = 0; i < n; i++) {
       slicers[i] = slicer(indices[i], depth + 1, data, visitors);
       slicer_size += slicers[i]->size();
     }
@@ -248,9 +262,13 @@ private:
       int value = f[idx];
 
       if (value == NA_INTEGER) {
-        bad_col(visitors.name(depth), "contains implicit missing values. Consider `forcats::fct_explicit_na` to turn them explicit");
+        // bad_col(visitors.name(depth), "contains implicit missing values. Consider `forcats::fct_explicit_na` to turn them explicit");
+        has_implicit_na = true;
+        indices[nlevels].push_back(idx);
+      } else {
+        indices[value - 1].push_back(idx);
       }
-      indices[value - 1].push_back(idx);
+
     }
   }
 
@@ -265,6 +283,7 @@ private:
   std::vector< std::vector<int> > indices;
   std::vector< boost::shared_ptr<Slicer> > slicers;
   int slicer_size;
+  bool has_implicit_na;
 };
 
 class VectorSlicer : public Slicer {
