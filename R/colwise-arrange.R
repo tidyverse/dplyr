@@ -22,11 +22,7 @@ arrange_all <- function(.tbl, .funs = list(), ..., .by_group = FALSE) {
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  if (inherits(.tbl, "grouped_df")){
-    arrange(.tbl, !!!funs, .by_group = .by_group)
-  } else {
-    arrange(.tbl, !!!funs)
-  }
+  arrange(.tbl, !!!funs, .by_group = .by_group)
 }
 #' @rdname arrange_all
 #' @export
@@ -35,11 +31,7 @@ arrange_at <- function(.tbl, .vars, .funs = list(), ..., .by_group = FALSE) {
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
-  if (inherits(.tbl, "grouped_df")){
-    arrange(.tbl, !!!funs, .by_group = .by_group)
-  } else {
-    arrange(.tbl, !!!funs)
-  }
+  arrange(.tbl, !!!funs, .by_group = .by_group)
 }
 #' @rdname arrange_all
 #' @export
@@ -48,9 +40,5 @@ arrange_if <- function(.tbl, .predicate, .funs = list(), ..., .by_group = FALSE)
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
-  if (inherits(.tbl, "grouped_df")){
-    arrange(.tbl, !!!funs, .by_group = .by_group)
-  } else {
-    arrange(.tbl, !!!funs)
-  }
+  arrange(.tbl, !!!funs, .by_group = .by_group)
 }
