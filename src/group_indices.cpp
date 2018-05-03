@@ -88,20 +88,15 @@ private:
   int index;
 };
 
-
+template <int RTYPE>
 class CopyVectorVisitor {
 public:
-  virtual ~CopyVectorVisitor() {};
-
-  virtual void copy(const IntRange& target_range, int idx_origin) = 0;
-};
-
-template <int RTYPE>
-class CopyVectorVisitorImpl : public CopyVectorVisitor {
-public:
+  // need to fix it in Rcpp first
+  // https://github.com/RcppCore/Rcpp/issues/849
+  // typedef typename Rcpp::Vector<RTYPE, NoProtectStorage> Vec;
   typedef typename Rcpp::Vector<RTYPE> Vec;
 
-  CopyVectorVisitorImpl(Vec target_, Vec origin_) :
+  CopyVectorVisitor(Vec target_, Vec origin_) :
     target(target_), origin(origin_)
   {}
 
@@ -117,31 +112,34 @@ private:
   Vec origin;
 };
 
-inline CopyVectorVisitor* copy_visitor(SEXP target, SEXP origin) {
+inline void copy_visit(const IntRange& target_range, int idx_origin, SEXP target, SEXP origin) {
   switch (TYPEOF(target)) {
   case INTSXP:
-    return new CopyVectorVisitorImpl<INTSXP>(target, origin);
+    CopyVectorVisitor<INTSXP>(target, origin).copy(target_range, idx_origin);
+    break;
   case REALSXP:
-    return new CopyVectorVisitorImpl<REALSXP>(target, origin);
+    CopyVectorVisitor<REALSXP>(target, origin).copy(target_range, idx_origin);
+    break;
   case LGLSXP:
-    return new CopyVectorVisitorImpl<LGLSXP>(target, origin);
+    CopyVectorVisitor<LGLSXP>(target, origin).copy(target_range, idx_origin);
+    break;
   case STRSXP:
-    return new CopyVectorVisitorImpl<STRSXP>(target, origin);
+    CopyVectorVisitor<STRSXP>(target, origin).copy(target_range, idx_origin);
+    break;
   case RAWSXP:
-    return new CopyVectorVisitorImpl<RAWSXP>(target, origin);
+    CopyVectorVisitor<RAWSXP>(target, origin).copy(target_range, idx_origin);
+    break;
   case CPLXSXP:
-    return new CopyVectorVisitorImpl<CPLXSXP>(target, origin);
+    CopyVectorVisitor<CPLXSXP>(target, origin).copy(target_range, idx_origin);
+    break;
   }
-
-  return 0;
 }
-
 
 class Slicer {
 public:
   virtual ~Slicer() {};
   virtual int size() = 0;
-  virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) = 0;
+  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) = 0;
 };
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_);
 
@@ -153,7 +151,7 @@ public:
     return 1;
   }
 
-  virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) {
+  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
     return IntRange(indices_collecter.collect(index_range), 1);
   }
 
@@ -203,13 +201,13 @@ public:
     return slicer_size;
   }
 
-  virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) {
+  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
     IntRange labels_range;
     SEXP x = vec_labels[depth];
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, copy_visitors, indices_collecter);
+      IntRange idx = slicers[i]->make(vec_labels, indices_collecter);
       labels_range.add(idx);
 
       // fill the labels at these indices
@@ -218,7 +216,7 @@ public:
 
     if (has_implicit_na) {
       // collect the indices for the implicit NA pseudo group
-      IntRange idx = slicers[nlevels]->make(vec_labels, copy_visitors, indices_collecter);
+      IntRange idx = slicers[nlevels]->make(vec_labels, indices_collecter);
       labels_range.add(idx);
 
       // fill the labels at these indices
@@ -321,17 +319,17 @@ public:
     return slicer_size;
   }
 
-  virtual IntRange make(List& vec_labels, const std::vector< boost::shared_ptr<CopyVectorVisitor> >& copy_visitors, ListCollecter& indices_collecter) {
+  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
     IntRange labels_range;
     int nlevels = slicers.size();
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, copy_visitors, indices_collecter);
+      IntRange idx = slicers[i]->make(vec_labels, indices_collecter);
       labels_range.add(idx);
 
       // fill the labels at these indices
-      copy_visitors[depth]->copy(idx, agents[i]);
+      copy_visit(idx, agents[i], vec_labels[depth], data[depth]);
     }
 
     return labels_range;
@@ -460,18 +458,13 @@ void build_index_cpp(DataFrame& data) {
   List vec_labels(nvars);
   List indices(ncases);
   ListCollecter indices_collecter(indices);
-  std::vector< boost::shared_ptr<CopyVectorVisitor> > copy_visitors;
 
   for (int i = 0; i < nvars; i++) {
     vec_labels[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
     copy_most_attributes(vec_labels[i], visited_data[i]);
-
-    copy_visitors.push_back(
-      boost::shared_ptr<CopyVectorVisitor>(copy_visitor(vec_labels[i], visited_data[i]))
-    );
   }
 
-  s->make(vec_labels, copy_visitors, indices_collecter);
+  s->make(vec_labels, indices_collecter);
 
   vec_labels.attr("names") = label_names;
   vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
@@ -494,7 +487,6 @@ void build_index_cpp(DataFrame& data) {
   data.attr("group_sizes") = group_sizes;
   data.attr("biggest_group_size") = biggest_group;
   data.attr("labels") = vec_labels;
-
 }
 
 // Updates attributes in data by reference!
