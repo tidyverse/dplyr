@@ -64,9 +64,9 @@ struct Sum<REALSXP, NA_RM, Index> {
 } // namespace internal
 
 template <int RTYPE, bool NA_RM>
-class Sum : public Processor < RTYPE == REALSXP ? REALSXP : INTSXP, Sum<RTYPE, NA_RM> > {
+class Sum : public Processor < RTYPE == LGLSXP ? INTSXP : RTYPE, Sum<RTYPE, NA_RM> > {
 public :
-  typedef Processor < RTYPE == REALSXP ? REALSXP : INTSXP, Sum<RTYPE, NA_RM> > Base;
+  typedef Processor < RTYPE == LGLSXP ? INTSXP : RTYPE, Sum<RTYPE, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   Sum(SEXP x) :
