@@ -114,6 +114,8 @@
 
 * `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
 
+* Improved performance for wide tibbles (#3335). 
+
 ## Internal
 
 * Compute variable names for joins in R (#3430).
