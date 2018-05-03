@@ -125,6 +125,8 @@
 
 * Improved performance for wide tibbles (#3335). 
 
+* Faster hybrid `sum()` on logical vectors (#3189). 
+
 ## Internal
 
 * Compute variable names for joins in R (#3430).
