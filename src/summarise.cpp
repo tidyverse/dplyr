@@ -86,6 +86,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
       }
       result = res->process(gdf);
     }
+    check_not_null(result, quosure.name());
     check_length(Rf_length(result), gdf.ngroups(), "a summary value", quosure.name());
 
     results[i] = result;
