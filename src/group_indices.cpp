@@ -473,7 +473,7 @@ void build_index_cpp(DataFrame& data, bool warn_na_factors) {
       if (Rf_isFactor(x)) {
         IntegerVector xi(x);
         if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
-          Rcpp::warning("Column `%s` is a factor with implicit NA, consider using `forcats::fct_explicit_na`", CHAR(label_names[i].get()));
+          warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(label_names[i].get())));
         }
       }
     }
@@ -481,7 +481,7 @@ void build_index_cpp(DataFrame& data, bool warn_na_factors) {
 
   vec_labels.attr("names") = label_names;
   vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_labels.attr("class") = "data.frame";
+  vec_labels.attr("class") = classes_not_grouped() ;
   copy_vars(vec_labels, data);
 
   IntegerVector group_sizes = no_init(ncases);
