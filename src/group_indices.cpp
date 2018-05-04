@@ -422,7 +422,7 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
 
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
-void build_index_cpp(DataFrame& data, bool warn_na_factors) {
+void build_index_cpp(DataFrame& data) {
   SymbolVector vars(get_vars(data));
   const int nvars = vars.size();
 
@@ -466,15 +466,12 @@ void build_index_cpp(DataFrame& data, bool warn_na_factors) {
   s->make(vec_labels, indices_collecter);
 
   // warn about NA in factors
-  // if (warn_na_factors) {
-  if (true) {
-    for (int i = 0; i < nvars; i++) {
-      SEXP x = vec_labels[i];
-      if (Rf_isFactor(x)) {
-        IntegerVector xi(x);
-        if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
-          warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(label_names[i].get())));
-        }
+  for (int i = 0; i < nvars; i++) {
+    SEXP x = vec_labels[i];
+    if (Rf_isFactor(x)) {
+      IntegerVector xi(x);
+      if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
+        warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(label_names[i].get())));
       }
     }
   }
