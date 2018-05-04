@@ -116,49 +116,6 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   return out;
 }
 
-//
-// DataFrame summarise_not_grouped(DataFrame df, const QuosureList& dots) {
-//   int nexpr = dots.size();
-//   if (nexpr == 0) return DataFrame();
-//
-//   LazySubsets subsets(df);
-//   NamedListAccumulator<DataFrame> accumulator;
-//   List results(nexpr);
-//
-//   for (int i = 0; i < nexpr; i++) {
-//     Rcpp::checkUserInterrupt();
-//
-//     const NamedQuosure& quosure = dots[i];
-//     Environment env = quosure.env();
-//     Shield<SEXP> expr_(quosure.expr());
-//     SEXP expr = expr_;
-//     SEXP result;
-//
-//     // Unquoted vectors are directly used as column. Expressions are
-//     // evaluated in each group.
-//     if (is_vector(expr)) {
-//       result = validate_unquoted_value(expr, 1, quosure.name());
-//     } else {
-//       boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
-//       if (res) {
-//         result = results[i] = res->process(NaturalSlicingIndex(df.nrows()));
-//       } else {
-//         result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
-//       }
-//       check_supported_type(result, quosure.name());
-//       check_length(Rf_length(result), 1, "a summary value", quosure.name());
-//     }
-//     accumulator.set(quosure.name(), result);
-//     subsets.input_summarised(quosure.name(), SummarisedVariable(result));
-//   }
-//
-//   List data = accumulator;
-//   copy_most_attributes(data, df);
-//   data.names() = accumulator.names();
-//   set_rownames(data, 1);
-//   return data;
-// }
-
 // [[Rcpp::export]]
 SEXP summarise_impl(DataFrame df, QuosureList dots) {
   check_valid_colnames(df);
