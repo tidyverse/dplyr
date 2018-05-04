@@ -260,7 +260,6 @@ private:
       int value = f[idx];
 
       if (value == NA_INTEGER) {
-        // bad_col(visitors.name(depth), "contains implicit missing values. Consider `forcats::fct_explicit_na` to turn them explicit");
         has_implicit_na = true;
         indices[nlevels].push_back(idx);
       } else {
@@ -423,7 +422,7 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
 
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
-void build_index_cpp(DataFrame& data) {
+void build_index_cpp(DataFrame& data, bool warn_na_factors) {
   SymbolVector vars(get_vars(data));
   const int nvars = vars.size();
 
@@ -465,6 +464,20 @@ void build_index_cpp(DataFrame& data) {
   }
 
   s->make(vec_labels, indices_collecter);
+
+  // warn about NA in factors
+  // if (warn_na_factors) {
+  if (true) {
+    for (int i = 0; i < nvars; i++) {
+      SEXP x = vec_labels[i];
+      if (Rf_isFactor(x)) {
+        IntegerVector xi(x);
+        if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
+          Rcpp::warning("Column `%s` is a factor with implicit NA, consider using `forcats::fct_explicit_na`", CHAR(label_names[i].get()));
+        }
+      }
+    }
+  }
 
   vec_labels.attr("names") = label_names;
   vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);

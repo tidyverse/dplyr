@@ -90,8 +90,8 @@ slice_impl <- function(df, dots) {
     .Call(`_dplyr_slice_impl`, df, dots)
 }
 
-grouped_df_impl <- function(data, symbols, build_index = TRUE) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols, build_index)
+grouped_df_impl <- function(data, symbols, build_index = TRUE, warn_na_factors = FALSE) {
+    .Call(`_dplyr_grouped_df_impl`, data, symbols, build_index, warn_na_factors)
 }
 
 as_regular_df <- function(df) {
