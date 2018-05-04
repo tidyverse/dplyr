@@ -270,10 +270,9 @@ test_that("summarise can use newly created variable more than once", {
   }
 })
 
-test_that("summarise creates an empty data frame when no parameters are used", {
-  skip("until we discuss it")
+test_that("summarise creates an empty data frame with one row when no parameters are used", {
   res <- summarise(mtcars)
-  expect_equal(res, data.frame())
+  expect_equal(nrow(res), 1L)
 })
 
 test_that("summarise works with zero-row data frames", {
@@ -579,7 +578,7 @@ test_that("summarise handles list output columns (#832)", {
 test_that("summarise works with empty data frame (#1142)", {
   df <- data.frame()
   res <- df %>% summarise()
-  expect_equal(nrow(res), 0L)
+  expect_equal(nrow(res), 1L)
   expect_equal(length(res), 0L)
 })
 
