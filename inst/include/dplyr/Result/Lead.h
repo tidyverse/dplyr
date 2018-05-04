@@ -28,9 +28,9 @@ public:
     int nrows = gdf.nrows();
     int ng = gdf.ngroups();
 
-    Vector<RTYPE> out = no_init(nrows);
+    Vector<RTYPE> out = no_init(is_summary ? ng : nrows);
     if (is_summary) {
-      for (int i = 0; i < nrows; i++) out[i] = def;
+      for (int i = 0; i < ng; i++) out[i] = def;
     } else {
       GroupedDataFrame::group_iterator git = gdf.group_begin();
       for (int i = 0; i < ng; i++, ++git) {
@@ -51,9 +51,12 @@ public:
 
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
-    Vector<RTYPE> out = no_init(nrows);
-    NaturalSlicingIndex fake(nrows);
-    process_slice(out, index, fake);
+    Vector<RTYPE> out = no_init(is_summary ? 1 : nrows);
+    if (is_summary) {
+      out[0] = def;
+    } else {
+      process_slice(out, index, NaturalSlicingIndex(nrows));
+    }
     copy_most_attributes(out, data);
     return out;
   }
