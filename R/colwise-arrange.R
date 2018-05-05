@@ -5,7 +5,7 @@
 #' variables before ordering with [funs()].
 #'
 #' @inheritParams scoped
-#' @param .by_group see [arrange()]
+#' @inheritParams arrange
 #' @export
 #' @examples
 #' df <- as_tibble(mtcars)
