@@ -82,7 +82,7 @@ public:
   }
 
   virtual int group() const {
-    return -1;
+    return 0 ;
   }
 
   virtual bool is_identity(SEXP x) const {
@@ -111,7 +111,7 @@ public:
   }
 
   inline int group() const {
-    return -1;
+    return 0;
   }
 
 private:

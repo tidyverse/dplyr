@@ -1,6 +1,8 @@
 # dplyr 0.7.5.9001
 
-* Scoped variants of `arrange()` respect the .by_group argument (#3504).
+* `group_indices()` can be used without argument in expressions in verbs (#1185).
+
+* Scoped variants of `arrange()` respect the `.by_group` argument (#3504).
 
 * Improved performance for wide tibbles (#3335).
 
@@ -109,6 +111,8 @@
 * `slice()` no longer enforce tibble classes when input is a simple `data.frame`, and ignores 0 (#3297, #3313).
 
 * `transmute()` no longer prints a message when including a group variable.
+
+* `group_indices()` can be used, without argument inside a dplyr expression (#1185).
 
 ## Documentation
 
