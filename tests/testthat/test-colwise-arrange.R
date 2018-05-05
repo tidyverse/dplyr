@@ -51,3 +51,19 @@ test_that("arrange_if arranges by grouping variable (#3351)", {
     arrange(tbl, gr1, gr2, x)
   )
 })
+
+test_that("scoped arrange respect .by_group (#3245)",{
+  d <- group_by(df, cyl)
+  expect_identical(
+    arrange_all(d, .by_group = TRUE),
+    arrange(d, cyl, mpg, disp)
+  )
+  expect_identical(
+    arrange_if(d, is.numeric, .by_group = TRUE),
+    arrange(d, cyl, mpg, disp)
+  )
+  expect_identical(
+    arrange_at(d, vars(mpg, disp), .by_group = TRUE),
+    arrange(d, cyl, mpg, disp)
+  )
+})
