@@ -1,10 +1,10 @@
 #' Recode values
 #'
 #' This is a vectorised version of [switch()]: you can replace
-#' numeric values based on their position, and character values by their
-#' name. This is an S3 generic: dplyr provides methods for numeric, character,
-#' and factors. For logical vectors, use [if_else()]. For more complicated
-#' criteria, use [case_when()].
+#' numeric values based on their position or their name, and character or factor
+#' values only by their name. This is an S3 generic: dplyr provides methods for
+#' numeric, character, and factors. For logical vectors, use [if_else()]. For
+#' more complicated criteria, use [case_when()].
 #'
 #' You can use `recode()` directly with factors; it will preserve the existing
 #' order of levels while changing the values. Alternatively, you can
@@ -13,13 +13,16 @@
 #' package for more tools for working with factors and their levels.
 #'
 #' @param .x A vector to modify
-#' @param ... Replacements. These should be named for character and factor
-#'   `.x`, and can be named for numeric `.x`. The argument names should be the
-#'   current values to be replaced, and the argument values should be the new
-#'   (replacement) values.
+#' @param ... Replacements. For character and factor `.x`, these should be named
+#'   and replacement is based only on their name. For numeric `.x`, these can be
+#'   named or not. If not named, the replacement is done based on position i.e.
+#'   `.x` represents positions to look for in replacements. See examples.
+#'
+#'   When named, the argument names should be the current values to be replaced, and the
+#'   argument values should be the new (replacement) values.
 #'
 #'   All replacements must be the same type, and must have either
-#'   length one or the same length as x.
+#'   length one or the same length as `.x`.
 #'
 #'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @param .default If supplied, all values not otherwise matched will
@@ -37,44 +40,55 @@
 #'   ordered factor.
 #' @return A vector the same length as `.x`, and the same type as
 #'   the first of `...`, `.default`, or `.missing`.
-#'   `recode_factor()` returns a factor whose levels are in the
-#'   same order as in `...`.
+#'   `recode_factor()` returns a factor whose levels are in the same order as
+#'   in `...`. The levels in `.default` and `.missing` come last.
 #' @export
 #' @examples
-#' # Recode values with named arguments
-#' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
-#' recode(x, a = "Apple")
-#' recode(x, a = "Apple", .default = NA_character_)
+#' # For character values, recode values with named arguments only. Unmatched
+#' # values are unchanged.
+#' char_vec <- sample(c("a", "b", "c"), 10, replace = TRUE)
+#' recode(char_vec, a = "Apple")
+#' recode(char_vec, a = "Apple", b = "Banana")
 #'
-#' # Named arguments also work with numeric values
-#' x <- c(1:5, NA)
-#' recode(x, `2` = 20L, `4` = 40L)
+#' # Use .default as replacement for unmatched values
+#' recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
+#'
+#' # Use a named list for unquote splicing with !!!
+#' level_key <- list(a = "apple", b = "banana", c = "carrot")
+#' recode(char_vec, !!!level_key)
+#'
+#' # For numeric values, named arguments can also be used
+#' num_vec <- c(1:4, NA)
+#' recode(num_vec, `2` = 20L, `4` = 40L)
+#'
+#' # Or if you don't name the arguments, recode() matches by position.
+#' # (Only works for numeric vector)
+#' recode(num_vec, "a", "b", "c", "d")
+#' # .x (position given) looks in (...), then grabs (... value at position)
+#' # so if nothing at position (here 5), it uses .default or NA.
+#' recode(c(1,5,3), "a", "b", "c", "d", .default = "nothing")
 #'
 #' # Note that if the replacements are not compatible with .x,
 #' # unmatched values are replaced by NA and a warning is issued.
-#' recode(x, `2` = "b", `4` = "d")
+#' recode(num_vec, `2` = "b", `4` = "d")
+#' # use .default to change the replacement value
+#' recode(num_vec, "a", "b", "c", .default = "other")
+#' # use .missing to replace missing values in .x
+#' recode(num_vec, "a", "b", "c", .default = "other", .missing = "missing")
 #'
-#' # If you don't name the arguments, recode() matches by position
-#' recode(x, "a", "b", "c")
-#' recode(x, "a", "b", "c", .default = "other")
-#' recode(x, "a", "b", "c", .default = "other", .missing = "missing")
-#'
-#' # Use a named list for unquote splicing with !!!
-#' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
-#' level_key <- list(a = "apple", b = "banana", c = "carrot")
-#' recode(x, !!!level_key)
-#'
-#' # Supply default with levels() for factors
-#' x <- factor(c("a", "b", "c"))
-#' recode(x, a = "Apple", .default = levels(x))
+#' # For factor values, use only named replacements
+#' # and supply default with levels()
+#' factor_vec <- factor(c("a", "b", "c"))
+#' recode(factor_vec, a = "Apple", .default = levels(x))
 #'
 #' # Use recode_factor() to create factors with levels ordered as they
 #' # appear in the recode call. The levels in .default and .missing
 #' # come last.
-#' x <- c(1:4, NA)
-#' recode_factor(x, `1` = "z", `2` = "y", `3` = "x")
-#' recode_factor(x, `1` = "z", `2` = "y", .default = "D")
-#' recode_factor(x, `1` = "z", `2` = "y", .default = "D", .missing = "M")
+#' recode_factor(num_vec, `1` = "z", `2` = "y", `3` = "x")
+#' recode_factor(num_vec, `1` = "z", `2` = "y", `3` = "x",
+#'               .default = "D")
+#' recode_factor(num_vec, `1` = "z", `2` = "y", `3` = "x",
+#'               .default = "D", .missing = "M")
 #'
 #' # When the input vector is a compatible vector (character vector or
 #' # factor), it is reused as default.
@@ -82,9 +96,8 @@
 #' recode_factor(factor(letters[1:3]), b = "z", c = "y")
 #'
 #' # Use a named list to recode factor with unquote splicing.
-#' x <- sample(c("a", "b", "c"), 10, replace = TRUE)
 #' level_key <- list(a = "apple", b = "banana", c = "carrot")
-#' recode_factor(x, !!!level_key)
+#' recode_factor(char_vec, !!!level_key)
 recode <- function(.x, ..., .default = NULL, .missing = NULL) {
   UseMethod("recode")
 }
