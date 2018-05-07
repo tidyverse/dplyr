@@ -36,6 +36,8 @@
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
 #'   these concepts.
+#' @param .preserve when `TRUE` (the default), the grouping structure
+#'   is preserved, otherwise it is recalculated based on the resulting data.
 #' @return An object of the same class as `.data`.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export

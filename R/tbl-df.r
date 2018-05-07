@@ -52,7 +52,7 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 }
 
 #' @export
-filter.tbl_df <- function(.data, ...) {
+filter.tbl_df <- function(.data, ..., .preserve = TRUE) {
   dots <- quos(...)
   if (any(have_name(dots))) {
     bad <- dots[have_name(dots)]
@@ -62,12 +62,16 @@ filter.tbl_df <- function(.data, ...) {
   }
 
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
-  filter_impl(.data, quo)
+  out <- filter_impl(.data, quo)
+  if (!.preserve) {
+    out <- group_by(out, add = TRUE)
+  }
+  out
 }
 #' @export
-filter_.tbl_df <- function(.data, ..., .dots = list()) {
+filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots)
+  filter(.data, !!!dots, .preserve = .preserve)
 }
 
 #' @export
