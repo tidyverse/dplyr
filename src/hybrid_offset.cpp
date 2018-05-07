@@ -73,6 +73,8 @@ Result* leadlag_prototype(SEXP call, const ILazySubsets& subsets, int) {
     return 0;
 
   bool is_summary = subsets.is_summary(name);
+  if (is_summary)
+    return 0;
   int n = args.n;
   data = subsets.get_variable(name);
 
