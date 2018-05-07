@@ -51,16 +51,16 @@
 #'
 #' # Multiple arguments are equivalent to and
 #' filter(starwars, hair_color == "none", eye_color == "black")
-filter <- function(.data, ...) {
+filter <- function(.data, ..., .preserve = TRUE) {
   UseMethod("filter")
 }
 #' @export
-filter.default <- function(.data, ...) {
-  filter_(.data, .dots = compat_as_lazy_dots(...))
+filter.default <- function(.data, ..., .preserve = TRUE) {
+  filter_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
 }
 #' @export
 #' @rdname se-deprecated
-filter_ <- function(.data, ..., .dots = list()) {
+filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
   UseMethod("filter_")
 }
 

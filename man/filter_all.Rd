@@ -18,6 +18,9 @@ filter_at(.tbl, .vars, .vars_predicate, .preserve = TRUE)
 \item{.vars_predicate}{A quoted predicate expression as returned by
 \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}}.}
 
+\item{.preserve}{when \code{TRUE} (the default), the grouping structure
+is preserved, otherwise it is recalculated based on the resulting data.}
+
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or
 returns \code{TRUE} are selected. This argument is passed to

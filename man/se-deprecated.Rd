@@ -43,7 +43,7 @@ group_by_(.data, ..., .dots = list(), add = FALSE)
 
 group_indices_(.data, ..., .dots = list())
 
-filter_(.data, ..., .dots = list())
+filter_(.data, ..., .dots = list(), .preserve = TRUE)
 
 slice_(.data, ..., .dots = list())
 

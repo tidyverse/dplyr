@@ -4,7 +4,7 @@
 \alias{filter}
 \title{Return rows with matching conditions}
 \usage{
-filter(.data, ...)
+filter(.data, ..., .preserve = TRUE)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

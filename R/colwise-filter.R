@@ -8,6 +8,8 @@
 #' @inheritParams scoped
 #' @param .vars_predicate A quoted predicate expression as returned by
 #'   [all_vars()] or [any_vars()].
+#' @param .preserve when `TRUE` (the default), the grouping structure
+#'   is preserved, otherwise it is recalculated based on the resulting data.
 #' @export
 #' @examples
 #' # While filter() accepts expressions with specific variables, the
