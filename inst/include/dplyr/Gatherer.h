@@ -23,11 +23,11 @@ public:
 };
 
 template <typename Data>
-inline const char* check_length_message(){
+inline const char* check_length_message() {
   return "the group size";
 }
 template <>
-inline const char* check_length_message<NaturalDataFrame>(){
+inline const char* check_length_message<NaturalDataFrame>() {
   return "the number of rows";
 }
 
@@ -36,8 +36,9 @@ template <typename Data, typename Subsets>
 class GathererImpl : public Gatherer {
 public:
   typedef GroupedCallProxy<Data, Subsets> Proxy;
+  typedef typename Data::slicing_index Index;
 
-  GathererImpl(RObject& first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+  GathererImpl(const RObject& first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
     gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
   {
     coll = collecter(first, gdf.nrows());
@@ -60,7 +61,7 @@ public:
     ++git;
     i++;
     for (; i < ngroups; i++, ++git) {
-      const SlicingIndex& indices = *git;
+      const Index& indices = *git;
       Shield<SEXP> subset(proxy.get(indices));
       grab(subset, indices);
     }
@@ -69,7 +70,7 @@ public:
 
 private:
 
-  inline void grab(SEXP subset, const SlicingIndex& indices) {
+  inline void grab(SEXP subset, const Index& indices) {
     int n = Rf_length(subset);
     if (n == indices.size()) {
       grab_along(subset, indices);
@@ -80,7 +81,6 @@ private:
     } else {
       check_length(n, indices.size(), check_length_message<Data>(), name);
     }
-
   }
 
   void grab_along(SEXP subset, const SlicingIndex& indices) {
@@ -133,8 +133,9 @@ template <typename Data, typename Subsets>
 class ListGatherer : public Gatherer {
 public:
   typedef GroupedCallProxy<Data, Subsets> Proxy;
+  typedef typename Data::slicing_index Index;
 
-  ListGatherer(List first, SlicingIndex& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+  ListGatherer(List first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
     gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_), name(name_)
   {
     if (first_non_na < gdf.ngroups()) {
@@ -154,7 +155,7 @@ public:
     ++git;
     i++;
     for (; i < ngroups; i++, ++git) {
-      const SlicingIndex& indices = *git;
+      const Index& indices = *git;
       List subset(proxy.get(indices));
       perhaps_duplicate(subset);
       grab(subset, indices);
@@ -177,7 +178,7 @@ private:
     }
   }
 
-  inline void grab(const List& subset, const SlicingIndex& indices) {
+  inline void grab(const List& subset, const Index& indices) {
     int n = subset.size();
 
     if (n == indices.size()) {
@@ -189,14 +190,14 @@ private:
     }
   }
 
-  void grab_along(const List& subset, const SlicingIndex& indices) {
+  void grab_along(const List& subset, const Index& indices) {
     int n = indices.size();
     for (int j = 0; j < n; j++) {
       data[ indices[j] ] = subset[j];
     }
   }
 
-  void grab_rep(SEXP value, const SlicingIndex& indices) {
+  void grab_rep(SEXP value, const Index& indices) {
     int n = indices.size();
     for (int j = 0; j < n; j++) {
       data[ indices[j] ] = value;
@@ -255,6 +256,37 @@ inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
 }
 
 template <typename Data, typename Subsets>
+inline Gatherer* gatherer_impl(const RObject& first, const typename Data::slicing_index& indices, GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, int i, const SymbolString& name) {
+  if (TYPEOF(first) == VECSXP) {
+    return new ListGatherer<Data, Subsets> (List(first), indices, proxy, gdf, i, name);
+  } else {
+    return new GathererImpl<Data, Subsets> (first, indices, proxy, gdf, i, name);
+  }
+}
+
+class EchoGatherer : public Gatherer {
+public:
+  EchoGatherer(RObject value_) : value(value_) {}
+
+  inline SEXP collect() {
+    return value;
+  }
+
+private:
+  RObject value;
+};
+
+template <>
+inline Gatherer* gatherer_impl<NaturalDataFrame, LazySubsets>(const RObject& first, const NaturalSlicingIndex& indices, GroupedCallProxy<NaturalDataFrame, LazySubsets>& proxy, const NaturalDataFrame& gdf, int i, const SymbolString& name) {
+  if (Rf_length(first) == 1) {
+    return constant_gatherer(first, gdf.nrows(), name);
+  } else {
+    return new EchoGatherer(first);
+  }
+}
+
+
+template <typename Data, typename Subsets>
 inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, const SymbolString& name) {
   typename Data::group_iterator git = gdf.group_begin();
   typename Data::slicing_index indices = *git;
@@ -273,21 +305,19 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
 
   const int ng = gdf.ngroups();
   int i = 0;
-  while (all_na(first)) {
-    i++;
-    if (i == ng) break;
-    ++git;
-    indices = *git;
-    first = proxy.get(indices);
+  if (ng > 1) {
+    while (all_na(first)) {
+      i++;
+      if (i == ng) break;
+      ++git;
+      indices = *git;
+      first = proxy.get(indices);
+    }
   }
 
-
-  if (TYPEOF(first) == VECSXP) {
-    return new ListGatherer<Data, Subsets> (List(first), indices, proxy, gdf, i, name);
-  } else {
-    return new GathererImpl<Data, Subsets> (first, indices, proxy, gdf, i, name);
-  }
+  return gatherer_impl<Data, Subsets>(first, indices, proxy, gdf, i, name);
 }
+
 
 } // namespace dplyr
 

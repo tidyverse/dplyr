@@ -113,7 +113,10 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       variable = validate_unquoted_value(call, gdf.nrows(), name, check_length_message<Data>());
     }
 
-    Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
+    if (!Rcpp::traits::same_type<Data, NaturalDataFrame>::value) {
+      Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
+    }
+
     proxy.input(name, variable);
     accumulator.set(name, variable);
   }
