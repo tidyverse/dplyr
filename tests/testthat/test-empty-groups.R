@@ -1,11 +1,39 @@
 context("empty groups")
 
-df <- data_frame(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4)) %>%
-  group_by(f)
+df <- data_frame(
+  e = 1,
+  f = factor(c(1, 1, 2, 2), levels = 1:3),
+  g = c(1, 1, 2, 2),
+  x = c(1, 2, 1, 4)) %>%
+  group_by(e, f, g)
 
 test_that("filter and slice keep zero length groups", {
   expect_equal( group_size(filter(df, f == 1)), c(2, 0, 0) )
   expect_equal( group_size(slice(df, 1)), c(1, 1, 0) )
+})
+
+test_that("filtering and slicing retains labels for zero length groups", {
+  expect_equal(
+    count(filter(df, f == 1)),
+    tibble(
+      e = 1,
+      f = factor(1:3),
+      g = c(1, NA, NA),
+      n = c(2L, 0L, 0L)
+    ) %>%
+      group_by(e, f)
+
+  )
+  expect_equal(
+    count(slice(df, 1)),
+    tibble(
+      e = 1,
+      f = factor(1:3),
+      g = c(1, 2, NA),
+      n = c(1L, 1L, 0L)
+    ) %>%
+      group_by(e, f)
+  )
 })
 
 test_that("mutate keeps zero length groups", {
@@ -18,13 +46,11 @@ test_that("summarise returns a row for zero length groups", {
 
 test_that("arrange keeps zero length groups",{
   expect_equal( group_size(arrange(df)), c(2, 2, 0) )
+  expect_equal( group_size(arrange(df, x)), c(2, 2, 0) )
 })
 
 test_that("bind_rows respect the drop attribute of grouped df",{
-  df <- data_frame(f = factor( c(1,1,2,2), levels = 1:3), x = c(1,2,1,4))
-  g <- group_by(df, f)
-
-  gg <- bind_rows(g,g)
+  gg <- bind_rows(df, df)
   expect_equal(group_size(gg), c(4L,4L,0L))
 })
 
