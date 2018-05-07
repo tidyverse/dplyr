@@ -19,6 +19,9 @@ These arguments are automatically \link[rlang:quo]{quoted} and
 frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
 these concepts.}
+
+\item{.preserve}{when \code{TRUE} (the default), the grouping structure
+is preserved, otherwise it is recalculated based on the resulting data.}
 }
 \value{
 An object of the same class as \code{.data}.

@@ -6,11 +6,11 @@
 \alias{filter_at}
 \title{Filter within a selection of variables}
 \usage{
-filter_all(.tbl, .vars_predicate)
+filter_all(.tbl, .vars_predicate, .preserve = TRUE)
 
-filter_if(.tbl, .predicate, .vars_predicate)
+filter_if(.tbl, .predicate, .vars_predicate, .preserve = TRUE)
 
-filter_at(.tbl, .vars, .vars_predicate)
+filter_at(.tbl, .vars, .vars_predicate, .preserve = TRUE)
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
