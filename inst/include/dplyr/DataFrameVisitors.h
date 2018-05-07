@@ -31,6 +31,8 @@ public:
 
   DataFrameVisitors(const DataFrame& data_, const IntegerVector& indices);
 
+  DataFrameVisitors(const DataFrame& data_, int n);
+
   inline int size() const {
     return visitors.size();
   }
