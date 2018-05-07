@@ -55,98 +55,16 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 }
 
 static
-SEXP validate_unquoted_value(SEXP value, int nrows, SymbolString& name) {
+SEXP validate_unquoted_value(SEXP value, int nrows, SymbolString& name, const char* detail) {
   if (is_vector(value))
-    check_length(Rf_length(value), nrows, "the number of rows", name);
+    check_length(Rf_length(value), nrows, detail, name);
   else
     bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(value)));
   return value;
 }
 
-DataFrame mutate_not_grouped(DataFrame df, const QuosureList& dots) {
-  const int nexpr = dots.size();
-  const int nrows = df.nrows();
-
-  NamedListAccumulator<DataFrame> accumulator;
-  const int nvars = df.size();
-  if (nvars) {
-    CharacterVector df_names = df.names();
-    for (int i = 0; i < nvars; i++) {
-      accumulator.set(df_names[i], df[i]);
-    }
-  }
-
-  CallProxy call_proxy(df);
-
-  for (int i = 0; i < nexpr; i++) {
-    Rcpp::checkUserInterrupt();
-    const NamedQuosure& quosure = dots[i];
-
-    Shield<SEXP> call_(quosure.expr());
-    SEXP call = call_;
-    SymbolString name = quosure.name();
-    Environment env = quosure.env();
-    call_proxy.set_env(env);
-
-    RObject variable;
-    if (TYPEOF(call) == SYMSXP) {
-      SymbolString call_name = SymbolString(Symbol(call));
-      if (call_proxy.has_variable(call_name)) {
-        variable = call_proxy.get_variable(call_name);
-      } else {
-        variable = shared_SEXP(env.find(call_name.get_string()));
-      }
-    } else if (TYPEOF(call) == LANGSXP) {
-      call_proxy.set_call(call);
-      variable = call_proxy.eval();
-    } else if (Rf_length(call) == 1) {
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, nrows, name));
-      variable = gather->collect();
-    } else if (Rf_isNull(call)) {
-      accumulator.rm(name);
-      continue;
-    } else {
-      variable = validate_unquoted_value(call, nrows, name);
-    }
-
-    if (Rf_inherits(variable, "POSIXlt")) {
-      bad_col(quosure.name(), "is of unsupported class POSIXlt");
-    }
-
-    if (Rf_inherits(variable, "data.frame")) {
-      bad_col(quosure.name(), "is of unsupported class data.frame");
-    }
-
-    const int n_res = Rf_length(variable);
-    check_supported_type(variable, name);
-    check_length(n_res, nrows, "the number of rows", name);
-
-    if (n_res == 1 && nrows != 1) {
-      // recycle
-      boost::scoped_ptr<Gatherer> gather(constant_gatherer(variable, nrows, name));
-      variable = gather->collect();
-    }
-
-    call_proxy.input(name, variable);
-    accumulator.set(name, variable);
-  }
-  List res = structure_mutate(accumulator, df, classes_not_grouped(), false);
-
-  return res;
-}
-
 template <typename Data, typename Subsets>
 DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
-  LOG_VERBOSE << "checking zero rows";
-
-  // special 0 rows case
-  if (df.nrows() == 0) {
-    DataFrame res = mutate_not_grouped(df, dots);
-    copy_vars(res, df);
-    set_class(res, get_class(df));
-    return Data(res).data();
-  }
-
   LOG_VERBOSE << "initializing proxy";
 
   typedef GroupedCallProxy<Data, Subsets> Proxy;
@@ -192,8 +110,9 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       accumulator.rm(name);
       continue;
     } else {
-      variable = validate_unquoted_value(call, gdf.nrows(), name);
+      variable = validate_unquoted_value(call, gdf.nrows(), name, check_length_message<Data>());
     }
+
     Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
     proxy.input(name, variable);
     accumulator.set(name, variable);
@@ -208,9 +127,9 @@ SEXP mutate_impl(DataFrame df, QuosureList dots) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
     return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots);
-  } else if (is<GroupedDataFrame>(df)) {
+  } else if (is<GroupedDataFrame>(df) && df.nrows() != 0) {
     return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots);
   } else {
-    return mutate_not_grouped(df, dots);
+    return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);
   }
 }

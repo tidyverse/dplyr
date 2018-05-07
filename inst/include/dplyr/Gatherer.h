@@ -22,6 +22,16 @@ public:
   virtual SEXP collect() = 0;
 };
 
+template <typename Data>
+inline const char* check_length_message(){
+  return "the group size";
+}
+template <>
+inline const char* check_length_message<NaturalDataFrame>(){
+  return "the number of rows";
+}
+
+
 template <typename Data, typename Subsets>
 class GathererImpl : public Gatherer {
 public:
@@ -68,7 +78,7 @@ private:
     } else if (Rf_isNull(subset)) {
       stop("incompatible types (NULL), expecting %s", coll->describe());
     } else {
-      check_length(n, indices.size(), "the group size", name);
+      check_length(n, indices.size(), check_length_message<Data>(), name);
     }
 
   }
@@ -175,7 +185,7 @@ private:
     } else if (n == 1) {
       grab_rep(subset[0], indices);
     } else {
-      check_length(n, indices.size(), "the group size", name);
+      check_length(n, indices.size(), check_length_message<Data>(), name);
     }
   }
 
@@ -259,7 +269,7 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
   }
 
   check_supported_type(first, name);
-  check_length(Rf_length(first), indices.size(), "the group size", name);
+  check_length(Rf_length(first), indices.size(), check_length_message<Data>(), name);
 
   const int ng = gdf.ngroups();
   int i = 0;
