@@ -35,6 +35,65 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
   return value;
 }
 
+template <int RTYPE>
+class ExtractVectorVisitor {
+public:
+  typedef typename Rcpp::Vector<RTYPE> Vec;
+
+  ExtractVectorVisitor(SEXP origin_) :
+    origin(origin_)
+  {}
+
+  virtual SEXP extract(const std::vector<IntegerVector>& new_indices) {
+    int n = new_indices.size();
+    Vec out = no_init(n);
+    copy_most_attributes(out, origin);
+    for (int i = 0; i < n; i++) {
+      out[i] = origin[new_indices[i][0]];
+    }
+    return out ;
+  }
+
+private:
+  Vec origin;
+};
+
+inline SEXP extract_visit(SEXP origin, const std::vector<IntegerVector>& new_indices) {
+  switch (TYPEOF(origin)) {
+  case INTSXP:
+    return ExtractVectorVisitor<INTSXP>(origin).extract(new_indices);
+  case REALSXP:
+    return ExtractVectorVisitor<REALSXP>(origin).extract(new_indices);
+  case LGLSXP:
+    return ExtractVectorVisitor<LGLSXP>(origin).extract(new_indices);
+  case STRSXP:
+    return ExtractVectorVisitor<STRSXP>(origin).extract(new_indices);
+  case RAWSXP:
+    return ExtractVectorVisitor<RAWSXP>(origin).extract(new_indices);
+  case CPLXSXP:
+    return ExtractVectorVisitor<CPLXSXP>(origin).extract(new_indices);
+  }
+
+  return R_NilValue;
+}
+
+SEXP reconstruct_labels(const DataFrame& old_labels, const std::vector<IntegerVector>& new_indices) {
+  int nv = old_labels.size() - 1 ;
+  List out(nv);
+  CharacterVector names(nv);
+  CharacterVector old_names(old_labels.names());
+  for (int i = 0; i < nv; i++) {
+    out[i] = extract_visit(old_labels[i], new_indices);
+    names[i] = old_names[i];
+  }
+
+  set_rownames(out, new_indices.size());
+  set_class(out, classes_not_grouped());
+  out.attr("names") = names;
+  return out ;
+}
+
+
 template <typename SlicedTibble, typename LazySubsets>
 DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   SlicedTibble gdf(df);
@@ -102,12 +161,37 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   set_rownames(out, nr);
 
   if (gdf.nvars() > 1) {
-    set_class(out, classes_grouped<SlicedTibble>());
+    copy_class(out, df);
     SymbolVector vars = get_vars(gdf.data(), true);
     vars.remove(gdf.nvars() - 1);
     set_vars(out, vars);
 
-    strip_index(out);
+    DataFrame old_labels = Rf_getAttrib(df, Rf_install("labels"));
+    int nv = gdf.nvars() - 1;
+    DataFrameVisitors visitors(old_labels, nv) ;
+
+    // collect the new indices
+    std::vector<IntegerVector> new_indices;
+    int old_nrows = old_labels.nrow();
+    for (int i = 0; i < old_nrows;) {
+      int start = i;
+      while (i < old_nrows && visitors.equal(start, i)) i++ ;
+      new_indices.push_back(seq(start, i - 1));
+    }
+
+    // group_size
+    int new_nrows = new_indices.size();
+    IntegerVector group_sizes(new_nrows);
+    for (int i = 0; i < new_nrows; i++) {
+      group_sizes[i] = new_indices[i].size();
+    }
+    int biggest = max(group_sizes);
+
+    // labels
+    out.attr("indices") = new_indices;
+    out.attr("group_sizes") = group_sizes;
+    out.attr("biggest_group_size") = biggest;
+    out.attr("labels") = reconstruct_labels(old_labels, new_indices);
   } else {
     set_class(out, classes_not_grouped());
     SET_ATTRIB(out, strip_group_attributes(out));
