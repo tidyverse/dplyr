@@ -93,6 +93,8 @@
 
 * `transmute()` no longer prints a message when including a group variable.
 
+* `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
+
 ## Documentation
 
 * Improved documentation for set operations (#3238, @edublancas).
