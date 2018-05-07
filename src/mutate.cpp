@@ -21,25 +21,10 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-template <typename Data>
-SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
-                      const DataFrame& df,
-                      CharacterVector classes,
-                      bool grouped = true) {
-  List res = accumulator;
+SEXP structure_mutate(List res, const DataFrame& df, CharacterVector classes) {
   set_class(res, classes);
-  set_rownames(res, df.nrows());
-
-  if (grouped) {
-    copy_vars(res, df);
-    res.attr("labels")  = df.attr("labels");
-    res.attr("index")  = df.attr("index");
-    res.attr("indices") = df.attr("indices");
-    res.attr("drop") = df.attr("drop");
-    res.attr("group_sizes") = df.attr("group_sizes");
-    res.attr("biggest_group_size") = df.attr("biggest_group_size");
-  }
-
+  copy_most_attributes(res, df);
+  // set_rownames(res, df.nrows());
   return res;
 }
 
@@ -129,7 +114,7 @@ DataFrame mutate_not_grouped(DataFrame df, const QuosureList& dots) {
     call_proxy.input(name, variable);
     accumulator.set(name, variable);
   }
-  List res = structure_mutate(accumulator, df, classes_not_grouped(), false);
+  List res = structure_mutate(accumulator, df, classes_not_grouped());
 
   return res;
 }
