@@ -343,6 +343,14 @@ private:
     } else {
       train_impl(index_range);
     }
+
+    // ---- for each level, train child slicers
+    int n = indices.size();
+    slicers.reserve(n);
+    for (int i = 0; i < n; i++) {
+      slicers.push_back(slicer(indices[i], depth + 1, data, visitors));
+      slicer_size += slicers[i]->size();
+    }
   }
 
   template <typename Indices>
@@ -353,9 +361,6 @@ private:
 
       agents.push_back(NA_INTEGER);         // NA is used as a placeholder
       indices.push_back(std::vector<int>()); // empty indices
-
-      slicers.push_back(slicer(indices[0], depth + 1, data, visitors));
-      slicer_size = slicers[0]->size();
 
     } else {
       Map map(visitor, n);
@@ -380,12 +385,10 @@ private:
       agents.reserve(nlevels);
       slicers.reserve(nlevels);
 
-      // ---- for each case, train child slicers
+      // ---- for each case, create indices
       for (int i = 0; i < nlevels; i++) {
         agents.push_back(map_collect[i].first);
         indices.push_back(MOVE(*map_collect[i].second));
-        slicers.push_back(slicer(indices[i], depth + 1, data, visitors));
-        slicer_size += slicers[i]->size();
       }
 
     }
