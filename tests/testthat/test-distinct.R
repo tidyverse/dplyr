@@ -79,6 +79,15 @@ test_that("distinct gives a warning when selecting an unknown column (#3140)", {
          The operation will return the input unchanged."),
     fixed = TRUE
   )
+  expect_warning(
+    distinct(df, .data$aa),
+    glue("Trying to compute distinct() for variables not found in the data:
+      - `aa`
+      This is an error, but only a warning is raised for compatibility reasons.
+      The operation will return the input unchanged."),
+    fixed = TRUE
+    )
+
 
   expect_warning(
     distinct(df, aa, x),
@@ -89,6 +98,15 @@ test_that("distinct gives a warning when selecting an unknown column (#3140)", {
          - x"),
     fixed = TRUE
   )
+  expect_warning(
+    distinct(df, .data$aa, x),
+    glue("Trying to compute distinct() for variables not found in the data:
+      - `aa`
+      This is an error, but only a warning is raised for compatibility reasons.
+      The following variables will be used:
+      - x"),
+    fixed = TRUE
+    )
 
   expect_warning(
     distinct(df, g, aa, x),
@@ -100,6 +118,16 @@ test_that("distinct gives a warning when selecting an unknown column (#3140)", {
          - x"),
     fixed = TRUE
   )
+  expect_warning(
+    distinct(df, g, .data$aa, x),
+    glue("Trying to compute distinct() for variables not found in the data:
+      - `aa`
+      This is an error, but only a warning is raised for compatibility reasons.
+      The following variables will be used:
+      - g
+      - x"),
+    fixed = TRUE
+    )
 })
 
 test_that("distinct on a new, mutated variable is equivalent to mutate followed by distinct", {

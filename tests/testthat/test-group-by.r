@@ -283,3 +283,21 @@ test_that("group_by() does not affect input data (#3028)", {
 
   expect_identical(groups(x), syms(quote(old1)))
 })
+
+test_that("group_by() does not mutate for nothing when using the .data pronoun (#2752, #3533)", {
+  expect_equal(
+    iris %>% group_by(Species) %>% group_by(.data$Species),
+    iris %>% group_by(Species)
+  )
+  expect_equal(
+    iris %>% group_by(Species) %>% group_by(.data[["Species"]]),
+    iris %>% group_by(Species)
+  )
+
+  df <- tibble(x = 1:5)
+  attr(df, "y") <- 1
+
+  expect_equal( df %>% group_by(.data$x) %>% attr("y"), 1 )
+  expect_equal( df %>% group_by(.data$"x") %>% attr("y"), 1 )
+  expect_equal( df %>% group_by(.data[["x"]]) %>% attr("y"), 1 )
+})

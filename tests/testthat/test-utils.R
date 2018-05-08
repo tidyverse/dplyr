@@ -17,3 +17,10 @@ test_that("get_vars() handles list of symbols as vars attribute", {
   gdf <- set_attrs(gdf, vars = list(sym("g")))
   expect_identical(test_grouped_df(gdf), gdf)
 })
+
+test_that("quo_is_variable_reference handles .data",{
+  expect_true(quo_is_variable_reference(quo(x)))
+  expect_true(quo_is_variable_reference(quo(.data$x)))
+  expect_true(quo_is_variable_reference(quo(.data[["x"]])))
+  expect_false(quo_is_variable_reference(quo(.data[[identity("x")]])))
+})

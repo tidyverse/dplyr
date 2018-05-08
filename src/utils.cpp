@@ -341,3 +341,45 @@ SEXP maybe_rhs(SEXP x) {
   else
     return x;
 }
+
+// [[Rcpp::export]]
+bool is_data_pronoun(SEXP expr) {
+  if (TYPEOF(expr) != LANGSXP || Rf_length(expr) != 3)
+    return false;
+
+  SEXP first = CADR(expr);
+  if (first != Rf_install(".data"))
+    return false;
+
+  SEXP second = CADDR(expr);
+  SEXP fun = CAR(expr);
+
+  // .data$x or .data$"x"
+  if (fun == R_DollarSymbol && (TYPEOF(second) == SYMSXP || TYPEOF(second) == STRSXP))
+    return true;
+
+  // .data[["x"]]
+  if (fun == R_Bracket2Symbol && TYPEOF(second) == STRSXP)
+    return true;
+
+  return false;
+}
+
+// [[Rcpp::export]]
+bool is_variable_reference(SEXP expr) {
+  // x
+  if (TYPEOF(expr) == SYMSXP)
+    return true;
+
+  return is_data_pronoun(expr);
+}
+
+// [[Rcpp::export]]
+bool quo_is_variable_reference(SEXP quo) {
+  return is_variable_reference(CADR(quo));
+}
+
+// [[Rcpp::export]]
+bool quo_is_data_pronoun(SEXP quo) {
+  return is_data_pronoun(CADR(quo));
+}
