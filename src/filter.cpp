@@ -78,9 +78,6 @@ public:
   // The group sizes
   Rcpp::IntegerVector group_sizes;
 
-  // size of the biggest group
-  int biggest_group_size ;
-
 private:
 
   int k;
@@ -94,7 +91,6 @@ public:
     tests(ngroups),
     new_indices(ngroups),
     group_sizes(ngroups),
-    biggest_group_size(0),
     k(0)
   {}
 
@@ -162,7 +158,6 @@ private:
     old_indices[i] = old_idx;
     group_sizes[i] = n;
     new_indices[i] = Rcpp::seq(k, k + n - 1);
-    if (biggest_group_size < n) biggest_group_size = n;
     k += n ;
   }
 
@@ -321,7 +316,7 @@ public:
 };
 
 // specific case for GroupedDataFrame
-// we need to take care of the attributes `indices`, `labels`, `vars`, `group_sizes`, `biggest_group_size`
+// we need to take care of the attributes `indices`, `labels`, `vars`, `group_sizes`
 template <typename Index>
 class SlicedTibbleRebuilder<Index, GroupedDataFrame> {
 public:
@@ -335,7 +330,6 @@ public:
     out.attr("vars") = data.attr("vars");
     out.attr("group_sizes") = index.group_sizes;
     out.attr("labels") = data.attr("labels");
-    out.attr("biggest_group_size") = index.biggest_group_size;
   }
 
 private:

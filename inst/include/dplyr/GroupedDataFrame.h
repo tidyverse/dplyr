@@ -37,9 +37,9 @@ public:
   GroupedDataFrame(SEXP x):
     data_(x),
     group_sizes(),
-    biggest_group_size(0),
     symbols(get_vars(data_)),
-    labels()
+    labels(),
+    max_group_size_(0)
   {
     // handle lazyness
     bool is_lazy = Rf_isNull(data_.attr("group_sizes")) || Rf_isNull(data_.attr("labels"));
@@ -48,8 +48,10 @@ public:
       build_index_cpp(data_);
     }
     group_sizes = data_.attr("group_sizes");
-    biggest_group_size  = data_.attr("biggest_group_size");
     labels = data_.attr("labels");
+
+    int n = group_sizes.size();
+    for (int i = 0; i < n; i++) max_group_size_ = std::max(max_group_size_, group_sizes[i]);
 
     if (!is_lazy) {
       // check consistency of the groups
@@ -93,7 +95,7 @@ public:
   }
 
   inline int max_group_size() const {
-    return biggest_group_size;
+    return max_group_size_;
   }
 
   inline bool has_group(const SymbolString& g) const {
@@ -108,9 +110,9 @@ private:
 
   DataFrame data_;
   IntegerVector group_sizes;
-  int biggest_group_size;
   SymbolMap symbols;
   DataFrame labels;
+  int max_group_size_ ;
 
 };
 

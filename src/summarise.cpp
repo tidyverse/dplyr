@@ -185,12 +185,10 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     for (int i = 0; i < new_nrows; i++) {
       group_sizes[i] = new_indices[i].size();
     }
-    int biggest = max(group_sizes);
 
     // labels
     out.attr("indices") = new_indices;
     out.attr("group_sizes") = group_sizes;
-    out.attr("biggest_group_size") = biggest;
     out.attr("labels") = reconstruct_labels(old_labels, new_indices);
   } else {
     set_class(out, classes_not_grouped());

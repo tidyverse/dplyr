@@ -485,10 +485,8 @@ void build_index_cpp(DataFrame& data) {
   copy_vars(vec_labels, data);
 
   IntegerVector group_sizes = no_init(ncases);
-  int biggest_group = 0;
   for (int i = 0; i < ncases; i++) {
     group_sizes[i] = Rf_length(indices[i]);
-    biggest_group = std::max(biggest_group, group_sizes[i]);
   }
 
   // The attributes are injected into data without duplicating it!
@@ -498,7 +496,6 @@ void build_index_cpp(DataFrame& data) {
   // recomputations. We don't touch the "class" attribute here.
   data.attr("indices") = indices;
   data.attr("group_sizes") = group_sizes;
-  data.attr("biggest_group_size") = biggest_group;
   data.attr("labels") = vec_labels;
 }
 
@@ -507,7 +504,6 @@ void build_index_cpp(DataFrame& data) {
 void strip_index(DataFrame x) {
   x.attr("indices") = R_NilValue;
   x.attr("group_sizes") = R_NilValue;
-  x.attr("biggest_group_size") = R_NilValue;
   x.attr("labels") = R_NilValue;
 }
 
@@ -516,14 +512,13 @@ SEXP strip_group_attributes(SEXP df) {
   SET_TAG(attribs, Rf_install("class"));
 
   SEXP p = ATTRIB(df);
-  std::vector<SEXP> black_list(7);
+  std::vector<SEXP> black_list(6);
   black_list[0] = Rf_install("indices");
   black_list[1] = Rf_install("vars");
   black_list[2] = Rf_install("index");
   black_list[3] = Rf_install("labels");
   black_list[4] = Rf_install("group_sizes");
-  black_list[5] = Rf_install("biggest_group_size");
-  black_list[6] = Rf_install("class");
+  black_list[5] = Rf_install("class");
 
   SEXP q = attribs;
   while (! Rf_isNull(p)) {
