@@ -1,124 +1,3 @@
-# amt
-
-Version: 0.0.3.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > 
-    > # move
-    > m <- move::move(xy$x, xy$y, lubridate::now() + lubridate::hours(1:10),
-    +  proj = sp::CRS("+init=epsg:4326"))
-    > move::angle(m)
-    [1]   90.00000   90.00000    0.00000   44.41780  -89.58401  -89.16705 -180.00000
-    [8]  134.74039 -134.79070
-    > direction_abs(trk, degrees = TRUE, full_circle = FALSE, zero_dir = "N",
-    +   clockwise = TRUE, append_na = FALSE, lonlat = TRUE)
-     [1]   90.00000   90.00000    0.00000   44.41780  -89.58401  -89.16705
-     [7]  180.00000  134.74039 -134.79070         NA
-    > 
-    > # trajectories
-    > t1 <- trajectories::Track(
-    +   spacetime::STIDF(sp::SpatialPoints(cbind(xy$x, xy$y)),
-    +   lubridate::now() + lubridate::hours(1:10), data = data.frame(1:10)))
-    Warning in with_tz(Sys.time(), tzone) : Unrecognized time zone ''
-    Error in (function (dt, year, month, yday, mday, wday, hour, minute, second,  : 
-      Invalid timezone of input vector: ""
-    Calls: <Anonymous> ... reclass_date.POSIXlt -> as.POSIXlt -> do.call -> <Anonymous> -> .Call
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-    Loading required package: tidyverse
-    ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
-    ✔ ggplot2 2.2.1          ✔ purrr   0.2.4     
-    ✔ tibble  1.4.2          ✔ dplyr   0.7.4.9004
-    ✔ tidyr   0.8.0          ✔ stringr 1.3.0     
-    ✔ readr   1.1.1          ✔ forcats 0.3.0     
-    ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
-    ✖ dplyr::filter() masks stats::filter()
-    ✖ dplyr::lag()    masks stats::lag()
-    Loading required package: survival
-    .t missing, creating `track_xy`.
-    Quitting from lines 120-121 (p1_getting_started.Rmd) 
-    Error: processing vignette 'p1_getting_started.Rmd' failed with diagnostics:
-    Column `time` classes Period and Interval from lubridate are currently not supported.
-    Execution halted
-    ```
-
-# bioset
-
-Version: 0.2.1
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > data
-    # A tibble: 6 x 3
-      names value  conc
-      <chr> <dbl> <dbl>
-    1 A       19.  1.90
-    2 B       59.  5.90
-    3 C       22.  2.20
-    4 A       18.  1.80
-    5 B       63.  6.30
-    6 C       28.  2.80
-    > 
-    > set_calc_variability(
-    +   data = data,
-    +   ids = names,
-    +   value,
-    +   conc
-    + )
-    Error in mutate_impl(.data, dots) : 
-      Column `value_n` is of unsupported type NULL
-    Calls: set_calc_variability ... <Anonymous> -> mutate.tbl_df -> mutate_impl -> .Call
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      14: `_fseq`(`_lhs`)
-      15: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
-      16: function_list[[i]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:17
-      17: dplyr::mutate(., `:=`(!(!target_n), n()), `:=`(!(!target_mean), mean(!(!target))), 
-             `:=`(!(!target_sd), stats::sd(!(!target))), `:=`(!(!target_cv), stats::sd(!(!target))/mean(!(!target))))
-      18: mutate.tbl_df(., `:=`(!(!target_n), n()), `:=`(!(!target_mean), mean(!(!target))), 
-             `:=`(!(!target_sd), stats::sd(!(!target))), `:=`(!(!target_cv), stats::sd(!(!target))/mean(!(!target))))
-      19: mutate_impl(.data, dots)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 75 SKIPPED: 0 FAILED: 1
-      1. Error: variability is calculated correctly (@test_set.R#56) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-    Quitting from lines 243-251 (introduction.Rmd) 
-    Error: processing vignette 'introduction.Rmd' failed with diagnostics:
-    Column `value_n` is of unsupported type NULL
-    Execution halted
-    ```
-
 # ddpcr
 
 Version: 1.8
@@ -130,8 +9,8 @@ Version: 1.8
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      16: freduce(value, `_function_list`) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/pipe.R:28
-      17: function_list[[i]](value) at /tmp/Rtmp23zSwj/R.INSTALL1367193e58aa/magrittr/R/freduce.R:17
+      16: freduce(value, `_function_list`) at /tmp/RtmphXLGih/R.INSTALL1cc01402b8439/magrittr/R/pipe.R:28
+      17: function_list[[i]](value) at /tmp/RtmphXLGih/R.INSTALL1cc01402b8439/magrittr/R/freduce.R:17
       18: init_data(.)
       19: dplyr::select_(new_plate_data, "well", x_var, y_var)
       20: select_.data.frame(new_plate_data, "well", x_var, y_var)
@@ -163,8 +42,8 @@ Version: 1.8
     Initializing plate of type `fam_positive_pnpp`... DONE (0 seconds)
     Identifying failed wells... DONE (0 seconds)
     Identifying outlier droplets... DONE (0 seconds)
-    Identifying empty droplets... DONE (0 seconds)
-    Classifying droplets... DONE (0 seconds)
+    Identifying empty droplets... DONE (1 seconds)
+    Classifying droplets... DONE (1 seconds)
     Reclassifying droplets... skipped (not enough wells with significant mutant clusters)
     Analysis complete
     Initializing plate of type `custom_thresholds`... Quitting from lines 348-357 (overview.Rmd) 
@@ -220,7 +99,7 @@ Version: 0.1.1
     
     The following objects are masked from 'package:stats':
     
-        chisq.test, fisher.test, IQR
+        IQR, chisq.test, fisher.test
     
     Quitting from lines 217-222 (desctable.Rmd) 
     Error: processing vignette 'desctable.Rmd' failed with diagnostics:
@@ -228,35 +107,77 @@ Version: 0.1.1
     Execution halted
     ```
 
-# fold
+# FedData
 
-Version: 0.2.5
+Version: 2.5.2
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      Got a 530 ftp-server response when 220 was expected
+      1: readLines(curl::curl(url, handle = hand)) at testthat/test.ITRDB.R:23
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 26 SKIPPED: 0 FAILED: 1
+      1. Error: ITRDB version files are available (@test.ITRDB.R#23) 
+      
+      Error: testthat unit tests failed
+      In addition: Warning messages:
+      1: closing unused connection 4 (ftp://ftp.ncdc.noaa.gov/pub/data/paleo/treering/chronologies/) 
+      2: In cb$setcurexpr(call) :
+        closing unused connection 4 (http://websoilsurvey.sc.egov.usda.gov/DSD/Download/Cache/SSA/blah.zip)
+      3: In cb$setcurexpr(call) :
+        closing unused connection 3 (https://websoilsurvey.sc.egov.usda.gov/DSD/Download/Cache/SSA/wss_SSA_CO670_[2017-09-06].zip)
+      Execution halted
+    ```
+
+# GetITRData
+
+Version: 0.7
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
+      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
+    Quitting from lines 99-112 (gitrd-vignette-introduction.Rmd) 
+    Error: processing vignette 'gitrd-vignette-introduction.Rmd' failed with diagnostics:
+    Zipped file contains 0 files. This is likelly a problem with the downloaded file. Try running the code again as the corrupted zip file was deleted and will be downloaded again.
+    
+    If the problem persists, my suggestions is to remove the time period with problem.
+    Execution halted
+    ```
+
+# ggmap
+
+Version: 2.6.1
 
 ## Newly broken
 
 *   checking examples ... ERROR
     ```
-    ...
-    1   VARIABLE   META   ID   TIME
+    Running examples in ‘ggmap-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: get_map
+    > ### Title: Grab a map.
+    > ### Aliases: get_map
     > 
-    > # another example
-    > x <- Theoph
-    > x %<>% mutate(
-    +   conc_LABEL = 'theophylline concentration',
-    +   conc_GUIDE = 'mg/L',
-    +   Time_LABEL = 'time since drug administration',
-    +   Time_GUIDE = 'hr',
-    +   Time_HALF = Time / 2 # to demonstrate variant attribute of key column
-    + )
-    > x %<>% fold(Subject, Time)
-    Warning in as.folded.data.frame(d, sort = sort, ...) :
-      removing unique values where keys are duplicated
-    > x %>% unfold %>% head
-    Warning in is.na(x$META) :
-      is.na() applied to non-(list or vector) of type 'NULL'
-    Error in y[sapply(y, function(i) nrow(i) > 0)] : 
-      invalid subscript type 'list'
-    Calls: %>% ... _fseq -> freduce -> <Anonymous> -> unfold -> unfold.folded
+    > ### ** Examples
+    > 
+    > map <- get_map()
+    Warning in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb") :
+      cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=29.763284,-95.363271&zoom=10&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false': HTTP status was '403 Forbidden'
+    Error in download.file(url, destfile = tmp, quiet = !messaging, mode = "wb") : 
+      cannot open URL 'http://maps.googleapis.com/maps/api/staticmap?center=29.763284,-95.363271&zoom=10&size=640x640&scale=2&maptype=terrain&language=en-EN&sensor=false'
+    Calls: get_map -> get_googlemap -> download.file
     Execution halted
     ```
 
@@ -286,6 +207,38 @@ Version: 0.1.1
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+# MonetDBLite
+
+Version: 0.5.1
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    The following objects are masked from ‘package:stats’:
+    
+        filter, lag
+    
+    The following objects are masked from ‘package:base’:
+    
+        intersect, setdiff, setequal, union
+    
+    > # To connect to a database first create a src:
+    > dbdir <- file.path(tempdir(), "dplyrdir")
+    > my_db <- MonetDBLite::src_monetdblite(dbdir)
+    Warning in if (length(classes) != length(handlers)) stop("bad handler specification") :
+      Connection is garbage-collected, use dbDisconnect() to avoid this.
+    > 
+    > # copy some data to DB
+    > my_iris  <- copy_to(my_db, iris)
+    Error in .local(conn, statement, ...) : 
+      Unable to execute statement 'START TRANSACTION'.
+    Server says 'Invalid connection'.
+    Calls: copy_to ... dbBegin -> dbBegin -> dbSendQuery -> dbSendQuery -> .local
+    Execution halted
     ```
 
 # PPforest
@@ -372,50 +325,6 @@ Version: 0.2.4
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# replyr
-
-Version: 0.9.3
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘replyr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: buildJoinPlan
-    > ### Title: Build a join plan
-    > ### Aliases: buildJoinPlan
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > d <- data.frame(id=1:3, weight= c(200, 140, 98))
-    > tDesc <- rbind(tableDescription('d1', d),
-    +                tableDescription('d2', d))
-    > tDesc$keys[[1]] <- list(PrimaryKey= 'id')
-    > tDesc$keys[[2]] <- list(PrimaryKey= 'id')
-    > buildJoinPlan(tDesc)
-    Error in summarise_impl(.data, dots) : 
-      Column `count` is of unsupported type NULL
-    Calls: buildJoinPlan ... <Anonymous> -> summarise.tbl_df -> summarise_impl -> .Call
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-    Quitting from lines 57-59 (DependencySorting.Rmd) 
-    Error: processing vignette 'DependencySorting.Rmd' failed with diagnostics:
-    Column `count` is of unsupported type NULL
-    Execution halted
     ```
 
 # ruler

@@ -7,6 +7,7 @@ namespace dplyr {
 
 namespace internal {
 
+// General case (for INTSXP and LGLSXP)
 template <int RTYPE, bool NA_RM, typename Index>
 struct Sum {
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
@@ -14,33 +15,7 @@ struct Sum {
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
-      double value = ptr[indices[i]];
-
-      // !NA_RM: we don't test for NA here because += NA will give NA
-      // this is faster in the most common case where there are no NA
-      // if there are NA, we could return quicker as in the version for
-      // INTSXP, but we would penalize the most common case
-      if (NA_RM && Rcpp::traits::is_na<RTYPE>(value)) {
-        continue;
-      }
-
-      res += value;
-    }
-
-    return (STORAGE)res;
-  }
-};
-
-// Special case for INTSXP:
-template <bool NA_RM, typename Index>
-struct Sum<INTSXP, NA_RM, Index> {
-  enum { RTYPE = INTSXP };
-  typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-  static STORAGE process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
-    long double res = 0;
-    int n = indices.size();
-    for (int i = 0; i < n; i++) {
-      double value = ptr[indices[i]];
+      STORAGE value = ptr[indices[i]];
 
       if (Rcpp::traits::is_na<RTYPE>(value)) {
         if (NA_RM) {
@@ -62,12 +37,36 @@ struct Sum<INTSXP, NA_RM, Index> {
   }
 };
 
+// special case for REALSXP because it treats NA differently
+template <bool NA_RM, typename Index>
+struct Sum<REALSXP, NA_RM, Index> {
+  static double process(double* ptr,  const Index& indices) {
+    long double res = 0;
+    int n = indices.size();
+    for (int i = 0; i < n; i++) {
+      double value = ptr[indices[i]];
+
+      // !NA_RM: we don't test for NA here because += NA will give NA
+      // this is faster in the most common case where there are no NA
+      // if there are NA, we could return quicker as in the version for
+      // INTSXP, but we would penalize the most common case
+      if (NA_RM && Rcpp::traits::is_na<REALSXP>(value)) {
+        continue;
+      }
+
+      res += value;
+    }
+
+    return (double)res;
+  }
+};
+
 } // namespace internal
 
 template <int RTYPE, bool NA_RM>
-class Sum : public Processor< RTYPE, Sum<RTYPE, NA_RM> > {
-public:
-  typedef Processor< RTYPE, Sum<RTYPE, NA_RM> > Base;
+class Sum : public Processor < RTYPE == LGLSXP ? INTSXP : RTYPE, Sum<RTYPE, NA_RM> > {
+public :
+  typedef Processor < RTYPE == LGLSXP ? INTSXP : RTYPE, Sum<RTYPE, NA_RM> > Base;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   Sum(SEXP x) :

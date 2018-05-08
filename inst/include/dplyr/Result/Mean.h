@@ -22,8 +22,8 @@ struct Mean_internal {
       // if there are NA, we could return quicker as in the version for
       // INTSXP, but we would penalize the most common case
       //
-      // INTSXP: no shortcut, need to test
-      if (NA_RM || RTYPE == INTSXP) {
+      // INTSXP, LGLSXP: no shortcut, need to test
+      if (NA_RM || RTYPE == INTSXP || RTYPE == LGLSXP) {
         if (Rcpp::traits::is_na<RTYPE>(value)) {
           if (!NA_RM) {
             return NA_REAL;

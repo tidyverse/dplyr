@@ -7,6 +7,33 @@
 - Add documentation example for moving variable to back in `?select` (#3051).
 - `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
 
+# dplyr 0.7.5.9001
+
+* `group_indices()` can be used without argument in expressions in verbs (#1185).
+
+* Scoped variants of `arrange()` respect the `.by_group` argument (#3504).
+
+* Improved performance for wide tibbles (#3335).
+
+* Faster hybrid `sum()`, `mean()`, `var()` and `sd()` for logical vectors (#3189).
+
+
+# dplyr 0.7.5.9000 (2018-05-02)
+
+* `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
+
+* `sample_n()` and `sample_frac()` can use `n()` (#3527).
+
+* `sample_n()` and `sample_frac()` handle lazy grouped data frames (#3380).
+
+* Added scoped variants for `distinct()`: `distinct_at()`, `distinct_if()`, `distinct_all()` (#2948).
+
+* `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux).
+
+* Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
+
+* Add documentation example for moving variable to back in `?select` (#3051).
+
 # dplyr 0.7.5 (2018-04-14)
 
 ## Breaking changes for package developers
@@ -67,11 +94,11 @@
   recycling "foo" to the number of rows.
 
 * Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
-  and joins (minimal `raw` x `raw` support initially) (#1803). 
+  and joins (minimal `raw` x `raw` support initially) (#1803).
 
 * Hybrid evaluation simplifies `dplyr::foo` to `foo` (#3309). Hybrid functions can now be masked by regular R functions to turn off hybrid evaluation (#3255). The hybrid evaluator finds functions from dplyr even if dplyr is not attached (#3456).
 
-* Scoped select and rename functions (`select_all()`, `rename_if()` etc.) now work with grouped data frames, adapting the grouping as necessary (#2947, #3410). `group_by_at` can group by an existing grouping variable (#3351). `arrange_at` can use grouping variables (#3332). 
+* Scoped select and rename functions (`select_all()`, `rename_if()` etc.) now work with grouped data frames, adapting the grouping as necessary (#2947, #3410). `group_by_at` can group by an existing grouping variable (#3351). `arrange_at` can use grouping variables (#3332).
 
 * `row_number()` works on empty subsets (#3454).
 
@@ -83,15 +110,17 @@
 
 *  `distinct()` now supports renaming columns (#3234).
 
-* It is now illegal to use `data.frame` in the rhs of `mutate()` (#3298). 
+* It is now illegal to use `data.frame` in the rhs of `mutate()` (#3298).
 
 * `combine()` returns `logical()` when all inputs are `NULL` (or when there are no inputs) (#3365, @zeehio).
 
-* `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
+* `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349).
 
 * `slice()` no longer enforce tibble classes when input is a simple `data.frame`, and ignores 0 (#3297, #3313).
 
 * `transmute()` no longer prints a message when including a group variable.
+
+* `group_indices()` can be used, without argument inside a dplyr expression (#1185).
 
 ## Documentation
 
@@ -122,8 +151,6 @@
 ## Performance
 
 * `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
-
-* Improved performance for wide tibbles (#3335). 
 
 ## Internal
 
@@ -200,13 +227,13 @@
 
 * Five new datasets provide some interesting built-in datasets to demonstrate
   dplyr verbs (#2094):
-  
+
   * `starwars` dataset about starwars characters; has list columns
   * `storms` has the trajectories of ~200 tropical storms
-  * `band_members`, `band_instruments` and `band_instruments2` 
+  * `band_members`, `band_instruments` and `band_instruments2`
     has some simple data to demonstrate joins.
 
-* New `add_count()` and `add_tally()` for adding an `n` column within groups 
+* New `add_count()` and `add_tally()` for adding an `n` column within groups
   (#2078, @dgrtwo).
 
 * `arrange()` for grouped data frames gains a `.by_group` argument so you
@@ -221,7 +248,7 @@
 
 * `as_tibble()` is re-exported from tibble. This is the recommend way to create
   tibbles from existing data frames. `tbl_df()` has been softly deprecated.
-  `tribble()` is now imported from tibble (#2336, @chrMongeau); this 
+  `tribble()` is now imported from tibble (#2336, @chrMongeau); this
   is now prefered to `frame_data()`.
 
 ## Deprecated and defunct
@@ -237,20 +264,20 @@
   print a message which will be changed to a warning in the next release.
 
 * The `.env` argument to `sample_n()` and `sample_frac()` is defunct,
-  passing a value to this argument print a message which will be changed to a 
+  passing a value to this argument print a message which will be changed to a
   warning in the next release.
 
 ## Databases
 
 This version of dplyr includes some major changes to how database connections work. By and large, you should be able to continue using your existing dplyr database code without modification, but there are two big changes that you should be aware of:
 
-* Almost all database related code has been moved out of dplyr and into a 
-  new package, [dbplyr](http://github.com/hadley/dbplyr/). This makes dplyr 
+* Almost all database related code has been moved out of dplyr and into a
+  new package, [dbplyr](http://github.com/hadley/dbplyr/). This makes dplyr
   simpler, and will make it easier to release fixes for bugs that only affect
   databases. `src_mysql()`, `src_postgres()`, and `src_sqlite()` will still
   live dplyr so your existing code continues to work.
 
-* It is no longer necessary to create a remote "src". Instead you can work 
+* It is no longer necessary to create a remote "src". Instead you can work
   directly with the database connection returned by DBI. This reflects the
   maturity of the DBI ecosystem. Thanks largely to the work of Kirill Muller
   (funded by the R Consortium) DBI backends are now much more consistent,
@@ -286,13 +313,13 @@ If you've implemented a database backend for dplyr, please read the [backend new
   a nice speedup, because now pointer comparison can be used instead of string
   comparison, but relies on a proper encoding tag for all strings (#2514).
 
-* Fixed problems when joining factor or character encodings with a mix of 
+* Fixed problems when joining factor or character encodings with a mix of
   native and UTF-8 encoded values (#1885, #2118, #2271, #2451).
 
 * Fix `group_by()` for data frames that have UTF-8 encoded names (#2284, #2382).
 
-* New `group_vars()` generic that returns the grouping as character vector, to 
-  avoid the potentially lossy conversion to language symbols. The list returned 
+* New `group_vars()` generic that returns the grouping as character vector, to
+  avoid the potentially lossy conversion to language symbols. The list returned
   by `group_by_prepare()` now has a new `group_names` component (#1950, #2384).
 
 ## Colwise functions
@@ -308,7 +335,7 @@ If you've implemented a database backend for dplyr, please read the [backend new
   tables, the first 100 rows are collected and the predicate is
   applied on this subset of the data. This is robust for the common
   case of checking the type of a column (#2129).
-  
+
 * Summarise and mutate colwise functions pass `...` on the the manipulation
   functions.
 
@@ -346,22 +373,22 @@ and so these functions have been deprecated (but remain around for backward comp
   makes it easier to copy lines of code without having to worry about
   deleting trailing commas (#1039).
 
-* [API] The new `.data` and `.env` environments can be used inside 
-  all verbs that operate on data: `.data$column_name` accesses the column 
-  `column_name`, whereas `.env$var` accesses the external variable `var`. 
-  Columns or external variables named `.data` or `.env` are shadowed, use 
+* [API] The new `.data` and `.env` environments can be used inside
+  all verbs that operate on data: `.data$column_name` accesses the column
+  `column_name`, whereas `.env$var` accesses the external variable `var`.
+  Columns or external variables named `.data` or `.env` are shadowed, use
   `.data$...` and/or `.env$...` to access them.  (`.data` implements strict
   matching also for the `$` operator (#2591).)
-  
-    The `column()` and `global()` functions have been removed. They were never 
+
+    The `column()` and `global()` functions have been removed. They were never
     documented officially. Use the new `.data` and `.env` environments instead.
 
-* Expressions in verbs are now interpreted correctly in many cases that 
-  failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...). 
-  These expressions are now evaluated in a specially constructed temporary 
-  environment that retrieves column data on demand with the help of the 
-  `bindrcpp` package (#2190). This temporary environment poses restrictions on 
-  assignments using `<-` inside verbs. To prevent leaking of broken bindings, 
+* Expressions in verbs are now interpreted correctly in many cases that
+  failed before (e.g., use of `$`, `case_when()`, nonstandard evaluation, ...).
+  These expressions are now evaluated in a specially constructed temporary
+  environment that retrieves column data on demand with the help of the
+  `bindrcpp` package (#2190). This temporary environment poses restrictions on
+  assignments using `<-` inside verbs. To prevent leaking of broken bindings,
   the temporary environment is cleared after the evaluation (#2435).
 
 ## Verbs
@@ -379,10 +406,10 @@ and so these functions have been deprecated (but remain around for backward comp
 
 * `common_by()` gets a better error message for unexpected inputs (#2091)
 
-* Fix groups when joining grouped data frames with duplicate columns 
+* Fix groups when joining grouped data frames with duplicate columns
   (#2330, #2334, @davidkretch).
 
-* One of the two join suffixes can now be an empty string, dplyr no longer 
+* One of the two join suffixes can now be an empty string, dplyr no longer
   hangs (#2228, #2445).
 
 * Anti- and semi-joins warn if factor levels are inconsistent (#2741).
@@ -392,13 +419,13 @@ and so these functions have been deprecated (but remain around for backward comp
 
 ### Select
 
-* For selecting variables, the first selector decides if it's an inclusive 
-  selection (i.e., the initial column list is empty), or an exclusive selection 
-  (i.e., the initial column list contains all columns). This means that 
-  `select(mtcars, contains("am"), contains("FOO"), contains("vs"))` now returns 
+* For selecting variables, the first selector decides if it's an inclusive
+  selection (i.e., the initial column list is empty), or an exclusive selection
+  (i.e., the initial column list contains all columns). This means that
+  `select(mtcars, contains("am"), contains("FOO"), contains("vs"))` now returns
   again both `am` and `vs` columns like in dplyr 0.4.3 (#2275, #2289, @r2evans).
 
-* Select helpers now throw an error if called when no variables have been 
+* Select helpers now throw an error if called when no variables have been
   set (#2452)
 
 * Helper functions in `select()` (and related verbs) are now evaluated
@@ -431,7 +458,7 @@ and so these functions have been deprecated (but remain around for backward comp
 * `mutate()` gives better error message when attempting to add a non-vector
   column (#2319), or attempting to remove a column with `NULL` (#2187, #2439).
 
-* `summarise()` now correctly evaluates newly created factors (#2217), and 
+* `summarise()` now correctly evaluates newly created factors (#2217), and
   can create ordered factors (#2200).
 
 * Ungrouped `summarise()` uses summary variables correctly (#2404, #2453).
@@ -449,10 +476,10 @@ and so these functions have been deprecated (but remain around for backward comp
 * `bind_rows()` works correctly with `NULL` arguments and an `.id` argument
   (#2056), and also for zero-column data frames (#2175).
 
-* Breaking change: `bind_rows()` and `combine()` are more strict when coercing. 
-  Logical values are no longer coerced to integer and numeric. Date, POSIXct 
-  and other integer or double-based classes are no longer coerced to integer or 
-  double as there is chance of attributes or information being lost 
+* Breaking change: `bind_rows()` and `combine()` are more strict when coercing.
+  Logical values are no longer coerced to integer and numeric. Date, POSIXct
+  and other integer or double-based classes are no longer coerced to integer or
+  double as there is chance of attributes or information being lost
   (#2209, @zeehio).
 
 * `bind_cols()` now calls `tibble::repair_names()` to ensure that all
@@ -508,14 +535,14 @@ and so these functions have been deprecated (but remain around for backward comp
 
 * `lag()` enforces integer `n` (#2162, @kevinushey).
 
-* hybrid `min()` and `max()` now always return a `numeric` and work correctly 
+* hybrid `min()` and `max()` now always return a `numeric` and work correctly
   in edge cases (empty input, all `NA`, ...) (#2305, #2436).
 
 * `min_rank("string")` no longer segfaults in hybrid evaluation (#2279, #2444).
 
 * `recode()` can now recode a factor to other types (#2268)
 
-* `recode()` gains `.dots` argument to support passing replacements as list 
+* `recode()` gains `.dots` argument to support passing replacements as list
   (#2110, @jlegewie).
 
 ## Other minor changes and bug fixes
@@ -553,7 +580,7 @@ and so these functions have been deprecated (but remain around for backward comp
 * Fixed rare error that could lead to a segmentation fault in
   `all_equal(ignore_col_order = FALSE)` (#2502).
 
-* The "dim" and "dimnames" attributes are always stripped when copying a 
+* The "dim" and "dimnames" attributes are always stripped when copying a
   vector (#1918, #2049).
 
 * `grouped_df` and `rowwise` are registered officially as S3 classes.
@@ -564,7 +591,7 @@ and so these functions have been deprecated (but remain around for backward comp
 
 * Makeflags uses PKG_CPPFLAGS for defining preprocessor macros.
 
-* astyle formatting for C++ code, tested but not changed as part of the tests 
+* astyle formatting for C++ code, tested but not changed as part of the tests
   (#2086, #2103).
 
 * Update RStudio project settings to install tests (#1952).
@@ -666,7 +693,7 @@ Functions related to the creation and coercion of `tbl_df`s, now live in their o
   and optionally ignoring minor differences in type (e.g. int vs. double)
   (#821). The test handles the case where the df has 0 columns (#1506).
   The test fails fails when convert is `FALSE` and types don't match (#1484).
-  
+
 * `all_equal()` shows better error message when comparing raw values
   or when types are incompatible and `convert = TRUE` (#1820, @krlmlr).
 
@@ -802,7 +829,7 @@ If you have written a dplyr backend, you'll need to make some minor changes to y
 
 * `select_query()` gains a distinct argument which is used for generating
   queries for `distinct()`. It loses the `offset` argument which was
-  never used (and hence never tested). 
+  never used (and hence never tested).
 
 * `src_translate_env()` has been replaced by `sql_translate_env()` which
   should have methods for the connection object.
@@ -884,7 +911,7 @@ There were two other tweaks to the exported API, but these are less likely to af
 * Both `bind_cols()` and `bind_rows()` infer classes and grouping information
   from the first data frame (#1692).
 
-* `rbind()` and `cbind()` get `grouped_df()` methods that make it harder to       
+* `rbind()` and `cbind()` get `grouped_df()` methods that make it harder to
   create corrupt data frames (#1385). You should still prefer `bind_rows()`
   and `bind_cols()`.
 
@@ -908,8 +935,8 @@ There were two other tweaks to the exported API, but these are less likely to af
 * Set operations (`intersect()`, `union()` etc) respect coercion rules
   (#799). `setdiff()` handles factors with `NA` levels (#1526).
 
-* There were a number of fixes to enable joining of data frames that don't 
-  have the same encoding of column names (#1513), including working around 
+* There were a number of fixes to enable joining of data frames that don't
+  have the same encoding of column names (#1513), including working around
   bug 16885 regarding `match()` in R 3.3.0 (#1806, #1810,
   @krlmlr).
 
@@ -1048,7 +1075,7 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
 
 * `mutate` can set to `NULL` the first column (used to segfault, #1329).
 
-* `filter` on grouped data handles indices correctly (#880).  
+* `filter` on grouped data handles indices correctly (#880).
 
 * `sum()` issues a warning about integer overflow (#1108).
 
@@ -1577,7 +1604,7 @@ dplyr 0.2 adds three new verbs:
   handle the `na.rm` argument (#168). This should yield substantial
   performance improvements for those functions.
 
-* Special case for call to `arrange()` on a grouped data frame with no arguments. (#369)  
+* Special case for call to `arrange()` on a grouped data frame with no arguments. (#369)
 
 ## Bug fixes
 
@@ -1618,7 +1645,7 @@ dplyr 0.2 adds three new verbs:
 * SQL translation always evaluates subsetting operators (`$`, `[`, `[[`)
   locally. (#318).
 
-* `select()` now renames variables in remote sql tbls (#317) and  
+* `select()` now renames variables in remote sql tbls (#317) and
   implicitly adds grouping variables (#170).
 
 * internal `grouped_df_impl` function errors if there are no variables to group by (#398).
