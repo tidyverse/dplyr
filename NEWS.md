@@ -93,12 +93,16 @@
   input in mutating operations and `mutate(df, "foo")` creates a new column by
   recycling "foo" to the number of rows.
 
-* Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
+* Support for raw vector columns in `mutate()`, `summarise()`, `arrange()`, `group_by()`
   and joins (minimal `raw` x `raw` support initially) (#1803).
 
 * Hybrid evaluation simplifies `dplyr::foo` to `foo` (#3309). Hybrid functions can now be masked by regular R functions to turn off hybrid evaluation (#3255). The hybrid evaluator finds functions from dplyr even if dplyr is not attached (#3456).
 
-* Scoped select and rename functions (`select_all()`, `rename_if()` etc.) now work with grouped data frames, adapting the grouping as necessary (#2947, #3410). `group_by_at` can group by an existing grouping variable (#3351). `arrange_at` can use grouping variables (#3332).
+* Scoped select and rename functions (`select_all()`, `rename_if()` etc.) now work with grouped data frames, adapting the grouping as necessary (#2947, #3410). 
+
+* `group_by_at()` can group by an existing grouping variable (#3351). 
+
+* `arrange_at()` can use grouping variables (#3332).
 
 * `row_number()` works on empty subsets (#3454).
 
