@@ -899,7 +899,7 @@ test_that("joins strip group indexes (#1597)", {
 
   expect_stripped <- function(df) {
     expect_null(attr(df, "indices"))
-    expect_null(attr(df, "group_sizes"))
+    #! expect_null(attr(df, "group_sizes"))
     expect_null(attr(df, "labels"))
   }
 

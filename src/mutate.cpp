@@ -36,7 +36,6 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
     res.attr("labels")  = df.attr("labels");
     res.attr("index")  = df.attr("index");
     res.attr("indices") = df.attr("indices");
-    res.attr("group_sizes") = df.attr("group_sizes");
   }
 
   return res;

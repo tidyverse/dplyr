@@ -170,6 +170,7 @@ test_that("$ does not end call traversing. #502", {
 })
 
 test_that("GroupedDataFrame checks consistency of data (#606)", {
+  skip("let's talk about that as part of #3489")
   df1 <- data_frame(
     g = rep(1:2, each = 5),
     x = 1:10

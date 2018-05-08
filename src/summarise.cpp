@@ -179,16 +179,8 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
       new_indices.push_back(seq(start, i - 1));
     }
 
-    // group_size
-    int new_nrows = new_indices.size();
-    IntegerVector group_sizes(new_nrows);
-    for (int i = 0; i < new_nrows; i++) {
-      group_sizes[i] = new_indices[i].size();
-    }
-
     // labels
     out.attr("indices") = new_indices;
-    out.attr("group_sizes") = group_sizes;
     out.attr("labels") = reconstruct_labels(old_labels, new_indices);
   } else {
     set_class(out, classes_not_grouped());

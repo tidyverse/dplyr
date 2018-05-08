@@ -36,31 +36,30 @@ public:
 
   GroupedDataFrame(SEXP x):
     data_(x),
-    group_sizes(),
     symbols(get_vars(data_)),
     labels(),
     max_group_size_(0)
   {
     // handle lazyness
-    bool is_lazy = Rf_isNull(data_.attr("group_sizes")) || Rf_isNull(data_.attr("labels"));
+    bool is_lazy = Rf_isNull(data_.attr("labels"));
 
     if (is_lazy) {
       build_index_cpp(data_);
     }
-    group_sizes = data_.attr("group_sizes");
+    List indices = data_.attr("indices");
     labels = data_.attr("labels");
 
-    int n = group_sizes.size();
-    for (int i = 0; i < n; i++) max_group_size_ = std::max(max_group_size_, group_sizes[i]);
+    int n = indices.size();
+    for (int i = 0; i < n; i++) max_group_size_ = std::max(max_group_size_, Rf_length(indices[i])) ;
 
-    if (!is_lazy) {
-      // check consistency of the groups
-      int rows_in_groups = sum(group_sizes);
-      if (data_.nrows() != rows_in_groups) {
-        bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
-                _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
-      }
-    }
+    // if (!is_lazy) {
+    //   // check consistency of the groups
+    //   int rows_in_groups = sum(group_sizes);
+    //   if (data_.nrows() != rows_in_groups) {
+    //     bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
+    //             _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
+    //   }
+    // }
   }
 
   group_iterator group_begin() const {
@@ -79,7 +78,7 @@ public:
   }
 
   inline int ngroups() const {
-    return group_sizes.size();
+    return labels.nrow();
   }
 
   inline int nvars() const {
@@ -109,7 +108,6 @@ public:
 private:
 
   DataFrame data_;
-  IntegerVector group_sizes;
   SymbolMap symbols;
   DataFrame labels;
   int max_group_size_ ;
