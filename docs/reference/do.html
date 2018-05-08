@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Do anything</a>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -102,10 +102,11 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Do anything</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/do.r'><code>R/do.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/do.r'><code>R/do.r</code></a></small>
     <div class="hidden name"><code>do.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>This is a general purpose complement to the specialised manipulation
 functions <code><a href='filter.html'>filter()</a></code>, <code><a href='select.html'>select()</a></code>, <code><a href='mutate.html'>mutate()</a></code>,
@@ -116,6 +117,7 @@ useful when working with models: you can fit models per group with
 <code>do()</code> and then flexibly extract components with either another
 <code>do()</code> or <code><a href='summarise.html'>summarise()</a></code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>do</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
     
@@ -237,14 +239,13 @@ mods %>% summarise(rsq = summary(mod)$r.squared)
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>

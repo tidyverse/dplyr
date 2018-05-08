@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Group input by rows</a>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -102,15 +102,17 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Group input by rows</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/rowwise.r'><code>R/rowwise.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/rowwise.r'><code>R/rowwise.r</code></a></small>
     <div class="hidden name"><code>rowwise.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p><code>rowwise()</code> is used for the results of <code><a href='do.html'>do()</a></code> when you
 create list-variables. It is also useful to support arbitrary
 complex operations that need to be applied to each row.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>rowwise</span>(<span class='no'>data</span>)</pre>
     
@@ -148,7 +150,7 @@ effectively equivalent to <code><a href='http://www.rdocumentation.org/packages/
 #&gt; 6 &lt;int [2]&gt;
 #&gt; 7 &lt;int [1]&gt;
 #&gt; 8 &lt;int [2]&gt;
-#&gt; 9 &lt;int [3]&gt;</div><div class='input'><span class='no'>.Last.value</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>length</span>(<span class='no'>i</span>))</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("summarise_"): no applicable method for 'summarise_' applied to an object of class "list"</span></div></pre>
+#&gt; 9 &lt;int [3]&gt;</div><div class='input'><span class='no'>.Last.value</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'>length</span>(<span class='no'>i</span>))</div><div class='output co'>#&gt; <span class='error'>Error in UseMethod("summarise_"): no applicable method for 'summarise_' applied to an object of class "logical"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -173,14 +175,13 @@ effectively equivalent to <code><a href='http://www.rdocumentation.org/packages/
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>

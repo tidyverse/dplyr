@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://dplyr.tidyverse.org/index.html</loc>
+  </url>
+  <url>
     <loc>http://dplyr.tidyverse.org/reference/add_rownames.html</loc>
   </url>
   <url>
@@ -68,6 +71,9 @@
   </url>
   <url>
     <loc>http://dplyr.tidyverse.org/reference/distinct.html</loc>
+  </url>
+  <url>
+    <loc>http://dplyr.tidyverse.org/reference/distinct_all.html</loc>
   </url>
   <url>
     <loc>http://dplyr.tidyverse.org/reference/do.html</loc>
@@ -275,9 +281,6 @@
   </url>
   <url>
     <loc>http://dplyr.tidyverse.org/articles/internals/hybrid-evaluation.html</loc>
-  </url>
-  <url>
-    <loc>http://dplyr.tidyverse.org/articles/internals/rsconnect/documents/hybrid-performance.html</loc>
   </url>
   <url>
     <loc>http://dplyr.tidyverse.org/articles/programming.html</loc>

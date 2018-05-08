@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">A data cube tbl</a>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -102,10 +102,11 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>A data cube tbl</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/tbl-cube.r'><code>R/tbl-cube.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/tbl-cube.r'><code>R/tbl-cube.r</code></a></small>
     <div class="hidden name"><code>tbl_cube.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>A cube tbl stores data in a compact array format where dimension
 names are not needlessly repeated. They are particularly appropriate for
@@ -114,6 +115,7 @@ complete factorial designs), or for storing the result of aggregations.
 Compared to data frames, they will occupy much less memory when variables
 are crossed, not nested.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>tbl_cube</span>(<span class='no'>dimensions</span>, <span class='no'>measures</span>)</pre>
     
@@ -294,14 +296,13 @@ structures into a <code>tbl_cube</code>.</p></div>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>
