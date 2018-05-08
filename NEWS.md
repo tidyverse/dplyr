@@ -5,7 +5,7 @@
 - `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux).
 - Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
 - Add documentation example for moving variable to back in `?select` (#3051).
-
+- `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
 
 # dplyr 0.7.5 (2018-04-14)
 
@@ -92,8 +92,6 @@
 * `slice()` no longer enforce tibble classes when input is a simple `data.frame`, and ignores 0 (#3297, #3313).
 
 * `transmute()` no longer prints a message when including a group variable.
-
-* `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
 
 ## Documentation
 
