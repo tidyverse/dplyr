@@ -505,12 +505,11 @@ SEXP strip_group_attributes(SEXP df) {
   SET_TAG(attribs, Rf_install("class"));
 
   SEXP p = ATTRIB(df);
-  std::vector<SEXP> black_list(5);
+  std::vector<SEXP> black_list(4);
   black_list[0] = Rf_install("indices");
   black_list[1] = Rf_install("vars");
-  black_list[2] = Rf_install("index");
-  black_list[3] = Rf_install("labels");
-  black_list[4] = Rf_install("class");
+  black_list[2] = Rf_install("labels");
+  black_list[3] = Rf_install("class");
 
   SEXP q = attribs;
   while (! Rf_isNull(p)) {
