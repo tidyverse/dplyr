@@ -82,10 +82,12 @@ SEXP reconstruct_labels(const DataFrame& old_labels, const std::vector<IntegerVe
   List out(nv);
   CharacterVector names(nv);
   CharacterVector old_names(old_labels.names());
-  for (int i = 0; i < nv; i++) {
+  for (int i = 0; i < nv - 1; i++) {
     out[i] = extract_visit(old_labels[i], new_indices);
     names[i] = old_names[i];
   }
+  out[nv - 1] = new_indices;
+  names[nv - 1] = "..indices..";
 
   set_rownames(out, new_indices.size());
   set_class(out, classes_not_grouped());
@@ -180,7 +182,6 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     }
 
     // labels
-    out.attr("indices") = new_indices;
     out.attr("labels") = reconstruct_labels(old_labels, new_indices);
   } else {
     set_class(out, classes_not_grouped());

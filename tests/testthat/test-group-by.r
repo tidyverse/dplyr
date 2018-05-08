@@ -122,7 +122,7 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
 test_that("grouped_df errors on empty vars (#398)", {
   m <- mtcars %>% group_by(cyl)
   attr(m, "vars") <- NULL
-  attr(m, "indices") <- NULL
+  attr(m, "labels") <- NULL
   expect_error(
     m %>% do(mpg = mean(.$mpg)),
     "no variables to group by",

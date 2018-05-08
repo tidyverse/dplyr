@@ -289,14 +289,15 @@ test_that("grouped filter handles indices (#880)", {
   res <- iris %>% group_by(Species) %>% filter(Sepal.Length > 5)
   res2 <- mutate(res, Petal = Petal.Width * Petal.Length)
   expect_equal(nrow(res), nrow(res2))
-  expect_equal(attr(res, "indices"), attr(res2, "indices"))
+  #! expect_equal(attr(res, "indices"), attr(res2, "indices"))
 })
 
 test_that("filter(FALSE) handles indices", {
   out <- mtcars %>%
     group_by(cyl) %>%
     filter(FALSE) %>%
-    attr("indices")
+    attr("labels") %>%
+    pull(..indices..)
   expect_identical(out, list(integer(), integer(), integer()))
 })
 

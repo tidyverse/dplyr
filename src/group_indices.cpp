@@ -432,7 +432,7 @@ void build_index_cpp(DataFrame& data) {
   CharacterVector names = data.names();
   IntegerVector indx = vars.match_in_table(names);
   std::vector<SEXP> visited_data(nvars);
-  CharacterVector label_names(nvars);
+  CharacterVector label_names(nvars + 1);
 
   for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
@@ -457,7 +457,7 @@ void build_index_cpp(DataFrame& data) {
   int ncases = s->size();
 
   // construct the labels data
-  List vec_labels(nvars);
+  List vec_labels(nvars + 1);
   List indices(ncases);
   ListCollecter indices_collecter(indices);
 
@@ -465,7 +465,8 @@ void build_index_cpp(DataFrame& data) {
     vec_labels[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
     copy_most_attributes(vec_labels[i], visited_data[i]);
   }
-
+  vec_labels[nvars] = indices;
+  label_names[nvars] = "..indices..";
   s->make(vec_labels, indices_collecter);
 
   // warn about NA in factors
@@ -489,14 +490,12 @@ void build_index_cpp(DataFrame& data) {
   // This is safe here, because the indices are an auxiliary data structure
   // that is rebuilt as necessary. Updating the object in-place saves costly
   // recomputations. We don't touch the "class" attribute here.
-  data.attr("indices") = indices;
   data.attr("labels") = vec_labels;
 }
 
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
 void strip_index(DataFrame x) {
-  x.attr("indices") = R_NilValue;
   x.attr("labels") = R_NilValue;
 }
 
@@ -505,11 +504,10 @@ SEXP strip_group_attributes(SEXP df) {
   SET_TAG(attribs, Rf_install("class"));
 
   SEXP p = ATTRIB(df);
-  std::vector<SEXP> black_list(4);
-  black_list[0] = Rf_install("indices");
-  black_list[1] = Rf_install("vars");
-  black_list[2] = Rf_install("labels");
-  black_list[3] = Rf_install("class");
+  std::vector<SEXP> black_list(3);
+  black_list[0] = Rf_install("vars");
+  black_list[1] = Rf_install("labels");
+  black_list[2] = Rf_install("class");
 
   SEXP q = attribs;
   while (! Rf_isNull(p)) {

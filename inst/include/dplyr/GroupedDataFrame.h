@@ -46,8 +46,8 @@ public:
     if (is_lazy) {
       build_index_cpp(data_);
     }
-    List indices = data_.attr("indices");
     labels = data_.attr("labels");
+    List indices = labels[labels.size() - 1];
 
     int n = indices.size();
     for (int i = 0; i < n; i++) max_group_size_ = std::max(max_group_size_, Rf_length(indices[i])) ;
@@ -82,7 +82,7 @@ public:
   }
 
   inline int nvars() const {
-    return labels.size();
+    return labels.size() - 1;
   }
 
   inline int nrows() const {
@@ -105,6 +105,10 @@ public:
     return grouped_subset(x, max_group_size());
   }
 
+  inline List indices() const {
+    return labels[labels.size() - 1] ;
+  }
+
 private:
 
   DataFrame data_;
@@ -115,7 +119,7 @@ private:
 };
 
 inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator(const GroupedDataFrame& gdf_) :
-  i(0), gdf(gdf_), indices(gdf.data().attr("indices")) {}
+  i(0), gdf(gdf_), indices(gdf.indices()) {}
 
 inline GroupedDataFrameIndexIterator& GroupedDataFrameIndexIterator::operator++() {
   i++;
