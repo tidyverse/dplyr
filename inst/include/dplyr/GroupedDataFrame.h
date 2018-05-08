@@ -137,7 +137,7 @@ using namespace dplyr;
 
 template <>
 inline bool is<GroupedDataFrame>(SEXP x) {
-  return Rf_inherits(x, "grouped_df") && Rf_getAttrib(x, Rf_install("vars")) != R_NilValue;
+  return Rf_inherits(x, "grouped_df");
 }
 
 }
