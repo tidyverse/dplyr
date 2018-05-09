@@ -17,6 +17,7 @@
 
 * Faster hybrid `sum()`, `mean()`, `var()` and `sd()` for logical vectors (#3189).
 
+* `mutate()` keeps arbitrary attributes of the data frame (#3558). 
 
 # dplyr 0.7.5.9000 (2018-05-02)
 

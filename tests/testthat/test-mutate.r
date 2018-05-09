@@ -798,3 +798,9 @@ test_that("mutate() to UTF-8 column names", {
 
   expect_equal(colnames(df), c("a", "\u5e78"))
 })
+
+test_that("mutate() keeps arbitrary attributes of the data frame (#3558)",{
+  d <- structure(data.frame(a=1:3), foo = "bar") %>%
+    mutate(a = a/2)
+  expect_equal(attr(d, "foo"), "bar")
+})
