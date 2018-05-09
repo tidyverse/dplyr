@@ -48,13 +48,6 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
 
-SEXP unique_levels(SEXP f) {
-  SEXP labels = Rf_getAttrib(f, R_LevelsSymbol);
-  IntegerVector values = seq_len(Rf_length(labels));
-  copy_attributes(values, f);
-  return values;
-}
-
 class IntRange {
 public:
   IntRange() : start(-1), size(0) {}
