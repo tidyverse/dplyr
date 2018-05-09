@@ -100,7 +100,7 @@ test_that("slice works fine if n > nrow(df) (#1269)", {
 test_that("slice strips grouped indices (#1405)", {
   res <- mtcars %>% group_by(cyl) %>% slice(1) %>% mutate(mpgplus = mpg + 1)
   expect_equal(nrow(res), 3L)
-  expect_equal(attr(res, "labels")$..indices.., as.list(0:2))
+  expect_equal(attr(res, "labels")$.rows, as.list(0:2))
 })
 
 test_that("slice works with zero-column data frames (#2490)", {

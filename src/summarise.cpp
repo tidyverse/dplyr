@@ -87,7 +87,7 @@ SEXP reconstruct_labels(const DataFrame& old_labels, const std::vector<IntegerVe
     names[i] = old_names[i];
   }
   out[nv - 1] = new_indices;
-  names[nv - 1] = "..indices..";
+  names[nv - 1] = ".rows";
 
   set_rownames(out, new_indices.size());
   set_class(out, classes_not_grouped());

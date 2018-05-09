@@ -296,7 +296,7 @@ test_that("filter(FALSE) handles indices", {
     group_by(cyl) %>%
     filter(FALSE) %>%
     attr("labels") %>%
-    pull(..indices..)
+    pull(.rows)
   expect_identical(out, list(integer(), integer(), integer()))
 })
 

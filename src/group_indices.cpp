@@ -463,7 +463,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
     copy_most_attributes(vec_labels[i], visited_data[i]);
   }
   vec_labels[nvars] = indices;
-  label_names[nvars] = "..indices..";
+  label_names[nvars] = ".rows";
   s->make(vec_labels, indices_collecter);
 
   // warn about NA in factors

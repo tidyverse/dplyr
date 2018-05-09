@@ -179,7 +179,7 @@ do.grouped_df <- function(.data, ...) {
     .data <- grouped_df_impl(.data, group_vars(.data))
   }
   labels <- attr(.data, "labels")
-  index <- labels$..indices..
+  index <- labels$.rows
   labels <- labels[,-ncol(labels), drop = FALSE]
 
   # Create ungroup version of data frame suitable for subsetting
