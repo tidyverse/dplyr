@@ -389,7 +389,7 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
   expect_is(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
 
-  labels <- attr(res, "labels")
+  labels <- attr(res, "groups")
   expect_equal(labels$.rows, list())
   expect_equal(labels$b, factor(character(0)))
 })

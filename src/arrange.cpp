@@ -73,7 +73,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
     return GroupedDataFrame(res, get_vars(data)).data();
   }
   else {
-    SET_ATTRIB(res, strip_group_attributes(res));
+    res.attr("groups") = R_NilValue ;
     return res;
   }
 }

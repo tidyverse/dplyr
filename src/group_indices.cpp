@@ -487,48 +487,23 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
 void strip_index(DataFrame x) {
-  x.attr("labels") = R_NilValue;
-}
-
-SEXP strip_group_attributes(SEXP df) {
-  Shield<SEXP> attribs(Rf_cons(dplyr::classes_not_grouped(), R_NilValue));
-  SET_TAG(attribs, Rf_install("class"));
-
-  SEXP p = ATTRIB(df);
-  std::vector<SEXP> black_list(3);
-  black_list[0] = Rf_install("vars");
-  black_list[1] = Rf_install("labels");
-  black_list[2] = Rf_install("class");
-
-  SEXP q = attribs;
-  while (! Rf_isNull(p)) {
-    SEXP tag = TAG(p);
-    if (std::find(black_list.begin(), black_list.end(), tag) == black_list.end()) {
-      Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
-      SETCDR(q, s);
-      q = CDR(q);
-      SET_TAG(q, tag);
-    }
-
-    p = CDR(p);
-  }
-  return attribs;
+  x.attr("groups") = R_NilValue;
 }
 
 namespace dplyr {
 
 SEXP force_grouped(DataFrame& data) {
-  static SEXP labels_symbol = Rf_install("labels");
+  static SEXP groups_symbol = Rf_install("groups");
   // handle lazyness
-  SEXP labels = Rf_getAttrib(data, labels_symbol);
+  SEXP groups = Rf_getAttrib(data, groups_symbol);
 
-  if (Rf_isNull(labels)) {
+  if (Rf_isNull(groups)) {
     bad_arg(".data", "is a corrupt grouped_df");
   }
-  bool is_lazy = !is<DataFrame>(labels);
+  bool is_lazy = !is<DataFrame>(groups);
   if (is_lazy) {
     SymbolVector vars = get_vars(data);
-    data.attr("labels") = build_index_cpp(data, vars);
+    data.attr("groups") = build_index_cpp(data, vars);
   }
 
   return data ;
@@ -537,7 +512,7 @@ SEXP force_grouped(DataFrame& data) {
 GroupedDataFrame::GroupedDataFrame(DataFrame x):
   data_(force_grouped(x)),
   symbols(get_vars(data_)),
-  labels(data_.attr("labels")),
+  groups(data_.attr("groups")),
   max_group_size_(0)
 {
   set_max_group_size();
@@ -555,10 +530,10 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
 GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
   data_(x),
   symbols(symbols_),
-  labels(build_index_cpp(data_, symbols_)),
+  groups(build_index_cpp(data_, symbols_)),
   max_group_size_(0)
 {
-  data_.attr("labels") = labels ;
+  data_.attr("groups") = groups ;
   set_max_group_size();
 }
 
@@ -572,9 +547,9 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index
   if (!symbols.size())
     stop("no variables to group by");
   if (build_index) {
-    copy.attr("labels") = build_index_cpp(copy, symbols);
+    copy.attr("groups") = build_index_cpp(copy, symbols);
   } else {
-    copy.attr("labels") = symbols.get_vector();
+    copy.attr("groups") = symbols.get_vector();
   }
   return copy;
 }

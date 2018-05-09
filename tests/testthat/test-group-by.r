@@ -85,13 +85,13 @@ test_that("group_by handles NA in factors #341", {
 
 test_that("group_by orders by groups. #242", {
   df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) %>% group_by(a)
-  expect_equal(attr(df, "labels")$a, 1:10)
+  expect_equal(attr(df, "groups")$a, 1:10)
 
   df <- data.frame(a = sample(letters[1:10], 3000, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
-  expect_equal(attr(df, "labels")$a, letters[1:10])
+  expect_equal(attr(df, "groups")$a, letters[1:10])
 
   df <- data.frame(a = sample(sqrt(1:10), 3000, replace = TRUE)) %>% group_by(a)
-  expect_equal(attr(df, "labels")$a, sqrt(1:10))
+  expect_equal(attr(df, "groups")$a, sqrt(1:10))
 })
 
 test_that("group_by uses the white list", {
@@ -121,7 +121,7 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
 
 test_that("grouped_df errors on NULL labels (#398)", {
   m <- mtcars %>% group_by(cyl)
-  attr(m, "labels") <- NULL
+  attr(m, "groups") <- NULL
   expect_error(
     m %>% do(mpg = mean(.$mpg)),
     "no variables to group by",
@@ -150,7 +150,7 @@ test_that("there can be 0 groups (#486)", {
   data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
-  expect_equal(map_int(attr(data, "labels")$.rows, length), integer(0))
+  expect_equal(map_int(attr(data, "groups")$.rows, length), integer(0))
 })
 
 test_that("group_by works with zero-row data frames (#486)", {

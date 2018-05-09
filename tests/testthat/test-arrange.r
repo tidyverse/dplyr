@@ -65,7 +65,7 @@ test_that("arrange handles the case where ... is missing (#338)", {
 
 test_that("arrange handles 0-rows data frames", {
   d <- data.frame(a = numeric(0))
-  expect_equal(d, arrange(d))
+  expect_identical(d, arrange(d))
 })
 
 test_that("grouped arrange ignores group (#491 -> #1206)", {
@@ -84,7 +84,7 @@ test_that("arrange keeps the grouping structure (#605)", {
   res <- dat %>% group_by(g) %>% arrange(x)
   expect_is(res, "grouped_df")
   expect_equal(res$x, 1:4)
-  expect_equal(attr(res, "labels")$.rows, list(c(1, 3), c(0, 2)))
+  expect_equal(attr(res, "groups")$.rows, list(c(1, 3), c(0, 2)))
 })
 
 test_that("arrange handles complex vectors", {

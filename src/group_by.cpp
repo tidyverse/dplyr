@@ -13,7 +13,7 @@ using namespace dplyr;
 // [[Rcpp::export]]
 DataFrame as_regular_df(DataFrame df) {
   DataFrame copy(shallow_copy(df));
-  SET_ATTRIB(copy, strip_group_attributes(df));
+  copy.attr("groups") = R_NilValue ;
   SET_OBJECT(copy, OBJECT(df));
   set_class(copy, CharacterVector::create("data.frame"));
   return copy;
@@ -22,7 +22,8 @@ DataFrame as_regular_df(DataFrame df) {
 // [[Rcpp::export]]
 DataFrame ungroup_grouped_df(DataFrame df) {
   DataFrame copy(shallow_copy(df));
-  SET_ATTRIB(copy, strip_group_attributes(df));
+  copy.attr("groups") = R_NilValue ;
+  set_class(copy, classes_not_grouped());
   return copy;
 }
 

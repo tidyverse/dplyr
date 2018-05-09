@@ -325,22 +325,22 @@ public:
 
   void reconstruct(List& out) {
     out.attr("vars") = data.attr("vars");
-    out.attr("labels") = update_label_indices((SEXP)data.attr("labels"), index.new_indices);
+    out.attr("groups") = update_groups((SEXP)data.attr("groups"), index.new_indices);
   }
 
-  SEXP update_label_indices(DataFrame old, List indices) {
+  SEXP update_groups(DataFrame old, List indices) {
     int nc = old.size();
-    List labels(nc);
-    copy_most_attributes(labels, old);
-    copy_names(labels, old);
+    List groups(nc);
+    copy_most_attributes(groups, old);
+    copy_names(groups, old);
 
     // labels
-    for (int i = 0; i < nc - 1; i++) labels[i] = old[i];
+    for (int i = 0; i < nc - 1; i++) groups[i] = old[i];
 
     // indices
-    labels[nc - 1] = indices;
+    groups[nc - 1] = indices;
 
-    return labels;
+    return groups;
   }
 
 private:

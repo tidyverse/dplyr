@@ -228,25 +228,25 @@ SEXP list_as_chr(SEXP x) {
 #include <tools/debug.h>
 
 SymbolVector get_vars(SEXP x, bool duplicate) {
-  static SEXP labels_symbol = Rf_install("labels");
-  SEXP labels = Rf_getAttrib(x, labels_symbol);
+  static SEXP groups_symbol = Rf_install("groups");
+  SEXP groups = Rf_getAttrib(x, groups_symbol);
 
   // case when x is a materialised grouped data frame
-  if (is<DataFrame>(labels)) {
-    int n = Rf_length(labels) - 1;
-    CharacterVector vars = Rf_getAttrib(labels, R_NamesSymbol);
+  if (is<DataFrame>(groups)) {
+    int n = Rf_length(groups) - 1;
+    CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
     vars.erase(n);
     return SymbolVector(vars);
   }
 
   // lazy, labels is a character vector of what to group by
-  if (is<CharacterVector>(labels)) {
-    return SymbolVector(duplicate ? labels : Rf_duplicate(labels));
+  if (is<CharacterVector>(groups)) {
+    return SymbolVector(duplicate ? groups : Rf_duplicate(groups));
   }
 
   // backward compatibility, case when labels is a list of symbols
-  if (is<List>(labels)) {
-    return SymbolVector(list_as_chr(labels));
+  if (is<List>(groups)) {
+    return SymbolVector(list_as_chr(groups));
   }
 
   stop("corrupt grouped data frame");

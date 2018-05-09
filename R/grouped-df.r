@@ -52,7 +52,7 @@ group_size.grouped_df <- function(x) {
 
 #' @export
 n_groups.grouped_df <- function(x) {
-  nrow(attr(x, "labels"))
+  nrow(attr(x, "groups"))
 }
 
 #' @export
@@ -62,7 +62,7 @@ groups.grouped_df <- function(x) {
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  labels <- attr(x, "labels")
+  labels <- attr(x, "groups")
   if (is.character(labels)) {
     # lazy grouped
     labels
@@ -175,10 +175,10 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 do.grouped_df <- function(.data, ...) {
   # Force computation of indices
-  if (!is.data.frame(attr(.data, "labels"))) {
+  if (!is.data.frame(attr(.data, "groups"))) {
     .data <- grouped_df_impl(.data, group_vars(.data))
   }
-  labels <- attr(.data, "labels")
+  labels <- attr(.data, "groups")
   index <- labels$.rows
   labels <- labels[,-ncol(labels), drop = FALSE]
 

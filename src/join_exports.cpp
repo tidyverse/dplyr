@@ -53,7 +53,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   int nrows = indices_x.size();
   set_rownames(out, nrows);
   set_class(out, classes);
-  out.attr("labels") = lazy_grouping(x);
+  out.attr("groups") = lazy_grouping(x);
 
   return (SEXP)out;
 }

@@ -898,7 +898,7 @@ test_that("joins strip group indexes (#1597)", {
   df2 <- data_frame(a = rep(1:4, 2)) %>% group_by(a)
 
   expect_stripped <- function(df) {
-    expect_is(attr(df, "labels"), "character")
+    expect_is(attr(df, "groups"), "character")
   }
 
   expect_stripped(inner_join(df1, df2))

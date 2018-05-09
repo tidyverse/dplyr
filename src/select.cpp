@@ -51,23 +51,23 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
 
   // handle labels attribute
   //   make a shallow copy of the data frame and alter its names attributes
-  if (!Rf_isNull(copy.attr("labels"))) {
+  if (!Rf_isNull(copy.attr("groups"))) {
 
-    DataFrame original_labels(copy.attr("labels"));
+    DataFrame original_groups(copy.attr("groups"));
 
-    DataFrame labels(shallow_copy(original_labels));
-    CharacterVector label_names = clone<CharacterVector>(labels.names());
+    DataFrame groups(shallow_copy(original_groups));
+    CharacterVector group_names = clone<CharacterVector>(groups.names());
 
-    IntegerVector positions = keep.match(label_names);
-    int nl = label_names.size();
+    IntegerVector positions = keep.match(group_names);
+    int nl = group_names.size();
     for (int i = 0; i < nl; i++) {
       int pos = positions[i];
       if (pos != NA_INTEGER) {
-        label_names[i] = new_names[pos - 1].get_string();
+        group_names[i] = new_names[pos - 1].get_string();
       }
     }
-    labels.names() = label_names;
-    copy.attr("labels") = labels;
+    groups.names() = group_names;
+    copy.attr("groups") = groups;
   }
   return copy;
 }

@@ -53,11 +53,11 @@ public:
   }
 
   inline int ngroups() const {
-    return labels.nrow();
+    return groups.nrow();
   }
 
   inline int nvars() const {
-    return labels.size() - 1;
+    return groups.size() - 1;
   }
 
   inline int nrows() const {
@@ -65,7 +65,7 @@ public:
   }
 
   inline SEXP label(int i) const {
-    return labels[i];
+    return groups[i];
   }
 
   inline int max_group_size() const {
@@ -81,12 +81,12 @@ public:
   }
 
   inline List indices() const {
-    return labels[labels.size() - 1] ;
+    return groups[groups.size() - 1] ;
   }
 
 private:
   void set_max_group_size() {
-    List indices = labels[labels.size() - 1];
+    List indices = groups[groups.size() - 1];
 
     int n = indices.size();
     max_group_size_ = 0;
@@ -97,7 +97,7 @@ private:
 
   DataFrame data_;
   SymbolMap symbols;
-  DataFrame labels;
+  DataFrame groups;
   int max_group_size_ ;
 
 };
