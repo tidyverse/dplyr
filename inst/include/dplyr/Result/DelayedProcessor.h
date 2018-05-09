@@ -75,15 +75,29 @@ public:
   DelayedProcessor(const RObject& first_result, int ngroups_, const SymbolString& name_) :
     res(no_init(ngroups_)), pos(0), seen_na_only(true), name(name_)
   {
-    if (!try_handle(first_result))
+    LOG_VERBOSE;
+
+    if (!try_handle(first_result)) {
       stop("cannot handle result of type %i for column '%s'", first_result.sexp_type(), name.get_utf8_cstring());
+    }
     copy_most_attributes(res, first_result);
   }
 
   DelayedProcessor(int pos_, const RObject& chunk, SEXP res_, const SymbolString& name_) :
-    res(as<Vec>(res_)), pos(pos_), seen_na_only(false), name(name_)
+    pos(pos_), seen_na_only(false), name(name_)
   {
+    LOG_VERBOSE;
+
     copy_most_attributes(res, chunk);
+
+    // We need to copy carefully here to avoid accessing uninitialized
+    // parts of res_, which triggers valgrind failures and is inefficient
+    R_xlen_t orig_length = Rf_xlength(res_);
+    SEXP short_res_ = Rf_xlengthgets(res_, pos);
+    res = Rf_xlengthgets(as<Vec>(short_res_), orig_length);
+
+    // try_handle() changes pos as a side effect, needs to be done after copying
+    // (we don't care about the unnecessary copy in the failure case)
     if (!try_handle(chunk)) {
       stop("cannot handle result of type %i in promotion for column '%s'",
            chunk.sexp_type(), name.get_utf8_cstring()
@@ -92,22 +106,27 @@ public:
   }
 
   virtual bool try_handle(const RObject& chunk) {
+    LOG_VERBOSE;
+
     check_supported_type(chunk, name);
     check_length(Rf_length(chunk), 1, "a summary value", name);
 
     int rtype = TYPEOF(chunk);
-    if (valid_conversion<RTYPE>(rtype)) {
-      // copy, and memoize the copied value
-      const typename Vec::stored_type& converted_chunk = (res[pos++] = as<STORAGE>(chunk));
-      if (!Vec::is_na(converted_chunk))
-        seen_na_only = false;
-      return true;
-    } else {
+    if (!valid_conversion<RTYPE>(rtype)) {
       return false;
     }
+
+    // copy, and memoize the copied value
+    const typename Vec::stored_type& converted_chunk = (res[pos++] = as<STORAGE>(chunk));
+    if (!Vec::is_na(converted_chunk))
+      seen_na_only = false;
+
+    return true;
   }
 
   virtual IDelayedProcessor* promote(const RObject& chunk) {
+    LOG_VERBOSE;
+
     if (!can_promote(chunk)) {
       LOG_VERBOSE << "can't promote";
       return 0;

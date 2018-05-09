@@ -1,8 +1,8 @@
 ## Release summary
 
-Bug fixes, minor changes, now importing the tidyselect package.
+Same-version update to fix UBSAN and valgrind errors, first release attempt on April 19. Changes compared to the last release attempt: https://github.com/tidyverse/dplyr/pull/3563.
 
-Double-checked with UBSAN, unable to replicate errors seen on CRAN.
+Bug fixes, minor changes, now importing the tidyselect package.
 
 ## Test environments
 
