@@ -1,3 +1,4 @@
+- new method `rows()` to get a list of row indices for each group
 - `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
 - `sample_n()` and `sample_frac()` can use `n()` (#3527).
 - `sample_n()` and `sample_frac()` handle lazy grouped data frames (#3380).

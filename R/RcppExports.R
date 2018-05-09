@@ -90,6 +90,10 @@ slice_impl <- function(df, dots) {
     .Call(`_dplyr_slice_impl`, df, dots)
 }
 
+rows_impl <- function(data) {
+    .Call(`_dplyr_rows_impl`, data)
+}
+
 as_regular_df <- function(df) {
     .Call(`_dplyr_as_regular_df`, df)
 }
