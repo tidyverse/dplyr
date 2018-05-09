@@ -541,14 +541,15 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
   max_group_size_(0)
 {
   set_max_group_size();
-  // if (!is_lazy) {
-  //   // check consistency of the groups
-  //   int rows_in_groups = sum(group_sizes);
-  //   if (data_.nrows() != rows_in_groups) {
-  //     bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
-  //             _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
-  //   }
-  // }
+
+  int rows_in_groups = 0;
+  int ng = ngroups();
+  List indices_ = indices();
+  for (int i = 0; i < ng; i++) rows_in_groups += Rf_length(indices_[i]);
+  if (data_.nrows() != rows_in_groups) {
+    bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
+            _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
+  }
 }
 
 GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):

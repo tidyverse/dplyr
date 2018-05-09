@@ -170,12 +170,11 @@ test_that("$ does not end call traversing. #502", {
 })
 
 test_that("GroupedDataFrame checks consistency of data (#606)", {
-  skip("let's talk about that as part of #3489")
   df1 <- data_frame(
     g = rep(1:2, each = 5),
     x = 1:10
   ) %>% group_by(g)
-  attr(df1, "group_sizes") <- c(2, 2)
+  attr(df1, "labels")$..indices <- list(c(2:3),c(5:6))
 
   expect_error(
     df1 %>% filter(x == 1),
