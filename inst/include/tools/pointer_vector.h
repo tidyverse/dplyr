@@ -19,6 +19,10 @@ public:
   inline ~pointer_vector() {
     typedef typename Vector::size_type size_type;
     size_type n = data.size();
+
+    // shortcut to avoid decreasing iterator past begin()
+    if (n == 0) return;
+
     iterator it = data.end();
     --it;
     for (size_type i = 0; i < n; --it, i++) delete *it;
