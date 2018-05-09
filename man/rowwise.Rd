@@ -23,6 +23,7 @@ effectively equivalent to \code{\link[plyr:ldply]{plyr::ldply()}}.
 }
 \examples{
 df <- expand.grid(x = 1:3, y = 3:1)
-df \%>\% rowwise() \%>\% do(i = seq(.$x, .$y))
-.Last.value \%>\% summarise(n = length(i))
+df_done <- df \%>\% rowwise() \%>\% do(i = seq(.$x, .$y))
+df_done
+df_done \%>\% summarise(n = length(i))
 }

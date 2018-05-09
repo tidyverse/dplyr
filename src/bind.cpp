@@ -175,6 +175,9 @@ SEXP flatten_bindable(SEXP x) {
 
 List rbind__impl(List dots, const SymbolString& id) {
   int ndata = dots.size();
+
+  LOG_VERBOSE << "binding at most " << ndata << " chunks";
+
   R_xlen_t n = 0;
   std::vector<SEXP> chunks;
   std::vector<R_xlen_t> df_nrows;
@@ -199,6 +202,9 @@ List rbind__impl(List dots, const SymbolString& id) {
   }
   ndata = chunks.size();
   pointer_vector<Collecter> columns;
+
+
+  LOG_VERBOSE << "binding " << ndata << " chunks";
 
   SymbolVector names;
 
@@ -274,6 +280,9 @@ List rbind__impl(List dots, const SymbolString& id) {
   }
 
   int nc = columns.size();
+
+  LOG_VERBOSE << "result has " << nc << " columns";
+
   int has_id = id.is_empty() ? 0 : 1;
 
   List out(no_init(nc + has_id));
@@ -298,6 +307,8 @@ List rbind__impl(List dots, const SymbolString& id) {
   out.attr("names") = out_names;
   set_rownames(out, n);
 
+  LOG_VERBOSE << "result has " << n << " rows";
+
   // infer the classes and extra info (groups, etc ) from the first (#1692)
   if (ndata) {
     SEXP first = chunks[0];
@@ -319,6 +330,8 @@ List rbind__impl(List dots, const SymbolString& id) {
 
 // [[Rcpp::export]]
 List bind_rows_(List dots, SEXP id) {
+  LOG_VERBOSE;
+
   if (Rf_isNull(id))
     return rbind__impl(dots, SymbolString());
   else
