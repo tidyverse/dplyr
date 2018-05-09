@@ -132,7 +132,7 @@ class Slicer {
 public:
   virtual ~Slicer() {};
   virtual int size() = 0;
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) = 0;
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) = 0;
 };
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_);
 
@@ -144,7 +144,7 @@ public:
     return 1;
   }
 
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) {
     return IntRange(indices_collecter.collect(index_range), 1);
   }
 
@@ -194,29 +194,29 @@ public:
     return slicer_size;
   }
 
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
-    IntRange labels_range;
-    SEXP x = vec_labels[depth];
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) {
+    IntRange groups_range;
+    SEXP x = vec_groups[depth];
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, indices_collecter);
-      labels_range.add(idx);
+      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
 
-      // fill the labels at these indices
+      // fill the groups at these indices
       std::fill_n(INTEGER(x) + idx.start, idx.size, i + 1);
     }
 
     if (has_implicit_na) {
       // collect the indices for the implicit NA pseudo group
-      IntRange idx = slicers[nlevels]->make(vec_labels, indices_collecter);
-      labels_range.add(idx);
+      IntRange idx = slicers[nlevels]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
 
-      // fill the labels at these indices
+      // fill the groups at these indices
       std::fill_n(INTEGER(x) + idx.start, idx.size, NA_INTEGER);
     }
 
-    return labels_range;
+    return groups_range;
   }
 
   virtual ~FactorSlicer() {}
@@ -311,20 +311,20 @@ public:
     return slicer_size;
   }
 
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
-    IntRange labels_range;
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) {
+    IntRange groups_range;
     int nlevels = slicers.size();
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, indices_collecter);
-      labels_range.add(idx);
+      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
 
-      // fill the labels at these indices
-      copy_visit(idx, agents[i], vec_labels[depth], data[depth]);
+      // fill the groups at these indices
+      copy_visit(idx, agents[i], vec_groups[depth], data[depth]);
     }
 
-    return labels_range;
+    return groups_range;
   }
 
   virtual ~VectorSlicer() {}
@@ -422,7 +422,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   CharacterVector names = data.names();
   IntegerVector indx = vars.match_in_table(names);
   std::vector<SEXP> visited_data(nvars);
-  CharacterVector label_names(nvars + 1);
+  CharacterVector groups_names(nvars + 1);
 
   for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
@@ -432,7 +432,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
 
     SEXP v = data[pos - 1];
     visited_data[i] = v;
-    label_names[i] = names[pos - 1];
+    groups_names[i] = names[pos - 1];
 
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
       bad_col(vars[i], "can't be used as a grouping variable because it's a {type}",
@@ -446,35 +446,35 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
 
   int ncases = s->size();
 
-  // construct the labels data
-  List vec_labels(nvars + 1);
+  // construct the groups data
+  List vec_groups(nvars + 1);
   List indices(ncases);
   ListCollecter indices_collecter(indices);
 
   for (int i = 0; i < nvars; i++) {
-    vec_labels[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
-    copy_most_attributes(vec_labels[i], visited_data[i]);
+    vec_groups[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
+    copy_most_attributes(vec_groups[i], visited_data[i]);
   }
-  vec_labels[nvars] = indices;
-  label_names[nvars] = ".rows";
-  s->make(vec_labels, indices_collecter);
+  vec_groups[nvars] = indices;
+  groups_names[nvars] = ".rows";
+  s->make(vec_groups, indices_collecter);
 
   // warn about NA in factors
   for (int i = 0; i < nvars; i++) {
-    SEXP x = vec_labels[i];
+    SEXP x = vec_groups[i];
     if (Rf_isFactor(x)) {
       IntegerVector xi(x);
       if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
-        warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(label_names[i].get())));
+        warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(groups_names[i].get())));
       }
     }
   }
 
-  vec_labels.attr("names") = label_names;
-  vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_labels.attr("class") = classes_not_grouped() ;
+  vec_groups.attr("names") = groups_names;
+  vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
+  vec_groups.attr("class") = classes_not_grouped() ;
 
-  return vec_labels;
+  return vec_groups;
 }
 
 // Updates attributes in data by reference!

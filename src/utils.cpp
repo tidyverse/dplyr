@@ -239,12 +239,12 @@ SymbolVector get_vars(SEXP x, bool duplicate) {
     return SymbolVector(vars);
   }
 
-  // lazy, labels is a character vector of what to group by
+  // lazy, groups is a character vector of what to group by
   if (is<CharacterVector>(groups)) {
     return SymbolVector(duplicate ? groups : Rf_duplicate(groups));
   }
 
-  // backward compatibility, case when labels is a list of symbols
+  // backward compatibility, case when groups is a list of symbols
   if (is<List>(groups)) {
     return SymbolVector(list_as_chr(groups));
   }

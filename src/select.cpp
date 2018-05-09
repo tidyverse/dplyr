@@ -49,7 +49,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
     }
   }
 
-  // handle labels attribute
+  // handle groups attribute
   //   make a shallow copy of the data frame and alter its names attributes
   if (!Rf_isNull(copy.attr("groups"))) {
 

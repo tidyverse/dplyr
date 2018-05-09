@@ -313,8 +313,7 @@ public:
   void reconstruct(List& out) {}
 };
 
-// specific case for GroupedDataFrame
-// we need to take care of the attributes `indices`, `labels`, `vars`
+// specific case for GroupedDataFrame, we need to take care of `groups`
 template <typename Index>
 class SlicedTibbleRebuilder<Index, GroupedDataFrame> {
 public:
@@ -324,7 +323,6 @@ public:
   {}
 
   void reconstruct(List& out) {
-    out.attr("vars") = data.attr("vars");
     out.attr("groups") = update_groups((SEXP)data.attr("groups"), index.new_indices);
   }
 
@@ -367,7 +365,6 @@ SEXP structure_filter(const DataFrame& data, const GroupFilterIndices<Index>& gr
 
   // set the specific attributes
   // currently this only does anything for SlicedTibble = GroupedDataFrame
-  // i.e. retain the indices, labels, ... attributes
   SlicedTibbleRebuilder<Index, SlicedTibble>(group_indices, data).reconstruct(out);
 
   return out;
@@ -527,7 +524,7 @@ SEXP slice_impl(DataFrame df, QuosureList dots) {
 }
 
 template <typename SlicedTibble, typename LazySubsets>
-List rows_template(const SlicedTibble& gdf){
+List rows_template(const SlicedTibble& gdf) {
   typedef typename SlicedTibble::group_iterator group_iterator;
   int ngroups = gdf.ngroups() ;
   List out(ngroups);
@@ -539,10 +536,10 @@ List rows_template(const SlicedTibble& gdf){
 }
 
 // [[Rcpp::export]]
-List rows_impl(DataFrame data){
-  if (is<GroupedDataFrame>(data)){
+List rows_impl(DataFrame data) {
+  if (is<GroupedDataFrame>(data)) {
     return rows_template<GroupedDataFrame, LazySplitSubsets<GroupedDataFrame> >(GroupedDataFrame(data));
-  } else if(is<RowwiseDataFrame>(data)){
+  } else if (is<RowwiseDataFrame>(data)) {
     return rows_template<RowwiseDataFrame, LazySplitSubsets<RowwiseDataFrame> >(RowwiseDataFrame(data));
   } else {
     return rows_template<NaturalDataFrame, LazySubsets >(NaturalDataFrame(data));
