@@ -48,7 +48,7 @@ public:
     set_class(out, classes);
     set_rownames(out, nrows);
     out.names() = visitor_names_left;
-    copy_vars(out, left);
+    out.attr("labels") = lazy_grouping(left);
     return (SEXP)out;
   }
 

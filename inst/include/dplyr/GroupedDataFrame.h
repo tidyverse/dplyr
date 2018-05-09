@@ -34,33 +34,8 @@ public:
   typedef GroupedSlicingIndex slicing_index;
   typedef GroupedSubset subset;
 
-  GroupedDataFrame(SEXP x):
-    data_(x),
-    symbols(get_vars(data_)),
-    labels(),
-    max_group_size_(0)
-  {
-    // handle lazyness
-    bool is_lazy = Rf_isNull(data_.attr("labels"));
-
-    if (is_lazy) {
-      build_index_cpp(data_);
-    }
-    labels = data_.attr("labels");
-    List indices = labels[labels.size() - 1];
-
-    int n = indices.size();
-    for (int i = 0; i < n; i++) max_group_size_ = std::max(max_group_size_, Rf_length(indices[i])) ;
-
-    // if (!is_lazy) {
-    //   // check consistency of the groups
-    //   int rows_in_groups = sum(group_sizes);
-    //   if (data_.nrows() != rows_in_groups) {
-    //     bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
-    //             _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
-    //   }
-    // }
-  }
+  GroupedDataFrame(DataFrame x);
+  GroupedDataFrame(DataFrame x, const SymbolVector& symbols_);
 
   group_iterator group_begin() const {
     return GroupedDataFrameIndexIterator(*this);
@@ -110,6 +85,15 @@ public:
   }
 
 private:
+  void set_max_group_size() {
+    List indices = labels[labels.size() - 1];
+
+    int n = indices.size();
+    max_group_size_ = 0;
+    for (int i = 0; i < n; i++) {
+      max_group_size_ = std::max(max_group_size_, Rf_length(indices[i])) ;
+    }
+  }
 
   DataFrame data_;
   SymbolMap symbols;

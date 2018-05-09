@@ -259,7 +259,7 @@ void DataFrameSubsetVisitors::structure(List& x, int nrows, CharacterVector clas
   set_class(x, classes);
   set_rownames(x, nrows);
   x.names() = visitor_names;
-  copy_vars(x, data);
+  x.attr("labels") = lazy_grouping(data);
 }
 
 template <>

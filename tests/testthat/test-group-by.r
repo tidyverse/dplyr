@@ -119,9 +119,8 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
   expect_equal(names(res), c("vs", "mpg"))
 })
 
-test_that("grouped_df errors on empty vars (#398)", {
+test_that("grouped_df errors on NULL labels (#398)", {
   m <- mtcars %>% group_by(cyl)
-  attr(m, "vars") <- NULL
   attr(m, "labels") <- NULL
   expect_error(
     m %>% do(mpg = mean(.$mpg)),
@@ -151,7 +150,7 @@ test_that("there can be 0 groups (#486)", {
   data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
-  #! expect_equal(attr(data, "group_sizes"), integer(0))
+  expect_equal(lengths(attr(data, "labels")$..indices), integer(0))
 })
 
 test_that("group_by works with zero-row data frames (#486)", {

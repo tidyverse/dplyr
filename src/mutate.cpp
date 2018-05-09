@@ -32,7 +32,6 @@ SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
   set_rownames(res, df.nrows());
 
   if (grouped) {
-    copy_vars(res, df);
     res.attr("labels")  = df.attr("labels");
   }
 

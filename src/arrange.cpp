@@ -17,6 +17,8 @@
 using namespace Rcpp;
 using namespace dplyr;
 
+#include <tools/debug.h>
+
 // [[Rcpp::export]]
 List arrange_impl(DataFrame data, QuosureList quosures) {
   if (data.size() == 0 || data.nrows() == 0)
@@ -68,9 +70,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
     // see the lazyness feature in GroupedDataFrame
     // if we don't do that, we get the values of the un-arranged data
     // set for free from subset (#1064)
-    res.attr("labels") = R_NilValue;
-    copy_vars(res, data);
-    return GroupedDataFrame(res).data();
+    return GroupedDataFrame(res, get_vars(data)).data();
   }
   else {
     SET_ATTRIB(res, strip_group_attributes(res));

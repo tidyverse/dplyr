@@ -49,8 +49,6 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
     }
   }
 
-  set_vars(copy, vars);
-
   // handle labels attribute
   //   make a shallow copy of the data frame and alter its names attributes
   if (!Rf_isNull(copy.attr("labels"))) {
@@ -69,7 +67,6 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
       }
     }
     labels.names() = label_names;
-    set_vars(labels, vars);
     copy.attr("labels") = labels;
   }
   return copy;

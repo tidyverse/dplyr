@@ -62,10 +62,17 @@ groups.grouped_df <- function(x) {
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  vars <- attr(x, "vars")
-  # Need this for compatibility with existing packages that might
-  if (is.list(vars)) vars <- map_chr(vars, as_string)
-  vars
+  labels <- attr(x, "labels")
+  if (is.character(labels)) {
+    # lazy grouped
+    labels
+  } else if (is.data.frame(labels)) {
+    # resolved, extract from the names of the data frame
+    head(names(labels), -1L)
+  } else if (is.list(labels)) {
+    # Need this for compatibility with existing packages that might
+    map_chr(labels, as_string)
+  }
 }
 
 #' @export

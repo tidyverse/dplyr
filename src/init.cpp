@@ -33,8 +33,3 @@ SEXP get_date_classes() {
 SEXP get_time_classes() {
   return VECTOR_ELT(get_cache(), 1);
 }
-
-// work around a problem (?) in Rcpp
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
-void build_index_cpp(DataFrame& data);

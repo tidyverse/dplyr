@@ -423,10 +423,7 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
   }
 }
 
-// Updates attributes in data by reference!
-// All these attributes are private to dplyr.
-void build_index_cpp(DataFrame& data) {
-  SymbolVector vars(get_vars(data));
+SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   const int nvars = vars.size();
 
   CharacterVector names = data.names();
@@ -483,14 +480,8 @@ void build_index_cpp(DataFrame& data) {
   vec_labels.attr("names") = label_names;
   vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
   vec_labels.attr("class") = classes_not_grouped() ;
-  copy_vars(vec_labels, data);
 
-  // The attributes are injected into data without duplicating it!
-  // The object is mutated, violating R's usual copy-on-write semantics.
-  // This is safe here, because the indices are an auxiliary data structure
-  // that is rebuilt as necessary. Updating the object in-place saves costly
-  // recomputations. We don't touch the "class" attribute here.
-  data.attr("labels") = vec_labels;
+  return vec_labels;
 }
 
 // Updates attributes in data by reference!
@@ -523,3 +514,67 @@ SEXP strip_group_attributes(SEXP df) {
   }
   return attribs;
 }
+
+namespace dplyr {
+
+SEXP force_grouped(DataFrame& data) {
+  static SEXP labels_symbol = Rf_install("labels");
+  // handle lazyness
+  SEXP labels = Rf_getAttrib(data, labels_symbol);
+
+  if (Rf_isNull(labels)) {
+    bad_arg(".data", "is a corrupt grouped_df");
+  }
+  bool is_lazy = !is<DataFrame>(labels);
+  if (is_lazy) {
+    SymbolVector vars = get_vars(data);
+    data.attr("labels") = build_index_cpp(data, vars);
+  }
+
+  return data ;
+}
+
+GroupedDataFrame::GroupedDataFrame(DataFrame x):
+  data_(force_grouped(x)),
+  symbols(get_vars(data_)),
+  labels(data_.attr("labels")),
+  max_group_size_(0)
+{
+  set_max_group_size();
+  // if (!is_lazy) {
+  //   // check consistency of the groups
+  //   int rows_in_groups = sum(group_sizes);
+  //   if (data_.nrows() != rows_in_groups) {
+  //     bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
+  //             _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
+  //   }
+  // }
+}
+
+GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
+  data_(x),
+  symbols(symbols_),
+  labels(build_index_cpp(data_, symbols_)),
+  max_group_size_(0)
+{
+  data_.attr("labels") = labels ;
+  set_max_group_size();
+}
+
+}
+
+// [[Rcpp::export]]
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index = true) {
+  assert_all_white_list(data);
+  DataFrame copy(shallow_copy(data));
+  set_class(copy, classes_grouped<GroupedDataFrame>());
+  if (!symbols.size())
+    stop("no variables to group by");
+  if (build_index) {
+    copy.attr("labels") = build_index_cpp(copy, symbols);
+  } else {
+    copy.attr("labels") = symbols.get_vector();
+  }
+  return copy;
+}
+

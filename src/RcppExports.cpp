@@ -205,19 +205,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// grouped_df_impl
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index);
-RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP build_indexSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< SymbolVector >::type symbols(symbolsSEXP);
-    Rcpp::traits::input_parameter< bool >::type build_index(build_indexSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, build_index));
-    return rcpp_result_gen;
-END_RCPP
-}
 // as_regular_df
 DataFrame as_regular_df(DataFrame df);
 RcppExport SEXP _dplyr_as_regular_df(SEXP dfSEXP) {
@@ -273,6 +260,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// grouped_df_impl
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index);
+RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP build_indexSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< SymbolVector >::type symbols(symbolsSEXP);
+    Rcpp::traits::input_parameter< bool >::type build_index(build_indexSEXP);
+    rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, build_index));
+    return rcpp_result_gen;
+END_RCPP
+}
 // get_date_classes
 SEXP get_date_classes();
 static SEXP _dplyr_get_date_classes_try() {
@@ -316,35 +316,6 @@ RcppExport SEXP _dplyr_get_time_classes() {
     {
         Rcpp::RNGScope rcpp_rngScope_gen;
         rcpp_result_gen = PROTECT(_dplyr_get_time_classes_try());
-    }
-    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
-    if (rcpp_isInterrupt_gen) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
-    if (rcpp_isError_gen) {
-        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
-        UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
-    }
-    UNPROTECT(1);
-    return rcpp_result_gen;
-}
-// build_index_cpp
-void build_index_cpp(DataFrame& data);
-static SEXP _dplyr_build_index_cpp_try(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::traits::input_parameter< DataFrame& >::type data(dataSEXP);
-    build_index_cpp(data);
-    return R_NilValue;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP _dplyr_build_index_cpp(SEXP dataSEXP) {
-    SEXP rcpp_result_gen;
-    {
-        Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_dplyr_build_index_cpp_try(dataSEXP));
     }
     Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
     if (rcpp_isInterrupt_gen) {
@@ -718,7 +689,6 @@ static int _dplyr_RcppExport_validate(const char* sig) {
     if (signatures.empty()) {
         signatures.insert("SEXP(*get_date_classes)()");
         signatures.insert("SEXP(*get_time_classes)()");
-        signatures.insert("void(*build_index_cpp)(DataFrame&)");
     }
     return signatures.find(sig) != signatures.end();
 }
@@ -727,7 +697,6 @@ static int _dplyr_RcppExport_validate(const char* sig) {
 RcppExport SEXP _dplyr_RcppExport_registerCCallable() { 
     R_RegisterCCallable("dplyr", "_dplyr_get_date_classes", (DL_FUNC)_dplyr_get_date_classes_try);
     R_RegisterCCallable("dplyr", "_dplyr_get_time_classes", (DL_FUNC)_dplyr_get_time_classes_try);
-    R_RegisterCCallable("dplyr", "_dplyr_build_index_cpp", (DL_FUNC)_dplyr_build_index_cpp_try);
     R_RegisterCCallable("dplyr", "_dplyr_RcppExport_validate", (DL_FUNC)_dplyr_RcppExport_validate);
     return R_NilValue;
 }
@@ -750,15 +719,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
-    {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
     {"_dplyr_as_regular_df", (DL_FUNC) &_dplyr_as_regular_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_test_grouped_df", (DL_FUNC) &_dplyr_test_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
+    {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
     {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},
     {"_dplyr_get_time_classes", (DL_FUNC) &_dplyr_get_time_classes, 0},
-    {"_dplyr_build_index_cpp", (DL_FUNC) &_dplyr_build_index_cpp, 1},
     {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 5},
     {"_dplyr_anti_join_impl", (DL_FUNC) &_dplyr_anti_join_impl, 5},
     {"_dplyr_inner_join_impl", (DL_FUNC) &_dplyr_inner_join_impl, 7},

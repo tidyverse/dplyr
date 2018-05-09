@@ -219,38 +219,47 @@ SEXP list_as_chr(SEXP x) {
       break;
     }
 
-    stop("The tibble's `vars` attribute has unexpected contents");
+    stop("corrupt grouped data frame");
   }
 
   return chr;
 }
 
-SymbolVector get_vars(SEXP x, bool duplicate) {
-  static SEXP vars_symbol = Rf_install("vars");
-  RObject vars = Rf_getAttrib(x, vars_symbol);
-  if (duplicate && MAYBE_SHARED(vars)) vars = Rf_duplicate(vars);
+#include <tools/debug.h>
 
-  switch (TYPEOF(vars)) {
-  case NILSXP:
-  case STRSXP:
-    break;
-  case VECSXP:
-    vars = list_as_chr(vars);
-    break;
-  default:
-    stop("The tibble's `vars` attribute has unexpected type");
+SymbolVector get_vars(SEXP x, bool duplicate) {
+  static SEXP labels_symbol = Rf_install("labels");
+  SEXP labels = Rf_getAttrib(x, labels_symbol);
+
+  // case when x is a materialised grouped data frame
+  if (is<DataFrame>(labels)) {
+    int n = Rf_length(labels) - 1;
+    CharacterVector vars = Rf_getAttrib(labels, R_NamesSymbol);
+    vars.erase(n);
+    return SymbolVector(vars);
   }
 
-  return SymbolVector(vars);
+  // lazy, labels is a character vector of what to group by
+  if (is<CharacterVector>(labels)) {
+    return SymbolVector(duplicate ? labels : Rf_duplicate(labels));
+  }
+
+  // backward compatibility, case when labels is a list of symbols
+  if (is<List>(labels)) {
+    return SymbolVector(list_as_chr(labels));
+  }
+
+  stop("corrupt grouped data frame");
+
+  // never happens
+  return SymbolVector();
 }
 
-void set_vars(SEXP x, const SymbolVector& vars) {
-  static SEXP vars_symbol = Rf_install("vars");
-  Rf_setAttrib(x, vars_symbol, null_if_empty(vars.get_vector()));
-}
-
-void copy_vars(SEXP target, SEXP source) {
-  set_vars(target, get_vars(source));
+SEXP lazy_grouping(SEXP source) {
+  if (Rf_inherits(source, "grouped_df")) {
+    return get_vars(source).get_vector();
+  }
+  return R_NilValue ;
 }
 
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {

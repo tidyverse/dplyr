@@ -166,7 +166,6 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     copy_class(out, df);
     SymbolVector vars = get_vars(gdf.data(), true);
     vars.remove(gdf.nvars() - 1);
-    set_vars(out, vars);
 
     DataFrame old_labels = Rf_getAttrib(df, Rf_install("labels"));
     int nv = gdf.nvars() - 1;
