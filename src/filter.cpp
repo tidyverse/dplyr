@@ -522,26 +522,3 @@ SEXP slice_impl(DataFrame df, QuosureList dots) {
     return slice_template<NaturalDataFrame>(NaturalDataFrame(df), dots[0]);
   }
 }
-
-template <typename SlicedTibble, typename LazySubsets>
-List rows_template(const SlicedTibble& gdf) {
-  typedef typename SlicedTibble::group_iterator group_iterator;
-  int ngroups = gdf.ngroups() ;
-  List out(ngroups);
-  group_iterator git = gdf.group_begin();
-  for (int i = 0; i < ngroups; i++, ++git) {
-    out[i] = *git;
-  }
-  return out;
-}
-
-// [[Rcpp::export]]
-List rows_impl(DataFrame data) {
-  if (is<GroupedDataFrame>(data)) {
-    return rows_template<GroupedDataFrame, LazySplitSubsets<GroupedDataFrame> >(GroupedDataFrame(data));
-  } else if (is<RowwiseDataFrame>(data)) {
-    return rows_template<RowwiseDataFrame, LazySplitSubsets<RowwiseDataFrame> >(RowwiseDataFrame(data));
-  } else {
-    return rows_template<NaturalDataFrame, LazySubsets >(NaturalDataFrame(data));
-  }
-}

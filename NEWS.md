@@ -1,4 +1,3 @@
-- new method `rows()` to get a list of row indices for each group
 - `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
 - `sample_n()` and `sample_frac()` can use `n()` (#3527).
 - `sample_n()` and `sample_frac()` handle lazy grouped data frames (#3380).
@@ -9,6 +8,8 @@
 - `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
 - `group_by()` respects levels of factors and keeps empty groups (#341). 
 - `filter`  gains a `.preserve` argument to control which groups it should keep. 
+- new method `rows()` to get a list of row indices for each group (#3489).
+- new method `group_data()` (#3489).
 
 # dplyr 0.7.5.9001
 
