@@ -14,25 +14,31 @@
 
 ## Bug fixes
 
-* Reindexing grouped data frames never updates the `"class"` attribute. This also avoids unintended updates to the original object (#3438).
+* `distinct(data, "string")` now returns a one-row data frame again. (The
+  previous behavior was to return the data unchanged.)
 
 * `do()` operations with more than one named argument can access `.` (#2998).
 
-* Summaries of summaries (such as `summarise(b = sum(a), c = sum(b))`) are now
-  computed using standard evaluation for simplicity and correctness, but
+* Reindexing grouped data frames (e.g. after `filter()` or `..._join()`)
+  never updates the `"class"` attribute. This also avoids unintended updates
+  to the original object (#3438).
+
+* Fixed rare column name clash in `..._join()` with non-join
+  columns of the same name in both tables (#3266).
+
+*  Fix `ntile()` and `row_number()` ordering to use the locale-dependent
+  ordering functions in R when dealing with character vectors, rather than
+  always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
+
+* Summaries of summaries (such as `summarise(b = sum(a), c = sum(b))`) are
+  now computed using standard evaluation for simplicity and correctness, but
   slightly slower (#3233).
 
-* Fixed rare column name clash in joins with non-join columns of the same name in both tables (#3266).
+* Fixed `summarise()` for empty data frames with zero columns (#3071).
 
-* Fix `summarise()` for empty data frames with zero columns (#3071).
+## Major changes
 
-*  Fix `row_number()` and `ntile()` ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (#2792, @foo-bar-baz-qux).
-
-* `distinct(data, "string")` now returns a one-row data frame again. (The previous behavior was to return the data unchanged.)
-
-## Changes
-
-* `sym()`, `syms()`, `expr()`, `exprs()` and `enexpr()` are now
+* `enexpr()`, `expr()`, `exprs()`, `sym()` and `syms()` are now
   exported. `sym()` and `syms()` construct symbols from strings or character
   vectors. The `expr()` variants are equivalent to `quo()`, `quos()` and
   `enquo()` but return simple expressions rather than quosures. They support
@@ -57,70 +63,92 @@
   input in mutating operations and `mutate(df, "foo")` creates a new column by
   recycling "foo" to the number of rows.
 
-* Support for raw vector columns in `mutate`, `summarise`, `arrange`, `group_by`
-  and joins (minimal `raw` x `raw` support initially) (#1803). 
+## Minor changes
 
-* Hybrid evaluation simplifies `dplyr::foo` to `foo` (#3309). Hybrid functions can now be masked by regular R functions to turn off hybrid evaluation (#3255). The hybrid evaluator finds functions from dplyr even if dplyr is not attached (#3456).
-
-* Scoped select and rename functions (`select_all()`, `rename_if()` etc.) now work with grouped data frames, adapting the grouping as necessary (#2947, #3410). `group_by_at` can group by an existing grouping variable (#3351). `arrange_at` can use grouping variables (#3332). 
-
-* `row_number()` works on empty subsets (#3454).
+* Support for raw vector columns in `arrange()`, `group_by()`, `mutate()`,
+  `summarise()` and `..._join()` (minimal `raw` x `raw` support initially) (#1803). 
 
 * `bind_cols()` handles unnamed list (#3402).
 
-* `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
+* `bind_rows()` works around corrupt columns that have the object bit set
+  while having no class attribute (#3349). 
 
-* Support `!!!` in `recode_factor()` (#3390).
+* `combine()` returns `logical()` when all inputs are `NULL` (or when there
+  are no inputs) (#3365, @zeehio).
 
 *  `distinct()` now supports renaming columns (#3234).
 
-* It is now illegal to use `data.frame` in the rhs of `mutate()` (#3298). 
+* Hybrid evaluation simplifies `dplyr::foo()` to `foo()` (#3309). Hybrid
+  functions can now be masked by regular R functions to turn off hybrid
+  evaluation (#3255). The hybrid evaluator finds functions from dplyr even if
+  dplyr is not attached (#3456).
 
-* `combine()` returns `logical()` when all inputs are `NULL` (or when there are no inputs) (#3365, @zeehio).
+* In `mutate()` it is now illegal to use `data.frame` in the rhs (#3298). 
 
-* `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349). 
+* Support `!!!` in `recode_factor()` (#3390).
 
-* `slice()` no longer enforce tibble classes when input is a simple `data.frame`, and ignores 0 (#3297, #3313).
+* `row_number()` works on empty subsets (#3454).
+
+* `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
+
+* Scoped select and rename functions (`select_all()`, `rename_if()` etc.)
+  now work with grouped data frames, adapting the grouping as necessary
+  (#2947, #3410). `group_by_at()` can group by an existing grouping variable
+  (#3351). `arrange_at()` can use grouping variables (#3332). 
+
+* `slice()` no longer enforce tibble classes when input is a simple
+  `data.frame`, and ignores 0 (#3297, #3313).
 
 * `transmute()` no longer prints a message when including a group variable.
 
 ## Documentation
 
-* Improved documentation for set operations (#3238, @edublancas).
-
-* Improved documentation for `funs()` (#3094).
+* Improved documentation for `funs()` (#3094) and set operations (e.g. `union()`) (#3238, @edublancas).
 
 ## Error messages
 
-* Dedicated error message when trying to use columns of the `Interval` or `Period` classes (#2568).
-
-* Show clear error message for bad arguments to `funs()` (#3368).
-
-* Add warning with explanation to `distinct()` if any of the selected columns are of type `list` (#3088, @foo-bar-baz-qux).
-
-* Better error message if dbplyr is not installed when accessing database backends (#3225).
-
-* Corrected error message when calling `cbind()` with an object of wrong length (#3085).
-
-* Better error message when joining data frames with duplicate or `NA` column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (#3243, #3417).
-
-* `distinct()` now gives a warning when used on unknown columns (#2867, @foo-bar-baz-qux).
+* Better error message if dbplyr is not installed when accessing database
+  backends (#3225).
 
 * `arrange()` fails gracefully on `data.frame` columns (#3153).
 
-* Added an `.onDetach()` hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (#3359, @jwnorman).
+* Corrected error message when calling `cbind()` with an object of wrong
+  length (#3085).
+
+* Add warning with explanation to `distinct()` if any of the selected columns
+  are of type `list` (#3088, @foo-bar-baz-qux), or when used on unknown columns
+  (#2867, @foo-bar-baz-qux).
+
+* Show clear error message for bad arguments to `funs()` (#3368).
+
+* Better error message in `..._join()` when joining data frames with duplicate
+  or `NA` column names. Joining such data frames with a semi- or anti-join
+  now gives a warning, which may be converted to an error in future versions
+  (#3243, #3417).
+
+* Dedicated error message when trying to use columns of the `Interval`
+  or `Period` classes (#2568).
+
+* Added an `.onDetach()` hook that allows for plyr to be loaded and attached
+  without the warning message that says functions in dplyr will be masked,
+  since dplyr is no longer attached (#3359, @jwnorman).
 
 ## Performance
 
-* `sample_n()` and `sample_frac()` on grouped data frame are now faster especially for those with large number of groups (#3193, @saurfang).
+* `sample_n()` and `sample_frac()` on grouped data frame are now faster
+  especially for those with large number of groups (#3193, @saurfang).
 
 ## Internal
 
 * Compute variable names for joins in R (#3430).
 
-* Bumped Rcpp dependency to 0.12.15 to avoid imperfect detection of `NA` values in hybrid evaluation fixed in RcppCore/Rcpp#790 (#2919).
+* Bumped Rcpp dependency to 0.12.15 to avoid imperfect detection of `NA`
+  values in hybrid evaluation fixed in RcppCore/Rcpp#790 (#2919).
 
-* Avoid cleaning the data mask, a temporary environment used to evaluate expressions. If the environment, in which e.g. a `mutate()` expression is evaluated, is preserved until after the operation, accessing variables from that environment now gives a warning but still returns `NULL` (#3318).
+* Avoid cleaning the data mask, a temporary environment used to evaluate
+  expressions. If the environment, in which e.g. a `mutate()` expression
+  is evaluated, is preserved until after the operation, accessing variables
+  from that environment now gives a warning but still returns `NULL` (#3318).
 
 # dplyr 0.7.4
 
