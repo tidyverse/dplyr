@@ -53,7 +53,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   int nrows = indices_x.size();
   set_rownames(out, nrows);
   set_class(out, classes);
-  out.attr("groups") = lazy_grouping(x);
+  // out.attr("groups") = lazy_grouping(x);
 
   return (SEXP)out;
 }
@@ -145,7 +145,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   std::sort(indices.begin(), indices.end());
 
   const DataFrame& out = subset(x, indices, get_class(x));
-  // strip_index(out);
+
   return out;
 }
 

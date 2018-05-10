@@ -256,12 +256,12 @@ SymbolVector get_vars(SEXP x, bool duplicate) {
   return SymbolVector();
 }
 
-SEXP lazy_grouping(SEXP source) {
-  if (is<GroupedDataFrame>(source)) {
-    return get_vars(source).get_vector();
-  }
-  return R_NilValue ;
-}
+// SEXP lazy_grouping(SEXP source) {
+//   if (Rf_inherits(source, "grouped_df")) {
+//     return get_vars(source).get_vector();
+//   }
+//   return R_NilValue ;
+// }
 
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
   if ((SEXP)x == (SEXP)y) return true;
