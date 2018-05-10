@@ -48,7 +48,6 @@ public:
     set_class(out, classes);
     set_rownames(out, nrows);
     out.names() = visitor_names_left;
-    // out.attr("groups") = lazy_grouping(left);
     return (SEXP)out;
   }
 
