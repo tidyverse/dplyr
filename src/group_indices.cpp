@@ -485,25 +485,20 @@ void strip_index(DataFrame x) {
 
 namespace dplyr {
 
-SEXP force_grouped(DataFrame& data) {
+SEXP check_grouped(SEXP data) {
   static SEXP groups_symbol = Rf_install("groups");
   // handle lazyness
   SEXP groups = Rf_getAttrib(data, groups_symbol);
 
-  if (Rf_isNull(groups)) {
+  if (!is<DataFrame>(groups)) {
     bad_arg(".data", "is a corrupt grouped_df");
-  }
-  bool is_lazy = !is<DataFrame>(groups);
-  if (is_lazy) {
-    SymbolVector vars = get_vars(data);
-    data.attr("groups") = build_index_cpp(data, vars);
   }
 
   return data ;
 }
 
 GroupedDataFrame::GroupedDataFrame(DataFrame x):
-  data_(force_grouped(x)),
+  data_(check_grouped(x)),
   symbols(get_vars(data_)),
   groups(data_.attr("groups")),
   max_group_size_(0),
