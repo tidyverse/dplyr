@@ -110,8 +110,8 @@ group_size_grouped_cpp <- function(gdf) {
     .Call(`_dplyr_group_size_grouped_cpp`, gdf)
 }
 
-grouped_df_impl <- function(data, symbols, build_index = TRUE) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols, build_index)
+grouped_df_impl <- function(data, symbols) {
+    .Call(`_dplyr_grouped_df_impl`, data, symbols)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y, na_match) {

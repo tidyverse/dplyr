@@ -535,17 +535,13 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
 }
 
 // [[Rcpp::export]]
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index = true) {
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
   assert_all_white_list(data);
   DataFrame copy(shallow_copy(data));
   set_class(copy, classes_grouped<GroupedDataFrame>());
   if (!symbols.size())
     stop("no variables to group by");
-  if (build_index) {
-    copy.attr("groups") = build_index_cpp(copy, symbols);
-  } else {
-    copy.attr("groups") = symbols.get_vector();
-  }
+  copy.attr("groups") = build_index_cpp(copy, symbols);
   return copy;
 }
 

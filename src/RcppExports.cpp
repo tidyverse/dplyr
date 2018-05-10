@@ -261,15 +261,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // grouped_df_impl
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index);
-RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP build_indexSEXP) {
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols);
+RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
     Rcpp::traits::input_parameter< SymbolVector >::type symbols(symbolsSEXP);
-    Rcpp::traits::input_parameter< bool >::type build_index(build_indexSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, build_index));
+    rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -724,7 +723,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_test_grouped_df", (DL_FUNC) &_dplyr_test_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
-    {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
+    {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 2},
     {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},
     {"_dplyr_get_time_classes", (DL_FUNC) &_dplyr_get_time_classes, 0},
     {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 5},
