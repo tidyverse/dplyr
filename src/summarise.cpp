@@ -164,7 +164,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   if (gdf.nvars() > 1) {
     copy_class(out, df);
-    SymbolVector vars = get_vars(gdf.data(), true);
+    SymbolVector vars = get_vars(gdf.data());
     vars.remove(gdf.nvars() - 1);
 
     DataFrame old_groups = Rf_getAttrib(df, Rf_install("groups"));

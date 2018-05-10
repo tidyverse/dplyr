@@ -40,7 +40,7 @@ SEXP set_levels(SEXP x, const CharacterVector& levels);
 bool same_levels(SEXP left, SEXP right);
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
 
-SymbolVector get_vars(SEXP x, bool duplicate = false);
+SymbolVector get_vars(SEXP x);
 
 // effectively the same as copy_attributes but without names and dims
 inline void copy_most_attributes(SEXP out, SEXP data) {
