@@ -37,8 +37,7 @@ is_grouped_df <- is.grouped_df
 
 #' @export
 tbl_sum.grouped_df <- function(x) {
-  indices <- group_indices(x)
-  grps <- if (is.null(indices)) "?" else length(indices)
+  grps <- ngroups(x)
   c(
     NextMethod(),
     c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
