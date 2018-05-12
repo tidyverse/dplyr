@@ -3,6 +3,7 @@
 \name{join.tbl_df}
 \alias{join.tbl_df}
 \alias{inner_join.tbl_df}
+\alias{nest_join.tbl_df}
 \alias{left_join.tbl_df}
 \alias{right_join.tbl_df}
 \alias{full_join.tbl_df}
@@ -13,6 +14,9 @@
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches"))
+
+\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
+  ".y"), ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
   ".y"), ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))

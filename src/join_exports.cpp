@@ -186,6 +186,66 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
+inline int reverse_index(int i){
+  return -i-1;
+}
+
+// [[Rcpp::export]]
+List nest_join_impl(DataFrame x, DataFrame y,
+  IntegerVector by_x, IntegerVector by_y,
+  IntegerVector aux_x, IntegerVector aux_y,
+  bool na_match,
+  String yname
+) {
+
+  check_by(by_x);
+
+  typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, na_match);
+  Map map(visitors);
+
+  int n_x = x.nrows(), n_y = y.nrows();
+
+  std::vector<int> indices_x;
+  std::vector<int> indices_y;
+
+  train_push_back_right(map, n_y);
+
+  List list_col(n_x) ;
+
+  DataFrameSubsetVisitors y_subset_visitors(y, aux_y);
+
+  for (int i = 0; i < n_x; i++) {
+    Map::iterator it = map.find(i);
+    if (it != map.end()) {
+      std::transform(it->second.begin(), it->second.end(), it->second.begin(), reverse_index );
+      list_col[i] = y_subset_visitors.subset(it->second, Rf_getAttrib(y, R_ClassSymbol));
+    } else {
+      list_col[i] = y_subset_visitors.subset(EmptySubset(), Rf_getAttrib(y, R_ClassSymbol));
+    }
+  }
+
+  int ncol_x = x.size();
+  List out( ncol_x + 1);
+  CharacterVector names_x = x.names();
+  for (int i=0; i<ncol_x; i++) {
+    out[i] = x[i];
+  }
+  names_x.push_back(yname) ;
+  out[ncol_x] = list_col ;
+  out.names() = names_x;
+  out.attr("class") = x.attr("class");
+  out.attr("row.names") = x.attr("row.names");
+
+  // not yet (after the tidy-data-attributes branch is merged)
+  // if (is<GroupedDataFrame>(out)) out.attr("groups") = x.attr("groups") ;
+
+  return out;
+
+}
+
+
+
 // [[Rcpp::export]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,

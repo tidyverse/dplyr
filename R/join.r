@@ -122,6 +122,12 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
+nest_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+  UseMethod("nest_join")
+}
+
+#' @rdname join
+#' @export
 anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("anti_join")
 }

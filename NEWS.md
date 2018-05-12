@@ -16,6 +16,7 @@
 - new method `rows()` to get a list of row indices for each group (#3489).
 - new method `group_data()` (#3489).
 - joins no longer make lazy grouped data (#3566). 
+- new `nest_join()` function (#3570). 
 
 # dplyr 0.7.5.9001
 

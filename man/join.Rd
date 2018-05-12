@@ -7,6 +7,7 @@
 \alias{right_join}
 \alias{full_join}
 \alias{semi_join}
+\alias{nest_join}
 \alias{anti_join}
 \title{Join two tbls together}
 \usage{
@@ -19,6 +20,8 @@ right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 semi_join(x, y, by = NULL, copy = FALSE, ...)
+
+nest_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
