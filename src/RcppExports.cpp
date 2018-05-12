@@ -378,8 +378,8 @@ BEGIN_RCPP
 END_RCPP
 }
 // nest_join_impl
-List nest_join_impl(DataFrame x, DataFrame y, IntegerVector by_x, IntegerVector by_y, IntegerVector aux_x, IntegerVector aux_y, bool na_match, String yname);
-RcppExport SEXP _dplyr_nest_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP aux_xSEXP, SEXP aux_ySEXP, SEXP na_matchSEXP, SEXP ynameSEXP) {
+List nest_join_impl(DataFrame x, DataFrame y, IntegerVector by_x, IntegerVector by_y, IntegerVector aux_y, bool na_match, String yname);
+RcppExport SEXP _dplyr_nest_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP aux_ySEXP, SEXP na_matchSEXP, SEXP ynameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -387,11 +387,10 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< DataFrame >::type y(ySEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type by_x(by_xSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type by_y(by_ySEXP);
-    Rcpp::traits::input_parameter< IntegerVector >::type aux_x(aux_xSEXP);
     Rcpp::traits::input_parameter< IntegerVector >::type aux_y(aux_ySEXP);
     Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
     Rcpp::traits::input_parameter< String >::type yname(ynameSEXP);
-    rcpp_result_gen = Rcpp::wrap(nest_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_match, yname));
+    rcpp_result_gen = Rcpp::wrap(nest_join_impl(x, y, by_x, by_y, aux_y, na_match, yname));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -747,7 +746,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 5},
     {"_dplyr_anti_join_impl", (DL_FUNC) &_dplyr_anti_join_impl, 5},
     {"_dplyr_inner_join_impl", (DL_FUNC) &_dplyr_inner_join_impl, 7},
-    {"_dplyr_nest_join_impl", (DL_FUNC) &_dplyr_nest_join_impl, 8},
+    {"_dplyr_nest_join_impl", (DL_FUNC) &_dplyr_nest_join_impl, 7},
     {"_dplyr_left_join_impl", (DL_FUNC) &_dplyr_left_join_impl, 7},
     {"_dplyr_right_join_impl", (DL_FUNC) &_dplyr_right_join_impl, 7},
     {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 7},

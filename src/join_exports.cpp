@@ -193,7 +193,7 @@ inline int reverse_index(int i){
 // [[Rcpp::export]]
 List nest_join_impl(DataFrame x, DataFrame y,
   IntegerVector by_x, IntegerVector by_y,
-  IntegerVector aux_x, IntegerVector aux_y,
+  IntegerVector aux_y,
   bool na_match,
   String yname
 ) {
