@@ -144,6 +144,12 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 }
 
 #' @export
+#' @rdname join.tbl_df
+nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
+  as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ...))
+}
+
+#' @export
 right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
   as.data.frame(right_join(tbl_df(x), y, by = by, copy = copy, ...))
 }
