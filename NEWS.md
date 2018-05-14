@@ -6,6 +6,7 @@
 - Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
 - Add documentation example for moving variable to back in `?select` (#3051).
 - `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
+- `group_by()` respects levels of factors and keeps empty groups (#341). 
 
 # dplyr 0.7.5.9001
 
