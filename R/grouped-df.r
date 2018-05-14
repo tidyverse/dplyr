@@ -37,7 +37,7 @@ is_grouped_df <- is.grouped_df
 
 #' @export
 tbl_sum.grouped_df <- function(x) {
-  grps <- ngroups(x)
+  grps <- n_groups(x)
   c(
     NextMethod(),
     c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
