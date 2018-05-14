@@ -28,8 +28,6 @@ Previous versions of `dplyr` did not make empty groups, because:
   
 ## recusive slicing grouping algorithm
 
-**this needs the branch feature-341-zero-length-groups** 
-
 A new grouping algorithm, inspired from `tidyr::complete` is used in `dplyr` 0.8.0 to solve the first issue. 
 The algorithm recursively goes through the grouping variables. When a grouping variable is a factor, 
 the groups are made from its levels. On any other variable (`character`, `integer`, ...) the groups
@@ -65,8 +63,6 @@ first we find 2 unique values for the variable `x` (1 and 2), then we group by t
 and therefore get 3 groups (because 3 levels) for each unique value of `x`. 
 
 ## propagation of the grouping structure 
-
-**this needs the branch feature-341-filter-preserve** 
 
 `filter()` has been reworked to respect the grouping stucture and gains the `.preserve` argument to control 
 which groups to keep. 
@@ -108,8 +104,6 @@ In that case, we get 3 groups, but the values of `x` are slightly different, i.e
 `x` associated with the level "b" in the empty group is a sentinel NA. 
 
 # tidy grouping structure
-
-*needs the `tidy-data-attributes-3489` branch*
 
 Previous versions of `dplyr` used a messy collection of attributes in the "grouped_df" class, which did not 
 make it easy to reason about. `dplyr` 0.8.0 structures all the grouping information in a tibble with 
