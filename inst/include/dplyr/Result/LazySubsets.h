@@ -9,6 +9,23 @@ namespace dplyr {
 
 class LazySubsets : public ILazySubsets {
 public:
+
+  // this is temporary
+  LazySubsets(const NaturalDataFrame& gdf) : symbol_map(gdf.size(), gdf.data().names()), summary_map(), data(gdf.size()), nr(gdf.nrows()) {
+    const DataFrame& df = gdf.data() ;
+    int nvars = df.size();
+    if (nvars) {
+      CharacterVector names = df.names();
+      for (int i = 0; i < nvars; i++) {
+        SEXP column = df[i];
+        if (Rf_inherits(column, "matrix")) {
+          stop("matrix as column is not supported");
+        }
+        data[i] = df[i];
+      }
+    }
+  }
+
   LazySubsets(const DataFrame& df) : symbol_map(df.size(), df.names()), summary_map(), data(df.size()), nr(df.nrows()) {
     int nvars = df.size();
     if (nvars) {

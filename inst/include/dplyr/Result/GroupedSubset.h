@@ -10,6 +10,61 @@
 namespace dplyr {
 
 template <int RTYPE>
+class NaturalSubsetTemplate : public GroupedSubset {
+public:
+  typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
+  NaturalSubsetTemplate(SEXP x) :
+    object(x), start(Rcpp::internal::r_vector_start<RTYPE>(object)) {}
+
+  virtual SEXP get(const SlicingIndex& indices) {
+    int n = indices.size();
+    Vector<RTYPE> data = no_init(n);
+    copy_most_attributes(data, object);
+    for (int i = 0; i < n; i++) {
+      data[i] = start[indices[i]];
+    }
+    return data;
+  }
+  virtual SEXP get_variable() const {
+    return object;
+  }
+  virtual bool is_summary() const {
+    return false;
+  }
+
+private:
+  SEXP object;
+  STORAGE* start;
+};
+
+inline NaturalSubset* natural_subset(SEXP x) {
+  switch (TYPEOF(x)) {
+  case INTSXP:
+    return new NaturalSubsetTemplate<INTSXP>(x);
+  case REALSXP:
+    return new NaturalSubsetTemplate<REALSXP>(x);
+  case LGLSXP:
+    return new NaturalSubsetTemplate<LGLSXP>(x);
+  case STRSXP:
+    return new NaturalSubsetTemplate<STRSXP>(x);
+  case VECSXP:
+    // if (Rf_inherits(x, "data.frame"))
+    //   return new DataFrameGroupedSubset(x);
+    if (Rf_inherits(x, "POSIXlt")) {
+      stop("POSIXlt not supported");
+    }
+    return new NaturalSubsetTemplate<VECSXP>(x);
+  case CPLXSXP:
+    return new NaturalSubsetTemplate<CPLXSXP>(x);
+  case RAWSXP:
+    return new NaturalSubsetTemplate<RAWSXP>(x);
+  default:
+    break;
+  }
+  stop("is of unsupported type %s", Rf_type2char(TYPEOF(x)));
+}
+
+template <int RTYPE>
 class GroupedSubsetTemplate : public GroupedSubset {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;

@@ -33,6 +33,8 @@ std::string get_single_class(SEXP x);
 CharacterVector default_chars(SEXP x, R_xlen_t len);
 CharacterVector get_class(SEXP x);
 SEXP set_class(SEXP x, const CharacterVector& class_);
+void copy_class(SEXP out, SEXP origin);
+void copy_names(SEXP out, SEXP origin);
 CharacterVector get_levels(SEXP x);
 SEXP set_levels(SEXP x, const CharacterVector& levels);
 bool same_levels(SEXP left, SEXP right);

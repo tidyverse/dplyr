@@ -92,5 +92,12 @@ inline void check_length(const int actual, const int expected, const char* comme
   stop(message.get_cstring());
 }
 
+inline void check_not_null(SEXP result, const SymbolString& name) {
+  if (Rf_isNull(result)) {
+    bad_col(name, "is of unsupported type NULL");
+  }
+}
+
+
 }
 #endif

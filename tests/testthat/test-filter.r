@@ -291,12 +291,12 @@ test_that("grouped filter handles indices (#880)", {
   expect_equal(attr(res, "indices"), attr(res2, "indices"))
 })
 
-test_that("filter(FALSE) drops indices", {
+test_that("filter(FALSE) handles indices", {
   out <- mtcars %>%
     group_by(cyl) %>%
     filter(FALSE) %>%
     attr("indices")
-  expect_identical(out, list())
+  expect_identical(out, list(integer(), integer(), integer()))
 })
 
 test_that("filter handles S4 objects (#1366)", {
@@ -341,3 +341,18 @@ test_that("filter handles raw vectors (#1803)", {
 test_that("`vars` attribute is not added if empty (#2772)", {
   expect_identical(tibble(x = 1:2) %>% filter(x == 1), tibble(x = 1L))
 })
+
+test_that("filter handles list columns", {
+  res <- tibble(a=1:2, x = list(1:10, 1:5)) %>%
+    filter(a == 1) %>%
+    pull(x)
+  expect_equal(res, list(1:10))
+
+  res <- tibble(a=1:2, x = list(1:10, 1:5)) %>%
+    group_by(a) %>%
+    filter(a == 1) %>%
+    pull(x)
+  expect_equal(res, list(1:10))
+})
+
+

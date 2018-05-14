@@ -730,7 +730,7 @@ test_that("mutate() supports unquoted values", {
   expect_identical(mutate(gdf, out = !!1), mutate(gdf, out = 1))
   expect_identical(mutate(gdf, out = !!(1:5)), group_by(mutate(df, out = 1:5), g))
   expect_error(mutate(gdf, out = !!quote(1:5)), "must be length 2 (the group size)", fixed = TRUE)
-  expect_error(mutate(gdf, out = !!(1:2)), "must be length 5 (the number of rows)", fixed = TRUE)
+  expect_error(mutate(gdf, out = !!(1:2)), "must be length 5 (the group size)", fixed = TRUE)
   expect_error(mutate(gdf, out = !!get_env()), "unsupported type")
 })
 

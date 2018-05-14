@@ -11,12 +11,11 @@ using namespace Rcpp;
 using namespace dplyr;
 
 // [[Rcpp::export]]
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop, bool build_index = true) {
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index = true) {
   assert_all_white_list(data);
   DataFrame copy(shallow_copy(data));
   set_vars(copy, symbols);
   set_class(copy, classes_grouped<GroupedDataFrame>());
-  copy.attr("drop") = drop;
   if (!symbols.size())
     stop("no variables to group by");
   if (build_index) {

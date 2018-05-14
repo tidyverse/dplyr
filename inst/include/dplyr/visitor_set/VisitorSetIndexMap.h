@@ -29,6 +29,11 @@ public:
     visitors(visitors_)
   {}
 
+  VisitorSetIndexMap(VisitorSet* visitors_, int size) :
+    Base(std::min(size, 64), Hasher(visitors_), EqualPredicate(visitors_)),
+    visitors(visitors_)
+  {}
+
   VisitorSet* visitors;
 
 };

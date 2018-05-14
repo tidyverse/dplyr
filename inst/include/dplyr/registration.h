@@ -18,4 +18,3 @@ SEXP get_date_classes();
 #endif
 
 #endif
-

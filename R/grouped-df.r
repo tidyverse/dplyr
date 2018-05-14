@@ -7,22 +7,23 @@
 #' @keywords internal
 #' @param data a tbl or data frame.
 #' @param vars a character vector or a list of [name()]
-#' @param drop if `TRUE` preserve all factor levels, even those without
-#'   data.
+#' @param drop deprecated
 #' @export
-grouped_df <- function(data, vars, drop = TRUE) {
+grouped_df <- function(data, vars, drop) {
   if (length(vars) == 0) {
     return(tbl_df(data))
   }
   assert_that(
     is.data.frame(data),
-    (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars),
-    is.flag(drop)
+    (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars)
   )
+  if (!missing(drop)) {
+    warning("`drop` is deprecated")
+  }
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
-  grouped_df_impl(data, unname(vars), drop)
+  grouped_df_impl(data, unname(vars))
 }
 
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
@@ -167,10 +168,7 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 do.grouped_df <- function(.data, ...) {
   # Force computation of indices
   if (is_null(attr(.data, "indices"))) {
-    .data <- grouped_df_impl(
-      .data, group_vars(.data),
-      group_drop(.data)
-    )
+    .data <- grouped_df_impl(.data, group_vars(.data))
   }
   index <- attr(.data, "indices")
   labels <- attr(.data, "labels")
@@ -256,8 +254,4 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!!dots, .keep_all = .keep_all)
-}
-
-group_drop <- function(x) {
-  attr(.data, "drop") %||% TRUE
 }

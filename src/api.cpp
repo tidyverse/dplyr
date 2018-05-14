@@ -71,9 +71,21 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
     VectorVisitor* v = visitor(data[pos - 1]);
     visitors.push_back(v);
     visitor_names.push_back(data_names[pos - 1]);
-
   }
+}
 
+DataFrameVisitors::DataFrameVisitors(const DataFrame& data_,  int n) :
+  data(data_),
+  visitors(n),
+  visitor_names(n)
+{
+
+  CharacterVector data_names = vec_names_or_empty(data);
+
+  for (int i = 0; i < n; i++) {
+    visitors[i] = visitor(data[i]);
+    visitor_names.set(i, data_names[i]);
+  }
 }
 
 DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataFrame& right_, const SymbolVector& names_left, const SymbolVector& names_right, bool warn_, bool na_match) :

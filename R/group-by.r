@@ -77,7 +77,7 @@ group_by <- function(.data, ..., add = FALSE) {
 }
 #' @export
 group_by.default <- function(.data, ..., add = FALSE) {
-  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
+  group_by_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated

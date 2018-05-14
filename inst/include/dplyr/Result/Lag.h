@@ -55,7 +55,6 @@ public:
     copy_most_attributes(out, data);
     return out;
   }
-
 private:
 
   void process_slice(Vector<RTYPE>& out, const SlicingIndex& index, const SlicingIndex& out_index) {

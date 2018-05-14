@@ -69,9 +69,18 @@ test_that("group_by uses shallow copy", {
   expect_equal(dfloc(mtcars), dfloc(m1))
 })
 
-test_that("FactorVisitor handles NA. #183", {
-  g <- group_by(MASS::survey, M.I)
-  expect_equal(g$M.I, MASS::survey$M.I)
+test_that("group_by handles NA in factors #341", {
+  d <- tibble(x = 1:3, f = factor(c("a", "b", NA)))
+  expect_warning(g <- group_by(d, f), "Factor `f` contains implicit NA")
+  expect_equal(group_size(g), rep(1L, 3L))
+
+  d <- tibble(
+    f1 = factor(c(1,1,2,2)),
+    f2 = factor(c(1,2,1,NA)),
+    x  = 1:4
+  )
+  expect_warning(g <- group_by(d, f1, f2))
+  expect_equal(group_size(g), c(1L,1L,1L,0L,1L))
 })
 
 test_that("group_by orders by groups. #242", {
@@ -104,7 +113,6 @@ test_that("group_by fails when lists are used as grouping variables (#276)", {
     fixed = TRUE
   )
 })
-
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
   res <- mtcars %>% group_by(vs) %>% select(mpg)
@@ -200,7 +208,6 @@ test_that("[ on grouped_df preserves grouping if subset includes grouping vars",
   by_ns <- df %>% group_by(` `)
   expect_equal(by_ns %>% groups(), by_ns %>% `[`(1:2) %>% groups())
 })
-
 
 test_that("[ on grouped_df drops grouping if subset doesn't include grouping vars", {
   by_cyl <- mtcars %>% group_by(cyl)

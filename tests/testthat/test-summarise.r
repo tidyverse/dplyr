@@ -270,9 +270,9 @@ test_that("summarise can use newly created variable more than once", {
   }
 })
 
-test_that("summarise creates an empty data frame when no parameters are used", {
+test_that("summarise creates an empty data frame with one row when no parameters are used", {
   res <- summarise(mtcars)
-  expect_equal(res, data.frame())
+  expect_equal(nrow(res), 1L)
 })
 
 test_that("summarise works with zero-row data frames", {
@@ -578,7 +578,7 @@ test_that("summarise handles list output columns (#832)", {
 test_that("summarise works with empty data frame (#1142)", {
   df <- data.frame()
   res <- df %>% summarise()
-  expect_equal(nrow(res), 0L)
+  expect_equal(nrow(res), 1L)
   expect_equal(length(res), 0L)
 })
 
@@ -717,6 +717,19 @@ test_that("min and max handle empty sets in summarise (#1481)", {
 })
 
 test_that("lead and lag behave correctly in summarise (#1434)", {
+  res <- mtcars %>%
+    summarise(
+      n = n(),
+      leadn = lead(n),
+      lagn = lag(n),
+      leadn10 = lead(n, default = 10),
+      lagn10 = lag(n, default = 10)
+    )
+  expect_true(all(is.na(res$lagn)))
+  expect_true(all(is.na(res$leadn)))
+  expect_true(all(res$lagn10 == 10))
+  expect_true(all(res$leadn10 == 10))
+
   res <- mtcars %>%
     group_by(cyl) %>%
     summarise(

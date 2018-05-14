@@ -7,7 +7,8 @@ test_that("filter_if()", {
 
 test_that("filter_at()", {
   sepal_large <- filter_at(iris, vars(starts_with("Sepal")), all_vars(. > 4))
-  expect_equal(sepal_large$Sepal.Length, c(5.7, 5.2, 5.5))
+  sepal_large_expected <- filter(iris, Sepal.Length > 4, Sepal.Width > 4)
+  expect_equal(sepal_large, sepal_large_expected)
 })
 
 test_that("filter_at can filter by grouping variables (#3351)", {

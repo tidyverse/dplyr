@@ -6,6 +6,7 @@
 #include <tools/Quosure.h>
 
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/NaturalDataFrame.h>
 
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallReducer.h>
@@ -34,9 +35,68 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
   return value;
 }
 
-template <typename Data, typename Subsets>
+template <int RTYPE>
+class ExtractVectorVisitor {
+public:
+  typedef typename Rcpp::Vector<RTYPE> Vec;
+
+  ExtractVectorVisitor(SEXP origin_) :
+    origin(origin_)
+  {}
+
+  virtual SEXP extract(const std::vector<IntegerVector>& new_indices) {
+    int n = new_indices.size();
+    Vec out = no_init(n);
+    copy_most_attributes(out, origin);
+    for (int i = 0; i < n; i++) {
+      out[i] = origin[new_indices[i][0]];
+    }
+    return out ;
+  }
+
+private:
+  Vec origin;
+};
+
+inline SEXP extract_visit(SEXP origin, const std::vector<IntegerVector>& new_indices) {
+  switch (TYPEOF(origin)) {
+  case INTSXP:
+    return ExtractVectorVisitor<INTSXP>(origin).extract(new_indices);
+  case REALSXP:
+    return ExtractVectorVisitor<REALSXP>(origin).extract(new_indices);
+  case LGLSXP:
+    return ExtractVectorVisitor<LGLSXP>(origin).extract(new_indices);
+  case STRSXP:
+    return ExtractVectorVisitor<STRSXP>(origin).extract(new_indices);
+  case RAWSXP:
+    return ExtractVectorVisitor<RAWSXP>(origin).extract(new_indices);
+  case CPLXSXP:
+    return ExtractVectorVisitor<CPLXSXP>(origin).extract(new_indices);
+  }
+
+  return R_NilValue;
+}
+
+SEXP reconstruct_labels(const DataFrame& old_labels, const std::vector<IntegerVector>& new_indices) {
+  int nv = old_labels.size() - 1 ;
+  List out(nv);
+  CharacterVector names(nv);
+  CharacterVector old_names(old_labels.names());
+  for (int i = 0; i < nv; i++) {
+    out[i] = extract_visit(old_labels[i], new_indices);
+    names[i] = old_names[i];
+  }
+
+  set_rownames(out, new_indices.size());
+  set_class(out, classes_not_grouped());
+  out.attr("names") = names;
+  return out ;
+}
+
+
+template <typename SlicedTibble, typename LazySubsets>
 DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
-  Data gdf(df);
+  SlicedTibble gdf(df);
 
   int nexpr = dots.size();
   int nvars = gdf.nvars();
@@ -44,7 +104,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE << "copying " << nvars << " variables to accumulator";
 
-  NamedListAccumulator<Data> accumulator;
+  NamedListAccumulator<SlicedTibble> accumulator;
   int i = 0;
   List results(nvars + nexpr);
   for (; i < nvars; i++) {
@@ -55,7 +115,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
-  Subsets subsets(gdf);
+  LazySubsets subsets(gdf);
   for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
@@ -81,10 +141,12 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
       // special treatment to summary variables, for which hybrid
       // evaluation should be turned off completely (#2312)
       if (!res) {
-        res.reset(new GroupedCallReducer<Data, Subsets>(quosure.expr(), subsets, env, quosure.name()));
+        res.reset(new GroupedCallReducer<SlicedTibble, LazySubsets>(quosure.expr(), subsets, env, quosure.name()));
       }
       result = res->process(gdf);
     }
+    check_not_null(result, quosure.name());
+    check_length(Rf_length(result), gdf.ngroups(), "a summary value", quosure.name());
 
     results[i] = result;
     accumulator.set(quosure.name(), result);
@@ -99,13 +161,37 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   set_rownames(out, nr);
 
   if (gdf.nvars() > 1) {
-    set_class(out, classes_grouped<Data>());
+    copy_class(out, df);
     SymbolVector vars = get_vars(gdf.data(), true);
     vars.remove(gdf.nvars() - 1);
     set_vars(out, vars);
-    out.attr("drop") = true;
 
-    strip_index(out);
+    DataFrame old_labels = Rf_getAttrib(df, Rf_install("labels"));
+    int nv = gdf.nvars() - 1;
+    DataFrameVisitors visitors(old_labels, nv) ;
+
+    // collect the new indices
+    std::vector<IntegerVector> new_indices;
+    int old_nrows = old_labels.nrow();
+    for (int i = 0; i < old_nrows;) {
+      int start = i;
+      while (i < old_nrows && visitors.equal(start, i)) i++ ;
+      new_indices.push_back(seq(start, i - 1));
+    }
+
+    // group_size
+    int new_nrows = new_indices.size();
+    IntegerVector group_sizes(new_nrows);
+    for (int i = 0; i < new_nrows; i++) {
+      group_sizes[i] = new_indices[i].size();
+    }
+    int biggest = max(group_sizes);
+
+    // labels
+    out.attr("indices") = new_indices;
+    out.attr("group_sizes") = group_sizes;
+    out.attr("biggest_group_size") = biggest;
+    out.attr("labels") = reconstruct_labels(old_labels, new_indices);
   } else {
     set_class(out, classes_not_grouped());
     SET_ATTRIB(out, strip_group_attributes(out));
@@ -114,57 +200,14 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   return out;
 }
 
-
-DataFrame summarise_not_grouped(DataFrame df, const QuosureList& dots) {
-  int nexpr = dots.size();
-  if (nexpr == 0) return DataFrame();
-
-  LazySubsets subsets(df);
-  NamedListAccumulator<DataFrame> accumulator;
-  List results(nexpr);
-
-  for (int i = 0; i < nexpr; i++) {
-    Rcpp::checkUserInterrupt();
-
-    const NamedQuosure& quosure = dots[i];
-    Environment env = quosure.env();
-    Shield<SEXP> expr_(quosure.expr());
-    SEXP expr = expr_;
-    SEXP result;
-
-    // Unquoted vectors are directly used as column. Expressions are
-    // evaluated in each group.
-    if (is_vector(expr)) {
-      result = validate_unquoted_value(expr, 1, quosure.name());
-    } else {
-      boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
-      if (res) {
-        result = results[i] = res->process(NaturalSlicingIndex(df.nrows()));
-      } else {
-        result = results[i] = CallProxy(quosure.expr(), subsets, env).eval();
-      }
-      check_supported_type(result, quosure.name());
-      check_length(Rf_length(result), 1, "a summary value", quosure.name());
-    }
-    accumulator.set(quosure.name(), result);
-    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
-  }
-
-  List data = accumulator;
-  copy_most_attributes(data, df);
-  data.names() = accumulator.names();
-  set_rownames(data, 1);
-  return data;
-}
-
 // [[Rcpp::export]]
 SEXP summarise_impl(DataFrame df, QuosureList dots) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots);
+    return summarise_grouped<RowwiseDataFrame, LazySplitSubsets<RowwiseDataFrame> >(df, dots);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots);
+    return summarise_grouped<GroupedDataFrame, LazySplitSubsets<GroupedDataFrame> >(df, dots);
   } else {
-    return summarise_not_grouped(df, dots);
+    return summarise_grouped<NaturalDataFrame, LazySubsets>(df, dots);
   }
 }
