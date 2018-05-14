@@ -10,22 +10,7 @@
 #' rows(group_by(df, x))
 #' @export
 rows <- function(.data) {
-  UseMethod("rows")
-}
-
-#' @export
-rows.data.frame <- function(.data) {
-  list(seq2(0, nrow(.data) - 1))
-}
-
-#' @export
-rows.rowwise_df <- function(.data) {
-  as.list(seq2(0, nrow(.data) - 1))
-}
-
-#' @export
-rows.grouped_df <- function(.data) {
-  attr(.data, "groups")$.rows
+  group_data(.data)[[".rows"]]
 }
 
 #' grouping data
@@ -54,7 +39,13 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  rows <- rows(.data)
+  rows <- list(seq2(0, nrow(.data) - 1))
+  tibble(.rows=rows)
+}
+
+#' @export
+group_data.rowwise_df <- function(.data) {
+  rows <- as.list(seq2(0, nrow(.data) - 1))
   tibble(.rows=rows)
 }
 

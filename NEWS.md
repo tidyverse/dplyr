@@ -9,8 +9,8 @@
 - `group_by()` respects levels of factors and keeps empty groups (#341). 
 - `filter()`  gains a `.preserve` argument to control which groups it should keep. 
 - The grouping metadata of grouped data frame has been reorganized in a single tibble (#3489). 
-- new method `rows()` to get a list of row indices for each group (#3489).
-- new method `group_data()` (#3489).
+- new function `group_data()` to extract the grouping structure (#3489).
+- new function `rows()` to get a list of row indices for each group (#3489).
 
 # dplyr 0.7.5.9001
 
