@@ -25,3 +25,14 @@ test_that("group_data works", {
     tibble(.rows = as.list(0:3))
   )
 })
+
+test_that("rows and group_data work with 0 rows data frames", {
+  df <- tibble(x=integer())
+  expect_identical(rows(df), list(integer()))
+  expect_identical(rows(rowwise(df)), list())
+  expect_identical(rows(group_by(df, x)), list(integer()))
+
+  expect_identical(group_data(df), tibble(.rows = list(integer())))
+  expect_identical(group_data(rowwise(df)), tibble(.rows =list()))
+  expect_identical(group_data(group_by(df, x)), tibble(x = NA_integer_, .rows = list(integer())))
+})

@@ -15,12 +15,12 @@ rows <- function(.data) {
 
 #' @export
 rows.data.frame <- function(.data) {
-  list(seq(0, nrow(.data) - 1))
+  list(seq2(0, nrow(.data) - 1))
 }
 
 #' @export
 rows.rowwise_df <- function(.data) {
-  as.list(seq(0, nrow(.data) - 1))
+  as.list(seq2(0, nrow(.data) - 1))
 }
 
 #' @export
