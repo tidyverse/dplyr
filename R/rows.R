@@ -54,14 +54,8 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  n <- nrow(.data)
-  tibble(.rows=list(seq(0, n-1L)))
-}
-
-#' @export
-group_data.rowwise_df <- function(.data) {
-  n <- nrow(.data)
-  tibble(.rows=as.list(seq(0, n-1L)))
+  rows <- rows(.data)
+  tibble(.rows=rows)
 }
 
 #' @export
