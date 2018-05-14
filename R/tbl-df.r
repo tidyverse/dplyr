@@ -178,24 +178,19 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
 #' @export
 #' @rdname join.tbl_df
-nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
-                             suffix = c(".x", ".y"), ...,
-                             na_matches = pkgconfig::get_config("dplyr::na_matches")) {
-  y_name <- quo_name(enquo(y))
+nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, name = "data", ...) {
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
   by <- common_by(by, x, y)
-  suffix <- check_suffix(suffix)
-  na_matches <- check_na_matches(na_matches)
 
   y <- auto_copy(x, y, copy = copy)
 
-  vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by)
   by_x <- vars$idx$x$by
   by_y <- vars$idx$y$by
   aux_y <- vars$idx$y$aux
 
-  out <- nest_join_impl(x, y, by_x, by_y, aux_y, na_matches, y_name)
+  out <- nest_join_impl(x, y, by_x, by_y, aux_y, name)
   out
 }
 

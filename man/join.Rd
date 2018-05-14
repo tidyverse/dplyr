@@ -21,7 +21,7 @@ full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-nest_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+nest_join(x, y, by = NULL, copy = FALSE, name = "data", ...)
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
@@ -49,6 +49,8 @@ Should be a character vector of length 2.}
 
 \item{...}{other parameters passed onto methods, for instance, \code{na_matches}
 to control how \code{NA} values are matched.  See \link{join.tbl_df} for more.}
+
+\item{name}{for \code{nest_join()} the name of the list column created.}
 }
 \description{
 These are generic functions that dispatch to individual tbl methods - see the

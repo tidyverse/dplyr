@@ -17,6 +17,7 @@
 - new method `group_data()` (#3489).
 - joins no longer make lazy grouped data (#3566). 
 - new `nest_join()` function (#3570). 
+- new `nest_join()` function. `nest_join()` creates a list column of the matching rows. `nest_join()` + `tidyr::unnest()` is equivalent to `inner_join`  (#3570). 
 
 # dplyr 0.7.5.9001
 

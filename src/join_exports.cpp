@@ -194,14 +194,13 @@ inline int reverse_index(int i){
 List nest_join_impl(DataFrame x, DataFrame y,
   IntegerVector by_x, IntegerVector by_y,
   IntegerVector aux_y,
-  bool na_match,
   String yname
 ) {
 
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, na_match);
+  DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, true);
   Map map(visitors);
 
   int n_x = x.nrows(), n_y = y.nrows();
