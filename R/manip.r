@@ -36,6 +36,8 @@
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
 #'   these concepts.
+#' @param .preserve when `TRUE` (the default), the grouping structure
+#'   is preserved, otherwise it is recalculated based on the resulting data.
 #' @return An object of the same class as `.data`.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
@@ -49,16 +51,16 @@
 #'
 #' # Multiple arguments are equivalent to and
 #' filter(starwars, hair_color == "none", eye_color == "black")
-filter <- function(.data, ...) {
+filter <- function(.data, ..., .preserve = TRUE) {
   UseMethod("filter")
 }
 #' @export
-filter.default <- function(.data, ...) {
-  filter_(.data, .dots = compat_as_lazy_dots(...))
+filter.default <- function(.data, ..., .preserve = TRUE) {
+  filter_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
 }
 #' @export
 #' @rdname se-deprecated
-filter_ <- function(.data, ..., .dots = list()) {
+filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
   UseMethod("filter_")
 }
 

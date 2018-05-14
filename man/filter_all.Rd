@@ -6,17 +6,20 @@
 \alias{filter_at}
 \title{Filter within a selection of variables}
 \usage{
-filter_all(.tbl, .vars_predicate)
+filter_all(.tbl, .vars_predicate, .preserve = TRUE)
 
-filter_if(.tbl, .predicate, .vars_predicate)
+filter_if(.tbl, .predicate, .vars_predicate, .preserve = TRUE)
 
-filter_at(.tbl, .vars, .vars_predicate)
+filter_at(.tbl, .vars, .vars_predicate, .preserve = TRUE)
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
 
 \item{.vars_predicate}{A quoted predicate expression as returned by
 \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}}.}
+
+\item{.preserve}{when \code{TRUE} (the default), the grouping structure
+is preserved, otherwise it is recalculated based on the resulting data.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or

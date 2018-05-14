@@ -8,6 +8,8 @@
 #' @inheritParams scoped
 #' @param .vars_predicate A quoted predicate expression as returned by
 #'   [all_vars()] or [any_vars()].
+#' @param .preserve when `TRUE` (the default), the grouping structure
+#'   is preserved, otherwise it is recalculated based on the resulting data.
 #' @export
 #' @examples
 #' # While filter() accepts expressions with specific variables, the
@@ -31,24 +33,24 @@
 #'
 #' # And filter_if() selects variables with a predicate function:
 #' filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
-filter_all <- function(.tbl, .vars_predicate) {
+filter_all <- function(.tbl, .vars_predicate, .preserve = TRUE) {
   syms <- syms(tbl_vars(.tbl))
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
-  filter(.tbl, !!pred)
+  filter(.tbl, !!pred, .preserve = .preserve)
 }
 #' @rdname filter_all
 #' @export
-filter_if <- function(.tbl, .predicate, .vars_predicate) {
+filter_if <- function(.tbl, .predicate, .vars_predicate, .preserve = TRUE) {
   syms <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
-  filter(.tbl, !!pred)
+  filter(.tbl, !!pred, .preserve = .preserve)
 }
 #' @rdname filter_all
 #' @export
-filter_at <- function(.tbl, .vars, .vars_predicate) {
+filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = TRUE) {
   syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
-  filter(.tbl, !!pred)
+  filter(.tbl, !!pred, .preserve = .preserve)
 }
 
 apply_filter_syms <- function(pred, syms, tbl) {
