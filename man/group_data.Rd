@@ -2,7 +2,7 @@
 % Please edit documentation in R/rows.R
 \name{group_data}
 \alias{group_data}
-\title{grouping data}
+\title{Grouping data}
 \usage{
 group_data(.data)
 }
@@ -15,7 +15,7 @@ indicating the rows for each group. If \code{.data} is a grouped data frame the 
 are the grouping variables.
 }
 \description{
-grouping data
+Grouping data
 }
 \examples{
 df <- tibble(x = c(1,1,2,2))

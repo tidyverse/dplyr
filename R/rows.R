@@ -13,7 +13,7 @@ rows <- function(.data) {
   group_data(.data)[[".rows"]]
 }
 
-#' grouping data
+#' Grouping data
 #'
 #' @param .data a tibble
 #'
