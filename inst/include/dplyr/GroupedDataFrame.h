@@ -57,7 +57,7 @@ public:
   }
 
   inline int nvars() const {
-    return groups.size() - 1;
+    return nvars_ ;
   }
 
   inline int nrows() const {
@@ -86,12 +86,12 @@ public:
 
 private:
   void set_max_group_size() {
-    List indices = groups[groups.size() - 1];
+    List idx = indices();
 
-    int n = indices.size();
+    int n = idx.size();
     max_group_size_ = 0;
     for (int i = 0; i < n; i++) {
-      max_group_size_ = std::max(max_group_size_, Rf_length(indices[i])) ;
+      max_group_size_ = std::max(max_group_size_, Rf_length(idx[i])) ;
     }
   }
 
@@ -99,6 +99,7 @@ private:
   SymbolMap symbols;
   DataFrame groups;
   int max_group_size_ ;
+  int nvars_;
 
 };
 

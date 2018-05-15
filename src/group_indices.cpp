@@ -506,14 +506,15 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
   data_(force_grouped(x)),
   symbols(get_vars(data_)),
   groups(data_.attr("groups")),
-  max_group_size_(0)
+  max_group_size_(0),
+  nvars_(symbols.size())
 {
   set_max_group_size();
 
   int rows_in_groups = 0;
   int ng = ngroups();
-  List indices_ = indices();
-  for (int i = 0; i < ng; i++) rows_in_groups += Rf_length(indices_[i]);
+  List idx = indices();
+  for (int i = 0; i < ng; i++) rows_in_groups += Rf_length(idx[i]);
   if (data_.nrows() != rows_in_groups) {
     bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
             _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
@@ -524,7 +525,8 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
   data_(x),
   symbols(symbols_),
   groups(build_index_cpp(data_, symbols_)),
-  max_group_size_(0)
+  max_group_size_(0),
+  nvars_(symbols.size())
 {
   data_.attr("groups") = groups ;
   set_max_group_size();
