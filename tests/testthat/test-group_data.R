@@ -7,7 +7,7 @@ test_that("group_rows works for 3 most important subclasses (#3489)", {
   expect_equal(group_rows(rowwise(df)), as.list(0:3))
 })
 
-test_that("group_data returns a tibble (#3489)", {
+test_that("group_data returns a tidy tibble (#3489)", {
   df <- tibble(x = c(1,1,2,2))
 
   expect_identical(

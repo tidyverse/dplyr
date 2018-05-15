@@ -8,25 +8,48 @@ options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
 ```
 
-# More Consistent use of factors
+# More consistent use of factors
+
+## Motivation
 
 The work on making factors used more respectfully originates from the issue 341, 
 which has been waiting for attention for the past four years. `#341` identified the 
 need to take care of empty groups. 
 
 Empty groups can arise from two situations:
- - when one of the grouping variable in `group_by()` is a factor and one of its levels
-   has no data
- - when all of the data from one group is `filter()`ed out. 
+ - when one of the grouping variable in `group_by()` is a factor and one of its levels has no data, e.g.
  
-Previous versions of `dplyr` did not make empty groups, because: 
+```{r}
+tibble(
+  x = 1:2, 
+  f = factor(c("a", "b"), levels = c("a", "b", "c"))
+) %>% 
+  group_by(f)
+```
+
+The factor `f` has 3 levels, but only two are present in the data. 
+
+ - when all of the data from one group is `filter()`ed out, e.g.
+ 
+```{r}
+tibble( x = 1:3, f = factor(c("a", "b", "c"))) %>% 
+  group_by(f) %>% 
+  filter(x < 2)
+```
+
+In that case, the grouped data before the filter has one row per level of `f`, and the filter 
+only keeps the first row so makes 2 empty groups.  
+
+## Previous behaviour
+ 
+Older versions of `dplyr` did not make empty groups, because: 
 - `group_by()` was building the grouping metadata only from the rows of the data, i.e. ignoring 
   the conceptual grouping structure. 
 - `filter()` was making a lazily grouped tibble, recording only the names of grouping variables, 
   without producing the metadata, which was automatically made by a subsequent `group_by` whenever 
   this was necessary in the future. 
   
-## recusive slicing grouping algorithm
+## Recusive slicing grouping algorithm
 
 A new grouping algorithm, inspired from `tidyr::complete` is used in `dplyr` 0.8.0 to solve the first issue. 
 The algorithm recursively goes through the grouping variables. When a grouping variable is a factor, 
@@ -40,13 +63,17 @@ df <- tibble(
   x = c(1,2,1,2), 
   f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
 )
-group_by(df, f) %>% tally()
+df %>% 
+  group_by(f) %>% 
+  tally()
 ```
 
 In this first example, we group by a factor, so we get as many groups as the number of factors. 
 
-```r
-group_by(df, f, x) %>% tally()
+```{r}
+df %>% 
+  group_by(f, x) %>% 
+  tally()
 ```
 
 Here we group by the factor `f` and the numeric vector `x`. Again we get 3 groups, because for the levels
@@ -54,15 +81,17 @@ Here we group by the factor `f` and the numeric vector `x`. Again we get 3 group
 sets the value of `x` to `NA` out of thin air. We call this a *sentinel NA* and we might make it obvious later that 
 this is not the same as if we had a missing value in the data. 
 
-```r
-group_by(df, x, f) %>% tally()
+```{r}
+df %>% 
+  group_by(x, f) %>% 
+  tally()
 ```
 
 In this case, we get more groups, and consequently more empty groups, because of the recursive slicing, 
 first we find 2 unique values for the variable `x` (1 and 2), then we group by the factor `f` 
 and therefore get 3 groups (because 3 levels) for each unique value of `x`. 
 
-## propagation of the grouping structure 
+## Propagation of the grouping structure 
 
 `filter()` has been reworked to respect the grouping stucture and gains the `.preserve` argument to control 
 which groups to keep. 
@@ -103,14 +132,15 @@ df %>%
 In that case, we get 3 groups, but the values of `x` are slightly different, i.e. the value of 
 `x` associated with the level "b" in the empty group is a sentinel NA. 
 
-# tidy grouping structure
+# Tidy grouping structure
 
 Previous versions of `dplyr` used a messy collection of attributes in the "grouped_df" class, which did not 
 make it easy to reason about. `dplyr` 0.8.0 structures all the grouping information in a tibble with 
 `n+1` columns (where `n` is the number of grouping variables) in the "groups" attribute. 
 
 ```{r}
-group_by(df, f, x) %>% 
+df %>% 
+  group_by(f, x) %>% 
   attr("groups")
 ```
 
@@ -141,7 +171,7 @@ group_rows(rowwise(df))
 Having a consistent representation of the grouping structure makes it easier to reason about, and 
 might open opportunities to discuss alternative ways of grouping
 
-# hybrid evaluation cleanup
+# Hybrid evaluation cleanup
 
 **pending**
 
@@ -152,7 +182,7 @@ creates problems.
 There are two forms of hybrid evaluation in dplyr at the moment: full hybrid evaluation and 
 hybrid folding. 
 
-## full hybrid evaluation
+## Full hybrid evaluation
 
 When the entire (summarise or mutate) expression can be handled, e.g. in `group_by(...) %>% summarise(m = mean(x))` 
 the `mean` hybrid handler takes care of everything, i.e. calculate the mean of x for each group and 
@@ -179,7 +209,7 @@ with the consequence that it will be easier to write new hybrid handlers, i.e. w
 something like `x == 2` to be handled hybridly in `filter` by using a class deriving 
 from `Window<LGLSXP>`. 
 
-## hybrid folding 
+## Hybrid folding 
 
 This is where hybrid evaluation creates problems, because it is sometimes too eager, 
 and generally cannot faithfully mimic standard R evaulation. The original idea 
