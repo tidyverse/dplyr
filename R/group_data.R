@@ -1,15 +1,6 @@
-#' List of rows of each group
-#'
-#' @param .data a tibble
-#'
-#' @return a list of integer vectors, giving the indices of the rows of each group
-#'
-#' @examples
-#' df <- tibble(x = c(1,1,2,2))
-#' rows(df)
-#' rows(group_by(df, x))
+#' @rdname group_data
 #' @export
-rows <- function(.data) {
+group_rows <- function(.data) {
   group_data(.data)[[".rows"]]
 }
 
@@ -17,21 +8,22 @@ rows <- function(.data) {
 #'
 #' @param .data a tibble
 #'
-#' @return a tibble with one row per group. The last column, always called `.rows` is a list of integer vectors
-#' indicating the rows for each group. If `.data` is a grouped data frame the first columns
-#' are the grouping variables.
+#' @return `group_data()` return a tibble with one row per group. The last column, always called `.rows`
+#' is a list of (0-based) integer vectors indicating the rows for each group.
+#' If `.data` is a grouped data frame the first columns are the grouping variables.
+#' `group_rows()` just returns the list of indices.
 #'
 #' @examples
 #' df <- tibble(x = c(1,1,2,2))
 #'
 #' # one row
 #' group_data(df)
+#' group_rows(df)
 #'
 #' # 2 rows, one for each group
 #' group_by(df,x) %>% group_data()
+#' group_by(df,x) %>% group_rows()
 #'
-#' # n rows
-#' rowwise(df) %>% group_data()
 #' @export
 group_data <- function(.data) {
   UseMethod("group_data")

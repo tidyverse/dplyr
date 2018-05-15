@@ -133,9 +133,9 @@ group_data(rowwise(df))
 Similarly, the indices themselves can be retrieved using the `rows()` generic: 
 
 ```{r}
-rows(df)
-rows(group_by(df, f))
-rows(rowwise(df))
+group_rows(df)
+group_rows(group_by(df, f))
+group_rows(rowwise(df))
 ```
 
 Having a consistent representation of the grouping structure makes it easier to reason about, and 
