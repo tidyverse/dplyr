@@ -150,7 +150,7 @@ test_that("there can be 0 groups (#486)", {
   data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
-  expect_equal(map_int(attr(data, "groups")$.rows, length), integer(0))
+  expect_equal(map_int(group_rows(data), length), integer(0))
 })
 
 test_that("group_by works with zero-row data frames (#486)", {
