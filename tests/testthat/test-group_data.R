@@ -1,13 +1,13 @@
-context("test-rows.R")
+context("group_data")
 
-test_that("group_rows works", {
+test_that("group_rows works for 3 most important subclasses (#3489)", {
   df <- data.frame(x=c(1,1,2,2))
   expect_equal(group_rows(df), list(0:3))
   expect_equal(group_rows(group_by(df,x)), list(0:1, 2:3))
   expect_equal(group_rows(rowwise(df)), as.list(0:3))
 })
 
-test_that("group_data works", {
+test_that("group_data returns a tibble (#3489)", {
   df <- tibble(x = c(1,1,2,2))
 
   expect_identical(
@@ -26,7 +26,7 @@ test_that("group_data works", {
   )
 })
 
-test_that("rows and group_data work with 0 rows data frames", {
+test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
   df <- tibble(x=integer())
   expect_identical(group_rows(df), list(integer()))
   expect_identical(group_rows(rowwise(df)), list())
