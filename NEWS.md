@@ -101,19 +101,8 @@
   input in mutating operations and `mutate(df, "foo")` creates a new column by
   recycling "foo" to the number of rows.
 
-* Support for raw vector columns in `mutate()`, `summarise()`, `arrange()`, `group_by()`
-  and joins (minimal `raw` x `raw` support initially) (#1803).
-
-* Hybrid evaluation simplifies `dplyr::foo` to `foo` (#3309). Hybrid functions can now be masked by regular R functions to turn off hybrid evaluation (#3255). The hybrid evaluator finds functions from dplyr even if dplyr is not attached (#3456).
 ## Minor changes
 
-* Scoped select and rename functions (`select_all()`, `rename_if()` etc.) now work with grouped data frames, adapting the grouping as necessary (#2947, #3410). 
-
-* `group_by_at()` can group by an existing grouping variable (#3351). 
-
-* `arrange_at()` can use grouping variables (#3332).
-
-* `row_number()` works on empty subsets (#3454).
 * Support for raw vector columns in `arrange()`, `group_by()`, `mutate()`,
   `summarise()` and `..._join()` (minimal `raw` x `raw` support initially) (#1803). 
 
@@ -127,7 +116,6 @@
 
 *  `distinct()` now supports renaming columns (#3234).
 
-* It is now illegal to use `data.frame` in the rhs of `mutate()` (#3298).
 * Hybrid evaluation simplifies `dplyr::foo()` to `foo()` (#3309). Hybrid
   functions can now be masked by regular R functions to turn off hybrid
   evaluation (#3255). The hybrid evaluator finds functions from dplyr even if
@@ -141,7 +129,6 @@
 
 * `select()` and `vars()` now treat `NULL` as empty inputs (#3023).
 
-* `bind_rows()` works around corrupt columns that have the object bit set while having no class attribute (#3349).
 * Scoped select and rename functions (`select_all()`, `rename_if()` etc.)
   now work with grouped data frames, adapting the grouping as necessary
   (#2947, #3410). `group_by_at()` can group by an existing grouping variable
@@ -151,8 +138,6 @@
   `data.frame`, and ignores 0 (#3297, #3313).
 
 * `transmute()` no longer prints a message when including a group variable.
-
-* `group_indices()` can be used, without argument inside a dplyr expression (#1185).
 
 ## Documentation
 
