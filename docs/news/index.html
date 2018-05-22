@@ -132,7 +132,7 @@
 </div>
     <div id="dplyr-0-7-5-2018-04-14" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-7-5-2018-04-14" class="anchor"></a>dplyr 0.7.5 (2018-04-14)<small> Unreleased </small>
+<a href="#dplyr-0-7-5-2018-04-14" class="anchor"></a>dplyr 0.7.5 (2018-04-14)<small> 2018-05-19 </small>
 </h1>
 <div id="breaking-changes-for-package-developers" class="section level2">
 <h2 class="hasAnchor">
@@ -146,39 +146,43 @@
 <h2 class="hasAnchor">
 <a href="#bug-fixes" class="anchor"></a>Bug fixes</h2>
 <ul>
-<li><p>Reindexing grouped data frames never updates the <code>"class"</code> attribute. This also avoids unintended updates to the original object (<a href='https://github.com/tidyverse/dplyr/issues/3438'>#3438</a>).</p></li>
-<li><p><code><a href="../reference/do.html">do()</a></code> operations with more than one named argument can access <code>.</code> (<a href='https://github.com/tidyverse/dplyr/issues/2998'>#2998</a>).</p></li>
-<li><p>Summaries of summaries (such as <code><a href="../reference/summarise.html">summarise(b = sum(a), c = sum(b))</a></code>) are now computed using standard evaluation for simplicity and correctness, but slightly slower (<a href='https://github.com/tidyverse/dplyr/issues/3233'>#3233</a>).</p></li>
-<li><p>Fixed rare column name clash in joins with non-join columns of the same name in both tables (<a href='https://github.com/tidyverse/dplyr/issues/3266'>#3266</a>).</p></li>
-<li><p>Fix <code><a href="../reference/summarise.html">summarise()</a></code> for empty data frames with zero columns (<a href='https://github.com/tidyverse/dplyr/issues/3071'>#3071</a>).</p></li>
-<li><p>Fix <code><a href="../reference/ranking.html">row_number()</a></code> and <code><a href="../reference/ranking.html">ntile()</a></code> ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (<a href='https://github.com/tidyverse/dplyr/issues/2792'>#2792</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
 <li><p><code><a href="../reference/distinct.html">distinct(data, "string")</a></code> now returns a one-row data frame again. (The previous behavior was to return the data unchanged.)</p></li>
+<li><p><code><a href="../reference/do.html">do()</a></code> operations with more than one named argument can access <code>.</code> (<a href='https://github.com/tidyverse/dplyr/issues/2998'>#2998</a>).</p></li>
+<li><p>Reindexing grouped data frames (e.g. after <code><a href="../reference/filter.html">filter()</a></code> or <code>..._join()</code>) never updates the <code>"class"</code> attribute. This also avoids unintended updates to the original object (<a href='https://github.com/tidyverse/dplyr/issues/3438'>#3438</a>).</p></li>
+<li><p>Fixed rare column name clash in <code>..._join()</code> with non-join columns of the same name in both tables (<a href='https://github.com/tidyverse/dplyr/issues/3266'>#3266</a>).</p></li>
+<li><p>Fix <code><a href="../reference/ranking.html">ntile()</a></code> and <code><a href="../reference/ranking.html">row_number()</a></code> ordering to use the locale-dependent ordering functions in R when dealing with character vectors, rather than always using the C-locale ordering function in C (<a href='https://github.com/tidyverse/dplyr/issues/2792'>#2792</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
+<li><p>Summaries of summaries (such as <code><a href="../reference/summarise.html">summarise(b = sum(a), c = sum(b))</a></code>) are now computed using standard evaluation for simplicity and correctness, but slightly slower (<a href='https://github.com/tidyverse/dplyr/issues/3233'>#3233</a>).</p></li>
+<li><p>Fixed <code><a href="../reference/summarise.html">summarise()</a></code> for empty data frames with zero columns (<a href='https://github.com/tidyverse/dplyr/issues/3071'>#3071</a>).</p></li>
 </ul>
 </div>
-<div id="changes" class="section level2">
+<div id="major-changes" class="section level2">
 <h2 class="hasAnchor">
-<a href="#changes" class="anchor"></a>Changes</h2>
+<a href="#major-changes" class="anchor"></a>Major changes</h2>
 <ul>
-<li><p><code><a href="../reference/tidyeval.html">sym()</a></code>, <code><a href="../reference/tidyeval.html">syms()</a></code>, <code><a href="../reference/tidyeval.html">expr()</a></code>, <code><a href="../reference/tidyeval.html">exprs()</a></code> and <code><a href="../reference/tidyeval.html">enexpr()</a></code> are now exported. <code><a href="../reference/tidyeval.html">sym()</a></code> and <code><a href="../reference/tidyeval.html">syms()</a></code> construct symbols from strings or character vectors. The <code><a href="../reference/tidyeval.html">expr()</a></code> variants are equivalent to <code><a href="../reference/tidyeval.html">quo()</a></code>, <code><a href="../reference/tidyeval.html">quos()</a></code> and <code><a href="../reference/tidyeval.html">enquo()</a></code> but return simple expressions rather than quosures. They support quasiquotation.</p></li>
-<li>
-<p>dplyr now depends on the new tidyselect package to power <code><a href="../reference/select.html">select()</a></code>, <code><a href="../reference/select.html">rename()</a></code>, <code><a href="../reference/pull.html">pull()</a></code> and their variants (<a href='https://github.com/tidyverse/dplyr/issues/2896'>#2896</a>). Consequently <code><a href="../reference/select_vars.html">select_vars()</a></code>, <code><a href="../reference/select_vars.html">select_var()</a></code> and <code><a href="../reference/select_vars.html">rename_vars()</a></code> are soft-deprecated and will start issuing warnings in a future version.</p>
+<li><p><code><a href="../reference/tidyeval.html">enexpr()</a></code>, <code><a href="../reference/tidyeval.html">expr()</a></code>, <code><a href="../reference/tidyeval.html">exprs()</a></code>, <code><a href="../reference/tidyeval.html">sym()</a></code> and <code><a href="../reference/tidyeval.html">syms()</a></code> are now exported. <code><a href="../reference/tidyeval.html">sym()</a></code> and <code><a href="../reference/tidyeval.html">syms()</a></code> construct symbols from strings or character vectors. The <code><a href="../reference/tidyeval.html">expr()</a></code> variants are equivalent to <code><a href="../reference/tidyeval.html">quo()</a></code>, <code><a href="../reference/tidyeval.html">quos()</a></code> and <code><a href="../reference/tidyeval.html">enquo()</a></code> but return simple expressions rather than quosures. They support quasiquotation.</p></li>
+<li><p>dplyr now depends on the new tidyselect package to power <code><a href="../reference/select.html">select()</a></code>, <code><a href="../reference/select.html">rename()</a></code>, <code><a href="../reference/pull.html">pull()</a></code> and their variants (<a href='https://github.com/tidyverse/dplyr/issues/2896'>#2896</a>). Consequently <code><a href="../reference/select_vars.html">select_vars()</a></code>, <code><a href="../reference/select_vars.html">select_var()</a></code> and <code><a href="../reference/select_vars.html">rename_vars()</a></code> are soft-deprecated and will start issuing warnings in a future version.</p></li>
+</ul>
 <p>Following the switch to tidyselect, <code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/select.html">rename()</a></code> fully support character vectors. You can now unquote variables like this:</p>
 <pre><code>vars &lt;- c("disp", "cyl")
 select(mtcars, !! vars)
 select(mtcars, -(!! vars))</code></pre>
 <p>Note that this only works in selecting functions because in other contexts strings and character vectors are ambiguous. For instance strings are a valid input in mutating operations and <code><a href="../reference/mutate.html">mutate(df, "foo")</a></code> creates a new column by recycling “foo” to the number of rows.</p>
-</li>
-<li><p>Support for raw vector columns in <code>mutate</code>, <code>summarise</code>, <code>arrange</code>, <code>group_by</code> and joins (minimal <code>raw</code> x <code>raw</code> support initially) (<a href='https://github.com/tidyverse/dplyr/issues/1803'>#1803</a>).</p></li>
-<li><p>Hybrid evaluation simplifies <code>dplyr::foo</code> to <code>foo</code> (<a href='https://github.com/tidyverse/dplyr/issues/3309'>#3309</a>). Hybrid functions can now be masked by regular R functions to turn off hybrid evaluation (<a href='https://github.com/tidyverse/dplyr/issues/3255'>#3255</a>). The hybrid evaluator finds functions from dplyr even if dplyr is not attached (<a href='https://github.com/tidyverse/dplyr/issues/3456'>#3456</a>).</p></li>
-<li><p>Scoped select and rename functions (<code><a href="../reference/select_all.html">select_all()</a></code>, <code><a href="../reference/select_all.html">rename_if()</a></code> etc.) now work with grouped data frames, adapting the grouping as necessary (<a href='https://github.com/tidyverse/dplyr/issues/2947'>#2947</a>, <a href='https://github.com/tidyverse/dplyr/issues/3410'>#3410</a>). <code>group_by_at</code> can group by an existing grouping variable (<a href='https://github.com/tidyverse/dplyr/issues/3351'>#3351</a>). <code>arrange_at</code> can use grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/3332'>#3332</a>).</p></li>
-<li><p><code><a href="../reference/ranking.html">row_number()</a></code> works on empty subsets (<a href='https://github.com/tidyverse/dplyr/issues/3454'>#3454</a>).</p></li>
+</div>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<ul>
+<li><p>Support for raw vector columns in <code><a href="../reference/arrange.html">arrange()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/mutate.html">mutate()</a></code>, <code><a href="../reference/summarise.html">summarise()</a></code> and <code>..._join()</code> (minimal <code>raw</code> x <code>raw</code> support initially) (<a href='https://github.com/tidyverse/dplyr/issues/1803'>#1803</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> handles unnamed list (<a href='https://github.com/tidyverse/dplyr/issues/3402'>#3402</a>).</p></li>
-<li><p><code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/vars.html">vars()</a></code> now treat <code>NULL</code> as empty inputs (<a href='https://github.com/tidyverse/dplyr/issues/3023'>#3023</a>).</p></li>
-<li><p>Support <code>!!!</code> in <code><a href="../reference/recode.html">recode_factor()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3390'>#3390</a>).</p></li>
-<li><p><code><a href="../reference/distinct.html">distinct()</a></code> now supports renaming columns (<a href='https://github.com/tidyverse/dplyr/issues/3234'>#3234</a>).</p></li>
-<li><p>It is now illegal to use <code>data.frame</code> in the rhs of <code><a href="../reference/mutate.html">mutate()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3298'>#3298</a>).</p></li>
-<li><p><code><a href="../reference/bind.html">combine()</a></code> returns <code>logical()</code> when all inputs are <code>NULL</code> (or when there are no inputs) (<a href='https://github.com/tidyverse/dplyr/issues/3365'>#3365</a>, <a href='http://github.com/zeehio'>@zeehio</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> works around corrupt columns that have the object bit set while having no class attribute (<a href='https://github.com/tidyverse/dplyr/issues/3349'>#3349</a>).</p></li>
+<li><p><code><a href="../reference/bind.html">combine()</a></code> returns <code>logical()</code> when all inputs are <code>NULL</code> (or when there are no inputs) (<a href='https://github.com/tidyverse/dplyr/issues/3365'>#3365</a>, <a href='http://github.com/zeehio'>@zeehio</a>).</p></li>
+<li><p><code><a href="../reference/distinct.html">distinct()</a></code> now supports renaming columns (<a href='https://github.com/tidyverse/dplyr/issues/3234'>#3234</a>).</p></li>
+<li><p>Hybrid evaluation simplifies <code>dplyr::foo()</code> to <code>foo()</code> (<a href='https://github.com/tidyverse/dplyr/issues/3309'>#3309</a>). Hybrid functions can now be masked by regular R functions to turn off hybrid evaluation (<a href='https://github.com/tidyverse/dplyr/issues/3255'>#3255</a>). The hybrid evaluator finds functions from dplyr even if dplyr is not attached (<a href='https://github.com/tidyverse/dplyr/issues/3456'>#3456</a>).</p></li>
+<li><p>In <code><a href="../reference/mutate.html">mutate()</a></code> it is now illegal to use <code>data.frame</code> in the rhs (<a href='https://github.com/tidyverse/dplyr/issues/3298'>#3298</a>).</p></li>
+<li><p>Support <code>!!!</code> in <code><a href="../reference/recode.html">recode_factor()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3390'>#3390</a>).</p></li>
+<li><p><code><a href="../reference/ranking.html">row_number()</a></code> works on empty subsets (<a href='https://github.com/tidyverse/dplyr/issues/3454'>#3454</a>).</p></li>
+<li><p><code><a href="../reference/select.html">select()</a></code> and <code><a href="../reference/vars.html">vars()</a></code> now treat <code>NULL</code> as empty inputs (<a href='https://github.com/tidyverse/dplyr/issues/3023'>#3023</a>).</p></li>
+<li><p>Scoped select and rename functions (<code><a href="../reference/select_all.html">select_all()</a></code>, <code><a href="../reference/select_all.html">rename_if()</a></code> etc.) now work with grouped data frames, adapting the grouping as necessary (<a href='https://github.com/tidyverse/dplyr/issues/2947'>#2947</a>, <a href='https://github.com/tidyverse/dplyr/issues/3410'>#3410</a>). <code><a href="../reference/group_by_all.html">group_by_at()</a></code> can group by an existing grouping variable (<a href='https://github.com/tidyverse/dplyr/issues/3351'>#3351</a>). <code><a href="../reference/arrange_all.html">arrange_at()</a></code> can use grouping variables (<a href='https://github.com/tidyverse/dplyr/issues/3332'>#3332</a>).</p></li>
 <li><p><code><a href="../reference/slice.html">slice()</a></code> no longer enforce tibble classes when input is a simple <code>data.frame</code>, and ignores 0 (<a href='https://github.com/tidyverse/dplyr/issues/3297'>#3297</a>, <a href='https://github.com/tidyverse/dplyr/issues/3313'>#3313</a>).</p></li>
 <li><p><code><a href="../reference/mutate.html">transmute()</a></code> no longer prints a message when including a group variable.</p></li>
 <li><p><code><a href="../reference/group_indices.html">group_indices()</a></code> can be used, without argument inside a dplyr expression (<a href='https://github.com/tidyverse/dplyr/issues/1185'>#1185</a>).</p></li>
@@ -188,22 +192,20 @@ select(mtcars, -(!! vars))</code></pre>
 <h2 class="hasAnchor">
 <a href="#documentation" class="anchor"></a>Documentation</h2>
 <ul>
-<li><p>Improved documentation for set operations (<a href='https://github.com/tidyverse/dplyr/issues/3238'>#3238</a>, <a href='http://github.com/edublancas'>@edublancas</a>).</p></li>
-<li><p>Improved documentation for <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3094'>#3094</a>).</p></li>
+<li>Improved documentation for <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3094'>#3094</a>) and set operations (e.g. <code><a href="../reference/setops.html">union()</a></code>) (<a href='https://github.com/tidyverse/dplyr/issues/3238'>#3238</a>, <a href='http://github.com/edublancas'>@edublancas</a>).</li>
 </ul>
 </div>
 <div id="error-messages" class="section level2">
 <h2 class="hasAnchor">
 <a href="#error-messages" class="anchor"></a>Error messages</h2>
 <ul>
-<li><p>Dedicated error message when trying to use columns of the <code>Interval</code> or <code>Period</code> classes (<a href='https://github.com/tidyverse/dplyr/issues/2568'>#2568</a>).</p></li>
-<li><p>Show clear error message for bad arguments to <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3368'>#3368</a>).</p></li>
-<li><p>Add warning with explanation to <code><a href="../reference/distinct.html">distinct()</a></code> if any of the selected columns are of type <code>list</code> (<a href='https://github.com/tidyverse/dplyr/issues/3088'>#3088</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
 <li><p>Better error message if dbplyr is not installed when accessing database backends (<a href='https://github.com/tidyverse/dplyr/issues/3225'>#3225</a>).</p></li>
-<li><p>Corrected error message when calling <code>cbind()</code> with an object of wrong length (<a href='https://github.com/tidyverse/dplyr/issues/3085'>#3085</a>).</p></li>
-<li><p>Better error message when joining data frames with duplicate or <code>NA</code> column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (<a href='https://github.com/tidyverse/dplyr/issues/3243'>#3243</a>, <a href='https://github.com/tidyverse/dplyr/issues/3417'>#3417</a>).</p></li>
-<li><p><code><a href="../reference/distinct.html">distinct()</a></code> now gives a warning when used on unknown columns (<a href='https://github.com/tidyverse/dplyr/issues/2867'>#2867</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
 <li><p><code><a href="../reference/arrange.html">arrange()</a></code> fails gracefully on <code>data.frame</code> columns (<a href='https://github.com/tidyverse/dplyr/issues/3153'>#3153</a>).</p></li>
+<li><p>Corrected error message when calling <code>cbind()</code> with an object of wrong length (<a href='https://github.com/tidyverse/dplyr/issues/3085'>#3085</a>).</p></li>
+<li><p>Add warning with explanation to <code><a href="../reference/distinct.html">distinct()</a></code> if any of the selected columns are of type <code>list</code> (<a href='https://github.com/tidyverse/dplyr/issues/3088'>#3088</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux), or when used on unknown columns (<a href='https://github.com/tidyverse/dplyr/issues/2867'>#2867</a>, <a href='http://github.com/foo'>@foo</a>-bar-baz-qux).</p></li>
+<li><p>Show clear error message for bad arguments to <code><a href="../reference/funs.html">funs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3368'>#3368</a>).</p></li>
+<li><p>Better error message in <code>..._join()</code> when joining data frames with duplicate or <code>NA</code> column names. Joining such data frames with a semi- or anti-join now gives a warning, which may be converted to an error in future versions (<a href='https://github.com/tidyverse/dplyr/issues/3243'>#3243</a>, <a href='https://github.com/tidyverse/dplyr/issues/3417'>#3417</a>).</p></li>
+<li><p>Dedicated error message when trying to use columns of the <code>Interval</code> or <code>Period</code> classes (<a href='https://github.com/tidyverse/dplyr/issues/2568'>#2568</a>).</p></li>
 <li><p>Added an <code>.onDetach()</code> hook that allows for plyr to be loaded and attached without the warning message that says functions in dplyr will be masked, since dplyr is no longer attached (<a href='https://github.com/tidyverse/dplyr/issues/3359'>#3359</a>, <a href='http://github.com/jwnorman'>@jwnorman</a>).</p></li>
 </ul>
 </div>

@@ -273,20 +273,20 @@
 <p>There’s just one step left: we want to call this function like we call <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">my_summarise</span>(df, g1)</a></code></pre></div>
 <p>This doesn’t work because there’s no object called <code>g1</code>. We need to capture what the user of the function typed and quote it for them. You might try using <code><a href="../reference/tidyeval.html">quo()</a></code> to do that:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {</a>
-<a class="sourceLine" id="cb19-2" data-line-number="2">  quo_group_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(group_var)</a>
-<a class="sourceLine" id="cb19-3" data-line-number="3">  <span class="kw">print</span>(quo_group_var)</a>
-<a class="sourceLine" id="cb19-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb19-5" data-line-number="5">  df <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-6" data-line-number="6"><span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="op">!!</span><span class="st"> </span>quo_group_var) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb19-7" data-line-number="7"><span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw">mean</span>(a))</a>
-<a class="sourceLine" id="cb19-8" data-line-number="8">}</a>
-<a class="sourceLine" id="cb19-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb19-10" data-line-number="10"><span class="kw">my_summarise</span>(df, g1)</a>
-<a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt;   expr: ^group_var</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt;   env:  0x7fae950a8660</span></a>
-<a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {
+  quo_group_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(group_var)
+  <span class="kw">print</span>(quo_group_var)
+
+  df <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(<span class="op">!!</span><span class="st"> </span>quo_group_var) <span class="op">%&gt;%</span>
+<span class="st">    </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(<span class="dt">a =</span> <span class="kw">mean</span>(a))
+}
+
+<span class="kw">my_summarise</span>(df, g1)
+<span class="co">#&gt; &lt;quosure&gt;</span>
+<span class="co">#&gt;   expr: ^group_var</span>
+<span class="co">#&gt;   env:  0x564745781720</span>
+<span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></code></pre></div>
 <p>I’ve added a <code>print()</code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
 <p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval.html">enquo()</a></code>. <code><a href="../reference/tidyeval.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {</a>
@@ -473,21 +473,21 @@
 <a class="sourceLine" id="cb31-5" data-line-number="5">x1 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">10</span>)</a>
 <a class="sourceLine" id="cb31-6" data-line-number="6">x2 &lt;-<span class="st"> </span><span class="kw">f</span>(<span class="dv">100</span>)</a></code></pre></div>
 <p>It might look like the expressions are the same if you print them out.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x1</a>
-<a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt;   expr: ^x</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt;   env:  0x7fae95c69978</span></a>
-<a class="sourceLine" id="cb32-5" data-line-number="5">x2</a>
-<a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
-<a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt;   expr: ^x</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt;   env:  0x7fae95cbf188</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1
+<span class="co">#&gt; &lt;quosure&gt;</span>
+<span class="co">#&gt;   expr: ^x</span>
+<span class="co">#&gt;   env:  0x564745f80ec0</span>
+x2
+<span class="co">#&gt; &lt;quosure&gt;</span>
+<span class="co">#&gt;   expr: ^x</span>
+<span class="co">#&gt;   env:  0x564745fd9370</span></code></pre></div>
 <p>But if you inspect the environments using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">rlang::get_env()</a></code> — they’re different.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw">library</span>(rlang)</a>
-<a class="sourceLine" id="cb33-2" data-line-number="2"></a>
-<a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x1)</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x7fae95c69978&gt;</span></a>
-<a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x2)</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x7fae95cbf188&gt;</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)
+
+<span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x1)
+<span class="co">#&gt; &lt;environment: 0x564745f80ec0&gt;</span>
+<span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x2)
+<span class="co">#&gt; &lt;environment: 0x564745fd9370&gt;</span></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">eval_tidy</a></span>(x1)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>

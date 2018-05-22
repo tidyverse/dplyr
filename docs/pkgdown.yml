@@ -1,6 +1,6 @@
-pandoc: '2.2'
+pandoc: 1.19.2.1
 pkgdown: 1.0.0.9000
-pkgdown_sha: d7c658122bfbd143552cd28585f867dd344302ad
+pkgdown_sha: 6fe20ba837000bf7298a83e4d076d452489cc8d7
 articles:
   compatibility: compatibility.html
   dplyr: dplyr.html
