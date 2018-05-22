@@ -115,17 +115,55 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-single-table-verbs" class="hasAnchor"><a href="#section-single-table-verbs" class="anchor"></a>Single-table verbs</h2>
+          <h2 id="section-basic-single-table-verbs" class="hasAnchor"><a href="#section-basic-single-table-verbs" class="anchor"></a>Basic single-table verbs</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
       <tr>
         
         <td>
+          <p><code><a href="filter.html">filter()</a></code> </p>
+        </td>
+        <td><p>Return rows with matching conditions</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="arrange.html">arrange()</a></code> </p>
         </td>
         <td><p>Arrange rows by variables</p></td>
       </tr><tr>
+        
+        <td>
+          <p><code><a href="select.html">select()</a></code> <code><a href="select.html">rename()</a></code> </p>
+        </td>
+        <td><p>Select/rename variables by name</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mutate.html">mutate()</a></code> <code><a href="mutate.html">transmute()</a></code> </p>
+        </td>
+        <td><p>Add new variables</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="summarise.html">summarise()</a></code> <code><a href="summarise.html">summarize()</a></code> </p>
+        </td>
+        <td><p>Reduces multiple values down to a single value</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_by.html">group_by()</a></code> <code><a href="group_by.html">ungroup()</a></code> </p>
+        </td>
+        <td><p>Group by one or more variables</p></td>
+      </tr>
+    </tbody><tbody>
+      <tr>
+        <th colspan="2">
+          <h2 id="section-other-single-table-verbs" class="hasAnchor"><a href="#section-other-single-table-verbs" class="anchor"></a>Other single-table verbs</h2>
+          <p class="section-desc"></p>
+        </th>
+      </tr>
+      <tr>
         
         <td>
           <p><code><a href="distinct.html">distinct()</a></code> </p>
@@ -140,33 +178,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="filter.html">filter()</a></code> </p>
-        </td>
-        <td><p>Return rows with matching conditions</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="group_by.html">group_by()</a></code> <code><a href="group_by.html">ungroup()</a></code> </p>
-        </td>
-        <td><p>Group by one or more variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mutate.html">mutate()</a></code> <code><a href="mutate.html">transmute()</a></code> </p>
-        </td>
-        <td><p>Add new variables</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="select.html">select()</a></code> <code><a href="select.html">rename()</a></code> </p>
         </td>
         <td><p>Select/rename variables by name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="reexports.html">reexports</a></code> </p>
-        </td>
-        <td><p>Objects exported from other packages</p></td>
       </tr><tr>
         
         <td>
@@ -176,21 +190,15 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="summarise.html">summarise()</a></code> <code><a href="summarise.html">summarize()</a></code> </p>
-        </td>
-        <td><p>Reduces multiple values down to a single value</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pull.html">pull()</a></code> </p>
-        </td>
-        <td><p>Pull out a single variable</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="slice.html">slice()</a></code> </p>
         </td>
         <td><p>Select rows by position</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="mutate.html">mutate()</a></code> <code><a href="mutate.html">transmute()</a></code> </p>
+        </td>
+        <td><p>Add new variables</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -271,6 +279,12 @@
           <p><code><a href="funs.html">funs()</a></code> </p>
         </td>
         <td><p>Create a list of functions calls.</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="pull.html">pull()</a></code> </p>
+        </td>
+        <td><p>Pull out a single variable</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -549,7 +563,8 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-single-table-verbs">Single-table verbs</a></li>
+      <li><a href="#section-basic-single-table-verbs">Basic single-table verbs</a></li>
+      <li><a href="#section-other-single-table-verbs">Other single-table verbs</a></li>
       <li><a href="#section-single-table-helpers">Single-table helpers</a></li>
       <li><a href="#section-two-table-verbs">Two-table verbs</a></li>
       <li><a href="#section-remote-tables">Remote tables</a></li>
