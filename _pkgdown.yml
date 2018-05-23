@@ -18,6 +18,7 @@ reference:
   - filter
   - arrange
   - select
+  - pull
   - mutate
   - summarise
   - group_by
@@ -40,7 +41,6 @@ reference:
   - all_vars
   - vars
   - funs
-  - pull
 
 - title: Two-table verbs
   contents:
