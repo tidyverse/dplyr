@@ -27,10 +27,8 @@ reference:
   contents:
   - distinct
   - do
-  - rename
   - sample
   - slice
-  - transmute
 
 - title: Single-table helpers
   contents:
