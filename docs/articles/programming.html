@@ -285,7 +285,7 @@
 <span class="kw">my_summarise</span>(df, g1)
 <span class="co">#&gt; &lt;quosure&gt;</span>
 <span class="co">#&gt;   expr: ^group_var</span>
-<span class="co">#&gt;   env:  0x564f9aab3c88</span>
+<span class="co">#&gt;   env:  0x5628642b2dc0</span>
 <span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></code></pre></div>
 <p>I’ve added a <code>print()</code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
 <p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval.html">enquo()</a></code>. <code><a href="../reference/tidyeval.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
@@ -476,18 +476,18 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1
 <span class="co">#&gt; &lt;quosure&gt;</span>
 <span class="co">#&gt;   expr: ^x</span>
-<span class="co">#&gt;   env:  0x564f9a7ce408</span>
+<span class="co">#&gt;   env:  0x5628641dd038</span>
 x2
 <span class="co">#&gt; &lt;quosure&gt;</span>
 <span class="co">#&gt;   expr: ^x</span>
-<span class="co">#&gt;   env:  0x564f9b72a258</span></code></pre></div>
+<span class="co">#&gt;   env:  0x56286414bbe0</span></code></pre></div>
 <p>But if you inspect the environments using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">rlang::get_env()</a></code> — they’re different.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)
 
 <span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x1)
-<span class="co">#&gt; &lt;environment: 0x564f9a7ce408&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x5628641dd038&gt;</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x2)
-<span class="co">#&gt; &lt;environment: 0x564f9b72a258&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x56286414bbe0&gt;</span></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">eval_tidy</a></span>(x1)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>
@@ -691,6 +691,20 @@ x2
 </div>
 
   
-
-  </body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script><script>
+  docsearch({
+    
+    
+    apiKey: '1270c4079b26a138795263974bbf302d',
+    indexName: 'tidyverse',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+</body>
 </html>
