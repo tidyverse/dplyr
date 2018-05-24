@@ -22,22 +22,6 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-template <typename Data>
-SEXP structure_mutate(const NamedListAccumulator<Data>& accumulator,
-                      const DataFrame& df,
-                      CharacterVector classes,
-                      bool grouped = true) {
-  List res = accumulator;
-  set_class(res, classes);
-  set_rownames(res, df.nrows());
-
-  if (grouped) {
-    res.attr("groups")  = df.attr("groups");
-  }
-
-  return res;
-}
-
 void check_not_groups(const QuosureList&, const RowwiseDataFrame&) {}
 void check_not_groups(const QuosureList&, const NaturalDataFrame&) {}
 
@@ -115,7 +99,15 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     proxy.input(name, variable);
     accumulator.set(name, variable);
   }
-  return structure_mutate(accumulator, df, get_class(df));
+
+  // basic structure of the data frame
+  List res = accumulator;
+  set_class(res, get_class(df));
+  set_rownames(res, df.nrows());
+
+  // let the grouping class deal with the rest, e.g. the
+  // groups attribute
+  return Data(res, gdf).data();
 }
 
 
