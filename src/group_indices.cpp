@@ -477,12 +477,6 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   return vec_groups;
 }
 
-// Updates attributes in data by reference!
-// All these attributes are private to dplyr.
-void strip_index(DataFrame x) {
-  x.attr("groups") = R_NilValue;
-}
-
 namespace dplyr {
 
 SEXP check_grouped(SEXP data) {

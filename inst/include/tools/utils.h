@@ -10,7 +10,6 @@ SEXP shared_SEXP(SEXP x);
 SEXP shallow_copy(const List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
-void strip_index(DataFrame x);
 SEXP null_if_empty(SEXP x);
 
 bool is_vector(SEXP x);

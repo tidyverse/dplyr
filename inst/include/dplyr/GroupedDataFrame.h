@@ -28,6 +28,11 @@ public:
   List indices;
 };
 
+template <typename Data>
+void strip_groups(Data& x) {
+  x.attr("groups") = R_NilValue;
+}
+
 class GroupedDataFrame {
 public:
   typedef GroupedDataFrameIndexIterator group_iterator;
