@@ -40,6 +40,9 @@ public:
   NaturalDataFrame(SEXP x):
     data_(x)
   {}
+  NaturalDataFrame(SEXP x, const NaturalDataFrame& /* model */):
+    data_(x)
+  {}
 
   NaturalDataFrameIndexIterator group_begin() const {
     return NaturalDataFrameIndexIterator(nrows());

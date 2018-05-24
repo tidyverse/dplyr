@@ -35,6 +35,9 @@ public:
   RowwiseDataFrame(SEXP x):
     data_(x)
   {}
+  RowwiseDataFrame(SEXP x, const RowwiseDataFrame& /* model */):
+    data_(x)
+  {}
 
   group_iterator group_begin() const {
     return RowwiseDataFrameIndexIterator();
