@@ -11,6 +11,7 @@
 - The grouping metadata of grouped data frame has been reorganized in a single tidy tibble (#3489). 
 - new function `group_data()` to extract the grouping structure (#3489).
 - new function `group_rows()` to get a list of row indices for each group (#3489).
+- `first()` and `last()` hybrid functions fall back to R evaluation when given no arguments (#3589). 
 
 # dplyr 0.7.5.9001
 

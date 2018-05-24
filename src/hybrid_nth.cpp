@@ -304,6 +304,10 @@ Result* nth_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 }
 
 Result* firstlast_prototype(SEXP call, const ILazySubsets& subsets, int nargs, int pos) {
+  // only accept first(x) and last(x)
+  // otherwise fall back to R evaluation
+  if (Rf_length(call) < 2) return 0;
+
   SEXP tail = CDDR(call);
 
   // replacing `first` or `last` by `dplyr::nth`
