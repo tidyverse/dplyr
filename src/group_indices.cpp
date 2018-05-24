@@ -516,10 +516,10 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
   }
 }
 
-GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
+GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
   data_(x),
-  symbols(symbols_),
-  groups(build_index_cpp(data_, symbols_)),
+  symbols(model.get_vars()),
+  groups(build_index_cpp(data_, model.get_vars())),
   max_group_size_(0),
   nvars_(symbols.size())
 {

@@ -309,13 +309,13 @@ List rbind__impl(List dots, const SymbolString& id) {
 
   LOG_VERBOSE << "result has " << n << " rows";
 
-  // infer the classes and extra info (groups, etc ) from the first (#1692)
+  // infer the classes group info from the first (#1692)
   if (ndata) {
     SEXP first = chunks[0];
     if (Rf_inherits(first, "data.frame")) {
       set_class(out, get_class(first));
       if (is<GroupedDataFrame>(first)) {
-        out = GroupedDataFrame(out, GroupedDataFrame::group_vars(first)).data();
+        out = GroupedDataFrame(out, GroupedDataFrame(first)).data();
       }
     } else {
       set_class(out, classes_not_grouped());

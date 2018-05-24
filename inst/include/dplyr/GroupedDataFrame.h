@@ -35,7 +35,7 @@ public:
   typedef GroupedSubset subset;
 
   GroupedDataFrame(DataFrame x);
-  GroupedDataFrame(DataFrame x, const SymbolVector& symbols_);
+  GroupedDataFrame(DataFrame x, const GroupedDataFrame& model);
 
   group_iterator group_begin() const {
     return GroupedDataFrameIndexIterator(*this);
