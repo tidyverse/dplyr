@@ -75,6 +75,10 @@ public:
     return rowwise_subset(x);
   }
 
+  inline SymbolVector get_vars() const {
+    return SymbolVector();
+  }
+
 private:
 
   DataFrame data_;

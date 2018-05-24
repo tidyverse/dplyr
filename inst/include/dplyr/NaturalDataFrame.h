@@ -91,6 +91,10 @@ public:
     return data_[i];
   }
 
+  inline SymbolVector get_vars() const {
+    return SymbolVector();
+  }
+
 private:
 
   DataFrame data_;

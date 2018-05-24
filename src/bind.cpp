@@ -314,8 +314,8 @@ List rbind__impl(List dots, const SymbolString& id) {
     SEXP first = chunks[0];
     if (Rf_inherits(first, "data.frame")) {
       set_class(out, get_class(first));
-      if (Rf_inherits(first, "grouped_df")) {
-        out = GroupedDataFrame(out, get_vars(first)).data();
+      if (is<GroupedDataFrame>(first)) {
+        out = GroupedDataFrame(out, GroupedDataFrame::group_vars(first)).data();
       }
     } else {
       set_class(out, classes_not_grouped());

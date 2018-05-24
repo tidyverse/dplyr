@@ -84,6 +84,12 @@ public:
     return groups[groups.size() - 1] ;
   }
 
+  inline SymbolVector get_vars() const {
+    return symbols.get_names();
+  }
+
+  static SymbolVector group_vars(SEXP x);
+
 private:
   void set_max_group_size() {
     List idx = indices();

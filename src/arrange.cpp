@@ -70,7 +70,7 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
     // see the lazyness feature in GroupedDataFrame
     // if we don't do that, we get the values of the un-arranged data
     // set for free from subset (#1064)
-    return GroupedDataFrame(res, get_vars(data)).data();
+    return GroupedDataFrame(res, GroupedDataFrame::group_vars(data)).data();
   }
   else {
     res.attr("groups") = R_NilValue ;

@@ -499,7 +499,7 @@ SEXP check_grouped(SEXP data) {
 
 GroupedDataFrame::GroupedDataFrame(DataFrame x):
   data_(check_grouped(x)),
-  symbols(get_vars(data_)),
+  symbols(group_vars(data_)),
   groups(data_.attr("groups")),
   max_group_size_(0),
   nvars_(symbols.size())
@@ -525,6 +525,20 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
 {
   data_.attr("groups") = groups ;
   set_max_group_size();
+}
+
+SymbolVector GroupedDataFrame::group_vars(SEXP x) {
+  static SEXP groups_symbol = Rf_install("groups");
+  SEXP groups = Rf_getAttrib(x, groups_symbol);
+
+  if (!is<DataFrame>(groups)) {
+    bad_arg(".data", "is a corrupt grouped_df");
+  }
+
+  int n = Rf_length(groups) - 1;
+  CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
+  vars.erase(n);
+  return SymbolVector(vars);
 }
 
 }

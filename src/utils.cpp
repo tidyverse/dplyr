@@ -226,20 +226,6 @@ SEXP list_as_chr(SEXP x) {
   return chr;
 }
 
-SymbolVector get_vars(SEXP x) {
-  static SEXP groups_symbol = Rf_install("groups");
-  SEXP groups = Rf_getAttrib(x, groups_symbol);
-
-  if (!is<DataFrame>(groups)) {
-    bad_arg(".data", "is a corrupt grouped_df");
-  }
-
-  int n = Rf_length(groups) - 1;
-  CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
-  vars.erase(n);
-  return SymbolVector(vars);
-}
-
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
   if ((SEXP)x == (SEXP)y) return true;
 
