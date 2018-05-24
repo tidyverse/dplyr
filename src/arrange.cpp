@@ -19,8 +19,9 @@ using namespace dplyr;
 
 #include <tools/debug.h>
 
-// [[Rcpp::export]]
-List arrange_impl(DataFrame data, QuosureList quosures) {
+template <typename SlicedTibble>
+SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
+  const DataFrame& data = gdf.data();
   if (data.size() == 0 || data.nrows() == 0)
     return data;
 
@@ -63,17 +64,23 @@ List arrange_impl(DataFrame data, QuosureList quosures) {
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector index = o.apply();
   DataFrameSubsetVisitors visitors(data, SymbolVector(data.names()));
+
+  // organise the rows
   List res = visitors.subset(index, get_class(data));
 
-  if (is<GroupedDataFrame>(data)) {
-    // so that all attributes are recalculated (indices ... )
-    // see the lazyness feature in GroupedDataFrame
-    // if we don't do that, we get the values of the un-arranged data
-    // set for free from subset (#1064)
-    return GroupedDataFrame(res, data).data();
-  }
-  else {
-    res.attr("groups") = R_NilValue ;
-    return res;
+  // let the grouping class organise the rest (the groups attribute etc ...)
+  return SlicedTibble(res, gdf).data();
+
+}
+
+// [[Rcpp::export]]
+SEXP arrange_impl(DataFrame df, QuosureList quosures) {
+  if (is<RowwiseDataFrame>(df)) {
+    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures);
+  } else if (is<GroupedDataFrame>(df)) {
+    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures);
+  } else {
+    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures);
   }
 }
+

@@ -75,14 +75,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-List arrange_impl(DataFrame data, QuosureList quosures);
-RcppExport SEXP _dplyr_arrange_impl(SEXP dataSEXP, SEXP quosuresSEXP) {
+SEXP arrange_impl(DataFrame df, QuosureList quosures);
+RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type quosures(quosuresSEXP);
-    rcpp_result_gen = Rcpp::wrap(arrange_impl(data, quosures));
+    rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures));
     return rcpp_result_gen;
 END_RCPP
 }

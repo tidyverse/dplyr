@@ -117,7 +117,7 @@ SEXP mutate_impl(DataFrame df, QuosureList dots) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
     return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots);
-  } else if (is<GroupedDataFrame>(df) && df.nrows() != 0) {
+  } else if (is<GroupedDataFrame>(df)) {
     return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots);
   } else {
     return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);

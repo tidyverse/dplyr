@@ -288,8 +288,14 @@ inline Gatherer* gatherer_impl<NaturalDataFrame, LazySubsets>(const RObject& fir
 
 template <typename Data, typename Subsets>
 inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, const SymbolString& name) {
+  const int ng = gdf.ngroups();
+  if (ng == 0) {
+    return constant_gatherer(proxy.get(NaturalSlicingIndex()), 0, name);
+  }
+
   typename Data::group_iterator git = gdf.group_begin();
   typename Data::slicing_index indices = *git;
+
   RObject first(proxy.get(indices));
 
   if (Rf_inherits(first, "POSIXlt")) {
@@ -303,7 +309,6 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
   check_supported_type(first, name);
   check_length(Rf_length(first), indices.size(), check_length_message<Data>(), name);
 
-  const int ng = gdf.ngroups();
   int i = 0;
   if (ng > 1) {
     while (all_na(first)) {
