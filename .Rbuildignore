@@ -33,3 +33,4 @@ demo/pandas
 ^archive$
 ^\.drake$
 ^CRAN-RELEASE$
+^\.github$
