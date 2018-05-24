@@ -98,10 +98,6 @@ ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
 }
 
-test_grouped_df <- function(data) {
-    .Call(`_dplyr_test_grouped_df`, data)
-}
-
 grouped_indices_grouped_df_impl <- function(gdf) {
     .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
 }

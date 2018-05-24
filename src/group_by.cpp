@@ -26,8 +26,3 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   set_class(copy, classes_not_grouped());
   return copy;
 }
-
-// [[Rcpp::export]]
-SEXP test_grouped_df(DataFrame data) {
-  return GroupedDataFrame(data).data();
-}
