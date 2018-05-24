@@ -109,7 +109,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
     SymbolVector vars = gdf.get_vars();
     vars.remove(gdf.nvars() - 1);
 
-    DataFrame old_groups = Rf_getAttrib(df, Rf_install("groups"));
+    DataFrame old_groups = gdf.group_data();
     int nv = gdf.nvars() - 1;
     DataFrameVisitors visitors(old_groups, nv) ;
 
@@ -126,7 +126,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
     out.attr("groups") = reconstruct_groups(old_groups, new_indices);
   } else {
     // clear groups and reset to non grouped classes
-    out.attr("groups") = R_NilValue;
+    strip_groups(out);
     out.attr("class") = classes_not_grouped();
   }
 }

@@ -57,6 +57,10 @@ public:
     return data_;
   }
 
+  inline int size() const {
+    return data_.size();
+  }
+
   inline int ngroups() const {
     return groups.nrow();
   }
