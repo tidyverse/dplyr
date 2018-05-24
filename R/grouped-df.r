@@ -51,7 +51,7 @@ group_size.grouped_df <- function(x) {
 
 #' @export
 n_groups.grouped_df <- function(x) {
-  nrow(attr(x, "groups"))
+  nrow(group_data(x))
 }
 
 #' @export
@@ -61,16 +61,17 @@ groups.grouped_df <- function(x) {
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  labels <- attr(x, "groups")
-  if (is.character(labels)) {
+  groups <- group_data(x)
+  if (is.character(groups)) {
     # lazy grouped
-    labels
-  } else if (is.data.frame(labels)) {
+    groups
+  } else if (is.data.frame(groups)) {
     # resolved, extract from the names of the data frame
-    head(names(labels), -1L)
-  } else if (is.list(labels)) {
+    head(names(groups), -1L)
+  } else if (is.list(groups)) {
     # Need this for compatibility with existing packages that might
-    map_chr(labels, as_string)
+    # use the old list of symbols format
+    map_chr(groups, as_string)
   }
 }
 
