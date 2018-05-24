@@ -171,6 +171,7 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 
 # Do ---------------------------------------------------------------------------
 
+#' @importFrom tidyselect last_col
 #' @export
 do.grouped_df <- function(.data, ...) {
   index <- group_rows(.data)

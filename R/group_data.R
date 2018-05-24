@@ -43,5 +43,9 @@ group_data.rowwise_df <- function(.data) {
 
 #' @export
 group_data.grouped_df <- function(.data) {
-  attr(.data, "groups")
+  res <- attr(.data, "groups")
+  if (!is.data.frame(res)) {
+    bad_args(".data", "is a corrupt grouped tibble")
+  }
+  res
 }

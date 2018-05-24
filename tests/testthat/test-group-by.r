@@ -124,7 +124,7 @@ test_that("grouped_df errors on NULL labels (#398)", {
   attr(m, "groups") <- NULL
   expect_error(
     m %>% do(mpg = mean(.$mpg)),
-    "no variables to group by",
+    "is a corrupt grouped tibble",
     fixed = TRUE
   )
 })
