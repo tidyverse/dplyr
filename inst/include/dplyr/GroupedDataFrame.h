@@ -95,6 +95,10 @@ public:
 
   static SymbolVector group_vars(SEXP x);
 
+  inline const DataFrame& group_data() const {
+    return groups;
+  }
+
 private:
   void set_max_group_size() {
     List idx = indices();
