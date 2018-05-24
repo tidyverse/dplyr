@@ -37,7 +37,7 @@ is_grouped_df <- is.grouped_df
 
 #' @export
 tbl_sum.grouped_df <- function(x) {
-  grps <- if (is.null(attr(x, "indices"))) "?" else length(attr(x, "indices"))
+  grps <- n_groups(x)
   c(
     NextMethod(),
     c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
@@ -51,7 +51,7 @@ group_size.grouped_df <- function(x) {
 
 #' @export
 n_groups.grouped_df <- function(x) {
-  length(attr(x, "indices"))
+  nrow(attr(x, "groups"))
 }
 
 #' @export
@@ -61,10 +61,17 @@ groups.grouped_df <- function(x) {
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  vars <- attr(x, "vars")
-  # Need this for compatibility with existing packages that might
-  if (is.list(vars)) vars <- map_chr(vars, as_string)
-  vars
+  labels <- attr(x, "groups")
+  if (is.character(labels)) {
+    # lazy grouped
+    labels
+  } else if (is.data.frame(labels)) {
+    # resolved, extract from the names of the data frame
+    head(names(labels), -1L)
+  } else if (is.list(labels)) {
+    # Need this for compatibility with existing packages that might
+    map_chr(labels, as_string)
+  }
 }
 
 #' @export
@@ -167,11 +174,12 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 do.grouped_df <- function(.data, ...) {
   # Force computation of indices
-  if (is_null(attr(.data, "indices"))) {
+  if (!is.data.frame(attr(.data, "groups"))) {
     .data <- grouped_df_impl(.data, group_vars(.data))
   }
-  index <- attr(.data, "indices")
-  labels <- attr(.data, "labels")
+  labels <- attr(.data, "groups")
+  index <- labels$.rows
+  labels <- labels[,-ncol(labels), drop = FALSE]
 
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)

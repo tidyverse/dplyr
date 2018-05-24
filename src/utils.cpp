@@ -5,6 +5,7 @@
 #include <dplyr/white_list.h>
 #include <tools/collapse.h>
 #include <dplyr/bad.h>
+#include <dplyr/GroupedDataFrame.h>
 
 using namespace Rcpp;
 
@@ -219,38 +220,47 @@ SEXP list_as_chr(SEXP x) {
       break;
     }
 
-    stop("The tibble's `vars` attribute has unexpected contents");
+    stop("corrupt grouped data frame");
   }
 
   return chr;
 }
 
-SymbolVector get_vars(SEXP x, bool duplicate) {
-  static SEXP vars_symbol = Rf_install("vars");
-  RObject vars = Rf_getAttrib(x, vars_symbol);
-  if (duplicate && MAYBE_SHARED(vars)) vars = Rf_duplicate(vars);
+#include <tools/debug.h>
 
-  switch (TYPEOF(vars)) {
-  case NILSXP:
-  case STRSXP:
-    break;
-  case VECSXP:
-    vars = list_as_chr(vars);
-    break;
-  default:
-    stop("The tibble's `vars` attribute has unexpected type");
+SymbolVector get_vars(SEXP x, bool duplicate) {
+  static SEXP groups_symbol = Rf_install("groups");
+  SEXP groups = Rf_getAttrib(x, groups_symbol);
+
+  // case when x is a materialised grouped data frame
+  if (is<DataFrame>(groups)) {
+    int n = Rf_length(groups) - 1;
+    CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
+    vars.erase(n);
+    return SymbolVector(vars);
   }
 
-  return SymbolVector(vars);
+  // lazy, groups is a character vector of what to group by
+  if (is<CharacterVector>(groups)) {
+    return SymbolVector(duplicate ? groups : Rf_duplicate(groups));
+  }
+
+  // backward compatibility, case when groups is a list of symbols
+  if (is<List>(groups)) {
+    return SymbolVector(list_as_chr(groups));
+  }
+
+  stop("corrupt grouped data frame");
+
+  // never happens
+  return SymbolVector();
 }
 
-void set_vars(SEXP x, const SymbolVector& vars) {
-  static SEXP vars_symbol = Rf_install("vars");
-  Rf_setAttrib(x, vars_symbol, null_if_empty(vars.get_vector()));
-}
-
-void copy_vars(SEXP target, SEXP source) {
-  set_vars(target, get_vars(source));
+SEXP lazy_grouping(SEXP source) {
+  if (is<GroupedDataFrame>(source)) {
+    return get_vars(source).get_vector();
+  }
+  return R_NilValue ;
 }
 
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {

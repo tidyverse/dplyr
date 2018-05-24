@@ -281,7 +281,6 @@ reconstruct_join <- function(out, x, vars) {
     groups_in_alias <- match(groups_in_old, vars$x)
     out <- grouped_df_impl(out, vars$alias[groups_in_alias], FALSE)
   }
-
   out
 }
 

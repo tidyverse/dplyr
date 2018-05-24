@@ -33,11 +33,8 @@ public:
   typedef RowwiseSubset subset;
 
   RowwiseDataFrame(SEXP x):
-    data_(x),
-    group_sizes()
-  {
-    group_sizes = rep(1, data_.nrows());
-  }
+    data_(x)
+  {}
 
   group_iterator group_begin() const {
     return RowwiseDataFrameIndexIterator();
@@ -48,10 +45,6 @@ public:
   }
   const DataFrame& data() const {
     return data_;
-  }
-
-  inline int ngroups() const {
-    return group_sizes.size();
   }
 
   inline int nvars() const {
@@ -70,6 +63,10 @@ public:
     return data_.nrows();
   }
 
+  inline int ngroups() const {
+    return nrows();
+  }
+
   inline int max_group_size() const {
     return 1;
   }
@@ -81,7 +78,6 @@ public:
 private:
 
   DataFrame data_;
-  IntegerVector group_sizes;
 
 };
 

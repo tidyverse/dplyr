@@ -85,13 +85,13 @@ test_that("group_by handles NA in factors #341", {
 
 test_that("group_by orders by groups. #242", {
   df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) %>% group_by(a)
-  expect_equal(attr(df, "labels")$a, 1:10)
+  expect_equal(attr(df, "groups")$a, 1:10)
 
   df <- data.frame(a = sample(letters[1:10], 3000, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
-  expect_equal(attr(df, "labels")$a, letters[1:10])
+  expect_equal(attr(df, "groups")$a, letters[1:10])
 
   df <- data.frame(a = sample(sqrt(1:10), 3000, replace = TRUE)) %>% group_by(a)
-  expect_equal(attr(df, "labels")$a, sqrt(1:10))
+  expect_equal(attr(df, "groups")$a, sqrt(1:10))
 })
 
 test_that("group_by uses the white list", {
@@ -119,10 +119,9 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
   expect_equal(names(res), c("vs", "mpg"))
 })
 
-test_that("grouped_df errors on empty vars (#398)", {
+test_that("grouped_df errors on NULL labels (#398)", {
   m <- mtcars %>% group_by(cyl)
-  attr(m, "vars") <- NULL
-  attr(m, "indices") <- NULL
+  attr(m, "groups") <- NULL
   expect_error(
     m %>% do(mpg = mean(.$mpg)),
     "no variables to group by",
@@ -151,7 +150,7 @@ test_that("there can be 0 groups (#486)", {
   data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
-  expect_equal(attr(data, "group_sizes"), integer(0))
+  expect_equal(map_int(group_rows(data), length), integer(0))
 })
 
 test_that("group_by works with zero-row data frames (#486)", {
@@ -307,4 +306,9 @@ test_that("group_by() does not mutate for nothing when using the .data pronoun (
   expect_equal( df %>% group_by(.data$x) %>% attr("y"), 1 )
   expect_equal( df %>% group_by(.data$"x") %>% attr("y"), 1 )
   expect_equal( df %>% group_by(.data[["x"]]) %>% attr("y"), 1 )
+})
+
+test_that("tbl_sum gets the right number of groups", {
+  res <- data.frame(x=c(1,1,2,2)) %>% group_by(x) %>% tbl_sum()
+  expect_equal(res, c("A tibble" = "4 x 1", "Groups" = "x [2]"))
 })

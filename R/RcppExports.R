@@ -90,10 +90,6 @@ slice_impl <- function(df, dots) {
     .Call(`_dplyr_slice_impl`, df, dots)
 }
 
-grouped_df_impl <- function(data, symbols, build_index = TRUE) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols, build_index)
-}
-
 as_regular_df <- function(df) {
     .Call(`_dplyr_as_regular_df`, df)
 }
@@ -112,6 +108,10 @@ grouped_indices_grouped_df_impl <- function(gdf) {
 
 group_size_grouped_cpp <- function(gdf) {
     .Call(`_dplyr_group_size_grouped_cpp`, gdf)
+}
+
+grouped_df_impl <- function(data, symbols, build_index = TRUE) {
+    .Call(`_dplyr_grouped_df_impl`, data, symbols, build_index)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y, na_match) {

@@ -315,8 +315,7 @@ List rbind__impl(List dots, const SymbolString& id) {
     if (Rf_inherits(first, "data.frame")) {
       set_class(out, get_class(first));
       if (Rf_inherits(first, "grouped_df")) {
-        copy_vars(out, first);
-        out = GroupedDataFrame(out).data();
+        out = GroupedDataFrame(out, get_vars(first)).data();
       }
     } else {
       set_class(out, classes_not_grouped());

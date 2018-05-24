@@ -7,7 +7,10 @@
 - Add documentation example for moving variable to back in `?select` (#3051).
 - `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
 - `group_by()` respects levels of factors and keeps empty groups (#341). 
-- `filter`  gains a `.preserve` argument to control which groups it should keep. 
+- `filter()`  gains a `.preserve` argument to control which groups it should keep. 
+- The grouping metadata of grouped data frame has been reorganized in a single tidy tibble (#3489). 
+- new function `group_data()` to extract the grouping structure (#3489).
+- new function `group_rows()` to get a list of row indices for each group (#3489).
 
 # dplyr 0.7.5.9001
 

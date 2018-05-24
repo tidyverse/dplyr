@@ -75,12 +75,6 @@ public:
   // The new indices
   Rcpp::List new_indices;
 
-  // The group sizes
-  Rcpp::IntegerVector group_sizes;
-
-  // size of the biggest group
-  int biggest_group_size ;
-
 private:
 
   int k;
@@ -93,14 +87,11 @@ public:
     old_indices(ngroups),
     tests(ngroups),
     new_indices(ngroups),
-    group_sizes(ngroups),
-    biggest_group_size(0),
     k(0)
   {}
 
   // set the group i to be empty
   void empty_group(int i) {
-    group_sizes[i] = 0;
     new_indices[i] = Rcpp::IntegerVector::create();
   }
 
@@ -151,18 +142,20 @@ public:
     return k;
   }
 
+  inline int group_size(int i) const {
+    return Rf_length(new_indices[i]);
+  }
+
   // is the group i dense
   inline bool is_dense(int i) const {
-    return group_sizes[i] == old_indices[i].size();
+    return group_size(i) == old_indices[i].size();
   }
 
 private:
 
   void add_group(int i, const Index& old_idx, int n) {
     old_indices[i] = old_idx;
-    group_sizes[i] = n;
     new_indices[i] = Rcpp::seq(k, k + n - 1);
-    if (biggest_group_size < n) biggest_group_size = n;
     k += n ;
   }
 
@@ -232,7 +225,7 @@ public:
     Data<RTYPE> out(n, data);
 
     for (int i = 0; i < idx.ngroups; i++) {
-      int group_size = idx.group_sizes[i];
+      int group_size = idx.group_size(i);
       // because there is nothing to do when the group is empty
       if (group_size > 0) {
         // the indices relevant to the original data
@@ -320,8 +313,7 @@ public:
   void reconstruct(List& out) {}
 };
 
-// specific case for GroupedDataFrame
-// we need to take care of the attributes `indices`, `labels`, `vars`, `group_sizes`, `biggest_group_size`
+// specific case for GroupedDataFrame, we need to take care of `groups`
 template <typename Index>
 class SlicedTibbleRebuilder<Index, GroupedDataFrame> {
 public:
@@ -331,11 +323,22 @@ public:
   {}
 
   void reconstruct(List& out) {
-    out.attr("indices") = index.new_indices;
-    out.attr("vars") = data.attr("vars");
-    out.attr("group_sizes") = index.group_sizes;
-    out.attr("labels") = data.attr("labels");
-    out.attr("biggest_group_size") = index.biggest_group_size;
+    out.attr("groups") = update_groups((SEXP)data.attr("groups"), index.new_indices);
+  }
+
+  SEXP update_groups(DataFrame old, List indices) {
+    int nc = old.size();
+    List groups(nc);
+    copy_most_attributes(groups, old);
+    copy_names(groups, old);
+
+    // labels
+    for (int i = 0; i < nc - 1; i++) groups[i] = old[i];
+
+    // indices
+    groups[nc - 1] = indices;
+
+    return groups;
   }
 
 private:
@@ -362,7 +365,6 @@ SEXP structure_filter(const DataFrame& data, const GroupFilterIndices<Index>& gr
 
   // set the specific attributes
   // currently this only does anything for SlicedTibble = GroupedDataFrame
-  // i.e. retain the indices, labels, ... attributes
   SlicedTibbleRebuilder<Index, SlicedTibble>(group_indices, data).reconstruct(out);
 
   return out;

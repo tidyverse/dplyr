@@ -174,7 +174,7 @@ test_that("GroupedDataFrame checks consistency of data (#606)", {
     g = rep(1:2, each = 5),
     x = 1:10
   ) %>% group_by(g)
-  attr(df1, "group_sizes") <- c(2, 2)
+  attr(df1, "groups")$.rows <- list(c(2:3),c(5:6))
 
   expect_error(
     df1 %>% filter(x == 1),
@@ -288,14 +288,15 @@ test_that("grouped filter handles indices (#880)", {
   res <- iris %>% group_by(Species) %>% filter(Sepal.Length > 5)
   res2 <- mutate(res, Petal = Petal.Width * Petal.Length)
   expect_equal(nrow(res), nrow(res2))
-  expect_equal(attr(res, "indices"), attr(res2, "indices"))
+  expect_identical(attr(res, "groups"), attr(res2, "groups"))
 })
 
 test_that("filter(FALSE) handles indices", {
   out <- mtcars %>%
     group_by(cyl) %>%
     filter(FALSE) %>%
-    attr("indices")
+    attr("groups") %>%
+    pull(.rows)
   expect_identical(out, list(integer(), integer(), integer()))
 })
 

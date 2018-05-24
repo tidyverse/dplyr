@@ -31,7 +31,12 @@ public:
     }
   }
 
-  SymbolMap(const SymbolVector& names_): lookup(), names(names_) {}
+  SymbolMap(const SymbolVector& names_): lookup(), names(names_) {
+    int n = names.size();
+    for (int i = 0; i < n; i++) {
+      lookup.insert(std::make_pair(names_[i].get_sexp(), i));
+    }
+  }
 
   SymbolMapIndex insert(const SymbolString& name) {
     SymbolMapIndex index = get_index(name);

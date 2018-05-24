@@ -77,15 +77,17 @@ inline SEXP extract_visit(SEXP origin, const std::vector<IntegerVector>& new_ind
   return R_NilValue;
 }
 
-SEXP reconstruct_labels(const DataFrame& old_labels, const std::vector<IntegerVector>& new_indices) {
-  int nv = old_labels.size() - 1 ;
+SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVector>& new_indices) {
+  int nv = old_groups.size() - 1 ;
   List out(nv);
   CharacterVector names(nv);
-  CharacterVector old_names(old_labels.names());
-  for (int i = 0; i < nv; i++) {
-    out[i] = extract_visit(old_labels[i], new_indices);
+  CharacterVector old_names(old_groups.names());
+  for (int i = 0; i < nv - 1; i++) {
+    out[i] = extract_visit(old_groups[i], new_indices);
     names[i] = old_names[i];
   }
+  out[nv - 1] = new_indices;
+  names[nv - 1] = ".rows";
 
   set_rownames(out, new_indices.size());
   set_class(out, classes_not_grouped());
@@ -164,37 +166,25 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     copy_class(out, df);
     SymbolVector vars = get_vars(gdf.data(), true);
     vars.remove(gdf.nvars() - 1);
-    set_vars(out, vars);
 
-    DataFrame old_labels = Rf_getAttrib(df, Rf_install("labels"));
+    DataFrame old_groups = Rf_getAttrib(df, Rf_install("groups"));
     int nv = gdf.nvars() - 1;
-    DataFrameVisitors visitors(old_labels, nv) ;
+    DataFrameVisitors visitors(old_groups, nv) ;
 
     // collect the new indices
     std::vector<IntegerVector> new_indices;
-    int old_nrows = old_labels.nrow();
+    int old_nrows = old_groups.nrow();
     for (int i = 0; i < old_nrows;) {
       int start = i;
       while (i < old_nrows && visitors.equal(start, i)) i++ ;
       new_indices.push_back(seq(start, i - 1));
     }
 
-    // group_size
-    int new_nrows = new_indices.size();
-    IntegerVector group_sizes(new_nrows);
-    for (int i = 0; i < new_nrows; i++) {
-      group_sizes[i] = new_indices[i].size();
-    }
-    int biggest = max(group_sizes);
-
     // labels
-    out.attr("indices") = new_indices;
-    out.attr("group_sizes") = group_sizes;
-    out.attr("biggest_group_size") = biggest;
-    out.attr("labels") = reconstruct_labels(old_labels, new_indices);
+    out.attr("groups") = reconstruct_groups(old_groups, new_indices);
   } else {
     set_class(out, classes_not_grouped());
-    SET_ATTRIB(out, strip_group_attributes(out));
+    out.attr("groups") = R_NilValue ;
   }
 
   return out;

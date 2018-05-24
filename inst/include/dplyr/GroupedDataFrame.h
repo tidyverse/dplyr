@@ -34,32 +34,8 @@ public:
   typedef GroupedSlicingIndex slicing_index;
   typedef GroupedSubset subset;
 
-  GroupedDataFrame(SEXP x):
-    data_(x),
-    group_sizes(),
-    biggest_group_size(0),
-    symbols(get_vars(data_)),
-    labels()
-  {
-    // handle lazyness
-    bool is_lazy = Rf_isNull(data_.attr("group_sizes")) || Rf_isNull(data_.attr("labels"));
-
-    if (is_lazy) {
-      build_index_cpp(data_);
-    }
-    group_sizes = data_.attr("group_sizes");
-    biggest_group_size  = data_.attr("biggest_group_size");
-    labels = data_.attr("labels");
-
-    if (!is_lazy) {
-      // check consistency of the groups
-      int rows_in_groups = sum(group_sizes);
-      if (data_.nrows() != rows_in_groups) {
-        bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
-                _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
-      }
-    }
-  }
+  GroupedDataFrame(DataFrame x);
+  GroupedDataFrame(DataFrame x, const SymbolVector& symbols_);
 
   group_iterator group_begin() const {
     return GroupedDataFrameIndexIterator(*this);
@@ -77,11 +53,11 @@ public:
   }
 
   inline int ngroups() const {
-    return group_sizes.size();
+    return groups.nrow();
   }
 
   inline int nvars() const {
-    return labels.size();
+    return nvars_ ;
   }
 
   inline int nrows() const {
@@ -89,11 +65,11 @@ public:
   }
 
   inline SEXP label(int i) const {
-    return labels[i];
+    return groups[i];
   }
 
   inline int max_group_size() const {
-    return biggest_group_size;
+    return max_group_size_;
   }
 
   inline bool has_group(const SymbolString& g) const {
@@ -104,18 +80,31 @@ public:
     return grouped_subset(x, max_group_size());
   }
 
+  inline List indices() const {
+    return groups[groups.size() - 1] ;
+  }
+
 private:
+  void set_max_group_size() {
+    List idx = indices();
+
+    int n = idx.size();
+    max_group_size_ = 0;
+    for (int i = 0; i < n; i++) {
+      max_group_size_ = std::max(max_group_size_, Rf_length(idx[i])) ;
+    }
+  }
 
   DataFrame data_;
-  IntegerVector group_sizes;
-  int biggest_group_size;
   SymbolMap symbols;
-  DataFrame labels;
+  DataFrame groups;
+  int max_group_size_ ;
+  int nvars_;
 
 };
 
 inline GroupedDataFrameIndexIterator::GroupedDataFrameIndexIterator(const GroupedDataFrame& gdf_) :
-  i(0), gdf(gdf_), indices(gdf.data().attr("indices")) {}
+  i(0), gdf(gdf_), indices(gdf.indices()) {}
 
 inline GroupedDataFrameIndexIterator& GroupedDataFrameIndexIterator::operator++() {
   i++;
@@ -133,7 +122,7 @@ using namespace dplyr;
 
 template <>
 inline bool is<GroupedDataFrame>(SEXP x) {
-  return Rf_inherits(x, "grouped_df") && Rf_getAttrib(x, Rf_install("vars")) != R_NilValue;
+  return Rf_inherits(x, "grouped_df");
 }
 
 }

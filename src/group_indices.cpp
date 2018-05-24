@@ -48,13 +48,6 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
 
-SEXP unique_levels(SEXP f) {
-  SEXP labels = Rf_getAttrib(f, R_LevelsSymbol);
-  IntegerVector values = seq_len(Rf_length(labels));
-  copy_attributes(values, f);
-  return values;
-}
-
 class IntRange {
 public:
   IntRange() : start(-1), size(0) {}
@@ -139,7 +132,7 @@ class Slicer {
 public:
   virtual ~Slicer() {};
   virtual int size() = 0;
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) = 0;
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) = 0;
 };
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_);
 
@@ -151,7 +144,7 @@ public:
     return 1;
   }
 
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) {
     return IntRange(indices_collecter.collect(index_range), 1);
   }
 
@@ -201,29 +194,29 @@ public:
     return slicer_size;
   }
 
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
-    IntRange labels_range;
-    SEXP x = vec_labels[depth];
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) {
+    IntRange groups_range;
+    SEXP x = vec_groups[depth];
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, indices_collecter);
-      labels_range.add(idx);
+      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
 
-      // fill the labels at these indices
+      // fill the groups at these indices
       std::fill_n(INTEGER(x) + idx.start, idx.size, i + 1);
     }
 
     if (has_implicit_na) {
       // collect the indices for the implicit NA pseudo group
-      IntRange idx = slicers[nlevels]->make(vec_labels, indices_collecter);
-      labels_range.add(idx);
+      IntRange idx = slicers[nlevels]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
 
-      // fill the labels at these indices
+      // fill the groups at these indices
       std::fill_n(INTEGER(x) + idx.start, idx.size, NA_INTEGER);
     }
 
-    return labels_range;
+    return groups_range;
   }
 
   virtual ~FactorSlicer() {}
@@ -318,20 +311,20 @@ public:
     return slicer_size;
   }
 
-  virtual IntRange make(List& vec_labels, ListCollecter& indices_collecter) {
-    IntRange labels_range;
+  virtual IntRange make(List& vec_groups, ListCollecter& indices_collecter) {
+    IntRange groups_range;
     int nlevels = slicers.size();
 
     for (int i = 0; i < nlevels; i++) {
       // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_labels, indices_collecter);
-      labels_range.add(idx);
+      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
 
-      // fill the labels at these indices
-      copy_visit(idx, agents[i], vec_labels[depth], data[depth]);
+      // fill the groups at these indices
+      copy_visit(idx, agents[i], vec_groups[depth], data[depth]);
     }
 
-    return labels_range;
+    return groups_range;
   }
 
   virtual ~VectorSlicer() {}
@@ -423,16 +416,13 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
   }
 }
 
-// Updates attributes in data by reference!
-// All these attributes are private to dplyr.
-void build_index_cpp(DataFrame& data) {
-  SymbolVector vars(get_vars(data));
+SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   const int nvars = vars.size();
 
   CharacterVector names = data.names();
   IntegerVector indx = vars.match_in_table(names);
   std::vector<SEXP> visited_data(nvars);
-  CharacterVector label_names(nvars);
+  CharacterVector groups_names(nvars + 1);
 
   for (int i = 0; i < nvars; ++i) {
     int pos = indx[i];
@@ -442,7 +432,7 @@ void build_index_cpp(DataFrame& data) {
 
     SEXP v = data[pos - 1];
     visited_data[i] = v;
-    label_names[i] = names[pos - 1];
+    groups_names[i] = names[pos - 1];
 
     if (!white_list(v) || TYPEOF(v) == VECSXP) {
       bad_col(vars[i], "can't be used as a grouping variable because it's a {type}",
@@ -456,86 +446,106 @@ void build_index_cpp(DataFrame& data) {
 
   int ncases = s->size();
 
-  // construct the labels data
-  List vec_labels(nvars);
+  // construct the groups data
+  List vec_groups(nvars + 1);
   List indices(ncases);
   ListCollecter indices_collecter(indices);
 
   for (int i = 0; i < nvars; i++) {
-    vec_labels[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
-    copy_most_attributes(vec_labels[i], visited_data[i]);
+    vec_groups[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
+    copy_most_attributes(vec_groups[i], visited_data[i]);
   }
-
-  s->make(vec_labels, indices_collecter);
+  vec_groups[nvars] = indices;
+  groups_names[nvars] = ".rows";
+  s->make(vec_groups, indices_collecter);
 
   // warn about NA in factors
   for (int i = 0; i < nvars; i++) {
-    SEXP x = vec_labels[i];
+    SEXP x = vec_groups[i];
     if (Rf_isFactor(x)) {
       IntegerVector xi(x);
       if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
-        warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(label_names[i].get())));
+        warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(groups_names[i].get())));
       }
     }
   }
 
-  vec_labels.attr("names") = label_names;
-  vec_labels.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_labels.attr("class") = classes_not_grouped() ;
-  copy_vars(vec_labels, data);
+  vec_groups.attr("names") = groups_names;
+  vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
+  vec_groups.attr("class") = classes_not_grouped() ;
 
-  IntegerVector group_sizes = no_init(ncases);
-  int biggest_group = 0;
-  for (int i = 0; i < ncases; i++) {
-    group_sizes[i] = Rf_length(indices[i]);
-    biggest_group = std::max(biggest_group, group_sizes[i]);
-  }
-
-  // The attributes are injected into data without duplicating it!
-  // The object is mutated, violating R's usual copy-on-write semantics.
-  // This is safe here, because the indices are an auxiliary data structure
-  // that is rebuilt as necessary. Updating the object in-place saves costly
-  // recomputations. We don't touch the "class" attribute here.
-  data.attr("indices") = indices;
-  data.attr("group_sizes") = group_sizes;
-  data.attr("biggest_group_size") = biggest_group;
-  data.attr("labels") = vec_labels;
+  return vec_groups;
 }
 
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
 void strip_index(DataFrame x) {
-  x.attr("indices") = R_NilValue;
-  x.attr("group_sizes") = R_NilValue;
-  x.attr("biggest_group_size") = R_NilValue;
-  x.attr("labels") = R_NilValue;
+  x.attr("groups") = R_NilValue;
 }
 
-SEXP strip_group_attributes(SEXP df) {
-  Shield<SEXP> attribs(Rf_cons(dplyr::classes_not_grouped(), R_NilValue));
-  SET_TAG(attribs, Rf_install("class"));
+namespace dplyr {
 
-  SEXP p = ATTRIB(df);
-  std::vector<SEXP> black_list(7);
-  black_list[0] = Rf_install("indices");
-  black_list[1] = Rf_install("vars");
-  black_list[2] = Rf_install("index");
-  black_list[3] = Rf_install("labels");
-  black_list[4] = Rf_install("group_sizes");
-  black_list[5] = Rf_install("biggest_group_size");
-  black_list[6] = Rf_install("class");
+SEXP force_grouped(DataFrame& data) {
+  static SEXP groups_symbol = Rf_install("groups");
+  // handle lazyness
+  SEXP groups = Rf_getAttrib(data, groups_symbol);
 
-  SEXP q = attribs;
-  while (! Rf_isNull(p)) {
-    SEXP tag = TAG(p);
-    if (std::find(black_list.begin(), black_list.end(), tag) == black_list.end()) {
-      Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
-      SETCDR(q, s);
-      q = CDR(q);
-      SET_TAG(q, tag);
-    }
-
-    p = CDR(p);
+  if (Rf_isNull(groups)) {
+    bad_arg(".data", "is a corrupt grouped_df");
   }
-  return attribs;
+  bool is_lazy = !is<DataFrame>(groups);
+  if (is_lazy) {
+    SymbolVector vars = get_vars(data);
+    data.attr("groups") = build_index_cpp(data, vars);
+  }
+
+  return data ;
 }
+
+GroupedDataFrame::GroupedDataFrame(DataFrame x):
+  data_(force_grouped(x)),
+  symbols(get_vars(data_)),
+  groups(data_.attr("groups")),
+  max_group_size_(0),
+  nvars_(symbols.size())
+{
+  set_max_group_size();
+
+  int rows_in_groups = 0;
+  int ng = ngroups();
+  List idx = indices();
+  for (int i = 0; i < ng; i++) rows_in_groups += Rf_length(idx[i]);
+  if (data_.nrows() != rows_in_groups) {
+    bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
+            _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
+  }
+}
+
+GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
+  data_(x),
+  symbols(symbols_),
+  groups(build_index_cpp(data_, symbols_)),
+  max_group_size_(0),
+  nvars_(symbols.size())
+{
+  data_.attr("groups") = groups ;
+  set_max_group_size();
+}
+
+}
+
+// [[Rcpp::export]]
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index = true) {
+  assert_all_white_list(data);
+  DataFrame copy(shallow_copy(data));
+  set_class(copy, classes_grouped<GroupedDataFrame>());
+  if (!symbols.size())
+    stop("no variables to group by");
+  if (build_index) {
+    copy.attr("groups") = build_index_cpp(copy, symbols);
+  } else {
+    copy.attr("groups") = symbols.get_vector();
+  }
+  return copy;
+}
+
