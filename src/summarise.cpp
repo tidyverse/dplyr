@@ -96,12 +96,12 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVe
 }
 
 template <typename SlicedTibble>
-void structure_summarise( List& out, const SlicedTibble& df){
+void structure_summarise(List& out, const SlicedTibble& df) {
   set_class(out, classes_not_grouped());
 }
 
 template <>
-void structure_summarise<GroupedDataFrame>( List& out, const GroupedDataFrame& gdf ){
+void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gdf) {
   const DataFrame& df = gdf.data();
 
   if (gdf.nvars() > 1) {
@@ -125,8 +125,9 @@ void structure_summarise<GroupedDataFrame>( List& out, const GroupedDataFrame& g
     // groups
     out.attr("groups") = reconstruct_groups(old_groups, new_indices);
   } else {
-    // clear groups
+    // clear groups and reset to non grouped classes
     out.attr("groups") = R_NilValue;
+    out.attr("class") = classes_not_grouped();
   }
 }
 
@@ -190,6 +191,8 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   }
 
   List out = accumulator;
+  // so that the attributes of the original tibble are preserved
+  // as requested in issue #1064
   copy_most_attributes(out, df);
   out.names() = accumulator.names();
 
