@@ -1228,6 +1228,10 @@ test_that("hybrid evaluation can be disabled locally (#3255)", {
   n_distinct <- function(x) 42
   expect_equal(summarise(tbl, y = n_distinct(x))$y, 42)
   expect_equal(summarise(tbl, y = dplyr::n_distinct(x))$y, 10L)
+})
 
-
+test_that("hybrid first and last fall back to R eval when no argument (#3589)", {
+  res <- mutate(tibble(v1 = 5:6), v2 = 1:4 %>% first(), v3 = 1:4 %>% last())
+  expect_equal(res$v2, rep(1L, 2))
+  expect_equal(res$v3, rep(4L, 2))
 })
