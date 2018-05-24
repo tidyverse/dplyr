@@ -5,6 +5,7 @@
 #include <dplyr/white_list.h>
 #include <tools/collapse.h>
 #include <dplyr/bad.h>
+#include <dplyr/GroupedDataFrame.h>
 
 using namespace Rcpp;
 
@@ -256,7 +257,7 @@ SymbolVector get_vars(SEXP x, bool duplicate) {
 }
 
 SEXP lazy_grouping(SEXP source) {
-  if (Rf_inherits(source, "grouped_df")) {
+  if (is<GroupedDataFrame>(source)) {
     return get_vars(source).get_vector();
   }
   return R_NilValue ;
