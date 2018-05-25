@@ -28,11 +28,6 @@ public:
   List indices;
 };
 
-template <typename Data>
-void strip_groups(Data& x) {
-  x.attr("groups") = R_NilValue;
-}
-
 class GroupedDataFrame {
 public:
   typedef GroupedDataFrameIndexIterator group_iterator;
@@ -101,6 +96,11 @@ public:
 
   inline const DataFrame& group_data() const {
     return groups;
+  }
+
+  template <typename Data>
+  static void strip_groups(Data& x) {
+    x.attr("groups") = R_NilValue;
   }
 
 private:

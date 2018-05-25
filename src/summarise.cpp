@@ -126,7 +126,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
     out.attr("groups") = reconstruct_groups(old_groups, new_indices);
   } else {
     // clear groups and reset to non grouped classes
-    strip_groups(out);
+    GroupedDataFrame::strip_groups(out);
     out.attr("class") = classes_not_grouped();
   }
 }
