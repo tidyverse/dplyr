@@ -36,3 +36,23 @@ test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
   expect_identical(group_data(rowwise(df)), tibble(.rows =list()))
   expect_identical(group_data(group_by(df, x)), tibble(x = NA_integer_, .rows = list(integer())))
 })
+
+test_that("GroupDataFrame checks the structure of the groups attribute", {
+  df <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
+  groups <- attr(df, "groups")
+  groups[[2]] <- 1:2
+  attr(df, "groups") <- groups
+  expect_error(group_data(df), "is a corrupt grouped_df")
+
+  df <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
+  groups <- attr(df, "groups")
+  names(groups) <- c("g", "not.rows")
+  attr(df, "groups") <- groups
+  expect_error(group_data(df), "is a corrupt grouped_df")
+
+  attr(df, "groups") <- tibble()
+  expect_error(group_data(df), "is a corrupt grouped_df")
+
+  attr(df, "groups") <- NA
+  expect_error(group_data(df), "is a corrupt grouped_df")
+})

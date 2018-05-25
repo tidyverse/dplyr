@@ -481,10 +481,26 @@ namespace dplyr {
 
 SEXP check_grouped(SEXP data) {
   static SEXP groups_symbol = Rf_install("groups");
-  // handle lazyness
+
+  // get the groups attribute and check for consistency
   SEXP groups = Rf_getAttrib(data, groups_symbol);
 
+  // groups must be a data frame
   if (!is<DataFrame>(groups)) {
+    bad_arg(".data", "is a corrupt grouped_df");
+  }
+
+  // it must have at least 1 column
+  int nc = Rf_length(groups);
+  if (nc == 0) {
+    bad_arg(".data", "is a corrupt grouped_df");
+  }
+
+  // the last column must be a list and called `.rows`
+  SEXP names = Rf_getAttrib(groups, R_NamesSymbol);
+  SEXP last = VECTOR_ELT(groups, nc - 1);
+  static SEXP rows = Rf_mkCharLen(".rows", 5);
+  if (TYPEOF(last) != VECSXP || STRING_ELT(names, nc - 1) != rows) {
     bad_arg(".data", "is a corrupt grouped_df");
   }
 
@@ -548,3 +564,7 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
   return copy;
 }
 
+// [[Rcpp::export]]
+DataFrame group_data_grouped_df(DataFrame data) {
+  return GroupedDataFrame(data).group_data();
+}
