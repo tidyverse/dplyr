@@ -103,6 +103,11 @@ public:
     x.attr("groups") = R_NilValue;
   }
 
+  template <typename Data>
+  static void set_groups(Data& x, DataFrame groups) {
+    x.attr("groups") = groups;
+  }
+
 private:
   void set_max_group_size() {
     List idx = indices();

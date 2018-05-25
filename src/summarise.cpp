@@ -123,7 +123,8 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
     }
 
     // groups
-    out.attr("groups") = reconstruct_groups(old_groups, new_indices);
+    DataFrame groups = reconstruct_groups(old_groups, new_indices);
+    GroupedDataFrame::set_groups(out, groups);
   } else {
     // clear groups and reset to non grouped classes
     GroupedDataFrame::strip_groups(out);

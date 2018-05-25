@@ -323,7 +323,8 @@ public:
   {}
 
   void reconstruct(List& out) {
-    out.attr("groups") = update_groups(data.group_data(), index.new_indices);
+    DataFrame groups = update_groups(data.group_data(), index.new_indices);
+    GroupedDataFrame::set_groups(out, groups);
   }
 
   SEXP update_groups(DataFrame old, List indices) {

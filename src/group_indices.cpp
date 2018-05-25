@@ -533,7 +533,7 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
   max_group_size_(0),
   nvars_(symbols.size())
 {
-  data_.attr("groups") = groups ;
+  set_groups(data_, groups);
   set_max_group_size();
 }
 
@@ -560,7 +560,7 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
   set_class(copy, classes_grouped<GroupedDataFrame>());
   if (!symbols.size())
     stop("no variables to group by");
-  copy.attr("groups") = build_index_cpp(copy, symbols);
+  GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols));
   return copy;
 }
 

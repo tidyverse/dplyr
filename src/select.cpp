@@ -54,7 +54,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
   groups.names() = group_names;
 
   // then keep the grouping structure in the groups attribute
-  copy.attr("groups") = groups;
+  GroupedDataFrame::set_groups(copy, groups) ;
   return copy;
 }
 
