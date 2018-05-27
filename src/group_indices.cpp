@@ -492,7 +492,7 @@ SEXP check_grouped(SEXP data) {
 
   // it must have at least 1 column
   int nc = Rf_length(groups);
-  if (nc == 0) {
+  if (nc <= 1) {
     bad_arg(".data", "is a corrupt grouped_df");
   }
 
