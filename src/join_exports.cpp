@@ -236,8 +236,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
   out.attr("class") = x.attr("class");
   out.attr("row.names") = x.attr("row.names");
 
-  // not yet (after the tidy-data-attributes branch is merged)
-  // if (is<GroupedDataFrame>(out)) out.attr("groups") = x.attr("groups") ;
+  GroupedDataFrame::copy_groups(out, x) ;
 
   return out;
 
