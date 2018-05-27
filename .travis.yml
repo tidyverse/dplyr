@@ -29,7 +29,12 @@ dist: trusty
 cache: packages
 latex: false
 
+# Allow failures due to https://github.com/r-lib/callr/issues/55
 matrix:
+  allow_failures:
+  - r: 3.1
+  - r: 3.2
+  - r: oldrel
   include:
   - r: 3.1
   - r: 3.2
