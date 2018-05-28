@@ -26,6 +26,9 @@ tidyselect::one_of
 #' @importFrom tidyselect starts_with
 #' @export
 tidyselect::starts_with
+#' @importFrom tidyselect last_col
+#' @export
+tidyselect::last_col
 
 
 #' Select variables
