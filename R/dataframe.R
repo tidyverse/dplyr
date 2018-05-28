@@ -166,19 +166,42 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
+intersect.data.frame <- function(x, y, ...) {
+  out <- intersect_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-union.data.frame <- function(x, y, ...) union_data_frame(x, y)
+union.data.frame <- function(x, y, ...) {
+  out <- union_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-union_all.data.frame <- function(x, y, ...) bind_rows(x, y)
+union_all.data.frame <- function(x, y, ...) {
+  out <- bind_rows(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-setdiff.data.frame <- function(x, y, ...) setdiff_data_frame(x, y)
+setdiff.data.frame <- function(x, y, ...) {
+  out <- setdiff_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-setequal.data.frame <- function(x, y, ...) equal_data_frame(x, y)
+setequal.data.frame <- function(x, y, ...) {
+  out <- equal_data_frame(x, y)
+  reconstruct_set(out, x)
+}
+
+reconstruct_set <- function(out, x) {
+  if (is_grouped_df(x)) {
+    out <- grouped_df_impl(out, group_vars(x), group_drop(x), FALSE)
+  }
+
+  out
+}
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
