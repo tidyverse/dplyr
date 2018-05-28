@@ -29,7 +29,7 @@ public:
   }
 
   virtual int operator[](int i) const {
-    return data[i];
+    return data[i] - 1;
   }
 
   virtual int group() const {
