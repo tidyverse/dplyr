@@ -2,9 +2,9 @@ context("group_data")
 
 test_that("group_rows works for 3 most important subclasses (#3489)", {
   df <- data.frame(x=c(1,1,2,2))
-  expect_equal(group_rows(df), list(0:3))
-  expect_equal(group_rows(group_by(df,x)), list(0:1, 2:3))
-  expect_equal(group_rows(rowwise(df)), as.list(0:3))
+  expect_equal(group_rows(df), list(1:4))
+  expect_equal(group_rows(group_by(df,x)), list(1:2, 3:4))
+  expect_equal(group_rows(rowwise(df)), as.list(1:4))
 })
 
 test_that("group_data returns a tidy tibble (#3489)", {
@@ -12,17 +12,17 @@ test_that("group_data returns a tidy tibble (#3489)", {
 
   expect_identical(
     group_data(df),
-    tibble(.rows=list(0:3))
+    tibble(.rows=list(1:4))
   )
 
   expect_identical(
     group_by(df,x) %>% group_data(),
-    tibble(x = c(1,2), .rows = list(0:1, 2:3))
+    tibble(x = c(1,2), .rows = list(1:2, 3:4))
   )
 
   expect_identical(
     rowwise(df) %>% group_data(),
-    tibble(.rows = as.list(0:3))
+    tibble(.rows = as.list(1:4))
   )
 })
 
