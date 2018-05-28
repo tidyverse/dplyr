@@ -67,14 +67,16 @@ public:
   int size;
 };
 
-inline int plus_one(int i) { return i + 1; }
+inline int plus_one(int i) {
+  return i + 1;
+}
 
 class ListCollecter {
 public:
   ListCollecter(List& data_): data(data_), index(0) {}
 
   int collect(const std::vector<int>& indices) {
-    data[index] = IntegerVector( indices.begin(), indices.end(), plus_one );
+    data[index] = IntegerVector(indices.begin(), indices.end(), plus_one);
     return index++;
   }
 
