@@ -893,20 +893,20 @@ test_that("NAs match in joins only with na_matches = 'na' (#2033)", {
   }
 })
 
-test_that("joins strip group indexes (#1597)", {
+test_that("joins regroups (#1597, #3566)", {
   df1 <- data_frame(a = 1:3) %>% group_by(a)
   df2 <- data_frame(a = rep(1:4, 2)) %>% group_by(a)
 
-  expect_stripped <- function(df) {
-    expect_is(attr(df, "groups"), "character")
+  expect_grouped <- function(df) {
+    expect_true(is_grouped_df(df))
   }
 
-  expect_stripped(inner_join(df1, df2))
-  expect_stripped(left_join(df1, df2))
-  expect_stripped(right_join(df2, df1))
-  expect_stripped(full_join(df1, df2))
-  expect_stripped(anti_join(df1, df2))
-  expect_stripped(semi_join(df1, df2))
+  expect_grouped(inner_join(df1, df2))
+  expect_grouped(left_join(df1, df2))
+  expect_grouped(right_join(df2, df1))
+  expect_grouped(full_join(df1, df2))
+  expect_grouped(anti_join(df1, df2))
+  expect_grouped(semi_join(df1, df2))
 })
 
 

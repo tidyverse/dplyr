@@ -309,7 +309,7 @@ inline SEXP filter_visit(SEXP data, const GroupFilterIndices<Index>& idx) {
 template <typename Index, typename SlicedTibble>
 class SlicedTibbleRebuilder {
 public:
-  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index, const DataFrame& data) {}
+  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index, const SlicedTibble& data) {}
   void reconstruct(List& out) {}
 };
 
@@ -317,13 +317,14 @@ public:
 template <typename Index>
 class SlicedTibbleRebuilder<Index, GroupedDataFrame> {
 public:
-  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index_, const DataFrame& data_) :
+  SlicedTibbleRebuilder(const GroupFilterIndices<Index>& index_, const GroupedDataFrame& data_) :
     index(index_),
     data(data_)
   {}
 
   void reconstruct(List& out) {
-    out.attr("groups") = update_groups((SEXP)data.attr("groups"), index.new_indices);
+    DataFrame groups = update_groups(data.group_data(), index.new_indices);
+    GroupedDataFrame::set_groups(out, groups);
   }
 
   SEXP update_groups(DataFrame old, List indices) {
@@ -343,11 +344,12 @@ public:
 
 private:
   const GroupFilterIndices<Index>& index;
-  const DataFrame& data;
+  const GroupedDataFrame& data;
 };
 
 template <typename SlicedTibble, typename Index>
-SEXP structure_filter(const DataFrame& data, const GroupFilterIndices<Index>& group_indices) {
+SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<Index>& group_indices) {
+  const DataFrame& data = gdf.data();
   // create the result data frame
   int nc = data.size();
   List out(data.size());
@@ -365,7 +367,7 @@ SEXP structure_filter(const DataFrame& data, const GroupFilterIndices<Index>& gr
 
   // set the specific attributes
   // currently this only does anything for SlicedTibble = GroupedDataFrame
-  SlicedTibbleRebuilder<Index, SlicedTibble>(group_indices, data).reconstruct(out);
+  SlicedTibbleRebuilder<Index, SlicedTibble>(group_indices, gdf).reconstruct(out);
 
   return out;
 }
@@ -416,7 +418,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
     }
   }
 
-  return structure_filter<SlicedTibble, Index>(data, group_indices) ;
+  return structure_filter<SlicedTibble, Index>(gdf, group_indices) ;
 }
 
 // [[Rcpp::export]]
@@ -508,7 +510,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
     }
   }
 
-  return structure_filter<SlicedTibble, Index>(data, group_indices);
+  return structure_filter<SlicedTibble, Index>(gdf, group_indices);
 }
 
 // [[Rcpp::export]]

@@ -477,34 +477,39 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   return vec_groups;
 }
 
-// Updates attributes in data by reference!
-// All these attributes are private to dplyr.
-void strip_index(DataFrame x) {
-  x.attr("groups") = R_NilValue;
-}
-
 namespace dplyr {
 
-SEXP force_grouped(DataFrame& data) {
+SEXP check_grouped(SEXP data) {
   static SEXP groups_symbol = Rf_install("groups");
-  // handle lazyness
+
+  // get the groups attribute and check for consistency
   SEXP groups = Rf_getAttrib(data, groups_symbol);
 
-  if (Rf_isNull(groups)) {
+  // groups must be a data frame
+  if (!is<DataFrame>(groups)) {
     bad_arg(".data", "is a corrupt grouped_df");
   }
-  bool is_lazy = !is<DataFrame>(groups);
-  if (is_lazy) {
-    SymbolVector vars = get_vars(data);
-    data.attr("groups") = build_index_cpp(data, vars);
+
+  // it must have at least 1 column
+  int nc = Rf_length(groups);
+  if (nc <= 1) {
+    bad_arg(".data", "is a corrupt grouped_df");
+  }
+
+  // the last column must be a list and called `.rows`
+  SEXP names = Rf_getAttrib(groups, R_NamesSymbol);
+  SEXP last = VECTOR_ELT(groups, nc - 1);
+  static SEXP rows = Rf_mkCharLen(".rows", 5);
+  if (TYPEOF(last) != VECSXP || STRING_ELT(names, nc - 1) != rows) {
+    bad_arg(".data", "is a corrupt grouped_df");
   }
 
   return data ;
 }
 
 GroupedDataFrame::GroupedDataFrame(DataFrame x):
-  data_(force_grouped(x)),
-  symbols(get_vars(data_)),
+  data_(check_grouped(x)),
+  symbols(group_vars(data_)),
   groups(data_.attr("groups")),
   max_group_size_(0),
   nvars_(symbols.size())
@@ -521,31 +526,45 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
   }
 }
 
-GroupedDataFrame::GroupedDataFrame(DataFrame x, const SymbolVector& symbols_):
+GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
   data_(x),
-  symbols(symbols_),
-  groups(build_index_cpp(data_, symbols_)),
+  symbols(model.get_vars()),
+  groups(build_index_cpp(data_, model.get_vars())),
   max_group_size_(0),
   nvars_(symbols.size())
 {
-  data_.attr("groups") = groups ;
+  set_groups(data_, groups);
   set_max_group_size();
+}
+
+SymbolVector GroupedDataFrame::group_vars(SEXP x) {
+  static SEXP groups_symbol = Rf_install("groups");
+  SEXP groups = Rf_getAttrib(x, groups_symbol);
+
+  if (!is<DataFrame>(groups)) {
+    bad_arg(".data", "is a corrupt grouped_df");
+  }
+
+  int n = Rf_length(groups) - 1;
+  CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
+  vars.erase(n);
+  return SymbolVector(vars);
 }
 
 }
 
 // [[Rcpp::export]]
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool build_index = true) {
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
   assert_all_white_list(data);
   DataFrame copy(shallow_copy(data));
   set_class(copy, classes_grouped<GroupedDataFrame>());
   if (!symbols.size())
     stop("no variables to group by");
-  if (build_index) {
-    copy.attr("groups") = build_index_cpp(copy, symbols);
-  } else {
-    copy.attr("groups") = symbols.get_vector();
-  }
+  GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols));
   return copy;
 }
 
+// [[Rcpp::export]]
+DataFrame group_data_grouped_df(DataFrame data) {
+  return GroupedDataFrame(data).group_data();
+}

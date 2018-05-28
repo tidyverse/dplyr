@@ -35,6 +35,9 @@ public:
   RowwiseDataFrame(SEXP x):
     data_(x)
   {}
+  RowwiseDataFrame(SEXP x, const RowwiseDataFrame& /* model */):
+    data_(x)
+  {}
 
   group_iterator group_begin() const {
     return RowwiseDataFrameIndexIterator();
@@ -73,6 +76,10 @@ public:
 
   inline subset* create_subset(SEXP x) const {
     return rowwise_subset(x);
+  }
+
+  inline SymbolVector get_vars() const {
+    return SymbolVector();
   }
 
 private:

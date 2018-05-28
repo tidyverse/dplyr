@@ -51,7 +51,7 @@ group_size.grouped_df <- function(x) {
 
 #' @export
 n_groups.grouped_df <- function(x) {
-  nrow(attr(x, "groups"))
+  nrow(group_data(x))
 }
 
 #' @export
@@ -61,16 +61,17 @@ groups.grouped_df <- function(x) {
 
 #' @export
 group_vars.grouped_df <- function(x) {
-  labels <- attr(x, "groups")
-  if (is.character(labels)) {
+  groups <- group_data(x)
+  if (is.character(groups)) {
     # lazy grouped
-    labels
-  } else if (is.data.frame(labels)) {
+    groups
+  } else if (is.data.frame(groups)) {
     # resolved, extract from the names of the data frame
-    head(names(labels), -1L)
-  } else if (is.list(labels)) {
+    head(names(groups), -1L)
+  } else if (is.list(groups)) {
     # Need this for compatibility with existing packages that might
-    map_chr(labels, as_string)
+    # use the old list of symbols format
+    map_chr(groups, as_string)
   }
 }
 
@@ -171,15 +172,11 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 
 # Do ---------------------------------------------------------------------------
 
+#' @importFrom tidyselect last_col
 #' @export
 do.grouped_df <- function(.data, ...) {
-  # Force computation of indices
-  if (!is.data.frame(attr(.data, "groups"))) {
-    .data <- grouped_df_impl(.data, group_vars(.data))
-  }
-  labels <- attr(.data, "groups")
-  index <- labels$.rows
-  labels <- labels[,-ncol(labels), drop = FALSE]
+  index <- group_rows(.data)
+  labels <- select(group_data(.data), -last_col())
 
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)

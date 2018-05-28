@@ -389,9 +389,8 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
   expect_is(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
 
-  labels <- attr(res, "groups")
-  expect_equal(labels$.rows, list())
-  expect_equal(labels$b, factor(character(0)))
+  expect_equal(group_rows(res), list())
+  expect_equal(group_data(res)$b, factor(character(0)))
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {

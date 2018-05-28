@@ -10,7 +10,6 @@ SEXP shared_SEXP(SEXP x);
 SEXP shallow_copy(const List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
-void strip_index(DataFrame x);
 SEXP null_if_empty(SEXP x);
 
 bool is_vector(SEXP x);
@@ -40,8 +39,7 @@ SEXP set_levels(SEXP x, const CharacterVector& levels);
 bool same_levels(SEXP left, SEXP right);
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
 
-SymbolVector get_vars(SEXP x, bool duplicate = false);
-SEXP lazy_grouping(SEXP source);
+SymbolVector get_vars(SEXP x);
 
 // effectively the same as copy_attributes but without names and dims
 inline void copy_most_attributes(SEXP out, SEXP data) {

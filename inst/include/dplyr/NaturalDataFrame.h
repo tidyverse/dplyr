@@ -40,6 +40,9 @@ public:
   NaturalDataFrame(SEXP x):
     data_(x)
   {}
+  NaturalDataFrame(SEXP x, const NaturalDataFrame& /* model */):
+    data_(x)
+  {}
 
   NaturalDataFrameIndexIterator group_begin() const {
     return NaturalDataFrameIndexIterator(nrows());
@@ -89,6 +92,10 @@ public:
   }
   inline SEXP operator[](int i) {
     return data_[i];
+  }
+
+  inline SymbolVector get_vars() const {
+    return SymbolVector();
   }
 
 private:

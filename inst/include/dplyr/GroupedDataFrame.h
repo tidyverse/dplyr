@@ -35,7 +35,7 @@ public:
   typedef GroupedSubset subset;
 
   GroupedDataFrame(DataFrame x);
-  GroupedDataFrame(DataFrame x, const SymbolVector& symbols_);
+  GroupedDataFrame(DataFrame x, const GroupedDataFrame& model);
 
   group_iterator group_begin() const {
     return GroupedDataFrameIndexIterator(*this);
@@ -50,6 +50,10 @@ public:
   }
   const DataFrame& data() const {
     return data_;
+  }
+
+  inline int size() const {
+    return data_.size();
   }
 
   inline int ngroups() const {
@@ -82,6 +86,26 @@ public:
 
   inline List indices() const {
     return groups[groups.size() - 1] ;
+  }
+
+  inline SymbolVector get_vars() const {
+    return symbols.get_names();
+  }
+
+  static SymbolVector group_vars(SEXP x);
+
+  inline const DataFrame& group_data() const {
+    return groups;
+  }
+
+  template <typename Data>
+  static void strip_groups(Data& x) {
+    x.attr("groups") = R_NilValue;
+  }
+
+  template <typename Data>
+  static void set_groups(Data& x, DataFrame groups) {
+    x.attr("groups") = groups;
   }
 
 private:

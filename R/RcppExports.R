@@ -34,8 +34,8 @@ init_logging <- function(log_level) {
     invisible(.Call(`_dplyr_init_logging`, log_level))
 }
 
-arrange_impl <- function(data, quosures) {
-    .Call(`_dplyr_arrange_impl`, data, quosures)
+arrange_impl <- function(df, quosures) {
+    .Call(`_dplyr_arrange_impl`, df, quosures)
 }
 
 #' Do values in a numeric vector fall in specified range?
@@ -98,10 +98,6 @@ ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
 }
 
-test_grouped_df <- function(data) {
-    .Call(`_dplyr_test_grouped_df`, data)
-}
-
 grouped_indices_grouped_df_impl <- function(gdf) {
     .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
 }
@@ -110,8 +106,12 @@ group_size_grouped_cpp <- function(gdf) {
     .Call(`_dplyr_group_size_grouped_cpp`, gdf)
 }
 
-grouped_df_impl <- function(data, symbols, build_index = TRUE) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols, build_index)
+grouped_df_impl <- function(data, symbols) {
+    .Call(`_dplyr_grouped_df_impl`, data, symbols)
+}
+
+group_data_grouped_df <- function(data) {
+    .Call(`_dplyr_group_data_grouped_df`, data)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y, na_match) {

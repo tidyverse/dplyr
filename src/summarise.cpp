@@ -95,6 +95,42 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVe
   return out ;
 }
 
+template <typename SlicedTibble>
+void structure_summarise(List& out, const SlicedTibble& df) {
+  set_class(out, classes_not_grouped());
+}
+
+template <>
+void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gdf) {
+  const DataFrame& df = gdf.data();
+
+  if (gdf.nvars() > 1) {
+    copy_class(out, df);
+    SymbolVector vars = gdf.get_vars();
+    vars.remove(gdf.nvars() - 1);
+
+    DataFrame old_groups = gdf.group_data();
+    int nv = gdf.nvars() - 1;
+    DataFrameVisitors visitors(old_groups, nv) ;
+
+    // collect the new indices
+    std::vector<IntegerVector> new_indices;
+    int old_nrows = old_groups.nrow();
+    for (int i = 0; i < old_nrows;) {
+      int start = i;
+      while (i < old_nrows && visitors.equal(start, i)) i++ ;
+      new_indices.push_back(seq(start, i - 1));
+    }
+
+    // groups
+    DataFrame groups = reconstruct_groups(old_groups, new_indices);
+    GroupedDataFrame::set_groups(out, groups);
+  } else {
+    // clear groups and reset to non grouped classes
+    GroupedDataFrame::strip_groups(out);
+    out.attr("class") = classes_not_grouped();
+  }
+}
 
 template <typename SlicedTibble, typename LazySubsets>
 DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
@@ -156,37 +192,14 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   }
 
   List out = accumulator;
+  // so that the attributes of the original tibble are preserved
+  // as requested in issue #1064
   copy_most_attributes(out, df);
   out.names() = accumulator.names();
 
   int nr = gdf.ngroups();
   set_rownames(out, nr);
-
-  if (gdf.nvars() > 1) {
-    copy_class(out, df);
-    SymbolVector vars = get_vars(gdf.data(), true);
-    vars.remove(gdf.nvars() - 1);
-
-    DataFrame old_groups = Rf_getAttrib(df, Rf_install("groups"));
-    int nv = gdf.nvars() - 1;
-    DataFrameVisitors visitors(old_groups, nv) ;
-
-    // collect the new indices
-    std::vector<IntegerVector> new_indices;
-    int old_nrows = old_groups.nrow();
-    for (int i = 0; i < old_nrows;) {
-      int start = i;
-      while (i < old_nrows && visitors.equal(start, i)) i++ ;
-      new_indices.push_back(seq(start, i - 1));
-    }
-
-    // labels
-    out.attr("groups") = reconstruct_groups(old_groups, new_indices);
-  } else {
-    set_class(out, classes_not_grouped());
-    out.attr("groups") = R_NilValue ;
-  }
-
+  structure_summarise<SlicedTibble>(out, gdf) ;
   return out;
 }
 

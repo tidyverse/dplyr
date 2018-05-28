@@ -85,13 +85,13 @@ test_that("group_by handles NA in factors #341", {
 
 test_that("group_by orders by groups. #242", {
   df <- data.frame(a = sample(1:10, 3000, replace = TRUE)) %>% group_by(a)
-  expect_equal(attr(df, "groups")$a, 1:10)
+  expect_equal(group_data(df)$a, 1:10)
 
   df <- data.frame(a = sample(letters[1:10], 3000, replace = TRUE), stringsAsFactors = FALSE) %>% group_by(a)
-  expect_equal(attr(df, "groups")$a, letters[1:10])
+  expect_equal(group_data(df)$a, letters[1:10])
 
   df <- data.frame(a = sample(sqrt(1:10), 3000, replace = TRUE)) %>% group_by(a)
-  expect_equal(attr(df, "groups")$a, sqrt(1:10))
+  expect_equal(group_data(df)$a, sqrt(1:10))
 })
 
 test_that("group_by uses the white list", {
@@ -124,7 +124,7 @@ test_that("grouped_df errors on NULL labels (#398)", {
   attr(m, "groups") <- NULL
   expect_error(
     m %>% do(mpg = mean(.$mpg)),
-    "no variables to group by",
+    "is a corrupt grouped_df",
     fixed = TRUE
   )
 })
