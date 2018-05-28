@@ -67,12 +67,14 @@ public:
   int size;
 };
 
+inline int plus_one(int i) { return i + 1; }
+
 class ListCollecter {
 public:
   ListCollecter(List& data_): data(data_), index(0) {}
 
   int collect(const std::vector<int>& indices) {
-    data[index] = indices;
+    data[index] = IntegerVector( indices.begin(), indices.end(), plus_one );
     return index++;
   }
 
@@ -455,6 +457,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
     vec_groups[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
     copy_most_attributes(vec_groups[i], visited_data[i]);
   }
+
   vec_groups[nvars] = indices;
   groups_names[nvars] = ".rows";
   s->make(vec_groups, indices_collecter);
