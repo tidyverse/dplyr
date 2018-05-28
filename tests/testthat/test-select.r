@@ -64,16 +64,16 @@ test_that("select can be before group_by (#309)", {
   expect_equal(names(dfagg), c("id", "year", "var1"))
 })
 
-test_that("rename does not crash with invalid grouped data frame (#640)", {
+test_that("rename errors with invalid grouped data frame (#640)", {
   df <- data_frame(a = 1:3, b = 2:4, d = 3:5) %>% group_by(a, b)
   df$a <- NULL
-  expect_equal(
-    df %>% rename(e = d) %>% ungroup(),
-    data_frame(b = 2:4, e = 3:5)
+  expect_error(
+    df %>% rename(e = d),
+    "not found in groups metadata"
   )
-  expect_equal(
-    df %>% rename(e = b) %>% ungroup(),
-    data_frame(e = 2:4, d = 3:5)
+  expect_error(
+    df %>% rename(e = b),
+    "not found in groups metadata"
   )
 })
 

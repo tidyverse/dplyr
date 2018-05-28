@@ -108,6 +108,11 @@ public:
     x.attr("groups") = groups;
   }
 
+  template <typename Data1, typename Data2>
+  static void copy_groups(Data1& x, const Data2& y) {
+    x.attr("groups") = y.attr("groups");
+  }
+
 private:
   void set_max_group_size() {
     List idx = indices();

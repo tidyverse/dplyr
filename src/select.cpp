@@ -44,11 +44,15 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
   // the selection, i.e. select(data, g1 = g2)
   CharacterVector group_names = clone<CharacterVector>(groups.names());
   IntegerVector positions = keep.match(group_names);
-  int nl = group_names.size();
+  int nl = gdf.nvars();
+
+  // maybe rename the variables in the groups metadata
   for (int i = 0; i < nl; i++) {
     int pos = positions[i];
     if (pos != NA_INTEGER) {
       group_names[i] = new_names[pos - 1].get_string();
+    } else {
+      bad_col(group_names[i], "not found in groups metadata. Probably a corrupt grouped_df object.");
     }
   }
   groups.names() = group_names;

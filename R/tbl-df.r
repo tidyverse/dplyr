@@ -178,6 +178,25 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
 #' @export
 #' @rdname join.tbl_df
+nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, name = "data", ...) {
+  check_valid_names(tbl_vars(x))
+  check_valid_names(tbl_vars(y))
+  by <- common_by(by, x, y)
+
+  y <- auto_copy(x, y, copy = copy)
+
+  vars <- join_vars(tbl_vars(x), tbl_vars(y), by)
+  by_x <- vars$idx$x$by
+  by_y <- vars$idx$y$by
+  aux_y <- vars$idx$y$aux
+
+  out <- nest_join_impl(x, y, by_x, by_y, aux_y, name)
+  out
+}
+
+
+#' @export
+#' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {

@@ -67,6 +67,7 @@
 #' @param suffix If there are non-joined duplicate variables in `x` and
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
+#' @param name for `nest_join()` the name of the list column created.
 #' @param ... other parameters passed onto methods, for instance, `na_matches`
 #'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
 #' @name join
@@ -118,6 +119,12 @@ full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...
 #' @export
 semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
   UseMethod("semi_join")
+}
+
+#' @rdname join
+#' @export
+nest_join <- function(x, y, by = NULL, copy = FALSE, name = "data", ...) {
+  UseMethod("nest_join")
 }
 
 #' @rdname join
