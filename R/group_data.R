@@ -31,13 +31,13 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  rows <- list(seq2(0, nrow(.data) - 1))
+  rows <- list(seq_len(nrow(.data)))
   tibble(.rows=rows)
 }
 
 #' @export
 group_data.rowwise_df <- function(.data) {
-  rows <- as.list(seq2(0, nrow(.data) - 1))
+  rows <- as.list(seq_len(nrow(.data)))
   tibble(.rows=rows)
 }
 
