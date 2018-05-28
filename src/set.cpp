@@ -244,10 +244,12 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
 
 DataFrame reconstruct_metadata(DataFrame out, const DataFrame& x) {
   if (is<GroupedDataFrame>(x)) {
-    out = GroupedDataFrame(out, x).data();
+    // go through the GroupedDataFrame class so that the groups attribute is generated
+    return GroupedDataFrame(out, x).data();
+  } else {
+    // nothing to do for rowwise and natural data frames
+    return out;
   }
-  // nothing to do for rowwise and natural data frames
-  return out ;
 }
 
 // [[Rcpp::export]]
