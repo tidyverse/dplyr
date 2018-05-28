@@ -41,12 +41,16 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 # Verbs ------------------------------------------------------------------------
 
 #' @export
-arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
+arrange.tbl_df <- function(.data, ...) {
   dots <- quos(...)
+  if (any(names(dots) != "")) {
+    names <- names(dots)
+    bad_pos_args(names[names != ""], "must not be named")
+  }
   arrange_impl(.data, dots)
 }
 #' @export
-arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
+arrange_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   arrange_impl(.data, dots)
 }

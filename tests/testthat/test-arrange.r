@@ -189,3 +189,10 @@ test_that("can choose to include grouping vars", {
 
   expect_equal(df1, df2)
 })
+
+test_that("arrange errors with named arguments (3546)", {
+  expect_error(
+    tibble(foo=1:2, bar=2) %>% arrange(foo, .by_group=TRUE),
+    "must not be named"
+  )
+})

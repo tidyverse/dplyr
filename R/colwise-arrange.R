@@ -17,28 +17,80 @@
 #' # keep their original values.
 #' arrange_all(df, desc)
 #' arrange_all(df, funs(desc(.)))
-arrange_all <- function(.tbl, .funs = list(), ..., .by_group = FALSE) {
+arrange_all <- function(.tbl, .funs = list(), ...) {
+  UseMethod("arrange_all")
+}
+
+#' @rdname arrange_all
+#' @export
+arrange_all.data.frame <- function(.tbl, .funs = list(), ...) {
+  funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
+  if (!length(funs)) {
+    funs <- syms(tbl_vars(.tbl))
+  }
+  funs <- unname(funs)
+  arrange(.tbl, !!!funs)
+}
+
+#' @rdname arrange_all
+#' @export
+arrange_all.grouped_df <- function(.tbl, .funs = list(), ..., .by_group = FALSE) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
+  funs <- unname(funs)
   arrange(.tbl, !!!funs, .by_group = .by_group)
 }
+
 #' @rdname arrange_all
 #' @export
-arrange_at <- function(.tbl, .vars, .funs = list(), ..., .by_group = FALSE) {
+arrange_at <- function(.tbl, .vars, .funs = list(), ...) {
+  UseMethod("arrange_at")
+}
+
+#' @export
+arrange_at.data.frame <- function(.tbl, .vars, .funs = list(), ...) {
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
+  if (!length(funs)) {
+    funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
+  }
+  funs <- unname(funs)
+  arrange(.tbl, !!!funs)
+}
+
+#' @export
+arrange_at.grouped_df <- function(.tbl, .vars, .funs = list(), ..., .by_group = FALSE) {
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
+  funs <- unname(funs)
   arrange(.tbl, !!!funs, .by_group = .by_group)
 }
+
 #' @rdname arrange_all
 #' @export
-arrange_if <- function(.tbl, .predicate, .funs = list(), ..., .by_group = FALSE) {
+arrange_if <- function(.tbl, .predicate, .funs = list(), ...) {
+  UseMethod("arrange_if")
+}
+
+#' @export
+arrange_if.data.frame <- function(.tbl, .predicate, .funs = list(), ...) {
+  funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
+  if (!length(funs)) {
+    funs <- tbl_if_syms(.tbl, .predicate)
+  }
+  funs <- unname(funs)
+  arrange(.tbl, !!!funs)
+}
+
+#' @export
+arrange_if.grouped_df <- function(.tbl, .predicate, .funs = list(), ..., .by_group = FALSE) {
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
+  funs <- unname(funs)
   arrange(.tbl, !!!funs, .by_group = .by_group)
 }
