@@ -125,3 +125,10 @@ test_that("zero-length conditions and values (#3041)", {
     numeric()
   )
 })
+
+test_that("case_when can be used in anonymous functions (#3422)", {
+  res <- tibble(a = 1:3) %>%
+    mutate(b = (function(x) case_when(x < 2 ~ TRUE, TRUE ~ FALSE))(a)) %>%
+    pull()
+  expect_equal(res, c(TRUE, FALSE, FALSE))
+})

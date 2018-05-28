@@ -1057,5 +1057,10 @@ test_that("hybrid sum handles NA correctly (#3528)",{
   expect_equal( summarise(d, x = sum(x, na.rm = TRUE)), tibble(x = 1L))
   expect_equal( summarise(d, x = sum(x, na.rm = FALSE)), tibble(x = NA_integer_))
   expect_equal( summarise(d, x = sum(x)), tibble(x = NA_integer_))
+})
 
+test_that("functions are created in the right environment (#3019)", {
+  out <- mtcars %>% summarise(fn = list(rlang::as_function(~ list(~foo, environment()))))
+  out <- out$fn[[1]]()
+  expect_identical(environment(out[[1]]), out[[2]])
 })
