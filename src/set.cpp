@@ -16,6 +16,7 @@
 #include <dplyr/DataFrameJoinVisitors.h>
 
 #include <dplyr/train.h>
+#include <dplyr/GroupedDataFrame.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -241,6 +242,14 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
   return yes();
 }
 
+DataFrame reconstruct_metadata(DataFrame out, const DataFrame& x) {
+  if (is<GroupedDataFrame>(x)) {
+    out = GroupedDataFrame(out, x).data();
+  }
+  // nothing to do for rowwise and natural data frames
+  return out ;
+}
+
 // [[Rcpp::export]]
 DataFrame union_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x, y, true, true);
@@ -256,7 +265,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   train_insert(set, x.nrows());
   train_insert_right(set, y.nrows());
 
-  return visitors.subset(set, get_class(x));
+  return reconstruct_metadata(visitors.subset(set, get_class(x)), x);
 }
 
 // [[Rcpp::export]]
@@ -283,7 +292,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return visitors.subset(indices, get_class(x));
+  return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
 }
 
 // [[Rcpp::export]]
@@ -310,5 +319,5 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return visitors.subset(indices, get_class(x));
+  return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
 }

@@ -68,3 +68,12 @@ test_that("intersect does not unnecessarily coerce (#1722)", {
   res <- intersect(df, df)
   expect_is(res$a, "integer")
 })
+
+test_that("set operations reconstruct grouping metadata (#3587)", {
+  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% group_by(g)
+  df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
+
+  expect_equal( setdiff(df1, df2) %>% group_rows(), list(0:1))
+  expect_equal( intersect(df1, df2) %>% group_rows(), list(0:1))
+  expect_equal( union(df1, df2) %>% group_rows(), list(4:5, 2:3, 0:1))
+})
