@@ -9,7 +9,7 @@ group_rows <- function(.data) {
 #' @param .data a tibble
 #'
 #' @return `group_data()` return a tibble with one row per group. The last column, always called `.rows`
-#' is a list of (0-based) integer vectors indicating the rows for each group.
+#' is a list of integer vectors indicating the rows for each group.
 #' If `.data` is a grouped data frame the first columns are the grouping variables.
 #' `group_rows()` just returns the list of indices.
 #'
