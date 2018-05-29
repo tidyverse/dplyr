@@ -62,7 +62,7 @@ as_fun_list <- function(.x, .quo, .env, ...) {
   force(.quo)
 
   # If a fun_list, update args
-  args <- list2(...)
+  args <- exprs(...)
   if (is_fun_list(.x)) {
     if (!is_empty(args)) {
       .x[] <- map(.x, lang_modify, !!!args)
