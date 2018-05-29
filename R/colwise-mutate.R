@@ -82,7 +82,7 @@ summarise_if <- function(.tbl, .predicate, .funs, ...) {
 #' @export
 summarise_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
-  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
+  funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
 }
 
