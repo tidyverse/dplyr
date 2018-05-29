@@ -151,7 +151,7 @@ bind_cols <- function(...) {
 #' @export
 #' @rdname bind
 combine <- function(...) {
-  args <- list(...)
+  args <- list2(...)
   if (length(args) == 1 && is.list(args[[1]])) {
     combine_all(args[[1]])
   } else {
