@@ -130,6 +130,20 @@ test_that("min_rank handles columns full of NaN (#726)", {
   expect_true(all(is.na(data$rank)))
 })
 
+test_that("ntile works with one argument (#3418)", {
+  df <- data.frame(x=1:42)
+  expect_identical(
+    mutate( df, nt = ntile(n = 9)),
+    mutate( df, nt = ntile(row_number(), n = 9))
+  )
+
+  df <- group_by( data.frame(x=1:42, g = rep(1:7, each=6)), g )
+  expect_identical(
+    mutate( df, nt = ntile(n = 4)),
+    mutate( df, nt = ntile(row_number(), n = 4))
+  )
+})
+
 test_that("rank functions deal correctly with NA (#774)", {
   data <- data_frame(x = c(1, 2, NA, 1, 0, NA))
   res <- data %>% mutate(

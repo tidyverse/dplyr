@@ -374,6 +374,19 @@ private:
   double ntiles;
 };
 
+class Ntile_1 : public Result {
+public:
+  Ntile_1(int ntiles_)  ;
+
+  virtual SEXP process(const GroupedDataFrame& gdf) ;
+  virtual SEXP process(const RowwiseDataFrame& gdf) ;
+  virtual SEXP process(const FullDataFrame& df)  ;
+  virtual SEXP process(const SlicingIndex& index) ;
+
+private:
+  int ntiles;
+};
+
 class RowNumber_0 : public Result {
 public:
 

@@ -81,30 +81,46 @@ Result* ntile(const RObject& data, const int number_tiles, const bool ascending)
 }
 
 Result* ntile_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
-  if (nargs != 2) return 0;
 
-  // handle 2nd arg
-  SEXP ntiles = maybe_rhs(CADDR(call));
-  if (TYPEOF(ntiles) != INTSXP && TYPEOF(ntiles) != REALSXP) return 0;
-  int number_tiles = as<int>(ntiles);
-  if (number_tiles == NA_INTEGER) return 0;
+  if (nargs == 1) {
+    // only one arg. We only accept if it is named "n"
+    SEXP cdr = CDR(call);
+    if (TAG(cdr) != Rf_install("n")) return 0;
 
-  RObject data(maybe_rhs(CADR(call)));
-  bool ascending = true;
-  if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
-    data = CADR(data);
-    ascending = false;
+    SEXP ntiles = maybe_rhs(CADR(call));
+    if (TYPEOF(ntiles) != INTSXP && TYPEOF(ntiles) != REALSXP) return 0;
+    int number_tiles = as<int>(ntiles);
+    if (number_tiles == NA_INTEGER) return 0;
+
+    return new Ntile_1(number_tiles);
   }
 
-  if (TYPEOF(data) == SYMSXP) {
-    SymbolString name = SymbolString(Symbol(data));
-    if (subsets.has_non_summary_variable(name)) data = subsets.get_variable(name);
-    else return 0;
+  if (nargs == 2) {
+    // handle 2nd arg
+    SEXP ntiles = maybe_rhs(CADDR(call));
+    if (TYPEOF(ntiles) != INTSXP && TYPEOF(ntiles) != REALSXP) return 0;
+    int number_tiles = as<int>(ntiles);
+    if (number_tiles == NA_INTEGER) return 0;
+
+    RObject data(maybe_rhs(CADR(call)));
+    bool ascending = true;
+    if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
+      data = CADR(data);
+      ascending = false;
+    }
+
+    if (TYPEOF(data) == SYMSXP) {
+      SymbolString name = SymbolString(Symbol(data));
+      if (subsets.has_non_summary_variable(name)) data = subsets.get_variable(name);
+      else return 0;
+    }
+
+    if (subsets.nrows() != Rf_length(data)) return 0;
+
+    return ntile(data, number_tiles, ascending);
   }
 
-  if (subsets.nrows() != Rf_length(data)) return 0;
-
-  return ntile(data, number_tiles, ascending);
+  return 0;
 }
 
 template <typename Increment, bool ascending>
@@ -165,4 +181,48 @@ void install_window_handlers(HybridHandlerMap& handlers) {
   handlers[Rf_install("percent_rank")] = HybridHandler(rank_impl_prototype<dplyr::internal::percent_rank_increment>, HybridHandler::DPLYR, ns_dplyr["percent_rank"]);
   handlers[Rf_install("dense_rank")] = HybridHandler(rank_impl_prototype<dplyr::internal::dense_rank_increment>, HybridHandler::DPLYR, ns_dplyr["dense_rank"]);
   handlers[Rf_install("cume_dist")] = HybridHandler(rank_impl_prototype<dplyr::internal::cume_dist_increment>, HybridHandler::DPLYR, ns_dplyr["cume_dist"]);
+}
+
+namespace dplyr {
+
+Ntile_1::Ntile_1(int ntiles_) : ntiles(ntiles_) {}
+
+SEXP Ntile_1::process(const GroupedDataFrame& gdf) {
+  int n  = gdf.nrows();
+  if (n == 0) return IntegerVector(0);
+
+  int ng = gdf.ngroups();
+
+  GroupedDataFrame::group_iterator git = gdf.group_begin();
+  IntegerVector out = no_init(n);
+  for (int i = 0; i < ng; i++, ++git) {
+    const SlicingIndex& index = *git;
+    int m = index.size();
+
+    for (int j = m - 1; j >= 0; j--) {
+      out[ index[j] ] = (int)floor((ntiles * j) / m) + 1;
+    }
+  }
+  return out;
+}
+
+SEXP Ntile_1::process(const RowwiseDataFrame& gdf) {
+  return IntegerVector(gdf.nrows(), 1);
+}
+
+SEXP Ntile_1::process(const FullDataFrame& df) {
+  return process(df.get_index());
+}
+
+SEXP Ntile_1::process(const SlicingIndex& index) {
+  int nrows = index.size();
+  if (nrows == 0) return IntegerVector(0);
+
+  IntegerVector out = no_init(nrows);
+  for (int i = nrows - 1; i >= 0; i--) {
+    out[ i ] = (int)floor(ntiles * i / nrows) + 1;
+  }
+  return out;
+}
+
 }
