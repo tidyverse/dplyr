@@ -18,7 +18,7 @@
 - joins no longer make lazy grouped data (#3566). 
 - new `nest_join()` function. `nest_join()` creates a list column of the matching rows. `nest_join()` + `tidyr::unnest()` is equivalent to `inner_join`  (#3570). 
 - `last_col()` is re-exported from tidyselect (#3584). 
-- hybrid version of `sum(na.rm = FALSE)` exits early when there are missing values (#3288). 
+- hybrid version of `sum(na.rm = FALSE)` exits early when there are missing values. This considerably improves performance when there are missing values early in the vector (#3288). 
 
 # dplyr 0.7.5.9001
 
