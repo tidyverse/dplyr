@@ -380,7 +380,6 @@ public:
 
   virtual SEXP process(const GroupedDataFrame& gdf) ;
   virtual SEXP process(const RowwiseDataFrame& gdf) ;
-  virtual SEXP process(const FullDataFrame& df)  ;
   virtual SEXP process(const SlicingIndex& index) ;
 
 private:

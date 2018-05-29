@@ -210,10 +210,6 @@ SEXP Ntile_1::process(const RowwiseDataFrame& gdf) {
   return IntegerVector(gdf.nrows(), 1);
 }
 
-SEXP Ntile_1::process(const FullDataFrame& df) {
-  return process(df.get_index());
-}
-
 SEXP Ntile_1::process(const SlicingIndex& index) {
   int nrows = index.size();
   if (nrows == 0) return IntegerVector(0);
