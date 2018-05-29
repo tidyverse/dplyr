@@ -429,6 +429,9 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'   represent column positions. They support
 #'   [unquoting][rlang::quasiquotation] and splicing. See
 #'   `vignette("programming")` for an introduction to these concepts.
+#'
+#'   See [select helpers][tidyselect::select_helpers] for more details and
+#'   examples about tidyselect helpers such as `starts_with()`, `everything()`, ...
 #' @return An object of the same class as `.data`.
 #' @family single table verbs
 #' @export

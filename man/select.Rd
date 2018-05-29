@@ -26,7 +26,10 @@ These arguments are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in a context where column names
 represent column positions. They support
 \link[rlang:quasiquotation]{unquoting} and splicing. See
-\code{vignette("programming")} for an introduction to these concepts.}
+\code{vignette("programming")} for an introduction to these concepts.
+
+See \link[tidyselect:select_helpers]{select helpers} for more details and
+examples about tidyselect helpers such as \code{starts_with()}, \code{everything()}, ...}
 }
 \value{
 An object of the same class as \code{.data}.
