@@ -14,7 +14,7 @@ group_data(.data)
 }
 \value{
 \code{group_data()} return a tibble with one row per group. The last column, always called \code{.rows}
-is a list of (0-based) integer vectors indicating the rows for each group.
+is a list of integer vectors indicating the rows for each group.
 If \code{.data} is a grouped data frame the first columns are the grouping variables.
 \code{group_rows()} just returns the list of indices.
 }

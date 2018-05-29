@@ -155,7 +155,7 @@ private:
 
   void add_group(int i, const Index& old_idx, int n) {
     old_indices[i] = old_idx;
-    new_indices[i] = Rcpp::seq(k, k + n - 1);
+    new_indices[i] = Rcpp::seq(k + 1, k + n);
     k += n ;
   }
 
@@ -236,7 +236,7 @@ public:
         if (idx.is_dense(i)) {
           // in that case we can just all the data
           for (int j = 0; j < group_size; j++) {
-            out.copy(new_idx[j], old_idx[j]);
+            out.copy(new_idx[j] - 1, old_idx[j]);
           }
         } else {
           SEXP test = idx.tests[i];
@@ -257,7 +257,7 @@ private:
   void copy_all_lgl(LogicalVector test, Data<RTYPE>& out, int group_size, const IntegerVector& new_idx, const Index& old_idx) {
     for (int j = 0, k = 0; j < group_size; j++, k++) {
       while (test[k] != TRUE) k++ ;
-      out.copy(new_idx[j], old_idx[k]);
+      out.copy(new_idx[j] - 1, old_idx[k]);
     }
   }
 
@@ -265,7 +265,7 @@ private:
     SlicePositivePredicate pred(old_idx.size());
     for (int j = 0, k = 0; j < group_size; j++, k++) {
       while (!pred(test[k])) k++ ;
-      out.copy(new_idx[j], old_idx[test[k] - 1]);
+      out.copy(new_idx[j] - 1, old_idx[test[k] - 1]);
     }
   }
 

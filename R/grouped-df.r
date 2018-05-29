@@ -206,9 +206,9 @@ do.grouped_df <- function(.data, ...) {
   # usual scoping rules.
   group_slice <- function(value) {
     if (missing(value)) {
-      group_data[index[[`_i`]] + 1L, , drop = FALSE]
+      group_data[index[[`_i`]], , drop = FALSE]
     } else {
-      group_data[index[[`_i`]] + 1L, ] <<- value
+      group_data[index[[`_i`]], ] <<- value
     }
   }
   env_bind_fns(.env = env, . = group_slice, .data = group_slice)
