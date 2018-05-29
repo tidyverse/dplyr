@@ -287,26 +287,29 @@ test_that("mutate does not strip names of list-columns (#2675)", {
   expect_identical(names(data$x), c("a", "b"))
 })
 
-test_that("mutate gives a nice error message if an expression evaluates to NULL (#2187)", {
-  df <- data_frame(a = 1:3)
+test_that("mutate removes columns when the expression evaluates to NULL for all groups (#2945)", {
+  df <- data_frame(a = 1:3, b=4:6)
   gf <- group_by(df, a)
   rf <- rowwise(df)
 
-  expect_error(
+  expect_equal(
     mutate(df, b = identity(NULL)),
-    "Column `b` is of unsupported type NULL",
-    fixed = TRUE
+    select(df, -b)
   )
-  expect_error(
+  expect_equal(
     mutate(gf, b = identity(NULL)),
-    "Column `b` is of unsupported type NULL",
-    fixed = TRUE
+    select(gf, -b)
   )
-  expect_error(
+  expect_equal(
     mutate(rf, b = identity(NULL)),
-    "Column `b` is of unsupported type NULL",
-    fixed = TRUE
+    select(rf,-b)
   )
+})
+
+test_that("mutate treats NULL specially when the expression sometimes evaulates to NULL (#2945)", {
+  df <- data_frame(a = 1:3, b=4:6) %>% group_by(a)
+  expect_equal( mutate(df, if(a==1) NULL else "foo") %>% pull(), c(NA, "foo", "foo"))
+  expect_equal( mutate(df, if(a==1) NULL else list(b)) %>% pull(), list(NULL, 5L, 6L))
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {

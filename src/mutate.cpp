@@ -82,6 +82,10 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       proxy.set_call(call);
       boost::scoped_ptr<Gatherer> gather(gatherer<Data, Subsets>(proxy, gdf, name));
       variable = gather->collect();
+      if (Rf_isNull(variable)) {
+        accumulator.rm(name);
+        continue;
+      }
     } else if (Rf_length(call) == 1) {
       boost::scoped_ptr<Gatherer> gather(constant_gatherer(call, gdf.nrows(), name));
       variable = gather->collect();

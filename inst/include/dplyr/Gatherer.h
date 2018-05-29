@@ -22,6 +22,14 @@ public:
   virtual SEXP collect() = 0;
 };
 
+class NullGatherer : public Gatherer {
+public:
+  virtual ~NullGatherer() {}
+  virtual SEXP collect() {
+    return R_NilValue ;
+  }
+};
+
 template <typename Data>
 inline const char* check_length_message() {
   return "the group size";
@@ -306,10 +314,20 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
     bad_col(name, "is of unsupported class data.frame");
   }
 
+  int i = 0;
+
+  if (Rf_isNull(first)) {
+    while (Rf_isNull(first)) {
+      i++;
+      if (i == ng) return new NullGatherer();
+      ++git;
+      indices = *git;
+      first = proxy.get(indices);
+    }
+  }
   check_supported_type(first, name);
   check_length(Rf_length(first), indices.size(), check_length_message<Data>(), name);
 
-  int i = 0;
   if (ng > 1) {
     while (all_na(first)) {
       i++;
