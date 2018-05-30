@@ -79,7 +79,7 @@
 #' # For factor values, use only named replacements
 #' # and supply default with levels()
 #' factor_vec <- factor(c("a", "b", "c"))
-#' recode(factor_vec, a = "Apple", .default = levels(x))
+#' recode(factor_vec, a = "Apple", .default = levels(factor_vec))
 #'
 #' # Use recode_factor() to create factors with levels ordered as they
 #' # appear in the recode call. The levels in .default and .missing
