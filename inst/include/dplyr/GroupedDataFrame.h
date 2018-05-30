@@ -81,7 +81,7 @@ public:
   }
 
   inline subset* create_subset(SEXP x) const {
-    return grouped_subset(x, max_group_size());
+    return grouped_subset(x);
   }
 
   inline List indices() const {

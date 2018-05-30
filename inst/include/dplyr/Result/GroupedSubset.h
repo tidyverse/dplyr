@@ -113,7 +113,7 @@ private:
   DataFrameSubsetVisitors visitors;
 };
 
-inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
+inline GroupedSubset* grouped_subset(SEXP x) {
   switch (TYPEOF(x)) {
   case INTSXP:
     return new GroupedSubsetTemplate<INTSXP>(x);
