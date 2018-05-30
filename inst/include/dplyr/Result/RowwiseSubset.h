@@ -1,7 +1,6 @@
 #ifndef dplyr_RowwiseSubset_H
 #define dplyr_RowwiseSubset_H
 
-#include <tools/ShrinkableVector.h>
 #include <tools/utils.h>
 
 #include <dplyr/checks.h>

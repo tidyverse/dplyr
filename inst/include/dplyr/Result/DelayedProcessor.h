@@ -2,7 +2,6 @@
 #define dplyr_Result_DelayedProcessor_H
 
 #include <tools/hash.h>
-#include <tools/ShrinkableVector.h>
 #include <tools/scalar_type.h>
 #include <tools/utils.h>
 #include <dplyr/vector_class.h>
