@@ -7,7 +7,7 @@
 #'
 #' @section Join types:
 #'
-#' Currently dplyr supports four types of mutating joins and two types of filtering joins.
+#' Currently dplyr supports five types of mutating joins and two types of filtering joins.
 #'
 #' \strong{Mutating joins} combine variables from the two data.frames:
 #'
@@ -28,6 +28,14 @@
 
 #'    \item{`full_join()`}{return all rows and all columns from both `x` and `y`.
 #'    Where there are not matching values, returns `NA` for the one missing.}
+#'
+#'    \item{`nest_join()`}{return all rows and all columns from `x`. Adds a
+#'    list column of tibbles that contain rows of `y` that match the rows of `x`.
+#'    When there is no match, the list column is a 0-rows tibble of the right structure,
+#'    with the same column names and types as `y`.
+#'
+#'    `nest_join()` + [tidyr::unnest()] is equivalent to `inner_join()`.
+#'    }
 #' }
 #'
 #'
@@ -77,6 +85,7 @@
 #' band_members %>% left_join(band_instruments)
 #' band_members %>% right_join(band_instruments)
 #' band_members %>% full_join(band_instruments)
+#' band_members %>% nest_join(band_instruments)
 #'
 #' # "Filtering" joins keep cases from the LHS
 #' band_members %>% semi_join(band_instruments)

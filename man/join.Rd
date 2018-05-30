@@ -61,7 +61,7 @@ method documentation for details of individual data sources. \code{x} and
 \section{Join types}{
 
 
-Currently dplyr supports four types of mutating joins and two types of filtering joins.
+Currently dplyr supports five types of mutating joins and two types of filtering joins.
 
 \strong{Mutating joins} combine variables from the two data.frames:
 
@@ -81,6 +81,14 @@ columns. If there are multiple matches between \code{x} and \code{y}, all combin
 of the matches are returned.}
 \item{\code{full_join()}}{return all rows and all columns from both \code{x} and \code{y}.
 Where there are not matching values, returns \code{NA} for the one missing.}
+
+\item{\code{nest_join()}}{return all rows and all columns from \code{x}. Adds a
+list column of tibbles that contain rows of \code{y} that match the rows of \code{x}.
+When there is no match, the list column is a 0-rows tibble of the right structure,
+with the same column names and types as \code{y}.
+
+\code{nest_join()} + \code{\link[tidyr:unnest]{tidyr::unnest()}} is equivalent to \code{inner_join()}.
+}
 }
 
 \strong{Filtering joins} keep cases from the left-hand data.frame:
@@ -111,6 +119,7 @@ band_members \%>\% inner_join(band_instruments)
 band_members \%>\% left_join(band_instruments)
 band_members \%>\% right_join(band_instruments)
 band_members \%>\% full_join(band_instruments)
+band_members \%>\% nest_join(band_instruments)
 
 # "Filtering" joins keep cases from the LHS
 band_members \%>\% semi_join(band_instruments)
