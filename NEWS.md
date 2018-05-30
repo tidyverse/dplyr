@@ -20,6 +20,8 @@
 - `last_col()` is re-exported from tidyselect (#3584). 
 - hybrid version of `sum(na.rm = FALSE)` exits early when there are missing values. This considerably improves performance when there are missing values early in the vector (#3288). 
 - `mutate()` removes a column when the expression evaluates to `NULL` for all groups (#2945).
+- `last_col()` is re-exported from tidyselect (#3584).
+- `summarise_at()` excludes the grouping variables (#3613). 
 
 # dplyr 0.7.5.9001
 

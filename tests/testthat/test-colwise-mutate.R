@@ -147,9 +147,7 @@ test_that("summarise_at refuses to treat grouping variables (#3351)", {
     group_by(gr1)
 
   expect_error(
-    summarise_at(tbl, vars(gr1), mean),
-    "Column `gr1` can't be modified because it's a grouping variable",
-    fixed = TRUE
+    summarise_at(tbl, vars(gr1), mean)
   )
 })
 
@@ -160,6 +158,15 @@ test_that("summarise variants does not summarise grouping variable (#3351)", {
 
   expect_identical(summarise_all(tbl, mean), res)
   expect_identical(summarise_if(tbl, is.integer, mean), res)
+})
+
+test_that("summarise_at removes grouping variables (#3613)", {
+  d <- tibble( x = 1:2, y = 3:4, g = 1:2) %>% group_by(g)
+  res <- d %>%
+    group_by(g) %>%
+    summarise_at(-1, mean)
+
+  expect_equal(names(res), c("g", "y"))
 })
 
 # Deprecated ---------------------------------------------------------
