@@ -75,7 +75,6 @@ SEXP shared_SEXP(SEXP x) {
   return x;
 }
 
-// [[Rcpp::export]]
 SEXP shallow_copy(const List& data) {
   int n = data.size();
   List out(n);

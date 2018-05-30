@@ -597,17 +597,6 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// shallow_copy
-SEXP shallow_copy(const List& data);
-RcppExport SEXP _dplyr_shallow_copy(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List& >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(shallow_copy(data));
-    return rcpp_result_gen;
-END_RCPP
-}
 // is_data_pronoun
 bool is_data_pronoun(SEXP expr);
 RcppExport SEXP _dplyr_is_data_pronoun(SEXP exprSEXP) {
@@ -750,7 +739,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
     {"_dplyr_assert_all_white_list", (DL_FUNC) &_dplyr_assert_all_white_list, 1},
-    {"_dplyr_shallow_copy", (DL_FUNC) &_dplyr_shallow_copy, 1},
     {"_dplyr_is_data_pronoun", (DL_FUNC) &_dplyr_is_data_pronoun, 1},
     {"_dplyr_is_variable_reference", (DL_FUNC) &_dplyr_is_variable_reference, 1},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},

@@ -194,10 +194,6 @@ assert_all_white_list <- function(data) {
     invisible(.Call(`_dplyr_assert_all_white_list`, data))
 }
 
-shallow_copy <- function(data) {
-    .Call(`_dplyr_shallow_copy`, data)
-}
-
 is_data_pronoun <- function(expr) {
     .Call(`_dplyr_is_data_pronoun`, expr)
 }
