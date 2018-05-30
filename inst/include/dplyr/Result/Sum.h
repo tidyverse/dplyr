@@ -46,12 +46,12 @@ struct Sum<REALSXP, NA_RM, Index> {
     for (int i = 0; i < n; i++) {
       double value = ptr[indices[i]];
 
-      // !NA_RM: we don't test for NA here because += NA will give NA
-      // this is faster in the most common case where there are no NA
-      // if there are NA, we could return quicker as in the version for
-      // INTSXP, but we would penalize the most common case
       if (NA_RM && Rcpp::traits::is_na<REALSXP>(value)) {
         continue;
+      }
+
+      if (!NA_RM && Rcpp::traits::is_na<REALSXP>(value)) {
+        return NA_REAL;
       }
 
       res += value;
