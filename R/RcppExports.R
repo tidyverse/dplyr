@@ -70,10 +70,6 @@ combine_all <- function(data) {
     .Call(`_dplyr_combine_all`, data)
 }
 
-combine_vars <- function(vars, xs) {
-    .Call(`_dplyr_combine_vars`, vars, xs)
-}
-
 distinct_impl <- function(df, vars, keep) {
     .Call(`_dplyr_distinct_impl`, df, vars, keep)
 }
@@ -196,10 +192,6 @@ check_valid_names <- function(names, warn_only = FALSE) {
 
 assert_all_white_list <- function(data) {
     invisible(.Call(`_dplyr_assert_all_white_list`, data))
-}
-
-shallow_copy <- function(data) {
-    .Call(`_dplyr_shallow_copy`, data)
 }
 
 is_data_pronoun <- function(expr) {

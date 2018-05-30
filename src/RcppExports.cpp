@@ -144,18 +144,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// combine_vars
-SEXP combine_vars(CharacterVector vars, ListOf<IntegerVector> xs);
-RcppExport SEXP _dplyr_combine_vars(SEXP varsSEXP, SEXP xsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
-    Rcpp::traits::input_parameter< ListOf<IntegerVector> >::type xs(xsSEXP);
-    rcpp_result_gen = Rcpp::wrap(combine_vars(vars, xs));
-    return rcpp_result_gen;
-END_RCPP
-}
 // distinct_impl
 SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep);
 RcppExport SEXP _dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP, SEXP keepSEXP) {
@@ -609,17 +597,6 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// shallow_copy
-SEXP shallow_copy(const List& data);
-RcppExport SEXP _dplyr_shallow_copy(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const List& >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(shallow_copy(data));
-    return rcpp_result_gen;
-END_RCPP
-}
 // is_data_pronoun
 bool is_data_pronoun(SEXP expr);
 RcppExport SEXP _dplyr_is_data_pronoun(SEXP exprSEXP) {
@@ -729,7 +706,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
-    {"_dplyr_combine_vars", (DL_FUNC) &_dplyr_combine_vars, 2},
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 3},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
@@ -763,7 +739,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
     {"_dplyr_assert_all_white_list", (DL_FUNC) &_dplyr_assert_all_white_list, 1},
-    {"_dplyr_shallow_copy", (DL_FUNC) &_dplyr_shallow_copy, 1},
     {"_dplyr_is_data_pronoun", (DL_FUNC) &_dplyr_is_data_pronoun, 1},
     {"_dplyr_is_variable_reference", (DL_FUNC) &_dplyr_is_variable_reference, 1},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},
