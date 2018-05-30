@@ -75,10 +75,6 @@ public:
     return R_NilValue ;
   }
 
-  inline int max_group_size() const {
-    return nrows();
-  }
-
   inline bool has_group(const SymbolString& g) const {
     return false ;
   }

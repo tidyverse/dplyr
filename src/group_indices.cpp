@@ -524,11 +524,8 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
   data_(check_grouped(x)),
   symbols(group_vars(data_)),
   groups(data_.attr("groups")),
-  max_group_size_(0),
   nvars_(symbols.size())
 {
-  set_max_group_size();
-
   int rows_in_groups = 0;
   int ng = ngroups();
   List idx = indices();
@@ -543,11 +540,9 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
   data_(x),
   symbols(model.get_vars()),
   groups(build_index_cpp(data_, model.get_vars())),
-  max_group_size_(0),
   nvars_(symbols.size())
 {
   set_groups(data_, groups);
-  set_max_group_size();
 }
 
 SymbolVector GroupedDataFrame::group_vars(SEXP x) {

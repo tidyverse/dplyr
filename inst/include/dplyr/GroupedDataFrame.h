@@ -72,16 +72,12 @@ public:
     return groups[i];
   }
 
-  inline int max_group_size() const {
-    return max_group_size_;
-  }
-
   inline bool has_group(const SymbolString& g) const {
     return symbols.has(g);
   }
 
   inline subset* create_subset(SEXP x) const {
-    return grouped_subset(x, max_group_size());
+    return grouped_subset(x);
   }
 
   inline List indices() const {
@@ -114,20 +110,10 @@ public:
   }
 
 private:
-  void set_max_group_size() {
-    List idx = indices();
-
-    int n = idx.size();
-    max_group_size_ = 0;
-    for (int i = 0; i < n; i++) {
-      max_group_size_ = std::max(max_group_size_, Rf_length(idx[i])) ;
-    }
-  }
 
   DataFrame data_;
   SymbolMap symbols;
   DataFrame groups;
-  int max_group_size_ ;
   int nvars_;
 
 };

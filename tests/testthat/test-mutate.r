@@ -800,3 +800,23 @@ test_that("mutate() to UTF-8 column names", {
 
   expect_equal(colnames(df), c("a", "\u5e78"))
 })
+
+test_that("grouped subsets are not lazy (#3360)", {
+  make_call <- function(x) {
+    quo(!!x)
+  }
+
+  res <- tibble(name = 1:2, value = letters[1:2]) %>%
+    rowwise() %>%
+    mutate(call = list(make_call(value))) %>%
+    pull()
+
+  expect_identical(res, list(make_call("a"), make_call("b")))
+
+  res <- tibble(name = 1:2, value = letters[1:2]) %>%
+    group_by(name) %>%
+    mutate(call = list(make_call(value))) %>%
+    pull()
+
+  expect_identical(res, list(make_call("a"), make_call("b")))
+})

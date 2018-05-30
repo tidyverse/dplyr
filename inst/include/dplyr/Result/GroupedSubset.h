@@ -1,8 +1,6 @@
 #ifndef dplyr_GroupedSubset_H
 #define dplyr_GroupedSubset_H
 
-#include <tools/ShrinkableVector.h>
-
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/SummarisedVariable.h>
 #include <dplyr/Result/GroupedSubsetBase.h>
@@ -68,11 +66,18 @@ template <int RTYPE>
 class GroupedSubsetTemplate : public GroupedSubset {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-  GroupedSubsetTemplate(SEXP x, int max_size) :
-    object(x), output(max_size, object), start(Rcpp::internal::r_vector_start<RTYPE>(object)) {}
+  GroupedSubsetTemplate(SEXP x) :
+    object(x),
+    start(Rcpp::internal::r_vector_start<RTYPE>(object))
+  {}
 
   virtual SEXP get(const SlicingIndex& indices) {
-    output.borrow(indices, start);
+    int n = indices.size();
+    Vector<RTYPE> output = no_init(n);
+    copy_most_attributes(output, object);
+    for (int i = 0; i < n; i++) {
+      output[i] = start[indices[i]];
+    }
     return output;
   }
   virtual SEXP get_variable() const {
@@ -84,7 +89,6 @@ public:
 
 private:
   SEXP object;
-  ShrinkableVector<RTYPE> output;
   STORAGE* start;
 };
 
@@ -109,27 +113,27 @@ private:
   DataFrameSubsetVisitors visitors;
 };
 
-inline GroupedSubset* grouped_subset(SEXP x, int max_size) {
+inline GroupedSubset* grouped_subset(SEXP x) {
   switch (TYPEOF(x)) {
   case INTSXP:
-    return new GroupedSubsetTemplate<INTSXP>(x, max_size);
+    return new GroupedSubsetTemplate<INTSXP>(x);
   case REALSXP:
-    return new GroupedSubsetTemplate<REALSXP>(x, max_size);
+    return new GroupedSubsetTemplate<REALSXP>(x);
   case LGLSXP:
-    return new GroupedSubsetTemplate<LGLSXP>(x, max_size);
+    return new GroupedSubsetTemplate<LGLSXP>(x);
   case STRSXP:
-    return new GroupedSubsetTemplate<STRSXP>(x, max_size);
+    return new GroupedSubsetTemplate<STRSXP>(x);
   case VECSXP:
     if (Rf_inherits(x, "data.frame"))
       return new DataFrameGroupedSubset(x);
     if (Rf_inherits(x, "POSIXlt")) {
       stop("POSIXlt not supported");
     }
-    return new GroupedSubsetTemplate<VECSXP>(x, max_size);
+    return new GroupedSubsetTemplate<VECSXP>(x);
   case CPLXSXP:
-    return new GroupedSubsetTemplate<CPLXSXP>(x, max_size);
+    return new GroupedSubsetTemplate<CPLXSXP>(x);
   case RAWSXP:
-    return new GroupedSubsetTemplate<RAWSXP>(x, max_size);
+    return new GroupedSubsetTemplate<RAWSXP>(x);
   default:
     break;
   }

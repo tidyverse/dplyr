@@ -70,10 +70,6 @@ public:
     return nrows();
   }
 
-  inline int max_group_size() const {
-    return 1;
-  }
-
   inline subset* create_subset(SEXP x) const {
     return rowwise_subset(x);
   }
