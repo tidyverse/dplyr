@@ -484,8 +484,16 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
 
 namespace dplyr {
 
-SEXP check_grouped(SEXP data) {
+SEXP check_grouped(RObject data) {
   static SEXP groups_symbol = Rf_install("groups");
+  static SEXP vars_symbol = Rf_install("vars");
+
+  // compat with old style grouped data frames
+  SEXP vars = Rf_getAttrib(data, vars_symbol);
+  if (!Rf_isNull(vars)) {
+    DataFrame groups = build_index_cpp(data, SymbolVector(vars));
+    data.attr("groups") = groups;
+  }
 
   // get the groups attribute and check for consistency
   SEXP groups = Rf_getAttrib(data, groups_symbol);
