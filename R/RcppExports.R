@@ -70,10 +70,6 @@ combine_all <- function(data) {
     .Call(`_dplyr_combine_all`, data)
 }
 
-combine_vars <- function(vars, xs) {
-    .Call(`_dplyr_combine_vars`, vars, xs)
-}
-
 distinct_impl <- function(df, vars, keep) {
     .Call(`_dplyr_distinct_impl`, df, vars, keep)
 }
