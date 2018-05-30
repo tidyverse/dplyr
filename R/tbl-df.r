@@ -178,8 +178,8 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
 #' @export
 #' @rdname join.tbl_df
-nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, name = "data", ...) {
-  name_var <- quo_name(enexpr(name))
+nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, name = NULL, ...) {
+  name_var <- name %||% quo_name(enexpr(y))
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
   by <- common_by(by, x, y)

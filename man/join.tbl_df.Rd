@@ -12,14 +12,13 @@
 \alias{anti_join.tbl_df}
 \title{Join data frame tbls}
 \usage{
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE,
-  name = "data", ...)
+\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, name, ...)
 
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
-\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, name = "data",
+\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, name = NULL,
   ...)
 
 \method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
@@ -58,7 +57,7 @@ and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
 
-\item{name}{for \code{nest_join()} the name of the list column created.}
+\item{name}{the name of the list column nesting joins create. If \code{NULL} the name of \code{y} is used.}
 
 \item{...}{included for compatibility with the generic; otherwise ignored.}
 

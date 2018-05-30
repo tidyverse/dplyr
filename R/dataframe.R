@@ -145,7 +145,7 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname join.tbl_df
-nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, name = "data", ... ) {
+nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, name, ... ) {
   as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ..., name = name))
 }
 
