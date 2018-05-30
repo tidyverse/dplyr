@@ -147,7 +147,6 @@ public:
     gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_), name(name_)
   {
     if (first_non_na < gdf.ngroups()) {
-      perhaps_duplicate(first);
       grab(first, indices);
     }
 
@@ -165,26 +164,12 @@ public:
     for (; i < ngroups; i++, ++git) {
       const Index& indices = *git;
       List subset(proxy.get(indices));
-      perhaps_duplicate(subset);
       grab(subset, indices);
     }
     return data;
   }
 
 private:
-
-  inline void perhaps_duplicate(List& x) {
-    int n = x.size();
-    for (int i = 0; i < n; i++) {
-      SEXP xi = x[i];
-      if (IS_DPLYR_SHRINKABLE_VECTOR(xi)) {
-        x[i] = Rf_duplicate(xi);
-      } else if (TYPEOF(xi) == VECSXP) {
-        List lxi(xi);
-        perhaps_duplicate(lxi);
-      }
-    }
-  }
 
   inline void grab(const List& subset, const Index& indices) {
     int n = subset.size();

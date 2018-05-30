@@ -14,18 +14,14 @@ class RowwiseSubsetTemplate : public RowwiseSubset {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
   RowwiseSubsetTemplate(SEXP x) :
-    object(x), output(1), start(Rcpp::internal::r_vector_start<RTYPE>(object))
-  {
-    copy_most_attributes(output, x);
-    SET_DPLYR_SHRINKABLE_VECTOR((SEXP)output);
-  }
+    object(x), start(Rcpp::internal::r_vector_start<RTYPE>(object))
+  {}
 
-  ~RowwiseSubsetTemplate() {
-    UNSET_DPLYR_SHRINKABLE_VECTOR((SEXP)output);
-  }
+  ~RowwiseSubsetTemplate() {}
 
   virtual SEXP get(const SlicingIndex& indices) {
-    output[0] = start[ indices.group() ];
+    Vector<RTYPE> output(1, start[indices.group()]);
+    copy_most_attributes(output, object);
     return output;
   }
   virtual SEXP get_variable() const {
@@ -37,7 +33,6 @@ public:
 
 private:
   SEXP object;
-  Vector<RTYPE> output;
   STORAGE* start;
 };
 
