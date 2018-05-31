@@ -376,56 +376,9 @@ SEXP GroupedHybridEnv::HybridCallbackWeakProxy::get_subset(const SymbolString& n
 }
 
 GroupedHybridCall::GroupedHybridCall(const Call& call_, const ILazySubsets& subsets_, const Environment& env_) :
-  original_call(call_), subsets(subsets_), env(env_)
+  call(call_), subsets(subsets_), env(env_)
 {
   LOG_VERBOSE;
-}
-
-// FIXME: replace the search & replace logic with overscoping
-Call GroupedHybridCall::simplify(const SlicingIndex& indices) const {
-  set_indices(indices);
-  Call call = clone(original_call);
-  while (simplified(call)) {}
-  clear_indices();
-  return call;
-}
-
-bool GroupedHybridCall::simplified(Call& call) const {
-  LOG_VERBOSE;
-  // initial
-  if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
-    boost::scoped_ptr<Result> res(get_handler(call, subsets, env));
-    if (res) {
-      // replace the call by the result of process
-      call = res->process(get_indices());
-
-      // no need to go any further, we simplified the top level
-      return true;
-    }
-    if (TYPEOF(call) == LANGSXP)
-      return replace(CDR(call));
-  }
-  return false;
-}
-
-bool GroupedHybridCall::replace(SEXP p) const {
-  LOG_VERBOSE;
-  SEXP obj = CAR(p);
-  if (TYPEOF(obj) == LANGSXP) {
-    boost::scoped_ptr<Result> res(get_handler(obj, subsets, env));
-    if (res) {
-      SETCAR(p, res->process(get_indices()));
-      return true;
-    }
-
-    if (replace(CDR(obj))) return true;
-  }
-
-  if (TYPEOF(p) == LISTSXP) {
-    return replace(CDR(p));
-  }
-
-  return false;
 }
 
 const SlicingIndex& GroupedHybridCall::get_indices() const {
@@ -474,7 +427,7 @@ void GroupedHybridEval::clear_indices() {
 }
 
 SEXP GroupedHybridEval::eval_with_indices() {
-  Call call = hybrid_call.simplify(get_indices());
+  Call call = hybrid_call.get_call() ;
   LOG_INFO << type2name(call);
 
   if (TYPEOF(call) == LANGSXP || TYPEOF(call) == SYMSXP) {
