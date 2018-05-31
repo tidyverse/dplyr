@@ -22,6 +22,18 @@
 - `mutate()` removes a column when the expression evaluates to `NULL` for all groups (#2945).
 - `last_col()` is re-exported from tidyselect (#3584).
 - `summarise_at()` excludes the grouping variables (#3613). 
+- experimental functions `nest_by()`, `nest_by_at()` and `nest_by_if`. `nest_by_*` is equivalent to `group_by_*` +  `tidyr::unnest()`
+
+    ```r
+    starwars %>%
+      nest_by(species, homeworld)
+    
+    starwars %>%
+      nest_by_at(vars(ends_with("_color")))
+    
+    starwars %>%
+      nest_by_if(is.numeric)
+    ```
 
 # dplyr 0.7.5.9001
 
