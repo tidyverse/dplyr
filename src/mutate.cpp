@@ -33,6 +33,8 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
   }
 }
 
+namespace dplyr {
+
 template <int RTYPE>
 class ConstantRecycler {
 public:
@@ -42,7 +44,7 @@ public:
   {}
 
   inline SEXP collect() {
-    Vector<RTYPE> result(n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0] );
+    Vector<RTYPE> result(n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0]);
     copy_most_attributes(result, constant);
     return result;
   }
@@ -56,7 +58,7 @@ private:
 template <typename Data, typename Subsets>
 class MutateCallProxy {
 public:
-  MutateCallProxy( const Data& data_, const Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_) :
+  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_) :
     data(data_),
     subsets(subsets_),
     expr(expr_),
@@ -65,7 +67,7 @@ public:
   {}
 
 
-  SEXP get() const {
+  SEXP get() {
 
     // literal NULL
     if (Rf_isNull(expr)) {
@@ -95,7 +97,7 @@ private:
   const Data& data ;
 
   // where to find subsets of data variables
-  const Subsets& subsets ;
+  Subsets& subsets ;
 
   // expression and environment from the quosure
   SEXP expr ;
@@ -141,15 +143,9 @@ private:
   }
 
 
-  SEXP evaluate() const {
+  SEXP evaluate() {
 
     const int ng = data.ngroups();
-    if (ng == 0) {
-      // return constant_gatherer(proxy.get(NaturalSlicingIndex()), 0, name);
-
-      // TODO; need to evaluate the expression with empty index
-      return mutate_constant_recycle(Rf_ScalarLogical(NA_LOGICAL));
-    }
 
     typename Data::group_iterator git = data.group_begin();
     typename Data::slicing_index indices = *git;
@@ -195,13 +191,45 @@ private:
 
 
 public:
-  SEXP get( const Index& indices ) const {
+
+  SEXP get(const Index& indices) {
+    subsets.clear();
+
+    XPtr< MutateCallProxy > p(this, false);
+    XPtr< const Index > idx(&indices, false) ;
+    List payload = List::create(p, idx);
+
+    CharacterVector names = subsets.get_variable_names().get_vector() ;
+
+    // Environment::new_child() performs an R callback, creating the environment
+    // in R should be slightly faster
+    Environment mask_active = bindrcpp::create_env_string_wrapped(
+                                names, &MutateCallProxy<GroupedDataFrame, LazyGroupedSubsets>::get_callback, payload, env
+                              );
+
+    // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
+    // call to Rcpp_eval() triggered by mask_active.new_child()
+    Environment mask_bottom = mask_active.new_child(true);
+    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
+
+    // Install definitions for formula self-evaluation and unguarding
+    Environment overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_active, env);
+
     // evaluate the call with the indices
-    return IntegerVector( indices.size(), indices.group() ) ;
+    return Rcpp_eval(expr, overscope);
   }
+
+  static SEXP get_callback(const String& name, List payload) {
+    XPtr<MutateCallProxy> callback_ = payload[0];
+    XPtr<const Index> index_ = payload[1];
+
+    return callback_->subsets.get(name, *index_);
+  }
+
 
 };
 
+}
 
 template <typename Data, typename Subsets>
 DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
@@ -228,6 +256,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   Subsets subsets(gdf) ;
 
   for (int i = 0; i < nexpr; i++) {
+
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
@@ -245,7 +274,6 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
     subsets.input(name, variable);
     accumulator.set(name, variable);
-
   }
 
   // basic structure of the data frame
@@ -266,6 +294,12 @@ SEXP mutate_impl(DataFrame df, QuosureList dots) {
   if (is<RowwiseDataFrame>(df)) {
     return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots);
   } else if (is<GroupedDataFrame>(df)) {
+
+    GroupedDataFrame gdf(df) ;
+    if (gdf.ngroups() == 0) {
+      return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);
+    }
+
     return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots);
   } else {
     return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);
