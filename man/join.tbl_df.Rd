@@ -13,7 +13,7 @@
 \title{Join data frame tbls}
 \usage{
 \method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE,
-  keep = FALSE, name, ...)
+  keep = FALSE, name = NULL, ...)
 
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), ...,

@@ -21,7 +21,7 @@ full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name, ...)
+nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
@@ -64,7 +64,7 @@ method documentation for details of individual data sources. \code{x} and
 
 
 Currently dplyr supports four types of mutating joins, two types of filtering joins, and
-one type of nesting joins.
+a nesting join.
 
 \strong{Mutating joins} combine variables from the two data.frames:
 
@@ -101,13 +101,13 @@ join will never duplicate rows of \code{x}.}
 matching values in \code{y}, keeping just columns from \code{x}.}
 }
 
-\strong{Nesting joins} nest columns from the right-hand data.frame:
+\strong{Nesting joins} create a list column of data.frames:
 
 \describe{
 \item{\code{nest_join()}}{return all rows and all columns from \code{x}. Adds a
-list column of tibbles that contain the rows of \code{y} that match the rows of \code{x}.
-When there is no match, the list column is a 0-row tibble with the same
-column names and types as \code{y}.
+list column of tibbles. Each tibble contains all the rows from \code{y}
+that match that row of \code{x}. When there is no match, the list column is
+a 0-row tibble with the same column names and types as \code{y}.
 
 \code{nest_join()} is the most fundamental join since you can recreate the other joins from it.
 An \code{inner_join()} is a \code{nest_join()} plus an \code{\link[tidyr:unnest]{tidyr::unnest()}}, and \code{left_join()} is a

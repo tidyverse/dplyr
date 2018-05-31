@@ -8,7 +8,7 @@
 #' @section Join types:
 #'
 #' Currently dplyr supports four types of mutating joins, two types of filtering joins, and
-#' one type of nesting joins.
+#' a nesting join.
 #'
 #' \strong{Mutating joins} combine variables from the two data.frames:
 #'
@@ -46,13 +46,13 @@
 #'    matching values in `y`, keeping just columns from `x`.}
 #' }
 #'
-#' \strong{Nesting joins} nest columns from the right-hand data.frame:
+#' \strong{Nesting joins} create a list column of data.frames:
 #'
 #' \describe{
 #'    \item{`nest_join()`}{return all rows and all columns from `x`. Adds a
-#'    list column of tibbles that contain the rows of `y` that match the rows of `x`.
-#'    When there is no match, the list column is a 0-row tibble with the same
-#'    column names and types as `y`.
+#'    list column of tibbles. Each tibble contains all the rows from `y`
+#'    that match that row of `x`. When there is no match, the list column is
+#'    a 0-row tibble with the same column names and types as `y`.
 #'
 #'    `nest_join()` is the most fundamental join since you can recreate the other joins from it.
 #'    An `inner_join()` is a `nest_join()` plus an [tidyr::unnest()], and `left_join()` is a
@@ -144,7 +144,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
-nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name, ...) {
+nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   UseMethod("nest_join")
 }
 
