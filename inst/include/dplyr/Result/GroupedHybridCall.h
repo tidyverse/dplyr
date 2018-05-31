@@ -78,20 +78,17 @@ class GroupedHybridCall {
 public:
   GroupedHybridCall(const Call& call_, const ILazySubsets& subsets_, const Environment& env_);
 
-public:
-  Call simplify(const SlicingIndex& indices) const;
+  Call get_call() const {
+    return call ;
+  }
 
 private:
-  bool simplified(Call& call) const;
-  bool replace(SEXP p) const;
-
   const SlicingIndex& get_indices() const;
   void set_indices(const SlicingIndex& indices_) const;
   void clear_indices() const;
 
-private:
   // Initialization
-  const Call original_call;
+  const Call call;
   const ILazySubsets& subsets;
   const Environment env;
 
