@@ -21,7 +21,7 @@ full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-nest_join(x, y, by = NULL, copy = FALSE, name, ...)
+nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name, ...)
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
@@ -49,6 +49,8 @@ Should be a character vector of length 2.}
 
 \item{...}{other parameters passed onto methods, for instance, \code{na_matches}
 to control how \code{NA} values are matched.  See \link{join.tbl_df} for more.}
+
+\item{keep}{If \code{TRUE} the by columns are kept in the nesting joins.}
 
 \item{name}{the name of the list column nesting joins create. If \code{NULL} the name of \code{y} is used.}
 }

@@ -178,7 +178,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 
 #' @export
 #' @rdname join.tbl_df
-nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, name = NULL, ...) {
+nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% quo_name(enexpr(y))
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
@@ -190,6 +190,9 @@ nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, name = NULL, ...) {
   by_x <- vars$idx$x$by
   by_y <- vars$idx$y$by
   aux_y <- vars$idx$y$aux
+  if (keep) {
+    aux_y <- c(by_y, aux_y)
+  }
 
   out <- nest_join_impl(x, y, by_x, by_y, aux_y, name_var)
   out

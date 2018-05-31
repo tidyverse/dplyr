@@ -85,6 +85,7 @@
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
 #' @param name the name of the list column nesting joins create. If `NULL` the name of `y` is used.
+#' @param keep If `TRUE` the by columns are kept in the nesting joins.
 #' @param ... other parameters passed onto methods, for instance, `na_matches`
 #'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
 #' @name join
@@ -143,7 +144,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
-nest_join <- function(x, y, by = NULL, copy = FALSE, name, ...) {
+nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name, ...) {
   UseMethod("nest_join")
 }
 

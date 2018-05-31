@@ -12,14 +12,15 @@
 \alias{anti_join.tbl_df}
 \title{Join data frame tbls}
 \usage{
-\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE, name, ...)
+\method{nest_join}{data.frame}(x, y, by = NULL, copy = FALSE,
+  keep = FALSE, name, ...)
 
 \method{inner_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
-\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, name = NULL,
-  ...)
+\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, keep = FALSE,
+  name = NULL, ...)
 
 \method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
   ".y"), ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
@@ -56,6 +57,8 @@ For example, \code{by = c("a" = "b")} will match \code{x.a} to
 and \code{copy} is \code{TRUE}, then \code{y} will be copied into the
 same src as \code{x}.  This allows you to join tables across srcs, but
 it is a potentially expensive operation so you must opt into it.}
+
+\item{keep}{If \code{TRUE} the by columns are kept in the nesting joins.}
 
 \item{name}{the name of the list column nesting joins create. If \code{NULL} the name of \code{y} is used.}
 
