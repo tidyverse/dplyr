@@ -15,12 +15,12 @@ nest_by_if(.data, ..., .key = "data")
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Variables to nest by. \code{nest_by} passes them to \code{\link[=group_by]{group_by()}}, \code{nest_by_at} passes them to \code{\link[=group_by_at]{group_by_at()}} and \code{nest_by_if} passes them to \code{\link[=group_by_if]{group_by_if()}}}
+\item{...}{Variables to nest by. \code{nest_by} passes them to \code{\link[=group_by]{group_by()}}, \code{nest_by_at} passes them to \code{\link[=group_by_at]{group_by_at()}} and \code{nest_by_if()} passes them to \code{\link[=group_by_if]{group_by_if()}}}
 
 \item{.key}{the name of the list column}
 }
 \value{
-a tbl with one row per unique combination of the grouping variables. The first columns are the grouping variables,
+A tbl with one row per unique combination of the grouping variables. The first columns are the grouping variables,
 followed by a list column of tibbles with matching rows of the remaining columns.
 }
 \description{

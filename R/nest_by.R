@@ -15,12 +15,13 @@ nest_by_impl <- function(.data, key_var){
 #' Conceptually, `nest_by` is the same as `group_by()` + `tidyr::nest()`.
 #'
 #' @param .data a tbl
-#' @param ... Variables to nest by. `nest_by` passes them to [group_by()], `nest_by_at` passes them to [group_by_at()] and `nest_by_if` passes them to [group_by_if()]
+#' @param ... Variables to nest by. `nest_by` passes them to [group_by()], `nest_by_at` passes them to [group_by_at()] and `nest_by_if()` passes them to [group_by_if()]
 #' @param .key the name of the list column
 #'
-#' @return a tbl with one row per unique combination of the grouping variables. The first columns are the grouping variables,
+#' @return A tbl with one row per unique combination of the grouping variables. The first columns are the grouping variables,
 #' followed by a list column of tibbles with matching rows of the remaining columns.
 #'
+#' @keyword internal
 #' @examples
 #' starwars %>%
 #'   nest_by(species, homeworld)
