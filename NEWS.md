@@ -1,28 +1,69 @@
-- `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
-- `sample_n()` and `sample_frac()` can use `n()` (#3527).
-- `sample_n()` and `sample_frac()` handle lazy grouped data frames (#3380).
-- Added scoped variants for `distinct()`: `distinct_at()`, `distinct_if()`, `distinct_all()` (#2948).
-- `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux).
-- Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
-- Add documentation example for moving variable to back in `?select` (#3051).
-- `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
-- `group_by()` respects levels of factors and keeps empty groups (#341). 
-- `filter()`  gains a `.preserve` argument to control which groups it should keep. 
-- The grouping metadata of grouped data frame has been reorganized in a single tidy tibble (#3489). 
-- new function `group_data()` to extract the grouping structure (#3489).
-- new function `group_rows()` to get a list of row indices for each group (#3489).
-- `first()` and `last()` hybrid functions fall back to R evaluation when given no arguments (#3589). 
-- new function `rows()` to get a list of row indices for each group (#3489).
-- new method `rows()` to get a list of row indices for each group (#3489).
-- new method `group_data()` (#3489).
-- joins no longer make lazy grouped data (#3566). 
-- new `nest_join()` function. `nest_join()` creates a list column of the matching rows. `nest_join()` + `tidyr::unnest()` is equivalent to `inner_join`  (#3570). 
-- `last_col()` is re-exported from tidyselect (#3584). 
-- hybrid version of `sum(na.rm = FALSE)` exits early when there are missing values. This considerably improves performance when there are missing values early in the vector (#3288). 
-- `mutate()` removes a column when the expression evaluates to `NULL` for all groups (#2945).
-- `last_col()` is re-exported from tidyselect (#3584).
-- `summarise_at()` excludes the grouping variables (#3613). 
-- experimental functions `nest_by()`, `nest_by_at()` and `nest_by_if`. `nest_by_*` is equivalent to `group_by_*` +  `tidyr::unnest()`
+
+# dplyr 0.7.5.9000
+To be released as 0.8.0
+
+* `group_by()` respects levels of factors and keeps empty groups (#341). 
+
+    ```r
+    # 3 groups
+    tibble(
+      x = 1:2, 
+      f = factor(c("a", "b"), levels = c("a", "b", "c"))
+    ) %>% 
+      group_by(f)
+      
+    # the order of the grouping variables matter
+    df <- tibble(
+      x = c(1,2,1,2), 
+      f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
+    )
+    df %>% group_by(f, x)
+    df %>% group_by(x, f)
+    ```
+
+* `filter()`  gains a `.preserve` argument to control which groups it should keep. The default 
+  `filter(.preserve = TRUE)` preserves the grouping structure of the input tbl, and `filter(.preserve = FALSE)`
+  recalculates the groups at the end. 
+  
+  
+    ```r
+    df <- tibble(
+      x = c(1,2,1,2), 
+      f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
+    ) %>% 
+      group_by(x, f)
+    
+    df %>% filter(x == 1)
+    df %>% filter(x == 1, .preserve = FALSE)
+    ```
+
+* The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed
+  with the new `group_data()` function. The grouping tibble consists of one column per grouping variable, 
+  followed by a list column of the (1-based) indices of the groups. The new `group_rows()` function retrieves
+  that list of indices (#3489). 
+  
+    ```r
+    # the grouping metadata, as a tibble
+    group_by(starwars, homeworld) %>% 
+      group_data()
+    
+    # the indicers
+    group_by(starwars, homeworld) %>% 
+      group_data() %>% 
+      pull(.rows)
+      
+    group_by(starwars, homeworld) %>% 
+      group_rows()
+    ```
+
+* New `nest_join()` function. `nest_join()` creates a list column of the matching rows. `nest_join()` + `tidyr::unnest()` is equivalent to `inner_join`  (#3570). 
+
+    ```r
+    band_members %>% 
+      nest_join(band_instruments)
+    ```
+
+* Experimental functions `nest_by()`, `nest_by_at()` and `nest_by_if`. `nest_by_*` is equivalent to `group_by_*` +  `tidyr::unnest()`
 
     ```r
     starwars %>%
@@ -35,7 +76,17 @@
       nest_by_if(is.numeric)
     ```
 
-# dplyr 0.7.5.9001
+* `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
+
+* `sample_n()` and `sample_frac()` can use `n()` (#3527)
+
+* Scoped variants for `distinct()`: `distinct_at()`, `distinct_if()`, `distinct_all()` (#2948).
+
+* `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux).
+
+* Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
+
+* Add documentation example for moving variable to back in `?select` (#3051).
 
 * `group_indices()` can be used without argument in expressions in verbs (#1185).
 
@@ -45,22 +96,19 @@
 
 * Faster hybrid `sum()`, `mean()`, `var()` and `sd()` for logical vectors (#3189).
 
+* Hybrid version of `sum(na.rm = FALSE)` exits early when there are missing values. This considerably improves performance when there are missing values early in the vector (#3288). 
 
-# dplyr 0.7.5.9000 (2018-05-02)
+* `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
 
-* `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
+* `first()` and `last()` hybrid functions fall back to R evaluation when given no arguments (#3589). 
 
-* `sample_n()` and `sample_frac()` can use `n()` (#3527).
+* Joins no longer make lazy grouped data (#3566). 
 
-* `sample_n()` and `sample_frac()` handle lazy grouped data frames (#3380).
+* `last_col()` is re-exported from tidyselect (#3584). 
 
-* Added scoped variants for `distinct()`: `distinct_at()`, `distinct_if()`, `distinct_all()` (#2948).
+* `mutate()` removes a column when the expression evaluates to `NULL` for all groups (#2945).
 
-* `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux).
-
-* Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
-
-* Add documentation example for moving variable to back in `?select` (#3051).
+* `summarise_at()` excludes the grouping variables (#3613). 
 
 # dplyr 0.7.5 (2018-04-14)
 
