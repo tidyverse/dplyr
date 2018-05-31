@@ -40,10 +40,9 @@ inline const char* check_length_message<NaturalDataFrame>() {
 }
 
 
-template <typename Data, typename Subsets>
+template <typename Data, typename Subsets, typename Proxy>
 class GathererImpl : public Gatherer {
 public:
-  typedef GroupedCallProxy<Data, Subsets> Proxy;
   typedef typename Data::slicing_index Index;
 
   GathererImpl(const RObject& first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
@@ -137,10 +136,9 @@ private:
 
 };
 
-template <typename Data, typename Subsets>
+template <typename Data, typename Subsets, typename Proxy>
 class ListGatherer : public Gatherer {
 public:
-  typedef GroupedCallProxy<Data, Subsets> Proxy;
   typedef typename Data::slicing_index Index;
 
   ListGatherer(List first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
@@ -248,12 +246,12 @@ inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
   bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
 }
 
-template <typename Data, typename Subsets>
-inline Gatherer* gatherer_impl(const RObject& first, const typename Data::slicing_index& indices, GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, int i, const SymbolString& name) {
+template <typename Data, typename Subsets, typename Proxy>
+inline Gatherer* gatherer_impl(const RObject& first, const typename Data::slicing_index& indices, Proxy& proxy, const Data& gdf, int i, const SymbolString& name) {
   if (TYPEOF(first) == VECSXP) {
-    return new ListGatherer<Data, Subsets> (List(first), indices, proxy, gdf, i, name);
+    return new ListGatherer<Data, Subsets, Proxy> (List(first), indices, proxy, gdf, i, name);
   } else {
-    return new GathererImpl<Data, Subsets> (first, indices, proxy, gdf, i, name);
+    return new GathererImpl<Data, Subsets, Proxy> (first, indices, proxy, gdf, i, name);
   }
 }
 
@@ -323,7 +321,7 @@ inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gd
     }
   }
 
-  return gatherer_impl<Data, Subsets>(first, indices, proxy, gdf, i, name);
+  return gatherer_impl<Data, Subsets, GroupedCallProxy<Data, Subsets> >(first, indices, proxy, gdf, i, name);
 }
 
 
