@@ -102,7 +102,7 @@ public:
   }
 
   inline operator SEXP() const {
-    return IntegerVector(seq(0, n - 1));
+    return IntegerVector(seq(1, n));
   }
 
 private:

@@ -46,6 +46,10 @@ public:
     return symbol_map.get_names();
   }
 
+  virtual SEXP get_variable(int i) const {
+    return data[i];
+  }
+
   virtual SEXP get_variable(const SymbolString& symbol) const {
     return data[ symbol_map.get(symbol) ];
   }

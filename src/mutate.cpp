@@ -55,6 +55,64 @@ private:
 
 };
 
+template <typename Data, typename Subsets, typename Index>
+class DataMask {
+public:
+  DataMask(const Data& data_, Subsets& subsets_, const Environment& env_):
+    data(data_),
+    subsets(subsets_),
+    env(env_),
+
+    mask_promises(child_env(env)),
+    mask_bottom(child_env(mask_promises))
+  {
+    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
+    overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_promises, env);
+  }
+
+  SEXP eval(SEXP expr, const Index& indices) {
+    subsets.clear();
+
+    CharacterVector names = subsets.get_variable_names().get_vector() ;
+
+    // install promises in the mask_promises environment
+    for (int i=0; i<names.size(); i++){
+      // delayedAssign( names[i], quote(x[i]), mask_promises )
+
+      SEXP col_name = PROTECT(Rf_ScalarString(names[i]));
+      SEXP subset_expr = PROTECT(Rf_lang3( R_BracketSymbol, subsets.get_variable(i), indices ));
+      SEXP delayedAssignCall = PROTECT(Rf_lang5( Rf_install("delayedAssign"), col_name, subset_expr, R_BaseEnv, mask_promises));
+      PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
+
+      UNPROTECT(4);
+    }
+
+    // modify hybrid functions, n(), ...
+    // TODO
+
+    // evaluate the call in the overscope
+    return Rcpp_eval(expr, overscope);
+  }
+
+private:
+  const Data& data ;
+  Subsets& subsets ;
+  const Environment& env ;
+
+  List payload ;
+  Environment mask_promises;
+  Environment mask_bottom;
+  Environment overscope;
+
+  SEXP child_env(SEXP parent){
+    static SEXP newEnvSym = Rf_install("new.env");
+    return Rf_eval(Rf_lang3( newEnvSym, Rf_ScalarLogical(TRUE), parent), R_BaseEnv );
+  }
+
+
+};
+
+
 template <typename Data, typename Subsets>
 class MutateCallProxy {
 public:
@@ -63,9 +121,9 @@ public:
     subsets(subsets_),
     expr(expr_),
     env(env_),
-    name(name_)
+    name(name_),
+    data_mask(data, subsets, env)
   {}
-
 
   SEXP get() {
 
@@ -94,6 +152,8 @@ public:
   }
 
 private:
+  typedef typename Data::slicing_index Index ;
+
   const Data& data ;
 
   // where to find subsets of data variables
@@ -105,7 +165,7 @@ private:
 
   const SymbolString& name ;
 
-  typedef typename Data::slicing_index Index ;
+  DataMask<Data, Subsets, Index> data_mask ;
 
   inline SEXP mutate_constant_recycle(SEXP x) const {
     if (Rf_inherits(x, "POSIXlt")) {
@@ -193,39 +253,8 @@ private:
 public:
 
   SEXP get(const Index& indices) {
-    subsets.clear();
-
-    XPtr< MutateCallProxy > p(this, false);
-    XPtr< const Index > idx(&indices, false) ;
-    List payload = List::create(p, idx);
-
-    CharacterVector names = subsets.get_variable_names().get_vector() ;
-
-    // Environment::new_child() performs an R callback, creating the environment
-    // in R should be slightly faster
-    Environment mask_active = bindrcpp::create_env_string_wrapped(
-                                names, &MutateCallProxy<GroupedDataFrame, LazyGroupedSubsets>::get_callback, payload, env
-                              );
-
-    // If bindr (via bindrcpp) supported the creation of a child environment, we could save the
-    // call to Rcpp_eval() triggered by mask_active.new_child()
-    Environment mask_bottom = mask_active.new_child(true);
-    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
-
-    // Install definitions for formula self-evaluation and unguarding
-    Environment overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_active, env);
-
-    // evaluate the call with the indices
-    return Rcpp_eval(expr, overscope);
+    return data_mask.eval(expr, indices) ;
   }
-
-  static SEXP get_callback(const String& name, List payload) {
-    XPtr<MutateCallProxy> callback_ = payload[0];
-    XPtr<const Index> index_ = payload[1];
-
-    return callback_->subsets.get(name, *index_);
-  }
-
 
 };
 
