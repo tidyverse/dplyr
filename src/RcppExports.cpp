@@ -441,14 +441,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // mutate_impl
-SEXP mutate_impl(DataFrame df, QuosureList dots);
-RcppExport SEXP _dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+SEXP mutate_impl(DataFrame df, QuosureList dots, Environment hybrid_functions);
+RcppExport SEXP _dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP hybrid_functionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots));
+    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots, hybrid_functions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -733,7 +734,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_left_join_impl", (DL_FUNC) &_dplyr_left_join_impl, 7},
     {"_dplyr_right_join_impl", (DL_FUNC) &_dplyr_right_join_impl, 7},
     {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 7},
-    {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 2},
+    {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 3},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
     {"_dplyr_compatible_data_frame_nonames", (DL_FUNC) &_dplyr_compatible_data_frame_nonames, 3},
     {"_dplyr_compatible_data_frame", (DL_FUNC) &_dplyr_compatible_data_frame, 4},

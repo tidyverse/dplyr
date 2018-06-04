@@ -88,7 +88,7 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @export
 mutate.tbl_df <- function(.data, ...) {
   dots <- named_quos(...)
-  mutate_impl(.data, dots)
+  mutate_impl(.data, dots, hybrid_functions(.data))
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {

@@ -140,8 +140,8 @@ full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match) {
     .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match)
 }
 
-mutate_impl <- function(df, dots) {
-    .Call(`_dplyr_mutate_impl`, df, dots)
+mutate_impl <- function(df, dots, hybrid_functions) {
+    .Call(`_dplyr_mutate_impl`, df, dots, hybrid_functions)
 }
 
 select_impl <- function(df, vars) {

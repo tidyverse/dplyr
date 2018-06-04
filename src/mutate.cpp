@@ -58,7 +58,7 @@ private:
 template <typename Data, typename Subsets, typename Index>
 class DataMask {
 public:
-  DataMask(const Data& data_, Subsets& subsets_, const Environment& env_):
+  DataMask(const Data& data_, Subsets& subsets_, const Environment& env_, Environment hybrid_functions_):
     data(data_),
     subsets(subsets_),
     env(env_),
@@ -68,7 +68,8 @@ public:
 
     promises(subsets.size()),
     names(subsets.get_variable_names().get_vector()),
-    hybrids(3)
+    hybrids(4),
+    hybrid_functions(hybrid_functions_)
   {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
     overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_promises, env);
@@ -78,7 +79,9 @@ public:
 
   SEXP eval(SEXP expr, const Index& indices) {
     subsets.clear();
-    update_hybrid_functions(indices);
+
+    hybrid_functions["..group_size"] = indices.size();
+    hybrid_functions["..group_number"] = indices.group() + 1;
 
     if (indices.group() == 0) {
       set_promises(indices);
@@ -98,10 +101,12 @@ private:
   List payload ;
   Environment mask_promises;
   Environment mask_bottom;
+
   Environment overscope;
   std::vector<SEXP> promises;
   CharacterVector names ;
   std::vector<SEXP> hybrids;
+  Environment hybrid_functions;
 
 
   SEXP child_env(SEXP parent) {
@@ -161,103 +166,11 @@ private:
     SETCADDR(code, indices);
   }
 
-  SEXP new_function(SEXP formals, SEXP body, SEXP env) {
-    SEXP function_args = PROTECT(Rf_list2(formals, body));
-    SEXP function_call = PROTECT(Rf_lcons(Rf_install("function"), function_args));
-    SEXP fn = Rf_eval(function_call, R_BaseEnv);
-
-    UNPROTECT(2);
-    return fn;
-  }
-
   void install_hybrid_functions() {
-    install_hybrid_n();
-    install_hybrid_row_number();
-    install_hybrid_group_indices();
-  }
-
-  //------------ hybrid installers
-
-  // n <- function() <group size>
-  void install_hybrid_n() {
-    static SEXP symb_n = Rf_install("n");
-
-    SEXP n_fun = hybrids[0] = PROTECT(new_function(R_NilValue, Rf_ScalarInteger(NA_INTEGER), R_EmptyEnv));
-    Rf_defineVar(symb_n, n_fun, mask_bottom) ;
-    UNPROTECT(1);
-  }
-
-  // row_number <- function(x) if(missing(x)) seq_len(<group size>) else rank(x, ties.method = "first", na.last = "keep")
-  void install_hybrid_row_number() {
-    static SEXP symb_row_number = Rf_install("row_number");
-    static SEXP symb_x = Rf_install("x");
-    static SEXP symb_missing = Rf_install("missing");
-
-    SEXP formals = PROTECT(pairlist(_["x"] = R_MissingArg));
-
-    SEXP body = PROTECT(
-                  Rf_lang4(
-                    Rf_install("if"),
-                    Rf_lang2(symb_missing, symb_x),
-                    Language("seq_len", 3),
-                    Language("rank", symb_x, _["ties.method"] = "first", _["na.last"] = "keep")
-                  )
-                );
-
-    SEXP fun = hybrids[1] = PROTECT(new_function(formals, body, R_BaseEnv));
-    UNPROTECT(3);
-
-    Rf_defineVar(symb_row_number, fun, mask_bottom);
-  }
-
-  // group_indices <- function(.data, ...) if(missing(.data)) rep(<group index>, <group_size>) else dplyr::group_indices(.data, ...)
-  void install_hybrid_group_indices() {
-    static SEXP symb_group_indices = Rf_install("group_indices");
-    static SEXP symb_dot_data = Rf_install(".data");
-    static SEXP symb_missing = Rf_install("missing");
-
-    SEXP formals = PROTECT(pairlist(_[".data"] = R_MissingArg,  _["..."] = R_MissingArg));
-
-    SEXP body = PROTECT(
-                  Rf_lang4(
-                    Rf_install("if"),
-                    Rf_lang2(symb_missing, symb_dot_data),
-                    Language("rep", 1, 2),
-                    Rf_lang3(
-                      Rf_lang3(R_DoubleColonSymbol, Rf_install("dplyr"), symb_group_indices),
-                      symb_dot_data,
-                      R_DotsSymbol
-                    )
-                  )
-                );
-
-    SEXP fun = hybrids[2] = PROTECT(new_function(formals, body, R_BaseEnv));
-    UNPROTECT(3);
-
-    Rf_defineVar(symb_group_indices, fun, mask_bottom);
-  }
-
-
-  // ----------- hybrid updaters
-  void update_hybrid_functions(const Index& indices) {
-    update_hybrid_n(indices);
-    update_hybrid_row_number(indices);
-    update_hybrid_group_indices(indices);
-  }
-
-  void update_hybrid_n(const Index& indices) {
-    INTEGER(BODY(hybrids[0]))[0] = indices.size();
-  }
-
-  void update_hybrid_row_number(const Index& indices) {
-    INTEGER(CADR(CADDR(BODY(hybrids[1]))))[0] = indices.size();
-  }
-
-  void update_hybrid_group_indices(const Index& indices) {
-    SEXP body = BODY(hybrids[2]);
-    SEXP rep_call = CADDR(body);
-    INTEGER(CADR(rep_call))[0] = indices.group() + 1;
-    INTEGER(CADDR(rep_call))[0] = indices.size();
+    mask_bottom["n"] = (SEXP)hybrid_functions["n"];
+    mask_bottom["row_number"] = (SEXP)hybrid_functions["row_number"];
+    mask_bottom["group_indices"] = (SEXP)hybrid_functions["group_indices"];
+    mask_bottom["ntile"] = (SEXP)hybrid_functions["ntile"];
   }
 
 };
@@ -278,13 +191,13 @@ void DataMask<RowwiseDataFrame, LazyRowwiseSubsets, RowwiseDataFrame::slicing_in
 template <typename Data, typename Subsets>
 class MutateCallProxy {
 public:
-  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_) :
+  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_, const Environment& hybrid_functions) :
     data(data_),
     subsets(subsets_),
     expr(expr_),
     env(env_),
     name(name_),
-    data_mask(data, subsets, env)
+    data_mask(data, subsets, env, hybrid_functions)
   {}
 
   SEXP get() {
@@ -423,7 +336,7 @@ public:
 }
 
 template <typename Data, typename Subsets>
-DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, const Environment& hybrid_functions) {
   LOG_VERBOSE << "initializing proxy";
 
   typedef GroupedCallProxy<Data, Subsets> Proxy;
@@ -452,7 +365,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
 
-    RObject variable = MutateCallProxy<Data, Subsets>(gdf, subsets, quosure.expr(), quosure.env(), name).get() ;
+    RObject variable = MutateCallProxy<Data, Subsets>(gdf, subsets, quosure.expr(), quosure.env(), name, hybrid_functions).get() ;
 
     if (Rf_isNull(variable)) {
       accumulator.rm(name);
@@ -479,22 +392,22 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl(DataFrame df, QuosureList dots) {
+SEXP mutate_impl(DataFrame df, QuosureList dots, Environment hybrid_functions) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots);
+    return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots, hybrid_functions);
   } else if (is<GroupedDataFrame>(df)) {
 
     GroupedDataFrame gdf(df);
     if (gdf.ngroups() == 0) {
-      DataFrame res = mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);
+      DataFrame res = mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots, hybrid_functions);
       res.attr("groups") = df.attr("groups");
       return res;
     }
 
-    return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots);
+    return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots, hybrid_functions);
   } else {
-    return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);
+    return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots, hybrid_functions);
   }
 }
