@@ -67,7 +67,7 @@ public:
   }
 
   inline operator SEXP() const {
-    return Rf_ScalarInteger(start);
+    return Rf_ScalarInteger(start + 1);
   }
 
 private:
@@ -102,7 +102,11 @@ public:
   }
 
   inline operator SEXP() const {
-    return IntegerVector(seq(1, n));
+    if (n == 0) {
+      return IntegerVector(0);
+    } else {
+      return IntegerVector(seq(1, n));
+    }
   }
 
 private:

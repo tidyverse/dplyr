@@ -86,8 +86,6 @@ public:
       update_promises(indices);
     }
 
-    // modify hybrid functions, n(), ...
-
     // evaluate the call in the overscope
     return Rcpp_eval(expr, overscope);
   }
@@ -106,20 +104,19 @@ private:
   std::vector<SEXP> hybrids;
 
 
-  SEXP child_env(SEXP parent){
+  SEXP child_env(SEXP parent) {
     static SEXP symb_new_env = Rf_install("new.env");
-    return Rf_eval(Rf_lang3( symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv );
+    return Rf_eval(Rf_lang3(symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
   }
 
   void set_promises(const Index& indices) {
-    static SEXP symbol_column = Rf_install("column");
-    for (int i=0; i<names.size(); i++){
+    for (int i = 0; i < names.size(); i++) {
       install_promise(i, indices);
     }
   }
 
   void update_promises(const Index& indices) {
-    for (int i=0; i<names.size(); i++){
+    for (int i = 0; i < names.size(); i++) {
       SEXP p = promises[i];
       // in any case it is a promise
 
@@ -138,12 +135,11 @@ private:
   }
 
   // delayedAssign( {column_name}, x[i], baseenv(), mask_promises )
-  void delayedAssign(SEXP name, SEXP variable, SEXP indices){
-    static SEXP symb_delayedAssign = Rf_install("delayedAssign");
-
+  void delayedAssign(SEXP name, SEXP variable, SEXP indices) {
+    SEXP symb_delayedAssign = Rf_install("delayedAssign");
     SEXP col_name = PROTECT(Rf_ScalarString(name));
     SEXP subset_expr = PROTECT(Rf_lang3(R_BracketSymbol, variable, indices));
-    SEXP delayedAssignCall = PROTECT(Rf_lang5( symb_delayedAssign, col_name, subset_expr, R_BaseEnv, mask_promises));
+    SEXP delayedAssignCall = PROTECT(Rf_lang5(symb_delayedAssign, col_name, subset_expr, R_BaseEnv, mask_promises));
     PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
     UNPROTECT(4);
   }
@@ -155,8 +151,9 @@ private:
   void install_promise(int i, const Index& indices) {
     SEXP name = names[i];
     SEXP column = subsets.get_variable(i);
-    delayedAssign( name, column, indices);
-    promises[i] = Rf_findVarInFrame( mask_promises, Rf_installChar(name));
+
+    delayedAssign(name, column, indices);
+    promises[i] = Rf_findVarInFrame(mask_promises, Rf_installChar(name));
   }
 
   void update_promise(SEXP p, const Index& indices) {
@@ -182,7 +179,7 @@ private:
   //------------ hybrid installers
 
   // n <- function() <group size>
-  void install_hybrid_n(){
+  void install_hybrid_n() {
     static SEXP symb_n = Rf_install("n");
 
     SEXP n_fun = hybrids[0] = PROTECT(new_function(R_NilValue, Rf_ScalarInteger(NA_INTEGER), R_EmptyEnv));
@@ -191,21 +188,21 @@ private:
   }
 
   // row_number <- function(x) if(missing(x)) seq_len(<group size>) else rank(x, ties.method = "first", na.last = "keep")
-  void install_hybrid_row_number(){
+  void install_hybrid_row_number() {
     static SEXP symb_row_number = Rf_install("row_number");
     static SEXP symb_x = Rf_install("x");
     static SEXP symb_missing = Rf_install("missing");
 
-    SEXP formals = PROTECT(pairlist( _["x"] = R_MissingArg));
+    SEXP formals = PROTECT(pairlist(_["x"] = R_MissingArg));
 
     SEXP body = PROTECT(
-      Rf_lang4(
-        Rf_install("if"),
-        Rf_lang2( symb_missing, symb_x),
-        Language( "seq_len", 3),
-        Language( "rank", symb_x, _["ties.method"] = "first", _["na.last"] = "keep" )
-      )
-    );
+                  Rf_lang4(
+                    Rf_install("if"),
+                    Rf_lang2(symb_missing, symb_x),
+                    Language("seq_len", 3),
+                    Language("rank", symb_x, _["ties.method"] = "first", _["na.last"] = "keep")
+                  )
+                );
 
     SEXP fun = hybrids[1] = PROTECT(new_function(formals, body, R_BaseEnv));
     UNPROTECT(3);
@@ -214,25 +211,25 @@ private:
   }
 
   // group_indices <- function(.data, ...) if(missing(.data)) rep(<group index>, <group_size>) else dplyr::group_indices(.data, ...)
-  void install_hybrid_group_indices(){
+  void install_hybrid_group_indices() {
     static SEXP symb_group_indices = Rf_install("group_indices");
     static SEXP symb_dot_data = Rf_install(".data");
     static SEXP symb_missing = Rf_install("missing");
 
-    SEXP formals = PROTECT(pairlist( _[".data"] = R_MissingArg,  _["..."] = R_MissingArg));
+    SEXP formals = PROTECT(pairlist(_[".data"] = R_MissingArg,  _["..."] = R_MissingArg));
 
     SEXP body = PROTECT(
-      Rf_lang4(
-        Rf_install("if"),
-        Rf_lang2( symb_missing, symb_dot_data),
-        Language( "rep", 1, 2),
-        Rf_lang3(
-          Rf_lang3(R_DoubleColonSymbol, Rf_install("dplyr"), symb_group_indices),
-          symb_dot_data,
-          R_DotsSymbol
-        )
-      )
-    );
+                  Rf_lang4(
+                    Rf_install("if"),
+                    Rf_lang2(symb_missing, symb_dot_data),
+                    Language("rep", 1, 2),
+                    Rf_lang3(
+                      Rf_lang3(R_DoubleColonSymbol, Rf_install("dplyr"), symb_group_indices),
+                      symb_dot_data,
+                      R_DotsSymbol
+                    )
+                  )
+                );
 
     SEXP fun = hybrids[2] = PROTECT(new_function(formals, body, R_BaseEnv));
     UNPROTECT(3);
@@ -264,6 +261,18 @@ private:
   }
 
 };
+
+template <>
+void DataMask<RowwiseDataFrame, LazyRowwiseSubsets, RowwiseDataFrame::slicing_index>::delayedAssign(SEXP name, SEXP variable, SEXP indices) {
+  SEXP symb_delayedAssign = Rf_install("delayedAssign");
+  SEXP col_name = PROTECT(Rf_ScalarString(name));
+  SEXP subset_expr = PROTECT(Rf_lang3(R_Bracket2Symbol, variable, indices));  // x[[i]] instead of x[i]
+  SEXP delayedAssignCall = PROTECT(Rf_lang5(symb_delayedAssign, col_name, subset_expr, R_BaseEnv, mask_promises));
+  PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
+  UNPROTECT(4);
+}
+
+
 
 
 template <typename Data, typename Subsets>
@@ -477,9 +486,11 @@ SEXP mutate_impl(DataFrame df, QuosureList dots) {
     return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots);
   } else if (is<GroupedDataFrame>(df)) {
 
-    GroupedDataFrame gdf(df) ;
+    GroupedDataFrame gdf(df);
     if (gdf.ngroups() == 0) {
-      return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);
+      DataFrame res = mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots);
+      res.attr("groups") = df.attr("groups");
+      return res;
     }
 
     return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots);
