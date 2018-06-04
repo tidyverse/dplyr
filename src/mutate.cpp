@@ -64,7 +64,10 @@ public:
     env(env_),
 
     mask_promises(child_env(env)),
-    mask_bottom(child_env(mask_promises))
+    mask_bottom(child_env(mask_promises)),
+
+    promises(subsets.size()),
+    names(subsets.get_variable_names().get_vector())
   {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
     overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_promises, env);
@@ -73,18 +76,10 @@ public:
   SEXP eval(SEXP expr, const Index& indices) {
     subsets.clear();
 
-    CharacterVector names = subsets.get_variable_names().get_vector() ;
-
-    // install promises in the mask_promises environment
-    for (int i=0; i<names.size(); i++){
-      // delayedAssign( names[i], quote(x[i]), mask_promises )
-
-      SEXP col_name = PROTECT(Rf_ScalarString(names[i]));
-      SEXP subset_expr = PROTECT(Rf_lang3( R_BracketSymbol, subsets.get_variable(i), indices ));
-      SEXP delayedAssignCall = PROTECT(Rf_lang5( Rf_install("delayedAssign"), col_name, subset_expr, R_BaseEnv, mask_promises));
-      PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
-
-      UNPROTECT(4);
+    if (indices.group() == 0) {
+      set_promises(indices);
+    } else {
+      update_promises(indices);
     }
 
     // modify hybrid functions, n(), ...
@@ -103,10 +98,65 @@ private:
   Environment mask_promises;
   Environment mask_bottom;
   Environment overscope;
+  std::vector<SEXP> promises;
+  CharacterVector names ;
 
   SEXP child_env(SEXP parent){
-    static SEXP newEnvSym = Rf_install("new.env");
-    return Rf_eval(Rf_lang3( newEnvSym, Rf_ScalarLogical(TRUE), parent), R_BaseEnv );
+    static SEXP symb_new_env = Rf_install("new.env");
+    return Rf_eval(Rf_lang3( symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv );
+  }
+
+  void set_promises(const Index& indices) {
+    static SEXP symbol_column = Rf_install("column");
+    for (int i=0; i<names.size(); i++){
+      install_promise(i, indices);
+    }
+  }
+
+  void update_promises(const Index& indices) {
+    for (int i=0; i<names.size(); i++){
+      SEXP p = promises[i];
+      // in any case it is a promise
+
+      if (promise_was_forced(p)) {
+        // it has been evaluated, install a new promise
+        // would maybe be better to do either of:
+        // - reset it to unforced, but SET_PRVALUE(p, R_UnboundValue) does not work
+        // - promote the promise to its value and recalculate it upfront for each group
+        install_promise(i, indices);
+      } else {
+        // otherwise just need to update the expression
+        update_promise(p, indices);
+      }
+
+    }
+  }
+
+  // delayedAssign( {column_name}, x[i], baseenv(), mask_promises )
+  void delayedAssign(SEXP name, SEXP variable, SEXP indices){
+    static SEXP symb_delayedAssign = Rf_install("delayedAssign");
+
+    SEXP col_name = PROTECT(Rf_ScalarString(name));
+    SEXP subset_expr = PROTECT(Rf_lang3(R_BracketSymbol, variable, indices));
+    SEXP delayedAssignCall = PROTECT(Rf_lang5( symb_delayedAssign, col_name, subset_expr, R_BaseEnv, mask_promises));
+    PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
+    UNPROTECT(4);
+  }
+
+  bool promise_was_forced(SEXP p) {
+    return PRVALUE(p) != R_UnboundValue;
+  }
+
+  void install_promise(int i, const Index& indices) {
+    SEXP name = names[i];
+    SEXP column = subsets.get_variable(i);
+    delayedAssign( name, column, indices);
+    promises[i] = Rf_findVarInFrame( mask_promises, Rf_installChar(name));
+  }
+
+  void update_promise(SEXP p, const Index& indices) {
+    SEXP code = PRCODE(p);
+    SETCADDR(code, indices);
   }
 
 
