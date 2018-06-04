@@ -50,3 +50,25 @@ prepend_call <- function(expr, name) {
     call(name, expr)
   }
 }
+
+hybrid_functions <- function(.data){
+  # these are updated internally for each group
+  ..group_size <- NA_integer_
+  ..group_number <- NA_integer_
+
+  # standard R functions using the variables defined above
+  n <- function() ..group_size
+  row_number <- function(x) {
+    if (missing(x)) seq2(1, ..group_size) else dplyr::row_number(x)
+  }
+  group_indices <- function(.data, ...) {
+    if (missing(.data)) rep(..group_number, ..group_size) else dplyr::group_indices(.data, ...)
+  }
+  ntile <- function(x = row_number(), n) dplyr::ntile(x=x, n=n)
+
+  # returning this environment from which we can
+  # - extract the functions n, ...
+  # - update the ..variables
+  environment()
+}
+
