@@ -279,7 +279,6 @@ private:
 
 
   SEXP evaluate() {
-
     const int ng = data.ngroups();
 
     typename Data::group_iterator git = data.group_begin();
@@ -321,7 +320,6 @@ private:
 
     boost::scoped_ptr<Gatherer> g(gatherer_impl<Data, Subsets, MutateCallProxy>(first, indices, const_cast<MutateCallProxy&>(*this), data, i, name)) ;
     return g->collect();
-
   }
 
 
@@ -332,6 +330,27 @@ public:
   }
 
 };
+
+template <>
+SEXP MutateCallProxy<NaturalDataFrame, LazySubsets>::evaluate(){
+  NaturalDataFrame::group_iterator git = data.group_begin();
+  NaturalDataFrame::slicing_index indices = *git;
+
+  RObject first(get(indices));
+
+  if (Rf_inherits(first, "POSIXlt")) {
+    bad_col(name, "is of unsupported class POSIXlt");
+  }
+
+  if (Rf_inherits(first, "data.frame")) {
+    bad_col(name, "is of unsupported class data.frame");
+  }
+
+  check_supported_type(first, name);
+  check_length(Rf_length(first), indices.size(), check_length_message<NaturalDataFrame>(), name);
+
+  return first;
+}
 
 }
 
