@@ -68,7 +68,7 @@ public:
 
     promises(subsets.size()),
     names(subsets.get_variable_names().get_vector()),
-    hybrids(2)
+    hybrids(3)
   {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
     overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_promises, env);
@@ -176,6 +176,7 @@ private:
   void install_hybrid_functions() {
     install_hybrid_n();
     install_hybrid_row_number();
+    install_hybrid_group_indices();
   }
 
   //------------ hybrid installers
@@ -186,9 +187,10 @@ private:
 
     SEXP n_fun = hybrids[0] = PROTECT(new_function(R_NilValue, Rf_ScalarInteger(NA_INTEGER), R_EmptyEnv));
     Rf_defineVar(symb_n, n_fun, mask_bottom) ;
+    UNPROTECT(1);
   }
 
-  // function(x) if(missing(x)) seq_len(<group size>) else rank(x, ties.method = "first", na.last = "keep")
+  // row_number <- function(x) if(missing(x)) seq_len(<group size>) else rank(x, ties.method = "first", na.last = "keep")
   void install_hybrid_row_number(){
     static SEXP symb_row_number = Rf_install("row_number");
     static SEXP symb_x = Rf_install("x");
@@ -206,8 +208,36 @@ private:
     );
 
     SEXP fun = hybrids[1] = PROTECT(new_function(formals, body, R_BaseEnv));
+    UNPROTECT(3);
 
     Rf_defineVar(symb_row_number, fun, mask_bottom);
+  }
+
+  // group_indices <- function(.data, ...) if(missing(.data)) rep(<group index>, <group_size>) else dplyr::group_indices(.data, ...)
+  void install_hybrid_group_indices(){
+    static SEXP symb_group_indices = Rf_install("group_indices");
+    static SEXP symb_dot_data = Rf_install(".data");
+    static SEXP symb_missing = Rf_install("missing");
+
+    SEXP formals = PROTECT(pairlist( _[".data"] = R_MissingArg,  _["..."] = R_MissingArg));
+
+    SEXP body = PROTECT(
+      Rf_lang4(
+        Rf_install("if"),
+        Rf_lang2( symb_missing, symb_dot_data),
+        Language( "rep", 1, 2),
+        Rf_lang3(
+          Rf_lang3(R_DoubleColonSymbol, Rf_install("dplyr"), symb_group_indices),
+          symb_dot_data,
+          R_DotsSymbol
+        )
+      )
+    );
+
+    SEXP fun = hybrids[2] = PROTECT(new_function(formals, body, R_BaseEnv));
+    UNPROTECT(3);
+
+    Rf_defineVar(symb_group_indices, fun, mask_bottom);
   }
 
 
@@ -215,6 +245,7 @@ private:
   void update_hybrid_functions(const Index& indices) {
     update_hybrid_n(indices);
     update_hybrid_row_number(indices);
+    update_hybrid_group_indices(indices);
   }
 
   void update_hybrid_n(const Index& indices) {
@@ -225,7 +256,12 @@ private:
     INTEGER(CADR(CADDR(BODY(hybrids[1]))))[0] = indices.size();
   }
 
-
+  void update_hybrid_group_indices(const Index& indices) {
+    SEXP body = BODY(hybrids[2]);
+    SEXP rep_call = CADDR(body);
+    INTEGER(CADR(rep_call))[0] = indices.group() + 1;
+    INTEGER(CADDR(rep_call))[0] = indices.size();
+  }
 
 };
 
