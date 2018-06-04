@@ -332,7 +332,7 @@ public:
 };
 
 template <>
-SEXP MutateCallProxy<NaturalDataFrame, LazySubsets>::evaluate(){
+SEXP MutateCallProxy<NaturalDataFrame, LazySubsets>::evaluate() {
   NaturalDataFrame::group_iterator git = data.group_begin();
   NaturalDataFrame::slicing_index indices = *git;
 
@@ -349,6 +349,9 @@ SEXP MutateCallProxy<NaturalDataFrame, LazySubsets>::evaluate(){
   check_supported_type(first, name);
   check_length(Rf_length(first), indices.size(), check_length_message<NaturalDataFrame>(), name);
 
+  if (Rf_length(first) == 1 && indices.size() != 1) {
+    return mutate_constant_recycle(first);
+  }
   return first;
 }
 
