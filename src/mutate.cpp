@@ -67,14 +67,18 @@ public:
     mask_bottom(child_env(mask_promises)),
 
     promises(subsets.size()),
-    names(subsets.get_variable_names().get_vector())
+    names(subsets.get_variable_names().get_vector()),
+    hybrids(1)
   {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
     overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_promises, env);
+
+    install_hybrid_functions();
   }
 
   SEXP eval(SEXP expr, const Index& indices) {
     subsets.clear();
+    update_hybrid_functions(indices);
 
     if (indices.group() == 0) {
       set_promises(indices);
@@ -83,7 +87,6 @@ public:
     }
 
     // modify hybrid functions, n(), ...
-    // TODO
 
     // evaluate the call in the overscope
     return Rcpp_eval(expr, overscope);
@@ -100,6 +103,8 @@ private:
   Environment overscope;
   std::vector<SEXP> promises;
   CharacterVector names ;
+  std::vector<SEXP> hybrids;
+
 
   SEXP child_env(SEXP parent){
     static SEXP symb_new_env = Rf_install("new.env");
@@ -157,6 +162,28 @@ private:
   void update_promise(SEXP p, const Index& indices) {
     SEXP code = PRCODE(p);
     SETCADDR(code, indices);
+  }
+
+  SEXP new_function(SEXP formals, SEXP body, SEXP env) {
+    SEXP function_args = PROTECT(Rf_list2(formals, body));
+    SEXP function_call = PROTECT(Rf_lcons(Rf_install("function"), function_args));
+    SEXP fn = Rf_eval(function_call, R_BaseEnv);
+
+    UNPROTECT(2);
+    return fn;
+  }
+
+  void install_hybrid_functions() {
+    static SEXP symb_n = Rf_install("n");
+
+    // n <- function() <integer>
+    SEXP n_fun = hybrids[0] = PROTECT(new_function(R_NilValue, Rf_ScalarInteger(NA_INTEGER), R_EmptyEnv));
+    Rf_defineVar(symb_n, n_fun, mask_bottom) ;
+  }
+
+  void update_hybrid_functions(const Index& indices){
+    // n
+    INTEGER(BODY(hybrids[0]))[0] = indices.size();
   }
 
 
