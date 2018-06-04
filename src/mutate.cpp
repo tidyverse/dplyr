@@ -255,9 +255,9 @@ private:
     case LGLSXP:
       return ConstantRecycler<LGLSXP>(x, n).collect();
     case STRSXP:
-      return ConstantRecycler<REALSXP>(x, n).collect();
-    case CPLXSXP:
       return ConstantRecycler<STRSXP>(x, n).collect();
+    case CPLXSXP:
+      return ConstantRecycler<CPLXSXP>(x, n).collect();
     case VECSXP:
       return ConstantRecycler<VECSXP>(x, n).collect();
     case RAWSXP:
