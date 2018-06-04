@@ -68,7 +68,7 @@ public:
 
     promises(subsets.size()),
     names(subsets.get_variable_names().get_vector()),
-    hybrids(1)
+    hybrids(2)
   {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
     overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_promises, env);
@@ -174,17 +174,57 @@ private:
   }
 
   void install_hybrid_functions() {
+    install_hybrid_n();
+    install_hybrid_row_number();
+  }
+
+  //------------ hybrid installers
+
+  // n <- function() <group size>
+  void install_hybrid_n(){
     static SEXP symb_n = Rf_install("n");
 
-    // n <- function() <integer>
     SEXP n_fun = hybrids[0] = PROTECT(new_function(R_NilValue, Rf_ScalarInteger(NA_INTEGER), R_EmptyEnv));
     Rf_defineVar(symb_n, n_fun, mask_bottom) ;
   }
 
-  void update_hybrid_functions(const Index& indices){
-    // n
+  // function(x) if(missing(x)) seq_len(<group size>) else rank(x, ties.method = "first", na.last = "keep")
+  void install_hybrid_row_number(){
+    static SEXP symb_row_number = Rf_install("row_number");
+    static SEXP symb_x = Rf_install("x");
+    static SEXP symb_missing = Rf_install("missing");
+
+    SEXP formals = PROTECT(pairlist( _["x"] = R_MissingArg));
+
+    SEXP body = PROTECT(
+      Rf_lang4(
+        Rf_install("if"),
+        Rf_lang2( symb_missing, symb_x),
+        Language( "seq_len", 3),
+        Language( "rank", symb_x, _["ties.method"] = "first", _["na.last"] = "keep" )
+      )
+    );
+
+    SEXP fun = hybrids[1] = PROTECT(new_function(formals, body, R_BaseEnv));
+
+    Rf_defineVar(symb_row_number, fun, mask_bottom);
+  }
+
+
+  // ----------- hybrid updaters
+  void update_hybrid_functions(const Index& indices) {
+    update_hybrid_n(indices);
+    update_hybrid_row_number(indices);
+  }
+
+  void update_hybrid_n(const Index& indices) {
     INTEGER(BODY(hybrids[0]))[0] = indices.size();
   }
+
+  void update_hybrid_row_number(const Index& indices) {
+    INTEGER(CADR(CADDR(BODY(hybrids[1]))))[0] = indices.size();
+  }
+
 
 
 };
