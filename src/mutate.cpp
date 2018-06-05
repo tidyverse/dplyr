@@ -37,6 +37,31 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 
 namespace dplyr {
 
+inline SEXP constant_recycle(SEXP x, int n, const SymbolString& name) {
+  if (Rf_inherits(x, "POSIXlt")) {
+    bad_col(name, "is of unsupported class POSIXlt");
+  }
+  switch (TYPEOF(x)) {
+  case INTSXP:
+    return ConstantRecycler<INTSXP>(x, n).collect();
+  case REALSXP:
+    return ConstantRecycler<REALSXP>(x, n).collect();
+  case LGLSXP:
+    return ConstantRecycler<LGLSXP>(x, n).collect();
+  case STRSXP:
+    return ConstantRecycler<STRSXP>(x, n).collect();
+  case CPLXSXP:
+    return ConstantRecycler<CPLXSXP>(x, n).collect();
+  case VECSXP:
+    return ConstantRecycler<VECSXP>(x, n).collect();
+  case RAWSXP:
+    return ConstantRecycler<RAWSXP>(x, n).collect();
+  default:
+    break;
+  }
+  bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
+}
+
 template <typename Data>
 class MutateCallProxy {
 public:
@@ -71,7 +96,7 @@ public:
 
     // a constant
     if (Rf_length(expr) == 1) {
-      return mutate_constant_recycle(expr);
+      return constant_recycle(expr, data.nrows(), name);
     }
 
     // something else
@@ -92,32 +117,6 @@ private:
   const SymbolString& name ;
 
   DataMask<Data> data_mask ;
-
-  inline SEXP mutate_constant_recycle(SEXP x) const {
-    if (Rf_inherits(x, "POSIXlt")) {
-      bad_col(name, "is of unsupported class POSIXlt");
-    }
-    int n = data.nrows();
-    switch (TYPEOF(x)) {
-    case INTSXP:
-      return ConstantRecycler<INTSXP>(x, n).collect();
-    case REALSXP:
-      return ConstantRecycler<REALSXP>(x, n).collect();
-    case LGLSXP:
-      return ConstantRecycler<LGLSXP>(x, n).collect();
-    case STRSXP:
-      return ConstantRecycler<STRSXP>(x, n).collect();
-    case CPLXSXP:
-      return ConstantRecycler<CPLXSXP>(x, n).collect();
-    case VECSXP:
-      return ConstantRecycler<VECSXP>(x, n).collect();
-    case RAWSXP:
-      return ConstantRecycler<RAWSXP>(x, n).collect();
-    default:
-      break;
-    }
-    bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
-  }
 
   SEXP validate_unquoted_value() const {
     int nrows = data.nrows();
@@ -172,7 +171,7 @@ private:
     if (TYPEOF(first) == VECSXP) {
       return ListGatherer<Data, Subsets, MutateCallProxy> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     } else {
-      return GathererImpl<Data, Subsets, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return Gatherer<Data, Subsets, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     }
 
   }
@@ -206,7 +205,7 @@ SEXP MutateCallProxy<NaturalDataFrame>::evaluate() {
   check_length(Rf_length(first), indices.size(), check_length_message<NaturalDataFrame>(), name);
 
   if (Rf_length(first) == 1 && indices.size() != 1) {
-    return mutate_constant_recycle(first);
+    return constant_recycle(first, indices.size(), name);
   }
   return first;
 }

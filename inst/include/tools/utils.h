@@ -28,6 +28,7 @@ SEXP maybe_rhs(SEXP x);
 
 namespace dplyr {
 
+SEXP constant_recycle(SEXP x, int n, const SymbolString& name);
 std::string get_single_class(SEXP x);
 CharacterVector default_chars(SEXP x, R_xlen_t len);
 CharacterVector get_class(SEXP x);

@@ -7,28 +7,12 @@
 
 #include <dplyr/checks.h>
 
-#include <dplyr/Result/GroupedCallProxy.h>
-
 #include <dplyr/vector_class.h>
 #include <dplyr/checks.h>
 #include <dplyr/Collecter.h>
 #include <dplyr/bad.h>
 
 namespace dplyr {
-
-class Gatherer {
-public:
-  virtual ~Gatherer() {}
-  virtual SEXP collect() = 0;
-};
-
-class NullGatherer : public Gatherer {
-public:
-  virtual ~NullGatherer() {}
-  virtual SEXP collect() {
-    return R_NilValue ;
-  }
-};
 
 template <typename Data>
 inline const char* check_length_message() {
@@ -39,13 +23,12 @@ inline const char* check_length_message<NaturalDataFrame>() {
   return "the number of rows";
 }
 
-
 template <typename Data, typename Subsets, typename Proxy>
-class GathererImpl : public Gatherer {
+class Gatherer {
 public:
   typedef typename Data::slicing_index Index;
 
-  GathererImpl(const RObject& first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+  Gatherer(const RObject& first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
     gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
   {
     coll = collecter(first, gdf.nrows());
@@ -53,7 +36,7 @@ public:
       grab(first, indices);
   }
 
-  ~GathererImpl() {
+  ~Gatherer() {
     if (coll != 0) {
       delete coll;
     }
@@ -137,7 +120,7 @@ private:
 };
 
 template <typename Data, typename Subsets, typename Proxy>
-class ListGatherer : public Gatherer {
+class ListGatherer {
 public:
   typedef typename Data::slicing_index Index;
 
@@ -202,49 +185,6 @@ private:
   const SymbolString name;
 
 };
-
-
-template <int RTYPE>
-class ConstantGathererImpl : public Gatherer {
-public:
-  ConstantGathererImpl(Vector<RTYPE> constant, int n) :
-    value(n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0])
-  {
-    copy_most_attributes(value, constant);
-  }
-
-  inline SEXP collect() {
-    return value;
-  }
-
-private:
-  Vector<RTYPE> value;
-};
-
-inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
-  if (Rf_inherits(x, "POSIXlt")) {
-    bad_col(name, "is of unsupported class POSIXlt");
-  }
-  switch (TYPEOF(x)) {
-  case INTSXP:
-    return new ConstantGathererImpl<INTSXP>(x, n);
-  case REALSXP:
-    return new ConstantGathererImpl<REALSXP>(x, n);
-  case LGLSXP:
-    return new ConstantGathererImpl<LGLSXP>(x, n);
-  case STRSXP:
-    return new ConstantGathererImpl<STRSXP>(x, n);
-  case CPLXSXP:
-    return new ConstantGathererImpl<CPLXSXP>(x, n);
-  case VECSXP:
-    return new ConstantGathererImpl<VECSXP>(x, n);
-  case RAWSXP:
-    return new ConstantGathererImpl<RAWSXP>(x, n);
-  default:
-    break;
-  }
-  bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
-}
 
 
 } // namespace dplyr
