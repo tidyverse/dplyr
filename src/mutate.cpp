@@ -14,6 +14,7 @@
 #include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/Gatherer.h>
+#include <dplyr/ConstantRecycler.h>
 #include <dplyr/NamedListAccumulator.h>
 
 #include <dplyr/bad.h>
@@ -34,26 +35,6 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 }
 
 namespace dplyr {
-
-template <int RTYPE>
-class ConstantRecycler {
-public:
-  ConstantRecycler(SEXP constant_, int n_) :
-    constant(constant_),
-    n(n_)
-  {}
-
-  inline SEXP collect() {
-    Vector<RTYPE> result(n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0]);
-    copy_most_attributes(result, constant);
-    return result;
-  }
-
-private:
-  SEXP constant;
-  int n ;
-
-};
 
 template <typename Data, typename Subsets, typename Index>
 class DataMask {
