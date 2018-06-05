@@ -3,10 +3,8 @@
 
 #include <dplyr/Hybrid.h>
 
-#include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/ILazySubsets.h>
-#include <dplyr/Result/GroupedHybridCall.h>
 
 namespace dplyr {
 
@@ -50,14 +48,6 @@ public:
     return get_hybrid_eval()->eval(indices);
   }
 
-  GroupedHybridEval* get_hybrid_eval() {
-    if (!hybrid_eval) {
-      hybrid_eval.reset(new GroupedHybridEval(call, subsets, env));
-    }
-
-    return hybrid_eval.get();
-  }
-
   void set_call(SEXP call_) {
     proxies.clear();
     hybrid_eval.reset();
@@ -93,9 +83,7 @@ public:
 private:
   Rcpp::Call call;
   Subsets subsets;
-  std::vector<CallElementProxy> proxies;
   Environment env;
-  boost::scoped_ptr<GroupedHybridEval> hybrid_eval;
 
 };
 
