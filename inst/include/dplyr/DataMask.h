@@ -85,6 +85,10 @@ public:
     return mask_bottom ;
   }
 
+  inline void set_data_pronoun(SEXP bindings){
+    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(bindings);
+  }
+
 private:
   Environment mask_bottom;
   Environment hybrid_functions;
@@ -102,9 +106,7 @@ public:
     mask_bindings(child_env(parent_env)),
     subsets(subsets_),
     promises(subsets.size())
-  {
-    mask_bindings[".data"] = internal::rlang_api().as_data_pronoun(mask_bindings);
-  }
+  {}
 
   inline operator SEXP() {
     return mask_bindings;
@@ -177,7 +179,6 @@ public:
     for (int i = 0; i < n; i++) {
       Rf_defineVar(Rf_installChar(names[i]), subsets.get_variable(i), mask_bindings);
     }
-    mask_bindings[".data"] = internal::rlang_api().as_data_pronoun(mask_bindings);
   }
 
   void update(const NaturalSlicingIndex&) {}
@@ -202,8 +203,8 @@ public:
   typedef typename Data::slicing_index Index ;
 
   DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
-    hybrids(env, hybrid_functions_),
-    bindings(hybrids, subsets),
+    bindings(env, subsets),
+    hybrids(bindings, hybrid_functions_),
     overscope(internal::rlang_api().new_data_mask(bindings, hybrids, env))
   {}
 
@@ -211,6 +212,7 @@ public:
     // update both components of the data mask
     hybrids.update(indices);
     bindings.update(indices);
+    hybrids.set_data_pronoun(bindings);
 
     // evaluate the call in the overscope
     return Rcpp_eval(expr, overscope);
@@ -220,11 +222,11 @@ private:
   typedef DataMask_bottom<Data> Hybrids ;
   typedef DataMask_bindings<Data> Bindings ;
 
-  // hybrid functions (n, ...)
-  Hybrids hybrids;
-
   // bindings for columns in the data frame
   Bindings bindings;
+
+  // hybrid functions (n, ...)
+  Hybrids hybrids;
 
   Environment overscope;
 };
