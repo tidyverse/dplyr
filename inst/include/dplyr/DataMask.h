@@ -67,11 +67,9 @@ public:
   typedef typename Data::slicing_index Index ;
 
   DataMask_bottom(SEXP parent_env, Rcpp::Environment hybrid_functions_):
-    mask_bottom(child_env(R_EmptyEnv)),
+    mask_bottom(child_env(parent_env)),
     hybrid_functions(hybrid_functions_)
   {
-    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(parent_env);
-
     mask_bottom["n"] = (SEXP)hybrid_functions["n"];
     mask_bottom["row_number"] = (SEXP)hybrid_functions["row_number"];
     mask_bottom["group_indices"] = (SEXP)hybrid_functions["group_indices"];
@@ -85,6 +83,10 @@ public:
 
   inline operator SEXP() {
     return mask_bottom ;
+  }
+
+  inline void set_data_pronoun(SEXP bindings){
+    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(bindings);
   }
 
 private:
@@ -201,10 +203,12 @@ public:
   typedef typename Data::slicing_index Index ;
 
   DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
-    bindings(env, subsets),
-    hybrids(bindings, hybrid_functions_),
+    hybrids(env, hybrid_functions_),
+    bindings(hybrids, subsets),
     overscope(internal::rlang_api().new_data_mask(bindings, hybrids, env))
-  {}
+  {
+    hybrids.set_data_pronoun(bindings);
+  }
 
   SEXP eval(SEXP expr, const Index& indices) {
     // update both components of the data mask
@@ -216,14 +220,14 @@ public:
   }
 
 private:
-  typedef DataMask_bindings<Data> Bindings ;
   typedef DataMask_bottom<Data> Hybrids ;
-
-  // bindings for columns in the data frame
-  Bindings bindings;
+  typedef DataMask_bindings<Data> Bindings ;
 
   // hybrid functions (n, ...)
   Hybrids hybrids;
+
+  // bindings for columns in the data frame
+  Bindings bindings;
 
   Environment overscope;
 };
