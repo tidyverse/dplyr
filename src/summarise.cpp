@@ -8,7 +8,7 @@
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/NaturalDataFrame.h>
 
-#include <dplyr/Result/LazyRowwiseSubsets.h>
+#include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/GroupedCallReducer.h>
 
 #include <dplyr/NamedListAccumulator.h>
