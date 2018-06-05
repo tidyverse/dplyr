@@ -85,10 +85,6 @@ public:
     return mask_bottom ;
   }
 
-  inline void set_data_pronoun(SEXP bindings){
-    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(bindings);
-  }
-
 private:
   Environment mask_bottom;
   Environment hybrid_functions;
@@ -106,7 +102,9 @@ public:
     mask_bindings(child_env(parent_env)),
     subsets(subsets_),
     promises(subsets.size())
-  {}
+  {
+    mask_bindings[".data"] = internal::rlang_api().as_data_pronoun(mask_bindings);
+  }
 
   inline operator SEXP() {
     return mask_bindings;
@@ -179,6 +177,7 @@ public:
     for (int i = 0; i < n; i++) {
       Rf_defineVar(Rf_installChar(names[i]), subsets.get_variable(i), mask_bindings);
     }
+    mask_bindings[".data"] = internal::rlang_api().as_data_pronoun(mask_bindings);
   }
 
   void update(const NaturalSlicingIndex&) {}
@@ -206,9 +205,7 @@ public:
     hybrids(env, hybrid_functions_),
     bindings(hybrids, subsets),
     overscope(internal::rlang_api().new_data_mask(bindings, hybrids, env))
-  {
-    hybrids.set_data_pronoun(bindings);
-  }
+  {}
 
   SEXP eval(SEXP expr, const Index& indices) {
     // update both components of the data mask
