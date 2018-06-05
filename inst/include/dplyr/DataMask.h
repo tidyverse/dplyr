@@ -67,7 +67,7 @@ public:
   typedef typename Data::slicing_index Index ;
 
   DataMask_bottom(SEXP parent_env, Rcpp::Environment hybrid_functions_):
-    mask_bottom(child_env(parent_env)),
+    mask_bottom(child_env(R_EmptyEnv)),
     hybrid_functions(hybrid_functions_)
   {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(parent_env);
@@ -201,9 +201,9 @@ public:
   typedef typename Data::slicing_index Index ;
 
   DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
-    bindings(child_env(env), subsets),
+    bindings(env, subsets),
     hybrids(bindings, hybrid_functions_),
-    overscope(internal::rlang_api().new_data_mask(hybrids, bindings, env))
+    overscope(internal::rlang_api().new_data_mask(bindings, hybrids, env))
   {}
 
   SEXP eval(SEXP expr, const Index& indices) {
