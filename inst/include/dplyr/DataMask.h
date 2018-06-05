@@ -85,7 +85,7 @@ public:
     return mask_bottom ;
   }
 
-  inline void set_data_pronoun(SEXP bindings){
+  inline void set_data_pronoun(SEXP bindings) {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(bindings);
   }
 
@@ -219,14 +219,12 @@ public:
   }
 
 private:
-  typedef DataMask_bottom<Data> Hybrids ;
-  typedef DataMask_bindings<Data> Bindings ;
 
   // bindings for columns in the data frame
-  Bindings bindings;
+  DataMask_bindings<Data> bindings;
 
   // hybrid functions (n, ...)
-  Hybrids hybrids;
+  DataMask_bottom<Data> hybrids;
 
   Environment overscope;
 };
