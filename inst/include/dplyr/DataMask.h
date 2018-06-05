@@ -3,6 +3,7 @@
 
 #include <Rcpp.h>
 #include <tools/utils.h>
+#include <dplyr/Result/LazyGroupedSubsets.h>
 
 namespace dplyr {
 
