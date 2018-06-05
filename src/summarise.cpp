@@ -15,6 +15,7 @@
 #include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
+#include <dplyr/DataMask.h>
 
 #include <dplyr/tbl_cpp.h>
 
@@ -133,8 +134,9 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
   }
 }
 
-template <typename SlicedTibble, typename LazySubsets>
-DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
+template <typename SlicedTibble>
+DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, Environment hybrid_functions) {
+  typedef LazySplitSubsets<SlicedTibble> LazySubsets ;
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
@@ -160,11 +162,11 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[k];
     const Environment& env = quosure.env();
+    DataMask<SlicedTibble> data_mask(subsets, env, hybrid_functions);
 
     LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
 
-    Shield<SEXP> expr_(quosure.expr());
-    SEXP expr = expr_;
+    SEXP expr = quosure.expr();
     RObject result;
 
     // Unquoted vectors are directly used as column. Expressions are
@@ -172,17 +174,19 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     if (is_vector(expr)) {
       result = validate_unquoted_value(expr, gdf.ngroups(), quosure.name());
     } else {
-      boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+      // //boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+      //
+      // // If we could not find a direct Result,
+      // // we can use a GroupedCallReducer which will callback to R.
+      // // Note that the GroupedCallReducer currently doesn't apply
+      // // special treatment to summary variables, for which hybrid
+      // // evaluation should be turned off completely (#2312)
+      // if (!res) {
+      //   res.reset(new GroupedCallReducer<SlicedTibble, LazySubsets>(quosure.expr(), subsets, env, quosure.name()));
+      // }
+      // result = res->process(gdf);
 
-      // If we could not find a direct Result,
-      // we can use a GroupedCallReducer which will callback to R.
-      // Note that the GroupedCallReducer currently doesn't apply
-      // special treatment to summary variables, for which hybrid
-      // evaluation should be turned off completely (#2312)
-      if (!res) {
-        res.reset(new GroupedCallReducer<SlicedTibble, LazySubsets>(quosure.expr(), subsets, env, quosure.name()));
-      }
-      result = res->process(gdf);
+      result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), data_mask).process(gdf);
     }
     check_not_null(result, quosure.name());
     check_length(Rf_length(result), gdf.ngroups(), "a summary value", quosure.name());
@@ -205,13 +209,13 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, QuosureList dots) {
+SEXP summarise_impl(DataFrame df, QuosureList dots, Environment hybrid_functions) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame, LazySplitSubsets<RowwiseDataFrame> >(df, dots);
+    return summarise_grouped<RowwiseDataFrame>(df, dots, hybrid_functions);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame, LazySplitSubsets<GroupedDataFrame> >(df, dots);
+    return summarise_grouped<GroupedDataFrame>(df, dots, hybrid_functions);
   } else {
-    return summarise_grouped<NaturalDataFrame, LazySubsets>(df, dots);
+    return summarise_grouped<NaturalDataFrame>(df, dots, hybrid_functions);
   }
 }
