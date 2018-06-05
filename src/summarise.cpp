@@ -11,7 +11,6 @@
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallReducer.h>
 
-#include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 #include <dplyr/DataMask.h>
@@ -28,8 +27,7 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
 
   // Recycle length 1 vectors
   if (n == 1) {
-    boost::scoped_ptr<Gatherer> gather(constant_gatherer(value, nrows, name));
-    value = gather->collect();
+    value = constant_recycle(value, nrows, name);
   }
 
   return value;
