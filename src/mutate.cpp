@@ -337,6 +337,7 @@ SEXP MutateCallProxy<NaturalDataFrame, LazySubsets>::evaluate() {
   NaturalDataFrame::slicing_index indices = *git;
 
   RObject first(get(indices));
+  if (Rf_isNull(first)) return R_NilValue;
 
   if (Rf_inherits(first, "POSIXlt")) {
     bad_col(name, "is of unsupported class POSIXlt");
