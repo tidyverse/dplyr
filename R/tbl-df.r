@@ -43,12 +43,12 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 #' @export
 arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
   dots <- quos(...)
-  arrange_impl(.data, dots)
+  arrange_impl(.data, dots, hybrid_functions())
 }
 #' @export
 arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange_impl(.data, dots)
+  arrange_impl(.data, dots, hybrid_functions())
 }
 
 #' @export
