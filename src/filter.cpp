@@ -481,14 +481,14 @@ private:
 };
 
 template <typename SlicedTibble>
-DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
-  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
-  typedef GroupedCallProxy<SlicedTibble, LazySubsets> Proxy;
+DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo, Environment hybrid_functions) {
+  typedef LazySplitSubsets<SlicedTibble> Subsets;
   typedef typename SlicedTibble::group_iterator group_iterator;
   typedef typename SlicedTibble::slicing_index Index ;
-  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
 
-  Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
+  Subsets subsets(gdf);
+  DataMask<SlicedTibble> data_mask( subsets, quo.env(), hybrid_functions);
+
   const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
   SymbolVector names = data.names();
@@ -498,7 +498,8 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
     const Index& indices = *git;
-    IntegerVector g_test = check_filter_integer_result(call_proxy.get(indices));
+    int nr = indices.size();
+    IntegerVector g_test = check_filter_integer_result(data_mask.eval(quo.expr(), indices));
     CountIndices counter(indices.size(), g_test);
 
     if (counter.is_positive()) {
@@ -514,13 +515,13 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
 }
 
 // [[Rcpp::export]]
-SEXP slice_impl(DataFrame df, QuosureList dots) {
+SEXP slice_impl(DataFrame df, QuosureList dots, Environment hybrid_functions) {
   if (dots.size() == 0) return df;
   if (dots.size() != 1)
     stop("slice only accepts one expression");
   if (is<GroupedDataFrame>(df)) {
-    return slice_template<GroupedDataFrame>(GroupedDataFrame(df), dots[0]);
+    return slice_template<GroupedDataFrame>(GroupedDataFrame(df), dots[0], hybrid_functions);
   } else {
-    return slice_template<NaturalDataFrame>(NaturalDataFrame(df), dots[0]);
+    return slice_template<NaturalDataFrame>(NaturalDataFrame(df), dots[0], hybrid_functions);
   }
 }
