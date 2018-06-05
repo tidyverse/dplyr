@@ -37,9 +37,12 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 
 namespace dplyr {
 
-template <typename Data, typename Subsets>
+template <typename Data>
 class MutateCallProxy {
 public:
+  typedef LazySplitSubsets<Data> Subsets;
+  typedef typename Data::slicing_index Index ;
+
   MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_, const Environment& hybrid_functions) :
     data(data_),
     subsets(subsets_),
@@ -76,7 +79,6 @@ public:
   }
 
 private:
-  typedef typename Data::slicing_index Index ;
 
   const Data& data ;
 
@@ -89,7 +91,7 @@ private:
 
   const SymbolString& name ;
 
-  DataMask<Data, Subsets, Index> data_mask ;
+  DataMask<Data> data_mask ;
 
   inline SEXP mutate_constant_recycle(SEXP x) const {
     if (Rf_inherits(x, "POSIXlt")) {
@@ -181,7 +183,7 @@ public:
 };
 
 template <>
-SEXP MutateCallProxy<NaturalDataFrame, LazySubsets>::evaluate() {
+SEXP MutateCallProxy<NaturalDataFrame>::evaluate() {
   NaturalDataFrame::group_iterator git = data.group_begin();
   NaturalDataFrame::slicing_index indices = *git;
 
@@ -207,16 +209,13 @@ SEXP MutateCallProxy<NaturalDataFrame, LazySubsets>::evaluate() {
 
 }
 
-template <typename Data, typename Subsets>
+template <typename Data>
 DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, const Environment& hybrid_functions) {
   LOG_VERBOSE << "initializing proxy";
 
-  typedef GroupedCallProxy<Data, Subsets> Proxy;
   Data gdf(df);
   int nexpr = dots.size();
   check_not_groups(dots, gdf);
-
-  Proxy proxy(gdf);
 
   LOG_VERBOSE << "copying data to accumulator";
 
@@ -229,7 +228,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, const Env
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
 
-  Subsets subsets(gdf) ;
+  LazySplitSubsets<Data> subsets(gdf) ;
 
   for (int i = 0; i < nexpr; i++) {
 
@@ -237,7 +236,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, const Env
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
 
-    RObject variable = MutateCallProxy<Data, Subsets>(gdf, subsets, quosure.expr(), quosure.env(), name, hybrid_functions).get() ;
+    RObject variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), quosure.env(), name, hybrid_functions).get() ;
 
     if (Rf_isNull(variable)) {
       accumulator.rm(name);
@@ -268,18 +267,18 @@ SEXP mutate_impl(DataFrame df, QuosureList dots, Environment hybrid_functions) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return mutate_grouped<RowwiseDataFrame, LazyRowwiseSubsets>(df, dots, hybrid_functions);
+    return mutate_grouped<RowwiseDataFrame>(df, dots, hybrid_functions);
   } else if (is<GroupedDataFrame>(df)) {
 
     GroupedDataFrame gdf(df);
     if (gdf.ngroups() == 0) {
-      DataFrame res = mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots, hybrid_functions);
+      DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots, hybrid_functions);
       res.attr("groups") = df.attr("groups");
       return res;
     }
 
-    return mutate_grouped<GroupedDataFrame, LazyGroupedSubsets>(df, dots, hybrid_functions);
+    return mutate_grouped<GroupedDataFrame>(df, dots, hybrid_functions);
   } else {
-    return mutate_grouped<NaturalDataFrame, LazySubsets>(df, dots, hybrid_functions);
+    return mutate_grouped<NaturalDataFrame>(df, dots, hybrid_functions);
   }
 }

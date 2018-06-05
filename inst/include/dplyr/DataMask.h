@@ -58,9 +58,12 @@ inline SEXP child_env(SEXP parent) {
 }
 
 // this class deals with the hybrid functions that are installed in the hybrids environment in the data mask
-template <typename Data, typename Subsets, typename Index>
+template <typename Data>
 class DataMask_bottom {
 public:
+
+  typedef LazySplitSubsets<Data> Subsets;
+  typedef typename Data::slicing_index Index ;
 
   DataMask_bottom(SEXP parent_env, Rcpp::Environment hybrid_functions_):
     mask_bottom(child_env(parent_env)),
@@ -90,9 +93,12 @@ private:
 
 // in the general case (for grouped and rowwise), the bindings
 // environment contains promises of the subsets
-template <typename Data, typename Subsets, typename Index>
+template <typename Data>
 class DataMask_bindings {
 public:
+  typedef LazySplitSubsets<Data> Subsets;
+  typedef typename Data::slicing_index Index ;
+
   DataMask_bindings(SEXP parent_env, Subsets& subsets_) :
     mask_bindings(child_env(parent_env)),
     subsets(subsets_),
@@ -158,9 +164,11 @@ private:
 
 // in the NaturalDataFrame case, we can directly install columns in the bindings environment
 template <>
-class DataMask_bindings<NaturalDataFrame, LazySubsets, NaturalSlicingIndex> {
+class DataMask_bindings<NaturalDataFrame> {
 public:
-  DataMask_bindings(SEXP parent_env, LazySubsets& subsets) :
+  typedef LazySplitSubsets<NaturalDataFrame> Subsets;
+
+  DataMask_bindings(SEXP parent_env, Subsets& subsets) :
     mask_bindings(child_env(parent_env))
   {
     CharacterVector names = subsets.get_variable_names().get_vector();
@@ -185,9 +193,11 @@ private:
 // the data mask is made of two environments
 // - the `bindings` environment that maps symbols to subsets of columns from the data frame
 // - the `hybrids` environment that contains functions such as `n()`
-template <typename Data, typename Subsets, typename Index>
+template <typename Data>
 class DataMask {
 public:
+  typedef LazySplitSubsets<Data> Subsets;
+  typedef typename Data::slicing_index Index ;
 
   DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
     bindings(child_env(env), subsets),
@@ -205,8 +215,8 @@ public:
   }
 
 private:
-  typedef DataMask_bindings<Data, Subsets, Index> Bindings ;
-  typedef DataMask_bottom<Data, Subsets, Index> Hybrids ;
+  typedef DataMask_bindings<Data> Bindings ;
+  typedef DataMask_bottom<Data> Hybrids ;
 
   // bindings for columns in the data frame
   Bindings bindings;
