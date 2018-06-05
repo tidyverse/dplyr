@@ -84,8 +84,8 @@ filter_impl <- function(df, quo, hybrid_functions) {
     .Call(`_dplyr_filter_impl`, df, quo, hybrid_functions)
 }
 
-slice_impl <- function(df, dots) {
-    .Call(`_dplyr_slice_impl`, df, dots)
+slice_impl <- function(df, dots, hybrid_functions) {
+    .Call(`_dplyr_slice_impl`, df, dots, hybrid_functions)
 }
 
 as_regular_df <- function(df) {
