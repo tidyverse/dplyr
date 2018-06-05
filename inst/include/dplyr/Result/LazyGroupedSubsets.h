@@ -4,6 +4,9 @@
 #include <tools/SymbolMap.h>
 
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/RowwiseDataFrame.h>
+#include <dplyr/NaturalDataFrame.h>
+
 #include <dplyr/SummarisedVariable.h>
 
 #include <dplyr/Result/GroupedSubset.h>
@@ -125,6 +128,8 @@ private:
 };
 
 typedef LazySplitSubsets<GroupedDataFrame> LazyGroupedSubsets;
+typedef LazySplitSubsets<RowwiseDataFrame> LazyRowwiseSubsets;
+typedef LazySplitSubsets<NaturalDataFrame> LazyNaturalSubsets;
 
 }
 #endif

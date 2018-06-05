@@ -16,9 +16,9 @@
 
 #include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/ILazySubsets.h>
-#include <dplyr/Result/LazySubsets.h>
+
 #include <dplyr/Result/LazyGroupedSubsets.h>
-#include <dplyr/Result/LazyRowwiseSubsets.h>
+
 #include <dplyr/Result/GroupedCallReducer.h>
 
 #include <dplyr/Result/VectorSliceVisitor.h>
