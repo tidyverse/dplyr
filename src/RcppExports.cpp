@@ -546,14 +546,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // summarise_impl
-SEXP summarise_impl(DataFrame df, QuosureList dots);
-RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+SEXP summarise_impl(DataFrame df, QuosureList dots, Environment hybrid_functions);
+RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP hybrid_functionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots));
+    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots, hybrid_functions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -744,7 +745,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_union_data_frame", (DL_FUNC) &_dplyr_union_data_frame, 2},
     {"_dplyr_intersect_data_frame", (DL_FUNC) &_dplyr_intersect_data_frame, 2},
     {"_dplyr_setdiff_data_frame", (DL_FUNC) &_dplyr_setdiff_data_frame, 2},
-    {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 2},
+    {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 3},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},

@@ -172,8 +172,8 @@ setdiff_data_frame <- function(x, y) {
     .Call(`_dplyr_setdiff_data_frame`, x, y)
 }
 
-summarise_impl <- function(df, dots) {
-    .Call(`_dplyr_summarise_impl`, df, dots)
+summarise_impl <- function(df, dots, hybrid_functions) {
+    .Call(`_dplyr_summarise_impl`, df, dots, hybrid_functions)
 }
 
 test_comparisons <- function() {
