@@ -9,10 +9,9 @@
 
 #include <dplyr/Order.h>
 
-#include <dplyr/Result/CallProxy.h>
-
 #include <dplyr/Groups.h>
 #include <dplyr/bad.h>
+#include <dplyr/DataMask.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -20,7 +19,10 @@ using namespace dplyr;
 #include <tools/debug.h>
 
 template <typename SlicedTibble>
-SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
+SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, Environment hybrid_functions) {
+  typedef LazySplitSubsets<NaturalDataFrame> Subsets;
+  static SEXP symb_desc = Rf_install("desc");
+
   const DataFrame& data = gdf.data();
   if (data.size() == 0 || data.nrows() == 0)
     return data;
@@ -34,16 +36,18 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   List variables(nargs);
   LogicalVector ascending(nargs);
 
+  Subsets subsets(NaturalDataFrame(gdf.data()));
+  NaturalSlicingIndex indices_all(gdf.nrows());
+
   for (int i = 0; i < nargs; i++) {
     const NamedQuosure& quosure = quosures[i];
+    SEXP env = quosure.env();
+    SEXP expr = quosure.expr();
+    bool is_desc = TYPEOF(expr) == LANGSXP && symb_desc == CAR(expr);
+    expr = is_desc ? CADR(expr) : expr ;
 
-    Shield<SEXP> call_(quosure.expr());
-    SEXP call = call_;
-    bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call);
-
-    CallProxy call_proxy(is_desc ? CADR(call) : call, data, quosure.env());
-
-    Shield<SEXP> v(call_proxy.eval());
+    DataMask<NaturalDataFrame> data_mask(subsets, env, hybrid_functions);
+    Shield<SEXP> v(data_mask.eval(expr, indices_all));
     if (!white_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
     }
@@ -74,13 +78,13 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
 }
 
 // [[Rcpp::export]]
-SEXP arrange_impl(DataFrame df, QuosureList quosures) {
+SEXP arrange_impl(DataFrame df, QuosureList quosures, Environment hybrid_functions) {
   if (is<RowwiseDataFrame>(df)) {
-    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures);
+    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures, hybrid_functions);
   } else if (is<GroupedDataFrame>(df)) {
-    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures);
+    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures, hybrid_functions);
   } else {
-    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures);
+    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures, hybrid_functions);
   }
 }
 

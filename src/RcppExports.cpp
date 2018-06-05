@@ -75,14 +75,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-SEXP arrange_impl(DataFrame df, QuosureList quosures);
-RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP) {
+SEXP arrange_impl(DataFrame df, QuosureList quosures, Environment hybrid_functions);
+RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP, SEXP hybrid_functionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type quosures(quosuresSEXP);
-    rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures));
+    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures, hybrid_functions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -712,7 +713,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_strings_addresses", (DL_FUNC) &_dplyr_strings_addresses, 1},
     {"_dplyr_gp", (DL_FUNC) &_dplyr_gp, 1},
     {"_dplyr_init_logging", (DL_FUNC) &_dplyr_init_logging, 1},
-    {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 2},
+    {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 3},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
     {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},

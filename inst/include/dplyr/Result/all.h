@@ -14,14 +14,12 @@
 #include <dplyr/Result/Sd.h>
 #include <dplyr/Result/MinMax.h>
 
-#include <dplyr/Result/CallElementProxy.h>
 #include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/LazySubsets.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
 #include <dplyr/Result/LazyRowwiseSubsets.h>
 #include <dplyr/Result/GroupedCallReducer.h>
-#include <dplyr/Result/CallProxy.h>
 
 #include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/Rank.h>
