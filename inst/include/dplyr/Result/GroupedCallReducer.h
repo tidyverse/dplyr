@@ -19,7 +19,7 @@ class GroupedCallReducer  {
 public:
   typedef typename Data::slicing_index Index ;
 
-  GroupedCallReducer( SEXP expr_, SymbolString name_, DataMask<Data>& data_mask_) :
+  GroupedCallReducer(SEXP expr_, SymbolString name_, DataMask<Data>& data_mask_) :
     expr(expr_),
     name(name_),
     data_mask(data_mask_)
@@ -91,7 +91,7 @@ private:
     IDelayedProcessor* new_processor = processor->promote(chunk);
     if (!new_processor) {
       bad_col(chunk_source.get_name(), "can't promote group {group} to {type}",
-        _["group"] = i, _["type"] =  processor->describe());
+              _["group"] = i, _["type"] =  processor->describe());
     }
 
     LOG_VERBOSE << "promoted group " << i;
