@@ -19,7 +19,6 @@ public:
 
     promises(subsets.size()),
     names(subsets.get_variable_names().get_vector()),
-    hybrids(4),
     hybrid_functions(hybrid_functions_)
   {
     mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
@@ -56,9 +55,7 @@ private:
   Environment overscope;
   std::vector<SEXP> promises;
   CharacterVector names ;
-  std::vector<SEXP> hybrids;
   Environment hybrid_functions;
-
 
   SEXP child_env(SEXP parent) {
     static SEXP symb_new_env = Rf_install("new.env");
