@@ -51,7 +51,7 @@ prepend_call <- function(expr, name) {
   }
 }
 
-hybrid_functions <- function(.data){
+hybrid_functions <- function(){
   # these are updated internally for each group
   ..group_size <- NA_integer_
   ..group_number <- NA_integer_

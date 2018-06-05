@@ -62,7 +62,7 @@ filter.tbl_df <- function(.data, ..., .preserve = TRUE) {
   }
 
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
-  out <- filter_impl(.data, quo)
+  out <- filter_impl(.data, quo, hybrid_functions())
   if (!.preserve) {
     out <- group_by(out, add = TRUE)
   }
@@ -88,7 +88,7 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @export
 mutate.tbl_df <- function(.data, ...) {
   dots <- named_quos(...)
-  mutate_impl(.data, dots, hybrid_functions(.data))
+  mutate_impl(.data, dots, hybrid_functions())
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {
