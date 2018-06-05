@@ -46,7 +46,7 @@ public:
     expr(expr_),
     env(env_),
     name(name_),
-    data_mask(data, subsets, env, hybrid_functions)
+    data_mask(subsets, env, hybrid_functions)
   {}
 
   SEXP get() {
