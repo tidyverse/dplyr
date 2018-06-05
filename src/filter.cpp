@@ -383,7 +383,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo, Environme
   // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
   Subsets subsets(gdf) ;
-  DataMask<SlicedTibble,Subsets,Index> data_mask( subsets, quo.env(), hybrid_functions);
+  DataMask<SlicedTibble> data_mask( subsets, quo.env(), hybrid_functions);
 
   int ngroups = gdf.ngroups() ;
 
