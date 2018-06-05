@@ -169,8 +169,12 @@ private:
       }
     }
 
-    boost::scoped_ptr<Gatherer> g(gatherer_impl<Data, Subsets, MutateCallProxy>(first, indices, const_cast<MutateCallProxy&>(*this), data, i, name)) ;
-    return g->collect();
+    if (TYPEOF(first) == VECSXP) {
+      return ListGatherer<Data, Subsets, MutateCallProxy> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+    } else {
+      return GathererImpl<Data, Subsets, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+    }
+
   }
 
 
