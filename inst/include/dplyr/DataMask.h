@@ -6,124 +6,214 @@
 
 namespace dplyr {
 
-template <typename Data, typename Subsets, typename Index>
-class DataMask {
+class promise {
 public:
-  DataMask(const Data& data_, Subsets& subsets_, const Rcpp::Environment& env_, Rcpp::Environment hybrid_functions_):
-    data(data_),
-    subsets(subsets_),
-    env(env_),
 
-    mask_promises(child_env(env)),
-    mask_bottom(child_env(mask_promises)),
+  promise() :
+    name(R_NilValue),
+    symb_name(R_NilValue),
+    env(R_NilValue)
+  {}
 
-    promises(subsets.size()),
-    names(subsets.get_variable_names().get_vector()),
-    hybrid_functions(hybrid_functions_)
+  promise(SEXP name_, SEXP env_, SEXP expr) :
+    name(Rf_ScalarString(name_)),
+    symb_name(Rf_installChar(name_)),
+    env(env_)
   {
-    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(mask_promises);
-    overscope = internal::rlang_api().new_data_mask(mask_bottom, mask_promises, env);
-
-    install_hybrid_functions();
+    install(expr);
   }
 
-  SEXP eval(SEXP expr, const Index& indices) {
-    subsets.clear();
+  inline void install(SEXP expr) {
+    delayedAssign(expr);
+    prom = Rf_findVarInFrame(env, symb_name);
+  }
 
-    hybrid_functions["..group_size"] = indices.size();
-    hybrid_functions["..group_number"] = indices.group() + 1;
+  inline bool was_forced() {
+    return PRVALUE(prom) != R_UnboundValue;
+  }
 
-    if (indices.group() == 0) {
-      set_promises(indices);
-    } else {
-      update_promises(indices);
-    }
-
-    // evaluate the call in the overscope
-    return Rcpp_eval(expr, overscope);
+  inline SEXP code() {
+    return PRCODE(prom);
   }
 
 private:
-  const Data& data ;
-  Subsets& subsets ;
-  const Environment& env ;
+  SEXP name;
+  SEXP symb_name;
+  SEXP env;
+  SEXP prom;
 
-  List payload ;
-  Environment mask_promises;
-  Environment mask_bottom;
-
-  Environment overscope;
-  std::vector<SEXP> promises;
-  CharacterVector names ;
-  Environment hybrid_functions;
-
-  SEXP child_env(SEXP parent) {
-    static SEXP symb_new_env = Rf_install("new.env");
-    return Rf_eval(Rf_lang3(symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
-  }
-
-  void set_promises(const Index& indices) {
-    for (int i = 0; i < names.size(); i++) {
-      install_promise(i, indices);
-    }
-  }
-
-  void update_promises(const Index& indices) {
-    for (int i = 0; i < names.size(); i++) {
-      SEXP p = promises[i];
-      // in any case it is a promise
-
-      if (promise_was_forced(p)) {
-        // it has been evaluated, install a new promise
-        // would maybe be better to do either of:
-        // - reset it to unforced, but SET_PRVALUE(p, R_UnboundValue) does not work
-        // - promote the promise to its value and recalculate it upfront for each group
-        install_promise(i, indices);
-      } else {
-        // otherwise just need to update the expression
-        update_promise(p, indices);
-      }
-
-    }
-  }
-
-  // delayedAssign( {column_name}, x[i], baseenv(), mask_promises )
-  void delayedAssign(SEXP name, SEXP variable, SEXP indices) {
-    // for rowwise data, use x[[i]]
-    static SEXP symb_bracket = Rcpp::traits::same_type<Data, RowwiseDataFrame>::value ? R_Bracket2Symbol : R_BracketSymbol ;
-
-    SEXP symb_delayedAssign = Rf_install("delayedAssign");
-    SEXP col_name = PROTECT(Rf_ScalarString(name));
-    SEXP subset_expr = PROTECT(Rf_lang3(symb_bracket, variable, indices));
-    SEXP delayedAssignCall = PROTECT(Rf_lang5(symb_delayedAssign, col_name, subset_expr, R_BaseEnv, mask_promises));
+  // delayedAssign( name, call, eval.env = baseenv(), assign_env = env )
+  void delayedAssign(SEXP expr) {
+    static SEXP symb_delayedAssign = Rf_install("delayedAssign");
+    SEXP delayedAssignCall = PROTECT(Rf_lang5(symb_delayedAssign, name, expr, R_BaseEnv, env));
     PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
-    UNPROTECT(4);
+    UNPROTECT(2);
   }
 
-  bool promise_was_forced(SEXP p) {
-    return PRVALUE(p) != R_UnboundValue;
-  }
+};
 
-  void install_promise(int i, const Index& indices) {
-    SEXP name = names[i];
-    SEXP column = subsets.get_variable(i);
+inline SEXP child_env(SEXP parent) {
+  static SEXP symb_new_env = Rf_install("new.env");
+  return Rf_eval(Rf_lang3(symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
+}
 
-    delayedAssign(name, column, indices);
-    promises[i] = Rf_findVarInFrame(mask_promises, Rf_installChar(name));
-  }
+// this class deals with the hybrid functions that are installed in the hybrids environment in the data mask
+template <typename Data, typename Subsets, typename Index>
+class DataMask_bottom {
+public:
 
-  void update_promise(SEXP p, const Index& indices) {
-    SEXP code = PRCODE(p);
-    SETCADDR(code, indices);
-  }
+  DataMask_bottom(SEXP parent_env, Rcpp::Environment hybrid_functions_):
+    mask_bottom(child_env(parent_env)),
+    hybrid_functions(hybrid_functions_)
+  {
+    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(parent_env);
 
-  void install_hybrid_functions() {
     mask_bottom["n"] = (SEXP)hybrid_functions["n"];
     mask_bottom["row_number"] = (SEXP)hybrid_functions["row_number"];
     mask_bottom["group_indices"] = (SEXP)hybrid_functions["group_indices"];
     mask_bottom["ntile"] = (SEXP)hybrid_functions["ntile"];
   }
 
+  void update(const Index& indices) {
+    hybrid_functions["..group_size"] = indices.size();
+    hybrid_functions["..group_number"] = indices.group() + 1;
+  }
+
+  inline operator SEXP() {
+    return mask_bottom ;
+  }
+
+private:
+  Environment mask_bottom;
+  Environment hybrid_functions;
+};
+
+// in the general case (for grouped and rowwise), the bindings
+// environment contains promises of the subsets
+template <typename Data, typename Subsets, typename Index>
+class DataMask_bindings {
+public:
+  DataMask_bindings(SEXP parent_env, Subsets& subsets_) :
+    mask_bindings(child_env(parent_env)),
+    subsets(subsets_),
+    promises(subsets.size())
+  {}
+
+  inline operator SEXP() {
+    return mask_bindings;
+  }
+
+  void update(const Index& indices) {
+    // update promises in mask_promises
+    if (indices.group() == 0) {
+      set_promises(indices);
+    } else {
+      update_promises(indices);
+    }
+  }
+
+private:
+  Environment mask_bindings;
+  Subsets& subsets ;
+  std::vector<promise> promises;
+
+  inline SEXP get_subset_expr(int i, const Index& indices) {
+    static SEXP symb_bracket = Rcpp::traits::same_type<Data, RowwiseDataFrame>::value ? R_Bracket2Symbol : R_BracketSymbol ;
+    return Rf_lang3(symb_bracket, subsets.get_variable(i), indices);
+  }
+
+  void set_promises(const Index& indices) {
+    CharacterVector names = subsets.get_variable_names().get_vector();
+    int n = names.size();
+    for (int i = 0; i < n; i++) {
+      promises[i] = promise(names[i], mask_bindings, get_subset_expr(i, indices));
+    }
+  }
+
+  void update_promises(const Index& indices) {
+    for (int i = 0; i < subsets.size(); i++) {
+      promise& p = promises[i];
+
+      if (p.was_forced()) {
+        // it has been evaluated, install a new promise
+        // would maybe be better to do either of:
+        // - reset it to unforced, but SET_PRVALUE(p, R_UnboundValue) does not work and gives this error: Evaluation error: 'rho' must be an environment not NULL: detected in C-level eval.
+        // - promote the promise to its value and recalculate it upfront for each group
+
+        p.install(get_subset_expr(i, indices));
+      } else {
+        // otherwise just need to update the expression
+        update_promise_index(p, indices);
+      }
+
+    }
+  }
+
+  void update_promise_index(promise& p, const Index& indices) {
+    SEXP code = p.code();
+    SETCADDR(code, indices);
+  }
+
+};
+
+// in the NaturalDataFrame case, we can directly install columns in the bindings environment
+template <>
+class DataMask_bindings<NaturalDataFrame, LazySubsets, NaturalSlicingIndex> {
+public:
+  DataMask_bindings(SEXP parent_env, LazySubsets& subsets) :
+    mask_bindings(child_env(parent_env))
+  {
+    CharacterVector names = subsets.get_variable_names().get_vector();
+    int n = names.size();
+    for (int i = 0; i < n; i++) {
+      Rf_defineVar(Rf_installChar(names[i]), subsets.get_variable(i), mask_bindings);
+    }
+  }
+
+  void update(const NaturalSlicingIndex&) {}
+
+  inline operator SEXP() {
+    return mask_bindings;
+  }
+
+private:
+  Environment mask_bindings;
+
+};
+
+
+// the data mask is made of two environments
+// - the `bindings` environment that maps symbols to subsets of columns from the data frame
+// - the `hybrids` environment that contains functions such as `n()`
+template <typename Data, typename Subsets, typename Index>
+class DataMask {
+public:
+  DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
+    bindings(child_env(env), subsets),
+    hybrids(bindings, hybrid_functions_),
+    overscope(internal::rlang_api().new_data_mask(hybrids, bindings, env))
+  {}
+
+  SEXP eval(SEXP expr, const Index& indices) {
+    // update both components of the data mask
+    hybrids.update(indices);
+    bindings.update(indices);
+
+    // evaluate the call in the overscope
+    return Rcpp_eval(expr, overscope);
+  }
+
+private:
+  typedef DataMask_bindings<Data, Subsets, Index> Bindings ;
+  typedef DataMask_bottom<Data, Subsets, Index> Hybrids ;
+
+  // bindings for columns in the data frame
+  Bindings bindings;
+
+  // hybrid functions (n, ...)
+  Hybrids hybrids;
+
+  Environment overscope;
 };
 
 }
