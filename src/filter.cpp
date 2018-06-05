@@ -15,6 +15,7 @@
 
 #include <dplyr/bad.h>
 #include <dplyr/tbl_cpp.h>
+#include <dplyr/DataMask.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -374,14 +375,15 @@ SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<Index>& 
 
 
 template <typename SlicedTibble>
-SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
-  typedef LazySplitSubsets<SlicedTibble> LazySubsets;
-  typedef GroupedCallProxy<SlicedTibble, LazySubsets> Proxy;
+SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo, Environment hybrid_functions) {
+  typedef LazySplitSubsets<SlicedTibble> Subsets;
   typedef typename SlicedTibble::group_iterator GroupIterator;
   typedef typename SlicedTibble::slicing_index Index ;
 
-  Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
+  // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
+  Subsets subsets(gdf) ;
+  DataMask<SlicedTibble,Subsets,Index> data_mask( subsets, quo.env(), hybrid_functions);
 
   int ngroups = gdf.ngroups() ;
 
@@ -400,7 +402,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
     }
 
     // the result of the expression in the group
-    LogicalVector g_test = check_result_lgl_type(call_proxy.get(indices));
+    LogicalVector g_test = check_result_lgl_type(data_mask.eval(quo.expr(), indices));
     if (g_test.size() == 1) {
       // we get length 1 so either we have an empty group, or a dense group, i.e.
       // a group that has all the rows from the original data
@@ -421,7 +423,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
 }
 
 // [[Rcpp::export]]
-SEXP filter_impl(DataFrame df, NamedQuosure quo) {
+SEXP filter_impl(DataFrame df, NamedQuosure quo, Environment hybrid_functions) {
   if (df.nrows() == 0 || Rf_isNull(df)) {
     return df;
   }
@@ -429,11 +431,11 @@ SEXP filter_impl(DataFrame df, NamedQuosure quo) {
   assert_all_white_list(df);
 
   if (is<GroupedDataFrame>(df)) {
-    return filter_template<GroupedDataFrame>(GroupedDataFrame(df), quo);
+    return filter_template<GroupedDataFrame>(GroupedDataFrame(df), quo, hybrid_functions);
   } else if (is<RowwiseDataFrame>(df)) {
-    return filter_template<RowwiseDataFrame>(RowwiseDataFrame(df), quo);
+    return filter_template<RowwiseDataFrame>(RowwiseDataFrame(df), quo, hybrid_functions);
   } else {
-    return filter_template<NaturalDataFrame>(NaturalDataFrame(df), quo);
+    return filter_template<NaturalDataFrame>(NaturalDataFrame(df), quo, hybrid_functions);
   }
 }
 

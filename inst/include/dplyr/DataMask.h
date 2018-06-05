@@ -188,6 +188,7 @@ private:
 template <typename Data, typename Subsets, typename Index>
 class DataMask {
 public:
+
   DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
     bindings(child_env(env), subsets),
     hybrids(bindings, hybrid_functions_),

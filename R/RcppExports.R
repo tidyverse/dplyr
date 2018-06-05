@@ -80,8 +80,8 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call(`_dplyr_n_distinct_multi`, variables, na_rm)
 }
 
-filter_impl <- function(df, quo) {
-    .Call(`_dplyr_filter_impl`, df, quo)
+filter_impl <- function(df, quo, hybrid_functions) {
+    .Call(`_dplyr_filter_impl`, df, quo, hybrid_functions)
 }
 
 slice_impl <- function(df, dots) {

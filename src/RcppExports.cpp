@@ -170,14 +170,15 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, NamedQuosure quo);
-RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
+SEXP filter_impl(DataFrame df, NamedQuosure quo, Environment hybrid_functions);
+RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP, SEXP hybrid_functionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< NamedQuosure >::type quo(quoSEXP);
-    rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo));
+    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo, hybrid_functions));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -717,7 +718,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 3},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
-    {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
+    {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 3},
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_as_regular_df", (DL_FUNC) &_dplyr_as_regular_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
