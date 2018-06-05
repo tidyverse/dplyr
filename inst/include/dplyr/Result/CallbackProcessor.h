@@ -15,7 +15,11 @@ namespace dplyr {
 template <typename CLASS, typename Data>
 class process_data {
 public:
-  process_data(const Data& gdf, CLASS* chunk_source_) : git(gdf.group_begin()), ngroups(gdf.ngroups()), chunk_source(chunk_source_) {}
+  process_data(const Data& gdf, CLASS* chunk_source_) :
+    git(gdf.group_begin()),
+    ngroups(gdf.ngroups()),
+    chunk_source(chunk_source_)
+  {}
 
   SEXP run() {
     if (ngroups == 0) {
@@ -112,8 +116,8 @@ private:
 // it is assumed that the SEXP comes from evaluating some R expression, so
 // it should be one of a integer vector of length one, a numeric vector of
 // length one or a character vector of length one
-template <typename CLASS>
-class CallbackProcessor : public Result {
+template <typename Data, typename CLASS>
+class CallbackProcessor {
 public:
   CallbackProcessor() {}
 
@@ -121,16 +125,8 @@ public:
     return static_cast<CLASS*>(this);
   }
 
-  virtual SEXP process(const GroupedDataFrame& gdf) {
-    return process_data<CLASS, GroupedDataFrame>(gdf, obj()).run();
-  }
-
-  virtual SEXP process(const RowwiseDataFrame& gdf) {
-    return process_data<CLASS, RowwiseDataFrame>(gdf, obj()).run();
-  }
-
-  virtual SEXP process(const NaturalDataFrame& gdf) {
-    return process_data<CLASS, NaturalDataFrame>(gdf, obj()).run();
+  SEXP process(const Data& gdf) {
+    return process_data<CLASS, Data>(gdf, obj()).run();
   }
 
 };
