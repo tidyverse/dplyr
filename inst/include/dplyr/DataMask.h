@@ -92,7 +92,12 @@ private:
 
   inline SEXP get_subset_expr(int i, const Index& indices) {
     static SEXP symb_bracket = Rcpp::traits::same_type<Data, RowwiseDataFrame>::value ? R_Bracket2Symbol : R_BracketSymbol ;
-    return Rf_lang3(symb_bracket, subsets.get_variable(i), indices);
+    if (subsets.is_summary(i)) {
+      return Rf_lang3(symb_bracket, subsets.get_variable(i), Rf_ScalarInteger(indices.group() + 1));
+    } else {
+      return Rf_lang3(symb_bracket, subsets.get_variable(i), indices);
+    }
+
   }
 
   void set_promises(const Index& indices) {
@@ -141,6 +146,7 @@ public:
     CharacterVector names = subsets.get_variable_names().get_vector();
     int n = names.size();
     for (int i = 0; i < n; i++) {
+      // this handles both the normal and summarised case (via recycling rules)
       Rf_defineVar(Rf_installChar(names[i]), subsets.get_variable(i), mask_bindings);
     }
   }
@@ -166,7 +172,7 @@ public:
   typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
+  DataMask(Subsets& subsets, const Rcpp::Environment& env):
     bindings(env, subsets),
     overscope(internal::rlang_api().new_data_mask(bindings, bindings, env))
   {
