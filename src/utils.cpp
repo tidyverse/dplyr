@@ -368,3 +368,17 @@ bool quo_is_variable_reference(SEXP quo) {
 bool quo_is_data_pronoun(SEXP quo) {
   return is_data_pronoun(CADR(quo));
 }
+
+// [[Rcpp::export]]
+SEXP get_data_context(SEXP frames, const char* expr) {
+  static SEXP symb_group_size = Rf_install("..group_size");
+
+  for( ; !Rf_isNull(frames) ; frames = CDR(frames)){
+    SEXP group_size = Rf_findVarInFrame3( CAR(frames) , symb_group_size, FALSE  ) ;
+    if (group_size != R_UnboundValue) return CAR(frames);
+  }
+
+  throw Rcpp::exception( tfm::format("%s should only be called in a data context", expr).c_str(), false);
+
+  return R_NilValue;
+}

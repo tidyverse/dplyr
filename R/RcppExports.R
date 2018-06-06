@@ -212,6 +212,10 @@ quo_is_data_pronoun <- function(quo) {
     .Call(`_dplyr_quo_is_data_pronoun`, quo)
 }
 
+get_data_context <- function(frames, expr) {
+    .Call(`_dplyr_get_data_context`, frames, expr)
+}
+
 #' Cumulativate versions of any, all, and mean
 #'
 #' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
