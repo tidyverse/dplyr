@@ -60,13 +60,13 @@ inline SEXP child_env(SEXP parent) {
 
 // this class deals with the hybrid functions that are installed in the hybrids environment in the data mask
 template <typename Data>
-class DataMask_bottom {
+class DataMask_hybrids {
 public:
 
   typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  DataMask_bottom(SEXP parent_env, Rcpp::Environment hybrid_functions_):
+  DataMask_hybrids(SEXP parent_env, Rcpp::Environment hybrid_functions_):
     mask_bottom(child_env(parent_env)),
     hybrid_functions(hybrid_functions_)
   {
@@ -203,16 +203,17 @@ public:
   typedef typename Data::slicing_index Index ;
 
   DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
-    bindings(env, subsets),
-    hybrids(bindings, hybrid_functions_),
+    hybrids(env, hybrid_functions_),
+    bindings(hybrids, subsets),
     overscope(internal::rlang_api().new_data_mask(bindings, hybrids, env))
-  {}
+  {
+    hybrids.set_data_pronoun(bindings);
+  }
 
   SEXP eval(SEXP expr, const Index& indices) {
     // update both components of the data mask
     hybrids.update(indices);
     bindings.update(indices);
-    hybrids.set_data_pronoun(bindings);
 
     // evaluate the call in the overscope
     return Rcpp_eval(expr, overscope);
@@ -220,11 +221,11 @@ public:
 
 private:
 
+  // hybrid functions (n, ...)
+  DataMask_hybrids<Data> hybrids;
+
   // bindings for columns in the data frame
   DataMask_bindings<Data> bindings;
-
-  // hybrid functions (n, ...)
-  DataMask_bottom<Data> hybrids;
 
   Environment overscope;
 };
