@@ -75,15 +75,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-SEXP arrange_impl(DataFrame df, QuosureList quosures, Environment hybrid_functions);
-RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP, SEXP hybrid_functionsSEXP) {
+SEXP arrange_impl(DataFrame df, QuosureList quosures);
+RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type quosures(quosuresSEXP);
-    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures, hybrid_functions));
+    rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -171,28 +170,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, NamedQuosure quo, Environment hybrid_functions);
-RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP, SEXP hybrid_functionsSEXP) {
+SEXP filter_impl(DataFrame df, NamedQuosure quo);
+RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< NamedQuosure >::type quo(quoSEXP);
-    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo, hybrid_functions));
+    rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo));
     return rcpp_result_gen;
 END_RCPP
 }
 // slice_impl
-SEXP slice_impl(DataFrame df, QuosureList dots, Environment hybrid_functions);
-RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP hybrid_functionsSEXP) {
+SEXP slice_impl(DataFrame df, QuosureList dots);
+RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots, hybrid_functions));
+    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -444,15 +441,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // mutate_impl
-SEXP mutate_impl(DataFrame df, QuosureList dots, Environment hybrid_functions);
-RcppExport SEXP _dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP hybrid_functionsSEXP) {
+SEXP mutate_impl(DataFrame df, QuosureList dots);
+RcppExport SEXP _dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots, hybrid_functions));
+    rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -547,15 +543,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // summarise_impl
-SEXP summarise_impl(DataFrame df, QuosureList dots, Environment hybrid_functions);
-RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP hybrid_functionsSEXP) {
+SEXP summarise_impl(DataFrame df, QuosureList dots);
+RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    Rcpp::traits::input_parameter< Environment >::type hybrid_functions(hybrid_functionsSEXP);
-    rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots, hybrid_functions));
+    rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -725,7 +720,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_strings_addresses", (DL_FUNC) &_dplyr_strings_addresses, 1},
     {"_dplyr_gp", (DL_FUNC) &_dplyr_gp, 1},
     {"_dplyr_init_logging", (DL_FUNC) &_dplyr_init_logging, 1},
-    {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 3},
+    {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 2},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
     {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},
@@ -733,8 +728,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 3},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
-    {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 3},
-    {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 3},
+    {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
+    {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_as_regular_df", (DL_FUNC) &_dplyr_as_regular_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
@@ -750,7 +745,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_left_join_impl", (DL_FUNC) &_dplyr_left_join_impl, 7},
     {"_dplyr_right_join_impl", (DL_FUNC) &_dplyr_right_join_impl, 7},
     {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 7},
-    {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 3},
+    {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 2},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
     {"_dplyr_compatible_data_frame_nonames", (DL_FUNC) &_dplyr_compatible_data_frame_nonames, 3},
     {"_dplyr_compatible_data_frame", (DL_FUNC) &_dplyr_compatible_data_frame, 4},
@@ -758,7 +753,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_union_data_frame", (DL_FUNC) &_dplyr_union_data_frame, 2},
     {"_dplyr_intersect_data_frame", (DL_FUNC) &_dplyr_intersect_data_frame, 2},
     {"_dplyr_setdiff_data_frame", (DL_FUNC) &_dplyr_setdiff_data_frame, 2},
-    {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 3},
+    {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 2},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},

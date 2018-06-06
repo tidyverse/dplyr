@@ -390,7 +390,7 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
     dots <- quos(...)
   }
 
-  arrange_impl(.data, dots, hybrid_functions())
+  arrange_impl(.data, dots)
 }
 
 #' Select/rename variables by name

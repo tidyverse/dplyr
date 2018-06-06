@@ -19,7 +19,7 @@ using namespace dplyr;
 #include <tools/debug.h>
 
 template <typename SlicedTibble>
-SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, Environment hybrid_functions) {
+SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   typedef LazySplitSubsets<NaturalDataFrame> Subsets;
   static SEXP symb_desc = Rf_install("desc");
 
@@ -46,7 +46,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, Envi
     bool is_desc = TYPEOF(expr) == LANGSXP && symb_desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
-    DataMask<NaturalDataFrame> data_mask(subsets, env, hybrid_functions);
+    DataMask<NaturalDataFrame> data_mask(subsets, env);
     Shield<SEXP> v(data_mask.eval(expr, indices_all));
     if (!white_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
@@ -78,13 +78,13 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, Envi
 }
 
 // [[Rcpp::export]]
-SEXP arrange_impl(DataFrame df, QuosureList quosures, Environment hybrid_functions) {
+SEXP arrange_impl(DataFrame df, QuosureList quosures) {
   if (is<RowwiseDataFrame>(df)) {
-    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures, hybrid_functions);
+    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures);
   } else if (is<GroupedDataFrame>(df)) {
-    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures, hybrid_functions);
+    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures);
   } else {
-    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures, hybrid_functions);
+    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures);
   }
 }
 

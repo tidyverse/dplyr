@@ -43,12 +43,12 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 #' @export
 arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
   dots <- quos(...)
-  arrange_impl(.data, dots, hybrid_functions())
+  arrange_impl(.data, dots)
 }
 #' @export
 arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange_impl(.data, dots, hybrid_functions())
+  arrange_impl(.data, dots)
 }
 
 #' @export
@@ -62,7 +62,7 @@ filter.tbl_df <- function(.data, ..., .preserve = TRUE) {
   }
 
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
-  out <- filter_impl(.data, quo, hybrid_functions())
+  out <- filter_impl(.data, quo)
   if (!.preserve) {
     out <- group_by(out, add = TRUE)
   }
@@ -77,18 +77,18 @@ filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' @export
 slice.tbl_df <- function(.data, ...) {
   dots <- named_quos(...)
-  slice_impl(.data, dots, hybrid_functions())
+  slice_impl(.data, dots)
 }
 #' @export
 slice_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  slice_impl(.data, dots, hybrid_functions())
+  slice_impl(.data, dots)
 }
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
   dots <- named_quos(...)
-  mutate_impl(.data, dots, hybrid_functions())
+  mutate_impl(.data, dots)
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {
@@ -99,12 +99,12 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @export
 summarise.tbl_df <- function(.data, ...) {
   dots <- named_quos(...)
-  summarise_impl(.data, dots, hybrid_functions())
+  summarise_impl(.data, dots)
 }
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  summarise_impl(.data, dots, hybrid_functions())
+  summarise_impl(.data, dots)
 }
 
 # Joins ------------------------------------------------------------------------
