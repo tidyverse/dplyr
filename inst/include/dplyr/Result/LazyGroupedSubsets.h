@@ -74,6 +74,10 @@ public:
     return value;
   }
 
+  virtual bool is_summary(int i) const {
+    return subsets[i]->is_summary();
+  }
+
   virtual bool is_summary(const SymbolString& symbol) const {
     return subsets[symbol_map.get(symbol)]->is_summary();
   }
