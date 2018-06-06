@@ -1,5 +1,7 @@
 context("rank")
 
+skip("until discussion in #3639 is resolved")
+
 ntile_h <- function(x, n) {
   tibble(x = x) %>%
     mutate(y = ntile(x, n)) %>%
