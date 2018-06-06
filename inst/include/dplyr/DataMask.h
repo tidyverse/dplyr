@@ -58,38 +58,6 @@ inline SEXP child_env(SEXP parent) {
   return Rf_eval(Rf_lang3(symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
 }
 
-// this class deals with the hybrid functions that are installed in the hybrids environment in the data mask
-template <typename Data>
-class DataMask_hybrids {
-public:
-
-  typedef LazySplitSubsets<Data> Subsets;
-  typedef typename Data::slicing_index Index ;
-
-  DataMask_hybrids(SEXP parent_env, Rcpp::Environment hybrid_functions_):
-    mask_bottom(child_env(parent_env)),
-    hybrid_functions(hybrid_functions_)
-  {
-    mask_bottom["n"] = (SEXP)hybrid_functions["n"];
-    mask_bottom["row_number"] = (SEXP)hybrid_functions["row_number"];
-    mask_bottom["group_indices"] = (SEXP)hybrid_functions["group_indices"];
-    mask_bottom["ntile"] = (SEXP)hybrid_functions["ntile"];
-  }
-
-  void update(const Index& indices) {
-    hybrid_functions["..group_size"] = indices.size();
-    hybrid_functions["..group_number"] = indices.group() + 1;
-  }
-
-  inline operator SEXP() {
-    return mask_bottom ;
-  }
-
-private:
-  Environment mask_bottom;
-  Environment hybrid_functions;
-};
-
 // in the general case (for grouped and rowwise), the bindings
 // environment contains promises of the subsets
 template <typename Data>
@@ -199,26 +167,25 @@ public:
   typedef typename Data::slicing_index Index ;
 
   DataMask(Subsets& subsets, const Rcpp::Environment& env, Rcpp::Environment hybrid_functions_):
-    hybrids(env, hybrid_functions_),
-    bindings(hybrids, subsets),
-    overscope(internal::rlang_api().new_data_mask(bindings, hybrids, env))
+    bindings(env, subsets),
+    overscope(internal::rlang_api().new_data_mask(bindings, bindings, env))
   {
     overscope[".data"] = internal::rlang_api().as_data_pronoun(bindings);
   }
 
   SEXP eval(SEXP expr, const Index& indices) {
-    // update both components of the data mask
-    hybrids.update(indices);
+    // update the bindings and the data context variables
     bindings.update(indices);
+
+    // these are used by n(), ...
+    overscope["..group_size"] = indices.size();
+    overscope["..group_number"] = indices.group() + 1;
 
     // evaluate the call in the overscope
     return Rcpp_eval(expr, overscope);
   }
 
 private:
-
-  // hybrid functions (n, ...)
-  DataMask_hybrids<Data> hybrids;
 
   // bindings for columns in the data frame
   DataMask_bindings<Data> bindings;
