@@ -286,6 +286,8 @@ test_that("summarise works with zero-column data frames (#3071)", {
 })
 
 test_that("integer overflow (#304)", {
+  skip("base::sum() auto promotes to double")
+
   groups <- rep(c("A", "B"), each = 3)
   values <- rep(1e9, 6)
   dat <- data.frame(groups, X1 = as.integer(values), X2 = values)
@@ -711,7 +713,9 @@ test_that("hybrid max works when not used on columns (#1369)", {
 
 test_that("min and max handle empty sets in summarise (#1481)", {
   df <- data_frame(A = numeric())
-  res <- df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
+  expect_warning(
+    res <- df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
+  )
   expect_equal(res$Min, Inf)
   expect_equal(res$Max, -Inf)
 })
