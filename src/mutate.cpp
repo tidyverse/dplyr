@@ -67,13 +67,13 @@ public:
   typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_, const Environment& hybrid_functions) :
+  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_) :
     data(data_),
     subsets(subsets_),
     expr(expr_),
     env(env_),
     name(name_),
-    data_mask(subsets, env, hybrid_functions)
+    data_mask(subsets, env)
   {}
 
   SEXP get() {
@@ -212,7 +212,7 @@ SEXP MutateCallProxy<NaturalDataFrame>::evaluate() {
 }
 
 template <typename Data>
-DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, const Environment& hybrid_functions) {
+DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE << "initializing proxy";
 
   Data gdf(df);
@@ -238,7 +238,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, const Env
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
 
-    RObject variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), quosure.env(), name, hybrid_functions).get() ;
+    RObject variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), quosure.env(), name).get() ;
 
     if (Rf_isNull(variable)) {
       accumulator.rm(name);
@@ -265,22 +265,22 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, const Env
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl(DataFrame df, QuosureList dots, Environment hybrid_functions) {
+SEXP mutate_impl(DataFrame df, QuosureList dots) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return mutate_grouped<RowwiseDataFrame>(df, dots, hybrid_functions);
+    return mutate_grouped<RowwiseDataFrame>(df, dots);
   } else if (is<GroupedDataFrame>(df)) {
 
     GroupedDataFrame gdf(df);
     if (gdf.ngroups() == 0) {
-      DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots, hybrid_functions);
+      DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots);
       res.attr("groups") = df.attr("groups");
       return res;
     }
 
-    return mutate_grouped<GroupedDataFrame>(df, dots, hybrid_functions);
+    return mutate_grouped<GroupedDataFrame>(df, dots);
   } else {
-    return mutate_grouped<NaturalDataFrame>(df, dots, hybrid_functions);
+    return mutate_grouped<NaturalDataFrame>(df, dots);
   }
 }

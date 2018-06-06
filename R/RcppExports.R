@@ -34,8 +34,8 @@ init_logging <- function(log_level) {
     invisible(.Call(`_dplyr_init_logging`, log_level))
 }
 
-arrange_impl <- function(df, quosures, hybrid_functions) {
-    .Call(`_dplyr_arrange_impl`, df, quosures, hybrid_functions)
+arrange_impl <- function(df, quosures) {
+    .Call(`_dplyr_arrange_impl`, df, quosures)
 }
 
 #' Do values in a numeric vector fall in specified range?
@@ -80,12 +80,12 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call(`_dplyr_n_distinct_multi`, variables, na_rm)
 }
 
-filter_impl <- function(df, quo, hybrid_functions) {
-    .Call(`_dplyr_filter_impl`, df, quo, hybrid_functions)
+filter_impl <- function(df, quo) {
+    .Call(`_dplyr_filter_impl`, df, quo)
 }
 
-slice_impl <- function(df, dots, hybrid_functions) {
-    .Call(`_dplyr_slice_impl`, df, dots, hybrid_functions)
+slice_impl <- function(df, dots) {
+    .Call(`_dplyr_slice_impl`, df, dots)
 }
 
 as_regular_df <- function(df) {
@@ -140,8 +140,8 @@ full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match) {
     .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match)
 }
 
-mutate_impl <- function(df, dots, hybrid_functions) {
-    .Call(`_dplyr_mutate_impl`, df, dots, hybrid_functions)
+mutate_impl <- function(df, dots) {
+    .Call(`_dplyr_mutate_impl`, df, dots)
 }
 
 select_impl <- function(df, vars) {
@@ -172,8 +172,8 @@ setdiff_data_frame <- function(x, y) {
     .Call(`_dplyr_setdiff_data_frame`, x, y)
 }
 
-summarise_impl <- function(df, dots, hybrid_functions) {
-    .Call(`_dplyr_summarise_impl`, df, dots, hybrid_functions)
+summarise_impl <- function(df, dots) {
+    .Call(`_dplyr_summarise_impl`, df, dots)
 }
 
 test_comparisons <- function() {

@@ -132,7 +132,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
 }
 
 template <typename SlicedTibble>
-DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, Environment hybrid_functions) {
+DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   typedef LazySplitSubsets<SlicedTibble> LazySubsets ;
   SlicedTibble gdf(df);
 
@@ -159,7 +159,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, Enviro
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[k];
     const Environment& env = quosure.env();
-    DataMask<SlicedTibble> data_mask(subsets, env, hybrid_functions);
+    DataMask<SlicedTibble> data_mask(subsets, env);
 
     LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
 
@@ -206,13 +206,13 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, Enviro
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, QuosureList dots, Environment hybrid_functions) {
+SEXP summarise_impl(DataFrame df, QuosureList dots) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame>(df, dots, hybrid_functions);
+    return summarise_grouped<RowwiseDataFrame>(df, dots);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame>(df, dots, hybrid_functions);
+    return summarise_grouped<GroupedDataFrame>(df, dots);
   } else {
-    return summarise_grouped<NaturalDataFrame>(df, dots, hybrid_functions);
+    return summarise_grouped<NaturalDataFrame>(df, dots);
   }
 }
