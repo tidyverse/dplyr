@@ -85,10 +85,6 @@ public:
     return mask_bottom ;
   }
 
-  inline void set_data_pronoun(SEXP bindings) {
-    mask_bottom[".data"] = internal::rlang_api().as_data_pronoun(bindings);
-  }
-
 private:
   Environment mask_bottom;
   Environment hybrid_functions;
@@ -207,7 +203,7 @@ public:
     bindings(hybrids, subsets),
     overscope(internal::rlang_api().new_data_mask(bindings, hybrids, env))
   {
-    hybrids.set_data_pronoun(bindings);
+    overscope[".data"] = internal::rlang_api().as_data_pronoun(bindings);
   }
 
   SEXP eval(SEXP expr, const Index& indices) {
