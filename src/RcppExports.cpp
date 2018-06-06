@@ -654,6 +654,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_data_context
+SEXP get_data_context(SEXP frames, const char* expr);
+RcppExport SEXP _dplyr_get_data_context(SEXP framesSEXP, SEXP exprSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type frames(framesSEXP);
+    Rcpp::traits::input_parameter< const char* >::type expr(exprSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_data_context(frames, expr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // cumall
 LogicalVector cumall(LogicalVector x);
 RcppExport SEXP _dplyr_cumall(SEXP xSEXP) {
@@ -756,6 +768,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_is_variable_reference", (DL_FUNC) &_dplyr_is_variable_reference, 1},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},
     {"_dplyr_quo_is_data_pronoun", (DL_FUNC) &_dplyr_quo_is_data_pronoun, 1},
+    {"_dplyr_get_data_context", (DL_FUNC) &_dplyr_get_data_context, 2},
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},
     {"_dplyr_cumany", (DL_FUNC) &_dplyr_cumany, 1},
     {"_dplyr_cummean", (DL_FUNC) &_dplyr_cummean, 1},
