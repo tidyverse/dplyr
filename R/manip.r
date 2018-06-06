@@ -550,9 +550,8 @@ rename_ <- function(.data, ..., .dots = list()) {
 #' filter(carriers, n() < 100)
 #' }
 n <- function() {
-  abort("This function should not be called directly")
+  get_data_context(sys.frames(), "n()")[["..group_size"]]
 }
-
 
 #' Deprecated SE versions of main verbs.
 #'
