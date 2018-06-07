@@ -500,21 +500,21 @@ SEXP check_grouped(RObject data) {
 
   // groups must be a data frame
   if (!is<DataFrame>(groups)) {
-    bad_arg(".data", "is a corrupt grouped_df");
+    bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must be a data frame");
   }
 
   // it must have at least 1 column
   int nc = Rf_length(groups);
   if (nc <= 1) {
-    bad_arg(".data", "is a corrupt grouped_df");
+    bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must have at least two columns");
   }
 
   // the last column must be a list and called `.rows`
   SEXP names = Rf_getAttrib(groups, R_NamesSymbol);
   SEXP last = VECTOR_ELT(groups, nc - 1);
-  static SEXP rows = Rf_mkCharLen(".rows", 5);
+  static String rows = ".rows";
   if (TYPEOF(last) != VECSXP || STRING_ELT(names, nc - 1) != rows) {
-    bad_arg(".data", "is a corrupt grouped_df");
+    bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must have a list column named `.rows` as last column");
   }
 
   return data ;
@@ -546,12 +546,10 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
 }
 
 SymbolVector GroupedDataFrame::group_vars(SEXP x) {
+  check_grouped(x);
+
   static SEXP groups_symbol = Rf_install("groups");
   SEXP groups = Rf_getAttrib(x, groups_symbol);
-
-  if (!is<DataFrame>(groups)) {
-    bad_arg(".data", "is a corrupt grouped_df");
-  }
 
   int n = Rf_length(groups) - 1;
   CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
