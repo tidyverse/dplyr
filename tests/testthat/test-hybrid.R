@@ -46,8 +46,7 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   )
 })
 
-test_that("n() work", {
-  skip("data_context")
+test_that("n() and n_distinct() work", {
   check_hybrid_result(
     n(),
     a = 1:5,
@@ -58,9 +57,7 @@ test_that("n() work", {
     a = 1:5,
     expected = list(1:5), test_eval = FALSE
   )
-})
 
-test_that("n_distinct() works", {
   check_hybrid_result(
     n_distinct(a),
     a = 1:5,
@@ -602,7 +599,6 @@ test_that("mean(), var(), sd() and sum() work", {
 })
 
 test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and cume_dist() work", {
-  if (FALSE) { # data_context
   check_hybrid_result(
     list(row_number()),
     a = 1:5,
@@ -614,8 +610,6 @@ test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and 
     a = 5:1,
     expected = list(5:1)
   )
-  }
-
   check_hybrid_result(
     list(min_rank(a)),
     a = c(1, 3, 2, 3, 1),
@@ -728,14 +722,12 @@ test_that("hybrid handlers don't nest", {
 })
 
 test_that("row_number() is equivalent to dplyr::row_number() (#3309)", {
-  if (FALSE) { # data_context
   check_hybrid_result(
     list(dplyr::row_number()),
     a = 1:5,
     expected = list(1:5),
     test_eval = FALSE
   )
-  }
   expect_identical(
     filter(mtcars, dplyr::row_number() == 6L),
     filter(mtcars, row_number() == 6L)
