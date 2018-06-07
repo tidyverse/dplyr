@@ -6,6 +6,9 @@
 \usage{
 n(...)
 }
+\arguments{
+\item{...}{Why do we need this?}
+}
 \description{
 This function is implemented specifically for each data source and can only
 be used from within \code{\link[=summarise]{summarise()}}, \code{\link[=mutate]{mutate()}} and

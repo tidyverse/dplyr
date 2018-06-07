@@ -524,6 +524,8 @@ rename_ <- function(.data, ..., .dots = list()) {
 #' be used from within [summarise()], [mutate()] and
 #' [filter()].
 #'
+#' @param ... Why do we need this?
+#'
 #' @export
 #' @examples
 #' if (require("nycflights13")) {

@@ -8,6 +8,8 @@ nest_by_impl <- function(.data, key_var){
     select(-.rows)
 }
 
+globalVariables(".rows")
+
 #' Nest by one or more variables
 #'
 #' \badgeexperimental
