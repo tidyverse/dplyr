@@ -4,6 +4,10 @@ template:
   ganalytics: "UA-115082821"
   package: tidytemplate
   default_assets: false
+  params:
+    docsearch:
+      api_key: 1270c4079b26a138795263974bbf302d
+      index_name: tidyverse
 
 home:
   strip_header: true
@@ -13,21 +17,21 @@ home:
     href: http://r4ds.had.co.nz/transform.html
 
 reference:
-- title: Single-table verbs
+- title: Basic single-table verbs
   contents:
+  - filter
   - arrange
+  - select
+  - pull
+  - mutate
+  - summarise
+  - group_by
+
+- title: Other single-table verbs
+  contents:
   - distinct
   - do
-  - filter
-  - group_by
-  - mutate
-  - select
-  - select_helpers
   - sample
-  - summarise
-  - transmute
-  - pull
-  - rename
   - slice
 
 - title: Single-table helpers

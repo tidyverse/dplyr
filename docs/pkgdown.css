@@ -234,3 +234,10 @@ a.anchor {
   background-color: transparent;
   text-decoration: underline;
 }
+
+/* orcid ------------------------------------ */
+
+.orcid {
+  height: 16px;
+  vertical-align: middle;
+}

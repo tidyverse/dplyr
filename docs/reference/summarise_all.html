@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Summarise and mutate multiple columns.</a>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -102,10 +102,11 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise and mutate multiple columns.</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-mutate.R'><code>R/colwise-mutate.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-mutate.R'><code>R/colwise-mutate.R</code></a></small>
     <div class="hidden name"><code>summarise_all.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>These verbs are <a href='scoped.html'>scoped</a> variants of <code><a href='summarise.html'>summarise()</a></code>, <code><a href='mutate.html'>mutate()</a></code> and
 <code><a href='mutate.html'>transmute()</a></code>. They apply operations on a selection of variables.</p><ul>
@@ -118,6 +119,7 @@ like with <code><a href='select.html'>select()</a></code>.</p></li>
 columns for which a predicate returns <code>TRUE</code>.</p></li>
 </ul>
     
+    </div>
 
     <pre class="usage"><span class='fu'>summarise_all</span>(<span class='no'>.tbl</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)
 
@@ -243,7 +245,136 @@ even when not needed, name the input (see examples for details).</p>
 #&gt; 18      1.629241   1.2527630          1.4         0.3     setosa
 #&gt; 19      1.740466   1.3350011          1.7         0.3     setosa
 #&gt; 20      1.629241   1.3350011          1.5         0.3     setosa
-#&gt;  [ reached getOption("max.print") -- omitted 130 rows ]</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>height</span>:<span class='no'>mass</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+#&gt; 21      1.686399   1.2237754          1.7         0.2     setosa
+#&gt; 22      1.629241   1.3083328          1.5         0.4     setosa
+#&gt; 23      1.526056   1.2809338          1.0         0.2     setosa
+#&gt; 24      1.629241   1.1939225          1.7         0.5     setosa
+#&gt; 25      1.568616   1.2237754          1.9         0.2     setosa
+#&gt; 26      1.609438   1.0986123          1.6         0.2     setosa
+#&gt; 27      1.609438   1.2237754          1.6         0.4     setosa
+#&gt; 28      1.648659   1.2527630          1.5         0.2     setosa
+#&gt; 29      1.648659   1.2237754          1.4         0.2     setosa
+#&gt; 30      1.547563   1.1631508          1.6         0.2     setosa
+#&gt; 31      1.568616   1.1314021          1.6         0.2     setosa
+#&gt; 32      1.686399   1.2237754          1.5         0.4     setosa
+#&gt; 33      1.648659   1.4109870          1.5         0.1     setosa
+#&gt; 34      1.704748   1.4350845          1.4         0.2     setosa
+#&gt; 35      1.589235   1.1314021          1.5         0.2     setosa
+#&gt; 36      1.609438   1.1631508          1.2         0.2     setosa
+#&gt; 37      1.704748   1.2527630          1.3         0.2     setosa
+#&gt; 38      1.589235   1.2809338          1.4         0.1     setosa
+#&gt; 39      1.481605   1.0986123          1.3         0.2     setosa
+#&gt; 40      1.629241   1.2237754          1.5         0.2     setosa
+#&gt; 41      1.609438   1.2527630          1.3         0.3     setosa
+#&gt; 42      1.504077   0.8329091          1.3         0.3     setosa
+#&gt; 43      1.481605   1.1631508          1.3         0.2     setosa
+#&gt; 44      1.609438   1.2527630          1.6         0.6     setosa
+#&gt; 45      1.629241   1.3350011          1.9         0.4     setosa
+#&gt; 46      1.568616   1.0986123          1.4         0.3     setosa
+#&gt; 47      1.629241   1.3350011          1.6         0.2     setosa
+#&gt; 48      1.526056   1.1631508          1.4         0.2     setosa
+#&gt; 49      1.667707   1.3083328          1.5         0.2     setosa
+#&gt; 50      1.609438   1.1939225          1.4         0.2     setosa
+#&gt; 51      1.945910   1.1631508          4.7         1.4 versicolor
+#&gt; 52      1.856298   1.1631508          4.5         1.5 versicolor
+#&gt; 53      1.931521   1.1314021          4.9         1.5 versicolor
+#&gt; 54      1.704748   0.8329091          4.0         1.3 versicolor
+#&gt; 55      1.871802   1.0296194          4.6         1.5 versicolor
+#&gt; 56      1.740466   1.0296194          4.5         1.3 versicolor
+#&gt; 57      1.840550   1.1939225          4.7         1.6 versicolor
+#&gt; 58      1.589235   0.8754687          3.3         1.0 versicolor
+#&gt; 59      1.887070   1.0647107          4.6         1.3 versicolor
+#&gt; 60      1.648659   0.9932518          3.9         1.4 versicolor
+#&gt; 61      1.609438   0.6931472          3.5         1.0 versicolor
+#&gt; 62      1.774952   1.0986123          4.2         1.5 versicolor
+#&gt; 63      1.791759   0.7884574          4.0         1.0 versicolor
+#&gt; 64      1.808289   1.0647107          4.7         1.4 versicolor
+#&gt; 65      1.722767   1.0647107          3.6         1.3 versicolor
+#&gt; 66      1.902108   1.1314021          4.4         1.4 versicolor
+#&gt; 67      1.722767   1.0986123          4.5         1.5 versicolor
+#&gt; 68      1.757858   0.9932518          4.1         1.0 versicolor
+#&gt; 69      1.824549   0.7884574          4.5         1.5 versicolor
+#&gt; 70      1.722767   0.9162907          3.9         1.1 versicolor
+#&gt; 71      1.774952   1.1631508          4.8         1.8 versicolor
+#&gt; 72      1.808289   1.0296194          4.0         1.3 versicolor
+#&gt; 73      1.840550   0.9162907          4.9         1.5 versicolor
+#&gt; 74      1.808289   1.0296194          4.7         1.2 versicolor
+#&gt; 75      1.856298   1.0647107          4.3         1.3 versicolor
+#&gt; 76      1.887070   1.0986123          4.4         1.4 versicolor
+#&gt; 77      1.916923   1.0296194          4.8         1.4 versicolor
+#&gt; 78      1.902108   1.0986123          5.0         1.7 versicolor
+#&gt; 79      1.791759   1.0647107          4.5         1.5 versicolor
+#&gt; 80      1.740466   0.9555114          3.5         1.0 versicolor
+#&gt; 81      1.704748   0.8754687          3.8         1.1 versicolor
+#&gt; 82      1.704748   0.8754687          3.7         1.0 versicolor
+#&gt; 83      1.757858   0.9932518          3.9         1.2 versicolor
+#&gt; 84      1.791759   0.9932518          5.1         1.6 versicolor
+#&gt; 85      1.686399   1.0986123          4.5         1.5 versicolor
+#&gt; 86      1.791759   1.2237754          4.5         1.6 versicolor
+#&gt; 87      1.902108   1.1314021          4.7         1.5 versicolor
+#&gt; 88      1.840550   0.8329091          4.4         1.3 versicolor
+#&gt; 89      1.722767   1.0986123          4.1         1.3 versicolor
+#&gt; 90      1.704748   0.9162907          4.0         1.3 versicolor
+#&gt; 91      1.704748   0.9555114          4.4         1.2 versicolor
+#&gt; 92      1.808289   1.0986123          4.6         1.4 versicolor
+#&gt; 93      1.757858   0.9555114          4.0         1.2 versicolor
+#&gt; 94      1.609438   0.8329091          3.3         1.0 versicolor
+#&gt; 95      1.722767   0.9932518          4.2         1.3 versicolor
+#&gt; 96      1.740466   1.0986123          4.2         1.2 versicolor
+#&gt; 97      1.740466   1.0647107          4.2         1.3 versicolor
+#&gt; 98      1.824549   1.0647107          4.3         1.3 versicolor
+#&gt; 99      1.629241   0.9162907          3.0         1.1 versicolor
+#&gt; 100     1.740466   1.0296194          4.1         1.3 versicolor
+#&gt; 101     1.840550   1.1939225          6.0         2.5  virginica
+#&gt; 102     1.757858   0.9932518          5.1         1.9  virginica
+#&gt; 103     1.960095   1.0986123          5.9         2.1  virginica
+#&gt; 104     1.840550   1.0647107          5.6         1.8  virginica
+#&gt; 105     1.871802   1.0986123          5.8         2.2  virginica
+#&gt; 106     2.028148   1.0986123          6.6         2.1  virginica
+#&gt; 107     1.589235   0.9162907          4.5         1.7  virginica
+#&gt; 108     1.987874   1.0647107          6.3         1.8  virginica
+#&gt; 109     1.902108   0.9162907          5.8         1.8  virginica
+#&gt; 110     1.974081   1.2809338          6.1         2.5  virginica
+#&gt; 111     1.871802   1.1631508          5.1         2.0  virginica
+#&gt; 112     1.856298   0.9932518          5.3         1.9  virginica
+#&gt; 113     1.916923   1.0986123          5.5         2.1  virginica
+#&gt; 114     1.740466   0.9162907          5.0         2.0  virginica
+#&gt; 115     1.757858   1.0296194          5.1         2.4  virginica
+#&gt; 116     1.856298   1.1631508          5.3         2.3  virginica
+#&gt; 117     1.871802   1.0986123          5.5         1.8  virginica
+#&gt; 118     2.041220   1.3350011          6.7         2.2  virginica
+#&gt; 119     2.041220   0.9555114          6.9         2.3  virginica
+#&gt; 120     1.791759   0.7884574          5.0         1.5  virginica
+#&gt; 121     1.931521   1.1631508          5.7         2.3  virginica
+#&gt; 122     1.722767   1.0296194          4.9         2.0  virginica
+#&gt; 123     2.041220   1.0296194          6.7         2.0  virginica
+#&gt; 124     1.840550   0.9932518          4.9         1.8  virginica
+#&gt; 125     1.902108   1.1939225          5.7         2.1  virginica
+#&gt; 126     1.974081   1.1631508          6.0         1.8  virginica
+#&gt; 127     1.824549   1.0296194          4.8         1.8  virginica
+#&gt; 128     1.808289   1.0986123          4.9         1.8  virginica
+#&gt; 129     1.856298   1.0296194          5.6         2.1  virginica
+#&gt; 130     1.974081   1.0986123          5.8         1.6  virginica
+#&gt; 131     2.001480   1.0296194          6.1         1.9  virginica
+#&gt; 132     2.066863   1.3350011          6.4         2.0  virginica
+#&gt; 133     1.856298   1.0296194          5.6         2.2  virginica
+#&gt; 134     1.840550   1.0296194          5.1         1.5  virginica
+#&gt; 135     1.808289   0.9555114          5.6         1.4  virginica
+#&gt; 136     2.041220   1.0986123          6.1         2.3  virginica
+#&gt; 137     1.840550   1.2237754          5.6         2.4  virginica
+#&gt; 138     1.856298   1.1314021          5.5         1.8  virginica
+#&gt; 139     1.791759   1.0986123          4.8         1.8  virginica
+#&gt; 140     1.931521   1.1314021          5.4         2.1  virginica
+#&gt; 141     1.902108   1.1314021          5.6         2.4  virginica
+#&gt; 142     1.931521   1.1314021          5.1         2.3  virginica
+#&gt; 143     1.757858   0.9932518          5.1         1.9  virginica
+#&gt; 144     1.916923   1.1631508          5.9         2.3  virginica
+#&gt; 145     1.902108   1.1939225          5.7         2.5  virginica
+#&gt; 146     1.902108   1.0986123          5.2         2.3  virginica
+#&gt; 147     1.840550   0.9162907          5.0         1.9  virginica
+#&gt; 148     1.871802   1.0986123          5.2         2.0  virginica
+#&gt; 149     1.824549   1.2237754          5.4         2.3  virginica
+#&gt; 150     1.774952   1.0986123          5.1         1.8  virginica</div><div class='input'><span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>height</span>:<span class='no'>mass</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
 #&gt;   height  mass
 #&gt;    &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1   174.  97.3</div><div class='input'>
@@ -369,23 +500,39 @@ even when not needed, name the input (see examples for details).</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>
 
   
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '1270c4079b26a138795263974bbf302d',
+    indexName: 'tidyverse',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

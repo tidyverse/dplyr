@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Summarise and mutate multiple columns.</a>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -102,10 +102,11 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Summarise and mutate multiple columns.</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-mutate.R'><code>R/colwise-mutate.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-mutate.R'><code>R/colwise-mutate.R</code></a></small>
     <div class="hidden name"><code>summarise_each.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p><code>mutate_each()</code> and <code>summarise_each()</code> are deprecated in favour of
 a more featureful family of functions: <code><a href='summarise_all.html'>mutate_all()</a></code>,
@@ -119,6 +120,7 @@ function to a selection of variables, use <code><a href='summarise_all.html'>mut
 <p>See the relevant section of <code><a href='../articles/compatibility.html'>vignette("compatibility")</a></code> for more
 information.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>summarise_each</span>(<span class='no'>tbl</span>, <span class='no'>funs</span>, <span class='no'>...</span>)
 
@@ -148,23 +150,39 @@ information.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>
 
   
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '1270c4079b26a138795263974bbf302d',
+    indexName: 'tidyverse',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

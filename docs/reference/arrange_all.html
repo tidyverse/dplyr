@@ -45,7 +45,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Arrange rows by a selection of variables</a>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
         <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
@@ -102,21 +102,23 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Arrange rows by a selection of variables</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-arrange.R'><code>R/colwise-arrange.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/colwise-arrange.R'><code>R/colwise-arrange.R</code></a></small>
     <div class="hidden name"><code>arrange_all.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>These <a href='scoped.html'>scoped</a> variants of <code><a href='arrange.html'>arrange()</a></code> sort a data frame by a
 selection of variables. Like <code><a href='arrange.html'>arrange()</a></code>, you can modify the
 variables before ordering with <code><a href='funs.html'>funs()</a></code>.</p>
     
+    </div>
 
-    <pre class="usage"><span class='fu'>arrange_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>arrange_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>, <span class='kw'>.by_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>arrange_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)
+<span class='fu'>arrange_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>, <span class='kw'>.by_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>arrange_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)</pre>
+<span class='fu'>arrange_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>, <span class='kw'>.by_group</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -140,6 +142,11 @@ lambda-formula.</p></td>
       <td><p>Additional arguments for the function calls in
 <code>.funs</code>. These are evaluated only once, with <a href='http://www.rdocumentation.org/packages/rlang/topics/tidy-dots'>tidy
 dots</a> support.</p></td>
+    </tr>
+    <tr>
+      <th>.by_group</th>
+      <td><p>If <code>TRUE</code>, will sort first by grouping variable. Applies to
+grouped data frames only.</p></td>
     </tr>
     <tr>
       <th>.vars</th>
@@ -235,23 +242,39 @@ functions and strings representing function names.</p></td>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
   <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>
 
   
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '1270c4079b26a138795263974bbf302d',
+    indexName: 'tidyverse',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>
