@@ -28,12 +28,17 @@
 #' # Selection drops unselected variables:
 #' is_whole <- function(x) all(floor(x) == x)
 #' select_if(mtcars, is_whole, toupper)
+#' select_at(mtcars, vars(-contains("ar"), starts_with("c")), toupper)
 #'
 #' # But renaming retains them:
 #' rename_if(mtcars, is_whole, toupper)
+#' rename_at(mtcars, vars(-(1:3)), toupper)
+#' rename_all(mtcars, toupper)
 #'
 #' # The renaming function is optional for selection:
 #' select_if(mtcars, is_whole)
+#' select_at(mtcars, vars(-everything()))
+#' select_all(mtcars)
 select_all <- function(.tbl, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   vars <- tbl_vars(.tbl)

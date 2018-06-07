@@ -21,7 +21,7 @@ nest_by_impl <- function(.data, key_var){
 #' @return A tbl with one row per unique combination of the grouping variables. The first columns are the grouping variables,
 #' followed by a list column of tibbles with matching rows of the remaining columns.
 #'
-#' @keyword internal
+#' @keywords internal
 #' @examples
 #' starwars %>%
 #'   nest_by(species, homeworld)

@@ -56,7 +56,6 @@ The \code{_if} and \code{_at} variants always retain grouping variables for grou
 data frames.
 }
 \examples{
-  
 # Supply a renaming function:
 select_all(mtcars, toupper)
 select_all(mtcars, "toupper")
@@ -76,5 +75,4 @@ rename_all(mtcars, toupper)
 select_if(mtcars, is_whole)
 select_at(mtcars, vars(-everything()))
 select_all(mtcars)
-
 }

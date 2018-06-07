@@ -39,3 +39,4 @@ starwars \%>\%
 starwars \%>\%
   nest_by_if(is.numeric)
 }
+\keyword{internal}
