@@ -56,6 +56,7 @@ The \code{_if} and \code{_at} variants always retain grouping variables for grou
 data frames.
 }
 \examples{
+  
 # Supply a renaming function:
 select_all(mtcars, toupper)
 select_all(mtcars, "toupper")
@@ -64,10 +65,16 @@ select_all(mtcars, funs(toupper(.)))
 # Selection drops unselected variables:
 is_whole <- function(x) all(floor(x) == x)
 select_if(mtcars, is_whole, toupper)
+select_at(mtcars, vars(-contains("ar"), starts_with("c")), toupper)
 
 # But renaming retains them:
 rename_if(mtcars, is_whole, toupper)
+rename_at(mtcars, vars(-(1:3)), toupper)
+rename_all(mtcars, toupper)
 
 # The renaming function is optional for selection:
 select_if(mtcars, is_whole)
+select_at(mtcars, vars(-everything()))
+select_all(mtcars)
+
 }
