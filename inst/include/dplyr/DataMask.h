@@ -53,11 +53,6 @@ private:
 
 };
 
-inline SEXP child_env(SEXP parent) {
-  static SEXP symb_new_env = Rf_install("new.env");
-  return Rf_eval(Rf_lang3(symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
-}
-
 // in the general case (for grouped and rowwise), the bindings
 // environment contains promises of the subsets
 template <typename Data>
