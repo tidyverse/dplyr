@@ -4,54 +4,9 @@
 #include <Rcpp.h>
 #include <tools/utils.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/promise.h>
 
 namespace dplyr {
-
-class promise {
-public:
-
-  promise() :
-    name(R_NilValue),
-    symb_name(R_NilValue),
-    env(R_NilValue)
-  {}
-
-  promise(SEXP name_, SEXP env_, SEXP expr) :
-    name(Rf_ScalarString(name_)),
-    symb_name(Rf_installChar(name_)),
-    env(env_)
-  {
-    install(expr);
-  }
-
-  inline void install(SEXP expr) {
-    delayedAssign(expr);
-    prom = Rf_findVarInFrame(env, symb_name);
-  }
-
-  inline bool was_forced() {
-    return PRVALUE(prom) != R_UnboundValue;
-  }
-
-  inline SEXP code() {
-    return PRCODE(prom);
-  }
-
-private:
-  SEXP name;
-  SEXP symb_name;
-  SEXP env;
-  SEXP prom;
-
-  // delayedAssign( name, call, eval.env = baseenv(), assign_env = env )
-  void delayedAssign(SEXP expr) {
-    static SEXP symb_delayedAssign = Rf_install("delayedAssign");
-    SEXP delayedAssignCall = PROTECT(Rf_lang5(symb_delayedAssign, name, expr, R_BaseEnv, env));
-    PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
-    UNPROTECT(2);
-  }
-
-};
 
 // in the general case (for grouped and rowwise), the bindings
 // environment contains promises of the subsets
@@ -64,7 +19,7 @@ public:
   DataMask_bindings(SEXP parent_env, Subsets& subsets_) :
     mask_bindings(child_env(parent_env)),
     subsets(subsets_),
-    promises(subsets.size())
+    promises()
   {}
 
   inline operator SEXP() {
@@ -98,8 +53,9 @@ private:
   void set_promises(const Index& indices) {
     CharacterVector names = subsets.get_variable_names().get_vector();
     int n = names.size();
+    promises.reserve(n);
     for (int i = 0; i < n; i++) {
-      promises[i] = promise(names[i], mask_bindings, get_subset_expr(i, indices));
+      promises.push_back(promise(names[i], mask_bindings, get_subset_expr(i, indices)));
     }
   }
 
