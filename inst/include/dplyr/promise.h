@@ -9,7 +9,7 @@ class promise {
 public:
 
   promise(SEXP name_, SEXP env_, SEXP expr) :
-    name(Rf_ScalarString(name_)),
+    name(name_),
     symb_name(Rf_installChar(name_)),
     env(env_)
   {
@@ -42,7 +42,7 @@ private:
   // delayedAssign( name, call, eval.env = baseenv(), assign_env = env )
   void delayedAssign(SEXP expr) {
     static SEXP symb_delayedAssign = Rf_install("delayedAssign");
-    SEXP delayedAssignCall = PROTECT(Rf_lang5(symb_delayedAssign, name, expr, R_BaseEnv, env));
+    SEXP delayedAssignCall = PROTECT(Rf_lang5(symb_delayedAssign, Rf_ScalarString(name), expr, R_BaseEnv, env));
     PROTECT(Rf_eval(delayedAssignCall, R_BaseEnv));
     UNPROTECT(2);
   }
