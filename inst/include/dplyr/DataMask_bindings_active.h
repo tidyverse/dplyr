@@ -4,83 +4,159 @@
 #include <Rcpp.h>
 #include <tools/utils.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
-#include <dplyr/promise.h>
+
+#include <boost/weak_ptr.hpp>
+#include <bindrcpp.h>
 
 namespace dplyr {
+
+class IHybridCallback {
+public:
+  virtual ~IHybridCallback();
+
+public:
+  virtual SEXP get_subset(const SymbolString& name) const = 0;
+};
 
 // in the general case (for grouped and rowwise), the bindings
 // environment contains promises of the subsets
 template <typename Data>
 class DataMask_bindings_active {
-  public:
-    typedef LazySplitSubsets<Data> Subsets;
+public:
+  typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
+private:
+
+  // Objects of class HybridCallbackWeakProxy are owned by an XPtr that is
+  // buried in a closure maintained by bindr. We have no control of their
+  // lifetime. They are connected to an IHybridCallback via a weak_ptr<>
+  // constructed from a shared_ptr<>), to which all calls to get_subset()
+  // are forwarded. If the underlying object has been destroyed (which can
+  // happen if the data mask leaks and survives the dplyr verb,
+  // sometimes unintentionally), the weak pointer cannot be locked, and
+  // get_subset() returns NULL with a warning (#3318).
+  class HybridCallbackWeakProxy : public IHybridCallback {
+  public:
+    HybridCallbackWeakProxy(boost::shared_ptr<const IHybridCallback> real_):
+      real(real_)
+    {
+      LOG_VERBOSE;
+    }
+
+  public:
+    SEXP get_subset(const SymbolString& name) const {
+      if (boost::shared_ptr<const IHybridCallback> lock = real.lock()) {
+        return lock.get()->get_subset(name);
+      }
+      else {
+        warning("Hybrid callback proxy out of scope");
+        return R_NilValue;
+      }
+    }
+
+    virtual ~HybridCallbackWeakProxy() {
+      LOG_VERBOSE;
+    }
+
+  private:
+    boost::weak_ptr<const IHybridCallback> real;
+  };
+
+  // The GroupedHybridEval class evaluates expressions for each group.
+  // It implements IHybridCallback to handle requests for the value of
+  // a variable.
+  class GroupedHybridEval : public IHybridCallback {
+    // Objects of HybridCallbackProxy are owned by GroupedHybridEval and
+    // held with a shared_ptr<> to support weak references. They simply
+    // forward to the enclosing GroupedHybridEval via the IHybridCallback
+    // interface.
+    class HybridCallbackProxy : public IHybridCallback {
+    public:
+      HybridCallbackProxy(const IHybridCallback* real_) :
+        real(real_)
+      {
+        LOG_VERBOSE;
+      }
+      virtual ~HybridCallbackProxy() {
+        LOG_VERBOSE;
+      }
+
+    public:
+      SEXP get_subset(const SymbolString& name) const {
+        return real->get_subset(name);
+      }
+
+    private:
+      const IHybridCallback* real;
+    };
+
+  public:
+    GroupedHybridEval(const Subsets& subsets_) :
+      indices(NULL),
+      subsets(subsets_),
+      proxy(new HybridCallbackProxy(this))
+    {
+      LOG_VERBOSE;
+    }
+
+    const SlicingIndex& get_indices() const {
+      return *indices;
+    }
+
+  public: // IHybridCallback
+    SEXP get_subset(const SymbolString& name) const {
+      return subsets.get(name, get_indices());
+    }
+
+  public:
+    void set_indices(const SlicingIndex& indices_) {
+      indices = &indices_;
+    }
+
+  private:
+    const SlicingIndex* indices;
+    const ILazySubsets& subsets;
+
+    boost::shared_ptr<IHybridCallback> proxy;
+
+  };
+
+public:
   DataMask_bindings_active(SEXP parent_env, Subsets& subsets_) :
-    mask_bindings(child_env(parent_env)),
-  subsets(subsets_),
-  promises()
-  {}
+    subsets(subsets_),
+    callback(new GroupedHybridEval(subsets))
+  {
+    CharacterVector names = subsets.get_variable_names().get_vector();
+
+    XPtr<const HybridCallbackWeakProxy> p(new HybridCallbackWeakProxy(callback));
+    List payload = List::create(p);
+
+    // Environment::new_child() performs an R callback, creating the environment
+    // in R should be slightly faster
+    mask_active = bindrcpp::create_env_string_wrapped(
+                    names, &DataMask_bindings_active::hybrid_get_callback,
+                    payload, parent_env
+                  );
+  }
 
   inline operator SEXP() {
-    return mask_bindings;
+    return mask_active;
   }
 
   void update(const Index& indices) {
-    // update promises in mask_promises
-    if (indices.group() == 0) {
-      set_promises(indices);
-    } else {
-      update_promises(indices);
-    }
+    subsets.clear();
+    callback->set_indices(indices);
   }
 
-  private:
-    Environment mask_bindings;
+private:
+  Environment mask_active;
   Subsets& subsets ;
-  std::vector<promise> promises;
+  boost::shared_ptr<GroupedHybridEval> callback;
 
-  inline SEXP get_subset_expr(int i, const Index& indices) {
-    static SEXP symb_bracket = Rcpp::traits::same_type<Data, RowwiseDataFrame>::value ? R_Bracket2Symbol : R_BracketSymbol ;
-    if (subsets.is_summary(i)) {
-      return Rf_lang3(symb_bracket, subsets.get_variable(i), Rf_ScalarInteger(indices.group() + 1));
-    } else {
-      return Rf_lang3(symb_bracket, subsets.get_variable(i), indices);
-    }
-
-  }
-
-  void set_promises(const Index& indices) {
-    CharacterVector names = subsets.get_variable_names().get_vector();
-    int n = names.size();
-    promises.reserve(n);
-    for (int i = 0; i < n; i++) {
-      promises.push_back(promise(names[i], mask_bindings, get_subset_expr(i, indices)));
-    }
-  }
-
-  void update_promises(const Index& indices) {
-    for (int i = 0; i < subsets.size(); i++) {
-      promise& p = promises[i];
-
-      if (p.was_forced()) {
-        // it has been evaluated, install a new promise
-        // would maybe be better to do either of:
-          // - reset it to unforced, but SET_PRVALUE(p, R_UnboundValue) does not work and gives this error: Evaluation error: 'rho' must be an environment not NULL: detected in C-level eval.
-        // - promote the promise to its value and recalculate it upfront for each group
-
-        p.install(get_subset_expr(i, indices));
-      } else {
-        // otherwise just need to update the expression
-        update_promise_index(p, indices);
-      }
-
-    }
-  }
-
-  void update_promise_index(promise& p, const Index& indices) {
-    SEXP code = p.code();
-    SETCADDR(code, indices);
+  static SEXP hybrid_get_callback(const String& name, List payload) {
+    XPtr<const HybridCallbackWeakProxy> callback_ = payload[0];
+    return callback_->get_subset(SymbolString(name));
   }
 
 };

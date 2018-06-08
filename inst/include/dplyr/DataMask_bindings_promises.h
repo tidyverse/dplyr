@@ -47,7 +47,6 @@ private:
     } else {
       return Rf_lang3(symb_bracket, subsets.get_variable(i), indices);
     }
-
   }
 
   void set_promises(const Index& indices) {
