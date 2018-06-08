@@ -766,7 +766,7 @@ test_that("lead and lag behave correctly in summarise (#1434)", {
 # .data and .env tests now in test-hybrid-traverse.R
 
 test_that("data.frame columns are supported in summarise (#1425)", {
-  skip("!!!! not sure what is happening")
+  skip("will fix as part of #3630")
   df <- data.frame(x1 = rep(1:3, times = 3), x2 = 1:9)
   df$x3 <- df %>% mutate(x3 = x2)
   res <- df %>% group_by(x1) %>% summarise(nr = nrow(x3))
