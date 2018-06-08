@@ -24,7 +24,7 @@ SEXP name_at(SEXP x, size_t i);
 SEXP f_env(SEXP x);
 bool is_quosure(SEXP x);
 SEXP maybe_rhs(SEXP x);
-
+SEXP child_env(SEXP parent);
 
 namespace dplyr {
 
