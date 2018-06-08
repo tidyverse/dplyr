@@ -9,6 +9,11 @@
 
 using namespace Rcpp;
 
+SEXP child_env(SEXP parent) {
+  static SEXP symb_new_env = Rf_install("new.env");
+  return Rf_eval(Rf_lang3(symb_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
+}
+
 // [[Rcpp::export]]
 void check_valid_names(const CharacterVector& names, bool warn_only = false) {
   IntegerVector which_na;
