@@ -1064,3 +1064,10 @@ test_that("formulas are evaluated in the right environment (#3019)", {
   out <- out$fn[[1]]()
   expect_identical(environment(out[[1]]), out[[2]])
 })
+
+test_that("summarise correctlyu reconstruct group rows", {
+  d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
+    group_by(g1, g2) %>%
+    summarise(x = x+1)
+  expect_equal(group_rows(d), list(1:2, 3:4))
+})

@@ -119,7 +119,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
     for (int i = 0; i < old_nrows;) {
       int start = i;
       while (i < old_nrows && visitors.equal(start, i)) i++ ;
-      new_indices.push_back(seq(start, i - 1));
+      new_indices.push_back(seq(start + 1, i));
     }
 
     // groups
