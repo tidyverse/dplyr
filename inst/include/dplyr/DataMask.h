@@ -4,7 +4,8 @@
 #include <Rcpp.h>
 #include <tools/utils.h>
 #include <dplyr/Result/LazyGroupedSubsets.h>
-#include <dplyr/DataMask_bindings_promises.h>
+// #include <dplyr/DataMask_bindings_promises.h>
+#include <dplyr/DataMask_bindings_active.h>
 
 namespace dplyr {
 
@@ -27,7 +28,7 @@ public:
   }
 
 private:
-  DataMask_bindings_promises<Data> impl ;
+  DataMask_bindings_active<Data> impl ;
 };
 
 // in the NaturalDataFrame case, we can directly install columns in the bindings environment
