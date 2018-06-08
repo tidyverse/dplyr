@@ -1,5 +1,5 @@
-#ifndef dplyr_DataMask_bindings_promises_H
-#define dplyr_DataMask_bindings_promises_H
+#ifndef dplyr_DataMask_bindings_active_H
+#define dplyr_DataMask_bindings_active_H
 
 #include <Rcpp.h>
 #include <tools/utils.h>
@@ -11,15 +11,15 @@ namespace dplyr {
 // in the general case (for grouped and rowwise), the bindings
 // environment contains promises of the subsets
 template <typename Data>
-class DataMask_bindings_promises {
-public:
-  typedef LazySplitSubsets<Data> Subsets;
+class DataMask_bindings_active {
+  public:
+    typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  DataMask_bindings_promises(SEXP parent_env, Subsets& subsets_) :
+  DataMask_bindings_active(SEXP parent_env, Subsets& subsets_) :
     mask_bindings(child_env(parent_env)),
-    subsets(subsets_),
-    promises()
+  subsets(subsets_),
+  promises()
   {}
 
   inline operator SEXP() {
@@ -35,8 +35,8 @@ public:
     }
   }
 
-private:
-  Environment mask_bindings;
+  private:
+    Environment mask_bindings;
   Subsets& subsets ;
   std::vector<promise> promises;
 
@@ -66,7 +66,7 @@ private:
       if (p.was_forced()) {
         // it has been evaluated, install a new promise
         // would maybe be better to do either of:
-        // - reset it to unforced, but SET_PRVALUE(p, R_UnboundValue) does not work and gives this error: Evaluation error: 'rho' must be an environment not NULL: detected in C-level eval.
+          // - reset it to unforced, but SET_PRVALUE(p, R_UnboundValue) does not work and gives this error: Evaluation error: 'rho' must be an environment not NULL: detected in C-level eval.
         // - promote the promise to its value and recalculate it upfront for each group
 
         p.install(get_subset_expr(i, indices));
@@ -88,4 +88,3 @@ private:
 }
 
 #endif
-
