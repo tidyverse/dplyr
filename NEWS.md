@@ -1,4 +1,9 @@
-# dplyr 0.7.5 (2018-04-14)
+# dplyr 0.7.6
+
+* `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
+  (#3638).
+
+# dplyr 0.7.5
 
 ## Breaking changes for package developers
 

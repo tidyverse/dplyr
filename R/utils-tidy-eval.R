@@ -9,7 +9,7 @@
 #' * \code{\link[rlang]{expr}()} and \code{\link[rlang]{quo}()} quote
 #'   one expression. `quo()` wraps the quoted expression in a quosure.
 #'
-#'   The plural variants \code{\link[rlang]{exprs}()} and
+#'   The plural variants [rlang::exprs()] and
 #'   \code{\link[rlang]{quos}()} return a list of quoted expressions or
 #'   quosures.
 #'
@@ -21,6 +21,10 @@
 #'   capture multiple expressions supplied as arguments, including
 #'   `...`.
 #'
+#' `exprs()` is not exported by \pkg{dplyr} to avoid conflicts with
+#' `Biobase::exprs()`.  Use `rlang::exprs()` even if you have
+#' attached \pkg{dplyr}.
+#'
 #' @md
 #' @name tidyeval
 #' @keywords internal
@@ -30,6 +34,6 @@
 #'                   .data
 #' @export           quo quos enquo enquos quo_name
 #' @export           sym ensym syms ensyms
-#' @export           expr exprs enexpr enexprs
+#' @export           expr enexpr enexprs
 #' @export           .data
 NULL
