@@ -43,4 +43,6 @@ starwars \%>\%
 \seealso{
 \code{\link[=coalesce]{coalesce()}} to replace missing values with a specified
 value.
+\code{\link[tidyr]{replace_na}} to replace \code{NA} with a value
+\code{\link[=recode]{recode()}} to more generally replace values.
 }
