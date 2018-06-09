@@ -3,6 +3,9 @@
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
   (#3638).
 
+* The MASS package is explicitly suggested to fix CRAN warnings on R-devel
+  (#3657).
+
 # dplyr 0.7.5
 
 ## Breaking changes for package developers
