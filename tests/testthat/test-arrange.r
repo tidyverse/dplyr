@@ -179,6 +179,13 @@ test_that("arrange fails gracefully on data.frame input (#3153)", {
   expect_error(arrange(df, iris), "Argument 1 is of unsupported type data.frame")
 })
 
+test_that("arrange.data.frame recognizes the .by_group argument (#3546)", {
+  df <- data.frame(foo=1:2, bar=2)
+  res <- df %>%
+    arrange(foo, .by_group=TRUE)
+  expect_identical(res, df)
+})
+
 # grouped_df --------------------------------------------------------------
 
 test_that("can choose to include grouping vars", {

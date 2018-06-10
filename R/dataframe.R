@@ -98,13 +98,13 @@ mutate_.data.frame <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-arrange.data.frame <- function(.data, ...) {
-  as.data.frame(arrange(tbl_df(.data), ...))
+arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+  as.data.frame(arrange(tbl_df(.data), ..., .by_group = .by_group))
 }
 #' @export
-arrange_.data.frame <- function(.data, ..., .dots = list()) {
+arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange(.data, !!!dots)
+  arrange(.data, !!!dots, .by_group = .by_group)
 }
 
 #' @export
