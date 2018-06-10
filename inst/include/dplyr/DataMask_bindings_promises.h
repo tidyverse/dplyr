@@ -22,7 +22,7 @@ public:
     n_subsets(subsets.size()),
     promises(),
     forced(n_subsets, false),
-    names(subsets.get_variable_names().get_vector())
+    names(subsets.get_names())
   {}
 
   inline operator SEXP() {

@@ -2,6 +2,7 @@
 #define dplyr_LazyGroupedSubsets_H
 
 #include <tools/SymbolMap.h>
+#include <boost/shared_ptr.hpp>
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
@@ -15,15 +16,14 @@
 namespace dplyr {
 
 template <class Data>
-class LazySplitSubsets : public ILazySubsets {
+class LazySplitSubsets {
   typedef typename Data::subset subset;
 
 public:
   LazySplitSubsets(const Data& gdf_) :
     gdf(gdf_),
     subsets(),
-    symbol_map(),
-    resolved()
+    symbol_map()
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
@@ -34,64 +34,36 @@ public:
     }
   }
 
-  virtual ~LazySplitSubsets() {
-    for (size_t i = 0; i < subsets.size(); i++) {
-      delete subsets[i];
-    }
+  const CharacterVector get_names() const {
+    return symbol_map.get_names().get_vector() ;
   }
 
-public:
-  virtual const SymbolVector get_variable_names() const {
-    return symbol_map.get_names();
-  }
-
-  virtual SEXP get_variable(int i) const {
+  SEXP get_variable(int i) const {
     return subsets[i]->get_variable();
   }
 
-  virtual SEXP get_variable(const SymbolString& symbol) const {
+  SEXP get_variable(const SymbolString& symbol) const {
     return subsets[symbol_map.get(symbol)]->get_variable();
   }
 
-  virtual SEXP get(const SymbolString& symbol, const SlicingIndex& indices) const {
-    int idx = symbol_map.get(symbol);
-
-    SEXP value = resolved[idx];
-    if (value == R_NilValue) {
-      resolved[idx] = value = subsets[idx]->get(indices);
-    }
-    return value;
-  }
-
-  virtual bool is_summary(int i) const {
+  bool is_summary(int i) const {
     return subsets[i]->is_summary();
   }
 
-  virtual bool is_summary(const SymbolString& symbol) const {
+  bool is_summary(const SymbolString& symbol) const {
     return subsets[symbol_map.get(symbol)]->is_summary();
   }
 
-  virtual bool has_variable(const SymbolString& head) const {
+  bool has_variable(const SymbolString& head) const {
     return symbol_map.has(head);
   }
 
-  virtual void input(const SymbolString& symbol, SEXP x) {
+  void input(const SymbolString& symbol, SEXP x) {
     input_subset(symbol, gdf.create_subset(x));
   }
 
-  virtual int size() const {
+  int size() const {
     return subsets.size();
-  }
-
-  virtual int nrows() const {
-    return gdf.nrows();
-  }
-
-public:
-  void clear() {
-    for (size_t i = 0; i < resolved.size(); i++) {
-      resolved[i] = R_NilValue;
-    }
   }
 
   void input_summarised(const SymbolString& symbol, SummarisedVariable x) {
@@ -101,29 +73,18 @@ public:
 private:
 
   const Data& gdf;
-  std::vector<subset*> subsets;
+  std::vector< boost::shared_ptr<subset> > subsets;
   SymbolMap symbol_map;
-  mutable std::vector<SEXP> resolved;
-
-  bool owner;
 
   void input_subset(const SymbolString& symbol, subset* sub) {
     SymbolMapIndex index = symbol_map.insert(symbol);
     if (index.origin == NEW) {
-      subsets.push_back(sub);
-      resolved.push_back(R_NilValue);
+      subsets.push_back(boost::shared_ptr<subset>(sub));
     } else {
-      int idx = index.pos;
-      delete subsets[idx];
-      subsets[idx] = sub;
-      resolved[idx] = R_NilValue;
+      subsets[index.pos].reset(sub) ;
     }
   }
 };
-
-typedef LazySplitSubsets<GroupedDataFrame> LazyGroupedSubsets;
-typedef LazySplitSubsets<RowwiseDataFrame> LazyRowwiseSubsets;
-typedef LazySplitSubsets<NaturalDataFrame> LazyNaturalSubsets;
 
 }
 #endif

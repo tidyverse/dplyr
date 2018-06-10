@@ -39,7 +39,7 @@ public:
   DataMask_bindings(SEXP parent_env, Subsets& subsets) :
     mask_bindings(child_env(parent_env))
   {
-    CharacterVector names = subsets.get_variable_names().get_vector();
+    CharacterVector names = subsets.get_names();
     int n = names.size();
     for (int i = 0; i < n; i++) {
       // this handles both the normal and summarised case (via recycling rules)
