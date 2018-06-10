@@ -23,8 +23,7 @@ public:
     gdf(gdf_),
     subsets(),
     symbol_map(),
-    resolved(),
-    owner(true)
+    resolved()
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
@@ -35,19 +34,9 @@ public:
     }
   }
 
-  LazySplitSubsets(const LazySplitSubsets& other) :
-    gdf(other.gdf),
-    subsets(other.subsets),
-    symbol_map(other.symbol_map),
-    resolved(other.resolved),
-    owner(false)
-  {}
-
   virtual ~LazySplitSubsets() {
-    if (owner) {
-      for (size_t i = 0; i < subsets.size(); i++) {
-        delete subsets[i];
-      }
+    for (size_t i = 0; i < subsets.size(); i++) {
+      delete subsets[i];
     }
   }
 
@@ -110,6 +99,7 @@ public:
   }
 
 private:
+
   const Data& gdf;
   std::vector<subset*> subsets;
   SymbolMap symbol_map;
