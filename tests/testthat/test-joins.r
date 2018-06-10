@@ -1006,6 +1006,17 @@ test_that("nest_join works (#3570)",{
   expect_identical(res$data[[2]], tibble(z = double()))
 })
 
+test_that("nest_join handles multiple matches in x (#3642)", {
+  df1 <- tibble(x = c(1, 1))
+  df2 <- tibble(x = 1, y = 1:2)
+
+  tbls <- df1 %>%
+    nest_join(df2) %>%
+    pull()
+
+  expect_identical(tbls[[1]], tbls[[2]])
+})
+
 test_that("joins reject data frames with duplicate columns (#3243)", {
   df1 <- data.frame(x1 = 1:3, x2 = 1:3, y = 1:3)
   names(df1)[1:2] <- "x"
