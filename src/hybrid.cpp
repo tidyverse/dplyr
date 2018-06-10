@@ -10,8 +10,6 @@
 #include <dplyr/Result/Rank.h>
 #include <dplyr/Result/ConstantResult.h>
 
-#include <dplyr/DataMask_bindings_active.h>
-
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -301,8 +299,5 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
   }
   return 0;
 }
-
-IHybridCallback::~IHybridCallback() {}
-
 
 }
