@@ -2,15 +2,22 @@
 % Please edit documentation in R/colwise-arrange.R
 \name{arrange_all}
 \alias{arrange_all}
+\alias{arrange_all.data.frame}
+\alias{arrange_all.grouped_df}
 \alias{arrange_at}
 \alias{arrange_if}
 \title{Arrange rows by a selection of variables}
 \usage{
-arrange_all(.tbl, .funs = list(), ..., .by_group = FALSE)
+arrange_all(.tbl, .funs = list(), ...)
 
-arrange_at(.tbl, .vars, .funs = list(), ..., .by_group = FALSE)
+\method{arrange_all}{data.frame}(.tbl, .funs = list(), ...)
 
-arrange_if(.tbl, .predicate, .funs = list(), ..., .by_group = FALSE)
+\method{arrange_all}{grouped_df}(.tbl, .funs = list(), ...,
+  .by_group = FALSE)
+
+arrange_at(.tbl, .vars, .funs = list(), ...)
+
+arrange_if(.tbl, .predicate, .funs = list(), ...)
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
