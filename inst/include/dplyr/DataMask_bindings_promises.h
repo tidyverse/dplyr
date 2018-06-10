@@ -63,7 +63,7 @@ private:
   }
 
   void update_promises(const Index& indices) {
-    for (int i = 0; i < subsets.size(); i++) {
+    for (int i = 0; i < n_subsets; i++) {
 
       promise& p = promises[i];
 
