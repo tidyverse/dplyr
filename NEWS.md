@@ -155,6 +155,9 @@ To be released as 0.8.0
 * Fix rchk errors (#3693).
 
 # dplyr 0.7.5
+* `do()` and `rowwise()` are marked as questioning (#3494). 
+
+# dplyr 0.7.5 (2018-04-14)
 
 ## Breaking changes for package developers
 

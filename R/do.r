@@ -1,5 +1,7 @@
 #' Do anything
 #'
+#' \badgequestioning
+#'
 #' This is a general purpose complement to the specialised manipulation
 #' functions [filter()], [select()], [mutate()],
 #' [summarise()] and [arrange()]. You can use `do()`

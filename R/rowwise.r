@@ -1,5 +1,7 @@
 #' Group input by rows
 #'
+#' \badgequestioning
+#'
 #' `rowwise()` is used for the results of [do()] when you
 #' create list-variables. It is also useful to support arbitrary
 #' complex operations that need to be applied to each row.

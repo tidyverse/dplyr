@@ -10,11 +10,13 @@ rowwise(data)
 \item{data}{Input data frame.}
 }
 \description{
+\badgequestioning
+}
+\details{
 \code{rowwise()} is used for the results of \code{\link[=do]{do()}} when you
 create list-variables. It is also useful to support arbitrary
 complex operations that need to be applied to each row.
-}
-\details{
+
 Currently, rowwise grouping only works with data frames. Its
 main impact is to allow you to work with list-variables in
 \code{\link[=summarise]{summarise()}} and \code{\link[=mutate]{mutate()}} without having to

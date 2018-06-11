@@ -28,6 +28,9 @@ multiple named inputs, the output is grouped by row with
 way.
 }
 \description{
+\badgequestioning
+}
+\details{
 This is a general purpose complement to the specialised manipulation
 functions \code{\link[=filter]{filter()}}, \code{\link[=select]{select()}}, \code{\link[=mutate]{mutate()}},
 \code{\link[=summarise]{summarise()}} and \code{\link[=arrange]{arrange()}}. You can use \code{do()}
@@ -36,8 +39,7 @@ arbitrary objects which will be stored in a list. This is particularly
 useful when working with models: you can fit models per group with
 \code{do()} and then flexibly extract components with either another
 \code{do()} or \code{summarise()}.
-}
-\details{
+
 For an empty data frame, the expressions will be evaluated once, even in the
 presence of a grouping.  This makes sure that the format of the resulting
 data frame is the same for both empty and non-empty input.
