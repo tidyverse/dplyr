@@ -15,7 +15,7 @@
 #include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/ILazySubsets.h>
 
-#include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/LazySplitSubsets.h>
 
 #include <dplyr/Result/GroupedCallReducer.h>
 
