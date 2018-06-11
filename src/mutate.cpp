@@ -64,10 +64,9 @@ inline SEXP constant_recycle(SEXP x, int n, const SymbolString& name) {
 template <typename Data>
 class MutateCallProxy {
 public:
-  typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_) :
+  MutateCallProxy(const Data& data_, LazySplitSubsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_) :
     data(data_),
     subsets(subsets_),
     expr(expr_),
@@ -107,7 +106,7 @@ private:
   const Data& data ;
 
   // where to find subsets of data variables
-  Subsets& subsets ;
+  LazySplitSubsets& subsets ;
 
   // expression and environment from the quosure
   SEXP expr ;
@@ -168,9 +167,9 @@ private:
     }
 
     if (TYPEOF(first) == VECSXP) {
-      return ListGatherer<Data, Subsets, MutateCallProxy> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return ListGatherer<Data, MutateCallProxy> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     } else {
-      return Gatherer<Data, Subsets, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return Gatherer<Data, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     }
 
   }
@@ -230,7 +229,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
 
-  LazySplitSubsets<Data> subsets(gdf) ;
+  LazySplitSubsets subsets(gdf.data()) ;
 
   for (int i = 0; i < nexpr; i++) {
 

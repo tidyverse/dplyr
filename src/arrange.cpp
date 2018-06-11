@@ -20,7 +20,6 @@ using namespace dplyr;
 
 template <typename SlicedTibble>
 SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
-  typedef LazySplitSubsets<NaturalDataFrame> Subsets;
   static SEXP symb_desc = Rf_install("desc");
 
   const DataFrame& data = gdf.data();
@@ -36,7 +35,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   List variables(nargs);
   LogicalVector ascending(nargs);
 
-  Subsets subsets(NaturalDataFrame(gdf.data()));
+  LazySplitSubsets subsets(gdf.data());
   NaturalSlicingIndex indices_all(gdf.nrows());
 
   for (int i = 0; i < nargs; i++) {

@@ -13,10 +13,9 @@ namespace dplyr {
 template <typename Data>
 class DataMask_bindings_promises {
 public:
-  typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  DataMask_bindings_promises(SEXP parent_env, Subsets& subsets_) :
+  DataMask_bindings_promises(SEXP parent_env, LazySplitSubsets& subsets_) :
     mask_bindings(child_env(parent_env)),
     subsets(subsets_),
     n_subsets(subsets.size()),
@@ -40,7 +39,7 @@ public:
 
 private:
   Environment mask_bindings;
-  Subsets& subsets ;
+  LazySplitSubsets& subsets ;
   int n_subsets;
   std::vector<promise> promises;
   std::vector<bool> forced;

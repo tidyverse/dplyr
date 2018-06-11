@@ -15,75 +15,66 @@
 
 namespace dplyr {
 
-template <class Data>
 class LazySplitSubsets {
-  typedef typename Data::subset subset;
-
 public:
-  LazySplitSubsets(const Data& gdf_) :
-    gdf(gdf_),
-    subsets(),
-    symbol_map()
+  LazySplitSubsets(const DataFrame& data) :
+    subsets(data.size()),
+    summarised(data.size(), false),
+    symbol_map(data.size(), data.names())
   {
-    const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
     int n = data.size();
     LOG_INFO << "processing " << n << " vars: " << names;
     for (int i = 0; i < n; i++) {
-      input(names[i], data[i]);
+      subsets[i] = data[i];
     }
   }
 
-  const CharacterVector get_names() const {
+  inline const CharacterVector get_names() const {
     return symbol_map.get_names().get_vector() ;
   }
 
-  SEXP get_variable(int i) const {
-    return subsets[i]->get_variable();
+  inline SEXP get_variable(int i) const {
+    return subsets[i];
   }
 
-  SEXP get_variable(const SymbolString& symbol) const {
-    return subsets[symbol_map.get(symbol)]->get_variable();
+  inline SEXP get_variable(const SymbolString& symbol) const {
+    return get_variable(symbol_map.get(symbol));
   }
 
-  bool is_summary(int i) const {
-    return subsets[i]->is_summary();
+  inline bool is_summary(int i) const {
+    return summarised[i];
   }
 
-  bool is_summary(const SymbolString& symbol) const {
-    return subsets[symbol_map.get(symbol)]->is_summary();
+  inline bool is_summary(const SymbolString& symbol) const {
+    return is_summary(symbol_map.get(symbol));
   }
 
-  bool has_variable(const SymbolString& head) const {
-    return symbol_map.has(head);
+  inline bool has_variable(const SymbolString& name) const {
+    return symbol_map.has(name);
   }
 
-  void input(const SymbolString& symbol, SEXP x) {
-    input_subset(symbol, gdf.create_subset(x));
-  }
-
-  int size() const {
+  inline int size() const {
     return subsets.size();
   }
 
-  void input_summarised(const SymbolString& symbol, SummarisedVariable x) {
-    input_subset(symbol, summarised_subset(x));
+  inline void input(const SymbolString& symbol, SEXP x, bool summary = false) {
+    SymbolMapIndex index = symbol_map.insert(symbol);
+    if (index.origin == NEW) {
+      subsets.push_back(x);
+      summarised.push_back(summary);
+    } else {
+      subsets[index.pos] = x ;
+      summarised[index.pos] = summary;
+    }
   }
 
 private:
 
-  const Data& gdf;
-  std::vector< boost::shared_ptr<subset> > subsets;
+  std::vector<SEXP> subsets;
+  std::vector<bool> summarised;
   SymbolMap symbol_map;
 
-  void input_subset(const SymbolString& symbol, subset* sub) {
-    SymbolMapIndex index = symbol_map.insert(symbol);
-    if (index.origin == NEW) {
-      subsets.push_back(boost::shared_ptr<subset>(sub));
-    } else {
-      subsets[index.pos].reset(sub) ;
-    }
-  }
 };
 
 }

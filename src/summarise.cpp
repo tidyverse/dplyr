@@ -132,7 +132,6 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
 
 template <typename SlicedTibble>
 DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
-  typedef LazySplitSubsets<SlicedTibble> LazySubsets ;
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
@@ -152,7 +151,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
-  LazySubsets subsets(gdf);
+  LazySplitSubsets subsets(gdf.data());
   for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
@@ -189,7 +188,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
     results[i] = result;
     accumulator.set(quosure.name(), result);
-    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
+    subsets.input(quosure.name(), result, true);
   }
 
   List out = accumulator;

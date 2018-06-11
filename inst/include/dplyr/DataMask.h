@@ -12,9 +12,8 @@ template <typename Data>
 class DataMask_bindings {
 public:
   typedef typename Data::slicing_index Index ;
-  typedef LazySplitSubsets<Data> Subsets;
 
-  DataMask_bindings(SEXP parent_env, Subsets& subsets) :
+  DataMask_bindings(SEXP parent_env, LazySplitSubsets& subsets) :
     impl(parent_env, subsets)
   {}
 
@@ -34,9 +33,7 @@ private:
 template <>
 class DataMask_bindings<NaturalDataFrame> {
 public:
-  typedef LazySplitSubsets<NaturalDataFrame> Subsets;
-
-  DataMask_bindings(SEXP parent_env, Subsets& subsets) :
+  DataMask_bindings(SEXP parent_env, LazySplitSubsets& subsets) :
     mask_bindings(child_env(parent_env))
   {
     CharacterVector names = subsets.get_names();
@@ -65,10 +62,9 @@ private:
 template <typename Data>
 class DataMask {
 public:
-  typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  DataMask(Subsets& subsets, const Rcpp::Environment& env):
+  DataMask(LazySplitSubsets& subsets, const Rcpp::Environment& env):
     bindings(env, subsets),
     overscope(internal::rlang_api().new_data_mask(bindings, bindings, env))
   {
