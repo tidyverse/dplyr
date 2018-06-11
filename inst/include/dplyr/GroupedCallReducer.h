@@ -129,10 +129,6 @@ inline SEXP GroupedCallReducer<NaturalDataFrame>::process(const NaturalDataFrame
   return process_chunk(NaturalSlicingIndex(gdf.nrows())) ;
 }
 
-
-
-
-
 }
 
 #endif

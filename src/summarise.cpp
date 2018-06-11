@@ -1,15 +1,13 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/Quosure.h>
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/NaturalDataFrame.h>
 
 #include <dplyr/LazySplitSubsets.h>
-#include <dplyr/Result/GroupedCallReducer.h>
+#include <dplyr/GroupedCallReducer.h>
 
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
@@ -170,18 +168,6 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     if (is_vector(expr)) {
       result = validate_unquoted_value(expr, gdf.ngroups(), quosure.name());
     } else {
-      // //boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
-      //
-      // // If we could not find a direct Result,
-      // // we can use a GroupedCallReducer which will callback to R.
-      // // Note that the GroupedCallReducer currently doesn't apply
-      // // special treatment to summary variables, for which hybrid
-      // // evaluation should be turned off completely (#2312)
-      // if (!res) {
-      //   res.reset(new GroupedCallReducer<SlicedTibble, LazySubsets>(quosure.expr(), subsets, env, quosure.name()));
-      // }
-      // result = res->process(gdf);
-
       result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), data_mask).process(gdf);
     }
     check_not_null(result, quosure.name());
