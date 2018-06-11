@@ -377,7 +377,6 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   typedef typename SlicedTibble::group_iterator GroupIterator;
   typedef typename SlicedTibble::slicing_index Index ;
 
-  // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
   LazySplitSubsets subsets(gdf.data()) ;
   DataMask<SlicedTibble> data_mask(subsets, quo.env());

@@ -69,10 +69,6 @@ public:
     return nrows();
   }
 
-  inline SymbolVector get_vars() const {
-    return SymbolVector();
-  }
-
 private:
 
   DataFrame data_;
