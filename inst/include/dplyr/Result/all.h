@@ -12,7 +12,6 @@
 #include <dplyr/Result/Sd.h>
 #include <dplyr/Result/MinMax.h>
 
-#include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/LazySplitSubsets.h>
