@@ -6,6 +6,7 @@
 #include <dplyr/Result/ILazySubsets.h>
 
 #include <dplyr/Result/In.h>
+#include <tools/utils.h>
 
 using namespace Rcpp;
 using namespace dplyr;

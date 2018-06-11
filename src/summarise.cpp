@@ -14,6 +14,7 @@
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 #include <dplyr/DataMask.h>
+#include <dplyr/DataFrameVisitors.h>
 
 #include <dplyr/tbl_cpp.h>
 

@@ -4,8 +4,6 @@
 #include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/Result/GroupedSubset.h>
-
 #include <tools/SymbolVector.h>
 #include <tools/SymbolMap.h>
 
@@ -35,7 +33,6 @@ class NaturalDataFrame {
 public:
   typedef NaturalDataFrameIndexIterator group_iterator;
   typedef NaturalSlicingIndex slicing_index;
-  typedef NaturalSubset subset;
 
   NaturalDataFrame(SEXP x):
     data_(x)
@@ -77,10 +74,6 @@ public:
 
   inline bool has_group(const SymbolString& g) const {
     return false ;
-  }
-
-  inline NaturalSubset* create_subset(SEXP x) const {
-    return natural_subset(x);
   }
 
   inline int size() const {

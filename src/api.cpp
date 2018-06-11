@@ -16,6 +16,7 @@
 #include <dplyr/Result/Result.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/DataFrameSubsetVisitors.h>
 
 #include <dplyr/bad.h>
 

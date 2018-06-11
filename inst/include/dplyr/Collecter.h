@@ -3,6 +3,7 @@
 
 #include <tools/all_na.h>
 #include <tools/hash.h>
+#include <tools/collapse.h>
 
 #include <dplyr/registration.h>
 #include <dplyr/vector_class.h>

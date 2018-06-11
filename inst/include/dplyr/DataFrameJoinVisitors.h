@@ -7,6 +7,7 @@
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/JoinVisitor.h>
+#include <tools/utils.h>
 
 namespace dplyr {
 
