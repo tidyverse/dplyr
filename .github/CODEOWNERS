@@ -1,0 +1,9 @@
+# Each line is a file pattern followed by one or more owners.
+# CODEOWNERS documentation can be found at the link, below.
+# https://help.github.com/articles/about-codeowners/
+
+# These owners will be the default owners for everything in
+# the repo. Unless a later match takes precedence,
+# The first name listed is the repo/package principal.
+# The subsequent name(s) listed is/are the understudy(ies).
+*       @hadley @romainfrancois @krlmlr
