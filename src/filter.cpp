@@ -349,7 +349,6 @@ private:
 
 template <typename SlicedTibble, typename Index>
 SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<Index>& group_indices) {
-  const DataFrame& data = gdf.data();
   // create the result data frame
   int nc = data.size();
   List out(data.size());
@@ -497,7 +496,6 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
     const Index& indices = *git;
-    int nr = indices.size();
     IntegerVector g_test = check_filter_integer_result(call_proxy.get(indices));
     CountIndices counter(indices.size(), g_test);
 
