@@ -159,15 +159,14 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     DataMask<SlicedTibble> data_mask(subsets, env);
 
     LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
-
     SEXP expr = quosure.expr();
     RObject result;
 
-    // Unquoted vectors are directly used as column. Expressions are
-    // evaluated in each group.
     if (is_vector(expr)) {
+      // Unquoted vectors are directly used as column
       result = validate_unquoted_value(expr, gdf.ngroups(), quosure.name());
     } else {
+      // Expressions are evaluated in each group
       result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), data_mask).process(gdf);
     }
     check_not_null(result, quosure.name());
