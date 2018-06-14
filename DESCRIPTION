@@ -51,7 +51,7 @@ Suggests:
     testthat (>= 2.0.0),
     withr (>= 2.1.1)
 LinkingTo: 
-    BH (>= 1.58.0-1),
+    tidylibs (>= 1.66.0-1),
     bindrcpp (>= 0.2.0.9000),
     plogr (>= 0.1.10),
     Rcpp (>= 0.12.15)
@@ -62,3 +62,5 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.0.1.9000
 Remotes:
     tidyverse/rlang
+    romainfrancois/tidylibs
+
