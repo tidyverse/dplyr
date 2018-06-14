@@ -212,7 +212,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
   DataFrameSubsetVisitors y_subset_visitors(y, aux_y);
 
   // to deal with the case where multiple rows of x match rows in y
-  dplyr_hash_map<int,SEXP> resolved_map(y_subset_visitors.size());
+  dplyr_hash_map<int, SEXP> resolved_map(y_subset_visitors.size());
 
   for (int i = 0; i < n_x; i++) {
 
@@ -221,7 +221,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
     if (it != map.end()) {
 
       // then check if we have already seen that match
-      dplyr_hash_map<int,SEXP>::iterator rit = resolved_map.find(it->first);
+      dplyr_hash_map<int, SEXP>::iterator rit = resolved_map.find(it->first);
       if (rit == resolved_map.end()) {
         // first time we see the match, so transform the indices that were collected
         // so that they are on the 0-based positive space, then subset y
