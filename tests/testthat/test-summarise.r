@@ -713,9 +713,7 @@ test_that("hybrid max works when not used on columns (#1369)", {
 
 test_that("min and max handle empty sets in summarise (#1481)", {
   df <- data_frame(A = numeric())
-  expect_warning(
-    res <- df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
-  )
+  res <- df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
   expect_equal(res$Min, Inf)
   expect_equal(res$Max, -Inf)
 })
