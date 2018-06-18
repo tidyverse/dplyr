@@ -20,6 +20,8 @@
 #include <dplyr/bad.h>
 #include <dplyr/tbl_cpp.h>
 
+#include <dplyr/hybrid/hybrid.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -238,7 +240,11 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
 
-    RObject variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), quosure.env(), name).get() ;
+    RObject variable = hybrid::hybrid_mutate(quosure.expr(), gdf, subsets, quosure.env()) ;
+
+    if (variable == R_UnboundValue) {
+      variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), quosure.env(), name).get() ;
+    }
 
     if (Rf_isNull(variable)) {
       accumulator.rm(name);

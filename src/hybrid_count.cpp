@@ -7,17 +7,10 @@
 
 #include <dplyr/Result/ILazySubsets.h>
 
-#include <dplyr/Result/Count.h>
 #include <dplyr/Result/Count_Distinct.h>
 
 using namespace Rcpp;
 using namespace dplyr;
-
-Result* count_prototype(SEXP args, const ILazySubsets&, int) {
-  if (Rf_length(args) != 1)
-    stop("`n()` does not take arguments");
-  return new Count;
-}
 
 Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int) {
   MultipleVectorVisitors visitors;
@@ -52,6 +45,5 @@ Result* count_distinct_prototype(SEXP call, const ILazySubsets& subsets, int) {
 
 void install_count_handlers(HybridHandlerMap& handlers) {
   Environment ns_dplyr = Environment::namespace_env("dplyr");
-  handlers[Rf_install("n")] = HybridHandler(count_prototype, HybridHandler::DPLYR, ns_dplyr["n"]);
   handlers[Rf_install("n_distinct")] = HybridHandler(count_distinct_prototype, HybridHandler::DPLYR, ns_dplyr["n_distinct"]);
 }
