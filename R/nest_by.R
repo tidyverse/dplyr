@@ -5,7 +5,7 @@ nest_by_impl <- function(.data, key_var){
   .data %>%
     group_data() %>%
     mutate(!!key_var := map(.rows, function(.x) to_nest[.x,, drop = FALSE])) %>%
-    select(-.rows)
+    select(-".rows")
 }
 
 #' Nest by one or more variables
