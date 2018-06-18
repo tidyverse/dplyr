@@ -532,10 +532,10 @@ rename_ <- function(.data, ..., .dots = list()) {
 #' mutate(carriers, n = n())
 #' filter(carriers, n() < 100)
 #' }
-n <- function() {
-  abort("This function should not be called directly")
+n <- function(...) {
+  if (dots_n(...)) abort("`n()` does not take arguments")
+  get_data_context(sys.frames(), "n()")[["..group_size"]]
 }
-
 
 #' Deprecated SE versions of main verbs.
 #'

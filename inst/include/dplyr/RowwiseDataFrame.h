@@ -3,8 +3,8 @@
 
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/Result/RowwiseSubset.h>
 #include <tools/SymbolString.h>
+#include <tools/SymbolVector.h>
 
 namespace dplyr {
 
@@ -30,7 +30,6 @@ class RowwiseDataFrame {
 public:
   typedef RowwiseDataFrameIndexIterator group_iterator;
   typedef RowwiseSlicingIndex slicing_index;
-  typedef RowwiseSubset subset;
 
   RowwiseDataFrame(SEXP x):
     data_(x)
@@ -68,14 +67,6 @@ public:
 
   inline int ngroups() const {
     return nrows();
-  }
-
-  inline subset* create_subset(SEXP x) const {
-    return rowwise_subset(x);
-  }
-
-  inline SymbolVector get_vars() const {
-    return SymbolVector();
   }
 
 private:

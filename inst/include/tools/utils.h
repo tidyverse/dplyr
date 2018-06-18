@@ -24,10 +24,11 @@ SEXP name_at(SEXP x, size_t i);
 SEXP f_env(SEXP x);
 bool is_quosure(SEXP x);
 SEXP maybe_rhs(SEXP x);
-
+SEXP child_env(SEXP parent);
 
 namespace dplyr {
 
+SEXP constant_recycle(SEXP x, int n, const SymbolString& name);
 std::string get_single_class(SEXP x);
 CharacterVector default_chars(SEXP x, R_xlen_t len);
 CharacterVector get_class(SEXP x);
@@ -38,8 +39,6 @@ CharacterVector get_levels(SEXP x);
 SEXP set_levels(SEXP x, const CharacterVector& levels);
 bool same_levels(SEXP left, SEXP right);
 bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
-
-SymbolVector get_vars(SEXP x);
 
 // effectively the same as copy_attributes but without names and dims
 inline void copy_most_attributes(SEXP out, SEXP data) {
@@ -62,15 +61,15 @@ struct rlang_api_ptrs_t {
   SEXP (*new_data_mask)(SEXP bottom, SEXP top, SEXP parent);
 
   rlang_api_ptrs_t() {
-    quo_get_expr =     (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_expr");
-    quo_set_expr =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_quo_set_expr");
-    quo_get_env =      (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_env");
-    quo_set_env =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_quo_set_env");
-    new_quosure =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_quosure");
-    is_quosure =       (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_is_quosure");
-    as_data_pronoun =  (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
-    as_data_mask =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_as_data_mask");
-    new_data_mask =    (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_new_data_mask");
+    quo_get_expr =      (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_expr");
+    quo_set_expr =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_quo_set_expr");
+    quo_get_env =       (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_env");
+    quo_set_env =       (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_quo_set_env");
+    new_quosure =       (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_quosure");
+    is_quosure =        (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_is_quosure");
+    as_data_pronoun =   (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
+    as_data_mask =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_as_data_mask");
+    new_data_mask =     (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_new_data_mask");
   }
 };
 // *INDENT-ON*

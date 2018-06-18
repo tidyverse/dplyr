@@ -4,6 +4,8 @@
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/visitor_set/VisitorSetIndexSet.h>
+#include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
 #include <dplyr/Order.h>
 

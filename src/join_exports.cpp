@@ -11,6 +11,7 @@
 #include <dplyr/GroupedDataFrame.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/DataFrameSubsetVisitors.h>
 
 #include <dplyr/train.h>
 

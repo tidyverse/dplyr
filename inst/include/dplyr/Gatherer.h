@@ -7,28 +7,12 @@
 
 #include <dplyr/checks.h>
 
-#include <dplyr/Result/GroupedCallProxy.h>
-
 #include <dplyr/vector_class.h>
 #include <dplyr/checks.h>
 #include <dplyr/Collecter.h>
 #include <dplyr/bad.h>
 
 namespace dplyr {
-
-class Gatherer {
-public:
-  virtual ~Gatherer() {}
-  virtual SEXP collect() = 0;
-};
-
-class NullGatherer : public Gatherer {
-public:
-  virtual ~NullGatherer() {}
-  virtual SEXP collect() {
-    return R_NilValue ;
-  }
-};
 
 template <typename Data>
 inline const char* check_length_message() {
@@ -39,14 +23,12 @@ inline const char* check_length_message<NaturalDataFrame>() {
   return "the number of rows";
 }
 
-
-template <typename Data, typename Subsets>
-class GathererImpl : public Gatherer {
+template <typename Data, typename Proxy>
+class Gatherer {
 public:
-  typedef GroupedCallProxy<Data, Subsets> Proxy;
   typedef typename Data::slicing_index Index;
 
-  GathererImpl(const RObject& first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+  Gatherer(const RObject& first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
     gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
   {
     coll = collecter(first, gdf.nrows());
@@ -54,7 +36,7 @@ public:
       grab(first, indices);
   }
 
-  ~GathererImpl() {
+  ~Gatherer() {
     if (coll != 0) {
       delete coll;
     }
@@ -137,10 +119,9 @@ private:
 
 };
 
-template <typename Data, typename Subsets>
-class ListGatherer : public Gatherer {
+template <typename Data, typename Proxy>
+class ListGatherer {
 public:
-  typedef GroupedCallProxy<Data, Subsets> Proxy;
   typedef typename Data::slicing_index Index;
 
   ListGatherer(List first, const Index& indices, Proxy& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
@@ -204,127 +185,6 @@ private:
   const SymbolString name;
 
 };
-
-
-template <int RTYPE>
-class ConstantGathererImpl : public Gatherer {
-public:
-  ConstantGathererImpl(Vector<RTYPE> constant, int n) :
-    value(n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0])
-  {
-    copy_most_attributes(value, constant);
-  }
-
-  inline SEXP collect() {
-    return value;
-  }
-
-private:
-  Vector<RTYPE> value;
-};
-
-inline Gatherer* constant_gatherer(SEXP x, int n, const SymbolString& name) {
-  if (Rf_inherits(x, "POSIXlt")) {
-    bad_col(name, "is of unsupported class POSIXlt");
-  }
-  switch (TYPEOF(x)) {
-  case INTSXP:
-    return new ConstantGathererImpl<INTSXP>(x, n);
-  case REALSXP:
-    return new ConstantGathererImpl<REALSXP>(x, n);
-  case LGLSXP:
-    return new ConstantGathererImpl<LGLSXP>(x, n);
-  case STRSXP:
-    return new ConstantGathererImpl<STRSXP>(x, n);
-  case CPLXSXP:
-    return new ConstantGathererImpl<CPLXSXP>(x, n);
-  case VECSXP:
-    return new ConstantGathererImpl<VECSXP>(x, n);
-  case RAWSXP:
-    return new ConstantGathererImpl<RAWSXP>(x, n);
-  default:
-    break;
-  }
-  bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
-}
-
-template <typename Data, typename Subsets>
-inline Gatherer* gatherer_impl(const RObject& first, const typename Data::slicing_index& indices, GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, int i, const SymbolString& name) {
-  if (TYPEOF(first) == VECSXP) {
-    return new ListGatherer<Data, Subsets> (List(first), indices, proxy, gdf, i, name);
-  } else {
-    return new GathererImpl<Data, Subsets> (first, indices, proxy, gdf, i, name);
-  }
-}
-
-class EchoGatherer : public Gatherer {
-public:
-  EchoGatherer(RObject value_) : value(value_) {}
-
-  inline SEXP collect() {
-    return value;
-  }
-
-private:
-  RObject value;
-};
-
-template <>
-inline Gatherer* gatherer_impl<NaturalDataFrame, LazySubsets>(const RObject& first, const NaturalSlicingIndex& indices, GroupedCallProxy<NaturalDataFrame, LazySubsets>& proxy, const NaturalDataFrame& gdf, int i, const SymbolString& name) {
-  if (Rf_length(first) == 1) {
-    return constant_gatherer(first, gdf.nrows(), name);
-  } else {
-    return new EchoGatherer(first);
-  }
-}
-
-
-template <typename Data, typename Subsets>
-inline Gatherer* gatherer(GroupedCallProxy<Data, Subsets>& proxy, const Data& gdf, const SymbolString& name) {
-  const int ng = gdf.ngroups();
-  if (ng == 0) {
-    return constant_gatherer(proxy.get(NaturalSlicingIndex()), 0, name);
-  }
-
-  typename Data::group_iterator git = gdf.group_begin();
-  typename Data::slicing_index indices = *git;
-
-  RObject first(proxy.get(indices));
-
-  if (Rf_inherits(first, "POSIXlt")) {
-    bad_col(name, "is of unsupported class POSIXlt");
-  }
-
-  if (Rf_inherits(first, "data.frame")) {
-    bad_col(name, "is of unsupported class data.frame");
-  }
-
-  int i = 0;
-
-  if (Rf_isNull(first)) {
-    while (Rf_isNull(first)) {
-      i++;
-      if (i == ng) return new NullGatherer();
-      ++git;
-      indices = *git;
-      first = proxy.get(indices);
-    }
-  }
-  check_supported_type(first, name);
-  check_length(Rf_length(first), indices.size(), check_length_message<Data>(), name);
-
-  if (ng > 1) {
-    while (all_na(first)) {
-      i++;
-      if (i == ng) break;
-      ++git;
-      indices = *git;
-      first = proxy.get(indices);
-    }
-  }
-
-  return gatherer_impl<Data, Subsets>(first, indices, proxy, gdf, i, name);
-}
 
 
 } // namespace dplyr

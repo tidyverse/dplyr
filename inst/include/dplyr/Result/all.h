@@ -2,8 +2,6 @@
 #define dplyr_Result_all_H
 
 #include <dplyr/Result/is_smaller.h>
-#include <dplyr/Result/GroupedSubset.h>
-#include <dplyr/Result/RowwiseSubset.h>
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/Processor.h>
 #include <dplyr/Result/Count.h>
@@ -14,15 +12,9 @@
 #include <dplyr/Result/Sd.h>
 #include <dplyr/Result/MinMax.h>
 
-#include <dplyr/Result/CallElementProxy.h>
-#include <dplyr/Result/DelayedProcessor.h>
-#include <dplyr/Result/CallbackProcessor.h>
 #include <dplyr/Result/ILazySubsets.h>
-#include <dplyr/Result/LazySubsets.h>
-#include <dplyr/Result/LazyGroupedSubsets.h>
-#include <dplyr/Result/LazyRowwiseSubsets.h>
-#include <dplyr/Result/GroupedCallReducer.h>
-#include <dplyr/Result/CallProxy.h>
+
+#include <dplyr/LazySplitSubsets.h>
 
 #include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/Rank.h>
