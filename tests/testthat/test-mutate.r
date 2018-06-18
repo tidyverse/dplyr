@@ -820,3 +820,21 @@ test_that("grouped subsets are not lazy (#3360)", {
 
   expect_identical(res, list(make_call("a"), make_call("b")))
 })
+
+test_that("errors don't have tracebacks (#3662)", {
+  tryCatch(
+    mutate(tibble(x=1:10) %>% mutate(z=y)),
+    error = function(e){
+      expect_match(conditionMessage(e), "object 'y' not found")
+      expect_null(conditionCall(e))
+    }
+  )
+
+  tryCatch(
+    n_distinct(),
+    error = function(e){
+      expect_equal(conditionMessage(e), "Need at least one column for `n_distinct()`")
+      expect_null(conditionCall(e))
+    }
+  )
+})
