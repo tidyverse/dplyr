@@ -7,10 +7,6 @@
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/Processor.h>
 #include <dplyr/Result/Count_Distinct.h>
-#include <dplyr/Result/Mean.h>
-#include <dplyr/Result/Sum.h>
-#include <dplyr/Result/Var.h>
-#include <dplyr/Result/Sd.h>
 #include <dplyr/Result/MinMax.h>
 
 #include <dplyr/Result/DelayedProcessor.h>

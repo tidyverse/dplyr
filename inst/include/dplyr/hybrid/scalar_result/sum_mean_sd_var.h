@@ -66,7 +66,7 @@ struct SumImpl<REALSXP, NA_RM, Index> {
 // ------- mean
 
 template <int RTYPE, bool NA_RM, typename Index>
-struct Mean_internal {
+struct MeanImpl {
   static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
     long double res = 0.0;
@@ -110,14 +110,68 @@ struct Mean_internal {
     }
 
     return (double)res;
-}
+  }
 };
+
+// ------------- var
+
+inline double square(double x) {
+  return x * x;
+}
+
+template <int RTYPE, bool NA_RM, typename Index>
+struct VarImpl {
+  typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
+
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices) {
+    int n = indices.size();
+    if (n <= 1) return NA_REAL;
+    double m = MeanImpl<RTYPE, NA_RM, Index>::process(data_ptr, indices);
+
+    if (!R_FINITE(m)) return m;
+
+    double sum = 0.0;
+    int count = 0;
+    for (int i = 0; i < n; i++) {
+      STORAGE current = data_ptr[indices[i]];
+      if (NA_RM && Rcpp::Vector<RTYPE>::is_na(current)) continue;
+      sum += internal::square(current - m);
+      count++;
+    }
+    if (count <= 1) return NA_REAL;
+    return sum / (count - 1);
+  }
+
+};
+
+template <int RTYPE, bool NA_RM, typename Index>
+struct SdImpl {
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices) {
+    return sqrt(VarImpl<RTYPE,NA_RM,Index>::process(data_ptr, indices));
+  }
+};
+
 
 } // namespace internal
 
 template <typename Data>
 SimpleDispatch<Data, internal::SumImpl> sum_( const Data& data, SEXP variable, bool narm){
   return SimpleDispatch<Data, internal::SumImpl>(data, variable, narm);
+}
+
+template <typename Data>
+SimpleDispatch<Data, internal::MeanImpl> mean_( const Data& data, SEXP variable, bool narm){
+  return SimpleDispatch<Data, internal::MeanImpl>(data, variable, narm);
+}
+
+template <typename Data>
+SimpleDispatch<Data, internal::VarImpl> var_( const Data& data, SEXP variable, bool narm){
+  return SimpleDispatch<Data, internal::VarImpl>(data, variable, narm);
+}
+
+template <typename Data>
+SimpleDispatch<Data, internal::SdImpl> sd_( const Data& data, SEXP variable, bool narm){
+  return SimpleDispatch<Data, internal::SdImpl>(data, variable, narm);
 }
 
 }

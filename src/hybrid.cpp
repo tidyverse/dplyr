@@ -65,7 +65,6 @@ HybridHandlerMap& get_handlers() {
     handlers[ Rf_install( "cummax")      ] = HybridHandler( cumfun_prototype<CumMax>, R_NilValue );
     */
 
-    install_simple_handlers(handlers);
     install_minmax_handlers(handlers);
     install_count_handlers(handlers);
     install_nth_handlers(handlers);

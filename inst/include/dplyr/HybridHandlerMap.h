@@ -6,7 +6,6 @@
 
 typedef dplyr_hash_map<SEXP, dplyr::HybridHandler> HybridHandlerMap;
 
-void install_simple_handlers(HybridHandlerMap& handlers);
 void install_minmax_handlers(HybridHandlerMap& handlers);
 void install_count_handlers(HybridHandlerMap& handlers);
 void install_nth_handlers(HybridHandlerMap& handlers);
