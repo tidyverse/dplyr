@@ -85,47 +85,6 @@ private:
   STORAGE* data_ptr;
 } ;
 
-template <typename Data>
-class SumDispatch {
-public:
-  SumDispatch( const Data& data_, SEXP variable_, bool narm_):
-    data(data_), variable(variable_), narm(narm_)
-  {}
-
-  SEXP summarise() const {
-    return operate(Summary());
-  }
-
-  SEXP window() const {
-    return operate(Window());
-  }
-
-private:
-  const Data& data;
-  SEXP variable;
-  bool narm;
-
-  template <typename Operation>
-  SEXP operate(const Operation& op) const {
-    if (narm) {
-      return operate<Operation, true>(op);
-    } else {
-      return operate<Operation, false>(op);
-    }
-  }
-
-  template <typename Operation, bool NARM>
-  SEXP operate(const Operation& op) const {
-    switch(TYPEOF(variable)){
-    case INTSXP: return op(Sum<INTSXP, NARM, Data>(data, variable));
-    case REALSXP: return op(Sum<REALSXP, NARM, Data>(data, variable));
-    case LGLSXP: return op(Sum<LGLSXP, NARM, Data>(data, variable));
-    }
-    return R_UnboundValue;
-  }
-
-};
-
 }
 }
 

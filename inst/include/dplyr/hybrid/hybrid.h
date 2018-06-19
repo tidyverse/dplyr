@@ -5,8 +5,8 @@
 #include <dplyr/hybrid/Dispatch.h>
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
 
-#include <dplyr/hybrid/scalar_result/Count.h>
-#include <dplyr/hybrid/scalar_result/sum.h>
+#include <dplyr/hybrid/scalar_result/n.h>
+#include <dplyr/hybrid/scalar_result/sum_mean_sd_var.h>
 
 #include <tools/SymbolMap.h>
 
@@ -62,9 +62,13 @@ public:
     return Rf_isNull(tags[i]);
   }
 
-  inline bool is_scalar_logical(int i) const {
+  inline bool is_scalar_logical(int i, bool& test) const {
     SEXP val = values[i];
-    return TYPEOF(val) == LGLSXP && Rf_length(val) == 1 ;
+    bool res = TYPEOF(val) == LGLSXP && Rf_length(val) == 1 ;
+    if (res) {
+      test = LOGICAL(val)[0];
+    }
+    return res;
   }
 
   inline bool is_column(int i, SEXP& column) const {
@@ -114,7 +118,6 @@ private:
     return test;
   }
 
-
 };
 
 template <typename SlicedTibble, typename LazySubsets, typename Operation>
@@ -124,10 +127,16 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_n = Rf_install("n");
   static SEXP s_sum = Rf_install("sum");
 
+  static SEXP s_narm = Rf_install("na.rm");
+
   static SEXP s_dplyr = Rf_install("dplyr");
   static SEXP s_base = Rf_install("base");
 
   Expression<LazySubsets> expression(expr, subsets);
+
+  SEXP column;
+  bool test;
+
   switch(expression.size()){
   case 0:
     // n()
@@ -138,9 +147,17 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
   case 1:
     // sum( <column> )
-    SEXP column ;
     if (expression.is_fun(s_sum, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op(dplyr::hybrid::SumDispatch<SlicedTibble>(data, column, false));
+      return op(dplyr::hybrid::SimpleDispatch<SlicedTibble, Sum>(data, column, false));
+    }
+
+  case 2:
+    // sum( <column>, na.rm = <bool> )
+    if (expression.is_fun(s_sum, s_base) &&
+      expression.is_unnamed(0) && expression.is_column(0, column) &&
+      expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
+    ) {
+      return op(dplyr::hybrid::SimpleDispatch<SlicedTibble, Sum>(data, column, test));
     }
 
   default:
