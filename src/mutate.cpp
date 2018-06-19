@@ -240,7 +240,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
 
-    RObject variable = hybrid::hybrid_mutate(quosure.expr(), gdf, subsets, quosure.env()) ;
+    RObject variable = hybrid::window(quosure.expr(), gdf, subsets, quosure.env()) ;
 
     if (variable == R_UnboundValue) {
       variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), quosure.env(), name).get() ;

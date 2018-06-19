@@ -173,7 +173,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     if (is_vector(expr)) {
       result = validate_unquoted_value(expr, gdf.ngroups(), quosure.name());
     } else {
-      result = hybrid::hybrid_summary(expr, gdf, subsets, env);
+      result = hybrid::summarise(expr, gdf, subsets, env);
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
