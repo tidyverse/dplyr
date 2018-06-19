@@ -141,14 +141,14 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   case 0:
     // n()
     if (expression.is_fun(s_n, s_dplyr)) {
-      return op(dplyr::hybrid::Count<SlicedTibble>(data));
+      return op(n_(data));
     }
     break;
 
   case 1:
     // sum( <column> )
     if (expression.is_fun(s_sum, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op(dplyr::hybrid::SimpleDispatch<SlicedTibble, Sum>(data, column, false));
+      return op( sum_(data, column, false) );
     }
 
   case 2:
@@ -157,7 +157,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       expression.is_unnamed(0) && expression.is_column(0, column) &&
       expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
     ) {
-      return op(dplyr::hybrid::SimpleDispatch<SlicedTibble, Sum>(data, column, test));
+      return op(sum_(data, column, test));
     }
 
   default:

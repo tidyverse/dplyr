@@ -19,6 +19,11 @@ public:
   }
 } ;
 
+template <typename Data>
+inline Count<Data> n_(const Data& data){
+   return Count<Data>(data);
+}
+
 }
 }
 

@@ -16,7 +16,7 @@
 #include <boost/shared_ptr.hpp>
 #include <dplyr/default_value.h>
 
-#include <dplyr/hybrid/scalar_result/Count.h>
+#include <dplyr/hybrid/scalar_result/n.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -45,7 +45,7 @@ IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
 
 // [[Rcpp::export]]
 IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
-  return dplyr::hybrid::Count<GroupedDataFrame>(gdf).summarise();
+  return hybrid::n_(gdf).summarise() ;
 }
 
 class IntRange {
