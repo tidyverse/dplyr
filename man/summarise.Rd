@@ -3,7 +3,7 @@
 \name{summarise}
 \alias{summarise}
 \alias{summarize}
-\title{Reduces multiple values down to a single value}
+\title{Reduce multiple values down to a single value}
 \usage{
 summarise(.data, ...)
 
@@ -28,8 +28,13 @@ An object of the same class as \code{.data}. One grouping level will
 be dropped.
 }
 \description{
-\code{summarise()} is typically used on grouped data created by \code{\link[=group_by]{group_by()}}.
-The output will have one row for each group.
+Create one or more scalar variables summarizing the variables of an existing tbl.
+}
+\details{
+When \code{summarise()} is used on grouped data created by \code{\link[=group_by]{group_by()}},
+the output will have one row for each group.
+
+\code{summarise()} and \code{summarize()} are synonyms.
 }
 \section{Useful functions}{
 

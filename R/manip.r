@@ -1,6 +1,6 @@
 #' Return rows with matching conditions
 #'
-#' Use `filter()` find rows/cases where conditions are true. Unlike
+#' Use `filter()` to choose rows/cases where conditions are true. Unlike
 #' base subsetting with `[`, rows where the condition evaluates to `NA` are
 #' dropped.
 #'
@@ -66,16 +66,18 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 
 #' Select rows by position
 #'
+#' Select rows by their ordinal position in the tbl.  Grouped tbls use
+#' the ordinal position within the group.
+#'
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
 #' operation, use [filter()] and [row_number()].
 #'
-#' Positive values select rows to keep; negative values drop rows. The
-#' values provided must be either all positive or all negative.
-#'
 #' @family single table verbs
 #' @param .data A tbl.
-#' @param ... Integer row values.
+#' @param ... Integer row values.  Provide either positive values to keep,
+#'   or negative values to drop. The values provided must be either all
+#'   positive or all negative.
 #'
 #'   These arguments are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
@@ -87,6 +89,7 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
+#' # Similar to tail(mtcars, 1):
 #' slice(mtcars, n())
 #' slice(mtcars, 5:n())
 #' # Rows can be dropped with negative indices:
@@ -116,10 +119,14 @@ slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
-#' Reduces multiple values down to a single value
+#' Reduce multiple values down to a single value
 #'
-#' `summarise()` is typically used on grouped data created by [group_by()].
-#' The output will have one row for each group.
+#' Create one or more scalar variables summarizing the variables of an existing tbl.
+#'
+#' When `summarise()` is used on grouped data created by [group_by()],
+#' the output will have one row for each group.
+#'
+#' `summarise()` and `summarize()` are synonyms.
 #'
 #' @section Useful functions:
 #'
@@ -199,16 +206,14 @@ summarize <- summarise
 summarize_ <- summarise_
 
 
-#' Add new variables
+#' Create or transform variables
 #'
-#' `mutate()` adds new variables and preserves existing;
-#' `transmute()` drops existing variables.
+#' `mutate()` adds new variables and preserves existing ones;
+#' `transmute()` adds new variables and drops existing ones.
 #'
-#' @section Useful functions:
+#' @section Useful functions available in calculations of variables:
 #'
-#' * [`+`], [`-`] etc
-#'
-#' * [log()]
+#' * [`+`], [`-`], [log()], etc., for their usual arithmetic meanings
 #'
 #' * [lead()], [lag()]
 #'
@@ -233,7 +238,7 @@ summarize_ <- summarise_
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
 #' @param ... Name-value pairs of expressions. Use `NULL` to drop
-#'   a variable.
+#'   a variable in `mutate`.
 #'
 #'   These arguments are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
@@ -335,7 +340,7 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 
 #' Arrange rows by variables
 #'
-#' Use [desc()] to sort a variable in descending order.
+#' Order tbl rows by an expression involving its variables.
 #'
 #' @section Locales:
 #' The sort order for character vectors will depend on the collating sequence
@@ -344,13 +349,14 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Comma separated list of unquoted variable names. Use
-#'   [desc()] to sort a variable in descending order.
+#' @param ... Comma separated list of unquoted variable names, or expressions
+#'   involving variable names. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
+#' arrange(mtcars, (disp-150)^2)
 #'
 #' # grouped arrange ignores groups
 #' by_cyl <- mtcars %>% group_by(cyl)
@@ -386,12 +392,13 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 
 #' Select/rename variables by name
 #'
+#' Choose variables from a tbl, optionally renaming them.
 #' `select()` keeps only the variables you mention; `rename()`
 #' keeps all variables.
 #'
 #' @section Useful functions:
 #' As well as using existing functions like `:` and `c()`, there are
-#' a number of special functions that only work inside `select`
+#' a number of special functions that only work inside `select`:
 #'
 #' * [starts_with()], [ends_with()], [contains()]
 #' * [matches()]
@@ -416,17 +423,18 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
 #' @param ... One or more unquoted expressions separated by commas.
-#'   You can treat variable names like they are positions.
+#'   You can treat variable names like they are positions, so you can
+#'   use expressions like `x:y` to select ranges of variables.
 #'
-#'   Positive values select variables; negative values to drop variables.
+#'   Positive values select variables; negative values drop variables.
 #'   If the first expression is negative, `select()` will automatically
 #'   start with all variables.
 #'
-#'   Use named arguments to rename selected variables.
+#'   Use named arguments, e.g. `new_name=old_name`, to rename selected variables.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in a context where column names
-#'   represent column positions. They support
+#'   represent column positions. They also support
 #'   [unquoting][rlang::quasiquotation] and splicing. See
 #'   `vignette("programming")` for an introduction to these concepts.
 #'

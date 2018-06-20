@@ -27,7 +27,7 @@ is preserved, otherwise it is recalculated based on the resulting data.}
 An object of the same class as \code{.data}.
 }
 \description{
-Use \code{filter()} find rows/cases where conditions are true. Unlike
+Use \code{filter()} to choose rows/cases where conditions are true. Unlike
 base subsetting with \code{[}, rows where the condition evaluates to \code{NA} are
 dropped.
 }
