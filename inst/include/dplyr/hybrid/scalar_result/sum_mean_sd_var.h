@@ -13,7 +13,10 @@ namespace internal {
 template <int RTYPE, bool NA_RM, typename Index>
 struct SumImpl {
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-  static STORAGE process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
+  static STORAGE process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices, bool is_summary) {
+    // already summarised, e.g. when summarise( x = ..., y = sum(x))
+    if (is_summary) return ptr[indices.group()];
+
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
@@ -42,7 +45,10 @@ struct SumImpl {
 // special case for REALSXP because it treats NA differently
 template <bool NA_RM, typename Index>
 struct SumImpl<REALSXP, NA_RM, Index> {
-  static double process(double* ptr,  const Index& indices) {
+  static double process(double* ptr, const Index& indices, bool is_summary) {
+    // already summarised, e.g. when summarise( x = ..., y = sum(x))
+    if (is_summary) return ptr[indices.group()];
+
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
@@ -67,8 +73,15 @@ struct SumImpl<REALSXP, NA_RM, Index> {
 
 template <int RTYPE, bool NA_RM, typename Index>
 struct MeanImpl {
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices) {
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices, bool is_summary) {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
+
+    // already summarised, e.g. when summarise( x = ..., y = mean(x))
+    // we need r coercion as opposed to a simple cast to double because of NA
+    if (is_summary) {
+      return Rcpp::internal::r_coerce<RTYPE,REALSXP>(ptr[indices.group()]);
+    }
+
     long double res = 0.0;
     int n = indices.size();
     int m = n;
@@ -123,10 +136,15 @@ template <int RTYPE, bool NA_RM, typename Index>
 struct VarImpl {
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices) {
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices, bool is_summary) {
+    // already summarised, e.g. when summarise( x = ..., y = var(x)), so x is of length 1 -> NA
+    if (is_summary) {
+      return NA_REAL;
+    }
+
     int n = indices.size();
     if (n <= 1) return NA_REAL;
-    double m = MeanImpl<RTYPE, NA_RM, Index>::process(data_ptr, indices);
+    double m = MeanImpl<RTYPE, NA_RM, Index>::process(data_ptr, indices, is_summary);
 
     if (!R_FINITE(m)) return m;
 
@@ -146,8 +164,8 @@ struct VarImpl {
 
 template <int RTYPE, bool NA_RM, typename Index>
 struct SdImpl {
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices) {
-    return sqrt(VarImpl<RTYPE,NA_RM,Index>::process(data_ptr, indices));
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices, bool is_summary) {
+    return sqrt(VarImpl<RTYPE,NA_RM,Index>::process(data_ptr, indices, is_summary));
   }
 };
 

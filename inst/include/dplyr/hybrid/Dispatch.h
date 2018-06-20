@@ -29,14 +29,19 @@ public:
   typedef HybridVectorScalarResult<rtype, Data, SimpleDispatchImpl > Parent ;
   typedef typename Data::slicing_index Index;
 
-  SimpleDispatchImpl(const Data& data, SEXP vec) : Parent(data), data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec)) {}
+  SimpleDispatchImpl(const Data& data, SEXP vec) :
+    Parent(data),
+    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec)),
+    is_summary(Rf_length(vec) != data.nrows())
+  {}
 
   STORAGE process(const Index& indices) const {
-    return Impl<RTYPE, NA_RM, Index>::process(data_ptr, indices);
+    return Impl<RTYPE, NA_RM, Index>::process(data_ptr, indices, is_summary);
   }
 
 private:
   STORAGE* data_ptr;
+  bool is_summary;
 } ;
 
 template <
@@ -68,20 +73,24 @@ private:
 
   template <typename Operation>
   SEXP operate(const Operation& op) const {
+    // dispatch to the method below based on na.rm
     if (narm) {
-      return operate<Operation, true>(op);
+      return operate_narm<Operation, true>(op);
     } else {
-      return operate<Operation, false>(op);
+      return operate_narm<Operation, false>(op);
     }
   }
 
   template <typename Operation, bool NARM>
-  SEXP operate(const Operation& op) const {
+  SEXP operate_narm(const Operation& op) const {
+    // try to dispatch to the right class
     switch(TYPEOF(variable)){
     case INTSXP: return op(SimpleDispatchImpl<INTSXP, NARM, Data, Impl>(data, variable));
     case REALSXP: return op(SimpleDispatchImpl<REALSXP, NARM, Data, Impl>(data, variable));
     case LGLSXP: return op(SimpleDispatchImpl<LGLSXP, NARM, Data, Impl>(data, variable));
     }
+
+    // give up, effectively let R evaluate the call
     return R_UnboundValue;
   }
 
