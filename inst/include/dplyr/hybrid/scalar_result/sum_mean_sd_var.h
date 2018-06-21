@@ -173,22 +173,22 @@ struct SdImpl {
 } // namespace internal
 
 template <typename Data>
-SimpleDispatch<Data, internal::SumImpl> sum_( const Data& data, SEXP variable, bool narm){
+SimpleDispatch<Data, internal::SumImpl> sum_( const Data& data, Column variable, bool narm){
   return SimpleDispatch<Data, internal::SumImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::MeanImpl> mean_( const Data& data, SEXP variable, bool narm){
+SimpleDispatch<Data, internal::MeanImpl> mean_( const Data& data, Column variable, bool narm){
   return SimpleDispatch<Data, internal::MeanImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::VarImpl> var_( const Data& data, SEXP variable, bool narm){
+SimpleDispatch<Data, internal::VarImpl> var_( const Data& data, Column variable, bool narm){
   return SimpleDispatch<Data, internal::VarImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::SdImpl> sd_( const Data& data, SEXP variable, bool narm){
+SimpleDispatch<Data, internal::SdImpl> sd_( const Data& data, Column variable, bool narm){
   return SimpleDispatch<Data, internal::SdImpl>(data, variable, narm);
 }
 

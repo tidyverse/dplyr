@@ -7,6 +7,11 @@
 namespace dplyr{
 namespace hybrid{
 
+struct Column {
+  SEXP data;
+  bool is_summary;
+};
+
 template <typename LazySubsets>
 class Expression {
 public:
@@ -67,7 +72,7 @@ public:
     return res;
   }
 
-  inline bool is_column(int i, SEXP& column) const {
+  inline bool is_column(int i, Column& column) const {
     SEXP val = values[i];
 
     if (TYPEOF(val) == SYMSXP){
@@ -105,11 +110,12 @@ private:
   std::vector<SEXP> values;
   std::vector<SEXP> tags;
 
-  inline bool test_is_column(Rcpp::Symbol s, SEXP& column) const {
+  inline bool test_is_column(Rcpp::Symbol s, Column& column) const {
     SymbolString symbol(s);
     bool test = subsets.has_variable(symbol);
     if (test) {
-      column = subsets.get_variable(symbol);
+      column.data = subsets.get_variable(symbol);
+      column.is_summary = subsets.is_summary(symbol);
     }
     return test;
   }

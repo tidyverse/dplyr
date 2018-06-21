@@ -2,6 +2,7 @@
 #define dplyr_hybrid_first_last_h
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
+#include <dplyr/hybrid/Expression.h>
 #include <dplyr/default_value.h>
 
 namespace dplyr {
@@ -16,21 +17,30 @@ public:
   typedef typename Data::slicing_index Index;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  Nth2(const Data& data, SEXP column_, int pos_):
+  Nth2(const Data& data, Column column_, int pos_):
     Parent(data),
-    column(column_),
+    column(column_.data),
+    is_summary(column_.is_summary),
     pos(pos_),
     def(default_value<RTYPE>())
   {}
 
-  Nth2(const Data& data, SEXP column_, int pos_, SEXP def_):
+  Nth2(const Data& data, Column column_, int pos_, SEXP def_):
     Parent(data),
-    column(column_),
+    column(column_.data),
+    is_summary(column_.is_summary),
     pos(pos_),
     def(Rcpp::internal::r_vector_start<RTYPE>(def_)[0])
   {}
 
   inline STORAGE process(const Index& indices) const {
+    if (is_summary) {
+      if(pos == 1 || pos == -1) {
+        return column[indices.group()];
+      } else {
+        return def;
+      }
+    }
     int n = indices.size();
     if (n==0) return def ;
 
@@ -45,6 +55,7 @@ public:
 
 private:
   Rcpp::Vector<RTYPE> column;
+  bool is_summary;
   int pos;
   STORAGE def;
 };
@@ -56,25 +67,28 @@ public:
   typedef typename Data::slicing_index Index;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  First1(const Data& data, SEXP column_):
+  First1(const Data& data, Column column_):
     Parent(data),
-    column(column_),
+    column(column_.data),
+    is_summary(column_.is_summary),
     def(default_value<RTYPE>())
   {}
 
-  First1(const Data& data, SEXP column_, STORAGE def_):
+  First1(const Data& data, Column column_, STORAGE def_):
     Parent(data),
-    column(column_),
+    column(column_.data),
+    is_summary(column_.is_summary),
     def(def_)
   {}
 
   inline STORAGE process(const Index& indices) const {
-    return indices.size() ? (STORAGE)column[0] : def ;
+    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[0] : def );
   }
 
 private:
   Rcpp::Vector<RTYPE> column;
   STORAGE def;
+  bool is_summary;
 };
 
 template <int RTYPE, typename Data>
@@ -84,32 +98,34 @@ public:
   typedef typename Data::slicing_index Index;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  Last1(const Data& data, SEXP column_):
+  Last1(const Data& data, Column column_):
     Parent(data),
-    column(column_),
+    column(column_.data),
+    is_summary(column_.is_summary),
     def(default_value<RTYPE>())
   {}
 
-  Last1(const Data& data, SEXP column_, STORAGE def_):
+  Last1(const Data& data, Column column_, STORAGE def_):
     Parent(data),
-    column(column_),
+    column(column_.data),
+    is_summary(column_.is_summary),
     def(def_)
   {}
 
-
   inline STORAGE process(const Index& indices) const {
-    return indices.size() ? (STORAGE)column[indices.size()-1] : def ;
+    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[indices.size()-1] : def);
   }
 
 private:
   Rcpp::Vector<RTYPE> column;
+  bool is_summary;
   STORAGE def;
 };
 }
 
 template <typename Data, typename Operation, template <int, typename> class Impl>
-SEXP firstlast_1(const Data& data, SEXP x, const Operation& op) {
-  switch(TYPEOF(x)){
+SEXP firstlast_1(const Data& data, Column x, const Operation& op) {
+  switch(TYPEOF(x.data)){
   case LGLSXP: return op(internal::First1<LGLSXP, Data>(data, x));
   case RAWSXP: return op(internal::First1<RAWSXP, Data>(data, x));
   case INTSXP: return op(internal::First1<INTSXP, Data>(data, x));
@@ -124,21 +140,21 @@ SEXP firstlast_1(const Data& data, SEXP x, const Operation& op) {
 
 // first( <column> )
 template <typename Data, typename Operation>
-SEXP first1_(const Data& data, SEXP x, const Operation& op) {
+SEXP first1_(const Data& data, Column x, const Operation& op) {
   return firstlast_1<Data, Operation, internal::First1>(data, x, op);
 }
 
 // last( <column> )
 template <typename Data, typename Operation>
-SEXP last1_(const Data& data, SEXP x, const Operation& op) {
+SEXP last1_(const Data& data, Column x, const Operation& op) {
   return firstlast_1<Data, Operation, internal::Last1>(data, x, op);
 }
 
 template <typename Data, typename Operation, template <int, typename> class Impl>
-SEXP firstlast_2_default(const Data& data, SEXP x, SEXP def, const Operation& op) {
-  if (TYPEOF(x) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
+SEXP firstlast_2_default(const Data& data, Column x, SEXP def, const Operation& op) {
+  if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
 
-  switch(TYPEOF(x)){
+  switch(TYPEOF(x.data)){
   case LGLSXP: return op(Impl<LGLSXP, Data>(data, x, Rcpp::Vector<LGLSXP>(def)[0]));
   case RAWSXP: return op(Impl<RAWSXP, Data>(data, x, Rcpp::Vector<RAWSXP>(def)[0]));
   case INTSXP: return op(Impl<INTSXP, Data>(data, x, Rcpp::Vector<INTSXP>(def)[0]));
@@ -154,20 +170,20 @@ SEXP firstlast_2_default(const Data& data, SEXP x, SEXP def, const Operation& op
 
 // first( <column>, default = <*> )
 template <typename Data, typename Operation>
-SEXP first2_default(const Data& data, SEXP x, SEXP def, const Operation& op) {
+SEXP first2_default(const Data& data, Column x, SEXP def, const Operation& op) {
   return firstlast_2_default<Data, Operation, internal::First1>(data, x, def, op);
 }
 
 // last( <column>, default = <*> )
 template <typename Data, typename Operation>
-SEXP last2_default(const Data& data, SEXP x, SEXP def, const Operation& op) {
+SEXP last2_default(const Data& data, Column x, SEXP def, const Operation& op) {
   return firstlast_2_default<Data, Operation, internal::Last1>(data, x, def, op);
 }
 
 // nth( <column>, n = <int|double> )
 template <typename Data, typename Operation>
-SEXP nth2_(const Data& data, SEXP x, SEXP n, const Operation& op) {
-  if (Rf_length(x) == 1) {
+SEXP nth2_(const Data& data, Column x, SEXP n, const Operation& op) {
+  if (Rf_length(x.data) == 1) {
     int pos = 0 ;
     switch(TYPEOF(n)){
     case INTSXP: pos = INTEGER(n)[0];
@@ -176,7 +192,7 @@ SEXP nth2_(const Data& data, SEXP x, SEXP n, const Operation& op) {
       return R_UnboundValue;
     }
 
-    switch(TYPEOF(x)){
+    switch(TYPEOF(x.data)){
     case LGLSXP: return op(internal::Nth2<LGLSXP, Data>(data, x, pos));
     case RAWSXP: return op(internal::Nth2<RAWSXP, Data>(data, x, pos));
     case INTSXP: return op(internal::Nth2<INTSXP, Data>(data, x, pos));
@@ -193,10 +209,10 @@ SEXP nth2_(const Data& data, SEXP x, SEXP n, const Operation& op) {
 
 // nth( <column>, n = <int|double> )
 template <typename Data, typename Operation>
-SEXP nth3_default(const Data& data, SEXP x, SEXP n, SEXP def, const Operation& op) {
-  if (TYPEOF(x) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
+SEXP nth3_default(const Data& data, Column x, SEXP n, SEXP def, const Operation& op) {
+  if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
 
-  if (Rf_length(x) == 1) {
+  if (Rf_length(x.data) == 1) {
     int pos = 0 ;
     switch(TYPEOF(n)){
     case INTSXP: pos = INTEGER(n)[0];
@@ -205,7 +221,7 @@ SEXP nth3_default(const Data& data, SEXP x, SEXP n, SEXP def, const Operation& o
       return R_UnboundValue;
     }
 
-    switch(TYPEOF(x)){
+    switch(TYPEOF(x.data)){
     case LGLSXP: return op(internal::Nth2<LGLSXP, Data>(data, x, pos, def));
     case RAWSXP: return op(internal::Nth2<RAWSXP, Data>(data, x, pos, def));
     case INTSXP: return op(internal::Nth2<INTSXP, Data>(data, x, pos, def));

@@ -40,7 +40,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
   Expression<LazySubsets> expression(expr, subsets);
 
-  SEXP column;
+  Column column;
   bool test;
 
   // fixed sized expressions
@@ -138,12 +138,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     }
 
     // first( <column>, default = <scalar> )
-    if (expression.is_fun(s_first, s_dplyr) && expression.is_unnamed(0) && expression.is_named(0, column) && expression.is_named(1, s_default)) {
+    if (expression.is_fun(s_first, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_default)) {
       return first2_default(data, column, expression.value(1), op);
     }
 
     // last( <column>, default = <scalar> )
-    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_named(0, column) && expression.is_named(1, s_default)) {
+    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_default)) {
       return last2_default(data, column, expression.value(1), op);
     }
 

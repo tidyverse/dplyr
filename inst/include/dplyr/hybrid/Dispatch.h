@@ -2,6 +2,7 @@
 #define dplyr_hybrid_dispatch_h
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
+#include <dplyr/hybrid/Expression.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -29,10 +30,10 @@ public:
   typedef HybridVectorScalarResult<rtype, Data, SimpleDispatchImpl > Parent ;
   typedef typename Data::slicing_index Index;
 
-  SimpleDispatchImpl(const Data& data, SEXP vec) :
+  SimpleDispatchImpl(const Data& data, Column vec) :
     Parent(data),
-    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec)),
-    is_summary(Rf_length(vec) != data.nrows())
+    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec.data)),
+    is_summary(vec.is_summary)
   {}
 
   STORAGE process(const Index& indices) const {
@@ -52,7 +53,7 @@ class SimpleDispatch {
 public:
   typedef typename Data::slicing_index Index;
 
-  SimpleDispatch( const Data& data_, SEXP variable_, bool narm_):
+  SimpleDispatch( const Data& data_, Column variable_, bool narm_):
     data(data_),
     variable(variable_),
     narm(narm_)
@@ -68,7 +69,7 @@ public:
 
 private:
   const Data& data;
-  SEXP variable;
+  Column variable;
   bool narm;
 
   template <typename Operation>
@@ -84,7 +85,7 @@ private:
   template <typename Operation, bool NARM>
   SEXP operate_narm(const Operation& op) const {
     // try to dispatch to the right class
-    switch(TYPEOF(variable)){
+    switch(TYPEOF(variable.data)){
     case INTSXP: return op(SimpleDispatchImpl<INTSXP, NARM, Data, Impl>(data, variable));
     case REALSXP: return op(SimpleDispatchImpl<REALSXP, NARM, Data, Impl>(data, variable));
     case LGLSXP: return op(SimpleDispatchImpl<LGLSXP, NARM, Data, Impl>(data, variable));

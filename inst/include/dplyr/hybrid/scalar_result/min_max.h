@@ -2,6 +2,7 @@
 #define dplyr_hybrid_min_max_h
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
+#include <dplyr/hybrid/Expression.h>
 #include <dplyr/default_value.h>
 
 namespace dplyr {
@@ -16,13 +17,16 @@ public:
   typedef typename Data::slicing_index Index;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  MinMax(const Data& data, SEXP column_):
+  MinMax(const Data& data, Column column_):
     Parent(data),
-    column(column_)
+    column(column_.data),
+    is_summary(column_.is_summary)
   {}
 
-  inline STORAGE process(const Index& indices) const {
-
+  inline double process(const Index& indices) const {
+    if (is_summary) {
+      return column[indices.group()];
+    }
     const int n = indices.size();
     double res = Inf;
 
@@ -47,6 +51,7 @@ public:
 
 private:
   Rcpp::Vector<RTYPE> column;
+  bool is_summary;
 
   static const double Inf;
 
@@ -65,10 +70,10 @@ const double MinMax<RTYPE, Data, MINIMUM, NA_RM>::Inf = (MINIMUM ? R_PosInf : R_
 
 // min( <column> )
 template <typename Data, typename Operation, bool MINIMUM, bool NARM>
-SEXP minmax_narm(const Data& data, SEXP x, const Operation& op) {
+SEXP minmax_narm(const Data& data, Column x, const Operation& op) {
 
   // only handle basic number types, anything else goes through R
-  switch(TYPEOF(x)){
+  switch(TYPEOF(x.data)){
   case RAWSXP: return op(internal::MinMax<RAWSXP, Data, MINIMUM, NARM>(data, x));
   case INTSXP: return op(internal::MinMax<INTSXP, Data, MINIMUM, NARM>(data, x));
   case REALSXP: return op(internal::MinMax<REALSXP, Data, MINIMUM, NARM>(data, x));
@@ -79,7 +84,7 @@ SEXP minmax_narm(const Data& data, SEXP x, const Operation& op) {
 }
 
 template <typename Data, typename Operation, bool MINIMUM>
-SEXP minmax_(const Data& data, SEXP x, bool narm, const Operation& op) {
+SEXP minmax_(const Data& data, Column x, bool narm, const Operation& op) {
   if (narm) {
     return minmax_narm<Data, Operation, MINIMUM, true>( data, x, op) ;
   } else {
@@ -88,12 +93,12 @@ SEXP minmax_(const Data& data, SEXP x, bool narm, const Operation& op) {
 }
 
 template <typename Data, typename Operation>
-SEXP min_(const Data& data, SEXP x, bool narm, const Operation& op) {
+SEXP min_(const Data& data, Column x, bool narm, const Operation& op) {
   return minmax_<Data, Operation, true>( data, x, narm, op) ;
 }
 
 template <typename Data, typename Operation>
-SEXP max_(const Data& data, SEXP x, bool narm, const Operation& op) {
+SEXP max_(const Data& data, Column x, bool narm, const Operation& op) {
   return minmax_<Data, Operation, false>( data, x, narm, op) ;
 }
 

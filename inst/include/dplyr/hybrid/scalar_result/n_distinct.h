@@ -58,7 +58,7 @@ SEXP n_distinct_(const Data& data, const Expression& expression, const Operation
 
   int n = expression.size();
   for (int i=0; i<n; i++) {
-    SEXP column;
+    Column column;
 
     if (expression.is_named(i, s_narm)){
       bool test ;
@@ -70,7 +70,7 @@ SEXP n_distinct_(const Data& data, const Expression& expression, const Operation
         return R_UnboundValue;
       }
     } else if (expression.is_column(i, column)) {
-      columns.push_back(column);
+      columns.push_back(column.data);
     } else {
       // give up, R will handle the call
       return R_UnboundValue;
