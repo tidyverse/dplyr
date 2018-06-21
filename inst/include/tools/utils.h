@@ -26,6 +26,9 @@ bool is_quosure(SEXP x);
 SEXP maybe_rhs(SEXP x);
 SEXP child_env(SEXP parent);
 
+int get_size(SEXP x);
+
+
 namespace dplyr {
 
 SEXP constant_recycle(SEXP x, int n, const SymbolString& name);

@@ -66,7 +66,6 @@ HybridHandlerMap& get_handlers() {
     */
 
     install_minmax_handlers(handlers);
-    install_count_handlers(handlers);
     install_nth_handlers(handlers);
     install_window_handlers(handlers);
     install_offset_handlers(handlers);

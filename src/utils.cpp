@@ -387,3 +387,13 @@ SEXP get_data_context(SEXP frames, const char* expr) {
 
   return R_NilValue;
 }
+
+int get_size(SEXP x){
+  if (Rf_isMatrix(x)) {
+    return INTEGER(Rf_getAttrib(x, R_DimSymbol))[0];
+  } else if (Rf_inherits(x, "data.frame")) {
+    return DataFrame(x).nrows();
+  } else {
+    return Rf_length(x);
+  }
+}

@@ -6,7 +6,6 @@
 #include <dplyr/Result/RowwiseSubset.h>
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/Processor.h>
-#include <dplyr/Result/Count_Distinct.h>
 #include <dplyr/Result/MinMax.h>
 
 #include <dplyr/Result/DelayedProcessor.h>

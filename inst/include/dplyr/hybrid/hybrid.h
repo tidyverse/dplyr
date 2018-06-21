@@ -1,124 +1,16 @@
 #ifndef dplyr_hybrid_hybrid_h
 #define dplyr_hybrid_hybrid_h
 
-#include <tools/SymbolString.h>
 #include <dplyr/hybrid/Dispatch.h>
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
+#include <dplyr/hybrid/Expression.h>
 
 #include <dplyr/hybrid/scalar_result/n.h>
 #include <dplyr/hybrid/scalar_result/sum_mean_sd_var.h>
-
-#include <tools/SymbolMap.h>
+#include <dplyr/hybrid/scalar_result/n_distinct.h>
 
 namespace dplyr{
 namespace hybrid{
-
-template <typename LazySubsets>
-class Expression {
-public:
-
-  typedef std::pair<bool,SEXP> ArgPair;
-
-  Expression(SEXP expr_, const LazySubsets& subsets_) :
-    expr(expr_),
-    func(R_NilValue),
-    package(R_NilValue),
-    valid(false),
-    subsets(subsets_),
-    n(0)
-  {
-    // the function called, e.g. n, or dplyr::n
-    SEXP head = CAR(expr);
-    if (TYPEOF(head) == SYMSXP){
-      valid = true;
-      func = head;
-    } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == R_DoubleColonSymbol && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP ){
-      valid = true;
-      func = CADR(head);
-      package = CADDR(head);
-    }
-
-    // the arguments
-    for (SEXP p = CDR(expr); !Rf_isNull(p); p = CDR(p)) {
-      n++;
-      values.push_back(CAR(p));
-      tags.push_back(TAG(p));
-    }
-  }
-
-  inline int size() const{
-    return n;
-  }
-
-  inline bool is_fun(SEXP symbol, SEXP pkg){
-    return valid && symbol == func && (package == R_NilValue || package == pkg);
-  }
-
-  inline bool is_named(int i, SEXP symbol) const {
-    return tags[i] == symbol;
-  }
-
-  inline bool is_unnamed(int i) const {
-    return Rf_isNull(tags[i]);
-  }
-
-  inline bool is_scalar_logical(int i, bool& test) const {
-    SEXP val = values[i];
-    bool res = TYPEOF(val) == LGLSXP && Rf_length(val) == 1 ;
-    if (res) {
-      test = LOGICAL(val)[0];
-    }
-    return res;
-  }
-
-  inline bool is_column(int i, SEXP& column) const {
-    SEXP val = values[i];
-
-    if (TYPEOF(val) == SYMSXP){
-      return test_is_column(val, column);
-    }
-
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == Rf_install(".data")){
-      SEXP fun = CAR(val);
-      SEXP rhs = CADDR(val);
-
-      if (fun == R_DollarSymbol) {
-        // .data$x
-        if (TYPEOF(rhs) == SYMSXP) return test_is_column(rhs, column);
-
-        // .data$"x"
-        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column);
-      } else if (fun == R_Bracket2Symbol) {
-        // .data[["x"]]
-        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column);
-      }
-    }
-    return false;
-  }
-
-private:
-  SEXP expr;
-
-  SEXP func;
-  SEXP package;
-  bool valid;
-
-  const LazySubsets& subsets;
-
-  int n;
-  std::vector<SEXP> values;
-  std::vector<SEXP> tags;
-
-  inline bool test_is_column(Rcpp::Symbol s, SEXP& column) const {
-    SymbolString symbol(s);
-    bool test = subsets.has_variable(symbol);
-    if (test) {
-      column = subsets.get_variable(symbol);
-    }
-    return test;
-  }
-
-};
 
 template <typename SlicedTibble, typename LazySubsets, typename Operation>
 SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env, const Operation& op){
@@ -129,6 +21,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_mean = Rf_install("mean");
   static SEXP s_var = Rf_install("var");
   static SEXP s_sd = Rf_install("sd");
+  static SEXP s_n_distinct = Rf_install("n_distinct");
 
   static SEXP s_narm = Rf_install("na.rm");
 
@@ -141,6 +34,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   SEXP column;
   bool test;
 
+  // fixed sized expressions
   switch(expression.size()){
   case 0:
     // n()
@@ -209,6 +103,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
   default:
     break;
+  }
+
+  // functions that take variadic number of arguments
+  if (expression.is_fun(s_n_distinct, s_dplyr)){
+    return n_distinct_(data, expression, op);
   }
 
   // give up

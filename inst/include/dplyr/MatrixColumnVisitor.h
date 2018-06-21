@@ -111,10 +111,61 @@ public:
   }
 
 private:
-
   Matrix<RTYPE> data;
   std::vector<ColumnVisitor> visitors;
 };
+
+template <int RTYPE>
+class RecyclingMatrixColumnVisitor : public VectorVisitor {
+public:
+
+  typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
+
+  RecyclingMatrixColumnVisitor(const Matrix<RTYPE>& data_, int g_, int n_) :
+    data(data_),
+    g(g_),
+    n(n_)
+  {}
+
+  inline size_t hash(int i) const {
+    return 0;
+  }
+
+  inline bool equal(int i, int j) const {
+    return true;
+  }
+
+  inline bool equal_or_both_na(int i, int j) const {
+    return true;
+  }
+
+  inline bool less(int i, int j) const {
+    return false;
+  }
+
+  inline bool greater(int i, int j) const {
+    return false;
+  }
+
+  inline int size() const {
+    return n;
+  }
+
+  inline std::string get_r_type() const {
+    return "matrix";
+  }
+
+  bool is_na(int) const {
+    return false;
+  }
+
+private:
+  Matrix<RTYPE> data;
+  int g;
+  int n;
+};
+
+
 
 }
 

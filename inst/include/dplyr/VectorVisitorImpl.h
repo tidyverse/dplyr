@@ -96,6 +96,55 @@ protected:
 
 };
 
+template <int RTYPE>
+class RecyclingVectorVisitorImpl : public VectorVisitor {
+public:
+  typedef Rcpp::Vector<RTYPE> VECTOR;
+
+  RecyclingVectorVisitorImpl(const VECTOR& vec_, int g_, int n_) : vec(vec_), g(g_), n(n_) {}
+
+  /**
+  * implementations
+  */
+  size_t hash(int i) const {
+    return 0 ;
+  }
+  inline bool equal(int i, int j) const {
+    return true;
+  }
+
+  inline bool less(int i, int j) const {
+    return false;
+  }
+
+  inline bool equal_or_both_na(int i, int j) const {
+    return true;
+  }
+
+  inline bool greater(int i, int j) const {
+    return false;
+  }
+
+  inline std::string get_r_type() const {
+    return VectorVisitorType<RTYPE>();
+  }
+
+  int size() const {
+    return n;
+  }
+
+  bool is_na(int i) const {
+    return VECTOR::is_na(vec[g]);
+  }
+
+protected:
+  VECTOR vec;
+  int g;
+  int n;
+};
+
+
+
 class FactorVisitor : public VectorVisitorImpl<INTSXP> {
   typedef comparisons<STRSXP> string_compare;
 

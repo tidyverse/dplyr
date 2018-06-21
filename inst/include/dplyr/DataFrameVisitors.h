@@ -3,7 +3,10 @@
 
 #include <tools/pointer_vector.h>
 
-#include <dplyr/visitor_set/VisitorSetMixin.h>
+#include <dplyr/visitor_set/VisitorSetEqual.h>
+#include <dplyr/visitor_set/VisitorSetHash.h>
+#include <dplyr/visitor_set/VisitorSetLess.h>
+#include <dplyr/visitor_set/VisitorSetGreater.h>
 
 #include <dplyr/VectorVisitor.h>
 #include <tools/SymbolVector.h>

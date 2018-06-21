@@ -6,6 +6,7 @@
 namespace dplyr {
 
 inline VectorVisitor* visitor(SEXP vec);
+inline VectorVisitor* recycling_visitor(SEXP vec, int g, int n);
 
 }
 

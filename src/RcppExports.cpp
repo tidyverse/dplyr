@@ -158,7 +158,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // n_distinct_multi
-SEXP n_distinct_multi(List variables, bool na_rm);
+int n_distinct_multi(List variables, bool na_rm);
 RcppExport SEXP _dplyr_n_distinct_multi(SEXP variablesSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
