@@ -9,6 +9,7 @@
 #include <dplyr/hybrid/scalar_result/sum_mean_sd_var.h>
 #include <dplyr/hybrid/scalar_result/n_distinct.h>
 #include <dplyr/hybrid/scalar_result/first_last.h>
+#include <dplyr/hybrid/scalar_result/group_indices.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -25,6 +26,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_n_distinct = Rf_install("n_distinct");
   static SEXP s_first = Rf_install("first");
   static SEXP s_last = Rf_install("last");
+  static SEXP s_group_indices = Rf_install("group_indices");
 
   static SEXP s_narm = Rf_install("na.rm");
   static SEXP s_default = Rf_install("default");
@@ -45,6 +47,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     if (expression.is_fun(s_n, s_dplyr)) {
       return op(n_(data));
     }
+
+    // group_indices()
+    if (expression.is_fun(s_group_indices, s_dplyr)) {
+      return op(group_indices_(data));
+    }
+
     break;
 
   case 1:
