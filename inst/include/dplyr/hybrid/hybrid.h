@@ -77,6 +77,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
       return last1_(data, column, op);
     }
+    break;
 
   case 2:
     // sum( <column>, na.rm = <bool> )
@@ -125,6 +126,19 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       return last2_default(data, column, expression.value(1), op);
     }
 
+    // nth( <column>, n = <int> )
+    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n)) {
+      return nth2_(data, column, expression.value(1), op);
+    }
+    break;
+
+  case 3:
+
+    // nth( <column>, n = <int>, default = <scalar> )
+    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_named(2, s_default)) {
+      return nth3_default(data, column, expression.value(1), expression.value(2), op);
+    }
+    break;
 
   default:
     break;

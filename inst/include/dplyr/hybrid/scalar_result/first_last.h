@@ -10,6 +10,46 @@ namespace hybrid {
 namespace internal{
 
 template <int RTYPE, typename Data>
+class Nth2 : public HybridVectorScalarResult<RTYPE, Data, Nth2<RTYPE, Data> > {
+public:
+  typedef HybridVectorScalarResult<RTYPE, Data, Nth2> Parent ;
+  typedef typename Data::slicing_index Index;
+  typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
+
+  Nth2(const Data& data, SEXP column_, int pos_):
+    Parent(data),
+    column(column_),
+    pos(pos_),
+    def(default_value<RTYPE>())
+  {}
+
+  Nth2(const Data& data, SEXP column_, int pos_, SEXP def_):
+    Parent(data),
+    column(column_),
+    pos(pos_),
+    def(Rcpp::internal::r_vector_start<RTYPE>(def_)[0])
+  {}
+
+  inline STORAGE process(const Index& indices) const {
+    int n = indices.size();
+    if (n==0) return def ;
+
+    if (pos > 0 && pos <= n){
+      return column[pos-1];
+    } else if(pos < 0 && pos >= -n){
+      return column[n-pos];
+    }
+
+    return def;
+  }
+
+private:
+  Rcpp::Vector<RTYPE> column;
+  int pos;
+  STORAGE def;
+};
+
+template <int RTYPE, typename Data>
 class First1 : public HybridVectorScalarResult<RTYPE, Data, First1<RTYPE, Data> > {
 public:
   typedef HybridVectorScalarResult<RTYPE, Data, First1> Parent ;
@@ -96,7 +136,7 @@ SEXP last1_(const Data& data, SEXP x, const Operation& op) {
 
 template <typename Data, typename Operation, template <int, typename> class Impl>
 SEXP firstlast_2_default(const Data& data, SEXP x, SEXP def, const Operation& op) {
-  if (TYPEOF(def) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
+  if (TYPEOF(x) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
 
   switch(TYPEOF(x)){
   case LGLSXP: return op(Impl<LGLSXP, Data>(data, x, Rcpp::Vector<LGLSXP>(def)[0]));
@@ -123,6 +163,63 @@ template <typename Data, typename Operation>
 SEXP last2_default(const Data& data, SEXP x, SEXP def, const Operation& op) {
   return firstlast_2_default<Data, Operation, internal::Last1>(data, x, def, op);
 }
+
+// nth( <column>, n = <int|double> )
+template <typename Data, typename Operation>
+SEXP nth2_(const Data& data, SEXP x, SEXP n, const Operation& op) {
+  if (Rf_length(x) == 1) {
+    int pos = 0 ;
+    switch(TYPEOF(n)){
+    case INTSXP: pos = INTEGER(n)[0];
+    case REALSXP: pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
+    default:
+      return R_UnboundValue;
+    }
+
+    switch(TYPEOF(x)){
+    case LGLSXP: return op(internal::Nth2<LGLSXP, Data>(data, x, pos));
+    case RAWSXP: return op(internal::Nth2<RAWSXP, Data>(data, x, pos));
+    case INTSXP: return op(internal::Nth2<INTSXP, Data>(data, x, pos));
+    case REALSXP: return op(internal::Nth2<REALSXP, Data>(data, x, pos));
+    case CPLXSXP: return op(internal::Nth2<CPLXSXP, Data>(data, x, pos));
+    case STRSXP: return op(internal::Nth2<STRSXP, Data>(data, x, pos));
+    case VECSXP: return op(internal::Nth2<VECSXP, Data>(data, x, pos));
+    default: break;
+    }
+
+  }
+  return R_UnboundValue;
+}
+
+// nth( <column>, n = <int|double> )
+template <typename Data, typename Operation>
+SEXP nth3_default(const Data& data, SEXP x, SEXP n, SEXP def, const Operation& op) {
+  if (TYPEOF(x) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
+
+  if (Rf_length(x) == 1) {
+    int pos = 0 ;
+    switch(TYPEOF(n)){
+    case INTSXP: pos = INTEGER(n)[0];
+    case REALSXP: pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
+    default:
+      return R_UnboundValue;
+    }
+
+    switch(TYPEOF(x)){
+    case LGLSXP: return op(internal::Nth2<LGLSXP, Data>(data, x, pos, def));
+    case RAWSXP: return op(internal::Nth2<RAWSXP, Data>(data, x, pos, def));
+    case INTSXP: return op(internal::Nth2<INTSXP, Data>(data, x, pos, def));
+    case REALSXP: return op(internal::Nth2<REALSXP, Data>(data, x, pos, def));
+    case CPLXSXP: return op(internal::Nth2<CPLXSXP, Data>(data, x, pos, def));
+    case STRSXP: return op(internal::Nth2<STRSXP, Data>(data, x, pos, def));
+    case VECSXP: return op(internal::Nth2<VECSXP, Data>(data, x, pos, def));
+    default: break;
+    }
+
+  }
+  return R_UnboundValue;
+}
+
 
 }
 }
