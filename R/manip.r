@@ -31,7 +31,7 @@
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   condition evaluates to `TRUE` are kept.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -64,9 +64,9 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
   UseMethod("filter_")
 }
 
-#' Select rows by position
+#' Choose rows by position
 #'
-#' Select rows by their ordinal position in the tbl.  Grouped tbls use
+#' Choose rows by their ordinal position in the tbl.  Grouped tbls use
 #' the ordinal position within the group.
 #'
 #' Slice does not work with relational databases because they have no
@@ -77,9 +77,10 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' @param .data A tbl.
 #' @param ... Integer row values.  Provide either positive values to keep,
 #'   or negative values to drop. The values provided must be either all
-#'   positive or all negative.
+#'   positive or all negative.  Indices beyond the number of rows in the
+#'   input are silently ignored.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -121,10 +122,9 @@ slice_ <- function(.data, ..., .dots = list()) {
 
 #' Reduce multiple values down to a single value
 #'
-#' Create one or more scalar variables summarizing the variables of an existing tbl.
-#'
-#' When `summarise()` is used on grouped data created by [group_by()],
-#' the output will have one row for each group.
+#' Create one or more scalar variables summarizing the variables of an
+#' existing tbl. Tbls with groups created by [group_by()] will result in one
+#' row in the output for each group.  Tbls with no groups will result in one row.
 #'
 #' `summarise()` and `summarize()` are synonyms.
 #'
@@ -149,7 +149,7 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   name of the variable in the result. The value should be an expression
 #'   that returns a single value like `min(x)`, `n()`, or `sum(is.na(y))`.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -209,11 +209,12 @@ summarize_ <- summarise_
 #' Create or transform variables
 #'
 #' `mutate()` adds new variables and preserves existing ones;
-#' `transmute()` adds new variables and drops existing ones.
+#' `transmute()` adds new variables and drops existing ones.  Both
+#' functions preserve the number of rows of the input.
 #'
 #' @section Useful functions available in calculations of variables:
 #'
-#' * [`+`], [`-`], [log()], etc., for their usual arithmetic meanings
+#' * [`+`], [`-`], [log()], etc., for their usual mathematical meanings
 #'
 #' * [lead()], [lag()]
 #'
@@ -237,10 +238,13 @@ summarize_ <- summarise_
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Name-value pairs of expressions. Use `NULL` to drop
-#'   a variable in `mutate`.
+#' @param ... Name-value pairs of expressions, each with length 1 or the same
+#'   length as the number of rows in the group (if using [group_by()]) or in the entire
+#'   input (if not using groups). The name of each argument will be the name of
+#'   a new variable, and the value will be its corresponding value.  Use a `NULL`
+#'   value in `mutate` to drop a variable.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -392,13 +396,19 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 
 #' Select/rename variables by name
 #'
-#' Choose variables from a tbl, optionally renaming them.
+#' Choose or rename variables from a tbl.
 #' `select()` keeps only the variables you mention; `rename()`
 #' keeps all variables.
 #'
+#' These functions work by column index, not value; thus, an expression
+#' like `select(data.frame(x = 1:5, y = 10), z = x+1)` does not create a variable
+#' with values `2:6`. (In the current implementation, the expression `z = x+1`
+#' wouldn't do anything useful.)  To calculate using column values, see
+#' [mutate()]/[transmute()].
+#'
 #' @section Useful functions:
 #' As well as using existing functions like `:` and `c()`, there are
-#' a number of special functions that only work inside `select`:
+#' a number of special functions that only work inside `select()`:
 #'
 #' * [starts_with()], [ends_with()], [contains()]
 #' * [matches()]
@@ -430,7 +440,7 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'   If the first expression is negative, `select()` will automatically
 #'   start with all variables.
 #'
-#'   Use named arguments, e.g. `new_name=old_name`, to rename selected variables.
+#'   Use named arguments, e.g. `new_name = old_name`, to rename selected variables.
 #'
 #'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in a context where column names
