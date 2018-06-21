@@ -17,7 +17,6 @@
 
 #include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/Rank.h>
-#include <dplyr/Result/ConstantResult.h>
 
 #include <dplyr/Result/Lead.h>
 #include <dplyr/Result/Lag.h>

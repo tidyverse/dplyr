@@ -8,7 +8,6 @@
 
 #include <dplyr/Result/ILazySubsets.h>
 #include <dplyr/Result/Rank.h>
-#include <dplyr/Result/ConstantResult.h>
 
 #include <dplyr/DataMask_bindings_active.h>
 
@@ -49,61 +48,6 @@ HybridHandlerMap& get_handlers() {
     install_group_handlers(handlers);
   }
   return handlers;
-}
-
-Result* constant_handler(SEXP constant) {
-  switch (TYPEOF(constant)) {
-  case INTSXP:
-  {
-    if (Rf_inherits(constant, "Date")) return new TypedConstantResult<INTSXP>(constant, get_date_classes());
-    return new ConstantResult<INTSXP>(constant);
-  }
-  case REALSXP:
-  {
-    if (Rf_inherits(constant, "difftime")) return new DifftimeConstantResult<REALSXP>(constant);
-    if (Rf_inherits(constant, "POSIXct")) return new TypedConstantResult<REALSXP>(constant, get_time_classes());
-    if (Rf_inherits(constant, "Date")) return new TypedConstantResult<REALSXP>(constant, get_date_classes());
-    return new ConstantResult<REALSXP>(constant);
-  }
-  case STRSXP:
-    return new ConstantResult<STRSXP>(constant);
-  case LGLSXP:
-    return new ConstantResult<LGLSXP>(constant);
-  case CPLXSXP:
-    return new ConstantResult<CPLXSXP>(constant);
-  default:
-    return 0;
-  }
-}
-
-class VariableResult : public Result {
-public:
-  VariableResult(const ILazySubsets& subsets_, const SymbolString& name_) : subsets(subsets_), name(name_)  {}
-
-  SEXP process(const GroupedDataFrame&) {
-    if (subsets.is_summary(name)) {
-      // No need to check length since the summary has already been checked
-      return subsets.get_variable(name);
-    } else {
-      stop("VariableResult::process() needs a summary variable");
-    }
-  }
-
-  SEXP process(const RowwiseDataFrame&) {
-    return subsets.get_variable(name);
-  }
-
-  virtual SEXP process(const SlicingIndex& index) {
-    return subsets.get(name, index);
-  }
-
-private:
-  const ILazySubsets& subsets;
-  SymbolString name;
-};
-
-Result* variable_handler(const ILazySubsets& subsets, const SymbolString& variable) {
-  return new VariableResult(subsets, variable);
 }
 
 void registerHybridHandler(const char* name, HybridHandler proto) {
@@ -243,34 +187,6 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
     LOG_INFO << "Using hybrid handler for " << CHAR(PRINTNAME(fun_symbol));
 
     return it->second.handler(call, subsets, depth - 1);
-  } else if (TYPEOF(call) == SYMSXP) {
-    SymbolString sym = SymbolString(Symbol(call));
-
-    LOG_VERBOSE << "Searching hybrid handler for symbol " << sym.get_utf8_cstring();
-
-    if (subsets.has_variable(sym)) {
-      if (!subsets.is_summary(sym)) return 0;
-
-      LOG_VERBOSE << "Using hybrid variable handler";
-      return variable_handler(subsets, sym);
-    }
-    else {
-      SEXP data;
-      try {
-        data = env.find(sym.get_string());
-      } catch (Rcpp::binding_not_found) {
-        return NULL;
-      }
-
-      // Constants of length != 1 are handled via regular evaluation
-      if (Rf_length(data) == 1) {
-        LOG_VERBOSE << "Using hybrid constant handler";
-        return constant_handler(data);
-      }
-    }
-  } else {
-    // TODO: perhaps deal with SYMSXP separately
-    if (Rf_length(call) == 1) return constant_handler(call);
   }
   return 0;
 }
