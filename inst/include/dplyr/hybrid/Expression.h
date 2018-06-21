@@ -40,6 +40,8 @@ public:
     }
   }
 
+  inline SEXP value(int i){ return values[i]; }
+
   inline int size() const{
     return n;
   }

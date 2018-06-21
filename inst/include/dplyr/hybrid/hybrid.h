@@ -8,6 +8,7 @@
 #include <dplyr/hybrid/scalar_result/n.h>
 #include <dplyr/hybrid/scalar_result/sum_mean_sd_var.h>
 #include <dplyr/hybrid/scalar_result/n_distinct.h>
+#include <dplyr/hybrid/scalar_result/first_last.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -22,8 +23,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_var = Rf_install("var");
   static SEXP s_sd = Rf_install("sd");
   static SEXP s_n_distinct = Rf_install("n_distinct");
+  static SEXP s_first = Rf_install("first");
+  static SEXP s_last = Rf_install("last");
 
   static SEXP s_narm = Rf_install("na.rm");
+  static SEXP s_default = Rf_install("default");
 
   static SEXP s_dplyr = Rf_install("dplyr");
   static SEXP s_base = Rf_install("base");
@@ -64,6 +68,16 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       return op( sd_(data, column, false) );
     }
 
+    // first( <column> )
+    if (expression.is_fun(s_first, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return first1_(data, column, op);
+    }
+
+    // last( <column> )
+    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return last1_(data, column, op);
+    }
+
   case 2:
     // sum( <column>, na.rm = <bool> )
     // base::sum( <column>, na.rm = <bool> )
@@ -100,6 +114,17 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     ) {
       return op(sd_(data, column, test));
     }
+
+    // first( <column>, default = <scalar> )
+    if (expression.is_fun(s_first, s_dplyr) && expression.is_unnamed(0) && expression.is_named(0, column) && expression.is_named(1, s_default)) {
+      return first2_default(data, column, expression.value(1), op);
+    }
+
+    // last( <column>, default = <scalar> )
+    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_named(0, column) && expression.is_named(1, s_default)) {
+      return last2_default(data, column, expression.value(1), op);
+    }
+
 
   default:
     break;
