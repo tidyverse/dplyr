@@ -38,33 +38,9 @@ bool hybridable(RObject arg) {
   return false;
 }
 
-template <template <int> class Templ>
-Result* cumfun_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
-  if (nargs != 1) return 0;
-  RObject data(CADR(call));
-  if (TYPEOF(data) == SYMSXP) {
-    data = subsets.get_variable(SymbolString(Symbol(data)));
-  }
-  switch (TYPEOF(data)) {
-  case INTSXP:
-    return new Templ<INTSXP>(data);
-  case REALSXP:
-    return new Templ<REALSXP>(data);
-  default:
-    break;
-  }
-  return 0;
-}
-
 HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
-    /*
-    handlers[ Rf_install( "cumsum")      ] = HybridHandler( cumfun_prototype<CumSum>, R_NilValue );
-    handlers[ Rf_install( "cummin")      ] = HybridHandler( cumfun_prototype<CumMin>, R_NilValue );
-    handlers[ Rf_install( "cummax")      ] = HybridHandler( cumfun_prototype<CumMax>, R_NilValue );
-    */
-
     install_minmax_handlers(handlers);
     install_window_handlers(handlers);
     install_offset_handlers(handlers);
