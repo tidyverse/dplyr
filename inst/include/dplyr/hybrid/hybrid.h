@@ -10,6 +10,7 @@
 #include <dplyr/hybrid/scalar_result/n_distinct.h>
 #include <dplyr/hybrid/scalar_result/first_last.h>
 #include <dplyr/hybrid/scalar_result/group_indices.h>
+#include <dplyr/hybrid/scalar_result/min_max.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -27,6 +28,8 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_first = Rf_install("first");
   static SEXP s_last = Rf_install("last");
   static SEXP s_group_indices = Rf_install("group_indices");
+  static SEXP s_min = Rf_install("min");
+  static SEXP s_max = Rf_install("max");
 
   static SEXP s_narm = Rf_install("na.rm");
   static SEXP s_default = Rf_install("default");
@@ -85,6 +88,16 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
       return last1_(data, column, op);
     }
+
+    // min( <column> )
+    if (expression.is_fun(s_min, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return min_(data, column, false, op);
+    }
+
+    // max( <column> )
+    if (expression.is_fun(s_max, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return max_(data, column, false, op);
+    }
     break;
 
   case 2:
@@ -138,6 +151,17 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n)) {
       return nth2_(data, column, expression.value(1), op);
     }
+
+    // min( <column>, na.rm = <bool> )
+    if (expression.is_fun(s_min, s_base) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
+      return min_(data, column, test, op);
+    }
+
+    // max( <column>, na.rm = <bool> )
+    if (expression.is_fun(s_max, s_base) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
+      return max_(data, column, test, op);
+    }
+
     break;
 
   case 3:

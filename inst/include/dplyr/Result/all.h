@@ -1,12 +1,10 @@
 #ifndef dplyr_Result_all_H
 #define dplyr_Result_all_H
 
-#include <dplyr/Result/is_smaller.h>
 #include <dplyr/Result/GroupedSubset.h>
 #include <dplyr/Result/RowwiseSubset.h>
 #include <dplyr/Result/Result.h>
 #include <dplyr/Result/Processor.h>
-#include <dplyr/Result/MinMax.h>
 
 #include <dplyr/Result/DelayedProcessor.h>
 #include <dplyr/Result/ILazySubsets.h>

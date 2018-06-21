@@ -40,7 +40,6 @@ bool hybridable(RObject arg) {
 HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
-    install_minmax_handlers(handlers);
     install_window_handlers(handlers);
     install_offset_handlers(handlers);
     install_in_handlers(handlers);
