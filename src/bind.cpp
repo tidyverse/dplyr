@@ -294,7 +294,7 @@ List rbind__impl(List dots, const SymbolString& id) {
 
   // Add vector of identifiers if .id is supplied
   if (!id.is_empty()) {
-    CharacterVector id_col = no_init(n);
+    CharacterVector id_col(no_init(n));
 
     CharacterVector::iterator it = id_col.begin();
     for (int i = 0; i < ndata; ++i) {

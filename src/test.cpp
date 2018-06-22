@@ -115,14 +115,14 @@ LogicalVector test_length_wrap() {
 
   return
     LogicalVector::create(
-      as<double>(wrap(small)) == (double)small,
-      as<double>(wrap(large)) == (double)large,
-      as<double>(wrap(missing)) == (double)missing
+      as<double>(RObject(wrap(small))) == (double)small,
+      as<double>(RObject(wrap(large))) == (double)large,
+      as<double>(RObject(wrap(missing))) == (double)missing
     );
 #else
   return
     LogicalVector::create(
-      as<double>(wrap(small)) == (double)small
+      as<double>(RObject(wrap(small))) == (double)small
     );
 #endif
 }

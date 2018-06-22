@@ -155,7 +155,7 @@ public:
     int n  = gdf.nrows();
     if (n == 0) return IntegerVector(0);
     GroupedDataFrame::group_iterator git = gdf.group_begin();
-    OutputVector out = no_init(n);
+    OutputVector out(no_init(n));
     for (int i = 0; i < ng; i++, ++git) {
       process_slice(out, *git);
     }
@@ -169,7 +169,7 @@ public:
   virtual SEXP process(const SlicingIndex& index) {
     int n = index.size();
     if (n == 0) return IntegerVector(0);
-    OutputVector out = no_init(n);
+    OutputVector out(no_init(n));
     process_slice(out, index);
     return out;
   }
@@ -277,7 +277,7 @@ public:
     Shield<SEXP> data_subset(slice);
     OrderVisitors ordering_obj(data_subset, ascending);
     IntegerVector x = ordering_obj.apply();
-    IntegerVector out = no_init(nrows);
+    IntegerVector out(no_init(nrows));
     int j = nrows - 1;
     for (; j >= 0; j--) {
       if (Rcpp::traits::is_na<RTYPE>(slice[ x[j] ])) {
@@ -352,7 +352,7 @@ public:
     OrderVisitors ordering_obj(data_subset, ascending);
     IntegerVector x = ordering_obj.apply();
 
-    IntegerVector out = no_init(nrows);
+    IntegerVector out(no_init(nrows));
     int i = nrows - 1;
     for (; i >= 0; i--) {
       if (Rcpp::traits::is_na<RTYPE>(slice[x[i]])) {
@@ -381,7 +381,7 @@ public:
     int n = gdf.nrows(), ng = gdf.ngroups();
     if (n == 0) return IntegerVector(0);
 
-    IntegerVector res = no_init(n);
+    IntegerVector res(no_init(n));
     GroupedDataFrame::group_iterator git = gdf.group_begin();
     for (int i = 0; i < ng; i++, ++git) {
       const SlicingIndex& index = *git;

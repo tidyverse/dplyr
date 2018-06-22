@@ -38,7 +38,7 @@ public:
 
   inline SEXP subset(const ChunkIndexMap& map) const {
     int n = output_size(map);
-    VECTOR out = Rcpp::no_init(n);
+    VECTOR out(no_init(n));
     ChunkIndexMap::const_iterator it = map.begin();
     for (int i = 0; i < n; i++, ++it)
       out[i] = vec[ it->first ];
@@ -70,7 +70,7 @@ protected:
   template <typename Container>
   inline SEXP subset_int_index(const Container& index) const {
     int n = output_size(index);
-    VECTOR out = Rcpp::no_init(n);
+    VECTOR out(no_init(n));
     for (int i = 0; i < n; i++) {
       if (index[i] < 0) {
         out[i] = VECTOR::get_na();

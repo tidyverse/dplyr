@@ -28,7 +28,7 @@ public:
     int nrows = gdf.nrows();
     int ng = gdf.ngroups();
 
-    Vector<RTYPE> out = no_init(nrows);
+    Vector<RTYPE> out(no_init(nrows));
     if (is_summary) {
       for (int i = 0; i < nrows; i++) out[i] = def;
     } else {
@@ -51,7 +51,7 @@ public:
 
   virtual SEXP process(const SlicingIndex& index) {
     int nrows = index.size();
-    Vector<RTYPE> out = no_init(nrows);
+    Vector<RTYPE> out(no_init(nrows));
     NaturalSlicingIndex fake(nrows);
     process_slice(out, index, fake);
     copy_most_attributes(out, data);
