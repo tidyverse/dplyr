@@ -2,7 +2,7 @@
 #define dplyr_hybrid_min_max_h
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
-#include <dplyr/hybrid/Expression.h>
+#include <dplyr/hybrid/Column.h>
 #include <dplyr/default_value.h>
 
 namespace dplyr {

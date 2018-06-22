@@ -4,13 +4,10 @@
 #include <tools/SymbolString.h>
 #include <tools/SymbolMap.h>
 
+#include <dplyr/hybrid/Column.h>
+
 namespace dplyr{
 namespace hybrid{
-
-struct Column {
-  SEXP data;
-  bool is_summary;
-};
 
 template <typename LazySubsets>
 class Expression {

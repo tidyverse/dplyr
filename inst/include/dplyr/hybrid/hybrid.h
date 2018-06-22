@@ -12,6 +12,9 @@
 #include <dplyr/hybrid/scalar_result/group_indices.h>
 #include <dplyr/hybrid/scalar_result/min_max.h>
 
+#include <dplyr/hybrid/HybridVectorVectorResult.h>
+
+
 namespace dplyr{
 namespace hybrid{
 

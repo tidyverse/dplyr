@@ -44,7 +44,6 @@ HybridHandlerMap& get_handlers() {
     install_offset_handlers(handlers);
     install_in_handlers(handlers);
     install_debug_handlers(handlers);
-    install_group_handlers(handlers);
   }
   return handlers;
 }

@@ -2,7 +2,7 @@
 #define dplyr_hybrid_dispatch_h
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
-#include <dplyr/hybrid/Expression.h>
+#include <dplyr/hybrid/Column.h>
 
 namespace dplyr{
 namespace hybrid{
