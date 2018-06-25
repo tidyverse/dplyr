@@ -9,9 +9,6 @@ exemptLabels: []
 # Label to add before locking, such as `outdated`. Set to `false` to disable
 lockLabel: false
 
-# Comment to post before locking. Set to `false` to disable
-lockComment: false
-
 # Stop lockbot from closing as "resolved"
 setLockReason: false
 
