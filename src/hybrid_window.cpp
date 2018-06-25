@@ -130,48 +130,9 @@ void install_window_handlers(HybridHandlerMap& handlers) {
   Environment ns_dplyr = Environment::namespace_env("dplyr");
 
   handlers[Rf_install("ntile")] = HybridHandler(ntile_prototype, HybridHandler::DPLYR, ns_dplyr["ntile"]);
+
   handlers[Rf_install("min_rank")] = HybridHandler(rank_impl_prototype<dplyr::internal::min_rank_increment>, HybridHandler::DPLYR, ns_dplyr["min_rank"]);
   handlers[Rf_install("percent_rank")] = HybridHandler(rank_impl_prototype<dplyr::internal::percent_rank_increment>, HybridHandler::DPLYR, ns_dplyr["percent_rank"]);
   handlers[Rf_install("dense_rank")] = HybridHandler(rank_impl_prototype<dplyr::internal::dense_rank_increment>, HybridHandler::DPLYR, ns_dplyr["dense_rank"]);
   handlers[Rf_install("cume_dist")] = HybridHandler(rank_impl_prototype<dplyr::internal::cume_dist_increment>, HybridHandler::DPLYR, ns_dplyr["cume_dist"]);
-}
-
-namespace dplyr {
-
-Ntile_1::Ntile_1(int ntiles_) : ntiles(ntiles_) {}
-
-SEXP Ntile_1::process(const GroupedDataFrame& gdf) {
-  int n  = gdf.nrows();
-  if (n == 0) return IntegerVector(0);
-
-  int ng = gdf.ngroups();
-
-  GroupedDataFrame::group_iterator git = gdf.group_begin();
-  IntegerVector out = no_init(n);
-  for (int i = 0; i < ng; i++, ++git) {
-    const SlicingIndex& index = *git;
-    int m = index.size();
-
-    for (int j = m - 1; j >= 0; j--) {
-      out[ index[j] ] = (int)floor((ntiles * j) / m) + 1;
-    }
-  }
-  return out;
-}
-
-SEXP Ntile_1::process(const RowwiseDataFrame& gdf) {
-  return IntegerVector(gdf.nrows(), 1);
-}
-
-SEXP Ntile_1::process(const SlicingIndex& index) {
-  int nrows = index.size();
-  if (nrows == 0) return IntegerVector(0);
-
-  IntegerVector out = no_init(nrows);
-  for (int i = nrows - 1; i >= 0; i--) {
-    out[ i ] = (int)floor(ntiles * i / nrows) + 1;
-  }
-  return out;
-}
-
 }

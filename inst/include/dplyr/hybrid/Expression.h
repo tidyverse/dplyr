@@ -69,6 +69,17 @@ public:
     return res;
   }
 
+  inline bool is_scalar_int(int i, int& out) const {
+    SEXP val = values[i];
+    if (Rf_length(val) != 1) return false;
+    switch(TYPEOF(val)){
+    case INTSXP: out = INTEGER(val)[0]; return true;
+    case REALSXP: out = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]); return true;
+    default: break;
+    }
+    return false;
+  }
+
   inline bool is_column(int i, Column& column) const {
     SEXP val = values[i];
 

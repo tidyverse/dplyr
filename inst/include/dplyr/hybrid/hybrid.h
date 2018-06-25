@@ -14,6 +14,7 @@
 
 #include <dplyr/hybrid/HybridVectorVectorResult.h>
 #include <dplyr/hybrid/vector_result/row_number.h>
+#include <dplyr/hybrid/vector_result/ntile.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -34,6 +35,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_min = Rf_install("min");
   static SEXP s_max = Rf_install("max");
   static SEXP s_row_number = Rf_install("row_number");
+  static SEXP s_ntile = Rf_install("ntile");
 
   static SEXP s_narm = Rf_install("na.rm");
   static SEXP s_default = Rf_install("default");
@@ -46,6 +48,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
   Column column;
   bool test;
+  int n;
 
   // fixed sized expressions
   switch(expression.size()){
@@ -112,6 +115,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     if (expression.is_fun(s_row_number, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
       return row_number_1(data, column, op);
     }
+
+    if (expression.is_fun(s_ntile, s_dplyr) && expression.is_named(0, s_n) && expression.is_scalar_int(0, n)) {
+      return op(ntile_1(data, n));
+    }
+
     break;
 
   case 2:
