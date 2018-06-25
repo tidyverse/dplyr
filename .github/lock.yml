@@ -19,7 +19,7 @@ setLockReason: false
 lockComment: >
   This old issue has been automatically locked. If you believe you
   have found a related problem, please file a new issue (with reprex)
-  and link to this issue.
+  and link to this issue. <https://reprex.tidyverse.org/>
 
 # Limit to only `issues` or `pulls`
 # only: issues
