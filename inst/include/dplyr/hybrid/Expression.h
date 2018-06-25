@@ -82,25 +82,11 @@ public:
 
   inline bool is_column(int i, Column& column) const {
     SEXP val = values[i];
-
-    if (TYPEOF(val) == SYMSXP){
-      return test_is_column(val, column);
+    if(is_column_impl(val, column, true)){
+      return true;
     }
-
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == Rf_install(".data")){
-      SEXP fun = CAR(val);
-      SEXP rhs = CADDR(val);
-
-      if (fun == R_DollarSymbol) {
-        // .data$x
-        if (TYPEOF(rhs) == SYMSXP) return test_is_column(rhs, column);
-
-        // .data$"x"
-        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column);
-      } else if (fun == R_Bracket2Symbol) {
-        // .data[["x"]]
-        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column);
-      }
+    if(TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == Rf_install("desc") && is_column_impl(CADR(val), column, false)) {
+      return true;
     }
     return false;
   }
@@ -118,15 +104,40 @@ private:
   std::vector<SEXP> values;
   std::vector<SEXP> tags;
 
-  inline bool test_is_column(Rcpp::Symbol s, Column& column) const {
+  inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
+    if (TYPEOF(val) == SYMSXP){
+      return test_is_column(val, column, desc);
+    }
+
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == Rf_install(".data")){
+      SEXP fun = CAR(val);
+      SEXP rhs = CADDR(val);
+
+      if (fun == R_DollarSymbol) {
+        // .data$x
+        if (TYPEOF(rhs) == SYMSXP) return test_is_column(rhs, column, desc);
+
+        // .data$"x"
+        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column, desc);
+      } else if (fun == R_Bracket2Symbol) {
+        // .data[["x"]]
+        if (TYPEOF(rhs) == STRSXP && Rf_length(rhs) == 1) return test_is_column(Rf_installChar(STRING_ELT(rhs, 0)), column, desc);
+      }
+    }
+    return false;
+  }
+
+  inline bool test_is_column(Rcpp::Symbol s, Column& column, bool desc) const {
     SymbolString symbol(s);
     bool test = subsets.has_variable(symbol);
     if (test) {
       column.data = subsets.get_variable(symbol);
       column.is_summary = subsets.is_summary(symbol);
+      column.is_desc = desc;
     }
     return test;
   }
+
 
 };
 

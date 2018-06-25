@@ -184,6 +184,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       return max_(data, column, test, op);
     }
 
+    // ntile( <column>, n = <int> )
+    if (expression.is_fun(s_ntile, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+      return ntile_2(data, column, n, op);
+    }
+
     break;
 
   case 3:

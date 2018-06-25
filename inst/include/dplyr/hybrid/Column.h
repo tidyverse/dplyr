@@ -7,6 +7,7 @@ namespace hybrid{
 struct Column {
   SEXP data;
   bool is_summary;
+  bool is_desc;
 };
 
 }
