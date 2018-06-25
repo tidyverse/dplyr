@@ -109,20 +109,19 @@ List test_matches() {
 LogicalVector test_length_wrap() {
   R_xlen_t small = R_LEN_T_MAX / 2;
 
+  bool small_ok = as<double>(RObject(wrap(small))) == (double)small;
+
 #ifdef LONG_VECTOR_SUPPORT
   R_xlen_t large = (R_xlen_t)(R_LEN_T_MAX * 2.0);
   R_xlen_t missing = NA_INTEGER;
 
+  bool large_ok = as<double>(RObject(wrap(large))) == (double)large;
+  bool missing_ok = as<double>(RObject(wrap(missing))) == (double)missing;
+
   return
-    LogicalVector::create(
-      as<double>(RObject(wrap(small))) == (double)small,
-      as<double>(RObject(wrap(large))) == (double)large,
-      as<double>(RObject(wrap(missing))) == (double)missing
-    );
+    LogicalVector::create(small_ok, large_ok, missing_ok);
 #else
   return
-    LogicalVector::create(
-      as<double>(RObject(wrap(small))) == (double)small
-    );
+    LogicalVector::create(small_ok);
 #endif
 }
