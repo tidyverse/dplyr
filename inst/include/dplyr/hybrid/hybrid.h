@@ -13,7 +13,7 @@
 #include <dplyr/hybrid/scalar_result/min_max.h>
 
 #include <dplyr/hybrid/HybridVectorVectorResult.h>
-
+#include <dplyr/hybrid/vector_result/row_number.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -33,6 +33,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_group_indices = Rf_install("group_indices");
   static SEXP s_min = Rf_install("min");
   static SEXP s_max = Rf_install("max");
+  static SEXP s_row_number = Rf_install("row_number");
 
   static SEXP s_narm = Rf_install("na.rm");
   static SEXP s_default = Rf_install("default");
@@ -57,6 +58,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // group_indices()
     if (expression.is_fun(s_group_indices, s_dplyr)) {
       return op(group_indices_(data));
+    }
+
+    // row_number()
+    if (expression.is_fun(s_row_number, s_dplyr)) {
+      return op(row_number_(data));
     }
 
     break;
@@ -100,6 +106,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // max( <column> )
     if (expression.is_fun(s_max, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
       return max_(data, column, false, op);
+    }
+
+    // row_number( <column> )
+    if (expression.is_fun(s_row_number, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return row_number_1(data, column, op);
     }
     break;
 

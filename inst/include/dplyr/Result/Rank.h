@@ -223,80 +223,6 @@ private:
 };
 
 template <int RTYPE, bool ascending = true>
-class RowNumber : public Result {
-public:
-  typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-
-  typedef VectorSliceVisitor<RTYPE> Slice;
-  typedef OrderVectorVisitorImpl<RTYPE, ascending, Slice> Visitor;
-  typedef Compare_Single_OrderVisitor<Visitor> Comparer;
-
-  RowNumber(SEXP data_) : data(data_) {}
-
-  virtual SEXP process(const GroupedDataFrame& gdf) {
-
-    int ng = gdf.ngroups();
-    int n  = gdf.nrows();
-    if (n == 0) return IntegerVector(0);
-    GroupedDataFrame::group_iterator git = gdf.group_begin();
-    IntegerVector out(n);
-    for (int i = 0; i < ng; i++, ++git) {
-      const SlicingIndex& index = *git;
-      Slice slice(&data, index);
-      Shield<SEXP> data_subset(slice);
-      OrderVisitors ordering_obj(data_subset, ascending);
-      IntegerVector tmp = ordering_obj.apply();
-
-      int m = index.size();
-      int j = m - 1;
-      for (; j >= 0; j--) {
-        if (Rcpp::traits::is_na<RTYPE>(slice[ tmp[j] ])) {
-          m--;
-          out[ index[j] ] = NA_INTEGER;
-        } else {
-          break;
-        }
-      }
-      for (; j >= 0; j--) {
-        out[ index[j] ] = tmp[j] + 1;
-      }
-    }
-    return out;
-
-  }
-
-  virtual SEXP process(const RowwiseDataFrame& gdf) {
-    return IntegerVector(gdf.nrows(), 1);
-  }
-
-  virtual SEXP process(const SlicingIndex& index) {
-    int nrows = index.size();
-    if (nrows == 0) return IntegerVector(0);
-
-    Slice slice(&data, index);
-    Shield<SEXP> data_subset(slice);
-    OrderVisitors ordering_obj(data_subset, ascending);
-    IntegerVector x = ordering_obj.apply();
-    IntegerVector out(no_init(nrows));
-    int j = nrows - 1;
-    for (; j >= 0; j--) {
-      if (Rcpp::traits::is_na<RTYPE>(slice[ x[j] ])) {
-        out[ x[j] ] = NA_INTEGER;
-      } else {
-        break;
-      }
-    }
-    for (; j >= 0; j--) {
-      out[ x[j] ] = j + 1;
-    }
-    return out;
-  }
-
-private:
-  Vector<RTYPE> data;
-};
-
-template <int RTYPE, bool ascending = true>
 class Ntile : public Result {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
@@ -384,35 +310,6 @@ public:
 
 private:
   int ntiles;
-};
-
-class RowNumber_0 : public Result {
-public:
-
-  virtual SEXP process(const GroupedDataFrame& gdf) {
-    int n = gdf.nrows(), ng = gdf.ngroups();
-    if (n == 0) return IntegerVector(0);
-
-    IntegerVector res(no_init(n));
-    GroupedDataFrame::group_iterator git = gdf.group_begin();
-    for (int i = 0; i < ng; i++, ++git) {
-      const SlicingIndex& index = *git;
-      int m = index.size();
-      for (int j = 0; j < m; j++) res[index[j]] = j + 1;
-    }
-    return res;
-  }
-
-  virtual SEXP process(const RowwiseDataFrame& gdf) {
-    return IntegerVector(gdf.nrows(), 1);
-  }
-
-  virtual SEXP process(const SlicingIndex& index) {
-    if (index.size() == 0) return IntegerVector(0);
-    IntegerVector res = seq(1, index.size());
-    return res;
-  }
-
 };
 
 }

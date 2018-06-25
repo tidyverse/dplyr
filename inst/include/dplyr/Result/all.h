@@ -13,7 +13,6 @@
 
 #include <dplyr/Result/GroupedCallReducer.h>
 
-#include <dplyr/Result/VectorSliceVisitor.h>
 #include <dplyr/Result/Rank.h>
 
 #include <dplyr/Result/Lead.h>

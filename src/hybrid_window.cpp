@@ -12,52 +12,6 @@ using namespace dplyr;
 namespace dplyr {
 
 template <bool ascending>
-Result* row_number_asc(const RObject& data) {
-  switch (TYPEOF(data)) {
-  case INTSXP:
-    return new RowNumber<INTSXP, ascending>(data);
-  case REALSXP:
-    return new RowNumber<REALSXP, ascending>(data);
-  case STRSXP:
-    return new RowNumber<STRSXP, ascending>(data);
-  default:
-    return 0;
-  }
-}
-
-Result* row_number(const RObject& data, const bool ascending) {
-  if (ascending) {
-    return row_number_asc<true>(data);
-  }
-  else {
-    return row_number_asc<false>(data);
-  }
-}
-
-Result* row_number_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
-  if (nargs == 0) return new RowNumber_0();
-
-  if (nargs > 1) return 0;
-
-  RObject data(CADR(call));
-  bool ascending = true;
-  if (TYPEOF(data) == LANGSXP && CAR(data) == Rf_install("desc")) {
-    data = CADR(data);
-    ascending = false;
-  }
-
-  if (TYPEOF(data) == SYMSXP) {
-    SymbolString name = SymbolString(Symbol(data));
-    if (subsets.has_non_summary_variable(name)) data = subsets.get_variable(name);
-    else return 0;
-  }
-
-  if (subsets.nrows() != Rf_length(data)) return 0;
-
-  return row_number(data, ascending);
-}
-
-template <bool ascending>
 Result* ntile_asc(const RObject& data, const int number_tiles) {
   switch (TYPEOF(data)) {
   case INTSXP:
@@ -175,7 +129,6 @@ Result* rank_impl_prototype(SEXP call, const ILazySubsets& subsets, int nargs) {
 void install_window_handlers(HybridHandlerMap& handlers) {
   Environment ns_dplyr = Environment::namespace_env("dplyr");
 
-  handlers[Rf_install("row_number")] = HybridHandler(row_number_prototype, HybridHandler::DPLYR, ns_dplyr["row_number"]);
   handlers[Rf_install("ntile")] = HybridHandler(ntile_prototype, HybridHandler::DPLYR, ns_dplyr["ntile"]);
   handlers[Rf_install("min_rank")] = HybridHandler(rank_impl_prototype<dplyr::internal::min_rank_increment>, HybridHandler::DPLYR, ns_dplyr["min_rank"]);
   handlers[Rf_install("percent_rank")] = HybridHandler(rank_impl_prototype<dplyr::internal::percent_rank_increment>, HybridHandler::DPLYR, ns_dplyr["percent_rank"]);
