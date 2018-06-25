@@ -49,7 +49,11 @@ public:
     }
     group_sizes = data_.attr("group_sizes");
     biggest_group_size  = data_.attr("biggest_group_size");
-    labels = data_.attr("labels");
+
+    // attr() and operator= both might allocate (according to rchk),
+    // need to protect
+    RObject labels_attr(data_.attr("labels"));
+    labels = labels_attr;
 
     if (!is_lazy) {
       // check consistency of the groups

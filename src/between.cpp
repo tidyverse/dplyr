@@ -17,7 +17,7 @@ using namespace Rcpp;
 // [[Rcpp::export]]
 LogicalVector between(NumericVector x, double left, double right) {
   int n = x.size();
-  LogicalVector out = no_init(n);
+  LogicalVector out(no_init(n));
 
   // Assume users know what they're doing with date/times. In the future
   // should ensure that left and right are the correct class too.

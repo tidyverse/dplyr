@@ -444,7 +444,9 @@ private:
     if (!is_valid_difftime(v)) {
       stop("Invalid difftime object");
     }
-    std::string v_units = Rcpp::as<std::string>(v.attr("units"));
+    // attr() might allocate (according to rchk), need to protect
+    RObject units_attr(v.attr("units"));
+    std::string v_units = Rcpp::as<std::string>(units_attr);
     if (!get_units_map().is_valid_difftime_unit(units)) {
       // if current unit is NULL, grab the new one
       units = v_units;
