@@ -7,7 +7,6 @@
 #include <dplyr/HybridHandlerMap.h>
 
 #include <dplyr/Result/ILazySubsets.h>
-#include <dplyr/Result/Rank.h>
 
 #include <dplyr/DataMask_bindings_active.h>
 
@@ -40,7 +39,6 @@ bool hybridable(RObject arg) {
 HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
-    install_window_handlers(handlers);
     install_offset_handlers(handlers);
     install_in_handlers(handlers);
     install_debug_handlers(handlers);

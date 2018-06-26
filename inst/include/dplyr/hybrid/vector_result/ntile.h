@@ -8,8 +8,6 @@
 #include <dplyr/visitors/SliceVisitor.h>
 #include <dplyr/visitors/Comparer.h>
 
-#include <dplyr/OrderVisitorImpl.h>
-
 namespace dplyr {
 namespace hybrid {
 
@@ -112,9 +110,9 @@ inline SEXP ntile_2(const Data& data, SEXP x, bool is_summary, bool is_desc, int
   if(is_summary) {
     return op(Ntile2_summary<Data, RTYPE>(data, x));
   } else if (is_desc){
-    return op(Ntile2<Data, RTYPE, true>(data, x, n));
-  } else {
     return op(Ntile2<Data, RTYPE, false>(data, x, n));
+  } else {
+    return op(Ntile2<Data, RTYPE, true>(data, x, n));
   }
 }
 

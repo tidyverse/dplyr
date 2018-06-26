@@ -82,10 +82,10 @@ public:
 
   inline bool is_column(int i, Column& column) const {
     SEXP val = values[i];
-    if(is_column_impl(val, column, true)){
+    if(is_column_impl(val, column, false)){
       return true;
     }
-    if(TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == Rf_install("desc") && is_column_impl(CADR(val), column, false)) {
+    if(TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == Rf_install("desc") && is_column_impl(CADR(val), column, true)) {
       return true;
     }
     return false;

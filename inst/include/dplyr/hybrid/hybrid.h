@@ -15,6 +15,7 @@
 #include <dplyr/hybrid/HybridVectorVectorResult.h>
 #include <dplyr/hybrid/vector_result/row_number.h>
 #include <dplyr/hybrid/vector_result/ntile.h>
+#include <dplyr/hybrid/vector_result/rank.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -36,6 +37,10 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_max = Rf_install("max");
   static SEXP s_row_number = Rf_install("row_number");
   static SEXP s_ntile = Rf_install("ntile");
+  static SEXP s_min_rank = Rf_install("min_rank");
+  static SEXP s_percent_rank = Rf_install("percent_rank");
+  static SEXP s_dense_rank = Rf_install("dense_rank");
+  static SEXP s_cume_dist = Rf_install("cume_dist");
 
   static SEXP s_narm = Rf_install("na.rm");
   static SEXP s_default = Rf_install("default");
@@ -116,10 +121,30 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       return row_number_1(data, column, op);
     }
 
+    // ntile( n = <int> )
     if (expression.is_fun(s_ntile, s_dplyr) && expression.is_named(0, s_n) && expression.is_scalar_int(0, n)) {
       return op(ntile_1(data, n));
     }
 
+    // min_rank( <column> )
+    if (expression.is_fun(s_min_rank, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return min_rank_(data, column, op);
+    }
+
+    // percent_rank( <column> )
+    if (expression.is_fun(s_percent_rank, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return percent_rank_(data, column, op);
+    }
+
+    // dense_rank( <column> )
+    if (expression.is_fun(s_dense_rank, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return dense_rank_(data, column, op);
+    }
+
+    // cume_dist( <column> )
+    if (expression.is_fun(s_dense_rank, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return cume_dist_(data, column, op);
+    }
     break;
 
   case 2:

@@ -1,24 +1,22 @@
-#ifndef dplyr_Result_Rank_H
-#define dplyr_Result_Rank_H
+#ifndef dplyr_hybrid_rank_h
+#define dplyr_hybrid_rank_h
 
-#include <tools/hash.h>
+#include <dplyr/hybrid/HybridVectorVectorResult.h>
+#include <dplyr/hybrid/Column.h>
+#include <dplyr/hybrid/Expression.h>
 
-#include <dplyr/GroupedDataFrame.h>
-
-#include <dplyr/comparisons.h>
-#include <dplyr/visitor.h>
-
-#include <dplyr/Order.h>
-
-#include <dplyr/Result/Result.h>
-#include <dplyr/Result/VectorSliceVisitor.h>
+#include <dplyr/visitors/SliceVisitor.h>
+#include <dplyr/visitors/Comparer.h>
 
 namespace dplyr {
-namespace internal {
+namespace hybrid {
+
+namespace internal{
 
 struct min_rank_increment {
   typedef IntegerVector OutputVector;
   typedef int scalar_type;
+  enum{ rtype = INTSXP };
 
   template <typename Container>
   inline int post_increment(const Container& x, int) const {
@@ -39,6 +37,7 @@ struct min_rank_increment {
 struct dense_rank_increment {
   typedef IntegerVector OutputVector;
   typedef int scalar_type;
+  enum{ rtype = INTSXP };
 
   template <typename Container>
   inline int post_increment(const Container&, int) const {
@@ -59,6 +58,7 @@ struct dense_rank_increment {
 struct percent_rank_increment {
   typedef NumericVector OutputVector;
   typedef double scalar_type;
+  enum{ rtype = REALSXP };
 
   template <typename Container>
   inline double post_increment(const Container& x, int m) const {
@@ -80,6 +80,7 @@ struct percent_rank_increment {
 struct cume_dist_increment {
   typedef NumericVector OutputVector;
   typedef double scalar_type;
+  enum{ rtype = REALSXP };
 
   template <typename Container>
   inline double post_increment(const Container&, int) const {
@@ -95,9 +96,6 @@ struct cume_dist_increment {
     return 0.0;
   }
 };
-
-}
-
 
 template <int RTYPE, bool ascending = true>
 class RankComparer {
@@ -134,52 +132,36 @@ public:
   }
 };
 
-// powers both dense_rank and min_rank, see dplyr.cpp for how it is used
-template <int RTYPE, typename Increment, bool ascending>
-class Rank_Impl : public Result, public Increment {
+template <typename Data, int RTYPE, bool ascending, typename Increment>
+class RankImpl :
+  public HybridVectorVectorResult<Increment::rtype, Data, RankImpl<Data, RTYPE, ascending, Increment> >,
+  public Increment
+{
 public:
+  typedef HybridVectorVectorResult<Increment::rtype, Data, RankImpl> Parent;
+  typedef typename Data::slicing_index Index;
+
   typedef typename Increment::OutputVector OutputVector;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  typedef VectorSliceVisitor<RTYPE> Slice;
+  typedef visitors::SliceVisitor<Rcpp::Vector<RTYPE>, Index> SliceVisitor;
+  typedef visitors::WriteSliceVisitor<OutputVector, Index> WriteSliceVisitor;
+
   typedef RankComparer<RTYPE, ascending> Comparer;
   typedef RankEqual<RTYPE> Equal;
+
 
   typedef dplyr_hash_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map;
   typedef std::map<STORAGE, const std::vector<int>*, Comparer> oMap;
 
-  Rank_Impl(SEXP data_) : data(data_), map() {}
+  RankImpl( const Data& data, SEXP x) : Parent(data), vec(x){}
 
-  virtual SEXP process(const GroupedDataFrame& gdf) {
-    int ng = gdf.ngroups();
-    int n  = gdf.nrows();
-    if (n == 0) return IntegerVector(0);
-    GroupedDataFrame::group_iterator git = gdf.group_begin();
-    OutputVector out(no_init(n));
-    for (int i = 0; i < ng; i++, ++git) {
-      process_slice(out, *git);
-    }
-    return out;
-  }
+  void fill(const Index& indices, OutputVector& out) const {
+    Map map;
+    SliceVisitor slice(vec, indices);
+    WriteSliceVisitor out_slice(out, indices);
 
-  virtual SEXP process(const RowwiseDataFrame& gdf) {
-    return IntegerVector(gdf.nrows(), 1);
-  }
-
-  virtual SEXP process(const SlicingIndex& index) {
-    int n = index.size();
-    if (n == 0) return IntegerVector(0);
-    OutputVector out(no_init(n));
-    process_slice(out, index);
-    return out;
-  }
-
-private:
-
-  void process_slice(OutputVector& out, const SlicingIndex& index) {
-    map.clear();
-    Slice slice(&data, index);
-    int m = index.size();
+    int m = indices.size();
     for (int j = 0; j < m; j++) {
       map[ slice[j] ].push_back(j);
     }
@@ -206,22 +188,72 @@ private:
         typename Increment::scalar_type inc_na =
           Rcpp::traits::get_na< Rcpp::traits::r_sexptype_traits<typename Increment::scalar_type>::rtype >();
         for (int k = 0; k < n; k++) {
-          out[ chunk[k] ] = inc_na;
+          out_slice[ chunk[k] ] = inc_na;
         }
       } else {
         for (int k = 0; k < n; k++) {
-          out[ chunk[k] ] = j;
+          out_slice[ chunk[k] ] = j;
         }
       }
       j += Increment::post_increment(chunk, m);
     }
+
   }
 
-
-  Vector<RTYPE> data;
-  Map map;
+private:
+  Rcpp::Vector<RTYPE> vec;
 };
 
+
+template <typename Data, int RTYPE, typename Increment, typename Operation>
+inline SEXP rank_impl( const Data& data, SEXP x, bool is_desc, bool is_summary, const Operation& op){
+  if(is_summary){
+    return R_UnboundValue;
+  } else if(is_desc){
+    return op(RankImpl<Data, RTYPE, false, Increment>(data, x));
+  } else {
+    return op(RankImpl<Data, RTYPE, true, Increment>(data, x));
+  }
+}
+
+template <typename Data, typename Operation, typename Increment>
+inline SEXP rank_(const Data& data, Column column, const Operation& op){
+  SEXP x = column.data;
+  switch(TYPEOF(x)){
+  case INTSXP: return internal::rank_impl<Data, INTSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+  case REALSXP: return internal::rank_impl<Data, REALSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+  default:
+    break;
+  }
+  return R_UnboundValue;
+}
+
+}
+
+template <typename Data, typename Operation>
+inline SEXP min_rank_(const Data& data, Column column, const Operation& op){
+  return internal::rank_<Data, Operation, internal::min_rank_increment>(data, column, op);
+}
+
+template <typename Data, typename Operation>
+inline SEXP dense_rank_(const Data& data, Column column, const Operation& op){
+  return internal::rank_<Data, Operation, internal::dense_rank_increment>(data, column, op);
+}
+
+template <typename Data, typename Operation>
+inline SEXP percent_rank_(const Data& data, Column column, const Operation& op){
+  return internal::rank_<Data, Operation, internal::percent_rank_increment>(data, column, op);
+}
+
+template <typename Data, typename Operation>
+inline SEXP cume_dist_(const Data& data, Column column, const Operation& op){
+  return internal::rank_<Data, Operation, internal::cume_dist_increment>(data, column, op);
+}
+
+
+
+
+}
 }
 
 #endif
