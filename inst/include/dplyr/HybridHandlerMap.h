@@ -10,6 +10,4 @@ void install_offset_handlers(HybridHandlerMap& handlers);
 void install_in_handlers(HybridHandlerMap& handlers);
 void install_debug_handlers(HybridHandlerMap& handlers);
 
-bool hybridable(RObject arg);
-
 #endif // dplyr_dplyr_HybridHandlerMap_H

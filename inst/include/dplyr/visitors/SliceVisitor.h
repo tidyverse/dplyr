@@ -30,6 +30,7 @@ private:
 template <typename Vector, typename Index>
 class WriteSliceVisitor {
 public:
+  typedef typename Vector::Proxy Proxy;
   typedef typename Vector::stored_type stored_type;
 
   WriteSliceVisitor(Vector& data_, const Index& index_) :
@@ -37,7 +38,7 @@ public:
     index(index_)
   {}
 
-  inline stored_type& operator[](int i) const {
+  inline Proxy operator[](int i) {
     return data[index[i]];
   }
 
@@ -49,9 +50,6 @@ private:
   Vector& data;
   const Index& index;
 };
-
-
-
 
 }
 }

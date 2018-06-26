@@ -131,7 +131,11 @@ private:
     SymbolString symbol(s);
     bool test = subsets.has_variable(symbol);
     if (test) {
-      column.data = subsets.get_variable(symbol);
+      // only treat very simple columns as columns, leave other to R
+      SEXP data = subsets.get_variable(symbol);
+      if (Rf_isObject(data) || Rf_isS4(data) || RCPP_GET_CLASS(data) != R_NilValue) return false;
+
+      column.data = data;
       column.is_summary = subsets.is_summary(symbol);
       column.is_desc = desc;
     }

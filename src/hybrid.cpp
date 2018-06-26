@@ -13,29 +13,6 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-bool has_no_class(const RObject& arg) {
-  return RCPP_GET_CLASS(arg) == R_NilValue;
-}
-
-bool hybridable(RObject arg) {
-  if (Rf_inherits(arg, "Date") || Rf_inherits(arg, "POSIXct") || Rf_inherits(arg, "difftime")) return true;
-
-  if (arg.isObject() || arg.isS4()) return false;
-  int type = arg.sexp_type();
-  switch (type) {
-  case INTSXP:
-  case REALSXP:
-  case LGLSXP:
-  case STRSXP:
-  case CPLXSXP:
-  case RAWSXP:
-    return has_no_class(arg);
-  default:
-    break;
-  }
-  return false;
-}
-
 HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {

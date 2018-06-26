@@ -1,6 +1,8 @@
 #ifndef dplyr_hybrid_ntile_h
 #define dplyr_hybrid_ntile_h
 
+
+#include <dplyr/hybrid/HybridVectorSummaryRecycleResult.h>
 #include <dplyr/hybrid/HybridVectorVectorResult.h>
 #include <dplyr/hybrid/Column.h>
 #include <dplyr/hybrid/Expression.h>
@@ -33,28 +35,24 @@ private:
 };
 
 template <typename Data, int RTYPE>
-class Ntile2_summary : public HybridVectorVectorResult<INTSXP, Data, Ntile2_summary<Data, RTYPE> >{
+class Ntile2_summary : public HybridVectorSummaryRecycleResult<INTSXP, Data, Ntile2_summary<Data, RTYPE> > {
 public:
-  typedef HybridVectorVectorResult<INTSXP, Data, Ntile2_summary> Parent;
+  typedef HybridVectorSummaryRecycleResult<INTSXP, Data, Ntile2_summary> Parent;
   typedef typename Data::slicing_index Index;
-  typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
+  typedef Rcpp::Vector<RTYPE> Vector;
 
-  Ntile2_summary( const Data& data, SEXP x) :
+  Ntile2_summary(const Data& data, SEXP x) :
     Parent(data),
     vec(x)
   {}
 
-  void fill(const Index& indices, Rcpp::IntegerVector& out) const {
-    int value = Rcpp::Vector<RTYPE>::is_na(out[indices.group()]) ? NA_INTEGER : 1;
-
-    int n = indices.size();
-    for (int i=0; i<n; i++) out[indices[i]] = value;
+  inline int value(const Index& indices) const {
+    return Vector::is_na(vec[indices.group()]) ? NA_INTEGER : 1;
   }
 
 private:
-  Vector<RTYPE> vec;
+  Vector vec;
 };
-
 
 template <typename Data, int RTYPE, bool ascending>
 class Ntile2 : public HybridVectorVectorResult<INTSXP, Data, Ntile2<Data, RTYPE, ascending> >{

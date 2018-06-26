@@ -1,8 +1,6 @@
 #ifndef dplyr_hybrid_hybrid_h
 #define dplyr_hybrid_hybrid_h
 
-#include <dplyr/hybrid/Dispatch.h>
-#include <dplyr/hybrid/HybridVectorScalarResult.h>
 #include <dplyr/hybrid/Expression.h>
 
 #include <dplyr/hybrid/scalar_result/n.h>
@@ -12,10 +10,10 @@
 #include <dplyr/hybrid/scalar_result/group_indices.h>
 #include <dplyr/hybrid/scalar_result/min_max.h>
 
-#include <dplyr/hybrid/HybridVectorVectorResult.h>
 #include <dplyr/hybrid/vector_result/row_number.h>
 #include <dplyr/hybrid/vector_result/ntile.h>
 #include <dplyr/hybrid/vector_result/rank.h>
+#include <dplyr/hybrid/vector_result/lead_lag.h>
 
 namespace dplyr{
 namespace hybrid{
@@ -41,6 +39,8 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_percent_rank = Rf_install("percent_rank");
   static SEXP s_dense_rank = Rf_install("dense_rank");
   static SEXP s_cume_dist = Rf_install("cume_dist");
+  static SEXP s_lead = Rf_install("lead");
+  static SEXP s_lag = Rf_install("lag");
 
   static SEXP s_narm = Rf_install("na.rm");
   static SEXP s_default = Rf_install("default");
@@ -145,6 +145,17 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     if (expression.is_fun(s_dense_rank, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
       return cume_dist_(data, column, op);
     }
+
+    // lead( <column> )
+    if (expression.is_fun(s_lead, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return lead_1(data, column, 1, op);
+    }
+
+    // lag( <column> )
+    if (expression.is_fun(s_lag, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+      return lag_1(data, column, 1, op);
+    }
+
     break;
 
   case 2:
@@ -212,6 +223,16 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // ntile( <column>, n = <int> )
     if (expression.is_fun(s_ntile, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
       return ntile_2(data, column, n, op);
+    }
+
+    // lead( <column> )
+    if (expression.is_fun(s_lead, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+      return lead_1(data, column, n, op);
+    }
+
+    // lag( <column> )
+    if (expression.is_fun(s_lag, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+      return lag_1(data, column, n, op);
     }
 
     break;
