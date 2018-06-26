@@ -13,8 +13,6 @@
 
 #include <dplyr/Result/GroupedCallReducer.h>
 
-#include <dplyr/Result/Lead.h>
-#include <dplyr/Result/Lag.h>
 #include <dplyr/Result/In.h>
 
 #endif
