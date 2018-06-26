@@ -50,3 +50,13 @@ prepend_call <- function(expr, name) {
     call(name, expr)
   }
 }
+
+#' @export
+hybrid <- function(.data, expr){
+  UseMethod("hybrid")
+}
+
+#' @export
+hybrid.data.frame <- function(.data, expr){
+  hybrid_impl(.data, enquo(expr))
+}

@@ -176,6 +176,10 @@ summarise_impl <- function(df, dots) {
     .Call(`_dplyr_summarise_impl`, df, dots)
 }
 
+hybrid_impl <- function(df, quosure) {
+    .Call(`_dplyr_hybrid_impl`, df, quosure)
+}
+
 test_comparisons <- function() {
     .Call(`_dplyr_test_comparisons`)
 }

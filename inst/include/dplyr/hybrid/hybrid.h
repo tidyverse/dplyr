@@ -277,6 +277,17 @@ SEXP window(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEX
   return hybrid_do(expr, data, subsets, env, Window());
 }
 
+template <typename SlicedTibble, typename LazySubsets>
+SEXP match(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env) {
+  Shield<SEXP> klass(hybrid_do(expr, data, subsets, env, Match()));
+  bool test = klass != R_UnboundValue;
+  LogicalVector res(1, test) ;
+  if (test){
+    res.attr("class") = "hybrid";
+    res.attr("cpp_class") = klass;
+  }
+  return res;
+}
 
 }
 }

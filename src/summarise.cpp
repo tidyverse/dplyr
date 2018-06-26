@@ -216,3 +216,20 @@ SEXP summarise_impl(DataFrame df, QuosureList dots) {
     return summarise_grouped<NaturalDataFrame, LazySplitSubsets<NaturalDataFrame> >(df, dots);
   }
 }
+
+// [[Rcpp::export]]
+SEXP hybrid_impl(DataFrame df, NamedQuosure quosure) {
+  check_valid_colnames(df);
+
+  typedef LazySplitSubsets<NaturalDataFrame> LazySubsets ;
+  NaturalDataFrame gdf(df);
+
+  const Environment& env = quosure.env();
+  SEXP expr = quosure.expr();
+  LazySubsets subsets(gdf);
+  if (is_vector(expr)) {
+    return LogicalVector(1, FALSE);
+  } else {
+    return hybrid::match(expr, gdf, subsets, env);
+  }
+}

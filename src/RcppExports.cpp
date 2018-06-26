@@ -554,6 +554,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// hybrid_impl
+SEXP hybrid_impl(DataFrame df, NamedQuosure quosure);
+RcppExport SEXP _dplyr_hybrid_impl(SEXP dfSEXP, SEXP quosureSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< NamedQuosure >::type quosure(quosureSEXP);
+    rcpp_result_gen = Rcpp::wrap(hybrid_impl(df, quosure));
+    return rcpp_result_gen;
+END_RCPP
+}
 // test_comparisons
 LogicalVector test_comparisons();
 RcppExport SEXP _dplyr_test_comparisons() {
@@ -754,6 +766,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_intersect_data_frame", (DL_FUNC) &_dplyr_intersect_data_frame, 2},
     {"_dplyr_setdiff_data_frame", (DL_FUNC) &_dplyr_setdiff_data_frame, 2},
     {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 2},
+    {"_dplyr_hybrid_impl", (DL_FUNC) &_dplyr_hybrid_impl, 2},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},

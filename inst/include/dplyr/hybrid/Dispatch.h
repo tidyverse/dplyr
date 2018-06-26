@@ -21,6 +21,13 @@ struct Window {
   }
 };
 
+struct Match {
+  template <typename T>
+  inline SEXP operator()(const T& obj) const {
+    return Rf_mkString(DEMANGLE(T));
+  }
+};
+
 template <int RTYPE, bool NA_RM, typename Data, template <int, bool, typename> class Impl >
 class SimpleDispatchImpl : public HybridVectorScalarResult < RTYPE == LGLSXP ? INTSXP : RTYPE, Data, SimpleDispatchImpl<RTYPE, NA_RM, Data, Impl> > {
 public :
