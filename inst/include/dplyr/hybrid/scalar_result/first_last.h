@@ -8,7 +8,7 @@
 namespace dplyr {
 namespace hybrid {
 
-namespace internal{
+namespace internal {
 
 template <int RTYPE, typename Data>
 class Nth2 : public HybridVectorScalarResult<RTYPE, Data, Nth2<RTYPE, Data> > {
@@ -35,19 +35,19 @@ public:
 
   inline STORAGE process(const Index& indices) const {
     if (is_summary) {
-      if(pos == 1 || pos == -1) {
+      if (pos == 1 || pos == -1) {
         return column[indices.group()];
       } else {
         return def;
       }
     }
     int n = indices.size();
-    if (n==0) return def ;
+    if (n == 0) return def ;
 
-    if (pos > 0 && pos <= n){
-      return column[pos-1];
-    } else if(pos < 0 && pos >= -n){
-      return column[n-pos];
+    if (pos > 0 && pos <= n) {
+      return column[pos - 1];
+    } else if (pos < 0 && pos >= -n) {
+      return column[n - pos];
     }
 
     return def;
@@ -82,7 +82,7 @@ public:
   {}
 
   inline STORAGE process(const Index& indices) const {
-    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[0] : def );
+    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[0] : def);
   }
 
 private:
@@ -113,7 +113,7 @@ public:
   {}
 
   inline STORAGE process(const Index& indices) const {
-    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[indices.size()-1] : def);
+    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[indices.size() - 1] : def);
   }
 
 private:
@@ -125,15 +125,23 @@ private:
 
 template <typename Data, typename Operation, template <int, typename> class Impl>
 SEXP firstlast_1(const Data& data, Column x, const Operation& op) {
-  switch(TYPEOF(x.data)){
-  case LGLSXP: return op(internal::First1<LGLSXP, Data>(data, x));
-  case RAWSXP: return op(internal::First1<RAWSXP, Data>(data, x));
-  case INTSXP: return op(internal::First1<INTSXP, Data>(data, x));
-  case REALSXP: return op(internal::First1<REALSXP, Data>(data, x));
-  case CPLXSXP: return op(internal::First1<CPLXSXP, Data>(data, x));
-  case STRSXP: return op(internal::First1<STRSXP, Data>(data, x));
-  case VECSXP: return op(internal::First1<VECSXP, Data>(data, x));
-  default: break;
+  switch (TYPEOF(x.data)) {
+  case LGLSXP:
+    return op(internal::First1<LGLSXP, Data>(data, x));
+  case RAWSXP:
+    return op(internal::First1<RAWSXP, Data>(data, x));
+  case INTSXP:
+    return op(internal::First1<INTSXP, Data>(data, x));
+  case REALSXP:
+    return op(internal::First1<REALSXP, Data>(data, x));
+  case CPLXSXP:
+    return op(internal::First1<CPLXSXP, Data>(data, x));
+  case STRSXP:
+    return op(internal::First1<STRSXP, Data>(data, x));
+  case VECSXP:
+    return op(internal::First1<VECSXP, Data>(data, x));
+  default:
+    break;
   }
   return R_UnboundValue;
 }
@@ -154,15 +162,23 @@ template <typename Data, typename Operation, template <int, typename> class Impl
 SEXP firstlast_2_default(const Data& data, Column x, SEXP def, const Operation& op) {
   if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
 
-  switch(TYPEOF(x.data)){
-  case LGLSXP: return op(Impl<LGLSXP, Data>(data, x, Rcpp::Vector<LGLSXP>(def)[0]));
-  case RAWSXP: return op(Impl<RAWSXP, Data>(data, x, Rcpp::Vector<RAWSXP>(def)[0]));
-  case INTSXP: return op(Impl<INTSXP, Data>(data, x, Rcpp::Vector<INTSXP>(def)[0]));
-  case REALSXP: return op(Impl<REALSXP, Data>(data, x, Rcpp::Vector<REALSXP>(def)[0]));
-  case CPLXSXP: return op(Impl<CPLXSXP, Data>(data, x, Rcpp::Vector<CPLXSXP>(def)[0]));
-  case STRSXP: return op(Impl<STRSXP, Data>(data, x, Rcpp::Vector<STRSXP>(def)[0]));
-  case VECSXP: return op(Impl<VECSXP, Data>(data, x, Rcpp::Vector<VECSXP>(def)[0]));
-  default: break;
+  switch (TYPEOF(x.data)) {
+  case LGLSXP:
+    return op(Impl<LGLSXP, Data>(data, x, Rcpp::Vector<LGLSXP>(def)[0]));
+  case RAWSXP:
+    return op(Impl<RAWSXP, Data>(data, x, Rcpp::Vector<RAWSXP>(def)[0]));
+  case INTSXP:
+    return op(Impl<INTSXP, Data>(data, x, Rcpp::Vector<INTSXP>(def)[0]));
+  case REALSXP:
+    return op(Impl<REALSXP, Data>(data, x, Rcpp::Vector<REALSXP>(def)[0]));
+  case CPLXSXP:
+    return op(Impl<CPLXSXP, Data>(data, x, Rcpp::Vector<CPLXSXP>(def)[0]));
+  case STRSXP:
+    return op(Impl<STRSXP, Data>(data, x, Rcpp::Vector<STRSXP>(def)[0]));
+  case VECSXP:
+    return op(Impl<VECSXP, Data>(data, x, Rcpp::Vector<VECSXP>(def)[0]));
+  default:
+    break;
   }
 
   return R_UnboundValue;
@@ -185,22 +201,32 @@ template <typename Data, typename Operation>
 SEXP nth2_(const Data& data, Column x, SEXP n, const Operation& op) {
   if (Rf_length(x.data) == 1) {
     int pos = 0 ;
-    switch(TYPEOF(n)){
-    case INTSXP: pos = INTEGER(n)[0];
-    case REALSXP: pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
+    switch (TYPEOF(n)) {
+    case INTSXP:
+      pos = INTEGER(n)[0];
+    case REALSXP:
+      pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
     default:
       return R_UnboundValue;
     }
 
-    switch(TYPEOF(x.data)){
-    case LGLSXP: return op(internal::Nth2<LGLSXP, Data>(data, x, pos));
-    case RAWSXP: return op(internal::Nth2<RAWSXP, Data>(data, x, pos));
-    case INTSXP: return op(internal::Nth2<INTSXP, Data>(data, x, pos));
-    case REALSXP: return op(internal::Nth2<REALSXP, Data>(data, x, pos));
-    case CPLXSXP: return op(internal::Nth2<CPLXSXP, Data>(data, x, pos));
-    case STRSXP: return op(internal::Nth2<STRSXP, Data>(data, x, pos));
-    case VECSXP: return op(internal::Nth2<VECSXP, Data>(data, x, pos));
-    default: break;
+    switch (TYPEOF(x.data)) {
+    case LGLSXP:
+      return op(internal::Nth2<LGLSXP, Data>(data, x, pos));
+    case RAWSXP:
+      return op(internal::Nth2<RAWSXP, Data>(data, x, pos));
+    case INTSXP:
+      return op(internal::Nth2<INTSXP, Data>(data, x, pos));
+    case REALSXP:
+      return op(internal::Nth2<REALSXP, Data>(data, x, pos));
+    case CPLXSXP:
+      return op(internal::Nth2<CPLXSXP, Data>(data, x, pos));
+    case STRSXP:
+      return op(internal::Nth2<STRSXP, Data>(data, x, pos));
+    case VECSXP:
+      return op(internal::Nth2<VECSXP, Data>(data, x, pos));
+    default:
+      break;
     }
 
   }
@@ -214,22 +240,32 @@ SEXP nth3_default(const Data& data, Column x, SEXP n, SEXP def, const Operation&
 
   if (Rf_length(x.data) == 1) {
     int pos = 0 ;
-    switch(TYPEOF(n)){
-    case INTSXP: pos = INTEGER(n)[0];
-    case REALSXP: pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
+    switch (TYPEOF(n)) {
+    case INTSXP:
+      pos = INTEGER(n)[0];
+    case REALSXP:
+      pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
     default:
       return R_UnboundValue;
     }
 
-    switch(TYPEOF(x.data)){
-    case LGLSXP: return op(internal::Nth2<LGLSXP, Data>(data, x, pos, def));
-    case RAWSXP: return op(internal::Nth2<RAWSXP, Data>(data, x, pos, def));
-    case INTSXP: return op(internal::Nth2<INTSXP, Data>(data, x, pos, def));
-    case REALSXP: return op(internal::Nth2<REALSXP, Data>(data, x, pos, def));
-    case CPLXSXP: return op(internal::Nth2<CPLXSXP, Data>(data, x, pos, def));
-    case STRSXP: return op(internal::Nth2<STRSXP, Data>(data, x, pos, def));
-    case VECSXP: return op(internal::Nth2<VECSXP, Data>(data, x, pos, def));
-    default: break;
+    switch (TYPEOF(x.data)) {
+    case LGLSXP:
+      return op(internal::Nth2<LGLSXP, Data>(data, x, pos, def));
+    case RAWSXP:
+      return op(internal::Nth2<RAWSXP, Data>(data, x, pos, def));
+    case INTSXP:
+      return op(internal::Nth2<INTSXP, Data>(data, x, pos, def));
+    case REALSXP:
+      return op(internal::Nth2<REALSXP, Data>(data, x, pos, def));
+    case CPLXSXP:
+      return op(internal::Nth2<CPLXSXP, Data>(data, x, pos, def));
+    case STRSXP:
+      return op(internal::Nth2<STRSXP, Data>(data, x, pos, def));
+    case VECSXP:
+      return op(internal::Nth2<VECSXP, Data>(data, x, pos, def));
+    default:
+      break;
     }
 
   }

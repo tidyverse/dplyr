@@ -15,12 +15,12 @@ public:
   typedef typename Data::slicing_index Index;
   typedef Rcpp::Vector<RTYPE> Vector;
 
-  HybridVectorSummaryRecycleResult( const Data& data ) : Parent(data){}
+  HybridVectorSummaryRecycleResult(const Data& data) : Parent(data) {}
 
   void fill(const Index& indices, Vector& out) const {
     int n = indices.size();
     typename Vector::stored_type value = self()->value(indices);
-    for (int i=0; i<n; i++) out[indices[i]] = value;
+    for (int i = 0; i < n; i++) out[indices[i]] = value;
   }
 
 private:

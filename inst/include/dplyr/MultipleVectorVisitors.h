@@ -33,7 +33,7 @@ public:
     ngroups(ngroups_)
   {
     int n = data.size();
-    for (int i=0; i<n; i++) {
+    for (int i = 0; i < n; i++) {
       push_back(data[i], g);
     }
   }
@@ -63,9 +63,9 @@ private:
 
   inline void push_back(SEXP x, int g) {
     int s = get_size(x);
-    if (s == length){
+    if (s == length) {
       visitors.push_back(boost::shared_ptr<VectorVisitor>(visitor(x)));
-    } else if (s == ngroups){
+    } else if (s == ngroups) {
       visitors.push_back(boost::shared_ptr<VectorVisitor>(recycling_visitor(x, g, length)));
     } else {
       stop("incompatible size, should be either %d or %d (thr number of groups)", length, ngroups);

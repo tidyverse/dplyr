@@ -11,12 +11,12 @@
 namespace dplyr {
 namespace hybrid {
 
-namespace internal{
+namespace internal {
 
 struct min_rank_increment {
   typedef IntegerVector OutputVector;
   typedef int scalar_type;
-  enum{ rtype = INTSXP };
+  enum { rtype = INTSXP };
 
   template <typename Container>
   inline int post_increment(const Container& x, int) const {
@@ -37,7 +37,7 @@ struct min_rank_increment {
 struct dense_rank_increment {
   typedef IntegerVector OutputVector;
   typedef int scalar_type;
-  enum{ rtype = INTSXP };
+  enum { rtype = INTSXP };
 
   template <typename Container>
   inline int post_increment(const Container&, int) const {
@@ -58,7 +58,7 @@ struct dense_rank_increment {
 struct percent_rank_increment {
   typedef NumericVector OutputVector;
   typedef double scalar_type;
-  enum{ rtype = REALSXP };
+  enum { rtype = REALSXP };
 
   template <typename Container>
   inline double post_increment(const Container& x, int m) const {
@@ -80,7 +80,7 @@ struct percent_rank_increment {
 struct cume_dist_increment {
   typedef NumericVector OutputVector;
   typedef double scalar_type;
-  enum{ rtype = REALSXP };
+  enum { rtype = REALSXP };
 
   template <typename Container>
   inline double post_increment(const Container&, int) const {
@@ -154,7 +154,7 @@ public:
   typedef dplyr_hash_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map;
   typedef std::map<STORAGE, const std::vector<int>*, Comparer> oMap;
 
-  RankImpl( const Data& data, SEXP x) : Parent(data), vec(x){}
+  RankImpl(const Data& data, SEXP x) : Parent(data), vec(x) {}
 
   void fill(const Index& indices, OutputVector& out) const {
     Map map;
@@ -206,10 +206,10 @@ private:
 
 
 template <typename Data, int RTYPE, typename Increment, typename Operation>
-inline SEXP rank_impl( const Data& data, SEXP x, bool is_desc, bool is_summary, const Operation& op){
-  if(is_summary){
+inline SEXP rank_impl(const Data& data, SEXP x, bool is_desc, bool is_summary, const Operation& op) {
+  if (is_summary) {
     return R_UnboundValue;
-  } else if(is_desc){
+  } else if (is_desc) {
     return op(RankImpl<Data, RTYPE, false, Increment>(data, x));
   } else {
     return op(RankImpl<Data, RTYPE, true, Increment>(data, x));
@@ -217,11 +217,13 @@ inline SEXP rank_impl( const Data& data, SEXP x, bool is_desc, bool is_summary, 
 }
 
 template <typename Data, typename Operation, typename Increment>
-inline SEXP rank_(const Data& data, Column column, const Operation& op){
+inline SEXP rank_(const Data& data, Column column, const Operation& op) {
   SEXP x = column.data;
-  switch(TYPEOF(x)){
-  case INTSXP: return internal::rank_impl<Data, INTSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
-  case REALSXP: return internal::rank_impl<Data, REALSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+  switch (TYPEOF(x)) {
+  case INTSXP:
+    return internal::rank_impl<Data, INTSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+  case REALSXP:
+    return internal::rank_impl<Data, REALSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
   default:
     break;
   }
@@ -231,22 +233,22 @@ inline SEXP rank_(const Data& data, Column column, const Operation& op){
 }
 
 template <typename Data, typename Operation>
-inline SEXP min_rank_(const Data& data, Column column, const Operation& op){
+inline SEXP min_rank_(const Data& data, Column column, const Operation& op) {
   return internal::rank_<Data, Operation, internal::min_rank_increment>(data, column, op);
 }
 
 template <typename Data, typename Operation>
-inline SEXP dense_rank_(const Data& data, Column column, const Operation& op){
+inline SEXP dense_rank_(const Data& data, Column column, const Operation& op) {
   return internal::rank_<Data, Operation, internal::dense_rank_increment>(data, column, op);
 }
 
 template <typename Data, typename Operation>
-inline SEXP percent_rank_(const Data& data, Column column, const Operation& op){
+inline SEXP percent_rank_(const Data& data, Column column, const Operation& op) {
   return internal::rank_<Data, Operation, internal::percent_rank_increment>(data, column, op);
 }
 
 template <typename Data, typename Operation>
-inline SEXP cume_dist_(const Data& data, Column column, const Operation& op){
+inline SEXP cume_dist_(const Data& data, Column column, const Operation& op) {
   return internal::rank_<Data, Operation, internal::cume_dist_increment>(data, column, op);
 }
 

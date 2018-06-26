@@ -6,7 +6,7 @@
 namespace dplyr {
 namespace hybrid {
 
-namespace internal{
+namespace internal {
 
 template <typename Data>
 class GroupIndices : public HybridVectorScalarResult<INTSXP, Data, GroupIndices<Data> > {
@@ -14,7 +14,7 @@ public:
   typedef HybridVectorScalarResult<INTSXP, Data, GroupIndices> Parent ;
   typedef typename Data::slicing_index Index;
 
-  GroupIndices(const Data& data) : Parent(data){}
+  GroupIndices(const Data& data) : Parent(data) {}
 
   inline int process(const Index& indices) const {
     return indices.group() + 1;

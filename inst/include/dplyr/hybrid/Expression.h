@@ -6,14 +6,14 @@
 
 #include <dplyr/hybrid/Column.h>
 
-namespace dplyr{
-namespace hybrid{
+namespace dplyr {
+namespace hybrid {
 
 template <typename LazySubsets>
 class Expression {
 public:
 
-  typedef std::pair<bool,SEXP> ArgPair;
+  typedef std::pair<bool, SEXP> ArgPair;
 
   Expression(SEXP expr_, const LazySubsets& subsets_) :
     expr(expr_),
@@ -25,10 +25,10 @@ public:
   {
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
-    if (TYPEOF(head) == SYMSXP){
+    if (TYPEOF(head) == SYMSXP) {
       valid = true;
       func = head;
-    } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == R_DoubleColonSymbol && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP ){
+    } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == R_DoubleColonSymbol && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
       valid = true;
       func = CADR(head);
       package = CADDR(head);
@@ -42,13 +42,15 @@ public:
     }
   }
 
-  inline SEXP value(int i){ return values[i]; }
+  inline SEXP value(int i) {
+    return values[i];
+  }
 
-  inline int size() const{
+  inline int size() const {
     return n;
   }
 
-  inline bool is_fun(SEXP symbol, SEXP pkg){
+  inline bool is_fun(SEXP symbol, SEXP pkg) {
     return valid && symbol == func && (package == R_NilValue || package == pkg);
   }
 
@@ -72,20 +74,25 @@ public:
   inline bool is_scalar_int(int i, int& out) const {
     SEXP val = values[i];
     if (Rf_length(val) != 1) return false;
-    switch(TYPEOF(val)){
-    case INTSXP: out = INTEGER(val)[0]; return true;
-    case REALSXP: out = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]); return true;
-    default: break;
+    switch (TYPEOF(val)) {
+    case INTSXP:
+      out = INTEGER(val)[0];
+      return true;
+    case REALSXP:
+      out = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]);
+      return true;
+    default:
+      break;
     }
     return false;
   }
 
   inline bool is_column(int i, Column& column) const {
     SEXP val = values[i];
-    if(is_column_impl(val, column, false)){
+    if (is_column_impl(val, column, false)) {
       return true;
     }
-    if(TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == Rf_install("desc") && is_column_impl(CADR(val), column, true)) {
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == Rf_install("desc") && is_column_impl(CADR(val), column, true)) {
       return true;
     }
     return false;
@@ -105,11 +112,11 @@ private:
   std::vector<SEXP> tags;
 
   inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
-    if (TYPEOF(val) == SYMSXP){
+    if (TYPEOF(val) == SYMSXP) {
       return test_is_column(val, column, desc);
     }
 
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == Rf_install(".data")){
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == Rf_install(".data")) {
       SEXP fun = CAR(val);
       SEXP rhs = CADDR(val);
 

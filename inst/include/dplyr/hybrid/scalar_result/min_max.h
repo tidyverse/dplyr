@@ -8,7 +8,7 @@
 namespace dplyr {
 namespace hybrid {
 
-namespace internal{
+namespace internal {
 
 template <int RTYPE, typename Data, bool MINIMUM, bool NA_RM>
 class MinMax : public HybridVectorScalarResult<REALSXP, Data, MinMax<RTYPE, Data, MINIMUM, NA_RM> > {
@@ -73,11 +73,15 @@ template <typename Data, typename Operation, bool MINIMUM, bool NARM>
 SEXP minmax_narm(const Data& data, Column x, const Operation& op) {
 
   // only handle basic number types, anything else goes through R
-  switch(TYPEOF(x.data)){
-  case RAWSXP: return op(internal::MinMax<RAWSXP, Data, MINIMUM, NARM>(data, x));
-  case INTSXP: return op(internal::MinMax<INTSXP, Data, MINIMUM, NARM>(data, x));
-  case REALSXP: return op(internal::MinMax<REALSXP, Data, MINIMUM, NARM>(data, x));
-  default: break;
+  switch (TYPEOF(x.data)) {
+  case RAWSXP:
+    return op(internal::MinMax<RAWSXP, Data, MINIMUM, NARM>(data, x));
+  case INTSXP:
+    return op(internal::MinMax<INTSXP, Data, MINIMUM, NARM>(data, x));
+  case REALSXP:
+    return op(internal::MinMax<REALSXP, Data, MINIMUM, NARM>(data, x));
+  default:
+    break;
   }
 
   return R_UnboundValue;
@@ -86,20 +90,20 @@ SEXP minmax_narm(const Data& data, Column x, const Operation& op) {
 template <typename Data, typename Operation, bool MINIMUM>
 SEXP minmax_(const Data& data, Column x, bool narm, const Operation& op) {
   if (narm) {
-    return minmax_narm<Data, Operation, MINIMUM, true>( data, x, op) ;
+    return minmax_narm<Data, Operation, MINIMUM, true>(data, x, op) ;
   } else {
-    return minmax_narm<Data, Operation, MINIMUM, false>( data, x, op) ;
+    return minmax_narm<Data, Operation, MINIMUM, false>(data, x, op) ;
   }
 }
 
 template <typename Data, typename Operation>
 SEXP min_(const Data& data, Column x, bool narm, const Operation& op) {
-  return minmax_<Data, Operation, true>( data, x, narm, op) ;
+  return minmax_<Data, Operation, true>(data, x, narm, op) ;
 }
 
 template <typename Data, typename Operation>
 SEXP max_(const Data& data, Column x, bool narm, const Operation& op) {
-  return minmax_<Data, Operation, false>( data, x, narm, op) ;
+  return minmax_<Data, Operation, false>(data, x, narm, op) ;
 }
 
 }

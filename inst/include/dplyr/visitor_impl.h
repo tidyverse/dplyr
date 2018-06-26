@@ -122,15 +122,15 @@ inline VectorVisitor* recycling_visitor_vector(SEXP vec, int g, int n) {
     return new RecyclingVectorVisitorImpl<RAWSXP>(vec, g, n);
 
   case VECSXP:
-    {
-      // if (Rf_inherits(vec, "data.frame")) {
-      // return new DataFrameColumnVisitor(vec);
-      // }
-      if (Rf_inherits(vec, "POSIXlt")) {
-        stop("POSIXlt not supported");
-      }
-      return new RecyclingVectorVisitorImpl<VECSXP>(vec, g, n);
+  {
+    // if (Rf_inherits(vec, "data.frame")) {
+    // return new DataFrameColumnVisitor(vec);
+    // }
+    if (Rf_inherits(vec, "POSIXlt")) {
+      stop("POSIXlt not supported");
     }
+    return new RecyclingVectorVisitorImpl<VECSXP>(vec, g, n);
+  }
   default:
     break;
   }

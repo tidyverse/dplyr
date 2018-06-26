@@ -79,7 +79,7 @@ struct MeanImpl {
     // already summarised, e.g. when summarise( x = ..., y = mean(x))
     // we need r coercion as opposed to a simple cast to double because of NA
     if (is_summary) {
-      return Rcpp::internal::r_coerce<RTYPE,REALSXP>(ptr[indices.group()]);
+      return Rcpp::internal::r_coerce<RTYPE, REALSXP>(ptr[indices.group()]);
     }
 
     long double res = 0.0;
@@ -165,7 +165,7 @@ struct VarImpl {
 template <int RTYPE, bool NA_RM, typename Index>
 struct SdImpl {
   static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices, bool is_summary) {
-    return sqrt(VarImpl<RTYPE,NA_RM,Index>::process(data_ptr, indices, is_summary));
+    return sqrt(VarImpl<RTYPE, NA_RM, Index>::process(data_ptr, indices, is_summary));
   }
 };
 
@@ -173,22 +173,22 @@ struct SdImpl {
 } // namespace internal
 
 template <typename Data>
-SimpleDispatch<Data, internal::SumImpl> sum_( const Data& data, Column variable, bool narm){
+SimpleDispatch<Data, internal::SumImpl> sum_(const Data& data, Column variable, bool narm) {
   return SimpleDispatch<Data, internal::SumImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::MeanImpl> mean_( const Data& data, Column variable, bool narm){
+SimpleDispatch<Data, internal::MeanImpl> mean_(const Data& data, Column variable, bool narm) {
   return SimpleDispatch<Data, internal::MeanImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::VarImpl> var_( const Data& data, Column variable, bool narm){
+SimpleDispatch<Data, internal::VarImpl> var_(const Data& data, Column variable, bool narm) {
   return SimpleDispatch<Data, internal::VarImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::SdImpl> sd_( const Data& data, Column variable, bool narm){
+SimpleDispatch<Data, internal::SdImpl> sd_(const Data& data, Column variable, bool narm) {
   return SimpleDispatch<Data, internal::SdImpl>(data, variable, narm);
 }
 

@@ -1,8 +1,8 @@
 #ifndef dplyr_visitors_SliceVisitor_h
 #define dplyr_visitors_SliceVisitor_h
 
-namespace dplyr{
-namespace visitors{
+namespace dplyr {
+namespace visitors {
 
 template <typename Vector, typename Index>
 class SliceVisitor {

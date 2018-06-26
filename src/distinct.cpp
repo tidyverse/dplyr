@@ -54,11 +54,11 @@ int n_distinct_multi(List variables, bool na_rm = false) {
   // recycling of length 1 variables
   int length = get_size(variables[0]);
 
-  for (int i=1; i<n; i++) {
+  for (int i = 1; i < n; i++) {
     int l = get_size(variables[i]);
     if (length == l) continue;
 
-    if (length == 1 && l > 1){
+    if (length == 1 && l > 1) {
       length = l;
     }
   }

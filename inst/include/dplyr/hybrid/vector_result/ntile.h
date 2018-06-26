@@ -13,15 +13,15 @@
 namespace dplyr {
 namespace hybrid {
 
-namespace internal{
+namespace internal {
 
 template <typename Data>
-class Ntile1 : public HybridVectorVectorResult<INTSXP, Data, Ntile1<Data> >{
+class Ntile1 : public HybridVectorVectorResult<INTSXP, Data, Ntile1<Data> > {
 public:
   typedef HybridVectorVectorResult<INTSXP, Data, Ntile1> Parent;
   typedef typename Data::slicing_index Index;
 
-  Ntile1(const Data& data, int ntiles_): Parent(data), ntiles(ntiles_){}
+  Ntile1(const Data& data, int ntiles_): Parent(data), ntiles(ntiles_) {}
 
   void fill(const Index& indices, Rcpp::IntegerVector& out) const {
     int m = indices.size();
@@ -55,7 +55,7 @@ private:
 };
 
 template <typename Data, int RTYPE, bool ascending>
-class Ntile2 : public HybridVectorVectorResult<INTSXP, Data, Ntile2<Data, RTYPE, ascending> >{
+class Ntile2 : public HybridVectorVectorResult<INTSXP, Data, Ntile2<Data, RTYPE, ascending> > {
 public:
   typedef HybridVectorVectorResult<INTSXP, Data, Ntile2> Parent;
   typedef typename Data::slicing_index Index;
@@ -104,10 +104,10 @@ private:
 
 
 template <typename Data, typename Operation, int RTYPE>
-inline SEXP ntile_2(const Data& data, SEXP x, bool is_summary, bool is_desc, int n, const Operation& op){
-  if(is_summary) {
+inline SEXP ntile_2(const Data& data, SEXP x, bool is_summary, bool is_desc, int n, const Operation& op) {
+  if (is_summary) {
     return op(Ntile2_summary<Data, RTYPE>(data, x));
-  } else if (is_desc){
+  } else if (is_desc) {
     return op(Ntile2<Data, RTYPE, false>(data, x, n));
   } else {
     return op(Ntile2<Data, RTYPE, true>(data, x, n));
@@ -117,17 +117,20 @@ inline SEXP ntile_2(const Data& data, SEXP x, bool is_summary, bool is_desc, int
 }
 
 template <typename Data>
-inline internal::Ntile1<Data> ntile_1(const Data& data, int ntiles){
+inline internal::Ntile1<Data> ntile_1(const Data& data, int ntiles) {
   return internal::Ntile1<Data>(data, ntiles);
 }
 
 template <typename Data, typename Operation>
-inline SEXP ntile_2(const Data& data, Column& column, int n, const Operation& op){
+inline SEXP ntile_2(const Data& data, Column& column, int n, const Operation& op) {
   SEXP x = column.data;
-  switch(TYPEOF(x)){
-  case INTSXP: return internal::ntile_2<Data, Operation, INTSXP>(data, x, column.is_summary, column.is_desc, n, op);
-  case REALSXP: return internal::ntile_2<Data, Operation, REALSXP>(data, x, column.is_summary, column.is_desc, n, op);
-  default: break;
+  switch (TYPEOF(x)) {
+  case INTSXP:
+    return internal::ntile_2<Data, Operation, INTSXP>(data, x, column.is_summary, column.is_desc, n, op);
+  case REALSXP:
+    return internal::ntile_2<Data, Operation, REALSXP>(data, x, column.is_summary, column.is_desc, n, op);
+  default:
+    break;
   }
   return R_UnboundValue;
 }

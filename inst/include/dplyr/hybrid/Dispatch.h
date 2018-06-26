@@ -4,26 +4,26 @@
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
 #include <dplyr/hybrid/Column.h>
 
-namespace dplyr{
-namespace hybrid{
+namespace dplyr {
+namespace hybrid {
 
 struct Summary {
   template <typename T>
-  inline SEXP operator()(const T& obj) const{
+  inline SEXP operator()(const T& obj) const {
     return obj.summarise();
   }
 };
 
 struct Window {
   template <typename T>
-  inline SEXP operator()(const T& obj) const{
+  inline SEXP operator()(const T& obj) const {
     return obj.window();
   }
 };
 
 template <int RTYPE, bool NA_RM, typename Data, template <int, bool, typename> class Impl >
-class SimpleDispatchImpl : public HybridVectorScalarResult<RTYPE == LGLSXP ? INTSXP : RTYPE, Data, SimpleDispatchImpl<RTYPE, NA_RM, Data, Impl> > {
-public:
+class SimpleDispatchImpl : public HybridVectorScalarResult < RTYPE == LGLSXP ? INTSXP : RTYPE, Data, SimpleDispatchImpl<RTYPE, NA_RM, Data, Impl> > {
+public :
   static const int rtype = RTYPE == LGLSXP ? INTSXP : RTYPE;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
@@ -48,12 +48,12 @@ private:
 template <
   typename Data,
   template <int, bool, typename> class Impl
->
+  >
 class SimpleDispatch {
 public:
   typedef typename Data::slicing_index Index;
 
-  SimpleDispatch( const Data& data_, Column variable_, bool narm_):
+  SimpleDispatch(const Data& data_, Column variable_, bool narm_):
     data(data_),
     variable(variable_),
     narm(narm_)
@@ -85,10 +85,13 @@ private:
   template <typename Operation, bool NARM>
   SEXP operate_narm(const Operation& op) const {
     // try to dispatch to the right class
-    switch(TYPEOF(variable.data)){
-    case INTSXP: return op(SimpleDispatchImpl<INTSXP, NARM, Data, Impl>(data, variable));
-    case REALSXP: return op(SimpleDispatchImpl<REALSXP, NARM, Data, Impl>(data, variable));
-    case LGLSXP: return op(SimpleDispatchImpl<LGLSXP, NARM, Data, Impl>(data, variable));
+    switch (TYPEOF(variable.data)) {
+    case INTSXP:
+      return op(SimpleDispatchImpl<INTSXP, NARM, Data, Impl>(data, variable));
+    case REALSXP:
+      return op(SimpleDispatchImpl<REALSXP, NARM, Data, Impl>(data, variable));
+    case LGLSXP:
+      return op(SimpleDispatchImpl<LGLSXP, NARM, Data, Impl>(data, variable));
     }
 
     // give up, effectively let R evaluate the call

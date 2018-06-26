@@ -15,11 +15,11 @@
 #include <dplyr/hybrid/vector_result/rank.h>
 #include <dplyr/hybrid/vector_result/lead_lag.h>
 
-namespace dplyr{
-namespace hybrid{
+namespace dplyr {
+namespace hybrid {
 
 template <typename SlicedTibble, typename LazySubsets, typename Operation>
-SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env, const Operation& op){
+SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env, const Operation& op) {
   if (TYPEOF(expr) != LANGSXP) return R_UnboundValue;
 
   static SEXP s_n = Rf_install("n");
@@ -56,7 +56,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   int n;
 
   // fixed sized expressions
-  switch(expression.size()){
+  switch (expression.size()) {
   case 0:
     // n()
     if (expression.is_fun(s_n, s_dplyr)) {
@@ -78,22 +78,22 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   case 1:
     // sum( <column> ) and base::sum( <column> )
     if (expression.is_fun(s_sum, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op( sum_(data, column, false) );
+      return op(sum_(data, column, false));
     }
 
     // mean( <column> ) and base::mean( <column> )
     if (expression.is_fun(s_mean, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op( mean_(data, column, false) );
+      return op(mean_(data, column, false));
     }
 
     // var( <column> ) and stats::var( <column> )
     if (expression.is_fun(s_var, s_stats) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op( var_(data, column, false) );
+      return op(var_(data, column, false));
     }
 
     // sd( <column> ) and stats::sd( <column> )
     if (expression.is_fun(s_sd, s_stats) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op( sd_(data, column, false) );
+      return op(sd_(data, column, false));
     }
 
     // first( <column> )
@@ -162,36 +162,36 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // sum( <column>, na.rm = <bool> )
     // base::sum( <column>, na.rm = <bool> )
     if (expression.is_fun(s_sum, s_base) &&
-      expression.is_unnamed(0) && expression.is_column(0, column) &&
-      expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
-    ) {
+        expression.is_unnamed(0) && expression.is_column(0, column) &&
+        expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
+       ) {
       return op(sum_(data, column, test));
     }
 
     // mean( <column>, na.rm = <bool> )
     // base::mean( <column>, na.rm = <bool> )
     if (expression.is_fun(s_mean, s_base) &&
-      expression.is_unnamed(0) && expression.is_column(0, column) &&
-      expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
-    ) {
+        expression.is_unnamed(0) && expression.is_column(0, column) &&
+        expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
+       ) {
       return op(mean_(data, column, test));
     }
 
     // var( <column>, na.rm = <bool> )
     // stats::var( <column>, na.rm = <bool> )
     if (expression.is_fun(s_var, s_stats) &&
-      expression.is_unnamed(0) && expression.is_column(0, column) &&
-      expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
-    ) {
+        expression.is_unnamed(0) && expression.is_column(0, column) &&
+        expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
+       ) {
       return op(var_(data, column, test));
     }
 
     // sd( <column>, na.rm = <bool> )
     // stats::sd( <column>, na.rm = <bool> )
     if (expression.is_fun(s_sd, s_stats) &&
-      expression.is_unnamed(0) && expression.is_column(0, column) &&
-      expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
-    ) {
+        expression.is_unnamed(0) && expression.is_column(0, column) &&
+        expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
+       ) {
       return op(sd_(data, column, test));
     }
 
@@ -250,7 +250,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   }
 
   // functions that take variadic number of arguments
-  if (expression.is_fun(s_n_distinct, s_dplyr)){
+  if (expression.is_fun(s_n_distinct, s_dplyr)) {
     return n_distinct_(data, expression, op);
   }
 
@@ -259,12 +259,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 }
 
 template <typename SlicedTibble, typename LazySubsets>
-SEXP summarise(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env){
+SEXP summarise(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env) {
   return hybrid_do(expr, data, subsets, env, Summary());
 }
 
 template <typename SlicedTibble, typename LazySubsets>
-SEXP window(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env){
+SEXP window(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env) {
   return hybrid_do(expr, data, subsets, env, Window());
 }
 

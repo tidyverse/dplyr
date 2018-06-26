@@ -11,7 +11,7 @@
 namespace dplyr {
 namespace hybrid {
 
-namespace internal{
+namespace internal {
 
 template <typename Data, bool NARM>
 class N_Distinct : public HybridVectorScalarResult<INTSXP, Data, N_Distinct<Data, NARM> > {
@@ -57,10 +57,10 @@ SEXP n_distinct_(const Data& data, const Expression& expression, const Operation
   bool narm = false;
 
   int n = expression.size();
-  for (int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     Column column;
 
-    if (expression.is_named(i, s_narm)){
+    if (expression.is_named(i, s_narm)) {
       bool test ;
       // if we have na.rm= TRUE, or na.rm = FALSE, we can handle it
       if (expression.is_scalar_logical(i, test)) {
@@ -77,7 +77,7 @@ SEXP n_distinct_(const Data& data, const Expression& expression, const Operation
     }
   }
 
-  if(narm){
+  if (narm) {
     return op(internal::N_Distinct<Data, true>(data, wrap(columns)));
   } else {
     return op(internal::N_Distinct<Data, false>(data, wrap(columns)));
