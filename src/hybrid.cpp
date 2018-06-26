@@ -16,7 +16,6 @@ using namespace dplyr;
 HybridHandlerMap& get_handlers() {
   static HybridHandlerMap handlers;
   if (!handlers.size()) {
-    install_in_handlers(handlers);
     install_debug_handlers(handlers);
   }
   return handlers;

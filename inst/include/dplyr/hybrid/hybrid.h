@@ -14,6 +14,7 @@
 #include <dplyr/hybrid/vector_result/ntile.h>
 #include <dplyr/hybrid/vector_result/rank.h>
 #include <dplyr/hybrid/vector_result/lead_lag.h>
+#include <dplyr/hybrid/vector_result/in.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -41,6 +42,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_cume_dist = Rf_install("cume_dist");
   static SEXP s_lead = Rf_install("lead");
   static SEXP s_lag = Rf_install("lag");
+  static SEXP s_in = Rf_install("%in%");
 
   static SEXP s_narm = Rf_install("na.rm");
   static SEXP s_default = Rf_install("default");
@@ -52,6 +54,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   Expression<LazySubsets> expression(expr, subsets);
 
   Column column;
+  Column column2;
   bool test;
   int n;
 
@@ -234,6 +237,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     if (expression.is_fun(s_lag, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
       return lag_1(data, column, n, op);
     }
+
+    // <column> %in% <column>
+    if (expression.is_fun(s_lag, s_in) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_unnamed(1) && expression.is_column(1, column2)) {
+      return in_column_column(data, column, column2, op);
+    }
+
 
     break;
 

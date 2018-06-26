@@ -135,17 +135,6 @@ inline SEXP ntile_2(const Data& data, Column& column, int n, const Operation& op
   return R_UnboundValue;
 }
 
-// template <typename Data, typename Operation>
-// inline SEXP row_number_1(const Data& data, Column column, const Operation& op){
-//   SEXP x = column.data;
-//   switch(TYPEOF(x)){
-//   case INTSXP: return op(internal::RowNumber1<Data, INTSXP>(data, x));
-//   case REALSXP: return op(internal::RowNumber1<Data, REALSXP>(data, x));
-//   default: break;
-//   }
-//   return R_UnboundValue;
-// }
-
 }
 }
 
