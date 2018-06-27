@@ -1,6 +1,6 @@
 ## Release summary
 
-Minor update to address CRAN warnings and conflict for exported symbols.  Now also with rchk errors fixed.
+Minor update to address CRAN warnings and a conflict for an exported symbol.  We also addressed all rchk errors seen on CRAN but could not replicate them locally, it remains to be seen if our changes are effective.
 
 ## Test environments
 
