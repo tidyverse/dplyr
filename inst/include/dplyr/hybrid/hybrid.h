@@ -239,7 +239,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     }
 
     // <column> %in% <column>
-    if (expression.is_fun(s_lag, s_in) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_unnamed(1) && expression.is_column(1, column2)) {
+    if (expression.is_fun(s_in, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_unnamed(1) && expression.is_column(1, column2)) {
       return in_column_column(data, column, column2, op);
     }
 
@@ -279,11 +279,17 @@ SEXP window(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEX
 
 template <typename SlicedTibble, typename LazySubsets>
 SEXP match(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env) {
-  Shield<SEXP> klass(hybrid_do(expr, data, subsets, env, Match()));
-  bool test = klass != R_UnboundValue;
+  bool test = !is_vector(expr);
+  RObject klass;
+  if (test) {
+    klass = (hybrid_do(expr, data, subsets, env, Match()));
+    test = klass != R_UnboundValue;
+  }
   LogicalVector res(1, test) ;
+  res.attr("class") = "hybrid_call";
+  res.attr("call") = expr;
+  res.attr("env") = env;
   if (test){
-    res.attr("class") = "hybrid";
     res.attr("cpp_class") = klass;
   }
   return res;
