@@ -64,7 +64,7 @@ LogicalVector cumany(LogicalVector x) {
 // [[Rcpp::export]]
 NumericVector cummean(NumericVector x) {
   int n = x.length();
-  NumericVector out = no_init(n);
+  NumericVector out(no_init(n));
 
   double sum = out[0] = x[0];
   for (int i = 1; i < n; i++) {

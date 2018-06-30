@@ -124,6 +124,8 @@ To be released as 0.8.0
 * Using namespaced calls to `base::sort()` and `base::unique()` from C++ code
   to avoid ambiguities when these functions are overridden (#3644).
 
+* Fix rchk errors (#3693).
+
 # dplyr 0.7.5
 
 ## Breaking changes for package developers

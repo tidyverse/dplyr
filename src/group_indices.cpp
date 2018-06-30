@@ -30,7 +30,7 @@ using namespace dplyr;
 // [[Rcpp::export]]
 IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
   int n = gdf.nrows();
-  IntegerVector res = no_init(n);
+  IntegerVector res(no_init(n));
   int ngroups = gdf.ngroups();
   GroupedDataFrameIndexIterator it = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++it) {

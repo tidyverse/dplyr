@@ -338,7 +338,7 @@ CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& 
   int nleft = left.size(), nright = right.size();
   int n = nleft + nright;
 
-  CharacterVector big = no_init(n);
+  CharacterVector big(no_init(n));
   CharacterVector::iterator it = big.begin();
   std::copy(left.begin(), left.end(), it);
   std::copy(right.begin(), right.end(), it + nleft);
