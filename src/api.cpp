@@ -302,7 +302,9 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   LOG_VERBOSE << "Sorting " <<  n_uniques << " unique character elements";
 
   CharacterVector uniques(set.begin(), set.end());
-  CharacterVector s_uniques = Language("sort", uniques).fast_eval();
+
+  static Function sort("sort", R_BaseEnv);
+  CharacterVector s_uniques = Language(sort, uniques).fast_eval();
 
   // order the uniques with a callback to R
   IntegerVector o = r_match(uniques, s_uniques);
@@ -340,7 +342,9 @@ CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& 
   CharacterVector::iterator it = big.begin();
   std::copy(left.begin(), left.end(), it);
   std::copy(right.begin(), right.end(), it + nleft);
-  return Language("unique", big).fast_eval();
+
+  static Function unique("unique", R_BaseEnv);
+  return Language(unique, big).fast_eval();
 }
 
 }
