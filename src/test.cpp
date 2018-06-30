@@ -125,8 +125,9 @@ LogicalVector test_length_wrap() {
       as<double>(wrap_missing) == (double)missing
     );
 #else
-  LogicalVector::create(
-    as<double>(wrap_small) == (double)small
-  );
+  return
+    LogicalVector::create(
+      as<double>(wrap_small) == (double)small
+    );
 #endif
 }
