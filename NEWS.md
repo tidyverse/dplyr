@@ -1,5 +1,5 @@
+# dplyr 0.7.99.9000
 
-# dplyr 0.7.5.9000
 To be released as 0.8.0
 
 * `group_by()` respects levels of factors and keeps empty groups (#341). 
@@ -110,7 +110,6 @@ To be released as 0.8.0
 
 * `summarise_at()` excludes the grouping variables (#3613). 
 
-# dplyr 0.7.5 (2018-04-14)
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
