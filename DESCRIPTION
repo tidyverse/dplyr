@@ -41,6 +41,7 @@ Suggests:
     knitr (>= 1.19),
     Lahman (>= 3.0-1),
     lubridate,
+    MASS,
     mgcv (>= 1.8.23),
     microbenchmark (>= 1.4.4),
     nycflights13 (>= 0.2.2),

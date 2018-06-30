@@ -111,6 +111,15 @@ To be released as 0.8.0
 * `summarise_at()` excludes the grouping variables (#3613). 
 
 # dplyr 0.7.5 (2018-04-14)
+# dplyr 0.7.6
+
+* `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
+  (#3638).
+
+* The MASS package is explicitly suggested to fix CRAN warnings on R-devel
+  (#3657).
+
+# dplyr 0.7.5
 
 ## Breaking changes for package developers
 
