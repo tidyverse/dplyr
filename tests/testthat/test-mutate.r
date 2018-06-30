@@ -465,7 +465,7 @@ test_that("row_number handles empty data frames (#762)", {
 test_that("no utf8 invasion (#722)", {
   skip_on_os("windows")
 
-  source("utf-8.R", local = TRUE, encoding = "UTF-8")
+  source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
 
 test_that("mutate works on empty data frames (#1142)", {
