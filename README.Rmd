@@ -48,13 +48,17 @@ install.packages("tidyverse")
 
 # Alternatively, install just dplyr:
 install.packages("dplyr")
+```
 
-# Or the development version from GitHub:
+### Development version
+
+```{r, eval = FALSE}
+# Install development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("tidyverse/dplyr")
 ```
 
-If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
+If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use [community.rstudio.com](https://community.rstudio.com/), or the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 ## Cheatsheet
 
