@@ -14,17 +14,18 @@ rename(.data, ...)
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
 \item{...}{One or more unquoted expressions separated by commas.
-You can treat variable names like they are positions.
+You can treat variable names like they are positions, so you can
+use expressions like \code{x:y} to select ranges of variables.
 
-Positive values select variables; negative values to drop variables.
+Positive values select variables; negative values drop variables.
 If the first expression is negative, \code{select()} will automatically
 start with all variables.
 
-Use named arguments to rename selected variables.
+Use named arguments, e.g. \code{new_name=old_name}, to rename selected variables.
 
-These arguments are automatically \link[rlang:quo]{quoted} and
+The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in a context where column names
-represent column positions. They support
+represent column positions. They also support
 \link[rlang:quasiquotation]{unquoting} and splicing. See
 \code{vignette("programming")} for an introduction to these concepts.
 
@@ -35,13 +36,14 @@ examples about tidyselect helpers such as \code{starts_with()}, \code{everything
 An object of the same class as \code{.data}.
 }
 \description{
+Choose variables from a tbl, optionally renaming them.
 \code{select()} keeps only the variables you mention; \code{rename()}
 keeps all variables.
 }
 \section{Useful functions}{
 
 As well as using existing functions like \code{:} and \code{c()}, there are
-a number of special functions that only work inside \code{select}
+a number of special functions that only work inside \code{select}:
 \itemize{
 \item \code{\link[=starts_with]{starts_with()}}, \code{\link[=ends_with]{ends_with()}}, \code{\link[=contains]{contains()}}
 \item \code{\link[=matches]{matches()}}
