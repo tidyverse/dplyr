@@ -17,7 +17,7 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 name of the variable in the result. The value should be an expression
 that returns a single value like \code{min(x)}, \code{n()}, or \code{sum(is.na(y))}.
 
-These arguments are automatically \link[rlang:quo]{quoted} and
+The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
@@ -28,12 +28,11 @@ An object of the same class as \code{.data}. One grouping level will
 be dropped.
 }
 \description{
-Create one or more scalar variables summarizing the variables of an existing tbl.
+Create one or more scalar variables summarizing the variables of an
+existing tbl. Tbls with groups created by \code{\link[=group_by]{group_by()}} will result in one
+row in the output for each group.  Tbls with no groups will result in one row.
 }
 \details{
-When \code{summarise()} is used on grouped data created by \code{\link[=group_by]{group_by()}},
-the output will have one row for each group.
-
 \code{summarise()} and \code{summarize()} are synonyms.
 }
 \section{Useful functions}{

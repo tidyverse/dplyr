@@ -2,7 +2,7 @@
 % Please edit documentation in R/manip.r
 \name{slice}
 \alias{slice}
-\title{Select rows by position}
+\title{Choose rows by position}
 \usage{
 slice(.data, ...)
 }
@@ -11,16 +11,17 @@ slice(.data, ...)
 
 \item{...}{Integer row values.  Provide either positive values to keep,
 or negative values to drop. The values provided must be either all
-positive or all negative.
+positive or all negative.  Indices beyond the number of rows in the
+input are silently ignored.
 
-These arguments are automatically \link[rlang:quo]{quoted} and
+The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
 these concepts.}
 }
 \description{
-Select rows by their ordinal position in the tbl.  Grouped tbls use
+Choose rows by their ordinal position in the tbl.  Grouped tbls use
 the ordinal position within the group.
 }
 \details{

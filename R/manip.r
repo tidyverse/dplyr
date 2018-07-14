@@ -360,7 +360,6 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @examples
 #' arrange(mtcars, cyl, disp)
 #' arrange(mtcars, desc(disp))
-#' arrange(mtcars, (disp-150)^2)
 #'
 #' # grouped arrange ignores groups
 #' by_cyl <- mtcars %>% group_by(cyl)

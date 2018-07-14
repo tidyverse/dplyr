@@ -21,7 +21,7 @@ Positive values select variables; negative values drop variables.
 If the first expression is negative, \code{select()} will automatically
 start with all variables.
 
-Use named arguments, e.g. \code{new_name=old_name}, to rename selected variables.
+Use named arguments, e.g. \code{new_name = old_name}, to rename selected variables.
 
 The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in a context where column names
@@ -36,14 +36,21 @@ examples about tidyselect helpers such as \code{starts_with()}, \code{everything
 An object of the same class as \code{.data}.
 }
 \description{
-Choose variables from a tbl, optionally renaming them.
+Choose or rename variables from a tbl.
 \code{select()} keeps only the variables you mention; \code{rename()}
 keeps all variables.
+}
+\details{
+These functions work by column index, not value; thus, an expression
+like \code{select(data.frame(x = 1:5, y = 10), z = x+1)} does not create a variable
+with values \code{2:6}. (In the current implementation, the expression \code{z = x+1}
+wouldn't do anything useful.)  To calculate using column values, see
+\code{\link[=mutate]{mutate()}}/\code{\link[=transmute]{transmute()}}.
 }
 \section{Useful functions}{
 
 As well as using existing functions like \code{:} and \code{c()}, there are
-a number of special functions that only work inside \code{select}:
+a number of special functions that only work inside \code{select()}:
 \itemize{
 \item \code{\link[=starts_with]{starts_with()}}, \code{\link[=ends_with]{ends_with()}}, \code{\link[=contains]{contains()}}
 \item \code{\link[=matches]{matches()}}
