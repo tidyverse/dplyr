@@ -203,7 +203,7 @@ setequal.data.frame <- function(x, y, ...) {
 
 reconstruct_set <- function(out, x) {
   if (is_grouped_df(x)) {
-    out <- grouped_df_impl(out, group_vars(x), group_drop(x), FALSE)
+    out <- grouped_df_impl(out, group_vars(x))
   }
 
   out
