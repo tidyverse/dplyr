@@ -77,3 +77,13 @@ test_that("set operations reconstruct grouping metadata (#3587)", {
   expect_equal(intersect(df1, df2), filter(df1, x >= 3))
   expect_equal(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)) %>% group_by(g))
 })
+
+test_that("set equality", {
+  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% group_by(g)
+  df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
+
+  expect_true(setequal(df1, df1))
+  expect_true(setequal(df2, df2))
+  expect_false(setequal(df1, df2))
+  expect_false(setequal(df2, df1))
+})
