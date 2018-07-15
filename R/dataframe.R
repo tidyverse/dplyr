@@ -198,7 +198,7 @@ setdiff.data.frame <- function(x, y, ...) {
 #' @export
 setequal.data.frame <- function(x, y, ...) {
   out <- equal_data_frame(x, y)
-  reconstruct_set(out, x)
+  as.logical(out)
 }
 
 reconstruct_set <- function(out, x) {
