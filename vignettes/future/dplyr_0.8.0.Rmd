@@ -160,7 +160,7 @@ group_data(group_by(df, f))
 group_data(rowwise(df))
 ```
 
-Similarly, the indices themselves can be retrieved using the `rows()` generic: 
+Similarly, the indices themselves can be retrieved using the `group_rows()` 
 
 ```{r}
 group_rows(df)
