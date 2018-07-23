@@ -49,18 +49,13 @@ install.packages("dplyr")
 
 ### Development version
 
+To get a bug fix, or use a feature from the development version, you can
+install dplyr from GitHub.
+
 ``` r
-# Install development version from GitHub:
 # install.packages("devtools")
 devtools::install_github("tidyverse/dplyr")
 ```
-
-If you encounter a clear bug, please file a minimal reproducible example
-on [github](https://github.com/tidyverse/dplyr/issues). For questions
-and other discussion, please use
-[community.rstudio.com](https://community.rstudio.com/), or the
-[manipulatr mailing
-list](https://groups.google.com/group/manipulatr).
 
 ## Cheatsheet
 
@@ -132,13 +127,21 @@ starwars %>%
 #> # A tibble: 9 x 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
-#> 1 Droid        5  69.8
-#> 2 Gungan       3  74  
-#> 3 Human       35  82.8
-#> 4 Kaminoan     2  88  
-#> 5 Mirialan     2  53.1
+#> 1 <NA>         5  48  
+#> 2 Droid        5  69.8
+#> 3 Gungan       3  74  
+#> 4 Human       35  82.8
+#> 5 Kaminoan     2  88  
 #> # ... with 4 more rows
 ```
+
+## Getting help
+
+If you encounter a clear bug, please file a minimal reproducible example
+on [github](https://github.com/tidyverse/dplyr/issues). For questions
+and other discussion, please use
+[community.rstudio.com](https://community.rstudio.com/), or the
+[manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 -----
 
