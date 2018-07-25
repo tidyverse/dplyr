@@ -7,7 +7,7 @@
 Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/dplyr)](http://cran.r-project.org/package=dplyr)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
 [![Coverage
 Status](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
 
@@ -45,16 +45,17 @@ install.packages("tidyverse")
 
 # Alternatively, install just dplyr:
 install.packages("dplyr")
+```
 
-# Or the development version from GitHub:
+### Development version
+
+To get a bug fix, or use a feature from the development version, you can
+install dplyr from GitHub.
+
+``` r
 # install.packages("devtools")
 devtools::install_github("tidyverse/dplyr")
 ```
-
-If you encounter a clear bug, please file a minimal reproducible example
-on [github](https://github.com/tidyverse/dplyr/issues). For questions
-and other discussion, please use the [manipulatr mailing
-list](https://groups.google.com/group/manipulatr).
 
 ## Cheatsheet
 
@@ -68,13 +69,13 @@ library(dplyr)
 starwars %>% 
   filter(species == "Droid")
 #> # A tibble: 5 x 13
-#>   name  height  mass hair_color skin_color  eye_color birth_year gender
-#>   <chr>  <int> <dbl> <chr>      <chr>       <chr>          <dbl> <chr> 
-#> 1 C-3PO    167    75 <NA>       gold        yellow           112 <NA>  
-#> 2 R2-D2     96    32 <NA>       white, blue red               33 <NA>  
-#> 3 R5-D4     97    32 <NA>       white, red  red               NA <NA>  
-#> 4 IG-88    200   140 none       metal       red               15 none  
-#> 5 BB8       NA    NA none       none        black             NA none  
+#>   name  height  mass hair_color skin_color eye_color birth_year gender
+#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> 
+#> 1 C-3PO    167    75 <NA>       gold       yellow           112 <NA>  
+#> 2 R2-D2     96    32 <NA>       white, bl… red               33 <NA>  
+#> 3 R5-D4     97    32 <NA>       white, red red               NA <NA>  
+#> 4 IG-88    200   140 none       metal      red               15 none  
+#> 5 BB8       NA    NA none       none       black             NA none  
 #> # ... with 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
@@ -106,13 +107,13 @@ starwars %>%
 starwars %>% 
   arrange(desc(mass))
 #> # A tibble: 87 x 13
-#>   name    height  mass hair_color skin_color  eye_color  birth_year gender
-#>   <chr>    <int> <dbl> <chr>      <chr>       <chr>           <dbl> <chr> 
-#> 1 Jabba …    175  1358 <NA>       green-tan,… orange          600   herma…
-#> 2 Grievo…    216   159 none       brown, whi… green, ye…       NA   male  
-#> 3 IG-88      200   140 none       metal       red              15   none  
-#> 4 Darth …    202   136 none       white       yellow           41.9 male  
-#> 5 Tarfful    234   136 brown      brown       blue             NA   male  
+#>   name  height  mass hair_color skin_color eye_color birth_year gender
+#>   <chr>  <int> <dbl> <chr>      <chr>      <chr>          <dbl> <chr> 
+#> 1 Jabb…    175  1358 <NA>       green-tan… orange         600   herma…
+#> 2 Grie…    216   159 none       brown, wh… green, y…       NA   male  
+#> 3 IG-88    200   140 none       metal      red             15   none  
+#> 4 Dart…    202   136 none       white      yellow          41.9 male  
+#> 5 Tarf…    234   136 brown      brown      blue            NA   male  
 #> # ... with 82 more rows, and 5 more variables: homeworld <chr>,
 #> #   species <chr>, films <list>, vehicles <list>, starships <list>
 
@@ -126,13 +127,21 @@ starwars %>%
 #> # A tibble: 9 x 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
-#> 1 Droid        5  69.8
-#> 2 Gungan       3  74  
-#> 3 Human       35  82.8
-#> 4 Kaminoan     2  88  
-#> 5 Mirialan     2  53.1
+#> 1 <NA>         5  48  
+#> 2 Droid        5  69.8
+#> 3 Gungan       3  74  
+#> 4 Human       35  82.8
+#> 5 Kaminoan     2  88  
 #> # ... with 4 more rows
 ```
+
+## Getting help
+
+If you encounter a clear bug, please file a minimal reproducible example
+on [github](https://github.com/tidyverse/dplyr/issues). For questions
+and other discussion, please use
+[community.rstudio.com](https://community.rstudio.com/), or the
+[manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 -----
 
