@@ -49,7 +49,8 @@ public:
     Vec out = no_init(n);
     copy_most_attributes(out, origin);
     for (int i = 0; i < n; i++) {
-      out[i] = origin[new_indices[i][0]];
+      int new_index = new_indices[i][0];
+      out[i] = origin[new_index - 1];
     }
     return out ;
   }
