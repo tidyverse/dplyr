@@ -408,7 +408,7 @@ private:
 };
 
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data, const DataFrameVisitors& visitors) {
-  if (depth == data.size()) {
+  if (static_cast<size_t>(depth) == data.size()) {
     return boost::shared_ptr<Slicer>(new LeafSlicer(index_range));
   } else {
     SEXP x = data[depth];
