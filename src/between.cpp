@@ -12,6 +12,8 @@ using namespace Rcpp;
 //' @param left,right Boundary values
 //' @export
 //' @examples
+//' between(1:12, 7, 9)
+//'
 //' x <- rnorm(1e2)
 //' x[between(x, -1, 1)]
 // [[Rcpp::export]]

@@ -17,6 +17,8 @@ efficiently in C++ for local values, and translated to the
 appropriate SQL for remote tables.
 }
 \examples{
+between(1:12, 7, 9)
+
 x <- rnorm(1e2)
 x[between(x, -1, 1)]
 }
