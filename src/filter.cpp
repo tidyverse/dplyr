@@ -383,7 +383,6 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
 
-  const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
 
   // tracking the indices for each group
