@@ -512,8 +512,8 @@ SEXP check_grouped(RObject data) {
   // the last column must be a list and called `.rows`
   SEXP names = Rf_getAttrib(groups, R_NamesSymbol);
   SEXP last = VECTOR_ELT(groups, nc - 1);
-  static String rows = ".rows";
-  if (TYPEOF(last) != VECSXP || STRING_ELT(names, nc - 1) != rows) {
+  static String rows(".rows");
+  if (TYPEOF(last) != VECSXP || STRING_ELT(names, nc - 1) != rows.get_sexp()) {
     bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must have a list column named `.rows` as last column");
   }
 
