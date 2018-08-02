@@ -11,6 +11,7 @@ vignette: >
 knitr::opts_chunk$set(collapse = T, comment = "#>")
 options(tibble.print_min = 4L, tibble.print_max = 4L)
 library(dplyr)
+library(tibble)
 set.seed(1014)
 ```
 
@@ -155,10 +156,10 @@ Here's a simple example of what happens if you don't specify `order_by` when you
 df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
 scrambled <- df[sample(nrow(df)), ]
 
-wrong <- mutate(scrambled, running = cumsum(value))
+wrong <- mutate(scrambled, prev_value = lag(value))
 arrange(wrong, year)
 
-right <- mutate(scrambled, running = order_by(year, cumsum(value)))
+right <- mutate(scrambled, prev_value = lag(value, order_by = year))
 arrange(right, year)
 ```
 
