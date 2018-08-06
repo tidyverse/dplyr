@@ -96,11 +96,14 @@ ungroup.grouped_df <- function(x, ...) {
 }
 
 #' @export
-`[.grouped_df` <- function(x, i, j, ...) {
+`[.grouped_df` <- function(x, i, j, drop = FALSE) {
   y <- NextMethod()
 
-  group_names <- group_vars(x)
+  if (isTRUE(drop)) {
+    return(y)
+  }
 
+  group_names <- group_vars(x)
   if (!all(group_names %in% names(y))) {
     tbl_df(y)
   } else {

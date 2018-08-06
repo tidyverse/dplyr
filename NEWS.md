@@ -110,6 +110,8 @@ To be released as 0.8.0
 
 * `summarise_at()` excludes the grouping variables (#3613). 
 
+* grouped data frames support `[, drop = TRUE]` (#3714). 
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
