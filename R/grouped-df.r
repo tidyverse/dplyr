@@ -95,11 +95,12 @@ ungroup.grouped_df <- function(x, ...) {
   ungroup_grouped_df(x)
 }
 
+#' @importFrom tibble is_tibble
 #' @export
 `[.grouped_df` <- function(x, i, j, drop = FALSE) {
   y <- NextMethod()
 
-  if (isTRUE(drop)) {
+  if (isTRUE(drop) && !is_tibble(y)) {
     return(y)
   }
 

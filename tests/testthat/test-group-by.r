@@ -315,4 +315,6 @@ test_that("tbl_sum gets the right number of groups", {
 
 test_that("grouped data frames support drop=TRUE (#3714)", {
   expect_is(group_by(iris, Species)[ , "Sepal.Width", drop=TRUE], "numeric")
+
+  expect_is(group_by(iris, Species)[ , c("Species", "Sepal.Width"), drop=TRUE], "grouped_df")
 })
