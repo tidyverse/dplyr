@@ -1,4 +1,0 @@
-#ifndef dplyr_Result_CallbackProcessor_H
-#define dplyr_Result_CallbackProcessor_H
-
-#endif
