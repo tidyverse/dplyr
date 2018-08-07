@@ -4,7 +4,8 @@
 #include <dplyr/hybrid/Expression.h>
 
 #include <dplyr/hybrid/scalar_result/n.h>
-#include <dplyr/hybrid/scalar_result/sum_mean_sd_var.h>
+#include <dplyr/hybrid/scalar_result/sum.h>
+#include <dplyr/hybrid/scalar_result/mean_sd_var.h>
 #include <dplyr/hybrid/scalar_result/n_distinct.h>
 #include <dplyr/hybrid/scalar_result/first_last.h>
 #include <dplyr/hybrid/scalar_result/group_indices.h>
