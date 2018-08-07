@@ -32,6 +32,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_n_distinct = Rf_install("n_distinct");
   static SEXP s_first = Rf_install("first");
   static SEXP s_last = Rf_install("last");
+  static SEXP s_nth = Rf_install("nth");
   static SEXP s_group_indices = Rf_install("group_indices");
   static SEXP s_min = Rf_install("min");
   static SEXP s_max = Rf_install("max");
@@ -82,22 +83,22 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   case 1:
     // sum( <column> ) and base::sum( <column> )
     if (expression.is_fun(s_sum, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op(sum_(data, column, false));
+      return sum_(data, column, false, op);
     }
 
     // mean( <column> ) and base::mean( <column> )
     if (expression.is_fun(s_mean, s_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op(mean_(data, column, false));
+      return mean_(data, column, false, op);
     }
 
     // var( <column> ) and stats::var( <column> )
     if (expression.is_fun(s_var, s_stats) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op(var_(data, column, false));
+      return var_(data, column, false, op);
     }
 
     // sd( <column> ) and stats::sd( <column> )
     if (expression.is_fun(s_sd, s_stats) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return op(sd_(data, column, false));
+      return sd_(data, column, false, op);
     }
 
     // first( <column> )
@@ -169,7 +170,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
         expression.is_unnamed(0) && expression.is_column(0, column) &&
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
        ) {
-      return op(sum_(data, column, test));
+      return sum_(data, column, test, op);
     }
 
     // mean( <column>, na.rm = <bool> )
@@ -178,7 +179,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
         expression.is_unnamed(0) && expression.is_column(0, column) &&
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
        ) {
-      return op(mean_(data, column, test));
+      return mean_(data, column, test, op);
     }
 
     // var( <column>, na.rm = <bool> )
@@ -187,7 +188,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
         expression.is_unnamed(0) && expression.is_column(0, column) &&
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
        ) {
-      return op(var_(data, column, test));
+      return var_(data, column, test, op);
     }
 
     // sd( <column>, na.rm = <bool> )
@@ -196,7 +197,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
         expression.is_unnamed(0) && expression.is_column(0, column) &&
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
        ) {
-      return op(sd_(data, column, test));
+      return sd_(data, column, test, op);
     }
 
     // first( <column>, default = <scalar> )
@@ -210,7 +211,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     }
 
     // nth( <column>, n = <int> )
-    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n)) {
+    if (expression.is_fun(s_nth, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n)) {
       return nth2_(data, column, expression.value(1), op);
     }
 
@@ -229,12 +230,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       return ntile_2(data, column, n, op);
     }
 
-    // lead( <column> )
+    // lead( <column>, n = <int> )
     if (expression.is_fun(s_lead, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
       return lead_1(data, column, n, op);
     }
 
-    // lag( <column> )
+    // lag( <column>, n = <int> )
     if (expression.is_fun(s_lag, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
       return lag_1(data, column, n, op);
     }
@@ -244,13 +245,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       return in_column_column(data, column, column2, op);
     }
 
-
     break;
 
   case 3:
 
     // nth( <column>, n = <int>, default = <scalar> )
-    if (expression.is_fun(s_last, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_named(2, s_default)) {
+    if (expression.is_fun(s_nth, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_named(2, s_default)) {
       return nth3_default(data, column, expression.value(1), expression.value(2), op);
     }
     break;

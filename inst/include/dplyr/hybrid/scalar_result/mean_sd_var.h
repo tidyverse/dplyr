@@ -34,43 +34,37 @@ private:
 
 template <
   typename Data,
-  template <int, bool, typename> class Impl
-  >
+  template <int, bool, typename> class Impl,
+  typename Operation
+>
 class SimpleDispatch {
 public:
   typedef typename Data::slicing_index Index;
 
-  SimpleDispatch(const Data& data_, Column variable_, bool narm_):
+  SimpleDispatch(const Data& data_, Column variable_, bool narm_, const Operation& op_):
     data(data_),
     variable(variable_),
-    narm(narm_)
+    narm(narm_),
+    op(op_)
   {}
 
-  SEXP summarise() const {
-    return operate(Summary());
-  }
-
-  SEXP window() const {
-    return operate(Window());
+  SEXP get() const {
+    // dispatch to the method below based on na.rm
+    if (narm) {
+      return operate_narm<true>();
+    } else {
+      return operate_narm<false>();
+    }
   }
 
 private:
   const Data& data;
   Column variable;
   bool narm;
+  const Operation& op;
 
-  template <typename Operation>
-  SEXP operate(const Operation& op) const {
-    // dispatch to the method below based on na.rm
-    if (narm) {
-      return operate_narm<Operation, true>(op);
-    } else {
-      return operate_narm<Operation, false>(op);
-    }
-  }
-
-  template <typename Operation, bool NARM>
-  SEXP operate_narm(const Operation& op) const {
+  template <bool NARM>
+  SEXP operate_narm() const {
     // try to dispatch to the right class
     switch (TYPEOF(variable.data)) {
     case INTSXP:
@@ -190,19 +184,19 @@ struct SdImpl {
 
 } // namespace internal
 
-template <typename Data>
-internal::SimpleDispatch<Data, internal::MeanImpl> mean_(const Data& data, Column variable, bool narm) {
-  return internal::SimpleDispatch<Data, internal::MeanImpl>(data, variable, narm);
+template <typename Data, typename Operation>
+SEXP mean_(const Data& data, Column variable, bool narm, const Operation& op) {
+  return internal::SimpleDispatch<Data, internal::MeanImpl, Operation>(data, variable, narm, op).get();
 }
 
-template <typename Data>
-internal::SimpleDispatch<Data, internal::VarImpl> var_(const Data& data, Column variable, bool narm) {
-  return internal::SimpleDispatch<Data, internal::VarImpl>(data, variable, narm);
+template <typename Data, typename Operation>
+SEXP var_(const Data& data, Column variable, bool narm, const Operation& op) {
+  return internal::SimpleDispatch<Data, internal::VarImpl, Operation>(data, variable, narm, op).get();
 }
 
-template <typename Data>
-internal::SimpleDispatch<Data, internal::SdImpl> sd_(const Data& data, Column variable, bool narm) {
-  return internal::SimpleDispatch<Data, internal::SdImpl>(data, variable, narm);
+template <typename Data, typename Operation>
+SEXP sd_(const Data& data, Column variable, bool narm, const Operation& op) {
+  return internal::SimpleDispatch<Data, internal::SdImpl, Operation>(data, variable, narm, op).get();
 }
 
 }

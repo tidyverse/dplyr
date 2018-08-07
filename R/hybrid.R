@@ -1,11 +1,3 @@
-verify_hybrid <- function(x) {
-  abort("Not in hybrid evaluation")
-}
-
-verify_not_hybrid <- function(x) {
-  x
-}
-
 with_hybrid <- function(expr, ...) {
   expr <- enquo(expr)
   stopifnot(any(class(expr) == "formula"))

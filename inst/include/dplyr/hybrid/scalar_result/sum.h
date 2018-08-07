@@ -92,42 +92,35 @@ private:
   bool is_summary;
 };
 
-template <typename Data>
+template <typename Data, typename Operation>
 class SumDispatch {
 public:
   typedef typename Data::slicing_index Index;
 
-  SumDispatch(const Data& data_, Column variable_, bool narm_):
+  SumDispatch(const Data& data_, Column variable_, bool narm_, const Operation& op_):
     data(data_),
     variable(variable_),
-    narm(narm_)
+    narm(narm_),
+    op(op_)
   {}
 
-  SEXP summarise() const {
-    return operate(Summary());
-  }
-
-  SEXP window() const {
-    return operate(Window());
+  SEXP get() const {
+    // dispatch to the method below based on na.rm
+    if (narm) {
+      return operate_narm<true>();
+    } else {
+      return operate_narm<false>();
+    }
   }
 
 private:
   const Data& data;
   Column variable;
   bool narm;
+  const Operation& op;
 
-  template <typename Operation>
-  SEXP operate(const Operation& op) const {
-    // dispatch to the method below based on na.rm
-    if (narm) {
-      return operate_narm<Operation, true>(op);
-    } else {
-      return operate_narm<Operation, false>(op);
-    }
-  }
-
-  template <typename Operation, bool NARM>
-  SEXP operate_narm(const Operation& op) const {
+  template <bool NARM>
+  SEXP operate_narm() const {
     // try to dispatch to the right class
     switch (TYPEOF(variable.data)) {
     case INTSXP:
@@ -147,9 +140,9 @@ private:
 
 } // namespace internal
 
-template <typename Data>
-internal::SumDispatch<Data> sum_(const Data& data, Column variable, bool narm) {
-  return internal::SumDispatch<Data>(data, variable, narm);
+template <typename Data, typename Operation>
+SEXP sum_(const Data& data, Column variable, bool narm, const Operation& op) {
+  return internal::SumDispatch<Data, Operation>(data, variable, narm, op).get();
 }
 
 }

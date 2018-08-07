@@ -6,30 +6,31 @@ expect_predicate <- function(actual, expected, label) {
   }
 }
 
-check_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
+expect_hybrid <- function(data, expr, info = NULL, label = NULL) {
   expr <- enquo(expr)
-  expect_predicate(with_hybrid(!!expr, ...), expected, label = rlang::quo_label(expr))
-  if (test_eval) {
-    expect_predicate(eval_dots(!!expr, ...), expected, label = rlang::quo_label(expr))
-  }
+  expect_true(hybrid_call(data, !!expr), info = info, label = label)
 }
 
-check_not_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
+expect_not_hybrid <- function(data, expr, info = NULL, label = NULL) {
   expr <- enquo(expr)
-  expect_predicate(without_hybrid(!!expr, ...), expected, label = rlang::quo_label(expr))
-  if (test_eval) {
-    expect_predicate(eval_dots(!!expr, ...), expected, label = rlang::quo_label(expr))
-  }
+  expect_false(hybrid_call(data, !!expr), info = info, label = label)
 }
 
-expect_hybrid_error <- function(expr, ..., error) {
-  expr <- enquo(expr)
-  expect_error(
-    with_hybrid(!!expr, ...),
-    error,
-    label = rlang::quo_label(expr)
-  )
-}
+# check_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
+#   expr <- enquo(expr)
+#   expect_predicate(with_hybrid(!!expr, ...), expected, label = rlang::quo_label(expr))
+#   if (test_eval) {
+#     expect_predicate(eval_dots(!!expr, ...), expected, label = rlang::quo_label(expr))
+#   }
+# }
+#
+# check_not_hybrid_result <- function(expr, ..., expected, test_eval = TRUE) {
+#   expr <- enquo(expr)
+#   expect_predicate(without_hybrid(!!expr, ...), expected, label = rlang::quo_label(expr))
+#   if (test_eval) {
+#     expect_predicate(eval_dots(!!expr, ...), expected, label = rlang::quo_label(expr))
+#   }
+# }
 
 expect_not_hybrid_error <- function(expr, ..., error) {
   expr <- enquo(expr)

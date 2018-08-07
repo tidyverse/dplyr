@@ -45,559 +45,196 @@ context("hybrid")
 #     fixed = TRUE
 #   )
 # })
-#
-# test_that("n() and n_distinct() work", {
-#   check_hybrid_result(
-#     n(),
-#     a = 1:5,
-#     expected = 5L, test_eval = FALSE
-#   )
-#   check_not_hybrid_result(
-#     list(1:n()),
-#     a = 1:5,
-#     expected = list(1:5), test_eval = FALSE
-#   )
-#
-#   check_hybrid_result(
-#     n_distinct(a),
-#     a = 1:5,
-#     expected = 5L
-#   )
-#   check_hybrid_result(
-#     n_distinct(a),
-#     a = rep(1L, 3),
-#     expected = 1L
-#   )
-#   check_hybrid_result(
-#     n_distinct(a, b),
-#     a = rep(1L, 3), b = 1:3,
-#     expected = 3L
-#   )
-#   check_hybrid_result(
-#     n_distinct(a, b),
-#     a = rep(1L, 3), b = c(1, 1, 2),
-#     expected = 2L
-#   )
-#   check_hybrid_result(
-#     n_distinct(a, b),
-#     a = rep(1L, 3), b = c(1, 1, NA),
-#     expected = 2L
-#   )
-#   check_hybrid_result(
-#     n_distinct(a, b, na.rm = TRUE),
-#     a = rep(1L, 3), b = c(1, 1, NA),
-#     expected = 1L
-#   )
-#   check_hybrid_result(
-#     n_distinct(a = a, b = b, na.rm = TRUE),
-#     a = rep(1L, 3), b = c(1, 1, NA),
-#     expected = 1L
-#   )
-#
-#   expect_not_hybrid_error(
-#     n_distinct(),
-#     a = 1:5,
-#     error = "Need at least one column for `n_distinct[(][)]`"
-#   )
-# })
-#
-# test_that("%in% works (#192)", {
-#   # compilation errors on Windows
-#   # https://ci.appveyor.com/project/hadley/dplyr/build/1.0.230
-#   check_not_hybrid_result(
-#     list(a %in% (1:3 * 1i)),
-#     a = 2:4 * 1i,
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-#
-#   check_not_hybrid_result(
-#     list(a %in% 1:3),
-#     a = as.numeric(2:4),
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-#   check_not_hybrid_result(
-#     list(a %in% as.numeric(1:3)),
-#     a = 2:4,
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-#
-#   c <- 2:4
-#   check_not_hybrid_result(
-#     list(c %in% 1:3),
-#     a = as.numeric(2:4),
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-# })
-#
-# test_that("min() and max() work", {
-#   check_hybrid_result(
-#     min(a),
-#     a = 1:5,
-#     expected = 1,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     max(a),
-#     a = 1:5,
-#     expected = 5,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     min(a),
-#     a = as.numeric(1:5),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     max(a),
-#     a = as.numeric(1:5),
-#     expected = 5
-#   )
-#   check_hybrid_result(
-#     min(a),
-#     a = c(1:5, NA),
-#     expected = is.na,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     max(a),
-#     a = c(1:5, NA),
-#     expected = is.na,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     min(a),
-#     a = c(NA, 1:5),
-#     expected = is.na,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     max(a),
-#     a = c(NA, 1:5),
-#     expected = is.na,
-#     test_eval = FALSE
-#   )
-#
-#   c <- 1:3
-#   check_not_hybrid_result(
-#     min(c),
-#     a = 1:5,
-#     expected = 1L
-#   )
-#   check_not_hybrid_result(
-#     max(c),
-#     a = 1:5,
-#     expected = 3L
-#   )
-#
-#   check_not_hybrid_result(
-#     min(a),
-#     a = letters,
-#     expected = "a"
-#   )
-#   check_not_hybrid_result(
-#     max(a),
-#     a = letters,
-#     expected = "z"
-#   )
-#   check_not_hybrid_result(
-#     min(a),
-#     a = c(letters, NA),
-#     expected = NA_character_
-#   )
-#   check_not_hybrid_result(
-#     max(a),
-#     a = c(letters, NA),
-#     expected = NA_character_
-#   )
-#   check_not_hybrid_result(
-#     min(a, na.rm = TRUE),
-#     a = c(letters, NA),
-#     expected = "a"
-#   )
-#   check_not_hybrid_result(
-#     max(a, na.rm = TRUE),
-#     a = c(letters, NA),
-#     expected = "z"
-#   )
-#
-#   check_hybrid_result(
-#     min(a, na.rm = TRUE),
-#     a = NA_real_,
-#     expected = Inf,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     max(a, na.rm = TRUE),
-#     a = NA_real_,
-#     expected = -Inf,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     min(a),
-#     a = numeric(),
-#     expected = Inf,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     max(a),
-#     a = numeric(),
-#     expected = -Inf,
-#     test_eval = FALSE
-#   )
-#
-#   check_hybrid_result(
-#     max(a, na.rm = TRUE),
-#     a = NA_integer_,
-#     expected = -Inf,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     min(a, na.rm = TRUE),
-#     a = NA_integer_,
-#     expected = Inf,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     max(a),
-#     a = integer(),
-#     expected = -Inf,
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     min(a),
-#     a = integer(),
-#     expected = Inf,
-#     test_eval = FALSE
-#   )
-# })
-#
-# test_that("first(), last(), and nth() work", {
-#   check_hybrid_result(
-#     first(a),
-#     a = 1:5,
-#     expected = 1L
-#   )
-#   check_hybrid_result(
-#     last(a),
-#     a = as.numeric(1:5),
-#     expected = 5
-#   )
-#   check_hybrid_result(
-#     nth(a, 6, default = 3),
-#     a = as.numeric(1:5),
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     nth(a, 6, def = 3),
-#     a = as.numeric(1:5),
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     nth(a, 6.5),
-#     a = 1:5,
-#     expected = NA_integer_
-#   )
-#
-#   check_not_hybrid_result(
-#     nth(a, b[[2]]),
-#     a = letters[1:5], b = 5:1,
-#     expected = "d"
-#   )
-#
-#   check_hybrid_result(
-#     nth(a, 3),
-#     a = as.numeric(1:5) * 1i,
-#     expected = 3i
-#   )
-#   check_not_hybrid_result(
-#     nth(a, 2),
-#     a = as.list(1:5),
-#     expected = 2L
-#   )
-#
-#   check_not_hybrid_result(
-#     nth(a, order_by = 5:1, 2),
-#     a = 1:5,
-#     expected = 4L
-#   )
-#   expect_not_hybrid_error(
-#     first(a, bogus = 3),
-#     a = 1:5,
-#     error = "unused argument"
-#   )
-#   expect_not_hybrid_error(
-#     last(a, bogus = 3),
-#     a = 1:5,
-#     error = "unused argument"
-#   )
-#   expect_not_hybrid_error(
-#     nth(a, 3, bogus = 3),
-#     a = 1:5,
-#     error = "unused argument"
-#   )
-#
-#   c <- 1:3
-#   check_not_hybrid_result(
-#     first(c),
-#     a = 2:4,
-#     expected = 1L
-#   )
-#   check_not_hybrid_result(
-#     last(c),
-#     a = 2:4,
-#     expected = 3L
-#   )
-#   check_not_hybrid_result(
-#     nth(c, 2),
-#     a = 2:4,
-#     expected = 2L
-#   )
-#
-#   check_hybrid_result(
-#     first(a, order_by = b),
-#     a = 1:5, b = 5:1,
-#     expected = 5L
-#   )
-#
-#   default_value <- 6L
-#   check_not_hybrid_result(
-#     nth(a, 6, default = default_value),
-#     a = 1:5,
-#     expected = 6L
-#   )
-#
-#   expect_equal(
-#     tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
-#       group_by(a) %>%
-#       summarize(b = b[1], b = first(b)) %>%
-#       ungroup(),
-#     tibble(a = c(1, 2), b = c("a", "c"))
-#   )
-# })
-#
-# test_that("lead() and lag() work", {
-#   check_hybrid_result(
-#     list(lead(a)),
-#     a = 1:5,
-#     expected = list(c(2:5, NA))
-#   )
-#   check_hybrid_result(
-#     list(lag(a)),
-#     a = 1:5,
-#     expected = list(c(NA, 1:4))
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a)),
-#     a = as.numeric(1:5),
-#     expected = list(c(as.numeric(2:5), NA))
-#   )
-#   check_hybrid_result(
-#     list(lag(a)),
-#     a = as.numeric(1:5),
-#     expected = list(c(NA, as.numeric(1:4)))
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a)),
-#     a = letters[1:5],
-#     expected = list(c(letters[2:5], NA))
-#   )
-#   check_hybrid_result(
-#     list(lag(a)),
-#     a = letters[1:5],
-#     expected = list(c(NA, letters[1:4]))
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a)),
-#     a = c(TRUE, FALSE),
-#     expected = list(c(FALSE, NA))
-#   )
-#   check_hybrid_result(
-#     list(lag(a)),
-#     a = c(TRUE, FALSE),
-#     expected = list(c(NA, TRUE))
-#   )
-#
-#   check_not_hybrid_result(
-#     list(lead(a, order_by = b)),
-#     a = 1:5, b = 5:1,
-#     expected = list(c(NA, 1:4))
-#   )
-#   check_not_hybrid_result(
-#     list(lag(a, order_by = b)),
-#     a = 1:5, b = 5:1,
-#     expected = list(c(2:5, NA))
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a)),
-#     a = 1:5 * 1i,
-#     expected = list(c(2:5, NA) * 1i)
-#   )
-#   check_hybrid_result(
-#     list(lag(a)),
-#     a = 1:5 * 1i,
-#     expected = list(c(NA, 1:4) * 1i)
-#   )
-#
-#   v <- 1:2
-#   check_not_hybrid_result(
-#     list(lead(a, v[1])),
-#     a = 1:5,
-#     expected = list(c(2:5, NA))
-#   )
-#   check_not_hybrid_result(
-#     list(lag(a, v[1])),
-#     a = 1:5,
-#     expected = list(c(NA, 1:4))
-#   )
-# })
-#
-# test_that("mean(), var(), sd() and sum() work", {
-#   check_hybrid_result(
-#     mean(a),
-#     a = 1:5,
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     mean(a),
-#     a = as.numeric(1:5),
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     var(a),
-#     a = 1:3,
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     var(a),
-#     a = as.numeric(1:3),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sd(a),
-#     a = 1:3,
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sd(a),
-#     a = as.numeric(1:3),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sum(a),
-#     a = 1:5,
-#     expected = 15L
-#   )
-#   check_hybrid_result(
-#     sum(a),
-#     a = as.numeric(1:5),
-#     expected = 15
-#   )
-#
-#   check_hybrid_result(
-#     mean(a),
-#     a = c(1:5, NA),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     mean(a),
-#     a = as.numeric(c(1:5, NA)),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     var(a),
-#     a = c(1:3, NA),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     var(a),
-#     a = as.numeric(c(1:3, NA)),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     sd(a),
-#     a = c(1:3, NA),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     sd(a),
-#     a = as.numeric(c(1:3, NA)),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     sum(a),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     sum(a),
-#     a = c(as.numeric(1:5), NA),
-#     expected = is.na
-#   )
-#
-#   check_hybrid_result(
-#     mean(a, na.rm = TRUE),
-#     a = c(1:5, NA),
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     mean(a, na.rm = TRUE),
-#     a = as.numeric(c(1:5, NA)),
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     var(a, na.rm = TRUE),
-#     a = c(1:3, NA),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     var(a, na.rm = TRUE),
-#     a = as.numeric(c(1:3, NA)),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sd(a, na.rm = TRUE),
-#     a = c(1:3, NA),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sd(a, na.rm = TRUE),
-#     a = as.numeric(c(1:3, NA)),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sum(a, na.rm = TRUE),
-#     a = c(1:5, NA),
-#     expected = 15L
-#   )
-#   check_hybrid_result(
-#     sum(a, na.rm = TRUE),
-#     a = c(as.numeric(1:5), NA),
-#     expected = 15
-#   )
-#
-#   check_not_hybrid_result(
-#     sd(a, TRUE),
-#     a = c(1:3, NA),
-#     expected = 1
-#   )
-#
-#   check_not_hybrid_result(
-#     sd(a, na.rm = b[[1]]),
-#     a = c(1:3, NA), b = TRUE,
-#     expected = 1
-#   )
-#
-#   check_hybrid_result(
-#     sd(a),
-#     a = c(1:3, NA),
-#     expected = is.na
-#   )
-# })
-#
+
+
+test_that("n() and n_distinct() use hybrid evaluation", {
+  d <- tibble(a = 1:5)
+  expect_hybrid(d, n())
+  expect_not_hybrid(d, list(1:n()))
+  expect_not_hybrid(d, n() + 1)
+  expect_hybrid(d, n_distinct(a))
+
+  d <- tibble(a = rep(1L, 3), b = 1:3)
+  expect_hybrid(d, n_distinct(a, b))
+  expect_not_hybrid(d, n_distinct())
+})
+
+test_that("<column> %in% <column> is hybrid", {
+  d <- tibble(a = rep(1L, 3), b = 1:3)
+
+  expect_hybrid(d, a %in% b)
+
+  expect_not_hybrid(d, a %in% b[1])
+  expect_not_hybrid(d, a[1] %in% b)
+  expect_not_hybrid(d, a %in% 1:3)
+})
+
+test_that("min() and max() are hybrid", {
+  d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+  expect_hybrid(d, min(int))
+  expect_hybrid(d, min(dbl))
+  expect_not_hybrid(d, min(chr))
+
+  expect_hybrid(d, min(int, na.rm = TRUE))
+  expect_hybrid(d, min(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, min(chr, na.rm = TRUE))
+
+  expect_hybrid(d, min(int, na.rm = FALSE))
+  expect_hybrid(d, min(dbl, na.rm = FALSE))
+  expect_not_hybrid(d, min(chr, na.rm = FALSE))
+
+  expect_hybrid(d, max(int))
+  expect_hybrid(d, max(dbl))
+  expect_not_hybrid(d, max(chr))
+
+  expect_hybrid(d, max(int, na.rm = TRUE))
+  expect_hybrid(d, max(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, max(chr, na.rm = TRUE))
+
+  expect_hybrid(d, max(int, na.rm = FALSE))
+  expect_hybrid(d, max(dbl, na.rm = FALSE))
+  expect_not_hybrid(d, max(chr, na.rm = FALSE))
+})
+
+test_that("first() and last() are hybrid", {
+  d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, first(int))
+  expect_hybrid(d, first(dbl))
+  expect_hybrid(d, first(chr))
+
+  expect_hybrid(d, first(int, default = 1L))
+  expect_hybrid(d, first(dbl, default = 2))
+  expect_hybrid(d, first(chr, default = ""))
+
+  expect_hybrid(d, last(int))
+  expect_hybrid(d, last(dbl))
+  expect_hybrid(d, last(chr))
+
+  expect_hybrid(d, last(int, default = 1L))
+  expect_hybrid(d, last(dbl, default = 2))
+  expect_hybrid(d, last(chr, default = ""))
+})
+
+test_that("nth(<column>, n = <int-ish>) is hybrid", {
+  d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, nth(int, n = 1))
+  expect_hybrid(d, nth(int, n = 1L))
+
+  expect_hybrid(d, nth(dbl, n = 1))
+  expect_hybrid(d, nth(dbl, n = 1L))
+
+  expect_hybrid(d, nth(chr, n = 1))
+  expect_hybrid(d, nth(chr, n = 1L))
+
+})
+
+test_that("nth(<column>, n = <int-ish>, default = <scalar>) is hybrid", {
+  d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, nth(int, n = 1, default = 1L))
+  expect_hybrid(d, nth(int, n = 1L, default = 1L))
+
+  expect_hybrid(d, nth(dbl, n = 1, default = 1))
+  expect_hybrid(d, nth(dbl, n = 1L, default = 1))
+
+  expect_hybrid(d, nth(chr, n = 1, default = ""))
+  expect_hybrid(d, nth(chr, n = 1L, default = ""))
+})
+
+test_that("lead() and lag() are hybrid", {
+  d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, lead(int))
+  expect_hybrid(d, lead(dbl))
+  expect_hybrid(d, lead(chr))
+
+  expect_hybrid(d, lead(int, n = 1))
+  expect_hybrid(d, lead(dbl, n = 1))
+  expect_hybrid(d, lead(chr, n = 1))
+
+  expect_hybrid(d, lead(int, n = 1L))
+  expect_hybrid(d, lead(dbl, n = 1L))
+  expect_hybrid(d, lead(chr, n = 1L))
+})
+
+test_that("sum is hybrid", {
+  d <- tibble(lgl = c(TRUE, FALSE), int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, sum(lgl))
+  expect_hybrid(d, sum(int))
+  expect_hybrid(d, sum(dbl))
+  expect_not_hybrid(d, sum(chr))
+
+  expect_hybrid(d, sum(lgl, na.rm = TRUE))
+  expect_hybrid(d, sum(int, na.rm = TRUE))
+  expect_hybrid(d, sum(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, sum(chr, na.rm = TRUE))
+
+  expect_hybrid(d, sum(lgl, na.rm = FALSE))
+  expect_hybrid(d, sum(int, na.rm = FALSE))
+  expect_hybrid(d, sum(dbl, na.rm = FALSE))
+  expect_not_hybrid(d, sum(chr, na.rm = FALSE))
+})
+
+test_that("mean is hybrid", {
+  d <- tibble(lgl = c(TRUE, FALSE), int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, mean(lgl))
+  expect_hybrid(d, mean(int))
+  expect_hybrid(d, mean(dbl))
+  expect_not_hybrid(d, mean(chr))
+
+  expect_hybrid(d, mean(lgl, na.rm = TRUE))
+  expect_hybrid(d, mean(int, na.rm = TRUE))
+  expect_hybrid(d, mean(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, mean(chr, na.rm = TRUE))
+
+  expect_hybrid(d, mean(lgl, na.rm = FALSE))
+  expect_hybrid(d, mean(int, na.rm = FALSE))
+  expect_hybrid(d, mean(dbl, na.rm = FALSE))
+  expect_not_hybrid(d, mean(chr, na.rm = FALSE))
+})
+
+test_that("sd is hybrid", {
+  d <- tibble(lgl = c(TRUE, FALSE), int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, sd(lgl))
+  expect_hybrid(d, sd(int))
+  expect_hybrid(d, sd(dbl))
+  expect_not_hybrid(d, sd(chr))
+
+  expect_hybrid(d, sd(lgl, na.rm = TRUE))
+  expect_hybrid(d, sd(int, na.rm = TRUE))
+  expect_hybrid(d, sd(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, sd(chr, na.rm = TRUE))
+
+  expect_hybrid(d, sd(lgl, na.rm = FALSE))
+  expect_hybrid(d, sd(int, na.rm = FALSE))
+  expect_hybrid(d, sd(dbl, na.rm = FALSE))
+  expect_not_hybrid(d, sd(chr, na.rm = FALSE))
+})
+
+test_that("var is hybrid", {
+  d <- tibble(lgl = c(TRUE, FALSE), int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+
+  expect_hybrid(d, var(lgl))
+  expect_hybrid(d, var(int))
+  expect_hybrid(d, var(dbl))
+  expect_not_hybrid(d, var(chr))
+
+  expect_hybrid(d, var(lgl, na.rm = TRUE))
+  expect_hybrid(d, var(int, na.rm = TRUE))
+  expect_hybrid(d, var(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, var(chr, na.rm = TRUE))
+
+  expect_hybrid(d, var(lgl, na.rm = FALSE))
+  expect_hybrid(d, var(int, na.rm = FALSE))
+  expect_hybrid(d, var(dbl, na.rm = FALSE))
+  expect_not_hybrid(d, var(chr, na.rm = FALSE))
+})
+
 # test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and cume_dist() work", {
 #   check_hybrid_result(
 #     list(row_number()),

@@ -199,37 +199,38 @@ SEXP last2_default(const Data& data, Column x, SEXP def, const Operation& op) {
 // nth( <column>, n = <int|double> )
 template <typename Data, typename Operation>
 SEXP nth2_(const Data& data, Column x, SEXP n, const Operation& op) {
-  if (Rf_length(x.data) == 1) {
-    int pos = 0 ;
-    switch (TYPEOF(n)) {
-    case INTSXP:
-      pos = INTEGER(n)[0];
-    case REALSXP:
-      pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
-    default:
-      return R_UnboundValue;
-    }
+  int pos = 0 ;
 
-    switch (TYPEOF(x.data)) {
-    case LGLSXP:
-      return op(internal::Nth2<LGLSXP, Data>(data, x, pos));
-    case RAWSXP:
-      return op(internal::Nth2<RAWSXP, Data>(data, x, pos));
-    case INTSXP:
-      return op(internal::Nth2<INTSXP, Data>(data, x, pos));
-    case REALSXP:
-      return op(internal::Nth2<REALSXP, Data>(data, x, pos));
-    case CPLXSXP:
-      return op(internal::Nth2<CPLXSXP, Data>(data, x, pos));
-    case STRSXP:
-      return op(internal::Nth2<STRSXP, Data>(data, x, pos));
-    case VECSXP:
-      return op(internal::Nth2<VECSXP, Data>(data, x, pos));
-    default:
-      break;
-    }
-
+  switch (TYPEOF(n)) {
+  case INTSXP:
+    pos = INTEGER(n)[0];
+    break;
+  case REALSXP:
+    pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
+    break;
+  default:
+    return R_UnboundValue;
   }
+
+  switch (TYPEOF(x.data)) {
+  case LGLSXP:
+    return op(internal::Nth2<LGLSXP, Data>(data, x, pos));
+  case RAWSXP:
+    return op(internal::Nth2<RAWSXP, Data>(data, x, pos));
+  case INTSXP:
+    return op(internal::Nth2<INTSXP, Data>(data, x, pos));
+  case REALSXP:
+    return op(internal::Nth2<REALSXP, Data>(data, x, pos));
+  case CPLXSXP:
+    return op(internal::Nth2<CPLXSXP, Data>(data, x, pos));
+  case STRSXP:
+    return op(internal::Nth2<STRSXP, Data>(data, x, pos));
+  case VECSXP:
+    return op(internal::Nth2<VECSXP, Data>(data, x, pos));
+  default:
+    break;
+  }
+
   return R_UnboundValue;
 }
 
@@ -238,38 +239,38 @@ template <typename Data, typename Operation>
 SEXP nth3_default(const Data& data, Column x, SEXP n, SEXP def, const Operation& op) {
   if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
 
-  if (Rf_length(x.data) == 1) {
-    int pos = 0 ;
-    switch (TYPEOF(n)) {
-    case INTSXP:
-      pos = INTEGER(n)[0];
-    case REALSXP:
-      pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
-    default:
-      return R_UnboundValue;
-    }
-
-    switch (TYPEOF(x.data)) {
-    case LGLSXP:
-      return op(internal::Nth2<LGLSXP, Data>(data, x, pos, def));
-    case RAWSXP:
-      return op(internal::Nth2<RAWSXP, Data>(data, x, pos, def));
-    case INTSXP:
-      return op(internal::Nth2<INTSXP, Data>(data, x, pos, def));
-    case REALSXP:
-      return op(internal::Nth2<REALSXP, Data>(data, x, pos, def));
-    case CPLXSXP:
-      return op(internal::Nth2<CPLXSXP, Data>(data, x, pos, def));
-    case STRSXP:
-      return op(internal::Nth2<STRSXP, Data>(data, x, pos, def));
-    case VECSXP:
-      return op(internal::Nth2<VECSXP, Data>(data, x, pos, def));
-    default:
-      break;
-    }
-
+  int pos = 0 ;
+  switch (TYPEOF(n)) {
+  case INTSXP:
+    pos = INTEGER(n)[0];
+    break;
+  case REALSXP:
+    pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
+    break;
+  default:
+    return R_UnboundValue;
   }
-  return R_UnboundValue;
+
+  switch (TYPEOF(x.data)) {
+  case LGLSXP:
+    return op(internal::Nth2<LGLSXP, Data>(data, x, pos, def));
+  case RAWSXP:
+    return op(internal::Nth2<RAWSXP, Data>(data, x, pos, def));
+  case INTSXP:
+    return op(internal::Nth2<INTSXP, Data>(data, x, pos, def));
+  case REALSXP:
+    return op(internal::Nth2<REALSXP, Data>(data, x, pos, def));
+  case CPLXSXP:
+    return op(internal::Nth2<CPLXSXP, Data>(data, x, pos, def));
+  case STRSXP:
+    return op(internal::Nth2<STRSXP, Data>(data, x, pos, def));
+  case VECSXP:
+    return op(internal::Nth2<VECSXP, Data>(data, x, pos, def));
+  default:
+    break;
+  }
+
+return R_UnboundValue;
 }
 
 

@@ -77,6 +77,11 @@ SEXP n_distinct_(const Data& data, const Expression& expression, const Operation
     }
   }
 
+  // let R handle the call
+  if (!columns.size()) {
+    return R_UnboundValue;
+  }
+
   if (narm) {
     return op(internal::N_Distinct<Data, true>(data, wrap(columns)));
   } else {
