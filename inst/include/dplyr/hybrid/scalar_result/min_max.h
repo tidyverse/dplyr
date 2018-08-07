@@ -37,7 +37,7 @@ public:
         if (NA_RM)
           continue;
         else
-          return Rcpp::Vector<RTYPE>::get_na();
+          return NA_REAL;
       }
       else {
         double current_res = current;
