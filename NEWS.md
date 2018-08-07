@@ -1488,7 +1488,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 * `mutate()` works for on zero-row grouped data frame, and
   with list columns (#555).
 
-* `LazySubset` was confused about input data size (#452).
+* `LazySubset` was confused about input data size (#452).
 
 * Internal `n_distinct()` is stricter about it's inputs: it requires one symbol
   which must be from the data frame (#567).
