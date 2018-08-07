@@ -1001,9 +1001,9 @@ test_that("nest_join works (#3570)",{
   df1 <- tibble(x = c(1, 2), y = c(2, 3))
   df2 <- tibble(x = c(1, 1), z = c(2, 3))
   res <- nest_join(df1, df2, by = "x")
-  expect_equal(names(res), c(names(df1), "data"))
-  expect_identical(res$data[[1]], select(df2, z))
-  expect_identical(res$data[[2]], tibble(z = double()))
+  expect_equal(names(res), c(names(df1), "df2"))
+  expect_identical(res$df2[[1]], select(df2, z))
+  expect_identical(res$df2[[2]], tibble(z = double()))
 })
 
 test_that("nest_join handles multiple matches in x (#3642)", {

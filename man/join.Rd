@@ -21,7 +21,7 @@ full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 semi_join(x, y, by = NULL, copy = FALSE, ...)
 
-nest_join(x, y, by = NULL, copy = FALSE, name = "data", ...)
+nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...)
 
 anti_join(x, y, by = NULL, copy = FALSE, ...)
 }
@@ -50,7 +50,9 @@ Should be a character vector of length 2.}
 \item{...}{other parameters passed onto methods, for instance, \code{na_matches}
 to control how \code{NA} values are matched.  See \link{join.tbl_df} for more.}
 
-\item{name}{for \code{nest_join()} the name of the list column created.}
+\item{keep}{If \code{TRUE} the by columns are kept in the nesting joins.}
+
+\item{name}{the name of the list column nesting joins create. If \code{NULL} the name of \code{y} is used.}
 }
 \description{
 These are generic functions that dispatch to individual tbl methods - see the
@@ -61,7 +63,8 @@ method documentation for details of individual data sources. \code{x} and
 \section{Join types}{
 
 
-Currently dplyr supports four types of mutating joins and two types of filtering joins.
+Currently dplyr supports four types of mutating joins, two types of filtering joins, and
+a nesting join.
 
 \strong{Mutating joins} combine variables from the two data.frames:
 
@@ -79,6 +82,7 @@ of the matches are returned.}
 and y. Rows in \code{y} with no match in \code{x} will have \code{NA} values in the new
 columns. If there are multiple matches between \code{x} and \code{y}, all combinations
 of the matches are returned.}
+
 \item{\code{full_join()}}{return all rows and all columns from both \code{x} and \code{y}.
 Where there are not matching values, returns \code{NA} for the one missing.}
 }
@@ -95,6 +99,22 @@ join will never duplicate rows of \code{x}.}
 
 \item{\code{anti_join()}}{return all rows from \code{x} where there are not
 matching values in \code{y}, keeping just columns from \code{x}.}
+}
+
+\strong{Nesting joins} create a list column of data.frames:
+
+\describe{
+\item{\code{nest_join()}}{return all rows and all columns from \code{x}. Adds a
+list column of tibbles. Each tibble contains all the rows from \code{y}
+that match that row of \code{x}. When there is no match, the list column is
+a 0-row tibble with the same column names and types as \code{y}.
+
+\code{nest_join()} is the most fundamental join since you can recreate the other joins from it.
+An \code{inner_join()} is a \code{nest_join()} plus an \code{\link[tidyr:unnest]{tidyr::unnest()}}, and \code{left_join()} is a
+\code{nest_join()} plus an \code{unnest(drop = FALSE)}.
+A \code{semi_join()} is a \code{nest_join()} plus a \code{filter()} where you check that every element of data has
+at least one row, and an \code{anti_join()} is a \code{nest_join()} plus a \code{filter()} where you check every element has zero rows.
+}
 }
 }
 
@@ -115,6 +135,9 @@ band_members \%>\% full_join(band_instruments)
 # "Filtering" joins keep cases from the LHS
 band_members \%>\% semi_join(band_instruments)
 band_members \%>\% anti_join(band_instruments)
+
+# "Nesting" joins keep cases from the LHS and nests the RHS
+band_members \%>\% nest_join(band_instruments)
 
 # To suppress the message, supply by
 band_members \%>\% inner_join(band_instruments, by = "name")
