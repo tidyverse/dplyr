@@ -10,8 +10,6 @@
 
 #include <dplyr/Result/GroupedCallReducer.h>
 
-#include <dplyr/Hybrid.h>
-
 #include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
