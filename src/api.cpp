@@ -13,11 +13,12 @@
 
 #include <dplyr/JoinVisitor.h>
 
-#include <dplyr/Result/Result.h>
-
 #include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/SubsetVectorVisitor.h>
+#include <dplyr/DataFrameSubsetVisitors.h>
 
 #include <dplyr/bad.h>
+
 
 namespace dplyr {
 

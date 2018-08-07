@@ -6,7 +6,6 @@
 
 #include <tools/all_na.h>
 
-#include <dplyr/Result/Result.h>
 #include <dplyr/Result/DelayedProcessor.h>
 
 #include <dplyr/bad.h>
