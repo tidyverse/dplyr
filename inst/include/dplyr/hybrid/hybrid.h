@@ -289,7 +289,7 @@ SEXP match(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP
   res.attr("class") = "hybrid_call";
   res.attr("call") = expr;
   res.attr("env") = env;
-  if (test){
+  if (test) {
     res.attr("cpp_class") = klass;
   }
   return res;
