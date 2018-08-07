@@ -12,7 +12,7 @@ namespace internal {
 template <typename STORAGE, typename Index, bool NA_RM>
 struct SumImpl {
 
-  static STORAGE process(STORAGE* data_ptr, const Index& indices){
+  static STORAGE process(STORAGE* data_ptr, const Index& indices) {
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
@@ -42,7 +42,7 @@ struct SumImpl {
 template <typename Index, bool NA_RM>
 struct SumImpl<double, Index, NA_RM> {
 
-  static double process(double* data_ptr, const Index& indices){
+  static double process(double* data_ptr, const Index& indices) {
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
@@ -65,15 +65,15 @@ struct SumImpl<double, Index, NA_RM> {
 
 // General case (for INTSXP and LGLSXP)
 template <int RTYPE, bool NA_RM, typename Data>
-class SumTemplate : public HybridVectorScalarResult< RTYPE == LGLSXP ? INTSXP : RTYPE, Data, SumTemplate<RTYPE, NA_RM, Data> >  {
-public:
+class SumTemplate : public HybridVectorScalarResult < RTYPE == LGLSXP ? INTSXP : RTYPE, Data, SumTemplate<RTYPE, NA_RM, Data> >  {
+public :
   static const int rtype = RTYPE == LGLSXP ? INTSXP : RTYPE;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
   typedef HybridVectorScalarResult<rtype, Data, SumTemplate> Parent ;
   typedef typename Data::slicing_index Index;
 
-  SumTemplate( const Data& data_, Column column_ ) :
+  SumTemplate(const Data& data_, Column column_) :
     Parent(data_),
     data_ptr(Rcpp::internal::r_vector_start<RTYPE>(column_.data)),
     is_summary(column_.is_summary)

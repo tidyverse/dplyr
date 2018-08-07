@@ -9,6 +9,84 @@ namespace hybrid {
 
 namespace internal {
 
+template <int RTYPE, bool NA_RM, typename Data, template <int, bool, typename> class Impl >
+class SimpleDispatchImpl : public HybridVectorScalarResult < REALSXP, Data, SimpleDispatchImpl<RTYPE, NA_RM, Data, Impl> > {
+public :
+  typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
+
+  typedef HybridVectorScalarResult<REALSXP, Data, SimpleDispatchImpl > Parent ;
+  typedef typename Data::slicing_index Index;
+
+  SimpleDispatchImpl(const Data& data, Column vec) :
+    Parent(data),
+    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec.data)),
+    is_summary(vec.is_summary)
+  {}
+
+  double process(const Index& indices) const {
+    return Impl<RTYPE, NA_RM, Index>::process(data_ptr, indices, is_summary);
+  }
+
+private:
+  STORAGE* data_ptr;
+  bool is_summary;
+} ;
+
+template <
+  typename Data,
+  template <int, bool, typename> class Impl
+  >
+class SimpleDispatch {
+public:
+  typedef typename Data::slicing_index Index;
+
+  SimpleDispatch(const Data& data_, Column variable_, bool narm_):
+    data(data_),
+    variable(variable_),
+    narm(narm_)
+  {}
+
+  SEXP summarise() const {
+    return operate(Summary());
+  }
+
+  SEXP window() const {
+    return operate(Window());
+  }
+
+private:
+  const Data& data;
+  Column variable;
+  bool narm;
+
+  template <typename Operation>
+  SEXP operate(const Operation& op) const {
+    // dispatch to the method below based on na.rm
+    if (narm) {
+      return operate_narm<Operation, true>(op);
+    } else {
+      return operate_narm<Operation, false>(op);
+    }
+  }
+
+  template <typename Operation, bool NARM>
+  SEXP operate_narm(const Operation& op) const {
+    // try to dispatch to the right class
+    switch (TYPEOF(variable.data)) {
+    case INTSXP:
+      return op(SimpleDispatchImpl<INTSXP, NARM, Data, Impl>(data, variable));
+    case REALSXP:
+      return op(SimpleDispatchImpl<REALSXP, NARM, Data, Impl>(data, variable));
+    case LGLSXP:
+      return op(SimpleDispatchImpl<LGLSXP, NARM, Data, Impl>(data, variable));
+    }
+
+    // give up, effectively let R evaluate the call
+    return R_UnboundValue;
+  }
+
+};
+
 // ------- mean
 
 template <int RTYPE, bool NA_RM, typename Index>
@@ -113,18 +191,18 @@ struct SdImpl {
 } // namespace internal
 
 template <typename Data>
-SimpleDispatch<Data, internal::MeanImpl> mean_(const Data& data, Column variable, bool narm) {
-  return SimpleDispatch<Data, internal::MeanImpl>(data, variable, narm);
+internal::SimpleDispatch<Data, internal::MeanImpl> mean_(const Data& data, Column variable, bool narm) {
+  return internal::SimpleDispatch<Data, internal::MeanImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::VarImpl> var_(const Data& data, Column variable, bool narm) {
-  return SimpleDispatch<Data, internal::VarImpl>(data, variable, narm);
+internal::SimpleDispatch<Data, internal::VarImpl> var_(const Data& data, Column variable, bool narm) {
+  return internal::SimpleDispatch<Data, internal::VarImpl>(data, variable, narm);
 }
 
 template <typename Data>
-SimpleDispatch<Data, internal::SdImpl> sd_(const Data& data, Column variable, bool narm) {
-  return SimpleDispatch<Data, internal::SdImpl>(data, variable, narm);
+internal::SimpleDispatch<Data, internal::SdImpl> sd_(const Data& data, Column variable, bool narm) {
+  return internal::SimpleDispatch<Data, internal::SdImpl>(data, variable, narm);
 }
 
 }
