@@ -162,6 +162,9 @@ test_that("first() and last() are hybrid", {
   expect_hybrid(d, dplyr::last(int, default = 1L))
   expect_hybrid(d, dplyr::last(dbl, default = 2))
   expect_hybrid(d, dplyr::last(chr, default = ""))
+
+  expect_not_hybrid(d, int %>% first())
+  expect_not_hybrid(d, int %>% last())
 })
 
 test_that("nth(<column>, n = <int-ish>) is hybrid", {
@@ -503,10 +506,4 @@ test_that("nth(), first() and last() support quosured symbols", {
 #   n_distinct <- function(x) 42
 #   expect_equal(summarise(tbl, y = n_distinct(x))$y, 42)
 #   expect_equal(summarise(tbl, y = dplyr::n_distinct(x))$y, 10L)
-# })
-#
-# test_that("hybrid first and last fall back to R eval when no argument (#3589)", {
-#   res <- mutate(tibble(v1 = 5:6), v2 = 1:4 %>% first(), v3 = 1:4 %>% last())
-#   expect_equal(res$v2, rep(1L, 2))
-#   expect_equal(res$v3, rep(4L, 2))
 # })
