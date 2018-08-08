@@ -127,19 +127,19 @@ template <typename Data, typename Operation, template <int, typename> class Impl
 SEXP firstlast_1(const Data& data, Column x, const Operation& op) {
   switch (TYPEOF(x.data)) {
   case LGLSXP:
-    return op(internal::First1<LGLSXP, Data>(data, x));
+    return op(Impl<LGLSXP, Data>(data, x));
   case RAWSXP:
-    return op(internal::First1<RAWSXP, Data>(data, x));
+    return op(Impl<RAWSXP, Data>(data, x));
   case INTSXP:
-    return op(internal::First1<INTSXP, Data>(data, x));
+    return op(Impl<INTSXP, Data>(data, x));
   case REALSXP:
-    return op(internal::First1<REALSXP, Data>(data, x));
+    return op(Impl<REALSXP, Data>(data, x));
   case CPLXSXP:
-    return op(internal::First1<CPLXSXP, Data>(data, x));
+    return op(Impl<CPLXSXP, Data>(data, x));
   case STRSXP:
-    return op(internal::First1<STRSXP, Data>(data, x));
+    return op(Impl<STRSXP, Data>(data, x));
   case VECSXP:
-    return op(internal::First1<VECSXP, Data>(data, x));
+    return op(Impl<VECSXP, Data>(data, x));
   default:
     break;
   }
