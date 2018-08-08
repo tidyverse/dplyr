@@ -30,8 +30,8 @@ public:
       func = head;
     } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == R_DoubleColonSymbol && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
       valid = true;
-      func = CADR(head);
-      package = CADDR(head);
+      func = CADDR(head);
+      package = CADR(head);
     }
 
     // the arguments

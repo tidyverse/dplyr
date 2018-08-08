@@ -50,6 +50,7 @@ context("hybrid")
 test_that("n() and n_distinct() use hybrid evaluation", {
   d <- tibble(a = 1:5)
   expect_hybrid(d, n())
+  expect_hybrid(d, dplyr::n())
   expect_not_hybrid(d, list(1:n()))
   expect_not_hybrid(d, n() + 1)
 
@@ -57,6 +58,10 @@ test_that("n() and n_distinct() use hybrid evaluation", {
   expect_hybrid(d, n_distinct(a))
   expect_hybrid(d, n_distinct(a, na.rm = TRUE))
   expect_hybrid(d, n_distinct(a, na.rm = FALSE))
+  expect_hybrid(d, dplyr::n_distinct(a))
+  expect_hybrid(d, dplyr::n_distinct(a, na.rm = TRUE))
+  expect_hybrid(d, dplyr::n_distinct(a, na.rm = FALSE))
+
   expect_not_hybrid(d, n_distinct(c))
   expect_not_hybrid(d, n_distinct(a, c))
 
@@ -64,6 +69,9 @@ test_that("n() and n_distinct() use hybrid evaluation", {
   expect_hybrid(d, n_distinct(a, b))
   expect_hybrid(d, n_distinct(a, b, na.rm = TRUE))
   expect_hybrid(d, n_distinct(a, b, na.rm = FALSE))
+  expect_hybrid(d, dplyr::n_distinct(a, b))
+  expect_hybrid(d, dplyr::n_distinct(a, b, na.rm = TRUE))
+  expect_hybrid(d, dplyr::n_distinct(a, b, na.rm = FALSE))
   expect_not_hybrid(d, n_distinct())
 })
 
@@ -81,10 +89,14 @@ test_that("min() and max() are hybrid", {
   d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
   expect_hybrid(d, min(int))
   expect_hybrid(d, min(dbl))
+  expect_hybrid(d, base::min(int))
+  expect_hybrid(d, base::min(dbl))
   expect_not_hybrid(d, min(chr))
 
   expect_hybrid(d, min(int, na.rm = TRUE))
   expect_hybrid(d, min(dbl, na.rm = TRUE))
+  expect_hybrid(d, base::min(int, na.rm = TRUE))
+  expect_hybrid(d, base::min(dbl, na.rm = TRUE))
   expect_not_hybrid(d, min(int, na.rm = pi == pi))
   expect_not_hybrid(d, min(dbl, na.rm = pi == pi))
   expect_not_hybrid(d, min(dbl, na.rm = F))
@@ -93,14 +105,20 @@ test_that("min() and max() are hybrid", {
 
   expect_hybrid(d, min(int, na.rm = FALSE))
   expect_hybrid(d, min(dbl, na.rm = FALSE))
+  expect_hybrid(d, base::min(int, na.rm = FALSE))
+  expect_hybrid(d, base::min(dbl, na.rm = FALSE))
   expect_not_hybrid(d, min(chr, na.rm = FALSE))
 
   expect_hybrid(d, max(int))
   expect_hybrid(d, max(dbl))
+  expect_hybrid(d, base::max(int))
+  expect_hybrid(d, base::max(dbl))
   expect_not_hybrid(d, max(chr))
 
   expect_hybrid(d, max(int, na.rm = TRUE))
   expect_hybrid(d, max(dbl, na.rm = TRUE))
+  expect_hybrid(d, base::max(int, na.rm = TRUE))
+  expect_hybrid(d, base::max(dbl, na.rm = TRUE))
   expect_not_hybrid(d, max(int, na.rm = pi == pi))
   expect_not_hybrid(d, max(dbl, na.rm = pi == pi))
   expect_not_hybrid(d, max(dbl, na.rm = F))
@@ -109,6 +127,8 @@ test_that("min() and max() are hybrid", {
 
   expect_hybrid(d, max(int, na.rm = FALSE))
   expect_hybrid(d, max(dbl, na.rm = FALSE))
+  expect_hybrid(d, base::max(int, na.rm = FALSE))
+  expect_hybrid(d, base::max(dbl, na.rm = FALSE))
   expect_not_hybrid(d, max(chr, na.rm = FALSE))
 })
 
@@ -118,18 +138,30 @@ test_that("first() and last() are hybrid", {
   expect_hybrid(d, first(int))
   expect_hybrid(d, first(dbl))
   expect_hybrid(d, first(chr))
+  expect_hybrid(d, dplyr::first(int))
+  expect_hybrid(d, dplyr::first(dbl))
+  expect_hybrid(d, dplyr::first(chr))
 
   expect_hybrid(d, first(int, default = 1L))
   expect_hybrid(d, first(dbl, default = 2))
   expect_hybrid(d, first(chr, default = ""))
+  expect_hybrid(d, dplyr::first(int, default = 1L))
+  expect_hybrid(d, dplyr::first(dbl, default = 2))
+  expect_hybrid(d, dplyr::first(chr, default = ""))
 
   expect_hybrid(d, last(int))
   expect_hybrid(d, last(dbl))
   expect_hybrid(d, last(chr))
+  expect_hybrid(d, dplyr::last(int))
+  expect_hybrid(d, dplyr::last(dbl))
+  expect_hybrid(d, dplyr::last(chr))
 
   expect_hybrid(d, last(int, default = 1L))
   expect_hybrid(d, last(dbl, default = 2))
   expect_hybrid(d, last(chr, default = ""))
+  expect_hybrid(d, dplyr::last(int, default = 1L))
+  expect_hybrid(d, dplyr::last(dbl, default = 2))
+  expect_hybrid(d, dplyr::last(chr, default = ""))
 })
 
 test_that("nth(<column>, n = <int-ish>) is hybrid", {
@@ -137,13 +169,18 @@ test_that("nth(<column>, n = <int-ish>) is hybrid", {
 
   expect_hybrid(d, nth(int, n = 1))
   expect_hybrid(d, nth(int, n = 1L))
+  expect_hybrid(d, dplyr::nth(int, n = 1))
+  expect_hybrid(d, dplyr::nth(int, n = 1L))
 
   expect_hybrid(d, nth(dbl, n = 1))
   expect_hybrid(d, nth(dbl, n = 1L))
+  expect_hybrid(d, dplyr::nth(dbl, n = 1))
+  expect_hybrid(d, dplyr::nth(dbl, n = 1L))
 
   expect_hybrid(d, nth(chr, n = 1))
   expect_hybrid(d, nth(chr, n = 1L))
-
+  expect_hybrid(d, dplyr::nth(chr, n = 1))
+  expect_hybrid(d, dplyr::nth(chr, n = 1L))
 })
 
 test_that("nth(<column>, n = <int-ish>, default = <scalar>) is hybrid", {
@@ -151,12 +188,18 @@ test_that("nth(<column>, n = <int-ish>, default = <scalar>) is hybrid", {
 
   expect_hybrid(d, nth(int, n = 1, default = 1L))
   expect_hybrid(d, nth(int, n = 1L, default = 1L))
+  expect_hybrid(d, dplyr::nth(int, n = 1, default = 1L))
+  expect_hybrid(d, dplyr::nth(int, n = 1L, default = 1L))
 
   expect_hybrid(d, nth(dbl, n = 1, default = 1))
   expect_hybrid(d, nth(dbl, n = 1L, default = 1))
+  expect_hybrid(d, dplyr::nth(dbl, n = 1, default = 1))
+  expect_hybrid(d, dplyr::nth(dbl, n = 1L, default = 1))
 
   expect_hybrid(d, nth(chr, n = 1, default = ""))
   expect_hybrid(d, nth(chr, n = 1L, default = ""))
+  expect_hybrid(d, dplyr::nth(chr, n = 1, default = ""))
+  expect_hybrid(d, dplyr::nth(chr, n = 1L, default = ""))
 })
 
 test_that("lead() and lag() are hybrid", {
@@ -165,14 +208,23 @@ test_that("lead() and lag() are hybrid", {
   expect_hybrid(d, lead(int))
   expect_hybrid(d, lead(dbl))
   expect_hybrid(d, lead(chr))
+  expect_hybrid(d, dplyr::lead(int))
+  expect_hybrid(d, dplyr::lead(dbl))
+  expect_hybrid(d, dplyr::lead(chr))
 
   expect_hybrid(d, lead(int, n = 1))
   expect_hybrid(d, lead(dbl, n = 1))
   expect_hybrid(d, lead(chr, n = 1))
+  expect_hybrid(d, dplyr::lead(int, n = 1))
+  expect_hybrid(d, dplyr::lead(dbl, n = 1))
+  expect_hybrid(d, dplyr::lead(chr, n = 1))
 
   expect_hybrid(d, lead(int, n = 1L))
   expect_hybrid(d, lead(dbl, n = 1L))
   expect_hybrid(d, lead(chr, n = 1L))
+  expect_hybrid(d, dplyr::lead(int, n = 1L))
+  expect_hybrid(d, dplyr::lead(dbl, n = 1L))
+  expect_hybrid(d, dplyr::lead(chr, n = 1L))
 })
 
 test_that("sum is hybrid", {
@@ -181,16 +233,25 @@ test_that("sum is hybrid", {
   expect_hybrid(d, sum(lgl))
   expect_hybrid(d, sum(int))
   expect_hybrid(d, sum(dbl))
+  expect_hybrid(d, base::sum(lgl))
+  expect_hybrid(d, base::sum(int))
+  expect_hybrid(d, base::sum(dbl))
   expect_not_hybrid(d, sum(chr))
 
   expect_hybrid(d, sum(lgl, na.rm = TRUE))
   expect_hybrid(d, sum(int, na.rm = TRUE))
   expect_hybrid(d, sum(dbl, na.rm = TRUE))
+  expect_hybrid(d, base::sum(lgl, na.rm = TRUE))
+  expect_hybrid(d, base::sum(int, na.rm = TRUE))
+  expect_hybrid(d, base::sum(dbl, na.rm = TRUE))
   expect_not_hybrid(d, sum(chr, na.rm = TRUE))
 
   expect_hybrid(d, sum(lgl, na.rm = FALSE))
   expect_hybrid(d, sum(int, na.rm = FALSE))
   expect_hybrid(d, sum(dbl, na.rm = FALSE))
+  expect_hybrid(d, base::sum(lgl, na.rm = FALSE))
+  expect_hybrid(d, base::sum(int, na.rm = FALSE))
+  expect_hybrid(d, base::sum(dbl, na.rm = FALSE))
   expect_not_hybrid(d, sum(chr, na.rm = FALSE))
 })
 
@@ -200,16 +261,25 @@ test_that("mean is hybrid", {
   expect_hybrid(d, mean(lgl))
   expect_hybrid(d, mean(int))
   expect_hybrid(d, mean(dbl))
+  expect_hybrid(d, base::mean(lgl))
+  expect_hybrid(d, base::mean(int))
+  expect_hybrid(d, base::mean(dbl))
   expect_not_hybrid(d, mean(chr))
 
   expect_hybrid(d, mean(lgl, na.rm = TRUE))
   expect_hybrid(d, mean(int, na.rm = TRUE))
   expect_hybrid(d, mean(dbl, na.rm = TRUE))
+  expect_hybrid(d, base::mean(lgl, na.rm = TRUE))
+  expect_hybrid(d, base::mean(int, na.rm = TRUE))
+  expect_hybrid(d, base::mean(dbl, na.rm = TRUE))
   expect_not_hybrid(d, mean(chr, na.rm = TRUE))
 
   expect_hybrid(d, mean(lgl, na.rm = FALSE))
   expect_hybrid(d, mean(int, na.rm = FALSE))
   expect_hybrid(d, mean(dbl, na.rm = FALSE))
+  expect_hybrid(d, base::mean(lgl, na.rm = FALSE))
+  expect_hybrid(d, base::mean(int, na.rm = FALSE))
+  expect_hybrid(d, base::mean(dbl, na.rm = FALSE))
   expect_not_hybrid(d, mean(chr, na.rm = FALSE))
 })
 
@@ -219,16 +289,25 @@ test_that("sd is hybrid", {
   expect_hybrid(d, sd(lgl))
   expect_hybrid(d, sd(int))
   expect_hybrid(d, sd(dbl))
+  expect_hybrid(d, stats::sd(lgl))
+  expect_hybrid(d, stats::sd(int))
+  expect_hybrid(d, stats::sd(dbl))
   expect_not_hybrid(d, sd(chr))
 
   expect_hybrid(d, sd(lgl, na.rm = TRUE))
   expect_hybrid(d, sd(int, na.rm = TRUE))
   expect_hybrid(d, sd(dbl, na.rm = TRUE))
+  expect_hybrid(d, stats::sd(lgl, na.rm = TRUE))
+  expect_hybrid(d, stats::sd(int, na.rm = TRUE))
+  expect_hybrid(d, stats::sd(dbl, na.rm = TRUE))
   expect_not_hybrid(d, sd(chr, na.rm = TRUE))
 
   expect_hybrid(d, sd(lgl, na.rm = FALSE))
   expect_hybrid(d, sd(int, na.rm = FALSE))
   expect_hybrid(d, sd(dbl, na.rm = FALSE))
+  expect_hybrid(d, stats::sd(lgl, na.rm = FALSE))
+  expect_hybrid(d, stats::sd(int, na.rm = FALSE))
+  expect_hybrid(d, stats::sd(dbl, na.rm = FALSE))
   expect_not_hybrid(d, sd(chr, na.rm = FALSE))
 })
 
@@ -238,34 +317,50 @@ test_that("var is hybrid", {
   expect_hybrid(d, var(lgl))
   expect_hybrid(d, var(int))
   expect_hybrid(d, var(dbl))
+  expect_hybrid(d, stats::var(lgl))
+  expect_hybrid(d, stats::var(int))
+  expect_hybrid(d, stats::var(dbl))
   expect_not_hybrid(d, var(chr))
 
   expect_hybrid(d, var(lgl, na.rm = TRUE))
   expect_hybrid(d, var(int, na.rm = TRUE))
   expect_hybrid(d, var(dbl, na.rm = TRUE))
+  expect_hybrid(d, stats::var(lgl, na.rm = TRUE))
+  expect_hybrid(d, stats::var(int, na.rm = TRUE))
+  expect_hybrid(d, stats::var(dbl, na.rm = TRUE))
   expect_not_hybrid(d, var(chr, na.rm = TRUE))
 
   expect_hybrid(d, var(lgl, na.rm = FALSE))
   expect_hybrid(d, var(int, na.rm = FALSE))
   expect_hybrid(d, var(dbl, na.rm = FALSE))
+  expect_hybrid(d, stats::var(lgl, na.rm = FALSE))
+  expect_hybrid(d, stats::var(int, na.rm = FALSE))
+  expect_hybrid(d, stats::var(dbl, na.rm = FALSE))
   expect_not_hybrid(d, var(chr, na.rm = FALSE))
 })
 
 test_that("row_number() is hybrid", {
   d <- tibble(a = 1:5)
   expect_hybrid(d, row_number())
+  expect_hybrid(d, dplyr::row_number())
 })
 
 test_that("ntile() is hybrid", {
   d <- tibble(int = 1:2, dbl = c(1,2))
   expect_hybrid(d, ntile(n = 2L))
   expect_hybrid(d, ntile(n = 2))
+  expect_hybrid(d, dplyr::ntile(n = 2L))
+  expect_hybrid(d, dplyr::ntile(n = 2))
 
   expect_hybrid(d, ntile(int, n = 2L))
   expect_hybrid(d, ntile(int, n = 2))
+  expect_hybrid(d, dplyr::ntile(int, n = 2L))
+  expect_hybrid(d, dplyr::ntile(int, n = 2))
 
   expect_hybrid(d, ntile(dbl, n = 2L))
   expect_hybrid(d, ntile(dbl, n = 2))
+  expect_hybrid(d, dplyr::ntile(dbl, n = 2L))
+  expect_hybrid(d, dplyr::ntile(dbl, n = 2))
 })
 
 test_that("min_rank(), percent_rank(), dense_rank(), cume_dist() are hybrid", {
@@ -273,15 +368,23 @@ test_that("min_rank(), percent_rank(), dense_rank(), cume_dist() are hybrid", {
 
   expect_hybrid(d, min_rank(int))
   expect_hybrid(d, min_rank(dbl))
+  expect_hybrid(d, dplyr::min_rank(int))
+  expect_hybrid(d, dplyr::min_rank(dbl))
 
   expect_hybrid(d, percent_rank(int))
   expect_hybrid(d, percent_rank(dbl))
+  expect_hybrid(d, dplyr::percent_rank(int))
+  expect_hybrid(d, dplyr::percent_rank(dbl))
 
   expect_hybrid(d, dense_rank(int))
   expect_hybrid(d, dense_rank(dbl))
+  expect_hybrid(d, dplyr::dense_rank(int))
+  expect_hybrid(d, dplyr::dense_rank(dbl))
 
   expect_hybrid(d, cume_dist(int))
   expect_hybrid(d, cume_dist(dbl))
+  expect_hybrid(d, dplyr::cume_dist(int))
+  expect_hybrid(d, dplyr::cume_dist(dbl))
 })
 
 test_that("hybrid handlers don't nest", {
