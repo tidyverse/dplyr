@@ -147,7 +147,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     }
 
     // cume_dist( <column> )
-    if (expression.is_fun(s_dense_rank, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
+    if (expression.is_fun(s_cume_dist, s_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column)) {
       return cume_dist_(data, column, op);
     }
 

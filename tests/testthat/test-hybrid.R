@@ -235,129 +235,46 @@ test_that("var is hybrid", {
   expect_not_hybrid(d, var(chr, na.rm = FALSE))
 })
 
-# test_that("row_number(), ntile(), min_rank(), percent_rank(), dense_rank(), and cume_dist() work", {
-#   check_hybrid_result(
-#     list(row_number()),
-#     a = 1:5,
-#     expected = list(1:5),
-#     test_eval = FALSE
-#   )
-#   check_hybrid_result(
-#     list(row_number(a)),
-#     a = 5:1,
-#     expected = list(5:1)
-#   )
-#   check_hybrid_result(
-#     list(min_rank(a)),
-#     a = c(1, 3, 2, 3, 1),
-#     expected = list(c(1L, 4L, 3L, 4L, 1L))
-#   )
-#   check_hybrid_result(
-#     list(percent_rank(a)),
-#     a = c(1, 3, 2, 3, 1),
-#     expected = list((c(1L, 4L, 3L, 4L, 1L) - 1) / 4)
-#   )
-#   check_hybrid_result(
-#     list(cume_dist(a)),
-#     a = c(1, 3, 2, 3),
-#     expected = list(c(0.25, 1.0, 0.5, 1.0))
-#   )
-#   check_hybrid_result(
-#     list(dense_rank(a)),
-#     a = c(1, 3, 2, 3, 1),
-#     expected = list(c(1L, 3L, 2L, 3L, 1L))
-#   )
-#
-#   expect_not_hybrid_error(
-#     row_number(a, 1),
-#     a = 5:1,
-#     error = "unused argument"
-#   )
-#   expect_not_hybrid_error(
-#     min_rank(a, 1),
-#     a = 5:1,
-#     error = "unused argument"
-#   )
-#   expect_not_hybrid_error(
-#     percent_rank(a, 1),
-#     a = 5:1,
-#     error = "unused argument"
-#   )
-#   expect_not_hybrid_error(
-#     cume_dist(a, 1),
-#     a = 5:1,
-#     error = "unused argument"
-#   )
-#   expect_not_hybrid_error(
-#     dense_rank(a, 1),
-#     a = 5:1,
-#     error = "unused argument"
-#   )
-#   expect_not_hybrid_error(
-#     ntile(a, 2, 1),
-#     a = 5:1,
-#     error = "unused argument"
-#   )
-#
-#   check_not_hybrid_result(
-#     row_number("a"),
-#     a = 5:1,
-#     expected = 1L
-#   )
-#   check_not_hybrid_result(
-#     min_rank("a"),
-#     a = 5:1,
-#     expected = 1L
-#   )
-#   check_not_hybrid_result(
-#     percent_rank("a"),
-#     a = 5:1,
-#     expected = is.nan
-#   )
-#   check_not_hybrid_result(
-#     cume_dist("a"),
-#     a = 5:1,
-#     expected = 1
-#   )
-#   check_not_hybrid_result(
-#     dense_rank("a"),
-#     a = 5:1,
-#     expected = 1L
-#   )
-#   check_not_hybrid_result(
-#     ntile("a", 2),
-#     a = 5:1,
-#     expected = 1L
-#   )
-#
-#   expect_equal(
-#     tibble(a = c(1, 1, 2), b = letters[1:3]) %>%
-#       group_by(a) %>%
-#       summarize(b = b[1], b = min_rank(desc(b))) %>%
-#       ungroup(),
-#     tibble(a = c(1, 2), b = c(1L, 1L))
-#   )
-# })
-#
-# test_that("hybrid handlers don't nest", {
-#   check_not_hybrid_result(
-#     mean(lag(a)),
-#     a = 1:5,
-#     expected = is.na
-#   )
-#   check_not_hybrid_result(
-#     mean(row_number()),
-#     a = 1:5,
-#     expected = 3,
-#     test_eval = FALSE
-#   )
-#   check_not_hybrid_result(
-#     list(lag(cume_dist(a))),
-#     a = 1:4,
-#     expected = list(c(NA, 0.25, 0.5, 0.75))
-#   )
-# })
-#
+test_that("row_number() is hybrid", {
+  d <- tibble(a = 1:5)
+  expect_hybrid(d, row_number())
+})
+
+test_that("ntile() is hybrid", {
+  d <- tibble(int = 1:2, dbl = c(1,2))
+  expect_hybrid(d, ntile(n = 2L))
+  expect_hybrid(d, ntile(n = 2))
+
+  expect_hybrid(d, ntile(int, n = 2L))
+  expect_hybrid(d, ntile(int, n = 2))
+
+  expect_hybrid(d, ntile(dbl, n = 2L))
+  expect_hybrid(d, ntile(dbl, n = 2))
+})
+
+test_that("min_rank(), percent_rank(), dense_rank(), cume_dist() are hybrid", {
+  d <- tibble(int = 1:2, dbl = c(1,2))
+
+  expect_hybrid(d, min_rank(int))
+  expect_hybrid(d, min_rank(dbl))
+
+  expect_hybrid(d, percent_rank(int))
+  expect_hybrid(d, percent_rank(dbl))
+
+  expect_hybrid(d, dense_rank(int))
+  expect_hybrid(d, dense_rank(dbl))
+
+  expect_hybrid(d, cume_dist(int))
+  expect_hybrid(d, cume_dist(dbl))
+})
+
+test_that("hybrid handlers don't nest", {
+  d <- tibble(a = 1:5)
+  expect_not_hybrid(d, mean(lag(a)))
+  expect_not_hybrid(d, mean(row_number()))
+  expect_not_hybrid(d, list(lag(cume_dist(a))))
+})
+
 # test_that("row_number() is equivalent to dplyr::row_number() (#3309)", {
 #   check_hybrid_result(
 #     list(dplyr::row_number()),
