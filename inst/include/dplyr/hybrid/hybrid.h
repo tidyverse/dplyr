@@ -53,9 +53,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   static SEXP s_base = Rf_install("base");
   static SEXP s_stats = Rf_install("stats");
 
-  Environment ns_base  = Environment::base_namespace();
-  Environment ns_dplyr("package:dplyr");
-  Environment ns_stats("package:stats");
+  Environment ns_base  = Environment::base_env();
+  Environment ns_dplyr = Environment::namespace_env("dplyr");
+  Environment ns_stats = Environment::namespace_env("stats");
 
   Expression<LazySubsets> expression(expr, subsets, env);
 
@@ -245,7 +245,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     }
 
     // <column> %in% <column>
-    if (expression.is_fun(s_in, s_dplyr, ns_dplyr) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_unnamed(1) && expression.is_column(1, column2)) {
+    if (expression.is_fun(s_in, s_base, ns_base) && expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_unnamed(1) && expression.is_column(1, column2)) {
       return in_column_column(data, column, column2, op);
     }
 

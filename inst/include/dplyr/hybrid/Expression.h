@@ -12,12 +12,12 @@ namespace hybrid {
 struct FindFunData {
   const SEXP symbol;
   const SEXP env;
-  SEXP rho;
+  SEXP res;
 
   FindFunData(SEXP symbol_, SEXP env_) :
     symbol(symbol_),
     env(env_),
-    rho(R_NilValue)
+    res(R_NilValue)
   {}
 
   inline Rboolean findFun() {
@@ -30,7 +30,7 @@ struct FindFunData {
   }
 
   inline void protected_findFun() {
-    rho = env;
+    SEXP rho = env;
 
     while (rho != R_EmptyEnv) {
       SEXP vl = Rf_findVarInFrame3(rho, symbol, TRUE);
@@ -46,6 +46,7 @@ struct FindFunData {
 
         // we found a function
         if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP) {
+          res = vl;
           return;
         }
 
@@ -117,7 +118,15 @@ public:
       FindFunData finder(symbol, env);
       if (!finder.findFun()) return false;
 
-      return finder.rho == ns;
+
+      SEXP expected = Rf_findVarInFrame3(ns, symbol, TRUE);
+      if (TYPEOF(expected) == PROMSXP) {
+        PROTECT(expected);
+        expected = Rf_eval(expected, ns);
+        UNPROTECT(1);
+      }
+
+      return finder.res == expected;
     } else {
       // expression of the form pkg::fun so check that pkg is the correct one
       return package == pkg;
