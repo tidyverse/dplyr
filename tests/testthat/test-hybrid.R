@@ -428,82 +428,83 @@ test_that("nth(), first() and last() support quosured symbols", {
   expect_hybrid(mtcars, nth(!!quo(cyl), n = 2))
 })
 
-# test_that("hybrid evaluation can be disabled locally (#3255)", {
-#   tbl <- data.frame(x = 1:10)
-#
-#   first <- function(...) 42
-#   expect_equal(summarise(tbl, y = first(x))$y, 42)
-#   expect_equal(summarise(tbl, y = dplyr::first(x))$y, 1)
-#
-#   last <- function(...) 42
-#   expect_equal(summarise(tbl, y = last(x))$y, 42)
-#   expect_equal(summarise(tbl, y = dplyr::last(x))$y, 10)
-#
-#   nth <- function(...) 42
-#   expect_equal(summarise(tbl, y = nth(x, 2L))$y, 42)
-#   expect_equal(summarise(tbl, y = dplyr::nth(x, 2))$y, 2)
-#
-#   mean <- function(...) 42
-#   tbl <- data.frame(x = 1:10)
-#   expect_equal(summarise(tbl, y = mean(x))$y, 42)
-#   expect_equal(summarise(tbl, y = base::mean(x))$y, 5.5)
-#
-#   var <- function(...) 42
-#   expect_equal(summarise(tbl, y = var(x))$y, 42)
-#   expect_equal(summarise(tbl, y = stats::var(x))$y, stats::var(tbl$x))
-#
-#   sd <- function(...) 42
-#   expect_equal(summarise(tbl, y = sd(x))$y, 42)
-#   expect_equal(summarise(tbl, y = stats::sd(x))$y, stats::sd(tbl$x))
-#
-#   row_number <- function() 42
-#   expect_equal(mutate(tbl, y = row_number())$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::row_number())$y, 1:10)
-#
-#   ntile <- function(x, n) 42
-#   expect_equal(mutate(tbl, y = ntile(x, 2))$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::ntile(x, 2))$y, rep(1:2, each = 5))
-#
-#   min_rank <- function(x) 42
-#   expect_equal(mutate(tbl, y = min_rank(x))$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::min_rank(x))$y, 1:10)
-#
-#   percent_rank <- function(x) 42
-#   expect_equal(mutate(tbl, y = percent_rank(x))$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::percent_rank(x))$y, dplyr::percent_rank(1:10))
-#
-#   dense_rank <- function(x) 42
-#   expect_equal(mutate(tbl, y = dense_rank(x))$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::dense_rank(x))$y, dplyr::dense_rank(1:10))
-#
-#   cume_dist <- function(x) 42
-#   expect_equal(mutate(tbl, y = cume_dist(x))$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::cume_dist(x))$y, dplyr::cume_dist(1:10))
-#
-#   lead <- function(x) 42
-#   expect_equal(mutate(tbl, y = lead(x))$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::lead(x))$y, dplyr::lead(1:10))
-#
-#   lag <- function(x) 42
-#   expect_equal(mutate(tbl, y = lag(x))$y, rep(42, 10))
-#   expect_equal(mutate(tbl, y = dplyr::lag(x))$y, dplyr::lag(1:10))
-#
-#   `%in%` <- function(x, y) TRUE
-#   expect_identical(filter(tbl, x %in% 3), tbl)
-#
-#   min <- function(x) 42
-#   expect_equal(summarise(tbl, y = min(x))$y, 42)
-#   expect_equal(summarise(tbl, y = base::min(x))$y, 1L)
-#
-#   max <- function(x) 42
-#   expect_equal(summarise(tbl, y = max(x))$y, 42)
-#   expect_equal(summarise(tbl, y = base::max(x))$y, 10L)
-#
-#   n <- function() 42
-#   expect_equal(summarise(tbl, y = n())$y, 42)
-#   expect_equal(summarise(tbl, y = dplyr::n())$y, 10L)
-#
-#   n_distinct <- function(x) 42
-#   expect_equal(summarise(tbl, y = n_distinct(x))$y, 42)
-#   expect_equal(summarise(tbl, y = dplyr::n_distinct(x))$y, 10L)
-# })
+test_that("hybrid evaluation can be disabled locally (#3255)", {
+  tbl <- data.frame(x = 1:10)
+
+  first <- function(...) 42
+  expect_not_hybrid(tbl, first(x))
+  expect_hybrid(tbl, dplyr::first(x))
+
+  last <- function(...) 42
+  expect_not_hybrid(tbl, last(x))
+  expect_hybrid(tbl, dplyr::last(x))
+
+  nth <- function(...) 42
+  expect_not_hybrid(tbl, nth(x, n = 2L))
+  expect_hybrid(tbl, dplyr::nth(x, n = 2L))
+
+  mean <- function(...) 42
+  tbl <- data.frame(x = 1:10)
+  expect_not_hybrid(tbl, mean(x))
+  expect_hybrid(tbl, base::mean(x))
+
+  var <- function(...) 42
+  expect_not_hybrid(tbl, var(x))
+  expect_hybrid(tbl, stats::var(x))
+
+  sd <- function(...) 42
+  expect_not_hybrid(tbl, sd(x))
+  expect_hybrid(tbl, stats::sd(x))
+
+  row_number <- function() 42
+  expect_not_hybrid(tbl, row_number(x))
+  expect_hybrid(tbl, dplyr::row_number(x))
+
+  ntile <- function(x, n) 42
+  expect_not_hybrid(tbl, ntile(x, n = 2))
+  expect_hybrid(tbl, dplyr::ntile(x, n = 2))
+
+  min_rank <- function(x) 42
+  expect_not_hybrid(tbl, min_rank(x))
+  expect_hybrid(tbl, dplyr::min_rank(x))
+
+  percent_rank <- function(x) 42
+  expect_not_hybrid(tbl, percent_rank(x))
+  expect_hybrid(tbl, dplyr::percent_rank(x))
+
+  dense_rank <- function(x) 42
+  expect_not_hybrid(tbl, dense_rank(x))
+  expect_hybrid(tbl, dplyr::dense_rank(x))
+
+  cume_dist <- function(x) 42
+  expect_not_hybrid(tbl, cume_dist(x))
+  expect_hybrid(tbl, dplyr::cume_dist(x))
+
+  lead <- function(x) 42
+  expect_not_hybrid(tbl, lead(x))
+  expect_hybrid(tbl, dplyr::lead(x))
+
+  lag <- function(x) 42
+  expect_not_hybrid(tbl, lag(x))
+  expect_hybrid(tbl, dplyr::lag(x))
+
+  `%in%` <- function(x, y) TRUE
+  expect_not_hybrid(tbl, x %in% 3)
+
+  min <- function(x) 42
+  expect_not_hybrid(tbl, min(x))
+  expect_hybrid(tbl, base::min(x))
+
+  max <- function(x) 42
+  expect_not_hybrid(tbl, max(x))
+  expect_hybrid(tbl, base::max(x))
+
+  n <- function() 42
+  expect_not_hybrid(tbl, n())
+  expect_hybrid(tbl, dplyr::n())
+
+  n_distinct <- function(...) 42
+  expect_not_hybrid(tbl, n_distinct(x))
+  expect_hybrid(tbl, dplyr::n_distinct(x))
+
+})

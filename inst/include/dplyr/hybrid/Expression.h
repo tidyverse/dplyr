@@ -9,14 +9,70 @@
 namespace dplyr {
 namespace hybrid {
 
+struct FindFunData {
+  const SEXP symbol;
+  const SEXP env;
+  SEXP rho;
+
+  FindFunData(SEXP symbol_, SEXP env_) :
+    symbol(symbol_),
+    env(env_),
+    rho(R_NilValue)
+  {}
+
+  inline Rboolean findFun() {
+    return R_ToplevelExec(protected_findFun, reinterpret_cast<void*>(this));
+  }
+
+  static void protected_findFun(void* data) {
+    FindFunData* find_data = reinterpret_cast<FindFunData*>(data);
+    find_data->protected_findFun();
+  }
+
+  inline void protected_findFun() {
+    rho = env;
+
+    while (rho != R_EmptyEnv) {
+      SEXP vl = Rf_findVarInFrame3(rho, symbol, TRUE);
+
+      if (vl != R_UnboundValue) {
+        // a promise, we need to evaluate it to find out if it
+        // is a function promise
+        if (TYPEOF(vl) == PROMSXP) {
+          PROTECT(vl);
+          vl = Rf_eval(vl, rho);
+          UNPROTECT(1);
+        }
+
+        // we found a function
+        if (TYPEOF(vl) == CLOSXP || TYPEOF(vl) == BUILTINSXP || TYPEOF(vl) == SPECIALSXP) {
+          return;
+        }
+
+        // a missing, just let R evaluation work as we have no way to
+        // assert if the missing argument would have evaluated to a function or data
+        if (vl == R_MissingArg) {
+          return;
+        }
+      }
+
+      // go in the parent environment
+      rho = ENCLOS(rho);
+    }
+
+    return;
+  }
+};
+
 template <typename LazySubsets>
 class Expression {
 public:
 
   typedef std::pair<bool, SEXP> ArgPair;
 
-  Expression(SEXP expr_, const LazySubsets& subsets_) :
+  Expression(SEXP expr_, const LazySubsets& subsets_, SEXP env_) :
     expr(expr_),
+    env(env_),
     func(R_NilValue),
     package(R_NilValue),
     valid(false),
@@ -50,8 +106,22 @@ public:
     return n;
   }
 
-  inline bool is_fun(SEXP symbol, SEXP pkg) {
-    return valid && symbol == func && (package == R_NilValue || package == pkg);
+  inline bool is_fun(SEXP symbol, SEXP pkg, SEXP ns) {
+    // quickly escape if this has no chance to be the function we look for
+    if (!valid || symbol != func) {
+      return false;
+    }
+    if (package == R_NilValue) {
+      // bare expression, e.g. n() so we need to check that `n` evaluates to the
+      // function in the right environment, otherwise we let R evaluate the call
+      FindFunData finder(symbol, env);
+      if(!finder.findFun()) return false;
+
+      return finder.rho == ns;
+    } else {
+      // expression of the form pkg::fun so check that pkg is the correct one
+      return package == pkg;
+    }
   }
 
   inline bool is_named(int i, SEXP symbol) const {
@@ -109,6 +179,7 @@ public:
 
 private:
   SEXP expr;
+  SEXP env;
 
   SEXP func;
   SEXP package;
@@ -119,6 +190,10 @@ private:
   int n;
   std::vector<SEXP> values;
   std::vector<SEXP> tags;
+
+  Environment ns_base;
+  Environment ns_dplyr;
+  Environment ns_stats;
 
   inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
     if (TYPEOF(val) == SYMSXP) {
