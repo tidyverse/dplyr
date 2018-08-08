@@ -76,7 +76,7 @@ public:
     WriteSliceVisitor out_slice(out, indices);
 
     std::vector<int> idx(n);
-    std::iota(idx.begin(), idx.end(), 0);
+    for (int i = 0; i < n; i++) idx[i] = i;
 
     // sort idx by vec in the subset given by indices
     std::sort(idx.begin(), idx.end(), Comparer(slice));
