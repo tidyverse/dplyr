@@ -80,6 +80,8 @@ public:
     subsets(subsets_),
     n(0)
   {
+    static SEXP R_DoubleColonSymbol = Rf_install("::");
+
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
     if (TYPEOF(head) == SYMSXP) {
