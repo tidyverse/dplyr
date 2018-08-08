@@ -52,10 +52,18 @@ test_that("n() and n_distinct() use hybrid evaluation", {
   expect_hybrid(d, n())
   expect_not_hybrid(d, list(1:n()))
   expect_not_hybrid(d, n() + 1)
+
+  c <- 1:5
   expect_hybrid(d, n_distinct(a))
+  expect_hybrid(d, n_distinct(a, na.rm = TRUE))
+  expect_hybrid(d, n_distinct(a, na.rm = FALSE))
+  expect_not_hybrid(d, n_distinct(c))
+  expect_not_hybrid(d, n_distinct(a, c))
 
   d <- tibble(a = rep(1L, 3), b = 1:3)
   expect_hybrid(d, n_distinct(a, b))
+  expect_hybrid(d, n_distinct(a, b, na.rm = TRUE))
+  expect_hybrid(d, n_distinct(a, b, na.rm = FALSE))
   expect_not_hybrid(d, n_distinct())
 })
 
@@ -77,6 +85,10 @@ test_that("min() and max() are hybrid", {
 
   expect_hybrid(d, min(int, na.rm = TRUE))
   expect_hybrid(d, min(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, min(int, na.rm = pi == pi))
+  expect_not_hybrid(d, min(dbl, na.rm = pi == pi))
+  expect_not_hybrid(d, min(dbl, na.rm = F))
+  expect_not_hybrid(d, min(dbl, na.rm = T))
   expect_not_hybrid(d, min(chr, na.rm = TRUE))
 
   expect_hybrid(d, min(int, na.rm = FALSE))
@@ -89,6 +101,10 @@ test_that("min() and max() are hybrid", {
 
   expect_hybrid(d, max(int, na.rm = TRUE))
   expect_hybrid(d, max(dbl, na.rm = TRUE))
+  expect_not_hybrid(d, max(int, na.rm = pi == pi))
+  expect_not_hybrid(d, max(dbl, na.rm = pi == pi))
+  expect_not_hybrid(d, max(dbl, na.rm = F))
+  expect_not_hybrid(d, max(dbl, na.rm = T))
   expect_not_hybrid(d, max(chr, na.rm = TRUE))
 
   expect_hybrid(d, max(int, na.rm = FALSE))
@@ -275,338 +291,6 @@ test_that("hybrid handlers don't nest", {
   expect_not_hybrid(d, list(lag(cume_dist(a))))
 })
 
-# test_that("row_number() is equivalent to dplyr::row_number() (#3309)", {
-#   check_hybrid_result(
-#     list(dplyr::row_number()),
-#     a = 1:5,
-#     expected = list(1:5),
-#     test_eval = FALSE
-#   )
-#   expect_identical(
-#     filter(mtcars, dplyr::row_number() == 6L),
-#     filter(mtcars, row_number() == 6L)
-#   )
-# })
-#
-# test_that("constant folding and argument matching in hybrid evaluator (#2299)", {
-#   skip("Currently failing")
-#   skip("Currently failing (external var)")
-#   c <- 1:3
-#   check_not_hybrid_result(
-#     n_distinct(c),
-#     a = 1:5,
-#     expected = 3L, test_eval = FALSE
-#   )
-#   check_not_hybrid_result(
-#     n_distinct(a, c),
-#     a = 1:3,
-#     expected = 3L, test_eval = FALSE
-#   )
-#   check_not_hybrid_result(
-#     n_distinct(a, b, na.rm = 1),
-#     a = rep(1L, 3), b = c(1, 1, NA),
-#     expected = 1L
-#   )
-#
-#   skip("Currently failing (constfold)")
-#   check_hybrid_result(
-#     list(a %in% 1:3),
-#     a = 2:4,
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-#   check_hybrid_result(
-#     list(a %in% as.numeric(1:3)),
-#     a = as.numeric(2:4),
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-#   check_hybrid_result(
-#     list(a %in% letters[1:3]),
-#     a = letters[2:4],
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-#   check_hybrid_result(
-#     list(a %in% c(TRUE, FALSE)),
-#     a = c(TRUE, FALSE, NA),
-#     expected = list(c(TRUE, TRUE, FALSE))
-#   )
-#
-#   skip("Currently failing")
-#   check_hybrid_result(
-#     list(a %in% NA_integer_),
-#     a = c(2:4, NA),
-#     expected = list(c(FALSE, FALSE, FALSE, TRUE))
-#   )
-#   check_hybrid_result(
-#     list(a %in% NA_real_),
-#     a = as.numeric(c(2:4, NA)),
-#     expected = list(c(FALSE, FALSE, FALSE, TRUE))
-#   )
-#   check_hybrid_result(
-#     list(a %in% NA_character_),
-#     a = c(letters[2:4], NA),
-#     expected = list(c(FALSE, FALSE, FALSE, TRUE))
-#   )
-#   check_hybrid_result(
-#     list(a %in% NA),
-#     a = c(TRUE, FALSE, NA),
-#     expected = list(c(FALSE, FALSE, TRUE))
-#   )
-#
-#   skip("Currently failing (constfold)")
-#   check_hybrid_result(
-#     min(a, na.rm = (1 == 0)),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     max(a, na.rm = (1 == 0)),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     min(a, na.rm = (1 == 1)),
-#     a = c(1:5, NA),
-#     expected = 1L
-#   )
-#   check_hybrid_result(
-#     max(a, na.rm = (1 == 1)),
-#     a = c(1:5, NA),
-#     expected = 5L
-#   )
-#
-#   check_hybrid_result(
-#     min(a, na.rm = pi != pi),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     max(a, na.rm = pi != pi),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     min(a, na.rm = pi == pi),
-#     a = c(1:5, NA),
-#     expected = 1L
-#   )
-#   check_hybrid_result(
-#     max(a, na.rm = pi == pi),
-#     a = c(1:5, NA),
-#     expected = 5L
-#   )
-#
-#   skip("Currently failing")
-#   check_hybrid_result(
-#     min(a, na.rm = F),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     max(a, na.rm = F),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     min(a, na.rm = T),
-#     a = c(1:5, NA),
-#     expected = 1L
-#   )
-#   check_hybrid_result(
-#     max(a, na.rm = T),
-#     a = c(1:5, NA),
-#     expected = 5L
-#   )
-#
-#   skip("Currently failing (constfold)")
-#   check_hybrid_result(
-#     nth(a, 1 + 2),
-#     a = letters[1:5],
-#     expected = "c"
-#   )
-#
-#   check_hybrid_result(
-#     nth(a, -4),
-#     a = 1:5,
-#     expected = 2L
-#   )
-#
-#   skip("Currently failing (constfold)")
-#   check_hybrid_result(
-#     list(lead(a, 1L + 2L)),
-#     a = 1:5,
-#     expected = list(c(4:5, NA, NA, NA))
-#   )
-#   check_hybrid_result(
-#     list(lag(a, 4L - 2L)),
-#     a = as.numeric(1:5),
-#     expected = list(c(NA, NA, as.numeric(1:3)))
-#   )
-#
-#   check_not_hybrid_result(
-#     list(lead(a, default = 2 + 4)),
-#     a = 1:5,
-#     expected = list(as.numeric(2:6))
-#   )
-#   check_not_hybrid_result(
-#     list(lag(a, default = 3L - 3L)),
-#     a = as.numeric(1:5),
-#     expected = list(as.numeric(0:4))
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a, 1 + 2)),
-#     a = 1:5,
-#     expected = list(c(4:5, NA, NA, NA))
-#   )
-#   check_hybrid_result(
-#     list(lag(a, 4 - 2)),
-#     a = as.numeric(1:5),
-#     expected = list(c(NA, NA, as.numeric(1:3)))
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a, default = 2L + 4L)),
-#     a = 1:5,
-#     expected = list(2:6)
-#   )
-#   check_hybrid_result(
-#     list(lag(a, default = 3L - 3L)),
-#     a = 1:5,
-#     expected = list(0:4)
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a, def = 2L + 4L)),
-#     a = 1:5,
-#     expected = list(2:6)
-#   )
-#   check_hybrid_result(
-#     list(lag(a, def = 3L - 3L)),
-#     a = 1:5,
-#     expected = list(0:4)
-#   )
-#
-#   check_hybrid_result(
-#     list(lead(a, 2, 2L + 4L)),
-#     a = 1:5,
-#     expected = list(c(3:6, 6L))
-#   )
-#   check_hybrid_result(
-#     list(lag(a, 3, 3L - 3L)),
-#     a = 1:5,
-#     expected = list(c(0L, 0L, 0:2))
-#   )
-#
-#   skip("Currently failing")
-#   check_hybrid_result(
-#     mean(a, na.rm = (1 == 0)),
-#     a = c(1:5, NA),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     var(a, na.rm = (1 == 0)),
-#     a = c(1:3, NA),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     sd(a, na.rm = (1 == 0)),
-#     a = c(1:3, NA),
-#     expected = is.na
-#   )
-#   check_hybrid_result(
-#     sum(a, na.rm = (1 == 0)),
-#     a = c(1:5, NA),
-#     expected = NA_integer_
-#   )
-#   check_hybrid_result(
-#     sum(a, na.rm = (1 == 0)),
-#     a = c(as.numeric(1:5), NA),
-#     expected = is.na
-#   )
-#
-#   check_hybrid_result(
-#     mean(a, na.rm = (1 == 1)),
-#     a = c(1:5, NA),
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     var(a, na.rm = (1 == 1)),
-#     a = c(1:3, NA),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sd(a, na.rm = (1 == 1)),
-#     a = c(1:3, NA),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sum(a, na.rm = (1 == 1)),
-#     a = c(1:5, NA),
-#     expected = 15L
-#   )
-#   check_hybrid_result(
-#     sum(a, na.rm = (1 == 1)),
-#     a = c(as.numeric(1:5), NA),
-#     expected = 15
-#   )
-#
-#   check_hybrid_result(
-#     mean(na.rm = (1 == 1), a),
-#     a = c(1:5, NA),
-#     expected = 3
-#   )
-#   check_hybrid_result(
-#     var(na.rm = (1 == 1), a),
-#     a = c(1:3, NA),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sd(na.rm = (1 == 1), a),
-#     a = c(1:3, NA),
-#     expected = 1
-#   )
-#   check_hybrid_result(
-#     sum(na.rm = (1 == 1), a),
-#     a = c(1:5, NA),
-#     expected = 15L
-#   )
-#   check_hybrid_result(
-#     sum(na.rm = (1 == 1), a),
-#     a = c(as.numeric(1:5), NA),
-#     expected = 15
-#   )
-#
-#   skip("Currently failing (constfold)")
-#   check_hybrid_result(
-#     list(ntile(a, 1 + 2)),
-#     a = c(1, 3, 2, 3, 1),
-#     expected = list(c(1L, 2L, 2L, 3L, 1L))
-#   )
-#   check_hybrid_result(
-#     list(ntile(a, 1L + 2L)),
-#     a = c(1, 3, 2, 3, 1),
-#     expected = list(c(1L, 2L, 2L, 3L, 1L))
-#   )
-#   check_hybrid_result(
-#     list(ntile(n = 1 + 2, a)),
-#     a = c(1, 3, 2, 3, 1),
-#     expected = list(c(1L, 2L, 2L, 3L, 1L))
-#   )
-#
-#   skip("Currently failing")
-#   df <- data_frame(x = c(NA, 1L, 2L, NA, 3L, 4L, NA))
-#   expected <- rep(4L, nrow(df))
-#
-#   expect_equal(mutate(df, y = last(na.omit(x)))$y,           expected)
-#   expect_equal(mutate(df, y = last(x[!is.na(x)]))$y,         expected)
-#   expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y, expected)
-#   expect_equal(mutate(df, y = x %>% na.omit() %>% last())$y, expected)
-#
-#   data_frame(x = c(1, 1)) %>%
-#     mutate(y = 1) %>%
-#     summarise(z = first(x, order_by = y))
-# })
-#
 # test_that("simple handlers supports quosured symbols", {
 #   expect_identical(
 #     pull(summarise(mtcars, mean(!!quo(cyl)))),
