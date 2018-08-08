@@ -36,7 +36,7 @@ template <
   typename Data,
   template <int, bool, typename> class Impl,
   typename Operation
->
+  >
 class SimpleDispatch {
 public:
   typedef typename Data::slicing_index Index;

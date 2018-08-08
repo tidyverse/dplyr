@@ -270,7 +270,7 @@ SEXP nth3_default(const Data& data, Column x, SEXP n, SEXP def, const Operation&
     break;
   }
 
-return R_UnboundValue;
+  return R_UnboundValue;
 }
 
 

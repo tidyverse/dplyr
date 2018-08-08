@@ -115,7 +115,7 @@ public:
       // bare expression, e.g. n() so we need to check that `n` evaluates to the
       // function in the right environment, otherwise we let R evaluate the call
       FindFunData finder(symbol, env);
-      if(!finder.findFun()) return false;
+      if (!finder.findFun()) return false;
 
       return finder.rho == ns;
     } else {
