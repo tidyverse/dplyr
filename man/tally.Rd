@@ -51,7 +51,7 @@ they add an additional column rather than collapsing each group.
 The column name in the returned data is usually \code{n}, even if you
 have supplied a weight.
 
-If the data already already has a column named \code{n}, the output column
+If the data already has a column named \code{n}, the output column
 will be called \code{nn}. If the table already has columns called \code{n} and \code{nn}
 then the column returned will be \code{nnn}, and so on.
 
