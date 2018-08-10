@@ -16,7 +16,7 @@
 #' The column name in the returned data is usually `n`, even if you
 #' have supplied a weight.
 #'
-#' If the data already already has a column named `n`, the output column
+#' If the data already has a column named `n`, the output column
 #' will be called `nn`. If the table already has columns called `n` and `nn`
 #' then the column returned will be `nnn`, and so on.
 #'
