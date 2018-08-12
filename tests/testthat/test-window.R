@@ -33,7 +33,7 @@ test_that("cumany and cumall handle NA (#408)", {
   )
 
   expect_identical(
-    c(FALSE, NA, TRUE),
+    cumany(c(FALSE, NA, TRUE)),
     c(FALSE, NA, TRUE)
   )
 })
