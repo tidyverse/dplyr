@@ -13,23 +13,27 @@
 // [[Rcpp::export]]
 LogicalVector cumall(LogicalVector x) {
   int n = x.length();
-  LogicalVector out(n, NA_LOGICAL);
+  LogicalVector out(n, FALSE);
 
   int current = out[0] = x[0];
-  if (current == NA_LOGICAL) return out;
-  if (current == FALSE) {
-    std::fill(out.begin(), out.end(), FALSE);
+
+  if (current == FALSE)
     return out;
-  }
+
+  if (current == NA_LOGICAL)
+    out[0] = NA_LOGICAL;
+
   for (int i = 1; i < n; i++) {
     current = x[i];
-    if (current == NA_LOGICAL) break;
-    if (current == FALSE) {
-      std::fill(out.begin() + i, out.end(), FALSE);
+
+    if (current == TRUE)
+      out[i] = out[i - 1];
+    else if (current == NA_LOGICAL)
+      out[i] = NA_LOGICAL;
+    else
       break;
-    }
-    out[i] = current && out[i - 1];
   }
+
   return out;
 }
 
@@ -38,22 +42,24 @@ LogicalVector cumall(LogicalVector x) {
 // [[Rcpp::export]]
 LogicalVector cumany(LogicalVector x) {
   int n = x.length();
-  LogicalVector out(n, NA_LOGICAL);
+  LogicalVector out(n, TRUE);
 
   int current = out[0] = x[0];
-  if (current == NA_LOGICAL) return out;
-  if (current == TRUE) {
-    std::fill(out.begin(), out.end(), TRUE);
+
+  if (current == TRUE)
     return out;
-  }
+
+  if (current == NA_LOGICAL)
+    out[0] = NA_LOGICAL;
+
   for (int i = 1; i < n; i++) {
     current = x[i];
-    if (current == NA_LOGICAL) break;
-    if (current == TRUE) {
-      std::fill(out.begin() + i, out.end(), TRUE);
+    if (current == TRUE)
       break;
-    }
-    out[i] = current || out[i - 1];
+    else if (current == NA_LOGICAL)
+      out[i] = NA_LOGICAL;
+    else
+      out[i] = out[i -1];
   }
 
   return out;
