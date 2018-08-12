@@ -14,18 +14,19 @@
 LogicalVector cumall(LogicalVector x) {
   int n = x.length();
   LogicalVector out(n, FALSE);
-  int current  = out[0] = x[0];
-  int previous = current;
+  int current  = TRUE;
+  int previous = TRUE;
 
   for (int i = 0; i < n; i++) {
     current = x[i];
-
-    if (current == TRUE)
+    if (current == TRUE){
       out[i] = previous;
-    else if (current == NA_LOGICAL)
-      out[i] = previous = NA_LOGICAL;
-    else
+    } else if (current == NA_LOGICAL){
+      out[i] = NA_LOGICAL;
+      previous = NA_LOGICAL;
+    } else {
       break;
+    }
   }
 
   return out;
@@ -37,17 +38,19 @@ LogicalVector cumall(LogicalVector x) {
 LogicalVector cumany(LogicalVector x) {
   int n = x.length();
   LogicalVector out(n, TRUE);
-  int current  = out[0] = x[0];
-  int previous = current;
+  int current  = FALSE;
+  int previous = FALSE;
 
   for (int i = 0; i < n; i++) {
     current = x[i];
-    if (current == TRUE)
+    if (current == TRUE) {
       break;
-    else if (current == NA_LOGICAL)
-      out[i] = previous = NA_LOGICAL;
-    else
+    } else if (current == NA_LOGICAL){
+      out[i]   = NA_LOGICAL;
+      previous = NA_LOGICAL;
+    } else {
       out[i] = previous;
+    }
   }
 
   return out;
