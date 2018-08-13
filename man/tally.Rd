@@ -56,7 +56,7 @@ will be called \code{nn}. If the table already has columns called \code{n} and \
 then the column returned will be \code{nnn}, and so on.
 
 There is currently no way to control the output variable name - if you
-need to change the default, you'll have to write the \code{\link[=summarise]{summarise()}}
+need to change the default, you can call \code{\link[=rename]{rename()}} afterwards or you'll have to write the \code{\link[=summarise]{summarise()}}
 yourself.
 }
 \examples{
