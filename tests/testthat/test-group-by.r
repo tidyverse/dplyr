@@ -312,3 +312,9 @@ test_that("tbl_sum gets the right number of groups", {
   res <- data.frame(x=c(1,1,2,2)) %>% group_by(x) %>% tbl_sum()
   expect_equal(res, c("A tibble" = "4 x 1", "Groups" = "x [2]"))
 })
+
+test_that("grouped data frames support drop=TRUE (#3714)", {
+  expect_is(group_by(iris, Species)[ , "Sepal.Width", drop=TRUE], "numeric")
+
+  expect_is(group_by(iris, Species)[ , c("Species", "Sepal.Width"), drop=TRUE], "grouped_df")
+})
