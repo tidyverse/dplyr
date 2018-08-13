@@ -21,7 +21,7 @@
 #' then the column returned will be `nnn`, and so on.
 #'
 #' There is currently no way to control the output variable name - if you
-#' need to change the default, you'll have to write the [summarise()]
+#' need to change the default, you can call [rename()] afterwards or you'll have to write the [summarise()]
 #' yourself.
 #'
 #' @param x a [tbl()] to tally/count.
