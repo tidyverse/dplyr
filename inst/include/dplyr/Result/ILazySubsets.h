@@ -23,10 +23,6 @@ public:
   virtual int size() const = 0;
   virtual int nrows() const = 0;
 
-public:
-  bool has_non_summary_variable(const SymbolString& symbol) const {
-    return has_variable(symbol) && !is_summary(symbol);
-  }
 };
 
 }
