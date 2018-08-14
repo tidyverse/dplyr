@@ -8,7 +8,7 @@
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/NaturalDataFrame.h>
 
-#include <dplyr/Result/GroupedCallReducer.h>
+#include <dplyr/GroupedCallReducer.h>
 
 #include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
