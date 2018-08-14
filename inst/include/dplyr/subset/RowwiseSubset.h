@@ -5,7 +5,7 @@
 
 #include <dplyr/checks.h>
 
-#include <dplyr/Result/GroupedSubsetBase.h>
+#include <dplyr/subset/GroupedSubsetBase.h>
 
 namespace dplyr {
 

@@ -3,7 +3,7 @@
 
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/Result/RowwiseSubset.h>
+#include <dplyr/subset/RowwiseSubset.h>
 #include <tools/SymbolString.h>
 
 namespace dplyr {

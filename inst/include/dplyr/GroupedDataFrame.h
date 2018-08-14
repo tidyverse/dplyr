@@ -4,7 +4,7 @@
 #include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/Result/GroupedSubset.h>
+#include <dplyr/subset/GroupedSubset.h>
 
 #include <tools/SymbolVector.h>
 #include <tools/SymbolMap.h>

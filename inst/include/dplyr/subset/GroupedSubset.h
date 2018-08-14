@@ -3,7 +3,7 @@
 
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/SummarisedVariable.h>
-#include <dplyr/Result/GroupedSubsetBase.h>
+#include <dplyr/subset/GroupedSubsetBase.h>
 
 namespace dplyr {
 

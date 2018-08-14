@@ -10,7 +10,7 @@
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/NaturalDataFrame.h>
 
-#include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/subset/LazyGroupedSubsets.h>
 
 #include <dplyr/Gatherer.h>
 #include <dplyr/ConstantRecycler.h>

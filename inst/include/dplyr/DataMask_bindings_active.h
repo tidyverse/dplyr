@@ -3,7 +3,7 @@
 
 #include <Rcpp.h>
 #include <tools/utils.h>
-#include <dplyr/Result/LazyGroupedSubsets.h>
+#include <dplyr/subset/LazyGroupedSubsets.h>
 
 #include <boost/weak_ptr.hpp>
 #include <bindrcpp.h>

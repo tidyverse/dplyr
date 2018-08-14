@@ -9,8 +9,8 @@
 
 #include <dplyr/SummarisedVariable.h>
 
-#include <dplyr/Result/GroupedSubset.h>
-#include <dplyr/Result/ILazySubsets.h>
+#include <dplyr/subset/GroupedSubset.h>
+#include <dplyr/subset/ILazySubsets.h>
 
 namespace dplyr {
 

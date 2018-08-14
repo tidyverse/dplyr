@@ -3,7 +3,7 @@
 
 #include <tools/hash.h>
 
-#include <dplyr/Result/ILazySubsets.h>
+#include <dplyr/subset/ILazySubsets.h>
 
 #include <dplyr/DataMask_bindings_active.h>
 
