@@ -1,11 +1,13 @@
 ## Release summary
 
-Minor update to address CRAN warnings and a conflict for an exported symbol.  We also addressed all rchk errors seen on CRAN but could not replicate them locally, it remains to be seen if our changes are effective.
+Fix for NEWS.md file.
+
+The remaining rchk errors are most likely false positives from Rcpp, see Rcpp issue https://github.com/RcppCore/Rcpp/issues/892 .
 
 ## Test environments
 
-* local OS X install, R 3.5.0
-* ubuntu 12.04 (on travis-ci), R 3.5.0, R-oldrel, R-devel.
+* local OS X install, R 3.5.1
+* ubuntu 12.04 (on travis-ci), R 3.5.1, R-oldrel, R-devel.
 * win-builder (devel)
 
 ## R CMD check results
@@ -18,4 +20,4 @@ Minor update to address CRAN warnings and a conflict for an exported symbol.  We
 
 ## Reverse dependencies
 
-We checked more than 900 reverse dependencies by running R CMD check twice, once with the CRAN version installed, and once with this version installed. We did not see any new problems.
+Reverse dependencies not checked, because we only changed NEWS.md (and the file that contains the submission notes): https://github.com/tidyverse/dplyr/compare/v0.7.6...r-0.7.7 .
