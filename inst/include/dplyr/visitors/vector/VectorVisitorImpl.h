@@ -4,7 +4,7 @@
 #include <tools/collapse.h>
 #include <tools/utils.h>
 
-#include <dplyr/CharacterVectorOrderer.h>
+#include <dplyr/visitors/CharacterVectorOrderer.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/visitors/vector/VectorVisitor.h>
 #include <tools/encoding.h>

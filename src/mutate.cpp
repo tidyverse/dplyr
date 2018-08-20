@@ -13,7 +13,7 @@
 #include <dplyr/subset/LazyGroupedSubsets.h>
 
 #include <dplyr/Gatherer.h>
-include <dplyr/DataMask.h>
+#include <dplyr/DataMask.h>
 #include <dplyr/NamedListAccumulator.h>
 
 #include <dplyr/bad.h>

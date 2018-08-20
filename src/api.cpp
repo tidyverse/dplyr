@@ -6,7 +6,7 @@
 #include <tools/hash.h>
 #include <tools/match.h>
 
-#include <dplyr/CharacterVectorOrderer.h>
+#include <dplyr/visitors/CharacterVectorOrderer.h>
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/visitors/vector/visitor_impl.h>

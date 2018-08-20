@@ -5,7 +5,7 @@
 
 #include <dplyr/comparisons.h>
 
-#include <dplyr/CharacterVectorOrderer.h>
+#include <dplyr/visitors/CharacterVectorOrderer.h>
 #include <dplyr/visitors/order/OrderVisitor.h>
 #include <dplyr/visitors/vector/DataFrameVisitors.h>
 #include <dplyr/visitors/vector/MatrixColumnVisitor.h>
