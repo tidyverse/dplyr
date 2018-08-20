@@ -9,11 +9,10 @@
 #include <dplyr/CharacterVectorOrderer.h>
 
 #include <dplyr/tbl_cpp.h>
-#include <dplyr/visitor_impl.h>
+#include <dplyr/visitors/vector/visitor_impl.h>
 
-#include <dplyr/JoinVisitor.h>
-
-#include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/visitors/join/JoinVisitor.h>
+#include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 #include <dplyr/visitors/subset/subset_visitor.h>
 
 #include <dplyr/bad.h>

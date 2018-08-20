@@ -11,8 +11,8 @@
 
 #include <dplyr/BoolResult.h>
 
-#include <dplyr/JoinVisitor.h>
-#include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/visitors/join/JoinVisitor.h>
+#include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
 #include <dplyr/train.h>
 #include <dplyr/GroupedDataFrame.h>

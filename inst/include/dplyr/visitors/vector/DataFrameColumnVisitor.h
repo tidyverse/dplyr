@@ -1,7 +1,7 @@
 #ifndef dplyr_DataFrameColumnVisitors_H
 #define dplyr_DataFrameColumnVisitors_H
 
-#include <dplyr/DataFrameVisitors.h>
+#include <dplyr/visitors/vector/DataFrameVisitors.h>
 
 namespace dplyr {
 

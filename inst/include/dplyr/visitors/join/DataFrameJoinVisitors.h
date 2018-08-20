@@ -9,7 +9,7 @@
 #include <dplyr/visitor_set/VisitorSetGreater.h>
 
 #include <dplyr/tbl_cpp.h>
-#include <dplyr/JoinVisitor.h>
+#include <dplyr/visitors/join/JoinVisitor.h>
 
 namespace dplyr {
 

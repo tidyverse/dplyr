@@ -1,9 +1,9 @@
 #ifndef dplyr_visitor_impl_H
 #define dplyr_visitor_impl_H
 
-#include <dplyr/VectorVisitorImpl.h>
-#include <dplyr/DataFrameColumnVisitor.h>
-#include <dplyr/MatrixColumnVisitor.h>
+#include <dplyr/visitors/vector/VectorVisitorImpl.h>
+#include <dplyr/visitors/vector/DataFrameColumnVisitor.h>
+#include <dplyr/visitors/vector/MatrixColumnVisitor.h>
 
 namespace dplyr {
 

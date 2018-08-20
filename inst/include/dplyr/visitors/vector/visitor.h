@@ -1,7 +1,7 @@
 #ifndef dplyr_visitor_H
 #define dplyr_visitor_H
 
-#include <dplyr/VectorVisitor.h>
+#include <dplyr/visitors/vector/VectorVisitor.h>
 
 namespace dplyr {
 

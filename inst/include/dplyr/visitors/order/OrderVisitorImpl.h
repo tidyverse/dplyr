@@ -6,9 +6,9 @@
 #include <dplyr/comparisons.h>
 
 #include <dplyr/CharacterVectorOrderer.h>
-#include <dplyr/OrderVisitor.h>
-#include <dplyr/DataFrameVisitors.h>
-#include <dplyr/MatrixColumnVisitor.h>
+#include <dplyr/visitors/order/OrderVisitor.h>
+#include <dplyr/visitors/vector/DataFrameVisitors.h>
+#include <dplyr/visitors/vector/MatrixColumnVisitor.h>
 #include <dplyr/bad.h>
 
 namespace dplyr {

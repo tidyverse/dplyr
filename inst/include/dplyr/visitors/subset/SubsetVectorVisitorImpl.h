@@ -4,7 +4,7 @@
 #include <tools/collapse.h>
 #include <tools/utils.h>
 
-#include <dplyr/VectorVisitorImpl.h>
+#include <dplyr/visitors/vector/VectorVisitorImpl.h>
 #include <dplyr/visitors/subset/SubsetVectorVisitor.h>
 
 namespace dplyr {

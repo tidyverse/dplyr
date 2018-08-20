@@ -4,8 +4,8 @@
 #include <tools/utils.h>
 #include <tools/match.h>
 
-#include <dplyr/join_match.h>
-#include <dplyr/JoinVisitor.h>
+#include <dplyr/visitors/join/join_match.h>
+#include <dplyr/visitors/join/JoinVisitor.h>
 #include <dplyr/Column.h>
 
 namespace dplyr {

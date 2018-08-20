@@ -7,7 +7,7 @@
 #include <dplyr/visitors/SliceVisitor.h>
 #include <dplyr/visitors/Comparer.h>
 
-#include <dplyr/OrderVisitorImpl.h>
+#include <dplyr/visitors/order/OrderVisitorImpl.h>
 
 namespace dplyr {
 namespace hybrid {

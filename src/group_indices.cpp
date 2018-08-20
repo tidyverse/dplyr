@@ -3,10 +3,9 @@
 #include <dplyr/white_list.h>
 
 #include <dplyr/GroupedDataFrame.h>
-#include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
-#include <dplyr/Order.h>
-
+#include <dplyr/visitors/order/Order.h>
 #include <dplyr/train.h>
 
 #include <dplyr/bad.h>

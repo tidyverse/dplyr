@@ -12,16 +12,16 @@
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/comparisons.h>
-#include <dplyr/join_match.h>
-#include <dplyr/MultipleVectorVisitors.h>
+#include <dplyr/visitors/join/join_match.h>
+#include <dplyr/visitors/vector/MultipleVectorVisitors.h>
 #include <dplyr/visitors/subset/subset_visitor.h>
-#include <dplyr/visitor.h>
-#include <dplyr/visitor_impl.h>
-#include <dplyr/OrderVisitorImpl.h>
-#include <dplyr/JoinVisitor.h>
-#include <dplyr/JoinVisitorImpl.h>
-#include <dplyr/DataFrameJoinVisitors.h>
-#include <dplyr/Order.h>
+#include <dplyr/visitors/vector/visitor.h>
+#include <dplyr/visitors/vector/visitor_impl.h>
+#include <dplyr/visitors/order/OrderVisitorImpl.h>
+#include <dplyr/visitors/join/JoinVisitor.h>
+#include <dplyr/visitors/join/JoinVisitorImpl.h>
+#include <dplyr/visitors/join/DataFrameJoinVisitors.h>
+#include <dplyr/visitors/order/Order.h>
 #include <dplyr/default_value.h>
 #include <dplyr/Replicator.h>
 #include <dplyr/Collecter.h>

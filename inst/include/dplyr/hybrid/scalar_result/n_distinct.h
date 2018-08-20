@@ -6,7 +6,7 @@
 
 #include <dplyr/visitor_set/VisitorEqualPredicate.h>
 #include <dplyr/visitor_set/VisitorHash.h>
-#include <dplyr/MultipleVectorVisitors.h>
+#include <dplyr/visitors/vector/MultipleVectorVisitors.h>
 
 namespace dplyr {
 namespace hybrid {

@@ -3,7 +3,7 @@
 
 #include <tools/pointer_vector.h>
 
-#include <dplyr/OrderVisitorImpl.h>
+#include <dplyr/visitors/order/OrderVisitorImpl.h>
 
 namespace dplyr {
 

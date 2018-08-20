@@ -7,8 +7,7 @@
 
 #include <dplyr/GroupedDataFrame.h>
 
-#include <dplyr/Order.h>
-
+#include <dplyr/visitors/order/Order.h>
 #include <dplyr/Groups.h>
 #include <dplyr/bad.h>
 #include <dplyr/DataMask.h>

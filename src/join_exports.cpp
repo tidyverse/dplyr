@@ -9,8 +9,7 @@
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
 #include <dplyr/GroupedDataFrame.h>
-
-#include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
 #include <dplyr/train.h>
 

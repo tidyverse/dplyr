@@ -2,7 +2,7 @@
 #define dplyr_SubsetVectorVisitor_H
 
 #include <tools/SlicingIndex.h>
-#include <dplyr/DataFrameVisitorsIndexMap.h>
+#include <dplyr/visitors/subset/ChunkIndexMap.h>
 #include <dplyr/EmptySubset.h>
 
 namespace dplyr {
