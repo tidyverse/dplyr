@@ -69,8 +69,7 @@ db_query_fields(con, sql, ...)
 db_query_rows(con, sql, ...)
 
 sql_select(con, select, from, where = NULL, group_by = NULL,
-  having = NULL, order_by = NULL, limit = NULL, distinct = FALSE,
-  ...)
+  having = NULL, order_by = NULL, limit = NULL, distinct = FALSE, ...)
 
 sql_subquery(con, from, name = random_table_name(), ...)
 
