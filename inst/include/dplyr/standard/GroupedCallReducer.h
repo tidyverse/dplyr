@@ -1,19 +1,17 @@
 #ifndef dplyr_GroupedCallReducer_H
 #define dplyr_GroupedCallReducer_H
+
 #include <dplyr/DataMask.h>
+#include <dplyr/checks.h>
 
 #include <boost/scoped_ptr.hpp>
 
 #include <tools/all_na.h>
-
 #include <tools/bad.h>
-#include <dplyr/DataMask.h>
-
 #include <tools/hash.h>
 #include <tools/scalar_type.h>
 #include <tools/utils.h>
 #include <tools/vector_class.h>
-#include <dplyr/checks.h>
 
 namespace dplyr {
 

@@ -9,7 +9,7 @@
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
 
-#include <dplyr/subset/LazyGroupedSubsets.h>
+#include <dplyr/subset/LazySplitSubsets.h>
 
 #include <tools/bad.h>
 #include <tools/set_rownames.h>

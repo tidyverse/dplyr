@@ -3,7 +3,7 @@
 
 #include <tools/SlicingIndex.h>
 #include <dplyr/visitors/subset/ChunkIndexMap.h>
-#include <dplyr/EmptySubset.h>
+#include <dplyr/visitors/subset/EmptySubset.h>
 
 namespace dplyr {
 

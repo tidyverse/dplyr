@@ -1,5 +1,5 @@
-#ifndef dplyr_LazyGroupedSubsets_H
-#define dplyr_LazyGroupedSubsets_H
+#ifndef dplyr_LazySplitSubsets_H
+#define dplyr_LazySplitSubsets_H
 
 #include <tools/SymbolMap.h>
 
