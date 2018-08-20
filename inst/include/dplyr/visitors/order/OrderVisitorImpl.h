@@ -3,7 +3,7 @@
 
 #include <dplyr/checks.h>
 
-#include <dplyr/comparisons.h>
+#include <tools/comparisons.h>
 
 #include <dplyr/visitors/CharacterVectorOrderer.h>
 #include <dplyr/visitors/order/OrderVisitor.h>

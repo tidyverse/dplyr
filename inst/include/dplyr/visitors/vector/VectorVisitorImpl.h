@@ -5,7 +5,7 @@
 #include <tools/utils.h>
 
 #include <dplyr/visitors/CharacterVectorOrderer.h>
-#include <dplyr/comparisons.h>
+#include <tools/comparisons.h>
 #include <dplyr/visitors/vector/VectorVisitor.h>
 #include <tools/encoding.h>
 

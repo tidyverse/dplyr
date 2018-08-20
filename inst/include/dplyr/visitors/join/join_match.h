@@ -1,7 +1,7 @@
 #ifndef dplyr_join_match_H
 #define dplyr_join_match_H
 
-#include <dplyr/comparisons.h>
+#include <tools/comparisons.h>
 
 namespace dplyr {
 

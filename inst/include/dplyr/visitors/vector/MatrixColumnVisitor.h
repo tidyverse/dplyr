@@ -1,7 +1,7 @@
 #ifndef dplyr_MatrixColumnVisitor_H
 #define dplyr_MatrixColumnVisitor_H
 
-#include <dplyr/comparisons.h>
+#include <tools/comparisons.h>
 
 namespace dplyr {
 

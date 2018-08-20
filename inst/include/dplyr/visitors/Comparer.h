@@ -1,7 +1,7 @@
 #ifndef dplyr_visitors_Comparer_h
 #define dplyr_visitors_Comparer_h
 
-#include <dplyr/comparisons.h>
+#include <tools/comparisons.h>
 
 namespace dplyr {
 namespace visitors {
