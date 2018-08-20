@@ -5,7 +5,7 @@
 #include <dplyr/white_list.h>
 #include <dplyr/checks.h>
 #include <dplyr/visitor_set/visitor_set.h>
-#include <dplyr/BoolResult.h>
+#include <tools/BoolResult.h>
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/RowwiseDataFrame.h>
 

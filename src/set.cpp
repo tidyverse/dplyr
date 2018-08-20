@@ -5,11 +5,10 @@
 
 #include <tools/match.h>
 #include <tools/collapse.h>
+#include <tools/BoolResult.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
-
-#include <dplyr/BoolResult.h>
 
 #include <dplyr/visitors/join/JoinVisitor.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
