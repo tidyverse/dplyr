@@ -230,9 +230,7 @@ test_that("summarise fails on missing variables when grouping (#2223)", {
 
 test_that("n() does not accept arguments", {
   expect_error(
-    summarise(group_by(mtcars, cyl), n(hp)),
-    "`n()` does not take arguments",
-    fixed = TRUE
+    summarise(group_by(mtcars, cyl), n(hp))
   )
 })
 

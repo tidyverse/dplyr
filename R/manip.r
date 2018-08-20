@@ -549,8 +549,7 @@ rename_ <- function(.data, ..., .dots = list()) {
 #' mutate(carriers, n = n())
 #' filter(carriers, n() < 100)
 #' }
-n <- function(...) {
-  if (dots_n(...)) abort("`n()` does not take arguments")
+n <- function() {
   get_data_context(sys.frames(), "n()")[["..group_size"]]
 }
 
