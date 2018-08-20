@@ -8,13 +8,13 @@
 namespace dplyr {
 
 template <int RTYPE>
-class NaturalSubsetTemplate : public GroupedSubset {
+class NaturalSubsetTemplate : public Subset<NaturalSlicingIndex> {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
   NaturalSubsetTemplate(SEXP x) :
     object(x), start(Rcpp::internal::r_vector_start<RTYPE>(object)) {}
 
-  virtual SEXP get(const SlicingIndex& indices) {
+  virtual SEXP get(const NaturalSlicingIndex& indices) {
     int n = indices.size();
     Vector<RTYPE> data = no_init(n);
     copy_most_attributes(data, object);
@@ -35,7 +35,7 @@ private:
   STORAGE* start;
 };
 
-inline NaturalSubset* natural_subset(SEXP x) {
+inline Subset<NaturalSlicingIndex>* natural_subset(SEXP x) {
   switch (TYPEOF(x)) {
   case INTSXP:
     return new NaturalSubsetTemplate<INTSXP>(x);
@@ -63,7 +63,7 @@ inline NaturalSubset* natural_subset(SEXP x) {
 }
 
 template <int RTYPE>
-class GroupedSubsetTemplate : public GroupedSubset {
+class GroupedSubsetTemplate : public Subset<GroupedSlicingIndex> {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
   GroupedSubsetTemplate(SEXP x) :
@@ -71,7 +71,7 @@ public:
     start(Rcpp::internal::r_vector_start<RTYPE>(object))
   {}
 
-  virtual SEXP get(const SlicingIndex& indices) {
+  virtual SEXP get(const GroupedSlicingIndex& indices) {
     int n = indices.size();
     Vector<RTYPE> output = no_init(n);
     copy_most_attributes(output, object);
@@ -92,11 +92,11 @@ private:
   STORAGE* start;
 };
 
-class DataFrameGroupedSubset : public GroupedSubset {
+class DataFrameGroupedSubset : public Subset<GroupedSlicingIndex> {
 public:
   DataFrameGroupedSubset(SEXP x) : data(x), visitors(data) {}
 
-  virtual SEXP get(const SlicingIndex& indices) {
+  virtual SEXP get(const GroupedSlicingIndex& indices) {
     return visitors.subset(indices, get_class(data));
   }
 
@@ -113,7 +113,7 @@ private:
   DataFrameSubsetVisitors visitors;
 };
 
-inline GroupedSubset* grouped_subset(SEXP x) {
+inline Subset<GroupedSlicingIndex>* grouped_subset(SEXP x) {
   switch (TYPEOF(x)) {
   case INTSXP:
     return new GroupedSubsetTemplate<INTSXP>(x);
@@ -141,8 +141,8 @@ inline GroupedSubset* grouped_subset(SEXP x) {
 }
 
 
-template <int RTYPE>
-class SummarisedSubsetTemplate : public GroupedSubset {
+template <int RTYPE, typename Index>
+class SummarisedSubsetTemplate : public Subset<Index> {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
@@ -152,7 +152,7 @@ public:
     copy_most_attributes(output, object);
   }
 
-  virtual SEXP get(const SlicingIndex& indices) {
+  virtual SEXP get(const Index& indices) {
     output[0] = object[indices.group()];
     return output;
   }
@@ -168,27 +168,47 @@ private:
   Rcpp::Vector<RTYPE> output;
 };
 
-template <>
-inline SEXP SummarisedSubsetTemplate<VECSXP>::get(const SlicingIndex& indices) {
-  return List::create(object[indices.group()]);
-}
+template <typename Index>
+class SummarisedSubsetTemplate<VECSXP,Index> : public Subset<Index> {
+public:
+  SummarisedSubsetTemplate(SummarisedVariable x) :
+    object(x), output(1)
+  {
+    copy_most_attributes(output, object);
+  }
 
-inline GroupedSubset* summarised_subset(SummarisedVariable x) {
+  virtual SEXP get(const Index& indices) {
+    return List::create(object[indices.group()]);
+  }
+  virtual SEXP get_variable() const {
+    return object;
+  }
+  virtual bool is_summary() const {
+    return true;
+  }
+
+private:
+  List object;
+  List output;
+};
+
+template <typename Index>
+inline Subset<Index>* summarised_subset(SummarisedVariable x) {
   switch (TYPEOF(x)) {
   case LGLSXP:
-    return new SummarisedSubsetTemplate<LGLSXP>(x);
+    return new SummarisedSubsetTemplate<LGLSXP, Index>(x);
   case INTSXP:
-    return new SummarisedSubsetTemplate<INTSXP>(x);
+    return new SummarisedSubsetTemplate<INTSXP, Index>(x);
   case REALSXP:
-    return new SummarisedSubsetTemplate<REALSXP>(x);
+    return new SummarisedSubsetTemplate<REALSXP, Index>(x);
   case STRSXP:
-    return new SummarisedSubsetTemplate<STRSXP>(x);
+    return new SummarisedSubsetTemplate<STRSXP, Index>(x);
   case VECSXP:
-    return new SummarisedSubsetTemplate<VECSXP>(x);
+    return new SummarisedSubsetTemplate<VECSXP, Index>(x);
   case CPLXSXP:
-    return new SummarisedSubsetTemplate<CPLXSXP>(x);
+    return new SummarisedSubsetTemplate<CPLXSXP, Index>(x);
   case RAWSXP:
-    return new SummarisedSubsetTemplate<RAWSXP>(x);
+    return new SummarisedSubsetTemplate<RAWSXP, Index>(x);
   default:
     break;
   }

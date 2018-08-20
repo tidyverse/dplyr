@@ -5,17 +5,15 @@
 
 namespace dplyr {
 
-class GroupedSubset {
+template <typename Index>
+class Subset {
 public:
-  GroupedSubset() {};
-  virtual ~GroupedSubset() {};
-  virtual SEXP get(const SlicingIndex& indices) = 0;
+  Subset() {};
+  virtual ~Subset() {};
+  virtual SEXP get(const Index& indices) = 0;
   virtual SEXP get_variable() const = 0;
   virtual bool is_summary() const = 0;
 };
-
-typedef GroupedSubset RowwiseSubset;
-typedef GroupedSubset NaturalSubset ;
 
 }
 

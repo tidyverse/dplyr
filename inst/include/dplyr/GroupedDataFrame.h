@@ -32,7 +32,7 @@ class GroupedDataFrame {
 public:
   typedef GroupedDataFrameIndexIterator group_iterator;
   typedef GroupedSlicingIndex slicing_index;
-  typedef GroupedSubset subset;
+  typedef Subset<slicing_index> subset;
 
   GroupedDataFrame(DataFrame x);
   GroupedDataFrame(DataFrame x, const GroupedDataFrame& model);

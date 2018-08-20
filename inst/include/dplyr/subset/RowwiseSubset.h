@@ -10,7 +10,7 @@
 namespace dplyr {
 
 template <int RTYPE>
-class RowwiseSubsetTemplate : public RowwiseSubset {
+class RowwiseSubsetTemplate : public Subset<RowwiseSlicingIndex> {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
   RowwiseSubsetTemplate(SEXP x) :
@@ -19,7 +19,7 @@ public:
 
   ~RowwiseSubsetTemplate() {}
 
-  virtual SEXP get(const SlicingIndex& indices) {
+  virtual SEXP get(const RowwiseSlicingIndex& indices) {
     Vector<RTYPE> output(1, start[indices.group()]);
     copy_most_attributes(output, object);
     return output;
@@ -37,13 +37,13 @@ private:
 };
 
 template <>
-class RowwiseSubsetTemplate<VECSXP> : public RowwiseSubset {
+class RowwiseSubsetTemplate<VECSXP> : public Subset<RowwiseSlicingIndex> {
 public:
   RowwiseSubsetTemplate(SEXP x) :
     object(x), start(Rcpp::internal::r_vector_start<VECSXP>(object))
   {}
 
-  virtual SEXP get(const SlicingIndex& indices) {
+  virtual SEXP get(const RowwiseSlicingIndex& indices) {
     return start[ indices.group() ];
   }
   virtual SEXP get_variable() const {
@@ -59,7 +59,7 @@ private:
 };
 
 
-inline RowwiseSubset* rowwise_subset(SEXP x) {
+inline Subset<RowwiseSlicingIndex>* rowwise_subset(SEXP x) {
   switch (check_supported_type(x)) {
   case DPLYR_INTSXP:
     return new RowwiseSubsetTemplate<INTSXP>(x);

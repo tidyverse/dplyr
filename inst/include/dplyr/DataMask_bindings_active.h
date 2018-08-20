@@ -100,7 +100,7 @@ private:
       LOG_VERBOSE;
     }
 
-    const SlicingIndex& get_indices() const {
+    const Index& get_indices() const {
       return *indices;
     }
 
@@ -110,13 +110,13 @@ private:
     }
 
   public:
-    void set_indices(const SlicingIndex& indices_) {
+    void set_indices(const Index& indices_) {
       indices = &indices_;
     }
 
   private:
-    const SlicingIndex* indices;
-    const ILazySubsets& subsets;
+    const Index* indices;
+    const ILazySubsets<Data>& subsets;
 
     boost::shared_ptr<IHybridCallback> proxy;
 

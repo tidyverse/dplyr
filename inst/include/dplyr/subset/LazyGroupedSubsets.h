@@ -15,8 +15,9 @@
 namespace dplyr {
 
 template <class Data>
-class LazySplitSubsets : public ILazySubsets {
+class LazySplitSubsets : public ILazySubsets<Data> {
   typedef typename Data::subset subset;
+  typedef typename Data::slicing_index slicing_index;
 
 public:
   LazySplitSubsets(const Data& gdf_) :
@@ -64,7 +65,7 @@ public:
     return subsets[symbol_map.get(symbol)]->get_variable();
   }
 
-  virtual SEXP get(const SymbolString& symbol, const SlicingIndex& indices) const {
+  virtual SEXP get(const SymbolString& symbol, const slicing_index& indices) const {
     int idx = symbol_map.get(symbol);
 
     SEXP value = resolved[idx];
@@ -106,7 +107,7 @@ public:
   }
 
   void input_summarised(const SymbolString& symbol, SummarisedVariable x) {
-    input_subset(symbol, summarised_subset(x));
+    input_subset(symbol, summarised_subset<slicing_index>(x));
   }
 
 private:

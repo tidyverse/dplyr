@@ -30,7 +30,7 @@ class RowwiseDataFrame {
 public:
   typedef RowwiseDataFrameIndexIterator group_iterator;
   typedef RowwiseSlicingIndex slicing_index;
-  typedef RowwiseSubset subset;
+  typedef Subset<slicing_index> subset;
 
   RowwiseDataFrame(SEXP x):
     data_(x)

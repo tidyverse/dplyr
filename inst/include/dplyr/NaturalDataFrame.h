@@ -35,7 +35,7 @@ class NaturalDataFrame {
 public:
   typedef NaturalDataFrameIndexIterator group_iterator;
   typedef NaturalSlicingIndex slicing_index;
-  typedef NaturalSubset subset;
+  typedef Subset<slicing_index> subset;
 
   NaturalDataFrame(SEXP x):
     data_(x)
@@ -79,7 +79,7 @@ public:
     return false ;
   }
 
-  inline NaturalSubset* create_subset(SEXP x) const {
+  inline subset* create_subset(SEXP x) const {
     return natural_subset(x);
   }
 
