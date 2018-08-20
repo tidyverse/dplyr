@@ -1,4 +1,14 @@
-
+#' Inspect how dplyr evaluates an expression
+#'
+#' @param .data a tibble
+#' @param expr an expression
+#'
+#' @examples
+#' # hybrid evaulation
+#' hybrid_call(iris, n())
+#'
+#' # standard evaluation
+#' hybrid_call(iris, n() + 1L)
 #' @export
 hybrid_call <- function(.data, expr){
   UseMethod("hybrid_call")

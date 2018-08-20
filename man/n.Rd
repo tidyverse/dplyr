@@ -4,7 +4,7 @@
 \alias{n}
 \title{The number of observations in the current group.}
 \usage{
-n(...)
+n()
 }
 \description{
 This function is implemented specifically for each data source and can only
