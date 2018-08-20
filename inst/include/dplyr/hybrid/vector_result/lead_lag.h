@@ -4,7 +4,7 @@
 #include <dplyr/hybrid/HybridVectorVectorResult.h>
 #include <dplyr/hybrid/HybridVectorSummaryRecycleResult.h>
 #include <dplyr/hybrid/Column.h>
-#include <dplyr/default_value.h>
+#include <tools/default_value.h>
 
 #include <dplyr/visitors/SliceVisitor.h>
 

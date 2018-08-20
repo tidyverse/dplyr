@@ -3,7 +3,7 @@
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
 #include <dplyr/hybrid/Column.h>
-#include <dplyr/default_value.h>
+#include <tools/default_value.h>
 
 namespace dplyr {
 namespace hybrid {

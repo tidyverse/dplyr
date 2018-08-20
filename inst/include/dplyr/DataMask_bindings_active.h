@@ -19,7 +19,7 @@ public:
 };
 
 // in the general case (for grouped and rowwise), the bindings
-// environment contains promises of the subsets
+// environment contains active bindings of the subsets
 template <typename Data>
 class DataMask_bindings_active {
 public:

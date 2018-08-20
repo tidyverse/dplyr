@@ -21,7 +21,7 @@
 #include <dplyr/visitors/join/JoinVisitorImpl.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 #include <dplyr/visitors/order/Order.h>
-#include <dplyr/default_value.h>
+#include <tools/default_value.h>
 #include <dplyr/Collecter.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/train.h>

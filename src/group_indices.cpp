@@ -13,7 +13,7 @@
 
 #include <tools/match.h>
 #include <boost/shared_ptr.hpp>
-#include <dplyr/default_value.h>
+#include <tools/default_value.h>
 
 #include <dplyr/hybrid/scalar_result/n.h>
 
