@@ -8,7 +8,7 @@
 #include <dplyr/visitors/order/Order.h>
 #include <dplyr/train.h>
 
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 #include <dplyr/tbl_cpp.h>
 
 #include <tools/match.h>

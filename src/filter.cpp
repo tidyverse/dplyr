@@ -11,7 +11,7 @@
 
 #include <dplyr/subset/LazyGroupedSubsets.h>
 
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/DataMask.h>
 

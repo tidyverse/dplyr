@@ -15,7 +15,7 @@
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 #include <dplyr/visitors/subset/subset_visitor.h>
 
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 

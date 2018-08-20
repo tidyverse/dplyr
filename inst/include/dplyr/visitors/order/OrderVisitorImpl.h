@@ -9,7 +9,7 @@
 #include <dplyr/visitors/order/OrderVisitor.h>
 #include <dplyr/visitors/vector/DataFrameVisitors.h>
 #include <dplyr/visitors/vector/MatrixColumnVisitor.h>
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 

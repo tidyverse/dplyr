@@ -10,7 +10,7 @@
 
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/Collecter.h>
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 #include <dplyr/tbl_cpp.h>
 
 using namespace Rcpp;

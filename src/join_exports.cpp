@@ -13,7 +13,7 @@
 
 #include <dplyr/train.h>
 
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 using namespace Rcpp;
 using namespace dplyr;

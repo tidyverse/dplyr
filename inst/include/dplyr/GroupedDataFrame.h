@@ -8,8 +8,7 @@
 
 #include <tools/SymbolVector.h>
 #include <tools/SymbolMap.h>
-
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 

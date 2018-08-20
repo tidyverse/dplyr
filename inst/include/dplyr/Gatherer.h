@@ -10,7 +10,7 @@
 #include <tools/vector_class.h>
 #include <dplyr/checks.h>
 #include <dplyr/Collecter.h>
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 

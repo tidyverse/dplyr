@@ -2,7 +2,7 @@
 #define dplyr_checks_H
 
 #include <tools/SymbolString.h>
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 

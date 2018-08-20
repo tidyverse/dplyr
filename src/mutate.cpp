@@ -16,7 +16,7 @@
 #include <dplyr/DataMask.h>
 #include <dplyr/NamedListAccumulator.h>
 
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 #include <dplyr/tbl_cpp.h>
 
 #include <dplyr/hybrid/hybrid.h>

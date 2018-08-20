@@ -6,7 +6,7 @@
 #include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 #include <dplyr/visitors/subset/DataFrameColumnSubsetVisitor.h>
 #include <dplyr/visitors/subset/MatrixColumnSubsetVectorVisitor.h>
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 

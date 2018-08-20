@@ -6,7 +6,7 @@
 
 #include <tools/all_na.h>
 
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 #include <dplyr/DataMask.h>
 
 #include <tools/hash.h>
