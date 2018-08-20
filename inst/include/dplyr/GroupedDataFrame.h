@@ -4,7 +4,7 @@
 #include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/subset/GroupedSubset.h>
+#include <dplyr/subset/get_subset.h>
 
 #include <tools/SymbolVector.h>
 #include <tools/SymbolMap.h>
@@ -77,7 +77,7 @@ public:
   }
 
   inline subset* create_subset(SEXP x) const {
-    return grouped_subset(x);
+    return get_subset<slicing_index>(x);
   }
 
   inline List indices() const {

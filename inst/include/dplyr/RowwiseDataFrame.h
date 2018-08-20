@@ -3,7 +3,7 @@
 
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/subset/RowwiseSubset.h>
+#include <dplyr/subset/get_subset.h>
 #include <tools/SymbolString.h>
 
 namespace dplyr {
@@ -71,7 +71,7 @@ public:
   }
 
   inline subset* create_subset(SEXP x) const {
-    return rowwise_subset(x);
+    return get_subset<slicing_index>(x);
   }
 
   inline SymbolVector get_vars() const {

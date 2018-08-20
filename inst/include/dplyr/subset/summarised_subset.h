@@ -3,7 +3,7 @@
 
 #include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/SummarisedVariable.h>
-#include <dplyr/subset/GroupedSubsetBase.h>
+#include <dplyr/subset/Subset.h>
 
 namespace dplyr {
 
@@ -35,10 +35,10 @@ private:
 };
 
 template <typename Index>
-class SummarisedSubsetTemplate<VECSXP,Index> : public Subset<Index> {
+class SummarisedSubsetTemplate<VECSXP, Index> : public Subset<Index> {
 public:
   SummarisedSubsetTemplate(SummarisedVariable x) :
-  object(x), output(1)
+    object(x), output(1)
   {
     copy_most_attributes(output, object);
   }
