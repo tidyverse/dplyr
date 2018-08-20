@@ -14,11 +14,9 @@
 #include <dplyr/JoinVisitor.h>
 
 #include <dplyr/DataFrameJoinVisitors.h>
-#include <dplyr/SubsetVectorVisitor.h>
-#include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/visitors/subset/subset_visitor.h>
 
 #include <dplyr/bad.h>
-
 
 namespace dplyr {
 

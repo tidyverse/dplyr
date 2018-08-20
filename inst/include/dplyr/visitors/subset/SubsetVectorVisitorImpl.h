@@ -5,7 +5,7 @@
 #include <tools/utils.h>
 
 #include <dplyr/VectorVisitorImpl.h>
-#include <dplyr/SubsetVectorVisitor.h>
+#include <dplyr/visitors/subset/SubsetVectorVisitor.h>
 
 namespace dplyr {
 

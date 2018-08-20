@@ -14,9 +14,7 @@
 #include <dplyr/comparisons.h>
 #include <dplyr/join_match.h>
 #include <dplyr/MultipleVectorVisitors.h>
-#include <dplyr/DataFrameSubsetVisitors.h>
-#include <dplyr/subset_visitor.h>
-#include <dplyr/subset_visitor_impl.h>
+#include <dplyr/visitors/subset/subset_visitor.h>
 #include <dplyr/visitor.h>
 #include <dplyr/visitor_impl.h>
 #include <dplyr/OrderVisitorImpl.h>

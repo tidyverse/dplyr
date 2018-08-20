@@ -51,6 +51,8 @@ public:
 
 };
 
+inline SubsetVectorVisitor* subset_visitor(SEXP vec, const SymbolString& name);
+
 } // namespace dplyr
 
 

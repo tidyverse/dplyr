@@ -2,7 +2,7 @@
 #include <dplyr/main.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
-#include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/visitors/subset/subset_visitor.h>
 
 #include <dplyr/MultipleVectorVisitors.h>
 #include <dplyr/hybrid/scalar_result/n_distinct.h>

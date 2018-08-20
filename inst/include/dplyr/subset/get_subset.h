@@ -1,9 +1,10 @@
 #ifndef dplyr_GroupedSubset_H
 #define dplyr_GroupedSubset_H
 
-#include <dplyr/DataFrameSubsetVisitors.h>
+#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 #include <dplyr/SummarisedVariable.h>
 #include <dplyr/subset/Subset.h>
+#include <tools/utils.h>
 
 namespace dplyr {
 

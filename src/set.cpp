@@ -11,12 +11,13 @@
 
 #include <dplyr/BoolResult.h>
 
-#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/JoinVisitor.h>
 #include <dplyr/DataFrameJoinVisitors.h>
 
 #include <dplyr/train.h>
 #include <dplyr/GroupedDataFrame.h>
+
+#include <dplyr/visitors/subset/subset_visitor.h>
 
 using namespace Rcpp;
 using namespace dplyr;

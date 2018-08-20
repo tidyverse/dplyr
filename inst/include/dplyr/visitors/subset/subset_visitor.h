@@ -1,10 +1,11 @@
 #ifndef dplyr_subset_visitor_impl_H
 #define dplyr_subset_visitor_impl_H
 
-#include <dplyr/SubsetVectorVisitorImpl.h>
-#include <dplyr/DataFrameSubsetVisitors.h>
-#include <dplyr/DataFrameColumnSubsetVisitor.h>
-#include <dplyr/MatrixColumnSubsetVectorVisitor.h>
+#include <dplyr/visitors/subset/SubsetVectorVisitor.h>
+#include <dplyr/visitors/subset/SubsetVectorVisitorImpl.h>
+#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
+#include <dplyr/visitors/subset/DataFrameColumnSubsetVisitor.h>
+#include <dplyr/visitors/subset/MatrixColumnSubsetVectorVisitor.h>
 #include <dplyr/bad.h>
 
 namespace dplyr {

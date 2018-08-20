@@ -6,6 +6,7 @@
 
 #include <dplyr/registration.h>
 #include <dplyr/vector_class.h>
+#include <tools/collapse.h>
 
 namespace dplyr {
 

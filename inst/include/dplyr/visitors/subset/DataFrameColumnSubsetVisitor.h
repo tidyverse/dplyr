@@ -1,7 +1,8 @@
 #ifndef dplyr_DataFrameColumnSubsetVisitors_H
 #define dplyr_DataFrameColumnSubsetVisitors_H
 
-#include <dplyr/SubsetVectorVisitor.h>
+#include <dplyr/visitors/subset/SubsetVectorVisitor.h>
+#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 
 namespace dplyr {
 

@@ -1,8 +1,7 @@
 #ifndef dplyr_DataFrameSubsetVisitors_H
 #define dplyr_DataFrameSubsetVisitors_H
 
-#include <dplyr/subset_visitor.h>
-
+#include <dplyr/visitors/subset/SubsetVectorVisitor.h>
 #include <tools/pointer_vector.h>
 #include <tools/SymbolVector.h>
 
@@ -72,7 +71,5 @@ DataFrame subset(DataFrame df, const Index& indices, CharacterVector classes) {
 }
 
 } // namespace dplyr
-
-#include <dplyr/subset_visitor_impl.h>
 
 #endif
