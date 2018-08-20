@@ -12,12 +12,12 @@
 
 #include <dplyr/subset/LazyGroupedSubsets.h>
 
-#include <dplyr/Gatherer.h>
+#include <dplyr/standard/Gatherer.h>
 #include <dplyr/DataMask.h>
 #include <dplyr/NamedListAccumulator.h>
 
 #include <tools/bad.h>
-#include <dplyr/tbl_cpp.h>
+#include <tools/set_rownames.h>
 
 #include <dplyr/hybrid/hybrid.h>
 

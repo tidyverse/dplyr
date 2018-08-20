@@ -4,17 +4,15 @@
 #include <boost/scoped_ptr.hpp>
 
 #include <tools/Quosure.h>
+#include <tools/set_rownames.h>
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
+#include <dplyr/data/tbl_classes.h>
 
 #include <dplyr/GroupedCallReducer.h>
-
-#include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
-
-#include <dplyr/tbl_cpp.h>
 
 #include <dplyr/hybrid/hybrid.h>
 
@@ -90,14 +88,14 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVe
   names[nv - 1] = ".rows";
 
   set_rownames(out, new_indices.size());
-  set_class(out, classes_not_grouped());
+  set_class(out, tbl_classes<NaturalDataFrame>());
   out.attr("names") = names;
   return out ;
 }
 
 template <typename SlicedTibble>
 void structure_summarise(List& out, const SlicedTibble& df) {
-  set_class(out, classes_not_grouped());
+  set_class(out, tbl_classes<NaturalDataFrame>());
 }
 
 template <>
@@ -128,7 +126,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
   } else {
     // clear groups and reset to non grouped classes
     GroupedDataFrame::strip_groups(out);
-    out.attr("class") = classes_not_grouped();
+    out.attr("class") = tbl_classes<NaturalDataFrame>();
   }
 }
 

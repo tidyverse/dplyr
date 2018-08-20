@@ -8,10 +8,11 @@
 #include <tools/pointer_vector.h>
 #include <tools/utils.h>
 
+#include <dplyr/data/tbl_classes.h>
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/Collecter.h>
 #include <tools/bad.h>
-#include <dplyr/tbl_cpp.h>
+#include <tools/set_rownames.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -318,10 +319,10 @@ List rbind__impl(List dots, const SymbolString& id) {
         out = GroupedDataFrame(out, GroupedDataFrame(first)).data();
       }
     } else {
-      set_class(out, classes_not_grouped());
+      set_class(out, tbl_classes<NaturalDataFrame>());
     }
   } else {
-    set_class(out, classes_not_grouped());
+    set_class(out, tbl_classes<NaturalDataFrame>());
   }
 
   return out;
@@ -403,7 +404,7 @@ List cbind_all(List dots) {
   if (Rf_inherits(first, "data.frame")) {
     copy_most_attributes(out, first);
   } else {
-    set_class(out, classes_not_grouped());
+    set_class(out, tbl_classes<NaturalDataFrame>());
   }
 
   out.names() = out_names;

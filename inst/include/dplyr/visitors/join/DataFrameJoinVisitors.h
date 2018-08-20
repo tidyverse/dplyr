@@ -2,13 +2,13 @@
 #define dplyr_DataFrameJoinVisitors_H
 
 #include <tools/pointer_vector.h>
+#include <tools/set_rownames.h>
 
 #include <dplyr/visitor_set/VisitorSetEqual.h>
 #include <dplyr/visitor_set/VisitorSetHash.h>
 #include <dplyr/visitor_set/VisitorSetLess.h>
 #include <dplyr/visitor_set/VisitorSetGreater.h>
 
-#include <dplyr/tbl_cpp.h>
 #include <dplyr/visitors/join/JoinVisitor.h>
 
 namespace dplyr {

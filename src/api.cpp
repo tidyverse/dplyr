@@ -8,7 +8,7 @@
 
 #include <dplyr/visitors/CharacterVectorOrderer.h>
 
-#include <dplyr/tbl_cpp.h>
+#include <tools/set_rownames.h>
 #include <dplyr/visitors/vector/visitor_impl.h>
 
 #include <dplyr/visitors/join/JoinVisitor.h>

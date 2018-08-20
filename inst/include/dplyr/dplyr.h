@@ -9,7 +9,7 @@
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/RowwiseDataFrame.h>
 
-#include <dplyr/tbl_cpp.h>
+#include <tools/set_rownames.h>
 #include <dplyr/comparisons.h>
 #include <dplyr/visitors/join/join_match.h>
 #include <dplyr/visitors/vector/MultipleVectorVisitors.h>
