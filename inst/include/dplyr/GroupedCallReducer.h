@@ -107,8 +107,8 @@ public:
     // (we don't care about the unnecessary copy in the failure case)
     if (!try_handle(chunk)) {
       stop("cannot handle result of type %i in promotion for column '%s'",
-        chunk.sexp_type(), name.get_utf8_cstring()
-      );
+           chunk.sexp_type(), name.get_utf8_cstring()
+          );
     }
   }
 
@@ -188,7 +188,7 @@ private:
 public:
 
   FactorDelayedProcessor(SEXP first_result, int ngroups, const SymbolString& name_) :
-  res(no_init(ngroups)), pos(0), name(name_)
+    res(no_init(ngroups)), pos(0), name(name_)
   {
     copy_most_attributes(res, first_result);
     CharacterVector levels = get_levels(first_result);
@@ -252,7 +252,7 @@ template <typename CLASS>
 class DelayedProcessor<VECSXP, CLASS> : public IDelayedProcessor {
 public:
   DelayedProcessor(SEXP first_result, int ngroups, const SymbolString& name_) :
-  res(ngroups), pos(0), name(name_)
+    res(ngroups), pos(0), name(name_)
   {
     copy_most_attributes(res, first_result);
     if (!try_handle(first_result))
