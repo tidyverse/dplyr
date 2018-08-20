@@ -7,8 +7,6 @@
 #include <dplyr/data/RowwiseDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
 
-#include <dplyr/SummarisedVariable.h>
-
 #include <dplyr/subset/ILazySubsets.h>
 #include <dplyr/subset/get_subset.h>
 #include <dplyr/subset/summarised_subset.h>
@@ -107,7 +105,7 @@ public:
     }
   }
 
-  void input_summarised(const SymbolString& symbol, SummarisedVariable x) {
+  void input_summarised(const SymbolString& symbol, SEXP x) {
     input_subset(symbol, summarised_subset<slicing_index>(x));
   }
 

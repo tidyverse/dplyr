@@ -1,7 +1,6 @@
 #ifndef dplyr_summarised_subset_H
 #define dplyr_summarised_subset_H
 
-#include <dplyr/SummarisedVariable.h>
 #include <dplyr/subset/Subset.h>
 
 namespace dplyr {
@@ -11,7 +10,7 @@ class SummarisedSubsetTemplate : public Subset<Index> {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  SummarisedSubsetTemplate(SummarisedVariable x) :
+  SummarisedSubsetTemplate(SEXP x) :
     object(x), output(1)
   {
     copy_most_attributes(output, object);
@@ -36,14 +35,14 @@ private:
 template <typename Index>
 class SummarisedSubsetTemplate<VECSXP, Index> : public Subset<Index> {
 public:
-  SummarisedSubsetTemplate(SummarisedVariable x) :
+  SummarisedSubsetTemplate(SEXP x) :
     object(x), output(1)
   {
     copy_most_attributes(output, object);
   }
 
   virtual SEXP get(const Index& indices) {
-    return List::create(object[indices.group()]);
+    return Rcpp::List::create(object[indices.group()]);
   }
   virtual SEXP get_variable() const {
     return object;
@@ -53,12 +52,12 @@ public:
   }
 
 private:
-  List object;
-  List output;
+  Rcpp::List object;
+  Rcpp::List output;
 };
 
 template <typename Index>
-inline Subset<Index>* summarised_subset(SummarisedVariable x) {
+inline Subset<Index>* summarised_subset(SEXP x) {
   switch (TYPEOF(x)) {
   case LGLSXP:
     return new SummarisedSubsetTemplate<LGLSXP, Index>(x);
@@ -77,7 +76,7 @@ inline Subset<Index>* summarised_subset(SummarisedVariable x) {
   default:
     break;
   }
-  stop("is of unsupported type %s", Rf_type2char(TYPEOF(x)));
+  Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(x)));
 }
 }
 

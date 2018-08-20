@@ -186,7 +186,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
     results[i] = result;
     accumulator.set(quosure.name(), result);
-    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
+    subsets.input_summarised(quosure.name(), result);
   }
 
   List out = accumulator;

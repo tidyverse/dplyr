@@ -2,7 +2,6 @@
 #define dplyr_GroupedSubset_H
 
 #include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
-#include <dplyr/SummarisedVariable.h>
 #include <dplyr/subset/Subset.h>
 #include <tools/utils.h>
 
