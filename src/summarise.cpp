@@ -10,7 +10,7 @@
 #include <dplyr/data/NaturalDataFrame.h>
 #include <dplyr/data/tbl_classes.h>
 
-#include <dplyr/GroupedCallReducer.h>
+#include <dplyr/standard/GroupedCallReducer.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 
