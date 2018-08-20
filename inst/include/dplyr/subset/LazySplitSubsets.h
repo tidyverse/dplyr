@@ -133,9 +133,5 @@ private:
   }
 };
 
-typedef LazySplitSubsets<GroupedDataFrame> LazyGroupedSubsets;
-typedef LazySplitSubsets<RowwiseDataFrame> LazyRowwiseSubsets;
-typedef LazySplitSubsets<NaturalDataFrame> LazyNaturalSubsets;
-
 }
 #endif
