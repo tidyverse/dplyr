@@ -13,8 +13,7 @@
 #include <dplyr/subset/LazyGroupedSubsets.h>
 
 #include <dplyr/Gatherer.h>
-#include <dplyr/ConstantRecycler.h>
-#include <dplyr/DataMask.h>
+include <dplyr/DataMask.h>
 #include <dplyr/NamedListAccumulator.h>
 
 #include <dplyr/bad.h>
@@ -37,6 +36,28 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 }
 
 namespace dplyr {
+namespace internal{
+
+template <int RTYPE>
+class ConstantRecycler {
+public:
+  ConstantRecycler(SEXP constant_, int n_) :
+  constant(constant_),
+  n(n_)
+  {}
+
+  inline SEXP collect() {
+    Rcpp::Vector<RTYPE> result(n, Rcpp::internal::r_vector_start<RTYPE>(constant)[0]);
+    copy_most_attributes(result, constant);
+    return result;
+  }
+
+private:
+  SEXP constant;
+  int n ;
+};
+
+}
 
 inline SEXP constant_recycle(SEXP x, int n, const SymbolString& name) {
   if (Rf_inherits(x, "POSIXlt")) {
@@ -44,19 +65,19 @@ inline SEXP constant_recycle(SEXP x, int n, const SymbolString& name) {
   }
   switch (TYPEOF(x)) {
   case INTSXP:
-    return ConstantRecycler<INTSXP>(x, n).collect();
+    return internal::ConstantRecycler<INTSXP>(x, n).collect();
   case REALSXP:
-    return ConstantRecycler<REALSXP>(x, n).collect();
+    return internal::ConstantRecycler<REALSXP>(x, n).collect();
   case LGLSXP:
-    return ConstantRecycler<LGLSXP>(x, n).collect();
+    return internal::ConstantRecycler<LGLSXP>(x, n).collect();
   case STRSXP:
-    return ConstantRecycler<STRSXP>(x, n).collect();
+    return internal::ConstantRecycler<STRSXP>(x, n).collect();
   case CPLXSXP:
-    return ConstantRecycler<CPLXSXP>(x, n).collect();
+    return internal::ConstantRecycler<CPLXSXP>(x, n).collect();
   case VECSXP:
-    return ConstantRecycler<VECSXP>(x, n).collect();
+    return internal::ConstantRecycler<VECSXP>(x, n).collect();
   case RAWSXP:
-    return ConstantRecycler<RAWSXP>(x, n).collect();
+    return internal::ConstantRecycler<RAWSXP>(x, n).collect();
   default:
     break;
   }
