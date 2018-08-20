@@ -2,7 +2,7 @@
 #define dplyr_dplyr_main_H
 
 #include <Rcpp.h>
-#include <dplyr/workarounds.h>
+#include <dplyr/workarounds/installChar.h>
 #include <dplyr/workarounds/static_assert.h>
 #include <dplyr/workarounds/xlen.h>
 #include <solaris/solaris.h>

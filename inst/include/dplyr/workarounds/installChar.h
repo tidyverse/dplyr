@@ -1,5 +1,5 @@
-#ifndef DPLYR_WORKAROUND_H
-#define DPLYR_WORKAROUND_H
+#ifndef DPLYR_WORKAROUNDS_INSTALLCHAR_H
+#define DPLYR_WORKAROUNDS_INSTALLCHAR_H
 
 // installChar was introduced in R 3.2.0
 #ifndef installChar
