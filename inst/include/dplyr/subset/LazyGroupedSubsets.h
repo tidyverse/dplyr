@@ -11,6 +11,7 @@
 
 #include <dplyr/subset/GroupedSubset.h>
 #include <dplyr/subset/ILazySubsets.h>
+#include <dplyr/subset/summarised_subset.h>
 
 namespace dplyr {
 
