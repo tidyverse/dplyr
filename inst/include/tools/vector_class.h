@@ -31,7 +31,6 @@ inline std::string vector_class<CPLXSXP>() {
   return "complex";
 }
 
-
 }
 
 #endif

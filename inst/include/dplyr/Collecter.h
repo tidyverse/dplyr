@@ -5,7 +5,7 @@
 #include <tools/hash.h>
 
 #include <dplyr/registration.h>
-#include <dplyr/vector_class.h>
+#include <tools/vector_class.h>
 #include <tools/collapse.h>
 
 namespace dplyr {
