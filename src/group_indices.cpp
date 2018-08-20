@@ -6,7 +6,7 @@
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
 #include <dplyr/visitors/order/Order.h>
-#include <dplyr/train.h>
+#include <tools/train.h>
 
 #include <tools/bad.h>
 #include <dplyr/tbl_cpp.h>

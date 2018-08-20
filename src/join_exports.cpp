@@ -11,8 +11,7 @@
 #include <dplyr/GroupedDataFrame.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
-#include <dplyr/train.h>
-
+#include <tools/train.h>
 #include <tools/bad.h>
 
 using namespace Rcpp;
