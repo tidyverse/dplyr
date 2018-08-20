@@ -4,7 +4,6 @@
 #include <Rcpp.h>
 #include <tools/utils.h>
 #include <dplyr/subset/LazyGroupedSubsets.h>
-// #include <dplyr/DataMask_bindings_promises.h>
 #include <dplyr/DataMask_bindings_active.h>
 
 namespace dplyr {
