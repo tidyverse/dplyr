@@ -1,7 +1,6 @@
 #ifndef dplyr_summarised_subset_H
 #define dplyr_summarised_subset_H
 
-#include <dplyr/DataFrameSubsetVisitors.h>
 #include <dplyr/SummarisedVariable.h>
 #include <dplyr/subset/Subset.h>
 
