@@ -3,9 +3,9 @@
 
 #include <tools/SymbolMap.h>
 
-#include <dplyr/GroupedDataFrame.h>
-#include <dplyr/RowwiseDataFrame.h>
-#include <dplyr/NaturalDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/RowwiseDataFrame.h>
+#include <dplyr/data/NaturalDataFrame.h>
 
 #include <dplyr/SummarisedVariable.h>
 

@@ -6,8 +6,8 @@
 #include <tools/utils.h>
 #include <tools/SymbolString.h>
 
-#include <dplyr/GroupedDataFrame.h>
-#include <dplyr/NaturalDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/NaturalDataFrame.h>
 
 #include <dplyr/subset/LazyGroupedSubsets.h>
 

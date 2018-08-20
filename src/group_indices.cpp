@@ -2,7 +2,7 @@
 #include <dplyr/main.h>
 #include <dplyr/white_list.h>
 
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
 #include <dplyr/visitors/order/Order.h>

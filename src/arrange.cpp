@@ -5,7 +5,7 @@
 
 #include <dplyr/white_list.h>
 
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
 
 #include <dplyr/visitors/order/Order.h>
 #include <dplyr/Groups.h>

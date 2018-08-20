@@ -5,8 +5,8 @@
 
 #include <tools/Quosure.h>
 
-#include <dplyr/GroupedDataFrame.h>
-#include <dplyr/NaturalDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/NaturalDataFrame.h>
 
 #include <dplyr/GroupedCallReducer.h>
 

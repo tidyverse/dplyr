@@ -5,7 +5,7 @@
 #include <dplyr/white_list.h>
 #include <tools/collapse.h>
 #include <tools/bad.h>
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
 
 using namespace Rcpp;
 

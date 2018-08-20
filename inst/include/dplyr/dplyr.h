@@ -6,8 +6,8 @@
 #include <dplyr/checks.h>
 #include <dplyr/visitor_set/visitor_set.h>
 #include <tools/BoolResult.h>
-#include <dplyr/GroupedDataFrame.h>
-#include <dplyr/RowwiseDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/RowwiseDataFrame.h>
 
 #include <dplyr/tbl_cpp.h>
 #include <dplyr/comparisons.h>

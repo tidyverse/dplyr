@@ -8,7 +8,7 @@
 #include <tools/pointer_vector.h>
 #include <tools/utils.h>
 
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/Collecter.h>
 #include <tools/bad.h>
 #include <dplyr/tbl_cpp.h>
