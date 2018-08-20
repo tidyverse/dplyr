@@ -10,7 +10,10 @@
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
+#include <dplyr/visitors/join/Column.h>
 #include <dplyr/visitors/join/JoinVisitor.h>
+#include <dplyr/visitors/join/JoinVisitorImpl.h>
+
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
 #include <tools/train.h>

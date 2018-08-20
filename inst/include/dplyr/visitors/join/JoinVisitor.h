@@ -1,7 +1,6 @@
 #ifndef dplyr_JoinVisitor_H
 #define dplyr_JoinVisitor_H
 
-#include <dplyr/Column.h>
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
 
 namespace dplyr {
@@ -19,8 +18,6 @@ public:
   virtual SEXP subset(const VisitorSetIndexSet<DataFrameJoinVisitors>& set) = 0;
 
 };
-
-JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn, bool accept_na_match = true);
 
 }
 

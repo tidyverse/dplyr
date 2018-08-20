@@ -12,6 +12,7 @@
 #include <dplyr/visitors/vector/visitor_impl.h>
 
 #include <dplyr/visitors/join/JoinVisitor.h>
+#include <dplyr/visitors/join/JoinVisitorImpl.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 #include <dplyr/visitors/subset/subset_visitor.h>
 

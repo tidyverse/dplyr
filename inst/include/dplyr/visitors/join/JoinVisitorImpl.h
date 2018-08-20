@@ -6,9 +6,11 @@
 
 #include <dplyr/visitors/join/join_match.h>
 #include <dplyr/visitors/join/JoinVisitor.h>
-#include <dplyr/Column.h>
+#include <dplyr/visitors/join/Column.h>
 
 namespace dplyr {
+
+JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn, bool accept_na_match = true);
 
 CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& right);
 

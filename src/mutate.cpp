@@ -36,14 +36,14 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 }
 
 namespace dplyr {
-namespace internal{
+namespace internal {
 
 template <int RTYPE>
 class ConstantRecycler {
 public:
   ConstantRecycler(SEXP constant_, int n_) :
-  constant(constant_),
-  n(n_)
+    constant(constant_),
+    n(n_)
   {}
 
   inline SEXP collect() {
