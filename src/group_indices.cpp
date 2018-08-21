@@ -1,6 +1,6 @@
 #include "pch.h"
 #include <dplyr/main.h>
-#include <dplyr/white_list.h>
+#include <dplyr/allow_list.h>
 
 #include <dplyr/data/tbl_classes.h>
 #include <dplyr/data/GroupedDataFrame.h>
@@ -437,7 +437,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
     visited_data[i] = v;
     groups_names[i] = names[pos - 1];
 
-    if (!white_list(v) || TYPEOF(v) == VECSXP) {
+    if (!allow_list(v) || TYPEOF(v) == VECSXP) {
       bad_col(vars[i], "can't be used as a grouping variable because it's a {type}",
               _["type"] = get_single_class(v));
     }
@@ -560,7 +560,7 @@ SymbolVector GroupedDataFrame::group_vars(SEXP x) {
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
-  assert_all_white_list(data);
+  assert_all_allow_list(data);
   DataFrame copy(shallow_copy(data));
   set_class(copy, tbl_classes<GroupedDataFrame>());
   if (!symbols.size())

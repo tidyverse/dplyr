@@ -196,8 +196,8 @@ check_valid_names <- function(names, warn_only = FALSE) {
     invisible(.Call(`_dplyr_check_valid_names`, names, warn_only))
 }
 
-assert_all_white_list <- function(data) {
-    invisible(.Call(`_dplyr_assert_all_white_list`, data))
+assert_all_allow_list <- function(data) {
+    invisible(.Call(`_dplyr_assert_all_allow_list`, data))
 }
 
 is_data_pronoun <- function(expr) {

@@ -5,7 +5,7 @@
 
 void check_valid_colnames(const DataFrame& df, bool warn_only = false);
 void check_range_one_based(int x, int max);
-void assert_all_white_list(const DataFrame&);
+void assert_all_allow_list(const DataFrame&);
 SEXP shared_SEXP(SEXP x);
 SEXP shallow_copy(const List& data);
 SEXP pairlist_shallow_copy(SEXP p);

@@ -2,7 +2,7 @@
 #define dplyr_dplyr_dplyr_H
 
 #include <dplyr/registration.h>
-#include <dplyr/white_list.h>
+#include <dplyr/allow_list.h>
 #include <dplyr/checks.h>
 #include <dplyr/visitor_set/visitor_set.h>
 #include <tools/BoolResult.h>

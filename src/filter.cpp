@@ -431,7 +431,7 @@ SEXP filter_impl(DataFrame df, NamedQuosure quo) {
     return df;
   }
   check_valid_colnames(df);
-  assert_all_white_list(df);
+  assert_all_allow_list(df);
 
   if (is<GroupedDataFrame>(df)) {
     return filter_template<GroupedDataFrame>(GroupedDataFrame(df), quo);

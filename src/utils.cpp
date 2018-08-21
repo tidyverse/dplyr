@@ -2,7 +2,7 @@
 #include <dplyr/main.h>
 
 #include <tools/utils.h>
-#include <dplyr/white_list.h>
+#include <dplyr/allow_list.h>
 #include <tools/collapse.h>
 #include <tools/bad.h>
 #include <dplyr/data/GroupedDataFrame.h>
@@ -54,11 +54,11 @@ void check_range_one_based(int x, int max) {
 }
 
 // [[Rcpp::export]]
-void assert_all_white_list(const DataFrame& data) {
-  // checking variables are on the white list
+void assert_all_allow_list(const DataFrame& data) {
+  // checking variables are on the allow list
   int nc = data.size();
   for (int i = 0; i < nc; i++) {
-    if (!white_list(data[i])) {
+    if (!allow_list(data[i])) {
       SymbolVector names = data.names();
       const SymbolString& name_i = names[i];
       SEXP v = data[i];

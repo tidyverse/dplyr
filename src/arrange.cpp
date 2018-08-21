@@ -3,7 +3,7 @@
 
 #include <tools/Quosure.h>
 
-#include <dplyr/white_list.h>
+#include <dplyr/allow_list.h>
 
 #include <dplyr/data/GroupedDataFrame.h>
 
@@ -31,7 +31,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
     return data;
 
   check_valid_colnames(data);
-  assert_all_white_list(data);
+  assert_all_allow_list(data);
   List variables(nargs);
   LogicalVector ascending(nargs);
 
@@ -47,7 +47,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
 
     DataMask<NaturalDataFrame> data_mask(subsets, env);
     Shield<SEXP> v(data_mask.eval(expr, indices_all));
-    if (!white_list(v)) {
+    if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
     }
 

@@ -607,13 +607,13 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// assert_all_white_list
-void assert_all_white_list(const DataFrame& data);
-RcppExport SEXP _dplyr_assert_all_white_list(SEXP dataSEXP) {
+// assert_all_allow_list
+void assert_all_allow_list(const DataFrame& data);
+RcppExport SEXP _dplyr_assert_all_allow_list(SEXP dataSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP);
-    assert_all_white_list(data);
+    assert_all_allow_list(data);
     return R_NilValue;
 END_RCPP
 }
@@ -771,7 +771,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
-    {"_dplyr_assert_all_white_list", (DL_FUNC) &_dplyr_assert_all_white_list, 1},
+    {"_dplyr_assert_all_allow_list", (DL_FUNC) &_dplyr_assert_all_allow_list, 1},
     {"_dplyr_is_data_pronoun", (DL_FUNC) &_dplyr_is_data_pronoun, 1},
     {"_dplyr_is_variable_reference", (DL_FUNC) &_dplyr_is_variable_reference, 1},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},

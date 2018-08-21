@@ -1,9 +1,9 @@
-#ifndef dplyr_white_list_H
-#define dplyr_white_list_H
+#ifndef dplyr_allow_list_H
+#define dplyr_allow_list_H
 
 namespace dplyr {
 
-inline bool white_list(SEXP x) {
+inline bool allow_list(SEXP x) {
   if (Rf_isMatrix(x)) {
     // might have to refine later
     return true;
@@ -34,4 +34,3 @@ inline bool white_list(SEXP x) {
 
 }
 #endif
-
