@@ -51,10 +51,6 @@ public:
     return data.nrow();
   }
 
-  inline std::string get_r_type() const {
-    return "matrix";
-  }
-
 private:
 
   template <typename Container>

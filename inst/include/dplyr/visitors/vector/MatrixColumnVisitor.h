@@ -102,10 +102,6 @@ public:
     return data.nrow();
   }
 
-  inline std::string get_r_type() const {
-    return "matrix";
-  }
-
   bool is_na(int) const {
     return false;
   }
@@ -149,10 +145,6 @@ public:
 
   inline int size() const {
     return n;
-  }
-
-  inline std::string get_r_type() const {
-    return "matrix";
   }
 
   bool is_na(int) const {

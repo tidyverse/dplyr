@@ -53,10 +53,6 @@ public:
     return out;
   }
 
-  inline std::string get_r_type() const {
-    return VectorVisitorType<RTYPE>();
-  }
-
   inline int size() const {
     return vec.size();
   }
@@ -104,10 +100,6 @@ public:
 
   inline SEXP subset(EmptySubset empty) const {
     return promote(Parent::subset(empty));
-  }
-
-  inline std::string get_r_type() const {
-    return get_single_class(Parent::vec);
   }
 
 private:
@@ -170,10 +162,6 @@ public:
 
   virtual int size() const {
     return impl->size();
-  }
-
-  virtual std::string get_r_type() const {
-    return impl->get_r_type();
   }
 
 private:

@@ -33,10 +33,6 @@ public:
     return visitors.nrows();
   }
 
-  virtual std::string get_r_type() const {
-    return "data.frame";
-  }
-
   bool is_na(int) const {
     return false;
   }

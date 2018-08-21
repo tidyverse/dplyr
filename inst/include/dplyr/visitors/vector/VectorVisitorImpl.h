@@ -11,29 +11,6 @@
 
 namespace dplyr {
 
-template <int RTYPE> std::string VectorVisitorType();
-template <> inline std::string VectorVisitorType<INTSXP>() {
-  return "integer";
-}
-template <> inline std::string VectorVisitorType<REALSXP>() {
-  return "numeric";
-}
-template <> inline std::string VectorVisitorType<LGLSXP>() {
-  return "logical";
-}
-template <> inline std::string VectorVisitorType<STRSXP>() {
-  return "character";
-}
-template <> inline std::string VectorVisitorType<CPLXSXP>() {
-  return "complex";
-}
-template <> inline std::string VectorVisitorType<VECSXP>() {
-  return "list";
-}
-template <> inline std::string VectorVisitorType<RAWSXP>() {
-  return "raw";
-}
-
 /**
  * Implementations
  */
@@ -78,10 +55,6 @@ public:
     return compare::is_greater(vec[i], vec[j]);
   }
 
-  inline std::string get_r_type() const {
-    return VectorVisitorType<RTYPE>();
-  }
-
   int size() const {
     return vec.size();
   }
@@ -123,10 +96,6 @@ public:
 
   inline bool greater(int i, int j) const {
     return false;
-  }
-
-  inline std::string get_r_type() const {
-    return VectorVisitorType<RTYPE>();
   }
 
   int size() const {
@@ -176,10 +145,6 @@ public:
       );
   }
 
-  inline std::string get_r_type() const {
-    return get_single_class(Parent::vec);
-  }
-
 private:
   CharacterVector levels;
   SEXP* levels_ptr;
@@ -212,10 +177,6 @@ public:
   inline bool greater(int i, int j) const {
     provide_orders();
     return orders[i] > orders[j];
-  }
-
-  inline std::string get_r_type() const {
-    return VectorVisitorType<STRSXP>();
   }
 
   int size() const {

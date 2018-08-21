@@ -34,10 +34,6 @@ public:
     return visitors.nrows();
   }
 
-  inline std::string get_r_type() const {
-    return "data.frame";
-  }
-
 private:
   DataFrame data;
   DataFrameSubsetVisitors visitors;

@@ -187,6 +187,20 @@ bool type_same(SEXP x, SEXP y, std::stringstream& ss, const SymbolString& name) 
   return false;
 }
 
+std::string type_describe(SEXP x) {
+  if (Rf_isMatrix(x)) {
+    return "matrix";
+  } else if (Rf_inherits(x, "data.frame")) {
+    return get_single_class(x);
+  } else if (Rf_inherits(x, "Date")) {
+    return "Date";
+  } else if (Rf_isFactor(x)) {
+    return get_single_class(x);
+  } else {
+    return get_single_class(x);
+  }
+}
+
 // [[Rcpp::export]]
 dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false) {
   int n = x.size();
@@ -247,8 +261,8 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
       if (ss.str() == "") {
         ss << "Incompatible type for column `"
            << name.get_utf8_cstring()
-           << "`: x " << vx->get_r_type()
-           << ", y " << vy->get_r_type();
+           << "`: x " << type_describe(xi)
+           << ", y " << type_describe(yi);
       }
 
       why.push_back(String(ss.str(), CE_UTF8));

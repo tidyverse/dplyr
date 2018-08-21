@@ -37,8 +37,6 @@ public:
 
   virtual int size() const = 0;
 
-  virtual std::string get_r_type() const = 0;
-
 };
 
 inline SubsetVectorVisitor* subset_visitor(SEXP vec, const SymbolString& name);

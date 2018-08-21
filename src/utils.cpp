@@ -143,6 +143,8 @@ std::string get_single_class(SEXP x) {
   }
 
   switch (TYPEOF(x)) {
+  case RAWSXP:
+    return "raw";
   case INTSXP:
     return "integer";
   case REALSXP :
@@ -151,6 +153,8 @@ std::string get_single_class(SEXP x) {
     return "logical";
   case STRSXP:
     return "character";
+  case CPLXSXP:
+    return "complex";
 
   case VECSXP:
     return "list";

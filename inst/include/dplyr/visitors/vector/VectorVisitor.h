@@ -27,8 +27,6 @@ public:
 
   virtual int size() const = 0;
 
-  virtual std::string get_r_type() const = 0;
-
   virtual bool is_na(int i) const = 0;
 };
 
