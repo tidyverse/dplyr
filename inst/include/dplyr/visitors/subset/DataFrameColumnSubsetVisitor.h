@@ -38,10 +38,6 @@ public:
     return "data.frame";
   }
 
-  inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
-    return is_same_typeid(other);
-  }
-
 private:
   DataFrame data;
   DataFrameSubsetVisitors visitors;

@@ -94,6 +94,99 @@ dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool c
 
 }
 
+bool same_factor_levels(SEXP x, SEXP y, std::stringstream& ss, const SymbolString& name) {
+  bool res = same_levels(x, y);
+  if (!res) {
+    ss << "Factor levels not equal for column `" << name.get_utf8_cstring() << "`";
+  }
+  return res;
+}
+
+bool type_compatible(SEXP x, SEXP y) {
+  // if one is a matrix but not the other, the types are not compatible
+  if (Rf_isMatrix(x) + Rf_isMatrix(y) == 1) {
+    return false;
+  }
+
+  if (Rf_inherits(x, "Date")) return Rf_inherits(y, "Date");
+
+  switch (TYPEOF(x)) {
+  case RAWSXP:
+    return TYPEOF(y) == RAWSXP;
+  case LGLSXP:
+    return TYPEOF(y) == LGLSXP;
+  case CPLXSXP:
+    return TYPEOF(y) == CPLXSXP;
+  case INTSXP:
+    if (Rf_isFactor(x)) {
+      return TYPEOF(y) == STRSXP || Rf_isFactor(y);
+    } else if (Rf_inherits(x, "Date")) {
+      return Rf_inherits(y, "Date");
+    } else {
+      return !Rf_isFactor(y) && (TYPEOF(y) == INTSXP || TYPEOF(y) == REALSXP);
+    }
+  case REALSXP:
+    return TYPEOF(y) == INTSXP || TYPEOF(y) == REALSXP;
+  case STRSXP:
+    return TYPEOF(y) == STRSXP || Rf_isFactor(y);
+  case VECSXP:
+    if (Rf_inherits(x, "data.frame")) {
+      // TODO: also recurse into the df to check if
+      // - same names
+      // - same type for each column
+      return Rf_inherits(y, "data.frame");
+    } else {
+      return !Rf_inherits(y, "data.frame");
+    }
+  default:
+    break;
+  }
+  return false;
+}
+
+bool type_same(SEXP x, SEXP y, std::stringstream& ss, const SymbolString& name) {
+  // if one is a matrix but not the other, the types are not compatible
+  if (Rf_isMatrix(x) + Rf_isMatrix(y) == 1) {
+    return false;
+  }
+  if (Rf_inherits(x, "Date")) return Rf_inherits(y, "Date");
+
+  switch (TYPEOF(x)) {
+  case RAWSXP:
+    return TYPEOF(y) == RAWSXP;
+  case LGLSXP:
+    return TYPEOF(y) == LGLSXP;
+  case CPLXSXP:
+    return TYPEOF(y) == CPLXSXP;
+  case INTSXP:
+    if (Rf_isFactor(x)) {
+      return Rf_isFactor(y) && same_factor_levels(x, y, ss, name);
+    } else {
+      return !Rf_isFactor(y) && TYPEOF(y) == INTSXP;
+    }
+  case REALSXP:
+    if (Rf_inherits(x, "Date")) {
+      return Rf_inherits(y, "Date");
+    } else {
+      return TYPEOF(y) == REALSXP;
+    }
+  case STRSXP:
+    return TYPEOF(y) == STRSXP;
+  case VECSXP:
+    if (Rf_inherits(x, "data.frame")) {
+      // TODO: also recurse into the df to check if
+      // - same names
+      // - same type for each column
+      return Rf_inherits(y, "data.frame");
+    } else {
+      return !Rf_inherits(y, "data.frame");
+    }
+  default:
+    break;
+  }
+  return false;
+}
+
 // [[Rcpp::export]]
 dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false) {
   int n = x.size();
@@ -148,9 +241,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     boost::scoped_ptr<SubsetVectorVisitor> vy(subset_visitor(yi, name));
 
     std::stringstream ss;
-    bool compatible = convert ?
-                      vx->is_compatible(vy.get(), ss, name) :
-                      vx->is_same_type(vy.get(), ss, name);
+    bool compatible = convert ? type_compatible(xi, yi) : type_same(xi, yi, ss, name);
 
     if (!compatible) {
       if (ss.str() == "") {

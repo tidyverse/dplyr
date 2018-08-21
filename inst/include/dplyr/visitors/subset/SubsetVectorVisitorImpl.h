@@ -61,10 +61,6 @@ public:
     return vec.size();
   }
 
-  inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
-    return is_same_typeid(other);
-  }
-
 protected:
   VECTOR vec;
 
@@ -112,14 +108,6 @@ public:
 
   inline std::string get_r_type() const {
     return get_single_class(Parent::vec);
-  }
-
-  inline bool is_same_type(SubsetVectorVisitor* other, std::stringstream& ss, const SymbolString& name) const {
-    return is_same_typeid(other) && same_levels(dynamic_cast<SubsetFactorVisitor*>(other), ss, name);
-  }
-
-  inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
-    return is_same_typeid(other) || (typeid(*other) == typeid(SubsetVectorVisitorImpl<STRSXP>));
   }
 
 private:
@@ -188,33 +176,11 @@ public:
     return impl->get_r_type();
   }
 
-  bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
-    return is_same_typeid(other);
-  }
-
 private:
   SubsetVectorVisitor* impl;
   DateSubsetVectorVisitor(const DateSubsetVectorVisitor&);
 
 };
-
-template <>
-inline bool SubsetVectorVisitorImpl<INTSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&,
-    const SymbolString&) const {
-  return is_same_typeid(other) || typeid(*other) == typeid(SubsetVectorVisitorImpl<REALSXP>);
-}
-
-template <>
-inline bool SubsetVectorVisitorImpl<REALSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&,
-    const SymbolString&) const {
-  return is_same_typeid(other) || typeid(*other) == typeid(SubsetVectorVisitorImpl<INTSXP>);
-}
-
-template <>
-inline bool SubsetVectorVisitorImpl<STRSXP>::is_compatible(SubsetVectorVisitor* other, std::stringstream&,
-    const SymbolString&) const {
-  return is_same_typeid(other) || typeid(*other) == typeid(SubsetFactorVisitor);
-}
 
 }
 

@@ -55,10 +55,6 @@ public:
     return "matrix";
   }
 
-  inline bool is_compatible(SubsetVectorVisitor* other, std::stringstream&, const SymbolString&) const {
-    return is_same_typeid(other);
-  }
-
 private:
 
   template <typename Container>
