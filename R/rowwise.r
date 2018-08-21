@@ -20,7 +20,7 @@
 rowwise <- function(data) {
   stopifnot(is.data.frame(data))
 
-  assert_all_white_list(data)
+  assert_all_allow_list(data)
   structure(data, class = c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 }
 
