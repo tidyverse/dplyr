@@ -3,6 +3,7 @@
 
 #include <tools/collapse.h>
 #include <tools/utils.h>
+#include <tools/default_value.h>
 
 #include <dplyr/visitors/vector/VectorVisitorImpl.h>
 #include <dplyr/visitors/subset/SubsetVectorVisitor.h>
@@ -72,39 +73,13 @@ protected:
     int n = output_size(index);
     VECTOR out(no_init(n));
     for (int i = 0; i < n; i++) {
-      if (index[i] < 0) {
-        out[i] = VECTOR::get_na();
-      } else {
-        out[i] = vec[ index[i] ];
-      }
+      out[i] = index[i] < 0 ? default_value<RTYPE>() : (STORAGE)vec[ index[i] ];
     }
     copy_most_attributes(out, vec);
     return out;
   }
 
 };
-
-template <>
-template <typename Container>
-SEXP SubsetVectorVisitorImpl<RAWSXP>::subset_int_index(const Container& index) const {
-  int n = output_size(index);
-  RawVector out(n);
-  for (int i = 0; i < n; i++)
-    out[i] = (index[i] < 0) ? (Rbyte)0 : vec[ index[i] ];
-  copy_most_attributes(out, vec);
-  return out;
-}
-
-template <>
-template <typename Container>
-SEXP SubsetVectorVisitorImpl<VECSXP>::subset_int_index(const Container& index) const {
-  int n = output_size(index);
-  List out(n);
-  for (int i = 0; i < n; i++)
-    out[i] = (index[i] < 0) ? R_NilValue : vec[ index[i] ];
-  copy_most_attributes(out, vec);
-  return out;
-}
 
 class SubsetFactorVisitor : public SubsetVectorVisitorImpl<INTSXP> {
 public:
