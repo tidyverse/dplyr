@@ -27,22 +27,6 @@ public:
     return subset_int(index);
   }
 
-  inline SEXP subset(const ChunkIndexMap& index) const {
-    int n = index.size();
-    int nc = data.ncol();
-    Matrix<RTYPE> res(n, data.ncol());
-    for (int h = 0; h < nc; h++) {
-      ChunkIndexMap::const_iterator it = index.begin();
-      Column column = res.column(h);
-      ConstColumn source_column = data.column(h);
-
-      for (int i = 0; i < n; i++, ++it) {
-        column[i] = source_column[ it->first ];
-      }
-    }
-    return res;
-  }
-
   inline SEXP subset(EmptySubset) const {
     return Matrix<RTYPE>(0, data.ncol());
   }

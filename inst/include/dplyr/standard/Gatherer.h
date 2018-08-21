@@ -7,7 +7,6 @@
 
 #include <dplyr/checks.h>
 
-#include <tools/vector_class.h>
 #include <dplyr/checks.h>
 #include <dplyr/Collecter.h>
 #include <tools/bad.h>

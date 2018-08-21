@@ -5,6 +5,7 @@
 #include <dplyr/data/tbl_classes.h>
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
+#include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
 #include <dplyr/visitors/order/Order.h>
 #include <tools/train.h>
@@ -16,6 +17,8 @@
 #include <tools/default_value.h>
 
 #include <dplyr/hybrid/scalar_result/n.h>
+
+
 
 using namespace Rcpp;
 using namespace dplyr;

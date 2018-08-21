@@ -251,8 +251,6 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   for (int i = 0; i < n; i++) {
     SymbolString name = names_x[i];
     SEXP xi = x[i], yi = y[orders[i] - 1];
-    boost::scoped_ptr<SubsetVectorVisitor> vx(subset_visitor(xi, name));
-    boost::scoped_ptr<SubsetVectorVisitor> vy(subset_visitor(yi, name));
 
     std::stringstream ss;
     bool compatible = convert ? type_compatible(xi, yi) : type_same(xi, yi, ss, name);

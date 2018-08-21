@@ -37,16 +37,6 @@ public:
     return subset_int_index(index);
   }
 
-  inline SEXP subset(const ChunkIndexMap& map) const {
-    int n = output_size(map);
-    VECTOR out(no_init(n));
-    ChunkIndexMap::const_iterator it = map.begin();
-    for (int i = 0; i < n; i++, ++it)
-      out[i] = vec[ it->first ];
-    copy_most_attributes(out, vec);
-    return out;
-  }
-
   inline SEXP subset(EmptySubset) const {
     VECTOR out(0);
     copy_most_attributes(out, vec);
@@ -92,10 +82,6 @@ public:
 
   inline SEXP subset(const std::vector<int>& index) const {
     return promote(Parent::subset(index));
-  }
-
-  inline SEXP subset(const ChunkIndexMap& map) const {
-    return promote(Parent::subset(map));
   }
 
   inline SEXP subset(EmptySubset empty) const {
@@ -149,10 +135,6 @@ public:
   }
 
   virtual SEXP subset(const std::vector<int>& index) const {
-    return impl->subset(index);
-  }
-
-  virtual SEXP subset(const ChunkIndexMap& index) const {
     return impl->subset(index);
   }
 

@@ -2,7 +2,7 @@
 #define dplyr_SubsetVectorVisitor_H
 
 #include <tools/SlicingIndex.h>
-#include <dplyr/visitors/subset/ChunkIndexMap.h>
+#include <tools/SymbolString.h>
 #include <dplyr/visitors/subset/EmptySubset.h>
 
 namespace dplyr {
@@ -27,11 +27,6 @@ public:
   virtual SEXP subset(const std::vector<int>&) const = 0;
 
   virtual SEXP subset(const SlicingIndex&) const = 0;
-
-  /** creates a new vector, of the same type as the visited vector, by
-   *  copying elements at the given indices
-   */
-  virtual SEXP subset(const ChunkIndexMap& index) const = 0;
 
   virtual SEXP subset(EmptySubset) const = 0;
 
