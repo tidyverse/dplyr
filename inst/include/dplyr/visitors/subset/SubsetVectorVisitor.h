@@ -3,7 +3,6 @@
 
 #include <tools/SlicingIndex.h>
 #include <tools/SymbolString.h>
-#include <dplyr/visitors/subset/EmptySubset.h>
 
 namespace dplyr {
 
@@ -27,8 +26,6 @@ public:
   virtual SEXP subset(const std::vector<int>&) const = 0;
 
   virtual SEXP subset(const SlicingIndex&) const = 0;
-
-  virtual SEXP subset(EmptySubset) const = 0;
 
   virtual int size() const = 0;
 

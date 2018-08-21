@@ -22,10 +22,6 @@ public:
     return visitors.subset(index, get_class(data));
   }
 
-  inline SEXP subset(EmptySubset index) const {
-    return visitors.subset(index, get_class(data));
-  }
-
   inline int size() const {
     return visitors.nrows();
   }

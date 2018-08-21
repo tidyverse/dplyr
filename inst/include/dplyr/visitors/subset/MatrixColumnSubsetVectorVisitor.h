@@ -27,10 +27,6 @@ public:
     return subset_int(index);
   }
 
-  inline SEXP subset(EmptySubset) const {
-    return Matrix<RTYPE>(0, data.ncol());
-  }
-
   inline int size() const {
     return data.nrow();
   }

@@ -37,12 +37,6 @@ public:
     return subset_int_index(index);
   }
 
-  inline SEXP subset(EmptySubset) const {
-    VECTOR out(0);
-    copy_most_attributes(out, vec);
-    return out;
-  }
-
   inline int size() const {
     return vec.size();
   }
@@ -82,10 +76,6 @@ public:
 
   inline SEXP subset(const std::vector<int>& index) const {
     return promote(Parent::subset(index));
-  }
-
-  inline SEXP subset(EmptySubset empty) const {
-    return promote(Parent::subset(empty));
   }
 
 private:
@@ -135,10 +125,6 @@ public:
   }
 
   virtual SEXP subset(const std::vector<int>& index) const {
-    return impl->subset(index);
-  }
-
-  virtual SEXP subset(EmptySubset index) const {
     return impl->subset(index);
   }
 

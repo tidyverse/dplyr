@@ -232,7 +232,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
       }
 
     } else {
-      list_col[i] = y_subset_visitors.subset(EmptySubset(), Rf_getAttrib(y, R_ClassSymbol));
+      list_col[i] = y_subset_visitors.subset(std::vector<int>(0), Rf_getAttrib(y, R_ClassSymbol));
     }
   }
 
