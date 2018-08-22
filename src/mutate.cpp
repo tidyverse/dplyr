@@ -11,7 +11,6 @@
 #include <dplyr/data/NaturalDataFrame.h>
 #include <dplyr/data/LazySplitSubsets.h>
 
-#include <dplyr/standard/Gatherer.h>
 #include <dplyr/DataMask.h>
 #include <dplyr/NamedListAccumulator.h>
 
@@ -35,6 +34,16 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 }
 
 namespace dplyr {
+
+template <typename Data>
+inline const char* check_length_message() {
+  return "the group size";
+}
+template <>
+inline const char* check_length_message<NaturalDataFrame>() {
+  return "the number of rows";
+}
+
 namespace internal {
 
 template <int RTYPE>
@@ -82,6 +91,12 @@ inline SEXP constant_recycle(SEXP x, int n, const SymbolString& name) {
   }
   bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
 }
+
+template <typename Data>
+class Gatherer;
+
+template <typename Data>
+class ListGatherer;
 
 template <typename Data>
 class MutateCallProxy {
@@ -190,9 +205,9 @@ private:
     }
 
     if (TYPEOF(first) == VECSXP) {
-      return ListGatherer<Data, MutateCallProxy> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return ListGatherer<Data> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     } else {
-      return Gatherer<Data, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return Gatherer<Data> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     }
 
   }
@@ -230,6 +245,173 @@ SEXP MutateCallProxy<NaturalDataFrame>::evaluate() {
   }
   return first;
 }
+
+
+template <typename Data>
+class Gatherer {
+public:
+  typedef typename Data::slicing_index Index;
+
+  Gatherer(const RObject& first, const Index& indices, MutateCallProxy<Data>& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+    gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
+  {
+    coll = collecter(first, gdf.nrows());
+    if (first_non_na < gdf.ngroups())
+      grab(first, indices);
+  }
+
+  ~Gatherer() {
+    if (coll != 0) {
+      delete coll;
+    }
+  }
+
+  SEXP collect() {
+    int ngroups = gdf.ngroups();
+    if (first_non_na == ngroups) return coll->get();
+    typename Data::group_iterator git = gdf.group_begin();
+    int i = 0;
+    for (; i < first_non_na; i++) ++git;
+    ++git;
+    i++;
+    for (; i < ngroups; i++, ++git) {
+      const Index& indices = *git;
+      Shield<SEXP> subset(proxy.get(indices));
+      grab(subset, indices);
+    }
+    return coll->get();
+  }
+
+private:
+
+  inline void grab(SEXP subset, const Index& indices) {
+    int n = Rf_length(subset);
+    if (n == indices.size()) {
+      grab_along(subset, indices);
+    } else if (n == 1) {
+      grab_rep(subset, indices);
+    } else if (Rf_isNull(subset)) {
+      stop("incompatible types (NULL), expecting %s", coll->describe());
+    } else {
+      check_length(n, indices.size(), check_length_message<Data>(), name);
+    }
+  }
+
+  template <typename Idx>
+  void grab_along(SEXP subset, const Idx& indices) {
+    if (coll->compatible(subset)) {
+      // if the current source is compatible, collect
+      coll->collect(indices, subset);
+    } else if (coll->can_promote(subset)) {
+      // setup a new Collecter
+      Collecter* new_collecter = promote_collecter(subset, gdf.nrows(), coll);
+
+      // import data from previous collecter.
+      new_collecter->collect(NaturalSlicingIndex(gdf.nrows()), coll->get());
+
+      // import data from this chunk
+      new_collecter->collect(indices, subset);
+
+      // dispose the previous collecter and keep the new one.
+      delete coll;
+      coll = new_collecter;
+    } else if (coll->is_logical_all_na()) {
+      Collecter* new_collecter = collecter(subset, gdf.nrows());
+      new_collecter->collect(indices, subset);
+      delete coll;
+      coll = new_collecter;
+    } else {
+      bad_col(name, "can't be converted from {source_type} to {target_type}",
+        _["source_type"] = coll->describe(), _["target_type"] = get_single_class(subset));
+    }
+  }
+
+  void grab_rep(SEXP value, const Index& indices) {
+    int n = indices.size();
+    // FIXME: This can be made faster if `source` in `Collecter->collect(source, indices)`
+    //        could be of length 1 recycling the value.
+    // TODO: create Collecter->collect_one(source, indices)?
+    for (int j = 0; j < n; j++) {
+      grab_along(value, RowwiseSlicingIndex(indices[j]));
+    }
+  }
+
+  const Data& gdf;
+  MutateCallProxy<Data>& proxy;
+  Collecter* coll;
+  int first_non_na;
+  const SymbolString& name;
+
+};
+
+template <typename Data>
+class ListGatherer {
+public:
+  typedef typename Data::slicing_index Index;
+
+  ListGatherer(List first, const Index& indices, MutateCallProxy<Data>& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+    gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_), name(name_)
+  {
+    if (first_non_na < gdf.ngroups()) {
+      grab(first, indices);
+    }
+
+    copy_most_attributes(data, first);
+  }
+
+  SEXP collect() {
+    int ngroups = gdf.ngroups();
+    if (first_non_na == ngroups) return data;
+    typename Data::group_iterator git = gdf.group_begin();
+    int i = 0;
+    for (; i < first_non_na; i++) ++git;
+    ++git;
+    i++;
+    for (; i < ngroups; i++, ++git) {
+      const Index& indices = *git;
+      List subset(proxy.get(indices));
+      grab(subset, indices);
+    }
+    return data;
+  }
+
+private:
+
+  inline void grab(const List& subset, const Index& indices) {
+    int n = subset.size();
+
+    if (n == indices.size()) {
+      grab_along(subset, indices);
+    } else if (n == 1) {
+      grab_rep(subset[0], indices);
+    } else {
+      check_length(n, indices.size(), check_length_message<Data>(), name);
+    }
+  }
+
+  void grab_along(const List& subset, const Index& indices) {
+    int n = indices.size();
+    for (int j = 0; j < n; j++) {
+      data[ indices[j] ] = subset[j];
+    }
+  }
+
+  void grab_rep(SEXP value, const Index& indices) {
+    int n = indices.size();
+    for (int j = 0; j < n; j++) {
+      data[ indices[j] ] = value;
+    }
+  }
+
+  const Data& gdf;
+  MutateCallProxy<Data>& proxy;
+  List data;
+  int first_non_na;
+  const SymbolString name;
+
+};
+
+
 
 }
 
