@@ -128,8 +128,10 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
   }
 }
 
-template <typename SlicedTibble, typename LazySubsets>
+template <typename SlicedTibble>
 DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
+  typedef LazySplitSubsets<SlicedTibble> Subsets;
+
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
@@ -203,11 +205,11 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 SEXP summarise_impl(DataFrame df, QuosureList dots) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame, LazySplitSubsets<RowwiseDataFrame> >(df, dots);
+    return summarise_grouped<RowwiseDataFrame>(df, dots);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame, LazySplitSubsets<GroupedDataFrame> >(df, dots);
+    return summarise_grouped<GroupedDataFrame>(df, dots);
   } else {
-    return summarise_grouped<NaturalDataFrame, LazySplitSubsets<NaturalDataFrame> >(df, dots);
+    return summarise_grouped<NaturalDataFrame>(df, dots);
   }
 }
 
