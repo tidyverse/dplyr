@@ -72,7 +72,8 @@ private:
     }
   }
 
-  void grab_along(SEXP subset, const SlicingIndex& indices) {
+  template <typename Idx>
+  void grab_along(SEXP subset, const Idx& indices) {
     if (coll->compatible(subset)) {
       // if the current source is compatible, collect
       coll->collect(indices, subset);
@@ -100,7 +101,7 @@ private:
     }
   }
 
-  void grab_rep(SEXP value, const SlicingIndex& indices) {
+  void grab_rep(SEXP value, const Index& indices) {
     int n = indices.size();
     // FIXME: This can be made faster if `source` in `Collecter->collect(source, indices)`
     //        could be of length 1 recycling the value.

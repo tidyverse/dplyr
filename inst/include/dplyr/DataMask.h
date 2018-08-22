@@ -3,7 +3,7 @@
 
 #include <Rcpp.h>
 #include <tools/utils.h>
-#include <dplyr/subset/LazySplitSubsets.h>
+#include <dplyr/data/LazySplitSubsets.h>
 #include <dplyr/DataMask_bindings_active.h>
 
 namespace dplyr {

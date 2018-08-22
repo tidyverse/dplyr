@@ -9,8 +9,7 @@
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
-
-#include <dplyr/subset/LazySplitSubsets.h>
+#include <dplyr/data/LazySplitSubsets.h>
 
 #include <dplyr/standard/Gatherer.h>
 #include <dplyr/DataMask.h>
