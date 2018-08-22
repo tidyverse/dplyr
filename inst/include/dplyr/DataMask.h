@@ -193,11 +193,11 @@ public:
   DataMask_bindings(SEXP parent_env, Subsets& subsets) :
     mask_bindings(child_env(parent_env))
   {
-    SymbolVector names = subsets.get_variable_names();
+    CharacterVector names = subsets.get_variable_names().get_vector();
     int n = names.size();
     for (int i = 0; i < n; i++) {
       // this handles both the normal and summarised case (via recycling rules)
-      Rf_defineVar(names[i].get_sexp(), subsets.get_variable(i), mask_bindings);
+      Rf_defineVar(Rf_install(names[i]), subsets.get_variable(i), mask_bindings);
     }
   }
 

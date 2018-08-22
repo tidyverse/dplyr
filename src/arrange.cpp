@@ -20,7 +20,6 @@ using namespace dplyr;
 
 template <typename SlicedTibble>
 SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
-  typedef LazySplitSubsets<NaturalDataFrame> Subsets;
   static SEXP symb_desc = Rf_install("desc");
 
   const DataFrame& data = gdf.data();
@@ -36,7 +35,8 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   List variables(nargs);
   LogicalVector ascending(nargs);
 
-  Subsets subsets(NaturalDataFrame(gdf.data()));
+  NaturalDataFrame ndf(data);
+  LazySplitSubsets<NaturalDataFrame> subsets(ndf);
   NaturalSlicingIndex indices_all(gdf.nrows());
 
   for (int i = 0; i < nargs; i++) {
@@ -48,6 +48,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
 
     DataMask<NaturalDataFrame> data_mask(subsets, env);
     Shield<SEXP> v(data_mask.eval(expr, indices_all));
+
     if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
     }
@@ -61,6 +62,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
         stop("incorrect size (%d) at position %d, expecting : %d", Rf_length(v), i + 1, data.nrows());
       }
     }
+
     variables[i] = v;
     ascending[i] = !is_desc;
   }
