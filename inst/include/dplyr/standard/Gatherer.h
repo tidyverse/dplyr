@@ -22,7 +22,7 @@ inline const char* check_length_message<NaturalDataFrame>() {
   return "the number of rows";
 }
 
-template <typename Data, typename Subsets, typename Proxy>
+template <typename Data, typename Proxy>
 class Gatherer {
 public:
   typedef typename Data::slicing_index Index;
@@ -119,7 +119,7 @@ private:
 
 };
 
-template <typename Data, typename Subsets, typename Proxy>
+template <typename Datatypename Proxy>
 class ListGatherer {
 public:
   typedef typename Data::slicing_index Index;

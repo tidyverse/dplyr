@@ -190,9 +190,9 @@ private:
     }
 
     if (TYPEOF(first) == VECSXP) {
-      return ListGatherer<Data, Subsets, MutateCallProxy> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return ListGatherer<Data, MutateCallProxy> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     } else {
-      return Gatherer<Data, Subsets, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return Gatherer<Data, MutateCallProxy> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     }
 
   }
