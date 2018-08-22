@@ -156,20 +156,17 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[k];
-    const Environment& env = quosure.env();
 
     LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
 
-    Shield<SEXP> expr_(quosure.expr());
-    SEXP expr = expr_;
     RObject result;
 
     // Unquoted vectors are directly used as column. Expressions are
     // evaluated in each group.
-    if (is_vector(expr)) {
-      result = validate_unquoted_value(expr, gdf.ngroups(), quosure.name());
+    if (is_vector(quosure.expr())) {
+      result = validate_unquoted_value(quosure.expr(), gdf.ngroups(), quosure.name());
     } else {
-      result = hybrid::summarise(expr, gdf, subsets, env);
+      result = hybrid::summarise(quosure, gdf, subsets);
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
