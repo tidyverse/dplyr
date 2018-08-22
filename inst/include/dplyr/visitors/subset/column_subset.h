@@ -9,14 +9,30 @@
 #include <tools/SlicingIndex.h>
 
 namespace dplyr {
+namespace traits {
 
-// TODO: se can probably spare the `index[i] < 0 ?` business when we know for sure
-//       e.g. for SlicingIndex implementations
-//
-//       negative values in index[i] are used with std::vector<int> in join situations
+template <typename T>
+struct can_mark_na {
+  typedef Rcpp::traits::true_type type;
+};
+
+template <>
+struct can_mark_na<GroupedSlicingIndex> {
+  typedef Rcpp::traits::false_type type;
+};
+template <>
+struct can_mark_na<RowwiseSlicingIndex> {
+  typedef Rcpp::traits::false_type type;
+};
+template <>
+struct can_mark_na<NaturalSlicingIndex> {
+  typedef Rcpp::traits::false_type type;
+};
+
+}
 
 template <int RTYPE, typename Index>
-SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index) {
+SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index, Rcpp::traits::true_type) {
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
   int n = index.size();
   Rcpp::Vector<RTYPE> res = no_init(n);
@@ -27,13 +43,29 @@ SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index)
   return res;
 }
 
+template <int RTYPE, typename Index>
+SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index, Rcpp::traits::false_type) {
+  typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
+  int n = index.size();
+  Rcpp::Vector<RTYPE> res = no_init(n);
+  for (int i = 0; i < n; i++) {
+    res[i] = x[index[i]];
+  }
+  copy_most_attributes(res, x);
+  return res;
+}
+
 template <>
-inline SEXP column_subset_vector_impl<VECSXP, RowwiseSlicingIndex>(const List& x, const RowwiseSlicingIndex& index) {
+inline SEXP column_subset_vector_impl<VECSXP, RowwiseSlicingIndex>(const List& x, const RowwiseSlicingIndex& index, Rcpp::traits::true_type) {
+  return x[index[0]];
+}
+template <>
+inline SEXP column_subset_vector_impl<VECSXP, RowwiseSlicingIndex>(const List& x, const RowwiseSlicingIndex& index, Rcpp::traits::false_type) {
   return x[index[0]];
 }
 
 template <int RTYPE, typename Index>
-SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index) {
+SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::true_type) {
   int n = index.size();
   int nc = x.ncol();
   Rcpp::Matrix<RTYPE> res = no_init(n, nc);
@@ -49,11 +81,24 @@ SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index)
 }
 
 template <int RTYPE, typename Index>
+SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::false_type) {
+  int n = index.size();
+  int nc = x.ncol();
+  Rcpp::Matrix<RTYPE> res = no_init(n, nc);
+  for (int i = 0; i < n; i++) {
+    res.row(i) = x.row(index[i]);
+  }
+  copy_most_attributes(res, x);
+  return res;
+}
+
+
+template <int RTYPE, typename Index>
 SEXP column_subset_impl(SEXP x, const Index& index) {
   if (Rf_isMatrix(x)) {
-    return column_subset_matrix_impl<RTYPE, Index>(x, index);
+    return column_subset_matrix_impl<RTYPE, Index>(x, index, typename traits::can_mark_na<Index>::type());
   } else {
-    return column_subset_vector_impl<RTYPE, Index>(x, index);
+    return column_subset_vector_impl<RTYPE, Index>(x, index, typename traits::can_mark_na<Index>::type());
   }
 }
 

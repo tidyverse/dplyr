@@ -39,7 +39,7 @@ private:
   class HybridCallbackWeakProxy : public IHybridCallback {
   public:
     HybridCallbackWeakProxy(boost::shared_ptr<const IHybridCallback> real_):
-    real(real_)
+      real(real_)
     {
       LOG_VERBOSE;
     }
@@ -74,7 +74,7 @@ private:
     class HybridCallbackProxy : public IHybridCallback {
     public:
       HybridCallbackProxy(const IHybridCallback* real_) :
-      real(real_)
+        real(real_)
       {
         LOG_VERBOSE;
       }
@@ -93,9 +93,9 @@ private:
 
   public:
     GroupedHybridEval(const Subsets& subsets_) :
-    indices(NULL),
-    subsets(subsets_),
-    proxy(new HybridCallbackProxy(this))
+      indices(NULL),
+      subsets(subsets_),
+      proxy(new HybridCallbackProxy(this))
     {
       LOG_VERBOSE;
     }
@@ -104,10 +104,10 @@ private:
       return *indices;
     }
 
-    public: // IHybridCallback
-      SEXP get_subset(const SymbolString& name) const {
-        return subsets.get(name, get_indices());
-      }
+  public: // IHybridCallback
+    SEXP get_subset(const SymbolString& name) const {
+      return subsets.get(name, get_indices());
+    }
 
   public:
     void set_indices(const Index& indices_) {
@@ -124,8 +124,8 @@ private:
 
 public:
   DataMask_bindings_active(SEXP parent_env, Subsets& subsets_) :
-  subsets(subsets_),
-  callback(new GroupedHybridEval(subsets))
+    subsets(subsets_),
+    callback(new GroupedHybridEval(subsets))
   {
     CharacterVector names = subsets.get_variable_names().get_vector();
 
@@ -135,9 +135,9 @@ public:
     // Environment::new_child() performs an R callback, creating the environment
     // in R should be slightly faster
     mask_active = bindrcpp::create_env_string_wrapped(
-      names, &DataMask_bindings_active::hybrid_get_callback,
-      payload, parent_env
-    );
+                    names, &DataMask_bindings_active::hybrid_get_callback,
+                    payload, parent_env
+                  );
   }
 
   inline operator SEXP() {
