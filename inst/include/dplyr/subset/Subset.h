@@ -1,5 +1,5 @@
-#ifndef dplyr_GroupedSubsetBase_H
-#define dplyr_GroupedSubsetBase_H
+#ifndef dplyr_SubsetBase_H
+#define dplyr_SubsetBase_H
 
 #include <tools/SlicingIndex.h>
 
