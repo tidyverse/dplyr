@@ -39,10 +39,10 @@ private:
 template <typename Index>
 class DataFrameSubset : public Subset<Index> {
 public:
-  DataFrameSubset(SEXP x) : data(x), visitors(data) {}
+  DataFrameSubset(SEXP x) : data(x) {}
 
   virtual SEXP get(const Index& indices) {
-    return visitors.subset(indices, get_class(data));
+    return DataFrameSubsetVisitors(data).subset_all(indices);
   }
 
   virtual SEXP get_variable() const {
@@ -55,7 +55,6 @@ public:
 
 private:
   DataFrame data;
-  DataFrameSubsetVisitors visitors;
 };
 
 template <>

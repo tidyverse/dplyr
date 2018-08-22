@@ -13,7 +13,6 @@
 #include <tools/comparisons.h>
 #include <dplyr/visitors/join/join_match.h>
 #include <dplyr/visitors/vector/MultipleVectorVisitors.h>
-#include <dplyr/visitors/subset/subset_visitor.h>
 #include <dplyr/visitors/vector/visitor.h>
 #include <dplyr/visitors/vector/visitor_impl.h>
 #include <dplyr/visitors/order/OrderVisitorImpl.h>

@@ -19,8 +19,6 @@
 #include <tools/train.h>
 #include <dplyr/data/GroupedDataFrame.h>
 
-#include <dplyr/visitors/subset/subset_visitor.h>
-
 using namespace Rcpp;
 using namespace dplyr;
 

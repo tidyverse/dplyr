@@ -7,6 +7,7 @@
 
 #include <dplyr/data/GroupedDataFrame.h>
 
+#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 #include <dplyr/visitors/order/Order.h>
 #include <dplyr/Groups.h>
 #include <tools/bad.h>
@@ -66,10 +67,8 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   variables.names() = quosures.names();
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector index = o.apply();
-  DataFrameSubsetVisitors visitors(data, SymbolVector(data.names()));
 
-  // organise the rows
-  List res = visitors.subset(index, get_class(data));
+  List res = DataFrameSubsetVisitors(data).subset_all(index);
 
   // let the grouping class organise the rest (the groups attribute etc ...)
   return SlicedTibble(res, gdf).data();

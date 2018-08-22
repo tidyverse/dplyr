@@ -14,7 +14,6 @@
 #include <dplyr/visitors/join/JoinVisitor.h>
 #include <dplyr/visitors/join/JoinVisitorImpl.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
-#include <dplyr/visitors/subset/subset_visitor.h>
 
 #include <tools/bad.h>
 
@@ -175,102 +174,6 @@ JoinVisitor* DataFrameJoinVisitors::get(const SymbolString& name) const {
 
 int DataFrameJoinVisitors::size() const {
   return visitors.size();
-}
-
-DataFrameSubsetVisitors::DataFrameSubsetVisitors(const Rcpp::DataFrame& data_) :
-  data(data_),
-  visitors(),
-  visitor_names(vec_names_or_empty(data))
-{
-  for (int i = 0; i < data.size(); i++) {
-    SubsetVectorVisitor* v = subset_visitor(data[i], visitor_names[i]);
-    visitors.push_back(v);
-  }
-}
-
-DataFrameSubsetVisitors::DataFrameSubsetVisitors(const DataFrame& data_, const SymbolVector& names) :
-  data(data_),
-  visitors(),
-  visitor_names(names)
-{
-
-  CharacterVector data_names = vec_names_or_empty(data);
-  IntegerVector indices = names.match_in_table(data_names);
-
-  int n = indices.size();
-  for (int i = 0; i < n; i++) {
-
-    int pos = indices[i];
-    if (pos == NA_INTEGER) {
-      bad_col(names[i], "is unknown");
-    }
-
-    SubsetVectorVisitor* v = subset_visitor(data[pos - 1], data_names[pos - 1]);
-    visitors.push_back(v);
-
-  }
-
-}
-
-DataFrameSubsetVisitors::DataFrameSubsetVisitors(const DataFrame& data_, const IntegerVector& indices) :
-  data(data_),
-  visitors(),
-  visitor_names()
-{
-
-  CharacterVector data_names = vec_names_or_empty(data);
-
-  int n = indices.size();
-  for (int i = 0; i < n; i++) {
-
-    int pos = indices[i];
-
-    check_range_one_based(pos, data.size());
-
-    const SymbolString& name = data_names[pos - 1];
-
-    SubsetVectorVisitor* v = subset_visitor(data[pos - 1], name);
-    visitors.push_back(v);
-    visitor_names.push_back(name);
-
-  }
-
-}
-
-int DataFrameSubsetVisitors::size() const {
-  return visitors.size();
-}
-
-SubsetVectorVisitor* DataFrameSubsetVisitors::get(int k) const {
-  return visitors[k];
-}
-
-const SymbolString DataFrameSubsetVisitors::name(int k) const {
-  return visitor_names[k];
-}
-
-int DataFrameSubsetVisitors::nrows() const {
-  return data.nrows();
-}
-
-void DataFrameSubsetVisitors::structure(List& x, int nrows, CharacterVector classes) const {
-  copy_most_attributes(x, data);
-  set_class(x, classes);
-  set_rownames(x, nrows);
-  x.names() = visitor_names;
-}
-
-template <>
-DataFrame DataFrameSubsetVisitors::subset(const LogicalVector& index, const CharacterVector& classes) const {
-  const int n = index.size();
-  std::vector<int> idx;
-  idx.reserve(n);
-  for (int i = 0; i < n; i++) {
-    if (index[i] == TRUE) {
-      idx.push_back(i);
-    }
-  }
-  return subset(idx, classes);
 }
 
 CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :

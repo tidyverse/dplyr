@@ -2,10 +2,12 @@
 #include <dplyr/main.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexSet.h>
-#include <dplyr/visitors/subset/subset_visitor.h>
 
 #include <dplyr/visitors/vector/MultipleVectorVisitors.h>
 #include <dplyr/hybrid/scalar_result/n_distinct.h>
+
+#include <dplyr/visitors/subset/DataFrameSelect.h>
+#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -38,7 +40,7 @@ SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector&
     }
   }
 
-  return DataFrameSubsetVisitors(df, keep).subset(indices, get_class(df));
+  return DataFrameSubsetVisitors(DataFrameSelect(df, keep)).subset_all(indices);
 }
 
 // [[Rcpp::export]]
