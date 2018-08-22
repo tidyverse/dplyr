@@ -151,7 +151,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
-  LazySubsets subsets(gdf);
+  Subsets subsets(gdf);
   for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
@@ -173,9 +173,6 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
-      // Note that the GroupedCallReducer currently doesn't apply
-      // special treatment to summary variables, for which hybrid
-      // evaluation should be turned off completely (#2312)
       if (result == R_UnboundValue) {
         DataMask<SlicedTibble> data_mask(subsets, quosure.env());
         result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), data_mask).process(gdf);

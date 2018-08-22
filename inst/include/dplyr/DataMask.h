@@ -193,11 +193,11 @@ public:
   DataMask_bindings(SEXP parent_env, Subsets& subsets) :
     mask_bindings(child_env(parent_env))
   {
-    CharacterVector names = subsets.get_variable_names().get_vector();
+    SymbolVector names = subsets.get_variable_names();
     int n = names.size();
     for (int i = 0; i < n; i++) {
       // this handles both the normal and summarised case (via recycling rules)
-      Rf_defineVar(Rf_installChar(names[i]), subsets.get_variable(i), mask_bindings);
+      Rf_defineVar(names[i].get_sexp(), subsets.get_variable(i), mask_bindings);
     }
   }
 
@@ -213,9 +213,7 @@ private:
 };
 
 
-// the data mask is made of two environments
-// - the `bindings` environment that maps symbols to subsets of columns from the data frame
-// - the `hybrids` environment that contains functions such as `n()`
+// the data mask handles binding names to subset of columns
 template <typename Data>
 class DataMask {
 public:
