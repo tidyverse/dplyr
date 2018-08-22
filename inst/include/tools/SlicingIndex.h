@@ -9,9 +9,6 @@ public:
   virtual int size() const = 0;
   virtual int operator[](int i) const = 0;
   virtual int group() const = 0;
-  virtual bool is_identity(SEXP) const {
-    return FALSE;
-  };
 };
 
 // A GroupedSlicingIndex is the most general slicing index,
@@ -57,8 +54,6 @@ public:
   }
 
   inline int operator[](int i) const {
-    if (i != 0)
-      stop("Can only use 0 for RowwiseSlicingIndex, queried %d", i);
     return start;
   }
 
@@ -87,18 +82,11 @@ public:
   }
 
   virtual int operator[](int i) const {
-    if (i < 0 || i >= n)
-      stop("Out of bounds index %d queried for NaturalSlicingIndex", i);
     return i;
   }
 
   virtual int group() const {
     return 0 ;
-  }
-
-  virtual bool is_identity(SEXP x) const {
-    const R_len_t length = Rf_length(x);
-    return length == n;
   }
 
   inline operator SEXP() const {
@@ -124,8 +112,6 @@ public:
   }
 
   inline int operator[](int i) const {
-    if (i < 0 || i >= n)
-      stop("Out of bounds index %d queried for OffsetSlicingIndex", i);
     return i + start;
   }
 
