@@ -11,6 +11,32 @@
 
 namespace dplyr {
 
+struct SubsetData {
+  SubsetData(bool summary_, SEXP symbol_, SEXP data_) :
+    summary(summary_),
+    symbol(symbol_),
+    data(data_),
+    resolved(R_UnboundValue)
+  {}
+
+  template <typename Index>
+  inline void materialize(const Index& indices) {
+    resolved = summary ?
+               column_subset(data, RowwiseSlicingIndex(indices.group())) :
+               column_subset(data, indices)
+               ;
+  }
+
+  bool is_resolved() const {
+    return resolved != R_UnboundValue;
+  }
+
+  bool summary;
+  SEXP symbol;
+  SEXP data;
+  SEXP resolved;
+};
+
 template <class Data>
 class LazySplitSubsets {
   typedef typename Data::slicing_index slicing_index;
@@ -18,9 +44,8 @@ class LazySplitSubsets {
 public:
   LazySplitSubsets(const Data& gdf_) :
     gdf(gdf_),
-    columns(),
-    symbol_map(),
-    resolved()
+    subsets(),
+    symbol_map()
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
@@ -37,34 +62,29 @@ public:
   }
 
   SEXP get_variable(int i) const {
-    return columns[i].second;
+    return subsets[i].data;
   }
 
   SEXP get_variable(const SymbolString& symbol) const {
-    return columns[symbol_map.get(symbol)].second;
+    return subsets[symbol_map.get(symbol)].data;
   }
 
   SEXP get(const SymbolString& symbol, const slicing_index& indices) const {
     int idx = symbol_map.get(symbol);
 
-    SEXP value = resolved[idx];
-    if (value == R_NilValue) {
-      const Pair& pair = columns[idx];
-
-      resolved[idx] = value = pair.first ?
-                              column_subset(pair.second, RowwiseSlicingIndex(indices.group())) :
-                              column_subset(pair.second, indices)
-                              ;
+    SubsetData subset = subsets[idx];
+    if (!subset.is_resolved()) {
+      subset.materialize(indices);
     }
-    return value;
+    return subset.resolved;
   }
 
   bool is_summary(int i) const {
-    return columns[i].first;
+    return subsets[i].summary;
   }
 
   bool is_summary(const SymbolString& symbol) const {
-    return columns[symbol_map.get(symbol)].first;
+    return subsets[symbol_map.get(symbol)].summary;
   }
 
   bool has_variable(const SymbolString& head) const {
@@ -76,7 +96,7 @@ public:
   }
 
   int size() const {
-    return columns.size();
+    return subsets.size();
   }
 
   int nrows() const {
@@ -84,8 +104,8 @@ public:
   }
 
   void clear() {
-    for (size_t i = 0; i < resolved.size(); i++) {
-      resolved[i] = R_NilValue;
+    for (size_t i = 0; i < subsets.size(); i++) {
+      subsets[i].resolved = R_UnboundValue;
     }
   }
 
@@ -97,22 +117,17 @@ private:
 
   const Data& gdf;
 
-  typedef std::pair<bool, SEXP> Pair;
-  std::vector<Pair> columns ;
-
+  std::vector<SubsetData> subsets ;
   SymbolMap symbol_map;
-  mutable std::vector<SEXP> resolved;
 
   void input_impl(const SymbolString& symbol, bool summarised, SEXP x) {
     SymbolMapIndex index = symbol_map.insert(symbol);
-    Pair pair(summarised, x);
+    SubsetData subset(summarised, symbol.get_sexp(), x);
     if (index.origin == NEW) {
-      columns.push_back(pair);
-      resolved.push_back(R_NilValue);
+      subsets.push_back(subset);
     } else {
       int idx = index.pos;
-      columns[idx] = pair;
-      resolved[idx] = R_NilValue;
+      subsets[idx] = subset;
     }
   }
 };
