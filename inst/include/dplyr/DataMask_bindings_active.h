@@ -12,7 +12,7 @@ namespace dplyr {
 
 class IHybridCallback {
 public:
-  virtual ~IHybridCallback();
+  virtual ~IHybridCallback(){}
 
 public:
   virtual SEXP get_subset(const SymbolString& name) const = 0;
@@ -116,7 +116,7 @@ private:
 
   private:
     const Index* indices;
-    const ILazySubsets<Data>& subsets;
+    const LazySplitSubsets<Data>& subsets;
 
     boost::shared_ptr<IHybridCallback> proxy;
 

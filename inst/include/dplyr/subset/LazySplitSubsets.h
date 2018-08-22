@@ -7,14 +7,13 @@
 #include <dplyr/data/RowwiseDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
 
-#include <dplyr/subset/ILazySubsets.h>
 #include <dplyr/subset/get_subset.h>
 #include <dplyr/subset/summarised_subset.h>
 
 namespace dplyr {
 
 template <class Data>
-class LazySplitSubsets : public ILazySubsets<Data> {
+class LazySplitSubsets {
   typedef typename Data::subset subset;
   typedef typename Data::slicing_index slicing_index;
 
@@ -43,7 +42,7 @@ public:
     owner(false)
   {}
 
-  virtual ~LazySplitSubsets() {
+  ~LazySplitSubsets() {
     if (owner) {
       for (size_t i = 0; i < subsets.size(); i++) {
         delete subsets[i];
