@@ -6,8 +6,14 @@
 #include <tools/is_lubridate_unsupported.h>
 #include <tools/bad.h>
 #include <tools/default_value.h>
+#include <tools/SlicingIndex.h>
 
 namespace dplyr {
+
+// TODO: se can probably spare the `index[i] < 0 ?` business when we know for sure
+//       e.g. for SlicingIndex implementations
+//
+//       negative values in index[i] are used with std::vector<int> in join situations
 
 template <int RTYPE, typename Index>
 SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index) {
@@ -21,6 +27,11 @@ SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index)
   return res;
 }
 
+template <>
+inline SEXP column_subset_vector_impl<VECSXP, RowwiseSlicingIndex>(const List& x, const RowwiseSlicingIndex& index) {
+  return x[index[0]];
+}
+
 template <int RTYPE, typename Index>
 SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index) {
   int n = index.size();
@@ -32,7 +43,6 @@ SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index)
     } else {
       res.row(i) = Vector<RTYPE>(nc, default_value<RTYPE>());
     }
-
   }
   copy_most_attributes(res, x);
   return res;

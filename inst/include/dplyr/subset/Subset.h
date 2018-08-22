@@ -10,7 +10,7 @@ class Subset {
 public:
   Subset() {};
   virtual ~Subset() {};
-  virtual SEXP get(const Index& indices) = 0;
+  virtual SEXP get(const Index& indices) const = 0;
   virtual SEXP get_variable() const = 0;
   virtual bool is_summary() const = 0;
 };

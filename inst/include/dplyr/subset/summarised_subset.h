@@ -11,13 +11,12 @@ public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   SummarisedSubsetTemplate(SEXP x) :
-    object(x), output(1)
-  {
-    copy_most_attributes(output, object);
-  }
+    object(x)
+  {}
 
-  virtual SEXP get(const Index& indices) {
-    output[0] = object[indices.group()];
+  virtual SEXP get(const Index& indices) const {
+    Rcpp::Vector<RTYPE> output(1, object[indices.group()]);
+    copy_most_attributes(output, object);
     return output;
   }
   virtual SEXP get_variable() const {
@@ -29,19 +28,17 @@ public:
 
 private:
   Rcpp::Vector<RTYPE> object;
-  Rcpp::Vector<RTYPE> output;
+
 };
 
 template <typename Index>
 class SummarisedSubsetTemplate<VECSXP, Index> : public Subset<Index> {
 public:
   SummarisedSubsetTemplate(SEXP x) :
-    object(x), output(1)
-  {
-    copy_most_attributes(output, object);
-  }
+    object(x)
+  {}
 
-  virtual SEXP get(const Index& indices) {
+  virtual SEXP get(const Index& indices) const {
     return Rcpp::List::create(object[indices.group()]);
   }
   virtual SEXP get_variable() const {
@@ -53,7 +50,6 @@ public:
 
 private:
   Rcpp::List object;
-  Rcpp::List output;
 };
 
 template <typename Index>

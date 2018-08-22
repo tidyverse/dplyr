@@ -12,7 +12,7 @@ namespace dplyr {
 
 class IHybridCallback {
 public:
-  virtual ~IHybridCallback(){}
+  virtual ~IHybridCallback() {}
 
 public:
   virtual SEXP get_subset(const SymbolString& name) const = 0;
