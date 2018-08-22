@@ -3,6 +3,7 @@
 
 #include <tools/pointer_vector.h>
 #include <tools/set_rownames.h>
+#include <tools/utils.h>
 
 #include <dplyr/visitor_set/VisitorSetEqual.h>
 #include <dplyr/visitor_set/VisitorSetHash.h>

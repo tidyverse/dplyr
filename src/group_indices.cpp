@@ -15,10 +15,9 @@
 #include <tools/match.h>
 #include <boost/shared_ptr.hpp>
 #include <tools/default_value.h>
+#include <tools/utils.h>
 
 #include <dplyr/hybrid/scalar_result/n.h>
-
-
 
 using namespace Rcpp;
 using namespace dplyr;

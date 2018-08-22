@@ -276,7 +276,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
     }
 
-    subsets.input(name, variable);
+    subsets.input_column(name, variable);
     accumulator.set(name, variable);
   }
 

@@ -4,10 +4,7 @@
 #include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/subset/get_subset.h>
-
 #include <tools/SymbolVector.h>
-#include <tools/SymbolMap.h>
 #include <tools/bad.h>
 
 namespace dplyr {
@@ -34,7 +31,6 @@ class NaturalDataFrame {
 public:
   typedef NaturalDataFrameIndexIterator group_iterator;
   typedef NaturalSlicingIndex slicing_index;
-  typedef Subset<slicing_index> subset;
 
   NaturalDataFrame(SEXP x):
     data_(x)
@@ -76,10 +72,6 @@ public:
 
   inline bool has_group(const SymbolString& g) const {
     return false ;
-  }
-
-  inline subset* create_subset(SEXP x) const {
-    return get_subset<slicing_index>(x);
   }
 
   inline int size() const {

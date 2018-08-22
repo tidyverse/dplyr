@@ -1,9 +1,6 @@
 #ifndef dplyr_hybrid_expression_h
 #define dplyr_hybrid_expression_h
 
-#include <tools/SymbolString.h>
-#include <tools/SymbolMap.h>
-
 #include <dplyr/hybrid/Column.h>
 
 namespace dplyr {

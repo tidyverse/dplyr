@@ -4,8 +4,6 @@
 #include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
-#include <dplyr/subset/get_subset.h>
-
 #include <tools/SymbolVector.h>
 #include <tools/SymbolMap.h>
 #include <tools/bad.h>
@@ -31,7 +29,6 @@ class GroupedDataFrame {
 public:
   typedef GroupedDataFrameIndexIterator group_iterator;
   typedef GroupedSlicingIndex slicing_index;
-  typedef Subset<slicing_index> subset;
 
   GroupedDataFrame(DataFrame x);
   GroupedDataFrame(DataFrame x, const GroupedDataFrame& model);
@@ -73,10 +70,6 @@ public:
 
   inline bool has_group(const SymbolString& g) const {
     return symbols.has(g);
-  }
-
-  inline subset* create_subset(SEXP x) const {
-    return get_subset<slicing_index>(x);
   }
 
   inline List indices() const {
