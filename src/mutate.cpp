@@ -1,9 +1,10 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/Quosure.h>
+#include <tools/bad.h>
+#include <tools/set_rownames.h>
+#include <tools/all_na.h>
 
 #include <dplyr/checks.h>
 
@@ -14,10 +15,8 @@
 #include <dplyr/DataMask.h>
 #include <dplyr/NamedListAccumulator.h>
 
-#include <tools/bad.h>
-#include <tools/set_rownames.h>
-
 #include <dplyr/hybrid/hybrid.h>
+#include <dplyr/Collecter.h>
 
 using namespace Rcpp;
 using namespace dplyr;

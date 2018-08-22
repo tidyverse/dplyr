@@ -1,8 +1,6 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/hash.h>
 #include <tools/match.h>
 
