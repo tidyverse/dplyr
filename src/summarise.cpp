@@ -9,6 +9,8 @@
 #include <dplyr/data/tbl_classes.h>
 
 #include <dplyr/standard/GroupedCallReducer.h>
+#include <dplyr/standard/summarise.h>
+
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 
@@ -171,8 +173,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
       if (result == R_UnboundValue) {
-        DataMask<SlicedTibble> data_mask(subsets, quosure.env());
-        result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), data_mask).process(gdf);
+        result = standard::summarise(quosure, gdf, subsets);
       }
     }
     check_not_null(result, quosure.name());
