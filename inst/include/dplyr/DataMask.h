@@ -15,7 +15,7 @@ public:
   virtual ~IHybridCallback() {}
 
 public:
-  virtual SEXP get_subset(const SymbolString& name) const = 0;
+  virtual SEXP get_subset(const SymbolString& name) = 0;
 };
 
 // in the general case (for grouped and rowwise), the bindings
@@ -23,7 +23,6 @@ public:
 template <typename Data>
 class DataMask_bindings_active {
 public:
-  typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
 private:
@@ -38,15 +37,15 @@ private:
   // get_subset() returns NULL with a warning (#3318).
   class HybridCallbackWeakProxy : public IHybridCallback {
   public:
-    HybridCallbackWeakProxy(boost::shared_ptr<const IHybridCallback> real_):
+    HybridCallbackWeakProxy(boost::shared_ptr<IHybridCallback> real_):
       real(real_)
     {
       LOG_VERBOSE;
     }
 
   public:
-    SEXP get_subset(const SymbolString& name) const {
-      if (boost::shared_ptr<const IHybridCallback> lock = real.lock()) {
+    SEXP get_subset(const SymbolString& name) {
+      if (boost::shared_ptr<IHybridCallback> lock = real.lock()) {
         return lock.get()->get_subset(name);
       }
       else {
@@ -60,7 +59,7 @@ private:
     }
 
   private:
-    boost::weak_ptr<const IHybridCallback> real;
+    boost::weak_ptr<IHybridCallback> real;
   };
 
   // The GroupedHybridEval class evaluates expressions for each group.
@@ -73,7 +72,7 @@ private:
     // interface.
     class HybridCallbackProxy : public IHybridCallback {
     public:
-      HybridCallbackProxy(const IHybridCallback* real_) :
+      HybridCallbackProxy(IHybridCallback* real_) :
         real(real_)
       {
         LOG_VERBOSE;
@@ -83,16 +82,16 @@ private:
       }
 
     public:
-      SEXP get_subset(const SymbolString& name) const {
+      SEXP get_subset(const SymbolString& name) {
         return real->get_subset(name);
       }
 
     private:
-      const IHybridCallback* real;
+      IHybridCallback* real;
     };
 
   public:
-    GroupedHybridEval(const Subsets& subsets_) :
+    GroupedHybridEval(LazySplitSubsets<Data>& subsets_) :
       indices(NULL),
       subsets(subsets_),
       proxy(new HybridCallbackProxy(this))
@@ -104,32 +103,30 @@ private:
       return *indices;
     }
 
-  public: // IHybridCallback
-    SEXP get_subset(const SymbolString& name) const {
+    SEXP get_subset(const SymbolString& name) {
       return subsets.get(name, get_indices());
     }
 
-  public:
     void set_indices(const Index& indices_) {
       indices = &indices_;
     }
 
   private:
     const Index* indices;
-    const LazySplitSubsets<Data>& subsets;
+    LazySplitSubsets<Data>& subsets;
 
     boost::shared_ptr<IHybridCallback> proxy;
 
   };
 
 public:
-  DataMask_bindings_active(SEXP parent_env, Subsets& subsets_) :
+  DataMask_bindings_active(SEXP parent_env, LazySplitSubsets<Data>& subsets_) :
     subsets(subsets_),
     callback(new GroupedHybridEval(subsets))
   {
     CharacterVector names = subsets.get_variable_names().get_vector();
 
-    XPtr<const HybridCallbackWeakProxy> p(new HybridCallbackWeakProxy(callback));
+    XPtr<HybridCallbackWeakProxy> p(new HybridCallbackWeakProxy(callback));
     List payload = List::create(p);
 
     // Environment::new_child() performs an R callback, creating the environment
@@ -151,11 +148,11 @@ public:
 
 private:
   Environment mask_active;
-  Subsets& subsets ;
+  LazySplitSubsets<Data>& subsets ;
   boost::shared_ptr<GroupedHybridEval> callback;
 
   static SEXP hybrid_get_callback(const String& name, List payload) {
-    XPtr<const HybridCallbackWeakProxy> callback_ = payload[0];
+    XPtr<HybridCallbackWeakProxy> callback_ = payload[0];
     return callback_->get_subset(SymbolString(name));
   }
 
@@ -166,9 +163,8 @@ template <typename Data>
 class DataMask_bindings {
 public:
   typedef typename Data::slicing_index Index ;
-  typedef LazySplitSubsets<Data> Subsets;
 
-  DataMask_bindings(SEXP parent_env, Subsets& subsets) :
+  DataMask_bindings(SEXP parent_env, LazySplitSubsets<Data>& subsets) :
     impl(parent_env, subsets)
   {}
 
@@ -188,9 +184,8 @@ private:
 template <>
 class DataMask_bindings<NaturalDataFrame> {
 public:
-  typedef LazySplitSubsets<NaturalDataFrame> Subsets;
 
-  DataMask_bindings(SEXP parent_env, Subsets& subsets) :
+  DataMask_bindings(SEXP parent_env, LazySplitSubsets<NaturalDataFrame>& subsets) :
     mask_bindings(child_env(parent_env))
   {
     CharacterVector names = subsets.get_variable_names().get_vector();
@@ -217,10 +212,9 @@ private:
 template <typename Data>
 class DataMask {
 public:
-  typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  DataMask(Subsets& subsets, const Rcpp::Environment& env):
+  DataMask(LazySplitSubsets<Data>& subsets, const Rcpp::Environment& env):
     bindings(env, subsets),
     overscope(internal::rlang_api().new_data_mask(bindings, bindings, env))
   {

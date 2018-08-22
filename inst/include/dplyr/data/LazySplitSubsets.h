@@ -12,12 +12,21 @@
 namespace dplyr {
 
 struct SubsetData {
+public:
   SubsetData(bool summary_, SEXP symbol_, SEXP data_) :
     summary(summary_),
     symbol(symbol_),
     data(data_),
     resolved(R_UnboundValue)
   {}
+
+  template <typename Index>
+  inline SEXP get(const Index& indices) {
+    if (!is_resolved()) {
+      materialize(indices);
+    }
+    return resolved;
+  }
 
   template <typename Index>
   inline void materialize(const Index& indices) {
@@ -30,6 +39,20 @@ struct SubsetData {
   bool is_resolved() const {
     return resolved != R_UnboundValue;
   }
+
+  bool is_summary() const {
+    return summary;
+  }
+
+  inline SEXP get_data() const {
+    return data;
+  }
+
+  inline void clear() {
+    resolved = R_UnboundValue;
+  }
+
+private:
 
   bool summary;
   SEXP symbol;
@@ -62,29 +85,24 @@ public:
   }
 
   SEXP get_variable(int i) const {
-    return subsets[i].data;
+    return subsets[i].get_data();
   }
 
   SEXP get_variable(const SymbolString& symbol) const {
-    return subsets[symbol_map.get(symbol)].data;
+    return subsets[symbol_map.get(symbol)].get_data();
   }
 
-  SEXP get(const SymbolString& symbol, const slicing_index& indices) const {
+  SEXP get(const SymbolString& symbol, const slicing_index& indices) {
     int idx = symbol_map.get(symbol);
-
-    SubsetData subset = subsets[idx];
-    if (!subset.is_resolved()) {
-      subset.materialize(indices);
-    }
-    return subset.resolved;
+    return subsets[idx].get(indices);
   }
 
   bool is_summary(int i) const {
-    return subsets[i].summary;
+    return subsets[i].is_summary();
   }
 
   bool is_summary(const SymbolString& symbol) const {
-    return subsets[symbol_map.get(symbol)].summary;
+    return subsets[symbol_map.get(symbol)].is_summary();
   }
 
   bool has_variable(const SymbolString& head) const {
@@ -105,7 +123,7 @@ public:
 
   void clear() {
     for (size_t i = 0; i < subsets.size(); i++) {
-      subsets[i].resolved = R_UnboundValue;
+      subsets[i].clear();
     }
   }
 
