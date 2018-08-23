@@ -135,19 +135,32 @@ public:
                     names, &DataMask_bindings_active::hybrid_get_callback,
                     payload, parent_env
                   );
+
+    mask_resolved = mask_active.new_child(true);
+    subsets.clear(mask_resolved);
   }
 
-  inline operator SEXP() {
+  ~DataMask_bindings_active() {
+    subsets.clear(R_NilValue);
+  }
+
+  inline SEXP bottom() {
+    return mask_resolved;
+  }
+
+  inline SEXP top() {
     return mask_active;
   }
 
   void update(const Index& indices) {
-    subsets.clear();
+    subsets.update(indices);
     callback->set_indices(indices);
   }
 
 private:
   Environment mask_active;
+  Environment mask_resolved;
+
   LazySplitSubsets<Data>& subsets ;
   boost::shared_ptr<GroupedHybridEval> callback;
 
@@ -172,8 +185,12 @@ public:
     impl.update(indices);
   }
 
-  inline operator SEXP() {
-    return impl;
+  inline SEXP bottom() {
+    return impl.bottom();
+  }
+
+  inline SEXP top() {
+    return impl.top();
   }
 
 private:
@@ -198,7 +215,11 @@ public:
 
   void update(const NaturalSlicingIndex&) {}
 
-  inline operator SEXP() {
+  inline SEXP bottom() {
+    return mask_bindings;
+  }
+
+  inline SEXP top() {
     return mask_bindings;
   }
 
@@ -216,9 +237,9 @@ public:
 
   DataMask(LazySplitSubsets<Data>& subsets, const Rcpp::Environment& env):
     bindings(env, subsets),
-    overscope(internal::rlang_api().new_data_mask(bindings, bindings, env))
+    overscope(internal::rlang_api().new_data_mask(bindings.bottom(), bindings.top(), env))
   {
-    overscope[".data"] = internal::rlang_api().as_data_pronoun(bindings);
+    overscope[".data"] = internal::rlang_api().as_data_pronoun(bindings.top());
   }
 
   SEXP eval(SEXP expr, const Index& indices) {

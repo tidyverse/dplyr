@@ -21,19 +21,21 @@ public:
   {}
 
   template <typename Index>
-  inline SEXP get(const Index& indices) {
+  inline SEXP get(const Index& indices, SEXP env) {
     if (!is_resolved()) {
-      materialize(indices);
+      materialize(indices, env);
     }
     return resolved;
   }
 
   template <typename Index>
-  inline void materialize(const Index& indices) {
-    resolved = summary ?
-               column_subset(data, RowwiseSlicingIndex(indices.group())) :
-               column_subset(data, indices)
-               ;
+  inline void materialize(const Index& indices, SEXP env) {
+    Shield<SEXP> value(summary ?
+                       column_subset(data, RowwiseSlicingIndex(indices.group())) :
+                       column_subset(data, indices)
+                      );
+    if (env != R_NilValue) Rf_defineVar(symbol, value, env);
+    resolved = value;
   }
 
   bool is_resolved() const {
@@ -52,6 +54,13 @@ public:
     resolved = R_UnboundValue;
   }
 
+  template <typename Index>
+  inline void update(const Index& indices, SEXP env) {
+    if (is_resolved()) {
+      materialize(indices, env);
+    }
+  }
+
 private:
 
   bool summary;
@@ -68,7 +77,8 @@ public:
   LazySplitSubsets(const Data& gdf_) :
     gdf(gdf_),
     subsets(),
-    symbol_map()
+    symbol_map(),
+    mask(R_NilValue)
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
@@ -94,7 +104,7 @@ public:
 
   SEXP get(const SymbolString& symbol, const slicing_index& indices) {
     int idx = symbol_map.get(symbol);
-    return subsets[idx].get(indices);
+    return subsets[idx].get(indices, mask);
   }
 
   bool is_summary(int i) const {
@@ -121,9 +131,16 @@ public:
     return gdf.nrows();
   }
 
-  void clear() {
+  void clear(SEXP env) {
+    mask = env;
     for (size_t i = 0; i < subsets.size(); i++) {
       subsets[i].clear();
+    }
+  }
+
+  void update(const slicing_index& indices) {
+    for (size_t i = 0; i < subsets.size(); i++) {
+      subsets[i].update(indices, mask);
     }
   }
 
@@ -137,10 +154,11 @@ private:
 
   std::vector<SubsetData> subsets ;
   SymbolMap symbol_map;
+  SEXP mask;
 
   void input_impl(const SymbolString& symbol, bool summarised, SEXP x) {
     SymbolMapIndex index = symbol_map.insert(symbol);
-    SubsetData subset(summarised, symbol.get_sexp(), x);
+    SubsetData subset(summarised, Rf_installChar(symbol.get_sexp()), x);
     if (index.origin == NEW) {
       subsets.push_back(subset);
     } else {
