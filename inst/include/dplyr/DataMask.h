@@ -21,7 +21,7 @@ public:
 // in the general case (for grouped and rowwise), the bindings
 // environment contains active bindings of the subsets
 template <typename Data>
-class DataMask_bindings_active {
+class DataMask_bindings {
 public:
   typedef typename Data::slicing_index Index ;
 
@@ -120,7 +120,7 @@ private:
   };
 
 public:
-  DataMask_bindings_active(SEXP parent_env, LazySplitSubsets<Data>& subsets_) :
+  DataMask_bindings(SEXP parent_env, LazySplitSubsets<Data>& subsets_) :
     subsets(subsets_),
     callback(new GroupedHybridEval(subsets))
   {
@@ -132,15 +132,15 @@ public:
     // Environment::new_child() performs an R callback, creating the environment
     // in R should be slightly faster
     mask_active = bindrcpp::create_env_string_wrapped(
-                    names, &DataMask_bindings_active::hybrid_get_callback,
-                    payload, parent_env
-                  );
+      names, &DataMask_bindings::hybrid_get_callback,
+      payload, parent_env
+    );
 
     mask_resolved = mask_active.new_child(true);
     subsets.clear(mask_resolved);
   }
 
-  ~DataMask_bindings_active() {
+  ~DataMask_bindings() {
     subsets.clear(R_NilValue);
   }
 
@@ -169,32 +169,6 @@ private:
     return callback_->get_subset(SymbolString(name));
   }
 
-};
-
-
-template <typename Data>
-class DataMask_bindings {
-public:
-  typedef typename Data::slicing_index Index ;
-
-  DataMask_bindings(SEXP parent_env, LazySplitSubsets<Data>& subsets) :
-    impl(parent_env, subsets)
-  {}
-
-  void update(const Index& indices) {
-    impl.update(indices);
-  }
-
-  inline SEXP bottom() {
-    return impl.bottom();
-  }
-
-  inline SEXP top() {
-    return impl.top();
-  }
-
-private:
-  DataMask_bindings_active<Data> impl ;
 };
 
 // in the NaturalDataFrame case, we can directly install columns in the bindings environment
