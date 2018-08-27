@@ -2,6 +2,8 @@
 #define dplyr_hybrid_expression_h
 
 #include <dplyr/hybrid/Column.h>
+#include <tools/SymbolString.h>
+#include <dplyr/data/LazySplitSubsets.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -62,13 +64,12 @@ struct FindFunData {
   }
 };
 
-template <typename LazySubsets>
+template <typename SlicedTibble>
 class Expression {
 public:
-
   typedef std::pair<bool, SEXP> ArgPair;
 
-  Expression(SEXP expr_, const LazySubsets& subsets_, SEXP env_) :
+  Expression(SEXP expr_, const LazySplitSubsets<SlicedTibble>& subsets_, SEXP env_) :
     expr(expr_),
     env(env_),
     func(R_NilValue),
@@ -193,7 +194,7 @@ private:
   SEXP package;
   bool valid;
 
-  const LazySubsets& subsets;
+  const LazySplitSubsets<SlicedTibble>& subsets;
 
   int n;
   std::vector<SEXP> values;
@@ -228,17 +229,17 @@ private:
 
   inline bool test_is_column(Rcpp::Symbol s, Column& column, bool desc) const {
     SymbolString symbol(s);
-    bool test = subsets.has_variable(symbol);
-    if (test) {
-      // only treat very simple columns as columns, leave other to R
-      SEXP data = subsets.get_variable(symbol);
-      if (Rf_isObject(data) || Rf_isS4(data) || RCPP_GET_CLASS(data) != R_NilValue) return false;
+    const SubsetData< typename SlicedTibble::slicing_index >* subset = subsets.maybe_get_subset_data(symbol);
+    if (!subset) return false;
 
-      column.data = data;
-      column.is_summary = subsets.is_summary(symbol);
-      column.is_desc = desc;
-    }
-    return test;
+    // only treat very simple columns as columns, leave other to R
+    SEXP data = subset->get_data() ;
+    if (Rf_isObject(data) || Rf_isS4(data) || RCPP_GET_CLASS(data) != R_NilValue) return false;
+
+    column.data = data;
+    column.is_summary = subset->is_summary();
+    column.is_desc = desc;
+    return true;
   }
 
 

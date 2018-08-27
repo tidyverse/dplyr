@@ -59,7 +59,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   Environment ns_dplyr = Environment::namespace_env("dplyr");
   Environment ns_stats = Environment::namespace_env("stats");
 
-  Expression<LazySubsets> expression(expr, subsets, env);
+  Expression<SlicedTibble> expression(expr, subsets, env);
 
   Column column;
   Column column2;

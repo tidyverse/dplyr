@@ -94,7 +94,8 @@ private:
     GroupedHybridEval(LazySplitSubsets<Data>& subsets_) :
       indices(NULL),
       subsets(subsets_),
-      proxy(new HybridCallbackProxy(this))
+      proxy(new HybridCallbackProxy(this)),
+      mask_env(R_NilValue)
     {
       LOG_VERBOSE;
     }
@@ -104,16 +105,21 @@ private:
     }
 
     SEXP get_subset(const SymbolString& name) {
-      return subsets.get(name, get_indices());
+      return subsets.get(name, get_indices(), mask_env);
     }
 
     void set_indices(const Index& indices_) {
       indices = &indices_;
     }
 
+    void set_env(SEXP env){
+      mask_env = env;
+    }
+
   private:
     const Index* indices;
     LazySplitSubsets<Data>& subsets;
+    SEXP mask_env;
 
     boost::shared_ptr<IHybridCallback> proxy;
 
@@ -132,16 +138,17 @@ public:
     // Environment::new_child() performs an R callback, creating the environment
     // in R should be slightly faster
     mask_active = bindrcpp::create_env_string_wrapped(
-      names, &DataMask_bindings::hybrid_get_callback,
-      payload, parent_env
-    );
+                    names, &DataMask_bindings::hybrid_get_callback,
+                    payload, parent_env
+                  );
 
     mask_resolved = mask_active.new_child(true);
-    subsets.clear(mask_resolved);
+    subsets.clear();
+    callback->set_env(mask_resolved);
   }
 
   ~DataMask_bindings() {
-    subsets.clear(R_NilValue);
+    subsets.clear();
   }
 
   inline SEXP bottom() {
@@ -153,7 +160,7 @@ public:
   }
 
   void update(const Index& indices) {
-    subsets.update(indices);
+    subsets.update(indices, mask_resolved);
     callback->set_indices(indices);
   }
 
@@ -183,7 +190,7 @@ public:
     int n = names.size();
     for (int i = 0; i < n; i++) {
       // this handles both the normal and summarised case (via recycling rules)
-      Rf_defineVar(Rf_install(names[i]), subsets.get_variable(i), mask_bindings);
+      Rf_defineVar(Rf_install(names[i]), subsets.get_subset_data(i).get_data(), mask_bindings);
     }
   }
 

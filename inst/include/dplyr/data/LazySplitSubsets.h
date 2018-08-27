@@ -75,8 +75,7 @@ public:
   LazySplitSubsets(const Data& gdf_) :
     gdf(gdf_),
     subsets(),
-    symbol_map(),
-    mask(R_NilValue)
+    symbol_map()
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
@@ -92,63 +91,53 @@ public:
     return symbol_map.get_names();
   }
 
-  SEXP get_variable(int i) const {
-    return subsets[i].get_data();
+  const SubsetData<slicing_index>* maybe_get_subset_data(const SymbolString& symbol) const {
+    int pos = symbol_map.find(symbol);
+    if (pos >= 0) {
+      return &subsets[pos];
+    } else {
+      return 0;
+    }
   }
 
-  SEXP get_variable(const SymbolString& symbol) const {
-    return subsets[symbol_map.get(symbol)].get_data();
+  const SubsetData<slicing_index>& get_subset_data(int i) const {
+    return subsets[i];
   }
 
-  SEXP get(const SymbolString& symbol, const slicing_index& indices) {
+  SEXP get(const SymbolString& symbol, const slicing_index& indices, SEXP mask) {
     int idx = symbol_map.get(symbol);
     return subsets[idx].get(indices, mask);
-  }
-
-  bool is_summary(const SymbolString& symbol) const {
-    return subsets[symbol_map.get(symbol)].is_summary();
-  }
-
-  bool has_variable(const SymbolString& head) const {
-    return symbol_map.has(head);
   }
 
   void input_column(const SymbolString& symbol, SEXP x) {
     input_impl(symbol, false, x);
   }
 
+  void input_summarised(const SymbolString& symbol, SEXP x) {
+    input_impl(symbol, true, x);
+  }
+
   int size() const {
     return subsets.size();
   }
 
-  int nrows() const {
-    return gdf.nrows();
-  }
-
-  void clear(SEXP env) {
-    mask = env;
+  void clear() {
     for (size_t i = 0; i < subsets.size(); i++) {
       subsets[i].clear();
     }
   }
 
-  void update(const slicing_index& indices) {
+  void update(const slicing_index& indices, SEXP mask) {
     for (size_t i = 0; i < subsets.size(); i++) {
       subsets[i].update(indices, mask);
     }
   }
 
-  void input_summarised(const SymbolString& symbol, SEXP x) {
-    input_impl(symbol, true, x);
-  }
-
 private:
-
   const Data& gdf;
 
   std::vector< SubsetData<slicing_index> > subsets ;
   SymbolMap symbol_map;
-  SEXP mask;
 
   void input_impl(const SymbolString& symbol, bool summarised, SEXP x) {
     SymbolMapIndex index = symbol_map.insert(symbol);

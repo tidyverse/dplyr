@@ -120,8 +120,9 @@ public:
     }
 
     // a symbol that is in the data, just return it
-    if (TYPEOF(expr) == SYMSXP && subsets.has_variable(CHAR(PRINTNAME(expr)))) {
-      return subsets.get_variable(CHAR(PRINTNAME(expr)));
+    if (TYPEOF(expr) == SYMSXP) {
+      const SubsetData<Index>* subset_data = subsets.maybe_get_subset_data(CHAR(PRINTNAME(expr)));
+      if (subset_data) return subset_data->get_data();
     }
 
     // a call or symbol that is not in the data

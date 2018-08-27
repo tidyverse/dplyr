@@ -77,8 +77,12 @@ public:
     return lookup.find(name.get_sexp()) != lookup.end();
   }
 
+  int find(const SymbolString& name) const {
+    dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
+    return it == lookup.end() ? -1 : it->second;
+  }
+
   int get(const SymbolString& name) const {
-    // first, lookup the map
     dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
     if (it == lookup.end()) {
       stop("variable '%s' not found", name.get_utf8_cstring());
