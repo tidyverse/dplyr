@@ -45,8 +45,8 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Join data frame tbls</a>
-        <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <small class="tidyverse">part of the <a href="https://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -102,14 +102,16 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Join data frame tbls</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/tbl-df.r'><code>R/tbl-df.r</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/tbl-df.r'><code>R/tbl-df.r</code></a></small>
     <div class="hidden name"><code>join.tbl_df.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>See <a href='join.html'>join</a> for a description of the general purpose of the
 functions.</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S3 method for tbl_df</span>
 <span class='fu'><a href='join.html'>inner_join</a></span>(<span class='no'>x</span>, <span class='no'>y</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>copy</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
@@ -207,18 +209,18 @@ Users and package authors can change the default behavior by calling
 <span class='co'># or people who didn't bat</span>
 <span class='fu'><a href='join.html'>anti_join</a></span>(<span class='no'>person_df</span>, <span class='no'>batting_df</span>)
 }</div><div class='output co'>#&gt; <span class='message'>Loading required package: Lahman</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; <span class='message'>Joining, by = "playerID"</span></div><div class='output co'>#&gt; # A tibble: 190 x 26
-#&gt;    playerID  birthYear birthMonth birthDay birthCountry  birthState  birthCity 
-#&gt;    &lt;chr&gt;         &lt;int&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;     
-#&gt;  1 actama99       1969          1       11 D.R.          San Pedro … San Pedro…
-#&gt;  2 adairbi99      1913          2       10 USA           AL          Mobile    
-#&gt;  3 armoubi99      1869          9        3 USA           PA          Homestead 
-#&gt;  4 bancrfr99      1846          5        9 USA           MA          Lancaster 
-#&gt;  5 barlial99      1915          4        2 USA           IL          Springfie…
-#&gt;  6 barroed99      1868          5       10 USA           IL          Springfie…
-#&gt;  7 bellco99       1903          5       17 USA           MS          Starkville
-#&gt;  8 bevinte99      1956          7        7 USA           OH          Akron     
-#&gt;  9 bezdehu99      1883          4        1 Czech Republ… &lt;NA&gt;        Prague    
-#&gt; 10 bicke99        1848         NA       NA USA           DC          Washington
+#&gt;    playerID birthYear birthMonth birthDay birthCountry birthState birthCity
+#&gt;    &lt;chr&gt;        &lt;int&gt;      &lt;int&gt;    &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;      &lt;chr&gt;    
+#&gt;  1 actama99      1969          1       11 D.R.         San Pedro… San Pedr…
+#&gt;  2 adairbi…      1913          2       10 USA          AL         Mobile   
+#&gt;  3 armoubi…      1869          9        3 USA          PA         Homestead
+#&gt;  4 bancrfr…      1846          5        9 USA          MA         Lancaster
+#&gt;  5 barlial…      1915          4        2 USA          IL         Springfi…
+#&gt;  6 barroed…      1868          5       10 USA          IL         Springfi…
+#&gt;  7 bellco99      1903          5       17 USA          MS         Starkvil…
+#&gt;  8 bevinte…      1956          7        7 USA          OH         Akron    
+#&gt;  9 bezdehu…      1883          4        1 Czech Repub… &lt;NA&gt;       Prague   
+#&gt; 10 bicke99       1848         NA       NA USA          DC         Washingt…
 #&gt; # ... with 180 more rows, and 19 more variables: deathYear &lt;int&gt;,
 #&gt; #   deathMonth &lt;int&gt;, deathDay &lt;int&gt;, deathCountry &lt;chr&gt;, deathState &lt;chr&gt;,
 #&gt; #   deathCity &lt;chr&gt;, nameFirst &lt;chr&gt;, nameLast &lt;chr&gt;, nameGiven &lt;chr&gt;,
@@ -239,22 +241,21 @@ Users and package authors can change the default behavior by calling
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="http://tidyverse.org">tidyverse.org</a>.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
-  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>

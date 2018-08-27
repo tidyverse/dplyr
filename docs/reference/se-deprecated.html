@@ -45,8 +45,8 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Deprecated SE versions of main verbs.</a>
-        <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <small class="tidyverse">part of the <a href="https://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -102,10 +102,11 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Deprecated SE versions of main verbs.</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/count-tally.R'><code>R/count-tally.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/distinct.R'><code>R/distinct.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/do.r'><code>R/do.r</code></a>, and 6 more</small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/count-tally.R'><code>R/count-tally.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/distinct.R'><code>R/distinct.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/do.r'><code>R/do.r</code></a>, and 6 more</small>
     <div class="hidden name"><code>se-deprecated.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>dplyr used to offer twin versions of each verb suffixed with an
 underscore. These versions had standard evaluation (SE) semantics:
@@ -116,6 +117,7 @@ semantics. NSE verbs still capture their arguments, but you can now
 unquote parts of these arguments. This offers full programmability
 with NSE verbs. Thus, the underscored versions are now superfluous.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -241,22 +243,21 @@ argument. See <code><a href='../articles/programming.html'>vignette("programming
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="http://tidyverse.org">tidyverse.org</a>.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
-  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>

@@ -45,8 +45,8 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="../index.html">Source for database backends</a>
-        <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
+        <small class="tidyverse">part of the <a href="https://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -102,20 +102,22 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Source for database backends</h1>
-    <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/src_dbi.R'><code>R/src_dbi.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/src_dbi.R'><code>R/src_dbi.R</code></a></small>
     <div class="hidden name"><code>src_dbi.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>For backward compatibility dplyr provides three srcs for popular
 open source databases:</p><ul>
-<li><p><code>src_mysql()</code> connects to a MySQL or MariaDB database using <code>RMySQL::MySQL()</code>.</p></li>
-<li><p><code>src_postgres()</code> connects to PostgreSQL using <code>RPostgreSQL::PostgreSQL()</code></p></li>
+<li><p><code>src_mysql()</code> connects to a MySQL or MariaDB database using <code><a href='http://www.rdocumentation.org/packages/RMySQL/topics/MySQLDriver-class'>RMySQL::MySQL()</a></code>.</p></li>
+<li><p><code>src_postgres()</code> connects to PostgreSQL using <code><a href='http://www.rdocumentation.org/packages/RPostgreSQL/topics/PostgreSQL'>RPostgreSQL::PostgreSQL()</a></code></p></li>
 <li><p><code>src_sqlite()</code> to connect to a SQLite database using <code><a href='http://www.rdocumentation.org/packages/RSQLite/topics/SQLite'>RSQLite::SQLite()</a></code>.</p></li>
 </ul>
 
     <p>However, modern best practice is to use <code><a href='tbl.html'>tbl()</a></code> directly on an <code>DBIConnection</code>.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>src_mysql</span>(<span class='no'>dbname</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>username</span> <span class='kw'>=</span> <span class='st'>"root"</span>,
   <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>...</span>)
@@ -149,7 +151,7 @@ compatibility with the generic, but otherwise ignored.</p></td>
 scripts as it is easy to accidentally expose valuable credentials.
 Instead, retrieve them from environment variables, or use database
 specific credential scores. For example, with MySQL you can set up <code>my.cnf</code>
-as described in <code>RMySQL::MySQL()</code>.</p></td>
+as described in <code><a href='http://www.rdocumentation.org/packages/RMySQL/topics/MySQLDriver-class'>RMySQL::MySQL()</a></code>.</p></td>
     </tr>
     <tr>
       <th>path</th>
@@ -255,22 +257,21 @@ into R.</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="http://tidyverse.org">tidyverse.org</a>.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
-  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='http://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
-  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
+  <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
+  <p>Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
 <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ window.dataLayer = window.dataLayer || [];
+ function gtag(){dataLayer.push(arguments);}
+ gtag('js', new Date());
 
-  ga('create', 'UA-67989-18', 'auto');
-  ga('send', 'pageview');
+ gtag('config', 'UA-115082821-1');
 </script>
       </footer>
    </div>
