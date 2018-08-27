@@ -105,10 +105,6 @@ public:
     return subsets[idx].get(indices, mask);
   }
 
-  bool is_summary(int i) const {
-    return subsets[i].is_summary();
-  }
-
   bool is_summary(const SymbolString& symbol) const {
     return subsets[symbol_map.get(symbol)].is_summary();
   }
