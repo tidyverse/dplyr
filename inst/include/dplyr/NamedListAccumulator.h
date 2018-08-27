@@ -24,7 +24,7 @@ public:
     if (index.origin == NEW) {
       data.push_back(x);
     } else {
-      data[ index.pos ] = x;
+      data[index.pos] = x;
     }
 
   }

@@ -3,6 +3,8 @@
 
 #include <tools/hash.h>
 #include <tools/match.h>
+#include <tools/SymbolString.h>
+#include <tools/SymbolVector.h>
 
 namespace dplyr {
 
@@ -31,7 +33,7 @@ public:
     }
   }
 
-  SymbolMap(const SymbolVector& names_): lookup(), names(names_) {
+  SymbolMap(const SymbolVector& names_): lookup(names_.size()), names(names_) {
     int n = names.size();
     for (int i = 0; i < n; i++) {
       lookup.insert(std::make_pair(names_[i].get_sexp(), i));
@@ -39,20 +41,24 @@ public:
   }
 
   SymbolMapIndex insert(const SymbolString& name) {
-    SymbolMapIndex index = get_index(name);
-    int idx = index.pos;
-    switch (index.origin) {
-    case HASH:
-      break;
-    case RMATCH:
+    // first, lookup the map
+    dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
+    if (it != lookup.end()) {
+      return SymbolMapIndex(it->second, HASH);
+    }
+
+    int idx = names.match(name);
+    if (idx != NA_INTEGER) {
+      // if it is in the names, insert it in the map with the right index
+      lookup.insert(std::make_pair(name.get_sexp(), idx - 1));
+      return SymbolMapIndex(idx - 1, RMATCH);
+    } else {
+      // otherwise insert it at the back
+      idx = names.size();
       lookup.insert(std::make_pair(name.get_sexp(), idx));
-      break;
-    case NEW:
       names.push_back(name.get_string());
-      lookup.insert(std::make_pair(name.get_sexp(), idx));
-      break;
-    };
-    return index;
+      return SymbolMapIndex(idx, NEW);
+    }
   }
 
   SymbolVector get_names() const {
@@ -68,39 +74,23 @@ public:
   }
 
   bool has(const SymbolString& name) const {
-    SymbolMapIndex index = get_index(name);
-    return index.origin != NEW;
-  }
-
-  SymbolMapIndex get_index(const SymbolString& name) const {
-    // first, lookup the map
-    dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
-    if (it != lookup.end()) {
-      return SymbolMapIndex(it->second, HASH);
-    }
-
-    int idx = names.match(name);
-    if (idx != NA_INTEGER) {
-      // we have a match
-      return SymbolMapIndex(idx - 1, RMATCH);
-    }
-
-    // no match
-    return SymbolMapIndex(names.size(), NEW);
+    return lookup.find(name.get_sexp()) != lookup.end();
   }
 
   int get(const SymbolString& name) const {
-    SymbolMapIndex index = get_index(name);
-    if (index.origin == NEW) {
+    // first, lookup the map
+    dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
+    if (it == lookup.end()) {
       stop("variable '%s' not found", name.get_utf8_cstring());
     }
-    return index.pos;
+    return it->second;
   }
 
   SymbolMapIndex rm(const SymbolString& name) {
-    SymbolMapIndex index = get_index(name);
-    if (index.origin != NEW) {
-      int idx = index.pos;
+
+    dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
+    if (it != lookup.end()) {
+      int idx = it->second;
       names.remove(idx);
 
       for (dplyr_hash_map<SEXP, int>::iterator it = lookup.begin(); it != lookup.end();) {
@@ -120,11 +110,12 @@ public:
           ++it;
         }
       }
-
+      return SymbolMapIndex(idx, HASH);
     }
 
-    return index;
+    return SymbolMapIndex(names.size(), NEW);
   }
+
 
 };
 
