@@ -112,7 +112,7 @@ private:
       indices = &indices_;
     }
 
-    void set_env(SEXP env){
+    void set_env(SEXP env) {
       mask_env = env;
     }
 
