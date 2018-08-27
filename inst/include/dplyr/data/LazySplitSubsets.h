@@ -11,6 +11,7 @@
 
 namespace dplyr {
 
+template <typename Index>
 struct SubsetData {
 public:
   SubsetData(bool summary_, SEXP symbol_, SEXP data_) :
@@ -20,7 +21,6 @@ public:
     resolved(R_UnboundValue)
   {}
 
-  template <typename Index>
   inline SEXP get(const Index& indices, SEXP env) {
     if (!is_resolved()) {
       materialize(indices, env);
@@ -28,7 +28,6 @@ public:
     return resolved;
   }
 
-  template <typename Index>
   inline void materialize(const Index& indices, SEXP env) {
     Shield<SEXP> value(summary ?
                        column_subset(data, RowwiseSlicingIndex(indices.group())) :
@@ -54,7 +53,6 @@ public:
     resolved = R_UnboundValue;
   }
 
-  template <typename Index>
   inline void update(const Index& indices, SEXP env) {
     if (is_resolved()) {
       materialize(indices, env);
@@ -152,13 +150,13 @@ private:
 
   const Data& gdf;
 
-  std::vector<SubsetData> subsets ;
+  std::vector< SubsetData<slicing_index> > subsets ;
   SymbolMap symbol_map;
   SEXP mask;
 
   void input_impl(const SymbolString& symbol, bool summarised, SEXP x) {
     SymbolMapIndex index = symbol_map.insert(symbol);
-    SubsetData subset(summarised, Rf_installChar(symbol.get_sexp()), x);
+    SubsetData<slicing_index> subset(summarised, Rf_installChar(symbol.get_sexp()), x);
     if (index.origin == NEW) {
       subsets.push_back(subset);
     } else {
