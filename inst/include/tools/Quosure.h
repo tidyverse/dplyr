@@ -29,7 +29,7 @@ public:
   {}
 
   SEXP expr() const {
-    return Rf_duplicate(internal::rlang_api().quo_get_expr(data));
+    return internal::rlang_api().quo_get_expr(data);
   }
   SEXP env() const {
     return internal::rlang_api().quo_get_env(data);
