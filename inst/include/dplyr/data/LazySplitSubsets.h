@@ -33,7 +33,7 @@ public:
                        column_subset(data, RowwiseSlicingIndex(indices.group())) :
                        column_subset(data, indices)
                       );
-    if (env != R_NilValue) Rf_defineVar(symbol, value, env);
+    Rf_defineVar(symbol, value, env);
     resolved = value;
   }
 
