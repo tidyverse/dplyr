@@ -5,18 +5,10 @@
 #include <tools/utils.h>
 #include <dplyr/data/LazySplitSubsets.h>
 
-#include <boost/weak_ptr.hpp>
 #include <bindrcpp.h>
+#include <boost/shared_ptr.hpp>
 
 namespace dplyr {
-
-class IHybridCallback {
-public:
-  virtual ~IHybridCallback() {}
-
-public:
-  virtual SEXP get_subset(const SymbolString& name) = 0;
-};
 
 // in the general case (for grouped and rowwise), the bindings
 // environment contains active bindings of the subsets
@@ -27,74 +19,11 @@ public:
 
 private:
 
-  // Objects of class HybridCallbackWeakProxy are owned by an XPtr that is
-  // buried in a closure maintained by bindr. We have no control of their
-  // lifetime. They are connected to an IHybridCallback via a weak_ptr<>
-  // constructed from a shared_ptr<>), to which all calls to get_subset()
-  // are forwarded. If the underlying object has been destroyed (which can
-  // happen if the data mask leaks and survives the dplyr verb,
-  // sometimes unintentionally), the weak pointer cannot be locked, and
-  // get_subset() returns NULL with a warning (#3318).
-  class HybridCallbackWeakProxy : public IHybridCallback {
-  public:
-    HybridCallbackWeakProxy(boost::shared_ptr<IHybridCallback> real_):
-      real(real_)
-    {
-      LOG_VERBOSE;
-    }
-
-  public:
-    SEXP get_subset(const SymbolString& name) {
-      if (boost::shared_ptr<IHybridCallback> lock = real.lock()) {
-        return lock.get()->get_subset(name);
-      }
-      else {
-        warning("Hybrid callback proxy out of scope");
-        return R_NilValue;
-      }
-    }
-
-    virtual ~HybridCallbackWeakProxy() {
-      LOG_VERBOSE;
-    }
-
-  private:
-    boost::weak_ptr<IHybridCallback> real;
-  };
-
-  // The GroupedHybridEval class evaluates expressions for each group.
-  // It implements IHybridCallback to handle requests for the value of
-  // a variable.
-  class GroupedHybridEval : public IHybridCallback {
-    // Objects of HybridCallbackProxy are owned by GroupedHybridEval and
-    // held with a shared_ptr<> to support weak references. They simply
-    // forward to the enclosing GroupedHybridEval via the IHybridCallback
-    // interface.
-    class HybridCallbackProxy : public IHybridCallback {
-    public:
-      HybridCallbackProxy(IHybridCallback* real_) :
-        real(real_)
-      {
-        LOG_VERBOSE;
-      }
-      virtual ~HybridCallbackProxy() {
-        LOG_VERBOSE;
-      }
-
-    public:
-      SEXP get_subset(const SymbolString& name) {
-        return real->get_subset(name);
-      }
-
-    private:
-      IHybridCallback* real;
-    };
-
+  class GroupedHybridEval {
   public:
     GroupedHybridEval(LazySplitSubsets<Data>& subsets_) :
       indices(NULL),
       subsets(subsets_),
-      proxy(new HybridCallbackProxy(this)),
       mask_env(R_NilValue)
     {
       LOG_VERBOSE;
@@ -120,9 +49,6 @@ private:
     const Index* indices;
     LazySplitSubsets<Data>& subsets;
     SEXP mask_env;
-
-    boost::shared_ptr<IHybridCallback> proxy;
-
   };
 
 public:
@@ -132,7 +58,7 @@ public:
   {
     CharacterVector names = subsets.get_variable_names().get_vector();
 
-    XPtr<HybridCallbackWeakProxy> p(new HybridCallbackWeakProxy(callback));
+    XPtr<GroupedHybridEval> p(callback.get(), false);
     List payload = List::create(p);
 
     // Environment::new_child() performs an R callback, creating the environment
@@ -145,10 +71,6 @@ public:
     mask_resolved = mask_active.new_child(true);
     subsets.clear();
     callback->set_env(mask_resolved);
-  }
-
-  ~DataMask_bindings() {
-    subsets.clear();
   }
 
   inline SEXP bottom() {
@@ -172,7 +94,7 @@ private:
   boost::shared_ptr<GroupedHybridEval> callback;
 
   static SEXP hybrid_get_callback(const String& name, List payload) {
-    XPtr<HybridCallbackWeakProxy> callback_ = payload[0];
+    XPtr<GroupedHybridEval> callback_ = payload[0];
     return callback_->get_subset(SymbolString(name));
   }
 
