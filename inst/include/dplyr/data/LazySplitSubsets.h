@@ -22,19 +22,8 @@ public:
   {}
 
   inline SEXP get(const Index& indices, SEXP env) {
-    if (!is_resolved()) {
-      materialize(indices, env);
-    }
+    materialize(indices, env);
     return resolved;
-  }
-
-  inline void materialize(const Index& indices, SEXP env) {
-    Shield<SEXP> value(summary ?
-                       column_subset(data, RowwiseSlicingIndex(indices.group())) :
-                       column_subset(data, indices)
-                      );
-    Rf_defineVar(symbol, value, env);
-    resolved = value;
   }
 
   bool is_resolved() const {
@@ -54,12 +43,19 @@ public:
   }
 
   inline void update(const Index& indices, SEXP env) {
-    if (is_resolved()) {
-      materialize(indices, env);
-    }
+    materialize(indices, env);
   }
 
 private:
+
+  inline void materialize(const Index& indices, SEXP env) {
+    Shield<SEXP> value(summary ?
+                       column_subset(data, RowwiseSlicingIndex(indices.group())) :
+                       column_subset(data, indices)
+                      );
+    Rf_defineVar(symbol, value, env);
+    resolved = value;
+  }
 
   bool summary;
   SEXP symbol;
@@ -106,7 +102,9 @@ public:
 
   SEXP get(const SymbolString& symbol, const slicing_index& indices, SEXP mask) {
     int idx = symbol_map.get(symbol);
-    return subsets[idx].get(indices, mask);
+    SEXP res = subsets[idx].get(indices, mask);
+    materialized.push_back(idx);
+    return res;
   }
 
   void input_column(const SymbolString& symbol, SEXP x) {
@@ -125,11 +123,12 @@ public:
     for (size_t i = 0; i < subsets.size(); i++) {
       subsets[i].clear();
     }
+    materialized.clear();
   }
 
   void update(const slicing_index& indices, SEXP mask) {
-    for (size_t i = 0; i < subsets.size(); i++) {
-      subsets[i].update(indices, mask);
+    for (size_t i = 0; i < materialized.size(); i++) {
+      subsets[materialized[i]].update(indices, mask);
     }
   }
 
@@ -137,6 +136,7 @@ private:
   const Data& gdf;
 
   std::vector< SubsetData<slicing_index> > subsets ;
+  std::vector<int> materialized ;
   SymbolMap symbol_map;
 
   void input_impl(const SymbolString& symbol, bool summarised, SEXP x) {
