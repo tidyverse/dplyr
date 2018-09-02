@@ -107,9 +107,13 @@ public:
     return n;
   }
 
+  inline bool is_valid() const {
+    return valid;
+  }
+
   inline bool is_fun(SEXP symbol, SEXP pkg, SEXP ns) {
     // quickly escape if this has no chance to be the function we look for
-    if (!valid || symbol != func) {
+    if (symbol != func) {
       return false;
     }
     if (package == R_NilValue) {

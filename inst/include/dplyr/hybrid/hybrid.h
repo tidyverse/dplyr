@@ -60,6 +60,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   Environment ns_stats = Environment::namespace_env("stats");
 
   Expression<SlicedTibble> expression(expr, subsets, env);
+  if(!expression.is_valid()) return R_UnboundValue;
 
   Column column;
   Column column2;
