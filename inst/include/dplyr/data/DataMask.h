@@ -128,24 +128,21 @@ class DataMask : public DataMaskBase {
   typedef typename SlicedTibble::slicing_index slicing_index;
 
 public:
-  DataMask(const SlicedTibble& gdf_) :
-    gdf(gdf_),
+  DataMask(const SlicedTibble& gdf) :
     subsets(),
-    symbol_map(),
-    mask_active(child_env(R_EmptyEnv)),
-    mask_resolved(child_env(mask_active))
+    symbol_map(gdf.data().size(), gdf.data().names()),
+    active_bindings_ready(false)
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
     int n = data.size();
     LOG_INFO << "processing " << n << " vars: " << names;
-    for (int i = 0; i < n; i++) {
-      input_column(names[i], data[i]);
-    }
-  }
 
-  const SymbolVector get_variable_names() const {
-    return symbol_map.get_names();
+    // install the subsets without lookups in symbol_map
+    for (int i = 0; i < n; i++) {
+      SEXP symbol = Rf_installChar(SymbolString(names[i]).get_sexp());
+      subsets.push_back(ColumnBinding<SlicedTibble>(false, symbol, data[i]));
+    }
   }
 
   const ColumnBinding<SlicedTibble>* maybe_get_subset_binding(const SymbolString& symbol) const {
@@ -173,12 +170,42 @@ public:
     return subsets.size();
   }
 
+  // before treating new expression
+  // in its environment: parent_env
   void reset(SEXP parent_env) {
-    materialized.clear();
-    update_mask_resolved();
+    if (!active_bindings_ready) {
+      // the active bindings have not been used at all
+      // so setup the environments ...
+      mask_active = child_env(R_EmptyEnv);
+      mask_resolved = child_env(mask_active);
 
+      // ... and install the bindings
+      for (int i = 0; i < subsets.size(); i++) {
+        subsets[i].install(mask_active, mask_resolved, i, this);
+      }
+
+      active_bindings_ready = true;
+    } else {
+      // forget about which indices are materialized
+      materialized.clear();
+
+      // update the materialized environment if needed
+      update_mask_resolved();
+    }
+
+    // finally setup the data mask with
+    // bottom    : the environment with the "resolved" bindings, this is initially empty but gets filled
+    //             as soon as the active binding is resolved
+    //
+    // top       : the environment containing active bindings.
+    //
+    // overscope : where .data etc ... are installed
     overscope = internal::rlang_api().new_data_mask(mask_resolved, mask_active, parent_env);
+
+    // install the pronoun
     overscope[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
+
+    // change the parent environment of mask_active
     SET_ENCLOS(mask_active, parent_env);
   }
 
@@ -214,8 +241,6 @@ private:
   // forbid copy construction of this class
   DataMask(const DataMask&);
 
-  const SlicedTibble& gdf;
-
   std::vector< ColumnBinding<SlicedTibble> > subsets ;
   std::vector<int> materialized ;
   SymbolMap symbol_map;
@@ -224,6 +249,7 @@ private:
   Environment mask_resolved;
   Environment overscope;
 
+  bool active_bindings_ready;
   const slicing_index* current_indices;
 
   void set_current_indices(const slicing_index& indices) {
@@ -244,12 +270,12 @@ private:
 
     if (index.origin == NEW) {
       // when this is a new variable, install the active binding
-      subset.install(mask_active, mask_resolved, index.pos, this);
+      if (active_bindings_ready) subset.install(mask_active, mask_resolved, index.pos, this);
 
       subsets.push_back(subset);
     } else {
       // otherwise, update it
-      subset.update(mask_active, mask_resolved);
+      if (active_bindings_ready) subset.update(mask_active, mask_resolved);
 
       int idx = index.pos;
       subsets[idx] = subset;
