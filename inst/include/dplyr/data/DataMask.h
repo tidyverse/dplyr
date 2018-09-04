@@ -42,14 +42,14 @@ public:
     materialize(indices, env);
   }
 
-  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, DataMask<SlicedTibble>* subsets) {
+  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, DataMask<SlicedTibble>* data_mask) {
     static Function active_binding_fun(".active_binding_fun", Rcpp::Environment::namespace_env("dplyr"));
 
     R_MakeActiveBinding(
       symbol,
       active_binding_fun(
         pos,
-        XPtr< DataMask<SlicedTibble> >(subsets, false)
+        XPtr< DataMask<SlicedTibble> >(data_mask, false)
       ),
       mask_active
     );
@@ -99,7 +99,7 @@ public:
 
   inline void update_indices(const slicing_index& /* indices */, SEXP /* env */) {}
 
-  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, DataMask<NaturalDataFrame>* subsets) {
+  inline void install(SEXP mask_active, SEXP mask_resolved, int /* pos */, DataMask<NaturalDataFrame>* /* data_mask */) {
     Rf_defineVar(symbol, data, mask_active);
   }
   inline void update(SEXP mask_active, SEXP mask_resolved) {
@@ -129,7 +129,7 @@ class DataMask : public DataMaskBase {
 
 public:
   DataMask(const SlicedTibble& gdf) :
-    subsets(),
+    column_bindings(),
     symbol_map(gdf.data().size(), gdf.data().names()),
     active_bindings_ready(false)
   {
@@ -141,21 +141,21 @@ public:
     // install the subsets without lookups in symbol_map
     for (int i = 0; i < n; i++) {
       SEXP symbol = Rf_installChar(SymbolString(names[i]).get_sexp());
-      subsets.push_back(ColumnBinding<SlicedTibble>(false, symbol, data[i]));
+      column_bindings.push_back(ColumnBinding<SlicedTibble>(false, symbol, data[i]));
     }
   }
 
   const ColumnBinding<SlicedTibble>* maybe_get_subset_binding(const SymbolString& symbol) const {
     int pos = symbol_map.find(symbol);
     if (pos >= 0) {
-      return &subsets[pos];
+      return &column_bindings[pos];
     } else {
       return 0;
     }
   }
 
   const ColumnBinding<SlicedTibble>& get_subset_binding(int i) const {
-    return subsets[i];
+    return column_bindings[i];
   }
 
   void input_column(const SymbolString& symbol, SEXP x) {
@@ -167,7 +167,7 @@ public:
   }
 
   int size() const {
-    return subsets.size();
+    return column_bindings.size();
   }
 
   // before treating new expression
@@ -180,8 +180,8 @@ public:
       mask_resolved = child_env(mask_active);
 
       // ... and install the bindings
-      for (int i = 0; i < subsets.size(); i++) {
-        subsets[i].install(mask_active, mask_resolved, i, this);
+      for (int i = 0; i < column_bindings.size(); i++) {
+        column_bindings[i].install(mask_active, mask_resolved, i, this);
       }
 
       active_bindings_ready = true;
@@ -212,13 +212,13 @@ public:
   void update(const slicing_index& indices) {
     set_current_indices(indices);
     for (size_t i = 0; i < materialized.size(); i++) {
-      subsets[materialized[i]].update_indices(indices, mask_resolved);
+      column_bindings[materialized[i]].update_indices(indices, mask_resolved);
     }
   }
 
   // called from the active binding
   virtual SEXP materialize(int idx) {
-    SEXP res = subsets[idx].get(get_current_indices(), mask_resolved);
+    SEXP res = column_bindings[idx].get(get_current_indices(), mask_resolved);
     materialized.push_back(idx);
     return res;
   }
@@ -241,7 +241,7 @@ private:
   // forbid copy construction of this class
   DataMask(const DataMask&);
 
-  std::vector< ColumnBinding<SlicedTibble> > subsets ;
+  std::vector< ColumnBinding<SlicedTibble> > column_bindings ;
   std::vector<int> materialized ;
   SymbolMap symbol_map;
 
@@ -270,15 +270,18 @@ private:
 
     if (index.origin == NEW) {
       // when this is a new variable, install the active binding
-      if (active_bindings_ready) subset.install(mask_active, mask_resolved, index.pos, this);
+      if (active_bindings_ready) {
+        subset.install(mask_active, mask_resolved, index.pos, this);
+      }
 
-      subsets.push_back(subset);
+      column_bindings.push_back(subset);
     } else {
       // otherwise, update it
-      if (active_bindings_ready) subset.update(mask_active, mask_resolved);
+      if (active_bindings_ready) {
+        subset.update(mask_active, mask_resolved);
+      }
 
-      int idx = index.pos;
-      subsets[idx] = subset;
+      column_bindings[index.pos] = subset;
 
     }
   }
