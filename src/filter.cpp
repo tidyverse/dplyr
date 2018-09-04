@@ -12,7 +12,6 @@
 
 #include <tools/bad.h>
 #include <tools/set_rownames.h>
-#include <dplyr/DataMask.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -384,7 +383,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
   LazySplitSubsets<SlicedTibble> subsets(gdf) ;
-  DataMask<SlicedTibble> data_mask(subsets, quo.env());
+  subsets.reset(quo.env());
 
   int ngroups = gdf.ngroups() ;
 
@@ -403,7 +402,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
     }
 
     // the result of the expression in the group
-    LogicalVector g_test = check_result_lgl_type(data_mask.eval(quo.expr(), indices));
+    LogicalVector g_test = check_result_lgl_type(subsets.eval(quo.expr(), indices));
     if (g_test.size() == 1) {
       // we get length 1 so either we have an empty group, or a dense group, i.e.
       // a group that has all the rows from the original data
@@ -488,7 +487,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   typedef typename SlicedTibble::slicing_index Index ;
 
   Subsets subsets(gdf);
-  DataMask<SlicedTibble> data_mask(subsets, quo.env());
+  subsets.reset(quo.env());
 
   const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
@@ -500,7 +499,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   for (int i = 0; i < ngroups; i++, ++git) {
     const Index& indices = *git;
     int nr = indices.size();
-    IntegerVector g_test = check_filter_integer_result(data_mask.eval(quo.expr(), indices));
+    IntegerVector g_test = check_filter_integer_result(subsets.eval(quo.expr(), indices));
     CountIndices counter(indices.size(), g_test);
 
     if (counter.is_positive()) {

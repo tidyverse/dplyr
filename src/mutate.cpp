@@ -12,7 +12,6 @@
 #include <dplyr/data/NaturalDataFrame.h>
 #include <dplyr/data/LazySplitSubsets.h>
 
-#include <dplyr/DataMask.h>
 #include <dplyr/NamedListAccumulator.h>
 
 #include <dplyr/hybrid/hybrid.h>
@@ -103,17 +102,14 @@ public:
   typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, SEXP env_, const SymbolString& name_) :
+  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, const SymbolString& name_) :
     data(data_),
     subsets(subsets_),
     expr(expr_),
-    env(env_),
-    name(name_),
-    data_mask(subsets, env)
+    name(name_)
   {}
 
   SEXP get() {
-
     // literal NULL
     if (Rf_isNull(expr)) {
       return expr ;
@@ -121,7 +117,7 @@ public:
 
     // a symbol that is in the data, just return it
     if (TYPEOF(expr) == SYMSXP) {
-      const SubsetData<Index>* subset_data = subsets.maybe_get_subset_data(CHAR(PRINTNAME(expr)));
+      const ColumnBinding<Data>* subset_data = subsets.maybe_get_subset_binding(CHAR(PRINTNAME(expr)));
       if (subset_data) return subset_data->get_data();
     }
 
@@ -151,8 +147,6 @@ private:
   SEXP env ;
 
   const SymbolString& name ;
-
-  DataMask<Data> data_mask ;
 
   SEXP validate_unquoted_value() const {
     int nrows = data.nrows();
@@ -216,7 +210,7 @@ private:
 public:
 
   SEXP get(const Index& indices) {
-    return data_mask.eval(expr, indices) ;
+    return subsets.eval(expr, indices) ;
   }
 
 };
@@ -445,7 +439,8 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     RObject variable = hybrid::window(quosure.expr(), gdf, subsets, quosure.env()) ;
 
     if (variable == R_UnboundValue) {
-      variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), quosure.env(), name).get() ;
+      subsets.reset(quosure.env());
+      variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), name).get() ;
     }
 
     if (Rf_isNull(variable)) {

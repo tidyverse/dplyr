@@ -11,23 +11,23 @@
 
 namespace dplyr {
 
-template <typename Index>
-struct SubsetData {
+template <class Data>
+class LazySplitSubsets;
+
+template <typename Data>
+struct ColumnBinding {
 public:
-  SubsetData(bool summary_, SEXP symbol_, SEXP data_) :
+  typedef typename Data::slicing_index slicing_index;
+
+  ColumnBinding(bool summary_, SEXP symbol_, SEXP data_) :
     summary(summary_),
     symbol(symbol_),
-    data(data_),
-    resolved(R_UnboundValue)
+    data(data_)
   {}
 
-  inline SEXP get(const Index& indices, SEXP env) {
-    materialize(indices, env);
-    return resolved;
-  }
-
-  bool is_resolved() const {
-    return resolved != R_UnboundValue;
+  // called by the active binding
+  inline SEXP get(const slicing_index& indices, SEXP mask_resolved) {
+    return materialize(indices, mask_resolved);
   }
 
   bool is_summary() const {
@@ -38,40 +38,102 @@ public:
     return data;
   }
 
-  inline void clear() {
-    resolved = R_UnboundValue;
-  }
-
-  inline void update(const Index& indices, SEXP env) {
+  inline void update_indices(const slicing_index& indices, SEXP env) {
     materialize(indices, env);
   }
 
+  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, LazySplitSubsets<Data>* subsets) {
+    static Function active_binding_fun(".active_binding_fun", Rcpp::Environment::namespace_env("dplyr"));
+
+    R_MakeActiveBinding(
+      symbol,
+      active_binding_fun(
+        pos,
+        XPtr< LazySplitSubsets<Data> >(subsets, false)
+      ),
+      mask_active
+    );
+  }
+  inline void update(SEXP mask_active, SEXP mask_resolved) {}
+
 private:
 
-  inline void materialize(const Index& indices, SEXP env) {
+  inline SEXP materialize(const slicing_index& indices, SEXP mask_resolved) {
     Shield<SEXP> value(summary ?
                        column_subset(data, RowwiseSlicingIndex(indices.group())) :
                        column_subset(data, indices)
                       );
-    Rf_defineVar(symbol, value, env);
-    resolved = value;
+    Rf_defineVar(symbol, value, mask_resolved);
+    return value;
   }
 
   bool summary;
   SEXP symbol;
   SEXP data;
-  SEXP resolved;
+
+};
+
+template <>
+struct ColumnBinding<NaturalDataFrame> {
+public:
+  typedef NaturalDataFrame::slicing_index slicing_index;
+
+  ColumnBinding(bool summary_, SEXP symbol_, SEXP data_) :
+    summary(summary_),
+    symbol(symbol_),
+    data(data_)
+  {}
+
+  // (not really) called by the active binding
+  inline SEXP get(const slicing_index& indices, SEXP mask_resolved) {
+    return data;
+  }
+
+  bool is_summary() const {
+    return summary;
+  }
+
+  inline SEXP get_data() const {
+    return data;
+  }
+
+  inline void update_indices(const slicing_index& /* indices */, SEXP /* env */) {}
+
+  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, LazySplitSubsets<NaturalDataFrame>* subsets) {
+    Rf_defineVar(symbol, data, mask_active);
+  }
+  inline void update(SEXP mask_active, SEXP mask_resolved) {
+    Rf_defineVar(symbol, data, mask_active);
+  }
+
+private:
+
+  bool summary;
+  SEXP symbol;
+  SEXP data;
+};
+
+
+class LazySplitSubsetsBase {
+public:
+  virtual ~LazySplitSubsetsBase() {}
+
+  virtual SEXP materialize(int idx) {
+    return R_UnboundValue;
+  }
 };
 
 template <class Data>
-class LazySplitSubsets {
+class LazySplitSubsets : public LazySplitSubsetsBase {
   typedef typename Data::slicing_index slicing_index;
 
 public:
   LazySplitSubsets(const Data& gdf_) :
     gdf(gdf_),
     subsets(),
-    symbol_map()
+    symbol_map(),
+    mask_active(child_env(R_EmptyEnv)),
+    mask_resolved(child_env(mask_active))
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
@@ -82,12 +144,11 @@ public:
     }
   }
 
-public:
   const SymbolVector get_variable_names() const {
     return symbol_map.get_names();
   }
 
-  const SubsetData<slicing_index>* maybe_get_subset_data(const SymbolString& symbol) const {
+  const ColumnBinding<Data>* maybe_get_subset_binding(const SymbolString& symbol) const {
     int pos = symbol_map.find(symbol);
     if (pos >= 0) {
       return &subsets[pos];
@@ -96,15 +157,8 @@ public:
     }
   }
 
-  const SubsetData<slicing_index>& get_subset_data(int i) const {
+  const ColumnBinding<Data>& get_subset_binding(int i) const {
     return subsets[i];
-  }
-
-  SEXP get(const SymbolString& symbol, const slicing_index& indices, SEXP mask) {
-    int idx = symbol_map.get(symbol);
-    SEXP res = subsets[idx].get(indices, mask);
-    materialized.push_back(idx);
-    return res;
   }
 
   void input_column(const SymbolString& symbol, SEXP x) {
@@ -119,37 +173,97 @@ public:
     return subsets.size();
   }
 
-  void clear() {
-    for (size_t i = 0; i < subsets.size(); i++) {
-      subsets[i].clear();
-    }
+  void reset(SEXP parent_env) {
     materialized.clear();
+    update_mask_resolved();
+
+    overscope = internal::rlang_api().new_data_mask(mask_resolved, mask_active, parent_env);
+    overscope[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
+    SET_ENCLOS(mask_active, parent_env);
   }
 
-  void update(const slicing_index& indices, SEXP mask) {
+  void update(const slicing_index& indices) {
+    set_current_indices(indices);
     for (size_t i = 0; i < materialized.size(); i++) {
-      subsets[materialized[i]].update(indices, mask);
+      subsets[materialized[i]].update_indices(indices, mask_resolved);
     }
+  }
+
+  // called from the active binding
+  virtual SEXP materialize(int idx) {
+    SEXP res = subsets[idx].get(get_current_indices(), mask_resolved);
+    materialized.push_back(idx);
+    return res;
+  }
+
+  SEXP eval(SEXP expr, const slicing_index& indices) {
+    // update the bindings and the data context variables
+    update(indices);
+
+    // these are used by n(), ...
+    overscope["..group_size"] = indices.size();
+    overscope["..group_number"] = indices.group() + 1;
+
+    // evaluate the call in the overscope
+    SEXP res = Rcpp_eval(expr, overscope);
+
+    return res;
   }
 
 private:
+  LazySplitSubsets(const LazySplitSubsets&);
+
   const Data& gdf;
 
-  std::vector< SubsetData<slicing_index> > subsets ;
+  std::vector< ColumnBinding<Data> > subsets ;
   std::vector<int> materialized ;
   SymbolMap symbol_map;
 
+  Environment mask_active;
+  Environment mask_resolved;
+  Environment overscope;
+
+  const slicing_index* current_indices;
+
+  void set_current_indices(const slicing_index& indices) {
+    current_indices = &indices;
+  }
+
+  const slicing_index& get_current_indices() {
+    const slicing_index& indices = *current_indices;
+    return indices;
+  }
+
   void input_impl(const SymbolString& symbol, bool summarised, SEXP x) {
+    // lookup in the symbol map for the position
     SymbolMapIndex index = symbol_map.insert(symbol);
-    SubsetData<slicing_index> subset(summarised, Rf_installChar(symbol.get_sexp()), x);
+
+    SEXP sym = Rf_installChar(symbol.get_sexp());
+    ColumnBinding<Data> subset(summarised, sym, x);
+
     if (index.origin == NEW) {
+      // when this is a new variable, install the active binding
+      subset.install(mask_active, mask_resolved, index.pos, this);
+
       subsets.push_back(subset);
     } else {
+      // otherwise, update it
+      subset.update(mask_active, mask_resolved);
+
       int idx = index.pos;
       subsets[idx] = subset;
+
     }
   }
+
+  void update_mask_resolved() {
+    mask_resolved = child_env(mask_active);
+  }
+
 };
+
+template <>
+inline void LazySplitSubsets<NaturalDataFrame>::update_mask_resolved() {}
 
 }
 #endif

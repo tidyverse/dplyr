@@ -11,7 +11,8 @@
 #include <dplyr/visitors/order/Order.h>
 #include <dplyr/Groups.h>
 #include <tools/bad.h>
-#include <dplyr/DataMask.h>
+
+#include <dplyr/data/LazySplitSubsets.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -46,8 +47,8 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
     bool is_desc = TYPEOF(expr) == LANGSXP && symb_desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
-    DataMask<NaturalDataFrame> data_mask(subsets, env);
-    Shield<SEXP> v(data_mask.eval(expr, indices_all));
+    subsets.reset(env);
+    Shield<SEXP> v(subsets.eval(expr, indices_all));
 
     if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);

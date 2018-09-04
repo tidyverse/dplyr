@@ -173,7 +173,9 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
       if (result == R_UnboundValue) {
-        result = standard::summarise(quosure, gdf, subsets);
+        subsets.reset(quosure.env());
+
+        result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), subsets).process(gdf);
       }
     }
     check_not_null(result, quosure.name());

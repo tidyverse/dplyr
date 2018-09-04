@@ -233,7 +233,7 @@ private:
 
   inline bool test_is_column(Rcpp::Symbol s, Column& column, bool desc) const {
     SymbolString symbol(s);
-    const SubsetData< typename SlicedTibble::slicing_index >* subset = subsets.maybe_get_subset_data(symbol);
+    const ColumnBinding<SlicedTibble>* subset = subsets.maybe_get_subset_binding(symbol);
     if (!subset) return false;
 
     // only treat very simple columns as columns, leave other to R

@@ -1,7 +1,7 @@
 #ifndef dplyr_GroupedCallReducer_H
 #define dplyr_GroupedCallReducer_H
 
-#include <dplyr/DataMask.h>
+#include <dplyr/data/LazySplitSubsets.h>
 #include <dplyr/checks.h>
 
 #include <boost/scoped_ptr.hpp>
@@ -313,7 +313,7 @@ class GroupedCallReducer  {
 public:
   typedef typename Data::slicing_index Index ;
 
-  GroupedCallReducer(SEXP expr_, SymbolString name_, DataMask<Data>& data_mask_) :
+  GroupedCallReducer(SEXP expr_, SymbolString name_, LazySplitSubsets<Data>& data_mask_) :
     expr(expr_),
     name(name_),
     data_mask(data_mask_)
@@ -332,7 +332,7 @@ public:
 private:
   SEXP expr;
   const SymbolString name;
-  DataMask<Data> data_mask;
+  LazySplitSubsets<Data>& data_mask;
 };
 
 
