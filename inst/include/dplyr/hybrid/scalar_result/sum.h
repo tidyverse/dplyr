@@ -9,10 +9,10 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename STORAGE, typename Index, bool NA_RM>
+template <typename STORAGE, typename slicing_index, bool NA_RM>
 struct SumImpl {
 
-  static STORAGE process(STORAGE* data_ptr, const Index& indices) {
+  static STORAGE process(STORAGE* data_ptr, const slicing_index& indices) {
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
@@ -39,10 +39,10 @@ struct SumImpl {
 
 };
 
-template <typename Index, bool NA_RM>
-struct SumImpl<double, Index, NA_RM> {
+template <typename slicing_index, bool NA_RM>
+struct SumImpl<double, slicing_index, NA_RM> {
 
-  static double process(double* data_ptr, const Index& indices) {
+  static double process(double* data_ptr, const slicing_index& indices) {
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {

@@ -80,9 +80,9 @@ private:
 
 // ------- mean
 
-template <int RTYPE, bool NA_RM, typename Index>
+template <int RTYPE, bool NA_RM, typename slicing_index>
 struct MeanImpl {
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const Index& indices, bool is_summary) {
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const slicing_index& indices, bool is_summary) {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
     // already summarised, e.g. when summarise( x = ..., y = mean(x))
@@ -141,11 +141,11 @@ inline double square(double x) {
   return x * x;
 }
 
-template <int RTYPE, bool NA_RM, typename Index>
+template <int RTYPE, bool NA_RM, typename slicing_index>
 struct VarImpl {
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices, bool is_summary) {
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const slicing_index& indices, bool is_summary) {
     // already summarised, e.g. when summarise( x = ..., y = var(x)), so x is of length 1 -> NA
     if (is_summary) {
       return NA_REAL;
@@ -153,7 +153,7 @@ struct VarImpl {
 
     int n = indices.size();
     if (n <= 1) return NA_REAL;
-    double m = MeanImpl<RTYPE, NA_RM, Index>::process(data_ptr, indices, is_summary);
+    double m = MeanImpl<RTYPE, NA_RM, slicing_index>::process(data_ptr, indices, is_summary);
 
     if (!R_FINITE(m)) return m;
 
@@ -171,10 +171,10 @@ struct VarImpl {
 
 };
 
-template <int RTYPE, bool NA_RM, typename Index>
+template <int RTYPE, bool NA_RM, typename slicing_index>
 struct SdImpl {
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const Index& indices, bool is_summary) {
-    return sqrt(VarImpl<RTYPE, NA_RM, Index>::process(data_ptr, indices, is_summary));
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const slicing_index& indices, bool is_summary) {
+    return sqrt(VarImpl<RTYPE, NA_RM, slicing_index>::process(data_ptr, indices, is_summary));
   }
 };
 
