@@ -132,20 +132,19 @@ public:
   }
 };
 
-template <typename Data, int RTYPE, bool ascending, typename Increment>
+template <typename SlicedTibble, int RTYPE, bool ascending, typename Increment>
 class RankImpl :
-  public HybridVectorVectorResult<Increment::rtype, Data, RankImpl<Data, RTYPE, ascending, Increment> >,
+  public HybridVectorVectorResult<Increment::rtype, SlicedTibble, RankImpl<SlicedTibble, RTYPE, ascending, Increment> >,
   public Increment
 {
 public:
-  typedef HybridVectorVectorResult<Increment::rtype, Data, RankImpl> Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<Increment::rtype, SlicedTibble, RankImpl> Parent;
 
   typedef typename Increment::OutputVector OutputVector;
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  typedef visitors::SliceVisitor<Rcpp::Vector<RTYPE>, Index> SliceVisitor;
-  typedef visitors::WriteSliceVisitor<OutputVector, Index> WriteSliceVisitor;
+  typedef visitors::SliceVisitor<Rcpp::Vector<RTYPE>, typename SlicedTibble::slicing_index> SliceVisitor;
+  typedef visitors::WriteSliceVisitor<OutputVector, typename SlicedTibble::slicing_index> WriteSliceVisitor;
 
   typedef RankComparer<RTYPE, ascending> Comparer;
   typedef RankEqual<RTYPE> Equal;
@@ -154,9 +153,9 @@ public:
   typedef dplyr_hash_map<STORAGE, std::vector<int>, boost::hash<STORAGE>, Equal > Map;
   typedef std::map<STORAGE, const std::vector<int>*, Comparer> oMap;
 
-  RankImpl(const Data& data, SEXP x) : Parent(data), vec(x) {}
+  RankImpl(const SlicedTibble& data, SEXP x) : Parent(data), vec(x) {}
 
-  void fill(const Index& indices, OutputVector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, OutputVector& out) const {
     Map map;
     SliceVisitor slice(vec, indices);
     WriteSliceVisitor out_slice(out, indices);
@@ -205,25 +204,25 @@ private:
 };
 
 
-template <typename Data, int RTYPE, typename Increment, typename Operation>
-inline SEXP rank_impl(const Data& data, SEXP x, bool is_desc, bool is_summary, const Operation& op) {
+template <typename SlicedTibble, int RTYPE, typename Increment, typename Operation>
+inline SEXP rank_impl(const SlicedTibble& data, SEXP x, bool is_desc, bool is_summary, const Operation& op) {
   if (is_summary) {
     return R_UnboundValue;
   } else if (is_desc) {
-    return op(RankImpl<Data, RTYPE, false, Increment>(data, x));
+    return op(RankImpl<SlicedTibble, RTYPE, false, Increment>(data, x));
   } else {
-    return op(RankImpl<Data, RTYPE, true, Increment>(data, x));
+    return op(RankImpl<SlicedTibble, RTYPE, true, Increment>(data, x));
   }
 }
 
-template <typename Data, typename Operation, typename Increment>
-inline SEXP rank_(const Data& data, Column column, const Operation& op) {
+template <typename SlicedTibble, typename Operation, typename Increment>
+inline SEXP rank_(const SlicedTibble& data, Column column, const Operation& op) {
   SEXP x = column.data;
   switch (TYPEOF(x)) {
   case INTSXP:
-    return internal::rank_impl<Data, INTSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+    return internal::rank_impl<SlicedTibble, INTSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
   case REALSXP:
-    return internal::rank_impl<Data, REALSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+    return internal::rank_impl<SlicedTibble, REALSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
   default:
     break;
   }
@@ -232,24 +231,24 @@ inline SEXP rank_(const Data& data, Column column, const Operation& op) {
 
 }
 
-template <typename Data, typename Operation>
-inline SEXP min_rank_(const Data& data, Column column, const Operation& op) {
-  return internal::rank_<Data, Operation, internal::min_rank_increment>(data, column, op);
+template <typename SlicedTibble, typename Operation>
+inline SEXP min_rank_(const SlicedTibble& data, Column column, const Operation& op) {
+  return internal::rank_<SlicedTibble, Operation, internal::min_rank_increment>(data, column, op);
 }
 
-template <typename Data, typename Operation>
-inline SEXP dense_rank_(const Data& data, Column column, const Operation& op) {
-  return internal::rank_<Data, Operation, internal::dense_rank_increment>(data, column, op);
+template <typename SlicedTibble, typename Operation>
+inline SEXP dense_rank_(const SlicedTibble& data, Column column, const Operation& op) {
+  return internal::rank_<SlicedTibble, Operation, internal::dense_rank_increment>(data, column, op);
 }
 
-template <typename Data, typename Operation>
-inline SEXP percent_rank_(const Data& data, Column column, const Operation& op) {
-  return internal::rank_<Data, Operation, internal::percent_rank_increment>(data, column, op);
+template <typename SlicedTibble, typename Operation>
+inline SEXP percent_rank_(const SlicedTibble& data, Column column, const Operation& op) {
+  return internal::rank_<SlicedTibble, Operation, internal::percent_rank_increment>(data, column, op);
 }
 
-template <typename Data, typename Operation>
-inline SEXP cume_dist_(const Data& data, Column column, const Operation& op) {
-  return internal::rank_<Data, Operation, internal::cume_dist_increment>(data, column, op);
+template <typename SlicedTibble, typename Operation>
+inline SEXP cume_dist_(const SlicedTibble& data, Column column, const Operation& op) {
+  return internal::rank_<SlicedTibble, Operation, internal::cume_dist_increment>(data, column, op);
 }
 
 

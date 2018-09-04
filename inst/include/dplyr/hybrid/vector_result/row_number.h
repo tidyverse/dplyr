@@ -14,15 +14,14 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename Data>
-class RowNumber0 : public HybridVectorVectorResult<INTSXP, Data, RowNumber0<Data> > {
+template <typename SlicedTibble>
+class RowNumber0 : public HybridVectorVectorResult<INTSXP, SlicedTibble, RowNumber0<SlicedTibble> > {
 public:
-  typedef HybridVectorVectorResult<INTSXP, Data, RowNumber0<Data> > Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<INTSXP, SlicedTibble, RowNumber0<SlicedTibble> > Parent;
 
-  RowNumber0(const Data& data) : Parent(data) {}
+  RowNumber0(const SlicedTibble& data) : Parent(data) {}
 
-  void fill(const Index& indices, Rcpp::IntegerVector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::IntegerVector& out) const {
     int n = indices.size();
     for (int i = 0; i < n; i++) {
       out[indices[i]] = i + 1 ;
@@ -31,19 +30,18 @@ public:
 
 };
 
-template <typename Data, int RTYPE, bool ascending>
-class RowNumber1 : public HybridVectorVectorResult<INTSXP, Data, RowNumber1<Data, RTYPE, ascending> > {
+template <typename SlicedTibble, int RTYPE, bool ascending>
+class RowNumber1 : public HybridVectorVectorResult<INTSXP, SlicedTibble, RowNumber1<SlicedTibble, RTYPE, ascending> > {
 public:
-  typedef HybridVectorVectorResult<INTSXP, Data, RowNumber1 > Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<INTSXP, SlicedTibble, RowNumber1 > Parent;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
-  typedef visitors::SliceVisitor<Rcpp::Vector<RTYPE>, Index> SliceVisitor;
-  typedef visitors::WriteSliceVisitor<Rcpp::IntegerVector, Index> WriteSliceVisitor;
+  typedef visitors::SliceVisitor<Rcpp::Vector<RTYPE>, typename SlicedTibble::slicing_index> SliceVisitor;
+  typedef visitors::WriteSliceVisitor<Rcpp::IntegerVector, typename SlicedTibble::slicing_index> WriteSliceVisitor;
   typedef visitors::Comparer<RTYPE, SliceVisitor, ascending> Comparer;
 
-  RowNumber1(const Data& data, SEXP x) : Parent(data), vec(x) {}
+  RowNumber1(const SlicedTibble& data, SEXP x) : Parent(data), vec(x) {}
 
-  void fill(const Index& indices, Rcpp::IntegerVector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::IntegerVector& out) const {
     int n = indices.size();
 
     SliceVisitor slice(vec, indices);
@@ -76,19 +74,19 @@ private:
 
 }
 
-template <typename Data>
-inline internal::RowNumber0<Data> row_number_(const Data& data) {
-  return internal::RowNumber0<Data>(data);
+template <typename SlicedTibble>
+inline internal::RowNumber0<SlicedTibble> row_number_(const SlicedTibble& data) {
+  return internal::RowNumber0<SlicedTibble>(data);
 }
 
-template <typename Data, typename Operation>
-inline SEXP row_number_1(const Data& data, Column column, const Operation& op) {
+template <typename SlicedTibble, typename Operation>
+inline SEXP row_number_1(const SlicedTibble& data, Column column, const Operation& op) {
   SEXP x = column.data;
   switch (TYPEOF(x)) {
   case INTSXP:
-    return op(internal::RowNumber1<Data, INTSXP, true>(data, x));
+    return op(internal::RowNumber1<SlicedTibble, INTSXP, true>(data, x));
   case REALSXP:
-    return op(internal::RowNumber1<Data, REALSXP, true>(data, x));
+    return op(internal::RowNumber1<SlicedTibble, REALSXP, true>(data, x));
   default:
     break;
   }

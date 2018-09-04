@@ -208,13 +208,13 @@ SEXP summarise_impl(DataFrame df, QuosureList dots) {
   }
 }
 
-template <typename Data>
+template <typename SlicedTibble>
 SEXP hybrid_template(DataFrame df, const NamedQuosure& quosure) {
-  Data gdf(df);
+  SlicedTibble gdf(df);
 
   const Environment& env = quosure.env();
   SEXP expr = quosure.expr();
-  LazySplitSubsets<Data> subsets(gdf);
+  LazySplitSubsets<SlicedTibble> subsets(gdf);
   return hybrid::match(expr, gdf, subsets, env);
 }
 

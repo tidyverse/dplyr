@@ -15,15 +15,14 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename Data>
-class Ntile1 : public HybridVectorVectorResult<INTSXP, Data, Ntile1<Data> > {
+template <typename SlicedTibble>
+class Ntile1 : public HybridVectorVectorResult<INTSXP, SlicedTibble, Ntile1<SlicedTibble> > {
 public:
-  typedef HybridVectorVectorResult<INTSXP, Data, Ntile1> Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<INTSXP, SlicedTibble, Ntile1> Parent;
 
-  Ntile1(const Data& data, int ntiles_): Parent(data), ntiles(ntiles_) {}
+  Ntile1(const SlicedTibble& data, int ntiles_): Parent(data), ntiles(ntiles_) {}
 
-  void fill(const Index& indices, Rcpp::IntegerVector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::IntegerVector& out) const {
     int m = indices.size();
     for (int j = m - 1; j >= 0; j--) {
       out[ indices[j] ] = (int)floor((ntiles * j) / m) + 1;
@@ -34,42 +33,39 @@ private:
   int ntiles;
 };
 
-template <typename Data, int RTYPE>
-class Ntile2_summary : public HybridVectorSummaryRecycleResult<INTSXP, Data, Ntile2_summary<Data, RTYPE> > {
+template <typename SlicedTibble, int RTYPE>
+class Ntile2_summary : public HybridVectorSummaryRecycleResult<INTSXP, SlicedTibble, Ntile2_summary<SlicedTibble, RTYPE> > {
 public:
-  typedef HybridVectorSummaryRecycleResult<INTSXP, Data, Ntile2_summary> Parent;
-  typedef typename Data::slicing_index Index;
-  typedef Rcpp::Vector<RTYPE> Vector;
+  typedef HybridVectorSummaryRecycleResult<INTSXP, SlicedTibble, Ntile2_summary> Parent;
 
-  Ntile2_summary(const Data& data, SEXP x) :
+  Ntile2_summary(const SlicedTibble& data, SEXP x) :
     Parent(data),
     vec(x)
   {}
 
-  inline int value(const Index& indices) const {
-    return Vector::is_na(vec[indices.group()]) ? NA_INTEGER : 1;
+  inline int value(const typename SlicedTibble::slicing_index& indices) const {
+    return Rcpp::Vector<RTYPE>::is_na(vec[indices.group()]) ? NA_INTEGER : 1;
   }
 
 private:
-  Vector vec;
+  Rcpp::Vector<RTYPE> vec;
 };
 
-template <typename Data, int RTYPE, bool ascending>
-class Ntile2 : public HybridVectorVectorResult<INTSXP, Data, Ntile2<Data, RTYPE, ascending> > {
+template <typename SlicedTibble, int RTYPE, bool ascending>
+class Ntile2 : public HybridVectorVectorResult<INTSXP, SlicedTibble, Ntile2<SlicedTibble, RTYPE, ascending> > {
 public:
-  typedef HybridVectorVectorResult<INTSXP, Data, Ntile2> Parent;
-  typedef typename Data::slicing_index Index;
-  typedef visitors::SliceVisitor<Rcpp::Vector<RTYPE>, Index> SliceVisitor;
-  typedef visitors::WriteSliceVisitor<Rcpp::IntegerVector, Index> WriteSliceVisitor;
+  typedef HybridVectorVectorResult<INTSXP, SlicedTibble, Ntile2> Parent;
+  typedef visitors::SliceVisitor<Rcpp::Vector<RTYPE>, typename SlicedTibble::slicing_index> SliceVisitor;
+  typedef visitors::WriteSliceVisitor<Rcpp::IntegerVector, typename SlicedTibble::slicing_index> WriteSliceVisitor;
   typedef visitors::Comparer<RTYPE, SliceVisitor, ascending> Comparer;
 
-  Ntile2(const Data& data, SEXP x, int ntiles_):
+  Ntile2(const SlicedTibble& data, SEXP x, int ntiles_):
     Parent(data),
     vec(x),
     ntiles(ntiles_)
   {}
 
-  void fill(const Index& indices, Rcpp::IntegerVector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::IntegerVector& out) const {
     int n = indices.size();
 
     SliceVisitor slice(vec, indices);
@@ -103,32 +99,32 @@ private:
 };
 
 
-template <typename Data, typename Operation, int RTYPE>
-inline SEXP ntile_2(const Data& data, SEXP x, bool is_summary, bool is_desc, int n, const Operation& op) {
+template <typename SlicedTibble, typename Operation, int RTYPE>
+inline SEXP ntile_2(const SlicedTibble& data, SEXP x, bool is_summary, bool is_desc, int n, const Operation& op) {
   if (is_summary) {
-    return op(Ntile2_summary<Data, RTYPE>(data, x));
+    return op(Ntile2_summary<SlicedTibble, RTYPE>(data, x));
   } else if (is_desc) {
-    return op(Ntile2<Data, RTYPE, false>(data, x, n));
+    return op(Ntile2<SlicedTibble, RTYPE, false>(data, x, n));
   } else {
-    return op(Ntile2<Data, RTYPE, true>(data, x, n));
+    return op(Ntile2<SlicedTibble, RTYPE, true>(data, x, n));
   }
 }
 
 }
 
-template <typename Data>
-inline internal::Ntile1<Data> ntile_1(const Data& data, int ntiles) {
-  return internal::Ntile1<Data>(data, ntiles);
+template <typename SlicedTibble>
+inline internal::Ntile1<SlicedTibble> ntile_1(const SlicedTibble& data, int ntiles) {
+  return internal::Ntile1<SlicedTibble>(data, ntiles);
 }
 
-template <typename Data, typename Operation>
-inline SEXP ntile_2(const Data& data, Column& column, int n, const Operation& op) {
+template <typename SlicedTibble, typename Operation>
+inline SEXP ntile_2(const SlicedTibble& data, Column& column, int n, const Operation& op) {
   SEXP x = column.data;
   switch (TYPEOF(x)) {
   case INTSXP:
-    return internal::ntile_2<Data, Operation, INTSXP>(data, x, column.is_summary, column.is_desc, n, op);
+    return internal::ntile_2<SlicedTibble, Operation, INTSXP>(data, x, column.is_summary, column.is_desc, n, op);
   case REALSXP:
-    return internal::ntile_2<Data, Operation, REALSXP>(data, x, column.is_summary, column.is_desc, n, op);
+    return internal::ntile_2<SlicedTibble, Operation, REALSXP>(data, x, column.is_summary, column.is_desc, n, op);
   default:
     break;
   }

@@ -10,20 +10,19 @@ namespace hybrid {
 
 namespace internal {
 
-template <int RTYPE, typename Data, bool MINIMUM, bool NA_RM>
-class MinMax : public HybridVectorScalarResult<REALSXP, Data, MinMax<RTYPE, Data, MINIMUM, NA_RM> > {
+template <int RTYPE, typename SlicedTibble, bool MINIMUM, bool NA_RM>
+class MinMax : public HybridVectorScalarResult<REALSXP, SlicedTibble, MinMax<RTYPE, SlicedTibble, MINIMUM, NA_RM> > {
 public:
-  typedef HybridVectorScalarResult<REALSXP, Data, MinMax> Parent ;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorScalarResult<REALSXP, SlicedTibble, MinMax> Parent ;
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  MinMax(const Data& data, Column column_):
+  MinMax(const SlicedTibble& data, Column column_):
     Parent(data),
     column(column_.data),
     is_summary(column_.is_summary)
   {}
 
-  inline double process(const Index& indices) const {
+  inline double process(const typename SlicedTibble::slicing_index& indices) const {
     if (is_summary) {
       return column[indices.group()];
     }
@@ -63,23 +62,23 @@ private:
   }
 };
 
-template <int RTYPE, typename Data, bool MINIMUM, bool NA_RM>
-const double MinMax<RTYPE, Data, MINIMUM, NA_RM>::Inf = (MINIMUM ? R_PosInf : R_NegInf);
+template <int RTYPE, typename SlicedTibble, bool MINIMUM, bool NA_RM>
+const double MinMax<RTYPE, SlicedTibble, MINIMUM, NA_RM>::Inf = (MINIMUM ? R_PosInf : R_NegInf);
 
 }
 
 // min( <column> )
-template <typename Data, typename Operation, bool MINIMUM, bool NARM>
-SEXP minmax_narm(const Data& data, Column x, const Operation& op) {
+template <typename SlicedTibble, typename Operation, bool MINIMUM, bool NARM>
+SEXP minmax_narm(const SlicedTibble& data, Column x, const Operation& op) {
 
   // only handle basic number types, anything else goes through R
   switch (TYPEOF(x.data)) {
   case RAWSXP:
-    return op(internal::MinMax<RAWSXP, Data, MINIMUM, NARM>(data, x));
+    return op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x));
   case INTSXP:
-    return op(internal::MinMax<INTSXP, Data, MINIMUM, NARM>(data, x));
+    return op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x));
   case REALSXP:
-    return op(internal::MinMax<REALSXP, Data, MINIMUM, NARM>(data, x));
+    return op(internal::MinMax<REALSXP, SlicedTibble, MINIMUM, NARM>(data, x));
   default:
     break;
   }
@@ -87,23 +86,23 @@ SEXP minmax_narm(const Data& data, Column x, const Operation& op) {
   return R_UnboundValue;
 }
 
-template <typename Data, typename Operation, bool MINIMUM>
-SEXP minmax_(const Data& data, Column x, bool narm, const Operation& op) {
+template <typename SlicedTibble, typename Operation, bool MINIMUM>
+SEXP minmax_(const SlicedTibble& data, Column x, bool narm, const Operation& op) {
   if (narm) {
-    return minmax_narm<Data, Operation, MINIMUM, true>(data, x, op) ;
+    return minmax_narm<SlicedTibble, Operation, MINIMUM, true>(data, x, op) ;
   } else {
-    return minmax_narm<Data, Operation, MINIMUM, false>(data, x, op) ;
+    return minmax_narm<SlicedTibble, Operation, MINIMUM, false>(data, x, op) ;
   }
 }
 
-template <typename Data, typename Operation>
-SEXP min_(const Data& data, Column x, bool narm, const Operation& op) {
-  return minmax_<Data, Operation, true>(data, x, narm, op) ;
+template <typename SlicedTibble, typename Operation>
+SEXP min_(const SlicedTibble& data, Column x, bool narm, const Operation& op) {
+  return minmax_<SlicedTibble, Operation, true>(data, x, narm, op) ;
 }
 
-template <typename Data, typename Operation>
-SEXP max_(const Data& data, Column x, bool narm, const Operation& op) {
-  return minmax_<Data, Operation, false>(data, x, narm, op) ;
+template <typename SlicedTibble, typename Operation>
+SEXP max_(const SlicedTibble& data, Column x, bool narm, const Operation& op) {
+  return minmax_<SlicedTibble, Operation, false>(data, x, narm, op) ;
 }
 
 }

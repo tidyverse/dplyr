@@ -13,39 +13,37 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename Data, int RTYPE>
-class LeadLagSummary : public HybridVectorSummaryRecycleResult<RTYPE, Data, LeadLagSummary<Data, RTYPE> > {
+template <typename SlicedTibble, int RTYPE>
+class LeadLagSummary : public HybridVectorSummaryRecycleResult<RTYPE, SlicedTibble, LeadLagSummary<SlicedTibble, RTYPE> > {
 public:
-  typedef HybridVectorSummaryRecycleResult<RTYPE, Data, LeadLagSummary> Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorSummaryRecycleResult<RTYPE, SlicedTibble, LeadLagSummary> Parent;
   typedef Rcpp::Vector<RTYPE> Vector;
 
-  LeadLagSummary(const Data& data, SEXP /*x*/, int /* n */) :
+  LeadLagSummary(const SlicedTibble& data, SEXP /*x*/, int /* n */) :
     Parent(data)
   {}
 
-  inline typename Vector::stored_type value(const Index& indices) const {
+  inline typename Vector::stored_type value(const typename SlicedTibble::slicing_index& indices) const {
     return default_value<RTYPE>();
   }
 };
 
-template <typename Data, int RTYPE>
-class Lead : public HybridVectorVectorResult<RTYPE, Data, Lead<Data, RTYPE> > {
+template <typename SlicedTibble, int RTYPE>
+class Lead : public HybridVectorVectorResult<RTYPE, SlicedTibble, Lead<SlicedTibble, RTYPE> > {
 public:
-  typedef HybridVectorVectorResult<RTYPE, Data, Lead> Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<RTYPE, SlicedTibble, Lead> Parent;
+
   typedef Rcpp::Vector<RTYPE> Vector;
+  typedef visitors::SliceVisitor<Vector, typename SlicedTibble::slicing_index> SliceVisitor;
+  typedef visitors::WriteSliceVisitor<Vector, typename SlicedTibble::slicing_index> WriteSliceVisitor;
 
-  typedef visitors::SliceVisitor<Vector, Index> SliceVisitor;
-  typedef visitors::WriteSliceVisitor<Vector, Index> WriteSliceVisitor;
-
-  Lead(const Data& data, SEXP x, int n_) :
+  Lead(const SlicedTibble& data, SEXP x, int n_) :
     Parent(data),
     vec(x),
     n(n_)
   {}
 
-  void fill(const Index& indices, Vector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Vector& out) const {
     int chunk_size = indices.size();
     SliceVisitor vec_slice(vec, indices);
     WriteSliceVisitor out_slice(out, indices);
@@ -63,23 +61,22 @@ private:
   int n;
 };
 
-template <typename Data, int RTYPE>
-class Lag : public HybridVectorVectorResult<RTYPE, Data, Lag<Data, RTYPE> > {
+template <typename SlicedTibble, int RTYPE>
+class Lag : public HybridVectorVectorResult<RTYPE, SlicedTibble, Lag<SlicedTibble, RTYPE> > {
 public:
-  typedef HybridVectorVectorResult<RTYPE, Data, Lag> Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<RTYPE, SlicedTibble, Lag> Parent;
   typedef Rcpp::Vector<RTYPE> Vector;
 
-  typedef visitors::SliceVisitor<Vector, Index> SliceVisitor;
-  typedef visitors::WriteSliceVisitor<Vector, Index> WriteSliceVisitor;
+  typedef visitors::SliceVisitor<Vector, typename SlicedTibble::slicing_index> SliceVisitor;
+  typedef visitors::WriteSliceVisitor<Vector, typename SlicedTibble::slicing_index> WriteSliceVisitor;
 
-  Lag(const Data& data, SEXP x, int n_) :
+  Lag(const SlicedTibble& data, SEXP x, int n_) :
     Parent(data),
     vec(x),
     n(n_)
   {}
 
-  void fill(const Index& indices, Vector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Vector& out) const {
     int chunk_size = indices.size();
     SliceVisitor vec_slice(vec, indices);
     WriteSliceVisitor out_slice(out, indices);
@@ -100,23 +97,23 @@ private:
 };
 
 
-template <typename Data, typename Operation, template <typename, int> class Impl>
-inline SEXP lead_lag_dispatch3(const Data& data, SEXP x, int n, const Operation& op) {
+template <typename SlicedTibble, typename Operation, template <typename, int> class Impl>
+inline SEXP lead_lag_dispatch3(const SlicedTibble& data, SEXP x, int n, const Operation& op) {
   switch (TYPEOF(x)) {
   case LGLSXP:
-    return op(Impl<Data, LGLSXP>(data, x, n));
+    return op(Impl<SlicedTibble, LGLSXP>(data, x, n));
   case RAWSXP:
-    return op(Impl<Data, RAWSXP>(data, x, n));
+    return op(Impl<SlicedTibble, RAWSXP>(data, x, n));
   case INTSXP:
-    return op(Impl<Data, INTSXP>(data, x, n));
+    return op(Impl<SlicedTibble, INTSXP>(data, x, n));
   case REALSXP:
-    return op(Impl<Data, REALSXP>(data, x, n));
+    return op(Impl<SlicedTibble, REALSXP>(data, x, n));
   case STRSXP:
-    return op(Impl<Data, STRSXP>(data, x, n));
+    return op(Impl<SlicedTibble, STRSXP>(data, x, n));
   case CPLXSXP:
-    return op(Impl<Data, CPLXSXP>(data, x, n));
+    return op(Impl<SlicedTibble, CPLXSXP>(data, x, n));
   case VECSXP:
-    return op(Impl<Data, VECSXP>(data, x, n));
+    return op(Impl<SlicedTibble, VECSXP>(data, x, n));
   default:
     break;
   }
@@ -124,29 +121,29 @@ inline SEXP lead_lag_dispatch3(const Data& data, SEXP x, int n, const Operation&
 }
 
 
-template <typename Data, typename Operation, template <typename, int> class Impl>
-inline SEXP lead_lag(const Data& data, Column column, int n, const Operation& op) {
+template <typename SlicedTibble, typename Operation, template <typename, int> class Impl>
+inline SEXP lead_lag(const SlicedTibble& data, Column column, int n, const Operation& op) {
   SEXP x = column.data;
 
   if (column.is_summary) {
-    return lead_lag_dispatch3<Data, Operation, LeadLagSummary>(data, x, n, op);
+    return lead_lag_dispatch3<SlicedTibble, Operation, LeadLagSummary>(data, x, n, op);
   }
 
   // not sure what to do with desc, just ignoring for now
-  return lead_lag_dispatch3<Data, Operation, Impl>(data, x, n, op);
+  return lead_lag_dispatch3<SlicedTibble, Operation, Impl>(data, x, n, op);
 }
 
 
 }
 
-template <typename Data, typename Operation>
-inline SEXP lead_1(const Data& data, Column column, int n, const Operation& op) {
-  return internal::lead_lag<Data, Operation, internal::Lead>(data, column, n, op);
+template <typename SlicedTibble, typename Operation>
+inline SEXP lead_1(const SlicedTibble& data, Column column, int n, const Operation& op) {
+  return internal::lead_lag<SlicedTibble, Operation, internal::Lead>(data, column, n, op);
 }
 
-template <typename Data, typename Operation>
-inline SEXP lag_1(const Data& data, Column column, int n, const Operation& op) {
-  return internal::lead_lag<Data, Operation, internal::Lag>(data, column, n, op);
+template <typename SlicedTibble, typename Operation>
+inline SEXP lag_1(const SlicedTibble& data, Column column, int n, const Operation& op) {
+  return internal::lead_lag<SlicedTibble, Operation, internal::Lag>(data, column, n, op);
 }
 
 

@@ -11,21 +11,20 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename Data, int RTYPE>
-class In_Column_Column : public HybridVectorVectorResult<LGLSXP, Data, In_Column_Column<Data, RTYPE> > {
+template <typename SlicedTibble, int RTYPE>
+class In_Column_Column : public HybridVectorVectorResult<LGLSXP, SlicedTibble, In_Column_Column<SlicedTibble, RTYPE> > {
 public:
-  typedef HybridVectorVectorResult<LGLSXP, Data, In_Column_Column> Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<LGLSXP, SlicedTibble, In_Column_Column> Parent;
   typedef Rcpp::Vector<RTYPE> Vector;
   typedef typename Vector::stored_type stored_type;
 
-  In_Column_Column(const Data& data, SEXP x, SEXP y) :
+  In_Column_Column(const SlicedTibble& data, SEXP x, SEXP y) :
     Parent(data),
     lhs(x),
     rhs(y)
   {}
 
-  void fill(const Index& indices, Rcpp::LogicalVector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::LogicalVector& out) const {
     int n = indices.size();
 
     dplyr_hash_set<stored_type> set(n);
@@ -50,26 +49,26 @@ private:
 
 }
 
-template <typename Data, typename Operation>
-inline SEXP in_column_column(const Data& data, Column col_x, Column col_y, const Operation& op) {
+template <typename SlicedTibble, typename Operation>
+inline SEXP in_column_column(const SlicedTibble& data, Column col_x, Column col_y, const Operation& op) {
   if (TYPEOF(col_x.data) != TYPEOF(col_y.data)) return R_UnboundValue;
   SEXP x = col_x.data, y = col_y.data;
 
   switch (TYPEOF(x)) {
   case LGLSXP:
-    return op(internal::In_Column_Column<Data, LGLSXP>(data, x, y));
+    return op(internal::In_Column_Column<SlicedTibble, LGLSXP>(data, x, y));
   case RAWSXP:
-    return op(internal::In_Column_Column<Data, RAWSXP>(data, x, y));
+    return op(internal::In_Column_Column<SlicedTibble, RAWSXP>(data, x, y));
   case INTSXP:
-    return op(internal::In_Column_Column<Data, INTSXP>(data, x, y));
+    return op(internal::In_Column_Column<SlicedTibble, INTSXP>(data, x, y));
   case REALSXP:
-    return op(internal::In_Column_Column<Data, REALSXP>(data, x, y));
+    return op(internal::In_Column_Column<SlicedTibble, REALSXP>(data, x, y));
   case STRSXP:
-    return op(internal::In_Column_Column<Data, STRSXP>(data, x, y));
+    return op(internal::In_Column_Column<SlicedTibble, STRSXP>(data, x, y));
   case CPLXSXP:
-    return op(internal::In_Column_Column<Data, CPLXSXP>(data, x, y));
+    return op(internal::In_Column_Column<SlicedTibble, CPLXSXP>(data, x, y));
   case VECSXP:
-    return op(internal::In_Column_Column<Data, VECSXP>(data, x, y));
+    return op(internal::In_Column_Column<SlicedTibble, VECSXP>(data, x, y));
   default:
     break;
   }

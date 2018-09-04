@@ -8,24 +8,23 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename Data>
-class GroupIndices : public HybridVectorScalarResult<INTSXP, Data, GroupIndices<Data> > {
+template <typename SlicedTibble>
+class GroupIndices : public HybridVectorScalarResult<INTSXP, SlicedTibble, GroupIndices<SlicedTibble> > {
 public:
-  typedef HybridVectorScalarResult<INTSXP, Data, GroupIndices> Parent ;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorScalarResult<INTSXP, SlicedTibble, GroupIndices> Parent ;
 
-  GroupIndices(const Data& data) : Parent(data) {}
+  GroupIndices(const SlicedTibble& data) : Parent(data) {}
 
-  inline int process(const Index& indices) const {
+  inline int process(const typename SlicedTibble::slicing_index& indices) const {
     return indices.group() + 1;
   }
 };
 }
 
 // group_indices()
-template <typename Data>
-internal::GroupIndices<Data> group_indices_(const Data& data) {
-  return internal::GroupIndices<Data>(data);
+template <typename SlicedTibble>
+internal::GroupIndices<SlicedTibble> group_indices_(const SlicedTibble& data) {
+  return internal::GroupIndices<SlicedTibble>(data);
 }
 
 }

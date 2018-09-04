@@ -13,24 +13,23 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename Data, bool NARM>
-class N_Distinct : public HybridVectorScalarResult<INTSXP, Data, N_Distinct<Data, NARM> > {
+template <typename SlicedTibble, bool NARM>
+class N_Distinct : public HybridVectorScalarResult<INTSXP, SlicedTibble, N_Distinct<SlicedTibble, NARM> > {
 public:
-  typedef HybridVectorScalarResult<INTSXP, Data, N_Distinct> Parent ;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorScalarResult<INTSXP, SlicedTibble, N_Distinct> Parent ;
 
   typedef VisitorHash<MultipleVectorVisitors> Hash;
   typedef VisitorEqualPredicate<MultipleVectorVisitors> Pred;
   typedef dplyr_hash_set<int, Hash, Pred > Set;
 
-  N_Distinct(const Data& data, List columns_):
+  N_Distinct(const SlicedTibble& data, List columns_):
     Parent(data),
     columns(columns_),
     nrows(data.nrows()),
     ngroups(data.ngroups())
   {}
 
-  inline int process(const Index& indices) const {
+  inline int process(const typename SlicedTibble::slicing_index& indices) const {
     MultipleVectorVisitors visitors(columns, nrows, ngroups, indices.group());
     int n = indices.size();
     Set set(n, Hash(visitors), Pred(visitors));
@@ -50,8 +49,8 @@ private:
 
 }
 
-template <typename Data, typename Expression, typename Operation>
-SEXP n_distinct_(const Data& data, const Expression& expression, const Operation& op) {
+template <typename SlicedTibble, typename Expression, typename Operation>
+SEXP n_distinct_(const SlicedTibble& data, const Expression& expression, const Operation& op) {
   SEXP s_narm = Rf_install("na.rm");
   std::vector<SEXP> columns;
   bool narm = false;
@@ -83,9 +82,9 @@ SEXP n_distinct_(const Data& data, const Expression& expression, const Operation
   }
 
   if (narm) {
-    return op(internal::N_Distinct<Data, true>(data, wrap(columns)));
+    return op(internal::N_Distinct<SlicedTibble, true>(data, wrap(columns)));
   } else {
-    return op(internal::N_Distinct<Data, false>(data, wrap(columns)));
+    return op(internal::N_Distinct<SlicedTibble, false>(data, wrap(columns)));
   }
 }
 

@@ -33,7 +33,7 @@ void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) 
 
 namespace dplyr {
 
-template <typename Data>
+template <typename SlicedTibble>
 inline const char* check_length_message() {
   return "the group size";
 }
@@ -90,18 +90,18 @@ inline SEXP constant_recycle(SEXP x, int n, const SymbolString& name) {
   bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(x)));
 }
 
-template <typename Data>
+template <typename SlicedTibble>
 class Gatherer;
 
-template <typename Data>
+template <typename SlicedTibble>
 class ListGatherer;
 
-template <typename Data>
+template <typename SlicedTibble>
 class MutateCallProxy {
 public:
-  typedef typename Data::slicing_index Index ;
+  typedef typename SlicedTibble::slicing_index Index ;
 
-  MutateCallProxy(const Data& data_, LazySplitSubsets<Data>& subsets_, SEXP expr_, const SymbolString& name_) :
+  MutateCallProxy(const SlicedTibble& data_, LazySplitSubsets<SlicedTibble>& subsets_, SEXP expr_, const SymbolString& name_) :
     data(data_),
     subsets(subsets_),
     expr(expr_),
@@ -116,7 +116,7 @@ public:
 
     // a symbol that is in the data, just return it
     if (TYPEOF(expr) == SYMSXP) {
-      const ColumnBinding<Data>* subset_data = subsets.maybe_get_subset_binding(CHAR(PRINTNAME(expr)));
+      const ColumnBinding<SlicedTibble>* subset_data = subsets.maybe_get_subset_binding(CHAR(PRINTNAME(expr)));
       if (subset_data) return subset_data->get_data();
     }
 
@@ -136,10 +136,10 @@ public:
 
 private:
 
-  const Data& data ;
+  const SlicedTibble& data ;
 
   // where to find subsets of data variables
-  Subsets& subsets ;
+  LazySplitSubsets<SlicedTibble>& subsets ;
 
   // expression and environment from the quosure
   SEXP expr ;
@@ -150,7 +150,7 @@ private:
   SEXP validate_unquoted_value() const {
     int nrows = data.nrows();
     if (is_vector(expr))
-      check_length(Rf_length(expr), nrows, check_length_message<Data>(), name);
+      check_length(Rf_length(expr), nrows, check_length_message<SlicedTibble>(), name);
     else
       bad_col(name, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(expr)));
     return expr;
@@ -160,8 +160,8 @@ private:
   SEXP evaluate() {
     const int ng = data.ngroups();
 
-    typename Data::group_iterator git = data.group_begin();
-    typename Data::slicing_index indices = *git;
+    typename SlicedTibble::group_iterator git = data.group_begin();
+    typename SlicedTibble::slicing_index indices = *git;
 
     RObject first(get(indices));
 
@@ -185,7 +185,7 @@ private:
       }
     }
     check_supported_type(first, name);
-    check_length(Rf_length(first), indices.size(), check_length_message<Data>(), name);
+    check_length(Rf_length(first), indices.size(), check_length_message<SlicedTibble>(), name);
 
     if (ng > 1) {
       while (all_na(first)) {
@@ -198,9 +198,9 @@ private:
     }
 
     if (TYPEOF(first) == VECSXP) {
-      return ListGatherer<Data> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return ListGatherer<SlicedTibble> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     } else {
-      return Gatherer<Data> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      return Gatherer<SlicedTibble> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
     }
 
   }
@@ -240,12 +240,12 @@ SEXP MutateCallProxy<NaturalDataFrame>::evaluate() {
 }
 
 
-template <typename Data>
+template <typename SlicedTibble>
 class Gatherer {
 public:
-  typedef typename Data::slicing_index Index;
+  typedef typename SlicedTibble::slicing_index Index;
 
-  Gatherer(const RObject& first, const Index& indices, MutateCallProxy<Data>& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+  Gatherer(const RObject& first, const Index& indices, MutateCallProxy<SlicedTibble>& proxy_, const SlicedTibble& gdf_, int first_non_na_, const SymbolString& name_) :
     gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
   {
     coll = collecter(first, gdf.nrows());
@@ -262,7 +262,7 @@ public:
   SEXP collect() {
     int ngroups = gdf.ngroups();
     if (first_non_na == ngroups) return coll->get();
-    typename Data::group_iterator git = gdf.group_begin();
+    typename SlicedTibble::group_iterator git = gdf.group_begin();
     int i = 0;
     for (; i < first_non_na; i++) ++git;
     ++git;
@@ -286,7 +286,7 @@ private:
     } else if (Rf_isNull(subset)) {
       stop("incompatible types (NULL), expecting %s", coll->describe());
     } else {
-      check_length(n, indices.size(), check_length_message<Data>(), name);
+      check_length(n, indices.size(), check_length_message<SlicedTibble>(), name);
     }
   }
 
@@ -329,20 +329,20 @@ private:
     }
   }
 
-  const Data& gdf;
-  MutateCallProxy<Data>& proxy;
+  const SlicedTibble& gdf;
+  MutateCallProxy<SlicedTibble>& proxy;
   Collecter* coll;
   int first_non_na;
   const SymbolString& name;
 
 };
 
-template <typename Data>
+template <typename SlicedTibble>
 class ListGatherer {
 public:
-  typedef typename Data::slicing_index Index;
+  typedef typename SlicedTibble::slicing_index Index;
 
-  ListGatherer(List first, const Index& indices, MutateCallProxy<Data>& proxy_, const Data& gdf_, int first_non_na_, const SymbolString& name_) :
+  ListGatherer(List first, const Index& indices, MutateCallProxy<SlicedTibble>& proxy_, const SlicedTibble& gdf_, int first_non_na_, const SymbolString& name_) :
     gdf(gdf_), proxy(proxy_), data(gdf.nrows()), first_non_na(first_non_na_), name(name_)
   {
     if (first_non_na < gdf.ngroups()) {
@@ -355,7 +355,7 @@ public:
   SEXP collect() {
     int ngroups = gdf.ngroups();
     if (first_non_na == ngroups) return data;
-    typename Data::group_iterator git = gdf.group_begin();
+    typename SlicedTibble::group_iterator git = gdf.group_begin();
     int i = 0;
     for (; i < first_non_na; i++) ++git;
     ++git;
@@ -378,7 +378,7 @@ private:
     } else if (n == 1) {
       grab_rep(subset[0], indices);
     } else {
-      check_length(n, indices.size(), check_length_message<Data>(), name);
+      check_length(n, indices.size(), check_length_message<SlicedTibble>(), name);
     }
   }
 
@@ -396,8 +396,8 @@ private:
     }
   }
 
-  const Data& gdf;
-  MutateCallProxy<Data>& proxy;
+  const SlicedTibble& gdf;
+  MutateCallProxy<SlicedTibble>& proxy;
   List data;
   int first_non_na;
   const SymbolString name;
@@ -408,17 +408,17 @@ private:
 
 }
 
-template <typename Data>
+template <typename SlicedTibble>
 DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
   LOG_VERBOSE << "initializing proxy";
 
-  Data gdf(df);
+  SlicedTibble gdf(df);
   int nexpr = dots.size();
   check_not_groups(dots, gdf);
 
   LOG_VERBOSE << "copying data to accumulator";
 
-  NamedListAccumulator<Data> accumulator;
+  NamedListAccumulator<SlicedTibble> accumulator;
   int ncolumns = df.size();
   CharacterVector column_names = df.names();
   for (int i = 0; i < ncolumns; i++) {
@@ -427,7 +427,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
 
-  LazySplitSubsets<Data> subsets(gdf) ;
+  LazySplitSubsets<SlicedTibble> subsets(gdf) ;
 
   for (int i = 0; i < nexpr; i++) {
 
@@ -439,7 +439,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
     if (variable == R_UnboundValue) {
       subsets.reset(quosure.env());
-      variable = MutateCallProxy<Data>(gdf, subsets, quosure.expr(), name).get() ;
+      variable = MutateCallProxy<SlicedTibble>(gdf, subsets, quosure.expr(), name).get() ;
     }
 
     if (Rf_isNull(variable)) {
@@ -447,7 +447,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       continue;
     }
 
-    if (!Rcpp::traits::same_type<Data, NaturalDataFrame>::value) {
+    if (!Rcpp::traits::same_type<SlicedTibble, NaturalDataFrame>::value) {
       Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
     }
 
@@ -462,7 +462,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
   // let the grouping class deal with the rest, e.g. the
   // groups attribute
-  return Data(res, gdf).data();
+  return SlicedTibble(res, gdf).data();
 }
 
 

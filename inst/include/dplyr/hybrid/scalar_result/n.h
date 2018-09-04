@@ -6,22 +6,21 @@
 namespace dplyr {
 namespace hybrid {
 
-template <typename Data>
-class Count : public HybridVectorScalarResult<INTSXP, Data, Count<Data> > {
+template <typename SlicedTibble>
+class Count : public HybridVectorScalarResult<INTSXP, SlicedTibble, Count<SlicedTibble> > {
 public:
-  typedef HybridVectorScalarResult<INTSXP, Data, Count<Data> > Parent ;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorScalarResult<INTSXP, SlicedTibble, Count<SlicedTibble> > Parent ;
 
-  Count(const Data& data) : Parent(data) {}
+  Count(const SlicedTibble& data) : Parent(data) {}
 
-  int process(const Index& indices) const {
+  int process(const typename SlicedTibble::slicing_index& indices) const {
     return indices.size();
   }
 } ;
 
-template <typename Data>
-inline Count<Data> n_(const Data& data) {
-  return Count<Data>(data);
+template <typename SlicedTibble>
+inline Count<SlicedTibble> n_(const SlicedTibble& data) {
+  return Count<SlicedTibble>(data);
 }
 
 }

@@ -9,22 +9,21 @@ namespace hybrid {
 
 namespace internal {
 
-template <int RTYPE, bool NA_RM, typename Data, template <int, bool, typename> class Impl >
-class SimpleDispatchImpl : public HybridVectorScalarResult < REALSXP, Data, SimpleDispatchImpl<RTYPE, NA_RM, Data, Impl> > {
+template <int RTYPE, bool NA_RM, typename SlicedTibble, template <int, bool, typename> class Impl >
+class SimpleDispatchImpl : public HybridVectorScalarResult < REALSXP, SlicedTibble, SimpleDispatchImpl<RTYPE, NA_RM, SlicedTibble, Impl> > {
 public :
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  typedef HybridVectorScalarResult<REALSXP, Data, SimpleDispatchImpl > Parent ;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorScalarResult<REALSXP, SlicedTibble, SimpleDispatchImpl > Parent ;
 
-  SimpleDispatchImpl(const Data& data, Column vec) :
+  SimpleDispatchImpl(const SlicedTibble& data, Column vec) :
     Parent(data),
     data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec.data)),
     is_summary(vec.is_summary)
   {}
 
-  double process(const Index& indices) const {
-    return Impl<RTYPE, NA_RM, Index>::process(data_ptr, indices, is_summary);
+  double process(const typename SlicedTibble::slicing_index& indices) const {
+    return Impl<RTYPE, NA_RM, typename SlicedTibble::slicing_index>::process(data_ptr, indices, is_summary);
   }
 
 private:
@@ -33,15 +32,13 @@ private:
 } ;
 
 template <
-  typename Data,
+  typename SlicedTibble,
   template <int, bool, typename> class Impl,
   typename Operation
   >
 class SimpleDispatch {
 public:
-  typedef typename Data::slicing_index Index;
-
-  SimpleDispatch(const Data& data_, Column variable_, bool narm_, const Operation& op_):
+  SimpleDispatch(const SlicedTibble& data_, Column variable_, bool narm_, const Operation& op_):
     data(data_),
     variable(variable_),
     narm(narm_),
@@ -58,7 +55,7 @@ public:
   }
 
 private:
-  const Data& data;
+  const SlicedTibble& data;
   Column variable;
   bool narm;
   const Operation& op;
@@ -68,11 +65,11 @@ private:
     // try to dispatch to the right class
     switch (TYPEOF(variable.data)) {
     case INTSXP:
-      return op(SimpleDispatchImpl<INTSXP, NARM, Data, Impl>(data, variable));
+      return op(SimpleDispatchImpl<INTSXP, NARM, SlicedTibble, Impl>(data, variable));
     case REALSXP:
-      return op(SimpleDispatchImpl<REALSXP, NARM, Data, Impl>(data, variable));
+      return op(SimpleDispatchImpl<REALSXP, NARM, SlicedTibble, Impl>(data, variable));
     case LGLSXP:
-      return op(SimpleDispatchImpl<LGLSXP, NARM, Data, Impl>(data, variable));
+      return op(SimpleDispatchImpl<LGLSXP, NARM, SlicedTibble, Impl>(data, variable));
     }
 
     // give up, effectively let R evaluate the call
@@ -184,19 +181,19 @@ struct SdImpl {
 
 } // namespace internal
 
-template <typename Data, typename Operation>
-SEXP mean_(const Data& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<Data, internal::MeanImpl, Operation>(data, variable, narm, op).get();
+template <typename SlicedTibble, typename Operation>
+SEXP mean_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
+  return internal::SimpleDispatch<SlicedTibble, internal::MeanImpl, Operation>(data, variable, narm, op).get();
 }
 
-template <typename Data, typename Operation>
-SEXP var_(const Data& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<Data, internal::VarImpl, Operation>(data, variable, narm, op).get();
+template <typename SlicedTibble, typename Operation>
+SEXP var_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
+  return internal::SimpleDispatch<SlicedTibble, internal::VarImpl, Operation>(data, variable, narm, op).get();
 }
 
-template <typename Data, typename Operation>
-SEXP sd_(const Data& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<Data, internal::SdImpl, Operation>(data, variable, narm, op).get();
+template <typename SlicedTibble, typename Operation>
+SEXP sd_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
+  return internal::SimpleDispatch<SlicedTibble, internal::SdImpl, Operation>(data, variable, narm, op).get();
 }
 
 }

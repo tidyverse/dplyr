@@ -7,7 +7,7 @@
 
 namespace dplyr {
 
-template <typename Data>
+template <typename SlicedTibble>
 inline Rcpp::CharacterVector tbl_classes() ;
 
 template <>

@@ -308,18 +308,18 @@ IDelayedProcessor* get_delayed_processor(SEXP first_result, int ngroups, const S
 }
 
 
-template <typename Data>
+template <typename SlicedTibble>
 class GroupedCallReducer  {
 public:
-  typedef typename Data::slicing_index Index ;
+  typedef typename SlicedTibble::slicing_index Index ;
 
-  GroupedCallReducer(SEXP expr_, SymbolString name_, LazySplitSubsets<Data>& data_mask_) :
+  GroupedCallReducer(SEXP expr_, SymbolString name_, LazySplitSubsets<SlicedTibble>& data_mask_) :
     expr(expr_),
     name(name_),
     data_mask(data_mask_)
   {}
 
-  SEXP process(const Data& gdf) ;
+  SEXP process(const SlicedTibble& gdf) ;
 
   inline SEXP process_chunk(const Index& indices) {
     return data_mask.eval(expr, indices);
@@ -332,14 +332,14 @@ public:
 private:
   SEXP expr;
   const SymbolString name;
-  LazySplitSubsets<Data>& data_mask;
+  LazySplitSubsets<SlicedTibble>& data_mask;
 };
 
 
-template <typename Data>
+template <typename SlicedTibble>
 class process_data {
 public:
-  process_data(const Data& gdf, GroupedCallReducer<Data>& chunk_source_) :
+  process_data(const SlicedTibble& gdf, GroupedCallReducer<SlicedTibble>& chunk_source_) :
     git(gdf.group_begin()),
     ngroups(gdf.ngroups()),
     chunk_source(chunk_source_)
@@ -363,7 +363,7 @@ private:
     LOG_INFO << "instantiating delayed processor for type " << type2name(first_result)
              << " for column `" << chunk_source.get_name().get_utf8_cstring() << "`";
 
-    processor.reset(get_delayed_processor< GroupedCallReducer<Data> >(first_result, ngroups, chunk_source.get_name()));
+    processor.reset(get_delayed_processor< GroupedCallReducer<SlicedTibble> >(first_result, ngroups, chunk_source.get_name()));
     LOG_VERBOSE << "processing " << ngroups << " groups with " << processor->describe() << " processor";
   }
 
@@ -407,15 +407,15 @@ private:
   }
 
 private:
-  typename Data::group_iterator git;
+  typename SlicedTibble::group_iterator git;
   const int ngroups;
   boost::scoped_ptr<IDelayedProcessor> processor;
-  GroupedCallReducer<Data>& chunk_source;
+  GroupedCallReducer<SlicedTibble>& chunk_source;
 };
 
-template <typename Data>
-inline SEXP GroupedCallReducer<Data>::process(const Data& gdf) {
-  return process_data<Data>(gdf, *this).run();
+template <typename SlicedTibble>
+inline SEXP GroupedCallReducer<SlicedTibble>::process(const SlicedTibble& gdf) {
+  return process_data<SlicedTibble>(gdf, *this).run();
 }
 
 template <>

@@ -4,15 +4,13 @@
 namespace dplyr {
 namespace hybrid {
 
-template <int RTYPE, typename Data, typename Impl>
+template <int RTYPE, typename SlicedTibble, typename Impl>
 class HybridVectorVectorResult {
 public:
   typedef typename Rcpp::Vector<RTYPE> Vec ;
-  typedef typename Data::group_iterator group_iterator ;
-  typedef typename Data::slicing_index Index;
   typedef typename Vec::stored_type stored_type;
 
-  HybridVectorVectorResult(const Data& data_) :
+  HybridVectorVectorResult(const SlicedTibble& data_) :
     data(data_)
   {}
 
@@ -22,7 +20,7 @@ public:
 
     Vec vec = init(nr);
 
-    group_iterator git = data.group_begin();
+    typename SlicedTibble::group_iterator git = data.group_begin();
     for (int i = 0; i < ng; i++, ++git) {
       self()->fill(*git, vec);
     }
@@ -36,7 +34,7 @@ public:
   }
 
 private:
-  const Data& data;
+  const SlicedTibble& data;
 
   inline const Impl* self() const {
     return static_cast<const Impl*>(this);

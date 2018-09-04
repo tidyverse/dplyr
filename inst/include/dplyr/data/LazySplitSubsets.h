@@ -11,13 +11,13 @@
 
 namespace dplyr {
 
-template <class Data>
+template <class SlicedTibble>
 class LazySplitSubsets;
 
-template <typename Data>
+template <typename SlicedTibble>
 struct ColumnBinding {
 public:
-  typedef typename Data::slicing_index slicing_index;
+  typedef typename SlicedTibble::slicing_index slicing_index;
 
   ColumnBinding(bool summary_, SEXP symbol_, SEXP data_) :
     summary(summary_),
@@ -42,14 +42,14 @@ public:
     materialize(indices, env);
   }
 
-  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, LazySplitSubsets<Data>* subsets) {
+  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, LazySplitSubsets<SlicedTibble>* subsets) {
     static Function active_binding_fun(".active_binding_fun", Rcpp::Environment::namespace_env("dplyr"));
 
     R_MakeActiveBinding(
       symbol,
       active_binding_fun(
         pos,
-        XPtr< LazySplitSubsets<Data> >(subsets, false)
+        XPtr< LazySplitSubsets<SlicedTibble> >(subsets, false)
       ),
       mask_active
     );
@@ -123,12 +123,12 @@ public:
   }
 };
 
-template <class Data>
+template <class SlicedTibble>
 class LazySplitSubsets : public LazySplitSubsetsBase {
-  typedef typename Data::slicing_index slicing_index;
+  typedef typename SlicedTibble::slicing_index slicing_index;
 
 public:
-  LazySplitSubsets(const Data& gdf_) :
+  LazySplitSubsets(const SlicedTibble& gdf_) :
     gdf(gdf_),
     subsets(),
     symbol_map(),
@@ -148,7 +148,7 @@ public:
     return symbol_map.get_names();
   }
 
-  const ColumnBinding<Data>* maybe_get_subset_binding(const SymbolString& symbol) const {
+  const ColumnBinding<SlicedTibble>* maybe_get_subset_binding(const SymbolString& symbol) const {
     int pos = symbol_map.find(symbol);
     if (pos >= 0) {
       return &subsets[pos];
@@ -157,7 +157,7 @@ public:
     }
   }
 
-  const ColumnBinding<Data>& get_subset_binding(int i) const {
+  const ColumnBinding<SlicedTibble>& get_subset_binding(int i) const {
     return subsets[i];
   }
 
@@ -211,11 +211,12 @@ public:
   }
 
 private:
+  // forbid copy construction of this class
   LazySplitSubsets(const LazySplitSubsets&);
 
-  const Data& gdf;
+  const SlicedTibble& gdf;
 
-  std::vector< ColumnBinding<Data> > subsets ;
+  std::vector< ColumnBinding<SlicedTibble> > subsets ;
   std::vector<int> materialized ;
   SymbolMap symbol_map;
 
@@ -239,7 +240,7 @@ private:
     SymbolMapIndex index = symbol_map.insert(symbol);
 
     SEXP sym = Rf_installChar(symbol.get_sexp());
-    ColumnBinding<Data> subset(summarised, sym, x);
+    ColumnBinding<SlicedTibble> subset(summarised, sym, x);
 
     if (index.origin == NEW) {
       // when this is a new variable, install the active binding

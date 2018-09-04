@@ -6,18 +6,17 @@
 namespace dplyr {
 namespace hybrid {
 
-template <int RTYPE, typename Data, typename Impl>
+template <int RTYPE, typename SlicedTibble, typename Impl>
 class HybridVectorSummaryRecycleResult :
-  public HybridVectorVectorResult<RTYPE, Data, HybridVectorSummaryRecycleResult<RTYPE, Data, Impl> >
+  public HybridVectorVectorResult<RTYPE, SlicedTibble, HybridVectorSummaryRecycleResult<RTYPE, SlicedTibble, Impl> >
 {
 public:
-  typedef HybridVectorVectorResult<RTYPE, Data, HybridVectorSummaryRecycleResult> Parent;
-  typedef typename Data::slicing_index Index;
+  typedef HybridVectorVectorResult<RTYPE, SlicedTibble, HybridVectorSummaryRecycleResult> Parent;
   typedef Rcpp::Vector<RTYPE> Vector;
 
-  HybridVectorSummaryRecycleResult(const Data& data) : Parent(data) {}
+  HybridVectorSummaryRecycleResult(const SlicedTibble& data) : Parent(data) {}
 
-  void fill(const Index& indices, Vector& out) const {
+  void fill(const typename SlicedTibble::slicing_index& indices, Vector& out) const {
     int n = indices.size();
     typename Vector::stored_type value = self()->value(indices);
     for (int i = 0; i < n; i++) out[indices[i]] = value;
