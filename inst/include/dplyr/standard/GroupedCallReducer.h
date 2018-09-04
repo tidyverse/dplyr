@@ -1,7 +1,7 @@
 #ifndef dplyr_GroupedCallReducer_H
 #define dplyr_GroupedCallReducer_H
 
-#include <dplyr/data/LazySplitSubsets.h>
+#include <dplyr/data/DataMask.h>
 #include <dplyr/checks.h>
 
 #include <boost/scoped_ptr.hpp>
@@ -313,7 +313,7 @@ class GroupedCallReducer  {
 public:
   typedef typename SlicedTibble::slicing_index Index ;
 
-  GroupedCallReducer(SEXP expr_, SymbolString name_, LazySplitSubsets<SlicedTibble>& data_mask_) :
+  GroupedCallReducer(SEXP expr_, SymbolString name_, DataMask<SlicedTibble>& data_mask_) :
     expr(expr_),
     name(name_),
     data_mask(data_mask_)
@@ -332,7 +332,7 @@ public:
 private:
   SEXP expr;
   const SymbolString name;
-  LazySplitSubsets<SlicedTibble>& data_mask;
+  DataMask<SlicedTibble>& data_mask;
 };
 
 

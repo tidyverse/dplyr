@@ -391,17 +391,17 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 }
 
 template <typename SlicedTibble>
-SEXP summarise(const NamedQuosure& quosure, const SlicedTibble& data, const LazySplitSubsets<SlicedTibble>& subsets) {
+SEXP summarise(const NamedQuosure& quosure, const SlicedTibble& data, const DataMask<SlicedTibble>& subsets) {
   return hybrid_do(quosure.expr(), data, subsets, quosure.env(), Summary());
 }
 
 template <typename SlicedTibble>
-SEXP window(SEXP expr, const SlicedTibble& data, const LazySplitSubsets<SlicedTibble>& subsets, SEXP env) {
+SEXP window(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& subsets, SEXP env) {
   return hybrid_do(expr, data, subsets, env, Window());
 }
 
 template <typename SlicedTibble>
-SEXP match(SEXP expr, const SlicedTibble& data, const LazySplitSubsets<SlicedTibble>& subsets, SEXP env) {
+SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& subsets, SEXP env) {
   bool test = !is_vector(expr);
   RObject klass;
   if (test) {

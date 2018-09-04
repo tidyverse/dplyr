@@ -3,7 +3,7 @@
 
 #include <dplyr/hybrid/Column.h>
 #include <tools/SymbolString.h>
-#include <dplyr/data/LazySplitSubsets.h>
+#include <dplyr/data/DataMask.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -69,7 +69,7 @@ class Expression {
 public:
   typedef std::pair<bool, SEXP> ArgPair;
 
-  Expression(SEXP expr_, const LazySplitSubsets<SlicedTibble>& subsets_, SEXP env_) :
+  Expression(SEXP expr_, const DataMask<SlicedTibble>& subsets_, SEXP env_) :
     expr(expr_),
     env(env_),
     func(R_NilValue),
@@ -198,7 +198,7 @@ private:
   SEXP package;
   bool valid;
 
-  const LazySplitSubsets<SlicedTibble>& subsets;
+  const DataMask<SlicedTibble>& subsets;
 
   int n;
   std::vector<SEXP> values;

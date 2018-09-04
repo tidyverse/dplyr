@@ -12,7 +12,7 @@
 #include <dplyr/Groups.h>
 #include <tools/bad.h>
 
-#include <dplyr/data/LazySplitSubsets.h>
+#include <dplyr/data/DataMask.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -37,7 +37,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   LogicalVector ascending(nargs);
 
   NaturalDataFrame ndf(data);
-  LazySplitSubsets<NaturalDataFrame> subsets(ndf);
+  DataMask<NaturalDataFrame> subsets(ndf);
   NaturalSlicingIndex indices_all(gdf.nrows());
 
   for (int i = 0; i < nargs; i++) {

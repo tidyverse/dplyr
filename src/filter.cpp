@@ -8,7 +8,7 @@
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
-#include <dplyr/data/LazySplitSubsets.h>
+#include <dplyr/data/DataMask.h>
 
 #include <tools/bad.h>
 #include <tools/set_rownames.h>
@@ -384,7 +384,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
 
   // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
-  LazySplitSubsets<SlicedTibble> subsets(gdf) ;
+  DataMask<SlicedTibble> subsets(gdf) ;
   subsets.reset(quo.env());
 
   int ngroups = gdf.ngroups() ;
@@ -487,7 +487,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   typedef typename SlicedTibble::group_iterator group_iterator;
   typedef typename SlicedTibble::slicing_index slicing_index ;
 
-  LazySplitSubsets<SlicedTibble> subsets(gdf);
+  DataMask<SlicedTibble> subsets(gdf);
   subsets.reset(quo.env());
 
   const DataFrame& data = gdf.data() ;

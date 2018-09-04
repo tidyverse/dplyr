@@ -10,7 +10,7 @@
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
-#include <dplyr/data/LazySplitSubsets.h>
+#include <dplyr/data/DataMask.h>
 
 #include <dplyr/NamedListAccumulator.h>
 
@@ -101,7 +101,7 @@ class MutateCallProxy {
 public:
   typedef typename SlicedTibble::slicing_index Index ;
 
-  MutateCallProxy(const SlicedTibble& data_, LazySplitSubsets<SlicedTibble>& subsets_, SEXP expr_, const SymbolString& name_) :
+  MutateCallProxy(const SlicedTibble& data_, DataMask<SlicedTibble>& subsets_, SEXP expr_, const SymbolString& name_) :
     data(data_),
     subsets(subsets_),
     expr(expr_),
@@ -139,7 +139,7 @@ private:
   const SlicedTibble& data ;
 
   // where to find subsets of data variables
-  LazySplitSubsets<SlicedTibble>& subsets ;
+  DataMask<SlicedTibble>& subsets ;
 
   // expression and environment from the quosure
   SEXP expr ;
@@ -427,7 +427,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
 
-  LazySplitSubsets<SlicedTibble> subsets(gdf) ;
+  DataMask<SlicedTibble> subsets(gdf) ;
 
   for (int i = 0; i < nexpr; i++) {
 

@@ -1,5 +1,5 @@
-#ifndef dplyr_LazySplitSubsets_H
-#define dplyr_LazySplitSubsets_H
+#ifndef dplyr_DataMask_H
+#define dplyr_DataMask_H
 
 #include <tools/SymbolMap.h>
 
@@ -12,7 +12,7 @@
 namespace dplyr {
 
 template <class SlicedTibble>
-class LazySplitSubsets;
+class DataMask;
 
 template <typename SlicedTibble>
 struct ColumnBinding {
@@ -42,14 +42,14 @@ public:
     materialize(indices, env);
   }
 
-  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, LazySplitSubsets<SlicedTibble>* subsets) {
+  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, DataMask<SlicedTibble>* subsets) {
     static Function active_binding_fun(".active_binding_fun", Rcpp::Environment::namespace_env("dplyr"));
 
     R_MakeActiveBinding(
       symbol,
       active_binding_fun(
         pos,
-        XPtr< LazySplitSubsets<SlicedTibble> >(subsets, false)
+        XPtr< DataMask<SlicedTibble> >(subsets, false)
       ),
       mask_active
     );
@@ -99,7 +99,7 @@ public:
 
   inline void update_indices(const slicing_index& /* indices */, SEXP /* env */) {}
 
-  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, LazySplitSubsets<NaturalDataFrame>* subsets) {
+  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, DataMask<NaturalDataFrame>* subsets) {
     Rf_defineVar(symbol, data, mask_active);
   }
   inline void update(SEXP mask_active, SEXP mask_resolved) {
@@ -114,9 +114,9 @@ private:
 };
 
 
-class LazySplitSubsetsBase {
+class DataMaskBase {
 public:
-  virtual ~LazySplitSubsetsBase() {}
+  virtual ~DataMaskBase() {}
 
   virtual SEXP materialize(int idx) {
     return R_UnboundValue;
@@ -124,11 +124,11 @@ public:
 };
 
 template <class SlicedTibble>
-class LazySplitSubsets : public LazySplitSubsetsBase {
+class DataMask : public DataMaskBase {
   typedef typename SlicedTibble::slicing_index slicing_index;
 
 public:
-  LazySplitSubsets(const SlicedTibble& gdf_) :
+  DataMask(const SlicedTibble& gdf_) :
     gdf(gdf_),
     subsets(),
     symbol_map(),
@@ -212,7 +212,7 @@ public:
 
 private:
   // forbid copy construction of this class
-  LazySplitSubsets(const LazySplitSubsets&);
+  DataMask(const DataMask&);
 
   const SlicedTibble& gdf;
 
@@ -264,7 +264,7 @@ private:
 };
 
 template <>
-inline void LazySplitSubsets<NaturalDataFrame>::update_mask_resolved() {}
+inline void DataMask<NaturalDataFrame>::update_mask_resolved() {}
 
 }
 #endif

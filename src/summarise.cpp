@@ -9,7 +9,6 @@
 #include <dplyr/data/tbl_classes.h>
 
 #include <dplyr/standard/GroupedCallReducer.h>
-#include <dplyr/standard/summarise.h>
 
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
@@ -151,7 +150,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
-  LazySplitSubsets<SlicedTibble> subsets(gdf);
+  DataMask<SlicedTibble> subsets(gdf);
   for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
@@ -172,7 +171,6 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
       // we can use a GroupedCallReducer which will callback to R.
       if (result == R_UnboundValue) {
         subsets.reset(quosure.env());
-
         result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), subsets).process(gdf);
       }
     }
@@ -214,7 +212,7 @@ SEXP hybrid_template(DataFrame df, const NamedQuosure& quosure) {
 
   const Environment& env = quosure.env();
   SEXP expr = quosure.expr();
-  LazySplitSubsets<SlicedTibble> subsets(gdf);
+  DataMask<SlicedTibble> subsets(gdf);
   return hybrid::match(expr, gdf, subsets, env);
 }
 

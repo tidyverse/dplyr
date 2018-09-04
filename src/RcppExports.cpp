@@ -597,13 +597,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // materialize_binding
-SEXP materialize_binding(int idx, XPtr<LazySplitSubsetsBase> subsets);
+SEXP materialize_binding(int idx, XPtr<DataMaskBase> subsets);
 RcppExport SEXP _dplyr_materialize_binding(SEXP idxSEXP, SEXP subsetsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type idx(idxSEXP);
-    Rcpp::traits::input_parameter< XPtr<LazySplitSubsetsBase> >::type subsets(subsetsSEXP);
+    Rcpp::traits::input_parameter< XPtr<DataMaskBase> >::type subsets(subsetsSEXP);
     rcpp_result_gen = Rcpp::wrap(materialize_binding(idx, subsets));
     return rcpp_result_gen;
 END_RCPP
