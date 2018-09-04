@@ -8,6 +8,8 @@
 namespace dplyr {
 namespace hybrid {
 
+// When we do hybrid evaulation of fun(...) we need to make
+// sure that fun is the function we want, and not masked
 struct FindFunData {
   const SEXP symbol;
   const SEXP env;
@@ -69,26 +71,34 @@ class Expression {
 public:
   typedef std::pair<bool, SEXP> ArgPair;
 
-  Expression(SEXP expr_, const DataMask<SlicedTibble>& subsets_, SEXP env_) :
+  Expression(SEXP expr_, const DataMask<SlicedTibble>& data_mask_, SEXP env_) :
     expr(expr_),
     env(env_),
     func(R_NilValue),
     package(R_NilValue),
     valid(false),
-    subsets(subsets_),
+    data_mask(data_mask_),
     n(0)
   {
     static SEXP R_DoubleColonSymbol = Rf_install("::");
+    static SEXP s_dplyr = Rf_install("dplyr");
+    static SEXP s_stats = Rf_install("stats");
+    static SEXP s_base  = Rf_install("base");
 
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
     if (TYPEOF(head) == SYMSXP) {
+      // a symbol
       valid = true;
       func = head;
     } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == R_DoubleColonSymbol && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
-      valid = true;
+      // a call of the `::` function
       func = CADDR(head);
       package = CADR(head);
+
+      // give up on pkg::fun if pkg is not one of dplyr, stats or base
+      // because we only hybrid functions from those
+      valid = package == s_dplyr || package == s_stats || package == s_base;
     }
 
     // the arguments
@@ -99,18 +109,22 @@ public:
     }
   }
 
-  inline SEXP value(int i) {
-    return values[i];
-  }
-
+  // the number of arguments in the call
   inline int size() const {
     return n;
   }
 
+  // the constructor rules out some expressions
   inline bool is_valid() const {
     return valid;
   }
 
+  // expression or value for the ith argument
+  inline SEXP value(int i) const {
+    return values[i];
+  }
+
+  // is this expression the function we are looking for
   inline bool is_fun(SEXP symbol, SEXP pkg, SEXP ns) {
     // quickly escape if this has no chance to be the function we look for
     if (symbol != func) {
@@ -121,7 +135,6 @@ public:
       // function in the right environment, otherwise we let R evaluate the call
       FindFunData finder(symbol, env);
       if (!finder.findFun()) return false;
-
 
       SEXP expected = Rf_findVarInFrame3(ns, symbol, TRUE);
       if (TYPEOF(expected) == PROMSXP) {
@@ -137,14 +150,17 @@ public:
     }
   }
 
+  // is the i-th argument called `symbol`
   inline bool is_named(int i, SEXP symbol) const {
     return tags[i] == symbol;
   }
 
+  // is the i-th argument unnamed
   inline bool is_unnamed(int i) const {
     return Rf_isNull(tags[i]);
   }
 
+  // is the ith argument a logical scalar
   inline bool is_scalar_logical(int i, bool& test) const {
     SEXP val = values[i];
     bool res = TYPEOF(val) == LGLSXP && Rf_length(val) == 1 ;
@@ -154,6 +170,7 @@ public:
     return res;
   }
 
+  // is the i-th argument a scalar int
   inline bool is_scalar_int(int i, int& out) const {
     SEXP val = values[i];
     if (Rf_length(val) != 1) return false;
@@ -170,6 +187,7 @@ public:
     return false;
   }
 
+  // is the ith argument a column
   inline bool is_column(int i, Column& column) const {
     SEXP val = values[i];
 
@@ -198,15 +216,11 @@ private:
   SEXP package;
   bool valid;
 
-  const DataMask<SlicedTibble>& subsets;
+  const DataMask<SlicedTibble>& data_mask;
 
   int n;
   std::vector<SEXP> values;
   std::vector<SEXP> tags;
-
-  Environment ns_base;
-  Environment ns_dplyr;
-  Environment ns_stats;
 
   inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
     if (TYPEOF(val) == SYMSXP) {
@@ -233,7 +247,7 @@ private:
 
   inline bool test_is_column(Rcpp::Symbol s, Column& column, bool desc) const {
     SymbolString symbol(s);
-    const ColumnBinding<SlicedTibble>* subset = subsets.maybe_get_subset_binding(symbol);
+    const ColumnBinding<SlicedTibble>* subset = data_mask.maybe_get_subset_binding(symbol);
     if (!subset) return false;
 
     // only treat very simple columns as columns, leave other to R
