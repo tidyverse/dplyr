@@ -62,11 +62,6 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   Expression<SlicedTibble> expression(expr, subsets, env);
   if (!expression.is_valid()) return R_UnboundValue;
 
-  Column column;
-  Column column2;
-  bool test;
-  int n;
-
   // functions that take variadic number of arguments
   if (expression.is_fun(s_n_distinct, s_dplyr, ns_dplyr)) {
     return n_distinct_(data, expression, op);
@@ -94,14 +89,20 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
   case 1:
     // sum( <column> ) and base::sum( <column> )
-    if (expression.is_fun(s_sum, s_base, ns_base) && expression.is_unnamed(0) && expression.is_column(0, column)) {
-      return sum_(data, column, false, op);
+    if (expression.is_fun(s_sum, s_base, ns_base)) {
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return sum_(data, x, /* na.rm = */ false, op);
+      } else {
+        return R_UnboundValue;
+      }
     }
 
     // mean( <column> ) and base::mean( <column> )
     if (expression.is_fun(s_mean, s_base, ns_base)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return mean_(data, column, false, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return mean_(data, x, false, op);
       } else {
         return R_UnboundValue;
       }
@@ -109,8 +110,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // var( <column> ) and stats::var( <column> )
     if (expression.is_fun(s_var, s_stats, ns_stats)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return var_(data, column, false, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return var_(data, x, false, op);
       } else {
         return R_UnboundValue;
       }
@@ -118,8 +120,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // sd( <column> ) and stats::sd( <column> )
     if (expression.is_fun(s_sd, s_stats, ns_stats)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return sd_(data, column, false, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return sd_(data, x, false, op);
       } else {
         return R_UnboundValue;
       }
@@ -127,8 +130,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // first( <column> )
     if (expression.is_fun(s_first, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return first1_(data, column, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return first1_(data, x, op);
       } else {
         return R_UnboundValue ;
       }
@@ -136,8 +140,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // last( <column> )
     if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return last1_(data, column, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return last1_(data, x, op);
       } else {
         return R_UnboundValue;
       }
@@ -145,8 +150,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // min( <column> )
     if (expression.is_fun(s_min, s_base, ns_base)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return min_(data, column, false, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return min_(data, x, false, op);
       } else {
         return R_UnboundValue;
       }
@@ -154,8 +160,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // max( <column> )
     if (expression.is_fun(s_max, s_base, ns_base)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return max_(data, column, false, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return max_(data, x, false, op);
       } else {
         return R_UnboundValue;
       }
@@ -163,8 +170,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // row_number( <column> )
     if (expression.is_fun(s_row_number, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return row_number_1(data, column, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return row_number_1(data, x, op);
       } else {
         return R_UnboundValue;
       }
@@ -172,6 +180,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // ntile( n = <int> )
     if (expression.is_fun(s_ntile, s_dplyr, ns_dplyr)) {
+      int n;
       if (expression.is_named(0, s_n) && expression.is_scalar_int(0, n)) {
         return op(ntile_1(data, n));
       } else {
@@ -181,8 +190,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // min_rank( <column> )
     if (expression.is_fun(s_min_rank, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return min_rank_(data, column, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return min_rank_(data, x, op);
       } else {
         return R_UnboundValue;
       }
@@ -190,8 +200,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // percent_rank( <column> )
     if (expression.is_fun(s_percent_rank, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return percent_rank_(data, column, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return percent_rank_(data, x, op);
       } else {
         return R_UnboundValue;
       }
@@ -199,8 +210,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // dense_rank( <column> )
     if (expression.is_fun(s_dense_rank, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return dense_rank_(data, column, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return dense_rank_(data, x, op);
       } else {
         return R_UnboundValue;
       }
@@ -208,8 +220,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // cume_dist( <column> )
     if (expression.is_fun(s_cume_dist, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return cume_dist_(data, column, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return cume_dist_(data, x, op);
       } else {
         return R_UnboundValue;
       }
@@ -217,8 +230,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // lead( <column> )
     if (expression.is_fun(s_lead, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return lead_1(data, column, 1, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return lead_1(data, x, 1, op);
       } else {
         return R_UnboundValue;
       }
@@ -226,8 +240,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // lag( <column> )
     if (expression.is_fun(s_lag, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column)) {
-        return lag_1(data, column, 1, op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+        return lag_1(data, x, 1, op);
       } else {
         return R_UnboundValue;
       }
@@ -239,10 +254,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // sum( <column>, na.rm = <bool> )
     // base::sum( <column>, na.rm = <bool> )
     if (expression.is_fun(s_sum, s_base, ns_base)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) &&
+      Column x;
+      bool test;
+      if (expression.is_unnamed(0) && expression.is_column(0, x) &&
           expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
          ) {
-        return sum_(data, column, test, op);
+        return sum_(data, x, test, op);
       } else {
         return R_UnboundValue;
       }
@@ -251,11 +268,13 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // mean( <column>, na.rm = <bool> )
     // base::mean( <column>, na.rm = <bool> )
     if (expression.is_fun(s_mean, s_base, ns_base)) {
-      if (
-        expression.is_unnamed(0) && expression.is_column(0, column) &&
-        expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
-      ) {
-        return mean_(data, column, test, op);
+      Column x;
+      bool test;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) &&
+          expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
+         ) {
+        return mean_(data, x, test, op);
       } else {
         return R_UnboundValue;
       }
@@ -264,11 +283,14 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // var( <column>, na.rm = <bool> )
     // stats::var( <column>, na.rm = <bool> )
     if (expression.is_fun(s_var, s_stats, ns_stats)) {
+      Column x;
+      bool test;
+
       if (
-        expression.is_unnamed(0) && expression.is_column(0, column) &&
+        expression.is_unnamed(0) && expression.is_column(0, x) &&
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
       ) {
-        return var_(data, column, test, op);
+        return var_(data, x, test, op);
       } else {
         return R_UnboundValue;
       }
@@ -277,11 +299,14 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     // sd( <column>, na.rm = <bool> )
     // stats::sd( <column>, na.rm = <bool> )
     if (expression.is_fun(s_sd, s_stats, ns_stats)) {
+      Column x;
+      bool test;
+
       if (
-        expression.is_unnamed(0) && expression.is_column(0, column) &&
+        expression.is_unnamed(0) && expression.is_column(0, x) &&
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
       ) {
-        return sd_(data, column, test, op);
+        return sd_(data, x, test, op);
       } else {
         return R_UnboundValue;
       }
@@ -289,8 +314,9 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // first( <column>, default = <scalar> )
     if (expression.is_fun(s_first, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_default)) {
-        return first2_default(data, column, expression.value(1), op);
+      Column x;
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
+        return first2_default(data, x, /* default = */ expression.value(1), op);
       } else {
         return R_UnboundValue;
       }
@@ -298,8 +324,10 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // last( <column>, default = <scalar> )
     if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_default)) {
-        return last2_default(data, column, expression.value(1), op);
+      Column x;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
+        return last2_default(data, x, /* default = */ expression.value(1), op);
       } else {
         return R_UnboundValue;
       }
@@ -307,8 +335,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // nth( <column>, n = <int> )
     if (expression.is_fun(s_nth, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n)) {
-        return nth2_(data, column, expression.value(1), op);
+      Column x;
+      int n;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+        return nth2_(data, x, n, op);
       } else {
         return R_UnboundValue;
       }
@@ -316,8 +347,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // min( <column>, na.rm = <bool> )
     if (expression.is_fun(s_min, s_base, ns_base)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
-        return min_(data, column, test, op);
+      Column x;
+      bool test;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
+        return min_(data, x, /* na.rm = */ test, op);
       } else {
         return R_UnboundValue;
       }
@@ -325,8 +359,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // max( <column>, na.rm = <bool> )
     if (expression.is_fun(s_max, s_base, ns_base)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
-        return max_(data, column, test, op);
+      Column x;
+      bool test;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
+        return max_(data, x, /* na.rm = */ test, op);
       } else {
         return R_UnboundValue;
       }
@@ -334,8 +371,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // ntile( <column>, n = <int> )
     if (expression.is_fun(s_ntile, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
-        return ntile_2(data, column, n, op);
+      Column x;
+      int n;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+        return ntile_2(data, x, n, op);
       } else {
         return R_UnboundValue;
       }
@@ -343,8 +383,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // lead( <column>, n = <int> )
     if (expression.is_fun(s_lead, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
-        return lead_1(data, column, n, op);
+      Column x;
+      int n;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+        return lead_1(data, x, n, op);
       } else {
         return R_UnboundValue;
       }
@@ -352,8 +395,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // lag( <column>, n = <int> )
     if (expression.is_fun(s_lag, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
-        return lag_1(data, column, n, op);
+      Column x;
+      int n;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+        return lag_1(data, x, n, op);
       } else {
         return R_UnboundValue;
       }
@@ -361,8 +407,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // <column> %in% <column>
     if (expression.is_fun(s_in, s_base, ns_base)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_unnamed(1) && expression.is_column(1, column2)) {
-        return in_column_column(data, column, column2, op);
+      Column lhs;
+      Column rhs;
+
+      if (expression.is_unnamed(0) && expression.is_column(0, lhs) && expression.is_unnamed(1) && expression.is_column(1, rhs)) {
+        return in_column_column(data, lhs, rhs, op);
       } else {
         return R_UnboundValue;
       }
@@ -374,8 +423,10 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 
     // nth( <column>, n = <int>, default = <scalar> )
     if (expression.is_fun(s_nth, s_dplyr, ns_dplyr)) {
-      if (expression.is_unnamed(0) && expression.is_column(0, column) && expression.is_named(1, s_n) && expression.is_named(2, s_default)) {
-        return nth3_default(data, column, expression.value(1), expression.value(2), op);
+      Column x;
+      int n;
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n) && expression.is_named(2, s_default)) {
+        return nth3_default(data, x, n, expression.value(2), op);
       } else {
         return R_UnboundValue;
       }

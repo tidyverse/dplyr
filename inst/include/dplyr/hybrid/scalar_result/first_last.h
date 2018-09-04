@@ -195,20 +195,7 @@ SEXP last2_default(const SlicedTibble& data, Column x, SEXP def, const Operation
 
 // nth( <column>, n = <int|double> )
 template <typename SlicedTibble, typename Operation>
-SEXP nth2_(const SlicedTibble& data, Column x, SEXP n, const Operation& op) {
-  int pos = 0 ;
-
-  switch (TYPEOF(n)) {
-  case INTSXP:
-    pos = INTEGER(n)[0];
-    break;
-  case REALSXP:
-    pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
-    break;
-  default:
-    return R_UnboundValue;
-  }
-
+SEXP nth2_(const SlicedTibble& data, Column x, int pos, const Operation& op) {
   switch (TYPEOF(x.data)) {
   case LGLSXP:
     return op(internal::Nth2<LGLSXP, SlicedTibble>(data, x, pos));
@@ -233,20 +220,8 @@ SEXP nth2_(const SlicedTibble& data, Column x, SEXP n, const Operation& op) {
 
 // nth( <column>, n = <int|double> )
 template <typename SlicedTibble, typename Operation>
-SEXP nth3_default(const SlicedTibble& data, Column x, SEXP n, SEXP def, const Operation& op) {
+SEXP nth3_default(const SlicedTibble& data, Column x, int pos, SEXP def, const Operation& op) {
   if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
-
-  int pos = 0 ;
-  switch (TYPEOF(n)) {
-  case INTSXP:
-    pos = INTEGER(n)[0];
-    break;
-  case REALSXP:
-    pos = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(n)[0]);
-    break;
-  default:
-    return R_UnboundValue;
-  }
 
   switch (TYPEOF(x.data)) {
   case LGLSXP:
