@@ -99,10 +99,9 @@ class ListGatherer;
 template <typename Data>
 class MutateCallProxy {
 public:
-  typedef LazySplitSubsets<Data> Subsets;
   typedef typename Data::slicing_index Index ;
 
-  MutateCallProxy(const Data& data_, Subsets& subsets_, SEXP expr_, const SymbolString& name_) :
+  MutateCallProxy(const Data& data_, LazySplitSubsets<Data>& subsets_, SEXP expr_, const SymbolString& name_) :
     data(data_),
     subsets(subsets_),
     expr(expr_),

@@ -482,11 +482,10 @@ private:
 
 template <typename SlicedTibble>
 DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
-  typedef LazySplitSubsets<SlicedTibble> Subsets;
   typedef typename SlicedTibble::group_iterator group_iterator;
   typedef typename SlicedTibble::slicing_index Index ;
 
-  Subsets subsets(gdf);
+  LazySplitSubsets<SlicedTibble> subsets(gdf);
   subsets.reset(quo.env());
 
   const DataFrame& data = gdf.data() ;

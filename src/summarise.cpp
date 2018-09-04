@@ -132,8 +132,6 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
 
 template <typename SlicedTibble>
 DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
-  typedef LazySplitSubsets<SlicedTibble> Subsets;
-
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
@@ -153,7 +151,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
-  Subsets subsets(gdf);
+  LazySplitSubsets<SlicedTibble> subsets(gdf);
   for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
@@ -212,12 +210,11 @@ SEXP summarise_impl(DataFrame df, QuosureList dots) {
 
 template <typename Data>
 SEXP hybrid_template(DataFrame df, const NamedQuosure& quosure) {
-  typedef LazySplitSubsets<Data> LazySubsets ;
   Data gdf(df);
 
   const Environment& env = quosure.env();
   SEXP expr = quosure.expr();
-  LazySubsets subsets(gdf);
+  LazySplitSubsets<Data> subsets(gdf);
   return hybrid::match(expr, gdf, subsets, env);
 }
 
