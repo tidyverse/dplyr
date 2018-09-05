@@ -442,21 +442,21 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
 }
 
 template <typename SlicedTibble>
-SEXP summarise(const NamedQuosure& quosure, const SlicedTibble& data, const DataMask<SlicedTibble>& subsets) {
-  return hybrid_do(quosure.expr(), data, subsets, quosure.env(), Summary());
+SEXP summarise(const NamedQuosure& quosure, const SlicedTibble& data, const DataMask<SlicedTibble>& mask) {
+  return hybrid_do(quosure.expr(), data, mask, quosure.env(), Summary());
 }
 
 template <typename SlicedTibble>
-SEXP window(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& subsets, SEXP env) {
-  return hybrid_do(expr, data, subsets, env, Window());
+SEXP window(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& mask, SEXP env) {
+  return hybrid_do(expr, data, mask, env, Window());
 }
 
 template <typename SlicedTibble>
-SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& subsets, SEXP env) {
+SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& mask, SEXP env) {
   bool test = !is_vector(expr);
   RObject klass;
   if (test) {
-    klass = (hybrid_do(expr, data, subsets, env, Match()));
+    klass = (hybrid_do(expr, data, mask, env, Match()));
     test = klass != R_UnboundValue;
   }
   LogicalVector res(1, test) ;

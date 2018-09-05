@@ -315,8 +315,8 @@ public:
   //  materialize_binding is defined in utils-bindings.cpp as:
   //
   // // [[Rcpp::export]]
-  // SEXP materialize_binding(int idx, XPtr<DataMaskBase> subsets) {
-  //   return subsets->materialize(idx);
+  // SEXP materialize_binding(int idx, XPtr<DataMaskBase> data_mask) {
+  //   return data_mask->materialize(idx);
   // }
   //
   // all the 3 DataMask classes derive from DataMaskBase, so we can invoke the materialize virtual method

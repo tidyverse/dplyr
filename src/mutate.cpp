@@ -101,9 +101,9 @@ class MutateCallProxy {
 public:
   typedef typename SlicedTibble::slicing_index Index ;
 
-  MutateCallProxy(const SlicedTibble& data_, DataMask<SlicedTibble>& subsets_, SEXP expr_, const SymbolString& name_) :
+  MutateCallProxy(const SlicedTibble& data_, DataMask<SlicedTibble>& mask_, SEXP expr_, const SymbolString& name_) :
     data(data_),
-    subsets(subsets_),
+    mask(mask_),
     expr(expr_),
     name(name_)
   {}
@@ -116,7 +116,7 @@ public:
 
     // a symbol that is in the data, just return it
     if (TYPEOF(expr) == SYMSXP) {
-      const ColumnBinding<SlicedTibble>* subset_data = subsets.maybe_get_subset_binding(CHAR(PRINTNAME(expr)));
+      const ColumnBinding<SlicedTibble>* subset_data = mask.maybe_get_subset_binding(CHAR(PRINTNAME(expr)));
       if (subset_data) return subset_data->get_data();
     }
 
@@ -139,7 +139,7 @@ private:
   const SlicedTibble& data ;
 
   // where to find subsets of data variables
-  DataMask<SlicedTibble>& subsets ;
+  DataMask<SlicedTibble>& mask ;
 
   // expression and environment from the quosure
   SEXP expr ;
@@ -209,7 +209,7 @@ private:
 public:
 
   SEXP get(const Index& indices) {
-    return subsets.eval(expr, indices) ;
+    return mask.eval(expr, indices) ;
   }
 
 };
@@ -427,7 +427,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
 
-  DataMask<SlicedTibble> subsets(gdf) ;
+  DataMask<SlicedTibble> mask(gdf) ;
 
   for (int i = 0; i < nexpr; i++) {
 
@@ -435,11 +435,11 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
 
-    RObject variable = hybrid::window(quosure.expr(), gdf, subsets, quosure.env()) ;
+    RObject variable = hybrid::window(quosure.expr(), gdf, mask, quosure.env()) ;
 
     if (variable == R_UnboundValue) {
-      subsets.reset(quosure.env());
-      variable = MutateCallProxy<SlicedTibble>(gdf, subsets, quosure.expr(), name).get() ;
+      mask.reset(quosure.env());
+      variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure.expr(), name).get() ;
     }
 
     if (Rf_isNull(variable)) {
@@ -451,7 +451,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);
     }
 
-    subsets.input_column(name, variable);
+    mask.input_column(name, variable);
     accumulator.set(name, variable);
   }
 

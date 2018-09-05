@@ -150,7 +150,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
-  DataMask<SlicedTibble> subsets(gdf);
+  DataMask<SlicedTibble> mask(gdf);
   for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
@@ -165,13 +165,13 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     if (is_vector(quosure.expr())) {
       result = validate_unquoted_value(quosure.expr(), gdf.ngroups(), quosure.name());
     } else {
-      result = hybrid::summarise(quosure, gdf, subsets);
+      result = hybrid::summarise(quosure, gdf, mask);
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
       if (result == R_UnboundValue) {
-        subsets.reset(quosure.env());
-        result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), subsets).process(gdf);
+        mask.reset(quosure.env());
+        result = GroupedCallReducer<SlicedTibble>(quosure.expr(), quosure.name(), mask).process(gdf);
       }
     }
     check_not_null(result, quosure.name());
@@ -179,7 +179,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
     results[i] = result;
     accumulator.set(quosure.name(), result);
-    subsets.input_summarised(quosure.name(), result);
+    mask.input_summarised(quosure.name(), result);
   }
 
   List out = accumulator;
@@ -212,8 +212,8 @@ SEXP hybrid_template(DataFrame df, const NamedQuosure& quosure) {
 
   const Environment& env = quosure.env();
   SEXP expr = quosure.expr();
-  DataMask<SlicedTibble> subsets(gdf);
-  return hybrid::match(expr, gdf, subsets, env);
+  DataMask<SlicedTibble> mask(gdf);
+  return hybrid::match(expr, gdf, mask, env);
 }
 
 

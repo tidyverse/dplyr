@@ -597,14 +597,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // materialize_binding
-SEXP materialize_binding(int idx, XPtr<DataMaskBase> subsets);
-RcppExport SEXP _dplyr_materialize_binding(SEXP idxSEXP, SEXP subsetsSEXP) {
+SEXP materialize_binding(int idx, XPtr<DataMaskBase> mask);
+RcppExport SEXP _dplyr_materialize_binding(SEXP idxSEXP, SEXP maskSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type idx(idxSEXP);
-    Rcpp::traits::input_parameter< XPtr<DataMaskBase> >::type subsets(subsetsSEXP);
-    rcpp_result_gen = Rcpp::wrap(materialize_binding(idx, subsets));
+    Rcpp::traits::input_parameter< XPtr<DataMaskBase> >::type mask(maskSEXP);
+    rcpp_result_gen = Rcpp::wrap(materialize_binding(idx, mask));
     return rcpp_result_gen;
 END_RCPP
 }

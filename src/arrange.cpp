@@ -37,7 +37,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   LogicalVector ascending(nargs);
 
   NaturalDataFrame ndf(data);
-  DataMask<NaturalDataFrame> subsets(ndf);
+  DataMask<NaturalDataFrame> mask(ndf);
   NaturalSlicingIndex indices_all(gdf.nrows());
 
   for (int i = 0; i < nargs; i++) {
@@ -47,8 +47,8 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
     bool is_desc = TYPEOF(expr) == LANGSXP && symb_desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
-    subsets.reset(env);
-    Shield<SEXP> v(subsets.eval(expr, indices_all));
+    mask.reset(env);
+    Shield<SEXP> v(mask.eval(expr, indices_all));
 
     if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);

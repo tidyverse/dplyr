@@ -192,8 +192,8 @@ test_length_wrap <- function() {
     .Call(`_dplyr_test_length_wrap`)
 }
 
-materialize_binding <- function(idx, subsets) {
-    .Call(`_dplyr_materialize_binding`, idx, subsets)
+materialize_binding <- function(idx, mask) {
+    .Call(`_dplyr_materialize_binding`, idx, mask)
 }
 
 check_valid_names <- function(names, warn_only = FALSE) {
