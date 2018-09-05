@@ -22,8 +22,8 @@
 namespace dplyr {
 namespace hybrid {
 
-template <typename SlicedTibble, typename LazySubsets, typename Operation>
-SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, SEXP env, const Operation& op) {
+template <typename SlicedTibble, typename Operation>
+SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& mask, SEXP env, const Operation& op) {
   if (TYPEOF(expr) != LANGSXP) return R_UnboundValue;
 
   static SEXP s_n = Rf_install("n");
@@ -59,7 +59,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
   Environment ns_dplyr = Environment::namespace_env("dplyr");
   Environment ns_stats = Environment::namespace_env("stats");
 
-  Expression<SlicedTibble> expression(expr, subsets, env);
+  Expression<SlicedTibble> expression(expr, mask, env);
   if (!expression.is_valid()) return R_UnboundValue;
 
   // functions that take variadic number of arguments
@@ -88,186 +88,137 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
     break;
 
   case 1:
-    // sum( <column> ) and base::sum( <column> )
     if (expression.is_fun(s_sum, s_base, ns_base)) {
+      // sum( <column> ) and base::sum( <column> )
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return sum_(data, x, /* na.rm = */ false, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_mean, s_base, ns_base)) {
+      // mean( <column> ) and base::mean( <column> )
 
-    // mean( <column> ) and base::mean( <column> )
-    if (expression.is_fun(s_mean, s_base, ns_base)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return mean_(data, x, false, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_var, s_stats, ns_stats)) {
+      // var( <column> ) and stats::var( <column> )
 
-    // var( <column> ) and stats::var( <column> )
-    if (expression.is_fun(s_var, s_stats, ns_stats)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return var_(data, x, false, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_sd, s_stats, ns_stats)) {
+      // sd( <column> ) and stats::sd( <column> )
 
-    // sd( <column> ) and stats::sd( <column> )
-    if (expression.is_fun(s_sd, s_stats, ns_stats)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return sd_(data, x, false, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_first, s_dplyr, ns_dplyr)) {
+      // first( <column> )
 
-    // first( <column> )
-    if (expression.is_fun(s_first, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return first1_(data, x, op);
-      } else {
-        return R_UnboundValue ;
       }
-    }
+    } else if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
+      // last( <column> )
 
-    // last( <column> )
-    if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return last1_(data, x, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_min, s_base, ns_base)) {
+      // min( <column> )
 
-    // min( <column> )
-    if (expression.is_fun(s_min, s_base, ns_base)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return min_(data, x, false, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_max, s_base, ns_base)) {
+      // max( <column> )
 
-    // max( <column> )
-    if (expression.is_fun(s_max, s_base, ns_base)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return max_(data, x, false, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_row_number, s_dplyr, ns_dplyr)) {
+      // row_number( <column> )
 
-    // row_number( <column> )
-    if (expression.is_fun(s_row_number, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return row_number_1(data, x, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_ntile, s_dplyr, ns_dplyr)) {
+      // ntile( n = <int> )
 
-    // ntile( n = <int> )
-    if (expression.is_fun(s_ntile, s_dplyr, ns_dplyr)) {
       int n;
       if (expression.is_named(0, s_n) && expression.is_scalar_int(0, n)) {
         return op(ntile_1(data, n));
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_min_rank, s_dplyr, ns_dplyr)) {
+      // min_rank( <column> )
 
-    // min_rank( <column> )
-    if (expression.is_fun(s_min_rank, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return min_rank_(data, x, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_percent_rank, s_dplyr, ns_dplyr)) {
+      // percent_rank( <column> )
 
-    // percent_rank( <column> )
-    if (expression.is_fun(s_percent_rank, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return percent_rank_(data, x, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_dense_rank, s_dplyr, ns_dplyr)) {
+      // dense_rank( <column> )
 
-    // dense_rank( <column> )
-    if (expression.is_fun(s_dense_rank, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return dense_rank_(data, x, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_cume_dist, s_dplyr, ns_dplyr)) {
+      // cume_dist( <column> )
 
-    // cume_dist( <column> )
-    if (expression.is_fun(s_cume_dist, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return cume_dist_(data, x, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_lead, s_dplyr, ns_dplyr)) {
+      // lead( <column> )
 
-    // lead( <column> )
-    if (expression.is_fun(s_lead, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return lead_1(data, x, 1, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_lag, s_dplyr, ns_dplyr)) {
+      // lag( <column> )
 
-    // lag( <column> )
-    if (expression.is_fun(s_lag, s_dplyr, ns_dplyr)) {
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return lag_1(data, x, 1, op);
-      } else {
-        return R_UnboundValue;
       }
     }
 
-    break;
+    // give up:
+    return R_UnboundValue;
 
   case 2:
-    // sum( <column>, na.rm = <bool> )
-    // base::sum( <column>, na.rm = <bool> )
     if (expression.is_fun(s_sum, s_base, ns_base)) {
+      // sum( <column>, na.rm = <bool> )
+      // base::sum( <column>, na.rm = <bool> )
+
       Column x;
       bool test;
       if (expression.is_unnamed(0) && expression.is_column(0, x) &&
           expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
          ) {
         return sum_(data, x, test, op);
-      } else {
-        return R_UnboundValue;
       }
-
-    }
-    // mean( <column>, na.rm = <bool> )
-    // base::mean( <column>, na.rm = <bool> )
-    if (expression.is_fun(s_mean, s_base, ns_base)) {
+    } else if (expression.is_fun(s_mean, s_base, ns_base)) {
+      // mean( <column>, na.rm = <bool> )
+      // base::mean( <column>, na.rm = <bool> )
       Column x;
       bool test;
 
@@ -275,14 +226,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
           expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
          ) {
         return mean_(data, x, test, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_var, s_stats, ns_stats)) {
+      // var( <column>, na.rm = <bool> )
+      // stats::var( <column>, na.rm = <bool> )
 
-    // var( <column>, na.rm = <bool> )
-    // stats::var( <column>, na.rm = <bool> )
-    if (expression.is_fun(s_var, s_stats, ns_stats)) {
       Column x;
       bool test;
 
@@ -291,14 +239,12 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
       ) {
         return var_(data, x, test, op);
-      } else {
-        return R_UnboundValue;
       }
 
-    }
-    // sd( <column>, na.rm = <bool> )
-    // stats::sd( <column>, na.rm = <bool> )
-    if (expression.is_fun(s_sd, s_stats, ns_stats)) {
+    } else if (expression.is_fun(s_sd, s_stats, ns_stats)) {
+      // sd( <column>, na.rm = <bool> )
+      // stats::sd( <column>, na.rm = <bool> )
+
       Column x;
       bool test;
 
@@ -307,70 +253,58 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
         expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)
       ) {
         return sd_(data, x, test, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // first( <column>, default = <scalar> )
-    if (expression.is_fun(s_first, s_dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(s_first, s_dplyr, ns_dplyr)) {
+      // first( <column>, default = <scalar> )
+
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
         return first2_default(data, x, /* default = */ expression.value(1), op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // last( <column>, default = <scalar> )
-    if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
+      // last( <column>, default = <scalar> )
+
       Column x;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
         return last2_default(data, x, /* default = */ expression.value(1), op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // nth( <column>, n = <int> )
-    if (expression.is_fun(s_nth, s_dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(s_nth, s_dplyr, ns_dplyr)) {
+      // nth( <column>, n = <int> )
+
       Column x;
       int n;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
         return nth2_(data, x, n, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // min( <column>, na.rm = <bool> )
-    if (expression.is_fun(s_min, s_base, ns_base)) {
+    } else if (expression.is_fun(s_min, s_base, ns_base)) {
+      // min( <column>, na.rm = <bool> )
+
       Column x;
       bool test;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
         return min_(data, x, /* na.rm = */ test, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // max( <column>, na.rm = <bool> )
-    if (expression.is_fun(s_max, s_base, ns_base)) {
+    } else if (expression.is_fun(s_max, s_base, ns_base)) {
+      // max( <column>, na.rm = <bool> )
+
       Column x;
       bool test;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_narm) && expression.is_scalar_logical(1, test)) {
         return max_(data, x, /* na.rm = */ test, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // ntile( <column>, n = <int> )
-    if (expression.is_fun(s_ntile, s_dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(s_ntile, s_dplyr, ns_dplyr)) {
+      // ntile( <column>, n = <int> )
+
       Column x;
       int n;
 
@@ -379,45 +313,40 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       } else {
         return R_UnboundValue;
       }
-    }
+    } else if (expression.is_fun(s_lead, s_dplyr, ns_dplyr)) {
+      // lead( <column>, n = <int> )
 
-    // lead( <column>, n = <int> )
-    if (expression.is_fun(s_lead, s_dplyr, ns_dplyr)) {
       Column x;
       int n;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
         return lead_1(data, x, n, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // lag( <column>, n = <int> )
-    if (expression.is_fun(s_lag, s_dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(s_lag, s_dplyr, ns_dplyr)) {
+      // lag( <column>, n = <int> )
+
       Column x;
       int n;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
         return lag_1(data, x, n, op);
-      } else {
-        return R_UnboundValue;
       }
-    }
 
-    // <column> %in% <column>
-    if (expression.is_fun(s_in, s_base, ns_base)) {
+    } else if (expression.is_fun(s_in, s_base, ns_base)) {
+      // <column> %in% <column>
+
       Column lhs;
       Column rhs;
 
       if (expression.is_unnamed(0) && expression.is_column(0, lhs) && expression.is_unnamed(1) && expression.is_column(1, rhs)) {
         return in_column_column(data, lhs, rhs, op);
-      } else {
-        return R_UnboundValue;
       }
+
     }
 
-    break;
+    // give up
+    return R_UnboundValue;
 
   case 3:
 
@@ -427,11 +356,11 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const LazySubsets& subsets, 
       int n;
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n) && expression.is_named(2, s_default)) {
         return nth3_default(data, x, n, expression.value(2), op);
-      } else {
-        return R_UnboundValue;
       }
     }
-    break;
+
+    // give up
+    return R_UnboundValue;
 
   default:
     break;
