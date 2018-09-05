@@ -46,7 +46,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
+        <small class="tidyverse">part of the <a href="https://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -419,11 +419,11 @@ even when not needed, name the input (see examples for details).</p>
 <span class='no'>by_species</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
 
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='funs.html'>funs</a></span>(<span class='no'>min</span>, <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   Species    Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
-#&gt;   &lt;fct&gt;                 &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 setosa                  4.3             2.3              1               0.1
-#&gt; 2 versicolor              4.9             2                3               1  
-#&gt; 3 virginica               4.9             2.2              4.5             1.4
+#&gt;   Species Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
+#&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
+#&gt; 1 setosa               4.3             2.3              1               0.1
+#&gt; 2 versic…              4.9             2                3               1  
+#&gt; 3 virgin…              4.9             2.2              4.5             1.4
 #&gt; # ... with 4 more variables: Sepal.Length_max &lt;dbl&gt;, Sepal.Width_max &lt;dbl&gt;,
 #&gt; #   Petal.Length_max &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</div><div class='input'><span class='co'># Note that output variable name now includes the function name, in order to</span>
 <span class='co'># keep things distinct.</span>
@@ -447,18 +447,18 @@ even when not needed, name the input (see examples for details).</p>
 <span class='co'># Function names will be included if .funs has names or multiple inputs</span>
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_all</span>(<span class='fu'><a href='funs.html'>funs</a></span>(<span class='kw'>inches</span> <span class='kw'>=</span> <span class='no'>.</span> / <span class='fl'>2.54</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 9
 #&gt; # Groups:   Species [3]
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_inch…
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;                &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa                2.01
-#&gt;  2          4.9         3            1.4         0.2 setosa                1.93
-#&gt;  3          4.7         3.2          1.3         0.2 setosa                1.85
-#&gt;  4          4.6         3.1          1.5         0.2 setosa                1.81
-#&gt;  5          5           3.6          1.4         0.2 setosa                1.97
-#&gt;  6          5.4         3.9          1.7         0.4 setosa                2.13
-#&gt;  7          4.6         3.4          1.4         0.3 setosa                1.81
-#&gt;  8          5           3.4          1.5         0.2 setosa                1.97
-#&gt;  9          4.4         2.9          1.4         0.2 setosa                1.73
-#&gt; 10          4.9         3.1          1.5         0.1 setosa                1.93
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_in…
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
+#&gt;  1          5.1         3.5          1.4         0.2 setosa              2.01
+#&gt;  2          4.9         3            1.4         0.2 setosa              1.93
+#&gt;  3          4.7         3.2          1.3         0.2 setosa              1.85
+#&gt;  4          4.6         3.1          1.5         0.2 setosa              1.81
+#&gt;  5          5           3.6          1.4         0.2 setosa              1.97
+#&gt;  6          5.4         3.9          1.7         0.4 setosa              2.13
+#&gt;  7          4.6         3.4          1.4         0.3 setosa              1.81
+#&gt;  8          5           3.4          1.5         0.2 setosa              1.97
+#&gt;  9          4.4         2.9          1.4         0.2 setosa              1.73
+#&gt; 10          4.9         3.1          1.5         0.1 setosa              1.93
 #&gt; # ... with 140 more rows, and 3 more variables: Sepal.Width_inches &lt;dbl&gt;,
 #&gt; #   Petal.Length_inches &lt;dbl&gt;, Petal.Width_inches &lt;dbl&gt;</div><div class='input'><span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='funs.html'>funs</a></span>(<span class='kw'>med</span> <span class='kw'>=</span> <span class='no'>median</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 5
 #&gt;   Species    Sepal.Length_med Sepal.Width_med Petal.Length_med Petal.Width_med
@@ -471,11 +471,11 @@ even when not needed, name the input (see examples for details).</p>
 #&gt; 1 setosa                 5.2           3.68            1.58            0.3
 #&gt; 2 versicolor             6.3           3               4.6             1.5
 #&gt; 3 virginica              6.9           3.18            5.88            2.3</div><div class='input'><span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'>c</span>(<span class='st'>"min"</span>, <span class='st'>"max"</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   Species    Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
-#&gt;   &lt;fct&gt;                 &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 setosa                  4.3             2.3              1               0.1
-#&gt; 2 versicolor              4.9             2                3               1  
-#&gt; 3 virginica               4.9             2.2              4.5             1.4
+#&gt;   Species Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
+#&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
+#&gt; 1 setosa               4.3             2.3              1               0.1
+#&gt; 2 versic…              4.9             2                3               1  
+#&gt; 3 virgin…              4.9             2.2              4.5             1.4
 #&gt; # ... with 4 more variables: Sepal.Length_max &lt;dbl&gt;, Sepal.Width_max &lt;dbl&gt;,
 #&gt; #   Petal.Length_max &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</div></pre>
   </div>
@@ -496,12 +496,12 @@ even when not needed, name the input (see examples for details).</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="http://tidyverse.org">tidyverse.org</a>.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
-  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
+  <p>Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>

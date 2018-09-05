@@ -27,7 +27,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
+        <small class="tidyverse">part of the <a href="https://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -285,7 +285,7 @@
 <span class="kw">my_summarise</span>(df, g1)
 <span class="co">#&gt; &lt;quosure&gt;</span>
 <span class="co">#&gt;   expr: ^group_var</span>
-<span class="co">#&gt;   env:  0x5628642b2dc0</span>
+<span class="co">#&gt;   env:  0x558466d17bf0</span>
 <span class="co">#&gt; Error in grouped_df_impl(data, unname(vars), drop): Column `group_var` is unknown</span></code></pre></div>
 <p>I’ve added a <code>print()</code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
 <p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval.html">enquo()</a></code>. <code><a href="../reference/tidyeval.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
@@ -476,18 +476,18 @@
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x1
 <span class="co">#&gt; &lt;quosure&gt;</span>
 <span class="co">#&gt;   expr: ^x</span>
-<span class="co">#&gt;   env:  0x5628641dd038</span>
+<span class="co">#&gt;   env:  0x55846272a040</span>
 x2
 <span class="co">#&gt; &lt;quosure&gt;</span>
 <span class="co">#&gt;   expr: ^x</span>
-<span class="co">#&gt;   env:  0x56286414bbe0</span></code></pre></div>
+<span class="co">#&gt;   env:  0x558462ea2828</span></code></pre></div>
 <p>But if you inspect the environments using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">rlang::get_env()</a></code> — they’re different.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(rlang)
 
 <span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x1)
-<span class="co">#&gt; &lt;environment: 0x5628641dd038&gt;</span>
+<span class="co">#&gt; &lt;environment: 0x55846272a040&gt;</span>
 <span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/get_env">get_env</a></span>(x2)
-<span class="co">#&gt; &lt;environment: 0x56286414bbe0&gt;</span></code></pre></div>
+<span class="co">#&gt; &lt;environment: 0x558462ea2828&gt;</span></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/eval_tidy">eval_tidy</a></span>(x1)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>
@@ -673,12 +673,12 @@ x2
 
 
       <footer><div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="http://tidyverse.org">tidyverse.org</a>.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>Developed by <a href="http://hadley.nz">Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href="https://www.rstudio.com"><img src="https://tidyverse.org/rstudio-logo.svg" alt="RStudio" height="24"></a>.</p>
-  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
+  <p>Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>

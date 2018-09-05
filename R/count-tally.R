@@ -21,8 +21,9 @@
 #' then the column returned will be `nnn`, and so on.
 #'
 #' There is currently no way to control the output variable name - if you
-#' need to change the default, you'll have to write the [summarise()]
-#' yourself.
+#' need to change the default,
+#' you can call [rename()] on the result,
+#' or write the [summarise()] yourself.
 #'
 #' @param x a [tbl()] to tally/count.
 #' @param ... Variables to group by.
@@ -41,6 +42,7 @@
 #' @examples
 #' # tally() is short-hand for summarise()
 #' mtcars %>% tally()
+#' mtcars %>% group_by(cyl) %>% tally()
 #' # count() is a short-hand for group_by() + tally()
 #' mtcars %>% count(cyl)
 #'
@@ -49,14 +51,26 @@
 #' # add_count() is a short-hand for group_by() + add_tally()
 #' mtcars %>% add_count(cyl)
 #'
-#' # count and tally are designed so that you can call
+#' # count() and tally() are designed so that you can call
 #' # them repeatedly, each time rolling up a level of detail
-#' species <- starwars %>% count(species, homeworld, sort = TRUE)
+#' species <-
+#'  starwars %>%
+#'  count(species, homeworld, sort = TRUE)
 #' species
 #' species %>% count(species, sort = TRUE)
 #'
+#' # Use rename() to change the name of the newly created column:
+#' species <-
+#'  starwars %>%
+#'  count(species, homeworld, sort = TRUE) %>%
+#'  rename(n_species_by_homeworld = n)
+#' species
+#' species %>%
+#'  count(species, sort = TRUE) %>%
+#'  rename(n_species = n)
+#'
 #' # add_count() is useful for groupwise filtering
-#' # e.g.: show only species that have a single member
+#' # e.g.: show details for species that have a single member
 #' starwars %>%
 #'   add_count(species) %>%
 #'   filter(n == 1)

@@ -46,7 +46,7 @@
 
       <div class="navbar-brand-container">
         <a class="navbar-brand" href="../index.html">dplyr</a>
-        <small class="tidyverse">part of the <a href="http://tidyverse.org">tidyverse</a></small>
+        <small class="tidyverse">part of the <a href="https://tidyverse.org">tidyverse</a></small>
       </div>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
@@ -132,51 +132,51 @@ frames</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x55e2b7afbcb0&gt;
+    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x55c084afa358&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x55e2b4aae990&gt;
-#&gt;  * cyl:       &lt;0x55e2b523b2e0&gt;
-#&gt;  * disp:      &lt;0x55e2b307e200&gt;
-#&gt;  * hp:        &lt;0x55e2b5b0c190&gt;
-#&gt;  * drat:      &lt;0x55e2b5facb50&gt;
-#&gt;  * wt:        &lt;0x55e2b2b13fb0&gt;
-#&gt;  * qsec:      &lt;0x55e2b4ee7470&gt;
-#&gt;  * vs:        &lt;0x55e2b4f43cf0&gt;
-#&gt;  * am:        &lt;0x55e2b51ff550&gt;
-#&gt;  * gear:      &lt;0x55e2b2bd83b0&gt;
-#&gt;  * carb:      &lt;0x55e2b1f089c0&gt;
+#&gt;  * mpg:       &lt;0x55c082d16850&gt;
+#&gt;  * cyl:       &lt;0x55c082d16990&gt;
+#&gt;  * disp:      &lt;0x55c082c65400&gt;
+#&gt;  * hp:        &lt;0x55c082c65540&gt;
+#&gt;  * drat:      &lt;0x55c082ac4140&gt;
+#&gt;  * wt:        &lt;0x55c082ac4280&gt;
+#&gt;  * qsec:      &lt;0x55c081c95350&gt;
+#&gt;  * vs:        &lt;0x55c081c95490&gt;
+#&gt;  * am:        &lt;0x55c082b32c90&gt;
+#&gt;  * gear:      &lt;0x55c082b32dd0&gt;
+#&gt;  * carb:      &lt;0x55c082b23f40&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x55e2b7afbd58&gt;
-#&gt;  * row.names: &lt;0x55e2b4fedd80&gt;
-#&gt;  * class:     &lt;0x55e2b5ccc2e8&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x55c084afa568&gt;
+#&gt;  * row.names: &lt;0x55c082b24080&gt;
+#&gt;  * class:     &lt;0x55c0824f61f0&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x55e2b78de900&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x55c08ba51128&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x55e2b4aae990&gt;
-#&gt;  * cyl:       &lt;0x55e2b523b2e0&gt;
-#&gt;  * disp:      &lt;0x55e2b307e200&gt;
-#&gt;  * hp:        &lt;0x55e2b5b0c190&gt;
-#&gt;  * drat:      &lt;0x55e2b5facb50&gt;
-#&gt;  * wt:        &lt;0x55e2b2b13fb0&gt;
-#&gt;  * qsec:      &lt;0x55e2b4ee7470&gt;
-#&gt;  * vs:        &lt;0x55e2b4f43cf0&gt;
-#&gt;  * am:        &lt;0x55e2b51ff550&gt;
-#&gt;  * gear:      &lt;0x55e2b2bd83b0&gt;
-#&gt;  * carb:      &lt;0x55e2b1f089c0&gt;
-#&gt;  * cyl2:      &lt;0x55e2b11a7450&gt;
+#&gt;  * mpg:       &lt;0x55c082d16850&gt;
+#&gt;  * cyl:       &lt;0x55c082d16990&gt;
+#&gt;  * disp:      &lt;0x55c082c65400&gt;
+#&gt;  * hp:        &lt;0x55c082c65540&gt;
+#&gt;  * drat:      &lt;0x55c082ac4140&gt;
+#&gt;  * wt:        &lt;0x55c082ac4280&gt;
+#&gt;  * qsec:      &lt;0x55c081c95350&gt;
+#&gt;  * vs:        &lt;0x55c081c95490&gt;
+#&gt;  * am:        &lt;0x55c082b32c90&gt;
+#&gt;  * gear:      &lt;0x55c082b32dd0&gt;
+#&gt;  * carb:      &lt;0x55c082b23f40&gt;
+#&gt;  * cyl2:      &lt;0x55c0872798b0&gt;
 #&gt; Attributes:
-#&gt;  * class:     &lt;0x55e2b59b82c8&gt;
-#&gt;  * names:     &lt;0x55e2b78e2090&gt;
-#&gt;  * row.names: &lt;0x55e2b78c0998&gt;</div><div class='input'>
+#&gt;  * class:     &lt;0x55c0819c2f08&gt;
+#&gt;  * names:     &lt;0x55c08ba50fc8&gt;
+#&gt;  * row.names: &lt;0x55c08a6f0320&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new           
-#&gt; cyl2      &lt;added&gt; 0x55e2b11a7450
+#&gt; cyl2      &lt;added&gt; 0x55c0872798b0
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old            new           
-#&gt; names     0x55e2b7afbd58 0x55e2b78e2090
-#&gt; row.names 0x55e2b4fedd80 0x55e2b75d7518
-#&gt; class     0x55e2b5ccc2e8 0x55e2b59b82c8</div></pre>
+#&gt; names     0x55c084afa568 0x55c08ba50fc8
+#&gt; row.names 0x55c082b24080 0x55c089869870
+#&gt; class     0x55c0824f61f0 0x55c0819c2f08</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -191,12 +191,12 @@ frames</p>
 
       <footer>
       <div class="tidyverse">
-  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="http://tidyverse.org">tidyverse.org</a>.</p>
+  <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
 
 <div class="author">
   <p>Developed by <a href='http://hadley.nz'>Hadley Wickham</a>, Romain François, Lionel Henry, Kirill Müller, <a href='https://www.rstudio.com'><img src='https://tidyverse.org/rstudio-logo.svg' alt='RStudio' height='24' /></a>.</p>
-  <p>Site built by <a href="http://pkgdown.r-lib.org">pkgdown</a>.</p>
+  <p>Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.</p>
 </div>
 
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>

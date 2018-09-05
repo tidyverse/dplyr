@@ -105,6 +105,18 @@
       <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dplyr-0-7-6" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-7-6" class="anchor"></a>dplyr 0.7.6<small> 2018-06-29 </small>
+</h1>
+<ul>
+<li><p><code><a href="../reference/tidyeval.html">exprs()</a></code> is no longer exported to avoid conflicts with <code><a href="http://www.rdocumentation.org/packages/Biobase/topics/exprs">Biobase::exprs()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3638'>#3638</a>).</p></li>
+<li><p>The MASS package is explicitly suggested to fix CRAN warnings on R-devel (<a href='https://github.com/tidyverse/dplyr/issues/3657'>#3657</a>).</p></li>
+<li><p>Set operations like <code><a href="../reference/setops.html">intersect()</a></code> and <code><a href="../reference/setops.html">setdiff()</a></code> reconstruct groups metadata (<a href='https://github.com/tidyverse/dplyr/issues/3587'>#3587</a>).</p></li>
+<li><p>Using namespaced calls to <code><a href="http://www.rdocumentation.org/packages/base/topics/sort">base::sort()</a></code> and <code><a href="http://www.rdocumentation.org/packages/base/topics/unique">base::unique()</a></code> from C++ code to avoid ambiguities when these functions are overridden (<a href='https://github.com/tidyverse/dplyr/issues/3644'>#3644</a>).</p></li>
+<li><p>Fix rchk errors (<a href='https://github.com/tidyverse/dplyr/issues/3693'>#3693</a>).</p></li>
+</ul>
+</div>
     <div id="dplyr-0-7-5" class="section level1">
 <h1 class="page-header">
 <a href="#dplyr-0-7-5" class="anchor"></a>dplyr 0.7.5<small> 2018-05-19 </small>
@@ -114,7 +126,7 @@
 <a href="#breaking-changes-for-package-developers" class="anchor"></a>Breaking changes for package developers</h2>
 <ul>
 <li><p>The major change in this version is that dplyr now depends on the selecting backend of the tidyselect package. If you have been linking to <code>dplyr::select_helpers</code> documentation topic, you should update the link to point to <code><a href="http://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">tidyselect::select_helpers</a></code>.</p></li>
-<li><p>Another change that causes warnings in packages is that dplyr now exports the <code><a href="../reference/tidyeval.html">exprs()</a></code> function. This causes a collision with <code>Biobase::exprs()</code>. Either import functions from dplyr selectively rather than in bulk, or do not import <code>Biobase::exprs()</code> and refer to it with a namespace qualifier.</p></li>
+<li><p>Another change that causes warnings in packages is that dplyr now exports the <code><a href="../reference/tidyeval.html">exprs()</a></code> function. This causes a collision with <code><a href="http://www.rdocumentation.org/packages/Biobase/topics/exprs">Biobase::exprs()</a></code>. Either import functions from dplyr selectively rather than in bulk, or do not import <code><a href="http://www.rdocumentation.org/packages/Biobase/topics/exprs">Biobase::exprs()</a></code> and refer to it with a namespace qualifier.</p></li>
 </ul>
 </div>
 <div id="bug-fixes" class="section level2">
@@ -1134,6 +1146,7 @@ implicitly adds grouping variables (<a href='https://github.com/tidyverse/dplyr/
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#dplyr-0-7-6">0.7.6</a></li>
         <li><a href="#dplyr-0-7-5">0.7.5</a></li>
         <li><a href="#dplyr-0-7-4">0.7.4</a></li>
         <li><a href="#dplyr-0-7-3">0.7.3</a></li>
