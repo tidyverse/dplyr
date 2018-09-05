@@ -41,6 +41,10 @@ public:
     return materialize(indices, mask_resolved);
   }
 
+  inline void clear(SEXP mask_resolved) {
+    Rf_defineVar(symbol, R_UnboundValue, mask_resolved);
+  }
+
   // summary accessor
   bool is_summary() const {
     return summary;
@@ -79,7 +83,7 @@ public:
     );
   }
 
-  // nothing to do here, this is noly relevant for ColumnBinding<NaturalDataFrame>
+  // nothing to do here, this is only relevant for ColumnBinding<NaturalDataFrame>
   inline void update(SEXP mask_active, SEXP mask_resolved) {}
 
 private:
@@ -120,6 +124,8 @@ public:
     return data;
   }
 
+  inline void clear(SEXP mask_resolved) {}
+
   bool is_summary() const {
     return summary;
   }
@@ -131,6 +137,8 @@ public:
   // never used
   inline void update_indices(const NaturalDataFrame::slicing_index& /* indices */, SEXP /* env */) {}
 
+  // TODO: when .data knows how to look ancestry, this should use mask_resolved instead
+  //
   // it does not really install an active binding because there is no need for that
   inline void install(SEXP mask_active, SEXP mask_resolved, int /* pos */, DataMask<NaturalDataFrame>* /* data_mask */) {
     Rf_defineVar(symbol, data, mask_active);
@@ -260,11 +268,14 @@ public:
 
       active_bindings_ready = true;
     } else {
+
+      // remove the materialized bindings from the mask_resolved environment
+      for (int i = 0; i < materialized.size(); i++) {
+        column_bindings[materialized[i]].clear(mask_resolved);
+      }
+
       // forget about which indices are materialized
       materialized.clear();
-
-      // update the materialized environment if needed
-      update_mask_resolved();
     }
 
     // finally setup the data mask with
@@ -407,15 +418,6 @@ private:
 
       column_bindings[index.pos] = binding;
 
-    }
-  }
-
-  // update the resolved environment
-  //
-  // this only makes sense in the non natural case
-  void update_mask_resolved() {
-    if (!Rcpp::traits::same_type<SlicedTibble, NaturalDataFrame>::value) {
-      mask_resolved = child_env(mask_active);
     }
   }
 
