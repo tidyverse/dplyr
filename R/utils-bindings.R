@@ -1,6 +1,6 @@
 
-.active_binding_fun <- function(index, subsets){
+.active_binding_fun <- function(index, mask){
   function() {
-    materialize_binding(index, subsets)
+    materialize_binding(index, mask)
   }
 }

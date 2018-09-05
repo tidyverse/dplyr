@@ -301,16 +301,16 @@ public:
   //
   // the bindings are installed in the mask_bindings environment with this R function:
   //
-  // .active_binding_fun <- function(index, subsets){
+  // .active_binding_fun <- function(index, mask){
   //   function() {
-  //     materialize_binding(index, subsets)
+  //     materialize_binding(index, mask)
   //   }
   // }
   //
   // each binding is instaled only once, the function holds:
   // - index: i.e. the position in the column_bindings vector
-  // - subsets: an external pointer (that never deletes) to this DataMask
-  //            this is why it is important that DataMask is not copy constructible
+  // - mask : an external pointer (that never deletes) to this DataMask
+  //          this is why it is important that DataMask is not copy constructible
   //
   //  materialize_binding is defined in utils-bindings.cpp as:
   //
