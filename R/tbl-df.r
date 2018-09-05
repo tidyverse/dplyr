@@ -76,13 +76,12 @@ filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 
 #' @export
 slice.tbl_df <- function(.data, ...) {
-  dots <- named_quos(...)
-  slice_impl(.data, dots)
+  slice_impl(.data, quos(...)[[1L]])
 }
 #' @export
 slice_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  slice_impl(.data, dots)
+  slice_impl(.data, dots[[1L]])
 }
 
 #' @export

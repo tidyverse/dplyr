@@ -4,7 +4,7 @@
 #include <tools/SymbolVector.h>
 
 void check_valid_colnames(const DataFrame& df, bool warn_only = false);
-void check_range_one_based(int x, int max);
+int check_range_one_based(int x, int max);
 void assert_all_allow_list(const DataFrame&);
 SEXP shared_SEXP(SEXP x);
 SEXP shallow_copy(const List& data);
@@ -21,9 +21,6 @@ bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
 SEXP name_at(SEXP x, size_t i);
 
-SEXP f_env(SEXP x);
-bool is_quosure(SEXP x);
-SEXP maybe_rhs(SEXP x);
 SEXP child_env(SEXP parent);
 
 int get_size(SEXP x);

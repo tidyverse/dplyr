@@ -5,28 +5,11 @@
 #include <tools/utils.h>
 #include "SymbolVector.h"
 
-
 namespace dplyr {
 
-inline SEXP quosure(SEXP expr, SEXP env) {
-  return internal::rlang_api().new_quosure(expr, env);
-}
-
-
-class NamedQuosure {
+class Quosure {
 public:
-  NamedQuosure(SEXP data_, SymbolString name__ = "") :
-    data(data_),
-    name_(name__)
-  {}
-  NamedQuosure(const Formula& data_, SymbolString name__ = "") :
-    data(data_),
-    name_(name__)
-  {}
-  NamedQuosure(const NamedQuosure& other) :
-    data(other.data),
-    name_(other.name_)
-  {}
+  Quosure(SEXP data_) : data(data_) {}
 
   SEXP expr() const {
     return internal::rlang_api().quo_get_expr(data);
@@ -34,29 +17,35 @@ public:
   SEXP env() const {
     return internal::rlang_api().quo_get_env(data);
   }
+
+private:
+  // quosures all come directly from R, so they don't need protection
+  SEXP data;
+};
+
+class NamedQuosure {
+public:
+  NamedQuosure(SEXP data_, SymbolString name__) :
+    quosure(data_),
+    name_(name__)
+  {}
+
+  SEXP expr() const {
+    return quosure.expr();
+  }
+  SEXP env() const {
+    return quosure.env();
+  }
   SymbolString name() const {
     return name_;
   }
 
 private:
-  RObject data;
+  Quosure quosure;
   SymbolString name_;
 };
 
 } // namespace dplyr
-
-
-namespace Rcpp {
-
-using namespace dplyr;
-
-template <>
-inline bool is<NamedQuosure>(SEXP x) {
-  return dplyr::internal::rlang_api().is_quosure(x);
-}
-
-} // namespace Rcpp
-
 
 namespace dplyr {
 
@@ -66,11 +55,13 @@ public:
     int n = data_.size();
     if (n == 0) return;
 
+    data.reserve(n);
+
     CharacterVector names = data_.names();
     for (int i = 0; i < n; i++) {
       SEXP x = data_[i];
 
-      if (!is<NamedQuosure>(x)) {
+      if (!dplyr::internal::rlang_api().is_quosure(x)) {
         stop("corrupt tidy quote");
       }
 

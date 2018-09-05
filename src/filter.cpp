@@ -378,7 +378,7 @@ SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTi
 
 
 template <typename SlicedTibble>
-SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
+SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
   typedef typename SlicedTibble::group_iterator GroupIterator;
   typedef typename SlicedTibble::slicing_index slicing_index;
 
@@ -425,7 +425,7 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
 }
 
 // [[Rcpp::export]]
-SEXP filter_impl(DataFrame df, NamedQuosure quo) {
+SEXP filter_impl(DataFrame df, Quosure quo) {
   if (df.nrows() == 0 || Rf_isNull(df)) {
     return df;
   }
@@ -483,7 +483,7 @@ private:
 };
 
 template <typename SlicedTibble>
-DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
+DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   typedef typename SlicedTibble::group_iterator group_iterator;
   typedef typename SlicedTibble::slicing_index slicing_index ;
 
@@ -516,13 +516,10 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
 }
 
 // [[Rcpp::export]]
-SEXP slice_impl(DataFrame df, QuosureList dots) {
-  if (dots.size() == 0) return df;
-  if (dots.size() != 1)
-    stop("slice only accepts one expression");
+SEXP slice_impl(DataFrame df, Quosure quosure) {
   if (is<GroupedDataFrame>(df)) {
-    return slice_template<GroupedDataFrame>(GroupedDataFrame(df), dots[0]);
+    return slice_template<GroupedDataFrame>(GroupedDataFrame(df), quosure);
   } else {
-    return slice_template<NaturalDataFrame>(NaturalDataFrame(df), dots[0]);
+    return slice_template<NaturalDataFrame>(NaturalDataFrame(df), quosure);
   }
 }

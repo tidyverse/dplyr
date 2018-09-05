@@ -207,7 +207,7 @@ SEXP summarise_impl(DataFrame df, QuosureList dots) {
 }
 
 template <typename SlicedTibble>
-SEXP hybrid_template(DataFrame df, const NamedQuosure& quosure) {
+SEXP hybrid_template(DataFrame df, const Quosure& quosure) {
   SlicedTibble gdf(df);
 
   const Environment& env = quosure.env();
@@ -218,7 +218,7 @@ SEXP hybrid_template(DataFrame df, const NamedQuosure& quosure) {
 
 
 // [[Rcpp::export]]
-SEXP hybrid_impl(DataFrame df, NamedQuosure quosure) {
+SEXP hybrid_impl(DataFrame df, Quosure quosure) {
   check_valid_colnames(df);
 
   if (is<RowwiseDataFrame>(df)) {

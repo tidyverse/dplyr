@@ -170,26 +170,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, NamedQuosure quo);
+SEXP filter_impl(DataFrame df, Quosure quo);
 RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< NamedQuosure >::type quo(quoSEXP);
+    Rcpp::traits::input_parameter< Quosure >::type quo(quoSEXP);
     rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo));
     return rcpp_result_gen;
 END_RCPP
 }
 // slice_impl
-SEXP slice_impl(DataFrame df, QuosureList dots);
-RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+SEXP slice_impl(DataFrame df, Quosure quosure);
+RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP quosureSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
+    Rcpp::traits::input_parameter< Quosure >::type quosure(quosureSEXP);
+    rcpp_result_gen = Rcpp::wrap(slice_impl(df, quosure));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -555,13 +555,13 @@ BEGIN_RCPP
 END_RCPP
 }
 // hybrid_impl
-SEXP hybrid_impl(DataFrame df, NamedQuosure quosure);
+SEXP hybrid_impl(DataFrame df, Quosure quosure);
 RcppExport SEXP _dplyr_hybrid_impl(SEXP dfSEXP, SEXP quosureSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< NamedQuosure >::type quosure(quosureSEXP);
+    Rcpp::traits::input_parameter< Quosure >::type quosure(quosureSEXP);
     rcpp_result_gen = Rcpp::wrap(hybrid_impl(df, quosure));
     return rcpp_result_gen;
 END_RCPP

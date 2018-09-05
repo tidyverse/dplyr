@@ -34,9 +34,7 @@ public:
     int n = indices.size();
     CharacterVector out_names(n);
     for (int i = 0; i < n; i++) {
-      int pos = indices[i];
-
-      check_range_one_based(pos, data_.size());
+      int pos = check_range_one_based(indices[i], data_.size());
       out_names[i] = data_names[pos - 1];
       data[i] = data_[pos - 1];
     }

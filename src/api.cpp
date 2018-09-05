@@ -59,10 +59,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
 
   int n = indices.size();
   for (int i = 0; i < n; i++) {
-
-    int pos = indices[i];
-
-    check_range_one_based(pos, data.size());
+    int pos = check_range_one_based(indices[i], data.size());
 
     VectorVisitor* v = visitor(data[pos - 1]);
     visitors.push_back(v);
@@ -138,11 +135,8 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(
   SymbolVector right_names = right.names();
 
   for (int i = 0; i < size(); i++) {
-    const int index_left = indices_left[i];
-    const int index_right = indices_right[i];
-
-    check_range_one_based(index_left, left.size());
-    check_range_one_based(index_right, right.size());
+    const int index_left = check_range_one_based(indices_left[i], left.size());
+    const int index_right = check_range_one_based(indices_right[i], right.size());
 
     const SymbolString& name_left = left_names[index_left - 1];
     const SymbolString& name_right = right_names[index_right - 1];
