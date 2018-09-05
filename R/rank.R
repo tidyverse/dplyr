@@ -45,14 +45,19 @@ NULL
 
 #' @export
 #' @rdname ranking
-row_number <- function(x) rank(x, ties.method = "first", na.last = "keep")
+row_number <- function(x) {
+  if (missing(x))
+    seq2(1L, get_data_context(sys.frames(), "row_number()")[["..group_size"]])
+  else
+    rank(x, ties.method = "first", na.last = "keep")
+}
 
 # Definition from
 # http://blogs.msdn.com/b/craigfr/archive/2008/03/31/ranking-functions-rank-dense-rank-and-ntile.aspx
 #' @param n number of groups to split up into.
 #' @export
 #' @rdname ranking
-ntile <- function(x, n) {
+ntile <- function(x = row_number(), n) {
   len <- sum(!is.na(x))
 
   if (len == 0L) {

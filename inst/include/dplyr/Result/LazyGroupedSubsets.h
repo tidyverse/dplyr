@@ -4,6 +4,9 @@
 #include <tools/SymbolMap.h>
 
 #include <dplyr/GroupedDataFrame.h>
+#include <dplyr/RowwiseDataFrame.h>
+#include <dplyr/NaturalDataFrame.h>
+
 #include <dplyr/SummarisedVariable.h>
 
 #include <dplyr/Result/GroupedSubset.h>
@@ -53,6 +56,10 @@ public:
     return symbol_map.get_names();
   }
 
+  virtual SEXP get_variable(int i) const {
+    return subsets[i]->get_variable();
+  }
+
   virtual SEXP get_variable(const SymbolString& symbol) const {
     return subsets[symbol_map.get(symbol)]->get_variable();
   }
@@ -65,6 +72,10 @@ public:
       resolved[idx] = value = subsets[idx]->get(indices);
     }
     return value;
+  }
+
+  virtual bool is_summary(int i) const {
+    return subsets[i]->is_summary();
   }
 
   virtual bool is_summary(const SymbolString& symbol) const {
@@ -121,6 +132,8 @@ private:
 };
 
 typedef LazySplitSubsets<GroupedDataFrame> LazyGroupedSubsets;
+typedef LazySplitSubsets<RowwiseDataFrame> LazyRowwiseSubsets;
+typedef LazySplitSubsets<NaturalDataFrame> LazyNaturalSubsets;
 
 }
 #endif
