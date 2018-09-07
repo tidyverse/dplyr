@@ -1,5 +1,6 @@
 #' Calculate group sizes.
 #'
+#' @family group management and queries
 #' @param x a grouped tbl
 #' @export
 #' @examples

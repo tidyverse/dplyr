@@ -2,6 +2,7 @@
 #'
 #' Generate a unique id for each group
 #'
+#' @family group management and queries
 #' @keywords internal
 #' @seealso [group_by()]
 #' @param .data a tbl
