@@ -56,6 +56,12 @@ test_that("cumany and cumall handle NAs consistently (#408, #3749)", {
     cumany(logical()),
     logical()
   )
+
+  # behaviour of degenerate logical vectors mimics that of base R functions
+  x <- as.raw(c(2L, 9L, 0L))
+  class(x) <- "logical"
+  expect_identical(cumall(x), x == TRUE)
+  expect_identical(cumany(x), c(TRUE, TRUE, TRUE))
 })
 
 test_that("percent_rank ignores NAs (#1132)", {
