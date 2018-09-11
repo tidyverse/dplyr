@@ -444,6 +444,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
     if (Rf_isNull(variable)) {
       accumulator.rm(name);
+      mask.rm(name);
       continue;
     }
 

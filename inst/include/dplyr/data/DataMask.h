@@ -55,6 +55,14 @@ public:
     return data;
   }
 
+  void rm() {
+    data = R_NilValue;
+  }
+
+  bool is_null() const {
+    return data == R_NilValue;
+  }
+
   // update the resolved binding in mask_resolved withe the given indices
   // DataMask<> only calls this on previously materialized bindings
   // this is only used for its side effect of storing the result in the right environment
@@ -85,6 +93,12 @@ public:
 
   // nothing to do here, this is only relevant for ColumnBinding<NaturalDataFrame>
   inline void update(SEXP mask_active, SEXP mask_resolved) {}
+
+  // remove the binding in the mask_active environment
+  // so that standard evaluation does not find it
+  inline void detach(SEXP mask_active, SEXP mask_resolved) {
+    Language("rm", symbol, _["envir"] = mask_active).eval();
+  }
 
 private:
 
@@ -134,6 +148,14 @@ public:
     return data;
   }
 
+  void rm() {
+    data = R_NilValue;
+  }
+
+  bool is_null() const {
+    return data == R_NilValue;
+  }
+
   // never used
   inline void update_indices(const NaturalDataFrame::slicing_index& /* indices */, SEXP /* env */) {}
 
@@ -149,6 +171,12 @@ public:
   // mutate( x = fun(x) )
   inline void update(SEXP mask_active, SEXP mask_resolved) {
     Rf_defineVar(symbol, data, mask_active);
+  }
+
+  // remove the binding in the mask_active environment
+  // so that standard evaluation does not find it
+  inline void detach(SEXP mask_active, SEXP mask_resolved) {
+    Language("rm", symbol, _["envir"] = mask_active).eval();
   }
 
 private:
@@ -236,11 +264,24 @@ public:
   // this is mostly used by the hybrid evaluation
   const ColumnBinding<SlicedTibble>* maybe_get_subset_binding(const SymbolString& symbol) const {
     int pos = symbol_map.find(symbol);
-    if (pos >= 0) {
+    if (pos >= 0 && !column_bindings[pos].is_null()) {
       return &column_bindings[pos];
     } else {
       return 0;
     }
+  }
+
+  // remove this variable from the environments
+  void rm(const SymbolString& symbol) {
+    int idx = symbol_map.find(symbol);
+
+    if (active_bindings_ready) {
+      column_bindings[idx].detach(mask_active, mask_resolved);
+    }
+
+    // so that hybrid evaluation does not find it
+    // see maybe_get_subset_binding above
+    column_bindings[idx].rm();
   }
 
   // add a new binding, used by mutate
