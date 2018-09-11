@@ -226,7 +226,7 @@ do.data.frame <- function(.data, ...) {
 
   # Create custom data mask with `.` pronoun
   mask <- new_data_mask(new_environment())
-  env_bind(mask, . := .data, .data = data)
+  env_bind_do_pronouns(mask, .data)
 
   if (!named) {
     out <- eval_tidy(args[[1]], mask)

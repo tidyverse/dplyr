@@ -86,7 +86,7 @@ do.rowwise_df <- function(.data, ...) {
   # of this function because of usual scoping rules.
   mask <- new_data_mask(new_environment())
   current_row <- function() lapply(group_data[`_i`, , drop = FALSE], "[[", 1)
-  env_bind_fns(.env = mask, . := current_row, .data = current_row)
+  env_bind_do_pronouns(mask, current_row)
 
   n <- nrow(.data)
   m <- length(args)

@@ -104,6 +104,17 @@ do_.NULL <- function(.data, ..., .dots = list()) {
 
 # Helper functions -------------------------------------------------------------
 
+env_bind_do_pronouns <- function(env, data) {
+  if (is_function(data)) {
+    bind <- env_bind_fns
+  } else {
+    bind <- env_bind
+  }
+
+  # Use `:=` for `.` to avoid partial matching with `.env`
+  bind(env, "." := data, .data = data)
+}
+
 label_output_dataframe <- function(labels, out, groups) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
