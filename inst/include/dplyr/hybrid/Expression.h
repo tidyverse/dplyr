@@ -176,11 +176,23 @@ public:
     if (Rf_length(val) != 1) return false;
     switch (TYPEOF(val)) {
     case INTSXP:
-      out = INTEGER(val)[0];
+    {
+      int value = INTEGER(val)[0];
+      if (IntegerVector::is_na(value)) {
+        return false;
+      }
+      out = value;
       return true;
+    }
     case REALSXP:
-      out = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]);
+    {
+      double value = REAL(val)[0];
+      if (NumericVector::is_na(value)) {
+        return false;
+      }
+      out = Rcpp::internal::r_coerce<REALSXP, INTSXP>(value);
       return true;
+    }
     default:
       break;
     }

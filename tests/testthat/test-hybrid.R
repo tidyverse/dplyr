@@ -172,18 +172,24 @@ test_that("nth(<column>, n = <int-ish>) is hybrid", {
 
   expect_hybrid(d, nth(int, n = 1))
   expect_hybrid(d, nth(int, n = 1L))
+  expect_not_hybrid(d, nth(int, n = NA))
   expect_hybrid(d, dplyr::nth(int, n = 1))
   expect_hybrid(d, dplyr::nth(int, n = 1L))
+  expect_not_hybrid(d, dplyr::nth(int, n = NA))
 
   expect_hybrid(d, nth(dbl, n = 1))
   expect_hybrid(d, nth(dbl, n = 1L))
+  expect_not_hybrid(d, nth(dbl, n = NA))
   expect_hybrid(d, dplyr::nth(dbl, n = 1))
   expect_hybrid(d, dplyr::nth(dbl, n = 1L))
+  expect_not_hybrid(d, dplyr::nth(dbl, n = NA))
 
   expect_hybrid(d, nth(chr, n = 1))
   expect_hybrid(d, nth(chr, n = 1L))
+  expect_not_hybrid(d, nth(chr, n = NA))
   expect_hybrid(d, dplyr::nth(chr, n = 1))
   expect_hybrid(d, dplyr::nth(chr, n = 1L))
+  expect_not_hybrid(d, nth(chr, n = NA))
 })
 
 test_that("nth(<column>, n = <int-ish>, default = <scalar>) is hybrid", {
@@ -354,16 +360,25 @@ test_that("ntile() is hybrid", {
   expect_hybrid(d, ntile(n = 2))
   expect_hybrid(d, dplyr::ntile(n = 2L))
   expect_hybrid(d, dplyr::ntile(n = 2))
+  expect_not_hybrid(d, ntile(n = NA_integer_))
+  expect_not_hybrid(d, ntile(n = NA_real_))
+  expect_not_hybrid(d, ntile(n = NA))
 
   expect_hybrid(d, ntile(int, n = 2L))
   expect_hybrid(d, ntile(int, n = 2))
   expect_hybrid(d, dplyr::ntile(int, n = 2L))
   expect_hybrid(d, dplyr::ntile(int, n = 2))
+  expect_not_hybrid(d, ntile(int, n = NA_integer_))
+  expect_not_hybrid(d, ntile(int, n = NA_real_))
+  expect_not_hybrid(d, ntile(int, n = NA))
 
   expect_hybrid(d, ntile(dbl, n = 2L))
   expect_hybrid(d, ntile(dbl, n = 2))
   expect_hybrid(d, dplyr::ntile(dbl, n = 2L))
   expect_hybrid(d, dplyr::ntile(dbl, n = 2))
+  expect_not_hybrid(d, ntile(dbl, n = NA_integer_))
+  expect_not_hybrid(d, ntile(dbl, n = NA_real_))
+  expect_not_hybrid(d, ntile(dbl, n = NA))
 })
 
 test_that("min_rank(), percent_rank(), dense_rank(), cume_dist() are hybrid", {
@@ -426,6 +441,7 @@ test_that("nth(), first() and last() support quosured symbols", {
   expect_hybrid(mtcars, first(!!quo(cyl)))
   expect_hybrid(mtcars, last(!!quo(cyl)))
   expect_hybrid(mtcars, nth(!!quo(cyl), n = 2))
+  expect_not_hybrid(mtcars, nth(!!quo(cyl), n = NA))
 })
 
 test_that("hybrid evaluation can be disabled locally (#3255)", {
