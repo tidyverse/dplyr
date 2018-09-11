@@ -35,7 +35,7 @@ template <int RTYPE, typename Index>
 SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index, Rcpp::traits::true_type) {
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
   int n = index.size();
-  Rcpp::Vector<RTYPE> res = no_init(n);
+  Rcpp::Vector<RTYPE> res(no_init(n));
   for (int i = 0; i < n; i++) {
     res[i] = index[i] < 0 ? default_value<RTYPE>() : (STORAGE)x[index[i]];
   }
@@ -47,7 +47,7 @@ template <int RTYPE, typename Index>
 SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index, Rcpp::traits::false_type) {
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
   int n = index.size();
-  Rcpp::Vector<RTYPE> res = no_init(n);
+  Rcpp::Vector<RTYPE> res(no_init(n));
   for (int i = 0; i < n; i++) {
     res[i] = x[index[i]];
   }
