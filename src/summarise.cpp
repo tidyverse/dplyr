@@ -6,7 +6,6 @@
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
-#include <dplyr/data/tbl_classes.h>
 
 #include <dplyr/standard/GroupedCallReducer.h>
 
@@ -87,14 +86,14 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVe
   names[nv - 1] = ".rows";
 
   set_rownames(out, new_indices.size());
-  set_class(out, tbl_classes<NaturalDataFrame>());
+  set_class(out, NaturalDataFrame::classes());
   out.attr("names") = names;
   return out ;
 }
 
 template <typename SlicedTibble>
 void structure_summarise(List& out, const SlicedTibble& df) {
-  set_class(out, tbl_classes<NaturalDataFrame>());
+  set_class(out, NaturalDataFrame::classes());
 }
 
 template <>
@@ -125,7 +124,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
   } else {
     // clear groups and reset to non grouped classes
     GroupedDataFrame::strip_groups(out);
-    out.attr("class") = tbl_classes<NaturalDataFrame>();
+    out.attr("class") = NaturalDataFrame::classes();
   }
 }
 

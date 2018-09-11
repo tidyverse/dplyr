@@ -73,8 +73,11 @@ public:
     return SymbolVector();
   }
 
-private:
+  static inline CharacterVector classes() {
+    return Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  }
 
+private:
   DataFrame data_;
 
 };

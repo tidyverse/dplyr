@@ -101,6 +101,10 @@ public:
     x.attr("groups") = y.attr("groups");
   }
 
+  static inline CharacterVector classes() {
+    return Rcpp::CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
+  }
+
 private:
 
   DataFrame data_;

@@ -224,9 +224,9 @@ public:
     }
   }
 
-  ~DataMask(){
+  ~DataMask() {
     if (active_bindings_ready) {
-      Language rm_call("rm", _["list"] = Language( "ls", _["envir"] = mask_active, _["all.names"] = true), _["envir"] = mask_active);
+      Language rm_call("rm", _["list"] = Language("ls", _["envir"] = mask_active, _["all.names"] = true), _["envir"] = mask_active);
       rm_call.eval();
     }
   }

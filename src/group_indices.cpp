@@ -2,8 +2,8 @@
 #include <dplyr/main.h>
 #include <dplyr/allow_list.h>
 
-#include <dplyr/data/tbl_classes.h>
 #include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/NaturalDataFrame.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
@@ -478,7 +478,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
 
   vec_groups.attr("names") = groups_names;
   vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_groups.attr("class") = tbl_classes<NaturalDataFrame>() ;
+  vec_groups.attr("class") = NaturalDataFrame::classes() ;
 
   return vec_groups;
 }
@@ -564,7 +564,7 @@ SymbolVector GroupedDataFrame::group_vars(SEXP x) {
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
   assert_all_allow_list(data);
   DataFrame copy(shallow_copy(data));
-  set_class(copy, tbl_classes<GroupedDataFrame>());
+  set_class(copy, GroupedDataFrame::classes());
   if (!symbols.size())
     stop("no variables to group by");
   GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols));
