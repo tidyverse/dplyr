@@ -33,10 +33,6 @@ public:
     return group_index;
   }
 
-  inline operator SEXP() const {
-    return data;
-  }
-
 private:
   IntegerVector data;
   int group_index;
@@ -61,10 +57,6 @@ public:
     return start;
   }
 
-  inline operator SEXP() const {
-    return Rf_ScalarInteger(start + 1);
-  }
-
 private:
   int start;
 };
@@ -87,14 +79,6 @@ public:
 
   virtual int group() const {
     return 0 ;
-  }
-
-  inline operator SEXP() const {
-    if (n == 0) {
-      return IntegerVector(0);
-    } else {
-      return IntegerVector(seq(1, n));
-    }
   }
 
 private:
