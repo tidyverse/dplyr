@@ -36,12 +36,12 @@ columns (original columns or columns that have just been made by `mutate()` or `
 ## meta information about the groups
 
 The functions `n()`, `row_number()` and `group_indices()` when called without arguments 
-lack contextual information, i.e. the current group size and index, so they look for that information in 
-the "data context" (which in fact is the data mask). 
+lack contextual information, i.e. the current group size and index, 
+so they look for that information a the special environment 
 
 ```r
 n <- function() {
-  get_data_context(sys.frames(), "n()")[["..group_size"]]
+  from_context("..group_size")
 }
 ```
 
@@ -49,8 +49,8 @@ The DataMask class is responsible for updating the variables `..group_size` and 
 
 ```cpp
     // update the data context variables, these are used by n(), ...
-    overscope["..group_size"] = indices.size();
-    overscope["..group_number"] = indices.group() + 1;
+    get_context_env()["..group_size"] = indices.size();
+    get_context_env()["..group_number"] = indices.group() + 1;
 ```
 
 all other functions can just be called with standard evaluation in the data mask

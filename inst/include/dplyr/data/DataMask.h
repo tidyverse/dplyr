@@ -251,6 +251,9 @@ public:
         ColumnBinding<SlicedTibble>(false, SymbolString(names[i]).get_symbol(), data[i])
       );
     }
+
+    previous_group_size = get_context_env()["..group_size"];
+    previous_group_number = get_context_env()["..group_number"];
   }
 
   ~DataMask() {
@@ -258,6 +261,8 @@ public:
       Language rm_call("rm", _["list"] = Language("ls", _["envir"] = mask_active, _["all.names"] = true), _["envir"] = mask_active);
       rm_call.eval();
     }
+    get_context_env()["..group_size"] = previous_group_size;
+    get_context_env()["..group_number"] = previous_group_number;
   }
 
   // returns a pointer to the ColumnBinding if it exists
@@ -399,8 +404,8 @@ public:
     update(indices);
 
     // update the data context variables, these are used by n(), ...
-    overscope["..group_size"] = indices.size();
-    overscope["..group_number"] = indices.group() + 1;
+    get_context_env()["..group_size"] = indices.size();
+    get_context_env()["..group_number"] = indices.group() + 1;
 
     // evaluate the call in the overscope
     SEXP res = Rcpp_eval(expr, overscope);
@@ -432,6 +437,10 @@ private:
 
   // The current indices
   const slicing_index* current_indices;
+
+  // previous values for group_number and group_size
+  RObject previous_group_size;
+  RObject previous_group_number;
 
   void set_current_indices(const slicing_index& indices) {
     current_indices = &indices;
@@ -468,6 +477,11 @@ private:
       column_bindings[index.pos] = binding;
 
     }
+  }
+
+  Rcpp::Environment& get_context_env() const {
+    static Rcpp::Environment context_env(Rcpp::Environment::namespace_env("dplyr")["context_env"]);
+    return context_env;
   }
 
 };

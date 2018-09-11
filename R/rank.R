@@ -47,7 +47,7 @@ NULL
 #' @rdname ranking
 row_number <- function(x) {
   if (missing(x)){
-    seq_len(get_data_context(sys.frames(), "row_number()")[["..group_size"]])
+    seq_len(from_context("..group_size"))
   } else {
     rank(x, ties.method = "first", na.last = "keep")
   }
