@@ -219,8 +219,9 @@ public:
     // install the column_bindings without lookups in symbol_map
     // i.e. not using input_column
     for (int i = 0; i < n; i++) {
-      SEXP symbol = Rf_installChar(SymbolString(names[i]).get_sexp());
-      column_bindings.push_back(ColumnBinding<SlicedTibble>(false, symbol, data[i]));
+      column_bindings.push_back(
+        ColumnBinding<SlicedTibble>(false, SymbolString(names[i]).get_symbol(), data[i])
+      );
     }
   }
 
