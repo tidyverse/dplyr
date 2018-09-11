@@ -11,7 +11,6 @@
 #include <tools/train.h>
 
 #include <tools/bad.h>
-#include <tools/set_rownames.h>
 #include <tools/match.h>
 #include <boost/shared_ptr.hpp>
 #include <tools/default_value.h>

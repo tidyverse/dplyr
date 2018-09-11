@@ -5,6 +5,7 @@
 #include <tools/match.h>
 
 #include <tools/Quosure.h>
+#include <tools/set_rownames.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
