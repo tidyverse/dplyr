@@ -198,7 +198,7 @@ do.grouped_df <- function(.data, ...) {
       out <- set_names(out, names(args))
       out <- label_output_list(labels, out, groups(.data))
     } else {
-      env_bind(mask, . := group_data, .data = group_data)
+      env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
@@ -216,7 +216,7 @@ do.grouped_df <- function(.data, ...) {
       group_data[index[[`_i`]], ] <<- value
     }
   }
-  env_bind_fns(mask, . := group_slice, .data = group_slice)
+  env_bind_do_pronouns(mask, group_slice)
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
