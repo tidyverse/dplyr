@@ -40,5 +40,5 @@ coalesce(!!!vecs)
 }
 \seealso{
 \code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
-\code{\link[tidyr]{replace_na}} to replace \code{NA} with a value
+\code{\link[tidyr:replace_na]{tidyr::replace_na()}} to replace \code{NA} with a value
 }
