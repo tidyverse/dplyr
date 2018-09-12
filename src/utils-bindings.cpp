@@ -6,6 +6,6 @@
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-SEXP materialize_binding(int idx, XPtr<DataMaskWeakProxyBase> mask) {
-  return mask->materialize(idx);
+SEXP materialize_binding(int idx, XPtr<DataMaskWeakProxyBase> mask_proxy_xp) {
+  return mask_proxy_xp->materialize(idx);
 }

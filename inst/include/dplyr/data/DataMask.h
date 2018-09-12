@@ -40,8 +40,12 @@ public:
     data(data_)
   {}
 
-  // the active binding function calls DataMask<>::materialize which calls this method
-  inline SEXP get(const typename SlicedTibble::slicing_index& indices, SEXP mask_resolved) {
+  // the active binding function calls eventually calls DataMask<>::materialize
+  // which calls this method
+  inline SEXP get(
+    const typename SlicedTibble::slicing_index& indices,
+    SEXP mask_resolved)
+  {
     return materialize(indices, mask_resolved);
   }
 
@@ -69,20 +73,34 @@ public:
 
   // update the resolved binding in mask_resolved withe the given indices
   // DataMask<> only calls this on previously materialized bindings
-  // this is only used for its side effect of storing the result in the right environment
-  inline void update_indices(const typename SlicedTibble::slicing_index& indices, SEXP mask_resolved) {
+  // this is only used for its side effect of storing the result
+  // in the right environment
+  inline void update_indices(
+    const typename SlicedTibble::slicing_index& indices,
+    SEXP mask_resolved)
+  {
     materialize(indices, mask_resolved);
   }
 
   // setup the active binding with a function made by dplyr:::.active_binding_fun
   //
   // .active_binding_fun holds the position and a pointer to the DataMask
-  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, boost::shared_ptr< DataMaskProxy<SlicedTibble> >& data_mask_proxy) {
-    static Function active_binding_fun(".active_binding_fun", Rcpp::Environment::namespace_env("dplyr"));
+  inline void install(
+    SEXP mask_active,
+    SEXP mask_resolved,
+    int pos,
+    boost::shared_ptr< DataMaskProxy<SlicedTibble> >& data_mask_proxy
+  ) {
+    static Function active_binding_fun(
+      ".active_binding_fun",
+      Rcpp::Environment::namespace_env("dplyr")
+    );
 
     // external pointer to the weak proxy of the data mask
     // eventually this calls back to the reak DataMask
-    XPtr< DataMaskWeakProxy<SlicedTibble> > weak_proxy(new DataMaskWeakProxy<SlicedTibble>(data_mask_proxy));
+    XPtr< DataMaskWeakProxy<SlicedTibble> > weak_proxy(
+      new DataMaskWeakProxy<SlicedTibble>(data_mask_proxy)
+    );
 
     R_MakeActiveBinding(
       // the name of the binding
@@ -102,14 +120,17 @@ public:
   // remove the binding in the mask_active environment
   // so that standard evaluation does not find it
   inline void detach(SEXP mask_active, SEXP mask_resolved) {
-    Language("rm", symbol, _["envir"] = mask_active).eval();
+    Language("rm", symbol, _["envir"] = mask_active).eval(R_BaseEnv);
   }
 
 private:
 
   // materialize the subset of data using column_subset
   // and store the result in the given environment
-  inline SEXP materialize(const typename SlicedTibble::slicing_index& indices, SEXP mask_resolved) {
+  inline SEXP materialize(
+    const typename SlicedTibble::slicing_index& indices,
+    SEXP mask_resolved)
+  {
 
     // materialize
     Shield<SEXP> value(summary ?
@@ -128,7 +149,8 @@ private:
 // for active bindings in this case
 //
 // - if this is a summary, it is length 1 and can be returned as is
-// - otherwise, it can also be returned as is because the NaturalDataFrame::slicing_index always want the entire column
+// - otherwise, it can also be returned as is because the
+//   NaturalDataFrame::slicing_index always want the entire column
 template <>
 struct ColumnBinding<NaturalDataFrame> {
 public:
@@ -139,7 +161,10 @@ public:
   {}
 
   // nothing to do here, this is never actually used
-  inline SEXP get(const NaturalDataFrame::slicing_index& indices, SEXP mask_resolved) {
+  inline SEXP get(
+    const NaturalDataFrame::slicing_index& indices,
+    SEXP mask_resolved)
+  {
     return data;
   }
 
@@ -162,12 +187,20 @@ public:
   }
 
   // never used
-  inline void update_indices(const NaturalDataFrame::slicing_index& /* indices */, SEXP /* env */) {}
+  inline void update_indices(
+    const NaturalDataFrame::slicing_index& /* indices */,
+    SEXP /* env */)
+  {}
 
   // TODO: when .data knows how to look ancestry, this should use mask_resolved instead
   //
   // it does not really install an active binding because there is no need for that
-  inline void install(SEXP mask_active, SEXP mask_resolved, int /* pos */, boost::shared_ptr< DataMaskProxy<NaturalDataFrame> >& /* data_mask_proxy */) {
+  inline void install(
+    SEXP mask_active,
+    SEXP mask_resolved,
+    int /* pos */,
+    boost::shared_ptr< DataMaskProxy<NaturalDataFrame> >& /* data_mask_proxy */)
+  {
     Rf_defineVar(symbol, data, mask_active);
   }
 
@@ -202,7 +235,9 @@ public:
 
 // This holds a pointer to a real DataMask<>
 //
-// A DataMaskProxy<> is only used in a shared_ptr<DataMaskProxy<>> that is held by the DataMask<>
+// A DataMaskProxy<> is only used in a shared_ptr<DataMaskProxy<>>
+// that is held by the DataMask<>
+//
 // This is needed because weak_ptr needs a shared_ptr
 template <typename SlicedTibble>
 class DataMaskProxy {
@@ -225,7 +260,9 @@ private:
   boost::weak_ptr< DataMaskProxy<SlicedTibble> > real;
 
 public:
-  DataMaskWeakProxy(boost::shared_ptr< DataMaskProxy<SlicedTibble> > real_) : real(real_) {}
+  DataMaskWeakProxy(boost::shared_ptr< DataMaskProxy<SlicedTibble> > real_) :
+    real(real_)
+  {}
 
   virtual SEXP materialize(int idx) {
     if (boost::shared_ptr< DataMaskProxy<SlicedTibble> > lock = real.lock()) {
@@ -260,8 +297,9 @@ public:
 // this keeps a track of the current indices
 // - for bindings that have not been resolved before, nothing needs to happen
 //
-// - for bindings that were previously resolved (as tracked by the materialized vector)
-//   they are re-materialized pro-actively in the resolved environment
+// - for bindings that were previously resolved (as tracked by the
+//   materialized vector) they are re-materialized pro-actively
+//   in the resolved environment
 template <class SlicedTibble>
 class DataMask {
   typedef typename SlicedTibble::slicing_index slicing_index;
@@ -269,7 +307,8 @@ class DataMask {
 public:
 
   // constructor
-  // - fills the symbol map quickly (no hashing), assuming the names are all different
+  // - fills the symbol map quickly (no hashing), assuming
+  //   the names are all different
   // - fills the column_bindings vector
   //
   // - delays setting up the environment until needed
@@ -288,7 +327,10 @@ public:
     // i.e. not using input_column
     for (int i = 0; i < n; i++) {
       column_bindings.push_back(
-        ColumnBinding<SlicedTibble>(false, SymbolString(names[i]).get_symbol(), data[i])
+        ColumnBinding<SlicedTibble>(
+          false, SymbolString(names[i]).get_symbol(),
+          data[i]
+        )
       );
     }
 
@@ -303,7 +345,8 @@ public:
 
   // returns a pointer to the ColumnBinding if it exists
   // this is mostly used by the hybrid evaluation
-  const ColumnBinding<SlicedTibble>* maybe_get_subset_binding(const SymbolString& symbol) const {
+  const ColumnBinding<SlicedTibble>*
+  maybe_get_subset_binding(const SymbolString& symbol) const {
     int pos = symbol_map.find(symbol);
     if (pos >= 0 && !column_bindings[pos].is_null()) {
       return &column_bindings[pos];
@@ -340,10 +383,12 @@ public:
     return column_bindings.size();
   }
 
-  // call this before treating new expression with standard evaluation in its environment: parent_env
+  // call this before treating new expression with standard
+  // evaluation in its environment: parent_env
   //
   // no need to call this when treating the expression with hybrid evaluation
-  // this is why the setup if the environments is lazy, as we might not need them at all
+  // this is why the setup if the environments is lazy,
+  // as we might not need them at all
   void reset(SEXP parent_env) {
     if (!active_bindings_ready) {
       // the active bindings have not been used at all
@@ -369,13 +414,16 @@ public:
     }
 
     // finally setup the data mask with
-    // bottom    : the environment with the "resolved" bindings, this is initially empty but gets filled
+    // bottom    : the environment with the "resolved" bindings,
+    //             this is initially empty but gets filled
     //             as soon as the active binding is resolved
     //
     // top       : the environment containing active bindings.
     //
     // overscope : where .data etc ... are installed
-    overscope = internal::rlang_api().new_data_mask(mask_resolved, mask_active, parent_env);
+    overscope = internal::rlang_api().new_data_mask(
+                  mask_resolved, mask_active, parent_env
+                );
 
     // install the pronoun
     overscope[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
@@ -400,33 +448,38 @@ public:
 
   // called from the active binding, see utils-bindings.(R|cpp)
   //
-  // the bindings are installed in the mask_bindings environment with this R function:
+  // the bindings are installed in the mask_bindings environment
+  // with this R function:
   //
-  // .active_binding_fun <- function(index, mask){
+  // .active_binding_fun <- function(index, mask_proxy_xp){
   //   function() {
-  //     materialize_binding(index, mask)
+  //     materialize_binding(index, mask_proxy_xp)
   //   }
   // }
   //
   // each binding is instaled only once, the function holds:
-  // - index: i.e. the position in the column_bindings vector
-  // - mask : an external pointer (that never deletes) to this DataMask
-  //          this is why it is important that DataMask is not copy constructible
+  // - index:          the position in the column_bindings vector
+  // - mask_proxy_xp : an external pointer to (a proxy to) this DataMask
   //
   //  materialize_binding is defined in utils-bindings.cpp as:
   //
   // // [[Rcpp::export]]
-  // SEXP materialize_binding(int idx, XPtr<DataMaskWeakProxyBase> data_mask) {
-  //   return data_mask->materialize(idx);
+  // SEXP materialize_binding(
+  //   int idx,
+  //   XPtr<DataMaskWeakProxyBase> mask_proxy_xp)
+  // {
+  //   return mask_proxy_xp->materialize(idx);
   // }
-  //
-  // all the 3 DataMask classes derive from DataMaskBase, so we can invoke the materialize virtual method
   virtual SEXP materialize(int idx) {
     // materialize the subset (or just fetch it on the Natural case)
+    //
+    // the materialized result is stored in
+    // the mask_resolved environment,
+    // so we don't need to further protect `res`
     SEXP res = column_bindings[idx].get(
-                 get_current_indices(), // the current indices. see update() for where this comes from
-                 mask_resolved // the materialized result is stored in the mask_resolved environment, so we don't need to further protect res
+                 get_current_indices(), mask_resolved
                );
+
 
     // remember to pro-actievely materialize this binding on the next group
     materialized.push_back(idx);
@@ -468,7 +521,7 @@ private:
   Environment mask_resolved; // where the resolved active bindings live
   Environment overscope; // actual data mask, contains the .data pronoun
 
-  // are the active bindings ready, as they are only setup when effectively needed
+  // are the active bindings ready ?
   bool active_bindings_ready;
 
   // The current indices
@@ -517,7 +570,9 @@ private:
   }
 
   Rcpp::Environment& get_context_env() const {
-    static Rcpp::Environment context_env(Rcpp::Environment::namespace_env("dplyr")["context_env"]);
+    static Rcpp::Environment context_env(
+      Rcpp::Environment::namespace_env("dplyr")["context_env"]
+    );
     return context_env;
   }
 
