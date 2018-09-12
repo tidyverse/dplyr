@@ -30,7 +30,7 @@ using namespace dplyr;
 // [[Rcpp::export]]
 IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
   int n = gdf.nrows();
-  IntegerVector res = no_init(n);
+  IntegerVector res(no_init(n));
   int ngroups = gdf.ngroups();
   GroupedDataFrameIndexIterator it = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++it) {
@@ -408,7 +408,7 @@ private:
 };
 
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data, const DataFrameVisitors& visitors) {
-  if (depth == data.size()) {
+  if (static_cast<size_t>(depth) == data.size()) {
     return boost::shared_ptr<Slicer>(new LeafSlicer(index_range));
   } else {
     SEXP x = data[depth];
@@ -512,8 +512,8 @@ SEXP check_grouped(RObject data) {
   // the last column must be a list and called `.rows`
   SEXP names = Rf_getAttrib(groups, R_NamesSymbol);
   SEXP last = VECTOR_ELT(groups, nc - 1);
-  static String rows = ".rows";
-  if (TYPEOF(last) != VECSXP || STRING_ELT(names, nc - 1) != rows) {
+  static String rows(".rows");
+  if (TYPEOF(last) != VECSXP || STRING_ELT(names, nc - 1) != rows.get_sexp()) {
     bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must have a list column named `.rows` as last column");
   }
 

@@ -642,19 +642,6 @@ quo(filter(df, !! my_var == 1))
 quo(filter(df, UQ(my_var) == 1))
 ```
 
-You'll note above that `UQ()` yields a quosure containing a formula. That
-ensures that when the quosure is evaluated, it'll be looked up in the right
-environment. In certain code-generation scenarios you just want to use
-expression and ignore the environment. That's the job of `UQE()`:
-
-```{r}
-quo(UQE(my_fun)(x, y, z))
-quo(filter(df, UQE(my_var) == 1))
-```
-
-`UQE()` is for expert use only as you'll have to carefully analyse the
-environments to ensure that the generated code is correct.
-
 
 ### Unquote-splicing
 

@@ -205,20 +205,34 @@ List nest_join_impl(DataFrame x, DataFrame y,
 
   int n_x = x.nrows(), n_y = y.nrows();
 
-  std::vector<int> indices_x;
-  std::vector<int> indices_y;
-
   train_push_back_right(map, n_y);
 
   List list_col(n_x) ;
 
   DataFrameSubsetVisitors y_subset_visitors(y, aux_y);
 
+  // to deal with the case where multiple rows of x match rows in y
+  dplyr_hash_map<int, SEXP> resolved_map(y_subset_visitors.size());
+
   for (int i = 0; i < n_x; i++) {
+
+    // check if the i row of x matches rows in y
     Map::iterator it = map.find(i);
     if (it != map.end()) {
-      std::transform(it->second.begin(), it->second.end(), it->second.begin(), reverse_index);
-      list_col[i] = y_subset_visitors.subset(it->second, Rf_getAttrib(y, R_ClassSymbol));
+
+      // then check if we have already seen that match
+      dplyr_hash_map<int, SEXP>::iterator rit = resolved_map.find(it->first);
+      if (rit == resolved_map.end()) {
+        // first time we see the match, so transform the indices that were collected
+        // so that they are on the 0-based positive space, then subset y
+        std::transform(it->second.begin(), it->second.end(), it->second.begin(), reverse_index);
+        resolved_map[it->first] = list_col[i] = y_subset_visitors.subset(it->second, Rf_getAttrib(y, R_ClassSymbol));
+      } else {
+        // we have seen that match already, just lazy duplicate the tibble that is
+        // stored in the resolved map
+        list_col[i] = Rf_lazy_duplicate(rit->second);
+      }
+
     } else {
       list_col[i] = y_subset_visitors.subset(EmptySubset(), Rf_getAttrib(y, R_ClassSymbol));
     }
@@ -239,7 +253,6 @@ List nest_join_impl(DataFrame x, DataFrame y,
   GroupedDataFrame::copy_groups(out, x) ;
 
   return out;
-
 }
 
 

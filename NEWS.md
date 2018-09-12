@@ -1,5 +1,5 @@
+# dplyr 0.7.99.9000
 
-# dplyr 0.7.5.9000
 To be released as 0.8.0
 
 * `group_by()` respects levels of factors and keeps empty groups (#341). 
@@ -110,7 +110,24 @@ To be released as 0.8.0
 
 * `summarise_at()` excludes the grouping variables (#3613). 
 
-# dplyr 0.7.5 (2018-04-14)
+* grouped data frames support `[, drop = TRUE]` (#3714). 
+
+# dplyr 0.7.6
+
+* `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
+  (#3638).
+
+* The MASS package is explicitly suggested to fix CRAN warnings on R-devel
+  (#3657).
+
+* Set operations like `intersect()` and `setdiff()` reconstruct groups metadata (#3587).
+
+* Using namespaced calls to `base::sort()` and `base::unique()` from C++ code
+  to avoid ambiguities when these functions are overridden (#3644).
+
+* Fix rchk errors (#3693).
+
+# dplyr 0.7.5
 
 ## Breaking changes for package developers
 
@@ -1585,7 +1602,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 * `mutate()` works for on zero-row grouped data frame, and
   with list columns (#555).
 
-* `LazySubset` was confused about input data size (#452).
+* `LazySubset` was confused about input data size (#452).
 
 * Internal `n_distinct()` is stricter about it's inputs: it requires one symbol
   which must be from the data frame (#567).

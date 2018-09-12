@@ -7,7 +7,8 @@
 #'
 #' @section Join types:
 #'
-#' Currently dplyr supports four types of mutating joins and two types of filtering joins.
+#' Currently dplyr supports four types of mutating joins, two types of filtering joins, and
+#' a nesting join.
 #'
 #' \strong{Mutating joins} combine variables from the two data.frames:
 #'
@@ -25,7 +26,7 @@
 #'    and y. Rows in `y` with no match in `x` will have `NA` values in the new
 #'    columns. If there are multiple matches between `x` and `y`, all combinations
 #'    of the matches are returned.}
-
+#'
 #'    \item{`full_join()`}{return all rows and all columns from both `x` and `y`.
 #'    Where there are not matching values, returns `NA` for the one missing.}
 #' }
@@ -43,6 +44,22 @@
 #'
 #'    \item{`anti_join()`}{return all rows from `x` where there are not
 #'    matching values in `y`, keeping just columns from `x`.}
+#' }
+#'
+#' \strong{Nesting joins} create a list column of data.frames:
+#'
+#' \describe{
+#'    \item{`nest_join()`}{return all rows and all columns from `x`. Adds a
+#'    list column of tibbles. Each tibble contains all the rows from `y`
+#'    that match that row of `x`. When there is no match, the list column is
+#'    a 0-row tibble with the same column names and types as `y`.
+#'
+#'    `nest_join()` is the most fundamental join since you can recreate the other joins from it.
+#'    An `inner_join()` is a `nest_join()` plus an [tidyr::unnest()], and `left_join()` is a
+#'    `nest_join()` plus an `unnest(drop = FALSE)`.
+#'    A `semi_join()` is a `nest_join()` plus a `filter()` where you check that every element of data has
+#'    at least one row, and an `anti_join()` is a `nest_join()` plus a `filter()` where you check every element has zero rows.
+#'    }
 #' }
 #'
 #' @section Grouping:
@@ -67,7 +84,8 @@
 #' @param suffix If there are non-joined duplicate variables in `x` and
 #'   `y`, these suffixes will be added to the output to disambiguate them.
 #'   Should be a character vector of length 2.
-#' @param name for `nest_join()` the name of the list column created.
+#' @param name the name of the list column nesting joins create. If `NULL` the name of `y` is used.
+#' @param keep If `TRUE` the by columns are kept in the nesting joins.
 #' @param ... other parameters passed onto methods, for instance, `na_matches`
 #'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
 #' @name join
@@ -81,6 +99,9 @@
 #' # "Filtering" joins keep cases from the LHS
 #' band_members %>% semi_join(band_instruments)
 #' band_members %>% anti_join(band_instruments)
+#'
+#' # "Nesting" joins keep cases from the LHS and nests the RHS
+#' band_members %>% nest_join(band_instruments)
 #'
 #' # To suppress the message, supply by
 #' band_members %>% inner_join(band_instruments, by = "name")
@@ -123,7 +144,7 @@ semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @rdname join
 #' @export
-nest_join <- function(x, y, by = NULL, copy = FALSE, name = "data", ...) {
+nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   UseMethod("nest_join")
 }
 

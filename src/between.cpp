@@ -12,12 +12,14 @@ using namespace Rcpp;
 //' @param left,right Boundary values
 //' @export
 //' @examples
+//' between(1:12, 7, 9)
+//'
 //' x <- rnorm(1e2)
 //' x[between(x, -1, 1)]
 // [[Rcpp::export]]
 LogicalVector between(NumericVector x, double left, double right) {
   int n = x.size();
-  LogicalVector out = no_init(n);
+  LogicalVector out(no_init(n));
 
   // Assume users know what they're doing with date/times. In the future
   // should ensure that left and right are the correct class too.

@@ -294,7 +294,7 @@ List rbind__impl(List dots, const SymbolString& id) {
 
   // Add vector of identifiers if .id is supplied
   if (!id.is_empty()) {
-    CharacterVector id_col = no_init(n);
+    CharacterVector id_col(no_init(n));
 
     CharacterVector::iterator it = id_col.begin();
     for (int i = 0; i < ndata; ++i) {
@@ -372,7 +372,9 @@ List cbind_all(List dots) {
   // collect columns
   List out(nv);
   CharacterVector out_names(nv);
-  SEXP dots_names = vec_names(dots);
+
+  // Can't use CharacterVector because the result might be R_NilValue
+  RObject dots_names = vec_names(dots);
 
   // then do the subsequent dfs
   for (int i = first_i, k = 0; i < n_dots; i++) {

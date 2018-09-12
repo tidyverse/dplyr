@@ -93,7 +93,7 @@ public:
 
   template <class iterator>
   SEXP subset_same(iterator it, const int n) {
-    Vec res = no_init(n);
+    Vec res(no_init(n));
     for (int i = 0; i < n; i++, ++it) {
       res[i] = get_value(*it);
     }
@@ -102,7 +102,7 @@ public:
 
   template <class iterator>
   SEXP subset_left(iterator it, const int n) {
-    LHS_Vec res = no_init(n);
+    LHS_Vec res(no_init(n));
     for (int i = 0; i < n; i++, ++it) {
       res[i] = get_value_as_left(*it);
     }
@@ -111,7 +111,7 @@ public:
 
   template <class iterator>
   SEXP subset_right(iterator it, const int n) {
-    RHS_Vec res = no_init(n);
+    RHS_Vec res(no_init(n));
     for (int i = 0; i < n; i++, ++it) {
       res[i] = get_value_as_right(*it);
     }

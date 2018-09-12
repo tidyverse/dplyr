@@ -1,6 +1,6 @@
 #' Return rows with matching conditions
 #'
-#' Use `filter()` find rows/cases where conditions are true. Unlike
+#' Use `filter()` to choose rows/cases where conditions are true. Unlike
 #' base subsetting with `[`, rows where the condition evaluates to `NA` are
 #' dropped.
 #'
@@ -31,7 +31,7 @@
 #'   Multiple conditions are combined with `&`. Only rows where the
 #'   condition evaluates to `TRUE` are kept.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -64,20 +64,23 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
   UseMethod("filter_")
 }
 
-#' Select rows by position
+#' Choose rows by position
+#'
+#' Choose rows by their ordinal position in the tbl.  Grouped tbls use
+#' the ordinal position within the group.
 #'
 #' Slice does not work with relational databases because they have no
 #' intrinsic notion of row order. If you want to perform the equivalent
 #' operation, use [filter()] and [row_number()].
 #'
-#' Positive values select rows to keep; negative values drop rows. The
-#' values provided must be either all positive or all negative.
-#'
 #' @family single table verbs
 #' @param .data A tbl.
-#' @param ... Integer row values.
+#' @param ... Integer row values.  Provide either positive values to keep,
+#'   or negative values to drop. The values provided must be either all
+#'   positive or all negative.  Indices beyond the number of rows in the
+#'   input are silently ignored.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -87,6 +90,7 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' @export
 #' @examples
 #' slice(mtcars, 1L)
+#' # Similar to tail(mtcars, 1):
 #' slice(mtcars, n())
 #' slice(mtcars, 5:n())
 #' # Rows can be dropped with negative indices:
@@ -116,10 +120,13 @@ slice_ <- function(.data, ..., .dots = list()) {
   UseMethod("slice_")
 }
 
-#' Reduces multiple values down to a single value
+#' Reduce multiple values down to a single value
 #'
-#' `summarise()` is typically used on grouped data created by [group_by()].
-#' The output will have one row for each group.
+#' Create one or more scalar variables summarizing the variables of an
+#' existing tbl. Tbls with groups created by [group_by()] will result in one
+#' row in the output for each group.  Tbls with no groups will result in one row.
+#'
+#' `summarise()` and `summarize()` are synonyms.
 #'
 #' @section Useful functions:
 #'
@@ -142,7 +149,7 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   name of the variable in the result. The value should be an expression
 #'   that returns a single value like `min(x)`, `n()`, or `sum(is.na(y))`.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -199,16 +206,15 @@ summarize <- summarise
 summarize_ <- summarise_
 
 
-#' Add new variables
+#' Create or transform variables
 #'
-#' `mutate()` adds new variables and preserves existing;
-#' `transmute()` drops existing variables.
+#' `mutate()` adds new variables and preserves existing ones;
+#' `transmute()` adds new variables and drops existing ones.  Both
+#' functions preserve the number of rows of the input.
 #'
-#' @section Useful functions:
+#' @section Useful functions available in calculations of variables:
 #'
-#' * [`+`], [`-`] etc
-#'
-#' * [log()]
+#' * [`+`], [`-`], [log()], etc., for their usual mathematical meanings
 #'
 #' * [lead()], [lag()]
 #'
@@ -232,10 +238,13 @@ summarize_ <- summarise_
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Name-value pairs of expressions. Use `NULL` to drop
-#'   a variable.
+#' @param ... Name-value pairs of expressions, each with length 1 or the same
+#'   length as the number of rows in the group (if using [group_by()]) or in the entire
+#'   input (if not using groups). The name of each argument will be the name of
+#'   a new variable, and the value will be its corresponding value.  Use a `NULL`
+#'   value in `mutate` to drop a variable.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
@@ -335,7 +344,7 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 
 #' Arrange rows by variables
 #'
-#' Use [desc()] to sort a variable in descending order.
+#' Order tbl rows by an expression involving its variables.
 #'
 #' @section Locales:
 #' The sort order for character vectors will depend on the collating sequence
@@ -344,8 +353,8 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
-#' @param ... Comma separated list of unquoted variable names. Use
-#'   [desc()] to sort a variable in descending order.
+#' @param ... Comma separated list of unquoted variable names, or expressions
+#'   involving variable names. Use [desc()] to sort a variable in descending order.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
 #' @examples
@@ -386,12 +395,19 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 
 #' Select/rename variables by name
 #'
+#' Choose or rename variables from a tbl.
 #' `select()` keeps only the variables you mention; `rename()`
 #' keeps all variables.
 #'
+#' These functions work by column index, not value; thus, an expression
+#' like `select(data.frame(x = 1:5, y = 10), z = x+1)` does not create a variable
+#' with values `2:6`. (In the current implementation, the expression `z = x+1`
+#' wouldn't do anything useful.)  To calculate using column values, see
+#' [mutate()]/[transmute()].
+#'
 #' @section Useful functions:
 #' As well as using existing functions like `:` and `c()`, there are
-#' a number of special functions that only work inside `select`
+#' a number of special functions that only work inside `select()`:
 #'
 #' * [starts_with()], [ends_with()], [contains()]
 #' * [matches()]
@@ -416,17 +432,18 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
 #' @param ... One or more unquoted expressions separated by commas.
-#'   You can treat variable names like they are positions.
+#'   You can treat variable names like they are positions, so you can
+#'   use expressions like `x:y` to select ranges of variables.
 #'
-#'   Positive values select variables; negative values to drop variables.
+#'   Positive values select variables; negative values drop variables.
 #'   If the first expression is negative, `select()` will automatically
 #'   start with all variables.
 #'
-#'   Use named arguments to rename selected variables.
+#'   Use named arguments, e.g. `new_name = old_name`, to rename selected variables.
 #'
-#'   These arguments are automatically [quoted][rlang::quo] and
+#'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in a context where column names
-#'   represent column positions. They support
+#'   represent column positions. They also support
 #'   [unquoting][rlang::quasiquotation] and splicing. See
 #'   `vignette("programming")` for an introduction to these concepts.
 #'

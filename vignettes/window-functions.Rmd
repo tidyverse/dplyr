@@ -147,7 +147,7 @@ You can use them to:
     filter(players, teamID != lag(teamID))
     ```
 
-`lead()` and `lag()` have an optional argument `order_by`. If set, instead of using the row order to determine which value comes before another, they will use another variable. This important if you have not already sorted the data, or you want to sort one way and lag another. 
+`lead()` and `lag()` have an optional argument `order_by`. If set, instead of using the row order to determine which value comes before another, they will use another variable. This is important if you have not already sorted the data, or you want to sort one way and lag another. 
 
 Here's a simple example of what happens if you don't specify `order_by` when you need it:
 
@@ -155,16 +155,16 @@ Here's a simple example of what happens if you don't specify `order_by` when you
 df <- data.frame(year = 2000:2005, value = (0:5) ^ 2)
 scrambled <- df[sample(nrow(df)), ]
 
-wrong <- mutate(scrambled, running = cumsum(value))
+wrong <- mutate(scrambled, prev_value = lag(value))
 arrange(wrong, year)
 
-right <- mutate(scrambled, running = order_by(year, cumsum(value)))
+right <- mutate(scrambled, prev_value = lag(value, order_by = year))
 arrange(right, year)
 ```
 
 ## Cumulative aggregates
 
-Base R provides cumulative sum (`cumsum()`), cumulative min (`cummin()`) and cumulative max (`cummax()`). (It also provides `cumprod()` but that is rarely useful). Other common accumulating functions are `cumany()` and `cumall()`, cumulative versions of `||` and `&&`, and `cummean()`, a cumulative mean. These are not included in base R, but efficient versions are provided by `dplyr`. 
+Base R provides cumulative sum (`cumsum()`), cumulative min (`cummin()`), and cumulative max (`cummax()`). (It also provides `cumprod()` but that is rarely useful). Other common accumulating functions are `cumany()` and `cumall()`, cumulative versions of `||` and `&&`, and `cummean()`, a cumulative mean. These are not included in base R, but efficient versions are provided by `dplyr`. 
 
 `cumany()` and `cumall()` are useful for selecting all rows up to, or all rows after, a condition is true for the first (or last) time. For example, we can use `cumany()` to find all records for a player after they played a year with 150 games:
 
@@ -184,7 +184,7 @@ This function uses a bit of non-standard evaluation, so I wouldn't recommend usi
 
 ## Recycled aggregates
 
-R's vector recycling make it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:
+R's vector recycling makes it easy to select values that are higher or lower than a summary. I call this a recycled aggregate because the value of the aggregate is recycled to be the same length as the original vector. Recycled aggregates are useful if you want to find all records greater than the mean or less than the median:
 
 ```{r, eval = FALSE}
 filter(players, G > mean(G))

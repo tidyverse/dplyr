@@ -25,7 +25,7 @@ character vector.
 \item \code{\link[rlang]{expr}()} and \code{\link[rlang]{quo}()} quote
 one expression. \code{quo()} wraps the quoted expression in a quosure.
 
-The plural variants \code{\link[rlang]{exprs}()} and
+The plural variants \code{\link[rlang:exprs]{rlang::exprs()}} and
 \code{\link[rlang]{quos}()} return a list of quoted expressions or
 quosures.
 \item \code{\link[rlang]{enexpr}()} and \code{\link[rlang]{enquo}()}
@@ -36,5 +36,9 @@ current function (\code{enquo()} wraps this expression in a quosure).
 capture multiple expressions supplied as arguments, including
 \code{...}.
 }
+
+\code{exprs()} is not exported by \pkg{dplyr} to avoid conflicts with
+\code{Biobase::exprs()}.  Use \code{rlang::exprs()} even if you have
+attached \pkg{dplyr}.
 }
 \keyword{internal}

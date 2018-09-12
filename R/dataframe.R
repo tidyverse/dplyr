@@ -98,13 +98,13 @@ mutate_.data.frame <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-arrange.data.frame <- function(.data, ...) {
-  as.data.frame(arrange(tbl_df(.data), ...))
+arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+  as.data.frame(arrange(tbl_df(.data), ..., .by_group = .by_group))
 }
 #' @export
-arrange_.data.frame <- function(.data, ..., .dots = list()) {
+arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange(.data, !!!dots)
+  arrange(.data, !!!dots, .by_group = .by_group)
 }
 
 #' @export
@@ -145,8 +145,8 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname join.tbl_df
-nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, name = "data", ... ) {
-  as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ..., name = name))
+nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ... ) {
+  as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ..., keep = keep, name = name))
 }
 
 #' @export
@@ -172,19 +172,42 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
+intersect.data.frame <- function(x, y, ...) {
+  out <- intersect_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-union.data.frame <- function(x, y, ...) union_data_frame(x, y)
+union.data.frame <- function(x, y, ...) {
+  out <- union_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-union_all.data.frame <- function(x, y, ...) bind_rows(x, y)
+union_all.data.frame <- function(x, y, ...) {
+  out <- bind_rows(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-setdiff.data.frame <- function(x, y, ...) setdiff_data_frame(x, y)
+setdiff.data.frame <- function(x, y, ...) {
+  out <- setdiff_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-setequal.data.frame <- function(x, y, ...) equal_data_frame(x, y)
+setequal.data.frame <- function(x, y, ...) {
+  out <- equal_data_frame(x, y)
+  as.logical(out)
+}
+
+reconstruct_set <- function(out, x) {
+  if (is_grouped_df(x)) {
+    out <- grouped_df_impl(out, group_vars(x))
+  }
+
+  out
+}
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {

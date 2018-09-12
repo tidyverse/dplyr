@@ -75,6 +75,9 @@ public:
   // The new indices
   Rcpp::List new_indices;
 
+  // dense
+  std::vector<bool> dense;
+
 private:
 
   int k;
@@ -87,7 +90,8 @@ public:
     old_indices(ngroups),
     tests(ngroups),
     new_indices(ngroups),
-    k(0)
+    k(0),
+    dense(ngroups, false)
   {}
 
   // set the group i to be empty
@@ -98,6 +102,7 @@ public:
   // the group i contains all the data from the original
   void add_dense_group(int i, const Index& old_idx, int n) {
     add_group(i, old_idx, n);
+    dense[i] = true;
   }
 
   // the group i contains some data, available in g_test
@@ -148,7 +153,7 @@ public:
 
   // is the group i dense
   inline bool is_dense(int i) const {
-    return group_size(i) == old_indices[i].size();
+    return dense[i];
   }
 
 private:
@@ -383,7 +388,6 @@ SEXP filter_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
 
-  const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
 
   // tracking the indices for each group
@@ -497,7 +501,6 @@ DataFrame slice_template(const SlicedTibble& gdf, const NamedQuosure& quo) {
   group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
     const Index& indices = *git;
-    int nr = indices.size();
     IntegerVector g_test = check_filter_integer_result(call_proxy.get(indices));
     CountIndices counter(indices.size(), g_test);
 
