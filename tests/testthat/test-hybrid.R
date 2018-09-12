@@ -1,51 +1,50 @@
 context("hybrid")
 
-# test_that("hybrid evaluation environment is cleaned up (#2358)", {
-#   # Can't use pipe here, f and g should have top-level parent.env()
-#   df <- data_frame(a = 1)
-#   df <- mutate(df, f = {
-#     a
-#     list(function() {})
-#   })
-#   df <- mutate(df, g = {
-#     f
-#     list(quo(.))
-#   })
-#   df <- mutate(df, h = {
-#     g
-#     list(~ .)
-#   })
-#   df <- mutate(df, i = {
-#     h
-#     list(.data)
-#   })
-#
-#   expect_true(env_has(df$f[[1]], "a", inherit = TRUE))
-#   expect_true(env_has(df$g[[1]], "f", inherit = TRUE))
-#   expect_true(env_has(df$h[[1]], "g", inherit = TRUE))
-#
-#   expect_warning(
-#     expect_null(env_get(df$f[[1]], "a", inherit = TRUE)),
-#     "Hybrid callback proxy out of scope",
-#     fixed = TRUE
-#   )
-#   expect_warning(
-#     expect_null(env_get(df$g[[1]], "f", inherit = TRUE)),
-#     "Hybrid callback proxy out of scope",
-#     fixed = TRUE
-#   )
-#   expect_warning(
-#     expect_null(env_get(df$h[[1]], "g", inherit = TRUE)),
-#     "Hybrid callback proxy out of scope",
-#     fixed = TRUE
-#   )
-#   expect_warning(
-#     expect_null(df$i[[1]]$h),
-#     "Hybrid callback proxy out of scope",
-#     fixed = TRUE
-#   )
-# })
+test_that("hybrid evaluation environment is cleaned up (#2358)", {
+  get_data_mask_active_env <- function(e){
+    env_parent(env_parent(e))
+  }
 
+  # Can't use pipe here, f and g should have top-level parent.env()
+  df <- data_frame(a = 1) %>% group_by(a)
+  df <- mutate(df, f = {
+    a
+    list(function() {})
+  })
+  df <- mutate(df, g = {
+    f
+    list(quo(.))
+  })
+  df <- mutate(df, h = {
+    g
+    list(~ .)
+  })
+  df <- mutate(df, i = {
+    h
+    list(.data)
+  })
+
+  expect_warning(
+    expect_null(get_data_mask_active_env(environment(df$f[[1]]))[["a"]]),
+    "Hybrid callback proxy out of scope",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_null(get_data_mask_active_env(environment(df$g[[1]]))[["g"]]),
+    "Hybrid callback proxy out of scope",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_null(get_data_mask_active_env(environment(df$h[[1]]))[["g"]]),
+    "Hybrid callback proxy out of scope",
+    fixed = TRUE
+  )
+  expect_warning(
+    expect_null(df$i[[1]][["h"]]),
+    "Hybrid callback proxy out of scope",
+    fixed = TRUE
+  )
+})
 
 test_that("n() and n_distinct() use hybrid evaluation", {
   d <- tibble(a = 1:5)

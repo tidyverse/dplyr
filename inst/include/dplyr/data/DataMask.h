@@ -9,10 +9,14 @@
 
 #include <dplyr/visitors/subset/column_subset.h>
 
+#include <boost/shared_ptr.hpp>
+#include <boost/weak_ptr.hpp>
+
 namespace dplyr {
 
-template <class SlicedTibble>
-class DataMask;
+template <class SlicedTibble> class DataMask;
+template <class SlicedTibble> class DataMaskProxy;
+template <class SlicedTibble> class DataMaskWeakProxy;
 
 // Manages a single binding, used by the DataMask classes below
 template <typename SlicedTibble>
@@ -73,18 +77,19 @@ public:
   // setup the active binding with a function made by dplyr:::.active_binding_fun
   //
   // .active_binding_fun holds the position and a pointer to the DataMask
-  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, DataMask<SlicedTibble>* data_mask) {
+  inline void install(SEXP mask_active, SEXP mask_resolved, int pos, boost::shared_ptr< DataMaskProxy<SlicedTibble> >& data_mask_proxy) {
     static Function active_binding_fun(".active_binding_fun", Rcpp::Environment::namespace_env("dplyr"));
+
+    // external pointer to the weak proxy of the data mask
+    // eventually this calls back to the reak DataMask
+    XPtr< DataMaskWeakProxy<SlicedTibble> > weak_proxy(new DataMaskWeakProxy<SlicedTibble>(data_mask_proxy));
 
     R_MakeActiveBinding(
       // the name of the binding
       symbol,
 
       // the function
-      active_binding_fun(
-        pos,
-        XPtr< DataMask<SlicedTibble> >(data_mask, false) // we don't own the DataMask instance so we don't setup finalizers of this external pointer
-      ),
+      active_binding_fun(pos, weak_proxy),
 
       // where to set it up as an active binding
       mask_active
@@ -162,7 +167,7 @@ public:
   // TODO: when .data knows how to look ancestry, this should use mask_resolved instead
   //
   // it does not really install an active binding because there is no need for that
-  inline void install(SEXP mask_active, SEXP mask_resolved, int /* pos */, DataMask<NaturalDataFrame>* /* data_mask */) {
+  inline void install(SEXP mask_active, SEXP mask_resolved, int /* pos */, boost::shared_ptr< DataMaskProxy<NaturalDataFrame> >& /* data_mask_proxy */) {
     Rf_defineVar(symbol, data, mask_active);
   }
 
@@ -186,17 +191,51 @@ private:
   SEXP data;
 };
 
-// base class for instantiations of the DataMask<> template
+// base class for instantiations of the DataMaskWeakProxy<> template
 // the base class is used when called from the active binding in R
-class DataMaskBase {
+class DataMaskWeakProxyBase {
 public:
-  virtual ~DataMaskBase() {}
+  virtual ~DataMaskWeakProxyBase() {}
 
-  virtual SEXP materialize(int idx) {
-    return R_UnboundValue;
+  virtual SEXP materialize(int idx) = 0;
+};
+
+// This holds a pointer to a real DataMask<>
+//
+// A DataMaskProxy<> is only used in a shared_ptr<DataMaskProxy<>> that is held by the DataMask<>
+// This is needed because weak_ptr needs a shared_ptr
+template <typename SlicedTibble>
+class DataMaskProxy {
+private:
+  DataMask<SlicedTibble>* real;
+
+public:
+  DataMaskProxy(DataMask<SlicedTibble>* real_) : real(real_) {}
+
+  SEXP materialize(int idx) {
+    return real->materialize(idx);
   }
 };
 
+// This holds a weak_ptr to a DataMaskProxy<SlicedTibble> that ultimately
+// calls back to the DataMask if it is still alive
+template <typename SlicedTibble>
+class DataMaskWeakProxy : public DataMaskWeakProxyBase {
+private:
+  boost::weak_ptr< DataMaskProxy<SlicedTibble> > real;
+
+public:
+  DataMaskWeakProxy(boost::shared_ptr< DataMaskProxy<SlicedTibble> > real_) : real(real_) {}
+
+  virtual SEXP materialize(int idx) {
+    if (boost::shared_ptr< DataMaskProxy<SlicedTibble> > lock = real.lock()) {
+      return lock.get()->materialize(idx);
+    } else {
+      warning("Hybrid callback proxy out of scope");
+      return R_NilValue;
+    }
+  }
+};
 
 // typical use
 //
@@ -224,7 +263,7 @@ public:
 // - for bindings that were previously resolved (as tracked by the materialized vector)
 //   they are re-materialized pro-actively in the resolved environment
 template <class SlicedTibble>
-class DataMask : public DataMaskBase {
+class DataMask {
   typedef typename SlicedTibble::slicing_index slicing_index;
 
 public:
@@ -237,7 +276,8 @@ public:
   DataMask(const SlicedTibble& gdf) :
     column_bindings(),
     symbol_map(gdf.data().size(), gdf.data().names()),
-    active_bindings_ready(false)
+    active_bindings_ready(false),
+    proxy(new DataMaskProxy<SlicedTibble>(this))
   {
     const DataFrame& data = gdf.data();
     CharacterVector names = data.names();
@@ -257,10 +297,6 @@ public:
   }
 
   ~DataMask() {
-    if (active_bindings_ready) {
-      Language rm_call("rm", _["list"] = Language("ls", _["envir"] = mask_active, _["all.names"] = true), _["envir"] = mask_active);
-      rm_call.eval();
-    }
     get_context_env()["..group_size"] = previous_group_size;
     get_context_env()["..group_number"] = previous_group_number;
   }
@@ -317,7 +353,7 @@ public:
 
       // ... and install the bindings
       for (int i = 0; i < column_bindings.size(); i++) {
-        column_bindings[i].install(mask_active, mask_resolved, i, this);
+        column_bindings[i].install(mask_active, mask_resolved, i, proxy);
       }
 
       active_bindings_ready = true;
@@ -380,7 +416,7 @@ public:
   //  materialize_binding is defined in utils-bindings.cpp as:
   //
   // // [[Rcpp::export]]
-  // SEXP materialize_binding(int idx, XPtr<DataMaskBase> data_mask) {
+  // SEXP materialize_binding(int idx, XPtr<DataMaskWeakProxyBase> data_mask) {
   //   return data_mask->materialize(idx);
   // }
   //
@@ -442,6 +478,8 @@ private:
   RObject previous_group_size;
   RObject previous_group_number;
 
+  boost::shared_ptr< DataMaskProxy<SlicedTibble> > proxy;
+
   void set_current_indices(const slicing_index& indices) {
     current_indices = &indices;
   }
@@ -455,15 +493,14 @@ private:
     // lookup in the symbol map for the position and whether it is a new binding
     SymbolMapIndex index = symbol_map.insert(symbol);
 
-    SEXP sym = Rf_installChar(symbol.get_sexp());
-    ColumnBinding<SlicedTibble> binding(summarised, sym, x);
+    ColumnBinding<SlicedTibble> binding(summarised, symbol.get_symbol(), x);
 
     if (index.origin == NEW) {
       // when this is a new variable, install the active binding
       // but only if the bindings have already been installed
       // otherwise, nothing needs to be done
       if (active_bindings_ready) {
-        binding.install(mask_active, mask_resolved, index.pos, this);
+        binding.install(mask_active, mask_resolved, index.pos, proxy);
       }
 
       // push the new binding at the end of the vector
