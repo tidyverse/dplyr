@@ -521,5 +521,28 @@ test_that("hybrid evaluation can be disabled locally (#3255)", {
   n_distinct <- function(...) 42
   expect_not_hybrid(tbl, n_distinct(x))
   expect_hybrid(tbl, dplyr::n_distinct(x))
+})
 
+test_that("verbs can nest with well defined behavior (#2080)", {
+  df <- tibble(x = list(
+    tibble(y = 1:2),
+    tibble(y = 1:3),
+    tibble(y = 1:4)
+  ))
+
+  nrows <- function(df) {
+    df %>% summarise(n = n()) %>% .[["n"]]
+  }
+
+  nrows_magrittr_lambda <- . %>% summarise(n = n()) %>% .[["n"]]
+
+  res <- mutate( df,
+    n1 = x %>% map_int(nrows),
+    n2 = x %>% map_int(. %>% summarise(n = n()) %>% .[["n"]]),
+    n4 = map_int(x, function(df) summarise(df, n = n())[["n"]]),
+    n5 = map_int(x, nrows_magrittr_lambda)
+  )
+  expect_equal(res$n1, res$n2)
+  expect_equal(res$n1, res$n4)
+  expect_equal(res$n1, res$n5)
 })
