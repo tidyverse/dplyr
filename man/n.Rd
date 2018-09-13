@@ -4,7 +4,10 @@
 \alias{n}
 \title{The number of observations in the current group.}
 \usage{
-n()
+n(...)
+}
+\arguments{
+\item{...}{Why do we need this?}
 }
 \description{
 This function is implemented specifically for each data source and can only

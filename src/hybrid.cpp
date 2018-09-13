@@ -467,6 +467,12 @@ SEXP GroupedHybridEval::eval(const SlicingIndex& indices_) {
 
 void GroupedHybridEval::set_indices(const SlicingIndex& indices_) {
   indices = &indices_;
+
+  Environment overscope = hybrid_env.get_overscope();
+
+  // these are used by n(), ...
+  overscope["..group_size"] = indices_.size();
+  overscope["..group_number"] = indices_.group() + 1;
 }
 
 void GroupedHybridEval::clear_indices() {
