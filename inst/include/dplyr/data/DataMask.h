@@ -390,6 +390,9 @@ public:
   // this is why the setup if the environments is lazy,
   // as we might not need them at all
   void rechain(SEXP env) {
+    static SEXP s_dot_env = Rf_install(".env");
+    static SEXP s_dot_data = Rf_install(".data");
+
     if (!active_bindings_ready) {
       // the active bindings have not been used at all
       // so setup the environments ...
@@ -416,7 +419,7 @@ public:
                   );
 
       // install the pronoun
-      data_mask[".data"] = rlang::as_data_pronoun(mask_active);
+      Rf_defineVar(s_dot_data, rlang::as_data_pronoun(mask_active), data_mask);
 
       active_bindings_ready = true;
     } else {
@@ -432,6 +435,7 @@ public:
 
     // change the parent environment of mask_active
     SET_ENCLOS(mask_active, env);
+    Rf_defineVar(s_dot_data, env, data_mask);
   }
 
   // get ready to evaluate an R expression for a given group
