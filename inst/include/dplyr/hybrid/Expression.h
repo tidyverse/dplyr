@@ -207,8 +207,8 @@ public:
     //
     // this allows for things like mean(!!quo(x)) or mean(!!quo(!!sym("x")))
     // to go through hybrid evaluation
-    if (internal::rlang_api().is_quosure(val)) {
-      val = internal::rlang_api().quo_get_expr(val);
+    if (rlang::is_quosure(val)) {
+      val = rlang::quo_get_expr(val);
     }
 
     if (is_column_impl(val, column, false)) {

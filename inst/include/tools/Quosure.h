@@ -11,11 +11,15 @@ class Quosure {
 public:
   Quosure(SEXP data_) : data(data_) {}
 
+  inline operator SEXP() const {
+    return data;
+  }
+
   SEXP expr() const {
-    return internal::rlang_api().quo_get_expr(data);
+    return rlang::quo_get_expr(data);
   }
   SEXP env() const {
-    return internal::rlang_api().quo_get_env(data);
+    return rlang::quo_get_env(data);
   }
 
 private:
@@ -36,7 +40,7 @@ public:
   SEXP env() const {
     return quosure.env();
   }
-  SymbolString name() const {
+  const SymbolString& name() const {
     return name_;
   }
 
@@ -61,7 +65,7 @@ public:
     for (int i = 0; i < n; i++) {
       SEXP x = data_[i];
 
-      if (!dplyr::internal::rlang_api().is_quosure(x)) {
+      if (!rlang::is_quosure(x)) {
         stop("corrupt tidy quote");
       }
 

@@ -284,13 +284,13 @@ public:
 // in the map with mask.maybe_get_subset_binding(SymbolString)
 // This returns a ColumnBinding<SlicedTibble>
 //
-// if using standard evaluation, first the data_mask must be reset() to be ready to
-// treat a new variable in a given parent environment:
+// if using standard evaluation, first the data_mask must be rechain()
+// so that it's top environment has the env as a parent
 //
-// data_mask.reset(env) ;
+// data_mask.rechain(SEXP env) ;
 //
 // this effectively sets up the R data mask, so that we can evaluate r expressions
-// in the overscope, so for each group:
+// so for each group:
 //
 // data_mask.update(indices)
 //
@@ -389,7 +389,7 @@ public:
   // no need to call this when treating the expression with hybrid evaluation
   // this is why the setup if the environments is lazy,
   // as we might not need them at all
-  void reset(SEXP parent_env) {
+  void rechain(SEXP env) {
     if (!active_bindings_ready) {
       // the active bindings have not been used at all
       // so setup the environments ...
@@ -400,6 +400,23 @@ public:
       for (int i = 0; i < column_bindings.size(); i++) {
         column_bindings[i].install(mask_active, mask_resolved, i, proxy);
       }
+
+      // setup the data mask with
+      //
+      // bottom    : the environment with the "resolved" bindings,
+      //             this is initially empty but gets filled
+      //             as soon as the active binding is resolved
+      //
+      // top       : the environment containing active bindings.
+      //
+      // data_mask : where .data etc ... are installed
+      data_mask = rlang::new_data_mask(
+                    mask_resolved, // bottom
+                    mask_active    // top
+                  );
+
+      // install the pronoun
+      data_mask[".data"] = rlang::as_data_pronoun(mask_active);
 
       active_bindings_ready = true;
     } else {
@@ -413,23 +430,8 @@ public:
       materialized.clear();
     }
 
-    // finally setup the data mask with
-    // bottom    : the environment with the "resolved" bindings,
-    //             this is initially empty but gets filled
-    //             as soon as the active binding is resolved
-    //
-    // top       : the environment containing active bindings.
-    //
-    // overscope : where .data etc ... are installed
-    overscope = internal::rlang_api().new_data_mask(
-                  mask_resolved, mask_active, parent_env
-                );
-
-    // install the pronoun
-    overscope[".data"] = internal::rlang_api().as_data_pronoun(mask_active);
-
     // change the parent environment of mask_active
-    SET_ENCLOS(mask_active, parent_env);
+    SET_ENCLOS(mask_active, env);
   }
 
   // get ready to evaluate an R expression for a given group
@@ -496,8 +498,8 @@ public:
     get_context_env()["..group_size"] = indices.size();
     get_context_env()["..group_number"] = indices.group() + 1;
 
-    // evaluate the call in the overscope
-    SEXP res = Rcpp_eval(expr, overscope);
+    // evaluate the call in the data mask
+    SEXP res = Rcpp_eval(expr, data_mask);
 
     return res;
   }
@@ -519,7 +521,7 @@ private:
   // The 3 environments of the data mask
   Environment mask_active;  // where the active bindings live
   Environment mask_resolved; // where the resolved active bindings live
-  Environment overscope; // actual data mask, contains the .data pronoun
+  Environment data_mask; // actual data mask, contains the .data pronoun
 
   // are the active bindings ready ?
   bool active_bindings_ready;

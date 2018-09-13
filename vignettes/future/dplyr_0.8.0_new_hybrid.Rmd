@@ -107,12 +107,12 @@ use case of the DataMask class
 DataMask<SlicedTibble> mask(tbl);
 ```
 
-- before evaluating a new expression, we need to `reset(parent_env)` to prepare the data mask to 
+- before evaluating a new expression, we need to `rechain(parent_env)` to prepare the data mask to 
   evaluate expression with a given parent environment. This "forgets" about the materialized 
   bindings. 
   
 ```cpp
-mask.reset(quosure.env());
+mask.rechain(quosure.env());
 ```
 
 - before evaluating the expression ona new group, the indices are updated, this includes 

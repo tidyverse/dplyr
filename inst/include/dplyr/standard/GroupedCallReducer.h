@@ -313,25 +313,25 @@ class GroupedCallReducer  {
 public:
   typedef typename SlicedTibble::slicing_index Index ;
 
-  GroupedCallReducer(SEXP expr_, SymbolString name_, DataMask<SlicedTibble>& data_mask_) :
-    expr(expr_),
-    name(name_),
+  GroupedCallReducer(const NamedQuosure& quosure_, DataMask<SlicedTibble>& data_mask_) :
+    quosure(quosure_),
     data_mask(data_mask_)
-  {}
+  {
+    data_mask.rechain(quosure.env());
+  }
 
   SEXP process(const SlicedTibble& gdf) ;
 
   inline SEXP process_chunk(const Index& indices) {
-    return data_mask.eval(expr, indices);
+    return data_mask.eval(quosure.expr(), indices);
   }
 
   const SymbolString& get_name() const {
-    return name;
+    return quosure.name();
   }
 
 private:
-  SEXP expr;
-  const SymbolString name;
+  const NamedQuosure& quosure;
   DataMask<SlicedTibble>& data_mask;
 };
 

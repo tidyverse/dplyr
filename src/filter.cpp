@@ -385,7 +385,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
   // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
   DataMask<SlicedTibble> mask(gdf) ;
-  mask.reset(quo.env());
+  mask.rechain(quo.env());
 
   int ngroups = gdf.ngroups() ;
 
@@ -488,7 +488,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   typedef typename SlicedTibble::slicing_index slicing_index ;
 
   DataMask<SlicedTibble> mask(gdf);
-  mask.reset(quo.env());
+  mask.rechain(quo.env());
 
   const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;

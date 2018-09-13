@@ -101,11 +101,12 @@ class MutateCallProxy {
 public:
   typedef typename SlicedTibble::slicing_index Index ;
 
-  MutateCallProxy(const SlicedTibble& data_, DataMask<SlicedTibble>& mask_, SEXP expr_, const SymbolString& name_) :
+  MutateCallProxy(const SlicedTibble& data_, DataMask<SlicedTibble>& mask_, const NamedQuosure& quosure) :
     data(data_),
     mask(mask_),
-    expr(expr_),
-    name(name_)
+    expr(quosure.expr()),
+    env(quosure.env()),
+    name(quosure.name())
   {}
 
   SEXP get() {
@@ -145,7 +146,7 @@ private:
   SEXP expr ;
   SEXP env ;
 
-  const SymbolString& name ;
+  SymbolString name ;
 
   SEXP validate_unquoted_value() const {
     int nrows = data.nrows();
@@ -438,8 +439,8 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     RObject variable = hybrid::window(quosure.expr(), gdf, mask, quosure.env()) ;
 
     if (variable == R_UnboundValue) {
-      mask.reset(quosure.env());
-      variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure.expr(), name).get() ;
+      mask.rechain(quosure.env());
+      variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get() ;
     }
 
     if (Rf_isNull(variable)) {
