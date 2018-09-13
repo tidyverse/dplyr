@@ -435,7 +435,7 @@ public:
 
     // change the parent environment of mask_active
     SET_ENCLOS(mask_active, env);
-    Rf_defineVar(s_dot_data, env, data_mask);
+    Rf_defineVar(s_dot_env, env, data_mask);
   }
 
   // get ready to evaluate an R expression for a given group
