@@ -210,3 +210,13 @@ test_that("group_by_(at,all) handle utf-8 names (#2967)", {
 
   })
 })
+
+test_that("mutate_all handles utf-8 names (#2967)", {
+  withr::with_locale( c(LC_CTYPE = "C"), {
+    res <- tibble(a = 1) %>%
+      setNames("\u4e2d") %>%
+      mutate_all(funs(as.character)) %>%
+      names()
+    expect_equal(res, "\u4e2d")
+  })
+})
