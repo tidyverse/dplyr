@@ -828,3 +828,13 @@ test_that("errors don't have tracebacks (#3662)", {
   err <- capture_condition(n_distinct())
   expect_null(conditionCall(err))
 })
+
+test_that("columns are no longer available when set to NULL on mutate (#3799)", {
+  tbl <- tibble(x = 1:2, y = 1:2)
+  expect_error(mutate(tbl, y = NULL, a = +sum(y)))
+  expect_error(mutate(tbl, y = NULL, a = sum(y)))
+
+  tbl <- tbl %>% group_by(x)
+  expect_error(mutate(tbl, y = NULL, a = +sum(y)))
+  expect_error(mutate(tbl, y = NULL, a = sum(y)))
+})

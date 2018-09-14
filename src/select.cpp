@@ -3,7 +3,7 @@
 
 #include <tools/utils.h>
 
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
 
 using namespace Rcpp;
 using namespace dplyr;

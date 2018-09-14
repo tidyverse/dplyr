@@ -5,16 +5,18 @@
 #include <tools/match.h>
 
 #include <tools/Quosure.h>
+#include <tools/set_rownames.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
-#include <dplyr/DataFrameJoinVisitors.h>
+#include <dplyr/visitors/subset/DataFrameSelect.h>
+#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 
-#include <dplyr/train.h>
-
-#include <dplyr/bad.h>
+#include <tools/train.h>
+#include <tools/bad.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -37,17 +39,15 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
 
   // then the auxiliary x columns (all x columns keep their location)
-  DataFrameSubsetVisitors visitors_x(x, aux_x);
+  DataFrameSubsetVisitors subset_x(DataFrameSelect(x, aux_x));
   for (int i = 0; i < aux_x.size(); i++) {
-    SubsetVectorVisitor* const v = visitors_x.get(i);
-    out[aux_x[i] - 1] = v->subset(indices_x);
+    out[aux_x[i] - 1] = subset_x.subset_one(i, indices_x);
   }
 
   // then the auxiliary y columns (all y columns keep their relative location)
-  DataFrameSubsetVisitors visitors_y(y, aux_y);
-  for (int i = 0, k = x.ncol(); i < visitors_y.size(); i++, k++) {
-    SubsetVectorVisitor* const v = visitors_y.get(i);
-    out[k] = v->subset(indices_y);
+  DataFrameSubsetVisitors subset_y(DataFrameSelect(y, aux_y));
+  for (int i = 0, k = x.ncol(); i < aux_y.size(); i++, k++) {
+    out[k] = subset_y.subset_one(i, indices_y);
   }
 
   int nrows = indices_x.size();
@@ -111,9 +111,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   std::sort(indices.begin(), indices.end());
 
-  const DataFrame& out = subset(x, indices, get_class(x));
-  // strip_index(out);
-  return out;
+  return DataFrameSubsetVisitors(x).subset_all(indices);
 }
 
 // [[Rcpp::export]]
@@ -143,9 +141,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   std::sort(indices.begin(), indices.end());
 
-  const DataFrame& out = subset(x, indices, get_class(x));
-
-  return out;
+  return DataFrameSubsetVisitors(x).subset_all(indices);
 }
 
 void check_by(const IntegerVector& by) {
@@ -207,9 +203,9 @@ List nest_join_impl(DataFrame x, DataFrame y,
 
   train_push_back_right(map, n_y);
 
-  List list_col(n_x) ;
+  List list_col(n_x);
 
-  DataFrameSubsetVisitors y_subset_visitors(y, aux_y);
+  DataFrameSubsetVisitors y_subset_visitors(DataFrameSelect(y, aux_y));
 
   // to deal with the case where multiple rows of x match rows in y
   dplyr_hash_map<int, SEXP> resolved_map(y_subset_visitors.size());
@@ -226,7 +222,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
         // first time we see the match, so transform the indices that were collected
         // so that they are on the 0-based positive space, then subset y
         std::transform(it->second.begin(), it->second.end(), it->second.begin(), reverse_index);
-        resolved_map[it->first] = list_col[i] = y_subset_visitors.subset(it->second, Rf_getAttrib(y, R_ClassSymbol));
+        resolved_map[it->first] = list_col[i] = y_subset_visitors.subset_all(it->second);
       } else {
         // we have seen that match already, just lazy duplicate the tibble that is
         // stored in the resolved map
@@ -234,7 +230,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
       }
 
     } else {
-      list_col[i] = y_subset_visitors.subset(EmptySubset(), Rf_getAttrib(y, R_ClassSymbol));
+      list_col[i] = y_subset_visitors.subset_all(std::vector<int>(0));
     }
   }
 

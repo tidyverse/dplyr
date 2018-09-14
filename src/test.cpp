@@ -1,8 +1,8 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <dplyr/comparisons.h>
-#include <dplyr/join_match.h>
+#include <tools/comparisons.h>
+#include <dplyr/visitors/join/join_match.h>
 
 using namespace Rcpp;
 using namespace dplyr;

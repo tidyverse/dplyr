@@ -84,8 +84,8 @@ filter_impl <- function(df, quo) {
     .Call(`_dplyr_filter_impl`, df, quo)
 }
 
-slice_impl <- function(df, dots) {
-    .Call(`_dplyr_slice_impl`, df, dots)
+slice_impl <- function(df, quosure) {
+    .Call(`_dplyr_slice_impl`, df, quosure)
 }
 
 as_regular_df <- function(df) {
@@ -176,6 +176,10 @@ summarise_impl <- function(df, dots) {
     .Call(`_dplyr_summarise_impl`, df, dots)
 }
 
+hybrid_impl <- function(df, quosure) {
+    .Call(`_dplyr_hybrid_impl`, df, quosure)
+}
+
 test_comparisons <- function() {
     .Call(`_dplyr_test_comparisons`)
 }
@@ -188,12 +192,16 @@ test_length_wrap <- function() {
     .Call(`_dplyr_test_length_wrap`)
 }
 
+materialize_binding <- function(idx, mask_proxy_xp) {
+    .Call(`_dplyr_materialize_binding`, idx, mask_proxy_xp)
+}
+
 check_valid_names <- function(names, warn_only = FALSE) {
     invisible(.Call(`_dplyr_check_valid_names`, names, warn_only))
 }
 
-assert_all_white_list <- function(data) {
-    invisible(.Call(`_dplyr_assert_all_white_list`, data))
+assert_all_allow_list <- function(data) {
+    invisible(.Call(`_dplyr_assert_all_allow_list`, data))
 }
 
 is_data_pronoun <- function(expr) {

@@ -7,7 +7,7 @@
 
 namespace dplyr {
 
-template <typename Data>
+template <typename SlicedTibble>
 class NamedListAccumulator {
 private:
   SymbolMap symbol_map;
@@ -17,14 +17,14 @@ public:
   NamedListAccumulator() {}
 
   inline void set(const SymbolString& name, RObject x) {
-    if (! Rcpp::traits::same_type<Data, RowwiseDataFrame>::value)
+    if (! Rcpp::traits::same_type<SlicedTibble, RowwiseDataFrame>::value)
       check_supported_type(x, name);
 
     SymbolMapIndex index = symbol_map.insert(name);
     if (index.origin == NEW) {
       data.push_back(x);
     } else {
-      data[ index.pos ] = x;
+      data[index.pos] = x;
     }
 
   }

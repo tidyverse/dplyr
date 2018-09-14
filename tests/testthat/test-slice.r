@@ -19,10 +19,6 @@ test_that("slice silently ignores out of range values (#226)", {
   expect_equal(slice(g, c(2, 100)), slice(g, 2))
 })
 
-test_that("slice works with 0 args", {
-  expect_equivalent(slice(mtcars), mtcars)
-})
-
 test_that("slice works with negative indices", {
   res <- slice(mtcars, -(1:2))
   exp <- tail(mtcars, -2)

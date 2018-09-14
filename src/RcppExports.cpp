@@ -158,7 +158,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // n_distinct_multi
-SEXP n_distinct_multi(List variables, bool na_rm);
+int n_distinct_multi(List variables, bool na_rm);
 RcppExport SEXP _dplyr_n_distinct_multi(SEXP variablesSEXP, SEXP na_rmSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -170,26 +170,26 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, NamedQuosure quo);
+SEXP filter_impl(DataFrame df, Quosure quo);
 RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< NamedQuosure >::type quo(quoSEXP);
+    Rcpp::traits::input_parameter< Quosure >::type quo(quoSEXP);
     rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo));
     return rcpp_result_gen;
 END_RCPP
 }
 // slice_impl
-SEXP slice_impl(DataFrame df, QuosureList dots);
-RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP dotsSEXP) {
+SEXP slice_impl(DataFrame df, Quosure quosure);
+RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP quosureSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(slice_impl(df, dots));
+    Rcpp::traits::input_parameter< Quosure >::type quosure(quosureSEXP);
+    rcpp_result_gen = Rcpp::wrap(slice_impl(df, quosure));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -554,6 +554,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// hybrid_impl
+SEXP hybrid_impl(DataFrame df, Quosure quosure);
+RcppExport SEXP _dplyr_hybrid_impl(SEXP dfSEXP, SEXP quosureSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< Quosure >::type quosure(quosureSEXP);
+    rcpp_result_gen = Rcpp::wrap(hybrid_impl(df, quosure));
+    return rcpp_result_gen;
+END_RCPP
+}
 // test_comparisons
 LogicalVector test_comparisons();
 RcppExport SEXP _dplyr_test_comparisons() {
@@ -584,6 +596,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// materialize_binding
+SEXP materialize_binding(int idx, XPtr<DataMaskWeakProxyBase> mask_proxy_xp);
+RcppExport SEXP _dplyr_materialize_binding(SEXP idxSEXP, SEXP mask_proxy_xpSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< int >::type idx(idxSEXP);
+    Rcpp::traits::input_parameter< XPtr<DataMaskWeakProxyBase> >::type mask_proxy_xp(mask_proxy_xpSEXP);
+    rcpp_result_gen = Rcpp::wrap(materialize_binding(idx, mask_proxy_xp));
+    return rcpp_result_gen;
+END_RCPP
+}
 // check_valid_names
 void check_valid_names(const CharacterVector& names, bool warn_only);
 RcppExport SEXP _dplyr_check_valid_names(SEXP namesSEXP, SEXP warn_onlySEXP) {
@@ -595,13 +619,13 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// assert_all_white_list
-void assert_all_white_list(const DataFrame& data);
-RcppExport SEXP _dplyr_assert_all_white_list(SEXP dataSEXP) {
+// assert_all_allow_list
+void assert_all_allow_list(const DataFrame& data);
+RcppExport SEXP _dplyr_assert_all_allow_list(SEXP dataSEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP);
-    assert_all_white_list(data);
+    assert_all_allow_list(data);
     return R_NilValue;
 END_RCPP
 }
@@ -742,11 +766,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_intersect_data_frame", (DL_FUNC) &_dplyr_intersect_data_frame, 2},
     {"_dplyr_setdiff_data_frame", (DL_FUNC) &_dplyr_setdiff_data_frame, 2},
     {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 2},
+    {"_dplyr_hybrid_impl", (DL_FUNC) &_dplyr_hybrid_impl, 2},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
+    {"_dplyr_materialize_binding", (DL_FUNC) &_dplyr_materialize_binding, 2},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
-    {"_dplyr_assert_all_white_list", (DL_FUNC) &_dplyr_assert_all_white_list, 1},
+    {"_dplyr_assert_all_allow_list", (DL_FUNC) &_dplyr_assert_all_allow_list, 1},
     {"_dplyr_is_data_pronoun", (DL_FUNC) &_dplyr_is_data_pronoun, 1},
     {"_dplyr_is_variable_reference", (DL_FUNC) &_dplyr_is_variable_reference, 1},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},

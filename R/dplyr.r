@@ -42,6 +42,5 @@
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
 #' @importFrom methods is
-#' @importFrom bindrcpp create_env
 #' @importFrom pkgconfig get_config
 "_PACKAGE"

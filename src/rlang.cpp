@@ -1,5 +1,5 @@
-#include <dplyr.h>
-
+#include <dplyr/main.h>
+#include <tools/utils.h>
 
 namespace dplyr {
 namespace internal {

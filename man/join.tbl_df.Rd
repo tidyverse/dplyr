@@ -19,20 +19,18 @@
   suffix = c(".x", ".y"), ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
-\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  keep = FALSE, name = NULL, ...)
+\method{nest_join}{tbl_df}(x, y, by = NULL, copy = FALSE, keep = FALSE,
+  name = NULL, ...)
 
-\method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{left_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
+  ".y"), ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{right_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
   suffix = c(".x", ".y"), ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
-\method{full_join}{tbl_df}(x, y, by = NULL, copy = FALSE,
-  suffix = c(".x", ".y"), ...,
-  na_matches = pkgconfig::get_config("dplyr::na_matches"))
+\method{full_join}{tbl_df}(x, y, by = NULL, copy = FALSE, suffix = c(".x",
+  ".y"), ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 \method{semi_join}{tbl_df}(x, y, by = NULL, copy = FALSE, ...,
   na_matches = pkgconfig::get_config("dplyr::na_matches"))

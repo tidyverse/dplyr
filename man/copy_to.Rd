@@ -4,8 +4,7 @@
 \alias{copy_to}
 \title{Copy a local data frame to a remote src}
 \usage{
-copy_to(dest, df, name = deparse(substitute(df)), overwrite = FALSE,
-  ...)
+copy_to(dest, df, name = deparse(substitute(df)), overwrite = FALSE, ...)
 }
 \arguments{
 \item{dest}{remote data source}

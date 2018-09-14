@@ -68,13 +68,12 @@ filter_.data.frame <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 
 #' @export
 slice.data.frame <- function(.data, ...) {
-  dots <- named_quos(...)
-  slice_impl(.data, dots)
+  slice_impl(.data, quos(...)[[1L]])
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice_impl(.data, dots)
+  slice_impl(.data, dots[[1L]])
 }
 
 #' @export
