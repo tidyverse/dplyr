@@ -43,8 +43,10 @@
 #'   `recode_factor()` returns a factor whose levels are in the same order as
 #'   in `...`. The levels in `.default` and `.missing` come last.
 #' @seealso [na_if()] to replace specified values with a `NA`.
+#'
 #'   [coalesce()] to replace missing values with a specified value.
-#'   \code{\link[tidyr]{replace_na}} to replace `NA` with a value
+#'
+#'   [tidyr::replace_na()] to replace `NA` with a value.
 #' @export
 #' @examples
 #' # For character values, recode values with named arguments only. Unmatched

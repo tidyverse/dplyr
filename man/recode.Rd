@@ -120,6 +120,8 @@ recode_factor(char_vec, !!!level_key)
 }
 \seealso{
 \code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
+
 \code{\link[=coalesce]{coalesce()}} to replace missing values with a specified value.
-\code{\link[tidyr]{replace_na}} to replace \code{NA} with a value
+
+\code{\link[tidyr:replace_na]{tidyr::replace_na()}} to replace \code{NA} with a value.
 }
