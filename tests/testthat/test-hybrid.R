@@ -252,6 +252,12 @@ test_that("lead() and lag() are not hybrid with negative `n`", {
   expect_not_hybrid(d, lag(int, !!minus1))
 })
 
+test_that("lead() and lag() are echo with n == 0", {
+  d <- tibble(int = 1:2)
+  expect_equal(attr(hybrid_call(d, lead(int, n = 0L)), "cpp_class"), "echo")
+  expect_equal(attr(hybrid_call(d, lag(int, n = 0L)), "cpp_class"), "echo")
+})
+
 test_that("sum is hybrid", {
   d <- tibble(lgl = c(TRUE, FALSE), int = 1:2, dbl = c(1,2), chr = c("a", "b"))
 
