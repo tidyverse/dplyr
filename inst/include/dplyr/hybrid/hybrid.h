@@ -22,13 +22,13 @@
 namespace dplyr {
 namespace hybrid {
 
-inline SEXP echo(SEXP x, const Summary& ) {
+inline SEXP echo(SEXP x, const Summary&) {
   return R_UnboundValue;
 }
-inline SEXP echo(SEXP x, const Window& ) {
+inline SEXP echo(SEXP x, const Window&) {
   return x;
 }
-inline SEXP echo(SEXP x, const Match& ) {
+inline SEXP echo(SEXP x, const Match&) {
   return Rf_mkString("echo");
 }
 
@@ -329,7 +329,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
       Column x;
       int n;
 
-      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)){
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
         if (n > 0) {
           return lead_1(data, x, n, op);
         } else if (n == 0) {
