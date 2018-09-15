@@ -120,14 +120,14 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
-        return first1_(data, x, op);
+        return nth2_(data, x, 1, op);
       }
     } else if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
       // last( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
-        return last1_(data, x, op);
+        return nth2_(data, x, -1, op);
       }
     } else if (expression.is_fun(s_min, s_base, ns_base)) {
       // min( <column> )
@@ -260,7 +260,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
-        return first2_default(data, x, /* default = */ expression.value(1), op);
+        return nth3_default(data, x, 1, /* default = */ expression.value(1), op);
       }
 
     } else if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
@@ -269,7 +269,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
       Column x;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
-        return last2_default(data, x, /* default = */ expression.value(1), op);
+        return nth3_default(data, x, -1, /* default = */ expression.value(1), op);
       }
 
     } else if (expression.is_fun(s_nth, s_dplyr, ns_dplyr)) {
