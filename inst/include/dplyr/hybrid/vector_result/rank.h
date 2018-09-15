@@ -205,10 +205,8 @@ private:
 
 
 template <typename SlicedTibble, int RTYPE, typename Increment, typename Operation>
-inline SEXP rank_impl(const SlicedTibble& data, SEXP x, bool is_desc, bool is_summary, const Operation& op) {
-  if (is_summary) {
-    return R_UnboundValue;
-  } else if (is_desc) {
+inline SEXP rank_impl(const SlicedTibble& data, SEXP x, bool is_desc, const Operation& op) {
+  if (is_desc) {
     return op(RankImpl<SlicedTibble, RTYPE, false, Increment>(data, x));
   } else {
     return op(RankImpl<SlicedTibble, RTYPE, true, Increment>(data, x));
@@ -220,9 +218,9 @@ inline SEXP rank_(const SlicedTibble& data, Column column, const Operation& op) 
   SEXP x = column.data;
   switch (TYPEOF(x)) {
   case INTSXP:
-    return internal::rank_impl<SlicedTibble, INTSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+    return internal::rank_impl<SlicedTibble, INTSXP, Increment, Operation>(data, x, column.is_desc, op);
   case REALSXP:
-    return internal::rank_impl<SlicedTibble, REALSXP, Increment, Operation>(data, x, column.is_desc, column.is_summary, op);
+    return internal::rank_impl<SlicedTibble, REALSXP, Increment, Operation>(data, x, column.is_desc, op);
   default:
     break;
   }

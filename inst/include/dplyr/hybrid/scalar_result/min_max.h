@@ -18,14 +18,10 @@ public:
 
   MinMax(const SlicedTibble& data, Column column_):
     Parent(data),
-    column(column_.data),
-    is_summary(column_.is_summary)
+    column(column_.data)
   {}
 
   inline double process(const typename SlicedTibble::slicing_index& indices) const {
-    if (is_summary) {
-      return column[indices.group()];
-    }
     const int n = indices.size();
     double res = Inf;
 
@@ -50,7 +46,6 @@ public:
 
 private:
   Rcpp::Vector<RTYPE> column;
-  bool is_summary;
 
   static const double Inf;
 

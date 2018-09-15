@@ -33,24 +33,6 @@ private:
   int ntiles;
 };
 
-template <typename SlicedTibble, int RTYPE>
-class Ntile2_summary : public HybridVectorSummaryRecycleResult<INTSXP, SlicedTibble, Ntile2_summary<SlicedTibble, RTYPE> > {
-public:
-  typedef HybridVectorSummaryRecycleResult<INTSXP, SlicedTibble, Ntile2_summary> Parent;
-
-  Ntile2_summary(const SlicedTibble& data, SEXP x) :
-    Parent(data),
-    vec(x)
-  {}
-
-  inline int value(const typename SlicedTibble::slicing_index& indices) const {
-    return Rcpp::Vector<RTYPE>::is_na(vec[indices.group()]) ? NA_INTEGER : 1;
-  }
-
-private:
-  Rcpp::Vector<RTYPE> vec;
-};
-
 template <typename SlicedTibble, int RTYPE, bool ascending>
 class Ntile2 : public HybridVectorVectorResult<INTSXP, SlicedTibble, Ntile2<SlicedTibble, RTYPE, ascending> > {
 public:
@@ -100,10 +82,8 @@ private:
 
 
 template <typename SlicedTibble, typename Operation, int RTYPE>
-inline SEXP ntile_2(const SlicedTibble& data, SEXP x, bool is_summary, bool is_desc, int n, const Operation& op) {
-  if (is_summary) {
-    return op(Ntile2_summary<SlicedTibble, RTYPE>(data, x));
-  } else if (is_desc) {
+inline SEXP ntile_2(const SlicedTibble& data, SEXP x, bool is_desc, int n, const Operation& op) {
+  if (is_desc) {
     return op(Ntile2<SlicedTibble, RTYPE, false>(data, x, n));
   } else {
     return op(Ntile2<SlicedTibble, RTYPE, true>(data, x, n));
@@ -119,12 +99,11 @@ inline internal::Ntile1<SlicedTibble> ntile_1(const SlicedTibble& data, int ntil
 
 template <typename SlicedTibble, typename Operation>
 inline SEXP ntile_2(const SlicedTibble& data, Column& column, int n, const Operation& op) {
-  SEXP x = column.data;
-  switch (TYPEOF(x)) {
+  switch (TYPEOF(column.data)) {
   case INTSXP:
-    return internal::ntile_2<SlicedTibble, Operation, INTSXP>(data, x, column.is_summary, column.is_desc, n, op);
+    return internal::ntile_2<SlicedTibble, Operation, INTSXP>(data, column.data, column.is_desc, n, op);
   case REALSXP:
-    return internal::ntile_2<SlicedTibble, Operation, REALSXP>(data, x, column.is_summary, column.is_desc, n, op);
+    return internal::ntile_2<SlicedTibble, Operation, REALSXP>(data, column.data, column.is_desc, n, op);
   default:
     break;
   }

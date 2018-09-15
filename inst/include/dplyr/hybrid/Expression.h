@@ -259,15 +259,15 @@ private:
 
   inline bool test_is_column(Rcpp::Symbol s, Column& column, bool desc) const {
     SymbolString symbol(s);
+    // does the data mask have this symbol, and if so is it a real column (not a summarised)
     const ColumnBinding<SlicedTibble>* subset = data_mask.maybe_get_subset_binding(symbol);
-    if (!subset) return false;
+    if (!subset || subset->is_summary()) return false;
 
     // only treat very simple columns as columns, leave other to R
     SEXP data = subset->get_data() ;
     if (Rf_isObject(data) || Rf_isS4(data) || RCPP_GET_CLASS(data) != R_NilValue) return false;
 
     column.data = data;
-    column.is_summary = subset->is_summary();
     column.is_desc = desc;
     return true;
   }
