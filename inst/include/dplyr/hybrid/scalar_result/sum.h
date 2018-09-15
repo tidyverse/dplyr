@@ -74,21 +74,15 @@ public :
 
   SumTemplate(const SlicedTibble& data_, Column column_) :
     Parent(data_),
-    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(column_.data)),
-    is_summary(column_.is_summary)
+    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(column_.data))
   {}
 
   STORAGE process(const typename SlicedTibble::slicing_index& indices) const {
-    // already summarised, e.g. when summarise( x = ..., y = sum(x))
-    if (is_summary) return data_ptr[indices.group()];
-
     return SumImpl<STORAGE, typename SlicedTibble::slicing_index, NA_RM>::process(data_ptr, indices);
   }
 
 private:
-
   STORAGE* data_ptr;
-  bool is_summary;
 };
 
 template <typename SlicedTibble, typename Operation>

@@ -119,6 +119,9 @@ public:
 
   // remove the binding in the mask_active environment
   // so that standard evaluation does not find it
+  //
+  // this is a fairly expensive callback to R, but it only happens
+  // when we use the syntax <column> = NULL
   inline void detach(SEXP mask_active, SEXP mask_resolved) {
     Language("rm", symbol, _["envir"] = mask_active).eval(R_BaseEnv);
   }

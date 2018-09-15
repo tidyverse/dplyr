@@ -19,7 +19,6 @@ public:
   Nth2(const SlicedTibble& data, Column column_, int pos_):
     Parent(data),
     column(column_.data),
-    is_summary(column_.is_summary),
     pos(pos_),
     def(default_value<RTYPE>())
   {}
@@ -27,19 +26,11 @@ public:
   Nth2(const SlicedTibble& data, Column column_, int pos_, SEXP def_):
     Parent(data),
     column(column_.data),
-    is_summary(column_.is_summary),
     pos(pos_),
     def(Rcpp::internal::r_vector_start<RTYPE>(def_)[0])
   {}
 
   inline STORAGE process(const typename SlicedTibble::slicing_index& indices) const {
-    if (is_summary) {
-      if (pos == 1 || pos == -1) {
-        return column[indices.group()];
-      } else {
-        return def;
-      }
-    }
     int n = indices.size();
     if (n == 0) return def ;
 
@@ -54,7 +45,6 @@ public:
 
 private:
   Rcpp::Vector<RTYPE> column;
-  bool is_summary;
   int pos;
   STORAGE def;
 };
@@ -68,25 +58,22 @@ public:
   First1(const SlicedTibble& data, Column column_):
     Parent(data),
     column(column_.data),
-    is_summary(column_.is_summary),
     def(default_value<RTYPE>())
   {}
 
   First1(const SlicedTibble& data, Column column_, STORAGE def_):
     Parent(data),
     column(column_.data),
-    is_summary(column_.is_summary),
     def(def_)
   {}
 
   inline STORAGE process(const typename SlicedTibble::slicing_index& indices) const {
-    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[0] : def);
+    return indices.size() ? (STORAGE)column[0] : def;
   }
 
 private:
   Rcpp::Vector<RTYPE> column;
   STORAGE def;
-  bool is_summary;
 };
 
 template <int RTYPE, typename SlicedTibble>
@@ -98,24 +85,21 @@ public:
   Last1(const SlicedTibble& data, Column column_):
     Parent(data),
     column(column_.data),
-    is_summary(column_.is_summary),
     def(default_value<RTYPE>())
   {}
 
   Last1(const SlicedTibble& data, Column column_, STORAGE def_):
     Parent(data),
     column(column_.data),
-    is_summary(column_.is_summary),
     def(def_)
   {}
 
   inline STORAGE process(const typename SlicedTibble::slicing_index& indices) const {
-    return is_summary ? (STORAGE)column[indices.group()] : (indices.size() ? (STORAGE)column[indices.size() - 1] : def);
+    return indices.size() ? (STORAGE)column[indices.size() - 1] : def;
   }
 
 private:
   Rcpp::Vector<RTYPE> column;
-  bool is_summary;
   STORAGE def;
 };
 }

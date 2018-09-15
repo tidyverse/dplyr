@@ -18,17 +18,15 @@ public :
 
   SimpleDispatchImpl(const SlicedTibble& data, Column vec) :
     Parent(data),
-    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec.data)),
-    is_summary(vec.is_summary)
+    data_ptr(Rcpp::internal::r_vector_start<RTYPE>(vec.data))
   {}
 
   double process(const typename SlicedTibble::slicing_index& indices) const {
-    return Impl<RTYPE, NA_RM, typename SlicedTibble::slicing_index>::process(data_ptr, indices, is_summary);
+    return Impl<RTYPE, NA_RM, typename SlicedTibble::slicing_index>::process(data_ptr, indices);
   }
 
 private:
   STORAGE* data_ptr;
-  bool is_summary;
 } ;
 
 template <
@@ -82,14 +80,8 @@ private:
 
 template <int RTYPE, bool NA_RM, typename slicing_index>
 struct MeanImpl {
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const slicing_index& indices, bool is_summary) {
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* ptr,  const slicing_index& indices) {
     typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-
-    // already summarised, e.g. when summarise( x = ..., y = mean(x))
-    // we need r coercion as opposed to a simple cast to double because of NA
-    if (is_summary) {
-      return Rcpp::internal::r_coerce<RTYPE, REALSXP>(ptr[indices.group()]);
-    }
 
     long double res = 0.0;
     int n = indices.size();
@@ -145,15 +137,10 @@ template <int RTYPE, bool NA_RM, typename slicing_index>
 struct VarImpl {
   typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
 
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const slicing_index& indices, bool is_summary) {
-    // already summarised, e.g. when summarise( x = ..., y = var(x)), so x is of length 1 -> NA
-    if (is_summary) {
-      return NA_REAL;
-    }
-
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const slicing_index& indices) {
     int n = indices.size();
     if (n <= 1) return NA_REAL;
-    double m = MeanImpl<RTYPE, NA_RM, slicing_index>::process(data_ptr, indices, is_summary);
+    double m = MeanImpl<RTYPE, NA_RM, slicing_index>::process(data_ptr, indices);
 
     if (!R_FINITE(m)) return m;
 
@@ -173,8 +160,8 @@ struct VarImpl {
 
 template <int RTYPE, bool NA_RM, typename slicing_index>
 struct SdImpl {
-  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const slicing_index& indices, bool is_summary) {
-    return sqrt(VarImpl<RTYPE, NA_RM, slicing_index>::process(data_ptr, indices, is_summary));
+  static double process(typename Rcpp::traits::storage_type<RTYPE>::type* data_ptr,  const slicing_index& indices) {
+    return sqrt(VarImpl<RTYPE, NA_RM, slicing_index>::process(data_ptr, indices));
   }
 };
 

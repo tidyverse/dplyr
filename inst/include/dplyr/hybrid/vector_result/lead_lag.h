@@ -14,21 +14,6 @@ namespace hybrid {
 namespace internal {
 
 template <typename SlicedTibble, int RTYPE>
-class LeadLagSummary : public HybridVectorSummaryRecycleResult<RTYPE, SlicedTibble, LeadLagSummary<SlicedTibble, RTYPE> > {
-public:
-  typedef HybridVectorSummaryRecycleResult<RTYPE, SlicedTibble, LeadLagSummary> Parent;
-  typedef Rcpp::Vector<RTYPE> Vector;
-
-  LeadLagSummary(const SlicedTibble& data, SEXP /*x*/, int /* n */) :
-    Parent(data)
-  {}
-
-  inline typename Vector::stored_type value(const typename SlicedTibble::slicing_index& indices) const {
-    return default_value<RTYPE>();
-  }
-};
-
-template <typename SlicedTibble, int RTYPE>
 class Lead : public HybridVectorVectorResult<RTYPE, SlicedTibble, Lead<SlicedTibble, RTYPE> > {
 public:
   typedef HybridVectorVectorResult<RTYPE, SlicedTibble, Lead> Parent;
@@ -123,16 +108,8 @@ inline SEXP lead_lag_dispatch3(const SlicedTibble& data, SEXP x, int n, const Op
 
 template <typename SlicedTibble, typename Operation, template <typename, int> class Impl>
 inline SEXP lead_lag(const SlicedTibble& data, Column column, int n, const Operation& op) {
-  SEXP x = column.data;
-
-  if (column.is_summary) {
-    return lead_lag_dispatch3<SlicedTibble, Operation, LeadLagSummary>(data, x, n, op);
-  }
-
-  // not sure what to do with desc, just ignoring for now
-  return lead_lag_dispatch3<SlicedTibble, Operation, Impl>(data, x, n, op);
+  return lead_lag_dispatch3<SlicedTibble, Operation, Impl>(data, column.data, n, op);
 }
-
 
 }
 
