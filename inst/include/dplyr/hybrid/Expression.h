@@ -173,24 +173,34 @@ public:
   // is the i-th argument a scalar int
   inline bool is_scalar_int(int i, int& out) const {
     SEXP val = values[i];
-    if (Rf_length(val) != 1) return false;
+    bool unary_minus = false;
+
+    // unary minus
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 2 && CAR(val) == Rf_install("-")) {
+      val = CADR(val);
+      unary_minus = true;
+    }
+
     switch (TYPEOF(val)) {
     case INTSXP:
     {
+      if (Rf_length(val) != 1) return false;
       int value = INTEGER(val)[0];
       if (IntegerVector::is_na(value)) {
         return false;
       }
-      out = value;
+      out = unary_minus ? -value : value;
       return true;
     }
     case REALSXP:
     {
+      if (Rf_length(val) != 1) return false;
       double value = REAL(val)[0];
       if (NumericVector::is_na(value)) {
         return false;
       }
-      out = Rcpp::internal::r_coerce<REALSXP, INTSXP>(value);
+      value = Rcpp::internal::r_coerce<REALSXP, INTSXP>(value);
+      out = unary_minus ? -value : value;
       return true;
     }
     default:
