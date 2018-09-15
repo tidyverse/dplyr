@@ -11,6 +11,7 @@
 #' @return A vector the same length as the first `...` argument with
 #'   missing values replaced by the first non-missing value.
 #' @seealso [na_if()] to replace specified values with a `NA`.
+#' [tidyr::replace_na()] to replace `NA` with a value
 #' @export
 #' @examples
 #' # Use a single value to replace all missing values
