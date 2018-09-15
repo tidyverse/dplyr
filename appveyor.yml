@@ -20,6 +20,19 @@ environment:
 
   matrix:
   - R_VERSION: devel
+    GCC_PATH: mingw_64
+    DPLYR_COMPILER_FLAGS: -DRCPP_USE_UNWIND_PROTECT
+
+  - R_VERSION: patched
+    R_ARCH: x64
+    GCC_PATH: mingw_32
+    DPLYR_COMPILER_FLAGS: -DRCPP_USE_UNWIND_PROTECT
+
+  - R_VERSION: 3.4.4
+    R_ARCH: x64
+    GCC_PATH: mingw_64
+
+  - R_VERSION: devel
     R_ARCH: x64
     GCC_PATH: mingw_64
 
@@ -27,8 +40,6 @@ environment:
     GCC_PATH: mingw_32
 
 build_script:
-  - travis-tool.sh install_github r-pkgs/remotes@303db43
-  - travis-tool.sh install_github tidyverse/dbplyr
   - travis-tool.sh install_deps
 
 test_script:

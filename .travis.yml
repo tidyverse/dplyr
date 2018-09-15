@@ -8,6 +8,16 @@ latex: false
 
 jobs:
   include:
+  - os: osx
+    env:
+      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+  - os: osx
+  - r: release
+    env:
+      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+  - r: devel
+    env:
+      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - r: 3.1
     warnings_are_errors: false
   - r: 3.2
