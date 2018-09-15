@@ -37,7 +37,7 @@ public:
     if (pos > 0 && pos <= n) {
       return column[pos - 1];
     } else if (pos < 0 && pos >= -n) {
-      return column[n - pos];
+      return column[n + pos];
     }
 
     return def;
