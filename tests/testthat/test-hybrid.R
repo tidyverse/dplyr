@@ -245,6 +245,13 @@ test_that("lead() and lag() are hybrid", {
   expect_hybrid(d, dplyr::lead(chr, n = 1L))
 })
 
+test_that("lead() and lag() are not hybrid with negative `n`", {
+  d <- tibble(int = 1:2)
+  minus1 <- -1L
+  expect_not_hybrid(d, lead(int, !!minus1))
+  expect_not_hybrid(d, lag(int, !!minus1))
+})
+
 test_that("sum is hybrid", {
   d <- tibble(lgl = c(TRUE, FALSE), int = 1:2, dbl = c(1,2), chr = c("a", "b"))
 
