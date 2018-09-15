@@ -1,7 +1,8 @@
 #' A general vectorised if
 #'
-#' This function allows you to vectorise multiple `if` and `else if`
+#' This function allows you to vectorise multiple [if_else()]
 #' statements. It is an R equivalent of the SQL `CASE WHEN` statement.
+#' If no cases match, `NA` is returned.
 #'
 #' @param ... A sequence of two-sided formulas. The left hand side (LHS)
 #'   determines which values match this case. The right hand side (RHS)
@@ -32,6 +33,13 @@
 #' # proceed from the most specific to the most general. This won't work:
 #' case_when(
 #'   TRUE ~ as.character(x),
+#'   x %%  5 == 0 ~ "fizz",
+#'   x %%  7 == 0 ~ "buzz",
+#'   x %% 35 == 0 ~ "fizz buzz"
+#' )
+#'
+#' # If none of the cases match, NA is used:
+#' case_when(
 #'   x %%  5 == 0 ~ "fizz",
 #'   x %%  7 == 0 ~ "buzz",
 #'   x %% 35 == 0 ~ "fizz buzz"

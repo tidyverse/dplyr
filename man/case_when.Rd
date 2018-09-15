@@ -26,8 +26,9 @@ input or output vectors, with the type (and attributes) of the first
 RHS. Inconsistent lengths or types will generate an error.
 }
 \description{
-This function allows you to vectorise multiple \code{if} and \code{else if}
+This function allows you to vectorise multiple \code{\link[=if_else]{if_else()}}
 statements. It is an R equivalent of the SQL \code{CASE WHEN} statement.
+If no cases match, \code{NA} is returned.
 }
 \examples{
 x <- 1:50
@@ -42,6 +43,13 @@ case_when(
 # proceed from the most specific to the most general. This won't work:
 case_when(
   TRUE ~ as.character(x),
+  x \%\%  5 == 0 ~ "fizz",
+  x \%\%  7 == 0 ~ "buzz",
+  x \%\% 35 == 0 ~ "fizz buzz"
+)
+
+# If none of the cases match, NA is used:
+case_when(
   x \%\%  5 == 0 ~ "fizz",
   x \%\%  7 == 0 ~ "buzz",
   x \%\% 35 == 0 ~ "fizz buzz"
