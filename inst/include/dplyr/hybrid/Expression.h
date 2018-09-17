@@ -182,7 +182,7 @@ public:
     }
 
     // symbol
-    if(TYPEOF(val) == SYMSXP) {
+    if (TYPEOF(val) == SYMSXP) {
       // reject if it's a column
       Column col;
       if (is_column(i, col)) {
