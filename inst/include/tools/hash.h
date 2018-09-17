@@ -41,10 +41,10 @@ namespace std {
     template<>
     struct hash<Rcomplex> {
       std::size_t operator()(const Rcomplex& cx) const {
-	std::tr1::hash<double> hasher;
-	size_t seed = hasher(cx.r);
-	boost::hash_combine(seed, hasher(cx.i));
-	return seed;
+        std::tr1::hash<double> hasher;
+        size_t seed = hasher(cx.r);
+        boost::hash_combine(seed, hasher(cx.i));
+        return seed;
       }
     };
   }
