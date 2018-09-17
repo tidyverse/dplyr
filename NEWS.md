@@ -112,6 +112,8 @@ To be released as 0.8.0
 
 * grouped data frames support `[, drop = TRUE]` (#3714). 
 
+* `mutate_all()`, `mutate_at()`, `summarise_all()` and `summarise_at()` handle utf-8 names (#2967).
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`

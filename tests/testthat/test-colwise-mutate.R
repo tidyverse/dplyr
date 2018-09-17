@@ -211,12 +211,34 @@ test_that("group_by_(at,all) handle utf-8 names (#2967)", {
   })
 })
 
-test_that("mutate_all handles utf-8 names (#2967)", {
+test_that("*_(all,at) handle utf-8 names (#2967)", {
   withr::with_locale( c(LC_CTYPE = "C"), {
-    res <- tibble(a = 1) %>%
-      setNames("\u4e2d") %>%
+    name <- "\u4e2d"
+    tbl <- tibble(a = 1) %>%
+      setNames(name)
+
+    res <- tbl %>%
       mutate_all(funs(as.character)) %>%
       names()
-    expect_equal(res, "\u4e2d")
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      mutate_at(name, funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      summarise_all(funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      summarise_at(name, funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- select_at(tbl, name) %>% names()
+    expect_equal(res, name)
+
   })
 })
