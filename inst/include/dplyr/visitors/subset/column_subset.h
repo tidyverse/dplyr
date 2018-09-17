@@ -102,13 +102,36 @@ SEXP column_subset_impl(SEXP x, const Index& index) {
 }
 
 template <typename Index>
-DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes);
+DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes, SEXP env = R_GlobalEnv);
 
 template <typename Index>
-SEXP column_subset(SEXP x, const Index& index) {
-  if (Rf_inherits(x, "data.frame")) {
-    return dataframe_subset(x, index, Rf_getAttrib(x, R_NamesSymbol));
+SEXP r_column_subset(SEXP x, const Index& index, SEXP env) {
+  if (Rf_isMatrix(x)) {
+    return Language("[", x, index, R_MissingArg).eval(env);
+  } else {
+    return Language("[", x, index).eval(env);
   }
+}
+
+template <>
+inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingIndex& index, SEXP env) {
+  if (Rf_isMatrix(x)) {
+    // TODO: not sure about this
+    return Language("[", x, index, R_MissingArg).eval(env);
+  } else {
+    return Language("[[", x, index).eval(env);
+  }
+}
+
+template <typename Index>
+SEXP column_subset(SEXP x, const Index& index, SEXP env = R_GlobalEnv) {
+  if (Rf_inherits(x, "data.frame")) {
+    return dataframe_subset(x, index, Rf_getAttrib(x, R_NamesSymbol), env);
+  }
+  if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
+    return r_column_subset(x, index, env);
+  }
+
   if (is_lubridate_unsupported(x)) {
     stop("classes Period and Interval from lubridate are currently not supported.") ;
   }
@@ -137,7 +160,7 @@ SEXP column_subset(SEXP x, const Index& index) {
 }
 
 template <typename Index>
-DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes) {
+DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes, SEXP env) {
   int nc = data.size();
   List res(nc);
 
