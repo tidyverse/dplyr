@@ -234,6 +234,16 @@ test_that("nth(<column>, n = <int-ish>, default = <scalar>) is hybrid", {
   expect_hybrid(d, dplyr::nth(chr, n = -1L, default = ""))
 })
 
+test_that("Expression folds unary minus when looking for constant ints", {
+  b <- -3L
+  data <- tibble(a = 1:5)
+
+  expect_hybrid(data, nth(a, n = -3L))
+  expect_hybrid(data, nth(a, n = b))
+  expect_hybrid(data, nth(a, n = -b))
+  expect_hybrid(data, nth(a, n = !!b))
+})
+
 test_that("lead() and lag() are hybrid", {
   d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
 

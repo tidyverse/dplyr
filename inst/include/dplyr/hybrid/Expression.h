@@ -181,6 +181,21 @@ public:
       unary_minus = true;
     }
 
+    // symbol
+    if(TYPEOF(val) == SYMSXP) {
+      // reject if it's a column
+      Column col;
+      if (is_column(i, col)) {
+        return false;
+      }
+
+      // keep trying if this the symbol is a binding in the .env
+      val = Rf_findVarInFrame3(env, val, FALSE);
+      if (val == R_UnboundValue) {
+        return false;
+      }
+    }
+
     switch (TYPEOF(val)) {
     case INTSXP:
     {
