@@ -13,6 +13,7 @@
 #include <tools/bad.h>
 
 #include <dplyr/data/DataMask.h>
+#include <dplyr/symbols.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -21,8 +22,6 @@ using namespace dplyr;
 
 template <typename SlicedTibble>
 SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
-  static SEXP symb_desc = Rf_install("desc");
-
   const DataFrame& data = gdf.data();
   if (data.size() == 0 || data.nrows() == 0)
     return data;
@@ -43,7 +42,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   for (int i = 0; i < nargs; i++) {
     const NamedQuosure& quosure = quosures[i];
     SEXP expr = quosure.expr();
-    bool is_desc = TYPEOF(expr) == LANGSXP && symb_desc == CAR(expr);
+    bool is_desc = TYPEOF(expr) == LANGSXP && symbols().desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
     mask.rechain(quosure.env());

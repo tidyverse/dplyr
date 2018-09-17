@@ -2,6 +2,7 @@
 #include <dplyr/main.h>
 
 #include <dplyr/registration.h>
+#include <dplyr/symbols.h>
 
 using namespace Rcpp;
 
@@ -30,4 +31,11 @@ SEXP get_date_classes() {
 // [[Rcpp::export]]
 SEXP get_time_classes() {
   return VECTOR_ELT(get_cache(), 1);
+}
+
+namespace dplyr {
+symbols_t& symbols() {
+  static symbols_t dplyr_symbols;
+  return dplyr_symbols;
+}
 }

@@ -6,12 +6,12 @@
 #include <tools/collapse.h>
 #include <tools/bad.h>
 #include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/symbols.h>
 
 using namespace Rcpp;
 
 SEXP child_env(SEXP parent) {
-  static SEXP s_new_env = Rf_install("new.env");
-  return Rf_eval(Rf_lang3(s_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
+  return Rf_eval(Rf_lang3(symbols().new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
 }
 
 // [[Rcpp::export]]
@@ -164,8 +164,7 @@ std::string get_single_class(SEXP x) {
   }
 
   // just call R to deal with other cases
-  // we could call R_data_class directly but we might get a "this is not part of the api"
-  RObject class_call(Rf_lang2(Rf_install("class"), x));
+  RObject class_call(Rf_lang2(R_ClassSymbol, x));
   klass = Rf_eval(class_call, R_GlobalEnv);
   return CHAR(STRING_ELT(klass, 0));
 }
@@ -325,7 +324,7 @@ bool is_data_pronoun(SEXP expr) {
     return false;
 
   SEXP first = CADR(expr);
-  if (first != Rf_install(".data"))
+  if (first != symbols().dot_data)
     return false;
 
   SEXP second = CADDR(expr);

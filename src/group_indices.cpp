@@ -17,6 +17,7 @@
 #include <tools/utils.h>
 
 #include <dplyr/hybrid/scalar_result/n.h>
+#include <dplyr/symbols.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -485,18 +486,16 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
 namespace dplyr {
 
 SEXP check_grouped(RObject data) {
-  static SEXP groups_symbol = Rf_install("groups");
-  static SEXP vars_symbol = Rf_install("vars");
-
   // compat with old style grouped data frames
-  SEXP vars = Rf_getAttrib(data, vars_symbol);
+  SEXP vars = Rf_getAttrib(data, symbols().vars);
+
   if (!Rf_isNull(vars)) {
     DataFrame groups = build_index_cpp(data, SymbolVector(vars));
     data.attr("groups") = groups;
   }
 
   // get the groups attribute and check for consistency
-  SEXP groups = Rf_getAttrib(data, groups_symbol);
+  SEXP groups = Rf_getAttrib(data, symbols().groups);
 
   // groups must be a data frame
   if (!is<DataFrame>(groups)) {
@@ -548,8 +547,7 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
 SymbolVector GroupedDataFrame::group_vars(SEXP x) {
   check_grouped(x);
 
-  static SEXP groups_symbol = Rf_install("groups");
-  SEXP groups = Rf_getAttrib(x, groups_symbol);
+  SEXP groups = Rf_getAttrib(x, dplyr::symbols().groups);
 
   int n = Rf_length(groups) - 1;
   CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
