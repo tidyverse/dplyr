@@ -56,6 +56,7 @@ appears in any of the inputs.
 If \code{combine()} it is called with exactly one list argument, the list is
 simplified (similarly to \code{unlist(recursive = FALSE)}. \code{NULL} arguments are
 ignored. If the result is empty, \code{logical()} is returned.
+Use \code{\link[vctrs:vec_c]{vctrs::vec_c()}} if you never want to unlist.
 }
 \section{Deprecated functions}{
 

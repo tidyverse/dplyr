@@ -147,6 +147,7 @@ bind_cols <- function(...) {
 #' If `combine()` it is called with exactly one list argument, the list is
 #' simplified (similarly to `unlist(recursive = FALSE)`. `NULL` arguments are
 #' ignored. If the result is empty, `logical()` is returned.
+#' Use [vctrs::vec_c()] if you never want to unlist.
 #'
 #' @export
 #' @rdname bind
