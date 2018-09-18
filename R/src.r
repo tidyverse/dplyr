@@ -27,6 +27,8 @@ print.src <- function(x, ...) {
 
 #' List all tbls provided by a source.
 #'
+#' This will list all tbls provided by a source.
+#'
 #' This is a generic method which individual src's will provide methods for.
 #' Most methods will not be documented because it's usually pretty obvious what
 #' possible results will be.
@@ -40,6 +42,8 @@ src_tbls <- function(x) {
 
 #' Figure out if two sources are the same (or two tbl have the same source)
 #'
+#' This will figure out if two sources are the same (or two tbl have the same source).
+#' 
 #' @param x,y src or tbls to test
 #' @return a logical flag
 #' @export
