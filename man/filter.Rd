@@ -14,7 +14,7 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 Multiple conditions are combined with \code{&}. Only rows where the
 condition evaluates to \code{TRUE} are kept.
 
-These arguments are automatically \link[rlang:quo]{quoted} and
+The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
@@ -27,7 +27,7 @@ is preserved, otherwise it is recalculated based on the resulting data.}
 An object of the same class as \code{.data}.
 }
 \description{
-Use \code{filter()} find rows/cases where conditions are true. Unlike
+Use \code{filter()} to choose rows/cases where conditions are true. Unlike
 base subsetting with \code{[}, rows where the condition evaluates to \code{NA} are
 dropped.
 }

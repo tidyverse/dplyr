@@ -355,4 +355,9 @@ test_that("filter handles list columns", {
   expect_equal(res, list(1:10))
 })
 
-
+test_that("hybrid function row_number does not trigger warning in filter (#3750)", {
+  out <- tryCatch({
+    mtcars %>% filter(row_number() > 1, row_number() < 5); TRUE
+  }, warning = function(w) FALSE )
+  expect_true(out)
+})

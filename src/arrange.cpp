@@ -3,16 +3,16 @@
 
 #include <tools/Quosure.h>
 
-#include <dplyr/white_list.h>
+#include <dplyr/allow_list.h>
 
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
 
-#include <dplyr/Order.h>
-
-#include <dplyr/Result/CallProxy.h>
-
+#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
+#include <dplyr/visitors/order/Order.h>
 #include <dplyr/Groups.h>
-#include <dplyr/bad.h>
+#include <tools/bad.h>
+
+#include <dplyr/data/DataMask.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -21,6 +21,8 @@ using namespace dplyr;
 
 template <typename SlicedTibble>
 SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
+  static SEXP symb_desc = Rf_install("desc");
+
   const DataFrame& data = gdf.data();
   if (data.size() == 0 || data.nrows() == 0)
     return data;
@@ -30,21 +32,24 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
     return data;
 
   check_valid_colnames(data);
-  assert_all_white_list(data);
+  assert_all_allow_list(data);
   List variables(nargs);
   LogicalVector ascending(nargs);
 
+  NaturalDataFrame ndf(data);
+  DataMask<NaturalDataFrame> mask(ndf);
+  NaturalSlicingIndex indices_all(gdf.nrows());
+
   for (int i = 0; i < nargs; i++) {
     const NamedQuosure& quosure = quosures[i];
+    SEXP expr = quosure.expr();
+    bool is_desc = TYPEOF(expr) == LANGSXP && symb_desc == CAR(expr);
+    expr = is_desc ? CADR(expr) : expr ;
 
-    Shield<SEXP> call_(quosure.expr());
-    SEXP call = call_;
-    bool is_desc = TYPEOF(call) == LANGSXP && Rf_install("desc") == CAR(call);
+    mask.rechain(quosure.env());
+    Shield<SEXP> v(mask.eval(expr, indices_all));
 
-    CallProxy call_proxy(is_desc ? CADR(call) : call, data, quosure.env());
-
-    Shield<SEXP> v(call_proxy.eval());
-    if (!white_list(v)) {
+    if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
     }
 
@@ -57,16 +62,15 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
         stop("incorrect size (%d) at position %d, expecting : %d", Rf_length(v), i + 1, data.nrows());
       }
     }
+
     variables[i] = v;
     ascending[i] = !is_desc;
   }
   variables.names() = quosures.names();
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector index = o.apply();
-  DataFrameSubsetVisitors visitors(data, SymbolVector(data.names()));
 
-  // organise the rows
-  List res = visitors.subset(index, get_class(data));
+  List res = DataFrameSubsetVisitors(data).subset_all(index);
 
   // let the grouping class organise the rest (the groups attribute etc ...)
   return SlicedTibble(res, gdf).data();

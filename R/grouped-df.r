@@ -95,12 +95,16 @@ ungroup.grouped_df <- function(x, ...) {
   ungroup_grouped_df(x)
 }
 
+#' @importFrom tibble is_tibble
 #' @export
-`[.grouped_df` <- function(x, i, j, ...) {
+`[.grouped_df` <- function(x, i, j, drop = FALSE) {
   y <- NextMethod()
 
-  group_names <- group_vars(x)
+  if (isTRUE(drop) && !is_tibble(y)) {
+    return(y)
+  }
 
+  group_names <- group_vars(x)
   if (!all(group_names %in% names(y))) {
     tbl_df(y)
   } else {
@@ -182,7 +186,7 @@ do.grouped_df <- function(.data, ...) {
 
   args <- quos(...)
   named <- named_args(args)
-  env <- child_env(NULL)
+  mask <- new_data_mask(new_environment())
 
   n <- length(index)
   m <- length(args)
@@ -194,8 +198,9 @@ do.grouped_df <- function(.data, ...) {
       out <- set_names(out, names(args))
       out <- label_output_list(labels, out, groups(.data))
     } else {
-      env_bind(.env = env, . = group_data, .data = group_data)
-      out <- overscope_eval_next(env, args[[1]])[0, , drop = FALSE]
+      env_bind_do_pronouns(mask, group_data)
+      out <- eval_tidy(args[[1]], mask)
+      out <- out[0, , drop = FALSE]
       out <- label_output_dataframe(labels, list(list(out)), groups(.data))
     }
     return(out)
@@ -211,10 +216,7 @@ do.grouped_df <- function(.data, ...) {
       group_data[index[[`_i`]], ] <<- value
     }
   }
-  env_bind_fns(.env = env, . = group_slice, .data = group_slice)
-
-  overscope <- new_overscope(env)
-  on.exit(overscope_clean(overscope))
+  env_bind_do_pronouns(mask, group_slice)
 
   out <- replicate(m, vector("list", n), simplify = FALSE)
   names(out) <- names(args)
@@ -222,7 +224,7 @@ do.grouped_df <- function(.data, ...) {
 
   for (`_i` in seq_len(n)) {
     for (j in seq_len(m)) {
-      out[[j]][`_i`] <- list(overscope_eval_next(overscope, args[[j]]))
+      out[[j]][`_i`] <- list(eval_tidy(args[[j]], mask))
       p$tick()$print()
     }
   }

@@ -7,7 +7,8 @@
 \usage{
 recode(.x, ..., .default = NULL, .missing = NULL)
 
-recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
+recode_factor(.x, ..., .default = NULL, .missing = NULL,
+  .ordered = FALSE)
 }
 \arguments{
 \item{.x}{A vector to modify}
@@ -116,4 +117,11 @@ recode_factor(factor(letters[1:3]), b = "z", c = "y")
 # Use a named list to recode factor with unquote splicing.
 level_key <- list(a = "apple", b = "banana", c = "carrot")
 recode_factor(char_vec, !!!level_key)
+}
+\seealso{
+\code{\link[=na_if]{na_if()}} to replace specified values with a \code{NA}.
+
+\code{\link[=coalesce]{coalesce()}} to replace missing values with a specified value.
+
+\code{\link[tidyr:replace_na]{tidyr::replace_na()}} to replace \code{NA} with a value.
 }

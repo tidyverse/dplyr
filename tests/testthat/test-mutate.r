@@ -465,7 +465,7 @@ test_that("row_number handles empty data frames (#762)", {
 test_that("no utf8 invasion (#722)", {
   skip_on_os("windows")
 
-  source("utf-8.R", local = TRUE, encoding = "UTF-8")
+  source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
 
 test_that("mutate works on empty data frames (#1142)", {
@@ -819,4 +819,22 @@ test_that("grouped subsets are not lazy (#3360)", {
     pull()
 
   expect_identical(res, list(make_call("a"), make_call("b")))
+})
+
+test_that("errors don't have tracebacks (#3662)", {
+  err <- capture_condition(mutate(tibble(x = 1:10) %>% mutate(z = y)))
+  expect_null(conditionCall(err))
+
+  err <- capture_condition(n_distinct())
+  expect_null(conditionCall(err))
+})
+
+test_that("columns are no longer available when set to NULL on mutate (#3799)", {
+  tbl <- tibble(x = 1:2, y = 1:2)
+  expect_error(mutate(tbl, y = NULL, a = +sum(y)))
+  expect_error(mutate(tbl, y = NULL, a = sum(y)))
+
+  tbl <- tbl %>% group_by(x)
+  expect_error(mutate(tbl, y = NULL, a = +sum(y)))
+  expect_error(mutate(tbl, y = NULL, a = sum(y)))
 })

@@ -195,3 +195,48 @@ test_that("specific directions are given for _all() and _at() versions", {
   mutate_each(mtcars, funs(mean))
   mutate_each(mtcars, funs(mean), cyl)
 })
+
+test_that("group_by_(at,all) handle utf-8 names (#3829)", {
+  withr::with_locale( c(LC_CTYPE = "C"), {
+    name <- "\u4e2d"
+    tbl <- tibble(a = 1) %>%
+      setNames(name)
+
+    res <- group_by_all(tbl) %>% groups()
+    expect_equal(res[[1]], sym(name))
+
+    res <- group_by_at(tbl, name) %>% groups()
+    expect_equal(res[[1]], sym(name))
+  })
+})
+
+test_that("*_(all,at) handle utf-8 names (#2967)", {
+  withr::with_locale( c(LC_CTYPE = "C"), {
+    name <- "\u4e2d"
+    tbl <- tibble(a = 1) %>%
+      setNames(name)
+
+    res <- tbl %>%
+      mutate_all(funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      mutate_at(name, funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      summarise_all(funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      summarise_at(name, funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- select_at(tbl, name) %>% names()
+    expect_equal(res, name)
+  })
+})

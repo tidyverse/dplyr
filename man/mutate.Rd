@@ -3,7 +3,7 @@
 \name{mutate}
 \alias{mutate}
 \alias{transmute}
-\title{Add new variables}
+\title{Create or transform variables}
 \usage{
 mutate(.data, ...)
 
@@ -13,10 +13,13 @@ transmute(.data, ...)
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
 for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()}} and \code{\link[dbplyr:tbl_dbi]{dbplyr::tbl_dbi()}}.}
 
-\item{...}{Name-value pairs of expressions. Use \code{NULL} to drop
-a variable.
+\item{...}{Name-value pairs of expressions, each with length 1 or the same
+length as the number of rows in the group (if using \code{\link[=group_by]{group_by()}}) or in the entire
+input (if not using groups). The name of each argument will be the name of
+a new variable, and the value will be its corresponding value.  Use a \code{NULL}
+value in \code{mutate} to drop a variable.
 
-These arguments are automatically \link[rlang:quo]{quoted} and
+The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
@@ -26,14 +29,14 @@ these concepts.}
 An object of the same class as \code{.data}.
 }
 \description{
-\code{mutate()} adds new variables and preserves existing;
-\code{transmute()} drops existing variables.
+\code{mutate()} adds new variables and preserves existing ones;
+\code{transmute()} adds new variables and drops existing ones.  Both
+functions preserve the number of rows of the input.
 }
-\section{Useful functions}{
+\section{Useful functions available in calculations of variables}{
 
 \itemize{
-\item \code{\link{+}}, \code{\link{-}} etc
-\item \code{\link[=log]{log()}}
+\item \code{\link{+}}, \code{\link{-}}, \code{\link[=log]{log()}}, etc., for their usual mathematical meanings
 \item \code{\link[=lead]{lead()}}, \code{\link[=lag]{lag()}}
 \item \code{\link[=dense_rank]{dense_rank()}}, \code{\link[=min_rank]{min_rank()}}, \code{\link[=percent_rank]{percent_rank()}}, \code{\link[=row_number]{row_number()}},
 \code{\link[=cume_dist]{cume_dist()}}, \code{\link[=ntile]{ntile()}}

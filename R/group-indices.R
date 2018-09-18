@@ -16,7 +16,11 @@ group_indices <- function(.data, ...) {
 }
 #' @export
 group_indices.default <- function(.data, ...) {
-  group_indices_(.data, .dots = compat_as_lazy_dots(...))
+  if (missing(.data)) {
+    rep.int(from_context("..group_number"), from_context("..group_size"))
+  } else {
+    group_indices_(.data, .dots = compat_as_lazy_dots(...))
+  }
 }
 #' @export
 #' @rdname se-deprecated

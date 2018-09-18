@@ -1,0 +1,15 @@
+pandoc: 1.19.2.4
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles:
+  compatibility: compatibility.html
+  dplyr: dplyr.html
+  dplyr_0.8.0: future/dplyr_0.8.0.html
+  dplyr_0.8.0_new_hybrid: future/dplyr_0.8.0_new_hybrid.html
+  programming: programming.html
+  two-table: two-table.html
+  window-functions: window-functions.html
+urls:
+  reference: http://dplyr.tidyverse.org/reference
+  article: http://dplyr.tidyverse.org/articles
+

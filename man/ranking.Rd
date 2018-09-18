@@ -12,7 +12,7 @@
 \usage{
 row_number(x)
 
-ntile(x, n)
+ntile(x = row_number(), n)
 
 min_rank(x)
 

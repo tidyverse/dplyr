@@ -1,13 +1,11 @@
 ## Release summary
 
-Same-version update to fix UBSAN and valgrind errors, first release attempt on April 19. Changes compared to the last release attempt: https://github.com/tidyverse/dplyr/pull/3563.
-
-Bug fixes, minor changes, now importing the tidyselect package.
+Minor update to address CRAN warnings and a conflict for an exported symbol.  We also addressed all rchk errors seen on CRAN but could not replicate them locally, it remains to be seen if our changes are effective.
 
 ## Test environments
 
-* local OS X install, R 3.4.4
-* ubuntu 12.04 (on travis-ci), R 3.4.4, R-oldrel, R-devel.
+* local OS X install, R 3.5.0
+* ubuntu 12.04 (on travis-ci), R 3.5.0, R-oldrel, R-devel.
 * win-builder (devel)
 
 ## R CMD check results
@@ -20,14 +18,4 @@ Bug fixes, minor changes, now importing the tidyselect package.
 
 ## Reverse dependencies
 
-We checked more than 900 reverse dependencies by running R CMD check twice, once with the CRAN version installed, and once with this version installed. We saw new problems. We failed to check about 50 packages. Issues are summarised below.
-
-### New problems
-
-* amt: Package invokes operation that was always broken but now gives an error. Notified author, an update has been submitted to CRAN.
-* bioset, replyr: Defines an `n()` function which is now called, instead of doing hybrid evaluation: https://github.com/randomchars42/bioset/issues/1, https://github.com/WinVector/replyr/issues/10. Both packages have been updated on CRAN.
-* desctable: Already fixed in devel, https://github.com/MaximeWack/desctable/issues/8.
-* ddpcr: Calling `select()` with `NA` in a column name, https://github.com/daattali/ddpcr/issues/22.
-* fold, PPforest: Unknown reason, reported to maintainer.
-* keyholder, ruler: Fixed in devel: https://github.com/echasnovski/keyholder/issues/3.
-* purrr: spurious test failure, fixed in devel: https://github.com/tidyverse/purrr/pull/494
+We checked more than 900 reverse dependencies by running R CMD check twice, once with the CRAN version installed, and once with this version installed. We did not see any new problems.

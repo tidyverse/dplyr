@@ -1,52 +1,34 @@
-verify_hybrid <- function(x) {
-  abort("Not in hybrid evaluation")
+#' Inspect how dplyr evaluates an expression
+#'
+#' @param .data a tibble
+#' @param expr an expression
+#'
+#' @examples
+#' # hybrid evaulation
+#' hybrid_call(iris, n())
+#'
+#' # standard evaluation
+#' hybrid_call(iris, n() + 1L)
+#' @export
+hybrid_call <- function(.data, expr){
+  UseMethod("hybrid_call")
 }
 
-verify_not_hybrid <- function(x) {
-  x
+#' @export
+hybrid_call.data.frame <- function(.data, expr){
+  hybrid_impl(.data, enquo(expr))
 }
 
-with_hybrid <- function(expr, ...) {
-  expr <- enquo(expr)
-  stopifnot(any(class(expr) == "formula"))
-  expr[[2]] <- prepend_call(expr[[2]], "verify_hybrid")
-  data <- data_frame(...)
-
-  # Make verify_hybrid() available to the evaluated expression
-  eval_env <- new.env(parent = environment(expr))
-  eval_env$verify_hybrid <- verify_hybrid
-  environment(expr) <- eval_env
-
-  summarise(data, out = !!expr)["out"][[1]]
-}
-
-without_hybrid <- function(expr, ...) {
-  expr <- enquo(expr)
-  stopifnot(any(class(expr) == "formula"))
-  expr[[2]] <- prepend_call(expr[[2]], "verify_not_hybrid")
-  data <- data_frame(...)
-
-  # Make verify_not_hybrid() available to the evaluated expression
-  eval_env <- new.env(parent = environment(expr))
-  eval_env$verify_not_hybrid <- verify_not_hybrid
-  environment(expr) <- eval_env
-
-  summarise(data, out = !!expr)["out"][[1]]
-}
-
-eval_dots <- function(expr, ...) {
-  expr <- enquo(expr)
-  data <- data_frame(...)
-  eval(expr[[2]], data, enclos = environment(expr))
-}
-
-# some(func()) -> name(some(func()))
-# list(some(func())) -> list(name(some(func())))
-prepend_call <- function(expr, name) {
-  if (is.call(expr) && expr[[1]] == quote(list)) {
-    stopifnot(length(expr) == 2L)
-    call("list", call(name, expr[[2]]))
+#' @export
+print.hybrid_call <- function(x, ...){
+  if(isTRUE(x)){
+    cat("<hybrid evaluation>\n")
+    cat( "  call      : ")
+    print(attr(x, "call"))
+    cat( "  C++ class :", attr(x, "cpp_class"))
   } else {
-    call(name, expr)
+    cat("<standard evaluation>\n")
+    cat( "  call      : ")
+    print(attr(x, "call"))
   }
 }

@@ -2,12 +2,17 @@
 #include <dplyr/main.h>
 
 #include <tools/utils.h>
-#include <dplyr/white_list.h>
+#include <dplyr/allow_list.h>
 #include <tools/collapse.h>
-#include <dplyr/bad.h>
-#include <dplyr/GroupedDataFrame.h>
+#include <tools/bad.h>
+#include <dplyr/data/GroupedDataFrame.h>
 
 using namespace Rcpp;
+
+SEXP child_env(SEXP parent) {
+  static SEXP s_new_env = Rf_install("new.env");
+  return Rf_eval(Rf_lang3(s_new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
+}
 
 // [[Rcpp::export]]
 void check_valid_names(const CharacterVector& names, bool warn_only = false) {
@@ -41,19 +46,20 @@ void check_valid_colnames(const DataFrame& df, bool warn_only) {
   check_valid_names(vec_names_or_empty(df), warn_only);
 }
 
-void check_range_one_based(int x, int max) {
+int check_range_one_based(int x, int max) {
   // Also covers NA
   if (x <= 0 || x > max) {
     stop("Index out of range");
   }
+  return x;
 }
 
 // [[Rcpp::export]]
-void assert_all_white_list(const DataFrame& data) {
-  // checking variables are on the white list
+void assert_all_allow_list(const DataFrame& data) {
+  // checking variables are on the allow list
   int nc = data.size();
   for (int i = 0; i < nc; i++) {
-    if (!white_list(data[i])) {
+    if (!allow_list(data[i])) {
       SymbolVector names = data.names();
       const SymbolString& name_i = names[i];
       SEXP v = data[i];
@@ -138,6 +144,8 @@ std::string get_single_class(SEXP x) {
   }
 
   switch (TYPEOF(x)) {
+  case RAWSXP:
+    return "raw";
   case INTSXP:
     return "integer";
   case REALSXP :
@@ -146,6 +154,8 @@ std::string get_single_class(SEXP x) {
     return "logical";
   case STRSXP:
     return "character";
+  case CPLXSXP:
+    return "complex";
 
   case VECSXP:
     return "list";
@@ -155,7 +165,8 @@ std::string get_single_class(SEXP x) {
 
   // just call R to deal with other cases
   // we could call R_data_class directly but we might get a "this is not part of the api"
-  klass = Rf_eval(Rf_lang2(Rf_install("class"), x), R_GlobalEnv);
+  RObject class_call(Rf_lang2(Rf_install("class"), x));
+  klass = Rf_eval(class_call, R_GlobalEnv);
   return CHAR(STRING_ELT(klass, 0));
 }
 
@@ -308,24 +319,6 @@ SEXP name_at(SEXP x, size_t i) {
     return STRING_ELT(names, i);
 }
 
-SEXP f_env(SEXP x) {
-  return Rf_getAttrib(x, Rf_install(".Environment"));
-}
-
-bool is_quosure(SEXP x) {
-  return TYPEOF(x) == LANGSXP
-         && Rf_length(x) == 2
-         && Rf_inherits(x, "quosure")
-         && TYPEOF(f_env(x)) == ENVSXP;
-}
-
-SEXP maybe_rhs(SEXP x) {
-  if (is_quosure(x))
-    return CADR(x);
-  else
-    return x;
-}
-
 // [[Rcpp::export]]
 bool is_data_pronoun(SEXP expr) {
   if (TYPEOF(expr) != LANGSXP || Rf_length(expr) != 3)
@@ -366,4 +359,14 @@ bool quo_is_variable_reference(SEXP quo) {
 // [[Rcpp::export]]
 bool quo_is_data_pronoun(SEXP quo) {
   return is_data_pronoun(CADR(quo));
+}
+
+int get_size(SEXP x) {
+  if (Rf_isMatrix(x)) {
+    return INTEGER(Rf_getAttrib(x, R_DimSymbol))[0];
+  } else if (Rf_inherits(x, "data.frame")) {
+    return DataFrame(x).nrows();
+  } else {
+    return Rf_length(x);
+  }
 }

@@ -2,10 +2,8 @@
 #include <dplyr/main.h>
 
 #include <dplyr/registration.h>
-#include <dplyr/HybridHandler.h>
 
 using namespace Rcpp;
-using namespace dplyr;
 
 SEXP get_cache() {
   static SEXP cache = 0;

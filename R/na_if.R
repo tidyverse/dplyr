@@ -9,6 +9,10 @@
 #'   are equal to `y` with NA.
 #' @seealso [coalesce()] to replace missing values with a specified
 #'   value.
+#'
+#'   [tidyr::replace_na()] to replace `NA` with a value.
+#'
+#'   [recode()] to more generally replace values.
 #' @export
 #' @examples
 #' na_if(1:5, 5:1)

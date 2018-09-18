@@ -4,7 +4,7 @@
 #include <tools/encoding.h>
 #include <tools/SymbolString.h>
 
-#include <dplyr/JoinVisitorImpl.h>
+#include <dplyr/visitors/join/JoinVisitorImpl.h>
 
 namespace dplyr {
 

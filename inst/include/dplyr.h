@@ -1,10 +1,6 @@
-#ifndef dplyr_dplyr_H
-#define dplyr_dplyr_H
+#ifndef RCPP_dplyr_dplyr_H
+#define RCPP_dplyr_dplyr_H
 
 #include <dplyr/main.h>
 
-#include <tools/tools.h>
-
-#include <dplyr/dplyr.h>
-
-#endif
+#endif // RCPP_dplyr_H_GEN_

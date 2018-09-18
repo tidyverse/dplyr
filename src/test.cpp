@@ -1,8 +1,8 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <dplyr/comparisons.h>
-#include <dplyr/join_match.h>
+#include <tools/comparisons.h>
+#include <dplyr/visitors/join/join_match.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -109,20 +109,25 @@ List test_matches() {
 LogicalVector test_length_wrap() {
   R_xlen_t small = R_LEN_T_MAX / 2;
 
+  RObject wrap_small(wrap(small));
+
 #ifdef LONG_VECTOR_SUPPORT
   R_xlen_t large = (R_xlen_t)(R_LEN_T_MAX * 2.0);
   R_xlen_t missing = NA_INTEGER;
 
+  RObject wrap_large(wrap(large));
+  RObject wrap_missing(wrap(missing));
+
   return
     LogicalVector::create(
-      as<double>(wrap(small)) == (double)small,
-      as<double>(wrap(large)) == (double)large,
-      as<double>(wrap(missing)) == (double)missing
+      as<double>(wrap_small) == (double)small,
+      as<double>(wrap_large) == (double)large,
+      as<double>(wrap_missing) == (double)missing
     );
 #else
   return
     LogicalVector::create(
-      as<double>(wrap(small)) == (double)small
+      as<double>(wrap_small) == (double)small
     );
 #endif
 }

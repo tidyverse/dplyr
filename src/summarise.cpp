@@ -1,22 +1,18 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/Quosure.h>
+#include <tools/set_rownames.h>
 
-#include <dplyr/GroupedDataFrame.h>
-#include <dplyr/NaturalDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/NaturalDataFrame.h>
 
-#include <dplyr/Result/LazyRowwiseSubsets.h>
-#include <dplyr/Result/GroupedCallReducer.h>
-#include <dplyr/Result/CallProxy.h>
+#include <dplyr/standard/GroupedCallReducer.h>
 
-#include <dplyr/Gatherer.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <dplyr/Groups.h>
 
-#include <dplyr/tbl_cpp.h>
+#include <dplyr/hybrid/hybrid.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -28,8 +24,7 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
 
   // Recycle length 1 vectors
   if (n == 1) {
-    boost::scoped_ptr<Gatherer> gather(constant_gatherer(value, nrows, name));
-    value = gather->collect();
+    value = constant_recycle(value, nrows, name);
   }
 
   return value;
@@ -49,7 +44,8 @@ public:
     Vec out = no_init(n);
     copy_most_attributes(out, origin);
     for (int i = 0; i < n; i++) {
-      out[i] = origin[new_indices[i][0]];
+      int new_index = new_indices[i][0];
+      out[i] = origin[new_index - 1];
     }
     return out ;
   }
@@ -90,14 +86,14 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVe
   names[nv - 1] = ".rows";
 
   set_rownames(out, new_indices.size());
-  set_class(out, classes_not_grouped());
+  set_class(out, NaturalDataFrame::classes());
   out.attr("names") = names;
   return out ;
 }
 
 template <typename SlicedTibble>
 void structure_summarise(List& out, const SlicedTibble& df) {
-  set_class(out, classes_not_grouped());
+  set_class(out, NaturalDataFrame::classes());
 }
 
 template <>
@@ -128,11 +124,11 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
   } else {
     // clear groups and reset to non grouped classes
     GroupedDataFrame::strip_groups(out);
-    out.attr("class") = classes_not_grouped();
+    out.attr("class") = NaturalDataFrame::classes();
   }
 }
 
-template <typename SlicedTibble, typename LazySubsets>
+template <typename SlicedTibble>
 DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   SlicedTibble gdf(df);
 
@@ -153,42 +149,36 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   LOG_VERBOSE <<  "processing " << nexpr << " variables";
 
-  LazySubsets subsets(gdf);
+  DataMask<SlicedTibble> mask(gdf);
   for (int k = 0; k < nexpr; k++, i++) {
     LOG_VERBOSE << "processing variable " << k;
     Rcpp::checkUserInterrupt();
     const NamedQuosure& quosure = dots[k];
-    const Environment& env = quosure.env();
 
     LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
 
-    Shield<SEXP> expr_(quosure.expr());
-    SEXP expr = expr_;
     RObject result;
 
     // Unquoted vectors are directly used as column. Expressions are
     // evaluated in each group.
-    if (is_vector(expr)) {
-      result = validate_unquoted_value(expr, gdf.ngroups(), quosure.name());
+    if (is_vector(quosure.expr())) {
+      result = validate_unquoted_value(quosure.expr(), gdf.ngroups(), quosure.name());
     } else {
-      boost::scoped_ptr<Result> res(get_handler(expr, subsets, env));
+      result = hybrid::summarise(quosure, gdf, mask);
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
-      // Note that the GroupedCallReducer currently doesn't apply
-      // special treatment to summary variables, for which hybrid
-      // evaluation should be turned off completely (#2312)
-      if (!res) {
-        res.reset(new GroupedCallReducer<SlicedTibble, LazySubsets>(quosure.expr(), subsets, env, quosure.name()));
+      if (result == R_UnboundValue) {
+        mask.rechain(quosure.env());
+        result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
       }
-      result = res->process(gdf);
     }
     check_not_null(result, quosure.name());
     check_length(Rf_length(result), gdf.ngroups(), "a summary value", quosure.name());
 
     results[i] = result;
     accumulator.set(quosure.name(), result);
-    subsets.input_summarised(quosure.name(), SummarisedVariable(result));
+    mask.input_summarised(quosure.name(), result);
   }
 
   List out = accumulator;
@@ -207,10 +197,34 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 SEXP summarise_impl(DataFrame df, QuosureList dots) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame, LazySplitSubsets<RowwiseDataFrame> >(df, dots);
+    return summarise_grouped<RowwiseDataFrame>(df, dots);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame, LazySplitSubsets<GroupedDataFrame> >(df, dots);
+    return summarise_grouped<GroupedDataFrame>(df, dots);
   } else {
-    return summarise_grouped<NaturalDataFrame, LazySubsets>(df, dots);
+    return summarise_grouped<NaturalDataFrame>(df, dots);
+  }
+}
+
+template <typename SlicedTibble>
+SEXP hybrid_template(DataFrame df, const Quosure& quosure) {
+  SlicedTibble gdf(df);
+
+  const Environment& env = quosure.env();
+  SEXP expr = quosure.expr();
+  DataMask<SlicedTibble> mask(gdf);
+  return hybrid::match(expr, gdf, mask, env);
+}
+
+
+// [[Rcpp::export]]
+SEXP hybrid_impl(DataFrame df, Quosure quosure) {
+  check_valid_colnames(df);
+
+  if (is<RowwiseDataFrame>(df)) {
+    return hybrid_template<RowwiseDataFrame >(df, quosure);
+  } else if (is<GroupedDataFrame>(df)) {
+    return hybrid_template<GroupedDataFrame >(df, quosure);
+  } else {
+    return hybrid_template<NaturalDataFrame >(df, quosure);
   }
 }

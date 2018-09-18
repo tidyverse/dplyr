@@ -1,23 +1,18 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/hash.h>
 #include <tools/match.h>
 
-#include <dplyr/CharacterVectorOrderer.h>
+#include <dplyr/visitors/CharacterVectorOrderer.h>
 
-#include <dplyr/tbl_cpp.h>
-#include <dplyr/visitor_impl.h>
+#include <dplyr/visitors/vector/visitor_impl.h>
 
-#include <dplyr/JoinVisitor.h>
+#include <dplyr/visitors/join/JoinVisitor.h>
+#include <dplyr/visitors/join/JoinVisitorImpl.h>
+#include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 
-#include <dplyr/Result/Result.h>
-
-#include <dplyr/DataFrameJoinVisitors.h>
-
-#include <dplyr/bad.h>
+#include <tools/bad.h>
 
 namespace dplyr {
 
@@ -63,10 +58,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
 
   int n = indices.size();
   for (int i = 0; i < n; i++) {
-
-    int pos = indices[i];
-
-    check_range_one_based(pos, data.size());
+    int pos = check_range_one_based(indices[i], data.size());
 
     VectorVisitor* v = visitor(data[pos - 1]);
     visitors.push_back(v);
@@ -142,11 +134,8 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(
   SymbolVector right_names = right.names();
 
   for (int i = 0; i < size(); i++) {
-    const int index_left = indices_left[i];
-    const int index_right = indices_right[i];
-
-    check_range_one_based(index_left, left.size());
-    check_range_one_based(index_right, right.size());
+    const int index_left = check_range_one_based(indices_left[i], left.size());
+    const int index_right = check_range_one_based(indices_right[i], right.size());
 
     const SymbolString& name_left = left_names[index_left - 1];
     const SymbolString& name_right = right_names[index_right - 1];
@@ -178,102 +167,6 @@ int DataFrameJoinVisitors::size() const {
   return visitors.size();
 }
 
-DataFrameSubsetVisitors::DataFrameSubsetVisitors(const Rcpp::DataFrame& data_) :
-  data(data_),
-  visitors(),
-  visitor_names(vec_names_or_empty(data))
-{
-  for (int i = 0; i < data.size(); i++) {
-    SubsetVectorVisitor* v = subset_visitor(data[i], visitor_names[i]);
-    visitors.push_back(v);
-  }
-}
-
-DataFrameSubsetVisitors::DataFrameSubsetVisitors(const DataFrame& data_, const SymbolVector& names) :
-  data(data_),
-  visitors(),
-  visitor_names(names)
-{
-
-  CharacterVector data_names = vec_names_or_empty(data);
-  IntegerVector indices = names.match_in_table(data_names);
-
-  int n = indices.size();
-  for (int i = 0; i < n; i++) {
-
-    int pos = indices[i];
-    if (pos == NA_INTEGER) {
-      bad_col(names[i], "is unknown");
-    }
-
-    SubsetVectorVisitor* v = subset_visitor(data[pos - 1], data_names[pos - 1]);
-    visitors.push_back(v);
-
-  }
-
-}
-
-DataFrameSubsetVisitors::DataFrameSubsetVisitors(const DataFrame& data_, const IntegerVector& indices) :
-  data(data_),
-  visitors(),
-  visitor_names()
-{
-
-  CharacterVector data_names = vec_names_or_empty(data);
-
-  int n = indices.size();
-  for (int i = 0; i < n; i++) {
-
-    int pos = indices[i];
-
-    check_range_one_based(pos, data.size());
-
-    const SymbolString& name = data_names[pos - 1];
-
-    SubsetVectorVisitor* v = subset_visitor(data[pos - 1], name);
-    visitors.push_back(v);
-    visitor_names.push_back(name);
-
-  }
-
-}
-
-int DataFrameSubsetVisitors::size() const {
-  return visitors.size();
-}
-
-SubsetVectorVisitor* DataFrameSubsetVisitors::get(int k) const {
-  return visitors[k];
-}
-
-const SymbolString DataFrameSubsetVisitors::name(int k) const {
-  return visitor_names[k];
-}
-
-int DataFrameSubsetVisitors::nrows() const {
-  return data.nrows();
-}
-
-void DataFrameSubsetVisitors::structure(List& x, int nrows, CharacterVector classes) const {
-  copy_most_attributes(x, data);
-  set_class(x, classes);
-  set_rownames(x, nrows);
-  x.names() = visitor_names;
-}
-
-template <>
-DataFrame DataFrameSubsetVisitors::subset(const LogicalVector& index, const CharacterVector& classes) const {
-  const int n = index.size();
-  std::vector<int> idx;
-  idx.reserve(n);
-  for (int i = 0; i < n; i++) {
-    if (index[i] == TRUE) {
-      idx.push_back(i);
-    }
-  }
-  return subset(idx, classes);
-}
-
 CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   orders(no_init(data.size()))
 {
@@ -302,7 +195,9 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   LOG_VERBOSE << "Sorting " <<  n_uniques << " unique character elements";
 
   CharacterVector uniques(set.begin(), set.end());
-  CharacterVector s_uniques = Language("sort", uniques).fast_eval();
+
+  static Function sort("sort", R_BaseEnv);
+  CharacterVector s_uniques = Language(sort, uniques).fast_eval();
 
   // order the uniques with a callback to R
   IntegerVector o = r_match(uniques, s_uniques);
@@ -336,11 +231,13 @@ CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& 
   int nleft = left.size(), nright = right.size();
   int n = nleft + nright;
 
-  CharacterVector big = no_init(n);
+  CharacterVector big(no_init(n));
   CharacterVector::iterator it = big.begin();
   std::copy(left.begin(), left.end(), it);
   std::copy(right.begin(), right.end(), it + nleft);
-  return Language("unique", big).fast_eval();
+
+  static Function unique("unique", R_BaseEnv);
+  return Language(unique, big).fast_eval();
 }
 
 }

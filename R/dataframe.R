@@ -68,13 +68,12 @@ filter_.data.frame <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 
 #' @export
 slice.data.frame <- function(.data, ...) {
-  dots <- named_quos(...)
-  slice_impl(.data, dots)
+  slice_impl(.data, quos(...)[[1L]])
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice_impl(.data, dots)
+  slice_impl(.data, dots[[1L]])
 }
 
 #' @export
@@ -98,13 +97,13 @@ mutate_.data.frame <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-arrange.data.frame <- function(.data, ...) {
-  as.data.frame(arrange(tbl_df(.data), ...))
+arrange.data.frame <- function(.data, ..., .by_group = FALSE) {
+  as.data.frame(arrange(tbl_df(.data), ..., .by_group = .by_group))
 }
 #' @export
-arrange_.data.frame <- function(.data, ..., .dots = list()) {
+arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange(.data, !!!dots)
+  arrange(.data, !!!dots, .by_group = .by_group)
 }
 
 #' @export
@@ -145,8 +144,8 @@ left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 #' @export
 #' @rdname join.tbl_df
-nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, name = "data", ... ) {
-  as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ..., name = name))
+nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ... ) {
+  as.data.frame(nest_join(tbl_df(x), y, by = by, copy = copy, ..., keep = keep, name = name))
 }
 
 #' @export
@@ -172,19 +171,42 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 # Set operations ---------------------------------------------------------------
 
 #' @export
-intersect.data.frame <- function(x, y, ...) intersect_data_frame(x, y)
+intersect.data.frame <- function(x, y, ...) {
+  out <- intersect_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-union.data.frame <- function(x, y, ...) union_data_frame(x, y)
+union.data.frame <- function(x, y, ...) {
+  out <- union_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-union_all.data.frame <- function(x, y, ...) bind_rows(x, y)
+union_all.data.frame <- function(x, y, ...) {
+  out <- bind_rows(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-setdiff.data.frame <- function(x, y, ...) setdiff_data_frame(x, y)
+setdiff.data.frame <- function(x, y, ...) {
+  out <- setdiff_data_frame(x, y)
+  reconstruct_set(out, x)
+}
 
 #' @export
-setequal.data.frame <- function(x, y, ...) equal_data_frame(x, y)
+setequal.data.frame <- function(x, y, ...) {
+  out <- equal_data_frame(x, y)
+  as.logical(out)
+}
+
+reconstruct_set <- function(out, x) {
+  if (is_grouped_df(x)) {
+    out <- grouped_df_impl(out, group_vars(x))
+  }
+
+  out
+}
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
@@ -207,18 +229,17 @@ do.data.frame <- function(.data, ...) {
   args <- quos(...)
   named <- named_args(args)
 
-  # Create custom dynamic scope with `.` pronoun
-  # FIXME: Pass without splicing once child_env() calls env_bind()
-  # with explicit arguments
-  overscope <- child_env(NULL, !!!list(. = .data, .data = .data))
+  # Create custom data mask with `.` pronoun
+  mask <- new_data_mask(new_environment())
+  env_bind_do_pronouns(mask, .data)
 
   if (!named) {
-    out <- overscope_eval_next(overscope, args[[1]])
+    out <- eval_tidy(args[[1]], mask)
     if (!inherits(out, "data.frame")) {
       bad("Result must be a data frame, not {fmt_classes(out)}")
     }
   } else {
-    out <- map(args, function(arg) list(overscope_eval_next(overscope, arg)))
+    out <- map(args, function(arg) list(eval_tidy(arg, mask)))
     names(out) <- names(args)
     out <- tibble::as_tibble(out, validate = FALSE)
   }

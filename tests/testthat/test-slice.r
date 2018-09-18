@@ -19,10 +19,6 @@ test_that("slice silently ignores out of range values (#226)", {
   expect_equal(slice(g, c(2, 100)), slice(g, 2))
 })
 
-test_that("slice works with 0 args", {
-  expect_equivalent(slice(mtcars), mtcars)
-})
-
 test_that("slice works with negative indices", {
   res <- slice(mtcars, -(1:2))
   exp <- tail(mtcars, -2)
@@ -154,3 +150,10 @@ test_that("slice skips 0 (#3313)", {
   expect_identical(slice(d, c(-1, 0)), slice(d, -1))
   expect_identical(slice(d, c(0, -1)), slice(d, -1))
 })
+
+test_that("slice is not confused abour dense groups (#3753)",{
+  df <- tibble(row = 1:3)
+  expect_equal(slice(df, c(2,1,3))$row, c(2L,1L,3L))
+  expect_equal(slice(df, c(1,1,1))$row, rep(1L, 3))
+})
+

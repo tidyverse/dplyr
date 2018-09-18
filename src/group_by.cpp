@@ -4,7 +4,6 @@
 #include <tools/match.h>
 #include <tools/utils.h>
 
-#include <dplyr/tbl_cpp.h>
 #include <dplyr/Groups.h>
 
 using namespace Rcpp;
@@ -23,6 +22,6 @@ DataFrame as_regular_df(DataFrame df) {
 DataFrame ungroup_grouped_df(DataFrame df) {
   DataFrame copy(shallow_copy(df));
   GroupedDataFrame::strip_groups(copy);
-  set_class(copy, classes_not_grouped());
+  set_class(copy, NaturalDataFrame::classes());
   return copy;
 }

@@ -8,10 +8,11 @@
 #include <tools/pointer_vector.h>
 #include <tools/utils.h>
 
-#include <dplyr/GroupedDataFrame.h>
+#include <dplyr/data/GroupedDataFrame.h>
+#include <dplyr/data/NaturalDataFrame.h>
 #include <dplyr/Collecter.h>
-#include <dplyr/bad.h>
-#include <dplyr/tbl_cpp.h>
+#include <tools/bad.h>
+#include <tools/set_rownames.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -294,7 +295,7 @@ List rbind__impl(List dots, const SymbolString& id) {
 
   // Add vector of identifiers if .id is supplied
   if (!id.is_empty()) {
-    CharacterVector id_col = no_init(n);
+    CharacterVector id_col(no_init(n));
 
     CharacterVector::iterator it = id_col.begin();
     for (int i = 0; i < ndata; ++i) {
@@ -318,10 +319,10 @@ List rbind__impl(List dots, const SymbolString& id) {
         out = GroupedDataFrame(out, GroupedDataFrame(first)).data();
       }
     } else {
-      set_class(out, classes_not_grouped());
+      set_class(out, NaturalDataFrame::classes());
     }
   } else {
-    set_class(out, classes_not_grouped());
+    set_class(out, NaturalDataFrame::classes());
   }
 
   return out;
@@ -372,7 +373,9 @@ List cbind_all(List dots) {
   // collect columns
   List out(nv);
   CharacterVector out_names(nv);
-  SEXP dots_names = vec_names(dots);
+
+  // Can't use CharacterVector because the result might be R_NilValue
+  RObject dots_names = vec_names(dots);
 
   // then do the subsequent dfs
   for (int i = first_i, k = 0; i < n_dots; i++) {
@@ -401,7 +404,7 @@ List cbind_all(List dots) {
   if (Rf_inherits(first, "data.frame")) {
     copy_most_attributes(out, first);
   } else {
-    set_class(out, classes_not_grouped());
+    set_class(out, NaturalDataFrame::classes());
   }
 
   out.names() = out_names;
