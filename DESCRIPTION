@@ -59,6 +59,6 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
-RoxygenNote: 6.0.1.9000
+RoxygenNote: 6.1.0
 Remotes:
     tidyverse/rlang

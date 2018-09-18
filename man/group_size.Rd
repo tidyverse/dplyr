@@ -28,9 +28,9 @@ group_size(by_dest)
 }
 }
 \seealso{
-Other group management and queries: \code{\link{group_by_all}},
+Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
   \code{\link{group_rows}}, \code{\link{groups}}
 }
-\concept{group management and queries}
+\concept{grouping functions}
 \keyword{internal}

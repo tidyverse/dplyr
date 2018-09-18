@@ -6,7 +6,7 @@ group_rows <- function(.data) {
 
 #' Grouping data
 #'
-#' @family group management and queries
+#' @family grouping functions
 #' @param .data a tibble
 #'
 #' @return `group_data()` return a tibble with one row per group. The last column, always called `.rows`

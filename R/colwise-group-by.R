@@ -4,7 +4,7 @@
 #' selection of variables. Like [group_by()], they have optional
 #' [mutate] semantics.
 #'
-#' @family group management and queries
+#' @family grouping functions
 #' @inheritParams scoped
 #' @param .add Passed to the `add` argument of [group_by()].
 #' @export
