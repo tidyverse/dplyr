@@ -88,8 +88,8 @@ public:
     old_indices(ngroups),
     tests(ngroups),
     new_indices(ngroups),
-    k(0),
-    dense(ngroups, false)
+    dense(ngroups, false),
+    k(0)
   {}
 
   // set the group i to be empty
@@ -499,7 +499,6 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
     const slicing_index& indices = *git;
-    int nr = indices.size();
     IntegerVector g_test = check_filter_integer_result(mask.eval(quo.expr(), indices));
     CountIndices counter(indices.size(), g_test);
 

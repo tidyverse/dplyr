@@ -403,7 +403,7 @@ public:
       mask_resolved = child_env(mask_active);
 
       // ... and install the bindings
-      for (int i = 0; i < column_bindings.size(); i++) {
+      for (size_t i = 0; i < column_bindings.size(); i++) {
         column_bindings[i].install(mask_active, mask_resolved, i, proxy);
       }
 
@@ -428,7 +428,7 @@ public:
     } else {
 
       // remove the materialized bindings from the mask_resolved environment
-      for (int i = 0; i < materialized.size(); i++) {
+      for (size_t i = 0; i < materialized.size(); i++) {
         column_bindings[materialized[i]].clear(mask_resolved);
       }
 
