@@ -173,6 +173,7 @@ test_that("nth(<column>, n = <int-ish>) is hybrid", {
   expect_hybrid(d, nth(int, n = 1L))
   expect_hybrid(d, nth(int, n = -1))
   expect_hybrid(d, nth(int, n = -1L))
+  expect_not_hybrid(d, nth(dbl, n = 2^40))
   expect_not_hybrid(d, nth(int, n = NA))
   expect_hybrid(d, dplyr::nth(int, n = 1))
   expect_hybrid(d, dplyr::nth(int, n = 1L))

@@ -210,11 +210,10 @@ public:
     case REALSXP:
     {
       if (Rf_length(val) != 1) return false;
-      double value = REAL(val)[0];
-      if (NumericVector::is_na(value)) {
+      int value = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]);
+      if (IntegerVector::is_na(value)) {
         return false;
       }
-      value = Rcpp::internal::r_coerce<REALSXP, INTSXP>(value);
       out = unary_minus ? -value : value;
       return true;
     }
