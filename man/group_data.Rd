@@ -33,3 +33,9 @@ group_by(df,x) \%>\% group_data()
 group_by(df,x) \%>\% group_rows()
 
 }
+\seealso{
+Other grouping functions: \code{\link{group_by_all}},
+  \code{\link{group_by}}, \code{\link{group_indices}},
+  \code{\link{group_size}}, \code{\link{groups}}
+}
+\concept{grouping functions}

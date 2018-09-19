@@ -90,3 +90,9 @@ by_cyl \%>\%
   group_by(vs, am, add = TRUE) \%>\%
   group_vars()
 }
+\seealso{
+Other grouping functions: \code{\link{group_by_all}},
+  \code{\link{group_indices}}, \code{\link{group_rows}},
+  \code{\link{group_size}}, \code{\link{groups}}
+}
+\concept{grouping functions}

@@ -25,6 +25,7 @@
 #' [group_by_at()]) make it easy to group a dataset by a selection of
 #' variables.
 #'
+#' @family grouping functions
 #' @param .data a tbl
 #' @param ... Variables to group by. All tbls accept variable names.
 #'   Some tbls will accept functions of variables. Duplicated groups
@@ -145,6 +146,7 @@ add_computed_columns <- function(.data, vars) {
 #' `group_vars()` returns a character vector; `groups()` returns a list of
 #' symbols.
 #'
+#' @family grouping functions
 #' @param x A [tbl()]
 #' @export
 #' @examples

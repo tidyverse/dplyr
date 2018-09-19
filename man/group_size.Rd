@@ -27,4 +27,10 @@ n_groups(by_dest)
 group_size(by_dest)
 }
 }
+\seealso{
+Other grouping functions: \code{\link{group_by_all}},
+  \code{\link{group_by}}, \code{\link{group_indices}},
+  \code{\link{group_rows}}, \code{\link{groups}}
+}
+\concept{grouping functions}
 \keyword{internal}
