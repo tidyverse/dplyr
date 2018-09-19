@@ -3,9 +3,10 @@
 
 #include <dplyr/hybrid/HybridVectorVectorResult.h>
 #include <dplyr/hybrid/HybridVectorSummaryRecycleResult.h>
+#include <dplyr/hybrid/vector_result/echo.h>
+
 #include <dplyr/hybrid/Column.h>
 #include <tools/default_value.h>
-
 #include <dplyr/visitors/SliceVisitor.h>
 
 namespace dplyr {
@@ -108,6 +109,9 @@ inline SEXP lead_lag_dispatch3(const SlicedTibble& data, SEXP x, int n, const Op
 
 template <typename SlicedTibble, typename Operation, template <typename, int> class Impl>
 inline SEXP lead_lag(const SlicedTibble& data, Column column, int n, const Operation& op) {
+  if (n == 0) {
+    return echo(column.data, op);
+  }
   return lead_lag_dispatch3<SlicedTibble, Operation, Impl>(data, column.data, n, op);
 }
 

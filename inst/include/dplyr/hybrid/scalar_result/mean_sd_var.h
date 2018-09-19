@@ -149,7 +149,7 @@ struct VarImpl {
     for (int i = 0; i < n; i++) {
       STORAGE current = data_ptr[indices[i]];
       if (NA_RM && Rcpp::Vector<RTYPE>::is_na(current)) continue;
-      sum += internal::square(current - m);
+      sum += square(current - m);
       count++;
     }
     if (count <= 1) return NA_REAL;

@@ -105,18 +105,11 @@ public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
   inline bool operator()(STORAGE lhs, STORAGE rhs) const {
-    return compare::is_less(lhs, rhs);
-  }
-};
-
-template <int RTYPE>
-class RankComparer<RTYPE, false> {
-  typedef comparisons<RTYPE> compare;
-
-public:
-  typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-  inline bool operator()(STORAGE lhs, STORAGE rhs) const {
-    return compare::is_greater(lhs, rhs);
+    if (ascending) {
+      return compare::is_less(lhs, rhs);
+    } else {
+      return compare::is_greater(lhs, rhs);
+    }
   }
 };
 

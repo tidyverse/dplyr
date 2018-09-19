@@ -37,7 +37,7 @@ public:
     if (pos > 0 && pos <= n) {
       return column[pos - 1];
     } else if (pos < 0 && pos >= -n) {
-      return column[n - pos];
+      return column[n + pos];
     }
 
     return def;
@@ -49,132 +49,6 @@ private:
   STORAGE def;
 };
 
-template <int RTYPE, typename SlicedTibble>
-class First1 : public HybridVectorScalarResult<RTYPE, SlicedTibble, First1<RTYPE, SlicedTibble> > {
-public:
-  typedef HybridVectorScalarResult<RTYPE, SlicedTibble, First1> Parent ;
-  typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
-
-  First1(const SlicedTibble& data, Column column_):
-    Parent(data),
-    column(column_.data),
-    def(default_value<RTYPE>())
-  {}
-
-  First1(const SlicedTibble& data, Column column_, STORAGE def_):
-    Parent(data),
-    column(column_.data),
-    def(def_)
-  {}
-
-  inline STORAGE process(const typename SlicedTibble::slicing_index& indices) const {
-    return indices.size() ? (STORAGE)column[0] : def;
-  }
-
-private:
-  Rcpp::Vector<RTYPE> column;
-  STORAGE def;
-};
-
-template <int RTYPE, typename SlicedTibble>
-class Last1 : public HybridVectorScalarResult<RTYPE, SlicedTibble, Last1<RTYPE, SlicedTibble> > {
-public:
-  typedef HybridVectorScalarResult<RTYPE, SlicedTibble, Last1> Parent ;
-  typedef typename Rcpp::Vector<RTYPE>::stored_type STORAGE;
-
-  Last1(const SlicedTibble& data, Column column_):
-    Parent(data),
-    column(column_.data),
-    def(default_value<RTYPE>())
-  {}
-
-  Last1(const SlicedTibble& data, Column column_, STORAGE def_):
-    Parent(data),
-    column(column_.data),
-    def(def_)
-  {}
-
-  inline STORAGE process(const typename SlicedTibble::slicing_index& indices) const {
-    return indices.size() ? (STORAGE)column[indices.size() - 1] : def;
-  }
-
-private:
-  Rcpp::Vector<RTYPE> column;
-  STORAGE def;
-};
-}
-
-template <typename SlicedTibble, typename Operation, template <int, typename> class Impl>
-SEXP firstlast_1(const SlicedTibble& data, Column x, const Operation& op) {
-  switch (TYPEOF(x.data)) {
-  case LGLSXP:
-    return op(Impl<LGLSXP, SlicedTibble>(data, x));
-  case RAWSXP:
-    return op(Impl<RAWSXP, SlicedTibble>(data, x));
-  case INTSXP:
-    return op(Impl<INTSXP, SlicedTibble>(data, x));
-  case REALSXP:
-    return op(Impl<REALSXP, SlicedTibble>(data, x));
-  case CPLXSXP:
-    return op(Impl<CPLXSXP, SlicedTibble>(data, x));
-  case STRSXP:
-    return op(Impl<STRSXP, SlicedTibble>(data, x));
-  case VECSXP:
-    return op(Impl<VECSXP, SlicedTibble>(data, x));
-  default:
-    break;
-  }
-  return R_UnboundValue;
-}
-
-// first( <column> )
-template <typename SlicedTibble, typename Operation>
-SEXP first1_(const SlicedTibble& data, Column x, const Operation& op) {
-  return firstlast_1<SlicedTibble, Operation, internal::First1>(data, x, op);
-}
-
-// last( <column> )
-template <typename SlicedTibble, typename Operation>
-SEXP last1_(const SlicedTibble& data, Column x, const Operation& op) {
-  return firstlast_1<SlicedTibble, Operation, internal::Last1>(data, x, op);
-}
-
-template <typename SlicedTibble, typename Operation, template <int, typename> class Impl>
-SEXP firstlast_2_default(const SlicedTibble& data, Column x, SEXP def, const Operation& op) {
-  if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
-
-  switch (TYPEOF(x.data)) {
-  case LGLSXP:
-    return op(Impl<LGLSXP, SlicedTibble>(data, x, Rcpp::Vector<LGLSXP>(def)[0]));
-  case RAWSXP:
-    return op(Impl<RAWSXP, SlicedTibble>(data, x, Rcpp::Vector<RAWSXP>(def)[0]));
-  case INTSXP:
-    return op(Impl<INTSXP, SlicedTibble>(data, x, Rcpp::Vector<INTSXP>(def)[0]));
-  case REALSXP:
-    return op(Impl<REALSXP, SlicedTibble>(data, x, Rcpp::Vector<REALSXP>(def)[0]));
-  case CPLXSXP:
-    return op(Impl<CPLXSXP, SlicedTibble>(data, x, Rcpp::Vector<CPLXSXP>(def)[0]));
-  case STRSXP:
-    return op(Impl<STRSXP, SlicedTibble>(data, x, Rcpp::Vector<STRSXP>(def)[0]));
-  case VECSXP:
-    return op(Impl<VECSXP, SlicedTibble>(data, x, Rcpp::Vector<VECSXP>(def)[0]));
-  default:
-    break;
-  }
-
-  return R_UnboundValue;
-}
-
-// first( <column>, default = <*> )
-template <typename SlicedTibble, typename Operation>
-SEXP first2_default(const SlicedTibble& data, Column x, SEXP def, const Operation& op) {
-  return firstlast_2_default<SlicedTibble, Operation, internal::First1>(data, x, def, op);
-}
-
-// last( <column>, default = <*> )
-template <typename SlicedTibble, typename Operation>
-SEXP last2_default(const SlicedTibble& data, Column x, SEXP def, const Operation& op) {
-  return firstlast_2_default<SlicedTibble, Operation, internal::Last1>(data, x, def, op);
 }
 
 // nth( <column>, n = <int|double> )
@@ -201,6 +75,19 @@ SEXP nth2_(const SlicedTibble& data, Column x, int pos, const Operation& op) {
 
   return R_UnboundValue;
 }
+
+// first( <column> )
+template <typename SlicedTibble, typename Operation>
+SEXP first1_(const SlicedTibble& data, Column x, const Operation& op) {
+  return nth2_(data, x, 1, op);
+}
+
+// first( <column> )
+template <typename SlicedTibble, typename Operation>
+SEXP last1_(const SlicedTibble& data, Column x, const Operation& op) {
+  return nth2_(data, x, -1, op);
+}
+
 
 // nth( <column>, n = <int|double> )
 template <typename SlicedTibble, typename Operation>
@@ -229,6 +116,16 @@ SEXP nth3_default(const SlicedTibble& data, Column x, int pos, SEXP def, const O
   return R_UnboundValue;
 }
 
+// first( <column>, default = <scalar> )
+template <typename SlicedTibble, typename Operation>
+SEXP first2_(const SlicedTibble& data, Column x, SEXP def, const Operation& op) {
+  return nth3_default(data, x, 1, def, op);
+}
+// last( <column>, default = <scalar> )
+template <typename SlicedTibble, typename Operation>
+SEXP last2_(const SlicedTibble& data, Column x, SEXP def, const Operation& op) {
+  return nth3_default(data, x, -1, def, op);
+}
 
 }
 }

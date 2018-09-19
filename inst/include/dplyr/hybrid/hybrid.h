@@ -260,7 +260,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
-        return first2_default(data, x, /* default = */ expression.value(1), op);
+        return first2_(data, x, /* default = */ expression.value(1), op);
       }
 
     } else if (expression.is_fun(s_last, s_dplyr, ns_dplyr)) {
@@ -269,7 +269,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
       Column x;
 
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_default)) {
-        return last2_default(data, x, /* default = */ expression.value(1), op);
+        return last2_(data, x, /* default = */ expression.value(1), op);
       }
 
     } else if (expression.is_fun(s_nth, s_dplyr, ns_dplyr)) {
@@ -319,7 +319,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
       Column x;
       int n;
 
-      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n) && n >= 0) {
         return lead_1(data, x, n, op);
       }
 
@@ -329,7 +329,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
       Column x;
       int n;
 
-      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n)) {
+      if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, s_n) && expression.is_scalar_int(1, n) && n >= 0) {
         return lag_1(data, x, n, op);
       }
 

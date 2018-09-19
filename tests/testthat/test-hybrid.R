@@ -204,6 +204,16 @@ test_that("nth(<column>, n = <int-ish>) is hybrid", {
   expect_not_hybrid(d, nth(chr, n = NA))
 })
 
+test_that("hybrid nth() handles negative n (#3821)", {
+  d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
+  res <- summarise(d,
+    int = nth(int, -1),
+    dbl = nth(dbl, -1),
+    chr = nth(chr, -1)
+  )
+  expect_equal(res, summarise_all(d, nth, 2))
+})
+
 test_that("nth(<column>, n = <int-ish>, default = <scalar>) is hybrid", {
   d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
 
@@ -268,6 +278,19 @@ test_that("lead() and lag() are hybrid", {
   expect_hybrid(d, dplyr::lead(int, n = 1L))
   expect_hybrid(d, dplyr::lead(dbl, n = 1L))
   expect_hybrid(d, dplyr::lead(chr, n = 1L))
+})
+
+test_that("lead() and lag() are not hybrid with negative `n`", {
+  d <- tibble(int = 1:2)
+  minus1 <- -1L
+  expect_not_hybrid(d, lead(int, !!minus1))
+  expect_not_hybrid(d, lag(int, !!minus1))
+})
+
+test_that("lead() and lag() are echo with n == 0", {
+  d <- tibble(int = 1:2)
+  expect_equal(attr(hybrid_call(d, lead(int, n = 0L)), "cpp_class"), "echo")
+  expect_equal(attr(hybrid_call(d, lag(int, n = 0L)), "cpp_class"), "echo")
 })
 
 test_that("sum is hybrid", {
