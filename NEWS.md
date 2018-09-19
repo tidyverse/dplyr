@@ -122,7 +122,7 @@ To be released as 0.8.0
 * The MASS package is explicitly suggested to fix CRAN warnings on R-devel
   (#3657).
 
-* Set operations like `intersect()` and `setdiff()` reconstruct groups metadata (#3587).
+* Set operations like `intersect()` and `setdiff()` reconstruct groups metadata (#3587) and keep the order of the rows (#3839).
 
 * Using namespaced calls to `base::sort()` and `base::unique()` from C++ code
   to avoid ambiguities when these functions are overridden (#3644).

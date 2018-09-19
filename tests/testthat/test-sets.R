@@ -82,7 +82,7 @@ test_that("set operations reconstruct grouping metadata (#3587)", {
   expect_equal(union(df1, df2) %>% group_rows(), list(1:2, 3:4, 5:6))
 })
 
-test_that("set operations keep the ordering of the data", {
+test_that("set operations keep the ordering of the data (#3839)", {
   rev_df <- function(df) {
     df[rev(seq_len(nrow(df))), ]
   }
@@ -96,6 +96,7 @@ test_that("set operations keep the ordering of the data", {
   expect_identical(intersect(rev_df(df1), df2), filter(rev_df(df1), x >= 3))
   expect_identical(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)))
   expect_identical(union(rev_df(df1), df2), tibble(x = c(4:1, 5:6), g = rep(c(2:1, 3L), each = 2)))
+  expect_identical(union(df1, rev_df(df2)), tibble(x = c(1:4, 6:5), g = rep(1:3, each = 2)))
 })
 
 test_that("set operations remove duplicates", {
