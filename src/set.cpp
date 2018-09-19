@@ -368,8 +368,11 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
-  train_insert(set, x.nrows());
-  train_insert_right(set, y.nrows());
+  int n_x = x.nrows();
+  int n_y = y.nrows();
+
+  train_insert(set, n_x);
+  train_insert_right(set, n_y);
 
   return reconstruct_metadata(visitors.subset(set, get_class(x)), x);
 }
@@ -380,16 +383,20 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   if (!compat) {
     stop("not compatible: %s", compat.why_not());
   }
-  typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
 
+  typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
   SymbolVector x_names = x.names();
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
-  train_insert(set, x.nrows());
+  int n_x = x.nrows();
+  int n_y = y.nrows();
+
+  train_insert(set, n_x);
 
   std::vector<int> indices;
-  int n_y = y.nrows();
+  indices.reserve(std::min(n_x, n_y));
+
   for (int i = 0; i < n_y; i++) {
     Set::iterator it = set.find(-i - 1);
     if (it != set.end()) {
@@ -410,18 +417,21 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
   SymbolVector y_names = y.names();
-  DataFrameJoinVisitors visitors(y, x, y_names, y_names, true, true);
+  DataFrameJoinVisitors visitors(x, y, y_names, y_names, true, true);
   Set set(visitors);
 
-  train_insert(set, y.nrows());
+  int n_x = x.nrows();
+  int n_y = y.nrows();
+
+  train_insert_right(set, n_y);
 
   std::vector<int> indices;
+  indices.reserve(n_x);
 
-  int n_x = x.nrows();
   for (int i = 0; i < n_x; i++) {
-    if (!set.count(-i - 1)) {
-      set.insert(-i - 1);
-      indices.push_back(-i - 1);
+    std::pair<Set::iterator, bool> inserted = set.insert(i);
+    if (inserted.second) {
+      indices.push_back(i);
     }
   }
 
