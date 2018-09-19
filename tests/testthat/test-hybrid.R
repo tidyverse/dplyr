@@ -194,9 +194,9 @@ test_that("nth(<column>, n = <int-ish>) is hybrid", {
 test_that("hybrid nth() handles negative n (#3821)", {
   d <- tibble(int = 1:2, dbl = c(1,2), chr = c("a", "b"))
   res <- summarise(d,
-    int = nth(int, !!(-1)),
-    dbl = nth(dbl, !!(-1)),
-    chr = nth(chr, !!(-1))
+    int = nth(int, -1),
+    dbl = nth(dbl, -1),
+    chr = nth(chr, -1)
   )
   expect_equal(res, summarise_all(d, nth, 2))
 })
