@@ -173,24 +173,48 @@ public:
   // is the i-th argument a scalar int
   inline bool is_scalar_int(int i, int& out) const {
     SEXP val = values[i];
-    if (Rf_length(val) != 1) return false;
+    bool unary_minus = false;
+
+    // unary minus
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 2 && CAR(val) == Rf_install("-")) {
+      val = CADR(val);
+      unary_minus = true;
+    }
+
+    // symbol
+    if (TYPEOF(val) == SYMSXP) {
+      // reject if it's a column
+      Column col;
+      if (is_column(i, col)) {
+        return false;
+      }
+
+      // keep trying if this the symbol is a binding in the .env
+      val = Rf_findVarInFrame3(env, val, FALSE);
+      if (val == R_UnboundValue) {
+        return false;
+      }
+    }
+
     switch (TYPEOF(val)) {
     case INTSXP:
     {
+      if (Rf_length(val) != 1) return false;
       int value = INTEGER(val)[0];
       if (IntegerVector::is_na(value)) {
         return false;
       }
-      out = value;
+      out = unary_minus ? -value : value;
       return true;
     }
     case REALSXP:
     {
-      double value = REAL(val)[0];
-      if (NumericVector::is_na(value)) {
+      if (Rf_length(val) != 1) return false;
+      int value = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]);
+      if (IntegerVector::is_na(value)) {
         return false;
       }
-      out = Rcpp::internal::r_coerce<REALSXP, INTSXP>(value);
+      out = unary_minus ? -value : value;
       return true;
     }
     default:
