@@ -41,7 +41,7 @@ public:
 
   virtual SEXP extract(const std::vector<IntegerVector>& new_indices) {
     int n = new_indices.size();
-    Vec out = no_init(n);
+    Vec out(no_init(n));
     copy_most_attributes(out, origin);
     for (int i = 0; i < n; i++) {
       int new_index = new_indices[i][0];
