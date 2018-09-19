@@ -76,6 +76,19 @@ SEXP nth2_(const SlicedTibble& data, Column x, int pos, const Operation& op) {
   return R_UnboundValue;
 }
 
+// first( <column> )
+template <typename SlicedTibble, typename Operation>
+SEXP first1_(const SlicedTibble& data, Column x, const Operation& op) {
+  return nth2_(data, x, 1, op);
+}
+
+// first( <column> )
+template <typename SlicedTibble, typename Operation>
+SEXP last1_(const SlicedTibble& data, Column x, const Operation& op) {
+  return nth2_(data, x, -1, op);
+}
+
+
 // nth( <column>, n = <int|double> )
 template <typename SlicedTibble, typename Operation>
 SEXP nth3_default(const SlicedTibble& data, Column x, int pos, SEXP def, const Operation& op) {
@@ -101,6 +114,17 @@ SEXP nth3_default(const SlicedTibble& data, Column x, int pos, SEXP def, const O
   }
 
   return R_UnboundValue;
+}
+
+// first( <column>, default = <scalar> )
+template <typename SlicedTibble, typename Operation>
+SEXP first2_(const SlicedTibble& data, Column x, SEXP def, const Operation& op) {
+  return nth3_default(data, x, 1, def, op);
+}
+// last( <column>, default = <scalar> )
+template <typename SlicedTibble, typename Operation>
+SEXP last2_(const SlicedTibble& data, Column x, SEXP def, const Operation& op) {
+  return nth3_default(data, x, -1, def, op);
 }
 
 }
