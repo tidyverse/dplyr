@@ -77,9 +77,25 @@ test_that("set operations reconstruct grouping metadata (#3587)", {
   expect_equal(intersect(df1, df2), filter(df1, x >= 3))
   expect_equal(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)) %>% group_by(g))
 
-  expect_equal( setdiff(df1, df2) %>% group_rows(), list(1:2))
-  expect_equal( intersect(df1, df2) %>% group_rows(), list(1:2))
-  expect_equal( union(df1, df2) %>% group_rows(), list(5:6, 3:4, 1:2))
+  expect_equal(setdiff(df1, df2) %>% group_rows(), list(1:2))
+  expect_equal(intersect(df1, df2) %>% group_rows(), list(1:2))
+  expect_equal(union(df1, df2) %>% group_rows(), list(1:2, 3:4, 5:6))
+})
+
+test_that("set operations keep the ordering of the data", {
+  rev_df <- function(df) {
+    df[rev(seq_len(nrow(df))), ]
+  }
+
+  df1 <- tibble(x = 1:4, g = rep(1:2, each = 2))
+  df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
+
+  expect_identical(setdiff(df1, df2), filter(df1, x < 3))
+  expect_identical(setdiff(rev_df(df1), df2), filter(rev_df(df1), x < 3))
+  expect_identical(intersect(df1, df2), filter(df1, x >= 3))
+  expect_identical(intersect(rev_df(df1), df2), filter(rev_df(df1), x >= 3))
+  expect_identical(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)))
+  expect_identical(union(rev_df(df1), df2), tibble(x = c(4:1, 5:6), g = rep(c(2:1, 3L), each = 2)))
 })
 
 test_that("set operations remove duplicates", {
@@ -88,8 +104,6 @@ test_that("set operations remove duplicates", {
 
   expect_identical(setdiff(df1, df2), filter(df1, x < 3) %>% distinct())
   expect_identical(intersect(df1, df2), filter(df1, x >= 3) %>% distinct())
-
-  skip("Not yet")
   expect_identical(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)))
 })
 

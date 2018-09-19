@@ -371,10 +371,24 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   int n_x = x.nrows();
   int n_y = y.nrows();
 
-  train_insert(set, n_x);
-  train_insert_right(set, n_y);
+  std::vector<int> indices;
+  indices.reserve(n_x + n_y);
 
-  return reconstruct_metadata(visitors.subset(set, get_class(x)), x);
+  for (int i = 0; i < n_x; i++) {
+    std::pair<Set::iterator, bool> inserted = set.insert(i);
+    if (inserted.second) {
+      indices.push_back(i);
+    }
+  }
+
+  for (int i = 0; i < n_y; i++) {
+    std::pair<Set::iterator, bool> inserted = set.insert(-i - 1);
+    if (inserted.second) {
+      indices.push_back(-i - 1);
+    }
+  }
+
+  return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
 }
 
 // [[Rcpp::export]]
@@ -392,13 +406,13 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   int n_x = x.nrows();
   int n_y = y.nrows();
 
-  train_insert(set, n_x);
+  train_insert_right(set, n_y);
 
   std::vector<int> indices;
   indices.reserve(std::min(n_x, n_y));
 
-  for (int i = 0; i < n_y; i++) {
-    Set::iterator it = set.find(-i - 1);
+  for (int i = 0; i < n_x; i++) {
+    Set::iterator it = set.find(i);
     if (it != set.end()) {
       indices.push_back(*it);
       set.erase(it);
