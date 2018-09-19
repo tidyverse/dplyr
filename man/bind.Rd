@@ -6,14 +6,11 @@
 \alias{rbind_list}
 \alias{bind_rows}
 \alias{bind_cols}
-\alias{combine}
 \title{Efficiently bind multiple data frames by row and column}
 \usage{
 bind_rows(..., .id = NULL)
 
 bind_cols(...)
-
-combine(...)
 }
 \arguments{
 \item{...}{Data frames to combine.
@@ -45,18 +42,10 @@ the first input, either a data frame, \code{tbl_df}, or \code{grouped_df}.
 This is an efficient implementation of the common pattern of
 \code{do.call(rbind, dfs)} or \code{do.call(cbind, dfs)} for binding many
 data frames into one.
-
-\code{combine()} acts like \code{\link[=c]{c()}} or
-\code{\link[=unlist]{unlist()}} but uses consistent dplyr coercion rules.
 }
 \details{
 The output of \code{bind_rows()} will contain a column if that column
 appears in any of the inputs.
-
-If \code{combine()} it is called with exactly one list argument, the list is
-simplified (similarly to \code{unlist(recursive = FALSE)}. \code{NULL} arguments are
-ignored. If the result is empty, \code{logical()} is returned.
-Use \code{\link[vctrs:vec_c]{vctrs::vec_c()}} if you never want to unlist.
 }
 \section{Deprecated functions}{
 
@@ -121,13 +110,4 @@ bind_cols(data.frame(x = 1), data.frame(y = 1:2))
 
 bind_cols(one, two)
 bind_cols(list(one, two))
-
-# combine applies the same coercion rules
-f1 <- factor("a")
-f2 <- factor("b")
-c(f1, f2)
-unlist(list(f1, f2))
-
-combine(f1, f2)
-combine(list(f1, f2))
 }
