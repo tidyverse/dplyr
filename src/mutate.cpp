@@ -411,13 +411,13 @@ private:
 
 template <typename SlicedTibble>
 DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
-  LOG_VERBOSE << "initializing proxy";
+  LOG_DEBUG << "initializing proxy";
 
   SlicedTibble gdf(df);
   int nexpr = dots.size();
   check_not_groups(dots, gdf);
 
-  LOG_VERBOSE << "copying data to accumulator";
+  LOG_DEBUG << "copying data to accumulator";
 
   NamedListAccumulator<SlicedTibble> accumulator;
   int ncolumns = df.size();
@@ -436,9 +436,15 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     const NamedQuosure& quosure = dots[i];
     SymbolString name = quosure.name();
 
+    LOG_VERBOSE << "Variable " << name.get_utf8_cstring();
+
     RObject variable = hybrid::window(quosure.expr(), gdf, mask, quosure.env()) ;
 
+    LOG_VERBOSE << "Checking result";
+
     if (variable == R_UnboundValue) {
+      LOG_VERBOSE << "Rechaining";
+
       mask.rechain(quosure.env());
       variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get() ;
     }
@@ -448,6 +454,8 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
       mask.rm(name);
       continue;
     }
+
+    LOG_VERBOSE << "Finalizing";
 
     if (!Rcpp::traits::same_type<SlicedTibble, NaturalDataFrame>::value) {
       Rf_setAttrib(variable, R_NamesSymbol, R_NilValue);

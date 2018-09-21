@@ -225,6 +225,8 @@ public:
 
   // is the ith argument a column
   inline bool is_column(int i, Column& column) const {
+    LOG_VERBOSE << "is_column(" << i << ")";
+
     SEXP val = values[i];
 
     // when val is a quosure, grab its expression
@@ -232,12 +234,16 @@ public:
     // this allows for things like mean(!!quo(x)) or mean(!!quo(!!sym("x")))
     // to go through hybrid evaluation
     if (rlang::is_quosure(val)) {
+      LOG_VERBOSE << "is quosure";
       val = rlang::quo_get_expr(val);
     }
 
+    LOG_VERBOSE << "is_column_impl(false)";
     if (is_column_impl(val, column, false)) {
       return true;
     }
+
+    LOG_VERBOSE << "is_column_impl(true)";
     if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == Rf_install("desc") && is_column_impl(CADR(val), column, true)) {
       return true;
     }
