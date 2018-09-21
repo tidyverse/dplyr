@@ -73,7 +73,7 @@ the environment in the data mask ancestry, the active binding function is genera
 so that it holds an index and a pointer to the data mask in its enclosure. 
 
 ```r
-.active_binding_fun <- function(index, subsets){
+.make_active_binding_fun <- function(index, subsets){
   function() {
     materialize_binding(index, subsets)
   }

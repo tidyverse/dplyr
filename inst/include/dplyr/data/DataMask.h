@@ -82,17 +82,17 @@ public:
     materialize(indices, mask_resolved);
   }
 
-  // setup the active binding with a function made by dplyr:::.active_binding_fun
+  // setup the active binding with a function made by dplyr:::.make_active_binding_fun
   //
-  // .active_binding_fun holds the position and a pointer to the DataMask
+  // .make_active_binding_fun holds the position and a pointer to the DataMask
   inline void install(
     SEXP mask_active,
     SEXP mask_resolved,
     int pos,
     boost::shared_ptr< DataMaskProxy<SlicedTibble> >& data_mask_proxy
   ) {
-    static Function active_binding_fun(
-      ".active_binding_fun",
+    static Function make_active_binding_fun(
+      ".make_active_binding_fun",
       Rcpp::Environment::namespace_env("dplyr")
     );
 
@@ -107,7 +107,7 @@ public:
       symbol,
 
       // the function
-      active_binding_fun(pos, weak_proxy),
+      make_active_binding_fun(pos, weak_proxy),
 
       // where to set it up as an active binding
       mask_active
@@ -460,7 +460,7 @@ public:
   // the bindings are installed in the mask_bindings environment
   // with this R function:
   //
-  // .active_binding_fun <- function(index, mask_proxy_xp){
+  // .make_active_binding_fun <- function(index, mask_proxy_xp){
   //   function() {
   //     materialize_binding(index, mask_proxy_xp)
   //   }
