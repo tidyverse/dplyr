@@ -597,14 +597,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // materialize_binding
-SEXP materialize_binding(int idx, XPtr<DataMaskWeakProxyBase> mask_proxy_xp);
-RcppExport SEXP _dplyr_materialize_binding(SEXP idxSEXP, SEXP mask_proxy_xpSEXP) {
+SEXP materialize_binding(int idx, List mask_proxy_xp_wrapped);
+RcppExport SEXP _dplyr_materialize_binding(SEXP idxSEXP, SEXP mask_proxy_xp_wrappedSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< int >::type idx(idxSEXP);
-    Rcpp::traits::input_parameter< XPtr<DataMaskWeakProxyBase> >::type mask_proxy_xp(mask_proxy_xpSEXP);
-    rcpp_result_gen = Rcpp::wrap(materialize_binding(idx, mask_proxy_xp));
+    Rcpp::traits::input_parameter< List >::type mask_proxy_xp_wrapped(mask_proxy_xp_wrappedSEXP);
+    rcpp_result_gen = Rcpp::wrap(materialize_binding(idx, mask_proxy_xp_wrapped));
     return rcpp_result_gen;
 END_RCPP
 }
