@@ -57,7 +57,7 @@ struct rlang_api_ptrs_t {
   SEXP (*quo_get_env)(SEXP quo);
   SEXP (*quo_set_env)(SEXP quo, SEXP env);
   SEXP (*new_quosure)(SEXP expr, SEXP env);
-  SEXP (*is_quosure)(SEXP x);
+  bool (*is_quosure)(SEXP x);
   SEXP (*as_data_pronoun)(SEXP data);
   SEXP (*as_data_mask)(SEXP data, SEXP parent);
   SEXP (*new_data_mask)(SEXP bottom, SEXP top);
@@ -68,7 +68,7 @@ struct rlang_api_ptrs_t {
     quo_get_env =       (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_env");
     quo_set_env =       (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_quo_set_env");
     new_quosure =       (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_quosure");
-    is_quosure =        (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_is_quosure");
+    is_quosure =        (bool (*)(SEXP))             R_GetCCallable("rlang", "rlang_is_quosure");
     as_data_pronoun =   (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
     as_data_mask =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_as_data_mask");
     new_data_mask =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_data_mask_3.0.0");
@@ -93,7 +93,7 @@ inline SEXP quo_get_env(SEXP quo) {
   return dplyr::internal::rlang_api().quo_get_env(quo);
 }
 
-inline SEXP is_quosure(SEXP x) {
+inline bool is_quosure(SEXP x) {
   return dplyr::internal::rlang_api().is_quosure(x);
 }
 
