@@ -84,7 +84,8 @@ public:
 
   // setup the active binding with a function made by dplyr:::.make_active_binding_fun
   //
-  // .make_active_binding_fun holds the position and a pointer to the DataMask
+  // .make_active_binding_fun() holds the position and a pointer to the DataMask
+  // (wrapped in a list)
   inline void install(
     SEXP mask_active,
     SEXP mask_resolved,
@@ -107,7 +108,7 @@ public:
       symbol,
 
       // the function
-      make_active_binding_fun(pos, weak_proxy),
+      make_active_binding_fun(pos, List::create(weak_proxy)),
 
       // where to set it up as an active binding
       mask_active
@@ -458,27 +459,14 @@ public:
   // called from the active binding, see utils-bindings.(R|cpp)
   //
   // the bindings are installed in the mask_bindings environment
-  // with this R function:
-  //
-  // .make_active_binding_fun <- function(index, mask_proxy_xp){
-  //   function() {
-  //     materialize_binding(index, mask_proxy_xp)
-  //   }
-  // }
+  // with the .make_active_binding_fun() function.
   //
   // each binding is instaled only once, the function holds:
-  // - index:          the position in the column_bindings vector
-  // - mask_proxy_xp : an external pointer to (a proxy to) this DataMask
+  // - index:                 the position in the column_bindings vector
+  // - mask_proxy_xp_wrapped: a list that holds an external pointer to
+  //                          (a proxy to) this DataMask
   //
-  //  materialize_binding is defined in utils-bindings.cpp as:
-  //
-  // // [[Rcpp::export]]
-  // SEXP materialize_binding(
-  //   int idx,
-  //   XPtr<DataMaskWeakProxyBase> mask_proxy_xp)
-  // {
-  //   return mask_proxy_xp->materialize(idx);
-  // }
+  //  materialize_binding() is an exported R function which calls this method.
   virtual SEXP materialize(int idx) {
     // materialize the subset (or just fetch it on the Natural case)
     //
