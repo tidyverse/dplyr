@@ -231,7 +231,12 @@ private:
 // the base class is used when called from the active binding in R
 class DataMaskWeakProxyBase {
 public:
-  virtual ~DataMaskWeakProxyBase() {}
+  DataMaskWeakProxyBase() {
+    LOG_VERBOSE;
+  }
+  virtual ~DataMaskWeakProxyBase() {
+    LOG_VERBOSE;
+  }
 
   virtual SEXP materialize(int idx) = 0;
 };
