@@ -381,7 +381,7 @@ public:
 
 private:
   void update_tz(SEXP v) {
-    RObject v_tz(Rf_getAttrib(v, symbols().tzone));
+    RObject v_tz(Rf_getAttrib(v, symbols::tzone));
     // if the new tz is NULL, keep previous value
     if (v_tz.isNULL()) return;
 
@@ -629,7 +629,7 @@ inline Collecter* collecter(SEXP model, int n) {
   switch (TYPEOF(model)) {
   case INTSXP:
     if (Rf_inherits(model, "POSIXct"))
-      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols().tzone));
+      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols::tzone));
     if (Rf_inherits(model, "factor"))
       return new FactorCollecter(n, model);
     if (Rf_inherits(model, "Date"))
@@ -637,12 +637,12 @@ inline Collecter* collecter(SEXP model, int n) {
     return new Collecter_Impl<INTSXP>(n);
   case REALSXP:
     if (Rf_inherits(model, "POSIXct"))
-      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols().tzone));
+      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols::tzone));
     if (Rf_inherits(model, "difftime"))
       return
         new DifftimeCollecter(
           n,
-          Rcpp::as<std::string>(Rf_getAttrib(model, symbols().units)),
+          Rcpp::as<std::string>(Rf_getAttrib(model, symbols::units)),
           Rf_getAttrib(model, R_ClassSymbol));
     if (Rf_inherits(model, "Date"))
       return new TypedCollecter<REALSXP>(n, get_date_classes());
@@ -696,7 +696,7 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
     return new Collecter_Impl<INTSXP>(n);
   case REALSXP:
     if (Rf_inherits(model, "POSIXct"))
-      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols().tzone));
+      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols::tzone));
     if (Rf_inherits(model, "Date"))
       return new TypedCollecter<REALSXP>(n, get_date_classes());
     if (Rf_inherits(model, "integer64"))

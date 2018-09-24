@@ -15,7 +15,7 @@ inline bool is_bare_vector(SEXP x) {
   // only allow R_Names. as in R's do_isvector
   while (att != R_NilValue) {
     SEXP tag = TAG(att);
-    if (!(tag == R_NamesSymbol || tag == symbols().comment)) return false;
+    if (!(tag == R_NamesSymbol || tag == symbols::comment)) return false;
     att = CDR(att);
   }
 

@@ -487,7 +487,7 @@ namespace dplyr {
 
 SEXP check_grouped(RObject data) {
   // compat with old style grouped data frames
-  SEXP vars = Rf_getAttrib(data, symbols().vars);
+  SEXP vars = Rf_getAttrib(data, symbols::vars);
 
   if (!Rf_isNull(vars)) {
     DataFrame groups = build_index_cpp(data, SymbolVector(vars));
@@ -495,7 +495,7 @@ SEXP check_grouped(RObject data) {
   }
 
   // get the groups attribute and check for consistency
-  SEXP groups = Rf_getAttrib(data, symbols().groups);
+  SEXP groups = Rf_getAttrib(data, symbols::groups);
 
   // groups must be a data frame
   if (!is<DataFrame>(groups)) {
@@ -547,7 +547,7 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
 SymbolVector GroupedDataFrame::group_vars(SEXP x) {
   check_grouped(x);
 
-  SEXP groups = Rf_getAttrib(x, dplyr::symbols().groups);
+  SEXP groups = Rf_getAttrib(x, dplyr::symbols::groups);
 
   int n = Rf_length(groups) - 1;
   CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);

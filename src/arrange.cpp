@@ -42,7 +42,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   for (int i = 0; i < nargs; i++) {
     const NamedQuosure& quosure = quosures[i];
     SEXP expr = quosure.expr();
-    bool is_desc = TYPEOF(expr) == LANGSXP && symbols().desc == CAR(expr);
+    bool is_desc = TYPEOF(expr) == LANGSXP && symbols::desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
     mask.rechain(quosure.env());

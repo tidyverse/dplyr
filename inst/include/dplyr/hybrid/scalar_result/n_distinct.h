@@ -58,7 +58,7 @@ SEXP n_distinct_(const SlicedTibble& data, const Expression& expression, const O
   for (int i = 0; i < n; i++) {
     Column column;
 
-    if (expression.is_named(i, symbols().narm)) {
+    if (expression.is_named(i, symbols::narm)) {
       bool test ;
       // if we have na.rm= TRUE, or na.rm = FALSE, we can handle it
       if (expression.is_scalar_logical(i, test)) {

@@ -3,98 +3,50 @@
 
 namespace dplyr {
 
-struct symbols_t {
-  SEXP package;
-  SEXP n;
-  SEXP tzone;
-  SEXP units;
-  SEXP dot_env;
-  SEXP dot_data;
+struct symbols {
+  static SEXP package;
+  static SEXP n;
+  static SEXP tzone;
+  static SEXP units;
+  static SEXP dot_env;
+  static SEXP dot_data;
 
-  SEXP sum;
-  SEXP mean;
-  SEXP var;
-  SEXP sd;
-  SEXP n_distinct;
-  SEXP first;
-  SEXP last;
-  SEXP nth;
-  SEXP group_indices;
-  SEXP min;
-  SEXP max;
-  SEXP row_number;
-  SEXP ntile;
-  SEXP min_rank;
-  SEXP percent_rank;
-  SEXP dense_rank;
-  SEXP cume_dist;
-  SEXP lead;
-  SEXP lag;
-  SEXP in;
+  static SEXP sum;
+  static SEXP mean;
+  static SEXP var;
+  static SEXP sd;
+  static SEXP n_distinct;
+  static SEXP first;
+  static SEXP last;
+  static SEXP nth;
+  static SEXP group_indices;
+  static SEXP min;
+  static SEXP max;
+  static SEXP row_number;
+  static SEXP ntile;
+  static SEXP min_rank;
+  static SEXP percent_rank;
+  static SEXP dense_rank;
+  static SEXP cume_dist;
+  static SEXP lead;
+  static SEXP lag;
+  static SEXP in;
 
-  SEXP narm;
-  SEXP default_;
+  static SEXP narm;
+  static SEXP default_;
 
-  SEXP dplyr;
-  SEXP base;
-  SEXP stats;
+  static SEXP dplyr;
+  static SEXP base;
+  static SEXP stats;
 
-  SEXP desc;
-  SEXP double_colon;
-  SEXP na_rm;
-  SEXP new_env;
-  SEXP comment;
-  SEXP groups;
-  SEXP vars;
-
-  symbols_t() {
-    package = Rf_install("package");
-    n = Rf_install("n");
-    tzone = Rf_install("tzone");
-    units = Rf_install("units");
-    dot_env = Rf_install(".env");
-    dot_data = Rf_install(".data");
-
-    sum = Rf_install("sum");
-    mean = Rf_install("mean");
-    var = Rf_install("var");
-    sd = Rf_install("sd");
-    n_distinct = Rf_install("n_distinct");
-    first = Rf_install("first");
-    last = Rf_install("last");
-    nth = Rf_install("nth");
-    group_indices = Rf_install("group_indices");
-    min = Rf_install("min");
-    max = Rf_install("max");
-    row_number = Rf_install("row_number");
-    ntile = Rf_install("ntile");
-    min_rank = Rf_install("min_rank");
-    percent_rank = Rf_install("percent_rank");
-    dense_rank = Rf_install("dense_rank");
-    cume_dist = Rf_install("cume_dist");
-    lead = Rf_install("lead");
-    lag = Rf_install("lag");
-    in = Rf_install("%in%");
-
-    narm = Rf_install("na.rm");
-    default_ = Rf_install("default");
-
-    dplyr = Rf_install("dplyr");
-    base = Rf_install("base");
-    stats = Rf_install("stats");
-
-    desc = Rf_install("desc");
-    double_colon = Rf_install("::");
-    na_rm = Rf_install("na.rm");
-    new_env = Rf_install("new.env");
-    comment = Rf_install("comment");
-    groups = Rf_install("groups");
-    vars = Rf_install("vars");
-  }
-
+  static SEXP desc;
+  static SEXP double_colon;
+  static SEXP na_rm;
+  static SEXP new_env;
+  static SEXP comment;
+  static SEXP groups;
+  static SEXP vars;
 };
-
-symbols_t& symbols();
 
 }
 

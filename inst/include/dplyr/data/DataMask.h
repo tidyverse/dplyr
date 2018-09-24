@@ -419,7 +419,7 @@ public:
                   );
 
       // install the pronoun
-      Rf_defineVar(symbols().dot_data, rlang::as_data_pronoun(mask_active), data_mask);
+      Rf_defineVar(symbols::dot_data, rlang::as_data_pronoun(mask_active), data_mask);
 
       active_bindings_ready = true;
     } else {
@@ -435,7 +435,7 @@ public:
 
     // change the parent environment of mask_active
     SET_ENCLOS(mask_active, env);
-    Rf_defineVar(symbols().dot_env, env, data_mask);
+    Rf_defineVar(symbols::dot_env, env, data_mask);
   }
 
   // get ready to evaluate an R expression for a given group

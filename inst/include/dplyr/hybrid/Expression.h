@@ -87,14 +87,14 @@ public:
       // a symbol
       valid = true;
       func = head;
-    } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == symbols().double_colon && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
+    } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == symbols::double_colon && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
       // a call of the `::` function
       func = CADDR(head);
       package = CADR(head);
 
       // give up on pkg::fun if pkg is not one of dplyr, stats or base
       // because we only hybrid functions from those
-      valid = package == symbols().dplyr || package == symbols().stats || package == symbols().base;
+      valid = package == symbols::dplyr || package == symbols::stats || package == symbols::base;
     }
 
     // the arguments
@@ -238,7 +238,7 @@ public:
     if (is_column_impl(val, column, false)) {
       return true;
     }
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == symbols().desc && is_column_impl(CADR(val), column, true)) {
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == symbols::desc && is_column_impl(CADR(val), column, true)) {
       return true;
     }
     return false;
@@ -263,7 +263,7 @@ private:
       return test_is_column(val, column, desc);
     }
 
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == symbols().dot_data) {
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 3 && CADR(val) == symbols::dot_data) {
       SEXP fun = CAR(val);
       SEXP rhs = CADDR(val);
 

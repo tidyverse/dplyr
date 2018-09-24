@@ -11,7 +11,7 @@
 using namespace Rcpp;
 
 SEXP child_env(SEXP parent) {
-  return Rf_eval(Rf_lang3(symbols().new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
+  return Rf_eval(Rf_lang3(symbols::new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
 }
 
 // [[Rcpp::export]]
@@ -324,7 +324,7 @@ bool is_data_pronoun(SEXP expr) {
     return false;
 
   SEXP first = CADR(expr);
-  if (first != symbols().dot_data)
+  if (first != symbols::dot_data)
     return false;
 
   SEXP second = CADDR(expr);
