@@ -9,6 +9,8 @@
 #include <dplyr/visitors/subset/DataFrameSelect.h>
 #include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 
+#include <dplyr/visitors/order/OneBased_IntegerVector.h>
+
 using namespace Rcpp;
 using namespace dplyr;
 
@@ -30,17 +32,28 @@ SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector&
   check_valid_colnames(df, true);
   DataFrameVisitors visitors(df, vars);
 
-  std::vector<int> indices;
+  int n = df.nrows();
+
+  // allocate a big enough vector
+  IntegerVector indices(n);
   VisitorSetIndexSet<DataFrameVisitors> set(visitors);
 
-  int n = df.nrows();
+  int k = 0;
   for (int i = 0; i < n; i++) {
     if (set.insert(i).second) {
-      indices.push_back(i);
+      indices[k++] = i + 1;
     }
   }
 
-  return DataFrameSubsetVisitors(DataFrameSelect(df, keep), caller_env).subset_all(indices);
+  // but then pretend it is smaller in case it is used in R subscripting
+  SETLENGTH(indices, k);
+
+  SEXP res = DataFrameSubsetVisitors(DataFrameSelect(df, keep), caller_env).subset_all(OneBased_IntegerVector(indices));
+
+  // restore original length for GC bookkeeping
+  SETLENGTH(indices, n);
+
+  return res;
 }
 
 // [[Rcpp::export]]

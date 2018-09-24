@@ -3,32 +3,9 @@
 
 #include <tools/pointer_vector.h>
 #include <dplyr/visitors/order/OrderVisitorImpl.h>
+#include <dplyr/visitors/order/OneBased_IntegerVector.h>
 
 namespace dplyr {
-
-class OneBased_IntegerVector {
-public:
-  OneBased_IntegerVector(const Rcpp::IntegerVector& data_) :
-    data(data_)
-  {}
-
-  // used when we do C++ subscripting
-  inline int operator[](int i) const {
-    return data[i] - 1;
-  }
-
-  // used when we do R subscripting
-  inline operator SEXP() const {
-    return data;
-  }
-
-  inline R_xlen_t size() const {
-    return data.size();
-  }
-
-private:
-  Rcpp::IntegerVector data;
-};
 
 class OrderVisitors {
 private:
