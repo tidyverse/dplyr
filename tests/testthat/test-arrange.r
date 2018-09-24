@@ -108,6 +108,7 @@ test_that("arrange handles complex vectors", {
 test_that("arrange respects attributes #1105", {
   env <- environment()
   Period <- suppressWarnings(setClass("Period", contains = "numeric", where = env))
+  setMethod('[', 'Period', function(x, ...){ Period(unclass(x)[...])  }, where = env)
   on.exit(removeClass("Period", where = env))
 
   df <- data.frame(p = Period(c(1, 2, 3)), x = 1:3)
