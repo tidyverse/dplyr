@@ -51,7 +51,6 @@ private:
 
 template <typename SlicedTibble, typename Expression, typename Operation>
 SEXP n_distinct_(const SlicedTibble& data, const Expression& expression, const Operation& op) {
-  SEXP s_narm = Rf_install("na.rm");
   std::vector<SEXP> columns;
   bool narm = false;
 
@@ -59,7 +58,7 @@ SEXP n_distinct_(const SlicedTibble& data, const Expression& expression, const O
   for (int i = 0; i < n; i++) {
     Column column;
 
-    if (expression.is_named(i, s_narm)) {
+    if (expression.is_named(i, symbols::narm)) {
       bool test ;
       // if we have na.rm= TRUE, or na.rm = FALSE, we can handle it
       if (expression.is_scalar_logical(i, test)) {
