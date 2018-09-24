@@ -20,13 +20,6 @@ public:
     }
   }
 
-  OrderVisitors(DataFrame data) :
-    visitors(data.size()), n(data.size()), nrows(data.nrows())
-  {
-    for (int i = 0; i < n; i++)
-      visitors[i]  = order_visitor(data[i], true, i);
-  }
-
   OrderVisitors(SEXP data, bool ascending) :
     visitors(1), n(1), nrows(Rf_length(data))
   {
