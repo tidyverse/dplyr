@@ -48,21 +48,6 @@ private:
 
 };
 
-template <typename OrderVisitorClass>
-class Compare_Single_OrderVisitor {
-public:
-  Compare_Single_OrderVisitor(const OrderVisitorClass& obj_) : obj(obj_) {}
-
-  inline bool operator()(int i, int j) const {
-    if (i == j) return false;
-    if (obj.equal(i, j)) return i < j;
-    return obj.before(i, j);
-  }
-
-private:
-  const OrderVisitorClass& obj;
-};
-
 inline Rcpp::IntegerVector OrderVisitors::apply() const {
   if (nrows == 0) return IntegerVector(0);
   IntegerVector x = seq(0, nrows - 1);
