@@ -105,26 +105,12 @@ template <typename Index>
 DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes, SEXP env = R_GlobalEnv);
 
 template <typename Index>
-inline SEXP one_based(const Index& index) {
-  return index ;
-}
-
-template <>
-inline SEXP one_based< std::vector<int> >(const std::vector<int>& index) {
-  IntegerVector res(no_init(index.size()));
-  for (int i = 0; i < index.size(); i++) {
-    res[i] = index[i] < 0 ? NA_INTEGER : index[i] + 1;
-  }
-  return res;
-}
-
-template <typename Index>
 SEXP r_column_subset(SEXP x, const Index& index, SEXP env) {
-  Shield<SEXP> one_base_index(one_based(index));
+  Shield<SEXP> one_based_index(index);
   if (Rf_isMatrix(x)) {
-    return Language("[", x, one_base_index, R_MissingArg).eval(env);
+    return Language("[", x, one_based_index, R_MissingArg).eval(env);
   } else {
-    return Language("[", x, one_base_index).eval(env);
+    return Language("[", x, one_based_index).eval(env);
   }
 }
 

@@ -15,6 +15,8 @@
 #include <dplyr/visitors/subset/DataFrameSelect.h>
 #include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 
+#include <dplyr/visitors/order/OneBased_IntegerVector.h>
+
 #include <tools/train.h>
 #include <tools/bad.h>
 
@@ -22,9 +24,8 @@ using namespace Rcpp;
 using namespace dplyr;
 #include <tools/debug.h>
 
-template <typename Index>
 DataFrame subset_join(DataFrame x, DataFrame y,
-                      const Index& indices_x, const Index& indices_y,
+                      const std::vector<int>& indices_x, const std::vector<int>& indices_y,
                       const IntegerVector& by_x, const IntegerVector& by_y,
                       const IntegerVector& aux_x, const IntegerVector& aux_y,
                       CharacterVector classes,
@@ -41,14 +42,30 @@ DataFrame subset_join(DataFrame x, DataFrame y,
 
   // then the auxiliary x columns (all x columns keep their location)
   DataFrameSubsetVisitors subset_x(DataFrameSelect(x, aux_x), caller_env);
+
+  // convert indices_x to 1-based R indices
+  int n_x = indices_x.size();
+  IntegerVector indices_x_one_based(indices_x.size());
+  for (int j = 0; j < n_x; j++) {
+    indices_x_one_based[j] = indices_x[j] < 0 ? NA_INTEGER : (indices_x[j] + 1);
+  }
+
+  // materialize the first few columns
   for (int i = 0; i < aux_x.size(); i++) {
-    out[aux_x[i] - 1] = subset_x.subset_one(i, indices_x);
+    out[aux_x[i] - 1] = subset_x.subset_one(i, OneBased_IntegerVector(indices_x_one_based));
+  }
+
+  // convert indices_y
+  int n_y = indices_y.size();
+  IntegerVector indices_y_one_based(indices_y.size());
+  for (int j = 0; j < n_y; j++) {
+    indices_y_one_based[j] = indices_y[j] < 0 ? NA_INTEGER : (indices_y[j] + 1);
   }
 
   // then the auxiliary y columns (all y columns keep their relative location)
   DataFrameSubsetVisitors subset_y(DataFrameSelect(y, aux_y), caller_env);
   for (int i = 0, k = x.ncol(); i < aux_y.size(); i++, k++) {
-    out[k] = subset_y.subset_one(i, indices_y);
+    out[k] = subset_y.subset_one(i, OneBased_IntegerVector(indices_y_one_based));
   }
 
   int nrows = indices_x.size();
@@ -93,9 +110,13 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   train_push_back(map, x.nrows());
 
   int n_y = y.nrows();
+
   // this will collect indices from rows in x that match rows in y
-  std::vector<int> indices;
-  indices.reserve(x.nrows());
+  //
+  // allocate a big enough R vector
+  IntegerVector indices(x.nrows());
+
+  int k = 0;
   for (int i = 0; i < n_y; i++) {
     // find a row in x that matches row i from y
     Map::iterator it = map.find(-i - 1);
@@ -103,16 +124,26 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
     if (it != map.end()) {
       // collect the indices and remove them from the
       // map so that they are only found once.
-      push_back(indices, it->second);
+      const std::vector<int>& zero_based_chunk = it->second;
+
+      for (int j = 0; j < zero_based_chunk.size(); j++, k++) {
+        indices[k] = zero_based_chunk[j] + 1;
+      }
 
       map.erase(it);
-
     }
   }
 
+  // pretend indices is of length k
+  SETLENGTH(indices, k);
   std::sort(indices.begin(), indices.end());
 
-  return DataFrameSubsetVisitors(x, caller_env).subset_all(indices);
+  DataFrame res = DataFrameSubsetVisitors(x, caller_env).subset_all(OneBased_IntegerVector(indices));
+
+  // stop pretending
+  SETLENGTH(indices, x.nrows());
+
+  return res;
 }
 
 // [[Rcpp::export]]
@@ -123,26 +154,39 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   DataFrameJoinVisitors visitors(x, y, SymbolVector(by_x), SymbolVector(by_y), true, na_match);
   Map map(visitors);
 
-  // train the map in terms of x
-  train_push_back(map, x.nrows());
+  int n_x = x.nrows();
 
-  int n_y = y.nrows();
+  // train the map in terms of x
+  train_push_back(map, n_x);
+
   // remove the rows in x that match
+  int n_y = y.nrows();
   for (int i = 0; i < n_y; i++) {
     Map::iterator it = map.find(-i - 1);
     if (it != map.end())
       map.erase(it);
   }
 
-  // collect what's left
-  std::vector<int> indices;
-  indices.reserve(map.size());
-  for (Map::iterator it = map.begin(); it != map.end(); ++it)
-    push_back(indices, it->second);
+  // allocate a big enough R vector
+  IntegerVector indices(n_x);
+  int k = 0;
+  for (Map::iterator it = map.begin(); it != map.end(); ++it) {
+    const std::vector<int>& zero_based_chunk = it->second;
+    for (int j = 0; j < zero_based_chunk.size(); j++, k++) {
+      indices[k] = zero_based_chunk[j] + 1;
+    }
+  }
 
+  // pretend length
+  SETLENGTH(indices, k);
   std::sort(indices.begin(), indices.end());
 
-  return DataFrameSubsetVisitors(x, caller_env).subset_all(indices);
+  DataFrame res = DataFrameSubsetVisitors(x, caller_env).subset_all(OneBased_IntegerVector(indices));
+
+  // stop pretending
+  SETLENGTH(indices, k);
+
+  return res;
 }
 
 void check_by(const IntegerVector& by) {
@@ -185,10 +229,6 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-inline int reverse_index(int i) {
-  return -i - 1;
-}
-
 // [[Rcpp::export]]
 List nest_join_impl(DataFrame x, DataFrame y,
                     IntegerVector by_x, IntegerVector by_y,
@@ -214,6 +254,9 @@ List nest_join_impl(DataFrame x, DataFrame y,
   // to deal with the case where multiple rows of x match rows in y
   dplyr_hash_map<int, SEXP> resolved_map(y_subset_visitors.size());
 
+  // empty integer vector
+  IntegerVector empty(0);
+
   for (int i = 0; i < n_x; i++) {
 
     // check if the i row of x matches rows in y
@@ -223,10 +266,15 @@ List nest_join_impl(DataFrame x, DataFrame y,
       // then check if we have already seen that match
       dplyr_hash_map<int, SEXP>::iterator rit = resolved_map.find(it->first);
       if (rit == resolved_map.end()) {
-        // first time we see the match, so transform the indices that were collected
-        // so that they are on the 0-based positive space, then subset y
-        std::transform(it->second.begin(), it->second.end(), it->second.begin(), reverse_index);
-        resolved_map[it->first] = list_col[i] = y_subset_visitors.subset_all(it->second);
+        // first time we see the match, perform the subset
+        const std::vector<int>& indices_negative = it->second;
+        int n = indices_negative.size();
+        IntegerVector indices_one_based(n);
+        for (int j = 0; j < n; j++) {
+          indices_one_based[j] = -indices_negative[j];
+        }
+
+        resolved_map[it->first] = list_col[i] = y_subset_visitors.subset_all(OneBased_IntegerVector(indices_one_based));
       } else {
         // we have seen that match already, just lazy duplicate the tibble that is
         // stored in the resolved map
@@ -234,7 +282,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
       }
 
     } else {
-      list_col[i] = y_subset_visitors.subset_all(std::vector<int>(0));
+      list_col[i] = y_subset_visitors.subset_all(empty);
     }
   }
 
