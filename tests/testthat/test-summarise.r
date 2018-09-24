@@ -310,14 +310,14 @@ test_that("summarise checks outputs (#300)", {
   )
 })
 
-test_that("comment attribute is white listed (#346)", {
+test_that("comment attribute is allowed (#346)", {
   test <- data.frame(A = c(1, 1, 0, 0), B = c(2, 2, 3, 3))
   comment(test$B) <- "2nd Var"
   res <- group_by(test, A)
   expect_equal(comment(res$B), "2nd Var")
 })
 
-test_that("AsIs class is white listed (#453)", {
+test_that("AsIs class is allowed (#453)", {
   test <- data.frame(A = c(1, 1, 0, 0), B = I(c(2, 2, 3, 3)))
   res <- group_by(test, B)
   expect_equal(res$B, test$B)

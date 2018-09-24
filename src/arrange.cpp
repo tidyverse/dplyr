@@ -13,11 +13,8 @@
 #include <tools/bad.h>
 
 #include <dplyr/data/DataMask.h>
-<<<<<<< HEAD
 #include <dplyr/symbols.h>
-=======
 #include <dplyr/visitors/order/Order.h>
->>>>>>> OrderVisitors and 1-based indexing.
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -25,13 +22,7 @@ using namespace dplyr;
 #include <tools/debug.h>
 
 template <typename SlicedTibble>
-<<<<<<< HEAD
-SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
-=======
 SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, const Environment& caller_env) {
-  static SEXP symb_desc = Rf_install("desc");
-
->>>>>>> OrderVisitors and 1-based indexing.
   const DataFrame& data = gdf.data();
   if (data.size() == 0 || data.nrows() == 0)
     return data;
