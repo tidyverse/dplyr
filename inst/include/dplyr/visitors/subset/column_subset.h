@@ -3,7 +3,6 @@
 
 #include <tools/utils.h>
 #include <tools/set_rownames.h>
-#include <tools/is_lubridate_unsupported.h>
 #include <tools/bad.h>
 #include <tools/default_value.h>
 #include <tools/SlicingIndex.h>
@@ -133,10 +132,6 @@ SEXP column_subset(SEXP x, const Index& index, SEXP env) {
   // this has a class, so just use R `[`
   if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
     return r_column_subset(x, index, env);
-  }
-
-  if (is_lubridate_unsupported(x)) {
-    stop("classes Period and Interval from lubridate are currently not supported.") ;
   }
 
   switch (TYPEOF(x)) {

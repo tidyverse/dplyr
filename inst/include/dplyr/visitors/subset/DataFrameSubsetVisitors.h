@@ -2,7 +2,6 @@
 #define DPLY_VISITORS_SUBSET_DataFrameSubsetVisitors_H
 
 #include <tools/utils.h>
-#include <tools/is_lubridate_unsupported.h>
 #include <tools/bad.h>
 #include <dplyr/visitors/subset/column_subset.h>
 
