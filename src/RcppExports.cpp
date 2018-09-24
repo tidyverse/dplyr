@@ -53,17 +53,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// gp
-unsigned short gp(SEXP x);
-RcppExport SEXP _dplyr_gp(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(gp(x));
-    return rcpp_result_gen;
-END_RCPP
-}
 // init_logging
 void init_logging(const std::string& log_level);
 RcppExport SEXP _dplyr_init_logging(SEXP log_levelSEXP) {
@@ -730,7 +719,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_dfloc", (DL_FUNC) &_dplyr_dfloc, 1},
     {"_dplyr_plfloc", (DL_FUNC) &_dplyr_plfloc, 1},
     {"_dplyr_strings_addresses", (DL_FUNC) &_dplyr_strings_addresses, 1},
-    {"_dplyr_gp", (DL_FUNC) &_dplyr_gp, 1},
     {"_dplyr_init_logging", (DL_FUNC) &_dplyr_init_logging, 1},
     {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 2},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},

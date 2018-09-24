@@ -17,10 +17,6 @@ strings_addresses <- function(s) {
     .Call(`_dplyr_strings_addresses`, s)
 }
 
-gp <- function(x) {
-    .Call(`_dplyr_gp`, x)
-}
-
 #' Enable internal logging
 #'
 #' Log entries, depending on the log level, will be printed to the standard
