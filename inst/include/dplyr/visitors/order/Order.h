@@ -6,6 +6,30 @@
 
 namespace dplyr {
 
+class OneBased_IntegerVector {
+public:
+  OneBased_IntegerVector(const Rcpp::IntegerVector& data_) :
+    data(data_)
+  {}
+
+  // used when we do C++ subscripting
+  inline int operator[](int i) const {
+    return data[i] - 1;
+  }
+
+  // used when we do R subscripting
+  inline operator SEXP() const {
+    return data;
+  }
+
+  inline R_xlen_t size() const {
+    return data.size();
+  }
+
+private:
+  Rcpp::IntegerVector data;
+};
+
 class OrderVisitors {
 private:
 
@@ -18,8 +42,8 @@ private:
     inline bool operator()(int i, int j) const {
       if (i == j) return false;
       for (int k = 0; k < obj.n; k++) {
-        if (! obj.visitors[k]->equal(i, j)){
-          return obj.visitors[k]->before(i, j);
+        if (! obj.visitors[k]->equal(i - 1, j - 1)) {
+          return obj.visitors[k]->before(i - 1, j - 1);
         }
       }
       return i < j;
@@ -42,11 +66,11 @@ public:
     }
   }
 
-  inline Rcpp::IntegerVector apply() const {
+  inline OneBased_IntegerVector apply() const {
     if (nrows == 0) return IntegerVector(0);
-    IntegerVector x = seq(0, nrows - 1);
+    IntegerVector x = seq(1, nrows);
     std::sort(x.begin(), x.end(), Compare(*this));
-    return x;
+    return OneBased_IntegerVector(x);
   }
 
   pointer_vector<OrderVisitor> visitors;

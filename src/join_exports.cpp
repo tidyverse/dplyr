@@ -27,7 +27,8 @@ DataFrame subset_join(DataFrame x, DataFrame y,
                       const Index& indices_x, const Index& indices_y,
                       const IntegerVector& by_x, const IntegerVector& by_y,
                       const IntegerVector& aux_x, const IntegerVector& aux_y,
-                      CharacterVector classes) {
+                      CharacterVector classes,
+                      const Environment& caller_env) {
   // construct out object
   List out(x.ncol() + aux_y.size());
 
@@ -39,13 +40,13 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   }
 
   // then the auxiliary x columns (all x columns keep their location)
-  DataFrameSubsetVisitors subset_x(DataFrameSelect(x, aux_x));
+  DataFrameSubsetVisitors subset_x(DataFrameSelect(x, aux_x), caller_env);
   for (int i = 0; i < aux_x.size(); i++) {
     out[aux_x[i] - 1] = subset_x.subset_one(i, indices_x);
   }
 
   // then the auxiliary y columns (all y columns keep their relative location)
-  DataFrameSubsetVisitors subset_y(DataFrameSelect(y, aux_y));
+  DataFrameSubsetVisitors subset_y(DataFrameSelect(y, aux_y), caller_env);
   for (int i = 0, k = x.ncol(); i < aux_y.size(); i++, k++) {
     out[k] = subset_y.subset_one(i, indices_y);
   }
@@ -81,7 +82,7 @@ void check_by(const CharacterVector& by) {
 }
 
 // [[Rcpp::export]]
-DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
+DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match, const Environment& caller_env) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
@@ -111,11 +112,11 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   std::sort(indices.begin(), indices.end());
 
-  return DataFrameSubsetVisitors(x).subset_all(indices);
+  return DataFrameSubsetVisitors(x, caller_env).subset_all(indices);
 }
 
 // [[Rcpp::export]]
-DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match) {
+DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match, const Environment& caller_env) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
@@ -141,7 +142,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
 
   std::sort(indices.begin(), indices.end());
 
-  return DataFrameSubsetVisitors(x).subset_all(indices);
+  return DataFrameSubsetVisitors(x, caller_env).subset_all(indices);
 }
 
 void check_by(const IntegerVector& by) {
@@ -152,7 +153,8 @@ void check_by(const IntegerVector& by) {
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
                           IntegerVector aux_x, IntegerVector aux_y,
-                          bool na_match) {
+                          bool na_match,
+                          const Environment& caller_env) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
@@ -178,7 +180,8 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      aux_x, aux_y,
-                     get_class(x)
+                     get_class(x),
+                     caller_env
                     );
 }
 
@@ -190,7 +193,8 @@ inline int reverse_index(int i) {
 List nest_join_impl(DataFrame x, DataFrame y,
                     IntegerVector by_x, IntegerVector by_y,
                     IntegerVector aux_y,
-                    String yname
+                    String yname,
+                    const Environment& caller_env
                    ) {
 
   check_by(by_x);
@@ -205,7 +209,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
 
   List list_col(n_x);
 
-  DataFrameSubsetVisitors y_subset_visitors(DataFrameSelect(y, aux_y));
+  DataFrameSubsetVisitors y_subset_visitors(DataFrameSelect(y, aux_y), caller_env);
 
   // to deal with the case where multiple rows of x match rows in y
   dplyr_hash_map<int, SEXP> resolved_map(y_subset_visitors.size());
@@ -257,7 +261,8 @@ List nest_join_impl(DataFrame x, DataFrame y,
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
                          IntegerVector aux_x, IntegerVector aux_y,
-                         bool na_match) {
+                         bool na_match,
+                         const Environment& caller_env) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
@@ -288,7 +293,8 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      aux_x, aux_y,
-                     get_class(x)
+                     get_class(x),
+                     caller_env
                     );
 }
 
@@ -296,7 +302,8 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
 DataFrame right_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
                           IntegerVector aux_x, IntegerVector aux_y,
-                          bool na_match) {
+                          bool na_match,
+                          const Environment& caller_env) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
@@ -325,7 +332,8 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      aux_x, aux_y,
-                     get_class(x)
+                     get_class(x),
+                     caller_env
                     );
 }
 
@@ -333,7 +341,8 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
 DataFrame full_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
                          IntegerVector aux_x, IntegerVector aux_y,
-                         bool na_match) {
+                         bool na_match,
+                         const Environment& caller_env) {
   check_by(by_x);
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
@@ -379,6 +388,7 @@ DataFrame full_join_impl(DataFrame x, DataFrame y,
                      indices_x, indices_y,
                      by_x, by_y,
                      aux_x, aux_y,
-                     get_class(x)
+                     get_class(x),
+                     caller_env
                     );
 }

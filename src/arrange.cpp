@@ -13,7 +13,11 @@
 #include <tools/bad.h>
 
 #include <dplyr/data/DataMask.h>
+<<<<<<< HEAD
 #include <dplyr/symbols.h>
+=======
+#include <dplyr/visitors/order/Order.h>
+>>>>>>> OrderVisitors and 1-based indexing.
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -21,7 +25,13 @@ using namespace dplyr;
 #include <tools/debug.h>
 
 template <typename SlicedTibble>
+<<<<<<< HEAD
 SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
+=======
+SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, const Environment& caller_env) {
+  static SEXP symb_desc = Rf_install("desc");
+
+>>>>>>> OrderVisitors and 1-based indexing.
   const DataFrame& data = gdf.data();
   if (data.size() == 0 || data.nrows() == 0)
     return data;
@@ -66,24 +76,23 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
     ascending[i] = !is_desc;
   }
   variables.names() = quosures.names();
-  OrderVisitors o(variables, ascending, nargs);
-  IntegerVector index = o.apply();
 
-  List res = DataFrameSubsetVisitors(data).subset_all(index);
+  OrderVisitors o(variables, ascending, nargs);
+  OneBased_IntegerVector one_based_index = o.apply();
+  List res = DataFrameSubsetVisitors(data, caller_env).subset_all(one_based_index);
 
   // let the grouping class organise the rest (the groups attribute etc ...)
   return SlicedTibble(res, gdf).data();
-
 }
 
 // [[Rcpp::export]]
-SEXP arrange_impl(DataFrame df, QuosureList quosures) {
+SEXP arrange_impl(DataFrame df, QuosureList quosures, const Environment& caller_env) {
   if (is<RowwiseDataFrame>(df)) {
-    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures);
+    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures, caller_env);
   } else if (is<GroupedDataFrame>(df)) {
-    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures);
+    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures, caller_env);
   } else {
-    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures);
+    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures, caller_env);
   }
 }
 

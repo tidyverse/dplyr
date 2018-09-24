@@ -15,7 +15,7 @@ using namespace dplyr;
 SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names);
 
 // [[Rcpp::export]]
-SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep) {
+SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep, const Environment& caller_env) {
   if (df.size() == 0) {
     DataFrame res = DataFrame::create();
     copy_most_attributes(res, df);
@@ -40,7 +40,7 @@ SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector&
     }
   }
 
-  return DataFrameSubsetVisitors(DataFrameSelect(df, keep)).subset_all(indices);
+  return DataFrameSubsetVisitors(DataFrameSelect(df, keep), caller_env).subset_all(indices);
 }
 
 // [[Rcpp::export]]

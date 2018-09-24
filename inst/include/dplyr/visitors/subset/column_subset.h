@@ -110,11 +110,6 @@ inline SEXP one_based(const Index& index) {
 }
 
 template <>
-inline SEXP one_based<Rcpp::IntegerVector>(const Rcpp::IntegerVector& index) {
-  return IntegerVector(index + 1) ;
-}
-
-template <>
 inline SEXP one_based< std::vector<int> >(const std::vector<int>& index) {
   IntegerVector res(no_init(index.size()));
   for (int i = 0; i < index.size(); i++) {
@@ -144,10 +139,12 @@ inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingInd
 }
 
 template <typename Index>
-SEXP column_subset(SEXP x, const Index& index, SEXP env = R_GlobalEnv) {
+SEXP column_subset(SEXP x, const Index& index, SEXP env) {
   if (Rf_inherits(x, "data.frame")) {
     return dataframe_subset(x, index, Rf_getAttrib(x, R_NamesSymbol), env);
   }
+
+  // this has a class, so just use R `[`
   if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
     return r_column_subset(x, index, env);
   }
@@ -185,7 +182,7 @@ DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector
   List res(nc);
 
   for (int i = 0; i < nc; i++) {
-    res[i] = column_subset(data[i], index);
+    res[i] = column_subset(data[i], index, env);
   }
 
   copy_most_attributes(res, data);
