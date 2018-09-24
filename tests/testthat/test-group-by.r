@@ -94,14 +94,23 @@ test_that("group_by orders by groups. #242", {
   expect_equal(group_data(df)$a, sqrt(1:10))
 })
 
-test_that("group_by uses the white list", {
-  df <- data.frame(times = 1:5)
+test_that("group_by only allows grouping by columns whos class are on the allow list", {
+  df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
   expect_error(
     group_by(df, times),
-    "Column `times` is of unsupported class POSIXlt/POSIXt",
+    "Column `times` can't be used as a grouping variable because it's a POSIXlt/POSIXt",
     fixed = TRUE
   )
+})
+
+test_that("group_by only applies the allow list to grouping variables", {
+  df <- data.frame(times = 1:5, x = 1:5)
+  df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
+
+  res <- group_by(df, x)
+  expect_equal(groups(res), list(sym("x")))
+  expect_identical(group_data(res), tibble(x=1:5, .rows = as.list(1:5)))
 })
 
 test_that("group_by fails when lists are used as grouping variables (#276)", {

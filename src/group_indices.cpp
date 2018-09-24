@@ -559,7 +559,6 @@ SymbolVector GroupedDataFrame::group_vars(SEXP x) {
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
-  assert_all_allow_list(data);
   DataFrame copy(shallow_copy(data));
   set_class(copy, GroupedDataFrame::classes());
   if (!symbols.size())
