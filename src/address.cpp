@@ -61,15 +61,6 @@ CharacterVector strings_addresses(CharacterVector s) {
   return res;
 }
 
-// simple internal debugging function to access the gp part of the SEXP
-// only meant for internal use in dplyr debugging
-
-// [[Rcpp::export]]
-unsigned short gp(SEXP x) {
-  return reinterpret_cast<sxpinfo_struct*>(x)->gp;
-}
-
-
 //' Enable internal logging
 //'
 //' Log entries, depending on the log level, will be printed to the standard

@@ -555,16 +555,10 @@ test_that("summarise handles list output columns (#832)", {
   res <- df %>% group_by(g) %>% summarise(y = list(x))
   expect_equal(res$y[[1]], 1:5)
   expect_equal(res$y[[2]], 6:10)
-  # just checking objects are not messed up internally
-  expect_equal(gp(res$y[[1]]), 0L)
-  expect_equal(gp(res$y[[2]]), 0L)
 
   res <- df %>% group_by(g) %>% summarise(y = list(x + 1))
   expect_equal(res$y[[1]], 1:5 + 1)
   expect_equal(res$y[[2]], 6:10 + 1)
-  # just checking objects are not messed up internally
-  expect_equal(gp(res$y[[1]]), 0L)
-  expect_equal(gp(res$y[[2]]), 0L)
 
   df <- data_frame(x = 1:10, g = rep(1:2, each = 5))
   res <- df %>% summarise(y = list(x))
