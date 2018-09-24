@@ -25,6 +25,9 @@ public:
   pointer_vector<OrderVisitor> visitors;
   int n;
   int nrows;
+
+private:
+  OrderVisitors(const OrderVisitors&);
 };
 
 class OrderVisitors_Compare {
