@@ -133,6 +133,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// dollar_data_pronoun
+SEXP dollar_data_pronoun(SEXP x, SEXP symbol);
+RcppExport SEXP _dplyr_dollar_data_pronoun(SEXP xSEXP, SEXP symbolSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type symbol(symbolSEXP);
+    rcpp_result_gen = Rcpp::wrap(dollar_data_pronoun(x, symbol));
+    return rcpp_result_gen;
+END_RCPP
+}
 // distinct_impl
 SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep);
 RcppExport SEXP _dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP, SEXP keepSEXP) {
@@ -726,6 +738,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
+    {"_dplyr_dollar_data_pronoun", (DL_FUNC) &_dplyr_dollar_data_pronoun, 2},
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 3},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},

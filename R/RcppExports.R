@@ -68,6 +68,10 @@ combine_all <- function(data) {
     .Call(`_dplyr_combine_all`, data)
 }
 
+dollar_data_pronoun <- function(x, symbol) {
+    .Call(`_dplyr_dollar_data_pronoun`, x, symbol)
+}
+
 distinct_impl <- function(df, vars, keep) {
     .Call(`_dplyr_distinct_impl`, df, vars, keep)
 }
