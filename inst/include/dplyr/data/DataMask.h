@@ -351,6 +351,9 @@ public:
   ~DataMask() {
     get_context_env()["..group_size"] = previous_group_size;
     get_context_env()["..group_number"] = previous_group_number;
+    if (active_bindings_ready) {
+      clear_resolved();
+    }
   }
 
   // returns a pointer to the ColumnBinding if it exists
@@ -426,18 +429,11 @@ public:
                   );
 
       // install the pronoun
-      Rf_defineVar(symbols::dot_data, rlang::as_data_pronoun(mask_active), data_mask);
+      Rf_defineVar(symbols::dot_data, rlang::as_data_pronoun(data_mask), data_mask);
 
       active_bindings_ready = true;
     } else {
-
-      // remove the materialized bindings from the mask_resolved environment
-      for (size_t i = 0; i < materialized.size(); i++) {
-        column_bindings[materialized[i]].clear(mask_resolved);
-      }
-
-      // forget about which indices are materialized
-      materialized.clear();
+      clear_resolved();
     }
 
     // change the parent environment of mask_active
@@ -587,6 +583,16 @@ private:
       Rcpp::Environment::namespace_env("dplyr")["context_env"]
     );
     return context_env;
+  }
+
+  void clear_resolved() {
+    // remove the materialized bindings from the mask_resolved environment
+    for (size_t i = 0; i < materialized.size(); i++) {
+      column_bindings[materialized[i]].clear(mask_resolved);
+    }
+
+    // forget about which indices are materialized
+    materialized.clear();
   }
 
 };
