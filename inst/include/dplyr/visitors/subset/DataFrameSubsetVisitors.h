@@ -10,10 +10,9 @@ namespace dplyr {
 class DataFrameSubsetVisitors {
 private:
   DataFrame data;
-  SEXP env;
 
 public:
-  DataFrameSubsetVisitors(const DataFrame& data_, SEXP env_): data(data_), env(env_) {}
+  DataFrameSubsetVisitors(const DataFrame& data_): data(data_) {}
 
   inline int size() const {
     return data.size();
@@ -21,12 +20,12 @@ public:
 
   template <typename Index>
   DataFrame subset_all(const Index& index) const {
-    return dataframe_subset<Index>(data, index, get_class(data), env);
+    return dataframe_subset<Index>(data, index, get_class(data));
   }
 
   template <typename Index>
   SEXP subset_one(int i, const Index& index) const {
-    return column_subset(data[i], index, env);
+    return column_subset(data[i], index);
   }
 
 };

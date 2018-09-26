@@ -7,6 +7,8 @@
 #include <tools/default_value.h>
 #include <tools/SlicingIndex.h>
 
+SEXP ns_methods();
+
 namespace dplyr {
 namespace traits {
 
@@ -101,37 +103,41 @@ SEXP column_subset_impl(SEXP x, const Index& index) {
 }
 
 template <typename Index>
-DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes, SEXP env = R_GlobalEnv);
+DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes);
+
+inline SEXP r_subset_env(SEXP x) {
+  return IS_S4_OBJECT(x) ? ns_methods() : R_BaseEnv;
+}
 
 template <typename Index>
-SEXP r_column_subset(SEXP x, const Index& index, SEXP env) {
+SEXP r_column_subset(SEXP x, const Index& index) {
   Shield<SEXP> one_based_index(index);
   if (Rf_isMatrix(x)) {
-    return Language("[", x, one_based_index, R_MissingArg).eval(env);
+    return Language("[", x, one_based_index, R_MissingArg).eval(r_subset_env(x));
   } else {
-    return Language("[", x, one_based_index).eval(env);
+    return Language("[", x, one_based_index).eval(r_subset_env(x));
   }
 }
 
 template <>
-inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingIndex& index, SEXP env) {
+inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingIndex& index) {
   if (Rf_isMatrix(x)) {
     // TODO: not sure about this
-    return Language("[", x, index, R_MissingArg).eval(env);
+    return Language("[", x, index, R_MissingArg).eval(r_subset_env(x));
   } else {
-    return Language("[[", x, index).eval(env);
+    return Language("[[", x, index).eval(r_subset_env(x));
   }
 }
 
 template <typename Index>
-SEXP column_subset(SEXP x, const Index& index, SEXP env) {
+SEXP column_subset(SEXP x, const Index& index) {
   if (Rf_inherits(x, "data.frame")) {
-    return dataframe_subset(x, index, Rf_getAttrib(x, R_NamesSymbol), env);
+    return dataframe_subset(x, index, Rf_getAttrib(x, R_NamesSymbol));
   }
 
-  // this has a class, so just use R `[`
-  if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
-    return r_column_subset(x, index, env);
+  // this has a class, so just use R `[` or `[[`
+  if (OBJECT(x) || !Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
+    return r_column_subset(x, index);
   }
 
   switch (TYPEOF(x)) {
@@ -158,12 +164,12 @@ SEXP column_subset(SEXP x, const Index& index, SEXP env) {
 }
 
 template <typename Index>
-DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes, SEXP env) {
+DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes) {
   int nc = data.size();
   List res(nc);
 
   for (int i = 0; i < nc; i++) {
-    res[i] = column_subset(data[i], index, env);
+    res[i] = column_subset(data[i], index);
   }
 
   copy_most_attributes(res, data);

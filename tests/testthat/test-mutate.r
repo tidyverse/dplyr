@@ -225,6 +225,16 @@ test_that("mutate fails on unsupported column type", {
   )
 })
 
+test_that("mutate can handle POSIXlt columns (#3854)", {
+  df <- data.frame(g=c(1,1,3))
+  df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
+
+  res <- df %>%
+    group_by(g) %>%
+    mutate(Y = format(created, "%Y"))
+  expect_true(all(res$Y == "2014"))
+})
+
 test_that("mutate modifies same column repeatedly (#243)", {
   df <- data.frame(x = 1)
   expect_equal(mutate(df, x = x + 1, x = x + 1)$x, 3)

@@ -43,12 +43,12 @@ as.data.frame.tbl_df <- function(x, row.names = NULL, optional = FALSE, ...) {
 #' @export
 arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
   dots <- quos(...)
-  arrange_impl(.data, dots, environment())
+  arrange_impl(.data, dots)
 }
 #' @export
 arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  arrange_impl(.data, dots, environment())
+  arrange_impl(.data, dots)
 }
 
 #' @export
@@ -169,7 +169,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   aux_x <- vars$idx$x$aux
   aux_y <- vars$idx$y$aux
 
-  out <- inner_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches, environment())
+  out <- inner_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)
@@ -193,7 +193,7 @@ nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name =
     aux_y <- c(by_y, aux_y)
   }
 
-  out <- nest_join_impl(x, y, by_x, by_y, aux_y, name_var, environment())
+  out <- nest_join_impl(x, y, by_x, by_y, aux_y, name_var)
   out
 }
 
@@ -217,7 +217,7 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   aux_x <- vars$idx$x$aux
   aux_y <- vars$idx$y$aux
 
-  out <- left_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches, environment())
+  out <- left_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)
@@ -242,7 +242,7 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   aux_x <- vars$idx$x$aux
   aux_y <- vars$idx$y$aux
 
-  out <- right_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches, environment())
+  out <- right_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)
@@ -267,7 +267,7 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   aux_x <- vars$idx$x$aux
   aux_y <- vars$idx$y$aux
 
-  out <- full_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches, environment())
+  out <- full_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches)
   names(out) <- vars$alias
 
   reconstruct_join(out, x, vars)
@@ -282,7 +282,7 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
 
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  out <- semi_join_impl(x, y, by$x, by$y, check_na_matches(na_matches), environment())
+  out <- semi_join_impl(x, y, by$x, by$y, check_na_matches(na_matches))
   if (is_grouped_df(x)) {
     out <- grouped_df_impl(out, group_vars(x))
   }
@@ -298,7 +298,7 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
 
   by <- common_by(by, x, y)
   y <- auto_copy(x, y, copy = copy)
-  out <- anti_join_impl(x, y, by$x, by$y, check_na_matches(na_matches), environment())
+  out <- anti_join_impl(x, y, by$x, by$y, check_na_matches(na_matches))
   if (is_grouped_df(x)) {
     out <- grouped_df_impl(out, group_vars(x))
   }

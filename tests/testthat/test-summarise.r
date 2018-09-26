@@ -1058,9 +1058,19 @@ test_that("formulas are evaluated in the right environment (#3019)", {
   expect_identical(environment(out[[1]]), out[[2]])
 })
 
-test_that("summarise correctlyu reconstruct group rows", {
+test_that("summarise correctly reconstruct group rows", {
   d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
     group_by(g1, g2) %>%
     summarise(x = x+1)
   expect_equal(group_rows(d), list(1:2, 3:4))
+})
+
+test_that("summarise can handle POSIXlt columns (#3854)", {
+  df <- data.frame(g=c(1,1,3))
+  df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
+
+  res <- df %>%
+    group_by(g) %>%
+    summarise(data = list(created))
+  expect_true(all(sapply(res$data, inherits, "POSIXlt")))
 })

@@ -253,7 +253,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   )
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
-  out <- distinct_impl(dist$data, vars, keep, environment())
+  out <- distinct_impl(dist$data, vars, keep)
   grouped_df(out, groups(.data))
 }
 #' @export

@@ -17,7 +17,7 @@ using namespace dplyr;
 SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names);
 
 // [[Rcpp::export]]
-SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep, const Environment& caller_env) {
+SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep) {
   if (df.size() == 0) {
     DataFrame res = DataFrame::create();
     copy_most_attributes(res, df);
@@ -48,7 +48,7 @@ SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector&
   // but then pretend it is smaller in case it is used in R subscripting
   SETLENGTH(indices, k);
 
-  SEXP res = DataFrameSubsetVisitors(DataFrameSelect(df, keep), caller_env).subset_all(OneBased_IntegerVector(indices));
+  SEXP res = DataFrameSubsetVisitors(DataFrameSelect(df, keep)).subset_all(OneBased_IntegerVector(indices));
 
   // restore original length for GC bookkeeping
   SETLENGTH(indices, n);

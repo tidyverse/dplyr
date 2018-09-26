@@ -139,8 +139,8 @@ private:
 
     // materialize
     Shield<SEXP> value(summary ?
-                       column_subset(data, RowwiseSlicingIndex(indices.group()), mask_resolved) :
-                       column_subset(data, indices, mask_resolved)
+                       column_subset(data, RowwiseSlicingIndex(indices.group())) :
+                       column_subset(data, indices)
                       );
 
     // store it in the mask_resolved environment

@@ -22,7 +22,7 @@ using namespace dplyr;
 #include <tools/debug.h>
 
 template <typename SlicedTibble>
-SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, const Environment& caller_env) {
+SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   const DataFrame& data = gdf.data();
   if (data.size() == 0 || data.nrows() == 0)
     return data;
@@ -70,20 +70,20 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, cons
 
   OrderVisitors o(variables, ascending, nargs);
   OneBased_IntegerVector one_based_index = o.apply();
-  List res = DataFrameSubsetVisitors(data, caller_env).subset_all(one_based_index);
+  List res = DataFrameSubsetVisitors(data).subset_all(one_based_index);
 
   // let the grouping class organise the rest (the groups attribute etc ...)
   return SlicedTibble(res, gdf).data();
 }
 
 // [[Rcpp::export]]
-SEXP arrange_impl(DataFrame df, QuosureList quosures, const Environment& caller_env) {
+SEXP arrange_impl(DataFrame df, QuosureList quosures) {
   if (is<RowwiseDataFrame>(df)) {
-    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures, caller_env);
+    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures);
   } else if (is<GroupedDataFrame>(df)) {
-    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures, caller_env);
+    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures);
   } else {
-    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures, caller_env);
+    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures);
   }
 }
 

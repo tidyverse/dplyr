@@ -105,15 +105,14 @@ test_that("arrange handles complex vectors", {
   expect_true(all(is.na(res$y[9:10])))
 })
 
-test_that("arrange respects attributes #1105", {
-  env <- environment()
-  Period <- suppressWarnings(setClass("Period", contains = "numeric", where = env))
-  setMethod('[', 'Period', function(x, ...){ Period(unclass(x)[...])  }, where = env)
-  on.exit(removeClass("Period", where = env))
+test_that("arrange respects S4 classes #1105", {
+  TestS4 <- suppressWarnings(setClass("TestS4", contains = "numeric"))
+  setMethod('[', 'TestS4', function(x, i, ...){ TestS4(unclass(x)[i, ...])  })
+  on.exit(removeClass("TestS4"))
 
-  df <- data.frame(p = Period(c(1, 2, 3)), x = 1:3)
+  df <- data.frame(p = TestS4(c(1, 2, 3)), x = 1:3)
   res <- arrange(df, p)
-  expect_is(res$p, "Period")
+  expect_is(res$p, "TestS4")
 })
 
 test_that("arrange works with empty data frame (#1142)", {
