@@ -6,6 +6,9 @@
 SEXP data_pronoun(SEXP data_mask) {
   SEXP pronoun = PROTECT(Rf_allocVector(VECSXP, 2));
   SEXP resolved = Rf_findVarInFrame3(data_mask, Rf_install(".top_env"), FALSE);
+  if (TYPEOF(resolved) != ENVSXP) {
+    stop("Environment `.top_env` not found in the data mask");
+  }
   SEXP active = ENCLOS(resolved);
   SET_VECTOR_ELT(pronoun, 0, resolved);
   SET_VECTOR_ELT(pronoun, 1, active);
