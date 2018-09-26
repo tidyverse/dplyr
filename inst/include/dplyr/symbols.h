@@ -51,6 +51,8 @@ struct symbols {
   static SEXP str;
   static SEXP dot_Internal;
   static SEXP inspect;
+
+  static SEXP dot_top_env;
 };
 
 }

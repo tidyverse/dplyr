@@ -1,11 +1,14 @@
 #include "pch.h"
 #include <dplyr/main.h>
+#include <dplyr/symbols.h>
+
+using namespace dplyr;
 
 // simple dplyr specific data pronoun that needs to look in two environments
 // stored in a list
 SEXP data_pronoun(SEXP data_mask) {
   SEXP pronoun = PROTECT(Rf_allocVector(VECSXP, 2));
-  SEXP resolved = Rf_findVarInFrame3(data_mask, Rf_install(".top_env"), FALSE);
+  SEXP resolved = Rf_findVarInFrame3(data_mask, symbols::dot_top_env, FALSE);
   if (TYPEOF(resolved) != ENVSXP) {
     stop("Environment `.top_env` not found in the data mask");
   }
