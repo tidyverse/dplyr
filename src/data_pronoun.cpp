@@ -9,8 +9,9 @@ SEXP data_pronoun(SEXP data_mask) {
   SEXP active = ENCLOS(resolved);
   SET_VECTOR_ELT(pronoun, 0, resolved);
   SET_VECTOR_ELT(pronoun, 1, active);
-  Rf_setAttrib(pronoun, R_ClassSymbol, Rf_mkString("dplyr_data_pronoun"));
-  UNPROTECT(1);
+  SEXP klass = PROTECT(Rf_mkString("dplyr_data_pronoun"));
+  Rf_setAttrib(pronoun, R_ClassSymbol, klass);
+  UNPROTECT(2);
   return pronoun;
 }
 
