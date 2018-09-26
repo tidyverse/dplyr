@@ -1,6 +1,8 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
+// simple dplyr specific data pronoun that needs to look in two environments
+// stored in a list
 SEXP data_pronoun(SEXP data_mask) {
   SEXP pronoun = PROTECT(Rf_allocVector(VECSXP, 2));
   SEXP resolved = Rf_findVarInFrame3(data_mask, Rf_install(".top_env"), FALSE);

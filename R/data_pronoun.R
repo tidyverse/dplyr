@@ -22,6 +22,8 @@
 
 #' @export
 names.dplyr_data_pronoun <- function(x) {
+  # the second environment (active) has all the active bindings
+  # so we only need to look there
   names(unclass(x)[[2]])
 }
 #' @export
