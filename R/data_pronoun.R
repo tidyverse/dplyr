@@ -40,7 +40,7 @@ print.dplyr_data_pronoun <- function(x, ...) {
 #' @importFrom utils str
 #' @export
 str.dplyr_data_pronoun <- function(object, ...) {
-  str(unclass(x)[[2]], ...)
+  str(unclass(object)[[2]], ...)
 }
 
 glue_countable <- function(n, str) {
