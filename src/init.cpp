@@ -78,4 +78,8 @@ SEXP symbols::comment = Rf_install("comment");
 SEXP symbols::groups = Rf_install("groups");
 SEXP symbols::vars = Rf_install("vars");
 
+SEXP symbols::op_minus = Rf_install("-");
+SEXP symbols::str = Rf_install("str");
+SEXP symbols::dot_Internal = Rf_install(".Internal");
+SEXP symbols::inspect = Rf_install("inspect");
 }

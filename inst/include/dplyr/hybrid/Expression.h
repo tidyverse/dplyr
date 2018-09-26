@@ -172,7 +172,7 @@ public:
     bool unary_minus = false;
 
     // unary minus
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 2 && CAR(val) == Rf_install("-")) {
+    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 2 && CAR(val) == symbols::op_minus) {
       val = CADR(val);
       unary_minus = true;
     }
