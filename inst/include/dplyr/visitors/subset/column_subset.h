@@ -113,7 +113,7 @@ template <typename Index>
 SEXP r_column_subset(SEXP x, const Index& index) {
   Shield<SEXP> one_based_index(index);
   if (Rf_isMatrix(x)) {
-    return Language("[", x, one_based_index, R_MissingArg).eval(r_subset_env(x));
+    return Language("[", x, one_based_index, R_MissingArg, _["drop"] = false).eval(r_subset_env(x));
   } else {
     return Language("[", x, one_based_index).eval(r_subset_env(x));
   }
@@ -132,7 +132,7 @@ inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingInd
 template <typename Index>
 SEXP column_subset(SEXP x, const Index& index) {
   if (Rf_inherits(x, "data.frame")) {
-    return dataframe_subset(x, index, Rf_getAttrib(x, R_NamesSymbol));
+    return dataframe_subset(x, index, Rf_getAttrib(x, R_ClassSymbol));
   }
 
   // this has a class, so just use R `[` or `[[`
@@ -176,7 +176,8 @@ DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector
   set_class(res, classes);
   set_rownames(res, index.size());
   copy_names(res, data);
-  return res;
+
+  return (SEXP)res;
 }
 
 }
