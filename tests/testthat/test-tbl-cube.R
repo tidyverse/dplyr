@@ -88,7 +88,7 @@ test_that("filter", {
 
   expect_error(
     filter(nasa, month == 1 & year == 2000),
-    "`month == 1 & year == 2000` must refer to exactly one dimension, not `month`, `year`"
+    "month == 1 & year == 2000 must refer to exactly one dimension, not `month`, `year`"
   )
 })
 

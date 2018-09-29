@@ -33,7 +33,7 @@ test_that("cases must yield compatible lengths", {
       c(FALSE, TRUE, FALSE) ~ 2,
       c(FALSE, TRUE, FALSE, NA) ~ 3
     ),
-    "`c(FALSE, TRUE, FALSE) ~ 2`, `c(FALSE, TRUE, FALSE, NA) ~ 3` must be length 2 or one, not 3, 4",
+    "c(FALSE, TRUE, FALSE) ~ 2, c(FALSE, TRUE, FALSE, NA) ~ 3 must be length 2 or one, not 3, 4",
     fixed = TRUE
   )
 
@@ -42,7 +42,7 @@ test_that("cases must yield compatible lengths", {
       c(TRUE, FALSE) ~ 1:3,
       c(FALSE, TRUE) ~ 1:2
     ),
-    "`c(TRUE, FALSE) ~ 1:3` must be length 2 or one, not 3",
+    "c(TRUE, FALSE) ~ 1:3 must be length 2 or one, not 3",
     fixed = TRUE
   )
 })
