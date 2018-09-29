@@ -63,7 +63,7 @@ fmt_pos_args <- function(x) {
 
 fmt_calls <- function(...) {
   x <- parse_named_call(...)
-  fmt_obj(x)
+  fmt_comma(x)
 }
 
 fmt_named_calls <- function(...) {

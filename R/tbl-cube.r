@@ -340,7 +340,7 @@ filter_.tbl_cube <- function(.data, ..., .dots = list()) {
 find_index_check <- function(i, x, names) {
   idx <- find_index(quo_get_expr(x), names)
   if (length(idx) != 1) {
-    bad_calls(x, "must refer to exactly one dimension, ",
+    bad_calls(list(x), "must refer to exactly one dimension, ",
       "not {fmt_obj(names[idx])}"
     )
   }
