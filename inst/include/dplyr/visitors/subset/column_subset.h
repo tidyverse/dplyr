@@ -67,7 +67,7 @@ template <int RTYPE, typename Index>
 SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::true_type) {
   int n = index.size();
   int nc = x.ncol();
-  Rcpp::Matrix<RTYPE> res = no_init(n, nc);
+  Rcpp::Matrix<RTYPE> res(no_init(n, nc));
   for (int i = 0; i < n; i++) {
     if (index[i] >= 0) {
       res.row(i) = x.row(index[i]);
@@ -83,7 +83,7 @@ template <int RTYPE, typename Index>
 SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::false_type) {
   int n = index.size();
   int nc = x.ncol();
-  Rcpp::Matrix<RTYPE> res = no_init(n, nc);
+  Rcpp::Matrix<RTYPE> res(no_init(n, nc));
   for (int i = 0; i < n; i++) {
     res.row(i) = x.row(index[i]);
   }
