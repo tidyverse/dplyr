@@ -6,7 +6,7 @@
 // Important special cases can be implemented without materializing the map.
 class SlicingIndex {
 public:
-  virtual ~SlicingIndex(){};
+  virtual ~SlicingIndex() {};
   virtual int size() const = 0;
   virtual int operator[](int i) const = 0;
   virtual int group() const = 0;
