@@ -35,9 +35,9 @@ public:
     if (n == 0) return def ;
 
     if (pos > 0 && pos <= n) {
-      return column[pos - 1];
+      return column[indices[pos - 1]];
     } else if (pos < 0 && pos >= -n) {
-      return column[n + pos];
+      return column[indices[n + pos]];
     }
 
     return def;

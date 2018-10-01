@@ -604,3 +604,21 @@ test_that("verbs can nest with well defined behavior (#2080)", {
   expect_equal(res$n1, res$n4)
   expect_equal(res$n1, res$n5)
 })
+
+test_that("hybrid first, last and nth operate within groups (#3868)", {
+  first_ <- function(x) x[1]
+  last_  <- function(x) tail(x, 1L)
+  nth_   <- function(x, n) x[n]
+  expect_identical(
+    iris %>% group_by(Species) %>% summarise(Sepal.Length = first(Sepal.Length)),
+    iris %>% group_by(Species) %>% summarise(Sepal.Length = first_(Sepal.Length))
+  )
+  expect_identical(
+    iris %>% group_by(Species) %>% summarise(Sepal.Length = last(Sepal.Length)),
+    iris %>% group_by(Species) %>% summarise(Sepal.Length = last_(Sepal.Length))
+  )
+  expect_identical(
+    iris %>% group_by(Species) %>% summarise(Sepal.Length = nth(Sepal.Length, n = 2L)),
+    iris %>% group_by(Species) %>% summarise(Sepal.Length = nth_(Sepal.Length, n = 2L))
+  )
+})
