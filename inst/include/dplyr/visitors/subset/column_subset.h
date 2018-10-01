@@ -75,7 +75,7 @@ SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index,
     if (index[i] >= 1) {
       res.row(i) = x.row(index[i] - 1);
     } else {
-      res.row(i) = rep(default_value<RTYPE>(), nc);
+      res.row(i) = Rcpp::Vector<RTYPE>(nc, default_value<RTYPE>());
     }
   }
   copy_most_attributes(res, x);
