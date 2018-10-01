@@ -40,8 +40,7 @@ SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index,
   int n = index.size();
   Rcpp::Vector<RTYPE> res(no_init(n));
   for (int i = 0; i < n; i++) {
-    int index_i = index[i] - 1;
-    res[i] = index_i < 0 ? default_value<RTYPE>() : (STORAGE)x[index_i];
+    res[i] = index[i] == NA_INTEGER ? default_value<RTYPE>() : (STORAGE)x[index[i] - 1];
   }
   copy_most_attributes(res, x);
   return res;
@@ -71,12 +70,12 @@ template <int RTYPE, typename Index>
 SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::true_type) {
   int n = index.size();
   int nc = x.ncol();
-  Rcpp::Matrix<RTYPE> res(no_init(n, nc));
+  Rcpp::Matrix<RTYPE> res(Rf_allocMatrix(RTYPE, n, nc));
   for (int i = 0; i < n; i++) {
-    if (index[i] >= 0) {
+    if (index[i] >= 1) {
       res.row(i) = x.row(index[i] - 1);
     } else {
-      res.row(i) = Vector<RTYPE>(nc, default_value<RTYPE>());
+      res.row(i) = rep(default_value<RTYPE>(), nc);
     }
   }
   copy_most_attributes(res, x);
@@ -87,7 +86,7 @@ template <int RTYPE, typename Index>
 SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::false_type) {
   int n = index.size();
   int nc = x.ncol();
-  Rcpp::Matrix<RTYPE> res(no_init(n, nc));
+  Rcpp::Matrix<RTYPE> res(Rf_allocMatrix(RTYPE, n, nc));
   for (int i = 0; i < n; i++) {
     res.row(i) = x.row(index[i]);
   }
