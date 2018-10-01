@@ -69,7 +69,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
   variables.names() = quosures.names();
 
   OrderVisitors o(variables, ascending, nargs);
-  OneBased_IntegerVector one_based_index = o.apply();
+  IntegerVector one_based_index = o.apply();
   List res = DataFrameSubsetVisitors(data).subset_all(one_based_index);
 
   // let the grouping class organise the rest (the groups attribute etc ...)

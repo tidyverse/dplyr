@@ -3,7 +3,6 @@
 
 #include <tools/pointer_vector.h>
 #include <dplyr/visitors/order/OrderVisitorImpl.h>
-#include <dplyr/visitors/order/OneBased_IntegerVector.h>
 
 namespace dplyr {
 
@@ -43,11 +42,11 @@ public:
     }
   }
 
-  inline OneBased_IntegerVector apply() const {
+  inline IntegerVector apply() const {
     if (nrows == 0) return IntegerVector(0);
     IntegerVector x = seq(1, nrows);
     std::sort(x.begin(), x.end(), Compare(*this));
-    return OneBased_IntegerVector(x);
+    return x;
   }
 
   pointer_vector<OrderVisitor> visitors;

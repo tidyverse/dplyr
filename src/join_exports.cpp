@@ -15,8 +15,6 @@
 #include <dplyr/visitors/subset/DataFrameSelect.h>
 #include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 
-#include <dplyr/visitors/order/OneBased_IntegerVector.h>
-
 #include <tools/train.h>
 #include <tools/bad.h>
 
@@ -51,7 +49,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
 
   // materialize the first few columns
   for (int i = 0; i < aux_x.size(); i++) {
-    out[aux_x[i] - 1] = subset_x.subset_one(i, OneBased_IntegerVector(indices_x_one_based));
+    out[aux_x[i] - 1] = subset_x.subset_one(i, indices_x_one_based);
   }
 
   // convert indices_y
@@ -64,7 +62,7 @@ DataFrame subset_join(DataFrame x, DataFrame y,
   // then the auxiliary y columns (all y columns keep their relative location)
   DataFrameSubsetVisitors subset_y(DataFrameSelect(y, aux_y));
   for (int i = 0, k = x.ncol(); i < aux_y.size(); i++, k++) {
-    out[k] = subset_y.subset_one(i, OneBased_IntegerVector(indices_y_one_based));
+    out[k] = subset_y.subset_one(i, indices_y_one_based);
   }
 
   int nrows = indices_x.size();
@@ -137,7 +135,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   SETLENGTH(indices, k);
   std::sort(indices.begin(), indices.end());
 
-  DataFrame res = DataFrameSubsetVisitors(x).subset_all(OneBased_IntegerVector(indices));
+  DataFrame res = DataFrameSubsetVisitors(x).subset_all(indices);
 
   // stop pretending
   SETLENGTH(indices, x.nrows());
@@ -180,7 +178,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   SETLENGTH(indices, k);
   std::sort(indices.begin(), indices.end());
 
-  DataFrame res = DataFrameSubsetVisitors(x).subset_all(OneBased_IntegerVector(indices));
+  DataFrame res = DataFrameSubsetVisitors(x).subset_all(indices);
 
   // stop pretending
   SETLENGTH(indices, k);
@@ -270,7 +268,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
           indices_one_based[j] = -indices_negative[j];
         }
 
-        resolved_map[it->first] = list_col[i] = y_subset_visitors.subset_all(OneBased_IntegerVector(indices_one_based));
+        resolved_map[it->first] = list_col[i] = y_subset_visitors.subset_all(indices_one_based);
       } else {
         // we have seen that match already, just lazy duplicate the tibble that is
         // stored in the resolved map

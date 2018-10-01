@@ -13,10 +13,12 @@ namespace dplyr {
 namespace traits {
 
 template <typename T>
-struct can_mark_na {
+struct can_mark_na ;
+
+template <>
+struct can_mark_na<IntegerVector> {
   typedef Rcpp::traits::true_type type;
 };
-
 template <>
 struct can_mark_na<GroupedSlicingIndex> {
   typedef Rcpp::traits::false_type type;
@@ -38,7 +40,8 @@ SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index,
   int n = index.size();
   Rcpp::Vector<RTYPE> res(no_init(n));
   for (int i = 0; i < n; i++) {
-    res[i] = index[i] < 0 ? default_value<RTYPE>() : (STORAGE)x[index[i]];
+    int index_i = index[i] - 1;
+    res[i] = index_i < 0 ? default_value<RTYPE>() : (STORAGE)x[index_i];
   }
   copy_most_attributes(res, x);
   return res;
@@ -71,7 +74,7 @@ SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index,
   Rcpp::Matrix<RTYPE> res(no_init(n, nc));
   for (int i = 0; i < n; i++) {
     if (index[i] >= 0) {
-      res.row(i) = x.row(index[i]);
+      res.row(i) = x.row(index[i] - 1);
     } else {
       res.row(i) = Vector<RTYPE>(nc, default_value<RTYPE>());
     }
