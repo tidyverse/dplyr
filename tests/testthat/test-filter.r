@@ -305,6 +305,9 @@ test_that("filter handles S4 objects (#1366)", {
     "Numbers",
     slots = c(foo = "numeric"), contains = "integer", where = env
   ))
+  setMethod("[", "Numbers", function(x, i, ...){
+    Numbers(unclass(x)[i, ...], foo = x@foo)
+  })
   on.exit(removeClass("Numbers", where = env))
 
   df <- data.frame(x = Numbers(1:10, foo = 10))

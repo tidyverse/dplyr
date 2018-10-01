@@ -154,101 +154,57 @@ public:
     return dense[i];
   }
 
-private:
+  // after this has been trained, materialize
+  // a 1-based integer vector
+  IntegerVector get() const {
+    int n = size();
+    IntegerVector out(n);
 
-  void add_group(int i, const slicing_index& old_idx, int n) {
-    old_indices[i] = old_idx;
-    new_indices[i] = Rcpp::seq(k + 1, k + n);
-    k += n ;
-  }
-
-};
-
-template <int RTYPE>
-class FilterVector {
-public:
-  typedef Rcpp::Vector<RTYPE> type ;
-
-  FilterVector(int n, const type& source_) :
-    source(source_), data(no_init(n))
-  {
-    copy_most_attributes(data, source);
-  }
-
-  inline void copy(int i, int j) {
-    data[i] = source[j];
-  }
-
-  inline operator SEXP() {
-    return data;
-  }
-
-private:
-  const type& source ;
-  type data ;
-};
-
-template <int RTYPE>
-class FilterMatrix {
-public:
-  typedef Rcpp::Matrix<RTYPE> type ;
-
-  FilterMatrix(int n, const type& source_) :
-    source(source_), data(n, source.ncol())
-  {
-    copy_most_attributes(data, source);
-  }
-
-  inline void copy(int i, int j) {
-    data.row(i) = source.row(j);
-  }
-
-  inline operator SEXP() {
-    return data;
-  }
-
-private:
-  const type& source ;
-  type data ;
-};
-
-
-// subset a vector using indices collected in an Index
-template <int RTYPE, typename SlicedTibble, template<int> class Data>
-class FilterVisitor {
-public:
-  typedef typename SlicedTibble::slicing_index slicing_index;
-  typedef typename Data<RTYPE>::type data_type;
-
-  FilterVisitor(data_type data_) :
-    data(data_)
-  {}
-
-  virtual SEXP subset(const GroupFilterIndices<SlicedTibble>& idx) {
-    int n = idx.size();
-    Data<RTYPE> out(n, data);
-
-    for (int i = 0; i < idx.ngroups; i++) {
-      int group_size = idx.group_size(i);
+    int ii = 0;
+    for (int i = 0; i < ngroups; i++) {
+      int chunk_size = group_size(i);
       // because there is nothing to do when the group is empty
-      if (group_size > 0) {
+      if (chunk_size > 0) {
         // the indices relevant to the original data
-        const slicing_index& old_idx = idx.old_indices[i];
+        const slicing_index& old_idx = old_indices[i];
 
         // the new indices
-        IntegerVector new_idx = idx.new_indices[i];
-        if (idx.is_dense(i)) {
-          // in that case we can just all the data
-          for (int j = 0; j < group_size; j++) {
-            out.copy(new_idx[j] - 1, old_idx[j]);
+        const IntegerVector& new_idx = new_indices[i];
+        if (is_dense(i)) {
+          // in that case we can just copy all the data
+          for (int j = 0; j < chunk_size; j++, ii++) {
+            out[ii] = old_idx[j] + 1;
           }
         } else {
-          SEXP test = idx.tests[i];
+          SEXP test = tests[i];
 
           if (is<LogicalVector>(test)) {
-            copy_all_lgl(test, out, group_size, new_idx, old_idx);
+            // then we take the indices where test is TRUE
+            int* p_test = LOGICAL(test);
+
+            int jj = 0;
+            for (int j = 0; j < chunk_size ; j++, ii++, jj++, ++p_test) {
+              // skip until TRUE
+              while (*p_test != 1) {
+                ++p_test;
+                jj++;
+              }
+
+              // 1-based
+              out[ii] = old_idx[jj] + 1;
+            }
           } else {
-            copy_all_int(test, out, group_size, new_idx, old_idx);
+            int* p_test = INTEGER(test);
+            SlicePositivePredicate pred(old_idx.size());
+            for (int j = 0; j < chunk_size; j++, ii++, ++p_test) {
+              // skip until the index valids the predicate
+              while (!pred(*p_test)) {
+                ++p_test;
+              }
+
+              // 1-based
+              out[ii] = old_idx[*p_test - 1] + 1;
+            }
           }
         }
       }
@@ -258,55 +214,13 @@ public:
 
 private:
 
-  void copy_all_lgl(LogicalVector test, Data<RTYPE>& out, int group_size, const IntegerVector& new_idx, const slicing_index& old_idx) {
-    for (int j = 0, k = 0; j < group_size; j++, k++) {
-      while (test[k] != TRUE) k++ ;
-      out.copy(new_idx[j] - 1, old_idx[k]);
-    }
+  void add_group(int i, const slicing_index& old_idx, int n) {
+    old_indices[i] = old_idx;
+    new_indices[i] = Rcpp::seq(k + 1, k + n);
+    k += n ;
   }
 
-  void copy_all_int(IntegerVector test, Data<RTYPE>& out, int group_size, const IntegerVector& new_idx, const slicing_index& old_idx) {
-    SlicePositivePredicate pred(old_idx.size());
-    for (int j = 0, k = 0; j < group_size; j++, k++) {
-      while (!pred(test[k])) k++ ;
-      out.copy(new_idx[j] - 1, old_idx[test[k] - 1]);
-    }
-  }
-
-  data_type data;
 };
-
-template <typename SlicedTibble, template<int> class Container>
-inline SEXP filter_visit_impl(SEXP data, const GroupFilterIndices<SlicedTibble>& idx) {
-  switch (TYPEOF(data)) {
-  case INTSXP:
-    return FilterVisitor<INTSXP, SlicedTibble, Container>(data).subset(idx);
-  case REALSXP:
-    return FilterVisitor<REALSXP, SlicedTibble, Container>(data).subset(idx);
-  case LGLSXP:
-    return FilterVisitor<LGLSXP, SlicedTibble, Container>(data).subset(idx);
-  case STRSXP:
-    return FilterVisitor<STRSXP, SlicedTibble, Container>(data).subset(idx);
-  case RAWSXP:
-    return FilterVisitor<RAWSXP, SlicedTibble, Container>(data).subset(idx);
-  case CPLXSXP:
-    return FilterVisitor<CPLXSXP, SlicedTibble, Container>(data).subset(idx);
-  case VECSXP:
-    return FilterVisitor<VECSXP, SlicedTibble, Container>(data).subset(idx);
-  }
-
-  return R_NilValue;
-}
-
-// subset `data` with indices collected in `idx`
-template <typename SlicedTibble>
-inline SEXP filter_visit(SEXP data, const GroupFilterIndices<SlicedTibble>& idx) {
-  if (Rf_isMatrix(data)) {
-    return filter_visit_impl<SlicedTibble, FilterMatrix>(data, idx) ;
-  } else {
-    return filter_visit_impl<SlicedTibble, FilterVector>(data, idx) ;
-  }
-}
 
 // template class to rebuild the attributes
 // in the general case there is nothing to do
@@ -364,9 +278,12 @@ SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTi
   copy_names(out, data);
   set_rownames(out, group_indices.size());
 
-  // extract each column
+  // retrieve the 1-based indices vector
+  IntegerVector idx = group_indices.get();
+
+  // extract each column with column_subset
   for (int i = 0; i < nc; i++) {
-    out[i] = filter_visit(data[i], group_indices);
+    out[i] = column_subset(data[i], idx);
   }
 
   // set the specific attributes
