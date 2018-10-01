@@ -32,5 +32,3 @@ when_attached <- function(pkg, action) {
     setHook(packageEvent(pkg, "attach"), function(...) action)
   }
 }
-
-is_attached <- function(pkg) paste0("package:", pkg) %in% search()
