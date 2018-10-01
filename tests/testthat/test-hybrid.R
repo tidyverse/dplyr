@@ -4,6 +4,9 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   get_data_mask_active_env <- function(e){
     env_parent(env_parent(e))
   }
+  get_data_mask_resolved_env <- function(e){
+    env_parent(e)
+  }
 
   # Can't use pipe here, f and g should have top-level parent.env()
   df <- data_frame(a = 1) %>% group_by(a)

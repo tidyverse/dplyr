@@ -12,6 +12,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
+SEXP data_pronoun(SEXP data_mask);
+
 namespace dplyr {
 
 template <class SlicedTibble> class DataMask;
@@ -349,6 +351,7 @@ public:
   ~DataMask() {
     get_context_env()["..group_size"] = previous_group_size;
     get_context_env()["..group_number"] = previous_group_number;
+    clear_mask_resolved();
   }
 
   // returns a pointer to the ColumnBinding if it exists
@@ -424,23 +427,26 @@ public:
                   );
 
       // install the pronoun
-      Rf_defineVar(symbols::dot_data, rlang::as_data_pronoun(mask_active), data_mask);
+      Rf_defineVar(symbols::dot_data, data_pronoun(data_mask), data_mask);
 
       active_bindings_ready = true;
     } else {
-
-      // remove the materialized bindings from the mask_resolved environment
-      for (size_t i = 0; i < materialized.size(); i++) {
-        column_bindings[materialized[i]].clear(mask_resolved);
-      }
-
-      // forget about which indices are materialized
-      materialized.clear();
+      clear_mask_resolved();
     }
 
     // change the parent environment of mask_active
     SET_ENCLOS(mask_active, env);
     Rf_defineVar(symbols::dot_env, env, data_mask);
+  }
+
+  void clear_mask_resolved() {
+    // remove the materialized bindings from the mask_resolved environment
+    for (size_t i = 0; i < materialized.size(); i++) {
+      column_bindings[materialized[i]].clear(mask_resolved);
+    }
+
+    // forget about which indices are materialized
+    materialized.clear();
   }
 
   // get ready to evaluate an R expression for a given group
