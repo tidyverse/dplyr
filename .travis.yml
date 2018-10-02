@@ -10,6 +10,9 @@ stages:
 - name: smoke
 - name: full
   if: branch = master
+  allow_failures:
+    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+      r: 3.4
 
 jobs:
   include:
@@ -36,9 +39,6 @@ jobs:
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
-      r: 3.4
 
 env:
 
