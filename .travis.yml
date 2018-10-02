@@ -8,10 +8,8 @@ latex: false
 
 stages:
 - name: smoke
-- name: full
+- name: test
   if: branch = master
-  allow_failures:
-    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
 
 jobs:
   include:
@@ -35,6 +33,8 @@ jobs:
       warnings_are_errors: false
     - r: 3.1
       warnings_are_errors: false
+  allow_failures:
+    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
 
 matrix:
   fast_finish: true
