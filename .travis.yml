@@ -15,7 +15,7 @@ jobs:
   include:
     - stage: smoke
       r: release
-    - stage: full
+    - stage: test
       os: osx
       env:
         DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
