@@ -33,11 +33,11 @@ jobs:
       warnings_are_errors: false
     - r: 3.1
       warnings_are_errors: false
+  allow_failures:
+    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
 
 matrix:
   fast_finish: true
-  allow_failures:
-    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
 
 after_success:
   - Rscript -e 'covr::codecov()'
