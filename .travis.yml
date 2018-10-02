@@ -6,13 +6,20 @@ dist: trusty
 cache: packages
 latex: false
 
+stages:
+- name: smoke
+- name: full
+  if: branch = master
+
 jobs:
   include:
-  - os: osx
+  - stage: smoke
+    r: release
+  - stage: full
+    os: osx
     env:
       DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - os: osx
-  - r: release
   - r: devel
   - r: release
     env:
