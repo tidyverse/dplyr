@@ -7,6 +7,8 @@ cache: packages
 latex: false
 
 jobs:
+  allow_failures:
+    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   include:
   - os: osx
     env:
@@ -27,8 +29,6 @@ jobs:
   - stage: ancient
     r: 3.1
     warnings_are_errors: false
-  allowed_failures:
-    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
 
 matrix:
   fast_finish: true
