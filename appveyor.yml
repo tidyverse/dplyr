@@ -39,6 +39,9 @@ environment:
   - R_VERSION: patched
     GCC_PATH: mingw_32
 
+matrix:
+  fast_finish: true
+
 build_script:
   - travis-tool.sh install_deps
 

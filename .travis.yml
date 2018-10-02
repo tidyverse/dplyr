@@ -13,19 +13,22 @@ jobs:
       DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - os: osx
   - r: release
+  - r: devel
+  - r: release
     env:
       DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - r: devel
     env:
       DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
-  - r: 3.1
-    warnings_are_errors: false
+  - r: 3.4
+  - r: 3.3
   - r: 3.2
     warnings_are_errors: false
-  - r: 3.3
-  - r: 3.4
-  - r: release
-  - r: devel
+  - r: 3.1
+    warnings_are_errors: false
+
+matrix:
+  fast_finish: true
 
 env:
   global:
