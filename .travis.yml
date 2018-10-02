@@ -35,6 +35,7 @@ jobs:
       warnings_are_errors: false
   allow_failures:
     - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+      r: 3.4
 
 matrix:
   fast_finish: true
