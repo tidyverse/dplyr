@@ -29,6 +29,8 @@ jobs:
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
 
 env:
   global:
