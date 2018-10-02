@@ -6,38 +6,38 @@ dist: trusty
 cache: packages
 latex: false
 
-stages:
-- name: smoke
-- name: test
-  if: branch = master
-
 jobs:
   include:
-    - stage: smoke
-      r: release
-    - stage: test
-      os: osx
-      env:
-        DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
-    - os: osx
-    - r: devel
-    - r: release
-      env:
-        DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
-    - r: devel
-      env:
-        DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
-    - r: 3.4
-    - r: 3.3
-    - r: 3.2
-      warnings_are_errors: false
-    - r: 3.1
-      warnings_are_errors: false
-  allow_failures:
-    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+  - stage: test
+    os: osx
+    env:
+      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+  - os: osx
+  - r: release
+  - r: devel
+  - r: release
+    env:
+      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+  - r: devel
+    env:
+      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+  - r: 3.4
+  - r: 3.3
+  - r: 3.2
+    warnings_are_errors: false
+  - r: 3.1
+    warnings_are_errors: false
 
 matrix:
   fast_finish: true
+  allow_failures:
+    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
+
+env:
+  global:
+  - _R_CHECK_FORCE_SUGGESTS_=false
+  - MAKEFLAGS="-j 2"
+  - TRAVIS_CXXFLAGS="-Wall -Wextra -pedantic -Werror"
 
 after_success:
   - Rscript -e 'covr::codecov()'
