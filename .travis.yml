@@ -8,8 +8,7 @@ latex: false
 
 jobs:
   include:
-  - stage: test
-    os: osx
+  - os: osx
     env:
       DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - os: osx
