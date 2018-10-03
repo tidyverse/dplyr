@@ -108,6 +108,10 @@ group_data_grouped_df <- function(data) {
     .Call(`_dplyr_group_data_grouped_df`, data)
 }
 
+hybrids <- function() {
+    .Call(`_dplyr_hybrids`)
+}
+
 semi_join_impl <- function(x, y, by_x, by_y, na_match) {
     .Call(`_dplyr_semi_join_impl`, x, y, by_x, by_y, na_match)
 }
