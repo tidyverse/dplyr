@@ -24,11 +24,3 @@
 .onDetach <- function(libpath) {
   setHook(packageEvent("plyr", "attach"), NULL, "replace")
 }
-
-when_attached <- function(pkg, action) {
-  if (is_attached(paste0("package:", pkg))) {
-    action
-  } else {
-    setHook(packageEvent(pkg, "attach"), function(...) action)
-  }
-}
