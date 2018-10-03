@@ -9,6 +9,17 @@
 namespace dplyr {
 namespace hybrid {
 
+struct scoped_function {
+  scoped_function(SEXP name_, SEXP package_) :
+    name(name_), package(package_)
+  {}
+  SEXP name;
+  SEXP package;
+};
+
+dplyr_hash_map<SEXP, scoped_function>& get_hybrid_inline_map() ;
+
+
 // When we do hybrid evaulation of fun(...) we need to make
 // sure that fun is the function we want, and not masked
 struct FindFunData {
@@ -87,6 +98,13 @@ public:
       // a symbol
       valid = true;
       func = head;
+    } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP) {
+      dplyr_hash_map<SEXP, scoped_function>::const_iterator it = get_hybrid_inline_map().find(head);
+      if (it != get_hybrid_inline_map().end()) {
+        valid = true;
+        func = it->second.name;
+        package = it->second.package;
+      }
     } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == symbols::double_colon && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
       // a call of the `::` function
       func = CADDR(head);
