@@ -33,6 +33,11 @@ SEXP get_time_classes() {
   return VECTOR_ELT(get_cache(), 1);
 }
 
+SEXP ns_methods() {
+  static Environment ns = Environment::namespace_env("methods");
+  return ns;
+}
+
 namespace dplyr {
 
 SEXP symbols::package = Rf_install("package");

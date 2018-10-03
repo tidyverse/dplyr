@@ -13,8 +13,6 @@ public:
   /** is the i element less than the j element */
   virtual bool before(int i, int j) const = 0;
 
-  virtual SEXP get() = 0;
-
 };
 
 } // namespace dplyr

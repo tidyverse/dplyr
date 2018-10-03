@@ -3,19 +3,22 @@
 
 #include <tools/utils.h>
 #include <tools/set_rownames.h>
-#include <tools/is_lubridate_unsupported.h>
 #include <tools/bad.h>
 #include <tools/default_value.h>
 #include <tools/SlicingIndex.h>
+
+SEXP ns_methods();
 
 namespace dplyr {
 namespace traits {
 
 template <typename T>
-struct can_mark_na {
+struct can_mark_na ;
+
+template <>
+struct can_mark_na<IntegerVector> {
   typedef Rcpp::traits::true_type type;
 };
-
 template <>
 struct can_mark_na<GroupedSlicingIndex> {
   typedef Rcpp::traits::false_type type;
@@ -37,7 +40,7 @@ SEXP column_subset_vector_impl(const Rcpp::Vector<RTYPE>& x, const Index& index,
   int n = index.size();
   Rcpp::Vector<RTYPE> res(no_init(n));
   for (int i = 0; i < n; i++) {
-    res[i] = index[i] < 0 ? default_value<RTYPE>() : (STORAGE)x[index[i]];
+    res[i] = index[i] == NA_INTEGER ? default_value<RTYPE>() : (STORAGE)x[index[i] - 1];
   }
   copy_most_attributes(res, x);
   return res;
@@ -67,12 +70,12 @@ template <int RTYPE, typename Index>
 SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::true_type) {
   int n = index.size();
   int nc = x.ncol();
-  Rcpp::Matrix<RTYPE> res(no_init(n, nc));
+  Rcpp::Matrix<RTYPE> res(Rf_allocMatrix(RTYPE, n, nc));
   for (int i = 0; i < n; i++) {
-    if (index[i] >= 0) {
-      res.row(i) = x.row(index[i]);
+    if (index[i] >= 1) {
+      res.row(i) = x.row(index[i] - 1);
     } else {
-      res.row(i) = Vector<RTYPE>(nc, default_value<RTYPE>());
+      res.row(i) = Rcpp::Vector<RTYPE>(nc, default_value<RTYPE>());
     }
   }
   copy_most_attributes(res, x);
@@ -83,7 +86,7 @@ template <int RTYPE, typename Index>
 SEXP column_subset_matrix_impl(const Rcpp::Matrix<RTYPE>& x, const Index& index, Rcpp::traits::false_type) {
   int n = index.size();
   int nc = x.ncol();
-  Rcpp::Matrix<RTYPE> res(no_init(n, nc));
+  Rcpp::Matrix<RTYPE> res(Rf_allocMatrix(RTYPE, n, nc));
   for (int i = 0; i < n; i++) {
     res.row(i) = x.row(index[i]);
   }
@@ -104,13 +107,39 @@ SEXP column_subset_impl(SEXP x, const Index& index) {
 template <typename Index>
 DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector classes);
 
+inline SEXP r_subset_env(SEXP x) {
+  return IS_S4_OBJECT(x) ? ns_methods() : R_BaseEnv;
+}
+
+template <typename Index>
+SEXP r_column_subset(SEXP x, const Index& index) {
+  Shield<SEXP> one_based_index(index);
+  if (Rf_isMatrix(x)) {
+    return Language("[", x, one_based_index, R_MissingArg, _["drop"] = false).eval(r_subset_env(x));
+  } else {
+    return Language("[", x, one_based_index).eval(r_subset_env(x));
+  }
+}
+
+template <>
+inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingIndex& index) {
+  if (Rf_isMatrix(x)) {
+    // TODO: not sure about this
+    return Language("[", x, index, R_MissingArg).eval(r_subset_env(x));
+  } else {
+    return Language("[[", x, index).eval(r_subset_env(x));
+  }
+}
+
 template <typename Index>
 SEXP column_subset(SEXP x, const Index& index) {
   if (Rf_inherits(x, "data.frame")) {
-    return dataframe_subset(x, index, Rf_getAttrib(x, R_NamesSymbol));
+    return dataframe_subset(x, index, Rf_getAttrib(x, R_ClassSymbol));
   }
-  if (is_lubridate_unsupported(x)) {
-    stop("classes Period and Interval from lubridate are currently not supported.") ;
+
+  // this has a class, so just use R `[` or `[[`
+  if (OBJECT(x) || !Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
+    return r_column_subset(x, index);
   }
 
   switch (TYPEOF(x)) {
@@ -149,7 +178,8 @@ DataFrame dataframe_subset(const List& data, const Index& index, CharacterVector
   set_class(res, classes);
   set_rownames(res, index.size());
   copy_names(res, data);
-  return res;
+
+  return (SEXP)res;
 }
 
 }

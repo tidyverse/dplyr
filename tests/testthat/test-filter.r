@@ -183,7 +183,7 @@ test_that("GroupedDataFrame checks consistency of data (#606)", {
   )
 })
 
-test_that("filter uses the white list (#566)", {
+test_that("filter uses the allow list (#566)", {
   datesDF <- read.csv(stringsAsFactors = FALSE, text = "
 X
 2014-03-13 16:08:19

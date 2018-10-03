@@ -14,6 +14,7 @@
 
 #include <dplyr/data/DataMask.h>
 #include <dplyr/symbols.h>
+#include <dplyr/visitors/order/Order.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -66,14 +67,13 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures) {
     ascending[i] = !is_desc;
   }
   variables.names() = quosures.names();
-  OrderVisitors o(variables, ascending, nargs);
-  IntegerVector index = o.apply();
 
-  List res = DataFrameSubsetVisitors(data).subset_all(index);
+  OrderVisitors o(variables, ascending, nargs);
+  IntegerVector one_based_index = o.apply();
+  List res = DataFrameSubsetVisitors(data).subset_all(one_based_index);
 
   // let the grouping class organise the rest (the groups attribute etc ...)
   return SlicedTibble(res, gdf).data();
-
 }
 
 // [[Rcpp::export]]

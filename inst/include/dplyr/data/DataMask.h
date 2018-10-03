@@ -12,6 +12,8 @@
 #include <boost/shared_ptr.hpp>
 #include <boost/weak_ptr.hpp>
 
+#include <dplyr/symbols.h>
+
 namespace dplyr {
 
 template <class SlicedTibble> class DataMask;

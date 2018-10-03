@@ -34,10 +34,6 @@ public:
     return compare::is_less(vec[i], vec[j]);
   }
 
-  SEXP get() {
-    return vec;
-  }
-
 private:
   VECTOR vec;
 };
@@ -64,10 +60,6 @@ public:
     return compare::is_greater(vec[i], vec[j]);
   }
 
-  SEXP get() {
-    return vec;
-  }
-
 private:
   VECTOR vec;
 };
@@ -86,10 +78,6 @@ public:
 
   inline bool before(int i, int j) const {
     return orders.before(i, j);
-  }
-
-  SEXP get() {
-    return vec;
   }
 
 private:
@@ -113,10 +101,6 @@ public:
     return visitors.less(i, j);
   }
 
-  inline SEXP get() {
-    return data;
-  }
-
 private:
   DataFrame data;
   DataFrameVisitors visitors;
@@ -133,10 +117,6 @@ public:
 
   inline bool before(int i, int j) const {
     return visitors.greater(i, j);
-  }
-
-  inline SEXP get() {
-    return data;
   }
 
 private:
@@ -160,10 +140,6 @@ public:
     return visitors.less(i, j);
   }
 
-  inline SEXP get() {
-    return data;
-  }
-
 private:
   Matrix<RTYPE> data;
   MatrixColumnVisitor<RTYPE> visitors;
@@ -181,10 +157,6 @@ public:
 
   inline bool before(int i, int j) const {
     return visitors.greater(i, j);
-  }
-
-  inline SEXP get() {
-    return data;
   }
 
 private:

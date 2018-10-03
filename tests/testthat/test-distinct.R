@@ -167,23 +167,20 @@ test_that("distinct on a dataframe or tibble with columns of type list throws an
   )
 })
 
-test_that("distinct refuses to deal with Period and Interval from lubridate (#2568)", {
+test_that("distinct deals with Period and Interval from lubridate (#2568)", {
   skip_if_not(requireNamespace("lubridate", quietly = TRUE))
 
   df <- tibble(
     x = lubridate::hm("10:30", "10:30", "0:0"),
     y = c("apple", "apple", "tomato")
   )
-  expect_error(distinct(df),
-    "classes Period and Interval from lubridate are currently not supported"
-  )
+  res <- distinct(df)
+  expect_equal(res, df[c(1, 3), ])
 
   df <- tibble(
     lubridate::interval(lubridate::ymd(20090201), lubridate::ymd(20090101))
   )
-  expect_error(distinct(df),
-    "classes Period and Interval from lubridate are currently not supported"
-  )
+  expect_equal(df, distinct(df))
 })
 
 test_that("distinct handles 0 columns edge case (#2954)", {
