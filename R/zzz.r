@@ -26,7 +26,7 @@
 }
 
 when_attached <- function(pkg, action) {
-  if (is_attached(pkg)) {
+  if (is_attached(paste0("package:", pkg))) {
     action
   } else {
     setHook(packageEvent(pkg, "attach"), function(...) action)
