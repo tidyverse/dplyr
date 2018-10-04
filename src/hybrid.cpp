@@ -27,15 +27,17 @@ dplyr_hash_map<SEXP, hybrid_function>& get_hybrid_named_map() {
 }
 
 void hybrid_init(SEXP env, SEXP name, SEXP package, hybrid_id id) {
-  hybrid_function fun(name, package, id);
   hybrid_inline_map.insert(
-    std::make_pair<SEXP, hybrid_function>(
+    std::make_pair(
       force(Rf_findVarInFrame3(env, name, FALSE)),
-      fun
+      hybrid_function(name, package, id)
     )
   );
   hybrid_named_map.insert(
-    std::make_pair<SEXP, hybrid_function>(name, fun)
+    std::make_pair(
+      name,
+      hybrid_function(name, package, id)
+    )
   );
 }
 
