@@ -150,29 +150,8 @@ public:
   }
 
   // is this expression the function we are looking for
-  inline bool is_fun(SEXP symbol, SEXP pkg, SEXP ns) {
-    // quickly escape if this has no chance to be the function we look for
-    if (symbol != func) {
-      return false;
-    }
-    if (package == R_NilValue) {
-      // bare expression, e.g. n() so we need to check that `n` evaluates to the
-      // function in the right environment, otherwise we let R evaluate the call
-      FindFunData finder(symbol, env);
-      if (!finder.findFun()) return false;
-
-      SEXP expected = Rf_findVarInFrame3(ns, symbol, TRUE);
-      if (TYPEOF(expected) == PROMSXP) {
-        PROTECT(expected);
-        expected = Rf_eval(expected, ns);
-        UNPROTECT(1);
-      }
-
-      return finder.res == expected;
-    } else {
-      // expression of the form pkg::fun so check that pkg is the correct one
-      return package == pkg;
-    }
+  inline bool is_fun(SEXP symbol, SEXP pkg) {
+    return symbol == func && package == pkg;
   }
 
   // is the i-th argument called `symbol`

@@ -28,15 +28,11 @@ template <typename SlicedTibble, typename Operation>
 SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& mask, SEXP env, const Operation& op) {
   if (TYPEOF(expr) != LANGSXP) return R_UnboundValue;
 
-  Environment ns_base  = Environment::base_env();
-  Environment ns_dplyr = Environment::namespace_env("dplyr");
-  Environment ns_stats = Environment::namespace_env("stats");
-
   Expression<SlicedTibble> expression(expr, mask, env);
   if (!expression.is_valid()) return R_UnboundValue;
 
   // functions that take variadic number of arguments
-  if (expression.is_fun(symbols::n_distinct, symbols::dplyr, ns_dplyr)) {
+  if (expression.is_fun(symbols::n_distinct, symbols::dplyr)) {
     return n_distinct_(data, expression, op);
   }
 
@@ -44,128 +40,128 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
   switch (expression.size()) {
   case 0:
     // n()
-    if (expression.is_fun(symbols::n, symbols::dplyr, ns_dplyr)) {
+    if (expression.is_fun(symbols::n, symbols::dplyr)) {
       return op(n_(data));
     }
 
     // group_indices()
-    if (expression.is_fun(symbols::group_indices, symbols::dplyr, ns_dplyr)) {
+    if (expression.is_fun(symbols::group_indices, symbols::dplyr)) {
       return op(group_indices_(data));
     }
 
     // row_number()
-    if (expression.is_fun(symbols::row_number, symbols::dplyr, ns_dplyr)) {
+    if (expression.is_fun(symbols::row_number, symbols::dplyr)) {
       return op(row_number_(data));
     }
 
     break;
 
   case 1:
-    if (expression.is_fun(symbols::sum, symbols::base, ns_base)) {
+    if (expression.is_fun(symbols::sum, symbols::base)) {
       // sum( <column> ) and base::sum( <column> )
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return sum_(data, x, /* na.rm = */ false, op);
       }
-    } else if (expression.is_fun(symbols::mean, symbols::base, ns_base)) {
+    } else if (expression.is_fun(symbols::mean, symbols::base)) {
       // mean( <column> ) and base::mean( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return mean_(data, x, false, op);
       }
-    } else if (expression.is_fun(symbols::var, symbols::stats, ns_stats)) {
+    } else if (expression.is_fun(symbols::var, symbols::stats)) {
       // var( <column> ) and stats::var( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return var_(data, x, false, op);
       }
-    } else if (expression.is_fun(symbols::sd, symbols::stats, ns_stats)) {
+    } else if (expression.is_fun(symbols::sd, symbols::stats)) {
       // sd( <column> ) and stats::sd( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return sd_(data, x, false, op);
       }
-    } else if (expression.is_fun(symbols::first, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::first, symbols::dplyr)) {
       // first( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return first1_(data, x, op);
       }
-    } else if (expression.is_fun(symbols::last, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::last, symbols::dplyr)) {
       // last( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return last1_(data, x, op);
       }
-    } else if (expression.is_fun(symbols::min, symbols::base, ns_base)) {
+    } else if (expression.is_fun(symbols::min, symbols::base)) {
       // min( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return min_(data, x, false, op);
       }
-    } else if (expression.is_fun(symbols::max, symbols::base, ns_base)) {
+    } else if (expression.is_fun(symbols::max, symbols::base)) {
       // max( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return max_(data, x, false, op);
       }
-    } else if (expression.is_fun(symbols::row_number, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::row_number, symbols::dplyr)) {
       // row_number( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return row_number_1(data, x, op);
       }
-    } else if (expression.is_fun(symbols::ntile, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::ntile, symbols::dplyr)) {
       // ntile( n = <int> )
 
       int n;
       if (expression.is_named(0, symbols::n) && expression.is_scalar_int(0, n)) {
         return op(ntile_1(data, n));
       }
-    } else if (expression.is_fun(symbols::min_rank, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::min_rank, symbols::dplyr)) {
       // min_rank( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return min_rank_(data, x, op);
       }
-    } else if (expression.is_fun(symbols::percent_rank, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::percent_rank, symbols::dplyr)) {
       // percent_rank( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return percent_rank_(data, x, op);
       }
-    } else if (expression.is_fun(symbols::dense_rank, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::dense_rank, symbols::dplyr)) {
       // dense_rank( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return dense_rank_(data, x, op);
       }
-    } else if (expression.is_fun(symbols::cume_dist, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::cume_dist, symbols::dplyr)) {
       // cume_dist( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return cume_dist_(data, x, op);
       }
-    } else if (expression.is_fun(symbols::lead, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::lead, symbols::dplyr)) {
       // lead( <column> )
 
       Column x;
       if (expression.is_unnamed(0) && expression.is_column(0, x)) {
         return lead_1(data, x, 1, op);
       }
-    } else if (expression.is_fun(symbols::lag, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::lag, symbols::dplyr)) {
       // lag( <column> )
 
       Column x;
@@ -178,7 +174,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
     return R_UnboundValue;
 
   case 2:
-    if (expression.is_fun(symbols::sum, symbols::base, ns_base)) {
+    if (expression.is_fun(symbols::sum, symbols::base)) {
       // sum( <column>, na.rm = <bool> )
       // base::sum( <column>, na.rm = <bool> )
 
@@ -189,7 +185,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
          ) {
         return sum_(data, x, test, op);
       }
-    } else if (expression.is_fun(symbols::mean, symbols::base, ns_base)) {
+    } else if (expression.is_fun(symbols::mean, symbols::base)) {
       // mean( <column>, na.rm = <bool> )
       // base::mean( <column>, na.rm = <bool> )
       Column x;
@@ -200,7 +196,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
          ) {
         return mean_(data, x, test, op);
       }
-    } else if (expression.is_fun(symbols::var, symbols::stats, ns_stats)) {
+    } else if (expression.is_fun(symbols::var, symbols::stats)) {
       // var( <column>, na.rm = <bool> )
       // stats::var( <column>, na.rm = <bool> )
 
@@ -214,7 +210,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return var_(data, x, test, op);
       }
 
-    } else if (expression.is_fun(symbols::sd, symbols::stats, ns_stats)) {
+    } else if (expression.is_fun(symbols::sd, symbols::stats)) {
       // sd( <column>, na.rm = <bool> )
       // stats::sd( <column>, na.rm = <bool> )
 
@@ -228,7 +224,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return sd_(data, x, test, op);
       }
 
-    } else if (expression.is_fun(symbols::first, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::first, symbols::dplyr)) {
       // first( <column>, default = <scalar> )
 
       Column x;
@@ -236,7 +232,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return first2_(data, x, /* default = */ expression.value(1), op);
       }
 
-    } else if (expression.is_fun(symbols::last, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::last, symbols::dplyr)) {
       // last( <column>, default = <scalar> )
 
       Column x;
@@ -245,7 +241,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return last2_(data, x, /* default = */ expression.value(1), op);
       }
 
-    } else if (expression.is_fun(symbols::nth, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::nth, symbols::dplyr)) {
       // nth( <column>, n = <int> )
 
       Column x;
@@ -255,7 +251,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return nth2_(data, x, n, op);
       }
 
-    } else if (expression.is_fun(symbols::min, symbols::base, ns_base)) {
+    } else if (expression.is_fun(symbols::min, symbols::base)) {
       // min( <column>, na.rm = <bool> )
 
       Column x;
@@ -265,7 +261,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return min_(data, x, /* na.rm = */ test, op);
       }
 
-    } else if (expression.is_fun(symbols::max, symbols::base, ns_base)) {
+    } else if (expression.is_fun(symbols::max, symbols::base)) {
       // max( <column>, na.rm = <bool> )
 
       Column x;
@@ -275,7 +271,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return max_(data, x, /* na.rm = */ test, op);
       }
 
-    } else if (expression.is_fun(symbols::ntile, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::ntile, symbols::dplyr)) {
       // ntile( <column>, n = <int> )
 
       Column x;
@@ -286,7 +282,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
       } else {
         return R_UnboundValue;
       }
-    } else if (expression.is_fun(symbols::lead, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::lead, symbols::dplyr)) {
       // lead( <column>, n = <int> )
 
       Column x;
@@ -296,7 +292,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return lead_1(data, x, n, op);
       }
 
-    } else if (expression.is_fun(symbols::lag, symbols::dplyr, ns_dplyr)) {
+    } else if (expression.is_fun(symbols::lag, symbols::dplyr)) {
       // lag( <column>, n = <int> )
 
       Column x;
@@ -306,7 +302,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
         return lag_1(data, x, n, op);
       }
 
-    } else if (expression.is_fun(symbols::in, symbols::base, ns_base)) {
+    } else if (expression.is_fun(symbols::in, symbols::base)) {
       // <column> %in% <column>
 
       Column lhs;
@@ -324,7 +320,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
   case 3:
 
     // nth( <column>, n = <int>, default = <scalar> )
-    if (expression.is_fun(symbols::nth, symbols::dplyr, ns_dplyr)) {
+    if (expression.is_fun(symbols::nth, symbols::dplyr)) {
       Column x;
       int n;
       if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && expression.is_named(2, symbols::default_)) {

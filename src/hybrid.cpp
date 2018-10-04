@@ -37,7 +37,6 @@ void init_hybrid_inline_map(DllInfo* dll) {
 
   if (hybrid_inline_map.size() == 0) {
     Environment dplyr = Environment::namespace_env("dplyr");
-
     hybrid_inline_map_insert(dplyr, symbols::n, symbols::dplyr);
     hybrid_inline_map_insert(dplyr, symbols::group_indices, symbols::dplyr);
     hybrid_inline_map_insert(dplyr, symbols::row_number, symbols::dplyr);
