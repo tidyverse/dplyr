@@ -17,7 +17,8 @@ for \code{\link[=tbl_df]{tbl_df()}}, \code{\link[dtplyr:tbl_dt]{dtplyr::tbl_dt()
 length as the number of rows in the group (if using \code{\link[=group_by]{group_by()}}) or in the entire
 input (if not using groups). The name of each argument will be the name of
 a new variable, and the value will be its corresponding value.  Use a \code{NULL}
-value in \code{mutate} to drop a variable.
+value in \code{mutate} to drop a variable.  New variables overwrite existing variables
+of the same name.
 
 The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 \link[rlang:eval_tidy]{evaluated} in the context of the data
@@ -32,6 +33,7 @@ An object of the same class as \code{.data}.
 \code{mutate()} adds new variables and preserves existing ones;
 \code{transmute()} adds new variables and drops existing ones.  Both
 functions preserve the number of rows of the input.
+New variables overwrite existing variables of the same name.
 }
 \section{Useful functions available in calculations of variables}{
 
