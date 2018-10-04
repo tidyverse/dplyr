@@ -6,7 +6,11 @@
 namespace dplyr {
 namespace hybrid {
 
-static dplyr_hash_map<SEXP, scoped_function> hybrid_inline_map;
+// key = actual function
+static dplyr_hash_map<SEXP, hybrid_function> hybrid_inline_map;
+
+// key = function name, need this for the pkg::fun case
+static dplyr_hash_map<SEXP, hybrid_function> hybrid_named_map;
 
 inline SEXP force(SEXP x) {
   if (TYPEOF(x) == PROMSXP) {
@@ -15,16 +19,23 @@ inline SEXP force(SEXP x) {
   return x;
 }
 
-dplyr_hash_map<SEXP, scoped_function>& get_hybrid_inline_map() {
+dplyr_hash_map<SEXP, hybrid_function>& get_hybrid_inline_map() {
   return hybrid_inline_map;
 }
+dplyr_hash_map<SEXP, hybrid_function>& get_hybrid_named_map() {
+  return hybrid_named_map;
+}
 
-void hybrid_inline_map_insert(SEXP env, SEXP name, SEXP package) {
+void hybrid_init(SEXP env, SEXP name, SEXP package, hybrid_id id) {
+  hybrid_function fun(name, package, id);
   hybrid_inline_map.insert(
-    std::make_pair<SEXP, scoped_function>(
+    std::make_pair<SEXP, hybrid_function>(
       force(Rf_findVarInFrame3(env, name, FALSE)),
-      scoped_function(name, package)
+      fun
     )
+  );
+  hybrid_named_map.insert(
+    std::make_pair<SEXP, hybrid_function>(name, fun)
   );
 }
 
@@ -37,31 +48,31 @@ void init_hybrid_inline_map(DllInfo* dll) {
 
   if (hybrid_inline_map.size() == 0) {
     Environment dplyr = Environment::namespace_env("dplyr");
-    hybrid_inline_map_insert(dplyr, symbols::n, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::group_indices, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::row_number, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::first, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::last, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::nth, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::ntile, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::min_rank, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::percent_rank, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::dense_rank, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::cume_dist, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::lead, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::lag, symbols::dplyr);
-    hybrid_inline_map_insert(dplyr, symbols::n_distinct, symbols::dplyr);
+    hybrid_init(dplyr, symbols::n, symbols::dplyr, N);
+    hybrid_init(dplyr, symbols::group_indices, symbols::dplyr, GROUP_INDICES);
+    hybrid_init(dplyr, symbols::row_number, symbols::dplyr, ROW_NUMBER);
+    hybrid_init(dplyr, symbols::first, symbols::dplyr, FIRST);
+    hybrid_init(dplyr, symbols::last, symbols::dplyr, LAST);
+    hybrid_init(dplyr, symbols::nth, symbols::dplyr, NTH);
+    hybrid_init(dplyr, symbols::ntile, symbols::dplyr, NTILE);
+    hybrid_init(dplyr, symbols::min_rank, symbols::dplyr, MIN_RANK);
+    hybrid_init(dplyr, symbols::percent_rank, symbols::dplyr, PERCENT_RANK);
+    hybrid_init(dplyr, symbols::dense_rank, symbols::dplyr, DENSE_RANK);
+    hybrid_init(dplyr, symbols::cume_dist, symbols::dplyr, CUME_DIST);
+    hybrid_init(dplyr, symbols::lead, symbols::dplyr, LEAD);
+    hybrid_init(dplyr, symbols::lag, symbols::dplyr, LAG);
+    hybrid_init(dplyr, symbols::n_distinct, symbols::dplyr, N_DISTINCT);
 
     SEXP base = R_BaseEnv;
-    hybrid_inline_map_insert(base, symbols::sum, symbols::base);
-    hybrid_inline_map_insert(base, symbols::mean, symbols::base);
-    hybrid_inline_map_insert(base, symbols::min, symbols::base);
-    hybrid_inline_map_insert(base, symbols::max, symbols::base);
-    hybrid_inline_map_insert(base, symbols::in, symbols::base);
+    hybrid_init(base, symbols::sum, symbols::base, SUM);
+    hybrid_init(base, symbols::mean, symbols::base, MEAN);
+    hybrid_init(base, symbols::min, symbols::base, MIN);
+    hybrid_init(base, symbols::max, symbols::base, MAX);
+    hybrid_init(base, symbols::in, symbols::base, IN);
 
     Environment stats = Environment::namespace_env("stats");
-    hybrid_inline_map_insert(stats, symbols::var, symbols::stats);
-    hybrid_inline_map_insert(stats, symbols::sd, symbols::stats);
+    hybrid_init(stats, symbols::var, symbols::stats, VAR);
+    hybrid_init(stats, symbols::sd, symbols::stats, SD);
   }
 }
 
@@ -75,7 +86,7 @@ List hybrids() {
   CharacterVector packages(n);
   List funs(n);
 
-  dplyr_hash_map<SEXP, scoped_function>::iterator it = hybrid_inline_map.begin();
+  dplyr_hash_map<SEXP, hybrid_function>::iterator it = hybrid_inline_map.begin();
   for (int i = 0; i < n; ++it, ++i) {
     names[i] = PRINTNAME(it->second.name);
     packages[i] = PRINTNAME(it->second.package);

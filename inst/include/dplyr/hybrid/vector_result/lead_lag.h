@@ -8,6 +8,7 @@
 #include <dplyr/hybrid/Column.h>
 #include <tools/default_value.h>
 #include <dplyr/visitors/SliceVisitor.h>
+#include <dplyr/hybrid/Expression.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -117,14 +118,39 @@ inline SEXP lead_lag(const SlicedTibble& data, Column column, int n, const Opera
 
 }
 
-template <typename SlicedTibble, typename Operation>
-inline SEXP lead_1(const SlicedTibble& data, Column column, int n, const Operation& op) {
-  return internal::lead_lag<SlicedTibble, Operation, internal::Lead>(data, column, n, op);
+template <typename SlicedTibble, typename Operation, template <typename, int> class Impl>
+SEXP lead_lag_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  Column x;
+
+  switch (expression.size()) {
+  case 1:
+    // lead( <column> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return internal::lead_lag<SlicedTibble, Operation, Impl>(data, x, 1, op);
+    }
+    break;
+
+  case 2:
+    // lead( <column>, n = <int> )
+    int n;
+
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && n >= 0) {
+      return internal::lead_lag<SlicedTibble, Operation, Impl>(data, x, n, op);
+    }
+  default:
+    break;
+  }
+  return R_UnboundValue;
 }
 
 template <typename SlicedTibble, typename Operation>
-inline SEXP lag_1(const SlicedTibble& data, Column column, int n, const Operation& op) {
-  return internal::lead_lag<SlicedTibble, Operation, internal::Lag>(data, column, n, op);
+inline SEXP lead_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return lead_lag_dispatch<SlicedTibble, Operation, internal::Lead>(data, expression, op);
+}
+
+template <typename SlicedTibble, typename Operation>
+inline SEXP lag_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return lead_lag_dispatch<SlicedTibble, Operation, internal::Lag>(data, expression, op);
 }
 
 

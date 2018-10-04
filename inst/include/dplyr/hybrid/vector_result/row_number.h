@@ -6,6 +6,7 @@
 
 #include <dplyr/visitors/SliceVisitor.h>
 #include <dplyr/visitors/Comparer.h>
+#include <dplyr/hybrid/Expression.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -85,6 +86,24 @@ inline SEXP row_number_1(const SlicedTibble& data, Column column, const Operatio
     return op(internal::RowNumber1<SlicedTibble, INTSXP, true>(data, x));
   case REALSXP:
     return op(internal::RowNumber1<SlicedTibble, REALSXP, true>(data, x));
+  default:
+    break;
+  }
+  return R_UnboundValue;
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP row_number_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  switch (expression.size()) {
+  case 0:
+    // row_number()
+    return op(row_number_(data));
+  case 1:
+    // row_number( <column> )
+    Column x;
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return row_number_1(data, x, op);
+    }
   default:
     break;
   }

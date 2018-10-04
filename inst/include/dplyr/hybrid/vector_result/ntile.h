@@ -10,6 +10,8 @@
 #include <dplyr/visitors/SliceVisitor.h>
 #include <dplyr/visitors/Comparer.h>
 
+#include <dplyr/hybrid/Expression.h>
+
 namespace dplyr {
 namespace hybrid {
 
@@ -104,6 +106,28 @@ inline SEXP ntile_2(const SlicedTibble& data, Column& column, int n, const Opera
     return internal::ntile_2<SlicedTibble, Operation, INTSXP>(data, column.data, column.is_desc, n, op);
   case REALSXP:
     return internal::ntile_2<SlicedTibble, Operation, REALSXP>(data, column.data, column.is_desc, n, op);
+  default:
+    break;
+  }
+  return R_UnboundValue;
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP ntile_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  int n;
+
+  switch (expression.size()) {
+  case 1:
+    // ntile( n = <int> )
+    if (expression.is_named(0, symbols::n) && expression.is_scalar_int(0, n)) {
+      return op(ntile_1(data, n));
+    }
+  case 2:
+    // ntile( <column>, n = <int> )
+    Column x;
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n)) {
+      return ntile_2(data, x, n, op);
+    }
   default:
     break;
   }

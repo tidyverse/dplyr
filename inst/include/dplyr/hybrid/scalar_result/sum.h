@@ -3,6 +3,7 @@
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
 #include <dplyr/hybrid/Dispatch.h>
+#include <dplyr/hybrid/Expression.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -134,6 +135,30 @@ private:
 template <typename SlicedTibble, typename Operation>
 SEXP sum_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
   return internal::SumDispatch<SlicedTibble, Operation>(data, variable, narm, op).get();
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP sum_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  Column x;
+
+  switch (expression.size()) {
+  case 1:
+    // sum( <column> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return sum_(data, x, /* na.rm = */ false, op);
+    }
+    break;
+  case 2:
+    bool test;
+    if (expression.is_unnamed(0) && expression.is_column(0, x) &&
+        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)
+       ) {
+      return sum_(data, x, test, op);
+    }
+  default:
+    break;
+  }
+  return R_UnboundValue;
 }
 
 }

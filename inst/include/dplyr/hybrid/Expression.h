@@ -9,16 +9,25 @@
 namespace dplyr {
 namespace hybrid {
 
-struct scoped_function {
-  scoped_function(SEXP name_, SEXP package_) :
-    name(name_), package(package_)
+enum hybrid_id {
+  NOMATCH,
+
+  IN, MAX, MEAN, MIN, SUM, CUME_DIST, DENSE_RANK, FIRST, GROUP_INDICES,
+  LAG, LAST, LEAD, MIN_RANK, N, N_DISTINCT, NTH, NTILE,
+  PERCENT_RANK, ROW_NUMBER, SD, VAR
+};
+
+struct hybrid_function {
+  hybrid_function(SEXP name_, SEXP package_, hybrid_id id_) :
+    name(name_), package(package_), id(id_)
   {}
   SEXP name;
   SEXP package;
+  hybrid_id id;
 };
 
-dplyr_hash_map<SEXP, scoped_function>& get_hybrid_inline_map() ;
-
+dplyr_hash_map<SEXP, hybrid_function>& get_hybrid_inline_map();
+dplyr_hash_map<SEXP, hybrid_function>& get_hybrid_named_map();
 
 // When we do hybrid evaluation of fun(...) we need to make
 // sure that fun is the function we want, and not masked
@@ -88,9 +97,9 @@ public:
     env(env_),
     func(R_NilValue),
     package(R_NilValue),
-    valid(false),
     data_mask(data_mask_),
-    n(0)
+    n(0),
+    id(NOMATCH)
   {
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
@@ -100,30 +109,31 @@ public:
       FindFunData finder(head, env);
       if (finder.findFun()) {
         SEXP f = finder.res;
-        dplyr_hash_map<SEXP, scoped_function>::const_iterator it = get_hybrid_inline_map().find(finder.res);
+        dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(finder.res);
         if (it != get_hybrid_inline_map().end()) {
-          valid = true;
           func = it->second.name;
           package = it->second.package;
+          id = it->second.id;
         }
       }
 
     } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
       // directly a function (an inlined function) so we can match that directly
-      dplyr_hash_map<SEXP, scoped_function>::const_iterator it = get_hybrid_inline_map().find(head);
+      dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(head);
       if (it != get_hybrid_inline_map().end()) {
-        valid = true;
         func = it->second.name;
         package = it->second.package;
+        id = it->second.id;
       }
     } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == symbols::double_colon && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
       // a call of the `::` function, so we do not need lookup
       func = CADDR(head);
       package = CADR(head);
 
-      // give up on pkg::fun if pkg is not one of dplyr, stats or base
-      // because we only hybrid functions from those
-      valid = package == symbols::dplyr || package == symbols::stats || package == symbols::base;
+      dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_named_map().find(func);
+      if (it != get_hybrid_named_map().end() && it->second.package == package) {
+        id = it->second.id;
+      }
     }
 
     // the arguments
@@ -139,19 +149,13 @@ public:
     return n;
   }
 
-  // the constructor rules out some expressions
-  inline bool is_valid() const {
-    return valid;
+  inline hybrid_id get_id() const {
+    return id;
   }
 
   // expression or value for the ith argument
   inline SEXP value(int i) const {
     return values[i];
-  }
-
-  // is this expression the function we are looking for
-  inline bool is_fun(SEXP symbol, SEXP pkg) {
-    return symbol == func && package == pkg;
   }
 
   // is the i-th argument called `symbol`
@@ -273,6 +277,8 @@ private:
   int n;
   std::vector<SEXP> values;
   std::vector<SEXP> tags;
+
+  hybrid_id id;
 
   inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
     if (TYPEOF(val) == SYMSXP) {

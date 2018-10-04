@@ -3,6 +3,7 @@
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
 #include <dplyr/hybrid/Dispatch.h>
+#include <dplyr/hybrid/Expression.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -182,6 +183,82 @@ template <typename SlicedTibble, typename Operation>
 SEXP sd_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
   return internal::SimpleDispatch<SlicedTibble, internal::SdImpl, Operation>(data, variable, narm, op).get();
 }
+
+template <typename SlicedTibble, typename Operation>
+SEXP mean_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  Column x;
+
+  switch (expression.size()) {
+  case 1:
+    // mean( <column> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return mean_(data, x, false, op);
+    }
+  case 2:
+    bool test;
+
+    // mean( <column>, na.rm = <bool> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x) &&
+        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)
+       ) {
+      return mean_(data, x, test, op);
+    }
+  default:
+    break;
+  }
+  return R_UnboundValue;
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP var_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  Column x;
+
+  switch (expression.size()) {
+  case 1:
+    // var( <column> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return var_(data, x, false, op);
+    }
+  case 2:
+    bool test;
+
+    // var( <column>, na.rm = <bool> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x) &&
+        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)
+       ) {
+      return var_(data, x, test, op);
+    }
+  default:
+    break;
+  }
+  return R_UnboundValue;
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP sd_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  Column x;
+
+  switch (expression.size()) {
+  case 1:
+    // sd( <column> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return sd_(data, x, false, op);
+    }
+  case 2:
+    bool test;
+
+    // sd( <column>, na.rm = <bool> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x) &&
+        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)
+       ) {
+      return sd_(data, x, test, op);
+    }
+  default:
+    break;
+  }
+  return R_UnboundValue;
+}
+
 
 }
 }
