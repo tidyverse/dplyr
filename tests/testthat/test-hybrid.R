@@ -738,3 +738,14 @@ test_that("hybrid first, last and nth operate within groups (#3868)", {
     iris %>% group_by(Species) %>% summarise(Sepal.Length = nth_(Sepal.Length, n = 2L))
   )
 })
+
+test_that("hybrid resolves the symbol", {
+  mean <- sum
+  out <- summarise(data.frame(x = 1:10), mean(x))
+  expect_equal(out[[1]], sum(1:10))
+
+  call <- hybrid_call(data.frame(x = 1:10), mean(x))
+  expect_true(call)
+  expect_equal(attr(call, "fun"), "sum")
+  expect_equal(attr(call, "package"), "base")
+})

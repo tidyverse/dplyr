@@ -365,8 +365,17 @@ SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& ma
   res.attr("class") = "hybrid_call";
   res.attr("call") = expr;
   res.attr("env") = env;
+
   if (test) {
+    Expression<SlicedTibble> expression(expr, mask, env);
+    res.attr("fun") = Rf_ScalarString(PRINTNAME(expression.get_fun()));
+    res.attr("package") = Rf_ScalarString(PRINTNAME(expression.get_package()));
     res.attr("cpp_class") = klass;
+
+    SEXP call = PROTECT(Rf_duplicate(expr));
+    SETCAR(call, Rf_lang3(symbols::double_colon, expression.get_package(), expression.get_fun()));
+    res.attr("call") = call;
+    UNPROTECT(1);
   }
   return res;
 }

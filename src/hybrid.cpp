@@ -3,7 +3,7 @@
 #include <tools/hash.h>
 #include <dplyr/hybrid/Expression.h>
 
-namespace dplyr{
+namespace dplyr {
 namespace hybrid {
 
 static dplyr_hash_map<SEXP, scoped_function> hybrid_inline_map;
@@ -22,8 +22,8 @@ dplyr_hash_map<SEXP, scoped_function>& get_hybrid_inline_map() {
 void hybrid_inline_map_insert(SEXP env, SEXP name, SEXP package) {
   hybrid_inline_map.insert(
     std::make_pair<SEXP, scoped_function>(
-        force(Rf_findVarInFrame3(env, name, FALSE)),
-        scoped_function(name, package)
+      force(Rf_findVarInFrame3(env, name, FALSE)),
+      scoped_function(name, package)
     )
   );
 }
@@ -67,7 +67,7 @@ void init_hybrid_inline_map(DllInfo* dll) {
 }
 
 // [[Rcpp::export]]
-List hybrids(){
+List hybrids() {
   using namespace dplyr::hybrid;
 
   int n = hybrid_inline_map.size();
@@ -77,17 +77,17 @@ List hybrids(){
   List funs(n);
 
   dplyr_hash_map<SEXP, scoped_function>::iterator it = hybrid_inline_map.begin();
-  for(int i = 0; i < n; ++it, ++i){
+  for (int i = 0; i < n; ++it, ++i) {
     names[i] = PRINTNAME(it->second.name);
     packages[i] = PRINTNAME(it->second.package);
     funs[i] = it->first;
   }
 
   List out = List::create(
-    _["name"] = names,
-    _["package"] = packages,
-    _["fun"] = funs
-  );
+               _["name"] = names,
+               _["package"] = packages,
+               _["fun"] = funs
+             );
   out.attr("class") = NaturalDataFrame::classes();
   set_rownames(out, n);
   return out;

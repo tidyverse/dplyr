@@ -20,7 +20,7 @@ struct scoped_function {
 dplyr_hash_map<SEXP, scoped_function>& get_hybrid_inline_map() ;
 
 
-// When we do hybrid evaulation of fun(...) we need to make
+// When we do hybrid evaluation of fun(...) we need to make
 // sure that fun is the function we want, and not masked
 struct FindFunData {
   const SEXP symbol;
@@ -95,10 +95,21 @@ public:
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
     if (TYPEOF(head) == SYMSXP) {
-      // a symbol
-      valid = true;
-      func = head;
-    } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP) {
+      // the head is a symbol, so we lookup what it resolves to
+      // then match that against the hash map
+      FindFunData finder(head, env);
+      if (finder.findFun()) {
+        SEXP f = finder.res;
+        dplyr_hash_map<SEXP, scoped_function>::const_iterator it = get_hybrid_inline_map().find(finder.res);
+        if (it != get_hybrid_inline_map().end()) {
+          valid = true;
+          func = it->second.name;
+          package = it->second.package;
+        }
+      }
+
+    } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
+      // directly a function (an inlined function) so we can match that directly
       dplyr_hash_map<SEXP, scoped_function>::const_iterator it = get_hybrid_inline_map().find(head);
       if (it != get_hybrid_inline_map().end()) {
         valid = true;
@@ -106,7 +117,7 @@ public:
         package = it->second.package;
       }
     } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == symbols::double_colon && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
-      // a call of the `::` function
+      // a call of the `::` function, so we do not need lookup
       func = CADDR(head);
       package = CADR(head);
 
@@ -260,6 +271,14 @@ public:
       return true;
     }
     return false;
+  }
+
+  inline SEXP get_fun() const {
+    return func;
+  }
+
+  inline SEXP get_package() const {
+    return package;
   }
 
 private:
