@@ -3,5 +3,5 @@ expect_hybrid <- function(data, expr, info = NULL, label = NULL) {
 }
 
 expect_not_hybrid <- function(data, expr, info = NULL, label = NULL) {
-  expect_false(hybrid_call(data, enquo(expr)), info = info, label = label)
+  expect_false(hybrid_impl(data, enquo(expr)), info = info, label = label)
 }
