@@ -169,94 +169,43 @@ struct SdImpl {
 
 } // namespace internal
 
-template <typename SlicedTibble, typename Operation>
-SEXP mean_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<SlicedTibble, internal::MeanImpl, Operation>(data, variable, narm, op).get();
-}
-
-template <typename SlicedTibble, typename Operation>
-SEXP var_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<SlicedTibble, internal::VarImpl, Operation>(data, variable, narm, op).get();
-}
-
-template <typename SlicedTibble, typename Operation>
-SEXP sd_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<SlicedTibble, internal::SdImpl, Operation>(data, variable, narm, op).get();
-}
-
-template <typename SlicedTibble, typename Operation>
-SEXP mean_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+template <typename SlicedTibble, typename Operation, template <int, bool, typename> class Impl>
+SEXP meansdvar_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
   Column x;
-
-  switch (expression.size()) {
-  case 1:
-    // mean( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
-      return mean_(data, x, false, op);
-    }
-  case 2:
-    bool test;
-
-    // mean( <column>, na.rm = <bool> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) &&
-        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)
-       ) {
-      return mean_(data, x, test, op);
-    }
-  default:
-    break;
-  }
-  return R_UnboundValue;
-}
-
-template <typename SlicedTibble, typename Operation>
-SEXP var_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
-  Column x;
-
-  switch (expression.size()) {
-  case 1:
-    // var( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
-      return var_(data, x, false, op);
-    }
-  case 2:
-    bool test;
-
-    // var( <column>, na.rm = <bool> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) &&
-        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)
-       ) {
-      return var_(data, x, test, op);
-    }
-  default:
-    break;
-  }
-  return R_UnboundValue;
-}
-
-template <typename SlicedTibble, typename Operation>
-SEXP sd_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
-  Column x;
+  bool na_rm = false;
 
   switch (expression.size()) {
   case 1:
     // sd( <column> )
     if (expression.is_unnamed(0) && expression.is_column(0, x)) {
-      return sd_(data, x, false, op);
+      return internal::SimpleDispatch<SlicedTibble, Impl, Operation>(data, x, na_rm, op).get();
     }
   case 2:
-    bool test;
-
     // sd( <column>, na.rm = <bool> )
     if (expression.is_unnamed(0) && expression.is_column(0, x) &&
-        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)
+        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, na_rm)
        ) {
-      return sd_(data, x, test, op);
+      return internal::SimpleDispatch<SlicedTibble, Impl, Operation>(data, x, na_rm, op).get();
     }
   default:
     break;
   }
   return R_UnboundValue;
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP mean_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return meansdvar_dispatch<SlicedTibble, Operation, internal::MeanImpl>(data, expression, op);
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP var_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return meansdvar_dispatch<SlicedTibble, Operation, internal::VarImpl>(data, expression, op);
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP sd_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return meansdvar_dispatch<SlicedTibble, Operation, internal::SdImpl>(data, expression, op);
 }
 
 
