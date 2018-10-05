@@ -114,12 +114,12 @@ SEXP minmax_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& e
 }
 
 template <typename SlicedTibble, typename Operation>
-SEXP min_(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+SEXP min_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
   return minmax_dispatch<SlicedTibble, Operation, true>(data, expression, op);
 }
 
 template <typename SlicedTibble, typename Operation>
-SEXP max_(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+SEXP max_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
   return minmax_dispatch<SlicedTibble, Operation, false>(data, expression, op);
 }
 

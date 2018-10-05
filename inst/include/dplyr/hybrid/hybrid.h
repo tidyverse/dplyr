@@ -24,60 +24,35 @@
 namespace dplyr {
 namespace hybrid {
 
+#define HYBRID_HANDLE_CASE(__ID__, __FUN__) case __ID__: return __FUN__##_dispatch(data, expression, op);
+
 template <typename SlicedTibble, typename Operation>
 SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& mask, SEXP env, const Operation& op) {
   if (TYPEOF(expr) != LANGSXP) return R_UnboundValue;
 
   Expression<SlicedTibble> expression(expr, mask, env);
   switch (expression.get_id()) {
-  case N_DISTINCT:
-    return n_distinct_(data, expression, op);
-  case N:
-    return expression.size() == 0 ? op(n_(data)) : R_UnboundValue;
-  case GROUP_INDICES:
-    return expression.size() == 0 ? op(group_indices_(data)) : R_UnboundValue;
-  case ROW_NUMBER:
-    return row_number_dispatch(data, expression, op);
-
-  case SUM:
-    return sum_dispatch(data, expression, op);
-  case MEAN:
-    return mean_dispatch(data, expression, op);
-  case VAR:
-    return var_dispatch(data, expression, op);
-  case SD:
-    return sd_dispatch(data, expression, op);
-
-  case FIRST:
-    return first_dispatch(data, expression, op);
-  case LAST:
-    return last_dispatch(data, expression, op);
-  case NTH:
-    return nth_dispatch(data, expression, op);
-
-  case MIN:
-    return min_(data, expression, op);
-  case MAX:
-    return max_(data, expression, op);
-
-  case NTILE:
-    return ntile_dispatch(data, expression, op);
-  case MIN_RANK:
-    return min_rank_dispatch(data, expression, op);
-  case DENSE_RANK:
-    return dense_rank_dispatch(data, expression, op);
-  case PERCENT_RANK:
-    return percent_rank_dispatch(data, expression, op);
-  case CUME_DIST:
-    return cume_dist_dispatch(data, expression, op);
-
-  case LEAD:
-    return lead_dispatch(data, expression, op);
-  case LAG:
-    return lag_dispatch(data, expression, op);
-
-  case IN:
-    return in_dispatch(data, expression, op);
+    HYBRID_HANDLE_CASE(N, n)
+    HYBRID_HANDLE_CASE(N_DISTINCT, n_distinct)
+    HYBRID_HANDLE_CASE(GROUP_INDICES, group_indices)
+    HYBRID_HANDLE_CASE(ROW_NUMBER, row_number)
+    HYBRID_HANDLE_CASE(SUM, sum)
+    HYBRID_HANDLE_CASE(MEAN, mean)
+    HYBRID_HANDLE_CASE(VAR, var)
+    HYBRID_HANDLE_CASE(SD, sd)
+    HYBRID_HANDLE_CASE(FIRST, first)
+    HYBRID_HANDLE_CASE(LAST, last)
+    HYBRID_HANDLE_CASE(NTH, nth)
+    HYBRID_HANDLE_CASE(MIN, min)
+    HYBRID_HANDLE_CASE(MAX, max)
+    HYBRID_HANDLE_CASE(NTILE, ntile)
+    HYBRID_HANDLE_CASE(MIN_RANK, min_rank)
+    HYBRID_HANDLE_CASE(DENSE_RANK, dense_rank)
+    HYBRID_HANDLE_CASE(PERCENT_RANK, percent_rank)
+    HYBRID_HANDLE_CASE(CUME_DIST, cume_dist)
+    HYBRID_HANDLE_CASE(LEAD, lead)
+    HYBRID_HANDLE_CASE(LAG, lag)
+    HYBRID_HANDLE_CASE(IN, in)
 
   case NOMATCH:
     break;
@@ -125,5 +100,7 @@ SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& ma
 
 }
 }
+
+#undef HYBRID_HANDLE_CASE
 
 #endif
