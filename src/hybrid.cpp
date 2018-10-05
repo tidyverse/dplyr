@@ -45,7 +45,7 @@ void hybrid_init(SEXP env, SEXP name, SEXP package, hybrid_id id) {
 }
 
 // [[Rcpp::init]]
-void init_hybrid_inline_map(DllInfo* dll) {
+void init_hybrid_inline_map(DllInfo* /*dll*/) {
   using namespace dplyr::hybrid;
 
   if (hybrid_inline_map.size() == 0) {
