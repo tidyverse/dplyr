@@ -506,7 +506,7 @@ public:
     get_context_env()["..group_number"] = indices.group() + 1;
 
     // evaluate the call in the data mask
-    SEXP res = Rcpp_eval(expr, data_mask);
+    SEXP res = Rcpp_fast_eval(expr, data_mask);
 
     return res;
   }
