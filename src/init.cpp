@@ -39,7 +39,6 @@ SEXP ns_methods() {
 }
 
 namespace dplyr {
-
 SEXP symbols::package = Rf_install("package");
 SEXP symbols::n = Rf_install("n");
 SEXP symbols::tzone = Rf_install("tzone");

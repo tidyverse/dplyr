@@ -3,6 +3,7 @@
 
 #include <dplyr/hybrid/HybridVectorVectorResult.h>
 #include <dplyr/hybrid/Column.h>
+#include <dplyr/hybrid/Expression.h>
 
 #include <tools/hash.h>
 
@@ -76,6 +77,20 @@ inline SEXP in_column_column(const SlicedTibble& data, Column col_x, Column col_
 
 }
 
+template <typename SlicedTibble, typename Operation>
+inline SEXP in_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  if (expression.size() == 2) {
+    // <column> %in% <column>
+
+    Column lhs;
+    Column rhs;
+
+    if (expression.is_unnamed(0) && expression.is_column(0, lhs) && expression.is_unnamed(1) && expression.is_column(1, rhs)) {
+      return in_column_column(data, lhs, rhs, op);
+    }
+  }
+  return R_UnboundValue;
+}
 
 }
 }

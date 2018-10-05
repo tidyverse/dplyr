@@ -50,7 +50,7 @@ private:
 }
 
 template <typename SlicedTibble, typename Expression, typename Operation>
-SEXP n_distinct_(const SlicedTibble& data, const Expression& expression, const Operation& op) {
+SEXP n_distinct_dispatch(const SlicedTibble& data, const Expression& expression, const Operation& op) {
   std::vector<SEXP> columns;
   bool narm = false;
 

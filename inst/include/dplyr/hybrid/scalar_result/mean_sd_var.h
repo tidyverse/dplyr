@@ -3,6 +3,7 @@
 
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
 #include <dplyr/hybrid/Dispatch.h>
+#include <dplyr/hybrid/Expression.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -168,20 +169,45 @@ struct SdImpl {
 
 } // namespace internal
 
-template <typename SlicedTibble, typename Operation>
-SEXP mean_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<SlicedTibble, internal::MeanImpl, Operation>(data, variable, narm, op).get();
+template <typename SlicedTibble, typename Operation, template <int, bool, typename> class Impl>
+SEXP meansdvar_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  Column x;
+  bool na_rm = false;
+
+  switch (expression.size()) {
+  case 1:
+    // sd( <column> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return internal::SimpleDispatch<SlicedTibble, Impl, Operation>(data, x, na_rm, op).get();
+    }
+  case 2:
+    // sd( <column>, na.rm = <bool> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x) &&
+        expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, na_rm)
+       ) {
+      return internal::SimpleDispatch<SlicedTibble, Impl, Operation>(data, x, na_rm, op).get();
+    }
+  default:
+    break;
+  }
+  return R_UnboundValue;
 }
 
 template <typename SlicedTibble, typename Operation>
-SEXP var_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<SlicedTibble, internal::VarImpl, Operation>(data, variable, narm, op).get();
+SEXP mean_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return meansdvar_dispatch<SlicedTibble, Operation, internal::MeanImpl>(data, expression, op);
 }
 
 template <typename SlicedTibble, typename Operation>
-SEXP sd_(const SlicedTibble& data, Column variable, bool narm, const Operation& op) {
-  return internal::SimpleDispatch<SlicedTibble, internal::SdImpl, Operation>(data, variable, narm, op).get();
+SEXP var_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return meansdvar_dispatch<SlicedTibble, Operation, internal::VarImpl>(data, expression, op);
 }
+
+template <typename SlicedTibble, typename Operation>
+SEXP sd_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return meansdvar_dispatch<SlicedTibble, Operation, internal::SdImpl>(data, expression, op);
+}
+
 
 }
 }

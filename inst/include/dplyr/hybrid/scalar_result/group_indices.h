@@ -22,9 +22,9 @@ public:
 }
 
 // group_indices()
-template <typename SlicedTibble>
-internal::GroupIndices<SlicedTibble> group_indices_(const SlicedTibble& data) {
-  return internal::GroupIndices<SlicedTibble>(data);
+template <typename SlicedTibble, typename Expression, typename Operation>
+inline SEXP group_indices_dispatch(const SlicedTibble& data, const Expression& expression, const Operation& op) {
+  return expression.size() == 0 ? op(internal::GroupIndices<SlicedTibble>(data)) : R_UnboundValue;
 }
 
 }

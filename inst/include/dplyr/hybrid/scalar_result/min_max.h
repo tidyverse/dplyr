@@ -4,6 +4,7 @@
 #include <dplyr/hybrid/HybridVectorScalarResult.h>
 #include <dplyr/hybrid/Column.h>
 #include <tools/default_value.h>
+#include <dplyr/hybrid/Expression.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -90,14 +91,36 @@ SEXP minmax_(const SlicedTibble& data, Column x, bool narm, const Operation& op)
   }
 }
 
-template <typename SlicedTibble, typename Operation>
-SEXP min_(const SlicedTibble& data, Column x, bool narm, const Operation& op) {
-  return minmax_<SlicedTibble, Operation, true>(data, x, narm, op) ;
+template <typename SlicedTibble, typename Operation, bool MINIMUM>
+SEXP minmax_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  Column x;
+  switch (expression.size()) {
+  case 1:
+    // min( <column> )
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+      return minmax_<SlicedTibble, Operation, MINIMUM>(data, x, false, op) ;
+    }
+  case 2:
+    // min( <column>, na.rm = <bool> )
+    bool test;
+
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)) {
+      return minmax_<SlicedTibble, Operation, MINIMUM>(data, x, test, op) ;
+    }
+  default:
+    break;
+  }
+  return R_UnboundValue;
 }
 
 template <typename SlicedTibble, typename Operation>
-SEXP max_(const SlicedTibble& data, Column x, bool narm, const Operation& op) {
-  return minmax_<SlicedTibble, Operation, false>(data, x, narm, op) ;
+SEXP min_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return minmax_dispatch<SlicedTibble, Operation, true>(data, expression, op);
+}
+
+template <typename SlicedTibble, typename Operation>
+SEXP max_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
+  return minmax_dispatch<SlicedTibble, Operation, false>(data, expression, op);
 }
 
 }
