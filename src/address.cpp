@@ -74,3 +74,20 @@ CharacterVector strings_addresses(CharacterVector s) {
 void init_logging(const std::string& log_level) {
   plog::init_r(log_level);
 }
+
+// [[Rcpp::export]]
+bool is_maybe_shared(SEXP env, SEXP name) {
+  SEXP x = Rf_eval(name, env);
+  return MAYBE_SHARED(x);
+}
+
+// [[Rcpp::export]]
+LogicalVector maybe_shared_columns(SEXP df) {
+  int n = Rf_length(df);
+  LogicalVector res(no_init(n));
+  for (int i = 0; i < n; i++) {
+    res[i] = MAYBE_SHARED(VECTOR_ELT(df, i));
+  }
+  return res;
+}
+

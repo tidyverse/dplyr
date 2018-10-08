@@ -63,6 +63,29 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
+// is_maybe_shared
+bool is_maybe_shared(SEXP env, SEXP name);
+RcppExport SEXP _dplyr_is_maybe_shared(SEXP envSEXP, SEXP nameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type env(envSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type name(nameSEXP);
+    rcpp_result_gen = Rcpp::wrap(is_maybe_shared(env, name));
+    return rcpp_result_gen;
+END_RCPP
+}
+// maybe_shared_columns
+LogicalVector maybe_shared_columns(SEXP df);
+RcppExport SEXP _dplyr_maybe_shared_columns(SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< SEXP >::type df(dfSEXP);
+    rcpp_result_gen = Rcpp::wrap(maybe_shared_columns(df));
+    return rcpp_result_gen;
+END_RCPP
+}
 // arrange_impl
 SEXP arrange_impl(DataFrame df, QuosureList quosures);
 RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP) {
@@ -730,6 +753,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_plfloc", (DL_FUNC) &_dplyr_plfloc, 1},
     {"_dplyr_strings_addresses", (DL_FUNC) &_dplyr_strings_addresses, 1},
     {"_dplyr_init_logging", (DL_FUNC) &_dplyr_init_logging, 1},
+    {"_dplyr_is_maybe_shared", (DL_FUNC) &_dplyr_is_maybe_shared, 2},
+    {"_dplyr_maybe_shared_columns", (DL_FUNC) &_dplyr_maybe_shared_columns, 1},
     {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 2},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
