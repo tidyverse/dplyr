@@ -30,6 +30,14 @@ init_logging <- function(log_level) {
     invisible(.Call(`_dplyr_init_logging`, log_level))
 }
 
+is_maybe_shared <- function(env, name) {
+    .Call(`_dplyr_is_maybe_shared`, env, name)
+}
+
+maybe_shared_columns <- function(df) {
+    .Call(`_dplyr_maybe_shared_columns`, df)
+}
+
 arrange_impl <- function(df, quosures) {
     .Call(`_dplyr_arrange_impl`, df, quosures)
 }

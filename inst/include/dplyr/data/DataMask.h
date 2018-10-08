@@ -142,6 +142,7 @@ private:
                        column_subset(data, RowwiseSlicingIndex(indices.group())) :
                        column_subset(data, indices)
                       );
+    MARK_NOT_MUTABLE(value);
 
     // store it in the mask_resolved environment
     Rf_defineVar(symbol, value, mask_resolved);

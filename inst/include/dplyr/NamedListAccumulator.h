@@ -19,7 +19,7 @@ public:
   inline void set(const SymbolString& name, RObject x) {
     if (! Rcpp::traits::same_type<SlicedTibble, RowwiseDataFrame>::value)
       check_supported_type(x, name);
-
+    MARK_NOT_MUTABLE(x);
     SymbolMapIndex index = symbol_map.insert(name);
     if (index.origin == NEW) {
       data.push_back(x);

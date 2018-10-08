@@ -1074,3 +1074,11 @@ test_that("summarise can handle POSIXlt columns (#3854)", {
     summarise(data = list(created))
   expect_true(all(sapply(res$data, inherits, "POSIXlt")))
 })
+
+test_that("the data mask marks subsets as not mutable", {
+  res <- mtcars %>%
+    group_by(cyl) %>%
+    summarise(ngroup = n(), shared = is_maybe_shared(environment(), sym("ngroup")))
+  expect_true(all(res$shared))
+  expect_true(all(maybe_shared_columns(res)))
+})
