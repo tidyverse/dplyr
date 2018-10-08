@@ -143,7 +143,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
   List results(nvars + nexpr);
   for (; i < nvars; i++) {
     LOG_VERBOSE << "copying " << gdf.symbol(i).get_utf8_cstring();
-    results[i] = shared_SEXP(gdf.label(i));
+    results[i] = gdf.label(i);
     accumulator.set(gdf.symbol(i), results[i]);
   }
 
