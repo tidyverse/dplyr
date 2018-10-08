@@ -313,7 +313,6 @@ test_that("group_by() does not mutate for nothing when using the .data pronoun (
   attr(df, "y") <- 1
 
   expect_equal( df %>% group_by(.data$x) %>% attr("y"), 1 )
-  expect_equal( df %>% group_by(.data$"x") %>% attr("y"), 1 )
   expect_equal( df %>% group_by(.data[["x"]]) %>% attr("y"), 1 )
 })
 
