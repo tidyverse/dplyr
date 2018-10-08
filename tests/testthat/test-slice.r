@@ -151,9 +151,16 @@ test_that("slice skips 0 (#3313)", {
   expect_identical(slice(d, c(0, -1)), slice(d, -1))
 })
 
-test_that("slice is not confused abour dense groups (#3753)",{
+test_that("slice is not confused about dense groups (#3753)",{
   df <- tibble(row = 1:3)
   expect_equal(slice(df, c(2,1,3))$row, c(2L,1L,3L))
   expect_equal(slice(df, c(1,1,1))$row, rep(1L, 3))
 })
 
+test_that("slice accepts ... (#3804)", {
+  expect_equal(slice(mtcars, 1, 2), slice(mtcars, 1:2))
+  expect_equal(slice(mtcars, 1, n()), slice(mtcars, c(1, nrow(mtcars))))
+
+  g <- mtcars %>% group_by(cyl)
+  expect_equal(slice(g, 1, n()), slice(g, c(1, n())))
+})
