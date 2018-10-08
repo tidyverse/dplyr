@@ -4,8 +4,7 @@
 \alias{new_grouped_df}
 \title{A low-level constructor for the grouped_df class.}
 \usage{
-new_grouped_df(.data, groups, class = c("grouped_df", "tbl_df", "tbl",
-  "data.frame"), ...)
+new_grouped_df(.data, groups, ..., class = character())
 }
 \arguments{
 \item{.data}{A data frame}
@@ -14,9 +13,9 @@ new_grouped_df(.data, groups, class = c("grouped_df", "tbl_df", "tbl",
 Its last column should be called \code{.rows} and be
 a list of 1 based integer vectors that all are between 1 and the number of rows of \code{.data}}
 
-\item{class}{set of classes. This should end with the canonical classes for a grouped_df.}
-
 \item{...}{additional attributes}
+
+\item{class}{additional class, will be prepended to canonical classes of a grouped data frame}
 }
 \description{
 This constructor is designed to be high-performance so only

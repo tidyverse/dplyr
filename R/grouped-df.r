@@ -36,7 +36,7 @@ grouped_df <- function(data, vars, drop) {
 #' @param groups The grouped structure, `groups` should be a data frame.
 #' Its last column should be called `.rows` and be
 #' a list of 1 based integer vectors that all are between 1 and the number of rows of `.data`
-#' @param class set of classes. This should end with the canonical classes for a grouped_df.
+#' @param class additional class, will be prepended to canonical classes of a grouped data frame
 #' @param ... additional attributes
 #'
 #' @examples
@@ -50,13 +50,18 @@ grouped_df <- function(data, vars, drop) {
 #'
 #' @keywords internal
 #' @export
-new_grouped_df <- function(.data, groups, class = c("grouped_df", "tbl_df", "tbl", "data.frame"), ...) {
+new_grouped_df <- function(.data, groups, ..., class = character()) {
   stopifnot(
     is.data.frame(.data),
     is.data.frame(groups),
     tail(names(groups), 1L) == ".rows"
   )
-  structure(.data, groups = groups, class = class, ... )
+  structure(
+    .data,
+    groups = groups,
+    ...,
+    class = c(class, c("grouped_df", "tbl_df", "tbl", "data.frame"))
+  )
 }
 
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
