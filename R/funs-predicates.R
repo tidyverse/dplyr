@@ -25,9 +25,6 @@ any_exprs <- function(..., .vectorised = TRUE) {
   op <- if (.vectorised) quote(`|`) else quote(`||`)
   quo_reduce(..., .op = op)
 }
-c_exprs <- function(...) {
-  quo_reduce(..., .op = c)
-}
 
 ## @param .op Can be a function or a quoted name of a function. If a
 ##   quoted name, the default environment is the [base
