@@ -112,6 +112,10 @@ grouped_df_impl <- function(data, symbols) {
     .Call(`_dplyr_grouped_df_impl`, data, symbols)
 }
 
+new_grouped_df_impl <- function(data, group_data, klass) {
+    .Call(`_dplyr_new_grouped_df_impl`, data, group_data, klass)
+}
+
 group_data_grouped_df <- function(data) {
     .Call(`_dplyr_group_data_grouped_df`, data)
 }

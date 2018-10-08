@@ -261,6 +261,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// new_grouped_df_impl
+DataFrame new_grouped_df_impl(DataFrame data, DataFrame group_data, SEXP klass);
+RcppExport SEXP _dplyr_new_grouped_df_impl(SEXP dataSEXP, SEXP group_dataSEXP, SEXP klassSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< DataFrame >::type group_data(group_dataSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type klass(klassSEXP);
+    rcpp_result_gen = Rcpp::wrap(new_grouped_df_impl(data, group_data, klass));
+    return rcpp_result_gen;
+END_RCPP
+}
 // group_data_grouped_df
 DataFrame group_data_grouped_df(DataFrame data);
 RcppExport SEXP _dplyr_group_data_grouped_df(SEXP dataSEXP) {
@@ -770,6 +783,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
     {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 2},
+    {"_dplyr_new_grouped_df_impl", (DL_FUNC) &_dplyr_new_grouped_df_impl, 3},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_hybrids", (DL_FUNC) &_dplyr_hybrids, 0},
     {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},

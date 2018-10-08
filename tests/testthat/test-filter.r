@@ -169,20 +169,6 @@ test_that("$ does not end call traversing. #502", {
   expect_equal(left, right)
 })
 
-test_that("GroupedDataFrame checks consistency of data (#606)", {
-  df1 <- data_frame(
-    g = rep(1:2, each = 5),
-    x = 1:10
-  ) %>% group_by(g)
-  attr(df1, "groups")$.rows <- list(c(2:3),c(5:6))
-
-  expect_error(
-    df1 %>% filter(x == 1),
-    "`.data` is a corrupt grouped_df, contains 10 rows, and 4 rows in groups",
-    fixed = TRUE
-  )
-})
-
 test_that("filter uses the allow list (#566)", {
   datesDF <- read.csv(stringsAsFactors = FALSE, text = "
 X

@@ -26,6 +26,30 @@ grouped_df <- function(data, vars, drop) {
   grouped_df_impl(data, unname(vars))
 }
 
+#' Create a custom grouped tibble
+#'
+#' @param .data A data frame
+#' @param group_data The grouped structure, see details
+#' @param class An additional class for the resulting tibble
+#'
+#' @details
+#' `group_data` should be a data frame. Its last column should be called `.rows` and be
+#' a list of 1 based integer vectors
+#'
+#' @examples
+#' # 5 bootstrap samples
+#' tbl <- new_grouped_df(
+#'   tibble(x = rnorm(10)),
+#'   tibble(.rows = replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+#' )
+#' # mean of each bootstrap sample
+#' summarise(tbl, x = mean(x))
+#'
+#' @export
+new_grouped_df <- function(.data, group_data, class = NULL) {
+  new_grouped_df_impl(.data, group_data, class)
+}
+
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
 #' @rdname grouped_df
