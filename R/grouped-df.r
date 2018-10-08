@@ -26,28 +26,37 @@ grouped_df <- function(data, vars, drop) {
   grouped_df_impl(data, unname(vars))
 }
 
-#' Create a custom grouped tibble
+#' A low-level constructor for the grouped_df class.
+#'
+#' This constructor is designed to be high-performance so only
+#' check types, not values. This means it is the callers responsibility
+#' to create valid values, and hence this is for expert use only.
 #'
 #' @param .data A data frame
-#' @param group_data The grouped structure, see details
-#' @param class An additional class for the resulting tibble
-#'
-#' @details
-#' `group_data` should be a data frame. Its last column should be called `.rows` and be
-#' a list of 1 based integer vectors
+#' @param groups The grouped structure, `groups` should be a data frame.
+#' Its last column should be called `.rows` and be
+#' a list of 1 based integer vectors that all are between 1 and the number of rows of `.data`
+#' @param class set of classes. This should end with the canonical classes for a grouped_df.
+#' @param ... additional attributes
 #'
 #' @examples
 #' # 5 bootstrap samples
 #' tbl <- new_grouped_df(
 #'   tibble(x = rnorm(10)),
-#'   tibble(.rows = replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+#'   groups = tibble(.rows = replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
 #' )
 #' # mean of each bootstrap sample
 #' summarise(tbl, x = mean(x))
 #'
+#' @keywords internal
 #' @export
-new_grouped_df <- function(.data, group_data, class = NULL) {
-  new_grouped_df_impl(.data, group_data, class)
+new_grouped_df <- function(.data, groups, class = c("grouped_df", "tbl_df", "tbl", "data.frame"), ...) {
+  stopifnot(
+    is.data.frame(.data),
+    is.data.frame(groups),
+    tail(names(groups), 1L) == ".rows"
+  )
+  structure(.data, groups = groups, class = class, ... )
 }
 
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))

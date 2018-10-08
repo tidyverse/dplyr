@@ -2,31 +2,35 @@
 % Please edit documentation in R/grouped-df.r
 \name{new_grouped_df}
 \alias{new_grouped_df}
-\title{Create a custom grouped tibble}
+\title{A low-level constructor for the grouped_df class.}
 \usage{
-new_grouped_df(.data, group_data, class = NULL)
+new_grouped_df(.data, groups, class = c("grouped_df", "tbl_df", "tbl",
+  "data.frame"), ...)
 }
 \arguments{
 \item{.data}{A data frame}
 
-\item{group_data}{The grouped structure, see details}
+\item{groups}{The grouped structure, \code{groups} should be a data frame.
+Its last column should be called \code{.rows} and be
+a list of 1 based integer vectors that all are between 1 and the number of rows of \code{.data}}
 
-\item{class}{An additional class for the resulting tibble}
+\item{class}{set of classes. This should end with the canonical classes for a grouped_df.}
+
+\item{...}{additional attributes}
 }
 \description{
-Create a custom grouped tibble
-}
-\details{
-\code{group_data} should be a data frame. Its last column should be called \code{.rows} and be
-a list of 1 based integer vectors
+This constructor is designed to be high-performance so only
+check types, not values. This means it is the callers responsibility
+to create valid values, and hence this is for expert use only.
 }
 \examples{
 # 5 bootstrap samples
 tbl <- new_grouped_df(
   tibble(x = rnorm(10)),
-  tibble(.rows = replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  groups = tibble(.rows = replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
 )
 # mean of each bootstrap sample
 summarise(tbl, x = mean(x))
 
 }
+\keyword{internal}

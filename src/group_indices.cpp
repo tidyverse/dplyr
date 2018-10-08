@@ -561,43 +561,6 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
   return copy;
 }
 
-struct check_group_bounds {
-  check_group_bounds(int idx_, int n_) : idx(idx_), n(n_){}
-
-  inline void operator()(int i) {
-    if (i<=0 || i> n) {
-      bad_arg("group_data", tfm::format("is a corrupt group structure, index in group %d out of bounds", idx + 1));
-    }
-  }
-
-  int idx;
-  int n;
-};
-
-// [[Rcpp::export]]
-DataFrame new_grouped_df_impl(DataFrame data, DataFrame group_data, SEXP klass) {
-  // test that all indices in `.rows` are fine
-  R_xlen_t nc = Rf_length(group_data);
-  if (nc == 0) {
-    bad_arg("group_data", "is a corrupt grouped structure");
-  }
-  List dot_rows = group_data[nc - 1];
-  int ng = Rf_xlength(dot_rows);
-  int n = data.nrows();
-  for (R_xlen_t i = 0; i < ng; i++) {
-    IntegerVector idx = dot_rows[i];
-    std::for_each(idx.begin(), idx.end(), check_group_bounds(i, n));
-  }
-  data.attr("groups") = group_data;
-
-  GroupedDataFrame gdf(data);
-  if (klass != R_NilValue) {
-    gdf.data().attr("class") = CharacterVector::create(STRING_ELT(klass, 0), "grouped_df", "tbl_df", "tbl", "data.frame");
-  }
-  return gdf.data();
-}
-
-
 // [[Rcpp::export]]
 DataFrame group_data_grouped_df(DataFrame data) {
   return GroupedDataFrame(data).group_data();
