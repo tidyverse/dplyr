@@ -24,13 +24,3 @@
 .onDetach <- function(libpath) {
   setHook(packageEvent("plyr", "attach"), NULL, "replace")
 }
-
-when_attached <- function(pkg, action) {
-  if (is_attached(pkg)) {
-    action
-  } else {
-    setHook(packageEvent(pkg, "attach"), function(...) action)
-  }
-}
-
-is_attached <- function(pkg) paste0("package:", pkg) %in% search()
