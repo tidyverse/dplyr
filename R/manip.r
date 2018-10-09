@@ -211,6 +211,7 @@ summarize_ <- summarise_
 #' `mutate()` adds new variables and preserves existing ones;
 #' `transmute()` adds new variables and drops existing ones.  Both
 #' functions preserve the number of rows of the input.
+#' New variables overwrite existing variables of the same name.
 #'
 #' @section Useful functions available in calculations of variables:
 #'
@@ -242,7 +243,8 @@ summarize_ <- summarise_
 #'   length as the number of rows in the group (if using [group_by()]) or in the entire
 #'   input (if not using groups). The name of each argument will be the name of
 #'   a new variable, and the value will be its corresponding value.  Use a `NULL`
-#'   value in `mutate` to drop a variable.
+#'   value in `mutate` to drop a variable.  New variables overwrite existing variables
+#'   of the same name.
 #'
 #'   The arguments in `...` are automatically [quoted][rlang::quo] and
 #'   [evaluated][rlang::eval_tidy] in the context of the data
