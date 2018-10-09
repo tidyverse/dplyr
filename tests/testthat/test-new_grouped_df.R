@@ -13,3 +13,26 @@ test_that("new_grouped_df can create alternative grouping structures (#3837)", {
   res <- summarise(tbl, x = mean(x))
   expect_equal(nrow(res), 5L)
 })
+
+test_that("validate_grouped_df (#3837)", {
+  df <- new_grouped_df(
+    tibble(x = 1:10),
+    groups = tibble(.rows = list(1:5, -1L))
+  )
+  expect_error(validate_grouped_df(df), "indices of group 2 are out of bounds")
+
+  attr(df, "groups")$.rows <- list(11L)
+  expect_error(validate_grouped_df(df), "indices of group 1 are out of bounds")
+
+  attr(df, "groups")$.rows <- list(0L)
+  expect_error(validate_grouped_df(df), "indices of group 1 are out of bounds")
+
+  attr(df, "groups")$.rows <- list(1)
+  expect_error(validate_grouped_df(df), "`.rows` column is not a list of one-based integer vectors")
+
+  attr(df, "groups") <- tibble()
+  expect_error(validate_grouped_df(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+
+  attr(df, "groups") <- NULL
+  expect_error(validate_grouped_df(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+})

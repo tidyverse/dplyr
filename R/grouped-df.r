@@ -28,11 +28,13 @@ grouped_df <- function(data, vars, drop) {
 
 #' A low-level constructor for the grouped_df class.
 #'
-#' This constructor is designed to be high-performance so only
+#' `new_grouped_df` is a constructor designed to be high-performance so only
 #' check types, not values. This means it is the callers responsibility
 #' to create valid values, and hence this is for expert use only.
 #'
-#' @param .data A data frame
+#' `validate_df` validates the attributes of a grouped_df
+#'
+#' @param x A data frame
 #' @param groups The grouped structure, `groups` should be a data frame.
 #' Its last column should be called `.rows` and be
 #' a list of 1 based integer vectors that all are between 1 and the number of rows of `.data`
@@ -50,19 +52,51 @@ grouped_df <- function(data, vars, drop) {
 #'
 #' @keywords internal
 #' @export
-new_grouped_df <- function(.data, groups, ..., class = character()) {
+new_grouped_df <- function(x, groups, ..., class = character()) {
   stopifnot(
-    is.data.frame(.data),
+    is.data.frame(x),
     is.data.frame(groups),
     tail(names(groups), 1L) == ".rows"
   )
   structure(
-    .data,
+    x,
     groups = groups,
     ...,
-    class = c(class, c("grouped_df", "tbl_df", "tbl", "data.frame"))
+    class = c(class, "grouped_df", "tbl_df", "tbl", "data.frame")
   )
 }
+
+#' @rdname new_grouped_df
+#' @export
+validate_grouped_df <- function(x) {
+  assert_that(is_grouped_df(x))
+
+  groups <- attr(x, "groups")
+  assert_that(
+    is.data.frame(groups),
+    ncol(groups) > 0,
+    names(groups)[ncol(groups)] == ".rows",
+    is.list(groups[[ncol(groups)]]),
+    msg  = "The `groups` attribute is not a data frame with its last column called `.rows`"
+  )
+
+  n <- nrow(x)
+  rows <- groups[[ncol(groups)]]
+  for (i in seq_along(rows)) {
+    indices <- rows[[i]]
+    assert_that(
+      is.integer(indices),
+      msg = "`.rows` column is not a list of one-based integer vectors"
+    )
+    assert_that(
+      all(indices >= 1 & indices <= n),
+      msg = glue("indices of group {i} are out of bounds")
+    )
+  }
+
+  x
+}
+
 
 setOldClass(c("grouped_df", "tbl_df", "tbl", "data.frame"))
 
