@@ -20,22 +20,22 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
     list(.data)
   })
 
-  expect_true(env_has(df$f[[1]], "a", inherit = TRUE))
-  expect_true(env_has(df$g[[1]], "f", inherit = TRUE))
-  expect_true(env_has(df$h[[1]], "g", inherit = TRUE))
+  expect_true(env_has(get_env(df$f[[1]]), "a", inherit = TRUE))
+  expect_true(env_has(get_env(df$g[[1]]), "f", inherit = TRUE))
+  expect_true(env_has(get_env(df$h[[1]]), "g", inherit = TRUE))
 
   expect_warning(
-    expect_null(env_get(df$f[[1]], "a", inherit = TRUE)),
+    expect_null(env_get(get_env(df$f[[1]]), "a", inherit = TRUE)),
     "Hybrid callback proxy out of scope",
     fixed = TRUE
   )
   expect_warning(
-    expect_null(env_get(df$g[[1]], "f", inherit = TRUE)),
+    expect_null(env_get(get_env(df$g[[1]]), "f", inherit = TRUE)),
     "Hybrid callback proxy out of scope",
     fixed = TRUE
   )
   expect_warning(
-    expect_null(env_get(df$h[[1]], "g", inherit = TRUE)),
+    expect_null(env_get(get_env(df$h[[1]]), "g", inherit = TRUE)),
     "Hybrid callback proxy out of scope",
     fixed = TRUE
   )

@@ -99,12 +99,12 @@ vars <- function(...) {
 #'   can use with scoped verbs.
 #' @export
 all_vars <- function(expr) {
-  set_attrs(enquo(expr), class = c("all_vars", "quosure", "formula"))
+  structure(enquo(expr), class = c("all_vars", "quosure", "formula"))
 }
 #' @rdname all_vars
 #' @export
 any_vars <- function(expr) {
-  set_attrs(enquo(expr), class = c("any_vars", "quosure", "formula"))
+  structure(enquo(expr), class = c("any_vars", "quosure", "formula"))
 }
 #' @export
 print.all_vars <- function(x, ...) {
@@ -180,7 +180,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   }
 
   n <- length(tibble_vars)
-  selected <- lgl_len(n)
+  selected <- new_logical(n)
   for (i in seq_len(n)) {
     selected[[i]] <- .p(.tbl[[tibble_vars[[i]]]], ...)
   }

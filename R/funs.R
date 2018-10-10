@@ -65,7 +65,7 @@ as_fun_list <- function(.x, .quo, .env, ...) {
   args <- list2(...)
   if (is_fun_list(.x)) {
     if (!is_empty(args)) {
-      .x[] <- map(.x, lang_modify, !!!args)
+      .x[] <- map(.x, call_modify, !!!args)
     }
     return(.x)
   }
@@ -95,15 +95,15 @@ as_fun <- function(.x, .env, .args) {
 
   expr <- quo_get_expr(quo)
 
-  if (is_lang(expr, c("function", "~"))) {
-    top_level <- fmt_calls(expr[[1]])
+  if (is_call(expr, c("function", "~"))) {
+    top_level <- fmt_obj(as_string(expr[[1]]))
     bad_args(quo_text(expr), "must be a function name (quoted or unquoted) or an unquoted call, not {top_level}")
   }
 
-  if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
-    expr <- lang_modify(expr, !!!.args)
+  if (is_call(expr) && !is_call(expr, c("::", ":::"))) {
+    expr <- call_modify(expr, !!!.args)
   } else {
-    expr <- lang(expr, quote(.), !!!.args)
+    expr <- call2(expr, quote(.), !!!.args)
   }
 
   set_expr(quo, expr)

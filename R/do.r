@@ -106,7 +106,7 @@ do_.NULL <- function(.data, ..., .dots = list()) {
 
 env_bind_do_pronouns <- function(env, data) {
   if (is_function(data)) {
-    bind <- env_bind_fns
+    bind <- env_bind_active
   } else {
     bind <- env_bind
   }

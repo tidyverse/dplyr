@@ -17,7 +17,7 @@ test_that("funs() accepts quoted functions", {
 
 test_that("funs() accepts unquoted functions", {
   funs <- funs(fn = !!mean)
-  expect_identical(funs$fn, new_quosure(lang(base::mean, quote(.))))
+  expect_identical(funs$fn, new_quosure(call2(base::mean, quote(.))))
 })
 
 test_that("funs() accepts quoted calls", {

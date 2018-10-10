@@ -37,13 +37,13 @@ is.wholenumber <- function(x) {
 }
 
 deparse_all <- function(x) {
-  x <- map_if(x, is_quosure, quo_expr)
+  x <- map_if(x, is_quosure, quo_squash)
   x <- map_if(x, is_formula, f_rhs)
   map_chr(x, expr_text, width = 500L)
 }
 
 deparse_names <- function(x) {
-  x <- map_if(x, is_quosure, quo_expr)
+  x <- map_if(x, is_quosure, quo_squash)
   x <- map_if(x, is_formula, f_rhs)
   map_chr(x, deparse)
 }
@@ -91,7 +91,7 @@ is_1d <- function(x) {
 }
 
 is_negated <- function(x) {
-  is_lang(x, "-", n = 1)
+  is_call(x, "-", n = 1)
 }
 
 inc_seq <- function(from, to) {
