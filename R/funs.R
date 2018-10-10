@@ -103,7 +103,7 @@ as_fun <- function(.x, .env, .args) {
   if (is_call(expr) && !is_call(expr, c("::", ":::"))) {
     expr <- lang_modify(expr, !!!.args)
   } else {
-    expr <- lang(expr, quote(.), !!!.args)
+    expr <- call2(expr, quote(.), !!!.args)
   }
 
   set_expr(quo, expr)

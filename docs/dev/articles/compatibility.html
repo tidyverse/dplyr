@@ -57,7 +57,7 @@
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Articles
-     
+
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
@@ -84,7 +84,7 @@
         <li>
   <a href="https://github.com/tidyverse/dplyr">
     <span class="fa fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul>
@@ -93,7 +93,7 @@
           <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
 </div>
       </form>
-      
+
     </div>
 <!--/.nav-collapse -->
   </div>
@@ -101,20 +101,20 @@
 </div>
 <!--/.navbar -->
 
-      
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>dplyr compatibility</h1>
-            
-      
+
+
       <small class="dont-index">Source: <a href="https://github.com/tidyverse/dplyr/blob/master/vignettes/compatibility.Rmd"><code>vignettes/compatibility.Rmd</code></a></small>
       <div class="hidden name"><code>compatibility.Rmd</code></div>
 
     </div>
 
-    
-    
+
+
 <p>This vignette is aimed at package authors who need to update their code because of a backward incompatible change to dplyr. We do try and minimise backward incompatible changes as much as possible, but sometimes they are necessary in order to radically simplify existing code, or unlock a lot of potential value in the future.</p>
 <p>This vignette starts with some general advice on writing package code that works with multiple version of dplyr, then continues to discuss specific changes in dplyr versions.</p>
 <div id="working-with-multiple-dplyr-versions" class="section level2">
@@ -228,7 +228,7 @@ fun &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw
 <span class="co">#&gt; &lt;quosure&gt;</span>
 <span class="co">#&gt;   expr: ^my_call(foo, bar, baz)</span>
 <span class="co">#&gt;   env:  global</span></code></pre></div>
-<p>Or create the call with <code>lang()</code>:</p>
+<p>Or create the call with <code>call2()</code>:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">call &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/rlang/topics/lang">lang</a></span>(<span class="st">"my_call"</span>, <span class="op">!!!</span><span class="st"> </span>syms)
 call
 <span class="co">#&gt; my_call(foo, bar, baz)</span>
@@ -318,11 +318,11 @@ rlang<span class="op">::</span><span class="kw"><a href="http://www.rdocumentati
       </footer>
 </div>
 
-  
+
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script><script>
   docsearch({
-    
-    
+
+
     apiKey: '1270c4079b26a138795263974bbf302d',
     indexName: 'tidyverse',
     inputSelector: 'input#search-input.form-control',
