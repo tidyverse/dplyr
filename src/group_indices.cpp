@@ -502,10 +502,11 @@ SEXP check_grouped(RObject data) {
     bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must be a data frame");
   }
 
-  // it must have at least 1 column
   int nc = Rf_length(groups);
-  if (nc <= 1) {
-    bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must have at least two columns");
+
+  // it must have at least 1 column
+  if (nc < 1) {
+    bad_arg(".data", "is a corrupt grouped_df, the `\"groups\"` attribute must have at least one column");
   }
 
   // the last column must be a list and called `.rows`
@@ -524,16 +525,7 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
   symbols(group_vars(data_)),
   groups(data_.attr("groups")),
   nvars_(symbols.size())
-{
-  int rows_in_groups = 0;
-  int ng = ngroups();
-  List idx = indices();
-  for (int i = 0; i < ng; i++) rows_in_groups += Rf_length(idx[i]);
-  if (data_.nrows() != rows_in_groups) {
-    bad_arg(".data", "is a corrupt grouped_df, contains {rows} rows, and {group_rows} rows in groups",
-            _["rows"] = data_.nrows(), _["group_rows"] = rows_in_groups);
-  }
-}
+{}
 
 GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
   data_(x),
@@ -543,6 +535,8 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
 {
   set_groups(data_, groups);
 }
+
+
 
 SymbolVector GroupedDataFrame::group_vars(SEXP x) {
   check_grouped(x);

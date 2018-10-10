@@ -114,6 +114,8 @@ To be released as 0.8.0
 
 * `mutate_all()`, `mutate_at()`, `summarise_all()` and `summarise_at()` handle utf-8 names (#2967).
 
+* New low-level constructor `new_grouped_df()` and validator `validate_grouped_df` (#3837). 
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`

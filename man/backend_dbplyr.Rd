@@ -116,7 +116,7 @@ types
 \item \code{db_create_index()}: Builds and executes a
 \code{CREATE INDEX <name> ON <table>} SQL command.
 \item \code{db_drop_table()}: Builds and executes a
-\code{DROP TABLE [IF EXISTS] <table>} SQL command.
+\code{DROP TABLE [IF EXISTS]  <table>} SQL command.
 \item \code{db_analyze()}: Builds and executes an
 \code{ANALYZE <table>} SQL command.
 }
