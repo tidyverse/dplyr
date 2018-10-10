@@ -95,12 +95,12 @@ as_fun <- function(.x, .env, .args) {
 
   expr <- quo_get_expr(quo)
 
-  if (is_lang(expr, c("function", "~"))) {
+  if (is_call(expr, c("function", "~"))) {
     top_level <- as_string(expr[[1]])
     bad_args(quo_text(expr), "must be a function name (quoted or unquoted) or an unquoted call, not `{top_level}`")
   }
 
-  if (is_lang(expr) && !is_lang(expr, c("::", ":::"))) {
+  if (is_call(expr) && !is_call(expr, c("::", ":::"))) {
     expr <- lang_modify(expr, !!!.args)
   } else {
     expr <- lang(expr, quote(.), !!!.args)

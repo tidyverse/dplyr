@@ -27,7 +27,7 @@
 #' arrange(right, year)
 order_by <- function(order_by, call) {
   quo <- enquo(call)
-  if (!quo_is_lang(quo)) {
+  if (!quo_is_call(quo)) {
     type <- friendly_type(type_of(get_expr(quo)))
     bad_args("call", "must be a function call, not { type }")
   }
