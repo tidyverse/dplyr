@@ -302,11 +302,20 @@ private:
         body = VECTOR_ELT(BODY_EXPR(body), 0);
       }
 
-      if (TYPEOF(body) == LANGSXP && TYPEOF(CAR(body)) == SYMSXP) {
-        FindFunData finder_lambda(CAR(body), CLOENV(f));
-        if (finder_lambda.findFun()) {
-          f = finder_lambda.res;
-          expr = body;
+      if (TYPEOF(body) == LANGSXP) {
+        SEXP head = CAR(body);
+
+        if (TYPEOF(head) == SYMSXP) {
+          // the body's car of the lambda is a symbol
+          // need to resolve it
+          FindFunData finder_lambda(head, CLOENV(f));
+          if (finder_lambda.findFun()) {
+            f = finder_lambda.res;
+            expr = body;
+          }
+        } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
+          // already a function, just use that
+          f = head;
         }
       }
     }
