@@ -1104,8 +1104,8 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 })
 
 test_that("joins reject data frames with NA columns (#3417)", {
-  df_a <- tibble::tibble(B = c("a", "b", "c"), AA = 1:3)
-  df_b <- tibble::tibble(AA = 2:4, C = c("aa", "bb", "cc"))
+  df_a <- tibble(B = c("a", "b", "c"), AA = 1:3)
+  df_b <- tibble(AA = 2:4, C = c("aa", "bb", "cc"))
 
   df_aa <- df_a
   names(df_aa) <- c(NA, "AA")

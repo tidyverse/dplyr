@@ -160,16 +160,16 @@ fun <- rlang::sym("my_call")
 quo((!!fun)(!!! syms))
 ```
 
-Or create the call with `lang()`:
+Or create the call with `call2()`:
 
 ```{r}
-call <- rlang::lang("my_call", !!! syms)
+call <- rlang::call2("my_call", !!! syms)
 call
 
 rlang::as_quosure(call)
 
 # Or equivalently:
-quo(!! rlang::lang("my_call", !!! syms))
+quo(!! rlang::call2("my_call", !!! syms))
 ```
 
 Note that idioms based on `interp()` should now generally be avoided

@@ -317,7 +317,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- named_quos(...)
+  dots <- quos(..., .named = TRUE)
   out <- mutate(.data, !!!dots)
 
   keep <- names(dots)
@@ -331,7 +331,7 @@ transmute_.default <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.grouped_df <- function(.data, ...) {
-  dots <- named_quos(...)
+  dots <- quos(..., .named = TRUE)
   out <- mutate(.data, !!!dots)
   keep <- names(dots)
 

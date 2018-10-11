@@ -390,7 +390,7 @@ group_vars.tbl_cube <- function(x) {
 
 #' @export
 summarise.tbl_cube <- function(.data, ...) {
-  dots <- named_quos(...)
+  dots <- quos(..., .named = TRUE)
 
   out_dims <- .data$dims[.data$groups]
   n <- map_int(out_dims, length)

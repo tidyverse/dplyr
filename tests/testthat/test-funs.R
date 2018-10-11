@@ -17,7 +17,7 @@ test_that("funs() accepts quoted functions", {
 
 test_that("funs() accepts unquoted functions", {
   funs <- funs(fn = !!mean)
-  expect_identical(funs$fn, new_quosure(lang(base::mean, quote(.))))
+  expect_identical(funs$fn, new_quosure(call2(base::mean, quote(.))))
 })
 
 test_that("funs() accepts quoted calls", {
@@ -42,7 +42,7 @@ test_that("funs() gives a clear error message (#3368)", {
 
 test_that("funs() can be merged with new arguments", {
   fns <- funs(foo(.))
-  expect_identical(as_fun_list(fns, ~ NULL, get_env(), foo = 1L), funs(foo(., foo = 1L)))
+  expect_identical(as_fun_list(fns, ~ NULL, current_env(), foo = 1L), funs(foo(., foo = 1L)))
 })
 
 

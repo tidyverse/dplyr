@@ -112,7 +112,7 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   .data <- add_computed_columns(.data, new_groups)
 
   # Once we've done the mutate, we need to name all objects
-  new_groups <- exprs_auto_name(new_groups, printer = tidy_text)
+  new_groups <- exprs_auto_name(new_groups)
 
   group_names <- names(new_groups)
   if (add) {
