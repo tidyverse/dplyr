@@ -30,7 +30,3 @@ expr_substitute <- function(expr, old, new) {
   )
   expr
 }
-
-named_quos <- function(...) {
-  exprs_auto_name(quos(...))
-}
