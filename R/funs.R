@@ -65,7 +65,7 @@ as_fun_list <- function(.x, .quo, .env, ...) {
   args <- list2(...)
   if (is_fun_list(.x)) {
     if (!is_empty(args)) {
-      .x[] <- map(.x, lang_modify, !!!args)
+      .x[] <- map(.x, call_modify, !!!args)
     }
     return(.x)
   }
@@ -101,7 +101,7 @@ as_fun <- function(.x, .env, .args) {
   }
 
   if (is_call(expr) && !is_call(expr, c("::", ":::"))) {
-    expr <- lang_modify(expr, !!!.args)
+    expr <- call_modify(expr, !!!.args)
   } else {
     expr <- call2(expr, quote(.), !!!.args)
   }
