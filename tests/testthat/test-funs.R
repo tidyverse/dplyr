@@ -42,7 +42,7 @@ test_that("funs() gives a clear error message (#3368)", {
 
 test_that("funs() can be merged with new arguments", {
   fns <- funs(foo(.))
-  expect_identical(as_fun_list(fns, ~ NULL, get_env(), foo = 1L), funs(foo(., foo = 1L)))
+  expect_identical(as_fun_list(fns, ~ NULL, current_env(), foo = 1L), funs(foo(., foo = 1L)))
 })
 
 
