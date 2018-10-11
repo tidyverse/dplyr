@@ -180,7 +180,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   }
 
   n <- length(tibble_vars)
-  selected <- lgl_len(n)
+  selected <- new_logical(n)
   for (i in seq_len(n)) {
     selected[[i]] <- .p(.tbl[[tibble_vars[[i]]]], ...)
   }
