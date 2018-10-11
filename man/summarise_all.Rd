@@ -77,7 +77,7 @@ These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}},
 \code{\link[=transmute]{transmute()}}. They apply operations on a selection of variables.
 \itemize{
 \item \code{summarise_all()}, \code{mutate_all()} and \code{transmute_all()} apply the
-functions to all (non-grouping) columns.
+functions to all columns.
 \item \code{summarise_at()}, \code{mutate_at()} and \code{transmute_at()} allow you to
 select columns using the same name-based \link{select_helpers} just
 like with \code{\link[=select]{select()}}.
@@ -85,6 +85,23 @@ like with \code{\link[=select]{select()}}.
 columns for which a predicate returns \code{TRUE}.
 }
 }
+\section{Grouping variables}{
+
+
+If applied on a grouped tibble, these operations only apply to the
+non-grouping variables:
+\itemize{
+\item \code{summarise_all()} ignores the grouping variables silently.
+\item \code{mutate_all()} and \code{transmute_all()} issue a warning in this case
+because it is not obvious that the group variables are
+ignored. It is better to use the \code{_at} variant with a variable
+selection that explicitly ignores the grouping variables:\preformatted{data \%>\% mutate_at(vars(-group_vars()), my_operation)
+}
+
+This makes the selection more explicit in your code.
+}
+}
+
 \examples{
 # The scoped variants of summarise() and mutate() make it easy to
 # apply the same transformation to multiple variables:

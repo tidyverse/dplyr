@@ -66,3 +66,11 @@ big_mark <- function(x, ...) {
   mark <- if (identical(getOption("OutDec"), ",")) "." else ","
   formatC(x, big.mark = mark, ...)
 }
+
+paste_line <- function(..., .trailing = FALSE) {
+  lines <- paste(chr(...), collapse = "\n")
+  if (.trailing) {
+    lines <- paste0(lines, "\n")
+  }
+  lines
+}

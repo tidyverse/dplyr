@@ -5,7 +5,7 @@
 #' [transmute()]. They apply operations on a selection of variables.
 #'
 #' * `summarise_all()`, `mutate_all()` and `transmute_all()` apply the
-#'   functions to all (non-grouping) columns.
+#'   functions to all columns.
 #'
 #' * `summarise_at()`, `mutate_at()` and `transmute_at()` allow you to
 #'   select columns using the same name-based [select_helpers] just
@@ -13,6 +13,7 @@
 #'
 #' * `summarise_if`(), `mutate_if`() and `transmute_if()` operate on
 #'   columns for which a predicate returns `TRUE`.
+#'
 #' @inheritParams scoped
 #' @param .cols This argument has been renamed to `.vars` to fit
 #'   dplyr's terminology and is deprecated.
@@ -20,6 +21,25 @@
 #'   names needed to uniquely identify the output. To force inclusion of a name,
 #'   even when not needed, name the input (see examples for details).
 #' @seealso [vars()], [funs()]
+#'
+#' @section Grouping variables:
+#'
+#' If applied on a grouped tibble, these operations only apply to the
+#' non-grouping variables:
+#'
+#' * `summarise_all()` ignores the grouping variables silently.
+#'
+#' * `mutate_all()` and `transmute_all()` issue a warning in this case
+#'   because it is not obvious that the group variables are
+#'   ignored. It is better to use the `_at` variant with a variable
+#'   selection that explicitly ignores the grouping variables:
+#'
+#'   ```
+#'   data %>% mutate_at(vars(-group_vars()), my_operation)
+#'   ```
+#'
+#'   This makes the selection more explicit in your code.
+#'
 #' @export
 #' @examples
 #' # The scoped variants of summarise() and mutate() make it easy to
@@ -99,6 +119,7 @@ summarize_at <- summarise_at
 #' @rdname summarise_all
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
+  check_grouped_all(.tbl, "mutate")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
 }
@@ -119,6 +140,7 @@ mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 #' @rdname summarise_all
 #' @export
 transmute_all <- function(.tbl, .funs, ...) {
+  check_grouped_all(.tbl, "transmute")
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!!funs)
 }
@@ -156,6 +178,15 @@ manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = 
   syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = .include_group_vars)
   funs <- as_fun_list(.funs, .quo, .env, ...)
   manip_apply_syms(funs, syms, .tbl)
+}
+
+check_grouped_all <- function(tbl, verb) {
+  if (is_grouped_df(tbl)) {
+    warn(paste_line(
+      sprintf("Can't use `%s_all()` with grouped tibbles.", verb),
+      sprintf("Please use `%s_at(vars(-group_vars()))` instead.", verb)
+    ))
+  }
 }
 
 check_dot_cols <- function(vars, cols) {
