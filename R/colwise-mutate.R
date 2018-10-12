@@ -127,7 +127,7 @@ summarize_at <- summarise_at
 #'   variables:
 #'
 #'   ```
-#'   data %>% mutate_at(vars(-c(!!!groups())), my_operation)
+#'   data %>% mutate_at(vars(-group_cols()), my_operation)
 #'   ```
 #'
 #'   This makes the selection more explicit in your code.

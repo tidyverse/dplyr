@@ -17,7 +17,7 @@ To be released as 0.8.0
 * Using `mutate_all()` and `transmute_all()` with grouped tibbles is
   deprecated. In previous versions of dplyr, the grouping variables were
   previously silently ignored. A warning is now issued to invite you to use
-  `mutate_at(df, vars(-c(!!!groups(df))))` (or the equivalent `transmute_at()`
+  `mutate_at(df, vars(-group_cols()))` (or the equivalent `transmute_at()`
   call) instead. This makes it explicit in your code that the operation is not
   applied on the grouping variables.
 
