@@ -59,3 +59,32 @@ tbl_vars <- function(x) {
 tbl_nongroup_vars <- function(x) {
   setdiff(tbl_vars(x), group_vars(x))
 }
+
+# Should `tbl_vars()` return this object?
+sel_vars <- function(x) {
+  vars <- tbl_vars(x)
+  group_vars <- group_vars(x)
+
+  structure(
+    vars,
+    class = "dplyr_sel_vars",
+    groups = group_vars
+  )
+}
+is_sel_vars <- function(x) {
+  inherits(x, "dplyr_sel_vars")
+}
+
+#' @export
+print.dplyr_sel_vars <- function(x, ...) {
+  cat("<dplyr:::vars>\n")
+  print(unstructure(x))
+
+  groups <- attr(x, "groups")
+  if (length(groups)) {
+    cat("Groups:\n")
+    print(groups)
+  }
+
+  invisible(x)
+}
