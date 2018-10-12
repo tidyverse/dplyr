@@ -149,6 +149,9 @@ add_computed_columns <- function(.data, vars) {
 #'
 #' @family grouping functions
 #' @param x A [tbl()]
+#'
+#' @seealso [group_cols()] for matching grouping variables in
+#'   [selection contexts][select].
 #' @export
 #' @examples
 #' df <- tibble(x = 1, y = 2) %>% group_by(x, y)

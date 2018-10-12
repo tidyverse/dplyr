@@ -22,6 +22,9 @@ group_vars(df)
 groups(df)
 }
 \seealso{
+\code{\link[=group_cols]{group_cols()}} for matching grouping variables in
+\link[=select]{selection contexts}.
+
 Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
   \code{\link{group_rows}}, \code{\link{group_size}}
