@@ -47,6 +47,8 @@ This makes the selection more explicit in your code.
 }
 
 \examples{
+iris <- as_tibble(iris)
+
 # The scoped variants of mutate() make it easy to apply the same
 # transformation to multiple variables. There are three variants:
 # * _all affects every variable
@@ -69,20 +71,25 @@ starwars \%>\% mutate_if(is.numeric, `/`, 100)
 
 # mutate_if() is particularly useful for transforming variables from
 # one type to another
-iris \%>\% as_tibble() \%>\% mutate_if(is.factor, as.character)
-iris \%>\% as_tibble() \%>\% mutate_if(is.double, as.integer)
+iris \%>\% mutate_if(is.factor, as.character)
+iris \%>\% mutate_if(is.double, as.integer)
 
-# ---------------------------------------------------------------------------
-by_species <- iris \%>\% group_by(Species)
 
-# If you want apply multiple transformations, use list(). Note
-# that output variable name now includes the function name (or its
-# name in the list), in order to keep things distinct:
-by_species \%>\% mutate_if(is.numeric, list(div = `/`, mul = `*`), 100)
+# If you want apply multiple transformations, use list()
+iris \%>\% mutate_if(is.numeric, list(`/`, `*`), 100)
 
-# You can express more complex inline transformations using purrr's
-# formula notation for lambda functions:
-by_species \%>\% mutate_if(is.numeric, ~ . / 100)
+# Note that output variable name now includes the function name, in
+# order to keep things distinct. Passing purrr-style lambdas often
+# creates better default names:
+iris \%>\% mutate_if(is.numeric, list(~ . / 100, mul = ~ . * 100))
+
+# When that's not good enough, you can also supply the names explicitly:
+iris \%>\% mutate_if(is.numeric, list(div = `/`, mul = `*`), 100)
+
+# The function is always applied on new variables when the function
+# is given an explicit name:
+iris \%>\% mutate_if(is.numeric, list(`/`), 100)
+iris \%>\% mutate_if(is.numeric, list(div = `/`), 100)
 }
 \seealso{
 \link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}

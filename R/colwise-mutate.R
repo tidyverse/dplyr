@@ -21,12 +21,11 @@
 #' * `summarise_all()` ignores the grouping variables silently.
 #'
 #' @examples
+#' by_species <- iris %>% group_by(Species)
+#'
 #' # The scoped variants of summarise() make it easy to apply the same
 #' # transformation to multiple variables:
-#'
-#' iris %>%
-#'   group_by(Species) %>%
-#'   summarise_all(mean)
+#' by_species %>% summarise_all(mean)
 #'
 #' # There are three variants.
 #' # * _all affects every variable
@@ -45,18 +44,22 @@
 #' # columns. Here we apply mean() to the numeric columns:
 #' starwars %>% summarise_if(is.numeric, mean, na.rm = TRUE)
 #'
-#' # ---------------------------------------------------------------------------
+#'
 #' # If you want apply multiple transformations, use list()
-#' by_species <- iris %>% group_by(Species)
+#' by_species %>% summarise_all(list(min, max))
 #'
-#' by_species %>% summarise_all(exprs(min, max))
-#' # Note that output variable name now includes the function name, in order to
-#' # keep things distinct.
+#' # Note that output variable name now includes the function name, in
+#' # order to keep things distinct. Passing purrr-style lambdas often
+#' # creates better default names:
+#' by_species %>% summarise_all(list(~min(.), ~max(.)))
 #'
-#' # Function names will be included if .funs has names or multiple inputs
-#' by_species %>% summarise_all(funs(med = median))
-#' by_species %>% summarise_all(funs(Q3 = quantile), probs = 0.75)
-#' by_species %>% summarise_all(c("min", "max"))
+#' # When that's not good enough, you can also supply the names explicitly:
+#' by_species %>% summarise_all(list(min = min, max = max))
+#'
+#' # The function is always applied on new variables when the function
+#' # is given an explicit name:
+#' by_species %>% summarise_all(list(med = median))
+#' by_species %>% summarise_all(list(Q3 = quantile), probs = 0.75)
 #' @export
 summarise_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
@@ -117,6 +120,8 @@ summarize_at <- summarise_at
 #'   This makes the selection more explicit in your code.
 #'
 #' @examples
+#' iris <- as_tibble(iris)
+#'
 #' # The scoped variants of mutate() make it easy to apply the same
 #' # transformation to multiple variables. There are three variants:
 #' # * _all affects every variable
@@ -139,20 +144,25 @@ summarize_at <- summarise_at
 #'
 #' # mutate_if() is particularly useful for transforming variables from
 #' # one type to another
-#' iris %>% as_tibble() %>% mutate_if(is.factor, as.character)
-#' iris %>% as_tibble() %>% mutate_if(is.double, as.integer)
+#' iris %>% mutate_if(is.factor, as.character)
+#' iris %>% mutate_if(is.double, as.integer)
 #'
-#' # ---------------------------------------------------------------------------
-#' by_species <- iris %>% group_by(Species)
 #'
-#' # If you want apply multiple transformations, use list(). Note
-#' # that output variable name now includes the function name (or its
-#' # name in the list), in order to keep things distinct:
-#' by_species %>% mutate_if(is.numeric, list(div = `/`, mul = `*`), 100)
+#' # If you want apply multiple transformations, use list()
+#' iris %>% mutate_if(is.numeric, list(`/`, `*`), 100)
 #'
-#' # You can express more complex inline transformations using purrr's
-#' # formula notation for lambda functions:
-#' by_species %>% mutate_if(is.numeric, ~ . / 100)
+#' # Note that output variable name now includes the function name, in
+#' # order to keep things distinct. Passing purrr-style lambdas often
+#' # creates better default names:
+#' iris %>% mutate_if(is.numeric, list(~ . / 100, mul = ~ . * 100))
+#'
+#' # When that's not good enough, you can also supply the names explicitly:
+#' iris %>% mutate_if(is.numeric, list(div = `/`, mul = `*`), 100)
+#'
+#' # The function is always applied on new variables when the function
+#' # is given an explicit name:
+#' iris %>% mutate_if(is.numeric, list(`/`), 100)
+#' iris %>% mutate_if(is.numeric, list(div = `/`), 100)
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   check_grouped_all(.tbl, "mutate")

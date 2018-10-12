@@ -84,12 +84,11 @@ non-grouping variables:
 }
 
 \examples{
+by_species <- iris \%>\% group_by(Species)
+
 # The scoped variants of summarise() make it easy to apply the same
 # transformation to multiple variables:
-
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise_all(mean)
+by_species \%>\% summarise_all(mean)
 
 # There are three variants.
 # * _all affects every variable
@@ -108,18 +107,22 @@ starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 # columns. Here we apply mean() to the numeric columns:
 starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
 
-# ---------------------------------------------------------------------------
+
 # If you want apply multiple transformations, use list()
-by_species <- iris \%>\% group_by(Species)
+by_species \%>\% summarise_all(list(min, max))
 
-by_species \%>\% summarise_all(exprs(min, max))
-# Note that output variable name now includes the function name, in order to
-# keep things distinct.
+# Note that output variable name now includes the function name, in
+# order to keep things distinct. Passing purrr-style lambdas often
+# creates better default names:
+by_species \%>\% summarise_all(list(~min(.), ~max(.)))
 
-# Function names will be included if .funs has names or multiple inputs
-by_species \%>\% summarise_all(funs(med = median))
-by_species \%>\% summarise_all(funs(Q3 = quantile), probs = 0.75)
-by_species \%>\% summarise_all(c("min", "max"))
+# When that's not good enough, you can also supply the names explicitly:
+by_species \%>\% summarise_all(list(min = min, max = max))
+
+# The function is always applied on new variables when the function
+# is given an explicit name:
+by_species \%>\% summarise_all(list(med = median))
+by_species \%>\% summarise_all(list(Q3 = quantile), probs = 0.75)
 }
 \seealso{
 \link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}
