@@ -18,7 +18,7 @@
 #' If applied on a grouped tibble, these operations normally apply
 #' only to the non-grouping variables:
 #'
-#' * `summarise_all()` and `summarise_it()` ignore the grouping
+#' * `summarise_all()` and `summarise_if()` ignore the grouping
 #'   variables silently.
 #'
 #' * `summarise_at()` throws an error when the selection includes
@@ -49,19 +49,21 @@
 #' starwars %>% summarise_if(is.numeric, mean, na.rm = TRUE)
 #'
 #'
-#' # If you want apply multiple transformations, use list()
+#' # If you want to apply multiple transformations, pass a list of
+#' # functions. When there are multiple functions, they create new
+#' # variables instead of modifying the variables in place:
 #' by_species %>% summarise_all(list(min, max))
 #'
-#' # Note that output variable name now includes the function name, in
-#' # order to keep things distinct. Passing purrr-style lambdas often
-#' # creates better default names:
+#' # Note how the new variables include the function name, in order to
+#' # keep things distinct. Passing purrr-style lambdas often creates
+#' # better default names:
 #' by_species %>% summarise_all(list(~min(.), ~max(.)))
 #'
 #' # When that's not good enough, you can also supply the names explicitly:
 #' by_species %>% summarise_all(list(min = min, max = max))
 #'
-#' # The function is always applied on new variables when the function
-#' # is given an explicit name:
+#' # When there's only one function in the list, it modifies existing
+#' # variables in place. Give it a name to create new variables instead:
 #' by_species %>% summarise_all(list(med = median))
 #' by_species %>% summarise_all(list(Q3 = quantile), probs = 0.75)
 #' @export
@@ -159,19 +161,21 @@ summarize_at <- summarise_at
 #' iris %>% mutate_if(is.double, as.integer)
 #'
 #'
-#' # If you want apply multiple transformations, use list()
+#' # If you want to apply multiple transformations, pass a list of
+#' # functions. When there are multiple functions, they create new
+#' # variables instead of modifying the variables in place:
 #' iris %>% mutate_if(is.numeric, list(`/`, `*`), 100)
 #'
-#' # Note that output variable name now includes the function name, in
-#' # order to keep things distinct. Passing purrr-style lambdas often
-#' # creates better default names:
+#' # Note how the new variables include the function name, in order to
+#' # keep things distinct. Passing purrr-style lambdas often creates
+#' # better default names:
 #' iris %>% mutate_if(is.numeric, list(~ . / 100, mul = ~ . * 100))
 #'
 #' # When that's not good enough, you can also supply the names explicitly:
 #' iris %>% mutate_if(is.numeric, list(div = `/`, mul = `*`), 100)
 #'
-#' # The function is always applied on new variables when the function
-#' # is given an explicit name:
+#' # When there's only one function in the list, it modifies existing
+#' # variables in place. Give it a name to create new variables instead:
 #' iris %>% mutate_if(is.numeric, list(`/`), 100)
 #' iris %>% mutate_if(is.numeric, list(div = `/`), 100)
 #' @export

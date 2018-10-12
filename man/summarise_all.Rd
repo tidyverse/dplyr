@@ -79,7 +79,7 @@ a selection of variables.
 If applied on a grouped tibble, these operations normally apply
 only to the non-grouping variables:
 \itemize{
-\item \code{summarise_all()} and \code{summarise_it()} ignore the grouping
+\item \code{summarise_all()} and \code{summarise_if()} ignore the grouping
 variables silently.
 \item \code{summarise_at()} throws an error when the selection includes
 grouping variables.
@@ -111,19 +111,21 @@ starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
 
 
-# If you want apply multiple transformations, use list()
+# If you want to apply multiple transformations, pass a list of
+# functions. When there are multiple functions, they create new
+# variables instead of modifying the variables in place:
 by_species \%>\% summarise_all(list(min, max))
 
-# Note that output variable name now includes the function name, in
-# order to keep things distinct. Passing purrr-style lambdas often
-# creates better default names:
+# Note how the new variables include the function name, in order to
+# keep things distinct. Passing purrr-style lambdas often creates
+# better default names:
 by_species \%>\% summarise_all(list(~min(.), ~max(.)))
 
 # When that's not good enough, you can also supply the names explicitly:
 by_species \%>\% summarise_all(list(min = min, max = max))
 
-# The function is always applied on new variables when the function
-# is given an explicit name:
+# When there's only one function in the list, it modifies existing
+# variables in place. Give it a name to create new variables instead:
 by_species \%>\% summarise_all(list(med = median))
 by_species \%>\% summarise_all(list(Q3 = quantile), probs = 0.75)
 }

@@ -80,19 +80,21 @@ iris \%>\% mutate_if(is.factor, as.character)
 iris \%>\% mutate_if(is.double, as.integer)
 
 
-# If you want apply multiple transformations, use list()
+# If you want to apply multiple transformations, pass a list of
+# functions. When there are multiple functions, they create new
+# variables instead of modifying the variables in place:
 iris \%>\% mutate_if(is.numeric, list(`/`, `*`), 100)
 
-# Note that output variable name now includes the function name, in
-# order to keep things distinct. Passing purrr-style lambdas often
-# creates better default names:
+# Note how the new variables include the function name, in order to
+# keep things distinct. Passing purrr-style lambdas often creates
+# better default names:
 iris \%>\% mutate_if(is.numeric, list(~ . / 100, mul = ~ . * 100))
 
 # When that's not good enough, you can also supply the names explicitly:
 iris \%>\% mutate_if(is.numeric, list(div = `/`, mul = `*`), 100)
 
-# The function is always applied on new variables when the function
-# is given an explicit name:
+# When there's only one function in the list, it modifies existing
+# variables in place. Give it a name to create new variables instead:
 iris \%>\% mutate_if(is.numeric, list(`/`), 100)
 iris \%>\% mutate_if(is.numeric, list(div = `/`), 100)
 }
