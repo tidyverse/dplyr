@@ -7,13 +7,12 @@
 \alias{summarize_all}
 \alias{summarize_if}
 \alias{summarize_at}
-\alias{mutate_all}
 \alias{mutate_if}
 \alias{mutate_at}
 \alias{transmute_all}
 \alias{transmute_if}
 \alias{transmute_at}
-\title{Summarise and mutate multiple columns.}
+\title{Summarise multiple columns}
 \usage{
 summarise_all(.tbl, .funs, ...)
 
@@ -26,8 +25,6 @@ summarize_all(.tbl, .funs, ...)
 summarize_if(.tbl, .predicate, .funs, ...)
 
 summarize_at(.tbl, .vars, .funs, ..., .cols = NULL)
-
-mutate_all(.tbl, .funs, ...)
 
 mutate_if(.tbl, .predicate, .funs, ...)
 
@@ -73,17 +70,8 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}}, \code{\link[=mutate]{mutate()}} and
-\code{\link[=transmute]{transmute()}}. They apply operations on a selection of variables.
-\itemize{
-\item \code{summarise_all()}, \code{mutate_all()} and \code{transmute_all()} apply the
-functions to all columns.
-\item \code{summarise_at()}, \code{mutate_at()} and \code{transmute_at()} allow you to
-select columns using the same name-based \link{select_helpers} just
-like with \code{\link[=select]{select()}}.
-\item \code{summarise_if}(), \code{mutate_if}() and \code{transmute_if()} operate on
-columns for which a predicate returns \code{TRUE}.
-}
+These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}}. They summarise
+a selection of variables.
 }
 \section{Grouping variables}{
 
@@ -92,19 +80,12 @@ If applied on a grouped tibble, these operations only apply to the
 non-grouping variables:
 \itemize{
 \item \code{summarise_all()} ignores the grouping variables silently.
-\item \code{mutate_all()} and \code{transmute_all()} issue a warning in this case
-because it is not obvious that the group variables are
-ignored. It is better to use the \code{_at} variant with a variable
-selection that explicitly ignores the grouping variables:\preformatted{data \%>\% mutate_at(vars(-group_vars()), my_operation)
-}
-
-This makes the selection more explicit in your code.
 }
 }
 
 \examples{
-# The scoped variants of summarise() and mutate() make it easy to
-# apply the same transformation to multiple variables:
+# The scoped variants of summarise() make it easy to apply the same
+# transformation to multiple variables:
 
 iris \%>\%
   group_by(Species) \%>\%
@@ -120,7 +101,6 @@ starwars \%>\% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
 
 # You can also supply selection helpers to _at() functions but you have
 # to quote them with vars():
-iris \%>\% mutate_at(vars(matches("Sepal")), log)
 starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 
 # The _if() variants apply a predicate function (a function that
@@ -128,28 +108,19 @@ starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 # columns. Here we apply mean() to the numeric columns:
 starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
 
-# mutate_if() is particularly useful for transforming variables from
-# one type to another
-iris \%>\% as_tibble() \%>\% mutate_if(is.factor, as.character)
-iris \%>\% as_tibble() \%>\% mutate_if(is.double, as.integer)
-
 # ---------------------------------------------------------------------------
-# If you want apply multiple transformations, use funs()
+# If you want apply multiple transformations, use list()
 by_species <- iris \%>\% group_by(Species)
 
-by_species \%>\% summarise_all(funs(min, max))
+by_species \%>\% summarise_all(exprs(min, max))
 # Note that output variable name now includes the function name, in order to
 # keep things distinct.
 
-# You can express more complex inline transformations using .
-by_species \%>\% mutate_all(funs(. / 2.54))
-
 # Function names will be included if .funs has names or multiple inputs
-by_species \%>\% mutate_all(funs(inches = . / 2.54))
 by_species \%>\% summarise_all(funs(med = median))
 by_species \%>\% summarise_all(funs(Q3 = quantile), probs = 0.75)
 by_species \%>\% summarise_all(c("min", "max"))
 }
 \seealso{
-\code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}
+\link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}
 }

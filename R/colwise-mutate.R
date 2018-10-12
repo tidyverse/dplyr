@@ -1,18 +1,9 @@
-#' Summarise and mutate multiple columns.
+#' Summarise multiple columns
 #'
 #' @description
-#' These verbs are [scoped] variants of [summarise()], [mutate()] and
-#' [transmute()]. They apply operations on a selection of variables.
 #'
-#' * `summarise_all()`, `mutate_all()` and `transmute_all()` apply the
-#'   functions to all columns.
-#'
-#' * `summarise_at()`, `mutate_at()` and `transmute_at()` allow you to
-#'   select columns using the same name-based [select_helpers] just
-#'   like with [select()].
-#'
-#' * `summarise_if`(), `mutate_if`() and `transmute_if()` operate on
-#'   columns for which a predicate returns `TRUE`.
+#' These verbs are [scoped] variants of [summarise()]. They summarise
+#' a selection of variables.
 #'
 #' @inheritParams scoped
 #' @param .cols This argument has been renamed to `.vars` to fit
@@ -20,7 +11,7 @@
 #' @return A data frame. By default, the newly created columns have the shortest
 #'   names needed to uniquely identify the output. To force inclusion of a name,
 #'   even when not needed, name the input (see examples for details).
-#' @seealso [vars()], [funs()]
+#' @seealso [The other scoped verbs][scoped], [vars()], [funs()]
 #'
 #' @section Grouping variables:
 #'
@@ -29,21 +20,9 @@
 #'
 #' * `summarise_all()` ignores the grouping variables silently.
 #'
-#' * `mutate_all()` and `transmute_all()` issue a warning in this case
-#'   because it is not obvious that the group variables are
-#'   ignored. It is better to use the `_at` variant with a variable
-#'   selection that explicitly ignores the grouping variables:
-#'
-#'   ```
-#'   data %>% mutate_at(vars(-group_vars()), my_operation)
-#'   ```
-#'
-#'   This makes the selection more explicit in your code.
-#'
-#' @export
 #' @examples
-#' # The scoped variants of summarise() and mutate() make it easy to
-#' # apply the same transformation to multiple variables:
+#' # The scoped variants of summarise() make it easy to apply the same
+#' # transformation to multiple variables:
 #'
 #' iris %>%
 #'   group_by(Species) %>%
@@ -59,7 +38,6 @@
 #'
 #' # You can also supply selection helpers to _at() functions but you have
 #' # to quote them with vars():
-#' iris %>% mutate_at(vars(matches("Sepal")), log)
 #' starwars %>% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 #'
 #' # The _if() variants apply a predicate function (a function that
@@ -67,27 +45,19 @@
 #' # columns. Here we apply mean() to the numeric columns:
 #' starwars %>% summarise_if(is.numeric, mean, na.rm = TRUE)
 #'
-#' # mutate_if() is particularly useful for transforming variables from
-#' # one type to another
-#' iris %>% as_tibble() %>% mutate_if(is.factor, as.character)
-#' iris %>% as_tibble() %>% mutate_if(is.double, as.integer)
-#'
 #' # ---------------------------------------------------------------------------
-#' # If you want apply multiple transformations, use funs()
+#' # If you want apply multiple transformations, use list()
 #' by_species <- iris %>% group_by(Species)
 #'
-#' by_species %>% summarise_all(funs(min, max))
+#' by_species %>% summarise_all(exprs(min, max))
 #' # Note that output variable name now includes the function name, in order to
 #' # keep things distinct.
 #'
-#' # You can express more complex inline transformations using .
-#' by_species %>% mutate_all(funs(. / 2.54))
-#'
 #' # Function names will be included if .funs has names or multiple inputs
-#' by_species %>% mutate_all(funs(inches = . / 2.54))
 #' by_species %>% summarise_all(funs(med = median))
 #' by_species %>% summarise_all(funs(Q3 = quantile), probs = 0.75)
 #' by_species %>% summarise_all(c("min", "max"))
+#' @export
 summarise_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   summarise(.tbl, !!!funs)
@@ -116,7 +86,73 @@ summarize_if <- summarise_if
 #' @export
 summarize_at <- summarise_at
 
-#' @rdname summarise_all
+#' Mutate multiple columns
+#'
+#' @description
+#'
+#' These verbs are [scoped] variants of [mutate()] and [transmute()].
+#' They mutate a selection of variables.
+#'
+#' @inheritParams scoped
+#' @inheritParams summarise_all
+#' @return A data frame. By default, the newly created columns have the shortest
+#'   names needed to uniquely identify the output. To force inclusion of a name,
+#'   even when not needed, name the input (see examples for details).
+#' @seealso [The other scoped verbs][scoped], [vars()], [funs()]
+#'
+#' @section Grouping variables:
+#'
+#' If applied on a grouped tibble, these operations only apply to the
+#' non-grouping variables:
+#'
+#' * `mutate_all()` and `transmute_all()` issue a warning in this case
+#'   because it is not obvious that the group variables are
+#'   ignored. It is better to use the `_at` variant with a variable
+#'   selection that explicitly ignores the grouping variables:
+#'
+#'   ```
+#'   data %>% mutate_at(vars(-group_vars()), my_operation)
+#'   ```
+#'
+#'   This makes the selection more explicit in your code.
+#'
+#' @examples
+#' # The scoped variants of mutate() make it easy to apply the same
+#' # transformation to multiple variables. There are three variants:
+#' # * _all affects every variable
+#' # * _at affects variables selected with a character vector or vars()
+#' # * _if affects variables selected with a predicate function:
+#'
+#' # All variants can be passed functions and additional arguments,
+#' # purrr-style. The _at() variants directly support strings. Here
+#' # we'll divide two variables by 100:
+#' starwars %>% mutate_at(c("height", "mass"), `/`, 100)
+#'
+#' # You can also supply selection helpers to _at() functions but you have
+#' # to quote them with vars():
+#' iris %>% mutate_at(vars(matches("Sepal")), log)
+#'
+#' # The _if() variants apply a predicate function (a function that
+#' # returns TRUE or FALSE) to determine the relevant subset of
+#' # columns. Here we divide all the numeric columns by 100:
+#' starwars %>% mutate_if(is.numeric, `/`, 100)
+#'
+#' # mutate_if() is particularly useful for transforming variables from
+#' # one type to another
+#' iris %>% as_tibble() %>% mutate_if(is.factor, as.character)
+#' iris %>% as_tibble() %>% mutate_if(is.double, as.integer)
+#'
+#' # ---------------------------------------------------------------------------
+#' by_species <- iris %>% group_by(Species)
+#'
+#' # If you want apply multiple transformations, use list(). Note
+#' # that output variable name now includes the function name (or its
+#' # name in the list), in order to keep things distinct:
+#' by_species %>% mutate_if(is.numeric, list(div = `/`, mul = `*`), 100)
+#'
+#' # You can express more complex inline transformations using purrr's
+#' # formula notation for lambda functions:
+#' by_species %>% mutate_if(is.numeric, ~ . / 100)
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
   check_grouped_all(.tbl, "mutate")
