@@ -76,10 +76,13 @@ a selection of variables.
 \section{Grouping variables}{
 
 
-If applied on a grouped tibble, these operations only apply to the
-non-grouping variables:
+If applied on a grouped tibble, these operations normally apply
+only to the non-grouping variables:
 \itemize{
-\item \code{summarise_all()} ignores the grouping variables silently.
+\item \code{summarise_all()} and \code{summarise_it()} ignore the grouping
+variables silently.
+\item \code{summarise_at()} throws an error when the selection includes
+grouping variables.
 }
 }
 
