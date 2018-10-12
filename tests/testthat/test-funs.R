@@ -75,3 +75,12 @@ test_that("can enfun() purrr-style lambdas", {
   my_mean <- as_function(~ mean(.x))
   expect_identical(enfun(~ mean(.x)), funs(!!my_mean))
 })
+
+test_that("as_fun_list() uses rlang auto-naming", {
+  nms <- names(as_fun_list(list(min, max), quo(), env()))
+
+  # Just check they are labellised as literals enclosed in brackets to
+  # insulate from upstream changes
+  expect_true(all(grepl("^<", nms)))
+})
+

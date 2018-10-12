@@ -44,16 +44,14 @@ funs <- function(..., .args = list()) {
   new_funs(funs)
 }
 new_funs <- function(funs) {
-  names(funs) <- names2(funs)
+  attr(funs, "have_name") <- any(names2(funs) != "")
 
-  missing_names <- names(funs) == ""
-  default_names <- map_chr(funs[missing_names], function(dot) {
-    quo_name(node_car(quo_get_expr(dot)))
-  })
-  names(funs)[missing_names] <- default_names
+  # Workaround until rlang:::label() is exported
+  temp <- map(funs, function(fn) node_car(quo_get_expr(fn)))
+  temp <- exprs_auto_name(temp)
+  names(funs) <- names(temp)
 
   class(funs) <- "fun_list"
-  attr(funs, "have_name") <- any(!missing_names)
   funs
 }
 
