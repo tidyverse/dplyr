@@ -133,15 +133,16 @@ test_that("mutate_at and transmute_at refuses to mutate a grouping variable (#33
 test_that("mutate and transmute variants does not mutate grouping variable (#3351, #3480)", {
   tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
-
   res <- mutate(tbl, gr2 = sqrt(gr2), x = sqrt(x))
-  expect_message(expect_identical(mutate_all(tbl, sqrt), res), "ignored")
-  expect_identical(mutate_at(tbl, vars(-c(!!!groups(tbl))), sqrt), res)
-  expect_identical(mutate_if(tbl, is.integer, sqrt), res)
 
+  expect_message(expect_identical(mutate_all(tbl, sqrt), res), "ignored")
   expect_message(expect_identical(transmute_all(tbl, sqrt), res), "ignored")
-  expect_identical(transmute_at(tbl, vars(-c(!!!groups(tbl))), sqrt), res)
-  expect_identical(transmute_if(tbl, is.integer, sqrt), res)
+
+  expect_message(expect_identical(mutate_if(tbl, is.integer, sqrt), res), "ignored")
+  expect_message(expect_identical(transmute_if(tbl, is.integer, sqrt), res), "ignored")
+
+  expect_identical(transmute_at(tbl, vars(-group_cols()), sqrt), res)
+  expect_identical(mutate_at(tbl, vars(-group_cols()), sqrt), res)
 })
 
 test_that("summarise_at refuses to treat grouping variables (#3351, #3480)", {

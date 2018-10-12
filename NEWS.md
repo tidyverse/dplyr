@@ -13,6 +13,9 @@ To be released as 0.8.0
   (debugger exit, captured condition, restart invokation).
 * Using `mutate_all()` and `transmute_all()` with grouped tibbles now informs
   you that the grouping variables are ignored. The message invites you to use
+* Using `mutate_all()`, `transmute_all()`, `mutate_if()` and `transmute_if()`
+  with grouped tibbles now informs you that the grouping variables are
+  ignored. In the case of the `_all()` verbs, the message invites you to use
   `mutate_at(df, vars(-group_cols()))` (or the equivalent `transmute_at()` call)
   instead if you'd like to make it explicit in your code that the operation is
   not applied on the grouping variables.

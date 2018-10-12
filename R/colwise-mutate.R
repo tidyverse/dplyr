@@ -114,23 +114,23 @@ summarize_at <- summarise_at
 #' If applied on a grouped tibble, these operations normally apply to
 #' only to the non-grouping variables.
 #'
-#' * `mutate_if()` and `transmute_if()` silently ignore the grouping
-#'   variables.
+#' * `mutate_if()`, `mutate_all()`, `transmute_if()`, and
+#'   `transmute_all()` issue a message when the selection includes
+#'   grouping variables to make it explicit that they are ignored.
 #'
-#' * `mutate_at()` and `transmute_at()` throw an error when the
-#'   selection includes grouping variables.
-#'
-#' * `mutate_all()` and `transmute_all()` issue a message when the
-#'   selection includes grouping variables because it is not obvious
-#'   that they are ignored. To silence the message, use the `_at`
-#'   variant with a variable selection that explicitly ignores the
-#'   grouping variables:
+#'   In the case of `_all` variants, you can silence the message by
+#'   using a variable selection that explicitly ignores the grouping
+#'   variables. Here is call equivalent to `mutate_all()` that does
+#'   not output messages:
 #'
 #'   ```
 #'   data %>% mutate_at(vars(-group_cols()), my_operation)
 #'   ```
 #'
 #'   This makes the selection more explicit in your code.
+#'
+#' * `mutate_at()` and `transmute_at()` throw an error when the
+#'   selection includes grouping variables.
 #'
 #' @examples
 #' iris <- as_tibble(iris)
@@ -180,13 +180,14 @@ summarize_at <- summarise_at
 #' iris %>% mutate_if(is.numeric, list(div = `/`), 100)
 #' @export
 mutate_all <- function(.tbl, .funs, ...) {
-  check_grouped_all(.tbl, "mutate")
+  check_grouped(.tbl, "mutate", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
+  check_grouped(.tbl, "mutate", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
 }
@@ -201,13 +202,14 @@ mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
 #' @rdname summarise_all
 #' @export
 transmute_all <- function(.tbl, .funs, ...) {
-  check_grouped_all(.tbl, "transmute")
+  check_grouped(.tbl, "transmute", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!!funs)
 }
 #' @rdname summarise_all
 #' @export
 transmute_if <- function(.tbl, .predicate, .funs, ...) {
+  check_grouped(.tbl, "transmute", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!!funs)
 }
@@ -241,11 +243,17 @@ manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = 
   manip_apply_syms(funs, syms, .tbl)
 }
 
-check_grouped_all <- function(tbl, verb) {
+check_grouped <- function(tbl, verb, suffix, alt = FALSE) {
   if (is_grouped_df(tbl)) {
+    if (alt) {
+      alt_line <- sprintf("Use `%s_at(df, vars(-group_cols()), myoperation)` to silence the message.", verb)
+    } else {
+      alt_line <- chr()
+    }
     inform(paste_line(
-      sprintf("`%s_all()` ignored the following grouping variables:", verb),
-      sprintf("Use `%s_at(df, vars(-group_cols()), myoperation)` to silence the message.", verb)
+      sprintf("`%s_%s()` ignored the following grouping variables:", verb, suffix),
+      fmt_cols(group_vars(tbl)),
+      alt_line
     ))
   }
 }

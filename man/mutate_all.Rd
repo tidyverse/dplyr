@@ -36,18 +36,19 @@ They mutate a selection of variables.
 If applied on a grouped tibble, these operations normally apply to
 only to the non-grouping variables.
 \itemize{
-\item \code{mutate_if()} and \code{transmute_if()} silently ignore the grouping
-variables.
-\item \code{mutate_at()} and \code{transmute_at()} throw an error when the
-selection includes grouping variables.
-\item \code{mutate_all()} and \code{transmute_all()} issue a message when the
-selection includes grouping variables because it is not obvious
-that they are ignored. To silence the message, use the \code{_at}
-variant with a variable selection that explicitly ignores the
-grouping variables:\preformatted{data \%>\% mutate_at(vars(-group_cols()), my_operation)
+\item \code{mutate_if()}, \code{mutate_all()}, \code{transmute_if()}, and
+\code{transmute_all()} issue a message when the selection includes
+grouping variables to make it explicit that they are ignored.
+
+In the case of \code{_all} variants, you can silence the message by
+using a variable selection that explicitly ignores the grouping
+variables. Here is call equivalent to \code{mutate_all()} that does
+not output messages:\preformatted{data \%>\% mutate_at(vars(-group_cols()), my_operation)
 }
 
 This makes the selection more explicit in your code.
+\item \code{mutate_at()} and \code{transmute_at()} throw an error when the
+selection includes grouping variables.
 }
 }
 
