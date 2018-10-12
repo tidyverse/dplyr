@@ -11,15 +11,14 @@ To be released as 0.8.0
   Unwind-protection also makes dplyr more robust in corner cases because it
   ensures the C++ destructors are correctly called in all circumstances
   (debugger exit, captured condition, restart invokation).
+* Using `mutate_all()` and `transmute_all()` with grouped tibbles now informs
+  you that the grouping variables are ignored. The message invites you to use
+  `mutate_at(df, vars(-group_cols()))` (or the equivalent `transmute_at()` call)
+  instead if you'd like to make it explicit in your code that the operation is
+  not applied on the grouping variables.
 
 * New selection helper `group_cols()`. It can be called in selection contexts
   such as `select()` and matches the grouping variables of grouped tibbles.
-* Using `mutate_all()` and `transmute_all()` with grouped tibbles is
-  deprecated. In previous versions of dplyr, the grouping variables were
-  previously silently ignored. A warning is now issued to invite you to use
-  `mutate_at(df, vars(-group_cols()))` (or the equivalent `transmute_at()`
-  call) instead. This makes it explicit in your code that the operation is not
-  applied on the grouping variables.
 
 * `group_by()` respects levels of factors and keeps empty groups (#341). 
 

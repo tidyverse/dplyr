@@ -40,11 +40,11 @@ only to the non-grouping variables.
 variables.
 \item \code{mutate_at()} and \code{transmute_at()} throw an error when the
 selection includes grouping variables.
-\item \code{mutate_all()} and \code{transmute_all()} issue a warning when the
+\item \code{mutate_all()} and \code{transmute_all()} issue a message when the
 selection includes grouping variables because it is not obvious
-that they are ignored. It is better to use the \code{_at} variant with
-a variable selection that explicitly ignores the grouping
-variables:\preformatted{data \%>\% mutate_at(vars(-group_cols()), my_operation)
+that they are ignored. To silence the message, use the \code{_at}
+variant with a variable selection that explicitly ignores the
+grouping variables:\preformatted{data \%>\% mutate_at(vars(-group_cols()), my_operation)
 }
 
 This makes the selection more explicit in your code.

@@ -120,11 +120,11 @@ summarize_at <- summarise_at
 #' * `mutate_at()` and `transmute_at()` throw an error when the
 #'   selection includes grouping variables.
 #'
-#' * `mutate_all()` and `transmute_all()` issue a warning when the
+#' * `mutate_all()` and `transmute_all()` issue a message when the
 #'   selection includes grouping variables because it is not obvious
-#'   that they are ignored. It is better to use the `_at` variant with
-#'   a variable selection that explicitly ignores the grouping
-#'   variables:
+#'   that they are ignored. To silence the message, use the `_at`
+#'   variant with a variable selection that explicitly ignores the
+#'   grouping variables:
 #'
 #'   ```
 #'   data %>% mutate_at(vars(-group_cols()), my_operation)
@@ -243,9 +243,9 @@ manip_at <- function(.tbl, .vars, .funs, .quo, .env, ..., .include_group_vars = 
 
 check_grouped_all <- function(tbl, verb) {
   if (is_grouped_df(tbl)) {
-    warn(paste_line(
-      sprintf("Can't use `%s_all()` with grouped tibbles.", verb),
-      sprintf("Please use `%s_at(df, vars(-c(!!!groups(df))))` instead.", verb)
+    inform(paste_line(
+      sprintf("`%s_all()` ignored the following grouping variables:", verb),
+      sprintf("Use `%s_at(df, vars(-group_cols()), myoperation)` to silence the message.", verb)
     ))
   }
 }
