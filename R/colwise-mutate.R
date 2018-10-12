@@ -125,7 +125,7 @@ summarize_at <- summarise_at
 #'   variables:
 #'
 #'   ```
-#'   data %>% mutate_at(vars(-group_vars()), my_operation)
+#'   data %>% mutate_at(vars(-c(!!!groups())), my_operation)
 #'   ```
 #'
 #'   This makes the selection more explicit in your code.
@@ -241,7 +241,7 @@ check_grouped_all <- function(tbl, verb) {
   if (is_grouped_df(tbl)) {
     warn(paste_line(
       sprintf("Can't use `%s_all()` with grouped tibbles.", verb),
-      sprintf("Please use `%s_at(vars(-group_vars()))` instead.", verb)
+      sprintf("Please use `%s_at(df, vars(-c(!!!groups(df))))` instead.", verb)
     ))
   }
 }

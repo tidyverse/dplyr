@@ -44,7 +44,7 @@ selection includes grouping variables.
 selection includes grouping variables because it is not obvious
 that they are ignored. It is better to use the \code{_at} variant with
 a variable selection that explicitly ignores the grouping
-variables:\preformatted{data \%>\% mutate_at(vars(-group_vars()), my_operation)
+variables:\preformatted{data \%>\% mutate_at(vars(-c(!!!groups())), my_operation)
 }
 
 This makes the selection more explicit in your code.

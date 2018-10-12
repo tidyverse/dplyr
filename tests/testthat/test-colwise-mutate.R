@@ -136,9 +136,11 @@ test_that("mutate and transmute variants does not mutate grouping variable (#335
 
   res <- mutate(tbl, gr2 = sqrt(gr2), x = sqrt(x))
   expect_warning(expect_identical(mutate_all(tbl, sqrt), res), "grouped tibble")
+  expect_identical(mutate_at(tbl, vars(-c(!!!groups(tbl))), sqrt), res)
   expect_identical(mutate_if(tbl, is.integer, sqrt), res)
 
   expect_warning(expect_identical(transmute_all(tbl, sqrt), res), "grouped tibble")
+  expect_identical(transmute_at(tbl, vars(-c(!!!groups(tbl))), sqrt), res)
   expect_identical(transmute_if(tbl, is.integer, sqrt), res)
 })
 
