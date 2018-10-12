@@ -11,6 +11,12 @@
 #' @param .preserve when `TRUE` (the default), the grouping structure
 #'   is preserved, otherwise it is recalculated based on the resulting data.
 #' @export
+#'
+#' @section Grouping variables:
+#'
+#' These operations apply to grouping variables that are part of the
+#' selection.
+#'
 #' @examples
 #' # While filter() accepts expressions with specific variables, the
 #' # scoped filter verbs take an expression with the pronoun `.` and

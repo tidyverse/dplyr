@@ -8,6 +8,11 @@
 #' @inheritParams scoped
 #' @param .add Passed to the `add` argument of [group_by()].
 #' @export
+#'
+#' @section Grouping variables:
+#'
+#' Existing grouping variables are kept grouped.
+#'
 #' @examples
 #' # Group a data frame by all variables:
 #' group_by_all(mtcars)

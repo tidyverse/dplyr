@@ -60,3 +60,43 @@ variables for which a predicate function returns \code{TRUE}. Instead
 of a predicate function, you can also supply a logical vector.
 }
 }
+\section{Grouping variables}{
+
+
+Most of these operations also apply on the grouping variables when
+they are part of the selection. This includes:
+\itemize{
+\item \code{\link[=arrange_all]{arrange_all()}}, \code{\link[=arrange_at]{arrange_at()}}, and \code{\link[=arrange_if]{arrange_if()}}
+\item \code{\link[=distinct_all]{distinct_all()}}, \code{\link[=distinct_at]{distinct_at()}}, and \code{\link[=distinct_if]{distinct_if()}}
+\item \code{\link[=filter_all]{filter_all()}}, \code{\link[=filter_at]{filter_at()}}, and \code{\link[=filter_if]{filter_if()}}
+\item \code{\link[=group_by_all]{group_by_all()}}, \code{\link[=group_by_at]{group_by_at()}}, and \code{\link[=group_by_if]{group_by_if()}}
+\item \code{\link[=select_all]{select_all()}}, \code{\link[=select_at]{select_at()}}, and \code{\link[=select_if]{select_if()}}
+}
+
+This is not the case for summarising and mutating variants where
+operations are \emph{not} applied on grouping variables. The behaviour
+depends on whether the selection is \strong{implicit} (\code{all} and \code{if}
+selections) or \strong{explicit} (\code{at} selections).
+
+Grouping variables covered by explicit selections are always an
+error. This concerns:
+\itemize{
+\item \code{\link[=summarise_at]{summarise_at()}}, \code{\link[=mutate_at]{mutate_at()}}, and \code{\link[=transmute_at]{transmute_at()}}
+}
+
+For implicit selections, the grouping variables are always ignored.
+Summarising operations ignore them silently because it is obvious
+that operations are not applied on grouping variables:
+\itemize{
+\item \code{\link[=summarise_all]{summarise_all()}}, and \code{\link[=summarise_if]{summarise_if()}}
+}
+
+On the other hand it isn't as obvious in the case of mutating
+operations. For this reason, they issue a message indicating which
+grouping variables are ignored:
+\itemize{
+\item \code{\link[=mutate_all]{mutate_all()}}, \code{\link[=mutate_if]{mutate_if()}}
+\item \code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}}
+}
+}
+

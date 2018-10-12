@@ -37,6 +37,13 @@ selection of variables. The predicate expression should be quoted
 with \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}} and should mention the pronoun
 \code{.} to refer to variables.
 }
+\section{Grouping variables}{
+
+
+These operations apply to grouping variables that are part of the
+selection.
+}
+
 \examples{
 # While filter() accepts expressions with specific variables, the
 # scoped filter verbs take an expression with the pronoun `.` and

@@ -6,6 +6,12 @@
 #'
 #' @inheritParams scoped
 #' @inheritParams arrange
+#'
+#' @section Grouping variables:
+#'
+#' These operations apply to grouping variables that are part of the
+#' selection.
+#'
 #' @export
 #' @examples
 #' df <- as_tibble(mtcars)

@@ -6,6 +6,12 @@
 #'
 #' @inheritParams scoped
 #' @export
+#'
+#' @section Grouping variables:
+#'
+#' These operations apply to grouping variables that are part of the
+#' selection.
+#'
 #' @examples
 #' df <- data_frame(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
 #' df

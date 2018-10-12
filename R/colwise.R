@@ -50,6 +50,41 @@
 #' @param ... Additional arguments for the function calls in
 #'   `.funs`. These are evaluated only once, with [tidy
 #'   dots][rlang::tidy-dots] support.
+#'
+#' @section Grouping variables:
+#'
+#' Most of these operations also apply on the grouping variables when
+#' they are part of the selection. This includes:
+#'
+#' * [arrange_all()], [arrange_at()], and [arrange_if()]
+#' * [distinct_all()], [distinct_at()], and [distinct_if()]
+#' * [filter_all()], [filter_at()], and [filter_if()]
+#' * [group_by_all()], [group_by_at()], and [group_by_if()]
+#' * [select_all()], [select_at()], and [select_if()]
+#'
+#' This is not the case for summarising and mutating variants where
+#' operations are *not* applied on grouping variables. The behaviour
+#' depends on whether the selection is **implicit** (`all` and `if`
+#' selections) or **explicit** (`at` selections).
+#'
+#' Grouping variables covered by explicit selections are always an
+#' error. This concerns:
+#'
+#' * [summarise_at()], [mutate_at()], and [transmute_at()]
+#'
+#' For implicit selections, the grouping variables are always ignored.
+#' Summarising operations ignore them silently because it is obvious
+#' that operations are not applied on grouping variables:
+#'
+#' * [summarise_all()], and [summarise_if()]
+#'
+#' On the other hand it isn't as obvious in the case of mutating
+#' operations. For this reason, they issue a message indicating which
+#' grouping variables are ignored:
+#'
+#' * [mutate_all()], [mutate_if()]
+#' * [transmute_all()], [transmute_if()]
+#'
 #' @name scoped
 NULL
 
