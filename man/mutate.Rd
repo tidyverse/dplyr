@@ -98,10 +98,18 @@ mtcars \%>\%
   transmute(displ_l = disp / 61.0237)
 
 
-# mutate() supports quasiquotation. You can unquote quosures, which
-# can refer to both contextual variables and variable names:
-var <- 100
-as_tibble(mtcars) \%>\% mutate(cyl = !!quo(cyl * var))
+# Refer to column names stored as strings with the `.data` pronoun:
+vars <- c("mass", "height")
+mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
+
+# For more complex cases, knowledge of tidy evaluation and the
+# unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
+#
+# One useful and simple tidy eval technique is to use `!!` to
+# bypass the data frame and its columns. Here is how to divide the
+# column `mass` by an object of the same name:
+mass <- 100
+mutate(starwars, mass = mass / !!mass)
 }
 \seealso{
 Other single table verbs: \code{\link{arrange}},
