@@ -76,13 +76,21 @@ a selection of variables.
 \section{Grouping variables}{
 
 
-If applied on a grouped tibble, these operations normally apply
-only to the non-grouping variables:
+If applied on a grouped tibble, these operations are \emph{not} applied
+to the grouping variables. The behaviour depends on whether the
+selection is \strong{implicit} (\code{all} and \code{if} selections) or
+\strong{explicit} (\code{at} selections).
 \itemize{
-\item \code{summarise_all()} and \code{summarise_if()} ignore the grouping
-variables silently.
-\item \code{summarise_at()} throws an error when the selection includes
-grouping variables.
+\item Grouping variables covered by explicit selections in
+\code{summarise_at()} are always an error. Add \code{-group_cols()} to the
+\code{\link[=vars]{vars()}} selection to avoid this:\preformatted{data \%>\% summarise_at(vars(-group_cols(), ...), myoperation)
+}
+
+Or remove \code{group_vars()} from the character vector of column names:\preformatted{nms <- setdiff(nms, group_vars(data))
+data \%>\% summarise_at(vars, myoperation)
+}
+\item Grouping variables covered by implicit selections are silently
+ignored by \code{summarise_all()} and \code{summarise_if()}.
 }
 }
 

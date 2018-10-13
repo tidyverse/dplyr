@@ -15,14 +15,28 @@
 #'
 #' @section Grouping variables:
 #'
-#' If applied on a grouped tibble, these operations normally apply
-#' only to the non-grouping variables:
+#' If applied on a grouped tibble, these operations are *not* applied
+#' to the grouping variables. The behaviour depends on whether the
+#' selection is **implicit** (`all` and `if` selections) or
+#' **explicit** (`at` selections).
 #'
-#' * `summarise_all()` and `summarise_if()` ignore the grouping
-#'   variables silently.
+#' * Grouping variables covered by explicit selections in
+#'   `summarise_at()` are always an error. Add `-group_cols()` to the
+#'   [vars()] selection to avoid this:
 #'
-#' * `summarise_at()` throws an error when the selection includes
-#'   grouping variables.
+#'   ```
+#'   data %>% summarise_at(vars(-group_cols(), ...), myoperation)
+#'   ```
+#'
+#'   Or remove `group_vars()` from the character vector of column names:
+#'
+#'   ```
+#'   nms <- setdiff(nms, group_vars(data))
+#'   data %>% summarise_at(vars, myoperation)
+#'   ```
+#'
+#' * Grouping variables covered by implicit selections are silently
+#'   ignored by `summarise_all()` and `summarise_if()`.
 #'
 #' @examples
 #' by_species <- iris %>% group_by(Species)
@@ -111,26 +125,29 @@ summarize_at <- summarise_at
 #'
 #' @section Grouping variables:
 #'
-#' If applied on a grouped tibble, these operations normally apply to
-#' only to the non-grouping variables.
+#' If applied on a grouped tibble, these operations are *not* applied
+#' to the grouping variables. The behaviour depends on whether the
+#' selection is **implicit** (`all` and `if` selections) or
+#' **explicit** (`at` selections).
 #'
-#' * `mutate_if()`, `mutate_all()`, `transmute_if()`, and
-#'   `transmute_all()` issue a message when the selection includes
-#'   grouping variables to make it explicit that they are ignored.
-#'
-#'   In the case of `_all` variants, you can silence the message by
-#'   using a variable selection that explicitly ignores the grouping
-#'   variables. Here is call equivalent to `mutate_all()` that does
-#'   not output messages:
+#' * Grouping variables covered by explicit selections in
+#'   `mutate_at()` and `transmute_at()` are always an error. Add
+#'   `-group_cols()` to the [vars()] selection to avoid this:
 #'
 #'   ```
-#'   data %>% mutate_at(vars(-group_cols()), my_operation)
+#'   data %>% mutate_at(vars(-group_cols(), ...), myoperation)
 #'   ```
 #'
-#'   This makes the selection more explicit in your code.
+#'   Or remove `group_vars()` from the character vector of column names:
 #'
-#' * `mutate_at()` and `transmute_at()` throw an error when the
-#'   selection includes grouping variables.
+#'   ```
+#'   nms <- setdiff(nms, group_vars(data))
+#'   data %>% mutate_at(vars, myoperation)
+#'   ```
+#'
+#' * Grouping variables covered by implicit selections are ignored by
+#'   `mutate_all()`, `transmute_all()`, `mutate_if()`, and
+#'   `transmute_if()`.
 #'
 #' @examples
 #' iris <- as_tibble(iris)

@@ -33,22 +33,22 @@ They mutate a selection of variables.
 \section{Grouping variables}{
 
 
-If applied on a grouped tibble, these operations normally apply to
-only to the non-grouping variables.
+If applied on a grouped tibble, these operations are \emph{not} applied
+to the grouping variables. The behaviour depends on whether the
+selection is \strong{implicit} (\code{all} and \code{if} selections) or
+\strong{explicit} (\code{at} selections).
 \itemize{
-\item \code{mutate_if()}, \code{mutate_all()}, \code{transmute_if()}, and
-\code{transmute_all()} issue a message when the selection includes
-grouping variables to make it explicit that they are ignored.
-
-In the case of \code{_all} variants, you can silence the message by
-using a variable selection that explicitly ignores the grouping
-variables. Here is call equivalent to \code{mutate_all()} that does
-not output messages:\preformatted{data \%>\% mutate_at(vars(-group_cols()), my_operation)
+\item Grouping variables covered by explicit selections in
+\code{mutate_at()} and \code{transmute_at()} are always an error. Add
+\code{-group_cols()} to the \code{\link[=vars]{vars()}} selection to avoid this:\preformatted{data \%>\% mutate_at(vars(-group_cols(), ...), myoperation)
 }
 
-This makes the selection more explicit in your code.
-\item \code{mutate_at()} and \code{transmute_at()} throw an error when the
-selection includes grouping variables.
+Or remove \code{group_vars()} from the character vector of column names:\preformatted{nms <- setdiff(nms, group_vars(data))
+data \%>\% mutate_at(vars, myoperation)
+}
+\item Grouping variables covered by implicit selections are ignored by
+\code{mutate_all()}, \code{transmute_all()}, \code{mutate_if()}, and
+\code{transmute_if()}.
 }
 }
 
