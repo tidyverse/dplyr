@@ -46,6 +46,25 @@ filtering is often considerably faster on \code{\link[=ungroup]{ungroup()}}ed da
 }
 }
 
+\section{Grouped tibbles}{
+
+
+Because filtering expressions are computed within groups, they may
+yield different results on grouped tibbles. This will be the case
+as soon as an aggregating, lagging, or ranking function is
+involved. Compare this ungrouped filtering:\preformatted{starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
+}
+
+With the grouped equivalent:\preformatted{starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
+}
+
+The former keeps rows with \code{mass} greater than the global average
+whereas the latter keeps rows with \code{mass} greater than the gender
+average.
+
+It is valid to use grouping variables in filter expressions.
+}
+
 \section{Tidy data}{
 
 When applied to a data frame, row names are silently dropped. To preserve,
@@ -69,6 +88,18 @@ filter(starwars, hair_color == "none" | eye_color == "black")
 
 # Multiple arguments are equivalent to and
 filter(starwars, hair_color == "none", eye_color == "black")
+
+
+# The filtering operation may yield different results on grouped
+# tibbles because the expressions are computed within groups.
+#
+# The following filters rows where `mass` is greater than the
+# global average:
+starwars \%>\% filter(mass > mean(mass, na.rm = TRUE))
+
+# Whereas this keeps rows with `mass` greater than the gender
+# average:
+starwars \%>\% group_by(gender) \%>\% filter(mass > mean(mass, na.rm = TRUE))
 
 
 # Refer to column names stored as strings with the `.data` pronoun:

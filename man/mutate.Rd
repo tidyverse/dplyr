@@ -48,6 +48,30 @@ New variables overwrite existing variables of the same name.
 }
 }
 
+\section{Grouped tibbles}{
+
+
+Because mutating expressions are computed within groups, they may
+yield different results on grouped tibbles. This will be the case
+as soon as an aggregating, lagging, or ranking function is
+involved. Compare this ungrouped mutate:\preformatted{starwars \%>\%
+  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
+  pull()
+}
+
+With the grouped equivalent:\preformatted{starwars \%>\%
+  group_by(gender) \%>\%
+  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
+  pull()
+}
+
+The former normalises \code{mass} by the global average whereas the
+latter normalises by the averages within gender levels.
+
+Note that you can't overwrite a grouping variable within
+\code{mutate()}.
+}
+
 \section{Scoped mutation and transmutation}{
 
 
@@ -96,6 +120,25 @@ mtcars \%>\%
 # transmute keeps only the variables you create
 mtcars \%>\%
   transmute(displ_l = disp / 61.0237)
+
+
+# The mutate operation may yield different results on grouped
+# tibbles because the expressions are computed within groups.
+# The following normalises `mass` by the global average:
+starwars \%>\%
+  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
+  pull()
+
+# Whereas this normalises `mass` by the averages within gender
+# levels:
+starwars \%>\%
+  group_by(gender) \%>\%
+  mutate(mass / mean(mass, na.rm = TRUE)) \%>\%
+  pull()
+
+# Note that you can't overwrite grouping variables:
+gdf <- mtcars \%>\% group_by(cyl)
+try(mutate(gdf, cyl = cyl * 100))
 
 
 # Refer to column names stored as strings with the `.data` pronoun:
