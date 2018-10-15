@@ -63,9 +63,6 @@ public:
   typedef typename SlicedTibble::slicing_index slicing_index;
   int ngroups;
 
-  // the old indices
-  std::vector<slicing_index> old_indices;
-
   // the results of the test expression for each group
   // we only keep those that we need
   Rcpp::List tests;
@@ -84,8 +81,6 @@ public:
 
   GroupFilterIndices(int ngroups_) :
     ngroups(ngroups_),
-
-    old_indices(ngroups),
     tests(ngroups),
     new_indices(ngroups),
     dense(ngroups, false),
@@ -98,34 +93,32 @@ public:
   }
 
   // the group i contains all the data from the original
-  void add_dense_group(int i, const slicing_index& old_idx, int n) {
-    add_group(i, old_idx, n);
+  void add_dense_group(int i, int n) {
+    add_group(i, n);
     dense[i] = true;
   }
 
   // the group i contains some data, available in g_test
-  void add_group_lgl(int i, const slicing_index& old_idx, int n, Rcpp::LogicalVector g_test) {
+  void add_group_lgl(int i, int n, Rcpp::LogicalVector g_test) {
     if (n == 0) {
       empty_group(i);
     } else {
-      add_group(i, old_idx, n) ;
+      add_group(i, n) ;
       tests[i] = g_test;
     }
   }
 
-  void add_group_slice_positive(int i, const slicing_index& old_idx, const IntegerVector& g_idx) {
-    int old_group_size = old_idx.size();
+  void add_group_slice_positive(int i, int old_group_size, const IntegerVector& g_idx) {
     int new_group_size = std::count_if(g_idx.begin(), g_idx.end(), SlicePositivePredicate(old_group_size));
     if (new_group_size == 0) {
       empty_group(i);
     } else {
-      add_group(i, old_idx, new_group_size);
+      add_group(i, new_group_size);
       tests[i] = g_idx ;
     }
   }
 
-  void add_group_slice_negative(int i, const slicing_index& old_idx, const IntegerVector& g_idx) {
-    int old_group_size = old_idx.size();
+  void add_group_slice_negative(int i, int old_group_size, const IntegerVector& g_idx) {
     SliceNegativePredicate pred(old_group_size);
     LogicalVector test(old_group_size, TRUE);
     for (int j = 0; j < g_idx.size(); j++) {
@@ -135,9 +128,8 @@ public:
       }
     }
     int n = std::count(test.begin(), test.end(), TRUE);
-    add_group_lgl(i, old_idx, n, test);
+    add_group_lgl(i, n, test);
   }
-
 
   // the total number of rows
   // only makes sense when the object is fully trained
@@ -156,17 +148,18 @@ public:
 
   // after this has been trained, materialize
   // a 1-based integer vector
-  IntegerVector get() const {
+  IntegerVector get(const SlicedTibble& df) const {
     int n = size();
     IntegerVector out(n);
+    typename SlicedTibble::group_iterator git = df.group_begin();
 
     int ii = 0;
-    for (int i = 0; i < ngroups; i++) {
+    for (int i = 0; i < ngroups; i++, ++git) {
       int chunk_size = group_size(i);
       // because there is nothing to do when the group is empty
       if (chunk_size > 0) {
         // the indices relevant to the original data
-        const slicing_index& old_idx = old_indices[i];
+        slicing_index old_idx = *git;
 
         // the new indices
         const IntegerVector& new_idx = new_indices[i];
@@ -214,8 +207,7 @@ public:
 
 private:
 
-  void add_group(int i, const slicing_index& old_idx, int n) {
-    old_indices[i] = old_idx;
+  void add_group(int i, int n) {
     new_indices[i] = Rcpp::seq(k + 1, k + n);
     k += n ;
   }
@@ -279,7 +271,7 @@ SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTi
   set_rownames(out, group_indices.size());
 
   // retrieve the 1-based indices vector
-  IntegerVector idx = group_indices.get();
+  IntegerVector idx = group_indices.get(gdf);
 
   // extract each column with column_subset
   for (int i = 0; i < nc; i++) {
@@ -326,7 +318,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
       // we get length 1 so either we have an empty group, or a dense group, i.e.
       // a group that has all the rows from the original data
       if (g_test[0] == TRUE) {
-        group_indices.add_dense_group(i, indices, chunk_size) ;
+        group_indices.add_dense_group(i, chunk_size) ;
       } else {
         group_indices.empty_group(i);
       }
@@ -334,7 +326,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
       // any other size, so we check that it is consistent with the group size
       check_result_length(g_test, chunk_size);
       int yes = std::count(g_test.begin(), g_test.end(), TRUE);
-      group_indices.add_group_lgl(i, indices, yes, g_test);
+      group_indices.add_group_lgl(i, yes, g_test);
     }
   }
 
@@ -420,9 +412,9 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     CountIndices counter(indices.size(), g_test);
 
     if (counter.is_positive()) {
-      group_indices.add_group_slice_positive(i, indices, g_test);
+      group_indices.add_group_slice_positive(i, indices.size(), g_test);
     } else if (counter.is_negative()) {
-      group_indices.add_group_slice_negative(i, indices, g_test);
+      group_indices.add_group_slice_negative(i, indices.size(), g_test);
     } else {
       group_indices.empty_group(i);
     }
