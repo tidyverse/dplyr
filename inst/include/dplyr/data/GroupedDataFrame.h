@@ -3,6 +3,7 @@
 
 #include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
+#include <tools/VectorView.h>
 
 #include <tools/SymbolVector.h>
 #include <tools/SymbolMap.h>
@@ -22,7 +23,7 @@ public:
 
   int i;
   const GroupedDataFrame& gdf;
-  List indices;
+  ListView indices;
 };
 
 class GroupedDataFrame {
@@ -72,7 +73,7 @@ public:
     return symbols.has(g);
   }
 
-  inline List indices() const {
+  inline SEXP indices() const {
     return groups[groups.size() - 1] ;
   }
 
@@ -92,7 +93,7 @@ public:
   }
 
   template <typename Data>
-  static void set_groups(Data& x, DataFrame groups) {
+  static void set_groups(Data& x, SEXP groups) {
     x.attr("groups") = groups;
   }
 
@@ -123,7 +124,7 @@ inline GroupedDataFrameIndexIterator& GroupedDataFrameIndexIterator::operator++(
 }
 
 inline GroupedSlicingIndex GroupedDataFrameIndexIterator::operator*() const {
-  return GroupedSlicingIndex(IntegerVector(indices[i]), i);
+  return GroupedSlicingIndex(indices[i], i);
 }
 
 }

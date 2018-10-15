@@ -1,6 +1,8 @@
 #ifndef dplyr_tools_SlicingIndex_H
 #define dplyr_tools_SlicingIndex_H
 
+#include <tools/VectorView.h>
+
 // A SlicingIndex allows specifying which rows of a data frame are selected in which order, basically a 0:n -> 0:m map.
 // It also can be used to split a data frame in groups.
 // Important special cases can be implemented without materializing the map.
@@ -19,8 +21,8 @@ public:
 class GroupedSlicingIndex : public SlicingIndex {
 public:
   GroupedSlicingIndex(): data(), group_index(-1) {}
-  GroupedSlicingIndex(IntegerVector data_) : data(data_), group_index(-1) {}
-  GroupedSlicingIndex(IntegerVector data_, int group_) : data(data_), group_index(group_) {}
+
+  GroupedSlicingIndex(SEXP data_, int group_) : data(data_), group_index(group_) {}
 
   virtual int size() const {
     return data.size();
@@ -39,7 +41,7 @@ public:
   }
 
 private:
-  IntegerVector data;
+  Rcpp::IntegerVectorView data;
   int group_index;
 };
 
