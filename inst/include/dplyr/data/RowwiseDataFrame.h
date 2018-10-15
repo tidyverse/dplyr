@@ -74,7 +74,7 @@ public:
   }
 
   static inline CharacterVector classes() {
-    return Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+    return Rcpp::CharacterVector::create("rowwise_df", "tbl_df", "tbl", "data.frame");
   }
 
 private:
