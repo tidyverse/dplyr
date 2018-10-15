@@ -20,6 +20,10 @@ struct can_mark_na<IntegerVector> {
   typedef Rcpp::traits::true_type type;
 };
 template <>
+struct can_mark_na<IntegerVectorView> {
+  typedef Rcpp::traits::true_type type;
+};
+template <>
 struct can_mark_na<GroupedSlicingIndex> {
   typedef Rcpp::traits::false_type type;
 };

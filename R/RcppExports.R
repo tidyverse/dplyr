@@ -92,6 +92,10 @@ slice_impl <- function(df, quosure) {
     .Call(`_dplyr_slice_impl`, df, quosure)
 }
 
+first_n_impl <- function(df, n) {
+    .Call(`_dplyr_first_n_impl`, df, n)
+}
+
 as_regular_df <- function(df) {
     .Call(`_dplyr_as_regular_df`, df)
 }
