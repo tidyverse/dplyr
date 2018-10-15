@@ -99,17 +99,24 @@ public:
     package(R_NilValue),
     data_mask(data_mask_),
     n(0),
-    id(NOMATCH)
+    id(NOMATCH),
+    dot_alias(R_NilValue)
   {
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
+
     if (TYPEOF(head) == SYMSXP) {
       // the head is a symbol, so we lookup what it resolves to
       // then match that against the hash map
       FindFunData finder(head, env);
       if (finder.findFun()) {
-        SEXP f = finder.res;
-        dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(finder.res);
+
+        // The function resolves to finder.res
+        // If this happens to be a rlang_lambda_function we need to look further
+        SEXP f = resolve_rlang_lambda(finder.res);
+
+        // this also may update expr
+        dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
         if (it != get_hybrid_inline_map().end()) {
           func = it->second.name;
           package = it->second.package;
@@ -118,8 +125,10 @@ public:
       }
 
     } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
-      // directly a function (an inlined function) so we can match that directly
-      dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(head);
+      // head is an inlined function. if it is an rlang_lambda_function, we need to look inside
+      SEXP f = resolve_rlang_lambda(head);
+
+      dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
       if (it != get_hybrid_inline_map().end()) {
         func = it->second.name;
         package = it->second.package;
@@ -280,6 +289,39 @@ private:
 
   hybrid_id id;
 
+  SEXP dot_alias;
+
+  SEXP resolve_rlang_lambda(SEXP f) {
+    if (Rf_inherits(f, "rlang_lambda_function") && Rf_length(expr) == 2 && TYPEOF(CADR(expr)) == SYMSXP) {
+      dot_alias =  CADR(expr);
+
+      // look again:
+      SEXP body = BODY(f);
+
+      if (TYPEOF(body) == BCODESXP) {
+        body = VECTOR_ELT(BODY_EXPR(body), 0);
+      }
+
+      if (TYPEOF(body) == LANGSXP) {
+        SEXP head = CAR(body);
+
+        if (TYPEOF(head) == SYMSXP) {
+          // the body's car of the lambda is a symbol
+          // need to resolve it
+          FindFunData finder_lambda(head, CLOENV(f));
+          if (finder_lambda.findFun()) {
+            f = finder_lambda.res;
+            expr = body;
+          }
+        } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
+          // already a function, just use that
+          f = head;
+        }
+      }
+    }
+    return f;
+  }
+
   inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
     if (TYPEOF(val) == SYMSXP) {
       return test_is_column(val, column, desc);
@@ -304,7 +346,11 @@ private:
   }
 
   inline bool test_is_column(Rcpp::Symbol s, Column& column, bool desc) const {
+    if (!Rf_isNull(dot_alias) && (s == symbols::dot || s == symbols::dot_x)) {
+      s = dot_alias;
+    }
     SymbolString symbol(s);
+
     // does the data mask have this symbol, and if so is it a real column (not a summarised)
     const ColumnBinding<SlicedTibble>* subset = data_mask.maybe_get_subset_binding(symbol);
     if (!subset || subset->is_summary()) return false;
@@ -317,7 +363,6 @@ private:
     column.is_desc = desc;
     return true;
   }
-
 
 };
 

@@ -176,12 +176,12 @@ SEXP meansdvar_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>
 
   switch (expression.size()) {
   case 1:
-    // sd( <column> )
+    // fun( <column> )
     if (expression.is_unnamed(0) && expression.is_column(0, x)) {
       return internal::SimpleDispatch<SlicedTibble, Impl, Operation>(data, x, na_rm, op).get();
     }
   case 2:
-    // sd( <column>, na.rm = <bool> )
+    // fun( <column>, na.rm = <bool> )
     if (expression.is_unnamed(0) && expression.is_column(0, x) &&
         expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, na_rm)
        ) {
