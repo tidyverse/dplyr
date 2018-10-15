@@ -84,7 +84,7 @@ slice.tbl_df <- function(.data, ...) {
     return(.data)
   }
 
-  quo <- quo(c(!!!dots))
+  quo <- quo_reduce(!!!dots, .op = c)
   slice_impl(.data, quo)
 }
 #' @export
