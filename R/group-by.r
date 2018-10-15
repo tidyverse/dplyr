@@ -107,6 +107,7 @@ ungroup <- function(x, ...) {
 #' @keywords internal
 group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   new_groups <- c(quos(...), compat_lazy_dots(.dots, caller_env()))
+  new_groups <- new_groups[!map_lgl(new_groups, quo_is_missing)]
 
   # If any calls, use mutate to add new columns, then group by those
   .data <- add_computed_columns(.data, new_groups)
@@ -119,11 +120,11 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
     group_names <- c(group_vars(.data), group_names)
   }
   group_names <- unique(group_names)
-  ok <- group_names != "<empty>"
+
   list(
     data = .data,
-    groups = syms(group_names[ok]),
-    group_names = group_names[ok]
+    groups = syms(group_names),
+    group_names = group_names
   )
 }
 

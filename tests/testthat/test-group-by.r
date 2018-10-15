@@ -328,6 +328,8 @@ test_that("grouped data frames support drop=TRUE (#3714)", {
 })
 
 test_that("group_by ignores empty quosures (3780)", {
-
+  empty <- quo()
+  expect_equal(group_by(mtcars, cyl), group_by(mtcars, cyl, !!empty))
 })
+
 
