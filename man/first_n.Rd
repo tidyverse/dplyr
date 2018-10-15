@@ -9,7 +9,7 @@ first_n(.data, n)
 \arguments{
 \item{.data}{a tbl}
 
-\item{n}{How many rows}
+\item{n}{if positive, the \code{n} first rows are kept, otherwise the \code{-n} last rows are dropped}
 }
 \description{
 Get the first n rows of each group
@@ -18,8 +18,13 @@ Get the first n rows of each group
 
 first_n(iris, 3)
 
+# the first 4 rows of each group
 iris \%>\%
   group_by(Species) \%>\%
   first_n(4)
 
+# Keep n() - 49 rows for each group
+iris \%>\%
+  group_by(Species) \%>\%
+  first_n(-49)
 }

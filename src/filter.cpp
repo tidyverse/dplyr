@@ -437,7 +437,7 @@ public:
   FirstGroupIndices(int ngroups) : new_indices(no_init(ngroups)), k(0) {}
 
   void add_group(int i, int old_group_size, int size) {
-    int m = std::min(old_group_size, size);
+    int m = size > 0 ? std::min(old_group_size, size) : std::min(old_group_size, old_group_size + size);
     new_indices[i] = seq_len(m) + k;
     k += m;
   }
