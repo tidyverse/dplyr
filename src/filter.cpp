@@ -141,11 +141,6 @@ public:
     return Rf_length(new_indices[i]);
   }
 
-  // is the group i dense
-  inline bool is_dense(int i) const {
-    return dense[i];
-  }
-
   // after this has been trained, materialize
   // a 1-based integer vector
   IntegerVector get(const SlicedTibble& df) const {
@@ -163,7 +158,7 @@ public:
 
         // the new indices
         const IntegerVector& new_idx = new_indices[i];
-        if (is_dense(i)) {
+        if (dense[i]) {
           // in that case we can just copy all the data
           for (int j = 0; j < chunk_size; j++, ii++) {
             out[ii] = old_idx[j] + 1;
@@ -208,8 +203,11 @@ public:
 private:
 
   void add_group(int i, int n) {
+    // the new grouped indices
     new_indices[i] = Rcpp::seq(k + 1, k + n);
-    k += n ;
+
+    // increase the size of indices subset vector
+    k += n;
   }
 
 };
