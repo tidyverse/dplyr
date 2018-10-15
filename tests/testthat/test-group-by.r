@@ -326,3 +326,8 @@ test_that("grouped data frames support drop=TRUE (#3714)", {
 
   expect_is(group_by(iris, Species)[ , c("Species", "Sepal.Width"), drop=TRUE], "grouped_df")
 })
+
+test_that("group_by ignores empty quosures (3780)", {
+
+})
+

@@ -119,11 +119,11 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
     group_names <- c(group_vars(.data), group_names)
   }
   group_names <- unique(group_names)
-
+  ok <- group_names != "<empty>"
   list(
     data = .data,
-    groups = syms(group_names),
-    group_names = group_names
+    groups = syms(group_names[ok]),
+    group_names = group_names[ok]
   )
 }
 
