@@ -270,7 +270,7 @@ SEXP structure_filter(const SlicedTibble& gdf, const IndexCollecter& group_indic
   set_rownames(out, group_indices.size());
 
   // retrieve the 1-based indices vector
-  IntegerVectorView idx = group_indices.get(gdf);
+  IntegerVector idx = group_indices.get(gdf);
 
   // extract each column with column_subset
   for (int i = 0; i < nc; i++) {
@@ -432,34 +432,14 @@ SEXP slice_impl(DataFrame df, Quosure quosure) {
 }
 
 template <typename SlicedTibble>
-class FirstGroupIndices {
+class EdgeGroupIndices {
 public:
-  FirstGroupIndices(int ngroups) : new_indices(no_init(ngroups)), k(0) {}
+  EdgeGroupIndices(int ngroups) : new_indices(no_init(ngroups)), k(0) {}
 
   void add_group(int i, int old_group_size, int size) {
     int m = size > 0 ? std::min(old_group_size, size) : std::min(old_group_size, old_group_size + size);
     new_indices[i] = seq_len(m) + k;
     k += m;
-  }
-
-  IntegerVector get(const SlicedTibble& gdf) const {
-    typedef typename SlicedTibble::group_iterator group_iterator;
-    typedef typename SlicedTibble::slicing_index slicing_index ;
-
-    IntegerVector res(no_init(k));
-    int ngroups = gdf.ngroups() ;
-
-    group_iterator git = gdf.group_begin();
-    int j = 0;
-    for (int i = 0; i < ngroups; i++, ++git) {
-      const slicing_index& indices = *git;
-
-      for (int ii = 0; ii < Rf_length(new_indices[i]); ii++, j++) {
-        res[j] = indices[ii] + 1;
-      }
-    }
-
-    return res;
   }
 
   inline int size() const {
@@ -470,10 +450,66 @@ public:
   int k;
 };
 
+template <typename SlicedTibble>
+class FirstGroupIndices : public EdgeGroupIndices<SlicedTibble> {
+public:
+  typedef EdgeGroupIndices<SlicedTibble> Parent;
+  typedef typename SlicedTibble::group_iterator group_iterator;
+  typedef typename SlicedTibble::slicing_index slicing_index ;
 
+  FirstGroupIndices(int ngroups) : EdgeGroupIndices<SlicedTibble>(ngroups) {}
+
+  IntegerVector get(const SlicedTibble& gdf) const {
+    IntegerVector res(no_init(Parent::size()));
+    int ngroups = gdf.ngroups() ;
+
+    group_iterator git = gdf.group_begin();
+    int j = 0;
+    for (int i = 0; i < ngroups; i++, ++git) {
+      const slicing_index& indices = *git;
+
+      for (int ii = 0; ii < Rf_length(Parent::new_indices[i]); ii++, j++) {
+        res[j] = indices[ii] + 1;
+      }
+    }
+
+    return res;
+  }
+
+};
 
 template <typename SlicedTibble>
-DataFrame first_n_template(const SlicedTibble& gdf, int n) {
+class LastGroupIndices : public EdgeGroupIndices<SlicedTibble> {
+public:
+  typedef EdgeGroupIndices<SlicedTibble> Parent;
+  typedef typename SlicedTibble::group_iterator group_iterator;
+  typedef typename SlicedTibble::slicing_index slicing_index ;
+
+  LastGroupIndices(int ngroups) : EdgeGroupIndices<SlicedTibble>(ngroups) {}
+
+  IntegerVector get(const SlicedTibble& gdf) const {
+    IntegerVector res(no_init(Parent::size()));
+    int ngroups = gdf.ngroups() ;
+
+    group_iterator git = gdf.group_begin();
+    int j = 0;
+    for (int i = 0; i < ngroups; i++, ++git) {
+      const slicing_index& indices = *git;
+      int old_group_size = indices.size();
+
+      int group_size = Rf_length(Parent::new_indices[i]);
+      for (int ii = group_size - 1; ii >= 0; ii--, j++) {
+        res[j] = indices[old_group_size - ii - 1] + 1;
+      }
+    }
+
+    return res;
+  }
+};
+
+
+template <typename SlicedTibble, typename IndexCollector>
+DataFrame firstlast_n_template(const SlicedTibble& gdf, int n) {
   typedef typename SlicedTibble::group_iterator group_iterator;
   typedef typename SlicedTibble::slicing_index slicing_index ;
 
@@ -481,7 +517,7 @@ DataFrame first_n_template(const SlicedTibble& gdf, int n) {
   int ngroups = gdf.ngroups() ;
   SymbolVector names = data.names();
 
-  FirstGroupIndices<SlicedTibble> group_indices(ngroups);
+  IndexCollector group_indices(ngroups);
 
   group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
@@ -489,15 +525,23 @@ DataFrame first_n_template(const SlicedTibble& gdf, int n) {
     group_indices.add_group(i, indices.size(), n);
   }
 
-  return structure_filter<SlicedTibble, FirstGroupIndices<SlicedTibble> >(gdf, group_indices);
+  return structure_filter<SlicedTibble, IndexCollector>(gdf, group_indices);
 }
 
 // [[Rcpp::export]]
 SEXP first_n_impl(DataFrame df, int n) {
   if (is<GroupedDataFrame>(df)) {
-    return first_n_template<GroupedDataFrame>(GroupedDataFrame(df), n);
+    return firstlast_n_template<GroupedDataFrame, FirstGroupIndices<GroupedDataFrame> >(GroupedDataFrame(df), n);
   } else {
-    return first_n_template<NaturalDataFrame>(NaturalDataFrame(df), n);
+    return firstlast_n_template<NaturalDataFrame, FirstGroupIndices<NaturalDataFrame> >(NaturalDataFrame(df), n);
   }
 }
 
+// [[Rcpp::export]]
+SEXP last_n_impl(DataFrame df, int n) {
+  if (is<GroupedDataFrame>(df)) {
+    return firstlast_n_template<GroupedDataFrame, LastGroupIndices<GroupedDataFrame> >(GroupedDataFrame(df), n);
+  } else {
+    return firstlast_n_template<NaturalDataFrame, LastGroupIndices<NaturalDataFrame> >(NaturalDataFrame(df), n);
+  }
+}

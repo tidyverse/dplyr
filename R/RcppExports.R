@@ -96,6 +96,10 @@ first_n_impl <- function(df, n) {
     .Call(`_dplyr_first_n_impl`, df, n)
 }
 
+last_n_impl <- function(df, n) {
+    .Call(`_dplyr_last_n_impl`, df, n)
+}
+
 as_regular_df <- function(df) {
     .Call(`_dplyr_as_regular_df`, df)
 }
