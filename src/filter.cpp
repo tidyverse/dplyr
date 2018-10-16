@@ -231,8 +231,7 @@ public:
   {}
 
   void reconstruct(List& out) {
-    DataFrame groups = update_groups(data.group_data(), index.new_indices);
-    GroupedDataFrame::set_groups(out, groups);
+    GroupedDataFrame::set_groups(out, update_groups(data.group_data(), index.new_indices));
   }
 
   SEXP update_groups(DataFrame old, List indices) {
@@ -260,7 +259,7 @@ SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTi
   const DataFrame& data = gdf.data();
   // create the result data frame
   int nc = data.size();
-  List out(data.size());
+  List out(nc);
 
   // this is shared by all types of SlicedTibble
   copy_most_attributes(out, data);
