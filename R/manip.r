@@ -51,6 +51,26 @@
 #'
 #' # Multiple arguments are equivalent to and
 #' filter(starwars, hair_color == "none", eye_color == "black")
+#'
+#'
+#' # Refer to column names stored as strings with the `.data` pronoun:
+#' vars <- c("mass", "height")
+#' cond <- c(80, 150)
+#' starwars %>%
+#'   filter(
+#'     .data[[vars[[1]]]] > cond[[1]],
+#'     .data[[vars[[2]]]] > cond[[2]]
+#'   )
+#'
+#' # For more complex cases, knowledge of tidy evaluation and the
+#' # unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
+#' #
+#' # One useful and simple tidy eval technique is to use `!!` to bypass
+#' # the data frame and its columns. Here is how to filter the columns
+#' # `mass` and `height` relative to objects of the same names:
+#' mass <- 80
+#' height <- 150
+#' filter(starwars, mass > !!mass, height > !!height)
 filter <- function(.data, ..., .preserve = TRUE) {
   UseMethod("filter")
 }
@@ -181,10 +201,18 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   summarise(disp = mean(disp), sd = sd(disp))
 #'
 #'
-#' # summarise() supports quasiquotation. You can unquote raw
-#' # expressions or quosures:
-#' var <- quo(mean(cyl))
-#' summarise(mtcars, !!var)
+#' # Refer to column names stored as strings with the `.data` pronoun:
+#' var <- "mass"
+#' summarise(starwars, avg = mean(.data[[var]], na.rm = TRUE))
+#'
+#' # For more complex cases, knowledge of tidy evaluation and the
+#' # unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
+#' #
+#' # One useful and simple tidy eval technique is to use `!!` to
+#' # bypass the data frame and its columns. Here is how to divide the
+#' # column `mass` by an object of the same name:
+#' mass <- 100
+#' summarise(starwars, avg = mean(mass / !!mass, na.rm = TRUE))
 summarise <- function(.data, ...) {
   UseMethod("summarise")
 }
@@ -287,10 +315,18 @@ summarize_ <- summarise_
 #'   transmute(displ_l = disp / 61.0237)
 #'
 #'
-#' # mutate() supports quasiquotation. You can unquote quosures, which
-#' # can refer to both contextual variables and variable names:
-#' var <- 100
-#' as_tibble(mtcars) %>% mutate(cyl = !!quo(cyl * var))
+#' # Refer to column names stored as strings with the `.data` pronoun:
+#' vars <- c("mass", "height")
+#' mutate(starwars, prod = .data[[vars[[1]]]] * .data[[vars[[2]]]])
+#'
+#' # For more complex cases, knowledge of tidy evaluation and the
+#' # unquote operator `!!` is required. See https://tidyeval.tidyverse.org/
+#' #
+#' # One useful and simple tidy eval technique is to use `!!` to
+#' # bypass the data frame and its columns. Here is how to divide the
+#' # column `mass` by an object of the same name:
+#' mass <- 100
+#' mutate(starwars, mass = mass / !!mass)
 mutate <- function(.data, ...) {
   UseMethod("mutate")
 }
