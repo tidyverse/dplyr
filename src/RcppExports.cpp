@@ -205,6 +205,30 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// first_n_impl
+SEXP first_n_impl(DataFrame df, int n);
+RcppExport SEXP _dplyr_first_n_impl(SEXP dfSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(first_n_impl(df, n));
+    return rcpp_result_gen;
+END_RCPP
+}
+// last_n_impl
+SEXP last_n_impl(DataFrame df, int n);
+RcppExport SEXP _dplyr_last_n_impl(SEXP dfSEXP, SEXP nSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< int >::type n(nSEXP);
+    rcpp_result_gen = Rcpp::wrap(last_n_impl(df, n));
+    return rcpp_result_gen;
+END_RCPP
+}
 // as_regular_df
 DataFrame as_regular_df(DataFrame df);
 RcppExport SEXP _dplyr_as_regular_df(SEXP dfSEXP) {
@@ -765,6 +789,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
+    {"_dplyr_first_n_impl", (DL_FUNC) &_dplyr_first_n_impl, 2},
+    {"_dplyr_last_n_impl", (DL_FUNC) &_dplyr_last_n_impl, 2},
     {"_dplyr_as_regular_df", (DL_FUNC) &_dplyr_as_regular_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},

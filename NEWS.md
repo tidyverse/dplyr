@@ -119,6 +119,8 @@ To be released as 0.8.0
 
 * New low-level constructor `new_grouped_df()` and validator `validate_grouped_df` (#3837). 
 
+* New function `first_n()` and `last_n()` to extract the `n` first or rows of each group (#3788). 
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
