@@ -18,8 +18,14 @@
 #' @inheritParams scoped
 #' @param .funs A single expression quoted with [funs()] or within a
 #'   quosure, a string naming a function, or a function.
-#' @export
+#'
+#' @section Grouping variables:
+#'
+#' Existing grouping variables are always kept in the data frame, even
+#' if not included in the selection.
+#'
 #' @examples
+#'
 #' # Supply a renaming function:
 #' select_all(mtcars, toupper)
 #' select_all(mtcars, "toupper")
@@ -39,6 +45,7 @@
 #' select_if(mtcars, is_whole)
 #' select_at(mtcars, vars(-everything()))
 #' select_all(mtcars)
+#' @export
 select_all <- function(.tbl, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   vars <- tbl_vars(.tbl)
