@@ -77,14 +77,11 @@ filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' @export
 slice.tbl_df <- function(.data, ...) {
   dots <- quos(...)
-  if (any(have_name(dots))) {
-    bad <- dots[have_name(dots)]
-    bad_eq_ops(bad, "must not be named")
-  } else if (is_empty(dots)) {
+  if (is_empty(dots)) {
     return(.data)
   }
 
-  quo <- quo_reduce(!!!dots, .op = c)
+  quo <- quo(c(!!!dots))
   slice_impl(.data, quo)
 }
 #' @export
