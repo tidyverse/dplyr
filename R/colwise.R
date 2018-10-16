@@ -65,25 +65,20 @@
 #' This is not the case for summarising and mutating variants where
 #' operations are *not* applied on grouping variables. The behaviour
 #' depends on whether the selection is **implicit** (`all` and `if`
-#' selections) or **explicit** (`at` selections).
+#' selections) or **explicit** (`at` selections). Grouping variables
+#' covered by explicit selections (with [summarise_at()],
+#' [mutate_at()], and [transmute_at()]) are always an error. For
+#' implicit selections, the grouping variables are always ignored. In
+#' this case, the level of verbosity depends on the kind of operation:
 #'
-#' Grouping variables covered by explicit selections are always an
-#' error. This concerns:
+#' * Summarising operations ([summarise_all()] and [summarise_if()])
+#'   ignore grouping variables silently because it is obvious that
+#'   operations are not applied on grouping variables.
 #'
-#' * [summarise_at()], [mutate_at()], and [transmute_at()]
-#'
-#' For implicit selections, the grouping variables are always ignored.
-#' Summarising operations ignore them silently because it is obvious
-#' that operations are not applied on grouping variables:
-#'
-#' * [summarise_all()], and [summarise_if()]
-#'
-#' On the other hand it isn't as obvious in the case of mutating
-#' operations. For this reason, they issue a message indicating which
-#' grouping variables are ignored:
-#'
-#' * [mutate_all()], [mutate_if()]
-#' * [transmute_all()], [transmute_if()]
+#' * On the other hand it isn't as obvious in the case of mutating
+#'   operations ([mutate_all()], [mutate_if()], [transmute_all()], and
+#'   [transmute_if()]). For this reason, they issue a message
+#'   indicating which grouping variables are ignored.
 #'
 #' @name scoped
 NULL

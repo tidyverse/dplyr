@@ -76,27 +76,19 @@ they are part of the selection. This includes:
 This is not the case for summarising and mutating variants where
 operations are \emph{not} applied on grouping variables. The behaviour
 depends on whether the selection is \strong{implicit} (\code{all} and \code{if}
-selections) or \strong{explicit} (\code{at} selections).
-
-Grouping variables covered by explicit selections are always an
-error. This concerns:
+selections) or \strong{explicit} (\code{at} selections). Grouping variables
+covered by explicit selections (with \code{\link[=summarise_at]{summarise_at()}},
+\code{\link[=mutate_at]{mutate_at()}}, and \code{\link[=transmute_at]{transmute_at()}}) are always an error. For
+implicit selections, the grouping variables are always ignored. In
+this case, the level of verbosity depends on the kind of operation:
 \itemize{
-\item \code{\link[=summarise_at]{summarise_at()}}, \code{\link[=mutate_at]{mutate_at()}}, and \code{\link[=transmute_at]{transmute_at()}}
-}
-
-For implicit selections, the grouping variables are always ignored.
-Summarising operations ignore them silently because it is obvious
-that operations are not applied on grouping variables:
-\itemize{
-\item \code{\link[=summarise_all]{summarise_all()}}, and \code{\link[=summarise_if]{summarise_if()}}
-}
-
-On the other hand it isn't as obvious in the case of mutating
-operations. For this reason, they issue a message indicating which
-grouping variables are ignored:
-\itemize{
-\item \code{\link[=mutate_all]{mutate_all()}}, \code{\link[=mutate_if]{mutate_if()}}
-\item \code{\link[=transmute_all]{transmute_all()}}, \code{\link[=transmute_if]{transmute_if()}}
+\item Summarising operations (\code{\link[=summarise_all]{summarise_all()}} and \code{\link[=summarise_if]{summarise_if()}})
+ignore grouping variables silently because it is obvious that
+operations are not applied on grouping variables.
+\item On the other hand it isn't as obvious in the case of mutating
+operations (\code{\link[=mutate_all]{mutate_all()}}, \code{\link[=mutate_if]{mutate_if()}}, \code{\link[=transmute_all]{transmute_all()}}, and
+\code{\link[=transmute_if]{transmute_if()}}). For this reason, they issue a message
+indicating which grouping variables are ignored.
 }
 }
 

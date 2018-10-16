@@ -11,7 +11,8 @@
 #'
 #' @section Grouping variables:
 #'
-#' Existing grouping variables are kept grouped.
+#' Existing grouping variables are maintained, even if not included in
+#' the selection.
 #'
 #' @examples
 #' # Group a data frame by all variables:

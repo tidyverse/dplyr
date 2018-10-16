@@ -45,8 +45,8 @@ variables before ordering with \code{\link[=funs]{funs()}}.
 \section{Grouping variables}{
 
 
-These operations apply to grouping variables that are part of the
-selection.
+The grouping variables that are part of the selection are taken
+into account to determine distinct rows.
 }
 
 \examples{

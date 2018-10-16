@@ -40,8 +40,8 @@ with \code{\link[=all_vars]{all_vars()}} or \code{\link[=any_vars]{any_vars()}} 
 \section{Grouping variables}{
 
 
-These operations apply to grouping variables that are part of the
-selection.
+The grouping variables that are part of the selection are taken
+into account to determine filtered rows.
 }
 
 \examples{

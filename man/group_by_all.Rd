@@ -47,7 +47,8 @@ selection of variables. Like \code{\link[=group_by]{group_by()}}, they have opti
 \section{Grouping variables}{
 
 
-Existing grouping variables are kept grouped.
+Existing grouping variables are maintained, even if not included in
+the selection.
 }
 
 \examples{

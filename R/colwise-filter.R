@@ -14,8 +14,8 @@
 #'
 #' @section Grouping variables:
 #'
-#' These operations apply to grouping variables that are part of the
-#' selection.
+#' The grouping variables that are part of the selection are taken
+#' into account to determine filtered rows.
 #'
 #' @examples
 #' # While filter() accepts expressions with specific variables, the
