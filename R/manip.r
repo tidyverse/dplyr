@@ -534,6 +534,7 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #' * [num_range()]
 #' * [one_of()]
 #' * [everything()]
+#' * [group_cols()]
 #'
 #' To drop variables, use `-`.
 #'
@@ -591,6 +592,9 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #'
 #' # Drop variables with -
 #' select(iris, -starts_with("Petal"))
+#'
+#' # Select the grouping variables:
+#' starwars %>% group_by(gender) %>% select(group_cols())
 #'
 #'
 #' # The .data pronoun is available:

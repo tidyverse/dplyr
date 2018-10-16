@@ -2,6 +2,9 @@
 
 To be released as 0.8.0
 
+* New selection helper `group_cols()`. It can be called in selection contexts
+  such as `select()` and matches the grouping variables of grouped tibbles.
+
 * `group_by()` respects levels of factors and keeps empty groups (#341). 
 
     ```r

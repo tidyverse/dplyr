@@ -57,6 +57,7 @@ a number of special functions that only work inside \code{select()}:
 \item \code{\link[=num_range]{num_range()}}
 \item \code{\link[=one_of]{one_of()}}
 \item \code{\link[=everything]{everything()}}
+\item \code{\link[=group_cols]{group_cols()}}
 }
 
 To drop variables, use \code{-}.
@@ -101,6 +102,9 @@ select(df, num_range("V", 4:6))
 
 # Drop variables with -
 select(iris, -starts_with("Petal"))
+
+# Select the grouping variables:
+starwars \%>\% group_by(gender) \%>\% select(group_cols())
 
 
 # The .data pronoun is available:
