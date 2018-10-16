@@ -76,7 +76,13 @@ filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 
 #' @export
 slice.tbl_df <- function(.data, ...) {
-  slice_impl(.data, quos(...)[[1L]])
+  dots <- quos(...)
+  if (is_empty(dots)) {
+    return(.data)
+  }
+
+  quo <- quo(c(!!!dots))
+  slice_impl(.data, quo)
 }
 #' @export
 slice_.tbl_df <- function(.data, ..., .dots = list()) {
