@@ -20,7 +20,7 @@ jobs:
   - r: release
     env:
       DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
-  - r: devel
+  - r: 3.4
     env:
       DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - r: 3.4
