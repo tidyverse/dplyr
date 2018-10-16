@@ -45,6 +45,13 @@ These \link{scoped} variants of \code{\link[=arrange]{arrange()}} sort a data fr
 selection of variables. Like \code{\link[=arrange]{arrange()}}, you can modify the
 variables before ordering with \code{\link[=funs]{funs()}}.
 }
+\section{Grouping variables}{
+
+
+The grouping variables that are part of the selection participate
+in the sorting of the data frame.
+}
+
 \examples{
 df <- as_tibble(mtcars)
 df

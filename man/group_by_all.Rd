@@ -44,6 +44,13 @@ These \link{scoped} variants of \code{\link[=group_by]{group_by()}} group a data
 selection of variables. Like \code{\link[=group_by]{group_by()}}, they have optional
 \link{mutate} semantics.
 }
+\section{Grouping variables}{
+
+
+Existing grouping variables are maintained, even if not included in
+the selection.
+}
+
 \examples{
 # Group a data frame by all variables:
 group_by_all(mtcars)

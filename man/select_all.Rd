@@ -54,7 +54,15 @@ renaming.
 The \code{_if} and \code{_at} variants always retain grouping variables for grouped
 data frames.
 }
+\section{Grouping variables}{
+
+
+Existing grouping variables are always kept in the data frame, even
+if not included in the selection.
+}
+
 \examples{
+
 # Supply a renaming function:
 select_all(mtcars, toupper)
 select_all(mtcars, "toupper")
