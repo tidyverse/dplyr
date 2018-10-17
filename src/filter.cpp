@@ -405,13 +405,25 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
     const slicing_index& indices = *git;
+
+    int chunk_size = indices.size();
+
+    // empty group size. no need to evaluate the expression
+    if (chunk_size == 0) {
+      group_indices.empty_group(i) ;
+      continue;
+    }
+
+    // evaluate the expression in the data mask
     IntegerVector g_test = check_filter_integer_result(mask.eval(quo.expr(), indices));
+
+    // scan the results to see if all >= 1 or all <= -1
     CountIndices counter(indices.size(), g_test);
 
     if (counter.is_positive()) {
-      group_indices.add_group_slice_positive(i, indices.size(), g_test);
+      group_indices.add_group_slice_positive(i, chunk_size, g_test);
     } else if (counter.is_negative()) {
-      group_indices.add_group_slice_negative(i, indices.size(), g_test);
+      group_indices.add_group_slice_negative(i, chunk_size, g_test);
     } else {
       group_indices.empty_group(i);
     }
