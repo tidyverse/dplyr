@@ -2,6 +2,16 @@
 
 To be released as 0.8.0
 
+* R expressions that cannot be handled with native code are now evaluated with
+  unwind-protection when available (on R 3.5 and later). This improves the
+  performance of dplyr on data frames with many groups (and hence many
+  expressions to evaluate). We benchmarked that computing a grouped average is
+  consistently twice as fast with unwind-protection enabled.
+
+  Unwind-protection also makes dplyr more robust in corner cases because it
+  ensures the C++ destructors are correctly called in all circumstances
+  (debugger exit, captured condition, restart invokation).
+
 * New selection helper `group_cols()`. It can be called in selection contexts
   such as `select()` and matches the grouping variables of grouped tibbles.
 

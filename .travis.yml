@@ -7,22 +7,10 @@ cache: packages
 latex: false
 
 jobs:
-  allow_failures:
-    - env: DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   include:
   - r: release
-  - stage: full
-    os: osx
-    env:
-      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - os: osx
   - r: devel
-  - r: release
-    env:
-      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
-  - r: devel
-    env:
-      DPLYR_COMPILER_FLAGS="-DRCPP_USE_UNWIND_PROTECT"
   - r: 3.4
   - r: 3.3
   - r: 3.2
