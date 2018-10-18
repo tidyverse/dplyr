@@ -754,7 +754,6 @@ test_that("lead and lag behave correctly in summarise (#1434)", {
 # .data and .env tests now in test-hybrid-traverse.R
 
 test_that("data.frame columns are supported in summarise (#1425)", {
-  skip("will fix as part of #3630")
   df <- data.frame(x1 = rep(1:3, times = 3), x2 = 1:9)
   df$x3 <- df %>% mutate(x3 = x2)
   res <- df %>% group_by(x1) %>% summarise(nr = nrow(x3))
@@ -1081,4 +1080,26 @@ test_that("the data mask marks subsets as not mutable", {
     summarise(ngroup = n(), shared = is_maybe_shared(environment(), sym("ngroup")))
   expect_true(all(res$shared))
   expect_true(all(maybe_shared_columns(res)))
+})
+
+test_that("column_subset respects S3 local [. method (#3923)", {
+  testS3Class <- function(x, X){
+    structure(x, class = "testS3Class", X = X)
+  }
+  `[.testS3Class` <- function(x, i, ...) {
+    testS3Class(unclass(x)[i, ...], X = attr(x, "X"))
+  }
+  df <- tibble(x = rep(1:2, each = 5), y = testS3Class(1:10, X = 100))
+  res <- df %>%
+    group_by(x) %>%
+    summarise(chunk = list(y))
+  expect_equal(res$chunk[[1]], df$y[df$x == 1])
+  expect_equal(res$chunk[[1]], df$y[df$x == 1])
+
+  df$y <- testS3Class(matrix(1:20, ncol = 2), X = 200)
+  res <- df %>%
+    group_by(x) %>%
+    summarise(chunk = list(y))
+  expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
+  expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
 })

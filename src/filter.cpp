@@ -255,7 +255,7 @@ private:
 };
 
 template <typename SlicedTibble>
-SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTibble>& group_indices) {
+SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTibble>& group_indices, SEXP frame) {
   const DataFrame& data = gdf.data();
   // create the result data frame
   int nc = data.size();
@@ -272,7 +272,7 @@ SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTi
 
   // extract each column with column_subset
   for (int i = 0; i < nc; i++) {
-    out[i] = column_subset(data[i], idx);
+    out[i] = column_subset(data[i], idx, frame);
   }
 
   // set the specific attributes
@@ -327,7 +327,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
   }
 
-  return structure_filter<SlicedTibble>(gdf, group_indices) ;
+  return structure_filter<SlicedTibble>(gdf, group_indices, quo.env()) ;
 }
 
 // [[Rcpp::export]]
@@ -429,7 +429,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
   }
 
-  return structure_filter<SlicedTibble>(gdf, group_indices);
+  return structure_filter<SlicedTibble>(gdf, group_indices, quo.env());
 }
 
 // [[Rcpp::export]]

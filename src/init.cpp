@@ -88,4 +88,5 @@ SEXP symbols::dot_Internal = Rf_install(".Internal");
 SEXP symbols::inspect = Rf_install("inspect");
 SEXP symbols::dot = Rf_install(".");
 SEXP symbols::dot_x = Rf_install(".x");
+SEXP symbols::drop = Rf_install("drop");
 }
