@@ -7,13 +7,12 @@
 \alias{summarize_all}
 \alias{summarize_if}
 \alias{summarize_at}
-\alias{mutate_all}
 \alias{mutate_if}
 \alias{mutate_at}
 \alias{transmute_all}
 \alias{transmute_if}
 \alias{transmute_at}
-\title{Summarise and mutate multiple columns.}
+\title{Summarise multiple columns}
 \usage{
 summarise_all(.tbl, .funs, ...)
 
@@ -26,8 +25,6 @@ summarize_all(.tbl, .funs, ...)
 summarize_if(.tbl, .predicate, .funs, ...)
 
 summarize_at(.tbl, .vars, .funs, ..., .cols = NULL)
-
-mutate_all(.tbl, .funs, ...)
 
 mutate_if(.tbl, .predicate, .funs, ...)
 
@@ -73,25 +70,36 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}}, \code{\link[=mutate]{mutate()}} and
-\code{\link[=transmute]{transmute()}}. They apply operations on a selection of variables.
-\itemize{
-\item \code{summarise_all()}, \code{mutate_all()} and \code{transmute_all()} apply the
-functions to all (non-grouping) columns.
-\item \code{summarise_at()}, \code{mutate_at()} and \code{transmute_at()} allow you to
-select columns using the same name-based \link{select_helpers} just
-like with \code{\link[=select]{select()}}.
-\item \code{summarise_if}(), \code{mutate_if}() and \code{transmute_if()} operate on
-columns for which a predicate returns \code{TRUE}.
+These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}}. They summarise
+a selection of variables.
 }
-}
-\examples{
-# The scoped variants of summarise() and mutate() make it easy to
-# apply the same transformation to multiple variables:
+\section{Grouping variables}{
 
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise_all(mean)
+
+If applied on a grouped tibble, these operations are \emph{not} applied
+to the grouping variables. The behaviour depends on whether the
+selection is \strong{implicit} (\code{all} and \code{if} selections) or
+\strong{explicit} (\code{at} selections).
+\itemize{
+\item Grouping variables covered by explicit selections in
+\code{summarise_at()} are always an error. Add \code{-group_cols()} to the
+\code{\link[=vars]{vars()}} selection to avoid this:\preformatted{data \%>\% summarise_at(vars(-group_cols(), ...), myoperation)
+}
+
+Or remove \code{group_vars()} from the character vector of column names:\preformatted{nms <- setdiff(nms, group_vars(data))
+data \%>\% summarise_at(vars, myoperation)
+}
+\item Grouping variables covered by implicit selections are silently
+ignored by \code{summarise_all()} and \code{summarise_if()}.
+}
+}
+
+\examples{
+by_species <- iris \%>\% group_by(Species)
+
+# The scoped variants of summarise() make it easy to apply the same
+# transformation to multiple variables:
+by_species \%>\% summarise_all(mean)
 
 # There are three variants.
 # * _all affects every variable
@@ -103,7 +111,6 @@ starwars \%>\% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
 
 # You can also supply selection helpers to _at() functions but you have
 # to quote them with vars():
-iris \%>\% mutate_at(vars(matches("Sepal")), log)
 starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 
 # The _if() variants apply a predicate function (a function that
@@ -111,28 +118,25 @@ starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 # columns. Here we apply mean() to the numeric columns:
 starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
 
-# mutate_if() is particularly useful for transforming variables from
-# one type to another
-iris \%>\% as_tibble() \%>\% mutate_if(is.factor, as.character)
-iris \%>\% as_tibble() \%>\% mutate_if(is.double, as.integer)
 
-# ---------------------------------------------------------------------------
-# If you want apply multiple transformations, use funs()
-by_species <- iris \%>\% group_by(Species)
+# If you want to apply multiple transformations, pass a list of
+# functions. When there are multiple functions, they create new
+# variables instead of modifying the variables in place:
+by_species \%>\% summarise_all(list(min, max))
 
-by_species \%>\% summarise_all(funs(min, max))
-# Note that output variable name now includes the function name, in order to
-# keep things distinct.
+# Note how the new variables include the function name, in order to
+# keep things distinct. Passing purrr-style lambdas often creates
+# better default names:
+by_species \%>\% summarise_all(list(~min(.), ~max(.)))
 
-# You can express more complex inline transformations using .
-by_species \%>\% mutate_all(funs(. / 2.54))
+# When that's not good enough, you can also supply the names explicitly:
+by_species \%>\% summarise_all(list(min = min, max = max))
 
-# Function names will be included if .funs has names or multiple inputs
-by_species \%>\% mutate_all(funs(inches = . / 2.54))
-by_species \%>\% summarise_all(funs(med = median))
-by_species \%>\% summarise_all(funs(Q3 = quantile), probs = 0.75)
-by_species \%>\% summarise_all(c("min", "max"))
+# When there's only one function in the list, it modifies existing
+# variables in place. Give it a name to create new variables instead:
+by_species \%>\% summarise_all(list(med = median))
+by_species \%>\% summarise_all(list(Q3 = quantile), probs = 0.75)
 }
 \seealso{
-\code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}
+\link[=scoped]{The other scoped verbs}, \code{\link[=vars]{vars()}}, \code{\link[=funs]{funs()}}
 }
