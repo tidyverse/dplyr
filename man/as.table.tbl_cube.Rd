@@ -10,7 +10,7 @@
 
 \method{as.data.frame}{tbl_cube}(x, ...)
 
-as_data_frame.tbl_cube(x, ...)
+\method{as_data_frame}{tbl_cube}(x, ...)
 }
 \arguments{
 \item{x}{a \code{tbl_cube}}
