@@ -119,7 +119,7 @@ SEXP r_column_subset(SEXP x, const Index& index, SEXP frame) {
   Shield<SEXP> one_based_index(index);
   if (Rf_isMatrix(x)) {
     Shield<SEXP> call(Rf_lang5(base::bracket_one(), x, one_based_index, R_MissingArg, Rf_ScalarLogical(false)));
-    SET_TAG(CDR(CDDDR(call)), dplyr::symbols::drop);
+    SET_TAG(CDR(CDR(CDDR(call))), dplyr::symbols::drop);
     return Rcpp::Rcpp_eval(call, frame);
   } else {
     Shield<SEXP> call(Rf_lang3(base::bracket_one(), x, one_based_index));
