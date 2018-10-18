@@ -629,3 +629,9 @@ test_that("bind_cols handles unnamed list (#3402)", {
     bind_cols(list(V1 = 1, V2 = 2))
   )
 })
+
+test_that("bind_rows handles typed lists (#3924)", {
+  df <- data.frame(x = 1, y = 2)
+  lst <- structure(list(df, df, df), class = "special_lst")
+  expect_equal(bind_rows(lst), bind_rows(df,df,df))
+})
