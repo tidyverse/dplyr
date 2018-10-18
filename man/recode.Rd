@@ -72,8 +72,8 @@ recode(char_vec, a = "Apple", b = "Banana")
 # Use .default as replacement for unmatched values
 recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
 
-# Use a named list for unquote splicing with !!!
-level_key <- list(a = "apple", b = "banana", c = "carrot")
+# Use a named character vector for unquote splicing with !!!
+level_key <- c(a = "apple", b = "banana", c = "carrot")
 recode(char_vec, !!!level_key)
 
 # For numeric values, named arguments can also be used
@@ -114,8 +114,8 @@ recode_factor(num_vec, `1` = "z", `2` = "y", `3` = "x",
 recode_factor(letters[1:3], b = "z", c = "y")
 recode_factor(factor(letters[1:3]), b = "z", c = "y")
 
-# Use a named list to recode factor with unquote splicing.
-level_key <- list(a = "apple", b = "banana", c = "carrot")
+# Use a named character vector to recode factors with unquote splicing.
+level_key <- c(a = "apple", b = "banana", c = "carrot")
 recode_factor(char_vec, !!!level_key)
 }
 \seealso{
