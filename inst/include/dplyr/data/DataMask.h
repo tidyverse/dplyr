@@ -136,11 +136,12 @@ private:
     const typename SlicedTibble::slicing_index& indices,
     SEXP mask_resolved)
   {
+    SEXP frame = ENCLOS(ENCLOS(mask_resolved));
 
     // materialize
     Shield<SEXP> value(summary ?
-                       column_subset(data, RowwiseSlicingIndex(indices.group())) :
-                       column_subset(data, indices)
+                       column_subset(data, RowwiseSlicingIndex(indices.group()), frame) :
+                       column_subset(data, indices, frame)
                       );
     MARK_NOT_MUTABLE(value);
 

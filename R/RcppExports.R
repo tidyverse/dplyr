@@ -38,8 +38,8 @@ maybe_shared_columns <- function(df) {
     .Call(`_dplyr_maybe_shared_columns`, df)
 }
 
-arrange_impl <- function(df, quosures) {
-    .Call(`_dplyr_arrange_impl`, df, quosures)
+arrange_impl <- function(df, quosures, frame) {
+    .Call(`_dplyr_arrange_impl`, df, quosures, frame)
 }
 
 #' Do values in a numeric vector fall in specified range?
@@ -76,8 +76,8 @@ combine_all <- function(data) {
     .Call(`_dplyr_combine_all`, data)
 }
 
-distinct_impl <- function(df, vars, keep) {
-    .Call(`_dplyr_distinct_impl`, df, vars, keep)
+distinct_impl <- function(df, vars, keep, frame) {
+    .Call(`_dplyr_distinct_impl`, df, vars, keep, frame)
 }
 
 n_distinct_multi <- function(variables, na_rm = FALSE) {
@@ -120,32 +120,32 @@ hybrids <- function() {
     .Call(`_dplyr_hybrids`)
 }
 
-semi_join_impl <- function(x, y, by_x, by_y, na_match) {
-    .Call(`_dplyr_semi_join_impl`, x, y, by_x, by_y, na_match)
+semi_join_impl <- function(x, y, by_x, by_y, na_match, frame) {
+    .Call(`_dplyr_semi_join_impl`, x, y, by_x, by_y, na_match, frame)
 }
 
-anti_join_impl <- function(x, y, by_x, by_y, na_match) {
-    .Call(`_dplyr_anti_join_impl`, x, y, by_x, by_y, na_match)
+anti_join_impl <- function(x, y, by_x, by_y, na_match, frame) {
+    .Call(`_dplyr_anti_join_impl`, x, y, by_x, by_y, na_match, frame)
 }
 
-inner_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match) {
-    .Call(`_dplyr_inner_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match)
+inner_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
+    .Call(`_dplyr_inner_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
 
-nest_join_impl <- function(x, y, by_x, by_y, aux_y, yname) {
-    .Call(`_dplyr_nest_join_impl`, x, y, by_x, by_y, aux_y, yname)
+nest_join_impl <- function(x, y, by_x, by_y, aux_y, yname, frame) {
+    .Call(`_dplyr_nest_join_impl`, x, y, by_x, by_y, aux_y, yname, frame)
 }
 
-left_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match) {
-    .Call(`_dplyr_left_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match)
+left_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
+    .Call(`_dplyr_left_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
 
-right_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match) {
-    .Call(`_dplyr_right_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match)
+right_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
+    .Call(`_dplyr_right_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
 
-full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match) {
-    .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match)
+full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
+    .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
 
 mutate_impl <- function(df, dots) {
