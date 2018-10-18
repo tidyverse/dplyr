@@ -6,8 +6,15 @@
 #include <tools/bad.h>
 #include <tools/default_value.h>
 #include <tools/SlicingIndex.h>
+#include <dplyr/symbols.h>
 
 SEXP ns_methods();
+
+namespace base {
+SEXP bracket_one();
+SEXP bracket_two();
+}
+
 
 namespace dplyr {
 namespace traits {
@@ -111,19 +118,23 @@ template <typename Index>
 SEXP r_column_subset(SEXP x, const Index& index, SEXP frame) {
   Shield<SEXP> one_based_index(index);
   if (Rf_isMatrix(x)) {
-    return Language("[", x, one_based_index, R_MissingArg, _["drop"] = false).eval(frame);
+    Shield<SEXP> call(Rf_lang5(base::bracket_one(), x, one_based_index, R_MissingArg, Rf_ScalarLogical(false)));
+    SET_TAG(CDR(CDDDR(call)), dplyr::symbols::drop);
+    return Rcpp::Rcpp_eval(call, frame);
   } else {
-    return Language("[", x, one_based_index).eval(frame);
+    Shield<SEXP> call(Rf_lang3(base::bracket_one(), x, one_based_index));
+    return Rcpp::Rcpp_eval(call, frame);
   }
 }
 
 template <>
 inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingIndex& index, SEXP frame) {
   if (Rf_isMatrix(x)) {
-    // TODO: not sure about this
-    return Language("[", x, index, R_MissingArg).eval(frame);
+    Shield<SEXP> call(Rf_lang4(base::bracket_one(), x, index, R_MissingArg));
+    return Rcpp::Rcpp_eval(call, frame);
   } else {
-    return Language("[[", x, index).eval(frame);
+    Shield<SEXP> call(Rf_lang3(base::bracket_two(), x, index));
+    return Rcpp::Rcpp_eval(call, frame);
   }
 }
 

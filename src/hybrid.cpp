@@ -3,6 +3,18 @@
 #include <tools/hash.h>
 #include <dplyr/hybrid/Expression.h>
 
+namespace base {
+static SEXP primitive_bracket_one;
+static SEXP primitive_bracket_two;
+
+SEXP bracket_one() {
+  return primitive_bracket_one;
+}
+SEXP bracket_two() {
+  return primitive_bracket_two;
+}
+}
+
 namespace dplyr {
 namespace hybrid {
 
@@ -76,6 +88,9 @@ void init_hybrid_inline_map(DllInfo* /*dll*/) {
     hybrid_init(stats, symbols::var, symbols::stats, VAR);
     hybrid_init(stats, symbols::sd, symbols::stats, SD);
   }
+
+  ::base::primitive_bracket_one = Rf_eval(R_BracketSymbol, R_BaseEnv);
+  ::base::primitive_bracket_two = Rf_eval(R_Bracket2Symbol, R_BaseEnv);
 }
 
 // [[Rcpp::export]]

@@ -53,6 +53,7 @@ struct symbols {
   static SEXP inspect;
   static SEXP dot;
   static SEXP dot_x;
+  static SEXP drop;
 };
 
 }
