@@ -63,6 +63,10 @@ whereas the latter keeps rows with \code{mass} greater than the gender
 average.
 
 It is valid to use grouping variables in filter expressions.
+
+Rows of a group are organized contiguously after a \code{filter()} on
+a group tibble. This does not necessarily match the order f-of the
+rows from the original tibble.
 }
 
 \section{Tidy data}{
