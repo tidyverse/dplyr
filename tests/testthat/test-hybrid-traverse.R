@@ -466,7 +466,7 @@ test_hybrid <- function(grouping) {
       conflict_data %>%
         set_names("id", "data", "env") %>%
         grouping() %>%
-        summarise_at(vars(env, data), funs(mean))
+        summarise_at(vars(env, data), list(mean))
     )
   })
 }

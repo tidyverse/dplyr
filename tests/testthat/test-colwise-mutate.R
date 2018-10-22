@@ -4,37 +4,36 @@ test_that("funs found in current environment", {
   f <- function(x) 1
   df <- data.frame(x = c(2:10, 1000))
 
-  out <- summarise_all(df, funs(f, mean, median))
+  out <- summarise_all(df, list(f = f, mean = mean, median = median))
   expect_equal(out, data.frame(f = 1, mean = 105.4, median = 6.5))
 })
 
 test_that("can use character vectors", {
   df <- data.frame(x = 1:3)
 
-  expect_equal(summarise_all(df, "mean"), summarise_all(df, funs(mean)))
-  expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, funs(mean = mean)))
+  expect_equal(summarise_all(df, "mean"), summarise_all(df, list(mean)))
+  expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, list(mean = mean)))
 })
 
 test_that("can use bare functions", {
   df <- data.frame(x = 1:3)
 
-  expect_equal(summarise_all(df, mean), summarise_all(df, funs(mean)))
-  expect_equal(mutate_all(df, mean), mutate_all(df, funs(mean)))
+  expect_equal(summarise_all(df, mean), summarise_all(df, list(mean)))
+  expect_equal(mutate_all(df, mean), mutate_all(df, list(mean)))
 })
 
 test_that("default names are smallest unique set", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_named(summarise_at(df, vars(x:y), funs(mean)), c("x", "y"))
-  expect_named(summarise_at(df, vars(x), funs(mean, sd)), c("mean", "sd"))
-  expect_named(summarise_at(df, vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
+  expect_named(summarise_at(df, vars(x:y), list(mean)), c("x", "y"))
+  expect_named(summarise_at(df, vars(x), list(mean = mean, sd = sd)), c("mean", "sd"))
+  expect_named(summarise_at(df, vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
 
 test_that("named arguments force complete named", {
   df <- data.frame(x = 1:3, y = 1:3)
-  expect_named(summarise_at(df, vars(x:y), funs(mean = mean)), c("x_mean", "y_mean"))
-  expect_named(summarise_at(df, vars(x = x), funs(mean, sd)), c("x_mean", "x_sd"))
+  expect_named(summarise_at(df, vars(x:y), list(mean = mean)), c("x_mean", "y_mean"))
+  expect_named(summarise_at(df, vars(x = x), list(mean = mean, sd = sd)), c("x_mean", "x_sd"))
 })
 
 expect_classes <- function(tbl, expected) {
@@ -90,9 +89,9 @@ test_that("predicate can be quoted", {
 })
 
 test_that("transmute verbs do not retain original variables", {
-  expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
 
 test_that("can rename with vars() (#2594)", {
@@ -220,22 +219,22 @@ test_that("*_(all,at) handle utf-8 names (#2967)", {
       setNames(name)
 
     res <- tbl %>%
-      mutate_all(funs(as.character)) %>%
+      mutate_all(list(as.character)) %>%
       names()
     expect_equal(res, name)
 
     res <- tbl %>%
-      mutate_at(name, funs(as.character)) %>%
+      mutate_at(name, list(as.character)) %>%
       names()
     expect_equal(res, name)
 
     res <- tbl %>%
-      summarise_all(funs(as.character)) %>%
+      summarise_all(list(as.character)) %>%
       names()
     expect_equal(res, name)
 
     res <- tbl %>%
-      summarise_at(name, funs(as.character)) %>%
+      summarise_at(name, list(as.character)) %>%
       names()
     expect_equal(res, name)
 
