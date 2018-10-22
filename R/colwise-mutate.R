@@ -11,7 +11,7 @@
 #' @return A data frame. By default, the newly created columns have the shortest
 #'   names needed to uniquely identify the output. To force inclusion of a name,
 #'   even when not needed, name the input (see examples for details).
-#' @seealso [The other scoped verbs][scoped], [vars()], [funs()]
+#' @seealso [The other scoped verbs][scoped], [vars()]
 #'
 #' @section Grouping variables:
 #'
@@ -121,7 +121,7 @@ summarize_at <- summarise_at
 #' @return A data frame. By default, the newly created columns have the shortest
 #'   names needed to uniquely identify the output. To force inclusion of a name,
 #'   even when not needed, name the input (see examples for details).
-#' @seealso [The other scoped verbs][scoped], [vars()], [funs()]
+#' @seealso [The other scoped verbs][scoped], [vars()]
 #'
 #' @section Grouping variables:
 #'

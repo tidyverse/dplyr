@@ -27,6 +27,6 @@ Note that verbs accepting a \code{vars()} specification also accept an
 character vector of column names.
 }
 \seealso{
-\code{\link[=funs]{funs()}}, \code{\link[=all_vars]{all_vars()}} and \code{\link[=any_vars]{any_vars()}} for other quoting
+\code{\link[=all_vars]{all_vars()}} and \code{\link[=any_vars]{any_vars()}} for other quoting
 functions that you can use with scoped verbs.
 }

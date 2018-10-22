@@ -27,6 +27,6 @@ variant takes the intersection of the predicate expressions with
 \code{&} while the \code{any_vars()} variant takes the union with \code{|}.
 }
 \seealso{
-\code{\link[=funs]{funs()}} and \code{\link[=vars]{vars()}} for other quoting functions that you
+\code{\link[=vars]{vars()}} for other quoting functions that you
 can use with scoped verbs.
 }

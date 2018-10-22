@@ -2,7 +2,7 @@
 #'
 #' These [scoped] variants of [distinct()] extract distinct rows by a
 #' selection of variables. Like `distinct()`, you can modify the
-#' variables before ordering with [funs()].
+#' variables before ordering with the `.funs` argument.
 #'
 #' @inheritParams scoped
 #' @export
@@ -22,7 +22,7 @@
 #' # You can supply a function that will be applied before extracting the distinct values
 #' # The variables of the sorted tibble keep their original values.
 #' distinct_all(df, round)
-#' arrange_all(df, funs(round(.)))
+#' arrange_all(df, list(~round(.)))
 distinct_all <- function(.tbl, .funs = list(), ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
