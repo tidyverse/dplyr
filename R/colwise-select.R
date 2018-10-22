@@ -16,8 +16,8 @@
 #' data frames.
 #'
 #' @inheritParams scoped
-#' @param .funs A single expression quoted with [funs()] or within a
-#'   quosure, a string naming a function, or a function.
+#' @param .funs A string naming a function, a function or a list of
+#' objects that can be converted to functions with [rlang::as_function()].
 #'
 #' @section Grouping variables:
 #'
@@ -29,7 +29,7 @@
 #' # Supply a renaming function:
 #' select_all(mtcars, toupper)
 #' select_all(mtcars, "toupper")
-#' select_all(mtcars, funs(toupper(.)))
+#' select_all(mtcars, list(~toupper(.)))
 #'
 #' # Selection drops unselected variables:
 #' is_whole <- function(x) all(floor(x) == x)
