@@ -38,7 +38,7 @@ starwars \%>\%
 # na_if can also be used with scoped variants of mutate
 # like mutate_if to mutate multiple columns
 starwars \%>\%
-  mutate_if(is.character, funs(na_if(., "unknown")))
+  mutate_if(is.character, list(~na_if(., "unknown")))
 }
 \seealso{
 \code{\link[=coalesce]{coalesce()}} to replace missing values with a specified
