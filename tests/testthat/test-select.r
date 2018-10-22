@@ -134,3 +134,22 @@ test_that("can select() or rename() with strings and character vectors", {
   expect_identical(rename(mtcars, !!!vars), rename(mtcars, foo = cyl, bar = am))
   expect_identical(rename(mtcars, !!vars), rename(mtcars, foo = cyl, bar = am))
 })
+
+test_that("select works on empty names (#3601)", {
+  df <- data.frame(x=1, y=2, z=3)
+  colnames(df) <- c("x","y","")
+  expect_identical(select(df, x)$x, 1)
+
+  colnames(df) <- c("","y","z")
+  expect_identical(select(df, y)$y, 2)
+})
+
+test_that("select works on NA names (#3601)", {
+  skip("to be discussed")
+  df <- data.frame(x=1, y=2, z=3)
+  colnames(df) <- c("x","y",NA)
+  expect_identical(select(df, x)$x, 1)
+
+  colnames(df) <- c(NA,"y","z")
+  expect_identical(select(df, y)$y, 2)
+})
