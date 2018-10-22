@@ -421,6 +421,13 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
   }
 }
 
+bool has_no_factors(const std::vector<SEXP>& x) {
+  for (int i = 0; i < x.size(); i++) {
+    if (Rf_inherits(x[i], "factor")) return false;
+  }
+  return true;
+}
+
 SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   const int nvars = vars.size();
 
@@ -448,22 +455,26 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   DataFrameVisitors visitors(data, vars);
 
   boost::shared_ptr<Slicer> s = slicer(std::vector<int>(), 0, visited_data, visitors);
-
   int ncases = s->size();
+  if (ncases == 1 && data.nrow() == 0 && has_no_factors(visited_data)) {
+    ncases = 0;
+  }
 
   // construct the groups data
   List vec_groups(nvars + 1);
   List indices(ncases);
-  ListCollecter indices_collecter(indices);
 
   for (int i = 0; i < nvars; i++) {
     vec_groups[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
     copy_most_attributes(vec_groups[i], visited_data[i]);
   }
+  ListCollecter indices_collecter(indices);
+  if (ncases > 0) {
+    s->make(vec_groups, indices_collecter);
+  }
 
   vec_groups[nvars] = indices;
   groups_names[nvars] = ".rows";
-  s->make(vec_groups, indices_collecter);
 
   // warn about NA in factors
   for (int i = 0; i < nvars; i++) {
