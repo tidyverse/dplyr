@@ -369,8 +369,7 @@ summarise_each_ <- function(tbl, funs, vars) {
   if (is_character(funs)) {
     funs <- funs_(funs)
   }
-
-  funs <- manip_apply_syms(funs, syms(vars), tbl)
+  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env())
   summarise(tbl, !!!funs)
 }
 
@@ -401,7 +400,7 @@ mutate_each_ <- function(tbl, funs, vars) {
       vars <- unname(vars)
     }
   }
-  funs <- manip_apply_syms(funs, syms(vars), tbl)
+  funs <- manip_at(tbl, vars, funs, enquo(funs), caller_env())
   mutate(tbl, !!!funs)
 }
 
