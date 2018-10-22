@@ -73,6 +73,16 @@
 #' by_cyl %>%
 #'   group_by(vs, am, add = TRUE) %>%
 #'   group_vars()
+#'
+#' # when factors are involved, groups can be empty
+#' tbl <- tibble(
+#'   x = 1:10,
+#'   y = factor(rep(c("a", "c"), each  = 5), levels = c("a", "b", "c"))
+#' )
+#' tbl %>%
+#'   group_by(y) %>%
+#'   group_rows()
+#'
 group_by <- function(.data, ..., add = FALSE) {
   UseMethod("group_by")
 }
