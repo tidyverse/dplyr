@@ -133,23 +133,6 @@ test_that("filter_ works", {
   )
 })
 
-test_that("funs_ works", {
-  expect_equal(
-    funs(mean),
-    funs_(list(~ mean))
-  )
-
-  expect_equal(
-    funs_(list("mean")),
-    funs_(list(`environment<-`(~ mean, baseenv())))
-  )
-
-  expect_equal(
-    funs(mean(.)),
-    funs_(list(~ mean(.)))
-  )
-})
-
 test_that("group_by_ works", {
   expect_equal(
     group_by_(df, ~ a),

@@ -23,7 +23,7 @@ test_that("aborts on empty selection", {
   )
 })
 
-test_that("aborts when supplied funs()", {
+test_that("aborts when supplied list", {
   expect_error(
     filter_all(mtcars, list(~. > 0)),
     "`.vars_predicate` must be a call to `all_vars()` or `any_vars()`, not list",

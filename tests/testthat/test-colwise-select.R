@@ -26,9 +26,9 @@ test_that("can select/rename with predicate", {
   expect_identical(rename_if(df, is_integerish, toupper), set_names(df, c("X", "y", "Z")))
 })
 
-test_that("can supply funs()", {
-  expect_identical(select_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df[c("x", "z")], c("X", "Z")))
-  expect_identical(rename_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df, c("X", "y", "Z")))
+test_that("can supply lambdas", {
+  expect_identical(select_if(df, list(~is_integerish(.)), list(~toupper(.))), set_names(df[c("x", "z")], c("X", "Z")))
+  expect_identical(rename_if(df, list(~is_integerish(.)), list(~toupper(.))), set_names(df, c("X", "y", "Z")))
 })
 
 test_that("fails when more than one renaming function is supplied", {
