@@ -37,7 +37,7 @@ functions and strings representing function names.}
 \description{
 These \link{scoped} variants of \code{\link[=arrange]{arrange()}} sort a data frame by a
 selection of variables. Like \code{\link[=arrange]{arrange()}}, you can modify the
-variables before ordering with \code{\link[=funs]{funs()}}.
+variables before ordering with the \code{.funs} argument.
 }
 \section{Grouping variables}{
 
@@ -55,5 +55,5 @@ arrange_all(df)
 # ordering of the variables. The variables of the sorted tibble
 # keep their original values.
 arrange_all(df, desc)
-arrange_all(df, funs(desc(.)))
+arrange_all(df, list(~desc(.)))
 }

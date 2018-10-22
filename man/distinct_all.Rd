@@ -34,7 +34,7 @@ functions and strings representing function names.}
 \description{
 These \link{scoped} variants of \code{\link[=distinct]{distinct()}} extract distinct rows by a
 selection of variables. Like \code{distinct()}, you can modify the
-variables before ordering with \code{\link[=funs]{funs()}}.
+variables before ordering with the \code{.funs} argument.
 }
 \section{Grouping variables}{
 
@@ -53,5 +53,5 @@ distinct_if(df, is.numeric)
 # You can supply a function that will be applied before extracting the distinct values
 # The variables of the sorted tibble keep their original values.
 distinct_all(df, round)
-arrange_all(df, funs(round(.)))
+arrange_all(df, list(~round(.)))
 }
