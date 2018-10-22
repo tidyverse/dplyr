@@ -192,11 +192,11 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
     .tbl <- collect(.tbl, n = 100)
   }
 
-  if (is_list(.p)) {
+  if (is_fun_list(.p)) {
     if (length(.p) != 1) {
       bad_args(".predicate", "must have length 1, not {length(.p)}")
     }
-    .p <- as_function(.p[[1]])
+    .p <- .p[[1]]
   }
   if (is_quosure(.p)) {
     .p <- quo_as_function(.p)

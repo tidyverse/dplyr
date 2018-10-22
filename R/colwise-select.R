@@ -65,6 +65,7 @@ rename_all <- function(.tbl, .funs = list(), ...) {
 #' @export
 select_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  .predicate <- as_fun_list(.predicate, enquo(.predicate), caller_env())
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
@@ -73,6 +74,7 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @export
 rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  .predicate <- as_fun_list(.predicate, enquo(.predicate), caller_env())
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)
