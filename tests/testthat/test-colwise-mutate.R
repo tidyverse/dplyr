@@ -105,7 +105,7 @@ test_that("selection works with grouped data frames (#2624)", {
 
 test_that("at selection works even if not all ops are named (#2634)", {
   df <- tibble(x = 1, y = 2)
-  expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
+  expect_identical(mutate_at(df, vars(z = x, y), list(~. + 1)), tibble(x = 1, y = 3, z = 2))
 })
 
 test_that("can use a purrr-style lambda", {
@@ -176,26 +176,26 @@ test_that("summarise_at removes grouping variables (#3613)", {
 test_that("_each() and _all() families agree", {
   df <- data.frame(x = 1:3, y = 1:3)
 
-  expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
-  expect_equal(summarise_each(df, funs(mean), x), summarise_at(df, vars(x), mean))
-  expect_equal(summarise_each(df, funs(mean = mean), x), summarise_at(df, vars(x), funs(mean = mean)))
-  expect_equal(summarise_each(df, funs(mean = mean), x:y), summarise_at(df, vars(x:y), funs(mean = mean)))
-  expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
-  expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
+  expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))
+  expect_equal(summarise_each(df, list(mean), x), summarise_at(df, vars(x), mean))
+  expect_equal(summarise_each(df, list(mean = mean), x), summarise_at(df, vars(x), list(mean = mean)))
+  expect_equal(summarise_each(df, list(mean = mean), x:y), summarise_at(df, vars(x:y), list(mean = mean)))
+  expect_equal(summarise_each(df, list(mean), x:y), summarise_at(df, vars(x:y), mean))
+  expect_equal(summarise_each(df, list(mean), z = y), summarise_at(df, vars(z = y), mean))
 
-  expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
-  expect_equal(mutate_each(df, funs(mean), x), mutate_at(df, vars(x), mean))
-  expect_equal(mutate_each(df, funs(mean = mean), x), mutate_at(df, vars(x), funs(mean = mean)))
-  expect_equal(mutate_each(df, funs(mean = mean), x:y), mutate_at(df, vars(x:y), funs(mean = mean)))
-  expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
-  expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
+  expect_equal(mutate_each(df, list(mean)), mutate_all(df, mean))
+  expect_equal(mutate_each(df, list(mean), x), mutate_at(df, vars(x), mean))
+  expect_equal(mutate_each(df, list(mean = mean), x), mutate_at(df, vars(x), list(mean = mean)))
+  expect_equal(mutate_each(df, list(mean = mean), x:y), mutate_at(df, vars(x:y), list(mean = mean)))
+  expect_equal(mutate_each(df, list(mean), x:y), mutate_at(df, vars(x:y), mean))
+  expect_equal(mutate_each(df, list(mean), z = y), mutate_at(df, vars(z = y), mean))
 })
 
 test_that("specific directions are given for _all() and _at() versions", {
-  summarise_each(mtcars, funs(mean))
-  summarise_each(mtcars, funs(mean), cyl)
-  mutate_each(mtcars, funs(mean))
-  mutate_each(mtcars, funs(mean), cyl)
+  summarise_each(mtcars, list(mean))
+  summarise_each(mtcars, list(mean), cyl)
+  mutate_each(mtcars, list(mean))
+  mutate_each(mtcars, list(mean), cyl)
 })
 
 test_that("group_by_(at,all) handle utf-8 names (#3829)", {
