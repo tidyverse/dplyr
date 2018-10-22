@@ -15,8 +15,7 @@ arrange_if(.tbl, .predicate, .funs = list(), ..., .by_group = FALSE)
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
 
-\item{.funs}{A character vector of function names, a single function, or
-a list of objects that can be converted to functions using \code{\link[rlang:as_function]{rlang::as_function()}}.}
+\item{.funs}{A function \code{fun}, a quosure style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
 \code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}

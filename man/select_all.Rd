@@ -24,8 +24,7 @@ rename_at(.tbl, .vars, .funs = list(), ...)
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
 
-\item{.funs}{A string naming a function, a function or a list of
-objects that can be converted to functions with \code{\link[rlang:as_function]{rlang::as_function()}}.}
+\item{.funs}{A function \code{fun}, a purrr style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
 \code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}

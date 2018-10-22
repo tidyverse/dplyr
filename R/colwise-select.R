@@ -16,8 +16,7 @@
 #' data frames.
 #'
 #' @inheritParams scoped
-#' @param .funs A string naming a function, a function or a list of
-#' objects that can be converted to functions with [rlang::as_function()].
+#' @param .funs A function `fun`, a purrr style lambda `~ fun(.)` or a list of either form.
 #'
 #' @section Grouping variables:
 #'
