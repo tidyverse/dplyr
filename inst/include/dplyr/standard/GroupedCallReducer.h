@@ -402,8 +402,13 @@ private:
     return processor->get();
   }
 
-  static SEXP get_processed_empty() {
-    return LogicalVector(0, NA_LOGICAL);
+  SEXP get_processed_empty() {
+    SEXP res = PROTECT(chunk_source.process_chunk(typename SlicedTibble::slicing_index()));
+    // recycle res 0 times
+    SEXP out = PROTECT(Rf_allocVector(TYPEOF(res), 0));
+    copy_attributes(out, res);
+    UNPROTECT(2);
+    return out;
   }
 
 private:

@@ -20,7 +20,15 @@ public:
 // It is used in grouped operations (group_by()).
 class GroupedSlicingIndex : public SlicingIndex {
 public:
-  GroupedSlicingIndex(): data(), group_index(-1) {}
+  GroupedSlicingIndex(): data(), group_index(-1) {
+    R_PreserveObject(data);
+  }
+
+  ~GroupedSlicingIndex() {
+    if (group_index == -1) {
+      R_ReleaseObject(data);
+    }
+  }
 
   GroupedSlicingIndex(SEXP data_, int group_) : data(data_), group_index(group_) {}
 
@@ -41,7 +49,13 @@ public:
   }
 
 private:
+  // in general we don't need to protect data because
+  // it is already protected by the .rows column of the grouped_df
+  //
+  // but we do when using the default constructor, hence the
+  // R_PreserveObject / R_ReleaseObject above
   Rcpp::IntegerVectorView data;
+
   int group_index;
 };
 

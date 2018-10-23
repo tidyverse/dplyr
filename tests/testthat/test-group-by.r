@@ -357,9 +357,7 @@ test_that("summarise handles grouped tibble with 0 groups (#3935)", {
   expect_equal(nrow(res), 0L)
   expect_equal(res$y, double())
   expect_equal(res$n, integer())
-
-  # TODO:
-  # expect_equal(res$z, double())
+  expect_equal(res$z, double())
 })
 
 test_that("filter handles grouped tibble with 0 groups (#3935)", {
