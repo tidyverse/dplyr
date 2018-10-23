@@ -63,6 +63,9 @@ whereas the latter keeps rows with \code{mass} greater than the gender
 average.
 
 It is valid to use grouping variables in filter expressions.
+
+When applied on a grouped tibble, \code{filter()} automatically \link[=arrange]{rearranges}
+the tibble by groups for performance reasons.
 }
 
 \section{Tidy data}{

@@ -38,6 +38,9 @@
 #'
 #' It is valid to use grouping variables in filter expressions.
 #'
+#' When applied on a grouped tibble, `filter()` automatically [rearranges][arrange]
+#' the tibble by groups for performance reasons.
+#'
 #' @section Tidy data:
 #' When applied to a data frame, row names are silently dropped. To preserve,
 #' convert to an explicit variable with [tibble::rownames_to_column()].
