@@ -7,7 +7,7 @@ nest_by_impl <- function(.data, key_var){
     mutate(!!key_var := map(.data$.rows, function(.x) to_nest[.x,, drop = FALSE])) %>%
     select(-".rows")
 
-  attr(out[[key_var]], "model") <- to_nest[integer(), , drop = FALSE]
+  attr(out[[key_var]], "ptype") <- to_nest[integer(), , drop = FALSE]
   out
 }
 
