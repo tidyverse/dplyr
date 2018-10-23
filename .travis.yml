@@ -17,6 +17,7 @@ jobs:
     warnings_are_errors: false
   - r: 3.1
     warnings_are_errors: false
+    env: R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
 
 matrix:
   fast_finish: true
