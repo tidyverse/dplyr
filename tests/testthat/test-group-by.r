@@ -337,3 +337,43 @@ test_that("group_cols() selects grouping variables", {
   expect_identical(select(group_by(mtcars, cyl, am), group_cols()), group_by_all(select(mtcars, cyl, am)))
   expect_identical(mutate_at(group_by(iris, Species), vars(-group_cols()), `/`, 100), mutate_all(group_by(iris, Species), `/`, 100))
 })
+
+# Zero groups ---------------------------------------------------
+
+test_that("mutate handles grouped tibble with 0 groups (#3935)", {
+  df <- tibble(x=integer()) %>% group_by(x)
+  res <- mutate(df, y = mean(x), z = +mean(x), n = n())
+  expect_equal(names(res), c("x", "y", "z", "n"))
+  expect_equal(nrow(res), 0L)
+  expect_equal(res$y, double())
+  expect_equal(res$z, double())
+  expect_equal(res$n, integer())
+})
+
+test_that("summarise handles grouped tibble with 0 groups (#3935)", {
+  df <- tibble(x=integer()) %>% group_by(x)
+  res <- summarise(df, y = mean(x), z = +mean(x), n = n())
+  expect_equal(names(res), c("x", "y", "z", "n"))
+  expect_equal(nrow(res), 0L)
+  expect_equal(res$y, double())
+  expect_equal(res$n, integer())
+  expect_equal(res$z, double())
+})
+
+test_that("filter handles grouped tibble with 0 groups (#3935)", {
+  df <- tibble(x=integer()) %>% group_by(x)
+  res <- filter(df, x > 3L)
+  expect_identical(df, res)
+})
+
+test_that("select handles grouped tibble with 0 groups (#3935)", {
+  df <- tibble(x=integer()) %>% group_by(x)
+  res <- select(df, x)
+  expect_identical(df, res)
+})
+
+test_that("arrange handles grouped tibble with 0 groups (#3935)", {
+  df <- tibble(x=integer()) %>% group_by(x)
+  res <- arrange(df, x)
+  expect_identical(df, res)
+})

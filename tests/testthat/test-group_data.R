@@ -30,11 +30,11 @@ test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
   df <- tibble(x=integer())
   expect_identical(group_rows(df), list(integer()))
   expect_identical(group_rows(rowwise(df)), list())
-  expect_identical(group_rows(group_by(df, x)), list(integer()))
+  expect_identical(group_rows(group_by(df, x)), list())
 
   expect_identical(group_data(df), tibble(.rows = list(integer())))
   expect_identical(group_data(rowwise(df)), tibble(.rows =list()))
-  expect_identical(group_data(group_by(df, x)), tibble(x = NA_integer_, .rows = list(integer())))
+  expect_identical(group_data(group_by(df, x)), tibble(x = integer(), .rows = list()))
 })
 
 test_that("GroupDataFrame checks the structure of the groups attribute", {

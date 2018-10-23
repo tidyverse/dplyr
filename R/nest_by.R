@@ -2,10 +2,13 @@
 nest_by_impl <- function(.data, key_var){
   to_nest <- select(ungroup(.data), setdiff(tbl_vars(.data), group_vars(.data)))
 
-  .data %>%
+  out <- .data %>%
     group_data() %>%
     mutate(!!key_var := map(.data$.rows, function(.x) to_nest[.x,, drop = FALSE])) %>%
     select(-".rows")
+
+  attr(out[[key_var]], "ptype") <- to_nest[integer(), , drop = FALSE]
+  out
 }
 
 #' Nest by one or more variables
