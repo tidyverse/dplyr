@@ -1,6 +1,7 @@
 #ifndef dplyr_tools_SymbolVector_h
 #define dplyr_tools_SymbolVector_h
 
+#include <Rcpp.h>
 #include <tools/SymbolString.h>
 #include <tools/match.h>
 
@@ -8,13 +9,14 @@ namespace dplyr {
 
 class SymbolVector {
 public:
+
   SymbolVector() {}
 
   template <class T>
   explicit SymbolVector(T v_) : v(v_) {}
 
   explicit SymbolVector(SEXP x) : v(init(x)) {}
-  explicit SymbolVector(RObject x) : v(init(x)) {}
+  explicit SymbolVector(Rcpp::RObject x) : v(init(x)) {}
 
 public:
   void push_back(const SymbolString& s) {
@@ -38,29 +40,48 @@ public:
   }
 
   int match(const SymbolString& s) const {
-    CharacterVector vs = CharacterVector::create(s.get_string());
-    return as<int>(match(vs));
+    Rcpp::CharacterVector vs = Rcpp::CharacterVector::create(s.get_string());
+    return Rcpp::as<int>(match(vs));
   }
 
-  const IntegerVector match(const CharacterVector& m) const {
+  const Rcpp::IntegerVector match(const Rcpp::CharacterVector& m) const {
     return r_match(m, v);
   }
 
-  const IntegerVector match_in_table(const CharacterVector& t) const {
+  const Rcpp::IntegerVector match_in_table(const Rcpp::CharacterVector& t) const {
     return r_match(v, t);
   }
 
-  const CharacterVector get_vector() const {
+  const Rcpp::CharacterVector get_vector() const {
     return v;
   }
 
 private:
-  CharacterVector v;
+  Rcpp::CharacterVector v;
+
   SEXP init(SEXP x) {
-    if (Rf_isNull(x))
-      return CharacterVector();
-    else
+    switch (TYPEOF(x)) {
+    case NILSXP:
+      return Rcpp::CharacterVector();
+    case STRSXP:
       return x;
+    case VECSXP:
+    {
+      R_xlen_t n = XLENGTH(x);
+      Rcpp::CharacterVector res(n);
+      for (R_xlen_t i = 0; i < n; i++) {
+        SEXP elt = VECTOR_ELT(x, i);
+        if (TYPEOF(elt) != SYMSXP) {
+          Rcpp::stop("cannot convert to SymbolVector");
+        }
+        res[i] = PRINTNAME(elt);
+      }
+      return res;
+    }
+    default:
+      break;
+    }
+    return x;
   }
 };
 

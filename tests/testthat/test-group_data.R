@@ -62,4 +62,14 @@ test_that("GroupedDataFrame is compatible with older style grouped_df (#3604)", 
   attr(df, "vars") <- "g"
   attr(df, "class") <- c("grouped_df", "tbl_df", "tbl", "data.frame")
   expect_equal(group_rows(df), list(1:2, 3:4))
+
+  df <- structure(
+    data.frame(x=1),
+    class = c("grouped_df", "tbl_df", "tbl", "data.frame"),
+    vars = list(sym("x"))
+  )
+  g <- expect_warning(group_data(df))
+  expect_identical(g, tibble(x = 1, .rows = list(1L)))
+  expect_null(attr(df, "vars"))
 })
+

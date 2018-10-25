@@ -501,8 +501,12 @@ SEXP check_grouped(RObject data) {
   SEXP vars = Rf_getAttrib(data, symbols::vars);
 
   if (!Rf_isNull(vars)) {
+    Rcpp::warning("Detecting old grouped_df format, replacing `vars` attribute by `groups`");
     DataFrame groups = build_index_cpp(data, SymbolVector(vars));
     data.attr("groups") = groups;
+    data.attr("vars") = R_NilValue;
+    data.attr("indices") = R_NilValue;
+    data.attr("labels") = R_NilValue;
   }
 
   // get the groups attribute and check for consistency
