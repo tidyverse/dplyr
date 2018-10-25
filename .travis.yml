@@ -5,7 +5,7 @@ sudo: false
 dist: trusty
 cache: packages
 latex: false
-fortran:false
+fortran: false
 
 jobs:
   include:
