@@ -84,3 +84,19 @@ test_that("as_fun_list() uses rlang auto-naming", {
   expect_true(all(grepl("^<", nms)))
 })
 
+test_that("funs_ works", {
+  expect_equal(
+    funs(mean),
+    funs_(list(~ mean))
+  )
+
+  expect_equal(
+    funs_(list("mean")),
+    funs_(list(`environment<-`(~ mean, baseenv())))
+  )
+
+  expect_equal(
+    funs(mean(.)),
+    funs_(list(~ mean(.)))
+  )
+})

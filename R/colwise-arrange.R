@@ -2,7 +2,7 @@
 #'
 #' These [scoped] variants of [arrange()] sort a data frame by a
 #' selection of variables. Like [arrange()], you can modify the
-#' variables before ordering with [funs()].
+#' variables before ordering with the `.funs` argument.
 #'
 #' @inheritParams scoped
 #' @inheritParams arrange
@@ -22,7 +22,7 @@
 #' # ordering of the variables. The variables of the sorted tibble
 #' # keep their original values.
 #' arrange_all(df, desc)
-#' arrange_all(df, funs(desc(.)))
+#' arrange_all(df, list(~desc(.)))
 arrange_all <- function(.tbl, .funs = list(), ..., .by_group = FALSE) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {

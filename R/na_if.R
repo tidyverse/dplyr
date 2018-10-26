@@ -33,7 +33,7 @@
 #' # na_if can also be used with scoped variants of mutate
 #' # like mutate_if to mutate multiple columns
 #' starwars %>%
-#'   mutate_if(is.character, funs(na_if(., "unknown")))
+#'   mutate_if(is.character, list(~na_if(., "unknown")))
 na_if <- function(x, y) {
   check_length(y, x, fmt_args("y"), glue("same as {fmt_args(~x)}"))
 

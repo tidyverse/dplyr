@@ -16,8 +16,7 @@
 #' data frames.
 #'
 #' @inheritParams scoped
-#' @param .funs A single expression quoted with [funs()] or within a
-#'   quosure, a string naming a function, or a function.
+#' @param .funs A function `fun`, a purrr style lambda `~ fun(.)` or a list of either form.
 #'
 #' @section Grouping variables:
 #'
@@ -29,7 +28,7 @@
 #' # Supply a renaming function:
 #' select_all(mtcars, toupper)
 #' select_all(mtcars, "toupper")
-#' select_all(mtcars, funs(toupper(.)))
+#' select_all(mtcars, list(~toupper(.)))
 #'
 #' # Selection drops unselected variables:
 #' is_whole <- function(x) all(floor(x) == x)
@@ -65,6 +64,7 @@ rename_all <- function(.tbl, .funs = list(), ...) {
 #' @export
 select_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  .predicate <- as_fun_list(.predicate, enquo(.predicate), caller_env())
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)
@@ -73,6 +73,7 @@ select_if <- function(.tbl, .predicate, .funs = list(), ...) {
 #' @export
 rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  .predicate <- as_fun_list(.predicate, enquo(.predicate), caller_env())
   vars <- tbl_if_vars(.tbl, .predicate, caller_env(), .include_group_vars = TRUE)
   syms <- vars_select_syms(vars, funs, .tbl, strict = TRUE)
   rename(.tbl, !!!syms)

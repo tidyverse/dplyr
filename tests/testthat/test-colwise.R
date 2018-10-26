@@ -19,4 +19,12 @@ test_that("tbl_if_vars() errs on bad input", {
     "`.predicate` must have length 1, not 2",
     fixed = TRUE
   )
+
+  .funs <- list(identity, force)
+  .funs <- as_fun_list(.funs, enquo(.funs), caller_env())
+  expect_error(
+    tbl_if_vars(iris, .funs, environment()),
+    "`.predicate` must have length 1, not 2",
+    fixed = TRUE
+  )
 })

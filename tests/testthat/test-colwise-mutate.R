@@ -6,6 +6,10 @@ test_that("funs found in current environment", {
 
   out <- summarise_all(df, funs(f, mean, median))
   expect_equal(out, data.frame(f = 1, mean = 105.4, median = 6.5))
+
+  out <- summarise_all(df, list(f = f, mean = mean, median = median))
+  expect_equal(out, data.frame(f = 1, mean = 105.4, median = 6.5))
+  # TODO: expect_error(summarise_all(df, list(f, mean, median)))
 })
 
 test_that("can use character vectors", {
@@ -13,6 +17,9 @@ test_that("can use character vectors", {
 
   expect_equal(summarise_all(df, "mean"), summarise_all(df, funs(mean)))
   expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, funs(mean = mean)))
+
+  expect_equal(summarise_all(df, "mean"), summarise_all(df, list(mean)))
+  expect_equal(mutate_all(df, list(mean = "mean")), mutate_all(df, list(mean = mean)))
 })
 
 test_that("can use bare functions", {
@@ -20,6 +27,9 @@ test_that("can use bare functions", {
 
   expect_equal(summarise_all(df, mean), summarise_all(df, funs(mean)))
   expect_equal(mutate_all(df, mean), mutate_all(df, funs(mean)))
+
+  expect_equal(summarise_all(df, mean), summarise_all(df, list(mean)))
+  expect_equal(mutate_all(df, mean), mutate_all(df, list(mean)))
 })
 
 test_that("default names are smallest unique set", {
@@ -29,12 +39,19 @@ test_that("default names are smallest unique set", {
   expect_named(summarise_at(df, vars(x), funs(mean, sd)), c("mean", "sd"))
   expect_named(summarise_at(df, vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
   expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
+
+  expect_named(summarise_at(df, vars(x:y), list(mean)), c("x", "y"))
+  expect_named(summarise_at(df, vars(x), list(mean = mean, sd = sd)), c("mean", "sd"))
+  expect_named(summarise_at(df, vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
 
 test_that("named arguments force complete named", {
   df <- data.frame(x = 1:3, y = 1:3)
   expect_named(summarise_at(df, vars(x:y), funs(mean = mean)), c("x_mean", "y_mean"))
-  expect_named(summarise_at(df, vars(x = x), funs(mean, sd)), c("x_mean", "x_sd"))
+  expect_named(summarise_at(df, vars(x = x), funs(mean = mean, sd = sd)), c("x_mean", "x_sd"))
+
+  expect_named(summarise_at(df, vars(x:y), list(mean = mean)), c("x_mean", "y_mean"))
+  expect_named(summarise_at(df, vars(x = x), list(mean = mean, sd = sd)), c("x_mean", "x_sd"))
 })
 
 expect_classes <- function(tbl, expected) {
@@ -93,6 +110,10 @@ test_that("transmute verbs do not retain original variables", {
   expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
   expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
   expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+
+  expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
 
 test_that("can rename with vars() (#2594)", {
@@ -107,6 +128,7 @@ test_that("selection works with grouped data frames (#2624)", {
 test_that("at selection works even if not all ops are named (#2634)", {
   df <- tibble(x = 1, y = 2)
   expect_identical(mutate_at(df, vars(z = x, y), funs(. + 1)), tibble(x = 1, y = 3, z = 2))
+  expect_identical(mutate_at(df, vars(z = x, y), list(~. + 1)), tibble(x = 1, y = 3, z = 2))
 })
 
 test_that("can use a purrr-style lambda", {
@@ -184,19 +206,40 @@ test_that("_each() and _all() families agree", {
   expect_equal(summarise_each(df, funs(mean), x:y), summarise_at(df, vars(x:y), mean))
   expect_equal(summarise_each(df, funs(mean), z = y), summarise_at(df, vars(z = y), mean))
 
+  expect_equal(summarise_each(df, list(mean)), summarise_all(df, mean))
+  expect_equal(summarise_each(df, list(mean), x), summarise_at(df, vars(x), mean))
+  expect_equal(summarise_each(df, list(mean = mean), x), summarise_at(df, vars(x), list(mean = mean)))
+  expect_equal(summarise_each(df, list(mean = mean), x:y), summarise_at(df, vars(x:y), list(mean = mean)))
+  expect_equal(summarise_each(df, list(mean), x:y), summarise_at(df, vars(x:y), mean))
+  expect_equal(summarise_each(df, list(mean), z = y), summarise_at(df, vars(z = y), mean))
+
   expect_equal(mutate_each(df, funs(mean)), mutate_all(df, mean))
   expect_equal(mutate_each(df, funs(mean), x), mutate_at(df, vars(x), mean))
   expect_equal(mutate_each(df, funs(mean = mean), x), mutate_at(df, vars(x), funs(mean = mean)))
   expect_equal(mutate_each(df, funs(mean = mean), x:y), mutate_at(df, vars(x:y), funs(mean = mean)))
   expect_equal(mutate_each(df, funs(mean), x:y), mutate_at(df, vars(x:y), mean))
   expect_equal(mutate_each(df, funs(mean), z = y), mutate_at(df, vars(z = y), mean))
+
+  expect_equal(mutate_each(df, list(mean)), mutate_all(df, mean))
+  expect_equal(mutate_each(df, list(mean), x), mutate_at(df, vars(x), mean))
+  expect_equal(mutate_each(df, list(mean = mean), x), mutate_at(df, vars(x), list(mean = mean)))
+  expect_equal(mutate_each(df, list(mean = mean), x:y), mutate_at(df, vars(x:y), list(mean = mean)))
+  expect_equal(mutate_each(df, list(mean), x:y), mutate_at(df, vars(x:y), mean))
+  expect_equal(mutate_each(df, list(mean), z = y), mutate_at(df, vars(z = y), mean))
 })
 
 test_that("specific directions are given for _all() and _at() versions", {
   summarise_each(mtcars, funs(mean))
   summarise_each(mtcars, funs(mean), cyl)
+
+  summarise_each(mtcars, list(mean))
+  summarise_each(mtcars, list(mean), cyl)
+
   mutate_each(mtcars, funs(mean))
   mutate_each(mtcars, funs(mean), cyl)
+
+  mutate_each(mtcars, list(mean))
+  mutate_each(mtcars, list(mean), cyl)
 })
 
 test_that("group_by_(at,all) handle utf-8 names (#3829)", {
@@ -236,6 +279,26 @@ test_that("*_(all,at) handle utf-8 names (#2967)", {
 
     res <- tbl %>%
       summarise_at(name, funs(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      mutate_all(list(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      mutate_at(name, list(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      summarise_all(list(as.character)) %>%
+      names()
+    expect_equal(res, name)
+
+    res <- tbl %>%
+      summarise_at(name, list(as.character)) %>%
       names()
     expect_equal(res, name)
 

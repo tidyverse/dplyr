@@ -24,8 +24,7 @@ rename_at(.tbl, .vars, .funs = list(), ...)
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
 
-\item{.funs}{A single expression quoted with \code{\link[=funs]{funs()}} or within a
-quosure, a string naming a function, or a function.}
+\item{.funs}{A function \code{fun}, a purrr style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
 \code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
@@ -66,7 +65,7 @@ if not included in the selection.
 # Supply a renaming function:
 select_all(mtcars, toupper)
 select_all(mtcars, "toupper")
-select_all(mtcars, funs(toupper(.)))
+select_all(mtcars, list(~toupper(.)))
 
 # Selection drops unselected variables:
 is_whole <- function(x) all(floor(x) == x)

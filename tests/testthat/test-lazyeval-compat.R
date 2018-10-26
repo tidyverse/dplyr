@@ -18,7 +18,13 @@ test_that("mutate_each_() and summarise_each_() handle lazydots", {
   cyl_chr <- mutate_each_(mtcars, funs(as.character), "cyl")$cyl
   expect_identical(cyl_chr, as.character(mtcars$cyl))
 
+  cyl_chr <- mutate_each_(mtcars, list(as.character), "cyl")$cyl
+  expect_identical(cyl_chr, as.character(mtcars$cyl))
+
   cyl_mean <- summarise_each_(mtcars, funs(mean), "cyl")$cyl
+  expect_equal(cyl_mean, mean(mtcars$cyl))
+
+  cyl_mean <- summarise_each_(mtcars, list(mean), "cyl")$cyl
   expect_equal(cyl_mean, mean(mtcars$cyl))
 })
 
