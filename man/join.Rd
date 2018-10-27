@@ -10,11 +10,13 @@
 \alias{anti_join}
 \title{Join two tbls together}
 \usage{
-inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
+  ...)
 
 left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
-right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
+  ...)
 
 full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
