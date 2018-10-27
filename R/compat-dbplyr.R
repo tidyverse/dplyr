@@ -28,8 +28,8 @@ wrap_dbplyr_obj <- function(obj_name) {
   obj <- getExportedValue("dbplyr", obj_name)
   obj_sym <- sym(obj_name)
 
-  dbplyr_sym <- lang("::", quote(dbplyr), obj_sym)
-  dplyr_sym <- lang("::", quote(dplyr), obj_sym)
+  dbplyr_sym <- call("::", quote(dbplyr), obj_sym)
+  dplyr_sym <- call("::", quote(dplyr), obj_sym)
 
   if (is.function(obj)) {
     args <- formals()

@@ -116,6 +116,15 @@ test_that("ungrouped do evaluates args in correct environment", {
   expect_equal(f(100)$a, list(100))
 })
 
+# Rowwise data frames ----------------------------------------------------------
+
+test_that("can do on rowwise dataframe", {
+  out <- mtcars %>% rowwise() %>% do(x = 1)
+  exp <- tibble(x =rep(list(1), nrow(mtcars))) %>% rowwise()
+  expect_identical(out, exp)
+})
+
+
 # Zero row inputs --------------------------------------------------------------
 
 test_that("empty data frames give consistent outputs", {

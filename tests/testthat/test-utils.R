@@ -14,6 +14,6 @@ test_that("check_pkg() gives correct error message", {
 
 test_that("get_vars() handles list of symbols as vars attribute", {
   gdf <- group_by(tibble(g = 1:2), g)
-  gdf <- set_attrs(gdf, vars = list(sym("g")))
+  gdf <- structure(gdf, vars = list(sym("g")))
   expect_identical(test_grouped_df(gdf), gdf)
 })

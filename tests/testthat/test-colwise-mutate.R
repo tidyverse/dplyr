@@ -74,7 +74,7 @@ test_that("non syntactic colnames work", {
 })
 
 test_that("empty selection does not select everything (#2009, #1989)", {
-  expect_equal(mtcars, mutate_if(mtcars, is.factor, as.character))
+  expect_equal(mutate(mtcars), mutate_if(mtcars, is.factor, as.character))
 })
 
 test_that("error is thrown with improper additional arguments", {

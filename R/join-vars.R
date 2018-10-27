@@ -52,7 +52,7 @@ add_suffixes <- function(x, y, suffix) {
     return(x)
   }
 
-  out <- chr_along(x)
+  out <- rep_along(x, na_chr)
   for (i in seq_along(x)) {
     nm <- x[[i]]
     while (nm %in% y || nm %in% out) {

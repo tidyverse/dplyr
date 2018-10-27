@@ -15,7 +15,7 @@ node_walk_replace <- function(node, old, new) {
   while (!is_null(node)) {
     switch_expr(node_car(node),
       language = node_walk_replace(node_cdar(node), old, new),
-      symbol = if (identical(node_car(node), old)) mut_node_car(node, new)
+      symbol = if (identical(node_car(node), old)) node_poke_car(node, new)
     )
     node <- node_cdr(node)
   }
@@ -34,7 +34,7 @@ expr_substitute <- function(expr, old, new) {
 sym_dollar <- quote(`$`)
 sym_brackets2 <- quote(`[[`)
 is_data_pronoun <- function(expr) {
-  is_lang(expr, list(sym_dollar, sym_brackets2)) &&
+  is_call(expr, list(sym_dollar, sym_brackets2)) &&
     identical(node_cadr(expr), quote(.data))
 }
 tidy_text <- function(quo, width = 60L) {
@@ -46,6 +46,7 @@ tidy_text <- function(quo, width = 60L) {
   }
 }
 named_quos <- function(...) {
+  scoped_options(lifecycle_disable_verbose_retirement = TRUE)
   quos <- quos(...)
   exprs_auto_name(quos, printer = tidy_text)
 }

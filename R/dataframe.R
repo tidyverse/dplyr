@@ -224,18 +224,17 @@ do.data.frame <- function(.data, ...) {
   args <- quos(...)
   named <- named_args(args)
 
-  # Create custom dynamic scope with `.` pronoun
-  # FIXME: Pass without splicing once child_env() calls env_bind()
-  # with explicit arguments
-  overscope <- child_env(NULL, !!!list(. = .data, .data = .data))
+  # Create custom data mask with `.` pronoun
+  mask <- new_data_mask(new_environment())
+  env_bind_do_pronouns(mask, .data)
 
   if (!named) {
-    out <- overscope_eval_next(overscope, args[[1]])
+    out <- eval_tidy(args[[1]], mask)
     if (!inherits(out, "data.frame")) {
       bad("Result must be a data frame, not {fmt_classes(out)}")
     }
   } else {
-    out <- map(args, function(arg) list(overscope_eval_next(overscope, arg)))
+    out <- map(args, function(arg) list(eval_tidy(arg, mask)))
     names(out) <- names(args)
     out <- tibble::as_tibble(out, validate = FALSE)
   }
