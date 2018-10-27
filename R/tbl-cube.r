@@ -187,7 +187,7 @@ as.data.frame.tbl_cube <- function(x, ...) {
 #'   [tibble::as_data_frame()] resulting data frame contains the
 #'   dimensions as character values (and not as factors).
 #' @export
-as_data_frame.tbl_cube <- function(x, ...) {
+as_tibble.tbl_cube <- function(x, ...) {
   as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
 }
 
