@@ -10,7 +10,10 @@ test_that("tbl_at_vars() errs on bad input", {
 
 test_that("tbl_at_vars() treats `NULL` as empty inputs", {
   expect_identical(tbl_at_vars(mtcars, vars(NULL)), tbl_at_vars(mtcars, vars()))
-  expect_identical(mutate_at(mtcars, vars(NULL), `*`, 100), mtcars)
+  expect_identical(
+    tibble::remove_rownames(mutate_at(mtcars, vars(NULL), `*`, 100)),
+    tibble::remove_rownames(mtcars)
+  )
 })
 
 test_that("tbl_if_vars() errs on bad input", {

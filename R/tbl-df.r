@@ -6,7 +6,9 @@
 #' @keywords internal
 #' @param data a data frame
 tbl_df <- function(data) {
-  as_data_frame(data)
+  # Works in tibble < 1.5.0 too, because .name_repair will be
+  # swallowed by the ellipsis
+  as_tibble(data, .name_repair = "check_unique")
 }
 
 #' @export
