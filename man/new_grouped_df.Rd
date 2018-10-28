@@ -3,7 +3,7 @@
 \name{new_grouped_df}
 \alias{new_grouped_df}
 \alias{validate_grouped_df}
-\title{A low-level constructor for the grouped_df class.}
+\title{Low-level construction and validation for the grouped_df class}
 \usage{
 new_grouped_df(x, groups, ..., class = character())
 
@@ -14,19 +14,18 @@ validate_grouped_df(x)
 
 \item{groups}{The grouped structure, \code{groups} should be a data frame.
 Its last column should be called \code{.rows} and be
-a list of 1 based integer vectors that all are between 1 and the number of rows of \code{.data}}
+a list of 1 based integer vectors that all are between 1 and the number of rows of \code{.data}.}
 
 \item{...}{additional attributes}
 
-\item{class}{additional class, will be prepended to canonical classes of a grouped data frame}
+\item{class}{additional class, will be prepended to canonical classes of a grouped data frame.}
 }
 \description{
-\code{new_grouped_df} is a constructor designed to be high-performance so only
-check types, not values. This means it is the callers responsibility
+\code{new_grouped_df()} is a constructor designed to be high-performance so only
+check types, not values. This means it is the caller's responsibility
 to create valid values, and hence this is for expert use only.
-}
-\details{
-\code{validate_df} validates the attributes of a grouped_df
+
+\code{validate_df()} validates the attributes of a \code{grouped_df}.
 }
 \examples{
 # 5 bootstrap samples
