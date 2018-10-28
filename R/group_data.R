@@ -33,13 +33,13 @@ group_data <- function(.data) {
 #' @export
 group_data.data.frame <- function(.data) {
   rows <- list(seq_len(nrow(.data)))
-  tibble(.rows=rows)
+  tibble(.rows := rows)
 }
 
 #' @export
 group_data.rowwise_df <- function(.data) {
   rows <- as.list(seq_len(nrow(.data)))
-  tibble(.rows=rows)
+  tibble(.rows := rows)
 }
 
 #' @export

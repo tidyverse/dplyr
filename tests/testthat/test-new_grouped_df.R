@@ -8,7 +8,7 @@ test_that("new grouped_df checks that `group_data` has a `.rows` column (#3837)"
 test_that("new_grouped_df can create alternative grouping structures (#3837)", {
   tbl <- new_grouped_df(
     tibble(x = rnorm(10)),
-    groups = tibble(.rows = replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+    groups = tibble(.rows := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
   )
   res <- summarise(tbl, x = mean(x))
   expect_equal(nrow(res), 5L)
@@ -17,7 +17,7 @@ test_that("new_grouped_df can create alternative grouping structures (#3837)", {
 test_that("validate_grouped_df (#3837)", {
   df <- new_grouped_df(
     tibble(x = 1:10),
-    groups = tibble(.rows = list(1:5, -1L))
+    groups = tibble(.rows := list(1:5, -1L))
   )
   expect_error(validate_grouped_df(df), "indices of group 2 are out of bounds")
 
