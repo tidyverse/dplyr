@@ -23,8 +23,8 @@ Imports:
     methods,
     pkgconfig (>= 2.0.1),
     R6 (>= 2.2.2),
-    Rcpp (>= 0.12.19.1),
-    rlang (>= 0.2.2.9004),
+    Rcpp (>= 0.12.19.2),
+    rlang (>= 0.3.0),
     tibble (>= 1.4.2),
     tidyselect (>= 0.2.5),
     utils
@@ -60,5 +60,4 @@ LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.0.9000
 Remotes:
-    RcppCore/Rcpp,
-    r-lib/rlang
+    RcppCore/Rcpp
