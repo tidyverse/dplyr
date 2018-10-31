@@ -26,19 +26,17 @@ grouped_df <- function(data, vars, drop) {
   grouped_df_impl(data, unname(vars))
 }
 
-#' A low-level constructor for the grouped_df class.
+#' Low-level construction and validation for the grouped_df class
 #'
-#' `new_grouped_df` is a constructor designed to be high-performance so only
-#' check types, not values. This means it is the callers responsibility
+#' `new_grouped_df()` is a constructor designed to be high-performance so only
+#' check types, not values. This means it is the caller's responsibility
 #' to create valid values, and hence this is for expert use only.
-#'
-#' `validate_df` validates the attributes of a grouped_df
 #'
 #' @param x A data frame
 #' @param groups The grouped structure, `groups` should be a data frame.
 #' Its last column should be called `.rows` and be
-#' a list of 1 based integer vectors that all are between 1 and the number of rows of `.data`
-#' @param class additional class, will be prepended to canonical classes of a grouped data frame
+#' a list of 1 based integer vectors that all are between 1 and the number of rows of `.data`.
+#' @param class additional class, will be prepended to canonical classes of a grouped data frame.
 #' @param ... additional attributes
 #'
 #' @examples
@@ -66,6 +64,9 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
   )
 }
 
+#' @description
+#' `validate_grouped_df()` validates the attributes of a `grouped_df`.
+#'
 #' @rdname new_grouped_df
 #' @export
 validate_grouped_df <- function(x) {
