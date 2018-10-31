@@ -25,7 +25,7 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
 check types, not values. This means it is the caller's responsibility
 to create valid values, and hence this is for expert use only.
 
-\code{validate_df()} validates the attributes of a \code{grouped_df}.
+\code{validate_grouped_df()} validates the attributes of a \code{grouped_df}.
 }
 \examples{
 # 5 bootstrap samples

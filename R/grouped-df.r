@@ -65,7 +65,7 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
 }
 
 #' @description
-#' `validate_df()` validates the attributes of a `grouped_df`.
+#' `validate_grouped_df()` validates the attributes of a `grouped_df`.
 #'
 #' @rdname new_grouped_df
 #' @export
