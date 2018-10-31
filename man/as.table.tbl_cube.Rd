@@ -3,14 +3,14 @@
 \name{as.table.tbl_cube}
 \alias{as.table.tbl_cube}
 \alias{as.data.frame.tbl_cube}
-\alias{as_data_frame.tbl_cube}
+\alias{as_tibble.tbl_cube}
 \title{Coerce a \code{tbl_cube} to other data structures}
 \usage{
 \method{as.table}{tbl_cube}(x, ..., measure = 1L)
 
 \method{as.data.frame}{tbl_cube}(x, ...)
 
-\method{as_data_frame}{tbl_cube}(x, ...)
+\method{as_tibble}{tbl_cube}(x, ...)
 }
 \arguments{
 \item{x}{a \code{tbl_cube}}

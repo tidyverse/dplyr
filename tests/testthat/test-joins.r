@@ -1024,7 +1024,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     left_join(df1, df2, by = c("x", "y")),
-    "Column `x` must have a unique name",
+    "name",
     fixed = TRUE
   )
 
@@ -1036,7 +1036,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     right_join(df1, df2, by = c("x", "y")),
-    "Column `x` must have a unique name",
+    "name",
     fixed = TRUE
   )
 
@@ -1048,7 +1048,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     inner_join(df1, df2, by = c("x", "y")),
-    "Column `x` must have a unique name",
+    "name",
     fixed = TRUE
   )
 
@@ -1060,7 +1060,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     full_join(df1, df2, by = c("x", "y")),
-    "Column `x` must have a unique name",
+    "name",
     fixed = TRUE
   )
 
@@ -1072,7 +1072,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     semi_join(df1, df2, by = c("x", "y")),
-    "Column `x` must have a unique name",
+    "name",
     fixed = TRUE
   )
 
@@ -1088,7 +1088,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
 
   expect_error(
     anti_join(df1, df2, by = c("x", "y")),
-    "Column `x` must have a unique name",
+    "name",
     fixed = TRUE
   )
 
@@ -1108,9 +1108,9 @@ test_that("joins reject data frames with NA columns (#3417)", {
   df_b <- tibble(AA = 2:4, C = c("aa", "bb", "cc"))
 
   df_aa <- df_a
-  names(df_aa) <- c(NA, "AA")
+  attr(df_aa, "names") <- c(NA, "AA")
   df_ba <- df_b
-  names(df_ba) <- c("AA", NA)
+  attr(df_ba, "names") <- c("AA", NA)
 
   expect_error(
     left_join(df_aa, df_b),

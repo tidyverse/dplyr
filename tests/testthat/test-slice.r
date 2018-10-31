@@ -118,7 +118,6 @@ test_that("slice correctly computes positive indices from negative indices (#307
 })
 
 test_that("slice handles raw matrices", {
-  skip("until updating tibble")
   df <- tibble(a = 1:4, b = matrix(as.raw(1:8), ncol = 2))
   expect_identical(
     slice(df, 1:2)$b,
