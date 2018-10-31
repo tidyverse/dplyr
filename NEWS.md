@@ -1,3 +1,15 @@
+# dplyr 0.7.8
+
+* Fix return value of `setequal()` for data frames (#3704).
+
+* Bump rlang dependency to 0.3.0.
+
+* Make compatibile with upcoming release of tibble.
+
+# dplyr 0.7.7
+
+* Fix invalid character in `NEWS.md` file.
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
