@@ -46,3 +46,4 @@ group_data.rowwise_df <- function(.data) {
 group_data.grouped_df <- function(.data) {
   group_data_grouped_df(.data)
 }
+utils::globalVariables(".rows")
