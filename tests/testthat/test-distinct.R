@@ -1,7 +1,7 @@
 context("Distinct")
 
 test_that("distinct equivalent to local unique when keep_all is TRUE", {
-  df <- tibble(
+  df <- data.frame(
     x = c(1, 1, 1, 1),
     y = c(1, 1, 2, 2),
     z = c(1, 2, 1, 2)
