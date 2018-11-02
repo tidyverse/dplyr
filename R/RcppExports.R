@@ -92,10 +92,6 @@ slice_impl <- function(df, quosure) {
     .Call(`_dplyr_slice_impl`, df, quosure)
 }
 
-as_regular_df <- function(df) {
-    .Call(`_dplyr_as_regular_df`, df)
-}
-
 ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
 }
