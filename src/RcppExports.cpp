@@ -207,17 +207,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// ungroup_grouped_df
-DataFrame ungroup_grouped_df(DataFrame df);
-RcppExport SEXP _dplyr_ungroup_grouped_df(SEXP dfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    rcpp_result_gen = Rcpp::wrap(ungroup_grouped_df(df));
-    return rcpp_result_gen;
-END_RCPP
-}
 // grouped_indices_grouped_df_impl
 IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf);
 RcppExport SEXP _dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
@@ -260,6 +249,17 @@ BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
     rcpp_result_gen = Rcpp::wrap(group_data_grouped_df(data));
+    return rcpp_result_gen;
+END_RCPP
+}
+// ungroup_grouped_df
+DataFrame ungroup_grouped_df(DataFrame df);
+RcppExport SEXP _dplyr_ungroup_grouped_df(SEXP dfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    rcpp_result_gen = Rcpp::wrap(ungroup_grouped_df(df));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -763,11 +763,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
-    {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
     {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 2},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
+    {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_hybrids", (DL_FUNC) &_dplyr_hybrids, 0},
     {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},
     {"_dplyr_get_time_classes", (DL_FUNC) &_dplyr_get_time_classes, 0},
