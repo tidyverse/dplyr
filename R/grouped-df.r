@@ -43,7 +43,7 @@ grouped_df <- function(data, vars, drop) {
 #' # 5 bootstrap samples
 #' tbl <- new_grouped_df(
 #'   tibble(x = rnorm(10)),
-#'   groups = tibble(.rows := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+#'   groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
 #' )
 #' # mean of each bootstrap sample
 #' summarise(tbl, x = mean(x))

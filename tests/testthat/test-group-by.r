@@ -110,7 +110,7 @@ test_that("group_by only applies the allow list to grouping variables", {
 
   res <- group_by(df, x)
   expect_equal(groups(res), list(sym("x")))
-  expect_identical(group_data(res), tibble(x := 1:5, .rows := as.list(1:5)))
+  expect_identical(group_data(res), tibble(x := 1:5, ".rows" := as.list(1:5)))
 })
 
 test_that("group_by fails when lists are used as grouping variables (#276)", {
