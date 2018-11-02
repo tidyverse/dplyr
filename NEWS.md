@@ -97,6 +97,20 @@ To be released as 0.8.0
       nest_by_if(is.numeric)
     ```
 
+* Experimental functions `split_by()`, `split_by_at()` and `split_by_if()`. `split_by()` returns a list of tibbles. Each tibble contains
+  the rows of the associated group. 
+
+    ```r
+    iris %>% 
+      split_by(Species)
+      
+    iris %>% 
+      split_by_at(vars("Species"))
+      
+    iris %>% 
+      split_by(is.factor)
+    ```
+
 * `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
 
 * `sample_n()` and `sample_frac()` can use `n()` (#3527)

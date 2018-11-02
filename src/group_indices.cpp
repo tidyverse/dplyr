@@ -18,6 +18,7 @@
 
 #include <dplyr/hybrid/scalar_result/n.h>
 #include <dplyr/symbols.h>
+#include <dplyr/visitors/subset/column_subset.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -587,4 +588,24 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   GroupedDataFrame::strip_groups(copy);
   set_class(copy, NaturalDataFrame::classes());
   return copy;
+}
+
+// [[Rcpp::export]]
+List split_by_impl(GroupedDataFrame gdf, SEXP frame) {
+  ListView rows = gdf.indices();
+  R_xlen_t n = rows.size();
+  DataFrame group_data = gdf.group_data();
+  SEXP data = gdf.data();
+
+  List out(n);
+  SingleIndex single_index;
+  for (R_xlen_t i = 0; i < n; i++, ++single_index) {
+    IntegerVectorView idx = rows[i];
+    DataFrame out_i = dataframe_subset(data, idx, NaturalDataFrame::classes(), frame);
+    out_i.attr(".groups") = dataframe_subset(group_data, single_index, NaturalDataFrame::classes(), frame);
+    out[i] = out_i;
+  }
+
+  out.attr("class") = "split_df";
+  return out;
 }
