@@ -90,10 +90,6 @@ grouped_df_impl <- function(data, symbols, drop, build_index = TRUE) {
     .Call(`_dplyr_grouped_df_impl`, data, symbols, drop, build_index)
 }
 
-as_regular_df <- function(df) {
-    .Call(`_dplyr_as_regular_df`, df)
-}
-
 ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
 }
