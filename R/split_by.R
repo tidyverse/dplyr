@@ -1,7 +1,9 @@
+
 #' Split data frame by groups
 #'
 #' @param .data A tbl
 #' @param ... See [group_by()]
+#' @param .add See [group_by()]
 #'
 #' @return a list of tibbles. Each tibble contains the rows of `.data` for the associated group.
 #'
@@ -19,19 +21,31 @@
 #'
 #' iris %>%
 #'   split_by_if(is.factor)
+#'
+#' # chop an already grouped data frame
+#' iris %>%
+#'   group_by(Species) %>%
+#'   chop()
+#'
 #' @export
-split_by <- function(.data, ...) {
-  split_by_impl(group_by(.data, ...), environment())
+split_by <- function(.data, ..., add = TRUE) {
+  split_by_impl(group_by(.data, ..., add = add), environment())
 }
 
 #' @rdname split_by
 #' @export
-split_by_at <- function(.data, ...){
-  split_by_impl(group_by_at(.data, ...), environment())
+split_by_at <- function(.data, ..., add = TRUE){
+  split_by_impl(group_by_at(.data, ..., .add = add), environment())
 }
 
 #' @rdname split_by
 #' @export
-split_by_if <- function(.data, ...){
-  split_by_impl(group_by_if(.data, ...), environment())
+split_by_if <- function(.data, ..., add = TRUE){
+  split_by_impl(group_by_if(.data, ..., .add = add), environment())
+}
+
+#' @rdname split_by
+#' @export
+chop <- function(.data){
+  split_by_impl(.data, environment())
 }

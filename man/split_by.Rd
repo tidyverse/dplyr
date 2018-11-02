@@ -4,25 +4,50 @@
 \alias{split_by}
 \alias{split_by_at}
 \alias{split_by_if}
+\alias{chop}
 \title{Split data frame by groups}
 \usage{
-split_by(.data, ...)
+split_by(.data, ..., add = TRUE)
 
-split_by_at(.data, ...)
+split_by_at(.data, ..., add = TRUE)
 
-split_by_if(.data, ...)
+split_by_if(.data, ..., add = TRUE)
+
+chop(.data)
 }
 \arguments{
-\item{.data}{A data frame}
+\item{.data}{A tbl}
 
 \item{...}{See \code{\link[=group_by]{group_by()}}}
+
+\item{.add}{See \code{\link[=group_by]{group_by()}}}
 }
 \value{
-a list of tibbles
+a list of tibbles. Each tibble contains the rows of \code{.data} for the associated group.
 }
 \description{
 Split data frame by groups
 }
+\section{Scoped grouping}{
+
+
+The scoped variants \code{\link[=split_by_at]{split_by_at()}} and \code{\link[=split_by_if]{split_by_if()}} make it easy to split by a
+selection of varibles.
+}
+
 \examples{
+iris \%>\%
+  split_by(Species)
+
+iris \%>\%
+  split_by_at(vars("Species"))
+
+iris \%>\%
+  split_by_if(is.factor)
+
+# chop an already grouped data frame
+iris \%>\%
+  group_by(Species) \%>\%
+  chop()
 
 }
