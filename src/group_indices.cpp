@@ -580,3 +580,11 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
 DataFrame group_data_grouped_df(DataFrame data) {
   return GroupedDataFrame(data).group_data();
 }
+
+// [[Rcpp::export]]
+DataFrame ungroup_grouped_df(DataFrame df) {
+  DataFrame copy(shallow_copy(df));
+  GroupedDataFrame::strip_groups(copy);
+  set_class(copy, NaturalDataFrame::classes());
+  return copy;
+}

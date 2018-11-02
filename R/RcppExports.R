@@ -92,14 +92,6 @@ slice_impl <- function(df, quosure) {
     .Call(`_dplyr_slice_impl`, df, quosure)
 }
 
-as_regular_df <- function(df) {
-    .Call(`_dplyr_as_regular_df`, df)
-}
-
-ungroup_grouped_df <- function(df) {
-    .Call(`_dplyr_ungroup_grouped_df`, df)
-}
-
 grouped_indices_grouped_df_impl <- function(gdf) {
     .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
 }
@@ -114,6 +106,10 @@ grouped_df_impl <- function(data, symbols) {
 
 group_data_grouped_df <- function(data) {
     .Call(`_dplyr_group_data_grouped_df`, data)
+}
+
+ungroup_grouped_df <- function(df) {
+    .Call(`_dplyr_ungroup_grouped_df`, df)
 }
 
 hybrids <- function() {
