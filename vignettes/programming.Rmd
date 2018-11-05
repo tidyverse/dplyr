@@ -278,7 +278,7 @@ that actually does what we want.
 ```{r}
 my_summarise <- function(df, group_var) {
   df %>%
-    group_by(!! group_var) %>%
+    group_by(!!group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -304,7 +304,7 @@ my_summarise <- function(df, group_var) {
   print(quo_group_var)
 
   df %>%
-    group_by(!! quo_group_var) %>%
+    group_by(!!quo_group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -327,7 +327,7 @@ my_summarise <- function(df, group_var) {
   print(group_var)
 
   df %>%
-    group_by(!! group_var) %>%
+    group_by(!!group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -359,7 +359,7 @@ expression.
 
 ```{r}
 my_var <- quo(a)
-summarise(df, mean = mean(!! my_var), sum = sum(!! my_var), n = n())
+summarise(df, mean = mean(!!my_var), sum = sum(!!my_var), n = n())
 ```
 
 You can also wrap `quo()` around the dplyr call to see what will happen from
@@ -367,8 +367,8 @@ dplyr's perspective. This is a very useful tool for debugging.
 
 ```{r}
 quo(summarise(df,
-  mean = mean(!! my_var),
-  sum = sum(!! my_var),
+  mean = mean(!!my_var),
+  sum = sum(!!my_var),
   n = n()
 ))
 ```
@@ -381,8 +381,8 @@ my_summarise2 <- function(df, expr) {
   expr <- enquo(expr)
 
   summarise(df,
-    mean = mean(!! expr),
-    sum = sum(!! expr),
+    mean = mean(!!expr),
+    sum = sum(!!expr),
     n = n()
   )
 }
@@ -405,7 +405,7 @@ This code is similar to the previous example, but there are two new wrinkles:
 * We create the new names by pasting together strings, so
   we need `quo_name()` to convert the input expression to a string.
 
-* `!! mean_name = mean(!! expr)` isn't valid R code, so we need to
+* `!!mean_name = mean(!!expr)` isn't valid R code, so we need to
   use the `:=` helper provided by rlang.
 
 ```{r}
@@ -415,8 +415,8 @@ my_mutate <- function(df, expr) {
   sum_name <- paste0("sum_", quo_name(expr))
 
   mutate(df,
-    !! mean_name := mean(!! expr),
-    !! sum_name := sum(!! expr)
+    !!mean_name := mean(!!expr),
+    !!sum_name := sum(!!expr)
   )
 }
 
@@ -441,7 +441,7 @@ my_summarise <- function(df, ...) {
   group_var <- quos(...)
 
   df %>%
-    group_by(!!! group_var) %>%
+    group_by(!!!group_var) %>%
     summarise(a = mean(a))
 }
 
@@ -453,10 +453,10 @@ at the bottom of the `!!!` and think `...`.
 
 ```{r}
 args <- list(na.rm = TRUE, trim = 0.25)
-quo(mean(x, !!! args))
+quo(mean(x, !!!args))
 
 args <- list(quo(x), na.rm = TRUE, trim = 0.25)
-quo(mean(!!! args))
+quo(mean(!!!args))
 ```
 
 Now that you've learned the basics of tidyeval through some practical examples,
@@ -589,16 +589,14 @@ quotation of parts of an expression. There are three types of unquoting:
 
 ### Unquoting
 
-The first important operation is the basic unquote, which comes in a functional
-form, `UQ()`, and as syntactic-sugar, `!!`.
+The first important operation is the basic unquote, `!!`.
 
 ```{r}
 # Here we capture `letters[1:5]` as an expression:
 quo(toupper(letters[1:5]))
 
 # Here we capture the value of `letters[1:5]`
-quo(toupper(!! letters[1:5]))
-quo(toupper(UQ(letters[1:5])))
+quo(toupper(!!letters[1:5]))
 ```
 
 It is also possible to unquote other quoted expressions. Unquoting such
@@ -606,7 +604,7 @@ symbolic objects provides a powerful way of manipulating expressions.
 
 ```{r}
 var1 <- quo(letters[1:5])
-quo(toupper(!! var1))
+quo(toupper(!!var1))
 ```
 
 You can safely unquote quosures because they track their environments, and
@@ -618,7 +616,7 @@ my_mutate <- function(x) {
   mtcars %>%
     select(cyl) %>%
     slice(1:4) %>%
-    mutate(cyl2 = cyl + (!! x))
+    mutate(cyl2 = cyl + (!!x))
 }
 
 f <- function(x) quo(x)
@@ -629,41 +627,14 @@ my_mutate(expr1)
 my_mutate(expr2)
 ```
 
-The functional form is useful in cases where the precedence of `!` causes
-problems:
-
-```{r, error = TRUE}
-my_fun <- quo(fun)
-quo(!! my_fun(x, y, z))
-quo(UQ(my_fun)(x, y, z))
-
-my_var <- quo(x)
-quo(filter(df, !! my_var == 1))
-quo(filter(df, UQ(my_var) == 1))
-```
-
-You'll note above that `UQ()` yields a quosure containing a formula. That
-ensures that when the quosure is evaluated, it'll be looked up in the right
-environment. In certain code-generation scenarios you just want to use
-expression and ignore the environment. That's the job of `UQE()`:
-
-```{r}
-quo(UQE(my_fun)(x, y, z))
-quo(filter(df, UQE(my_var) == 1))
-```
-
-`UQE()` is for expert use only as you'll have to carefully analyse the
-environments to ensure that the generated code is correct.
-
 
 ### Unquote-splicing
 
-The second unquote operation is unquote-splicing. Its functional form is `UQS()`
-and the syntactic shortcut is `!!!`. It takes a vector and inserts each element
+The second unquote operation is unquote-splicing, `!!!`. It takes a vector and inserts each element
 of the vector in the surrounding function call:
 
 ```{r}
-quo(list(!!! letters[1:5]))
+quo(list(!!!letters[1:5]))
 ```
 
 A very useful feature of unquote-splicing is that the vector names
@@ -671,7 +642,7 @@ become argument names:
 
 ```{r}
 x <- list(foo = 1L, bar = quo(baz))
-quo(list(!!! x))
+quo(list(!!!x))
 ```
 
 This makes it easy to program with dplyr verbs that take named dots:
@@ -680,7 +651,7 @@ This makes it easy to program with dplyr verbs that take named dots:
 args <- list(mean = quo(mean(cyl)), count = quo(n()))
 mtcars %>%
   group_by(am) %>%
-  summarise(!!! args)
+  summarise(!!!args)
 ```
 
 
@@ -700,7 +671,7 @@ count_nm <- "count"
 mtcars %>%
   group_by(am) %>%
   summarise(
-    !! mean_nm := mean(cyl),
-    !! count_nm := n()
+    !!mean_nm := mean(cyl),
+    !!count_nm := n()
   )
 ```
