@@ -2,9 +2,13 @@
 
 * Fix return value of `setequal()` for data frames (#3704).
 
+* Remove `as.data.frame.tbl_df()` method for compatibility with R-devel (#3943).
+
 * Bump rlang dependency to 0.3.0.
 
 * Make compatibile with upcoming release of tibble.
+
+* Remove obsolete programming vignette.
 
 # dplyr 0.7.7
 
