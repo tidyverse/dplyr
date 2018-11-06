@@ -606,6 +606,5 @@ List split_by_impl(GroupedDataFrame gdf, SEXP frame) {
     out[i] = out_i;
   }
 
-  out.attr("class") = "split_df";
   return out;
 }
