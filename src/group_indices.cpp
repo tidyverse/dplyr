@@ -4,6 +4,8 @@
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
+#include <dplyr/data/RowwiseDataFrame.h>
+
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
 
@@ -606,5 +608,17 @@ List split_by_impl(GroupedDataFrame gdf, SEXP frame) {
     out[i] = out_i;
   }
 
+  return out;
+}
+
+// [[Rcpp::export]]
+List split_rowwise(RowwiseDataFrame rdf, SEXP frame) {
+  RowwiseDataFrameIndexIterator git = rdf.group_begin();
+  R_xlen_t n = rdf.nrows();
+  const DataFrame& data = rdf.data();
+  List out(n);
+  for (R_xlen_t i = 0; i < n; i++, ++git) {
+    out[i] = dataframe_subset(data, *git, NaturalDataFrame::classes(), frame);
+  }
   return out;
 }

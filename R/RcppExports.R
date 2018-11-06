@@ -116,6 +116,10 @@ split_by_impl <- function(gdf, frame) {
     .Call(`_dplyr_split_by_impl`, gdf, frame)
 }
 
+split_rowwise <- function(rdf, frame) {
+    .Call(`_dplyr_split_rowwise`, rdf, frame)
+}
+
 hybrids <- function() {
     .Call(`_dplyr_hybrids`)
 }

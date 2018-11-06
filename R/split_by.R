@@ -43,3 +43,24 @@ split_by_at <- function(.data, ..., .add = TRUE){
 split_by_if <- function(.data, ..., .add = TRUE){
   split_by_impl(group_by_if(.data, ..., .add = .add), environment())
 }
+
+#' @export
+split.grouped_df <- function(x, f, drop = FALSE, ...) {
+  if(nargs() != 1) {
+    abort("split() on a grouped tibble is only supported without arguments, consider split_by()")
+  }
+  split_by_impl(x, environment())
+}
+
+#' @export
+split.tbl_df <- function(x, f, drop = FALSE, ...) {
+  abort("split() not supported for tibbles, you probably need split_by()")
+}
+
+#' @export
+split.rowwise_df <- function(x, f, drop = FALSE, ...) {
+  if(nargs() != 1) {
+    abort("split() on a rowwise tibble is only supported without arguments, consider split_by()")
+  }
+  split_rowwise(x, environment())
+}

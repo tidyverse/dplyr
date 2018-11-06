@@ -275,6 +275,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// split_rowwise
+List split_rowwise(RowwiseDataFrame rdf, SEXP frame);
+RcppExport SEXP _dplyr_split_rowwise(SEXP rdfSEXP, SEXP frameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< RowwiseDataFrame >::type rdf(rdfSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
+    rcpp_result_gen = Rcpp::wrap(split_rowwise(rdf, frame));
+    return rcpp_result_gen;
+END_RCPP
+}
 // hybrids
 List hybrids();
 RcppExport SEXP _dplyr_hybrids() {
@@ -781,6 +793,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_split_by_impl", (DL_FUNC) &_dplyr_split_by_impl, 2},
+    {"_dplyr_split_rowwise", (DL_FUNC) &_dplyr_split_rowwise, 2},
     {"_dplyr_hybrids", (DL_FUNC) &_dplyr_hybrids, 0},
     {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},
     {"_dplyr_get_time_classes", (DL_FUNC) &_dplyr_get_time_classes, 0},
