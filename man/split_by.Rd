@@ -6,18 +6,16 @@
 \alias{split_by_if}
 \title{Split data frame by groups}
 \usage{
-split_by(.data, ..., .add = TRUE)
+split_by(.data, ...)
 
-split_by_at(.data, ..., .add = TRUE)
+split_by_at(.data, ...)
 
-split_by_if(.data, ..., .add = TRUE)
+split_by_if(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl}
 
-\item{...}{See \code{\link[=group_by]{group_by()}}}
-
-\item{.add}{See \code{\link[=group_by]{group_by()}}}
+\item{...}{See \code{\link[=group_by]{group_by()}}, \code{\link[=group_by_at]{group_by_at()}} or \code{\link[=group_by_if]{group_by_if()}}}
 }
 \value{
 a list of tibbles. Each tibble contains the rows of \code{.data} for the associated group.
