@@ -600,11 +600,10 @@ List split_by_impl(GroupedDataFrame gdf, SEXP frame) {
   SEXP data = gdf.data();
 
   List out(n);
-  SingleIndex single_index;
-  for (R_xlen_t i = 0; i < n; i++, ++single_index) {
+  for (R_xlen_t i = 0; i < n; i++) {
     IntegerVectorView idx = rows[i];
     DataFrame out_i = dataframe_subset(data, idx, NaturalDataFrame::classes(), frame);
-    out_i.attr("groups") = dataframe_subset(group_data, single_index, NaturalDataFrame::classes(), frame);
+    GroupedDataFrame::strip_groups(out_i);
     out[i] = out_i;
   }
 

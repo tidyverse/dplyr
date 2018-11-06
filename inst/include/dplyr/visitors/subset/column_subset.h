@@ -17,32 +17,6 @@ SEXP bracket_two();
 
 namespace dplyr {
 
-struct SingleIndex {
-  IntegerVector index;
-
-  SingleIndex() :
-    index(IntegerVector::create(1))
-  {}
-
-  inline int size() const {
-    return 1;
-  }
-
-  inline int operator[](int i) const {
-    return index[0] - 1;
-  }
-
-  inline operator SEXP() const {
-    return index;
-  }
-
-  inline SingleIndex& operator++() {
-    ++index[0];
-    return *this;
-  }
-
-};
-
 namespace traits {
 
 template <typename T>
@@ -66,10 +40,6 @@ struct can_mark_na<RowwiseSlicingIndex> {
 };
 template <>
 struct can_mark_na<NaturalSlicingIndex> {
-  typedef Rcpp::traits::false_type type;
-};
-template <>
-struct can_mark_na<SingleIndex> {
   typedef Rcpp::traits::false_type type;
 };
 
