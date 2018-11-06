@@ -4,7 +4,6 @@
 \alias{split_by}
 \alias{split_by_at}
 \alias{split_by_if}
-\alias{chop}
 \title{Split data frame by groups}
 \usage{
 split_by(.data, ..., .add = TRUE)
@@ -12,8 +11,6 @@ split_by(.data, ..., .add = TRUE)
 split_by_at(.data, ..., .add = TRUE)
 
 split_by_if(.data, ..., .add = TRUE)
-
-chop(.data)
 }
 \arguments{
 \item{.data}{A tbl}

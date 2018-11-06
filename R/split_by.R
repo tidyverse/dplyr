@@ -43,9 +43,3 @@ split_by_at <- function(.data, ..., .add = TRUE){
 split_by_if <- function(.data, ..., .add = TRUE){
   split_by_impl(group_by_if(.data, ..., .add = .add), environment())
 }
-
-#' @rdname split_by
-#' @export
-chop <- function(.data){
-  split_by_impl(.data, environment())
-}
