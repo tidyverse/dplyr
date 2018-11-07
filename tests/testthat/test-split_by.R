@@ -30,5 +30,29 @@ test_that("split.rowwise_df() works", {
 })
 
 test_that("split.tbl_df() aborts", {
-  expect_error(split(tibble()), "split() not supported for tibbles, you probably need split_by()", fixed = TRUE)
+  expect_error(split(tibble()), "split() not supported for ungrouped tibbles, you probably need split_by()", fixed = TRUE)
+})
+
+test_that("split_by_if works", {
+  expect_equal(
+    split_by_if(iris, is.factor),
+    split_by(iris, Species)
+  )
+})
+
+test_that("split_by_at works", {
+  expect_equal(
+    split_by_at(iris, vars("Species")),
+    split_by(iris, Species)
+  )
+})
+
+test_that("split_by/bind_rows round trip", {
+  setosa <- iris %>%
+    filter(Species == "setosa")
+
+  chunks <- setosa %>% split_by(Species)
+  expect_equal(length(chunks), 3L)
+
+  expect_equal(bind_rows(chunks), setosa)
 })

@@ -27,7 +27,7 @@ Split data frame by groups
 
 
 The scoped variants \code{\link[=split_by_at]{split_by_at()}} and \code{\link[=split_by_if]{split_by_if()}} make it easy to split by a
-selection of varibles.
+selection of variables.
 }
 
 \examples{
@@ -40,9 +40,9 @@ iris \%>\%
 iris \%>\%
   split_by_if(is.factor)
 
-# chop an already grouped data frame
+# split() an already grouped data frame
 iris \%>\%
   group_by(Species) \%>\%
-  chop()
+  split()
 
 }
