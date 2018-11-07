@@ -1,8 +1,6 @@
 ## Release summary
 
-Fix for NEWS.md file.
-
-The remaining rchk errors are most likely false positives from Rcpp, see Rcpp issue https://github.com/RcppCore/Rcpp/issues/892 .
+Compatibility release. Fixes problems on the package check page, and a regression introduced in dplyr 0.7.5.
 
 ## Test environments
 
@@ -20,4 +18,7 @@ The remaining rchk errors are most likely false positives from Rcpp, see Rcpp is
 
 ## Reverse dependencies
 
-Reverse dependencies not checked, because we only changed NEWS.md (and the file that contains the submission notes): https://github.com/tidyverse/dplyr/compare/v0.7.6...r-0.7.7 .
+Checked reverse dependencies on CRAN (could not check 81 out of >1200), problems found:
+
+- banr, classyfireR, codemetar, fingertipsR, rdefra: failing access to a web API, successful when rechechking
+- Nmisc 0.3.4: brittle checks when non-CRAN version of dplyr is installed, Nmisc maintainer states that the problem is fixed in Nmisc 0.3.5 which is on CRAN now: https://github.com/numeract/Nmisc/issues/9
