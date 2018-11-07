@@ -8,7 +8,7 @@
 
 * Make compatibile with upcoming release of tibble.
 
-* Remove obsolete programming vignette.
+* Remove deprecated functions from programming vignette.
 
 # dplyr 0.7.7
 
