@@ -1,6 +1,6 @@
 ## Release summary
 
-Compatibility release. Fixes problems on the package check page, and a regression introduced in dplyr 0.7.5.
+Compatibility release. Fixes problems on the package check page (including the compiler warning on some platforms), and a regression introduced in dplyr 0.7.5.
 
 ## Test environments
 
