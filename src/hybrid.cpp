@@ -283,7 +283,7 @@ Result* get_handler(SEXP call, const ILazySubsets& subsets, const Environment& e
       SEXP data;
       try {
         data = env.find(sym.get_string());
-      } catch (Rcpp::binding_not_found) {
+      } catch (const Rcpp::binding_not_found&) {
         return NULL;
       }
 
