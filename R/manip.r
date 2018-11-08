@@ -197,8 +197,15 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'
 #' @section Backend variations:
 #'
-#' Data frames are the only backend that supports creating a variable and
-#' using it in the same summary. See examples for more details.
+#' The data frame backend supports creating a variable and using it in the
+#' same summary. This means that previously created summary variables can be
+#' further transformed or combined within the summary, as in \code{mutate}.
+#' However, it also means that summary variables with the same names as previous
+#' variables overwrite them, making those variables unavailable to later summary
+#' variables. This is illustrated in the examples.
+#'
+#' Other backends do not support this: summary variables cannot be refered to
+#' within the same summary.
 #'
 #' @export
 #' @inheritParams filter
@@ -232,11 +239,14 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   summarise(cyl_n = n()) %>%
 #'   group_vars()
 #'
-#' # Note that with data frames, newly created summaries immediately
-#' # overwrite existing variables
+#'
+#' # Because the groups are single rows, and sd refers to mean(disp) for data
+#' # frames (rather than the original disp column), sd evaluates to NA for
+#' # each group. But double_disp, which is also calculated grouped, evaluates
+#' # as expected. This behaviour may be different for other backends.
 #' mtcars %>%
 #'   group_by(cyl) %>%
-#'   summarise(disp = mean(disp), sd = sd(disp))
+#'   summarise(disp = mean(disp), sd = sd(disp), double_disp = disp * 2)
 #'
 #'
 #' # Refer to column names stored as strings with the `.data` pronoun:
