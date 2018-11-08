@@ -52,7 +52,7 @@ row in the output for each group.  Tbls with no groups will result in one row.
 
 The data frame backend supports creating a variable and using it in the
 same summary. This means that previously created summary variables can be
-further transformed or combined within the summary, as in \code{mutate}.
+further transformed or combined within the summary, as in \code{\link[=mutate]{mutate()}}.
 However, it also means that summary variables with the same names as previous
 variables overwrite them, making those variables unavailable to later summary
 variables. This is illustrated in the examples.
@@ -112,3 +112,4 @@ Other single table verbs: \code{\link{arrange}},
   \code{\link{filter}}, \code{\link{mutate}},
   \code{\link{select}}, \code{\link{slice}}
 }
+\concept{single table verbs}

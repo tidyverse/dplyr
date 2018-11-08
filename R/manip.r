@@ -199,7 +199,7 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'
 #' The data frame backend supports creating a variable and using it in the
 #' same summary. This means that previously created summary variables can be
-#' further transformed or combined within the summary, as in \code{mutate}.
+#' further transformed or combined within the summary, as in [mutate()].
 #' However, it also means that summary variables with the same names as previous
 #' variables overwrite them, making those variables unavailable to later summary
 #' variables. This is illustrated in the examples.
