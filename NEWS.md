@@ -10,6 +10,8 @@
 
 * Remove deprecated functions from programming vignette.
 
+* Restore interface of the exported C++ function `build_index_cpp()` for compatibility with the _valr_ package.
+
 # dplyr 0.7.7
 
 * Fix invalid character in `NEWS.md` file.

@@ -39,9 +39,15 @@ IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return Count().process(gdf);
 }
 
+// Still need this for valr.
+DataFrame build_index_cpp(DataFrame data) {
+  build_index_cpp_by_ref(data);
+  return data;
+}
+
 // Updates attributes in data by reference!
 // All these attributes are private to dplyr.
-void build_index_cpp(DataFrame& data) {
+void build_index_cpp_by_ref(DataFrame& data) {
   SymbolVector vars(get_vars(data));
   const int nvars = vars.size();
 

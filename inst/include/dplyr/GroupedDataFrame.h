@@ -45,7 +45,7 @@ public:
     bool is_lazy = Rf_isNull(data_.attr("group_sizes")) || Rf_isNull(data_.attr("labels"));
 
     if (is_lazy) {
-      build_index_cpp(data_);
+      build_index_cpp_by_ref(data_);
     }
     group_sizes = data_.attr("group_sizes");
     biggest_group_size  = data_.attr("biggest_group_size");

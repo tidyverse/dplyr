@@ -318,12 +318,13 @@ RcppExport SEXP _dplyr_get_time_classes() {
     return rcpp_result_gen;
 }
 // build_index_cpp
-void build_index_cpp(DataFrame& data);
+DataFrame build_index_cpp(DataFrame data);
 static SEXP _dplyr_build_index_cpp_try(SEXP dataSEXP) {
 BEGIN_RCPP
-    Rcpp::traits::input_parameter< DataFrame& >::type data(dataSEXP);
-    build_index_cpp(data);
-    return R_NilValue;
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
+    rcpp_result_gen = Rcpp::wrap(build_index_cpp(data));
+    return rcpp_result_gen;
 END_RCPP_RETURN_ERROR
 }
 RcppExport SEXP _dplyr_build_index_cpp(SEXP dataSEXP) {
@@ -676,7 +677,7 @@ static int _dplyr_RcppExport_validate(const char* sig) {
     if (signatures.empty()) {
         signatures.insert("SEXP(*get_date_classes)()");
         signatures.insert("SEXP(*get_time_classes)()");
-        signatures.insert("void(*build_index_cpp)(DataFrame&)");
+        signatures.insert("DataFrame(*build_index_cpp)(DataFrame)");
     }
     return signatures.find(sig) != signatures.end();
 }

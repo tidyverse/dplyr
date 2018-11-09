@@ -5,7 +5,7 @@
 
 #if defined(COMPILING_DPLYR)
 
-void build_index_cpp(DataFrame& data);
+DataFrame build_index_cpp(DataFrame data);
 void registerHybridHandler(const char*, dplyr::HybridHandler);
 
 SEXP get_time_classes();

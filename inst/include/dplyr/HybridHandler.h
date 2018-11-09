@@ -32,4 +32,6 @@ struct HybridHandler {
 
 }
 
+void build_index_cpp_by_ref(DataFrame& data);
+
 #endif // dplyr_dplyr_HybridHandlerMap_H
