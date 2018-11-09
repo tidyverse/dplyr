@@ -22,3 +22,4 @@ Checked reverse dependencies on CRAN (could not check 81 out of >1200), problems
 
 - banr, classyfireR, codemetar, fingertipsR, rdefra: failing access to a web API, successful when rechechking
 - Nmisc 0.3.4: brittle checks when non-CRAN version of dplyr is installed, Nmisc maintainer states that the problem is fixed in Nmisc 0.3.5 which is on CRAN now: https://github.com/numeract/Nmisc/issues/9
+- valr 0.4.1: Working with the maintainer on a fix, https://github.com/rnabioco/valr/issues/338
