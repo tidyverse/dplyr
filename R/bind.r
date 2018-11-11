@@ -40,7 +40,7 @@
 #' # You can supply data frames as arguments:
 #' bind_rows(one, two)
 #'
-#' # The contents of lists are automatically spliced:
+#' # The contents of lists are spliced automatically:
 #' bind_rows(list(one, two))
 #' bind_rows(split(mtcars, mtcars$cyl))
 #' bind_rows(list(one, two), list(two, one))
