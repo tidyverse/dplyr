@@ -23,7 +23,7 @@ Imports:
     methods,
     pkgconfig (>= 2.0.1),
     R6 (>= 2.2.2),
-    Rcpp (>= 0.12.19.2),
+    Rcpp (>= 1.0.0),
     rlang (>= 0.3.0),
     tibble (>= 1.4.2),
     tidyselect (>= 0.2.5),
@@ -53,12 +53,11 @@ Suggests:
 LinkingTo: 
     BH (>= 1.58.0-1),
     plogr (>= 0.1.10),
-    Rcpp (>= 0.12.19.2)
+    Rcpp (>= 1.0.0)
 VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.0.9000
 Remotes:
-    RcppCore/Rcpp,
     tidyverse/tibble
