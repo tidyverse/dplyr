@@ -32,3 +32,7 @@ test_that("group_nest_if() works", {
   expect_is(pull(res), "list")
   expect_equal(select(res, -last_col()), select(gdata, -last_col()))
 })
+
+test_that("group_split.grouped_df() warns about ...", {
+  expect_warning(group_nest(group_by(mtcars, cyl), cyl))
+})
