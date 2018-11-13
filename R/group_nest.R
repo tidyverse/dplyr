@@ -80,7 +80,7 @@ group_nest.data.frame <- function(.data, ..., .key = "data") {
 #' @export
 group_nest.grouped_df <- function(.data, ..., .key = "data") {
   if (dots_n(...)) {
-    warn("... is not supported in group_nest(<grouped_df>), consider group_by(..., add = TRUE) %>% group_nest()")
+    warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., add = TRUE) %>% group_nest()")
   }
   group_nest_impl(.data, key_var = quo_name(enexpr(.key)))
 }

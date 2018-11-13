@@ -52,7 +52,7 @@ group_split.data.frame <- function(.data, ...){
 #' @export
 group_split.grouped_df <- function(.data, ...) {
   if (dots_n(...)) {
-    warn("... is not supported in group_split(<grouped_df>), consider group_by(..., add = TRUE) %>% group_split()")
+    warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
   }
   group_split_impl(.data, environment())
 }

@@ -45,7 +45,7 @@ group_keys.data.frame <- function(.data, ...){
 #' @export
 group_keys.grouped_df <- function(.data, ...) {
   if (dots_n(...)) {
-    warn("... is not supported in group_keys(<grouped_df>), consider group_by(..., add = TRUE) %>% group_split()")
+    warn("... is ignored in group_keys(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
   }
   group_keys_impl(.data)
 }
