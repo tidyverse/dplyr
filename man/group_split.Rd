@@ -26,7 +26,7 @@ Split data frame by groups
 \section{Scoped grouping}{
 
 
-The scoped variants \code{\link[=split_by_at]{split_by_at()}} and \code{\link[=split_by_if]{split_by_if()}} make it easy to split by a
+The scoped variants \code{\link[=group_split_at]{group_split_at()}} and \code{\link[=group_split_if]{group_split_if()}} make it easy to split by a
 selection of variables.
 }
 

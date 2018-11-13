@@ -7,7 +7,7 @@
 #'
 #' @section Scoped grouping:
 #'
-#' The scoped variants [split_by_at()] and [split_by_if()] make it easy to split by a
+#' The scoped variants [group_split_at()] and [group_split_if()] make it easy to split by a
 #' selection of variables.
 #'
 #' @examples
