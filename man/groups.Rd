@@ -28,6 +28,6 @@ groups(df)
 Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
   \code{\link{group_keys}}, \code{\link{group_rows}},
-  \code{\link{group_size}}, \code{\link{group_split}}
+  \code{\link{group_size}}
 }
 \concept{grouping functions}

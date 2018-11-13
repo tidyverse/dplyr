@@ -23,13 +23,6 @@ a list of tibbles. Each tibble contains the rows of \code{.data} for the associa
 \description{
 Split data frame by groups
 }
-\section{Scoped grouping}{
-
-
-The scoped variants \code{\link[=group_split_at]{group_split_at()}} and \code{\link[=group_split_if]{group_split_if()}} make it easy to split by a
-selection of variables.
-}
-
 \examples{
 iris \%>\%
   group_split(Species)
@@ -53,10 +46,16 @@ iris \%>\%
   group_split()
 
 }
-\seealso{
-Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_by}}, \code{\link{group_indices}},
-  \code{\link{group_keys}}, \code{\link{group_rows}},
-  \code{\link{group_size}}, \code{\link{groups}}
-}
-\concept{grouping functions}
+\concept{grouping functions
+
+[group_split()] works like [base::split()] but
+- it uses the grouping structure
+  from [group_by()]. In particular, groups may be empty and lead to tibbles with
+  0 rows.
+- it does not name the elements of the list based on the grouping as this typically
+  loses information and is confusing.
+
+ The object that results from [group_split()] does not contain grouping
+ information, but it can be paired with [group_keys()] to get that information,
+ each row of the data frame returned by [group_keys()] is associated to one
+ element of the result of [group_split()].}

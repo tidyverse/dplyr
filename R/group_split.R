@@ -2,15 +2,22 @@
 #'
 #' @family grouping functions
 #'
+#' [group_split()] works like [base::split()] but
+#' - it uses the grouping structure
+#'   from [group_by()]. In particular, groups may be empty and lead to tibbles with
+#'   0 rows.
+#' - it does not name the elements of the list based on the grouping as this typically
+#'   loses information and is confusing.
+#'
+#'  The object that results from [group_split()] does not contain grouping
+#'  information, but it can be paired with [group_keys()] to get that information,
+#'  each row of the data frame returned by [group_keys()] is associated to one
+#'  element of the result of [group_split()].
+#'
 #' @param .data A tbl
 #' @param ... See [group_by()], [group_by_at()] or [group_by_if()]
 #'
 #' @return a list of tibbles. Each tibble contains the rows of `.data` for the associated group.
-#'
-#' @section Scoped grouping:
-#'
-#' The scoped variants [group_split_at()] and [group_split_if()] make it easy to split by a
-#' selection of variables.
 #'
 #' @examples
 #' iris %>%
