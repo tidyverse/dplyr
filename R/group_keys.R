@@ -6,6 +6,8 @@ group_keys_impl <- function(.data) {
 #'
 #' The grouping keys are a tibble with only the grouping information.
 #'
+#' @family grouping functions
+#'
 #' @param .data A tbl
 #' @param ... See [group_by()], [group_by_at()] or [group_by_if()]
 #'

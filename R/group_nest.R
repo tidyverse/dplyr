@@ -15,6 +15,8 @@ group_nest_impl <- function(.data, key_var){
 #'
 #' \badgeexperimental
 #'
+#' @family grouping functions
+#'
 #' Conceptually, `group_nest` is the same as `group_by()` + `tidyr::nest()`.
 #'
 #' @param .data a tbl

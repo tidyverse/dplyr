@@ -23,8 +23,9 @@ group_indices(mtcars, cyl)
 \code{\link[=group_by]{group_by()}}
 
 Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_by}}, \code{\link{group_rows}},
-  \code{\link{group_size}}, \code{\link{groups}}
+  \code{\link{group_by}}, \code{\link{group_keys}},
+  \code{\link{group_rows}}, \code{\link{group_size}},
+  \code{\link{group_split}}, \code{\link{groups}}
 }
 \concept{grouping functions}
 \keyword{internal}

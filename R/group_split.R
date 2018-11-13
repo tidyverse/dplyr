@@ -1,5 +1,7 @@
 #' Split data frame by groups
 #'
+#' @family grouping functions
+#'
 #' @param .data A tbl
 #' @param ... See [group_by()], [group_by_at()] or [group_by_if()]
 #'

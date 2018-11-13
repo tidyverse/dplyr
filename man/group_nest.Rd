@@ -27,8 +27,6 @@ followed by a list column of tibbles with matching rows of the remaining columns
 \badgeexperimental
 }
 \details{
-Conceptually, \code{group_nest} is the same as \code{group_by()} + \code{tidyr::nest()}.
-
 When \code{.data} is an ungrouped data frame, the \code{...} specifiy the columns to group \emph{by} are are forwarded
 to either \code{\link[=group_by]{group_by()}}, \code{\link[=group_by_at]{group_by_at()}} or \code{\link[=group_by_if]{group_by_if()}}.
 
@@ -61,4 +59,7 @@ starwars \%>\%
   group_nest()
 
 }
+\concept{grouping functions
+
+Conceptually, `group_nest` is the same as `group_by()` + `tidyr::nest()`.}
 \keyword{internal}
