@@ -2,10 +2,10 @@
 group_nest_impl <- function(.data, key_var){
   to_nest <- select(ungroup(.data), setdiff(tbl_vars(.data), group_vars(.data)))
 
-  out <- .data %>%
-    group_data() %>%
-    mutate(!!key_var := map(.data$.rows, function(.x) to_nest[.x,, drop = FALSE])) %>%
-    select(-".rows")
+  out <- mutate(group_data(.data),
+    !!key_var := map(.data$.rows, function(.x) to_nest[.x,, drop = FALSE])
+  )
+  out <- select(out, -".rows")
 
   attr(out[[key_var]], "ptype") <- to_nest[integer(), , drop = FALSE]
   out
