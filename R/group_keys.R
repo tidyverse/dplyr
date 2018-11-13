@@ -33,11 +33,6 @@ group_keys <- function(.data, ...) {
 }
 
 #' @export
-group_keys.default <- function(.data, ...){
-  abort("unsupported")
-}
-
-#' @export
 group_keys.data.frame <- function(.data, ...){
   group_keys_impl(group_by(.data, ...))
 }

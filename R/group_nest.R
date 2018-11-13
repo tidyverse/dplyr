@@ -65,11 +65,6 @@ group_nest <- function(.data, ..., .key = "data"){
 }
 
 #' @export
-group_nest.default <- function(.data, ..., .key = "data") {
-  abort("unsupported")
-}
-
-#' @export
 group_nest.data.frame <- function(.data, ..., .key = "data") {
   group_nest_impl(
     group_by(.data, ...),

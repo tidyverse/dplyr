@@ -40,11 +40,6 @@ group_split <- function(.data, ...) {
 }
 
 #' @export
-group_split.default <- function(.data, ...){
-  abort("unsupported")
-}
-
-#' @export
 group_split.data.frame <- function(.data, ...){
   group_split_impl(group_by(.data, ...), environment())
 }
