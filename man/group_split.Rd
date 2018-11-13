@@ -32,17 +32,24 @@ selection of variables.
 
 \examples{
 iris \%>\%
-  split_by(Species)
+  group_split(Species)
 
 iris \%>\%
-  split_by_at(vars("Species"))
+  group_split_at(vars("Species"))
 
 iris \%>\%
-  split_by_if(is.factor)
+  group_split_if(is.factor)
 
-# split() an already grouped data frame
+# group_split() an already grouped data frame
 iris \%>\%
   group_by(Species) \%>\%
-  split()
+  group_split()
+
+# this can be useful if the grouped data has been altered
+# before the split
+iris \%>\%
+  group_by(Species) \%>\%
+  filter(Sepal.Length > 6) \%>\%
+  group_split()
 
 }

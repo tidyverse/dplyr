@@ -12,18 +12,25 @@
 #'
 #' @examples
 #' iris %>%
-#'   split_by(Species)
+#'   group_split(Species)
 #'
 #' iris %>%
-#'   split_by_at(vars("Species"))
+#'   group_split_at(vars("Species"))
 #'
 #' iris %>%
-#'   split_by_if(is.factor)
+#'   group_split_if(is.factor)
 #'
-#' # split() an already grouped data frame
+#' # group_split() an already grouped data frame
 #' iris %>%
 #'   group_by(Species) %>%
-#'   split()
+#'   group_split()
+#'
+#' # this can be useful if the grouped data has been altered
+#' # before the split
+#' iris %>%
+#'   group_by(Species) %>%
+#'   filter(Sepal.Length > 6) %>%
+#'   group_split()
 #'
 #' @export
 group_split <- function(.data, ...) {
@@ -47,7 +54,6 @@ group_split.grouped_df <- function(.data, ...) {
   }
   group_split_impl(.data, environment())
 }
-
 
 #' @rdname group_split
 #' @export
