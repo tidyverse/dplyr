@@ -84,7 +84,7 @@ To be released as 0.8.0
       nest_join(band_instruments)
     ```
 
-* Experimental functions `nest_by()`, `nest_by_at()` and `nest_by_if`. `nest_by_*` is equivalent to `group_by_*` +  `tidyr::unnest()`
+* Experimental functions `nest_by()`, `nest_by_at()` and `nest_by_if`. `nest_by_*` is equivalent to `group_by_*` +  `tidyr::nest()`
 
     ```r
     starwars %>%
