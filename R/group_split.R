@@ -52,6 +52,12 @@ group_split.data.frame <- function(.data, ...){
 }
 
 #' @export
+group_split.rowwise_df <- function(.data, ...) {
+  n <- nrow(.data)
+  map(seq_len(n), function(i) .data[i, ])
+}
+
+#' @export
 group_split.grouped_df <- function(.data, ...) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
@@ -69,4 +75,23 @@ group_split_at <- function(.data, ...){
 #' @export
 group_split_if <- function(.data, ...){
   group_split_impl(group_by_if(.data, ...), environment())
+}
+
+as_group_map_function  <- function(x, env = caller_env()) {
+  lambda <- as_function(x)
+  if (inherits(lambda, "rlang_lambda_function")) {
+    args <- list(... = missing_arg(), .x = quote(..1),
+      .y = quote(..2), . = quote(..1), .data = quote(..1), .key = quote(..2))
+    body <- body(lambda)
+    lambda <- new_function(args, body, env = env)
+  }
+  lambda
+}
+
+group_map <- function(.tbl, .f, ..., env = caller_env()) {
+  .f <- as_group_map_function(.f, env = env)
+  .datas <- group_split(.tbl)
+  .keys  <- group_split(rowwise(select(group_data(.tbl), - last_col())))
+
+  bind_rows(map2(.datas, .keys, .f, ...))
 }
