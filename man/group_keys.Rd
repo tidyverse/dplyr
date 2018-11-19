@@ -2,15 +2,9 @@
 % Please edit documentation in R/group_keys.R
 \name{group_keys}
 \alias{group_keys}
-\alias{group_keys_at}
-\alias{group_keys_if}
 \title{The grouping keys}
 \usage{
 group_keys(.data, ...)
-
-group_keys_at(.data, ...)
-
-group_keys_if(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl}

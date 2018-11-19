@@ -71,15 +71,3 @@ group_nest.grouped_df <- function(.data, ..., .key = "data") {
   }
   group_nest_impl(.data, key_var = quo_name(enexpr(.key)))
 }
-
-#' @rdname group_nest
-#' @export
-group_nest_at <- function(.data, ..., .key = "data") {
-  group_nest(group_by_at(.data, ...), .key = quo_name(enexpr(.key)))
-}
-
-#' @rdname group_nest
-#' @export
-group_nest_if <- function(.data, ..., .key = "data") {
-  group_nest(group_by_if(.data, ...), .key = quo_name(enexpr(.key)))
-}

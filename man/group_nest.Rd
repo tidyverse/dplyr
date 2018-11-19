@@ -2,15 +2,9 @@
 % Please edit documentation in R/group_nest.R
 \name{group_nest}
 \alias{group_nest}
-\alias{group_nest_at}
-\alias{group_nest_if}
 \title{Nest a tibble using a grouping specification}
 \usage{
 group_nest(.data, ..., .key = "data")
-
-group_nest_at(.data, ..., .key = "data")
-
-group_nest_if(.data, ..., .key = "data")
 }
 \arguments{
 \item{.data}{a tbl}
