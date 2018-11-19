@@ -33,12 +33,6 @@ is used with a grouped data frame.
 starwars \%>\%
   group_nest(species, homeworld)
 
-starwars \%>\%
-  group_nest_at(vars(ends_with("_color")))
-
-starwars \%>\%
-  group_by_if(is.numeric)
-
 # using group_nest() on a grouped data frame
 starwars \%>\%
   group_by(species, homeworld) \%>\%

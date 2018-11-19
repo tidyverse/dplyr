@@ -23,12 +23,6 @@
 #' iris %>%
 #'   group_split(Species)
 #'
-#' iris %>%
-#'   group_split_at(vars("Species"))
-#'
-#' iris %>%
-#'   group_split_if(is.factor)
-#'
 #' # group_split() an already grouped data frame
 #' iris %>%
 #'   group_by(Species) %>%

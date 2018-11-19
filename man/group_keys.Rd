@@ -22,12 +22,6 @@ iris \%>\%
   group_keys(Species)
 
 iris \%>\%
-  group_keys_at(vars("Species"))
-
-iris \%>\%
-  group_keys_if(is.factor)
-
-iris \%>\%
   group_by(Species) \%>\%
   group_keys()
 
