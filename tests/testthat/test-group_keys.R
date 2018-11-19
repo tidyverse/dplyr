@@ -16,17 +16,3 @@ test_that("group_keys.grouped_df() works", {
     iris %>% group_keys(Species)
   )
 })
-
-test_that("group_keys_if works", {
-  expect_equal(
-    group_keys_if(iris, is.factor),
-    group_keys(iris, Species)
-  )
-})
-
-test_that("group_keys_at works", {
-  expect_equal(
-    group_keys_at(iris, vars("Species")),
-    group_keys(iris, Species)
-  )
-})

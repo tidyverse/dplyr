@@ -44,15 +44,3 @@ group_keys.grouped_df <- function(.data, ...) {
   }
   group_keys_impl(.data)
 }
-
-#' @rdname group_keys
-#' @export
-group_keys_at <- function(.data, ...){
-  group_keys_impl(group_by_at(.data, ...))
-}
-
-#' @rdname group_keys
-#' @export
-group_keys_if <- function(.data, ...){
-  group_keys_impl(group_by_if(.data, ...))
-}
