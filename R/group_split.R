@@ -57,12 +57,7 @@ group_split <- function(.tbl, ...) {
 
 #' @export
 group_split.data.frame <- function(.tbl, ...){
-  .tbl <- group_by(.tbl, ...)
-  if (inherits(.tbl, "grouped_df")) {
-    group_split_impl(.tbl, environment())
-  } else {
-    list(.tbl)
-  }
+  group_split_impl(group_by(.tbl, ...), environment())
 }
 
 #' @export
