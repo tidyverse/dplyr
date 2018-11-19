@@ -4,9 +4,11 @@
 \alias{group_keys}
 \title{The grouping keys}
 \usage{
-group_keys(.data, ...)
+group_keys(.tbl, ...)
 }
 \arguments{
+\item{.tbl}{A tbl}
+
 \item{...}{Grouping specification, forwardsed to \code{\link[=group_by]{group_by()}}}
 }
 \value{
