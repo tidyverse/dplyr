@@ -4,46 +4,44 @@
 \alias{group_split}
 \title{Split data frame by groups}
 \usage{
-group_split(.data, ...)
+group_split(.tbl, ...)
 }
 \arguments{
-\item{.data}{A tbl}
+\item{.tbl}{A tbl}
 
 \item{...}{See \code{\link[=group_by]{group_by()}}, \code{\link[=group_by_at]{group_by_at()}} or \code{\link[=group_by_if]{group_by_if()}}}
 }
 \value{
-a list of tibbles. Each tibble contains the rows of \code{.data} for the associated group.
+a list of tibbles. Each tibble contains the rows of \code{.tbl} for the associated group.
+
+The returned object does not contain grouping information, but it can be paired with
+\code{\link[=group_keys]{group_keys()}} to get that information, each row of the data frame returned
+by \code{\link[=group_keys]{group_keys()}} is associated to one element of the result of \code{\link[=group_split]{group_split()}}.
 }
 \description{
 Split data frame by groups
 }
 \examples{
-iris \%>\%
-  group_split(Species)
 
-# group_split() an already grouped data frame
+# use case 1 : on an already grouped tibble
 iris \%>\%
   group_by(Species) \%>\%
   group_split()
 
-# this can be useful if the grouped data has been altered
-# before the split
+# this can be useful if the grouped data has been altered before the split
 iris \%>\%
   group_by(Species) \%>\%
   filter(Sepal.Length > 6) \%>\%
   group_split()
 
+# use case 2: using a group_by() grouping specification
+iris \%>\%
+  group_split(Species)
+
 }
 \concept{grouping functions
 
 [group_split()] works like [base::split()] but
-- it uses the grouping structure
-  from [group_by()]. In particular, groups may be empty and lead to tibbles with
-  0 rows.
+- it uses the grouping structure from [group_by()]
 - it does not name the elements of the list based on the grouping as this typically
-  loses information and is confusing.
-
- The object that results from [group_split()] does not contain grouping
- information, but it can be paired with [group_keys()] to get that information,
- each row of the data frame returned by [group_keys()] is associated to one
- element of the result of [group_split()].}
+  loses information and is confusing.}

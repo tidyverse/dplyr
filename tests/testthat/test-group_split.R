@@ -16,6 +16,10 @@ test_that("group_split.grouped_df() warns about ...", {
   expect_warning(group_split(group_by(mtcars, cyl), cyl))
 })
 
+test_that("group_split.rowwise_df() warns about ...", {
+  expect_warning(group_split(rowwise(mtcars), cyl))
+})
+
 test_that("group_split.grouped_df() works", {
   expect_equal(
     iris %>% group_by(Species) %>% group_split(),
