@@ -5,9 +5,12 @@
 #' @family grouping functions
 #'
 #' [group_split()] works like [base::split()] but
-#' - it uses the grouping structure from [group_by()]
+#' - it uses the grouping structure from [group_by()] and therefore is subject to the data mask
 #' - it does not name the elements of the list based on the grouping as this typically
 #'   loses information and is confusing.
+#'
+#' [group_keys()] explains the grouping structure, by returning a data frame that has one row
+#' per group and one column per grouping variable.
 #'
 #' @section grouped data frames:
 #'
@@ -15,40 +18,57 @@
 #' typically a result of [group_by()]. In this case [group_split()] only uses
 #' the first argument, the grouped tibble, and warns when `...` is used.
 #'
+#' Because some of these groups may be empty, it is best paried with [group_keys()]
+#' which identifies the representatives of each grouping variable for the group.
+#'
 #' @section ungrouped data frames:
 #'
-#' When used on ungrouped data frames, [group_split()] forwards the `...` to
+#' When used on ungrouped data frames, [group_split()] and [group_keys()] forwards the `...` to
 #' [group_by()] before the split, therefore the `...` are subject to the data mask.
+#'
+#' Using these functions on an ungrouped data frame only makes sense if you need only one or the
+#' other, because otherwise the grouping algorithm is performed each time.
 #'
 #' @section rowwise data frames:
 #'
-#' A list of one-row tibbles is returned, and the `...` are ignored and warned against
+#' [group_split()] returns a list of one-row tibbles is returned, and the `...` are ignored and warned against
 #'
 #' @param .tbl A tbl
-#' @param ... Grouping specification, forwardsed to [group_by()]
+#' @param ... Grouping specification, forwarded to [group_by()]
 #'
-#' @return a list of tibbles. Each tibble contains the rows of `.tbl` for the associated group and
-#'  all the columns, including the grouoping variables.
+#' @return
 #'
-#'  However, in the presence of empty groups, the 0-rows tibbles associated with the empty
-#'  groups do not have grouping information. [group_split()] may be paired with [group_keys()].
+#' - [group_split()] returns a list of tibbles. Each tibble contains the rows of `.tbl` for the associated group and
+#'  all the columns, including the grouping variables.
+#'
+#' - [group_keys()] returns a tibble with one row per group, and one column per grouping variable
 #'
 #' @examples
 #'
 #' # ----- use case 1 : on an already grouped tibble
-#' iris %>%
-#'   group_by(Species) %>%
-#'   group_split()
+#' ir <- iris %>%
+#'   group_by(Species)
+#'
+#' group_split(ir)
+#' group_keys(ir)
 #'
 #' # this can be useful if the grouped data has been altered before the split
-#' iris %>%
+#' ir <- iris %>%
 #'   group_by(Species) %>%
-#'   filter(Sepal.Length > mean(Sepal.Length)) %>%
-#'   group_split()
+#'   filter(Sepal.Length > mean(Sepal.Length))
+#'
+#' group_split(ir)
+#' group_keys(ir)
 #'
 #' # ----- use case 2: using a group_by() grouping specification
+#'
+#' # both group_split() and group_keys() have to perform the grouping
+#' # so it only makes sense to do this if you only need one or the other
 #' iris %>%
 #'   group_split(Species)
+#'
+#' iris %>%
+#'   group_keys(Species)
 #'
 #' @export
 group_split <- function(.tbl, ...) {

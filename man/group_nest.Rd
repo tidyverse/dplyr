@@ -9,7 +9,7 @@ group_nest(.tbl, ..., .key = "data")
 \arguments{
 \item{.tbl}{A tbl}
 
-\item{...}{Grouping specification, forwardsed to \code{\link[=group_by]{group_by()}}}
+\item{...}{Grouping specification, forwarded to \code{\link[=group_by]{group_by()}}}
 
 \item{.key}{the name of the list column}
 }
@@ -59,9 +59,8 @@ starwars \%>\%
 \seealso{
 Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
-  \code{\link{group_keys}}, \code{\link{group_map}},
-  \code{\link{group_rows}}, \code{\link{group_size}},
-  \code{\link{groups}}
+  \code{\link{group_map}}, \code{\link{group_rows}},
+  \code{\link{group_size}}, \code{\link{groups}}
 }
 \concept{grouping functions}
 \keyword{internal}
