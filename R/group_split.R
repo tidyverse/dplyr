@@ -85,8 +85,7 @@ group_split.rowwise_df <- function(.tbl, ...) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
   }
-  n <- nrow(.tbl)
-  map(seq_len(n), function(i) structure(.tbl[i, ], class = c("tbl_df", "tbl", "data.frame")))
+  map(seq_len(nrow(.tbl)), function(i) .tbl[i, ])
 }
 
 #' @export
