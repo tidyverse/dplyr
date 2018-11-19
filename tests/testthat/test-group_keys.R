@@ -16,3 +16,7 @@ test_that("group_keys.grouped_df() works", {
     iris %>% group_keys(Species)
   )
 })
+
+test_that("group_keys.rowwise_df is an error", {
+  expect_error(group_keys(rowwise(iris)))
+})

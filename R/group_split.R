@@ -33,7 +33,7 @@
 #'
 #' @examples
 #'
-#' # use case 1 : on an already grouped tibble
+#' # ----- use case 1 : on an already grouped tibble
 #' iris %>%
 #'   group_by(Species) %>%
 #'   group_split()
@@ -41,10 +41,10 @@
 #' # this can be useful if the grouped data has been altered before the split
 #' iris %>%
 #'   group_by(Species) %>%
-#'   filter(Sepal.Length > 6) %>%
+#'   filter(Sepal.Length > mean(Sepal.Length)) %>%
 #'   group_split()
 #'
-#' # use case 2: using a group_by() grouping specification
+#' # ----- use case 2: using a group_by() grouping specification
 #' iris %>%
 #'   group_split(Species)
 #'
