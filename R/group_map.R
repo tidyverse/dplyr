@@ -42,10 +42,10 @@ group_map.grouped_df <- function(.tbl, .f, ...) {
   .f <- rlang::as_function(.f)
 
   # call the function on each group
-  nested <- group_nest(.tbl)
+  chunks <- group_split(.tbl)
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  result_tibbles <- map2(nested$data, group_keys, function(.x, .y){
+  result_tibbles <- map2(chunks, group_keys, function(.x, .y){
     res <- .f(.x, .y, ...)
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   })
