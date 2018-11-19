@@ -9,14 +9,14 @@ group_split(.tbl, ...)
 \arguments{
 \item{.tbl}{A tbl}
 
-\item{...}{See \code{\link[=group_by]{group_by()}}, \code{\link[=group_by_at]{group_by_at()}} or \code{\link[=group_by_if]{group_by_if()}}}
+\item{...}{Grouping specification, forwardsed to \code{\link[=group_by]{group_by()}}}
 }
 \value{
-a list of tibbles. Each tibble contains the rows of \code{.tbl} for the associated group.
+a list of tibbles. Each tibble contains the rows of \code{.tbl} for the associated group and
+all the columns, including the grouoping variables.
 
-The returned object does not contain grouping information, but it can be paired with
-\code{\link[=group_keys]{group_keys()}} to get that information, each row of the data frame returned
-by \code{\link[=group_keys]{group_keys()}} is associated to one element of the result of \code{\link[=group_split]{group_split()}}.
+However, in the presence of empty groups, the 0-rows tibbles associated with the empty
+groups do not have grouping information. \code{\link[=group_split]{group_split()}} may be paired with \code{\link[=group_keys]{group_keys()}}.
 }
 \description{
 Split data frame by groups

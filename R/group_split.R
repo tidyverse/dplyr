@@ -23,13 +23,13 @@
 #'  A list of one-row tibbles is returned, and the `...` are ignored and warned against
 #'
 #' @param .tbl A tbl
-#' @param ... See [group_by()], [group_by_at()] or [group_by_if()]
+#' @param ... Grouping specification, forwardsed to [group_by()]
 #'
-#' @return a list of tibbles. Each tibble contains the rows of `.tbl` for the associated group.
+#' @return a list of tibbles. Each tibble contains the rows of `.tbl` for the associated group and
+#'  all the columns, including the grouoping variables.
 #'
-#'  The returned object does not contain grouping information, but it can be paired with
-#'  [group_keys()] to get that information, each row of the data frame returned
-#'  by [group_keys()] is associated to one element of the result of [group_split()].
+#'  However, in the presence of empty groups, the 0-rows tibbles associated with the empty
+#'  groups do not have grouping information. [group_split()] may be paired with [group_keys()].
 #'
 #' @examples
 #'
