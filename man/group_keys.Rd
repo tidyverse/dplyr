@@ -7,29 +7,51 @@
 group_keys(.data, ...)
 }
 \arguments{
-\item{.data}{A tbl}
-
-\item{...}{See \code{\link[=group_by]{group_by()}}, \code{\link[=group_by_at]{group_by_at()}} or \code{\link[=group_by_if]{group_by_if()}}}
+\item{...}{Grouping specification, forwardsed to \code{\link[=group_by]{group_by()}}}
 }
 \value{
-A tibble with one row per group and one column per grouping variable
+A tibble with one row per group (even if empty)
+and one column per grouping variable.
 }
 \description{
-The grouping keys are a tibble with only the grouping information.
+\badgeexperimental
 }
-\examples{
-iris \%>\%
-  group_keys(Species)
+\section{grouped data frames}{
 
+
+The primary use case for \code{\link[=group_keys]{group_keys()}} is with already grouped data frames,
+typically a result of \code{\link[=group_by]{group_by()}}. In this case \code{\link[=group_keys]{group_keys()}} only uses
+the first argument, the grouped tibble, and warns when \code{...} is used.
+}
+
+\section{ungrouped data frames}{
+
+When used on ungrouped data frames, \code{\link[=group_keys]{group_keys()}} forwards the \code{...} to
+\code{\link[=group_by]{group_by()}} before retrieving the keys, therefore the \code{...} are subject to the data mask.
+}
+
+\examples{
+# primary interface, on grouped tibble
 iris \%>\%
   group_by(Species) \%>\%
   group_keys()
+
+# this may be useful if the grouped data needs further
+# manipulation before retrieving the keys
+iris \%>\%
+  group_by(Species) \%>\%
+  filter(Sepal.Length > mean(Sepal.Length)) \%>\%
+  group_keys()
+
+# Specifying the grouping, subject to the data mask
+iris \%>\%
+  group_keys(Species)
 
 }
 \seealso{
 Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
-  \code{\link{group_rows}}, \code{\link{group_size}},
-  \code{\link{groups}}
+  \code{\link{group_nest}}, \code{\link{group_rows}},
+  \code{\link{group_size}}, \code{\link{groups}}
 }
 \concept{grouping functions}

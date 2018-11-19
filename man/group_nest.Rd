@@ -4,50 +4,63 @@
 \alias{group_nest}
 \title{Nest a tibble using a grouping specification}
 \usage{
-group_nest(.data, ..., .key = "data")
+group_nest(.tbl, ..., .key = "data")
 }
 \arguments{
-\item{.data}{a tbl}
+\item{.tbl}{A tbl}
 
-\item{...}{Variables to nest by, ignored if \code{.data} is already a grouped_df.}
+\item{...}{Grouping specification, forwardsed to \code{\link[=group_by]{group_by()}}}
 
 \item{.key}{the name of the list column}
 }
 \value{
-A tbl with one row per unique combination of the grouping variables. The first columns are the grouping variables,
-followed by a list column of tibbles with matching rows of the remaining columns.
+A tbl with one row per unique combination of the grouping variables.
+The first columns are the grouping variables, followed by a list column of tibbles
+with matching rows of the remaining columns.
 }
 \description{
 \badgeexperimental
 }
-\details{
-When \code{.data} is an ungrouped data frame, the \code{...} specifiy the columns to group \emph{by} are are forwarded
-to either \code{\link[=group_by]{group_by()}}, \code{\link[=group_by_at]{group_by_at()}} or \code{\link[=group_by_if]{group_by_if()}}.
+\section{grouped data frames}{
 
-When \code{.data} is a grouped data frame already, its grouping is used. A warning is issued if \code{...}
-is used with a grouped data frame.
+
+The primary use case for \code{\link[=group_nest]{group_nest()}} is with already grouped data frames,
+typically a result of \code{\link[=group_by]{group_by()}}. In this case \code{\link[=group_nest]{group_nest()}} only uses
+the first argument, the grouped tibble, and warns when \code{...} is used.
 }
+
+\section{ungrouped data frames}{
+
+
+When used on ungrouped data frames, \code{\link[=group_nest]{group_nest()}} forwards the \code{...} to
+\code{\link[=group_by]{group_by()}} before nesting, therefore the \code{...} are subject to the data mask.
+}
+
 \examples{
 
-# using group_nest() or its column wise wariants on a ungrouped data frame
+#----- use case 1: a grouped data frame
+iris \%>\%
+  group_by(Species) \%>\%
+  group_nest()
+
+# this can be useful if the grouped data has been altered before nesting
+iris \%>\%
+  group_by(Species) \%>\%
+  filter(Sepal.Length > mean(Sepal.Length)) \%>\%
+  group_nest()
+
+#----- use case 2: using group_nest() on a ungrouped data frame with
+#                  a grouoping specification that uses the data mask
 starwars \%>\%
   group_nest(species, homeworld)
 
-# using group_nest() on a grouped data frame
-starwars \%>\%
-  group_by(species, homeworld) \%>\%
-  group_nest()
-
-# can be useful when the grouped data has been altered before the nesting
-# in this example the output is nested by homeworld after the summarise
-# has peeled off one level of grouping
-starwars \%>\%
-  group_by(homeworld, species) \%>\%
-  summarise(n = n()) \%>\%
-  group_nest()
 
 }
-\concept{grouping functions
-
-Conceptually, `group_nest` is the same as `group_by()` + `tidyr::nest()`.}
+\seealso{
+Other grouping functions: \code{\link{group_by_all}},
+  \code{\link{group_by}}, \code{\link{group_indices}},
+  \code{\link{group_keys}}, \code{\link{group_rows}},
+  \code{\link{group_size}}, \code{\link{groups}}
+}
+\concept{grouping functions}
 \keyword{internal}

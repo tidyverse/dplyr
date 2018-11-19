@@ -19,11 +19,32 @@ However, in the presence of empty groups, the 0-rows tibbles associated with the
 groups do not have grouping information. \code{\link[=group_split]{group_split()}} may be paired with \code{\link[=group_keys]{group_keys()}}.
 }
 \description{
-Split data frame by groups
+\badgeexperimental
 }
+\section{grouped data frames}{
+
+
+The primary use case for \code{\link[=group_split]{group_split()}} is with already grouped data frames,
+typically a result of \code{\link[=group_by]{group_by()}}. In this case \code{\link[=group_split]{group_split()}} only uses
+the first argument, the grouped tibble, and warns when \code{...} is used.
+}
+
+\section{ungrouped data frames}{
+
+
+When used on ungrouped data frames, \code{\link[=group_split]{group_split()}} forwards the \code{...} to
+\code{\link[=group_by]{group_by()}} before the split, therefore the \code{...} are subject to the data mask.
+}
+
+\section{rowwise data frames}{
+
+
+A list of one-row tibbles is returned, and the \code{...} are ignored and warned against
+}
+
 \examples{
 
-# use case 1 : on an already grouped tibble
+# ----- use case 1 : on an already grouped tibble
 iris \%>\%
   group_by(Species) \%>\%
   group_split()
@@ -31,10 +52,10 @@ iris \%>\%
 # this can be useful if the grouped data has been altered before the split
 iris \%>\%
   group_by(Species) \%>\%
-  filter(Sepal.Length > 6) \%>\%
+  filter(Sepal.Length > mean(Sepal.Length)) \%>\%
   group_split()
 
-# use case 2: using a group_by() grouping specification
+# ----- use case 2: using a group_by() grouping specification
 iris \%>\%
   group_split(Species)
 

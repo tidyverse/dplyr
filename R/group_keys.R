@@ -4,27 +4,27 @@ group_keys_impl <- function(.data) {
 
 #' The grouping keys
 #'
+#' \badgeexperimental
+#'
 #' @family grouping functions
 #'
 #' @inheritParams group_split
 #'
-#' @section grouped data frames
+#' @section grouped data frames:
 #'
-#'  The primary use case for [group_keys()] is with already grouped data frames,
-#'  typically a result of [group_by()]. In this case [group_keys()] only uses
-#'  the first argument, the grouped tibble, and warns when `...` is used.
+#' The primary use case for [group_keys()] is with already grouped data frames,
+#' typically a result of [group_by()]. In this case [group_keys()] only uses
+#' the first argument, the grouped tibble, and warns when `...` is used.
 #'
-#' @section ungrouped data frames
-#'
-#'  When used on ungrouped data frames, [group_keys()] forwards the `...` to
-#'  [group_by()] before retrieving the keys, therefore the `...` are subject to the data mask.
+#' @section ungrouped data frames:
+#' When used on ungrouped data frames, [group_keys()] forwards the `...` to
+#' [group_by()] before retrieving the keys, therefore the `...` are subject to the data mask.
 #'
 #' @return A tibble with one row per group (even if empty)
 #' and one column per grouping variable.
 #'
 #' @examples
-#'
-#' #----- primary interface, on grouped tibble
+#' # primary interface, on grouped tibble
 #' iris %>%
 #'   group_by(Species) %>%
 #'   group_keys()
@@ -36,7 +36,7 @@ group_keys_impl <- function(.data) {
 #'   filter(Sepal.Length > mean(Sepal.Length)) %>%
 #'   group_keys()
 #'
-#' #----- Specifying the grouping, subject to the data mask
+#' # Specifying the grouping, subject to the data mask
 #' iris %>%
 #'   group_keys(Species)
 #'

@@ -1,5 +1,7 @@
 #' Split data frame by groups
 #'
+#' \badgeexperimental
+#'
 #' @family grouping functions
 #'
 #' [group_split()] works like [base::split()] but
@@ -7,20 +9,20 @@
 #' - it does not name the elements of the list based on the grouping as this typically
 #'   loses information and is confusing.
 #'
-#' @section grouped data frames
+#' @section grouped data frames:
 #'
-#'  The primary use case for [group_split()] is with already grouped data frames,
-#'  typically a result of [group_by()]. In this case [group_split()] only uses
-#'  the first argument, the grouped tibble, and warns when `...` is used.
+#' The primary use case for [group_split()] is with already grouped data frames,
+#' typically a result of [group_by()]. In this case [group_split()] only uses
+#' the first argument, the grouped tibble, and warns when `...` is used.
 #'
-#' @section ungrouped data frames
+#' @section ungrouped data frames:
 #'
-#'  When used on ungrouped data frames, [group_split()] forwards the `...` to
-#'  [group_by()] before the split, therefore the `...` are subject to the data mask.
+#' When used on ungrouped data frames, [group_split()] forwards the `...` to
+#' [group_by()] before the split, therefore the `...` are subject to the data mask.
 #'
-#' @section rowwise data frames
+#' @section rowwise data frames:
 #'
-#'  A list of one-row tibbles is returned, and the `...` are ignored and warned against
+#' A list of one-row tibbles is returned, and the `...` are ignored and warned against
 #'
 #' @param .tbl A tbl
 #' @param ... Grouping specification, forwardsed to [group_by()]
