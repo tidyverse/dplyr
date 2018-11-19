@@ -75,9 +75,15 @@ test_that("slice handles NA (#1235)", {
   expect_equal(nrow(slice(df, c(-1L, NA_integer_))), 2L)
 
   df <- data_frame(x = 1:4, g = rep(1:2, 2)) %>% group_by(g)
-  expect_equal(nrow(slice(df, NA)), 0L)
   expect_equal(nrow(slice(df, c(1, NA))), 2)
   expect_equal(nrow(slice(df, c(-1, NA))), 2)
+})
+
+test_that("slice handles logical NA (#3970)", {
+  df <- data_frame(x = 1:3)
+  expect_equal(nrow(slice(df, NA)), 0L)
+  expect_error(slice(df, TRUE))
+  expect_error(slice(df, FALSE))
 })
 
 test_that("slice handles empty data frames (#1219)", {

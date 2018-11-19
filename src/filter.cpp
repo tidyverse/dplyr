@@ -12,6 +12,7 @@
 
 #include <tools/bad.h>
 #include <tools/set_rownames.h>
+#include <tools/all_na.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -31,10 +32,17 @@ SEXP check_result_lgl_type(SEXP tmp) {
   return tmp;
 }
 
-inline SEXP check_filter_integer_result(SEXP tmp) {
-  if (TYPEOF(tmp) != INTSXP && TYPEOF(tmp) != REALSXP && TYPEOF(tmp) != LGLSXP) {
+inline SEXP check_slice_result(SEXP tmp) {
+  switch (TYPEOF(tmp)) {
+  case INTSXP:
+  case REALSXP:
+    break;
+  case LGLSXP:
+    if (all_na(tmp)) break;
+  default:
     stop("slice condition does not evaluate to an integer or numeric vector. ");
   }
+
   return tmp;
 }
 
@@ -415,7 +423,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
 
     // evaluate the expression in the data mask
-    IntegerVector g_test = check_filter_integer_result(mask.eval(quo.expr(), indices));
+    IntegerVector g_test = check_slice_result(mask.eval(quo.expr(), indices));
 
     // scan the results to see if all >= 1 or all <= -1
     CountIndices counter(indices.size(), g_test);
