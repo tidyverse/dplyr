@@ -21,7 +21,7 @@ with matching rows of the remaining columns.
 \description{
 \badgeexperimental
 }
-\section{grouped data frames}{
+\section{Grouped data frames}{
 
 
 The primary use case for \code{\link[=group_nest]{group_nest()}} is with already grouped data frames,
@@ -29,7 +29,7 @@ typically a result of \code{\link[=group_by]{group_by()}}. In this case \code{\l
 the first argument, the grouped tibble, and warns when \code{...} is used.
 }
 
-\section{ungrouped data frames}{
+\section{Ungrouped data frames}{
 
 
 When used on ungrouped data frames, \code{\link[=group_nest]{group_nest()}} forwards the \code{...} to

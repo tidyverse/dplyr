@@ -12,13 +12,13 @@ group_nest_impl <- function(.tbl, .key){
 #' @inheritParams group_split
 #' @param .key the name of the list column
 #'
-#' @section grouped data frames:
+#' @section Grouped data frames:
 #'
 #' The primary use case for [group_nest()] is with already grouped data frames,
 #' typically a result of [group_by()]. In this case [group_nest()] only uses
 #' the first argument, the grouped tibble, and warns when `...` is used.
 #'
-#' @section ungrouped data frames:
+#' @section Ungrouped data frames:
 #'
 #' When used on ungrouped data frames, [group_nest()] forwards the `...` to
 #' [group_by()] before nesting, therefore the `...` are subject to the data mask.

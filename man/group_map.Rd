@@ -28,14 +28,14 @@ are combined with \code{\link[=bind_rows]{bind_rows()}}
 \badgeexperimental
 }
 \examples{
-# only using .x
-group_by(mtcars, cyl) \%>\%
-  group_map(~ head(.x, 2L))
-
-# using both the key (.y) and the data (.x) for each group
 mtcars \%>\%
   group_by(cyl) \%>\%
-  group_map(~ mutate(.y, mod = list(lm(mpg ~ disp, data = .x))))
+  group_map(~ head(.x, 2L))
+
+iris \%>\%
+  group_by(Species) \%>\%
+  filter(Species == "setosa") \%>\%
+  group_map(~ tally(.x))
 
 }
 \seealso{

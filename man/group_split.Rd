@@ -24,7 +24,7 @@ all the columns, including the grouping variables.
 \description{
 \badgeexperimental
 }
-\section{grouped data frames}{
+\section{Grouped data frames}{
 
 
 The primary use case for \code{\link[=group_split]{group_split()}} is with already grouped data frames,
@@ -35,7 +35,7 @@ Because some of these groups may be empty, it is best paried with \code{\link[=g
 which identifies the representatives of each grouping variable for the group.
 }
 
-\section{ungrouped data frames}{
+\section{Ungrouped data frames}{
 
 
 When used on ungrouped data frames, \code{\link[=group_split]{group_split()}} and \code{\link[=group_keys]{group_keys()}} forwards the \code{...} to
@@ -45,7 +45,7 @@ Using these functions on an ungrouped data frame only makes sense if you need on
 other, because otherwise the grouping algorithm is performed each time.
 }
 
-\section{rowwise data frames}{
+\section{Rowwise data frames}{
 
 
 \code{\link[=group_split]{group_split()}} returns a list of one-row tibbles is returned, and the \code{...} are ignored and warned against

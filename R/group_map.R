@@ -23,14 +23,14 @@
 #' @seealso [group_split()] and [group_keys()]
 #'
 #' @examples
-#' # only using .x
-#' group_by(mtcars, cyl) %>%
-#'   group_map(~ head(.x, 2L))
-#'
-#' # using both the key (.y) and the data (.x) for each group
 #' mtcars %>%
 #'   group_by(cyl) %>%
-#'   group_map(~ mutate(.y, mod = list(lm(mpg ~ disp, data = .x))))
+#'   group_map(~ head(.x, 2L))
+#'
+#' iris %>%
+#'   group_by(Species) %>%
+#'   filter(Species == "setosa") %>%
+#'   group_map(~ tally(.x))
 #'
 #' @export
 group_map <- function(.tbl, .f, ...) {
@@ -40,8 +40,28 @@ group_map <- function(.tbl, .f, ...) {
 #' @export
 group_map.grouped_df <- function(.tbl, .f, ...) {
   .f <- rlang::as_function(.f)
-  .datas <- group_split(.tbl)
-  .keys  <- group_split(rowwise(select(group_data(.tbl), - last_col())))
 
-  bind_rows(map2(.datas, .keys, .f, ...))
+  # call the function on each group
+  nested <- group_nest(.tbl)
+  keys  <- group_keys(.tbl)
+  group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
+  result_tibbles <- map2(nested$data, group_keys, function(.x, .y){
+    res <- .f(.x, .y, ...)
+    bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
+  })
+
+  # recalculates .rows based on the number of rows on each tibble
+  .rows <- vector(mode = "list", length = length(result_tibbles))
+  k <- 1L
+  for (i in seq_along(result_tibbles)) {
+    n <- nrow(result_tibbles[[i]])
+    .rows[[i]] <- seq2(k, k + n - 1L)
+    k <- k + n
+  }
+
+  # structure the result as a grouped data frame
+  new_grouped_df(
+    bind_rows(result_tibbles),
+    groups = tibble::add_column(keys, ".rows" := .rows)
+  )
 }

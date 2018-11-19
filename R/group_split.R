@@ -12,7 +12,7 @@
 #' [group_keys()] explains the grouping structure, by returning a data frame that has one row
 #' per group and one column per grouping variable.
 #'
-#' @section grouped data frames:
+#' @section Grouped data frames:
 #'
 #' The primary use case for [group_split()] is with already grouped data frames,
 #' typically a result of [group_by()]. In this case [group_split()] only uses
@@ -21,7 +21,7 @@
 #' Because some of these groups may be empty, it is best paried with [group_keys()]
 #' which identifies the representatives of each grouping variable for the group.
 #'
-#' @section ungrouped data frames:
+#' @section Ungrouped data frames:
 #'
 #' When used on ungrouped data frames, [group_split()] and [group_keys()] forwards the `...` to
 #' [group_by()] before the split, therefore the `...` are subject to the data mask.
@@ -29,7 +29,7 @@
 #' Using these functions on an ungrouped data frame only makes sense if you need only one or the
 #' other, because otherwise the grouping algorithm is performed each time.
 #'
-#' @section rowwise data frames:
+#' @section Rowwise data frames:
 #'
 #' [group_split()] returns a list of one-row tibbles is returned, and the `...` are ignored and warned against
 #'
