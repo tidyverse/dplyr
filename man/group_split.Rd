@@ -2,15 +2,9 @@
 % Please edit documentation in R/group_split.R
 \name{group_split}
 \alias{group_split}
-\alias{group_split_at}
-\alias{group_split_if}
 \title{Split data frame by groups}
 \usage{
 group_split(.data, ...)
-
-group_split_at(.data, ...)
-
-group_split_if(.data, ...)
 }
 \arguments{
 \item{.data}{A tbl}

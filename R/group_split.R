@@ -65,18 +65,6 @@ group_split.grouped_df <- function(.data, ...) {
   group_split_impl(.data, environment())
 }
 
-#' @rdname group_split
-#' @export
-group_split_at <- function(.data, ...){
-  group_split_impl(group_by_at(.data, ...), environment())
-}
-
-#' @rdname group_split
-#' @export
-group_split_if <- function(.data, ...){
-  group_split_impl(group_by_if(.data, ...), environment())
-}
-
 group_map <- function(.tbl, .f, ..., env = caller_env()) {
   .f <- rlang::as_function(.f, env = env)
   .datas <- group_split(.tbl)

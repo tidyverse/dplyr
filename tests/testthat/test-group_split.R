@@ -23,20 +23,6 @@ test_that("group_split.grouped_df() works", {
   )
 })
 
-test_that("group_split_if works", {
-  expect_equal(
-    group_split_if(iris, is.factor),
-    group_split(iris, Species)
-  )
-})
-
-test_that("group_split_at works", {
-  expect_equal(
-    group_split_at(iris, vars("Species")),
-    group_split(iris, Species)
-  )
-})
-
 test_that("group_split / bind_rows round trip", {
   setosa <- iris %>%
     filter(Species == "setosa")
