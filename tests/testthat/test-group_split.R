@@ -36,3 +36,7 @@ test_that("group_split / bind_rows round trip", {
 
   expect_equal(bind_rows(chunks), setosa)
 })
+
+test_that("group_split() works if no grouping column", {
+  expect_equal(group_split(iris), list(iris))
+})

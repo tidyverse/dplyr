@@ -21,3 +21,9 @@ test_that("group_nest() works on grouped data frames", {
 test_that("group_nest.grouped_df() warns about ...", {
   expect_warning(group_nest(group_by(mtcars, cyl), cyl))
 })
+
+test_that("group_nest() works if no grouping column", {
+  res <- group_nest(iris)
+  expect_equal(res$data, list(iris))
+  expect_equal(names(res), "data")
+})
