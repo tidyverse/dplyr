@@ -62,7 +62,7 @@ group_map.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
 
   # structure the result as a grouped data frame
   new_grouped_df(
-    bind_rows(result_tibbles),
+    bind_rows(!!!result_tibbles),
     groups = tibble::add_column(keys, ".rows" := .rows)
   )
 }
