@@ -89,7 +89,7 @@ To be released as 0.8.0
  
     ```r
     starwars %>%
-      group_by(species, homeworld)
+      group_by(species, homeworld) %>% 
       group_nest()
       
     starwars %>%
@@ -101,7 +101,7 @@ To be released as 0.8.0
 
     ```r
     starwars %>%
-      group_by(species, homeworld)  
+      group_by(species, homeworld) %>%   
       group_split()
     
     starwars %>%
