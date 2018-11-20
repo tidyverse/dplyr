@@ -40,7 +40,7 @@ test_that("sample respects weight", {
 test_that("sample_* error message", {
   expect_error(
     check_weight(letters[1:2], 2),
-    "`weight` must be a numeric, not character",
+    "`weight` must be a numeric, not a character vector",
     fixed = TRUE
   )
   expect_error(
@@ -50,7 +50,7 @@ test_that("sample_* error message", {
   )
   expect_error(
     check_weight(letters, 2),
-    "`weight` must be a numeric, not character"
+    "`weight` must be a numeric, not a character vector"
   )
 })
 

@@ -70,7 +70,7 @@ apply_filter_syms <- function(pred, syms, tbl) {
     joiner <- any_exprs
   } else {
     bad_args(".vars_predicate", "must be a call to `all_vars()` or `any_vars()`, ",
-      "not {type_of(pred)}"
+      "not {friendly_type_of(pred)}"
     )
   }
 

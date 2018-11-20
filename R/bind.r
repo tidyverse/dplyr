@@ -119,7 +119,7 @@ bind_rows <- function(..., .id = NULL) {
   if (!is_null(.id)) {
     if (!(is_string(.id))) {
       bad_args(".id", "must be a scalar string, ",
-        "not {type_of(.id)} of length {length(.id)}"
+        "not {friendly_type_of(.id)} of length {length(.id)}"
       )
     }
     if (!all(have_name(x) | map_lgl(x, is_empty))) {

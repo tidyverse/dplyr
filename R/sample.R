@@ -84,7 +84,7 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    bad_args("weight", "must be a numeric, not {type_of(x)}")
+    bad_args("weight", "must be a numeric, not {friendly_type_of(x)}")
   }
   if (any(x < 0)) {
     bad_args("weight", "must be a vector with all values nonnegative, ",
