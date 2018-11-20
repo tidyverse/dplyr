@@ -139,3 +139,53 @@ parse_args <- function(x) {
 parse_named_call <- function(x) {
   map_chr(x, quo_text)
 }
+
+
+# From rlang
+friendly_type_of <- function(x) {
+  if (is.object(x)) {
+    sprintf("a `%s` object", class(x)[[1]])
+  } else {
+    as_friendly_type(typeof(x))
+  }
+}
+as_friendly_type <- function(type) {
+  switch(type,
+    logical = "a logical vector",
+    integer = "an integer vector",
+    numeric = ,
+    double = "a double vector",
+    complex = "a complex vector",
+    character = "a character vector",
+    raw = "a raw vector",
+    string = "a string",
+    list = "a list",
+
+    NULL = "NULL",
+    environment = "an environment",
+    externalptr = "a pointer",
+    weakref = "a weak reference",
+    S4 = "an S4 object",
+
+    name = ,
+    symbol = "a symbol",
+    language = "a call",
+    pairlist = "a pairlist node",
+    expression = "an expression vector",
+    quosure = "a quosure",
+    formula = "a formula",
+
+    char = "an internal string",
+    promise = "an internal promise",
+    ... = "an internal dots object",
+    any = "an internal `any` object",
+    bytecode = "an internal bytecode object",
+
+    primitive = ,
+    builtin = ,
+    special = "a primitive function",
+    closure = "a function",
+
+    type
+  )
+}
