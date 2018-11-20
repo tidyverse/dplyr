@@ -57,13 +57,13 @@ test_that("sample_* error message", {
 test_that("sample gives informative error for unknown type", {
   expect_error(
     sample_n(list()),
-    "`tbl` must be a data frame, not list",
+    "`tbl` must be a data frame, not a list",
     fixed = TRUE
   )
 
   expect_error(
     sample_frac(list()),
-    "`tbl` must be a data frame, not list",
+    "`tbl` must be a data frame, not a list",
     fixed = TRUE
   )
 })

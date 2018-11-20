@@ -67,15 +67,13 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 #' @export
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
                              .env = parent.frame()) {
-
-  bad_args("tbl", "must be a data frame, not {fmt_classes(tbl)}")
+  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}")
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
                                 .env = parent.frame()) {
-
-  bad_args("tbl", "must be a data frame, not {fmt_classes(tbl)}")
+  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}")
 }
 
 # Helper functions -------------------------------------------------------------

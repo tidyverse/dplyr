@@ -144,7 +144,7 @@ parse_named_call <- function(x) {
 # From rlang
 friendly_type_of <- function(x) {
   if (is.object(x)) {
-    sprintf("a `%s` object", class(x)[[1]])
+    sprintf("a `%s` object", fmt_classes(x))
   } else {
     as_friendly_type(typeof(x))
   }
