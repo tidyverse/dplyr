@@ -21,7 +21,7 @@ test_that("error messages", {
     case_when(
       50 ~ 1:3
     ),
-    "LHS of case 1 (`50`) must be a logical, not a double vector",
+    "LHS of case 1 (`50`) must be a logical vector, not a double vector",
     fixed = TRUE
   )
 })
@@ -131,4 +131,76 @@ test_that("case_when can be used in anonymous functions (#3422)", {
     mutate(b = (function(x) case_when(x < 2 ~ TRUE, TRUE ~ FALSE))(a)) %>%
     pull()
   expect_equal(res, c(TRUE, FALSE, FALSE))
+})
+
+test_that("case_when() can be used inside mutate()", {
+  out <- mtcars[1:4, ] %>%
+    mutate(out = case_when(
+      cyl == 4            ~ 1,
+      .data[["am"]] == 1  ~ 2,
+      TRUE                ~ 0
+    )) %>%
+    pull()
+  expect_identical(out, c(2, 2, 1, 0))
+})
+
+test_that("can pass quosures to case_when()", {
+  fs <- local({
+    x <- 3:1
+    quos(
+      x < 2 ~ TRUE,
+      TRUE ~ FALSE
+    )
+  })
+  expect_identical(case_when(!!!fs), c(FALSE, FALSE, TRUE))
+})
+
+test_that("can pass nested quosures to case_when()", {
+  fs <- local({
+    foo <- mtcars$cyl[1:4]
+    quos(
+      !!quo(foo) == 4 ~ 1,
+      TRUE            ~ 0
+    )
+  })
+  expect_identical(case_when(!!!fs), c(0, 0, 1, 0))
+})
+
+test_that("can pass unevaluated formulas to case_when()", {
+  x <- 6:8
+  fs <- exprs(
+    x == 7L ~ TRUE,
+    TRUE ~ FALSE
+  )
+  expect_identical(case_when(!!!fs), c(FALSE, TRUE, FALSE))
+
+  out <- local({
+    x <- 7:9
+    case_when(!!!fs)
+  })
+  expect_identical(out, c(TRUE, FALSE, FALSE))
+})
+
+test_that("unevaluated formulas can refer to data mask", {
+  fs <- exprs(
+    cyl == 4 ~ 1,
+    am == 1  ~ 2,
+    TRUE     ~ 0
+  )
+  out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
+  expect_identical(out, c(2, 2, 1, 0))
+})
+
+test_that("unevaluated formulas can contain quosures", {
+  quo <- local({
+    n <- 4
+    quo(n)
+  })
+  fs <- exprs(
+    cyl == !!quo ~ 1,
+    am == 1      ~ 2,
+    TRUE         ~ 0
+  )
+  out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
+  expect_identical(out, c(2, 2, 1, 0))
 })
