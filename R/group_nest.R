@@ -1,6 +1,6 @@
 
-group_nest_impl <- function(.tbl, .key){
-  mutate(group_keys(.tbl), !!.key := group_split(.tbl))
+group_nest_impl <- function(.tbl, .key, keep = FALSE){
+  mutate(group_keys(.tbl), !!.key := group_split(.tbl, keep = keep))
 }
 
 #' Nest a tibble using a grouping specification
@@ -9,8 +9,10 @@ group_nest_impl <- function(.tbl, .key){
 #'
 #' @family grouping functions
 #'
-#' @inheritParams group_split
+#' @param .tbl A tbl
+#' @param ... Grouping specification, forwarded to [group_by()]
 #' @param .key the name of the list column
+#' @param keep Should the grouping columns be kept in the list column.
 #'
 #' @section Grouped data frames:
 #'
@@ -48,19 +50,19 @@ group_nest_impl <- function(.tbl, .key){
 #'
 #'
 #' @export
-group_nest <- function(.tbl, ..., .key = "data"){
+group_nest <- function(.tbl, ..., .key = "data", keep = FALSE){
   UseMethod("group_nest")
 }
 
 #' @export
-group_nest.data.frame <- function(.tbl, ..., .key = "data") {
-  group_nest_impl(group_by(.tbl, ...), .key = .key)
+group_nest.data.frame <- function(.tbl, ..., .key = "data", keep = FALSE) {
+  group_nest_impl(group_by(.tbl, ...), .key = .key, keep = keep)
 }
 
 #' @export
-group_nest.grouped_df <- function(.tbl, ..., .key = "data") {
+group_nest.grouped_df <- function(.tbl, ..., .key = "data", keep = FALSE) {
   if (dots_n(...)) {
     warn("... is ignored in group_nest(<grouped_df>), please use group_by(..., add = TRUE) %>% group_nest()")
   }
-  group_nest_impl(.tbl, .key = .key)
+  group_nest_impl(.tbl, .key = .key, keep = keep)
 }

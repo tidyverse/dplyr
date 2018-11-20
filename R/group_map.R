@@ -15,7 +15,8 @@
 #'   for the given group, and `.y` to refer to the key, a one row tibble that
 #'   identify the group
 #'
-#' @param ... Additional arguments passed on to functions.
+#' @param ... Additional arguments passed on to `.f`
+#' @param keep Should `.x` contain the grouping variables
 #'
 #' @return The function specified in `.f` is called on each group, and the data frames
 #'         are combined with [bind_rows()]
@@ -33,16 +34,16 @@
 #'   group_map(~ tally(.x))
 #'
 #' @export
-group_map <- function(.tbl, .f, ...) {
+group_map <- function(.tbl, .f, ..., keep = FALSE) {
   UseMethod("group_map")
 }
 
 #' @export
-group_map.grouped_df <- function(.tbl, .f, ...) {
+group_map.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
   .f <- rlang::as_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.tbl)
+  chunks <- group_split(.tbl, keep = isTRUE(keep))
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
   result_tibbles <- map2(chunks, group_keys, function(.x, .y){

@@ -7,12 +7,14 @@
 \usage{
 group_keys(.tbl, ...)
 
-group_split(.tbl, ...)
+group_split(.tbl, ..., keep = TRUE)
 }
 \arguments{
 \item{.tbl}{A tbl}
 
 \item{...}{Grouping specification, forwarded to \code{\link[=group_by]{group_by()}}}
+
+\item{keep}{Should the grouping columns be kept}
 }
 \value{
 \itemize{

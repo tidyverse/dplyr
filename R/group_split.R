@@ -35,6 +35,7 @@
 #'
 #' @param .tbl A tbl
 #' @param ... Grouping specification, forwarded to [group_by()]
+#' @param keep Should the grouping columns be kept
 #'
 #' @return
 #'
@@ -71,27 +72,30 @@
 #'   group_keys(Species)
 #'
 #' @export
-group_split <- function(.tbl, ...) {
+group_split <- function(.tbl, ..., keep = TRUE) {
   UseMethod("group_split")
 }
 
 #' @export
-group_split.data.frame <- function(.tbl, ...){
-  group_split_impl(group_by(.tbl, ...), environment())
+group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
+  group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment())
 }
 
 #' @export
-group_split.rowwise_df <- function(.tbl, ...) {
+group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
-    warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
+    warn("... is ignored in group_split(<rowwise_df>), please use as_tibble() %>% group_split(...)")
+  }
+  if (!missing(keep)) {
+    warn("keep is ignored in group_split(<rowwise_df>)")
   }
   map(seq_len(nrow(.tbl)), function(i) .tbl[i, ])
 }
 
 #' @export
-group_split.grouped_df <- function(.tbl, ...) {
+group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
   }
-  group_split_impl(.tbl, environment())
+  group_split_impl(.tbl, isTRUE(keep), environment())
 }

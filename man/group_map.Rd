@@ -4,7 +4,7 @@
 \alias{group_map}
 \title{Apply a function to each group}
 \usage{
-group_map(.tbl, .f, ...)
+group_map(.tbl, .f, ..., keep = FALSE)
 }
 \arguments{
 \item{.tbl}{A grouped tibble}
@@ -18,7 +18,9 @@ you can use \code{.} or \code{.x} to refer to the subset of rows of \code{.tbl}
 for the given group, and \code{.y} to refer to the key, a one row tibble that
 identify the group}
 
-\item{...}{Additional arguments passed on to functions.}
+\item{...}{Additional arguments passed on to \code{.f}}
+
+\item{keep}{Should \code{.x} contain the grouping variables}
 }
 \value{
 The function specified in \code{.f} is called on each group, and the data frames

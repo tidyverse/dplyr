@@ -4,7 +4,7 @@
 \alias{group_nest}
 \title{Nest a tibble using a grouping specification}
 \usage{
-group_nest(.tbl, ..., .key = "data")
+group_nest(.tbl, ..., .key = "data", keep = FALSE)
 }
 \arguments{
 \item{.tbl}{A tbl}
@@ -12,6 +12,8 @@ group_nest(.tbl, ..., .key = "data")
 \item{...}{Grouping specification, forwarded to \code{\link[=group_by]{group_by()}}}
 
 \item{.key}{the name of the list column}
+
+\item{keep}{Should the grouping columns be kept in the list column.}
 }
 \value{
 A tbl with one row per unique combination of the grouping variables.

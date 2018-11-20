@@ -19,6 +19,7 @@
 #include <dplyr/hybrid/scalar_result/n.h>
 #include <dplyr/symbols.h>
 #include <dplyr/visitors/subset/column_subset.h>
+#include <dplyr/visitors/subset/DataFrameSelect.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -601,11 +602,32 @@ DataFrame ungroup_grouped_df(DataFrame df) {
 }
 
 // [[Rcpp::export]]
-List group_split_impl(GroupedDataFrame gdf, SEXP frame) {
+List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame) {
   ListView rows = gdf.indices();
   R_xlen_t n = rows.size();
   DataFrame group_data = gdf.group_data();
-  SEXP data = gdf.data();
+  DataFrame data = gdf.data();
+
+  if (!keep) {
+    int ng = group_data.ncol() - 1;
+    CharacterVector group_names = vec_names(group_data);
+    dplyr_hash_set<SEXP> set;
+    for (int i = 0; i < ng; i++) {
+      set.insert(group_names[i]);
+    }
+
+    int nv = data.size();
+    CharacterVector all_names = vec_names(data);
+    IntegerVector kept_cols(nv - ng);
+    int k = 0;
+    for (int i = 0; i < nv; i++) {
+      if (!set.count(all_names[i])) {
+        kept_cols[k++] = i + 1;
+      }
+    }
+    data = DataFrameSelect(data, kept_cols, false);
+  }
+
   GroupedDataFrame::group_iterator git = gdf.group_begin();
   List out(n);
   for (R_xlen_t i = 0; i < n; i++, ++git) {
@@ -613,6 +635,5 @@ List group_split_impl(GroupedDataFrame gdf, SEXP frame) {
     GroupedDataFrame::strip_groups(out_i);
     out[i] = out_i;
   }
-
   return out;
 }
