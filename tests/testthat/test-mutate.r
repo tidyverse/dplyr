@@ -851,3 +851,31 @@ test_that("columns are no longer available when set to NULL on mutate (#3799)", 
   expect_error(mutate(tbl, y = NULL, a = +sum(y)))
   expect_error(mutate(tbl, y = NULL, a = sum(y)))
 })
+
+test_that("rlang lambda inherit from the data mask (#3843)", {
+  res <- iris %>%
+    mutate_at(
+      vars(starts_with("Petal")),
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+    )
+  expected <- iris %>%
+    mutate(
+      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
+      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+    )
+  expect_equal(res, expected)
+
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate_at(
+      vars(starts_with("Petal")),
+      ~ ifelse(Species == "setosa" & . < 1.5, NA, .)
+    )
+  expected <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
+      Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
+    )
+  expect_equal(res, expected)
+})
