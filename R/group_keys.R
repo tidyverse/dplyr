@@ -16,7 +16,7 @@ group_keys.data.frame <- function(.tbl, ...){
 #' @export
 group_keys.grouped_df <- function(.tbl, ...) {
   if (dots_n(...)) {
-    warn("... is ignored in group_keys(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
+    warn("... is ignored in group_keys(<grouped_df>), please use group_by(..., add = TRUE) %>% group_keys()")
   }
   group_keys_impl(.tbl)
 }
