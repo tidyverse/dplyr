@@ -17,7 +17,9 @@
 #'
 #'   `NULL` inputs are ignored.
 #'
-#'   These dots support [tidy dots][rlang::tidy-dots] features.
+#'   These dots support [tidy dots][rlang::list2] features. In
+#'   particular, if your patterns are stored in a list, you can
+#'   splice that in with `!!!`.
 #' @export
 #' @return A vector of length 1 or `n`, matching the length of the logical
 #'   input or output vectors, with the type (and attributes) of the first
@@ -81,18 +83,45 @@
 #'     type = case_when(
 #'       height > 200 | mass > 200 ~ "large",
 #'       species == "Droid"        ~ "robot",
-#'       TRUE                      ~  "other"
+#'       TRUE                      ~ "other"
 #'     )
 #'   )
 #'
-#' # Dots support splicing:
-#' patterns <- list(
-#'   x %% 35 == 0 ~ "fizz buzz",
-#'   x %% 5 == 0 ~ "fizz",
-#'   x %% 7 == 0 ~ "buzz",
-#'   TRUE ~ as.character(x)
-#' )
-#' case_when(!!!patterns)
+#'
+#' # `case_when()` is not a tidy eval function. If you'd like to reuse
+#' # the same patterns, extract the `case_when()` call in a normal
+#' # function:
+#' case_character_type <- function(height, mass, species) {
+#'   case_when(
+#'     height > 200 | mass > 200 ~ "large",
+#'     species == "Droid"        ~ "robot",
+#'     TRUE                      ~ "other"
+#'   )
+#' }
+#'
+#' case_character_type(150, 250, "Droid")
+#' case_character_type(150, 150, "Droid")
+#'
+#' # Such functions can be used inside `mutate()` as well:
+#' starwars %>%
+#'   mutate(type = case_character_type(height, mass, species)) %>%
+#'   pull(type)
+#'
+#' # `case_when()` ignores `NULL` inputs. This is useful when you'd
+#' # like to use a pattern only under certain conditions. Here we'll
+#' # take advantage of the fact that `if` returns `NULL` when there is
+#' # no `else` clause:
+#' case_character_type <- function(height, mass, species, robots = TRUE) {
+#'   case_when(
+#'     height > 200 | mass > 200      ~ "large",
+#'     if (robots) species == "Droid" ~ "robot",
+#'     TRUE                           ~ "other"
+#'   )
+#' }
+#'
+#' starwars %>%
+#'   mutate(type = case_character_type(height, mass, species, robots = FALSE)) %>%
+#'   pull(type)
 case_when <- function(...) {
   fs <- compact_null(list2(...))
   n <- length(fs)
