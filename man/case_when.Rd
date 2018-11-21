@@ -20,7 +20,9 @@ value of \code{n} must be consistent across all cases. The case of
 
 \code{NULL} inputs are ignored.
 
-These dots support \link[rlang:tidy-dots]{tidy dots} features.}
+These dots support \link[rlang:list2]{tidy dots} features. In
+particular, if your patterns are stored in a list, you can
+splice that in with \code{!!!}.}
 }
 \value{
 A vector of length 1 or \code{n}, matching the length of the logical
@@ -91,16 +93,43 @@ starwars \%>\%
     type = case_when(
       height > 200 | mass > 200 ~ "large",
       species == "Droid"        ~ "robot",
-      TRUE                      ~  "other"
+      TRUE                      ~ "other"
     )
   )
 
-# Dots support splicing:
-patterns <- list(
-  x \%\% 35 == 0 ~ "fizz buzz",
-  x \%\% 5 == 0 ~ "fizz",
-  x \%\% 7 == 0 ~ "buzz",
-  TRUE ~ as.character(x)
-)
-case_when(!!!patterns)
+
+# `case_when()` is not a tidy eval function. If you'd like to reuse
+# the same patterns, extract the `case_when()` call in a normal
+# function:
+case_character_type <- function(height, mass, species) {
+  case_when(
+    height > 200 | mass > 200 ~ "large",
+    species == "Droid"        ~ "robot",
+    TRUE                      ~ "other"
+  )
+}
+
+case_character_type(150, 250, "Droid")
+case_character_type(150, 150, "Droid")
+
+# Such functions can be used inside `mutate()` as well:
+starwars \%>\%
+  mutate(type = case_character_type(height, mass, species)) \%>\%
+  pull(type)
+
+# `case_when()` ignores `NULL` inputs. This is useful when you'd
+# like to use a pattern only under certain conditions. Here we'll
+# take advantage of the fact that `if` returns `NULL` when there is
+# no `else` clause:
+case_character_type <- function(height, mass, species, robots = TRUE) {
+  case_when(
+    height > 200 | mass > 200      ~ "large",
+    if (robots) species == "Droid" ~ "robot",
+    TRUE                           ~ "other"
+  )
+}
+
+starwars \%>\%
+  mutate(type = case_character_type(height, mass, species, robots = FALSE)) \%>\%
+  pull(type)
 }
