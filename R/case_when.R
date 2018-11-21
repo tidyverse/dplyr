@@ -15,6 +15,8 @@
 #'   value of `n` must be consistent across all cases. The case of
 #'   `n == 0` is treated as a variant of `n != 1`.
 #'
+#'   `NULL` inputs are ignored.
+#'
 #'   These dots support [tidy dots][rlang::tidy-dots] features.
 #' @export
 #' @return A vector of length 1 or `n`, matching the length of the logical
@@ -92,7 +94,7 @@
 #' )
 #' case_when(!!!patterns)
 case_when <- function(...) {
-  fs <- list2(...)
+  fs <- compact_null(list2(...))
   n <- length(fs)
 
   if (n == 0) {

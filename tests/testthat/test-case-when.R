@@ -204,3 +204,23 @@ test_that("unevaluated formulas can contain quosures", {
   out <- mtcars[1:4, ] %>% mutate(out = case_when(!!!fs)) %>% pull()
   expect_identical(out, c(2, 2, 1, 0))
 })
+
+test_that("NULL inputs are compacted", {
+  x <- 1:3
+
+  bool <- FALSE
+  out <- case_when(
+    x == 2           ~ TRUE,
+    if (bool) x == 3 ~ NA,
+    TRUE             ~ FALSE
+  )
+  expect_identical(out, c(FALSE, TRUE, FALSE))
+
+  bool <- TRUE
+  out <- case_when(
+    x == 2           ~ TRUE,
+    if (bool) x == 3 ~ NA,
+    TRUE             ~ FALSE
+  )
+  expect_identical(out, c(FALSE, TRUE, NA))
+})
