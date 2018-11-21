@@ -18,6 +18,8 @@ Both LHS and RHS may have the same length of either 1 or \code{n}. The
 value of \code{n} must be consistent across all cases. The case of
 \code{n == 0} is treated as a variant of \code{n != 1}.
 
+\code{NULL} inputs are ignored.
+
 These dots support \link[rlang:tidy-dots]{tidy dots} features.}
 }
 \value{
