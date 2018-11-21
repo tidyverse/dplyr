@@ -25,7 +25,7 @@ test_that("bind_rows() err for invalid ID", {
 
   expect_error(
     bind_rows(df1, df2, .id = 5),
-    "`.id` must be a scalar string, not double of length 1",
+    "`.id` must be a scalar string, not a double vector of length 1",
     fixed = TRUE
   )
 })

@@ -3,19 +3,19 @@ context("tbl_cube")
 test_that("construction errors", {
   expect_error(
     tbl_cube(1:3, 1:3),
-    "`dimensions` must be a named list of vectors, not integer",
+    "`dimensions` must be a named list of vectors, not an integer vector",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), 1:3),
-    "`measures` must be a named list of arrays, not integer",
+    "`measures` must be a named list of arrays, not an integer vector",
     fixed = TRUE
   )
 
   expect_error(
     tbl_cube(list(a = 1:3), list(b = 1:3)),
-    "`measures` must be a named list of arrays, not list",
+    "`measures` must be a named list of arrays, not a list",
     fixed = TRUE
   )
 

@@ -27,17 +27,18 @@
 #' arrange(right, year)
 order_by <- function(order_by, call) {
   quo <- enquo(call)
-  if (!quo_is_call(quo)) {
-    type <- friendly_type(type_of(get_expr(quo)))
+  expr <- quo_get_expr(quo)
+  if (!is_call(expr)) {
+    type <- friendly_type_of(expr)
     bad_args("call", "must be a function call, not { type }")
   }
 
-  fn <- set_expr(quo, node_car(get_expr(quo)))
-  args <- node_cdr(get_expr(quo))
+  fn <- set_expr(quo, node_car(expr))
+  args <- node_cdr(expr)
   args <- map(args, new_quosure, quo_get_env(quo))
 
-  quo <- quo(with_order(!!order_by, !!fn, !!!args))
-  eval_tidy(quo)
+  expr <- expr(with_order(!!order_by, !!fn, !!!args))
+  eval_tidy(expr)
 }
 
 #' Run a function with one order, translating result back to original order

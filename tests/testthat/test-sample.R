@@ -40,7 +40,7 @@ test_that("sample respects weight", {
 test_that("sample_* error message", {
   expect_error(
     check_weight(letters[1:2], 2),
-    "`weight` must be a numeric, not character",
+    "`weight` must be a numeric, not a character vector",
     fixed = TRUE
   )
   expect_error(
@@ -50,20 +50,20 @@ test_that("sample_* error message", {
   )
   expect_error(
     check_weight(letters, 2),
-    "`weight` must be a numeric, not character"
+    "`weight` must be a numeric, not a character vector"
   )
 })
 
 test_that("sample gives informative error for unknown type", {
   expect_error(
     sample_n(list()),
-    "`tbl` must be a data frame, not list",
+    "`tbl` must be a data frame, not a list",
     fixed = TRUE
   )
 
   expect_error(
     sample_frac(list()),
-    "`tbl` must be a data frame, not list",
+    "`tbl` must be a data frame, not a list",
     fixed = TRUE
   )
 })

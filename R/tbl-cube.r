@@ -87,14 +87,14 @@ tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
     is.null(names(dimensions))) {
     bad_args("dimensions", "must be a named list of vectors, ",
-      "not {type_of(dimensions)}"
+      "not {friendly_type_of(dimensions)}"
     )
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
     bad_args("measures", "must be a named list of arrays, ",
-      "not {type_of(measures)}"
+      "not {friendly_type_of(measures)}"
     )
   }
 

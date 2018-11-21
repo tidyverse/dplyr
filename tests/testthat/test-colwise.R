@@ -3,7 +3,7 @@ context("colwise utils")
 test_that("tbl_at_vars() errs on bad input", {
   expect_error(
     tbl_at_vars(iris, raw(3)),
-    "`.vars` must be a character/numeric vector or a `vars()` object, not raw",
+    "`.vars` must be a character/numeric vector or a `vars()` object, not a raw vector",
     fixed = TRUE
   )
 })

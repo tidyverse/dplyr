@@ -223,14 +223,14 @@ auto_by_msg <- function(by) {
 #' @export
 common_by.default <- function(by, x, y) {
   bad_args("by", "must be a (named) character vector, list, or NULL for ",
-    "natural joins (not recommended in production code), not {type_of(by)}"
+    "natural joins (not recommended in production code), not {friendly_type_of(by)}"
   )
 }
 
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
     bad_args("suffix", "must be a character vector of length 2, ",
-      "not {type_of(x)} of length {length(x)}"
+      "not {friendly_type_of(x)} of length {length(x)}"
     )
   }
 

@@ -49,7 +49,7 @@ check_type <- function(x, template, header) {
     return()
   }
 
-  glubort(header, "must be type {type_of(template)}, not {typeof(x)}")
+  glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}")
 }
 
 check_class <- function(x, template, header) {
@@ -61,5 +61,7 @@ check_class <- function(x, template, header) {
     return()
   }
 
-  glubort(header, "must be {fmt_classes(template)}, not {fmt_classes(x)}")
+  exp_classes <- fmt_classes(template)
+  out_classes <- fmt_classes(x)
+  glubort(header, "must have class `{exp_classes}`, not class `{out_classes}`")
 }

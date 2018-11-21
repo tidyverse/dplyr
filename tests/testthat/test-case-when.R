@@ -13,7 +13,7 @@ test_that("error messages", {
     case_when(
       paste(50)
     ),
-    "Case 1 (`paste(50)`) must be a two-sided formula, not a string",
+    "Case 1 (`paste(50)`) must be a two-sided formula, not a character vector",
     fixed = TRUE
   )
 
@@ -21,7 +21,7 @@ test_that("error messages", {
     case_when(
       50 ~ 1:3
     ),
-    "LHS of case 1 (`50`) must be a logical, not double",
+    "LHS of case 1 (`50`) must be a logical, not a double vector",
     fixed = TRUE
   )
 })

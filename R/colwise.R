@@ -163,7 +163,7 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
     out
   } else {
     bad_args(".vars", "must be a character/numeric vector or a `vars()` object, ",
-      "not {type_of(vars)}"
+      "not {friendly_type_of(vars)}"
     )
   }
 }
