@@ -139,6 +139,8 @@ To be released as 0.8.0
 
 * `funs()` is soft-deprecated and will start issuing warnings in a future version.
 
+* `do()` and `rowwise()` are marked as questioning (#3494). 
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
@@ -153,9 +155,6 @@ To be released as 0.8.0
   to avoid ambiguities when these functions are overridden (#3644).
 
 * Fix rchk errors (#3693).
-
-# dplyr 0.7.5
-* `do()` and `rowwise()` are marked as questioning (#3494). 
 
 # dplyr 0.7.5 (2018-04-14)
 
