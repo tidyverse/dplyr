@@ -173,7 +173,11 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
   grouped <- group_by(x, ..., add = TRUE)
 
   out <- add_tally(grouped, wt = !!enquo(wt), sort = sort)
-  grouped_df(out, g)
+  out <- grouped_df(out, g)
+  if (length(groups(out)) == 0L) {
+    out <- ungroup(out)
+  }
+  out
 }
 #' @rdname se-deprecated
 #' @export

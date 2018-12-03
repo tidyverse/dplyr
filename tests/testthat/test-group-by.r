@@ -377,3 +377,9 @@ test_that("arrange handles grouped tibble with 0 groups (#3935)", {
   res <- arrange(df, x)
   expect_identical(df, res)
 })
+
+test_that("group_by() with empty spec produces a grouped data frame with 0 grouping variables", {
+  gdata <- group_data(group_by(iris))
+  expect_equal(names(gdata), ".rows")
+  expect_equal(gdata$.rows, list(1:nrow(iris)))
+})
