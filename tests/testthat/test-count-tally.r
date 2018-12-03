@@ -33,6 +33,14 @@ test_that("grouped count includes group", {
   expect_equal(group_vars(res), "g")
 })
 
+test_that("counts variable with the same name as `name` parameter", {
+  df <- data.frame(g = c(1, 1, 2, 2, 2))
+
+  out <- df %>% count(g, name = "g")
+  expect_equal(names(out), c("g", "ng"))
+  expect_equal(out$ng, c(2, 3))
+})
+
 
 # add_count ---------------------------------------------------------------
 
@@ -59,6 +67,22 @@ test_that("add_count respects and preserves existing groups", {
   expect_groups(res, "g")
 })
 
+test_that("adds counts column with user-defined name", {
+  df <- data.frame(g = c(1, 1, 2, 2, 2))
+  name <- "new_name"
+
+  out <- df %>% add_count(g, name = name)
+  expect_equal(names(out), c("g", name))
+  expect_equal(out[[name]], c(2, 2, 3, 3, 3))
+})
+
+test_that("adds counts of a variable with the same name as user-defined `name` parameter", {
+  df <- data.frame(g = c(1, 1, 2, 2, 2))
+
+  out <- df %>% add_count(g, name = "g")
+  expect_equal(names(out), c("g", "ng"))
+  expect_equal(out$ng, c(2, 2, 3, 3, 3))
+})
 
 # tally -------------------------------------------------------------------
 
@@ -68,9 +92,16 @@ test_that("weighted tally drops NAs (#1145)", {
   expect_equal(tally(df, x)$n, 2)
 })
 
+test_that("tally outputs column with user-defined name", {
+  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  name <- "counts"
+  res <- df %>% tally(name = name)
+
+  expect_equal(names(res), name)
+})
+
 
 # add_tally ---------------------------------------------------------------
-
 
 test_that("can add tallies of a variable", {
   df <- data.frame(a = c(1, 1, 2, 2, 2))
@@ -103,4 +134,12 @@ test_that("add_tally can be given a weighting variable", {
 
   out <- df %>% group_by(a) %>% add_tally(wt = w + 1)
   expect_equal(out$n, c(4, 4, 12, 12, 12))
+})
+
+test_that("adds column with user-defined variable name", {
+  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  name <- "counts"
+  res <- df %>% add_tally(name = name)
+
+  expect_equal(names(res), c("g", "val", name))
 })
