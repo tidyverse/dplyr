@@ -34,6 +34,11 @@
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
 #' @inheritParams filter
+#'
+#' @return A [grouped data frame][grouped_df()] if the combination of `...` and `add`
+#'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
+#'   otherwise.
+#'
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
