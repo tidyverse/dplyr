@@ -68,7 +68,7 @@ To be released as 0.8.0
     group_by(starwars, homeworld) %>% 
       group_data()
     
-    # the indicers
+    # the indices
     group_by(starwars, homeworld) %>% 
       group_data() %>% 
       pull(.rows)
