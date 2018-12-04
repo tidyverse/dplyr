@@ -35,7 +35,7 @@
 #'   `add = TRUE`.
 #' @inheritParams filter
 #'
-#' @return A [grouped data frame][grouped_df()] if the combination of `...` and `add`
+#' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
 #'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
 #'   otherwise.
 #'
