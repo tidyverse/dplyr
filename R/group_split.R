@@ -78,7 +78,11 @@ group_split <- function(.tbl, ..., keep = TRUE) {
 
 #' @export
 group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
-  group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment())
+  if (dots_n(...)) {
+    group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment())
+  } else {
+    list(.tbl)
+  }
 }
 
 #' @export

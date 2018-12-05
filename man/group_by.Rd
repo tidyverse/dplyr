@@ -22,6 +22,11 @@ override existing groups. To add to the existing groups, use
 
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
+\value{
+A \link[=grouped_df]{grouped data frame} if the combination of \code{...} and \code{add}
+yields a non empty set of grouping columns, a regular (ungrouped) data frame
+otherwise.
+}
 \description{
 Most data operations are done on groups defined by variables.
 \code{group_by()} takes an existing tbl and converts it into a grouped tbl

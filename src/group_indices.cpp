@@ -570,20 +570,15 @@ SymbolVector GroupedDataFrame::group_vars(SEXP x) {
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
+  if (!symbols.size()) {
+    GroupedDataFrame::strip_groups(data);
+    data.attr("class") = NaturalDataFrame::classes();
+    return data;
+  }
+
   DataFrame copy(shallow_copy(data));
   set_class(copy, GroupedDataFrame::classes());
-
-  if (!symbols.size()) {
-    R_xlen_t n = data.nrow();
-    List groups(1);
-    groups[0] = List::create(IntegerVector(seq(1, n)));
-    groups.names() = ".rows";
-    groups.attr("class") = NaturalDataFrame::classes();
-    set_rownames(groups, 1);
-    GroupedDataFrame::set_groups(copy, groups);
-  } else {
-    GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols));
-  }
+  GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols));
 
   return copy;
 }
