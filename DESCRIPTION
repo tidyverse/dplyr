@@ -59,5 +59,3 @@ Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.1
-Remotes:
-    tidyverse/tibble
