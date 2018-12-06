@@ -3,6 +3,14 @@
 #'
 #' \badgeexperimental
 #'
+#' `group_map()` and `group_walk()` are purrr-style function that can
+#' be used to iterate on grouped tibbles.
+#'
+#' Each conceptual group of the data frame is exposed to the function with two pieces of information:
+#'
+#'   - The subset of the data for the group, exposed as `.x`.
+#'   - The key, a tibble with exactly one row and columns for each grouping variable, exposed as `.y`
+#'
 #' @family grouping functions
 #'
 #' @param .tbl A grouped tibble
@@ -10,16 +18,22 @@
 #'
 #'   If a __function__, it is used as is. It should have at least 2 formal arguments.
 #'
-#'   If a __formula__, e.g. `~ head(.x)`, it is converted to a function. In the formula,
-#'   you can use `.` or `.x` to refer to the subset of rows of `.tbl`
-#'   for the given group, and `.y` to refer to the key, a one row tibble that
-#'   identify the group
+#'   If a __formula__, e.g. `~ head(.x)`, it is converted to a function.
+#'
+#'   In the formula, you can use
+#'
+#'   -  `.` or `.x` to refer to the subset of rows of `.tbl`
+#'   for the given group
+#'
+#'   - `.y` to refer to the key, a one row tibble with one column per grouping variable
+#'   that identifies the group
 #'
 #' @param ... Additional arguments passed on to `.f`
 #' @param keep Should `.x` contain the grouping variables
 #'
-#' @return The function specified in `.f` is called on each group, and the data frames
-#'         are combined with [bind_rows()]
+#' @return
+#'  - `group_map()` combines the data frames returned by `.f`
+#'  - `group_walk()` calls `.f` for side effects, and eventually invisibly returns `.tbl` unchanged
 #'
 #' @seealso [group_split()] and [group_keys()]
 #'
@@ -65,4 +79,22 @@ group_map.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
     bind_rows(!!!result_tibbles),
     groups = tibble::add_column(keys, ".rows" := .rows)
   )
+}
+
+#' @export
+#' @rdname group_map
+group_walk <- function(.tbl, .f, ...) {
+  UseMethod("group_walk")
+}
+
+#' @export
+group_walk.grouped_df <- function(.tbl, .f, ...) {
+  .f <- rlang::as_function(.f)
+
+  # call the function on each group
+  chunks <- group_split(.tbl, keep = isTRUE(keep))
+  keys  <- group_keys(.tbl)
+  group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
+  walk2(chunks, group_keys, .f)
+  invisible(.tbl)
 }

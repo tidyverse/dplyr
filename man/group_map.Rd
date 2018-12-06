@@ -2,9 +2,12 @@
 % Please edit documentation in R/group_map.R
 \name{group_map}
 \alias{group_map}
+\alias{group_walk}
 \title{Apply a function to each group}
 \usage{
 group_map(.tbl, .f, ..., keep = FALSE)
+
+group_walk(.tbl, .f, ...)
 }
 \arguments{
 \item{.tbl}{A grouped tibble}
@@ -13,21 +16,40 @@ group_map(.tbl, .f, ..., keep = FALSE)
 
 If a \strong{function}, it is used as is. It should have at least 2 formal arguments.
 
-If a \strong{formula}, e.g. \code{~ head(.x)}, it is converted to a function. In the formula,
-you can use \code{.} or \code{.x} to refer to the subset of rows of \code{.tbl}
-for the given group, and \code{.y} to refer to the key, a one row tibble that
-identify the group}
+If a \strong{formula}, e.g. \code{~ head(.x)}, it is converted to a function.
+
+In the formula, you can use
+\itemize{
+\item \code{.} or \code{.x} to refer to the subset of rows of \code{.tbl}
+for the given group
+\item \code{.y} to refer to the key, a one row tibble with one column per grouping variable
+that identifies the group
+}}
 
 \item{...}{Additional arguments passed on to \code{.f}}
 
 \item{keep}{Should \code{.x} contain the grouping variables}
 }
 \value{
-The function specified in \code{.f} is called on each group, and the data frames
-are combined with \code{\link[=bind_rows]{bind_rows()}}
+\itemize{
+\item \code{group_map()} combines the data frames returned by \code{.f}
+\item \code{group_walk()} calls \code{.f} for side effects, and eventually invisibly returns \code{.tbl} unchanged
+}
 }
 \description{
 \badgeexperimental
+}
+\details{
+\code{group_map()} and \code{group_walk()} are purrr-style function that can
+be used to iterate on grouped tibbles.
+
+Each conceptual group of the data frame is exposed to the function with two pieces of information:
+\itemize{
+\item The subset of the data for the group, exposed as \code{.x}.
+\itemize{
+\item The key, a tibble with exactly one row and columns for each grouping variable, exposed as \code{.y}
+}
+}
 }
 \examples{
 mtcars \%>\%
