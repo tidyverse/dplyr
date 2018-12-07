@@ -3,7 +3,7 @@
 #'
 #' \badgeexperimental
 #'
-#' `group_map()` and `group_walk()` are purrr-style function that can
+#' `group_map()` and `group_walk()` are purrr-style functions that can
 #' be used to iterate on grouped tibbles.
 #'
 #' Each conceptual group of the data frame is exposed to the function `.f` with two pieces of information:
