@@ -87,7 +87,7 @@ iris \%>\%
 dir.create(temp <- tempfile())
 iris \%>\%
   group_by(Species) \%>\%
-  group_walk(~ readr::write_csv(.x, path = file.path(temp, paste0(.y$Species, ".csv"))))
+  group_walk(~ write.csv(.x, file = file.path(temp, paste0(.y$Species, ".csv"))))
 list.files(temp, pattern = "csv$")
 unlink(temp, recursive = TRUE)
 
