@@ -9,7 +9,7 @@
 #' Each conceptual group of the data frame is exposed to the function `.f` with two pieces of information:
 #'
 #'   - The subset of the data for the group, exposed as `.x`.
-#'   - The key, a tibble with exactly one row and columns for each grouping variable, exposed as `.y`
+#'   - The key, a tibble with exactly one row and columns for each grouping variable, exposed as `.y`.
 #'
 #' @family grouping functions
 #'
