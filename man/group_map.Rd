@@ -32,22 +32,28 @@ that identifies the group
 }
 \value{
 \itemize{
-\item \code{group_map()} combines the data frames returned by \code{.f}
-\item \code{group_walk()} calls \code{.f} for side effects, and eventually invisibly returns \code{.tbl} unchanged
+\item \code{group_map()} row binds the data frames returned by \code{.f}
+\item \code{group_walk()} calls \code{.f} for side effects and returns the input \code{.tbl}, invisibly
 }
 }
 \description{
 \badgeexperimental
 }
 \details{
-\code{group_map()} and \code{group_walk()} are purrr-style function that can
+\code{group_map()} and \code{group_walk()} are purrr-style functions that can
 be used to iterate on grouped tibbles.
+\itemize{
+\item Use \code{group_map()} when \code{summarize()} is too limited, in terms of what you need
+to do and return for each group. \code{group_map()} is good for "data frame in, data frame out".
+If that is too limited, you need to use a \link[=group_nest]{nested} or \link[=group_split]{split} workflow.
+\item \code{group_map()} and \code{group_walk()} are an evolution of \code{\link[=do]{do()}}, if you have used that before.
+}
 
-Each conceptual group of the data frame is exposed to the function with two pieces of information:
+Each conceptual group of the data frame is exposed to the function \code{.f} with two pieces of information:
 \itemize{
 \item The subset of the data for the group, exposed as \code{.x}.
 \itemize{
-\item The key, a tibble with exactly one row and columns for each grouping variable, exposed as \code{.y}
+\item The key, a tibble with exactly one row and columns for each grouping variable, exposed as \code{.y}.
 }
 }
 }
@@ -56,15 +62,37 @@ mtcars \%>\%
   group_by(cyl) \%>\%
   group_map(~ head(.x, 2L))
 
+if (requireNamespace("broom", quietly = TRUE)) {
+  iris \%>\%
+    group_by(Species) \%>\%
+    group_map(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
+}
+
 iris \%>\%
   group_by(Species) \%>\%
-  filter(Species == "setosa") \%>\%
-  group_map(~ tally(.x))
+  group_map(~ {
+     quantile(.x$Petal.Length, probs = c(0.25, 0.5, 0.75)) \%>\%
+     tibble::enframe(name = "prob", value = "quantile")
+  })
+
+iris \%>\%
+  group_by(Species) \%>\%
+  group_map(~ {
+    .x \%>\%
+      purrr::map_dfc(fivenum) \%>\%
+      mutate(nms = c("min", "Q1", "median", "Q3", "max"))
+  })
+
+# group_walk() is for side effects
+dir.create(temp <- tempfile())
+iris \%>\%
+  group_by(Species) \%>\%
+  group_walk(~ readr::write_csv(.x, path = file.path(temp, paste0(.y$Species, ".csv"))))
+list.files(temp, pattern = "csv$")
+unlink(temp, recursive = TRUE)
 
 }
 \seealso{
-\code{\link[=group_split]{group_split()}} and \code{\link[=group_keys]{group_keys()}}
-
 Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
   \code{\link{group_nest}}, \code{\link{group_rows}},

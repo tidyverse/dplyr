@@ -6,6 +6,11 @@
 #' `group_map()` and `group_walk()` are purrr-style functions that can
 #' be used to iterate on grouped tibbles.
 #'
+#' - Use `group_map()` when `summarize()` is too limited, in terms of what you need
+#'   to do and return for each group. `group_map()` is good for "data frame in, data frame out".
+#'   If that is too limited, you need to use a [nested][group_nest()] or [split][group_split()] workflow.
+#' - `group_map()` and `group_walk()` are an evolution of [do()], if you have used that before.
+#'
 #' Each conceptual group of the data frame is exposed to the function `.f` with two pieces of information:
 #'
 #'   - The subset of the data for the group, exposed as `.x`.
@@ -35,17 +40,39 @@
 #'  - `group_map()` row binds the data frames returned by `.f`
 #'  - `group_walk()` calls `.f` for side effects and returns the input `.tbl`, invisibly
 #'
-#' @seealso [group_split()] and [group_keys()]
-#'
 #' @examples
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   group_map(~ head(.x, 2L))
 #'
+#' if (requireNamespace("broom", quietly = TRUE)) {
+#'   iris %>%
+#'     group_by(Species) %>%
+#'     group_map(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
+#' }
+#'
 #' iris %>%
 #'   group_by(Species) %>%
-#'   filter(Species == "setosa") %>%
-#'   group_map(~ tally(.x))
+#'   group_map(~ {
+#'      quantile(.x$Petal.Length, probs = c(0.25, 0.5, 0.75)) %>%
+#'      tibble::enframe(name = "prob", value = "quantile")
+#'   })
+#'
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_map(~ {
+#'     .x %>%
+#'       purrr::map_dfc(fivenum) %>%
+#'       mutate(nms = c("min", "Q1", "median", "Q3", "max"))
+#'   })
+#'
+#' # group_walk() is for side effects
+#' dir.create(temp <- tempfile())
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_walk(~ readr::write_csv(.x, path = file.path(temp, paste0(.y$Species, ".csv"))))
+#' list.files(temp, pattern = "csv$")
+#' unlink(temp, recursive = TRUE)
 #'
 #' @export
 group_map <- function(.tbl, .f, ..., keep = FALSE) {
