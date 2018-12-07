@@ -32,7 +32,7 @@
 #' @param keep Should `.x` contain the grouping variables
 #'
 #' @return
-#'  - `group_map()` combines the data frames returned by `.f`
+#'  - `group_map()` row binds the data frames returned by `.f`
 #'  - `group_walk()` calls `.f` for side effects, and eventually invisibly returns `.tbl` unchanged
 #'
 #' @seealso [group_split()] and [group_keys()]
