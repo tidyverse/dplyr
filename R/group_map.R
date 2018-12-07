@@ -80,6 +80,16 @@ group_map <- function(.tbl, .f, ..., keep = FALSE) {
 }
 
 #' @export
+group_map.formula <- function(.tbl, .f, ..., keep = FALSE) {
+  abort("Did you forget to provide the primary input tibble?")
+}
+
+#' @export
+group_map.function <- function(.tbl, .f, ..., keep = FALSE) {
+  abort("Did you forget to provide the primary input tibble?")
+}
+
+#' @export
 group_map.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
   .f <- rlang::as_function(.f)
 
