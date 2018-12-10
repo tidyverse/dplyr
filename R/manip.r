@@ -165,16 +165,16 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' filter(mtcars, row_number() == 1L)
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
-slice <- function(.data, ...) {
+slice <- function(.data, ..., .preserve = FALSE) {
   UseMethod("slice")
 }
 #' @export
-slice.default <- function(.data, ...) {
-  slice_(.data, .dots = compat_as_lazy_dots(...))
+slice.default <- function(.data, ..., .preserve = FALSE) {
+  slice_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
 }
 #' @export
 #' @rdname se-deprecated
-slice_ <- function(.data, ..., .dots = list()) {
+slice_ <- function(.data, ..., .dots = list(), .preserve = FALSE) {
   UseMethod("slice_")
 }
 

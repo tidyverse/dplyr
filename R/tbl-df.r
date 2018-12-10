@@ -66,19 +66,27 @@ filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 }
 
 #' @export
-slice.tbl_df <- function(.data, ...) {
+slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- quos(...)
   if (is_empty(dots)) {
     return(.data)
   }
 
   quo <- quo(c(!!!dots))
-  slice_impl(.data, quo)
+  out <- slice_impl(.data, quo)
+  if (!.preserve) {
+    out <- group_by(out, add = TRUE)
+  }
+  out
 }
 #' @export
-slice_.tbl_df <- function(.data, ..., .dots = list()) {
+slice_.tbl_df <- function(.data, ..., .dots = list(), .preserve = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  slice_impl(.data, dots[[1L]])
+  out <- slice_impl(.data, dots[[1L]])
+  if (!.preserve) {
+    out <- group_by(out, add = TRUE)
+  }
+  out
 }
 
 #' @export

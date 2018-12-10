@@ -4,7 +4,7 @@
 \alias{slice}
 \title{Choose rows by position}
 \usage{
-slice(.data, ...)
+slice(.data, ..., .preserve = FALSE)
 }
 \arguments{
 \item{.data}{A tbl.}
@@ -19,6 +19,9 @@ The arguments in \code{...} are automatically \link[rlang:quo]{quoted} and
 frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
 these concepts.}
+
+\item{.preserve}{when \code{TRUE} (the default), the grouping structure
+is preserved, otherwise it is recalculated based on the resulting data.}
 }
 \description{
 Choose rows by their ordinal position in the tbl.  Grouped tbls use

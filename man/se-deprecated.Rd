@@ -45,7 +45,7 @@ group_indices_(.data, ..., .dots = list())
 
 filter_(.data, ..., .dots = list(), .preserve = TRUE)
 
-slice_(.data, ..., .dots = list())
+slice_(.data, ..., .dots = list(), .preserve = FALSE)
 
 summarise_(.data, ..., .dots = list())
 
