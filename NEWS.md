@@ -11,8 +11,7 @@ To be released as 0.8.0
   Unwind-protection also makes dplyr more robust in corner cases because it
   ensures the C++ destructors are correctly called in all circumstances
   (debugger exit, captured condition, restart invokation).
-* Using `mutate_all()` and `transmute_all()` with grouped tibbles now informs
-  you that the grouping variables are ignored. The message invites you to use
+
 * Using `mutate_all()`, `transmute_all()`, `mutate_if()` and `transmute_if()`
   with grouped tibbles now informs you that the grouping variables are
   ignored. In the case of the `_all()` verbs, the message invites you to use
