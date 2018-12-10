@@ -43,7 +43,7 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 }
 
 #' @export
-filter.tbl_df <- function(.data, ..., .preserve = TRUE) {
+filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- quos(...)
   if (any(have_name(dots))) {
     bad <- dots[have_name(dots)]
@@ -60,7 +60,7 @@ filter.tbl_df <- function(.data, ..., .preserve = TRUE) {
   out
 }
 #' @export
-filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
+filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   filter(.data, !!!dots, .preserve = .preserve)
 }

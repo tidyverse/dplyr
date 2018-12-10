@@ -4,7 +4,7 @@
 \alias{filter}
 \title{Return rows with matching conditions}
 \usage{
-filter(.data, ..., .preserve = TRUE)
+filter(.data, ..., .preserve = FALSE)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods
@@ -20,8 +20,8 @@ frame. They support \link[rlang:quasiquotation]{unquoting} and
 splicing. See \code{vignette("programming")} for an introduction to
 these concepts.}
 
-\item{.preserve}{when \code{TRUE} (the default), the grouping structure
-is preserved, otherwise it is recalculated based on the resulting data.}
+\item{.preserve}{when \code{FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise it is kept as is.}
 }
 \value{
 An object of the same class as \code{.data}.
