@@ -38,7 +38,6 @@
 #'   that identifies the group
 #'
 #' @param ... Additional arguments passed on to `.f`
-#' @param keep Should `.x` contain the grouping variables
 #'
 #' @return
 #'  - `group_map()` row binds the data frames returned by `.f`
@@ -79,26 +78,26 @@
 #' unlink(temp, recursive = TRUE)
 #'
 #' @export
-group_map <- function(.tbl, .f, ..., keep = FALSE) {
+group_map <- function(.tbl, .f, ...) {
   UseMethod("group_map")
 }
 
 #' @export
-group_map.formula <- function(.tbl, .f, ..., keep = FALSE) {
+group_map.formula <- function(.tbl, .f, ...) {
   abort("Did you forget to provide the primary input tibble?")
 }
 
 #' @export
-group_map.function <- function(.tbl, .f, ..., keep = FALSE) {
+group_map.function <- function(.tbl, .f, ...) {
   abort("Did you forget to provide the primary input tibble?")
 }
 
 #' @export
-group_map.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
+group_map.grouped_df <- function(.tbl, .f, ...) {
   .f <- rlang::as_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.tbl, keep = isTRUE(keep))
+  chunks <- group_split(.tbl, keep = FALSE)
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
   result_tibbles <- map2(chunks, group_keys, function(.x, .y){
@@ -133,7 +132,7 @@ group_walk.grouped_df <- function(.tbl, .f, ...) {
   .f <- rlang::as_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.tbl, keep = isTRUE(keep))
+  chunks <- group_split(.tbl, keep = FALSE)
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
   walk2(chunks, group_keys, .f)

@@ -5,7 +5,7 @@
 \alias{group_walk}
 \title{Apply a function to each group}
 \usage{
-group_map(.tbl, .f, ..., keep = FALSE)
+group_map(.tbl, .f, ...)
 
 group_walk(.tbl, .f, ...)
 }
@@ -27,8 +27,6 @@ that identifies the group
 }}
 
 \item{...}{Additional arguments passed on to \code{.f}}
-
-\item{keep}{Should \code{.x} contain the grouping variables}
 }
 \value{
 \itemize{
