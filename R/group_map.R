@@ -3,8 +3,12 @@
 #'
 #' \badgeexperimental
 #'
+#' @description
+#'
 #' `group_map()` and `group_walk()` are purrr-style functions that can
 #' be used to iterate on grouped tibbles.
+#'
+#' @details
 #'
 #' - Use `group_map()` when `summarize()` is too limited, in terms of what you need
 #'   to do and return for each group. `group_map()` is good for "data frame in, data frame out".

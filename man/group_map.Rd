@@ -37,11 +37,11 @@ that identifies the group
 }
 }
 \description{
-\badgeexperimental
-}
-\details{
 \code{group_map()} and \code{group_walk()} are purrr-style functions that can
 be used to iterate on grouped tibbles.
+}
+\details{
+\badgeexperimental
 \itemize{
 \item Use \code{group_map()} when \code{summarize()} is too limited, in terms of what you need
 to do and return for each group. \code{group_map()} is good for "data frame in, data frame out".
@@ -52,9 +52,7 @@ If that is too limited, you need to use a \link[=group_nest]{nested} or \link[=g
 Each conceptual group of the data frame is exposed to the function \code{.f} with two pieces of information:
 \itemize{
 \item The subset of the data for the group, exposed as \code{.x}.
-\itemize{
 \item The key, a tibble with exactly one row and columns for each grouping variable, exposed as \code{.y}.
-}
 }
 }
 \examples{
@@ -95,7 +93,8 @@ unlink(temp, recursive = TRUE)
 \seealso{
 Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
-  \code{\link{group_nest}}, \code{\link{group_rows}},
-  \code{\link{group_size}}, \code{\link{groups}}
+  \code{\link{group_keys}}, \code{\link{group_nest}},
+  \code{\link{group_rows}}, \code{\link{group_size}},
+  \code{\link{groups}}
 }
 \concept{grouping functions}
