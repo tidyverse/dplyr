@@ -280,9 +280,15 @@ test_that("grouped filter handles indices (#880)", {
 test_that("filter(FALSE) handles indices", {
   out <- mtcars %>%
     group_by(cyl) %>%
-    filter(FALSE) %>%
+    filter(FALSE, .preserve = TRUE) %>%
     group_rows()
   expect_identical(out, list(integer(), integer(), integer()))
+
+  out <- mtcars %>%
+    group_by(cyl) %>%
+    filter(FALSE, .preserve = FALSE) %>%
+    group_rows()
+  expect_identical(out, list())
 })
 
 test_that("filter handles S4 objects (#1366)", {
