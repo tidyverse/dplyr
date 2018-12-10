@@ -51,6 +51,10 @@ test_that("slice works with grouped data", {
   res <- slice(g, -(1:2))
   exp <- filter(g, row_number() >= 3)
   expect_equal(res, exp)
+
+  g <- group_by(data.frame(x = c(1, 1, 2, 2, 2)), x)
+  expect_equal(group_keys(slice(g, 3, .preserve = TRUE))$x, c(1, 2))
+  expect_equal(group_keys(slice(g, 3, .preserve = FALSE))$x, 2)
 })
 
 test_that("slice gives correct rows (#649)", {

@@ -90,7 +90,6 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- quo(c(!!!dots))
   out <- slice_impl(.data, quo)
   filter_regroup(.data, out, .preserve)
-  out
 }
 #' @export
 slice_.tbl_df <- function(.data, ..., .preserve = FALSE, .dots = list()) {
