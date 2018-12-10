@@ -404,16 +404,6 @@ public:
     dense[i] = true;
   }
 
-  // the group i contains some data, available in g_test
-  void add_group_lgl(int i, int n, Rcpp::LogicalVector g_test) {
-    if (n == 0) {
-      empty_group(i);
-    } else {
-      add_group(i, n) ;
-      tests[i] = g_test;
-    }
-  }
-
   void add_group_slice_positive(int i, int old_group_size, const IntegerVector& g_idx) {
     int new_group_size = std::count_if(g_idx.begin(), g_idx.end(), SlicePositivePredicate(old_group_size));
     if (new_group_size == 0) {
@@ -426,15 +416,29 @@ public:
 
   void add_group_slice_negative(int i, int old_group_size, const IntegerVector& g_idx) {
     SliceNegativePredicate pred(old_group_size);
-    LogicalVector test(old_group_size, TRUE);
+
+    LogicalVector test_lgl(old_group_size, TRUE);
     for (int j = 0; j < g_idx.size(); j++) {
       int idx = g_idx[j];
       if (pred(idx)) {
-        test[-idx - 1] = FALSE;
+        test_lgl[-idx - 1] = FALSE;
       }
     }
-    int n = std::count(test.begin(), test.end(), TRUE);
-    add_group_lgl(i, n, test);
+    int n = std::count(test_lgl.begin(), test_lgl.end(), TRUE);
+
+    if (n == 0) {
+      empty_group(i);
+    } else {
+      IntegerVector test(n);
+      int k = 0;
+      for (int i = 0; i < test_lgl.size(); i++) {
+        if (test_lgl[i] == TRUE) {
+          test[k++] = i + 1;
+        }
+      }
+      add_group(i, n);
+      tests[i] = test;
+    }
   }
 
   // the total number of rows
@@ -472,34 +476,18 @@ public:
         } else {
           SEXP test = tests[i];
 
-          if (is<LogicalVector>(test)) {
-            // then we take the indices where test is TRUE
-            int* p_test = LOGICAL(test);
-
-            int jj = 0;
-            for (int j = 0; j < chunk_size ; j++, ii++, jj++, ++p_test) {
-              // skip until TRUE
-              while (*p_test != 1) {
-                ++p_test;
-                jj++;
-              }
-
-              // 1-based
-              out[ii] = old_idx[jj] + 1;
+          int* p_test = INTEGER(test);
+          SlicePositivePredicate pred(old_idx.size());
+          for (int j = 0; j < chunk_size; j++, ii++, ++p_test) {
+            // skip until the index valids the predicate
+            while (!pred(*p_test)) {
+              ++p_test;
             }
-          } else {
-            int* p_test = INTEGER(test);
-            SlicePositivePredicate pred(old_idx.size());
-            for (int j = 0; j < chunk_size; j++, ii++, ++p_test) {
-              // skip until the index valids the predicate
-              while (!pred(*p_test)) {
-                ++p_test;
-              }
 
-              // 1-based
-              out[ii] = old_idx[*p_test - 1] + 1;
-            }
+            // 1-based
+            out[ii] = old_idx[*p_test - 1] + 1;
           }
+
         }
       }
     }
