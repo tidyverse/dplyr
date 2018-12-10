@@ -54,7 +54,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
   out <- filter_impl(.data, quo)
-  if (!.preserve) {
+  if (!.preserve && is_grouped_df(.data)) {
     out <- group_by(out, add = TRUE)
   }
   out
