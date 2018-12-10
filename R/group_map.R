@@ -20,6 +20,8 @@
 #'   - The subset of the data for the group, exposed as `.x`.
 #'   - The key, a tibble with exactly one row and columns for each grouping variable, exposed as `.y`.
 #'
+#' `.f` must return a data frame that does not contain any of the grouping variables of `.tbl`.
+#'
 #' @family grouping functions
 #'
 #' @param .tbl A grouped tibble

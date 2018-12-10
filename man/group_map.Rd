@@ -52,6 +52,8 @@ Each conceptual group of the data frame is exposed to the function \code{.f} wit
 \item The subset of the data for the group, exposed as \code{.x}.
 \item The key, a tibble with exactly one row and columns for each grouping variable, exposed as \code{.y}.
 }
+
+\code{.f} must return a data frame that does not contain any of the grouping variables of \code{.tbl}.
 }
 \examples{
 mtcars \%>\%
