@@ -32,7 +32,7 @@ SEXP check_result_lgl_type(SEXP tmp) {
   return tmp;
 }
 
-// class to collect indices for each group
+// class to collect indices for each group in a filter()
 template <typename SlicedTibble>
 class GroupFilterIndices {
   typedef typename SlicedTibble::slicing_index slicing_index;
@@ -186,7 +186,7 @@ private:
     return groups;
   }
 
-  const GroupFilterIndices<GroupedDataFrame>& index;
+  const IndexCollector& index;
   const GroupedDataFrame& data;
 };
 
@@ -264,7 +264,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
 
   group_indices.process();
 
-  return structure_filter<SlicedTibble, GroupFilterIndices<SlicedTibble> >(gdf, group_indices, quo.env()) ;
+  return structure_filter(gdf, group_indices, quo.env()) ;
 }
 
 // [[Rcpp::export]]
@@ -360,218 +360,145 @@ private:
 
 template <typename SlicedTibble>
 class GroupSliceIndices {
-public:
   typedef typename SlicedTibble::slicing_index slicing_index;
+
+  struct PositionGroup {
+    PositionGroup(int position_, int group_) :
+      position(position_), group(group_)
+    {}
+    int position;
+    int group;
+
+    inline bool operator<(const PositionGroup& rhs) const {
+      return position < rhs.position;
+    }
+  };
+
+  const SlicedTibble& tbl;
+
+  int n;
+
+  std::vector<PositionGroup> positions_groups;
+
   int ngroups;
 
-  // the results of the test expression for each group
-  // we only keep those that we need
-  Rcpp::List tests;
+  std::vector<int> new_sizes;
 
-  // The new indices
-  Rcpp::List new_indices;
-
-  // dense
-  std::vector<bool> dense;
-
-private:
-
-  int k;
+  typename SlicedTibble::group_iterator git;
 
 public:
 
-  GroupSliceIndices(int ngroups_) :
-    ngroups(ngroups_),
-    tests(ngroups),
-    new_indices(ngroups),
-    dense(ngroups, false),
-    k(0)
-  {}
+  IntegerVector indices;
+  List rows;
+
+  GroupSliceIndices(const SlicedTibble& tbl_) :
+    tbl(tbl_),
+    n(tbl.data().nrow()),
+
+    positions_groups(),
+
+    ngroups(tbl.ngroups()),
+    new_sizes(ngroups),
+    git(tbl.group_begin()),
+    rows(ngroups)
+  {
+    // reserve enough space for positions and groups for most cases
+    // i.e. in most cases we need less than n
+    positions_groups.reserve(n);
+  }
 
   // set the group i to be empty
   void empty_group(int i) {
-    new_indices[i] = Rcpp::IntegerVector::create();
+    new_sizes[i] = 0;
+    ++git;
   }
 
-  // the group i contains all the data from the original
-  void add_dense_group(int i, int n) {
-    add_group(i, n);
-    dense[i] = true;
-  }
-
-  void add_group_slice_positive(int i, int old_group_size, const IntegerVector& g_idx) {
-    int new_group_size = std::count_if(g_idx.begin(), g_idx.end(), SlicePositivePredicate(old_group_size));
-    if (new_group_size == 0) {
-      empty_group(i);
-    } else {
-      add_group(i, new_group_size);
-      tests[i] = g_idx ;
+  void add_group_slice_positive(int i, const IntegerVector& g_idx) {
+    slicing_index old_indices = *git;
+    int ng = g_idx.size();
+    SlicePositivePredicate pred(old_indices.size());
+    int new_size = 0;
+    for (int j = 0; j < ng; j++) {
+      if (pred(g_idx[j])) {
+        positions_groups.push_back(
+          PositionGroup(old_indices[g_idx[j] - 1], i)
+        );
+        new_size++;
+      }
     }
+    new_sizes[i] = new_size;
+    ++git;
   }
 
-  void add_group_slice_negative(int i, int old_group_size, const IntegerVector& g_idx) {
-    SliceNegativePredicate pred(old_group_size);
+  void add_group_slice_negative(int i, const IntegerVector& g_idx) {
+    slicing_index old_indices = *git;
+    SliceNegativePredicate pred(old_indices.size());
 
-    LogicalVector test_lgl(old_group_size, TRUE);
+    LogicalVector test_lgl(old_indices.size(), TRUE);
     for (int j = 0; j < g_idx.size(); j++) {
       int idx = g_idx[j];
       if (pred(idx)) {
         test_lgl[-idx - 1] = FALSE;
       }
     }
-    int n = std::count(test_lgl.begin(), test_lgl.end(), TRUE);
+    int ng = std::count(test_lgl.begin(), test_lgl.end(), TRUE);
 
-    if (n == 0) {
+    if (ng == 0) {
       empty_group(i);
     } else {
-      IntegerVector test(n);
-      int k = 0;
-      for (int i = 0; i < test_lgl.size(); i++) {
-        if (test_lgl[i] == TRUE) {
-          test[k++] = i + 1;
+      int new_size = 0;
+      IntegerVector test(ng);
+      for (int j = 0; j < test_lgl.size(); j++) {
+        if (test_lgl[j] == TRUE) {
+          positions_groups.push_back(
+            PositionGroup(old_indices[j], i)
+          );
+          new_size++;
         }
       }
-      add_group(i, n);
-      tests[i] = test;
+      new_sizes[i] = new_size;
+      ++git;
     }
   }
 
   // the total number of rows
   // only makes sense when the object is fully trained
   inline int size() const {
-    return k;
+    return positions_groups.size();
   }
 
-  inline int group_size(int i) const {
-    return Rf_length(new_indices[i]);
-  }
-
-  // after this has been trained, materialize
-  // a 1-based integer vector
-  IntegerVector get(const SlicedTibble& df) const {
-    int n = size();
-    IntegerVector out(n);
-    typename SlicedTibble::group_iterator git = df.group_begin();
-
-    int ii = 0;
-    for (int i = 0; i < ngroups; i++, ++git) {
-      int chunk_size = group_size(i);
-      // because there is nothing to do when the group is empty
-      if (chunk_size > 0) {
-        // the indices relevant to the original data
-        slicing_index old_idx = *git;
-
-        // the new indices
-        const IntegerVector& new_idx = new_indices[i];
-        if (dense[i]) {
-          // in that case we can just copy all the data
-          for (int j = 0; j < chunk_size; j++, ii++) {
-            out[ii] = old_idx[j] + 1;
-          }
-        } else {
-          SEXP test = tests[i];
-
-          int* p_test = INTEGER(test);
-          SlicePositivePredicate pred(old_idx.size());
-          for (int j = 0; j < chunk_size; j++, ii++, ++p_test) {
-            // skip until the index valids the predicate
-            while (!pred(*p_test)) {
-              ++p_test;
-            }
-
-            // 1-based
-            out[ii] = old_idx[*p_test - 1] + 1;
-          }
-
-        }
-      }
+  // once this has been trained on all groups
+  // this materialize indices and rows
+  void process() {
+    int k = positions_groups.size();
+    indices = IntegerVector(no_init(k));
+    std::vector<int*> p_rows(ngroups);
+    for (int i = 0; i < ngroups; i++) {
+      SEXP idx = rows[i] = Rf_allocVector(INTSXP, new_sizes[i]);
+      p_rows[i] = INTEGER(idx);
     }
-    return out;
-  }
 
-private:
+    std::sort(positions_groups.begin(), positions_groups.end());
 
-  void add_group(int i, int n) {
-    // the new grouped indices
-    new_indices[i] = Rcpp::seq(k + 1, k + n);
+    // process test and groups, fill indices and rows
+    int* p_indices = indices.begin();
+    typename std::vector<PositionGroup>::iterator p_positions_groups = positions_groups.begin();
 
-    // increase the size of indices subset vector
-    k += n;
+    std::vector<int> rows_offset(ngroups, 0);
+    for (int j = 0; j < k; j++, ++p_indices, ++p_positions_groups) {
+
+      // update rows
+      int group = p_positions_groups->group;
+      int position = p_positions_groups->position + 1;
+      p_rows[group][rows_offset[group]++] = position;
+
+      // update indices
+      *p_indices = position;
+    }
+
   }
 
 };
-
-
-// template class to rebuild the attributes
-// in the general case there is nothing to do
-template <typename SlicedTibble>
-class SliceTibbleRebuilder {
-public:
-  SliceTibbleRebuilder(const GroupSliceIndices<SlicedTibble>& index, const SlicedTibble& data) {}
-  void reconstruct(List& out) {}
-};
-
-// specific case for GroupedDataFrame, we need to take care of `groups`
-template <>
-class SliceTibbleRebuilder<GroupedDataFrame> {
-public:
-  SliceTibbleRebuilder(const GroupSliceIndices<GroupedDataFrame>& index_, const GroupedDataFrame& data_) :
-    index(index_),
-    data(data_)
-  {}
-
-  void reconstruct(List& out) {
-    GroupedDataFrame::set_groups(out, update_groups(data.group_data(), index.new_indices));
-  }
-
-  SEXP update_groups(DataFrame old, List indices) {
-    int nc = old.size();
-    List groups(nc);
-    copy_most_attributes(groups, old);
-    copy_names(groups, old);
-
-    // labels
-    for (int i = 0; i < nc - 1; i++) groups[i] = old[i];
-
-    // indices
-    groups[nc - 1] = indices;
-
-    return groups;
-  }
-
-private:
-  const GroupSliceIndices<GroupedDataFrame>& index;
-  const GroupedDataFrame& data;
-};
-
-template <typename SlicedTibble>
-SEXP structure_slice(const SlicedTibble& gdf, const GroupSliceIndices<SlicedTibble>& group_indices, SEXP frame) {
-  const DataFrame& data = gdf.data();
-  // create the result data frame
-  int nc = data.size();
-  List out(nc);
-
-  // this is shared by all types of SlicedTibble
-  copy_most_attributes(out, data);
-  copy_class(out, data);
-  copy_names(out, data);
-  set_rownames(out, group_indices.size());
-
-  // retrieve the 1-based indices vector
-  IntegerVector idx = group_indices.get(gdf);
-
-  // extract each column with column_subset
-  for (int i = 0; i < nc; i++) {
-    out[i] = column_subset(data[i], idx, frame);
-  }
-
-  // set the specific attributes
-  // currently this only does anything for SlicedTibble = GroupedDataFrame
-  SliceTibbleRebuilder<SlicedTibble>(group_indices, gdf).reconstruct(out);
-
-  return out;
-}
-
 
 template <typename SlicedTibble>
 DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
@@ -585,36 +512,34 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   int ngroups = gdf.ngroups() ;
   SymbolVector names = data.names();
 
-  GroupSliceIndices<SlicedTibble> group_indices(ngroups);
+  GroupSliceIndices<SlicedTibble> group_indices(gdf);
 
   group_iterator git = gdf.group_begin();
   for (int i = 0; i < ngroups; i++, ++git) {
     const slicing_index& indices = *git;
 
-    int chunk_size = indices.size();
-
     // empty group size. no need to evaluate the expression
-    if (chunk_size == 0) {
+    if (indices.size() == 0) {
       group_indices.empty_group(i) ;
       continue;
     }
 
     // evaluate the expression in the data mask
-    IntegerVector g_test = check_slice_result(mask.eval(quo.expr(), indices));
+    IntegerVector g_positions = check_slice_result(mask.eval(quo.expr(), indices));
 
     // scan the results to see if all >= 1 or all <= -1
-    CountIndices counter(indices.size(), g_test);
+    CountIndices counter(indices.size(), g_positions);
 
     if (counter.is_positive()) {
-      group_indices.add_group_slice_positive(i, chunk_size, g_test);
+      group_indices.add_group_slice_positive(i, g_positions);
     } else if (counter.is_negative()) {
-      group_indices.add_group_slice_negative(i, chunk_size, g_test);
+      group_indices.add_group_slice_negative(i, g_positions);
     } else {
       group_indices.empty_group(i);
     }
   }
-
-  return structure_slice<SlicedTibble>(gdf, group_indices, quo.env());
+  group_indices.process();
+  return structure_filter(gdf, group_indices, quo.env());
 }
 
 // [[Rcpp::export]]

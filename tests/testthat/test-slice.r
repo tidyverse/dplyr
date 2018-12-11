@@ -102,7 +102,10 @@ test_that("slice works fine if n > nrow(df) (#1269)", {
 test_that("slice strips grouped indices (#1405)", {
   res <- mtcars %>% group_by(cyl) %>% slice(1) %>% mutate(mpgplus = mpg + 1)
   expect_equal(nrow(res), 3L)
-  expect_equal(group_rows(res), as.list(1:3))
+
+  rows <- group_rows(res)
+  expect_true(all(map_int(rows, length) == 1))
+  expect_equal(sort(unlist(rows)), 1:3)
 })
 
 test_that("slice works with zero-column data frames (#2490)", {
@@ -158,7 +161,7 @@ test_that("slice skips 0 (#3313)", {
 
 test_that("slice is not confused about dense groups (#3753)",{
   df <- tibble(row = 1:3)
-  expect_equal(slice(df, c(2,1,3))$row, c(2L,1L,3L))
+  expect_equal(slice(df, c(2,1,3))$row, 1:3)
   expect_equal(slice(df, c(1,1,1))$row, rep(1L, 3))
 })
 
@@ -184,3 +187,19 @@ test_that("slice does not evaluate the expression in empty groups (#1438)", {
   expect_equal(nrow(res), 3L)
 })
 
+test_that("slice() preserve order accross groups (#3989)", {
+  tb <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
+  res1 <- tb %>%
+    group_by(g) %>%
+    slice(1, n()) %>%
+    arrange(time)
+
+  res2 <- tb %>%
+    group_by(g) %>%
+    arrange(time) %>%
+    slice(1, n())
+
+  expect_equal(res1, res2)
+  expect_false(is.unsorted(res1$time))
+  expect_false(is.unsorted(res2$time))
+})
