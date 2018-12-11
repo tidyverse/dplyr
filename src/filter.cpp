@@ -149,18 +149,18 @@ public:
 
 // template class to rebuild the attributes
 // in the general case there is nothing to do
-template <typename SlicedTibble>
+template <typename SlicedTibble, typename IndexCollector>
 class FilterTibbleRebuilder {
 public:
-  FilterTibbleRebuilder(const GroupFilterIndices<SlicedTibble>& index, const SlicedTibble& data) {}
+  FilterTibbleRebuilder(const IndexCollector& index, const SlicedTibble& data) {}
   void reconstruct(List& out) {}
 };
 
 // specific case for GroupedDataFrame, we need to take care of `groups`
-template <>
-class FilterTibbleRebuilder<GroupedDataFrame> {
+template <typename IndexCollector>
+class FilterTibbleRebuilder<GroupedDataFrame, IndexCollector> {
 public:
-  FilterTibbleRebuilder(const GroupFilterIndices<GroupedDataFrame>& index_, const GroupedDataFrame& data_) :
+  FilterTibbleRebuilder(const IndexCollector& index_, const GroupedDataFrame& data_) :
     index(index_),
     data(data_)
   {}
@@ -168,6 +168,8 @@ public:
   void reconstruct(List& out) {
     GroupedDataFrame::set_groups(out, update_groups(data.group_data(), index.rows));
   }
+
+private:
 
   SEXP update_groups(DataFrame old, List indices) {
     int nc = old.size();
@@ -184,13 +186,12 @@ public:
     return groups;
   }
 
-private:
   const GroupFilterIndices<GroupedDataFrame>& index;
   const GroupedDataFrame& data;
 };
 
-template <typename SlicedTibble>
-SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTibble>& group_indices, SEXP frame) {
+template <typename SlicedTibble, typename IndexCollector>
+SEXP structure_filter(const SlicedTibble& gdf, const IndexCollector& group_indices, SEXP frame) {
   const DataFrame& data = gdf.data();
   // create the result data frame
   int nc = data.size();
@@ -212,7 +213,7 @@ SEXP structure_filter(const SlicedTibble& gdf, const GroupFilterIndices<SlicedTi
 
   // set the specific attributes
   // currently this only does anything for SlicedTibble = GroupedDataFrame
-  FilterTibbleRebuilder<SlicedTibble>(group_indices, gdf).reconstruct(out);
+  FilterTibbleRebuilder<SlicedTibble, IndexCollector>(group_indices, gdf).reconstruct(out);
 
   return out;
 }
@@ -263,7 +264,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
 
   group_indices.process();
 
-  return structure_filter<SlicedTibble>(gdf, group_indices, quo.env()) ;
+  return structure_filter<SlicedTibble, GroupFilterIndices<SlicedTibble> >(gdf, group_indices, quo.env()) ;
 }
 
 // [[Rcpp::export]]
