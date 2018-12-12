@@ -362,23 +362,12 @@ template <typename SlicedTibble>
 class GroupSliceIndices {
   typedef typename SlicedTibble::slicing_index slicing_index;
 
-  struct PositionGroup {
-    PositionGroup(int position_, int group_) :
-      position(position_), group(group_)
-    {}
-    int position;
-    int group;
-
-    inline bool operator<(const PositionGroup& rhs) const {
-      return position < rhs.position;
-    }
-  };
-
   const SlicedTibble& tbl;
 
   int n;
 
-  std::vector<PositionGroup> positions_groups;
+  std::vector<int> slice_indices;
+  int k;
 
   int ngroups;
 
@@ -395,21 +384,21 @@ public:
     tbl(tbl_),
     n(tbl.data().nrow()),
 
-    positions_groups(),
+    slice_indices(),
+    k(0),
 
     ngroups(tbl.ngroups()),
-    new_sizes(ngroups),
     git(tbl.group_begin()),
     rows(ngroups)
   {
     // reserve enough space for positions and groups for most cases
     // i.e. in most cases we need less than n
-    positions_groups.reserve(n);
+    slice_indices.reserve(n);
   }
 
   // set the group i to be empty
   void empty_group(int i) {
-    new_sizes[i] = 0;
+    rows[i] = Rf_allocVector(INTSXP, 0);
     ++git;
   }
 
@@ -417,16 +406,18 @@ public:
     slicing_index old_indices = *git;
     int ng = g_idx.size();
     SlicePositivePredicate pred(old_indices.size());
-    int new_size = 0;
+    int old_k = k;
     for (int j = 0; j < ng; j++) {
       if (pred(g_idx[j])) {
-        positions_groups.push_back(
-          PositionGroup(old_indices[g_idx[j] - 1], i)
-        );
-        new_size++;
+        slice_indices.push_back(old_indices[g_idx[j] - 1] + 1);
+        k++;
       }
     }
-    new_sizes[i] = new_size;
+    if (old_k == k) {
+      rows[i] = Rf_allocVector(INTSXP, 0);
+    } else {
+      rows[i] = IntegerVectorView(seq(old_k + 1, k));
+    }
     ++git;
   }
 
@@ -446,17 +437,22 @@ public:
     if (ng == 0) {
       empty_group(i);
     } else {
-      int new_size = 0;
+      int old_k = k;
       IntegerVector test(ng);
       for (int j = 0; j < test_lgl.size(); j++) {
         if (test_lgl[j] == TRUE) {
-          positions_groups.push_back(
-            PositionGroup(old_indices[j], i)
-          );
-          new_size++;
+
+          slice_indices.push_back(old_indices[j] + 1);
+          k++;
+
         }
       }
-      new_sizes[i] = new_size;
+      if (old_k == k) {
+        rows[i] = Rf_allocVector(INTSXP, 0);
+      } else {
+        rows[i] = IntegerVectorView(seq(old_k + 1, k));
+      }
+
       ++git;
     }
   }
@@ -464,38 +460,13 @@ public:
   // the total number of rows
   // only makes sense when the object is fully trained
   inline int size() const {
-    return positions_groups.size();
+    return k;
   }
 
   // once this has been trained on all groups
   // this materialize indices and rows
   void process() {
-    int k = positions_groups.size();
-    indices = IntegerVector(no_init(k));
-    std::vector<int*> p_rows(ngroups);
-    for (int i = 0; i < ngroups; i++) {
-      SEXP idx = rows[i] = Rf_allocVector(INTSXP, new_sizes[i]);
-      p_rows[i] = INTEGER(idx);
-    }
-
-    std::sort(positions_groups.begin(), positions_groups.end());
-
-    // process test and groups, fill indices and rows
-    int* p_indices = indices.begin();
-    typename std::vector<PositionGroup>::iterator p_positions_groups = positions_groups.begin();
-
-    std::vector<int> rows_offset(ngroups, 0);
-    for (int j = 0; j < k; j++, ++p_indices, ++p_positions_groups) {
-
-      // update rows
-      int group = p_positions_groups->group;
-      int position = p_positions_groups->position + 1;
-      p_rows[group][rows_offset[group]++] = position;
-
-      // update indices
-      *p_indices = position;
-    }
-
+    indices = wrap(slice_indices);
   }
 
 };
