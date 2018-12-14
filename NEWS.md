@@ -122,6 +122,8 @@ To be released as 0.8.0
 
 * Add documentation example for moving variable to back in `?select` (#3051).
 
+* `combine()` uses tidy dots (#3407).
+
 * `group_indices()` can be used without argument in expressions in verbs (#1185).
 
 * Scoped variants of `arrange()` respect the `.by_group` argument (#3504).

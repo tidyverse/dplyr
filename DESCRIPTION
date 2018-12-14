@@ -49,7 +49,8 @@ Suggests:
     RPostgreSQL (>= 0.6.2),
     RSQLite (>= 2.0),
     testthat (>= 2.0.0),
-    withr (>= 2.1.1)
+    withr (>= 2.1.1),
+    vctrs
 LinkingTo: 
     BH (>= 1.58.0-1),
     plogr (>= 0.1.10),
