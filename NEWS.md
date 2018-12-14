@@ -154,6 +154,8 @@ To be released as 0.8.0
 
 * `funs()` is soft-deprecated and will start issuing warnings in a future version.
 
+* `glimpse()` prints group information on grouped tibbles (#3384).
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
