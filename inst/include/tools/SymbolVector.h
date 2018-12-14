@@ -52,7 +52,7 @@ public:
     return r_match(v, t);
   }
 
-  const Rcpp::CharacterVector get_vector() const {
+  const Rcpp::CharacterVector& get_vector() const {
     return v;
   }
 
