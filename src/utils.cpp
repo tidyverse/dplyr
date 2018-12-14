@@ -310,14 +310,6 @@ bool has_name_at(SEXP x, R_len_t i) {
   return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
 }
 
-SEXP name_at(SEXP x, size_t i) {
-  SEXP names = vec_names(x);
-  if (Rf_isNull(names))
-    return R_BlankString;
-  else
-    return STRING_ELT(names, i);
-}
-
 // [[Rcpp::export]]
 bool is_data_pronoun(SEXP expr) {
   if (TYPEOF(expr) != LANGSXP || Rf_length(expr) != 3)

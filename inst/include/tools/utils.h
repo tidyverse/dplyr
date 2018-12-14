@@ -19,7 +19,6 @@ SEXP vec_names(SEXP x);
 SEXP vec_names_or_empty(SEXP x);
 bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
-SEXP name_at(SEXP x, size_t i);
 
 SEXP child_env(SEXP parent);
 
