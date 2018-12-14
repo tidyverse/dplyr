@@ -143,6 +143,8 @@ bind_cols <- function(...) {
 #' ignored. If the result is empty, `logical()` is returned.
 #' Use [vctrs::vec_c()] if you never want to unlist.
 #'
+#' @param ... Vectors to combine.
+#'
 #' @seealso
 #' `bind_rows()` and `bind_cols()` in [bind].
 #'

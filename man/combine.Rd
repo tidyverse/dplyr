@@ -6,6 +6,9 @@
 \usage{
 combine(...)
 }
+\arguments{
+\item{...}{Vectors to combine.}
+}
 \description{
 \badgequestioning
 
