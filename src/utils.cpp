@@ -313,7 +313,7 @@ bool has_name_at(SEXP x, R_len_t i) {
 SEXP name_at(SEXP x, size_t i) {
   SEXP names = vec_names(x);
   if (Rf_isNull(names))
-    return Rf_mkChar("");
+    return R_BlankString;
   else
     return STRING_ELT(names, i);
 }
