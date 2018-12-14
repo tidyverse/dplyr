@@ -1,3 +1,5 @@
+lengths <- function(...) {}
+
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.dplyr <- list(
@@ -5,6 +7,14 @@
   )
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
+
+  if (getRversion() < "3.2.0") {
+    lengths <<- function(x, use.named = TRUE) {
+      map_int(x, length)
+    }
+  } else {
+    lengths <<- base::lengths
+  }
 
   invisible()
 }
