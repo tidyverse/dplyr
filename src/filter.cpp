@@ -122,8 +122,8 @@ public:
     indices = IntegerVector(no_init(k));
     std::vector<int*> p_rows(ngroups);
     for (int i = 0; i < ngroups; i++) {
-      SEXP idx = rows[i] = Rf_allocVector(INTSXP, new_sizes[i]);
-      p_rows[i] = INTEGER(idx);
+      rows[i] = Rf_allocVector(INTSXP, new_sizes[i]);
+      p_rows[i] = INTEGER(rows[i]);
     }
 
     // process test and groups, fill indices and rows
