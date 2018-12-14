@@ -81,7 +81,7 @@ public:
   }
 
   // the group i contains all the data from the original
-  void add_dense_group(int i, int n) {
+  void add_dense_group(int i) {
     typename SlicedTibble::slicing_index idx = *git;
     int ng = idx.size();
 
@@ -251,7 +251,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
       // we get length 1 so either we have an empty group, or a dense group, i.e.
       // a group that has all the rows from the original data
       if (g_test[0] == TRUE) {
-        group_indices.add_dense_group(i, chunk_size) ;
+        group_indices.add_dense_group(i) ;
       } else {
         group_indices.empty_group(i);
       }
