@@ -23,7 +23,7 @@ override existing groups. To add to the existing groups, use
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \value{
-A \link[=grouped_df]{grouped data frame} if the combination of \code{...} and \code{add}
+A \link[=grouped_df]{grouped data frame}, unless the combination of \code{...} and \code{add}
 yields a non empty set of grouping columns, a regular (ungrouped) data frame
 otherwise.
 }
