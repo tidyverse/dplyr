@@ -9,7 +9,7 @@ lengths <- function(...) {}
   if (any(toset)) options(op.dplyr[toset])
 
   if (getRversion() < "3.2.0") {
-    lengths <<- function(x, use.named = TRUE) {
+    lengths <<- function(x, use.names = TRUE) {
       map_int(x, length)
     }
   } else {
