@@ -42,22 +42,6 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   arrange_impl(.data, dots, environment())
 }
 
-filter_regroup <- function(.data, out) {
-  # we only need to do a group_by on the grouping data
-  # TODO: there's probably a way to make this more efficient internally
-  group_vars <- group_vars(out)
-  gd <- attr(out, "groups")
-  filtered <- group_data(group_by_at(
-    select_at(filter(gd, lengths(.rows) > 0, .preserve = FALSE), group_vars),
-    group_vars
-  ))
-  joined <- left_join(select(filtered, -last_col()), gd, by = group_vars)
-  joined$.rows[lengths(joined$.rows) == 0] <- list(integer())
-
-  attr(out, "groups") <- joined
-  out
-}
-
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- quos(...)
@@ -71,7 +55,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
   out <- filter_impl(.data, quo)
   if (!.preserve && is_grouped_df(.data)) {
-    out <- filter_regroup(.data, out)
+    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
   }
   out
 }
@@ -91,7 +75,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- quo(c(!!!dots))
   out <- slice_impl(.data, quo)
   if (!.preserve && is_grouped_df(.data)) {
-    out <- filter_regroup(.data, out)
+    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
   }
   out
 }
