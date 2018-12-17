@@ -11,8 +11,7 @@ To be released as 0.8.0
   Unwind-protection also makes dplyr more robust in corner cases because it
   ensures the C++ destructors are correctly called in all circumstances
   (debugger exit, captured condition, restart invokation).
-* Using `mutate_all()` and `transmute_all()` with grouped tibbles now informs
-  you that the grouping variables are ignored. The message invites you to use
+
 * Using `mutate_all()`, `transmute_all()`, `mutate_if()` and `transmute_if()`
   with grouped tibbles now informs you that the grouping variables are
   ignored. In the case of the `_all()` verbs, the message invites you to use
@@ -132,6 +131,8 @@ To be released as 0.8.0
 
 * Add documentation example for moving variable to back in `?select` (#3051).
 
+* `combine()` uses tidy dots (#3407).
+
 * `group_indices()` can be used without argument in expressions in verbs (#1185).
 
 * Scoped variants of `arrange()` respect the `.by_group` argument (#3504).
@@ -161,6 +162,8 @@ To be released as 0.8.0
 * New low-level constructor `new_grouped_df()` and validator `validate_grouped_df` (#3837). 
 
 * `funs()` is soft-deprecated and will start issuing warnings in a future version.
+
+* `glimpse()` prints group information on grouped tibbles (#3384).
 
 # dplyr 0.7.6
 
