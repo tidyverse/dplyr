@@ -60,7 +60,7 @@ two <- mtcars[11:14, ]
 # You can supply data frames as arguments:
 bind_rows(one, two)
 
-# The contents of lists is automatically spliced:
+# The contents of lists are spliced automatically:
 bind_rows(list(one, two))
 bind_rows(split(mtcars, mtcars$cyl))
 bind_rows(list(one, two), list(two, one))
@@ -82,7 +82,7 @@ bind_rows(
 )
 
 
-# Note that for historical reasons, lists containg vectors are
+# Note that for historical reasons, lists containing vectors are
 # always treated as data frames. Thus their vectors are treated as
 # columns rather than rows, and their inner names are ignored:
 ll <- list(
