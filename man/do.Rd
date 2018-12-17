@@ -28,11 +28,8 @@ multiple named inputs, the output is grouped by row with
 way.
 }
 \description{
-\badgequestioning
-}
-\details{
-This is a general purpose complement to the specialised manipulation
-functions \code{\link[=filter]{filter()}}, \code{\link[=select]{select()}}, \code{\link[=mutate]{mutate()}},
+This is a general purpose complement to the specialised
+manipulation functions \code{\link[=filter]{filter()}}, \code{\link[=select]{select()}}, \code{\link[=mutate]{mutate()}},
 \code{\link[=summarise]{summarise()}} and \code{\link[=arrange]{arrange()}}. You can use \code{do()}
 to perform arbitrary computation, returning either a data frame or
 arbitrary objects which will be stored in a list. This is particularly
@@ -44,6 +41,16 @@ For an empty data frame, the expressions will be evaluated once, even in the
 presence of a grouping.  This makes sure that the format of the resulting
 data frame is the same for both empty and non-empty input.
 }
+\details{
+\badgequestioning
+}
+\section{Alternative}{
+
+
+\code{do()} is marked as questioning as of dplyr 0.8.0, and may be advantageously
+replaced by \code{\link[=group_map]{group_map()}}.
+}
+
 \section{Connection to plyr}{
 
 
