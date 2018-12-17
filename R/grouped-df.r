@@ -10,9 +10,6 @@
 #' @param drop deprecated
 #' @export
 grouped_df <- function(data, vars, drop) {
-  if (length(vars) == 0) {
-    return(tbl_df(data))
-  }
   assert_that(
     is.data.frame(data),
     (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars)
@@ -108,12 +105,16 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 #' @export
 is_grouped_df <- is.grouped_df
 
+group_sum <- function(x) {
+  grps <- n_groups(x)
+  paste0(commas(group_vars(x)), " [", big_mark(grps), "]")
+}
+
 #' @export
 tbl_sum.grouped_df <- function(x) {
-  grps <- n_groups(x)
   c(
     NextMethod(),
-    c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
+    c("Groups" = group_sum(x))
   )
 }
 
@@ -363,4 +364,10 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!!dots, .keep_all = .keep_all)
+}
+
+#' @export
+glimpse.grouped_df <- function(x, width = NULL, ...) {
+  cat("Groups: ", group_sum(x), "\n")
+  NextMethod()
 }

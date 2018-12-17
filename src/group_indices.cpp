@@ -18,6 +18,8 @@
 
 #include <dplyr/hybrid/scalar_result/n.h>
 #include <dplyr/symbols.h>
+#include <dplyr/visitors/subset/column_subset.h>
+#include <dplyr/visitors/subset/DataFrameSelect.h>
 
 using namespace Rcpp;
 using namespace dplyr;
@@ -568,11 +570,16 @@ SymbolVector GroupedDataFrame::group_vars(SEXP x) {
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
+  if (!symbols.size()) {
+    GroupedDataFrame::strip_groups(data);
+    data.attr("class") = NaturalDataFrame::classes();
+    return data;
+  }
+
   DataFrame copy(shallow_copy(data));
   set_class(copy, GroupedDataFrame::classes());
-  if (!symbols.size())
-    stop("no variables to group by");
   GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols));
+
   return copy;
 }
 
@@ -587,4 +594,41 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   GroupedDataFrame::strip_groups(copy);
   set_class(copy, NaturalDataFrame::classes());
   return copy;
+}
+
+// [[Rcpp::export]]
+List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame) {
+  ListView rows = gdf.indices();
+  R_xlen_t n = rows.size();
+  DataFrame group_data = gdf.group_data();
+  DataFrame data = gdf.data();
+
+  if (!keep) {
+    int ng = group_data.ncol() - 1;
+    CharacterVector group_names = vec_names(group_data);
+    dplyr_hash_set<SEXP> set;
+    for (int i = 0; i < ng; i++) {
+      set.insert(group_names[i]);
+    }
+
+    int nv = data.size();
+    CharacterVector all_names = vec_names(data);
+    IntegerVector kept_cols(nv - ng);
+    int k = 0;
+    for (int i = 0; i < nv; i++) {
+      if (!set.count(all_names[i])) {
+        kept_cols[k++] = i + 1;
+      }
+    }
+    data = DataFrameSelect(data, kept_cols, false);
+  }
+
+  GroupedDataFrame::group_iterator git = gdf.group_begin();
+  List out(n);
+  for (R_xlen_t i = 0; i < n; i++, ++git) {
+    DataFrame out_i = dataframe_subset(data, *git, NaturalDataFrame::classes(), frame);
+    GroupedDataFrame::strip_groups(out_i);
+    out[i] = out_i;
+  }
+  return out;
 }

@@ -229,5 +229,10 @@ test_that("combine works with hms and difftime", {
   )
 })
 
+test_that("combine uses tidy dots (#3407)", {
+  chunks <- list(1,2,3)
+  expect_equal(combine(!!!chunks), c(1,2,3))
+})
+
 # Uses helper-combine.R
 combine_coercion_types()
