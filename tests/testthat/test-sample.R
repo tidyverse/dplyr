@@ -75,7 +75,7 @@ test_that("sampling grouped tbl samples each group", {
   expect_is(sampled, "grouped_df")
   expect_groups(sampled, "cyl")
   expect_equal(nrow(sampled), 6)
-  expect_equal(sampled$cyl, rep(c(4, 6, 8), each = 2))
+  expect_equal(map_int(group_rows(sampled), length), c(2,2,2))
 })
 
 test_that("can't sample more values than obs (without replacement)", {

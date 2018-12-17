@@ -350,3 +350,27 @@ test_that("hybrid function row_number does not trigger warning in filter (#3750)
   }, warning = function(w) FALSE )
   expect_true(out)
 })
+
+test_that("filter() preserve order accross groups (#3989)", {
+  tb <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
+  res1 <- tb %>%
+    group_by(g) %>%
+    filter(x <= 4) %>%
+    arrange(time)
+
+  res2 <- tb %>%
+    group_by(g) %>%
+    arrange(time) %>%
+    filter(x <= 4)
+
+  res3 <- tb %>%
+    filter(x <= 4) %>%
+    arrange(time) %>%
+    group_by(g)
+
+  expect_equal(res1, res2)
+  expect_equal(res1, res3)
+  expect_false(is.unsorted(res1$time))
+  expect_false(is.unsorted(res2$time))
+  expect_false(is.unsorted(res3$time))
+})

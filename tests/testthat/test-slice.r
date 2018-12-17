@@ -183,4 +183,3 @@ test_that("slice does not evaluate the expression in empty groups (#1438)", {
   )
   expect_equal(nrow(res), 3L)
 })
-
