@@ -3,7 +3,6 @@ url: http://dplyr.tidyverse.org
 template:
   ganalytics: "UA-115082821"
   package: tidytemplate
-  default_assets: false
   params:
     docsearch:
       api_key: 1270c4079b26a138795263974bbf302d

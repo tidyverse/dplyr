@@ -10,6 +10,8 @@ fortran: false
 jobs:
   include:
   - r: release
+    after_success:
+      - Rscript -e 'covr::codecov()'
   - os: osx
   - r: devel
   - r: 3.4
@@ -28,6 +30,3 @@ env:
   - MAKEFLAGS="-j 2"
   - TRAVIS_CXXFLAGS="-Wall -Wextra -pedantic -Werror"
   - R_REMOTES_NO_ERRORS_FROM_WARNINGS=true
-
-after_success:
-  - Rscript -e 'covr::codecov()'
