@@ -119,6 +119,12 @@
 </li>
       </ul>
       
+      <form class="navbar-form navbar-right" role="search">
+        <div class="form-group">
+          <input type="search" class="form-control" name="search-input" id="search-input" placeholder="Search..." aria-label="Search for..." autocomplete="off">
+        </div>
+      </form>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -143,7 +149,7 @@
     <tbody>
       <tr>
         <th colspan="2">
-          <h2 id="section-main-single-table-verbs" class="hasAnchor"><a href="#section-main-single-table-verbs" class="anchor"></a>Main single-table verbs</h2>
+          <h2 id="section-basic-single-table-verbs" class="hasAnchor"><a href="#section-basic-single-table-verbs" class="anchor"></a>Basic single-table verbs</h2>
           <p class="section-desc"></p>
         </th>
       </tr>
@@ -168,21 +174,27 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="pull.html">pull()</a></code> </p>
+        </td>
+        <td><p>Pull out a single variable</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="mutate.html">mutate()</a></code> <code><a href="mutate.html">transmute()</a></code> </p>
         </td>
         <td><p>Add new variables</p></td>
       </tr><tr>
         
         <td>
-          <p><code><a href="group_by.html">group_by()</a></code> <code><a href="group_by.html">ungroup()</a></code> </p>
-        </td>
-        <td><p>Group by one or more variables</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="summarise.html">summarise()</a></code> <code><a href="summarise.html">summarize()</a></code> </p>
         </td>
         <td><p>Reduces multiple values down to a single value</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="group_by.html">group_by()</a></code> <code><a href="group_by.html">ungroup()</a></code> </p>
+        </td>
+        <td><p>Group by one or more variables</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -200,9 +212,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="slice.html">slice()</a></code> </p>
+          <p><code><a href="do.html">do()</a></code> </p>
         </td>
-        <td><p>Select rows by position</p></td>
+        <td><p>Do anything</p></td>
       </tr><tr>
         
         <td>
@@ -212,27 +224,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="select.html">select()</a></code> <code><a href="select.html">rename()</a></code> </p>
+          <p><code><a href="slice.html">slice()</a></code> </p>
         </td>
-        <td><p>Select/rename variables by name</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="mutate.html">mutate()</a></code> <code><a href="mutate.html">transmute()</a></code> </p>
-        </td>
-        <td><p>Add new variables</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="pull.html">pull()</a></code> </p>
-        </td>
-        <td><p>Pull out a single variable</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="do.html">do()</a></code> </p>
-        </td>
-        <td><p>Do anything</p></td>
+        <td><p>Select rows by position</p></td>
       </tr>
     </tbody><tbody>
       <tr>
@@ -585,7 +579,7 @@
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-main-single-table-verbs">Main single-table verbs</a></li>
+      <li><a href="#section-basic-single-table-verbs">Basic single-table verbs</a></li>
       <li><a href="#section-other-single-table-verbs">Other single-table verbs</a></li>
       <li><a href="#section-single-table-helpers">Single-table helpers</a></li>
       <li><a href="#section-two-table-verbs">Two-table verbs</a></li>
@@ -613,6 +607,23 @@
    </div>
 
   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.js" integrity="sha256-GKvGqXDznoRYHCwKXGnuchvKSwmx9SRMrZOTh2g4Sb0=" crossorigin="anonymous"></script>
+<script>
+  docsearch({
+    
+    
+    apiKey: '1270c4079b26a138795263974bbf302d',
+    indexName: 'tidyverse',
+    inputSelector: 'input#search-input.form-control',
+    transformData: function(hits) {
+      return hits.map(function (hit) {
+        hit.url = updateHitURL(hit);
+        return hit;
+      });
+    }
+  });
+</script>
+
 
   </body>
 </html>

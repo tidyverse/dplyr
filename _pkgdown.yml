@@ -4,6 +4,10 @@ template:
   ganalytics: "UA-115082821"
   package: tidytemplate
   default_assets: false
+  params:
+    docsearch:
+      api_key: 1270c4079b26a138795263974bbf302d
+      index_name: tidyverse
 
 home:
   strip_header: true
@@ -13,24 +17,22 @@ home:
     href: http://r4ds.had.co.nz/transform.html
 
 reference:
-- title: Main single-table verbs
+- title: Basic single-table verbs
   contents:
   - filter
   - arrange
   - select
+  - pull
   - mutate
-  - group_by
   - summarise
+  - group_by
 
 - title: Other single-table verbs
   contents:
   - distinct
-  - slice
-  - sample
-  - rename
-  - transmute
-  - pull
   - do
+  - sample
+  - slice
 
 - title: Single-table helpers
   contents:
@@ -121,6 +123,9 @@ navbar:
   right:
   - icon: fa-github fa-lg
     href: https://github.com/tidyverse/dplyr
+
+development:
+  mode: auto
 
 authors:
   Kirill Müller:
