@@ -9,11 +9,12 @@ fortran: false
 
 jobs:
   include:
+  - r: devel
+  - stage: full
+    os: osx
   - r: release
     after_success:
       - Rscript -e 'covr::codecov()'
-  - os: osx
-  - r: devel
   - r: 3.4
   - r: 3.3
   - r: 3.2
