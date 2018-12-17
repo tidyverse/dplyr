@@ -13,22 +13,24 @@ home:
     href: http://r4ds.had.co.nz/transform.html
 
 reference:
-- title: Single-table verbs
+- title: Main single-table verbs
   contents:
-  - arrange
-  - distinct
-  - do
   - filter
-  - group_by
-  - mutate
+  - arrange
   - select
-  - select_helpers
-  - sample
+  - mutate
+  - group_by
   - summarise
+
+- title: Other single-table verbs
+  contents:
+  - distinct
+  - slice
+  - sample
+  - rename
   - transmute
   - pull
-  - rename
-  - slice
+  - do
 
 - title: Single-table helpers
   contents:
