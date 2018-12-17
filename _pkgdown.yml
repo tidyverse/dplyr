@@ -119,3 +119,7 @@ navbar:
   right:
   - icon: fa-github fa-lg
     href: https://github.com/tidyverse/dplyr
+
+authors:
+  Kirill Müller:
+    href: http://krlmlr.info
