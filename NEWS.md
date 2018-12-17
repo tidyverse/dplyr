@@ -108,8 +108,17 @@ To be released as 0.8.0
       group_split(species, homeworld)
     ```
     
-* Experimental function `group_map()`, a purrr like function to iterate on groups of a grouped data frame, 
-  jointly identified by the data subset (exposed as `.x`) and the data key (a one row tibble, exposed as `.y`)
+* Experimental functions `group_map()` and `group_walk()`, purrr-like functions to iterate on groups 
+  of a grouped data frame, jointly identified by the data subset (exposed as `.x`) and the 
+  data key (a one row tibble, exposed as `.y`). `group_map()` returns a grouped data frame that 
+  combines the results of the function, `group_walk()` isq only used for side effects and returns 
+  its input invisibly. 
+  
+  ```r
+  mtcars %>%
+    group_by(cyl) %>%
+    group_map(~ head(.x, 2L))
+  ```
 
 * `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
 
