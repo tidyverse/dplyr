@@ -112,6 +112,10 @@ ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
 }
 
+group_split_impl <- function(gdf, keep, frame) {
+    .Call(`_dplyr_group_split_impl`, gdf, keep, frame)
+}
+
 hybrids <- function() {
     .Call(`_dplyr_hybrids`)
 }

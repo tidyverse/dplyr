@@ -29,12 +29,12 @@ public:
     copy_class(data, data_);
   }
 
-  DataFrameSelect(const DataFrame& data_, const IntegerVector& indices) : data(indices.size()) {
+  DataFrameSelect(const DataFrame& data_, const IntegerVector& indices, bool check = true) : data(indices.size()) {
     CharacterVector data_names = vec_names_or_empty(data_);
     int n = indices.size();
     CharacterVector out_names(n);
     for (int i = 0; i < n; i++) {
-      int pos = check_range_one_based(indices[i], data_.size());
+      int pos = check ? check_range_one_based(indices[i], data_.size()) : indices[i];
       out_names[i] = data_names[pos - 1];
       data[i] = data_[pos - 1];
     }
@@ -42,8 +42,8 @@ public:
     copy_class(data, data_);
   }
 
-  inline operator DataFrame() const {
-    return (SEXP)data;
+  inline operator SEXP() const {
+    return data;
   }
 
 };

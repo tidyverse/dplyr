@@ -11,8 +11,7 @@ To be released as 0.8.0
   Unwind-protection also makes dplyr more robust in corner cases because it
   ensures the C++ destructors are correctly called in all circumstances
   (debugger exit, captured condition, restart invokation).
-* Using `mutate_all()` and `transmute_all()` with grouped tibbles now informs
-  you that the grouping variables are ignored. The message invites you to use
+
 * Using `mutate_all()`, `transmute_all()`, `mutate_if()` and `transmute_if()`
   with grouped tibbles now informs you that the grouping variables are
   ignored. In the case of the `_all()` verbs, the message invites you to use
@@ -68,7 +67,7 @@ To be released as 0.8.0
     group_by(starwars, homeworld) %>% 
       group_data()
     
-    # the indicers
+    # the indices
     group_by(starwars, homeworld) %>% 
       group_data() %>% 
       pull(.rows)
@@ -84,18 +83,32 @@ To be released as 0.8.0
       nest_join(band_instruments)
     ```
 
-* Experimental functions `nest_by()`, `nest_by_at()` and `nest_by_if`. `nest_by_*` is equivalent to `group_by_*` +  `tidyr::nest()`
+* Experimental function `group_nest()`, similar to `tidyr::nest()` but focusing on the variables to nest by 
+  instead of the nested columns. 
+ 
+    ```r
+    starwars %>%
+      group_by(species, homeworld) %>% 
+      group_nest()
+      
+    starwars %>%
+      group_nest(species, homeworld)
+    ```
+    
+* Experimental function `group_split()` similar to `base::split()` but operating on existing groups when 
+  applied to a grouped data frame, or subject to the data mask on ungrouped data frames
 
     ```r
     starwars %>%
-      nest_by(species, homeworld)
+      group_by(species, homeworld) %>%   
+      group_split()
     
     starwars %>%
-      nest_by_at(vars(ends_with("_color")))
-    
-    starwars %>%
-      nest_by_if(is.numeric)
+      group_split(species, homeworld)
     ```
+    
+* Experimental function `group_map()`, a purrr like function to iterate on groups of a grouped data frame, 
+  jointly identified by the data subset (exposed as `.x`) and the data key (a one row tibble, exposed as `.y`)
 
 * `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
 
@@ -108,6 +121,8 @@ To be released as 0.8.0
 * Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
 
 * Add documentation example for moving variable to back in `?select` (#3051).
+
+* `combine()` uses tidy dots (#3407).
 
 * `group_indices()` can be used without argument in expressions in verbs (#1185).
 
@@ -140,6 +155,8 @@ To be released as 0.8.0
 * `funs()` is soft-deprecated and will start issuing warnings in a future version.
 
 * `do()` and `rowwise()` are marked as questioning (#3494). 
+
+* `glimpse()` prints group information on grouped tibbles (#3384).
 
 # dplyr 0.7.6
 

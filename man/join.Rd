@@ -114,7 +114,7 @@ a 0-row tibble with the same column names and types as \code{y}.
 
 \code{nest_join()} is the most fundamental join since you can recreate the other joins from it.
 An \code{inner_join()} is a \code{nest_join()} plus an \code{\link[tidyr:unnest]{tidyr::unnest()}}, and \code{left_join()} is a
-\code{nest_join()} plus an \code{unnest(drop = FALSE)}.
+\code{nest_join()} plus an \code{unnest(.drop = FALSE)}.
 A \code{semi_join()} is a \code{nest_join()} plus a \code{filter()} where you check that every element of data has
 at least one row, and an \code{anti_join()} is a \code{nest_join()} plus a \code{filter()} where you check every element has zero rows.
 }
