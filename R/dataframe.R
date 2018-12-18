@@ -257,7 +257,7 @@ do_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 sample_n.data.frame <- function(tbl, size, replace = FALSE,
-                                weight = NULL, .env = NULL) {
+                                weight = NULL, .env = NULL, ...) {
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }
@@ -271,7 +271,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
 
 #' @export
 sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
-                                   weight = NULL, .env = NULL) {
+                                   weight = NULL, .env = NULL, ...) {
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }

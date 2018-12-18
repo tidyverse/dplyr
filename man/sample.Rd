@@ -6,10 +6,10 @@
 \alias{sample_frac}
 \title{Sample n rows from a table}
 \usage{
-sample_n(tbl, size, replace = FALSE, weight = NULL, .env = NULL)
+sample_n(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...)
 
 sample_frac(tbl, size = 1, replace = FALSE, weight = NULL,
-  .env = NULL)
+  .env = NULL, ...)
 }
 \arguments{
 \item{tbl}{tbl of data.}
@@ -32,6 +32,8 @@ frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 \item{.env}{This variable is deprecated and no longer has any
 effect. To evaluate \code{weight} in a particular context, you can
 now unquote a \link[rlang:quosure]{quosure}.}
+
+\item{...}{ignored}
 }
 \description{
 This is a wrapper around \code{\link[=sample.int]{sample.int()}} to make it easy to
