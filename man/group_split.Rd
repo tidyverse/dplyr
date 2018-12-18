@@ -24,7 +24,20 @@ all the columns, including the grouping variables.
 }
 }
 \description{
+Split data frame by groups
+}
+\details{
 \badgeexperimental
+
+\code{\link[=group_split]{group_split()}} works like \code{\link[base:split]{base::split()}} but
+\itemize{
+\item it uses the grouping structure from \code{\link[=group_by]{group_by()}} and therefore is subject to the data mask
+\item it does not name the elements of the list based on the grouping as this typically
+loses information and is confusing.
+}
+
+\code{\link[=group_keys]{group_keys()}} explains the grouping structure, by returning a data frame that has one row
+per group and one column per grouping variable.
 }
 \section{Grouped data frames}{
 
@@ -81,12 +94,11 @@ iris \%>\%
   group_keys(Species)
 
 }
-\concept{grouping functions
-
-[group_split()] works like [base::split()] but
-- it uses the grouping structure from [group_by()] and therefore is subject to the data mask
-- it does not name the elements of the list based on the grouping as this typically
-  loses information and is confusing.
-
-[group_keys()] explains the grouping structure, by returning a data frame that has one row
-per group and one column per grouping variable.}
+\seealso{
+Other grouping functions: \code{\link{group_by_all}},
+  \code{\link{group_by}}, \code{\link{group_indices}},
+  \code{\link{group_map}}, \code{\link{group_nest}},
+  \code{\link{group_rows}}, \code{\link{group_size}},
+  \code{\link{groups}}
+}
+\concept{grouping functions}

@@ -9,10 +9,16 @@ group_nest_impl <- function(.tbl, .key, keep = FALSE){
 #'
 #' @family grouping functions
 #'
+#' @description
+#'
+#' Nest a tibble using a grouping specification
+#'
 #' @param .tbl A tbl
 #' @param ... Grouping specification, forwarded to [group_by()]
 #' @param .key the name of the list column
 #' @param keep Should the grouping columns be kept in the list column.
+#'
+#' @details
 #'
 #' @section Grouped data frames:
 #'

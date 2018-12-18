@@ -72,7 +72,10 @@ map2_chr <- function(.x, .y, .f, ...) {
 map2_cpl <- function(.x, .y, .f, ...) {
   as.vector(map2(.x, .y, .f, ...), "complex")
 }
-
+walk2 <- function(.x, .y, .f, ...) {
+  map2(.x, .y, .f, ...)
+  invisible(.x)
+}
 args_recycle <- function(args) {
   lengths <- map_int(args, length)
   n <- max(lengths)
