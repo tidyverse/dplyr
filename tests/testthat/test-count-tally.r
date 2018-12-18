@@ -33,6 +33,21 @@ test_that("grouped count includes group", {
   expect_equal(group_vars(res), "g")
 })
 
+test_that("count() does not ignore non-factor empty groups (#4013)",  {
+  d <- data.frame(x = c("a", "a", "b", "b"),
+    value = 1:4,
+    stringsAsFactors = FALSE)
+
+  g <- d %>%
+    group_by(x) %>%
+    filter(value > 3, .preserve = TRUE)
+
+  res <- count(g)
+  expect_equal(nrow(res), 2L)
+  expect_equal(res$x, c("a", "b"))
+  expect_equal(res$n, c(0L, 1L))
+})
+
 
 # add_count ---------------------------------------------------------------
 
