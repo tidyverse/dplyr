@@ -56,6 +56,8 @@ To be released as 0.8.0
     df %>% filter(x == 1, .preserve = TRUE)
     ```
 
+* The new function `group_trim()` drops unused levels of factors that are used as grouping variables
+
 * The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed
   with the new `group_data()` function. The grouping tibble consists of one column per grouping variable, 
   followed by a list column of the (1-based) indices of the groups. The new `group_rows()` function retrieves
