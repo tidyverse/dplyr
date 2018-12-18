@@ -4,6 +4,10 @@
 #'
 #' @family grouping functions
 #'
+#' @description Split data frame by groups
+#'
+#' @details
+#'
 #' [group_split()] works like [base::split()] but
 #' - it uses the grouping structure from [group_by()] and therefore is subject to the data mask
 #' - it does not name the elements of the list based on the grouping as this typically

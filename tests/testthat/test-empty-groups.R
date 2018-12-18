@@ -8,8 +8,8 @@ df <- data_frame(
   group_by(e, f, g)
 
 test_that("filter and slice keep zero length groups", {
-  expect_equal( group_size(filter(df, f == 1)), c(2, 0, 0) )
-  expect_equal( group_size(slice(df, 1)), c(1, 1, 0) )
+  expect_equal(group_size(filter(df, f == 1)), c(2, 0, 0) )
+  expect_equal(group_size(slice(df, 1)), c(1, 1, 0) )
 })
 
 test_that("filtering and slicing retains labels for zero length groups", {
@@ -22,8 +22,8 @@ test_that("filtering and slicing retains labels for zero length groups", {
       n = c(2L, 0L, 0L)
     ) %>%
       group_by(e, f)
-
   )
+
   expect_equal(
     count(slice(df, 1)),
     tibble(

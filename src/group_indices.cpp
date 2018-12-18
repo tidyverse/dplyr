@@ -430,6 +430,65 @@ bool has_no_factors(const std::vector<SEXP>& x) {
   return true;
 }
 
+// [[Rcpp::export]]
+SEXP regroup(DataFrame grouping_data, SEXP frame) {
+  int nc = grouping_data.size() - 1;
+
+  // 1) only keep the rows with non empty groups
+  int n = grouping_data.nrow();
+  std::vector<int> keep;
+  keep.reserve(n);
+  ListView rows = grouping_data[nc];
+  for (int i = 0; i < n; i++) {
+    if (LENGTH(rows[i]) > 0) keep.push_back(i + 1);
+  }
+  if (keep.size() == n) return grouping_data;
+  Rcpp::IntegerVector r_keep(keep.begin(), keep.end());
+  grouping_data = dataframe_subset(grouping_data, r_keep, "data.frame", frame);
+
+  // 2) perform a group by so that factor levels are expanded
+  DataFrameVisitors visitors(grouping_data, nc);
+  std::vector<SEXP> visited_data(nc);
+  for (int i = 0; i < nc; i++) {
+    visited_data[i] = grouping_data[i];
+  }
+  boost::shared_ptr<Slicer> s = slicer(std::vector<int>(), 0, visited_data, visitors);
+  int ncases = s->size();
+  if (ncases == 1 && grouping_data.nrow() == 0 && has_no_factors(visited_data)) {
+    ncases = 0;
+  }
+
+
+  List vec_groups(nc + 1);
+  List indices(ncases);
+  ListCollecter indices_collecter(indices);
+
+  for (int i = 0; i < nc; i++) {
+    vec_groups[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
+    copy_most_attributes(vec_groups[i], visited_data[i]);
+  }
+
+  if (ncases > 0) {
+    s->make(vec_groups, indices_collecter);
+  }
+
+  // 3) translate indices on grouping_data to indices wrt the data
+  ListView original_rows = grouping_data[nc];
+  for (int i = 0; i < ncases; i++) {
+    if (LENGTH(indices[i]) == 1) {
+      indices[i] = original_rows[as<int>(indices[i]) - 1];
+    }
+  }
+  vec_groups[nc] = indices;
+
+  vec_groups.attr("names") = vec_names(grouping_data);
+  vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
+  vec_groups.attr("class") = NaturalDataFrame::classes() ;
+
+  return vec_groups;
+}
+
+
 SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   const int nvars = vars.size();
 

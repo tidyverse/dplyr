@@ -40,7 +40,7 @@
 #' # You can supply data frames as arguments:
 #' bind_rows(one, two)
 #'
-#' # The contents of lists is automatically spliced:
+#' # The contents of lists are spliced automatically:
 #' bind_rows(list(one, two))
 #' bind_rows(split(mtcars, mtcars$cyl))
 #' bind_rows(list(one, two), list(two, one))
@@ -62,7 +62,7 @@
 #' )
 #'
 #'
-#' # Note that for historical reasons, lists containg vectors are
+#' # Note that for historical reasons, lists containing vectors are
 #' # always treated as data frames. Thus their vectors are treated as
 #' # columns rather than rows, and their inner names are ignored:
 #' ll <- list(
@@ -90,15 +90,6 @@
 #'
 #' bind_cols(one, two)
 #' bind_cols(list(one, two))
-#'
-#' # combine applies the same coercion rules
-#' f1 <- factor("a")
-#' f2 <- factor("b")
-#' c(f1, f2)
-#' unlist(list(f1, f2))
-#'
-#' combine(f1, f2)
-#' combine(list(f1, f2))
 #' @name bind
 NULL
 
@@ -139,19 +130,36 @@ bind_cols <- function(...) {
   tibble::repair_names(out)
 }
 
+#' Combine vectors
+#'
 #' @description
+#' \badgequestioning
+#'
 #' `combine()` acts like [c()] or
 #' [unlist()] but uses consistent dplyr coercion rules.
 #'
-#' @details
 #' If `combine()` it is called with exactly one list argument, the list is
-#' simplified (similarly to `unlist(recursive = FALSE)`. `NULL` arguments are
+#' simplified (similarly to `unlist(recursive = FALSE)`). `NULL` arguments are
 #' ignored. If the result is empty, `logical()` is returned.
+#' Use [vctrs::vec_c()] if you never want to unlist.
+#'
+#' @param ... Vectors to combine.
+#'
+#' @seealso
+#' `bind_rows()` and `bind_cols()` in [bind].
 #'
 #' @export
-#' @rdname bind
+#' @examples
+#' # combine applies the same coercion rules as bind_rows()
+#' f1 <- factor("a")
+#' f2 <- factor("b")
+#' c(f1, f2)
+#' unlist(list(f1, f2))
+#'
+#' combine(f1, f2)
+#' combine(list(f1, f2))
 combine <- function(...) {
-  args <- list(...)
+  args <- list2(...)
   if (length(args) == 1 && is.list(args[[1]])) {
     combine_all(args[[1]])
   } else {

@@ -11,8 +11,7 @@ To be released as 0.8.0
   Unwind-protection also makes dplyr more robust in corner cases because it
   ensures the C++ destructors are correctly called in all circumstances
   (debugger exit, captured condition, restart invokation).
-* Using `mutate_all()` and `transmute_all()` with grouped tibbles now informs
-  you that the grouping variables are ignored. The message invites you to use
+
 * Using `mutate_all()`, `transmute_all()`, `mutate_if()` and `transmute_if()`
   with grouped tibbles now informs you that the grouping variables are
   ignored. In the case of the `_all()` verbs, the message invites you to use
@@ -42,11 +41,10 @@ To be released as 0.8.0
     df %>% group_by(x, f)
     ```
 
-* `filter()`  gains a `.preserve` argument to control which groups it should keep. The default 
-  `filter(.preserve = TRUE)` preserves the grouping structure of the input tbl, and `filter(.preserve = FALSE)`
-  recalculates the groups at the end. 
-  
-  
+* `filter()` and `slice()` gain a `.preserve` argument to control which groups it should keep. The default 
+  `filter(.preserve = FALSE)` recalculates the grouping structure based on the resulting data, 
+  otherwise it is kept as is.
+
     ```r
     df <- tibble(
       x = c(1,2,1,2), 
@@ -55,8 +53,10 @@ To be released as 0.8.0
       group_by(x, f)
     
     df %>% filter(x == 1)
-    df %>% filter(x == 1, .preserve = FALSE)
+    df %>% filter(x == 1, .preserve = TRUE)
     ```
+
+* The new function `group_trim()` drops unused levels of factors that are used as grouping variables
 
 * The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed
   with the new `group_data()` function. The grouping tibble consists of one column per grouping variable, 
@@ -108,8 +108,17 @@ To be released as 0.8.0
       group_split(species, homeworld)
     ```
     
-* Experimental function `group_map()`, a purrr like function to iterate on groups of a grouped data frame, 
-  jointly identified by the data subset (exposed as `.x`) and the data key (a one row tibble, exposed as `.y`)
+* Experimental functions `group_map()` and `group_walk()`, purrr-like functions to iterate on groups 
+  of a grouped data frame, jointly identified by the data subset (exposed as `.x`) and the 
+  data key (a one row tibble, exposed as `.y`). `group_map()` returns a grouped data frame that 
+  combines the results of the function, `group_walk()` isq only used for side effects and returns 
+  its input invisibly. 
+  
+  ```r
+  mtcars %>%
+    group_by(cyl) %>%
+    group_map(~ head(.x, 2L))
+  ```
 
 * `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
 
@@ -122,6 +131,8 @@ To be released as 0.8.0
 * Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
 
 * Add documentation example for moving variable to back in `?select` (#3051).
+
+* `combine()` uses tidy dots (#3407).
 
 * `group_indices()` can be used without argument in expressions in verbs (#1185).
 
@@ -153,6 +164,10 @@ To be released as 0.8.0
 
 * `funs()` is soft-deprecated and will start issuing warnings in a future version.
 
+* `do()` and `rowwise()` are marked as questioning (#3494). 
+
+* `glimpse()` prints group information on grouped tibbles (#3384).
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
@@ -168,7 +183,7 @@ To be released as 0.8.0
 
 * Fix rchk errors (#3693).
 
-# dplyr 0.7.5
+# dplyr 0.7.5 (2018-04-14)
 
 ## Breaking changes for package developers
 

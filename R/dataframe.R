@@ -57,23 +57,23 @@ n_groups.data.frame <- function(x) 1L
 # is just a convenience layer, I didn't bother. They should still be fast.
 
 #' @export
-filter.data.frame <- function(.data, ..., .preserve = TRUE) {
+filter.data.frame <- function(.data, ..., .preserve = FALSE) {
   as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
-filter_.data.frame <- function(.data, ..., .dots = list(), .preserve = TRUE) {
+filter_.data.frame <- function(.data, ..., .dots = list(), .preserve = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   filter(.data, !!!dots, .preserve = .preserve)
 }
 
 #' @export
-slice.data.frame <- function(.data, ...) {
-  as.data.frame(slice(tbl_df(.data), ...))
+slice.data.frame <- function(.data, ..., .preserve = FALSE) {
+  as.data.frame(slice(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
-slice_.data.frame <- function(.data, ..., .dots = list()) {
+slice_.data.frame <- function(.data, ..., .preserve = FALSE, .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice(.data, !!!dots)
+  slice(.data, !!!dots, .preserve = .preserve)
 }
 
 #' @export

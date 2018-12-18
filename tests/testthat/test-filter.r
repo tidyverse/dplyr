@@ -280,9 +280,15 @@ test_that("grouped filter handles indices (#880)", {
 test_that("filter(FALSE) handles indices", {
   out <- mtcars %>%
     group_by(cyl) %>%
-    filter(FALSE) %>%
+    filter(FALSE, .preserve = TRUE) %>%
     group_rows()
   expect_identical(out, list(integer(), integer(), integer()))
+
+  out <- mtcars %>%
+    group_by(cyl) %>%
+    filter(FALSE, .preserve = FALSE) %>%
+    group_rows()
+  expect_identical(out, list())
 })
 
 test_that("filter handles S4 objects (#1366)", {
@@ -349,4 +355,28 @@ test_that("hybrid function row_number does not trigger warning in filter (#3750)
     mtcars %>% filter(row_number() > 1, row_number() < 5); TRUE
   }, warning = function(w) FALSE )
   expect_true(out)
+})
+
+test_that("filter() preserve order accross groups (#3989)", {
+  tb <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
+  res1 <- tb %>%
+    group_by(g) %>%
+    filter(x <= 4) %>%
+    arrange(time)
+
+  res2 <- tb %>%
+    group_by(g) %>%
+    arrange(time) %>%
+    filter(x <= 4)
+
+  res3 <- tb %>%
+    filter(x <= 4) %>%
+    arrange(time) %>%
+    group_by(g)
+
+  expect_equal(res1, res2)
+  expect_equal(res1, res3)
+  expect_false(is.unsorted(res1$time))
+  expect_false(is.unsorted(res2$time))
+  expect_false(is.unsorted(res3$time))
 })

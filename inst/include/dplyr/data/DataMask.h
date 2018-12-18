@@ -507,6 +507,10 @@ public:
     get_context_env()["..group_size"] = indices.size();
     get_context_env()["..group_number"] = indices.group() + 1;
 
+    if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
+      SET_CLOENV(CAR(expr), mask_resolved) ;
+    }
+
     // evaluate the call in the data mask
     SEXP res = Rcpp_fast_eval(expr, data_mask);
 

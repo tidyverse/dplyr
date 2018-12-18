@@ -2,6 +2,8 @@
 #'
 #' \badgesoftdeprecated
 #'
+#' @description
+#'
 #' `funs()` provides a flexible way to generate a named list of
 #' functions for input to other functions like [summarise_at()].
 #'

@@ -1,3 +1,7 @@
+lengths <- function(x, use.names = TRUE) {
+  map_int(x, length)
+}
+
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.dplyr <- list(

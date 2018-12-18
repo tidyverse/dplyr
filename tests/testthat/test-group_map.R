@@ -15,3 +15,15 @@ test_that("group_map() makes a grouped_df", {
   expect_equal(group_rows(res), list(1L, 2L, 3L))
 })
 
+test_that("group_map() rejects non data frames", {
+  expect_error(
+    group_by(mtcars, cyl) %>% group_map(~ 10)
+  )
+})
+
+test_that("group_map() rejects data frames that contain the grouping variable", {
+  expect_error(
+    group_by(mtcars, cyl) %>% group_map(~ data.frame(cyl = 19))
+  )
+})
+
