@@ -39,21 +39,21 @@
 #'
 #' # And filter_if() selects variables with a predicate function:
 #' filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
-filter_all <- function(.tbl, .vars_predicate, .preserve = TRUE) {
+filter_all <- function(.tbl, .vars_predicate, .preserve = FALSE) {
   syms <- syms(tbl_vars(.tbl))
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)
 }
 #' @rdname filter_all
 #' @export
-filter_if <- function(.tbl, .predicate, .vars_predicate, .preserve = TRUE) {
+filter_if <- function(.tbl, .predicate, .vars_predicate, .preserve = FALSE) {
   syms <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)
 }
 #' @rdname filter_all
 #' @export
-filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = TRUE) {
+filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
   syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)

@@ -229,6 +229,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// regroup
+SEXP regroup(DataFrame grouping_data, SEXP frame);
+RcppExport SEXP _dplyr_regroup(SEXP grouping_dataSEXP, SEXP frameSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< DataFrame >::type grouping_data(grouping_dataSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
+    rcpp_result_gen = Rcpp::wrap(regroup(grouping_data, frame));
+    return rcpp_result_gen;
+END_RCPP
+}
 // grouped_df_impl
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols);
 RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP) {
@@ -778,6 +790,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
+    {"_dplyr_regroup", (DL_FUNC) &_dplyr_regroup, 2},
     {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 2},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},

@@ -43,7 +43,7 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 }
 
 #' @export
-filter.tbl_df <- function(.data, ..., .preserve = TRUE) {
+filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- quos(...)
   if (any(have_name(dots))) {
     bad <- dots[have_name(dots)]
@@ -54,31 +54,35 @@ filter.tbl_df <- function(.data, ..., .preserve = TRUE) {
 
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
   out <- filter_impl(.data, quo)
-  if (!.preserve) {
-    out <- group_by(out, add = TRUE)
+  if (!.preserve && is_grouped_df(.data)) {
+    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
   }
   out
 }
 #' @export
-filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = TRUE) {
+filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   filter(.data, !!!dots, .preserve = .preserve)
 }
 
 #' @export
-slice.tbl_df <- function(.data, ...) {
+slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- quos(...)
   if (is_empty(dots)) {
     return(.data)
   }
 
   quo <- quo(c(!!!dots))
-  slice_impl(.data, quo)
+  out <- slice_impl(.data, quo)
+  if (!.preserve && is_grouped_df(.data)) {
+    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
+  }
+  out
 }
 #' @export
-slice_.tbl_df <- function(.data, ..., .dots = list()) {
-  dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  slice_impl(.data, dots[[1L]])
+slice_.tbl_df <- function(.data, ..., .preserve = FALSE, .dots = list()) {
+  dots <- compat_lazy_dots(.dots, caller_env(), ...)
+  slice(.data, !!!dots, .preserve = .preserve)
 }
 
 #' @export

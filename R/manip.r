@@ -62,8 +62,8 @@
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
 #'   these concepts.
-#' @param .preserve when `TRUE` (the default), the grouping structure
-#'   is preserved, otherwise it is recalculated based on the resulting data.
+#' @param .preserve when `FALSE` (the default), the grouping structure
+#'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @return An object of the same class as `.data`.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
@@ -109,16 +109,16 @@
 #' mass <- 80
 #' height <- 150
 #' filter(starwars, mass > !!mass, height > !!height)
-filter <- function(.data, ..., .preserve = TRUE) {
+filter <- function(.data, ..., .preserve = FALSE) {
   UseMethod("filter")
 }
 #' @export
-filter.default <- function(.data, ..., .preserve = TRUE) {
+filter.default <- function(.data, ..., .preserve = FALSE) {
   filter_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
 }
 #' @export
 #' @rdname se-deprecated
-filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
+filter_ <- function(.data, ..., .dots = list(), .preserve = FALSE) {
   UseMethod("filter_")
 }
 
@@ -165,16 +165,16 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' filter(mtcars, row_number() == 1L)
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
-slice <- function(.data, ...) {
+slice <- function(.data, ..., .preserve = FALSE) {
   UseMethod("slice")
 }
 #' @export
-slice.default <- function(.data, ...) {
-  slice_(.data, .dots = compat_as_lazy_dots(...))
+slice.default <- function(.data, ..., .preserve = FALSE) {
+  slice_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
 }
 #' @export
 #' @rdname se-deprecated
-slice_ <- function(.data, ..., .dots = list()) {
+slice_ <- function(.data, ..., .preserve = FALSE, .dots = list()) {
   UseMethod("slice_")
 }
 

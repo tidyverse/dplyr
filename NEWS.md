@@ -41,11 +41,10 @@ To be released as 0.8.0
     df %>% group_by(x, f)
     ```
 
-* `filter()`  gains a `.preserve` argument to control which groups it should keep. The default 
-  `filter(.preserve = TRUE)` preserves the grouping structure of the input tbl, and `filter(.preserve = FALSE)`
-  recalculates the groups at the end. 
-  
-  
+* `filter()` and `slice()` gain a `.preserve` argument to control which groups it should keep. The default 
+  `filter(.preserve = FALSE)` recalculates the grouping structure based on the resulting data, 
+  otherwise it is kept as is.
+
     ```r
     df <- tibble(
       x = c(1,2,1,2), 
@@ -54,7 +53,7 @@ To be released as 0.8.0
       group_by(x, f)
     
     df %>% filter(x == 1)
-    df %>% filter(x == 1, .preserve = FALSE)
+    df %>% filter(x == 1, .preserve = TRUE)
     ```
 
 * The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed
