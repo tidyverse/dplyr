@@ -423,23 +423,24 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
   }
 }
 
+inline bool is_factor(SEXP x){
+  return Rf_inherits(x, "factor");
+}
+
 bool has_no_factors(const std::vector<SEXP>& x) {
-  for (int i = 0; i < x.size(); i++) {
-    if (Rf_inherits(x[i], "factor")) return false;
-  }
-  return true;
+  return std::find_if(x.begin(), x.end(), is_factor) == x.end();
 }
 
 // [[Rcpp::export]]
 SEXP regroup(DataFrame grouping_data, SEXP frame) {
-  int nc = grouping_data.size() - 1;
+  size_t nc = grouping_data.size() - 1;
 
   // 1) only keep the rows with non empty groups
-  int n = grouping_data.nrow();
+  size_t n = grouping_data.nrow();
   std::vector<int> keep;
   keep.reserve(n);
   ListView rows = grouping_data[nc];
-  for (int i = 0; i < n; i++) {
+  for (size_t i = 0; i < n; i++) {
     if (LENGTH(rows[i]) > 0) keep.push_back(i + 1);
   }
   if (keep.size() == n) return grouping_data;
@@ -449,11 +450,11 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
   // 2) perform a group by so that factor levels are expanded
   DataFrameVisitors visitors(grouping_data, nc);
   std::vector<SEXP> visited_data(nc);
-  for (int i = 0; i < nc; i++) {
+  for (size_t i = 0; i < nc; i++) {
     visited_data[i] = grouping_data[i];
   }
   boost::shared_ptr<Slicer> s = slicer(std::vector<int>(), 0, visited_data, visitors);
-  int ncases = s->size();
+  size_t ncases = s->size();
   if (ncases == 1 && grouping_data.nrow() == 0 && has_no_factors(visited_data)) {
     ncases = 0;
   }
@@ -463,7 +464,7 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
   List indices(ncases);
   ListCollecter indices_collecter(indices);
 
-  for (int i = 0; i < nc; i++) {
+  for (size_t i = 0; i < nc; i++) {
     vec_groups[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
     copy_most_attributes(vec_groups[i], visited_data[i]);
   }
@@ -474,7 +475,7 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
 
   // 3) translate indices on grouping_data to indices wrt the data
   ListView original_rows = grouping_data[nc];
-  for (int i = 0; i < ncases; i++) {
+  for (size_t i = 0; i < ncases; i++) {
     if (LENGTH(indices[i]) == 1) {
       indices[i] = original_rows[as<int>(indices[i]) - 1];
     }
