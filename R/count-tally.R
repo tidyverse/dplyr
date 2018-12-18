@@ -84,10 +84,10 @@ tally <- function(x, wt, sort = FALSE, name = "n") {
     n <- quo(sum(!!wt, na.rm = TRUE))
   }
 
-  n_name <- n_name(tbl_vars(x), name)
+  n_name <- n_name(group_vars(x), name)
 
-  if (name != "n" && name %in% tbl_vars(x)) {
-    inform(sprintf("Column `%s` already exists, using `%s` as output variable name", name, n_name))
+  if (name != "n" && name %in% group_vars(x)) {
+    abort(glue("Column `{name}` already exists in grouped variables"))
   }
 
   out <- summarise(x, !!n_name := !!n)
@@ -151,10 +151,10 @@ add_tally <- function(x, wt, sort = FALSE, name = "n") {
     n <- quo(sum(!!wt, na.rm = TRUE))
   }
 
-  n_name <- n_name(tbl_vars(x), name)
+  n_name <- n_name(group_vars(x), name)
 
-  if (name != "n" && name %in% tbl_vars(x)) {
-    inform(sprintf("Column `%s` already exists, using `%s` as output variable name", name, n_name))
+  if (name != "n" && name %in% group_vars(x)) {
+    abort(glue("Column `{name}` already exists in grouped variables"))
   }
 
   out <- mutate(x, !!n_name := !!n)
