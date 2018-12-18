@@ -27,3 +27,14 @@ test_that("group_map() rejects data frames that contain the grouping variable", 
   )
 })
 
+test_that("group_map() wants functions with at least 2 arguments, or ... (#3996)", {
+  head1 <- function(d) head(d, 1)
+
+  g <- iris %>%
+    group_by(Species)
+
+  expect_error(group_map(g, head1), "The function must accept at least two arguments")
+
+  head1 <- function(d, ...) head(d, 1)
+  expect_equal(nrow(group_map(g, head1)), 3L)
+})

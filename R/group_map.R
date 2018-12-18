@@ -97,6 +97,9 @@ group_map.function <- function(.tbl, .f, ...) {
 #' @export
 group_map.grouped_df <- function(.tbl, .f, ...) {
   .f <- rlang::as_function(.f)
+  if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
+    stop("The function must accept at least two arguments. You can use ... to absorb unused components")
+  }
 
   # call the function on each group
   chunks <- group_split(.tbl, keep = FALSE)
