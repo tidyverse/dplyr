@@ -119,7 +119,9 @@ n_name <- function(x) {
 count <- function(x, ..., wt = NULL, sort = FALSE) {
   groups <- group_vars(x)
 
-  x <- group_by(x, ..., add = TRUE)
+  if (dots_n(...)) {
+    x <- group_by(x, ..., add = TRUE)
+  }
   x <- tally(x, wt = !!enquo(wt), sort = sort)
   x <- group_by(x, !!!syms(groups), add = FALSE)
   x

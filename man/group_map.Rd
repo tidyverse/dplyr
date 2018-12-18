@@ -95,6 +95,6 @@ Other grouping functions: \code{\link{group_by_all}},
   \code{\link{group_by}}, \code{\link{group_indices}},
   \code{\link{group_keys}}, \code{\link{group_nest}},
   \code{\link{group_rows}}, \code{\link{group_size}},
-  \code{\link{groups}}
+  \code{\link{group_trim}}, \code{\link{groups}}
 }
 \concept{grouping functions}
