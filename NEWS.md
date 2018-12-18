@@ -163,6 +163,8 @@ To be released as 0.8.0
 
 * `funs()` is soft-deprecated and will start issuing warnings in a future version.
 
+* `do()` and `rowwise()` are marked as questioning (#3494). 
+
 * `glimpse()` prints group information on grouped tibbles (#3384).
 
 # dplyr 0.7.6
@@ -180,7 +182,7 @@ To be released as 0.8.0
 
 * Fix rchk errors (#3693).
 
-# dplyr 0.7.5
+# dplyr 0.7.5 (2018-04-14)
 
 ## Breaking changes for package developers
 
