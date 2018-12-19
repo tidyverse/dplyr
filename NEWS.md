@@ -94,6 +94,12 @@ To be released as 0.8.0
 * The notion of lazily grouped data frames have disappeared. All dplyr verbs now recalculate 
   immediately the grouping structure, and respect the levels of factors. 
 
+* Subsets of columns now properly dispatch to the `[` or `[[` method when the column 
+  is an object (a vector with a class) instead of making assumptions on how the 
+  column should be handled. The `[` method must handle integer indices, including 
+  `NA_integer_`, i.e. `x[NA_integer_]` should produce a vector of the same class
+  as `x` with whatever represents a missing value.  
+
 ## Minor changes
 
 * `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
