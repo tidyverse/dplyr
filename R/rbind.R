@@ -50,7 +50,7 @@ is_dataframe_like <- function(x) {
   }
 
   # All of which have the same length
-  n <- map_int(x, length)
+  n <- lengths(x)
   if (any(n != n[1])) {
     return(FALSE)
   }
