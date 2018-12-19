@@ -99,6 +99,14 @@ group_by.default <- function(.data, ..., add = FALSE) {
 #' @rdname se-deprecated
 #' @inheritParams group_by
 group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
+  warn_deprecated(paste_line(
+    "group_by_() is deprecated. ",
+    "Please use group_by() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with group_by() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("group_by_")
 }
 

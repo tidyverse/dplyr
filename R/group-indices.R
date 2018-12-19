@@ -25,6 +25,11 @@ group_indices.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 group_indices_ <- function(.data, ..., .dots = list()) {
+  warn_deprecated(paste_line(
+    "group_indices_() is deprecated. ",
+    "Please use group_indices() instead"
+  ))
+
   UseMethod("group_indices_")
 }
 

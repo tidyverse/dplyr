@@ -48,23 +48,40 @@ tidyselect::last_col
 #'   [tidyselect::vars_pull()].
 #' @export
 select_vars <- function(vars = chr(), ..., include = chr(), exclude = chr()) {
+  warn_deprecated(paste_line(
+    "select_vars() is deprecated. ",
+    "Please use tidyselect::vars_select() instead"
+  ))
+
   tidyselect::vars_select(.vars = vars, ..., .include = include, .exclude = exclude)
 }
 #' @rdname select_vars
 #' @inheritParams tidyselect::vars_rename
 #' @export
 rename_vars <- function(vars = chr(), ..., strict = TRUE) {
+  warn_deprecated(paste_line(
+    "rename_vars() is deprecated. ",
+    "Please use tidyselect::vars_rename() instead"
+  ))
   tidyselect::vars_rename(.vars = vars, ..., .strict = strict)
 }
 #' @rdname select_vars
 #' @inheritParams tidyselect::vars_pull
 #' @export
 select_var <- function(vars, var = -1) {
+  warn_deprecated(paste_line(
+    "select_var() is deprecated. ",
+    "Please use tidyselect::vars_pull() instead"
+  ))
   tidyselect::vars_pull(vars, !!enquo(var))
 }
 #' @rdname select_vars
 #' @export
 current_vars <- function(...) {
+  warn_deprecated(paste_line(
+    "current_vars() is deprecated. ",
+    "Please use tidyselect::peek_vars() instead"
+  ))
   tidyselect::peek_vars(...)
 }
 
@@ -74,12 +91,21 @@ current_vars <- function(...) {
 #'   include/exclude.
 #' @export
 select_vars_ <- function(vars, args, include = chr(), exclude = chr()) {
+  warn_deprecated(paste_line(
+    "select_vars_() is deprecated. ",
+    "Please use tidyselect::vars_select() instead"
+  ))
+
   args <- compat_lazy_dots(args, caller_env())
   select_vars(vars, !!!args, include = include, exclude = exclude)
 }
 #' @export
 #' @rdname se-deprecated
 rename_vars_ <- function(vars, args) {
+  warn_deprecated(paste_line(
+    "rename_vars_() is deprecated. ",
+    "Please use tidyselect::vars_rename() instead"
+  ))
   args <- compat_lazy_dots(args, caller_env())
   rename_vars(vars, !!!args)
 }
