@@ -2,25 +2,60 @@
 
 To be released as 0.8.0
 
-* R expressions that cannot be handled with native code are now evaluated with
-  unwind-protection when available (on R 3.5 and later). This improves the
-  performance of dplyr on data frames with many groups (and hence many
-  expressions to evaluate). We benchmarked that computing a grouped average is
-  consistently twice as fast with unwind-protection enabled.
+## New functions
 
-  Unwind-protection also makes dplyr more robust in corner cases because it
-  ensures the C++ destructors are correctly called in all circumstances
-  (debugger exit, captured condition, restart invokation).
-
-* Using `mutate_all()`, `transmute_all()`, `mutate_if()` and `transmute_if()`
-  with grouped tibbles now informs you that the grouping variables are
-  ignored. In the case of the `_all()` verbs, the message invites you to use
-  `mutate_at(df, vars(-group_cols()))` (or the equivalent `transmute_at()` call)
-  instead if you'd like to make it explicit in your code that the operation is
-  not applied on the grouping variables.
-
-* New selection helper `group_cols()`. It can be called in selection contexts
+* New selection helpers `group_cols()`. It can be called in selection contexts
   such as `select()` and matches the grouping variables of grouped tibbles.
+
+* `last_col()` is re-exported from tidyselect (#3584). 
+
+* `group_trim()` drops unused levels of factors that are used as grouping variables. 
+
+* `nest_join()` creates a list column of the matching rows. `nest_join()` + `tidyr::unnest()` 
+   is equivalent to `inner_join`  (#3570). 
+
+    ```r
+    band_members %>% 
+      nest_join(band_instruments)
+    ```
+    
+* `group_nest()` is similar to `tidyr::nest()` but focusing on the variables to nest by 
+  instead of the nested columns. 
+ 
+    ```r
+    starwars %>%
+      group_by(species, homeworld) %>% 
+      group_nest()
+      
+    starwars %>%
+      group_nest(species, homeworld)
+    ```
+    
+* `group_split()` is similar to `base::split()` but operating on existing groups when 
+  applied to a grouped data frame, or subject to the data mask on ungrouped data frames
+
+    ```r
+    starwars %>%
+      group_by(species, homeworld) %>%   
+      group_split()
+    
+    starwars %>%
+      group_split(species, homeworld)
+    ```
+    
+* `group_map()` and `group_walk()` are purrr-like functions to iterate on groups 
+  of a grouped data frame, jointly identified by the data subset (exposed as `.x`) and the 
+  data key (a one row tibble, exposed as `.y`). `group_map()` returns a grouped data frame that 
+  combines the results of the function, `group_walk()` is only used for side effects and returns 
+  its input invisibly. 
+  
+  ```r
+  mtcars %>%
+    group_by(cyl) %>%
+    group_map(~ head(.x, 2L))
+  ```
+
+## Major changes
 
 * `group_by()` respects levels of factors and keeps empty groups (#341). 
 
@@ -56,7 +91,80 @@ To be released as 0.8.0
     df %>% filter(x == 1, .preserve = TRUE)
     ```
 
-* The new function `group_trim()` drops unused levels of factors that are used as grouping variables
+* The notion of lazily grouped data frames have disappeared. All dplyr verbs now recalculate 
+  immediately the grouping structure, and respect the levels of factors. 
+
+## Minor changes
+
+* `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
+
+* `sample_n()` and `sample_frac()` can use `n()` (#3527)
+
+* `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux)
+  and handles the 0 rows and 0 columns special case (#2954).
+
+* `combine()` uses tidy dots (#3407).
+
+* `group_indices()` can be used without argument in expressions in verbs (#1185).
+
+* Using `mutate_all()`, `transmute_all()`, `mutate_if()` and `transmute_if()`
+  with grouped tibbles now informs you that the grouping variables are
+  ignored. In the case of the `_all()` verbs, the message invites you to use
+  `mutate_at(df, vars(-group_cols()))` (or the equivalent `transmute_at()` call)
+  instead if you'd like to make it explicit in your code that the operation is
+  not applied on the grouping variables.
+
+* Scoped variants of `arrange()` respect the `.by_group` argument (#3504).
+
+* `first()` and `last()` hybrid functions fall back to R evaluation when given no arguments (#3589). 
+
+* `mutate()` removes a column when the expression evaluates to `NULL` for all groups (#2945).
+
+* grouped data frames support `[, drop = TRUE]` (#3714). 
+
+* New low-level constructor `new_grouped_df()` and validator `validate_grouped_df` (#3837). 
+
+* `glimpse()` prints group information on grouped tibbles (#3384).
+
+* `sample_n()` and `sample_frac()` gain `...` (#2888). 
+
+## Lifecycle
+
+* `do()`, `rowwise()` and `combine()` are questioning (#3494). 
+
+* `funs()` is soft-deprecated and will start issuing warnings in a future version.
+
+## Changes to column wise functions
+
+* Scoped variants for `distinct()`: `distinct_at()`, `distinct_if()`, `distinct_all()` (#2948).
+
+* `summarise_at()` excludes the grouping variables (#3613). 
+
+* `mutate_all()`, `mutate_at()`, `summarise_all()` and `summarise_at()` handle utf-8 names (#2967).
+
+## Performance
+
+* R expressions that cannot be handled with native code are now evaluated with
+  unwind-protection when available (on R 3.5 and later). This improves the
+  performance of dplyr on data frames with many groups (and hence many
+  expressions to evaluate). We benchmarked that computing a grouped average is
+  consistently twice as fast with unwind-protection enabled.
+
+  Unwind-protection also makes dplyr more robust in corner cases because it
+  ensures the C++ destructors are correctly called in all circumstances
+  (debugger exit, captured condition, restart invokation).
+
+* `sample_n()` and `sample_frac()` gain `...` (#2888). 
+* Improved performance for wide tibbles (#3335).
+
+* Faster hybrid `sum()`, `mean()`, `var()` and `sd()` for logical vectors (#3189).
+
+* Hybrid version of `sum(na.rm = FALSE)` exits early when there are missing values. 
+  This considerably improves performance when there are missing values early in the vector (#3288). 
+
+* `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
+
+## Internal
 
 * The grouping metadata of grouped data frame has been reorganized in a single tidy tibble, that can be accessed
   with the new `group_data()` function. The grouping tibble consists of one column per grouping variable, 
@@ -77,96 +185,14 @@ To be released as 0.8.0
       group_rows()
     ```
 
-* New `nest_join()` function. `nest_join()` creates a list column of the matching rows. `nest_join()` + `tidyr::unnest()` is equivalent to `inner_join`  (#3570). 
+* Hybrid evaluation has been completely redesigned for better performance and stability. 
 
-    ```r
-    band_members %>% 
-      nest_join(band_instruments)
-    ```
-
-* Experimental function `group_nest()`, similar to `tidyr::nest()` but focusing on the variables to nest by 
-  instead of the nested columns. 
- 
-    ```r
-    starwars %>%
-      group_by(species, homeworld) %>% 
-      group_nest()
-      
-    starwars %>%
-      group_nest(species, homeworld)
-    ```
-    
-* Experimental function `group_split()` similar to `base::split()` but operating on existing groups when 
-  applied to a grouped data frame, or subject to the data mask on ungrouped data frames
-
-    ```r
-    starwars %>%
-      group_by(species, homeworld) %>%   
-      group_split()
-    
-    starwars %>%
-      group_split(species, homeworld)
-    ```
-    
-* Experimental functions `group_map()` and `group_walk()`, purrr-like functions to iterate on groups 
-  of a grouped data frame, jointly identified by the data subset (exposed as `.x`) and the 
-  data key (a one row tibble, exposed as `.y`). `group_map()` returns a grouped data frame that 
-  combines the results of the function, `group_walk()` isq only used for side effects and returns 
-  its input invisibly. 
-  
-  ```r
-  mtcars %>%
-    group_by(cyl) %>%
-    group_map(~ head(.x, 2L))
-  ```
-
-* `tally()` works correctly on non-data frame table sources such as `tbl_sql` (#3075).
-
-* `sample_n()` and `sample_frac()` can use `n()` (#3527)
-
-* Scoped variants for `distinct()`: `distinct_at()`, `distinct_if()`, `distinct_all()` (#2948).
-
-* `distinct()` respects the order of the variables provided (#3195, @foo-bar-baz-qux).
-
-* Special case when the input data to `distinct()` has 0 rows and 0 columns (#2954).
+## Documentation
 
 * Add documentation example for moving variable to back in `?select` (#3051).
 
-* `combine()` uses tidy dots (#3407).
-
-* `group_indices()` can be used without argument in expressions in verbs (#1185).
-
-* Scoped variants of `arrange()` respect the `.by_group` argument (#3504).
-
-* Improved performance for wide tibbles (#3335).
-
-* Faster hybrid `sum()`, `mean()`, `var()` and `sd()` for logical vectors (#3189).
-
-* Hybrid version of `sum(na.rm = FALSE)` exits early when there are missing values. This considerably improves performance when there are missing values early in the vector (#3288). 
-
-* `group_by()` does not trigger the additional `mutate()` on simple uses of the `.data` pronoun (#3533). 
-
-* `first()` and `last()` hybrid functions fall back to R evaluation when given no arguments (#3589). 
-
-* Joins no longer make lazy grouped data (#3566). 
-
-* `last_col()` is re-exported from tidyselect (#3584). 
-
-* `mutate()` removes a column when the expression evaluates to `NULL` for all groups (#2945).
-
-* `summarise_at()` excludes the grouping variables (#3613). 
-
-* grouped data frames support `[, drop = TRUE]` (#3714). 
-
-* `mutate_all()`, `mutate_at()`, `summarise_all()` and `summarise_at()` handle utf-8 names (#2967).
-
-* New low-level constructor `new_grouped_df()` and validator `validate_grouped_df` (#3837). 
-
-* `funs()` is soft-deprecated and will start issuing warnings in a future version.
-
-* `do()` and `rowwise()` are marked as questioning (#3494). 
-
-* `sample_n()` and `sample_frac()` gain `...` (#2888). 
+* column wise functions are better documented, in particular explaining when 
+  grouping variables are included as part of the selection. 
 
 # dplyr 0.7.6
 
