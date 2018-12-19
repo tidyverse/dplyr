@@ -423,7 +423,7 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
   }
 }
 
-inline bool is_factor(SEXP x){
+inline bool is_factor(SEXP x) {
   return Rf_inherits(x, "factor");
 }
 

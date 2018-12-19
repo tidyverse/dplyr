@@ -10,8 +10,6 @@ combine(...)
 \item{...}{Vectors to combine.}
 }
 \description{
-\badgequestioning
-
 \code{combine()} acts like \code{\link[=c]{c()}} or
 \code{\link[=unlist]{unlist()}} but uses consistent dplyr coercion rules.
 
@@ -19,6 +17,10 @@ If \code{combine()} it is called with exactly one list argument, the list is
 simplified (similarly to \code{unlist(recursive = FALSE)}). \code{NULL} arguments are
 ignored. If the result is empty, \code{logical()} is returned.
 Use \code{\link[vctrs:vec_c]{vctrs::vec_c()}} if you never want to unlist.
+}
+\details{
+\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+}
 }
 \examples{
 # combine applies the same coercion rules as bind_rows()

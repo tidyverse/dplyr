@@ -10,7 +10,8 @@ rowwise(data)
 \item{data}{Input data frame.}
 }
 \description{
-\badgequestioning
+\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+}
 }
 \details{
 See \href{https://github.com/jennybc/row-oriented-workflows}{this repository}

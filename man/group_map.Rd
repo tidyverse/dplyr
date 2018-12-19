@@ -39,7 +39,8 @@ that identifies the group
 be used to iterate on grouped tibbles.
 }
 \details{
-\badgeexperimental
+\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
+}
 \itemize{
 \item Use \code{group_map()} when \code{summarize()} is too limited, in terms of what you need
 to do and return for each group. \code{group_map()} is good for "data frame in, data frame out".

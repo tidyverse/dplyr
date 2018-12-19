@@ -1,6 +1,8 @@
 #' Group input by rows
 #'
-#' \badgequestioning
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+#' ```
 #'
 #' See [this repository](https://github.com/jennybc/row-oriented-workflows)
 #' for alternative ways to perform row-wise operations

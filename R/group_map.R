@@ -1,7 +1,9 @@
 
 #' Apply a function to each group
 #'
-#' \badgeexperimental
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
+#' ```
 #'
 #' @description
 #'

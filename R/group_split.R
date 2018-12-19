@@ -1,6 +1,8 @@
 #' Split data frame by groups
 #'
-#' \badgeexperimental
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
+#' ```
 #'
 #' @family grouping functions
 #'

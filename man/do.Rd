@@ -42,7 +42,8 @@ presence of a grouping.  This makes sure that the format of the resulting
 data frame is the same for both empty and non-empty input.
 }
 \details{
-\badgequestioning
+\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+}
 }
 \section{Alternative}{
 

@@ -132,9 +132,11 @@ bind_cols <- function(...) {
 
 #' Combine vectors
 #'
-#' @description
-#' \badgequestioning
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+#' ```
 #'
+#' @description
 #' `combine()` acts like [c()] or
 #' [unlist()] but uses consistent dplyr coercion rules.
 #'
