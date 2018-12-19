@@ -879,3 +879,7 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
     )
   expect_equal(res, expected)
 })
+
+test_that("mutate() does not segfault when setting an unknown column to NULL (#4035)", {
+  expect_true(all_equal(mutate(mtcars, dummy = NULL), mtcars))
+})

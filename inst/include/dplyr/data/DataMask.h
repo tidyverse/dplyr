@@ -373,14 +373,15 @@ public:
   // remove this variable from the environments
   void rm(const SymbolString& symbol) {
     int idx = symbol_map.find(symbol);
+    if (idx >= 0) {
+      if (active_bindings_ready) {
+        column_bindings[idx].detach(mask_active, mask_resolved);
+      }
 
-    if (active_bindings_ready) {
-      column_bindings[idx].detach(mask_active, mask_resolved);
+      // so that hybrid evaluation does not find it
+      // see maybe_get_subset_binding above
+      column_bindings[idx].rm();
     }
-
-    // so that hybrid evaluation does not find it
-    // see maybe_get_subset_binding above
-    column_bindings[idx].rm();
   }
 
   // add a new binding, used by mutate
