@@ -85,6 +85,7 @@ test_that("as_fun_list() uses rlang auto-naming", {
 })
 
 test_that("funs_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     funs(mean),
     funs_(list(~ mean))

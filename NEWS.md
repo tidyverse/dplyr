@@ -170,6 +170,10 @@ To be released as 0.8.0
 
 * `sample_n()` and `sample_frac()` gain `...` (#2888). 
 
+### Deprecated and defunct functions
+
+* `mutate_each()` and `summarise_each()` are deprecated. 
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`
