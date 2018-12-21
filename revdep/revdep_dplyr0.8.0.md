@@ -8,8 +8,6 @@ Fixing the behaviour was part of the hybrid evaluation re implementation,
 now `n()` is just like any other function, when using it in packages and
 scripts. 
 
-## in package code
-
 If you get the error `could not find function "n"` from a function in your 
 package, it means that you need to import the `n` function, there are 
 several ways to do that: 
@@ -22,13 +20,9 @@ several ways to do that:
    
  - prefix the function, i.e. call it `dplyr::n()`
  
-## in scripts, examples
-
 If you get the error in scripts, the easiest way to fix it is to load
 dplyr with `library(dplyr)`, otherwise you can prefix the function 
 with `dplyr::n()`
-
-## which packages
 
 ```
 AMR
