@@ -393,7 +393,7 @@ summarise.tbl_cube <- function(.data, ...) {
   dots <- quos(..., .named = TRUE)
 
   out_dims <- .data$dims[.data$groups]
-  n <- map_int(out_dims, length)
+  n <- lengths(out_dims)
 
   out_mets <- list()
   for (nm in names(dots)) {

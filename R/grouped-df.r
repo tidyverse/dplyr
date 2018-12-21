@@ -365,9 +365,3 @@ distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   distinct(.data, !!!dots, .keep_all = .keep_all)
 }
-
-#' @export
-glimpse.grouped_df <- function(x, width = NULL, ...) {
-  cat("Groups: ", group_sum(x), "\n")
-  NextMethod()
-}

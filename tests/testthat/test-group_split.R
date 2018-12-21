@@ -46,3 +46,18 @@ test_that("group_split / bind_rows round trip", {
 test_that("group_split() works if no grouping column", {
   expect_equal(group_split(iris), list(iris))
 })
+
+test_that("group_split(keep=FALSE) does not try to remove virtual grouping columns (#4045)", {
+  iris3 <- iris[1:3,]
+  rows <- list(c(1L, 3L, 2L), c(3L, 2L, 3L))
+  df <- new_grouped_df(
+    iris3,
+    groups = tibble(.bootstrap = 1:2, .rows := rows)
+  )
+  res <- group_split(df, keep = FALSE)
+
+  expect_equal(
+    res,
+    list(iris3[rows[[1L]],], iris3[rows[[2L]],])
+    )
+})
