@@ -99,8 +99,9 @@ do.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 do_ <- function(.data, ..., .dots = list()) {
-  warn_deprecated(paste_line(
-    "do_() is deprecated. "
+  signal_soft_deprecated(paste_line(
+    "do_() is deprecated. ",
+    "Please use group_map() instead"
   ))
   UseMethod("do_")
 }

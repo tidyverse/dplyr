@@ -99,7 +99,7 @@ group_by.default <- function(.data, ..., add = FALSE) {
 #' @rdname se-deprecated
 #' @inheritParams group_by
 group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "group_by_() is deprecated. ",
     "Please use group_by() instead",
     "",

@@ -63,7 +63,7 @@ distinct.default <- function(.data, ..., .keep_all = FALSE) {
 #' @rdname se-deprecated
 #' @inheritParams distinct
 distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "distinct_() is deprecated. ",
     "Please use distinct() instead",
     "",

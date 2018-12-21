@@ -355,7 +355,7 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "summarise_each() is deprecated",
     "Please use summarise_if(), summarise_at(), or summarise_all() instead: ",
     "",
@@ -391,7 +391,7 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "mutate_each() is deprecated",
     "Please use mutate_if(), mutate_at(), or mutate_all() instead: ",
     "",

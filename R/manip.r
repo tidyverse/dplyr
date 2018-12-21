@@ -119,7 +119,7 @@ filter.default <- function(.data, ..., .preserve = FALSE) {
 #' @export
 #' @rdname se-deprecated
 filter_ <- function(.data, ..., .dots = list(), .preserve = FALSE) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "filter_() is deprecated. ",
     "Please use filter() instead",
     "",
@@ -182,7 +182,7 @@ slice.default <- function(.data, ..., .preserve = FALSE) {
 #' @export
 #' @rdname se-deprecated
 slice_ <- function(.data, ..., .preserve = FALSE, .dots = list()) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "slice_() is deprecated. ",
     "Please use slice() instead",
     "",
@@ -275,7 +275,7 @@ summarise.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 summarise_ <- function(.data, ..., .dots = list()) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "summarise_() is deprecated. ",
     "Please use summarise() instead",
     "",
@@ -444,7 +444,7 @@ mutate.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 mutate_ <- function(.data, ..., .dots = list()) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "mutate_() is deprecated. ",
     "Please use mutate() instead",
     "",
@@ -463,7 +463,7 @@ transmute <- function(.data, ...) {
 #' @rdname se-deprecated
 #' @export
 transmute_ <- function(.data, ..., .dots = list()) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "transmute_() is deprecated. ",
     "Please use transmute() instead",
     "",
@@ -536,7 +536,7 @@ arrange.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "arrange_() is deprecated. ",
     "Please use arrange() instead",
     "",
@@ -689,7 +689,7 @@ select.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "select_() is deprecated. ",
     "Please use select() instead",
     "",
@@ -712,7 +712,7 @@ rename.default <- function(.data, ...) {
 #' @rdname se-deprecated
 #' @export
 rename_ <- function(.data, ..., .dots = list()) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "rename_() is deprecated. ",
     "Please use rename() instead",
     "",

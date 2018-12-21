@@ -101,7 +101,7 @@ tally <- function(x, wt, sort = FALSE) {
 #' @inheritParams tally
 #' @export
 tally_ <- function(x, wt, sort = FALSE) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "tally_() is deprecated. ",
     "Please use tally() instead",
     "",
@@ -137,7 +137,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @export
 #' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "count_() is deprecated. ",
     "Please use count() instead",
     "",
@@ -179,7 +179,7 @@ add_tally <- function(x, wt, sort = FALSE) {
 #' @rdname se-deprecated
 #' @export
 add_tally_ <- function(x, wt, sort = FALSE) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "add_tally_() is deprecated. ",
     "Please use add_tally() instead",
     "",
@@ -204,7 +204,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE) {
 #' @rdname se-deprecated
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
-  warn_deprecated(paste_line(
+  signal_soft_deprecated(paste_line(
     "add_count_() is deprecated. ",
     "Please use add_count() instead",
     "",
