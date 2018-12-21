@@ -1,7 +1,3 @@
-lengths <- function(x, use.names = TRUE) {
-  map_int(x, length)
-}
-
 .onLoad <- function(libname, pkgname) {
   op <- options()
   op.dplyr <- list(
@@ -9,6 +5,8 @@ lengths <- function(x, use.names = TRUE) {
   )
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
+
+  compat_lengths()
 
   invisible()
 }

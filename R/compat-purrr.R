@@ -77,7 +77,7 @@ walk2 <- function(.x, .y, .f, ...) {
   invisible(.x)
 }
 args_recycle <- function(args) {
-  lengths <- map_int(args, length)
+  lengths <- lengths(args)
   n <- max(lengths)
 
   stopifnot(all(lengths == 1L | lengths == n))
