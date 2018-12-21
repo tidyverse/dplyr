@@ -166,8 +166,6 @@ To be released as 0.8.0
 
 * `do()` and `rowwise()` are marked as questioning (#3494). 
 
-* `glimpse()` prints group information on grouped tibbles (#3384).
-
 * `sample_n()` and `sample_frac()` gain `...` (#2888). 
 
 # dplyr 0.7.6
