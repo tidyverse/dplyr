@@ -1,6 +1,39 @@
-# dplyr 0.7.99.9000
+# dplyr 0.8.0
 
-To be released as 0.8.0
+## Breaking changes
+
+ * Functions like `n()`, `row_number()` ... that are typically used in dplyr verbs
+   must now be imported when used in packages and scripts, otherwise the error 
+   `Error in n() : could not find function "n"` will appear. 
+   
+   The easiest fix is to import dplyr with `import(dplyr)` in your `NAMESPACE` or
+   `#' @import dplyr` in a roxygen comment, alternatively such functions can be 
+   imported selectively as any other function with `importFrom(dplyr, n)` in the 
+   `NAMESPACE` or `#' @importFrom dplyr n` in a roxygen comment. The third option is 
+   to prefix them, i.e. use `dplyr::n()`
+   
+ * The `sample_n()` generic gains a `...` argument. Methods must add `...` as well
+   to avoid a `checking S3 generic/method consistency` warning
+   
+ * `filter()`, `slice()`, `filter_()`, and `slice_()` gained a `.preserve` argument
+   detailed below. This affects packages that use `filter_(.dots=)`. These packages 
+   should add a `.preserve` argument as well so that `.preserve` is not aggregated 
+   in `...` and therefore generate. This will deal with the error
+   
+   ```
+   Error: `.preserve` (`.preserve = FALSE`) must not be named, do you need `==`?
+   ```
+
+  * dplyr now deals with empty groups, see details below. This might affect 
+    packages that were previously assuming there wer no empty groups. 
+    
+  * dplyr is now stricter about what a grouped data frame is, packages that 
+    previously made assumptions about the structure of a grouped data frame
+    might see this error: 
+    
+    ```
+    Error: `.data` is a corrupt grouped_df, the `"groups"` attribute must be a data frame
+    ```
 
 ## New functions
 
