@@ -664,19 +664,24 @@ List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame) {
   DataFrame data = gdf.data();
 
   if (!keep) {
-    int ng = group_data.ncol() - 1;
-    CharacterVector group_names = vec_names(group_data);
-    dplyr_hash_set<SEXP> set;
-    for (int i = 0; i < ng; i++) {
-      set.insert(group_names[i]);
+    CharacterVector all_names = vec_names(data);
+    int nv = data.size();
+    dplyr_hash_set<SEXP> all_set;
+    for (int i = 0; i < nv; i++) {
+      all_set.insert(all_names[i]);
     }
 
-    int nv = data.size();
-    CharacterVector all_names = vec_names(data);
-    IntegerVector kept_cols(nv - ng);
+    int ng = group_data.ncol() - 1;
+    CharacterVector group_names = vec_names(group_data);
+    for (int i = 0; i < ng; i++) {
+      SEXP name = group_names[i];
+      if (all_set.count(name)) all_set.erase(name);
+    }
+
+    IntegerVector kept_cols(all_set.size());
     int k = 0;
     for (int i = 0; i < nv; i++) {
-      if (!set.count(all_names[i])) {
+      if (all_set.count(all_names[i])) {
         kept_cols[k++] = i + 1;
       }
     }
