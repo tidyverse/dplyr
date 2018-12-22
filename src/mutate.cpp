@@ -101,12 +101,12 @@ class MutateCallProxy {
 public:
   typedef typename SlicedTibble::slicing_index Index ;
 
-  MutateCallProxy(const SlicedTibble& data_, DataMask<SlicedTibble>& mask_, const NamedQuosure& quosure) :
+  MutateCallProxy(const SlicedTibble& data_, DataMask<SlicedTibble>& mask_, const NamedQuosure& quosure_) :
     data(data_),
     mask(mask_),
-    expr(quosure.expr()),
-    env(quosure.env()),
-    name(quosure.name())
+    quosure(quosure_.get()),
+    expr(quosure_.expr()),
+    name(quosure_.name())
   {}
 
   SEXP get() {
@@ -142,9 +142,10 @@ private:
   // where to find subsets of data variables
   DataMask<SlicedTibble>& mask ;
 
-  // expression and environment from the quosure
-  SEXP expr ;
-  SEXP env ;
+  Quosure quosure;
+
+  // expression unwrapped from the quosure
+  SEXP expr;
 
   SymbolString name ;
 
@@ -210,7 +211,7 @@ private:
 public:
 
   SEXP get(const Index& indices) {
-    return mask.eval(expr, indices) ;
+    return mask.eval_quo(quosure, indices) ;
   }
 
 };
@@ -445,8 +446,8 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     if (variable == R_UnboundValue) {
       LOG_VERBOSE << "Rechaining";
 
-      mask.rechain(quosure.env());
-      variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get() ;
+      mask.setup();
+      variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
     }
 
     if (Rf_isNull(variable)) {

@@ -227,7 +227,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
   // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
   DataMask<SlicedTibble> mask(gdf) ;
-  mask.rechain(quo.env());
+  mask.setup();
 
   int ngroups = gdf.ngroups() ;
 
@@ -246,7 +246,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
 
     // the result of the expression in the group
-    LogicalVector g_test = check_result_lgl_type(mask.eval(quo.expr(), indices));
+    LogicalVector g_test = check_result_lgl_type(mask.eval_quo(quo, indices));
     if (g_test.size() == 1) {
       // we get length 1 so either we have an empty group, or a dense group, i.e.
       // a group that has all the rows from the original data
@@ -477,7 +477,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   typedef typename SlicedTibble::slicing_index slicing_index ;
 
   DataMask<SlicedTibble> mask(gdf);
-  mask.rechain(quo.env());
+  mask.setup();
 
   const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
@@ -496,7 +496,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
 
     // evaluate the expression in the data mask
-    IntegerVector g_positions = check_slice_result(mask.eval(quo.expr(), indices));
+    IntegerVector g_positions = check_slice_result(mask.eval_quo(quo, indices));
 
     // scan the results to see if all >= 1 or all <= -1
     CountIndices counter(indices.size(), g_positions);

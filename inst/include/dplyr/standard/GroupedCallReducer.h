@@ -317,13 +317,13 @@ public:
     quosure(quosure_),
     data_mask(data_mask_)
   {
-    data_mask.rechain(quosure.env());
+    data_mask.setup();
   }
 
   SEXP process(const SlicedTibble& gdf) ;
 
   inline SEXP process_chunk(const Index& indices) {
-    return data_mask.eval(quosure.get(), indices);
+    return data_mask.eval_quo(quosure.get(), indices);
   }
 
   const SymbolString& get_name() const {
