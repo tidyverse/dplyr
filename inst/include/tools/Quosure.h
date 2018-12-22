@@ -43,6 +43,9 @@ public:
   const SymbolString& name() const {
     return name_;
   }
+  SEXP get() const {
+    return quosure;
+  }
 
 private:
   Quosure quosure;

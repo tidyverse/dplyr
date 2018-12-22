@@ -14,6 +14,8 @@
 
 #include <dplyr/symbols.h>
 
+SEXP eval_callback(void* data_);
+
 namespace dplyr {
 
 template <class SlicedTibble> class DataMask;
@@ -316,6 +318,14 @@ template <class SlicedTibble>
 class DataMask {
   typedef typename SlicedTibble::slicing_index slicing_index;
 
+private:
+  // data for the unwind-protect callback
+  struct MaskData {
+    SEXP expr;
+    SEXP mask;
+    SEXP env;
+  };
+
 public:
 
   // constructor
@@ -439,10 +449,6 @@ public:
     } else {
       clear_resolved();
     }
-
-    // change the parent environment of mask_active
-    SET_ENCLOS(mask_active, env);
-    Rf_defineVar(symbols::dot_env, env, data_mask);
   }
 
   // get ready to evaluate an R expression for a given group
@@ -510,13 +516,21 @@ public:
     get_context_env()["..group_number"] = indices.group() + 1;
 
     if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
+      // FIXME: Mutation
       SET_CLOENV(CAR(expr), mask_resolved) ;
     }
 
-    // evaluate the call in the data mask
-    SEXP res = Rcpp_fast_eval(expr, data_mask);
+    // TODO: pass the quosure unwrapped and forward the caller env of
+    // dplyr verbs to `eval_tidy()`
+    MaskData data = { expr, data_mask, R_BaseEnv };
 
-    return res;
+    // evaluate the call in the data mask
+    return Rcpp::unwindProtect(&eval_callback, (void*) &data);
+  }
+
+  static SEXP eval_callback(void* data_) {
+    MaskData* data = (MaskData*) data_;
+    return rlang::eval_tidy(data->expr, data->mask, data->env);
   }
 
 private:
