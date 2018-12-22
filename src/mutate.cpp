@@ -211,7 +211,7 @@ private:
 public:
 
   SEXP get(const Index& indices) {
-    return mask.eval_quo(quosure, indices) ;
+    return mask.eval(quosure, indices) ;
   }
 
 };
@@ -446,6 +446,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
     if (variable == R_UnboundValue) {
       LOG_VERBOSE << "Rechaining";
 
+      // NULL columns are not removed if `setup()` is not called here
       mask.setup();
       variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
     }

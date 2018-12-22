@@ -411,15 +411,6 @@ public:
     return column_bindings.size();
   }
 
-  // FIXME: There should be no mask rechaining as it is a
-  // responsibility of rlang.
-  //
-  // call this before treating new expression with standard
-  // evaluation in its environment: parent_env
-  void rechain(SEXP env) {
-    setup();
-  }
-
   // no need to call this when treating the expression with hybrid evaluation
   // this is why the setup if the environments is lazy,
   // as we might not need them at all
@@ -513,30 +504,9 @@ public:
     return res;
   }
 
-  // evaluate expr on the subset of data given by indices
-  SEXP eval(SEXP expr, const slicing_index& indices) {
-    // update the bindings
-    update(indices);
+  SEXP eval(const Quosure& quo, const slicing_index& indices) {
+    setup();
 
-    // update the data context variables, these are used by n(), ...
-    get_context_env()["..group_size"] = indices.size();
-    get_context_env()["..group_number"] = indices.group() + 1;
-
-    if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
-      // FIXME: Mutation
-      SET_CLOENV(CAR(expr), mask_resolved) ;
-    }
-
-    // TODO: pass the quosure unwrapped and forward the caller env of
-    // dplyr verbs to `eval_tidy()`
-    MaskData data = { expr, data_mask, R_BaseEnv };
-
-    // evaluate the call in the data mask
-    return Rcpp::unwindProtect(&eval_callback, (void*) &data);
-  }
-
-  // FIXME: Temporary duplication until refactoring is complete
-  SEXP eval_quo(const Quosure& quo, const slicing_index& indices) {
     // update the bindings
     update(indices);
 

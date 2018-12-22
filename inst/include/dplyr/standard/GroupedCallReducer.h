@@ -323,7 +323,7 @@ public:
   SEXP process(const SlicedTibble& gdf) ;
 
   inline SEXP process_chunk(const Index& indices) {
-    return data_mask.eval_quo(quosure.get(), indices);
+    return data_mask.eval(quosure.get(), indices);
   }
 
   const SymbolString& get_name() const {

@@ -46,8 +46,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
     bool is_desc = TYPEOF(expr) == LANGSXP && symbols::desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
-    mask.setup();
-    Shield<SEXP> v(mask.eval_quo(quosure.get(), indices_all));
+    Shield<SEXP> v(mask.eval(quosure.get(), indices_all));
 
     if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
