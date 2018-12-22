@@ -40,6 +40,21 @@ library("nycflights13")
 # Drop unimportant variables so it's easier to understand the join results.
 flights2 <- flights %>% select(year:day, hour, origin, dest, tailnum, carrier)
 
+options(
+  # Trim out knitr context from backtrace
+  rlang_trace_top_env = rlang::current_env(),
+
+  error = function() {
+    trace <- format(trace_back(), simplify = "none")
+    trace <- paste(trace, collapse = "\n")
+
+    # Let main.c::check_session_exit() halt execution properly
+    on.exit(options(error = NULL))
+
+    stop(trace)
+  }
+)
+
 flights2 %>% 
   left_join(airlines)
 ```
