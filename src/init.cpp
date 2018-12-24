@@ -89,4 +89,7 @@ SEXP symbols::inspect = Rf_install("inspect");
 SEXP symbols::dot = Rf_install(".");
 SEXP symbols::dot_x = Rf_install(".x");
 SEXP symbols::drop = Rf_install("drop");
+
+SEXP symbols::rlang = Rf_install("rlang");
+SEXP symbols::eval_tidy = Rf_install("eval_tidy");
 }
