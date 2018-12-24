@@ -14,19 +14,6 @@ library(dplyr)
 knit_print.tbl_df <- function(x, options) {
   knitr::knit_print(trunc_mat(x), options)
 }
-
-options(
-  # Trim out knitr context from backtrace
-  rlang_trace_top_env = rlang::current_env(),
-  error = function() {
-    trace <- format(trace_back(), simplify = "none")
-    trace <- paste(trace, collapse = "\n")
-    # Let main.c::check_session_exit() halt execution properly
-    on.exit(options(error = NULL))
-    stop(trace)
-  }
-)
-
 ```
 
 It's rare that a data analysis involves only a single table of data. In practice, you'll normally have many tables that contribute to an analysis, and you need flexible tools to combine them. In dplyr, there are three families of verbs that work with two tables at a time:
