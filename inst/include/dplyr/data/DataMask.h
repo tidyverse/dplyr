@@ -521,9 +521,6 @@ public:
     }
 
 #if (R_VERSION < R_Version(3, 5, 0))
-    Rcpp::Environment env_rlang = Rcpp::Environment::namespace_env("rlang");
-    SEXP rlang_eval_tidy = env_rlang["eval_tidy"];
-
     Language call_quote("quote", quo);
     Language call_eval_tidy(rlang_eval_tidy, call_quote, data_mask);
 
@@ -535,11 +532,6 @@ public:
 
     return Rcpp::unwindProtect(&eval_callback, (void*) &data);
 #endif
-  }
-
-  static SEXP eval_callback(void* data_) {
-    MaskData* data = (MaskData*) data_;
-    return rlang::eval_tidy(data->expr, data->mask, data->env);
   }
 
 private:
@@ -624,6 +616,16 @@ private:
 
     // forget about which indices are materialized
     materialized.clear();
+  }
+
+  static SEXP eval_callback(void* data_) {
+    MaskData* data = (MaskData*) data_;
+    return rlang::eval_tidy(data->expr, data->mask, data->env);
+  }
+
+  static SEXP rlang_eval_tidy() {
+    static Language call(symbols::double_colon, symbols::rlang, symbols::eval_tidy);
+    return call;
   }
 
 };
