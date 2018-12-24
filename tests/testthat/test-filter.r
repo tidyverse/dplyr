@@ -380,3 +380,10 @@ test_that("filter() preserve order accross groups (#3989)", {
   expect_false(is.unsorted(res2$time))
   expect_false(is.unsorted(res3$time))
 })
+
+test_that("filter() with two conditions does not freeze (#4049)", {
+  expect_identical(
+    iris %>% filter(Sepal.Length > 7, Petal.Length < 6),
+    iris %>% filter(Sepal.Length > 7 & Petal.Length < 6)
+  )
+})
