@@ -60,6 +60,7 @@ struct rlang_api_ptrs_t {
   SEXP (*as_data_pronoun)(SEXP data);
   SEXP (*as_data_mask)(SEXP data, SEXP parent);
   SEXP (*new_data_mask)(SEXP bottom, SEXP top);
+  SEXP (*eval_tidy)(SEXP expr, SEXP data, SEXP env);
 
   rlang_api_ptrs_t() {
     quo_get_expr =      (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_expr");
@@ -71,6 +72,7 @@ struct rlang_api_ptrs_t {
     as_data_pronoun =   (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
     as_data_mask =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_as_data_mask");
     new_data_mask =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_data_mask_3.0.0");
+    eval_tidy =         (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_eval_tidy");
   }
 };
 // *INDENT-ON*
@@ -102,6 +104,10 @@ inline SEXP new_data_mask(SEXP bottom, SEXP top) {
 
 inline SEXP as_data_pronoun(SEXP data) {
   return dplyr::internal::rlang_api().as_data_pronoun(data);
+}
+
+inline SEXP eval_tidy(SEXP expr, SEXP data, SEXP env) {
+  return dplyr::internal::rlang_api().eval_tidy(expr, data, env);
 }
 
 }
