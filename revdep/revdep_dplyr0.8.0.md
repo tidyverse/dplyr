@@ -120,18 +120,6 @@ dtplyr            (not reallt a ... problem, but related to sample_n)
 tidygraph
 ```
 
-# filter(.preserve)
-
-`filter()` gained a `.preserve` argument. This causes problems for packages: 
-
-```
-chunked
-ggvis
-plotly
-poplite
-treeplyr
-```
-
 # calls to internet API problems
 
 ```
@@ -166,6 +154,7 @@ modeldb
 Organism.dplyr
 pammtools
 pivottabler
+poplite
 PKNCA
 processcheckR
 purrrlyr
@@ -183,6 +172,7 @@ tbrf                          error message no longer contain "Evaluation error:
 tibbletime                    error message mismatch in the tests
 tidystats
 TPP
+treeplyr
 trelliscopejs
 understandBPMN
 valr
