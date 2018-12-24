@@ -23,7 +23,9 @@ public:
   }
 
 private:
-  // quosures all come directly from R, so they don't need protection
+  // quosure typically come from the R side, so don't need
+  // further protection, so it's the user responsability to protect
+  // them if needed, as in arrange.cpp
   SEXP data;
 };
 
