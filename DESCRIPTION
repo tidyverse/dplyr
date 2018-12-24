@@ -65,6 +65,4 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.1
 Remotes: 
     r-lib/rlang,
-    romainfrancois/tibble@fix-lifecycle
-
-
+    tidyverse/tibble
