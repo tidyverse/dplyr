@@ -41,8 +41,9 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
   NaturalSlicingIndex indices_all(gdf.nrows());
 
   for (int i = 0; i < nargs; i++) {
-    const NamedQuosure& quosure = quosures[i];
-    SEXP expr = quosure.expr();
+    const NamedQuosure& named_quosure = quosures[i];
+
+    SEXP expr = named_quosure.expr();
 
     bool is_desc = TYPEOF(expr) == LANGSXP && symbols::desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
@@ -59,8 +60,16 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
 
     // otherwise need to evaluate in the data mask
     if (v.isNULL()) {
-      is_desc = false; // unless we can change the quosure expr, we have to evaluate desc as well
-      v = mask.eval(quosure.get(), indices_all);
+      if (is_desc) {
+        // we need a new quosure that peels off `desc` from the original
+        // quosure, and uses the same environment
+        Quosure quo(PROTECT(rlang::quo_set_expr(named_quosure.get(), expr)));
+        v = mask.eval(named_quosure.get(), indices_all);
+        UNPROTECT(1);
+      } else {
+        // just use the original quosure
+        v = mask.eval(named_quosure.get(), indices_all);
+      }
     }
 
     if (!allow_list(v)) {
