@@ -1,6 +1,8 @@
 #' Do anything
 #'
-#' \badgequestioning
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+#' ```
 #'
 #' @description This is a general purpose complement to the specialised
 #' manipulation functions [filter()], [select()], [mutate()],
@@ -97,6 +99,10 @@ do.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 do_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "do_() is deprecated. ",
+    "Please use group_map() instead"
+  ))
   UseMethod("do_")
 }
 

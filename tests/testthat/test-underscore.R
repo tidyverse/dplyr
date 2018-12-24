@@ -6,6 +6,7 @@ df <- data_frame(
 )
 
 test_that("arrange_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     arrange_(df, ~ -a),
     arrange(df, -a)
@@ -23,6 +24,7 @@ test_that("arrange_ works", {
 })
 
 test_that("count_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     count_(df, ~ b),
     count(df, b)
@@ -46,6 +48,7 @@ test_that("count_ works", {
 })
 
 test_that("distinct_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     distinct_(df, ~ a),
     distinct(df, a)
@@ -78,6 +81,7 @@ test_that("distinct_ works", {
 })
 
 test_that("do_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     do_(df, ~ data_frame(-.$a)),
     do(df, data_frame(-.$a))
@@ -116,6 +120,7 @@ test_that("do_ works", {
 })
 
 test_that("filter_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     filter_(df, ~ a > 1),
     filter(df, a > 1)
@@ -134,6 +139,7 @@ test_that("filter_ works", {
 })
 
 test_that("group_by_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     group_by_(df, ~ a),
     group_by(df, a)
@@ -201,6 +207,7 @@ test_that("group_by_ works", {
 })
 
 test_that("mutate_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     mutate_(df, c = ~ -a),
     mutate(df, c = -a)
@@ -229,6 +236,7 @@ test_that("mutate_ works", {
 })
 
 test_that("rename_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     rename_(df, c = ~ a),
     rename(df, c = a)
@@ -246,6 +254,7 @@ test_that("rename_ works", {
 })
 
 test_that("select_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     select_(df, ~ a),
     select(df, a)
@@ -279,6 +288,7 @@ test_that("select_ works", {
 })
 
 test_that("slice_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     slice_(df, ~ 2:n()),
     slice(df, 2:n())
@@ -302,6 +312,7 @@ test_that("slice_ works", {
 })
 
 test_that("summarise_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     summarise_(df, ~ mean(a)),
     summarise(df, mean(a))
@@ -340,6 +351,7 @@ test_that("summarise_ works", {
 })
 
 test_that("summarize_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     summarize_(df, ~ mean(a)),
     summarize(df, mean(a))
@@ -372,6 +384,7 @@ test_that("summarize_ works", {
 })
 
 test_that("transmute_ works", {
+  scoped_lifecycle_silence()
   expect_equal(
     transmute_(df, c = ~ -a),
     transmute(df, c = -a)

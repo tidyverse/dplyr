@@ -233,6 +233,10 @@
 * column wise functions are better documented, in particular explaining when 
   grouping variables are included as part of the selection. 
 
+### Deprecated and defunct functions
+
+* `mutate_each()` and `summarise_each()` are deprecated. 
+
 # dplyr 0.7.6
 
 * `exprs()` is no longer exported to avoid conflicts with `Biobase::exprs()`

@@ -33,7 +33,8 @@ to all function calls.}
 functions for input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
 }
 \details{
-\badgesoftdeprecated
+\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("softdeprecated")}
+}
 }
 \examples{
 funs(mean, "mean", mean(., na.rm = TRUE))

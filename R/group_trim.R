@@ -1,6 +1,8 @@
 #' Trim grouping structure
 #'
-#' \badgeexperimental
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
+#' ```
 #'
 #' @family grouping functions
 #'

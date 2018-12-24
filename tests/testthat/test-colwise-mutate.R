@@ -201,6 +201,7 @@ test_that("summarise_at removes grouping variables (#3613)", {
 # Deprecated ---------------------------------------------------------
 
 test_that("_each() and _all() families agree", {
+  scoped_lifecycle_silence()
   df <- data.frame(x = 1:3, y = 1:3)
 
   expect_equal(summarise_each(df, funs(mean)), summarise_all(df, mean))
@@ -230,20 +231,6 @@ test_that("_each() and _all() families agree", {
   expect_equal(mutate_each(df, list(mean = mean), x:y), mutate_at(df, vars(x:y), list(mean = mean)))
   expect_equal(mutate_each(df, list(mean), x:y), mutate_at(df, vars(x:y), mean))
   expect_equal(mutate_each(df, list(mean), z = y), mutate_at(df, vars(z = y), mean))
-})
-
-test_that("specific directions are given for _all() and _at() versions", {
-  summarise_each(mtcars, funs(mean))
-  summarise_each(mtcars, funs(mean), cyl)
-
-  summarise_each(mtcars, list(mean))
-  summarise_each(mtcars, list(mean), cyl)
-
-  mutate_each(mtcars, funs(mean))
-  mutate_each(mtcars, funs(mean), cyl)
-
-  mutate_each(mtcars, list(mean))
-  mutate_each(mtcars, list(mean), cyl)
 })
 
 test_that("group_by_(at,all) handle utf-8 names (#3829)", {

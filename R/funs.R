@@ -1,6 +1,8 @@
 #' Create a list of functions calls.
 #'
-#' \badgesoftdeprecated
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("softdeprecated")}
+#' ```
 #'
 #' @description
 #'
@@ -41,6 +43,16 @@
 #' funs(function(x) mean(x, na.rm = TRUE))
 #' funs(~mean(x, na.rm = TRUE))}
 funs <- function(..., .args = list()) {
+  signal_soft_deprecated(paste_line(
+    "funs() is soft deprecated as of dplyr 0.8.0",
+    "please use list() instead",
+    "",
+    "# Before:",
+    "funs(name = f(.)",
+    "",
+    "# After: ",
+    "list(name = ~f(.))"
+  ))
   dots <- quos(...)
   default_env <- caller_env()
 
@@ -151,6 +163,11 @@ print.fun_list <- function(x, ..., width = getOption("width")) {
 #' @inheritParams funs
 #' @param env The environment in which functions should be evaluated.
 funs_ <- function(dots, args = list(), env = base_env()) {
+  signal_soft_deprecated(paste_line(
+    "funs_() is deprecated. ",
+    "Please use list() instead"
+  ))
+
   dots <- compat_lazy_dots(dots, caller_env())
   funs(!!!dots, .args = args)
 }

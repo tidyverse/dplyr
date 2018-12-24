@@ -102,6 +102,14 @@ tally <- function(x, wt, sort = FALSE, name = "n") {
 #' @inheritParams tally
 #' @export
 tally_ <- function(x, wt, sort = FALSE) {
+  signal_soft_deprecated(paste_line(
+    "tally_() is deprecated. ",
+    "Please use tally() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with tally() : https://tidyeval.tidyverse.org"
+  ))
+
   wt <- compat_lazy(wt, caller_env())
   tally(x, wt = !!wt, sort = sort)
 }
@@ -129,6 +137,14 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
 #' @export
 #' @rdname se-deprecated
 count_ <- function(x, vars, wt = NULL, sort = FALSE) {
+  signal_soft_deprecated(paste_line(
+    "count_() is deprecated. ",
+    "Please use count() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with count() : https://tidyeval.tidyverse.org"
+  ))
+
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
@@ -168,6 +184,14 @@ add_tally <- function(x, wt, sort = FALSE, name = "n") {
 #' @rdname se-deprecated
 #' @export
 add_tally_ <- function(x, wt, sort = FALSE) {
+  signal_soft_deprecated(paste_line(
+    "add_tally_() is deprecated. ",
+    "Please use add_tally() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with add_tally() : https://tidyeval.tidyverse.org"
+  ))
+
   wt <- compat_lazy(wt, caller_env())
   add_tally(x, !!wt, sort = sort)
 }
@@ -183,6 +207,14 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
 #' @rdname se-deprecated
 #' @export
 add_count_ <- function(x, vars, wt = NULL, sort = FALSE) {
+  signal_soft_deprecated(paste_line(
+    "add_count_() is deprecated. ",
+    "Please use add_count() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with add_count() : https://tidyeval.tidyverse.org"
+  ))
+
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
