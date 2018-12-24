@@ -90,6 +90,10 @@ inline SEXP quo_get_expr(SEXP quo) {
   return dplyr::internal::rlang_api().quo_get_expr(quo);
 }
 
+inline SEXP quo_set_expr(SEXP quo, SEXP expr) {
+  return dplyr::internal::rlang_api().quo_set_expr(quo, expr);
+}
+
 inline SEXP quo_get_env(SEXP quo) {
   return dplyr::internal::rlang_api().quo_get_env(quo);
 }
