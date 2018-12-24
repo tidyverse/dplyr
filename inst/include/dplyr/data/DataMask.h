@@ -520,11 +520,21 @@ public:
       SET_CLOENV(CAR(expr), mask_resolved) ;
     }
 
+#if (R_VERSION < R_Version(3, 5, 0))
+    Rcpp::Environment env_rlang = Rcpp::Environment::namespace_env("rlang");
+    SEXP rlang_eval_tidy = env_rlang["eval_tidy"];
+
+    Language call_quote("quote", quo);
+    Language call_eval_tidy(rlang_eval_tidy, call_quote, data_mask);
+
+    return Rcpp::Rcpp_fast_eval(call_eval_tidy, R_BaseEnv);
+#else
+
     // TODO: forward the caller env of dplyr verbs to `eval_tidy()`
     MaskData data = { quo, data_mask, R_BaseEnv };
 
-    // evaluate the call in the data mask
     return Rcpp::unwindProtect(&eval_callback, (void*) &data);
+#endif
   }
 
   static SEXP eval_callback(void* data_) {
