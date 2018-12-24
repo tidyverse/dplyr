@@ -24,7 +24,7 @@ Imports:
     pkgconfig (>= 2.0.1),
     R6 (>= 2.2.2),
     Rcpp (>= 1.0.0),
-    rlang (>= 0.3.0.9002),
+    rlang (>= 0.3.0),
     tibble (>= 1.4.2),
     tidyselect (>= 0.2.5),
     utils
@@ -63,6 +63,3 @@ Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.1
-Remotes: 
-    r-lib/rlang,
-    tidyverse/tibble
