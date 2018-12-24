@@ -43,10 +43,25 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
   for (int i = 0; i < nargs; i++) {
     const NamedQuosure& quosure = quosures[i];
     SEXP expr = quosure.expr();
+
     bool is_desc = TYPEOF(expr) == LANGSXP && symbols::desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
-    Shield<SEXP> v(mask.eval(quosure.get(), indices_all));
+    RObject v(R_NilValue);
+
+    // if expr is a symbol from the data, just use it
+    if (TYPEOF(expr) == SYMSXP) {
+      const ColumnBinding<NaturalDataFrame>* binding = mask.maybe_get_subset_binding(CHAR(PRINTNAME(expr)));
+      if (binding) {
+        v = binding->get_data();
+      }
+    }
+
+    // otherwise need to evaluate in the data mask
+    if (v.isNULL()) {
+      is_desc = false; // unless we can change the quosure expr, we have to evaluate desc as well
+      v = mask.eval(quosure.get(), indices_all);
+    }
 
     if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);
