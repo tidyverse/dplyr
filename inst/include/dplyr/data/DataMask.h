@@ -521,8 +521,8 @@ public:
     }
 
 #if (R_VERSION < R_Version(3, 5, 0))
-    Language call_quote("quote", quo);
-    Language call_eval_tidy(rlang_eval_tidy, call_quote, data_mask);
+    Shield<SEXP> call_quote(Rf_lang2(symbols::quote, quo));
+    Shield<SEXP> call_eval_tidy(Rf_lang3(rlang_eval_tidy, call_quote, data_mask));
 
     return Rcpp::Rcpp_fast_eval(call_eval_tidy, R_BaseEnv);
 #else
