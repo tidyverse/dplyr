@@ -1103,3 +1103,9 @@ test_that("column_subset respects S3 local [. method (#3923)", {
   expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
   expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
 })
+
+test_that("tidy eval does not infloop (#4049)", {
+  df <- data.frame(x = 1:5)
+  call <- expr(length(!!quo(x)))
+  expect_identical(summarise(df, x = eval_tidy(call)), data.frame(x = 5L))
+})

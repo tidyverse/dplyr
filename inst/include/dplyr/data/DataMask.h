@@ -2,6 +2,7 @@
 #define dplyr_DataMask_H
 
 #include <tools/SymbolMap.h>
+#include <tools/Quosure.h>
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/RowwiseDataFrame.h>
@@ -13,6 +14,8 @@
 #include <boost/weak_ptr.hpp>
 
 #include <dplyr/symbols.h>
+
+SEXP eval_callback(void* data_);
 
 namespace dplyr {
 
@@ -316,6 +319,14 @@ template <class SlicedTibble>
 class DataMask {
   typedef typename SlicedTibble::slicing_index slicing_index;
 
+private:
+  // data for the unwind-protect callback
+  struct MaskData {
+    SEXP expr;
+    SEXP mask;
+    SEXP env;
+  };
+
 public:
 
   // constructor
@@ -400,13 +411,10 @@ public:
     return column_bindings.size();
   }
 
-  // call this before treating new expression with standard
-  // evaluation in its environment: parent_env
-  //
   // no need to call this when treating the expression with hybrid evaluation
   // this is why the setup if the environments is lazy,
   // as we might not need them at all
-  void rechain(SEXP env) {
+  void setup() {
     if (!active_bindings_ready) {
       // the active bindings have not been used at all
       // so setup the environments ...
@@ -439,10 +447,6 @@ public:
     } else {
       clear_resolved();
     }
-
-    // change the parent environment of mask_active
-    SET_ENCLOS(mask_active, env);
-    Rf_defineVar(symbols::dot_env, env, data_mask);
   }
 
   // get ready to evaluate an R expression for a given group
@@ -500,8 +504,9 @@ public:
     return res;
   }
 
-  // evaluate expr on the subset of data given by indices
-  SEXP eval(SEXP expr, const slicing_index& indices) {
+  SEXP eval(const Quosure& quo, const slicing_index& indices) {
+    setup();
+
     // update the bindings
     update(indices);
 
@@ -509,14 +514,24 @@ public:
     get_context_env()["..group_size"] = indices.size();
     get_context_env()["..group_number"] = indices.group() + 1;
 
+    SEXP expr = quo.expr();
     if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
+      // FIXME: Mutation
       SET_CLOENV(CAR(expr), mask_resolved) ;
     }
 
-    // evaluate the call in the data mask
-    SEXP res = Rcpp_fast_eval(expr, data_mask);
+#if (R_VERSION < R_Version(3, 5, 0))
+    Shield<SEXP> call_quote(Rf_lang2(fns::quote, quo));
+    Shield<SEXP> call_eval_tidy(Rf_lang3(rlang_eval_tidy(), quo, data_mask));
 
-    return res;
+    return Rcpp::Rcpp_fast_eval(call_eval_tidy, R_BaseEnv);
+#else
+
+    // TODO: forward the caller env of dplyr verbs to `eval_tidy()`
+    MaskData data = { quo, data_mask, R_BaseEnv };
+
+    return Rcpp::unwindProtect(&eval_callback, (void*) &data);
+#endif
   }
 
 private:
@@ -601,6 +616,16 @@ private:
 
     // forget about which indices are materialized
     materialized.clear();
+  }
+
+  static SEXP eval_callback(void* data_) {
+    MaskData* data = (MaskData*) data_;
+    return rlang::eval_tidy(data->expr, data->mask, data->env);
+  }
+
+  static SEXP rlang_eval_tidy() {
+    static Language call("::", symbols::rlang, symbols::eval_tidy);
+    return call;
   }
 
 };
