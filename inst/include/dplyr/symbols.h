@@ -59,7 +59,11 @@ struct symbols {
   static SEXP quote;
 };
 
-}
+struct fns {
+  static SEXP quote;
+};
+
+} // namespace dplyr
 
 
 #endif

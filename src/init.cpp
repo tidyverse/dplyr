@@ -93,4 +93,6 @@ SEXP symbols::drop = Rf_install("drop");
 SEXP symbols::rlang = Rf_install("rlang");
 SEXP symbols::eval_tidy = Rf_install("eval_tidy");
 SEXP symbols::quote = Rf_install("quote");
+
+SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 }
