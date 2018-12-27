@@ -522,7 +522,7 @@ public:
 
 #if (R_VERSION < R_Version(3, 5, 0))
     Shield<SEXP> call_quote(Rf_lang2(symbols::quote, quo));
-    Shield<SEXP> call_eval_tidy(Rf_lang3(rlang_eval_tidy, call_quote, data_mask));
+    Shield<SEXP> call_eval_tidy(Rf_lang3(rlang_eval_tidy(), quo, data_mask));
 
     return Rcpp::Rcpp_fast_eval(call_eval_tidy, R_BaseEnv);
 #else
@@ -624,7 +624,7 @@ private:
   }
 
   static SEXP rlang_eval_tidy() {
-    static Language call(symbols::double_colon, symbols::rlang, symbols::eval_tidy);
+    static Language call("::", symbols::rlang, symbols::eval_tidy);
     return call;
   }
 
