@@ -60,9 +60,9 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   out
 }
 #' @export
-filter_.tbl_df <- function(.data, ..., .dots = list(), .preserve = FALSE) {
+filter_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots, .preserve = .preserve)
+  filter(.data, !!!dots)
 }
 
 #' @export
@@ -80,9 +80,9 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   out
 }
 #' @export
-slice_.tbl_df <- function(.data, ..., .preserve = FALSE, .dots = list()) {
+slice_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice(.data, !!!dots, .preserve = .preserve)
+  slice(.data, !!!dots)
 }
 
 #' @export
