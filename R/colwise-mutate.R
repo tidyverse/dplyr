@@ -327,6 +327,10 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
 #' Summarise and mutate multiple columns.
 #'
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
+#' ```
+#'
 #' @description
 #'
 #' `mutate_each()` and `summarise_each()` are deprecated in favour of
@@ -351,15 +355,17 @@ summarise_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 summarise_each_ <- function(tbl, funs, vars) {
-  msg <- glue(
-    "`summarise_each()` is deprecated.
-     Use `summarise_all()`, `summarise_at()` or `summarise_if()` instead."
-  )
+  signal_soft_deprecated(paste_line(
+    "summarise_each() is deprecated",
+    "Please use summarise_if(), summarise_at(), or summarise_all() instead: ",
+    "",
+    "  - To map `funs` over all variables, use summarise_all()",
+    "  - To map `funs` over a selection of variables, use summarise_at()"
+  ))
+
   if (is_empty(vars)) {
-    inform(glue(msg, "\nTo map `funs` over all variables, use `summarise_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
-    inform(glue(msg, "\nTo map `funs` over a selection of variables, use `summarise_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
     if (length(vars) == 1 && names(vars) == as_string(vars)) {
@@ -385,15 +391,16 @@ mutate_each <- function(tbl, funs, ...) {
 #' @export
 #' @rdname summarise_each
 mutate_each_ <- function(tbl, funs, vars) {
-  msg <- glue(
-    "`mutate_each()` is deprecated.
-     Use `mutate_all()`, `mutate_at()` or `mutate_if()` instead."
-  )
+  signal_soft_deprecated(paste_line(
+    "mutate_each() is deprecated",
+    "Please use mutate_if(), mutate_at(), or mutate_all() instead: ",
+    "",
+    "  - To map `funs` over all variables, use mutate_all()",
+    "  - To map `funs` over a selection of variables, use mutate_at()"
+  ))
   if (is_empty(vars)) {
-    inform(glue(msg, "\nTo map `funs` over all variables, use `mutate_all()`"))
     vars <- tbl_nongroup_vars(tbl)
   } else {
-    inform(glue(msg, "\nTo map `funs` over a selection of variables, use `mutate_at()`"))
     vars <- compat_lazy_dots(vars, caller_env())
     vars <- tidyselect::vars_select(tbl_nongroup_vars(tbl), !!!vars)
     if (length(vars) == 1 && names(vars) == as_string(vars)) {

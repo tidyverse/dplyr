@@ -1,8 +1,14 @@
 #' Split data frame by groups
 #'
-#' \badgeexperimental
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
+#' ```
 #'
 #' @family grouping functions
+#'
+#' @description Split data frame by groups
+#'
+#' @details
 #'
 #' [group_split()] works like [base::split()] but
 #' - it uses the grouping structure from [group_by()] and therefore is subject to the data mask

@@ -7,13 +7,13 @@
 \alias{add_count}
 \title{Count/tally observations by group}
 \usage{
-tally(x, wt, sort = FALSE)
+tally(x, wt, sort = FALSE, name = "n")
 
-count(x, ..., wt = NULL, sort = FALSE)
+count(x, ..., wt = NULL, sort = FALSE, name = "n")
 
-add_tally(x, wt, sort = FALSE)
+add_tally(x, wt, sort = FALSE, name = "n")
 
-add_count(x, ..., wt = NULL, sort = FALSE)
+add_count(x, ..., wt = NULL, sort = FALSE, name = "n")
 }
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
@@ -29,6 +29,8 @@ frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 \code{vignette("programming")} for an introduction to these concepts.}
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
+
+\item{name}{The output column name. If omitted, it will be \code{n}.}
 
 \item{...}{Variables to group by.}
 }
@@ -55,10 +57,7 @@ If the data already has a column named \code{n}, the output column
 will be called \code{nn}. If the table already has columns called \code{n} and \code{nn}
 then the column returned will be \code{nnn}, and so on.
 
-There is currently no way to control the output variable name - if you
-need to change the default,
-you can call \code{\link[=rename]{rename()}} on the result,
-or write the \code{\link[=summarise]{summarise()}} yourself.
+To control the output column name use \code{name}.
 }
 \examples{
 # tally() is short-hand for summarise()
@@ -80,15 +79,13 @@ species <-
 species
 species \%>\% count(species, sort = TRUE)
 
-# Use rename() to change the name of the newly created column:
+# Change the name of the newly created column:
 species <-
  starwars \%>\%
- count(species, homeworld, sort = TRUE) \%>\%
- rename(n_species_by_homeworld = n)
+ count(species, homeworld, sort = TRUE, name = "n_species_by_homeworld")
 species
 species \%>\%
- count(species, sort = TRUE) \%>\%
- rename(n_species = n)
+ count(species, sort = TRUE, name = "n_species")
 
 # add_count() is useful for groupwise filtering
 # e.g.: show details for species that have a single member

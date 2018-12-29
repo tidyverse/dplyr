@@ -105,12 +105,16 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 #' @export
 is_grouped_df <- is.grouped_df
 
+group_sum <- function(x) {
+  grps <- n_groups(x)
+  paste0(commas(group_vars(x)), " [", big_mark(grps), "]")
+}
+
 #' @export
 tbl_sum.grouped_df <- function(x) {
-  grps <- n_groups(x)
   c(
     NextMethod(),
-    c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
+    c("Groups" = group_sum(x))
   )
 }
 

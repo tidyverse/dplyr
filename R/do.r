@@ -1,7 +1,11 @@
 #' Do anything
 #'
-#' This is a general purpose complement to the specialised manipulation
-#' functions [filter()], [select()], [mutate()],
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+#' ```
+#'
+#' @description This is a general purpose complement to the specialised
+#' manipulation functions [filter()], [select()], [mutate()],
 #' [summarise()] and [arrange()]. You can use `do()`
 #' to perform arbitrary computation, returning either a data frame or
 #' arbitrary objects which will be stored in a list. This is particularly
@@ -12,6 +16,11 @@
 #' For an empty data frame, the expressions will be evaluated once, even in the
 #' presence of a grouping.  This makes sure that the format of the resulting
 #' data frame is the same for both empty and non-empty input.
+#'
+#' @section Alternative:
+#'
+#' `do()` is marked as questioning as of dplyr 0.8.0, and may be advantageously
+#' replaced by [group_map()].
 #'
 #' @section Connection to plyr:
 #'
@@ -90,6 +99,10 @@ do.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 do_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "do_() is deprecated. ",
+    "Please use group_map() instead"
+  ))
   UseMethod("do_")
 }
 

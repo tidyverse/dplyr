@@ -57,18 +57,18 @@ n_groups.data.frame <- function(x) 1L
 # is just a convenience layer, I didn't bother. They should still be fast.
 
 #' @export
-filter.data.frame <- function(.data, ..., .preserve = TRUE) {
+filter.data.frame <- function(.data, ..., .preserve = FALSE) {
   as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
-filter_.data.frame <- function(.data, ..., .dots = list(), .preserve = TRUE) {
+filter_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots, .preserve = .preserve)
+  filter(.data, !!!dots)
 }
 
 #' @export
-slice.data.frame <- function(.data, ...) {
-  as.data.frame(slice(tbl_df(.data), ...))
+slice.data.frame <- function(.data, ..., .preserve = FALSE) {
+  as.data.frame(slice(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
@@ -257,7 +257,7 @@ do_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 sample_n.data.frame <- function(tbl, size, replace = FALSE,
-                                weight = NULL, .env = NULL) {
+                                weight = NULL, .env = NULL, ...) {
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }
@@ -271,7 +271,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
 
 #' @export
 sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
-                                   weight = NULL, .env = NULL) {
+                                   weight = NULL, .env = NULL, ...) {
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }

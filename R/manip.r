@@ -62,8 +62,8 @@
 #'   frame. They support [unquoting][rlang::quasiquotation] and
 #'   splicing. See `vignette("programming")` for an introduction to
 #'   these concepts.
-#' @param .preserve when `TRUE` (the default), the grouping structure
-#'   is preserved, otherwise it is recalculated based on the resulting data.
+#' @param .preserve when `FALSE` (the default), the grouping structure
+#'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @return An object of the same class as `.data`.
 #' @seealso [filter_all()], [filter_if()] and [filter_at()].
 #' @export
@@ -109,16 +109,23 @@
 #' mass <- 80
 #' height <- 150
 #' filter(starwars, mass > !!mass, height > !!height)
-filter <- function(.data, ..., .preserve = TRUE) {
+filter <- function(.data, ..., .preserve = FALSE) {
   UseMethod("filter")
 }
 #' @export
-filter.default <- function(.data, ..., .preserve = TRUE) {
-  filter_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
+filter.default <- function(.data, ..., .preserve = FALSE) {
+  filter_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
-filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
+filter_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "filter_() is deprecated. ",
+    "Please use filter() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with filter() : https://tidyeval.tidyverse.org"
+  ))
   UseMethod("filter_")
 }
 
@@ -165,16 +172,23 @@ filter_ <- function(.data, ..., .dots = list(), .preserve = TRUE) {
 #' filter(mtcars, row_number() == 1L)
 #' filter(mtcars, row_number() == n())
 #' filter(mtcars, between(row_number(), 5, n()))
-slice <- function(.data, ...) {
+slice <- function(.data, ..., .preserve = FALSE) {
   UseMethod("slice")
 }
 #' @export
-slice.default <- function(.data, ...) {
+slice.default <- function(.data, ..., .preserve = FALSE) {
   slice_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
 slice_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "slice_() is deprecated. ",
+    "Please use slice() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with slice() : https://tidyeval.tidyverse.org"
+  ))
   UseMethod("slice_")
 }
 
@@ -261,6 +275,14 @@ summarise.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 summarise_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "summarise_() is deprecated. ",
+    "Please use summarise() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with summarise() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("summarise_")
 }
 
@@ -422,6 +444,14 @@ mutate.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 mutate_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "mutate_() is deprecated. ",
+    "Please use mutate() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with mutate() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("mutate_")
 }
 
@@ -433,6 +463,13 @@ transmute <- function(.data, ...) {
 #' @rdname se-deprecated
 #' @export
 transmute_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "transmute_() is deprecated. ",
+    "Please use transmute() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with transmute() : https://tidyeval.tidyverse.org"
+  ))
   UseMethod("transmute_")
 }
 
@@ -499,6 +536,14 @@ arrange.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 arrange_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "arrange_() is deprecated. ",
+    "Please use arrange() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with arrange() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("arrange_")
 }
 
@@ -644,6 +689,14 @@ select.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 select_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "select_() is deprecated. ",
+    "Please use select() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with select() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("select_")
 }
 
@@ -659,6 +712,14 @@ rename.default <- function(.data, ...) {
 #' @rdname se-deprecated
 #' @export
 rename_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "rename_() is deprecated. ",
+    "Please use rename() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with rename() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("rename_")
 }
 

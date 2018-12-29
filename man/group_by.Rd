@@ -23,7 +23,7 @@ override existing groups. To add to the existing groups, use
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }
 \value{
-A \link[=grouped_df]{grouped data frame} if the combination of \code{...} and \code{add}
+A \link[=grouped_df]{grouped data frame}, unless the combination of \code{...} and \code{add}
 yields a non empty set of grouping columns, a regular (ungrouped) data frame
 otherwise.
 }
@@ -107,8 +107,9 @@ tbl \%>\%
 }
 \seealso{
 Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_indices}}, \code{\link{group_map}},
-  \code{\link{group_nest}}, \code{\link{group_rows}},
-  \code{\link{group_size}}, \code{\link{groups}}
+  \code{\link{group_indices}}, \code{\link{group_keys}},
+  \code{\link{group_map}}, \code{\link{group_nest}},
+  \code{\link{group_rows}}, \code{\link{group_size}},
+  \code{\link{group_trim}}, \code{\link{groups}}
 }
 \concept{grouping functions}

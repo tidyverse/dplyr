@@ -124,7 +124,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
       // map so that they are only found once.
       const std::vector<int>& zero_based_chunk = it->second;
 
-      for (int j = 0; j < zero_based_chunk.size(); j++, k++) {
+      for (size_t j = 0; j < zero_based_chunk.size(); j++, k++) {
         indices[k] = zero_based_chunk[j] + 1;
       }
 
@@ -170,7 +170,7 @@ DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   int k = 0;
   for (Map::iterator it = map.begin(); it != map.end(); ++it) {
     const std::vector<int>& zero_based_chunk = it->second;
-    for (int j = 0; j < zero_based_chunk.size(); j++, k++) {
+    for (size_t j = 0; j < zero_based_chunk.size(); j++, k++) {
       indices[k] = zero_based_chunk[j] + 1;
     }
   }

@@ -41,13 +41,36 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
   NaturalSlicingIndex indices_all(gdf.nrows());
 
   for (int i = 0; i < nargs; i++) {
-    const NamedQuosure& quosure = quosures[i];
-    SEXP expr = quosure.expr();
+    const NamedQuosure& named_quosure = quosures[i];
+
+    SEXP expr = named_quosure.expr();
+
     bool is_desc = TYPEOF(expr) == LANGSXP && symbols::desc == CAR(expr);
     expr = is_desc ? CADR(expr) : expr ;
 
-    mask.rechain(quosure.env());
-    Shield<SEXP> v(mask.eval(expr, indices_all));
+    RObject v(R_NilValue);
+
+    // if expr is a symbol from the data, just use it
+    if (TYPEOF(expr) == SYMSXP) {
+      const ColumnBinding<NaturalDataFrame>* binding = mask.maybe_get_subset_binding(CHAR(PRINTNAME(expr)));
+      if (binding) {
+        v = binding->get_data();
+      }
+    }
+
+    // otherwise need to evaluate in the data mask
+    if (v.isNULL()) {
+      if (is_desc) {
+        // we need a new quosure that peels off `desc` from the original
+        // quosure, and uses the same environment
+        Quosure quo(PROTECT(rlang::quo_set_expr(named_quosure.get(), expr)));
+        v = mask.eval(named_quosure.get(), indices_all);
+        UNPROTECT(1);
+      } else {
+        // just use the original quosure
+        v = mask.eval(named_quosure.get(), indices_all);
+      }
+    }
 
     if (!allow_list(v)) {
       stop("cannot arrange column of class '%s' at position %d", get_single_class(v), i + 1);

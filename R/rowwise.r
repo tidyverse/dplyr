@@ -1,5 +1,12 @@
 #' Group input by rows
 #'
+#' ```
+#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+#' ```
+#'
+#' See [this repository](https://github.com/jennybc/row-oriented-workflows)
+#' for alternative ways to perform row-wise operations
+#'
 #' `rowwise()` is used for the results of [do()] when you
 #' create list-variables. It is also useful to support arbitrary
 #' complex operations that need to be applied to each row.

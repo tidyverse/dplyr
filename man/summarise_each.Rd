@@ -36,4 +36,8 @@ function to a selection of variables, use \code{\link[=mutate_at]{mutate_at()}} 
 See the relevant section of \code{vignette("compatibility")} for more
 information.
 }
+\details{
+\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
+}
+}
 \keyword{internal}

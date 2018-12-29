@@ -182,11 +182,9 @@ List rbind__impl(List dots, const SymbolString& id) {
   R_xlen_t n = 0;
   std::vector<SEXP> chunks;
   std::vector<R_xlen_t> df_nrows;
-  std::vector<String> dots_names;
 
   chunks.reserve(ndata);
   df_nrows.reserve(ndata);
-  dots_names.reserve(ndata);
 
   int k = 0;
   for (int i = 0; i < ndata; i++) {
@@ -196,14 +194,10 @@ List rbind__impl(List dots, const SymbolString& id) {
     R_xlen_t nrows = rows_length(chunks[k], true);
     df_nrows.push_back(nrows);
     n += nrows;
-    if (!id.is_empty()) {
-      dots_names.push_back(name_at(dots, i));
-    }
     k++;
   }
   ndata = chunks.size();
   pointer_vector<Collecter> columns;
-
 
   LOG_VERBOSE << "binding " << ndata << " chunks";
 
@@ -295,14 +289,37 @@ List rbind__impl(List dots, const SymbolString& id) {
 
   // Add vector of identifiers if .id is supplied
   if (!id.is_empty()) {
-    CharacterVector id_col(no_init(n));
 
-    CharacterVector::iterator it = id_col.begin();
-    for (int i = 0; i < ndata; ++i) {
-      std::fill(it, it + df_nrows[i], dots_names[i]);
-      it += df_nrows[i];
+    // extract the names
+    SEXP dots_names(vec_names(dots));
+    if (Rf_isNull(dots_names)) {
+      out[0] = Rf_allocVector(STRSXP, n);
+    } else {
+      // use the SEXP* directly so that we don't have to pay to check
+      // that dots_names is a STRSXP every single time
+      SEXP* p_dots_names = STRING_PTR(dots_names);
+      SEXP* p_dots = get_vector_ptr(dots);
+
+      // we id_col now, so it is definitely younger than dots_names
+      // this is surely write barrier proof
+      SEXP id_col = PROTECT(Rf_allocVector(STRSXP, n));
+
+      SEXP* p_id_col = STRING_PTR(id_col);
+      for (int i = 0; i < ndata; ++i, ++p_dots_names, ++p_dots) {
+
+        // skip NULL on dots. because the way df_nrows is made above
+        // need to skip dots_names too
+        if (Rf_isNull(*p_dots)) {
+          ++p_dots;
+          ++p_dots_names;
+        }
+
+        p_id_col = std::fill_n(p_id_col, df_nrows[i], *p_dots_names);
+      }
+      out[0] = id_col;
+      UNPROTECT(1);
     }
-    out[0] = id_col;
+
     out_names.set(0, id);
   }
   out.attr("names") = out_names;

@@ -6,6 +6,8 @@
   toset <- !(names(op.dplyr) %in% names(op))
   if (any(toset)) options(op.dplyr[toset])
 
+  compat_lengths()
+
   invisible()
 }
 

@@ -29,11 +29,12 @@ The following notations are \strong{not} supported, see examples:
 to all function calls.}
 }
 \description{
-\badgesoftdeprecated
-}
-\details{
 \code{funs()} provides a flexible way to generate a named list of
 functions for input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
+}
+\details{
+\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("softdeprecated")}
+}
 }
 \examples{
 funs(mean, "mean", mean(., na.rm = TRUE))
