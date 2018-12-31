@@ -657,7 +657,7 @@ DataFrame ungroup_grouped_df(DataFrame df) {
 }
 
 // [[Rcpp::export]]
-List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame) {
+List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype) {
   ListView rows = gdf.indices();
   R_xlen_t n = rows.size();
   DataFrame group_data = gdf.group_data();
@@ -694,6 +694,9 @@ List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame) {
     DataFrame out_i = dataframe_subset(data, *git, NaturalDataFrame::classes(), frame);
     GroupedDataFrame::strip_groups(out_i);
     out[i] = out_i;
+  }
+  if (ptype) {
+    out.attr("ptype") = dataframe_subset(data, IntegerVector(0), NaturalDataFrame::classes(), frame);
   }
   return out;
 }
