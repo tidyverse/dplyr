@@ -1,4 +1,4 @@
-release_version: 0.7.5
-release_date: March 28
+release_date: February 1
 rel_release_date: weeks
-my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md#dplyr-0749001-2018-03-13
+my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md#dplyr-080
+release_version: 0.8.0
