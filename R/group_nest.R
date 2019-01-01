@@ -1,6 +1,6 @@
 
 group_nest_impl <- function(.tbl, .key, keep = FALSE){
-  mutate(group_keys(.tbl), !!.key := group_split(.tbl, keep = keep))
+  mutate(group_keys(.tbl), !!.key := group_split_impl(.tbl, isTRUE(keep), environment(), TRUE))
 }
 
 #' Nest a tibble using a grouping specification

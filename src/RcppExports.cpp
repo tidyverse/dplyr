@@ -276,15 +276,16 @@ BEGIN_RCPP
 END_RCPP
 }
 // group_split_impl
-List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame);
-RcppExport SEXP _dplyr_group_split_impl(SEXP gdfSEXP, SEXP keepSEXP, SEXP frameSEXP) {
+List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype);
+RcppExport SEXP _dplyr_group_split_impl(SEXP gdfSEXP, SEXP keepSEXP, SEXP frameSEXP, SEXP ptypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
     Rcpp::traits::input_parameter< bool >::type keep(keepSEXP);
     Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
-    rcpp_result_gen = Rcpp::wrap(group_split_impl(gdf, keep, frame));
+    Rcpp::traits::input_parameter< bool >::type ptype(ptypeSEXP);
+    rcpp_result_gen = Rcpp::wrap(group_split_impl(gdf, keep, frame, ptype));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -794,7 +795,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 2},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
-    {"_dplyr_group_split_impl", (DL_FUNC) &_dplyr_group_split_impl, 3},
+    {"_dplyr_group_split_impl", (DL_FUNC) &_dplyr_group_split_impl, 4},
     {"_dplyr_hybrids", (DL_FUNC) &_dplyr_hybrids, 0},
     {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},
     {"_dplyr_get_time_classes", (DL_FUNC) &_dplyr_get_time_classes, 0},
