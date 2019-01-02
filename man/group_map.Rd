@@ -95,9 +95,9 @@ iris \%>\%
 list.files(temp, pattern = "csv$")
 unlink(temp, recursive = TRUE)
 
-# group_walk() and ungrouped data frames
+# group_map() and ungrouped data frames
 mtcars \%>\%
-  group_walk(~ head(.x, 2L))
+  group_map(~ head(.x, 2L))
 
 }
 \seealso{

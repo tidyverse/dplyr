@@ -86,9 +86,9 @@
 #' list.files(temp, pattern = "csv$")
 #' unlink(temp, recursive = TRUE)
 #'
-#' # group_walk() and ungrouped data frames
+#' # group_map() and ungrouped data frames
 #' mtcars %>%
-#'   group_walk(~ head(.x, 2L))
+#'   group_map(~ head(.x, 2L))
 #'
 #' @export
 group_map <- function(.tbl, .f, ...) {
@@ -178,6 +178,6 @@ group_walk.grouped_df <- function(.tbl, .f, ...) {
 
 #' @export
 group_walk.data.frame <- function(.tbl, .f, ...) {
-  group_walk(.tbl, .f, ...)
+  group_map(.tbl, .f, ...)
   .tbl
 }
