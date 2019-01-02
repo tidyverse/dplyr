@@ -24,6 +24,11 @@
 #'
 #' `.f` must return a data frame that does not contain any of the grouping variables of `.tbl`.
 #'
+#' For completeness, `group_map()` and `group_walk()` also work on
+#' ungrouped data frames, in that case the function is applied to the
+#' entire data frame (exposed as `.x`), and `.y` is a one row tibble with no
+#' column, consistently with [group_keys()].
+#'
 #' @family grouping functions
 #'
 #' @param .tbl A grouped tibble
@@ -81,6 +86,10 @@
 #' list.files(temp, pattern = "csv$")
 #' unlink(temp, recursive = TRUE)
 #'
+#' # group_walk() and ungrouped data frames
+#' mtcars %>%
+#'   group_walk(~ head(.x, 2L))
+#'
 #' @export
 group_map <- function(.tbl, .f, ...) {
   UseMethod("group_map")
@@ -96,12 +105,24 @@ group_map.function <- function(.tbl, .f, ...) {
   abort("Did you forget to provide the primary input tibble?")
 }
 
-#' @export
-group_map.grouped_df <- function(.tbl, .f, ...) {
+as_group_map_function <- function(.f) {
   .f <- rlang::as_function(.f)
   if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
     stop("The function must accept at least two arguments. You can use ... to absorb unused components")
   }
+  .f
+}
+
+
+#' @export
+group_map.data.frame <- function(.tbl, .f, ...) {
+  .f <- as_group_map_function(.f)
+  .f(.tbl, tibble(.rows = 1L), ...)
+}
+
+#' @export
+group_map.grouped_df <- function(.tbl, .f, ...) {
+  .f <- as_group_map_function(.f)
 
   # call the function on each group
   chunks <- group_split(.tbl, keep = FALSE)
@@ -145,7 +166,7 @@ group_walk <- function(.tbl, .f, ...) {
 
 #' @export
 group_walk.grouped_df <- function(.tbl, .f, ...) {
-  .f <- rlang::as_function(.f)
+  .f <- as_group_map_function(.f)
 
   # call the function on each group
   chunks <- group_split(.tbl, keep = FALSE)
@@ -153,4 +174,10 @@ group_walk.grouped_df <- function(.tbl, .f, ...) {
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
   walk2(chunks, group_keys, .f)
   invisible(.tbl)
+}
+
+#' @export
+group_walk.data.frame <- function(.tbl, .f, ...) {
+  group_walk(.tbl, .f, ...)
+  .tbl
 }
