@@ -117,7 +117,7 @@ as_group_map_function <- function(.f) {
 #' @export
 group_map.data.frame <- function(.tbl, .f, ...) {
   .f <- as_group_map_function(.f)
-  .f(.tbl, tibble(.rows = 1L), ...)
+  .f(.tbl, group_keys(.tbl), ...)
 }
 
 #' @export
