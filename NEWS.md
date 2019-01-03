@@ -14,9 +14,8 @@
 * If you see `checking S3 generic/method consistency` in R CMD check for your 
   package, note that : 
   
-  - `sample_n()` has gained `...`
-  - `filter()` has gained `.preserve`
-  - `slice()` has gained `.preserve`
+  - `sample_n()` and `sample_frac()` have gained `...`
+  - `filter()` and `slice()` have gained `.preserve`
 
 * Code that assumes that there are no empty groups might fail, because of the 
   new grouping algorithm described below. 
