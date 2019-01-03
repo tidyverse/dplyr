@@ -47,6 +47,16 @@ install.packages("tidyverse")
 install.packages("dplyr")
 ```
 
+### Release candidate
+
+dplyr 0.8.0 will be release on February 1st, you can install the release
+candidate from GitHub.
+
+``` r
+# install.packages("devtools")
+devtools::install_github("tidyverse/dplyr@rc_0.8.0")
+```
+
 ### Development version
 
 To get a bug fix, or use a feature from the development version, you can
@@ -76,7 +86,7 @@ starwars %>%
 #> 3 R5-D4     97    32 <NA>       white, red red               NA <NA>  
 #> 4 IG-88    200   140 none       metal      red               15 none  
 #> 5 BB8       NA    NA none       none       black             NA none  
-#> # ... with 5 more variables: homeworld <chr>, species <chr>, films <list>,
+#> # … with 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
 starwars %>% 
@@ -89,7 +99,7 @@ starwars %>%
 #> 3 R2-D2          <NA>       white, blue red      
 #> 4 Darth Vader    none       white       yellow   
 #> 5 Leia Organa    brown      light       brown    
-#> # ... with 82 more rows
+#> # … with 82 more rows
 
 starwars %>% 
   mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
@@ -102,7 +112,7 @@ starwars %>%
 #> 3 R2-D2              96    32  34.7
 #> 4 Darth Vader       202   136  33.3
 #> 5 Leia Organa       150    49  21.8
-#> # ... with 82 more rows
+#> # … with 82 more rows
 
 starwars %>% 
   arrange(desc(mass))
@@ -114,7 +124,7 @@ starwars %>%
 #> 3 IG-88    200   140 none       metal      red             15   none  
 #> 4 Dart…    202   136 none       white      yellow          41.9 male  
 #> 5 Tarf…    234   136 brown      brown      blue            NA   male  
-#> # ... with 82 more rows, and 5 more variables: homeworld <chr>,
+#> # … with 82 more rows, and 5 more variables: homeworld <chr>,
 #> #   species <chr>, films <list>, vehicles <list>, starships <list>
 
 starwars %>%
@@ -132,7 +142,7 @@ starwars %>%
 #> 3 Gungan       3  74  
 #> 4 Human       35  82.8
 #> 5 Kaminoan     2  88  
-#> # ... with 4 more rows
+#> # … with 4 more rows
 ```
 
 ## Getting help
