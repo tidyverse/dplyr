@@ -11,20 +11,18 @@
   `NAMESPACE` or `#' @importFrom dplyr n` in a roxygen comment. The third option is 
   to prefix them, i.e. use `dplyr::n()`
    
-* The `sample_n()` generic gains a `...` argument. Methods must add `...` as well
-  to avoid a `checking S3 generic/method consistency` warning
-   
-* `filter()` and `slice()` gained a `.preserve` argument detailed below. 
+* If you see `checking S3 generic/method consistency` in R CMD check for your 
+  package, note that : 
+  
+  - `sample_n()` has gained `...`
+  - `filter()` has gained `.preserve`
+  - `slice()` has gained `.preserve`
 
 * Code that assumes that there are no empty groups might fail, because of the 
   new grouping algorithm described below. 
   
-* The following error signals code that makes wrong assumptions about the 
-  internals of a grouped data frame. 
-
-  ```
-  Error: `.data` is a corrupt grouped_df, the `"groups"` attribute must be a data frame
-  ```
+* `Error: `.data` is a corrupt grouped_df, ...`  signals code that makes 
+  wrong assumptions about the internals of a grouped data frame. 
 
 ## New functions
 
