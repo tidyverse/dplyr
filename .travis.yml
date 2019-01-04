@@ -12,6 +12,7 @@ jobs:
   - r: devel
   - r: 3.1
     warnings_are_errors: false
+
   - stage: full
     os: osx
   - r: release
@@ -26,7 +27,7 @@ jobs:
       - DEVEL_PACKAGES=true
     r_github_packages:
       - RcppCore/Rcpp
-      - r-lib/lang
+      - r-lib/rlang
       - tidyverse/tibble
       - tidyverse/tidyselect
 
