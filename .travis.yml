@@ -24,11 +24,11 @@ jobs:
   - r: release
     env:
       - DEVEL_PACKAGES=true
-    before_install:
-      - Rscript -e "remotes::install_github('RcppCore/Rcpp')"
-      - Rscript -e "remotes::install_github('r-lib/rlang')"
-      - Rscript -e "remotes::install_github('tidyverse/tibble')"
-      - Rscript -e "remotes::install_github('tidyverse/tidyselect')"
+    r_github_packages:
+      - RcppCore/Rcpp
+      - r-lib/lang
+      - tidyverse/tibble
+      - tidyverse/tidyselect
 
 matrix:
   fast_finish: true
