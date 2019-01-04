@@ -10,6 +10,8 @@ fortran: false
 jobs:
   include:
   - r: devel
+  - r: 3.1
+    warnings_are_errors: false
   - stage: full
     os: osx
   - r: release
@@ -19,11 +21,14 @@ jobs:
   - r: 3.3
   - r: 3.2
     warnings_are_errors: false
-  - r: 3.1
-    warnings_are_errors: false
   - r: release
+    env:
+      - DEVEL_PACKAGES=true
     before_install:
+      - Rscript -e "remotes::install_github('RcppCore/Rcpp')"
       - Rscript -e "remotes::install_github('r-lib/rlang')"
+      - Rscript -e "remotes::install_github('tidyverse/tibble')"
+      - Rscript -e "remotes::install_github('tidyverse/tidyselect')"
 
 matrix:
   fast_finish: true
