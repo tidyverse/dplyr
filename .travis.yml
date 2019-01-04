@@ -21,6 +21,9 @@ jobs:
     warnings_are_errors: false
   - r: 3.1
     warnings_are_errors: false
+  - r: release
+    before_install:
+      - Rscript -e "remotes::install_github('r-lib/rlang')"
 
 matrix:
   fast_finish: true
