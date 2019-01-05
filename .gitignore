@@ -1,3 +1,4 @@
+docs
 /src/*.o
 /src/*.o-*
 /src/*.d
