@@ -1,3 +1,4 @@
+^pkgdown$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.travis\.yml$
@@ -34,4 +35,3 @@ demo/pandas
 ^\.drake$
 ^CRAN-RELEASE$
 ^\.github$
-^CRAN-RELEASE$
