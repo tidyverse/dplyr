@@ -124,7 +124,7 @@ navbar:
     href: https://github.com/tidyverse/dplyr
 
 development:
-  mode: dev
+  mode: devel
 
 authors:
   Kirill Müller:
