@@ -3,13 +3,17 @@
 
 # dplyr <a href='https:/dplyr.tidyverse.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
-[![Build
-Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
-[![Coverage
-Status](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
+[![Travis build
+status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
+[![Codecov test
+coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+<!-- badges: end -->
 
 ## Overview
 
@@ -137,11 +141,11 @@ starwars %>%
 #> # A tibble: 9 x 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
-#> 1 <NA>         5  48  
-#> 2 Droid        5  69.8
-#> 3 Gungan       3  74  
-#> 4 Human       35  82.8
-#> 5 Kaminoan     2  88  
+#> 1 Droid        5  69.8
+#> 2 Gungan       3  74  
+#> 3 Human       35  82.8
+#> 4 Kaminoan     2  88  
+#> 5 Mirialan     2  53.1
 #> # … with 4 more rows
 ```
 
