@@ -510,6 +510,11 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 #' The sort order for character vectors will depend on the collating sequence
 #' of the locale in use: see [locales()].
 #'
+#' @section Missing values:
+#' Unlike base sorting with `sort()`, `NA` are:
+#' * always sorted to the end for local data, even when wrapped with `desc()`.
+#' * treated differently for remote data, depending on the backend.
+#'
 #' @export
 #' @inheritParams filter
 #' @inheritSection filter Tidy data
