@@ -25,7 +25,7 @@ Imports:
     R6 (>= 2.2.2),
     Rcpp (>= 1.0.0),
     rlang (>= 0.3.0),
-    tibble (>= 1.4.2),
+    tibble (>= 2.0.0),
     tidyselect (>= 0.2.5),
     utils
 Suggests: 
