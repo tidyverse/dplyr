@@ -54,9 +54,16 @@ struct symbols {
   static SEXP dot;
   static SEXP dot_x;
   static SEXP drop;
+  static SEXP rlang;
+  static SEXP eval_tidy;
+  static SEXP quote;
 };
 
-}
+struct fns {
+  static SEXP quote;
+};
+
+} // namespace dplyr
 
 
 #endif

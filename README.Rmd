@@ -1,26 +1,27 @@
 ---
-output:
-  github_document:
-    html_preview: false
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, echo = FALSE}
+```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "man/figures/README-",
+  out.width = "100%"
 )
 options(tibble.print_min = 5, tibble.print_max = 5)
 ```
 
-# dplyr <img src="man/figures/logo.png" align="right" />
+# dplyr <a href='https:/dplyr.tidyverse.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
-[![Build Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
-[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
-[![Coverage Status](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+<!-- badges: start -->
+[![CRAN status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
+[![Travis build status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
+[![Codecov test coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+<!-- badges: end -->
 
 ## Overview
 
@@ -48,6 +49,16 @@ install.packages("tidyverse")
 
 # Alternatively, install just dplyr:
 install.packages("dplyr")
+```
+
+### Release candidate
+
+dplyr 0.8.0 will be release on February 1st, you can install the release 
+candidate from GitHub. 
+
+```{r, eval = FALSE}
+# install.packages("devtools")
+devtools::install_github("tidyverse/dplyr@rc_0.8.0")
 ```
 
 ### Development version

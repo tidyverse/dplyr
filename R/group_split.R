@@ -83,7 +83,7 @@ group_split <- function(.tbl, ..., keep = TRUE) {
 #' @export
 group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
-    group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment())
+    group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment(), FALSE)
   } else {
     list(.tbl)
   }
@@ -105,5 +105,5 @@ group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
   }
-  group_split_impl(.tbl, isTRUE(keep), environment())
+  group_split_impl(.tbl, isTRUE(keep), environment(), FALSE)
 }

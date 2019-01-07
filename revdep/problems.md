@@ -1859,60 +1859,6 @@ Version: 1.2.1
     See ‘/Users/romain/git/release/dplyr/revdep/checks.noindex/chromswitch/new/chromswitch.Rcheck/00install.out’ for details.
     ```
 
-# chunked
-
-Version: 0.4
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > 
-    > ### ** Examples
-    > 
-    > # create csv file for demo purpose
-    > in_file <- file.path(tempdir(), "in.csv")
-    > write.csv(women, in_file, row.names = FALSE, quote = FALSE)
-    > 
-    > #
-    > women_chunked <-
-    +   read_chunkwise(in_file) %>%  #open chunkwise connection
-    +   mutate(ratio = weight/height) %>%
-    +   filter(ratio > 2) %>%
-    +   select(height, ratio) %>%
-    +   inner_join(data.frame(height=63:66)) # you can join with data.frames!
-    > 
-    > # no processing done until
-    > out_file <- file.path(tempdir(), "processed.csv")
-    > women_chunked %>%
-    +   write_chunkwise(file=out_file)
-    Error: `.preserve` (`.preserve = FALSE`) must not be named, do you need `==`?
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      25: filter(.data, !!!dots, .preserve = .preserve) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:66
-      26: filter.data.frame(.data, !!!dots, .preserve = .preserve) at /Users/romain/git/tidyverse/dplyr/R/manip.r:113
-      27: as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve)) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:61
-      28: filter(tbl_df(.data), ..., .preserve = .preserve) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:61
-      29: filter.tbl_df(tbl_df(.data), ..., .preserve = .preserve) at /Users/romain/git/tidyverse/dplyr/R/manip.r:113
-      30: bad_eq_ops(bad, "must not be named, do you need `==`?") at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:50
-      31: glubort(fmt_wrong_eq_ops(named_calls), ..., .envir = .envir) at /Users/romain/git/tidyverse/dplyr/R/error.R:37
-      32: .abort(text) at /Users/romain/git/tidyverse/dplyr/R/error.R:51
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 39 SKIPPED: 0 FAILED: 1
-      1. Error: filter(): can filter rows (@test-verbs.R#28) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # CINdex
 
 Version: 1.8.0
@@ -7444,38 +7390,6 @@ ERROR: lazy loading failed for package ‘ggtree’
 * removing ‘/Users/romain/git/release/dplyr/revdep/checks.noindex/ggtree/old/ggtree.Rcheck/ggtree’
 
 ```
-# ggvis
-
-Version: 0.4.4
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > ### ** Examples
-    > 
-    > library(dplyr)
-    
-    Attaching package: ‘dplyr’
-    
-    The following objects are masked from ‘package:stats’:
-    
-        filter, lag
-    
-    The following objects are masked from ‘package:base’:
-    
-        intersect, setdiff, setequal, union
-    
-    > base <- mtcars %>% ggvis(~mpg, ~cyl) %>% layer_points()
-    > base %>% group_by(cyl) %>% summarise(mpg = mean(mpg)) %>%
-    +   layer_points(fill := "red", size := 100)
-    > 
-    > base %>% filter(mpg > 25) %>% layer_points(fill := "red")
-    Error: `.preserve` (`.preserve = FALSE`) must not be named, do you need `==`?
-    Execution halted
-    ```
-
 # ggwordcloud
 
 Version: 0.3.0
@@ -11955,64 +11869,14 @@ Version: 0.1.1
 
 Version: 4.8.0
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-     * <chr>   <int> <int> <dbl>    <dbl>  <dbl>    <dbl>     <dbl> <dbl>
-     1 Abilene  2000     1    72  5380000  71400      701       6.3 2000 
-     2 Abilene  2000     2    98  6505000  58700      746       6.6 2000.
-     3 Abilene  2000     3   130  9285000  58100      784       6.8 2000.
-     4 Abilene  2000     4    98  9730000  68600      785       6.9 2000.
-     5 Abilene  2000     5   141 10590000  67300      794       6.8 2000.
-     6 Abilene  2000     6   156 13910000  66900      780       6.6 2000.
-     7 Abilene  2000     7   152 12635000  73500      742       6.2 2000.
-     8 Abilene  2000     8   131 10710000  75000      765       6.4 2001.
-     9 Abilene  2000     9   104  7615000  64500      771       6.5 2001.
-    10 Abilene  2000    10   101  7040000  59300      764       6.6 2001.
-    # ... with 8,592 more rows
-    > 
-    > # dplyr verbs operate on plotly objects as if they were data frames
-    > p <- economics %>%
-    +   plot_ly(x = ~date, y = ~unemploy / pop) %>%
-    +   add_lines() %>%
-    +   mutate(rate = unemploy / pop) %>% 
-    +   filter(rate == max(rate))
-    Error: `.preserve` (`.preserve = FALSE`) must not be named, do you need `==`?
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      [1] "Running test: plotly-group-within-trace"
-      [1] "Running test: plotly-alpha-blending"
-      [1] "Running test: plotly-alpha-no-color"
-      [1] "Running test: plotly-factor-axis"
-      [1] "Running test: plotly-character-axis"
-      [1] "Running test: plotly-histogram"
-      [1] "Running test: plotly-histogram-vert"
-      [1] "Running test: plotly-inherit-FALSE"
-      [1] "Running test: plotly-time-series-summary"
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 1353 SKIPPED: 38 FAILED: 1
-      1. Error: can filter data returned by ggplotly (@test-ggplot-ggplotly.R#13) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  7.0Mb
       sub-directories of 1Mb or more:
+        R             2.3Mb
         htmlwidgets   3.1Mb
-        R             1.7Mb
     ```
 
 # plotrr
@@ -12184,71 +12048,26 @@ Version: 0.99.19
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-    +       baseball.db <- Database(baseball.teams, tempfile())
-    +       
-    +       populate(baseball.db, teams=Teams, team_franch=TeamsFranchises)
-    +       
-    +       select(baseball.db, .tables="teams")
-    +       
-    +       select(baseball.db, .tables=c("teams", "team_franch"))
-    +       
-    +       select(baseball.db, yearID:WCWin, franchName)
-    +       
-    +       filter(baseball.db, active == "Y")
-    +       
-    +       select(filter(baseball.db, active == "Y" & W > 50 & teamID == "CAL"), active, W, teamID)
-    +   }
-    Loading required package: Lahman
-    Starting team_franch
-    Starting teams
-    Error in filter_.Database(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve) : 
-      ERROR: Please supply a single statement which would result in a logical vector
-    Calls: filter -> filter.default -> filter_ -> filter_.Database
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ⠏ | 140       | 0
-      ⠋ | 141       | 0
-      ⠙ | 142       | 0Error in x[[method]](...) : attempt to apply non-function
+      ⠏ | 120       | 0
+      ⠋ | 121       | 0
+      ⠙ | 122       | 0Error in x[[method]](...) : attempt to apply non-function
       Calls: test_dir ... <Anonymous> -> o_apply -> lapply -> FUN -> <Anonymous>
       In addition: Warning message:
       call dbDisconnect() when finished working with a connection 
       
-      ══ Results ═════════════════════════════════════════════════════════════════════
-      Duration: 2.0 s
+      ══ [1mResults[22m ══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      [36mDuration: 0.8 s[39m
       
-      OK:       142
-      Failed:   4
-      Warnings: 0
-      Skipped:  0
+      OK:       [32m122[39m
+      Failed:   [31m4[39m
+      Warnings: [35m1[39m
+      Skipped:  [32m0[39m
       Execution halted
-    ```
-
-*   checking running R code from vignettes ...
-    ```
-       ‘poplite.Rnw’ using ‘UTF-8’ ... failed
-     ERROR
-    Errors in running code in vignettes:
-    when running code in ‘poplite.Rnw’
-      ...
-     9        10     1 dna_10_1
-    10        15     1 dna_15_1
-    # ... with more rows
-    
-    > head(filter(sample.tracking.db, sex == "M" & var_wave_1 > 
-    +     0))
-    
-      When sourcing ‘poplite.R’:
-    Error: ERROR: Please supply a single statement which would result in a logical vector
-    Execution halted
     ```
 
 *   checking for code/documentation mismatches ... WARNING
@@ -12259,32 +12078,6 @@ Version: 0.99.19
       Docs: function(.data, ...)
       Argument names in code not in docs:
         .preserve
-    ```
-
-*   checking re-building of vignette outputs ... NOTE
-    ```
-    ...
-    Attaching package: ‘poplite’
-    
-    The following object is masked from ‘package:dplyr’:
-    
-        select
-    
-    The following object is masked from ‘package:stats’:
-    
-        filter
-    
-    Error in makeSchemaFromData(dna, "dna") : 
-      ERROR: The names of the supplied data.frame need to be modified for the database see correct.df.names
-    Starting clinical
-    Starting samples
-    Starting dna
-    
-    Error: processing vignette 'poplite.Rnw' failed with diagnostics:
-     chunk 10 
-    Error in filter_.Database(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve) : 
-      ERROR: Please supply a single statement which would result in a logical vector
-    Execution halted
     ```
 
 # poppr
@@ -17815,17 +17608,19 @@ Version: 0.1.4
     Running examples in ‘treeplyr-Ex.R’ failed
     The error most likely occurred in:
     
-    > ### Name: filter_.treedata
-    > ### Title: Function for filtering rows from an object of class 'treedata'
-    > ### Aliases: filter_.treedata filter.treedata filter_.grouped_treedata
-    > ###   filter.grouped_treedata filter_.grouped_treedata
+    > ### Name: group_by_.treedata
+    > ### Title: Function for grouping an object of class 'treedata'
+    > ### Aliases: group_by_.treedata group_by.treedata ungroup.grouped_treedata
     > 
     > ### ** Examples
     > 
     > data(anolis)
-    > td <- make.treedata(anolis$phy, anolis$dat, name_column=1)
-    > tdfilter <- filter(td, island=="Cuba", SVL > 3.5)
-    Error: `.preserve` (`.preserve = FALSE`) must not be named, do you need `==`?
+    > td <- make.treedata(anolis$phy, anolis$dat)
+    > tdGrouped <- group_by(td, ecomorph)
+    > summarize(tdGrouped, ntips = length(phy$tip.label), 
+    +    totalBL = sum(phy$edge.length), meanSVL = mean(SVL), sdSVL = sd(SVL))
+    Error in envs[[i]] : subscript out of bounds
+    Calls: summarize -> summarise.grouped_treedata
     Execution halted
     ```
 

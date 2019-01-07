@@ -15,14 +15,7 @@
  * The `sample_n()` generic gains a `...` argument. Methods must add `...` as well
    to avoid a `checking S3 generic/method consistency` warning
    
- * `filter()`, `slice()`, `filter_()`, and `slice_()` gained a `.preserve` argument
-   detailed below. This affects packages that use `filter_(.dots=)`. These packages 
-   should add a `.preserve` argument as well so that `.preserve` is not aggregated 
-   in `...` and therefore generate. This will deal with the error
-   
-   ```
-   Error: `.preserve` (`.preserve = FALSE`) must not be named, do you need `==`?
-   ```
+ * `filter()` and `slice()` gained a `.preserve` argument detailed below. 
 
   * dplyr now deals with empty groups, see details below. This might affect 
     packages that were previously assuming there wer no empty groups. 

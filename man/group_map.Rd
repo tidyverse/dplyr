@@ -54,6 +54,11 @@ Each conceptual group of the data frame is exposed to the function \code{.f} wit
 }
 
 \code{.f} must return a data frame that does not contain any of the grouping variables of \code{.tbl}.
+
+For completeness, \code{group_map()} and \code{group_walk()} also work on
+ungrouped data frames, in that case the function is applied to the
+entire data frame (exposed as \code{.x}), and \code{.y} is a one row tibble with no
+column, consistently with \code{\link[=group_keys]{group_keys()}}.
 }
 \examples{
 mtcars \%>\%
@@ -88,6 +93,10 @@ iris \%>\%
   group_walk(~ write.csv(.x, file = file.path(temp, paste0(.y$Species, ".csv"))))
 list.files(temp, pattern = "csv$")
 unlink(temp, recursive = TRUE)
+
+# group_map() and ungrouped data frames
+mtcars \%>\%
+  group_map(~ head(.x, 2L))
 
 }
 \seealso{

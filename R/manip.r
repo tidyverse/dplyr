@@ -114,11 +114,11 @@ filter <- function(.data, ..., .preserve = FALSE) {
 }
 #' @export
 filter.default <- function(.data, ..., .preserve = FALSE) {
-  filter_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
+  filter_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
-filter_ <- function(.data, ..., .dots = list(), .preserve = FALSE) {
+filter_ <- function(.data, ..., .dots = list()) {
   signal_soft_deprecated(paste_line(
     "filter_() is deprecated. ",
     "Please use filter() instead",
@@ -177,11 +177,11 @@ slice <- function(.data, ..., .preserve = FALSE) {
 }
 #' @export
 slice.default <- function(.data, ..., .preserve = FALSE) {
-  slice_(.data, .dots = compat_as_lazy_dots(...), .preserve = .preserve)
+  slice_(.data, .dots = compat_as_lazy_dots(...))
 }
 #' @export
 #' @rdname se-deprecated
-slice_ <- function(.data, ..., .preserve = FALSE, .dots = list()) {
+slice_ <- function(.data, ..., .dots = list()) {
   signal_soft_deprecated(paste_line(
     "slice_() is deprecated. ",
     "Please use slice() instead",

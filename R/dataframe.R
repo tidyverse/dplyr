@@ -61,9 +61,9 @@ filter.data.frame <- function(.data, ..., .preserve = FALSE) {
   as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
-filter_.data.frame <- function(.data, ..., .dots = list(), .preserve = FALSE) {
+filter_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots, .preserve = .preserve)
+  filter(.data, !!!dots)
 }
 
 #' @export
@@ -71,9 +71,9 @@ slice.data.frame <- function(.data, ..., .preserve = FALSE) {
   as.data.frame(slice(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
-slice_.data.frame <- function(.data, ..., .preserve = FALSE, .dots = list()) {
+slice_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  slice(.data, !!!dots, .preserve = .preserve)
+  slice(.data, !!!dots)
 }
 
 #' @export

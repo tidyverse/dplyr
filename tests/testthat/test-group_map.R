@@ -38,3 +38,10 @@ test_that("group_map() wants functions with at least 2 arguments, or ... (#3996)
   head1 <- function(d, ...) head(d, 1)
   expect_equal(nrow(group_map(g, head1)), 3L)
 })
+
+test_that("group_map() works on ungrouped data frames (#4067)", {
+  expect_identical(
+    group_map(mtcars, ~ head(.x, 2L)),
+    head(mtcars, 2L)
+  )
+})

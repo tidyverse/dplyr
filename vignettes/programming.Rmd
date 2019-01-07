@@ -438,7 +438,7 @@ variables. We need to make three changes:
 
 ```{r}
 my_summarise <- function(df, ...) {
-  group_var <- quos(...)
+  group_var <- enquos(...)
 
   df %>%
     group_by(!!! group_var) %>%

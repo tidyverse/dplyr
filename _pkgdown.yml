@@ -1,7 +1,6 @@
-url: http://dplyr.tidyverse.org
+url: https://dplyr.tidyverse.org
 
 template:
-  ganalytics: "UA-115082821"
   package: tidytemplate
   default_assets: false
   params:
