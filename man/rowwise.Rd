@@ -10,8 +10,7 @@ rowwise(data)
 \item{data}{Input data frame.}
 }
 \description{
-\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
-}
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
 }
 \details{
 See \href{https://github.com/jennybc/row-oriented-workflows}{this repository}

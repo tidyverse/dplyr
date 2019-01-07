@@ -42,8 +42,7 @@ presence of a grouping.  This makes sure that the format of the resulting
 data frame is the same for both empty and non-empty input.
 }
 \details{
-\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
-}
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
 }
 \section{Alternative}{
 

@@ -19,8 +19,7 @@ ignored. If the result is empty, \code{logical()} is returned.
 Use \code{\link[vctrs:vec_c]{vctrs::vec_c()}} if you never want to unlist.
 }
 \details{
-\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
-}
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
 }
 \examples{
 # combine applies the same coercion rules as bind_rows()

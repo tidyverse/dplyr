@@ -1,8 +1,6 @@
 #' Trim grouping structure
 #'
-#' ```
-#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
-#' ```
+#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
 #'
 #' @family grouping functions
 #'
