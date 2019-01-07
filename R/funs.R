@@ -1,6 +1,6 @@
 #' Create a list of functions calls.
 #'
-#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("softdeprecated")}
+#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("soft-deprecated")}
 #'
 #' @description
 #'

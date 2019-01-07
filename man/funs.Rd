@@ -33,7 +33,7 @@ to all function calls.}
 functions for input to other functions like \code{\link[=summarise_at]{summarise_at()}}.
 }
 \details{
-\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("softdeprecated")}
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("soft-deprecated")}
 }
 \examples{
 funs(mean, "mean", mean(., na.rm = TRUE))
