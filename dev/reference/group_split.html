@@ -181,9 +181,8 @@ all the columns, including the grouping variables.</p></li>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <pre>\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
-</pre>
-    <p><code>group_split()</code> works like <code><a href='https://www.rdocumentation.org/packages/base/topics/split'>base::split()</a></code> but</p><ul>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p>
+<p><code>group_split()</code> works like <code><a href='https://www.rdocumentation.org/packages/base/topics/split'>base::split()</a></code> but</p><ul>
 <li><p>it uses the grouping structure from <code><a href='group_by.html'>group_by()</a></code> and therefore is subject to the data mask</p></li>
 <li><p>it does not name the elements of the list based on the grouping as this typically
 loses information and is confusing.</p></li>
