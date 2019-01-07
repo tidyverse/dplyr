@@ -132,9 +132,7 @@ bind_cols <- function(...) {
 
 #' Combine vectors
 #'
-#' ```
 #' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
-#' ```
 #'
 #' @description
 #' `combine()` acts like [c()] or

@@ -36,6 +36,5 @@ rename a variable that doesn't exist.}
 and will be deprecated sometimes in the future.
 }
 \details{
-\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
-}
+\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
 }

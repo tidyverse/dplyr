@@ -37,7 +37,6 @@ See the relevant section of \code{vignette("compatibility")} for more
 information.
 }
 \details{
-\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
-}
+\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
 }
 \keyword{internal}

@@ -1,9 +1,7 @@
 
 #' Apply a function to each group
 #'
-#' ```
 #' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
-#' ```
 #'
 #' @description
 #'

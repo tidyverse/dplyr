@@ -1,8 +1,6 @@
 #' Create a list of functions calls.
 #'
-#' ```
 #' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("softdeprecated")}
-#' ```
 #'
 #' @description
 #'

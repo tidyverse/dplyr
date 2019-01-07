@@ -1,8 +1,6 @@
 #' Do anything
 #'
-#' ```
 #' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
-#' ```
 #'
 #' @description This is a general purpose complement to the specialised
 #' manipulation functions [filter()], [select()], [mutate()],

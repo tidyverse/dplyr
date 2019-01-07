@@ -327,9 +327,7 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
 #' Summarise and mutate multiple columns.
 #'
-#' ```
 #' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
-#' ```
 #'
 #' @description
 #'

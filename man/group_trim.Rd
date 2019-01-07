@@ -20,8 +20,7 @@ then recalculates the grouping structure.
 to select a subset of groups.
 }
 \details{
-\preformatted{\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
-}
+\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
 }
 \examples{
 iris \%>\%
