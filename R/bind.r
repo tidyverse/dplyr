@@ -132,7 +132,7 @@ bind_cols <- function(...) {
 
 #' Combine vectors
 #'
-#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("questioning")}
+#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
 #'
 #' @description
 #' `combine()` acts like [c()] or

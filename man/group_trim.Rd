@@ -20,7 +20,7 @@ then recalculates the grouping structure.
 to select a subset of groups.
 }
 \details{
-\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
 }
 \examples{
 iris \%>\%

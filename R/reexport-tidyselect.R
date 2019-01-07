@@ -33,7 +33,7 @@ tidyselect::last_col
 
 #' Select variables
 #'
-#' \Sexpr[results=rd, stage=render]{mypkg:::lifecycle("deprecated")}
+#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
 #'
 #' @description
 #'
