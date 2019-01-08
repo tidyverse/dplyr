@@ -2,7 +2,6 @@ url: https://dplyr.tidyverse.org
 
 template:
   package: tidytemplate
-  default_assets: false
   params:
     docsearch:
       api_key: 1270c4079b26a138795263974bbf302d
