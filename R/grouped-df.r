@@ -9,18 +9,15 @@
 #' @param vars a character vector or a list of [name()]
 #' @param drop deprecated
 #' @export
-grouped_df <- function(data, vars, drop) {
+grouped_df <- function(data, vars, drop = FALSE) {
   assert_that(
     is.data.frame(data),
     (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars)
   )
-  if (!missing(drop)) {
-    warning("`drop` is deprecated")
-  }
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
-  grouped_df_impl(data, unname(vars))
+  grouped_df_impl(data, unname(vars), drop)
 }
 
 #' Low-level construction and validation for the grouped_df class
@@ -182,7 +179,7 @@ ungroup.grouped_df <- function(x, ...) {
   if (!all(group_names %in% names(y))) {
     tbl_df(y)
   } else {
-    grouped_df(y, group_names)
+    grouped_df(y, group_names, group_drops(x))
   }
 }
 
@@ -305,7 +302,7 @@ do.grouped_df <- function(.data, ...) {
       env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), groups(.data))
+      out <- label_output_dataframe(labels, list(list(out)), groups(.data), group_drops(.data))
     }
     return(out)
   }
@@ -334,7 +331,7 @@ do.grouped_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(labels, out, groups(.data))
+    label_output_dataframe(labels, out, groups(.data), group_drops(.data))
   } else {
     label_output_list(labels, out, groups(.data))
   }
@@ -358,7 +355,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
   out <- distinct_impl(dist$data, vars, keep, environment())
-  grouped_df(out, groups(.data))
+  grouped_df(out, groups(.data), group_drops(.data))
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {

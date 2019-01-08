@@ -39,7 +39,7 @@ do_(.data, ..., .dots = list())
 
 funs_(dots, args = list(), env = base_env())
 
-group_by_(.data, ..., .dots = list(), add = FALSE)
+group_by_(.data, ..., .dots = list(), add = FALSE, .drop = FALSE)
 
 group_indices_(.data, ..., .dots = list())
 
@@ -97,6 +97,8 @@ first row of values.}
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
+
+\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped.}
 
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}

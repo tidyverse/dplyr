@@ -29,14 +29,14 @@ add_rownames <- function(df, var = "rowname") {
 # Grouping methods ------------------------------------------------------------
 
 #' @export
-group_by.data.frame <- function(.data, ..., add = FALSE) {
+group_by.data.frame <- function(.data, ..., add = FALSE, .drop = FALSE) {
   groups <- group_by_prepare(.data, ..., add = add)
-  grouped_df(groups$data, groups$group_names)
+  grouped_df(groups$data, groups$group_names, .drop)
 }
 #' @export
-group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
+group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add)
+  group_by(.data, !!!dots, add = add, .drop = .drop)
 }
 
 #' @export
@@ -202,7 +202,7 @@ setequal.data.frame <- function(x, y, ...) {
 
 reconstruct_set <- function(out, x) {
   if (is_grouped_df(x)) {
-    out <- grouped_df_impl(out, group_vars(x))
+    out <- grouped_df_impl(out, group_vars(x), group_drops(x))
   }
 
   out

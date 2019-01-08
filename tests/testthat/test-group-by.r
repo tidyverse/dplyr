@@ -119,7 +119,10 @@ test_that("group_by only applies the allow list to grouping variables", {
 
   res <- group_by(df, x)
   expect_equal(groups(res), list(sym("x")))
-  expect_identical(group_data(res), tibble(x := 1:5, ".rows" := as.list(1:5)))
+  expect_identical(
+    group_data(res),
+    structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = FALSE)
+  )
 })
 
 test_that("group_by fails when lists are used as grouping variables (#276)", {
@@ -150,7 +153,7 @@ test_that("grouped_df errors on NULL labels (#398)", {
 test_that("grouped_df errors on non-existent var (#2330)", {
   df <- data.frame(x = 1:5)
   expect_error(
-    grouped_df(df, list(quote(y))),
+    grouped_df(df, list(quote(y)), FALSE),
     "Column `y` is unknown"
   )
 })

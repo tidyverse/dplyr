@@ -6,11 +6,13 @@
 \alias{group_by_if}
 \title{Group by a selection of variables}
 \usage{
-group_by_all(.tbl, .funs = list(), ...)
+group_by_all(.tbl, .funs = list(), ..., .drop = FALSE)
 
-group_by_at(.tbl, .vars, .funs = list(), ..., .add = FALSE)
+group_by_at(.tbl, .vars, .funs = list(), ..., .add = FALSE,
+  .drop = FALSE)
 
-group_by_if(.tbl, .predicate, .funs = list(), ..., .add = FALSE)
+group_by_if(.tbl, .predicate, .funs = list(), ..., .add = FALSE,
+  .drop = FALSE)
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
@@ -24,7 +26,7 @@ group_by_if(.tbl, .predicate, .funs = list(), ..., .add = FALSE)
 a character vector of column names, a numeric vector of column
 positions, or \code{NULL}.}
 
-\item{.add}{Passed to the \code{add} argument of \code{\link[=group_by]{group_by()}}.}
+\item{.add, .drop}{see \code{\link[=group_by]{group_by()}}}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or

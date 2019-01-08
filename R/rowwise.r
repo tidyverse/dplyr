@@ -62,17 +62,17 @@ n_groups.rowwise_df <- function(x) {
 }
 
 #' @export
-group_by.rowwise_df <- function(.data, ..., add = FALSE) {
+group_by.rowwise_df <- function(.data, ..., add = FALSE, .drop = FALSE) {
   warn("Grouping rowwise data frame strips rowwise nature")
   .data <- ungroup(.data)
 
   groups <- group_by_prepare(.data, ..., add = add)
-  grouped_df(groups$data, groups$group_names)
+  grouped_df(groups$data, groups$group_names, group_drops(.data))
 }
 #' @export
-group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE) {
+group_by_.rowwise_df <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add)
+  group_by(.data, !!!dots, add = add, .drop = .drop)
 }
 
 
@@ -108,7 +108,7 @@ do.rowwise_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(NULL, out, groups(.data))
+    label_output_dataframe(NULL, out, groups(.data), group_drops(.data))
   } else {
     label_output_list(NULL, out, groups(.data))
   }

@@ -490,7 +490,7 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
 }
 
 
-SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
+SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars, bool drop) {
   const int nvars = vars.size();
 
   CharacterVector names = data.names();
@@ -552,6 +552,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars) {
   vec_groups.attr("names") = groups_names;
   vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
   vec_groups.attr("class") = NaturalDataFrame::classes() ;
+  vec_groups.attr(".drop") = drop;
 
   return vec_groups;
 }
@@ -564,7 +565,9 @@ SEXP check_grouped(RObject data) {
 
   if (!Rf_isNull(vars)) {
     Rcpp::warning("Detecting old grouped_df format, replacing `vars` attribute by `groups`");
-    DataFrame groups = build_index_cpp(data, SymbolVector(vars));
+    // using drop = true here because this is likely to play better with
+    // older representations
+    DataFrame groups = build_index_cpp(data, SymbolVector(vars), true);
     data.attr("groups") = groups;
     data.attr("vars") = R_NilValue;
     data.attr("indices") = R_NilValue;
@@ -607,7 +610,7 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x):
 GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
   data_(x),
   symbols(model.get_vars()),
-  groups(build_index_cpp(data_, model.get_vars())),
+  groups(build_index_cpp(data_, model.get_vars(), model.drops())),
   nvars_(symbols.size())
 {
   set_groups(data_, groups);
@@ -629,7 +632,7 @@ SymbolVector GroupedDataFrame::group_vars(SEXP x) {
 }
 
 // [[Rcpp::export]]
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
+DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
   if (!symbols.size()) {
     GroupedDataFrame::strip_groups(data);
     data.attr("class") = NaturalDataFrame::classes();
@@ -638,7 +641,7 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols) {
 
   DataFrame copy(shallow_copy(data));
   set_class(copy, GroupedDataFrame::classes());
-  GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols));
+  GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols, drop));
 
   return copy;
 }

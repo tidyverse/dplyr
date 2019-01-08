@@ -33,6 +33,7 @@
 #' @param add When `add = FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
+#' @param .drop When `.drop = TRUE`, empty groups are dropped.
 #' @inheritParams filter
 #'
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
@@ -88,17 +89,17 @@
 #'   group_by(y) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., add = FALSE) {
+group_by <- function(.data, ..., add = FALSE, .drop = FALSE) {
   UseMethod("group_by")
 }
 #' @export
-group_by.default <- function(.data, ..., add = FALSE) {
+group_by.default <- function(.data, ..., add = FALSE, .drop = FALSE) {
   group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
 }
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
-group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
+group_by_ <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
   signal_soft_deprecated(paste_line(
     "group_by_() is deprecated. ",
     "Please use group_by() instead",
@@ -193,4 +194,8 @@ group_vars <- function(x) {
 #' @export
 group_vars.default <- function(x) {
   deparse_names(groups(x))
+}
+
+group_drops <- function(x) {
+  isTRUE(attr(x, "groups"))
 }

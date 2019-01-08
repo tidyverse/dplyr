@@ -17,7 +17,7 @@ test_that("group_data returns a tidy tibble (#3489)", {
 
   expect_identical(
     group_by(df,x) %>% group_data(),
-    tibble(x := c(1,2), ".rows" := list(1:2, 3:4))
+    structure(tibble(x := c(1,2), ".rows" := list(1:2, 3:4)), .drop = FALSE)
   )
 
   expect_identical(
@@ -34,7 +34,10 @@ test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
 
   expect_identical(group_data(df), tibble(".rows" := list(integer())))
   expect_identical(group_data(rowwise(df)), tibble(".rows" := list()))
-  expect_identical(group_data(group_by(df, x)), tibble(x := integer(), ".rows" := list()))
+  expect_identical(
+    group_data(group_by(df, x)),
+    structure(tibble(x := integer(), ".rows" := list()), .drop = FALSE)
+  )
 })
 
 test_that("GroupDataFrame checks the structure of the groups attribute", {
@@ -69,7 +72,9 @@ test_that("GroupedDataFrame is compatible with older style grouped_df (#3604)", 
     vars = list(sym("x"))
   )
   g <- expect_warning(group_data(df))
-  expect_identical(g, tibble(x := 1, ".rows" := list(1L)))
+  expect_equal(g$x, 1)
+  expect_equal(g$.rows, list(1L))
+  expect_equal(attr(g, ".drop"), TRUE)
   expect_null(attr(df, "vars"))
 })
 
