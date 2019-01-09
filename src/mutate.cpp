@@ -271,8 +271,10 @@ public:
     i++;
     for (; i < ngroups; i++, ++git) {
       const Index& indices = *git;
-      Shield<SEXP> subset(proxy.get(indices));
-      grab(subset, indices);
+      if (indices.size()) {
+        Shield<SEXP> subset(proxy.get(indices));
+        grab(subset, indices);
+      }
     }
     return coll->get();
   }
@@ -364,8 +366,10 @@ public:
     i++;
     for (; i < ngroups; i++, ++git) {
       const Index& indices = *git;
-      List subset(proxy.get(indices));
-      grab(subset, indices);
+      if (indices.size()) {
+        List subset(proxy.get(indices));
+        grab(subset, indices);
+      }
     }
     return data;
   }
