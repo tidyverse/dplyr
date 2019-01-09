@@ -112,44 +112,6 @@ protected:
   int n;
 };
 
-
-
-class FactorVisitor : public VectorVisitorImpl<INTSXP> {
-  typedef comparisons<STRSXP> string_compare;
-
-public:
-  typedef VectorVisitorImpl<INTSXP> Parent;
-
-  FactorVisitor(const IntegerVector& vec_) : Parent(vec_) {
-    levels = get_levels(vec);
-    levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
-  }
-
-  inline bool equal(int i, int j) const {
-    return vec[i] == vec[j];
-  }
-
-  inline bool less(int i, int j) const {
-    return
-      string_compare::is_less(
-        vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
-        vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
-      );
-  }
-
-  inline bool greater(int i, int j) const {
-    return
-      string_compare::is_greater(
-        vec[i] < 0 ? NA_STRING : levels_ptr[vec[i]],
-        vec[j] < 0 ? NA_STRING : levels_ptr[vec[j]]
-      );
-  }
-
-private:
-  CharacterVector levels;
-  SEXP* levels_ptr;
-};
-
 template <>
 class VectorVisitorImpl<STRSXP> : public VectorVisitor {
 public:

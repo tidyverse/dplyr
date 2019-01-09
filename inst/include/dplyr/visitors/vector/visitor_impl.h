@@ -77,8 +77,6 @@ inline VectorVisitor* visitor_vector(SEXP vec) {
   case CPLXSXP:
     return new VectorVisitorImpl<CPLXSXP>(vec);
   case INTSXP:
-    if (Rf_inherits(vec, "factor"))
-      return new FactorVisitor(vec);
     return new VectorVisitorImpl<INTSXP>(vec);
   case REALSXP:
     return new VectorVisitorImpl<REALSXP>(vec);
