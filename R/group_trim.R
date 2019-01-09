@@ -12,6 +12,7 @@
 #' to select a subset of groups.
 #'
 #' @param .tbl A [grouped data frame][grouped_df()]
+#' @param .drop See [group_by()]
 #'
 #' @return A [grouped data frame][grouped_df()]
 #'
@@ -22,17 +23,17 @@
 #'   group_trim()
 #'
 #' @export
-group_trim <- function(.tbl) {
+group_trim <- function(.tbl, .drop = group_drop(.tbl)) {
   UseMethod("group_trim")
 }
 
 #' @export
-group_trim.data.frame <- function(.tbl) {
+group_trim.data.frame <- function(.tbl, .drop = group_drop(.tbl)) {
   .tbl
 }
 
 #' @export
-group_trim.grouped_df <- function(.tbl) {
+group_trim.grouped_df <- function(.tbl, .drop = group_drop(.tbl)) {
   vars <- group_vars(.tbl)
   ungrouped <- ungroup(.tbl)
 
@@ -43,5 +44,5 @@ group_trim.grouped_df <- function(.tbl) {
   dropped <- mutate_at(ungrouped, fgroups, droplevels)
 
   # regroup
-  group_by_at(dropped, vars)
+  group_by_at(dropped, vars, .drop = .drop)
 }
