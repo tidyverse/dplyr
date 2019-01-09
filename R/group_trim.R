@@ -23,17 +23,17 @@
 #'   group_trim()
 #'
 #' @export
-group_trim <- function(.tbl, .drop = group_drop(.tbl)) {
+group_trim <- function(.tbl, .drop = group_drops(.tbl)) {
   UseMethod("group_trim")
 }
 
 #' @export
-group_trim.data.frame <- function(.tbl, .drop = group_drop(.tbl)) {
+group_trim.data.frame <- function(.tbl, .drop = group_drops(.tbl)) {
   .tbl
 }
 
 #' @export
-group_trim.grouped_df <- function(.tbl, .drop = group_drop(.tbl)) {
+group_trim.grouped_df <- function(.tbl, .drop = group_drops(.tbl)) {
   vars <- group_vars(.tbl)
   ungrouped <- ungroup(.tbl)
 

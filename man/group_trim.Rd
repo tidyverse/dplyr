@@ -4,7 +4,7 @@
 \alias{group_trim}
 \title{Trim grouping structure}
 \usage{
-group_trim(.tbl, .drop = group_drop(.tbl))
+group_trim(.tbl, .drop = group_drops(.tbl))
 }
 \arguments{
 \item{.tbl}{A \link[=grouped_df]{grouped data frame}}
