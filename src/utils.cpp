@@ -179,7 +179,7 @@ CharacterVector get_class(SEXP x) {
   return default_chars(class_attr, 0);
 }
 
-inline void copy_attrib(SEXP out, SEXP origin, SEXP symbol) {
+void copy_attrib(SEXP out, SEXP origin, SEXP symbol) {
   Rf_setAttrib(out, symbol, Rf_getAttrib(origin, symbol));
 }
 
