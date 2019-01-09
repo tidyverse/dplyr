@@ -197,5 +197,5 @@ group_vars.default <- function(x) {
 }
 
 group_drops <- function(x) {
-  isTRUE(attr(x, "groups"))
+  isTRUE(attr(group_data(x), ".drop"))
 }
