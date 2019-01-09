@@ -186,7 +186,7 @@ test_that("returns error if user-defined name equals a grouped variable", {
 
 # count and .drop ----------------------------------------------------
 
-test_that("count() deal with .drop", {
+test_that("count() deals with .drop", {
   d <- tibble(
     f1 = factor("b", levels = c("a", "b", "c")),
     f2 = factor("g", levels = c("e", "f", "g")),
@@ -195,11 +195,18 @@ test_that("count() deal with .drop", {
   res <- d %>%
     group_by(f1, .drop = TRUE) %>%
     count(f2, .drop = TRUE)
+
   res2 <- d %>%
     group_by(f1, .drop = TRUE) %>%
     count(f2)
 
+  res3 <- d %>%
+    group_by(f1, .drop = TRUE) %>%
+    count(f2, .drop = FALSE)
+
   expect_equal(n_groups(res), 1L)
   expect_identical(res, res2)
+  expect_equal(n_groups(res3), 3L)
+  expect_equal(nrow(res3), 9L)
 })
 
