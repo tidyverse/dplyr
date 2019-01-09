@@ -396,7 +396,7 @@ test_that("group_by() with empty spec produces a grouped data frame with 0 group
   expect_equal(gdata$.rows, list(1:nrow(iris)))
 })
 
-# .drop = TRUE
+# .drop = TRUE ---------------------------------------------------
 
 test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
   res <- iris %>%
@@ -448,3 +448,26 @@ test_that("summarise maintains the .drop attribute (#4061)", {
   expect_equal(n_groups(res2), 1L)
   expect_true(group_drops(res2))
 })
+
+test_that("joins maintain the .drop attribute (#4061)", {
+  df1 <- group_by(tibble(
+    f1 = factor(c("a", "b"), levels = c("a", "b", "c")),
+    x  = 42:43
+  ), f1, .drop = TRUE)
+
+  df2 <- group_by(tibble(
+    f1 = factor(c("a"), levels = c("a", "b", "c")),
+    y = 1
+  ), f1, .drop = TRUE)
+
+  res <- left_join(df1, df2)
+  expect_equal(n_groups(res), 2L)
+
+  df2 <- group_by(tibble(
+    f1 = factor(c("a", "c"), levels = c("a", "b", "c")),
+    y = 1:2
+  ), f1, .drop = TRUE)
+  res <- full_join(df1, df2)
+  expect_equal(n_groups(res), 3L)
+})
+
