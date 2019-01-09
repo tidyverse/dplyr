@@ -9,7 +9,8 @@
 \usage{
 tally(x, wt, sort = FALSE, name = "n")
 
-count(x, ..., wt = NULL, sort = FALSE, name = "n")
+count(x, ..., wt = NULL, sort = FALSE, name = "n",
+  .drop = group_drops(x))
 
 add_tally(x, wt, sort = FALSE, name = "n")
 
@@ -33,6 +34,8 @@ frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 \item{name}{The output column name. If omitted, it will be \code{n}.}
 
 \item{...}{Variables to group by.}
+
+\item{.drop}{see \code{\link[=group_by]{group_by()}}}
 }
 \value{
 A tbl, grouped the same way as \code{x}.

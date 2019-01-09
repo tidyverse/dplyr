@@ -27,7 +27,7 @@
 \usage{
 tally_(x, wt, sort = FALSE)
 
-count_(x, vars, wt = NULL, sort = FALSE)
+count_(x, vars, wt = NULL, sort = FALSE, .drop = group_drops(x))
 
 add_tally_(x, wt, sort = FALSE)
 
@@ -82,6 +82,8 @@ frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 
 \item{vars}{Various meanings depending on the verb.}
 
+\item{.drop}{see \code{\link[=group_by]{group_by()}}}
+
 \item{.data}{A data frame.}
 
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
@@ -97,8 +99,6 @@ first row of values.}
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
-
-\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped.}
 
 \item{include, exclude}{Character vector of column names to always
 include/exclude.}

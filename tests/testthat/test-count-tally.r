@@ -41,7 +41,7 @@ test_that("returns user defined variable name", {
   expect_equal(names(res), c("g", var_name))
   expect_equal(res[[var_name]], c(2, 3))
 })
-          
+
 test_that("count() does not ignore non-factor empty groups (#4013)",  {
   d <- data.frame(x = c("a", "a", "b", "b"),
     value = 1:4,
@@ -182,5 +182,24 @@ test_that("returns error if user-defined name equals a grouped variable", {
   df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "val"
   expect_error(df %>% group_by(val) %>% add_tally(name = name))
+})
+
+# count and .drop ----------------------------------------------------
+
+test_that("count() deal with .drop", {
+  d <- tibble(
+    f1 = factor("b", levels = c("a", "b", "c")),
+    f2 = factor("g", levels = c("e", "f", "g")),
+    x  = 48
+  )
+  res <- d %>%
+    group_by(f1, .drop = TRUE) %>%
+    count(f2, .drop = TRUE)
+  res2 <- d %>%
+    group_by(f1, .drop = TRUE) %>%
+    count(f2)
+
+  expect_equal(n_groups(res), 1L)
+  expect_identical(res, res2)
 })
 

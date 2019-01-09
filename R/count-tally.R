@@ -35,6 +35,7 @@
 #'   `vignette("programming")` for an introduction to these concepts.
 #' @param sort if `TRUE` will sort output in descending order of `n`
 #' @param name The output column name. If omitted, it will be `n`.
+#' @param .drop see [group_by()]
 #' @return A tbl, grouped the same way as `x`.
 #' @export
 #' @examples
@@ -124,19 +125,19 @@ n_name <- function(x, name = "n") {
 
 #' @export
 #' @rdname tally
-count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
+count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_drops(x)) {
   groups <- group_vars(x)
 
   if (dots_n(...)) {
-    x <- group_by(x, ..., add = TRUE)
+    x <- group_by(x, ..., add = TRUE, .drop = .drop)
   }
   x <- tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- group_by(x, !!!syms(groups), add = FALSE)
+  x <- group_by(x, !!!syms(groups), add = FALSE, .drop = .drop)
   x
 }
 #' @export
 #' @rdname se-deprecated
-count_ <- function(x, vars, wt = NULL, sort = FALSE) {
+count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_drops(x)) {
   signal_soft_deprecated(paste_line(
     "count_() is deprecated. ",
     "Please use count() instead",
@@ -148,7 +149,7 @@ count_ <- function(x, vars, wt = NULL, sort = FALSE) {
   vars <- compat_lazy_dots(vars, caller_env())
   wt <- wt %||% quo(NULL)
   wt <- compat_lazy(wt, caller_env())
-  count(x, !!!vars, wt = !!wt, sort = sort)
+  count(x, !!!vars, wt = !!wt, sort = sort, .drop = .drop)
 }
 
 #' @rdname tally
@@ -202,7 +203,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
   grouped <- group_by(x, ..., add = TRUE)
 
   out <- add_tally(grouped, wt = !!enquo(wt), sort = sort, name = name)
-  grouped_df(out, g, group_drops(x))
+  grouped_df(out, g, group_drops(grouped))
 }
 #' @rdname se-deprecated
 #' @export
