@@ -395,3 +395,56 @@ test_that("group_by() with empty spec produces a grouped data frame with 0 group
   expect_equal(names(gdata), ".rows")
   expect_equal(gdata$.rows, list(1:nrow(iris)))
 })
+
+# .drop = TRUE
+
+test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
+  res <- iris %>%
+    filter(Species == "setosa") %>%
+    group_by(Species, .drop = TRUE)
+
+  expect_identical(
+    group_data(res),
+    structure(
+      tibble(Species = factor("setosa", levels = levels(iris$Species)), .rows := list(1:50)),
+      .drop = TRUE
+    )
+  )
+
+  expect_true(group_drops(res))
+})
+
+test_that("grouped data frames remember their .drop (#4061)", {
+  res <- iris %>%
+    filter(Species == "setosa") %>%
+    group_by(Species, .drop = TRUE)
+
+  res2 <- res %>%
+    filter(Sepal.Length > 5)
+  expect_true(group_drops(res2))
+
+  res3 <- res %>%
+    filter(Sepal.Length > 5, .preserve = FALSE)
+  expect_true(group_drops(res3))
+
+  res4 <- res3 %>%
+    group_by(Species)
+  expect_false(group_drops(res4))
+  expect_equal(nrow(group_data(res4)), 3L)
+})
+
+test_that("summarise maintains the .drop attribute (#4061)", {
+  df <- tibble(
+    f1 = factor("a", levels = c("a", "b", "c")),
+    f2 = factor("d", levels = c("d", "e", "f", "g")),
+    x  = 42
+  )
+
+  res <- df %>%
+    group_by(f1, f2, .drop = TRUE)
+  expect_equal(n_groups(res), 1L)
+
+  res2 <- summarise(res, x = sum(x))
+  expect_equal(n_groups(res2), 1L)
+  expect_true(group_drops(res2))
+})
