@@ -34,12 +34,12 @@ group_indices_ <- function(.data, ..., .dots = list()) {
 }
 
 #' @export
-group_indices.data.frame <- function(.data, ...) {
+group_indices.data.frame <- function(.data, ..., .drop = FALSE) {
   dots <- quos(...)
   if (length(dots) == 0L) {
     return(rep(1L, nrow(.data)))
   }
-  grouped_indices_grouped_df_impl(group_by(.data, !!!dots))
+  grouped_indices_grouped_df_impl(group_by(.data, !!!dots, .drop = .drop))
 }
 #' @export
 group_indices_.data.frame <- function(.data, ..., .dots = list()) {
