@@ -45,3 +45,9 @@ test_that("group_nest() works if no grouping column", {
   expect_equal(res$data, list(iris))
   expect_equal(names(res), "data")
 })
+
+test_that("group_nest() respects .drop", {
+  nested <- tibble(f = factor("b", levels = c("a", "b", "c")), x = 1, y = 2) %>%
+    group_nest(f, .drop = TRUE)
+  expect_equal(nrow(nested), 1L)
+})

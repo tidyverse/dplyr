@@ -17,6 +17,12 @@ test_that("group_keys.grouped_df() works", {
   )
 })
 
-test_that("group_keys.rowwise_df is an error", {
+test_that("group_keys.rowwise_df() is an error", {
   expect_error(group_keys(rowwise(iris)))
+})
+
+test_that("group_split() respects .drop", {
+  chunks <- tibble(f = factor("b", levels = c("a", "b", "c"))) %>%
+    group_split(f, .drop = TRUE)
+  expect_equal(length(chunks), 1L)
 })
