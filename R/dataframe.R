@@ -29,12 +29,12 @@ add_rownames <- function(df, var = "rowname") {
 # Grouping methods ------------------------------------------------------------
 
 #' @export
-group_by.data.frame <- function(.data, ..., add = FALSE, .drop = FALSE) {
+group_by.data.frame <- function(.data, ..., add = FALSE, .drop = add && group_drops(.data)) {
   groups <- group_by_prepare(.data, ..., add = add)
   grouped_df(groups$data, groups$group_names, .drop)
 }
 #' @export
-group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
+group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE, .drop = add && group_drops(.data)) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
   group_by(.data, !!!dots, add = add, .drop = .drop)
 }

@@ -471,3 +471,14 @@ test_that("joins maintain the .drop attribute (#4061)", {
   expect_equal(n_groups(res), 3L)
 })
 
+test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
+  d <- tibble(
+    f1 = factor("b", levels = c("a", "b", "c")),
+    f2 = factor("g", levels = c("e", "f", "g")),
+    x  = 48
+  )
+
+  res <- group_by(group_by(d, f1, .drop = TRUE), f2, add = TRUE)
+  expect_equal(n_groups(res), 1L)
+  expect_true(group_drops(res))
+})
