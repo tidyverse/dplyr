@@ -99,12 +99,12 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @export
 summarise.tbl_df <- function(.data, ...) {
   dots <- quos(..., .named = TRUE)
-  summarise_impl(.data, dots)
+  summarise_impl(.data, dots, environment())
 }
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  summarise_impl(.data, dots)
+  summarise_impl(.data, dots, environment())
 }
 
 # Joins ------------------------------------------------------------------------

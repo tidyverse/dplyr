@@ -30,13 +30,13 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
   return value;
 }
 
-SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, const IntegerVector& firsts) {
+SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, const IntegerVector& firsts, SEXP frame) {
   int nv = old_groups.size() - 1 ;
   List out(nv);
   CharacterVector names(nv);
   CharacterVector old_names(old_groups.names());
   for (int i = 0; i < nv - 1; i++) {
-    out[i] = column_subset(old_groups[i], firsts, R_BaseEnv);
+    out[i] = column_subset(old_groups[i], firsts, frame);
     names[i] = old_names[i];
   }
   out[nv - 1] = new_indices;
@@ -49,12 +49,12 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, co
 }
 
 template <typename SlicedTibble>
-void structure_summarise(List& out, const SlicedTibble& df) {
+void structure_summarise(List& out, const SlicedTibble& df, SEXP frame) {
   set_class(out, NaturalDataFrame::classes());
 }
 
 template <>
-void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gdf) {
+void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gdf, SEXP frame) {
   const DataFrame& df = gdf.data();
 
   if (gdf.nvars() > 1) {
@@ -102,7 +102,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
     }
 
     // groups
-    DataFrame groups = reconstruct_groups(old_groups, new_indices, firsts);
+    DataFrame groups = reconstruct_groups(old_groups, new_indices, firsts, frame);
     GroupedDataFrame::set_groups(out, groups);
   } else {
     // clear groups and reset to non grouped classes
@@ -112,7 +112,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
 }
 
 template <typename SlicedTibble>
-DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP frame) {
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
@@ -172,19 +172,19 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   int nr = gdf.ngroups();
   set_rownames(out, nr);
-  structure_summarise<SlicedTibble>(out, gdf) ;
+  structure_summarise<SlicedTibble>(out, gdf, frame) ;
   return out;
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, QuosureList dots) {
+SEXP summarise_impl(DataFrame df, QuosureList dots, SEXP frame) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame>(df, dots);
+    return summarise_grouped<RowwiseDataFrame>(df, dots, frame);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame>(df, dots);
+    return summarise_grouped<GroupedDataFrame>(df, dots, frame);
   } else {
-    return summarise_grouped<NaturalDataFrame>(df, dots);
+    return summarise_grouped<NaturalDataFrame>(df, dots, frame);
   }
 }
 
