@@ -2,31 +2,26 @@
 
 ## Breaking changes
 
- * Functions like `n()`, `row_number()` ... that are typically used in dplyr verbs
-   must now be imported when used in packages and scripts, otherwise the error 
-   `Error in n() : could not find function "n"` will appear. 
+* `Error in n() : could not find function "n"` indicates when functions 
+  like `n()`, `row_number()`, ... are not imported or prefixed. 
+  
+  The easiest fix is to import dplyr with `import(dplyr)` in your `NAMESPACE` or
+  `#' @import dplyr` in a roxygen comment, alternatively such functions can be 
+  imported selectively as any other function with `importFrom(dplyr, n)` in the 
+  `NAMESPACE` or `#' @importFrom dplyr n` in a roxygen comment. The third option is 
+  to prefix them, i.e. use `dplyr::n()`
    
-   The easiest fix is to import dplyr with `import(dplyr)` in your `NAMESPACE` or
-   `#' @import dplyr` in a roxygen comment, alternatively such functions can be 
-   imported selectively as any other function with `importFrom(dplyr, n)` in the 
-   `NAMESPACE` or `#' @importFrom dplyr n` in a roxygen comment. The third option is 
-   to prefix them, i.e. use `dplyr::n()`
-   
- * The `sample_n()` generic gains a `...` argument. Methods must add `...` as well
-   to avoid a `checking S3 generic/method consistency` warning
-   
- * `filter()` and `slice()` gained a `.preserve` argument detailed below. 
+* If you see `checking S3 generic/method consistency` in R CMD check for your 
+  package, note that : 
+  
+  - `sample_n()` and `sample_frac()` have gained `...`
+  - `filter()` and `slice()` have gained `.preserve`
 
-  * dplyr now deals with empty groups, see details below. This might affect 
-    packages that were previously assuming there wer no empty groups. 
-    
-  * dplyr is now stricter about what a grouped data frame is, packages that 
-    previously made assumptions about the structure of a grouped data frame
-    might see this error: 
-    
-    ```
-    Error: `.data` is a corrupt grouped_df, the `"groups"` attribute must be a data frame
-    ```
+* Code that assumes that there are no empty groups might fail, because of the 
+  new grouping algorithm described below. 
+  
+* `Error: `.data` is a corrupt grouped_df, ...`  signals code that makes 
+  wrong assumptions about the internals of a grouped data frame. 
 
 ## New functions
 
