@@ -163,8 +163,14 @@ private:
     const int ng = data.ngroups();
 
     typename SlicedTibble::group_iterator git = data.group_begin();
-    typename SlicedTibble::slicing_index indices = *git;
 
+    int i = 0;
+    while (!(*git).size()) {
+      ++git;
+      i++;
+    }
+
+    typename SlicedTibble::slicing_index indices = *git;
     RObject first(get(indices));
 
     if (Rf_inherits(first, "POSIXlt")) {
@@ -174,8 +180,6 @@ private:
     if (Rf_inherits(first, "data.frame")) {
       bad_col(name, "is of unsupported class data.frame");
     }
-
-    int i = 0;
 
     if (Rf_isNull(first)) {
       while (Rf_isNull(first)) {
