@@ -5,6 +5,8 @@
 #'
 #' @param .data A table of data
 #' @inheritParams tidyselect::vars_pull
+#' @param namevar An optional parameter that specifies the column to be used
+#'   as names for a named vector. Specified in a similar manner as \code{var}.
 #' @export
 #' @examples
 #' mtcars %>% pull(-1)
@@ -19,13 +21,20 @@
 #'   pull()
 #' }
 #'
-pull <- function(.data, var = -1) {
+#' # Pull a named vector
+#' starwars %>% pull(height, name)
+#'
+pull <- function(.data, var = -1, namevar) {
   UseMethod("pull")
 }
 #' @export
-pull.data.frame <- function(.data, var = -1) {
+pull.data.frame <- function(.data, var = -1, namevar) {
   var <- tidyselect::vars_pull(names(.data), !!enquo(var))
-  .data[[var]]
+  if (missing(namevar)) {
+    return(.data[[var]])
+  }
+  namevar <- tidyselect::vars_pull(names(.data), !!enquo(namevar))
+  rlang::set_names(.data[[var]], nm = .data[[namevar]])
 }
 
 # FIXME: remove this once dbplyr uses vars_pull()
