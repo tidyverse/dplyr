@@ -6,7 +6,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Prepare for grouping. — group_by_prepare • dplyr</title>
+<title>Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
+vars (character vector) comes out. — distinct_prepare • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -29,11 +30,12 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
-<meta property="og:title" content="Prepare for grouping. — group_by_prepare" />
+<meta property="og:title" content="Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
+vars (character vector) comes out. — distinct_prepare" />
 
-<meta property="og:description" content="Performs standard operations that should happen before individual methods
-process the data. This includes mutating the tbl to add new grouping columns
-and updating the groups (based on add)" />
+<meta property="og:description" content="*_prepare() performs standard manipulation that is needed prior
+to actual data processing. They are only be needed by packages
+that implement dplyr backends." />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -139,20 +141,24 @@ and updating the groups (based on add)" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Prepare for grouping.</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/group-by.r'><code>R/group-by.r</code></a></small>
+    <h1>Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
+vars (character vector) comes out.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/distinct.R'><code>R/distinct.R</code></a>, <a href='https://github.com/tidyverse/dplyr/blob/master/R/group-by.r'><code>R/group-by.r</code></a></small>
     <div class="hidden name"><code>group_by_prepare.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Performs standard operations that should happen before individual methods
-process the data. This includes mutating the tbl to add new grouping columns
-and updating the groups (based on add)</p>
+    <p><code>*_prepare()</code> performs standard manipulation that is needed prior
+to actual data processing. They are only be needed by packages
+that implement dplyr backends.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>group_by_prepare</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>distinct_prepare</span>(<span class='no'>.data</span>, <span class='no'>vars</span>, <span class='kw'>group_vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/character'>character</a></span>(),
+  <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='fu'>group_by_prepare</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>.dots</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
         
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
