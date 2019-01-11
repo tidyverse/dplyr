@@ -75,7 +75,7 @@ be used to iterate on grouped tibbles." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
         </div>
       </div>
     </div>
@@ -190,9 +190,7 @@ that identifies the group</p></li>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <pre>\Sexpr[results=rd, stage=render]{mypkg:::lifecycle("experimental")}
-</pre>
-<ul>
+    <p><a href='https://www.tidyverse.org/lifecycle/#experimental'><img src='figures/lifecycle-experimental.svg' alt='Experimental lifecycle'></a></p><ul>
 <li><p>Use <code>group_map()</code> when <code><a href='summarise.html'>summarize()</a></code> is too limited, in terms of what you need
 to do and return for each group. <code>group_map()</code> is good for "data frame in, data frame out".
 If that is too limited, you need to use a <a href='group_nest.html'>nested</a> or <a href='group_split.html'>split</a> workflow.</p></li>
@@ -248,7 +246,7 @@ column, consistently with <code><a href='group_split.html'>group_keys()</a></cod
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>group_map</span>(~ {
      <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></span>(<span class='no'>.x</span>$<span class='no'>Petal.Length</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)) <span class='kw'>%&gt;%</span>
-     <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/tibble/topics/enframe'>enframe</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"prob"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"quantile"</span>)
+     <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/enframe.html'>enframe</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"prob"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"quantile"</span>)
   })</div><div class='output co'>#&gt; # A tibble: 9 x 3
 #&gt; # Groups:   Species [3]
 #&gt;   Species    prob  quantile

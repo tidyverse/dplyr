@@ -41,7 +41,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
         </div>
       </div>
     </div>
@@ -119,7 +119,7 @@
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(Lahman)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb1-3" data-line-number="3">batting &lt;-<span class="st"> </span>Lahman<span class="op">::</span>Batting <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://www.rdocumentation.org/packages/tibble/topics/as_tibble">as_tibble</a></span>() <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble</a></span>() <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(playerID, yearID, teamID, G, AB<span class="op">:</span>H) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-6" data-line-number="6"><span class="st">  </span><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(playerID, yearID, teamID) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb1-7" data-line-number="7"><span class="st">  </span><span class="kw"><a href="../reference/join.html">semi_join</a></span>(Lahman<span class="op">::</span>AwardsPlayers, <span class="dt">by =</span> <span class="st">"playerID"</span>)</a>

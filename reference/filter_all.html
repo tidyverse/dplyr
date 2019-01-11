@@ -77,7 +77,7 @@ with all_vars() or any_vars() and should mention the pronoun
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
         </div>
       </div>
     </div>
@@ -182,7 +182,7 @@ is preserved, otherwise it is recalculated based on the resulting data.</p></td>
       <td><p>A predicate function to be applied to the columns
 or a logical vector. The variables for which <code>.predicate</code> is or
 returns <code>TRUE</code> are selected. This argument is passed to
-<code><a href='https://www.rdocumentation.org/packages/rlang/topics/as_function'>rlang::as_function()</a></code> and thus supports quosure-style lambda
+<code><a href='https://rlang.r-lib.org/reference/as_function.html'>rlang::as_function()</a></code> and thus supports quosure-style lambda
 functions and strings representing function names.</p></td>
     </tr>
     <tr>
@@ -208,10 +208,10 @@ into account to determine filtered rows.</p>
 <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate intersection&gt;
 #&gt; &lt;quosure&gt;
 #&gt; expr: ^is.na(.)
-#&gt; env:  0xdb8d420</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
+#&gt; env:  0x7a4bf40</div><div class='input'><span class='fu'><a href='all_vars.html'>any_vars</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/NA'>is.na</a></span>(<span class='no'>.</span>))</div><div class='output co'>#&gt; &lt;predicate union&gt;
 #&gt; &lt;quosure&gt;
 #&gt; expr: ^is.na(.)
-#&gt; env:  0xdb8d420</div><div class='input'>
+#&gt; env:  0x7a4bf40</div><div class='input'>
 
 <span class='co'># You can take the intersection of the replicated expressions:</span>
 <span class='fu'>filter_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='all_vars.html'>all_vars</a></span>(<span class='no'>.</span> <span class='kw'>&gt;</span> <span class='fl'>150</span>))</div><div class='output co'>#&gt;  [1] mpg  cyl  disp hp   drat wt   qsec vs   am   gear carb

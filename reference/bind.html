@@ -76,7 +76,7 @@ data frames into one." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
         </div>
       </div>
     </div>
@@ -286,7 +286,7 @@ appears in any of the inputs.</p>
 <span class='co'># You can mix vectors and data frames:</span>
 <span class='fu'>bind_rows</span>(
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>2</span>),
-  <span class='fu'><a href='https://www.rdocumentation.org/packages/tibble/topics/deprecated'>data_frame</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>:<span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>6</span>),
+  <span class='fu'><a href='https://tibble.tidyverse.org/reference/deprecated.html'>data_frame</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>3</span>:<span class='fl'>4</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>5</span>:<span class='fl'>6</span>),
   <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='fl'>7</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='fl'>8</span>)
 )</div><div class='output co'>#&gt; <span class='warning'>Warning: `data_frame()` is deprecated, use `tibble()`.</span>
 #&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; # A tibble: 4 x 2

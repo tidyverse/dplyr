@@ -76,7 +76,7 @@ dropped." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
         </div>
       </div>
     </div>
@@ -167,9 +167,9 @@ for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://www.
       <td><p>Logical predicates defined in terms of the variables in <code>.data</code>.
 Multiple conditions are combined with <code>&amp;</code>. Only rows where the
 condition evaluates to <code>TRUE</code> are kept.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://www.rdocumentation.org/packages/rlang/topics/quotation'>quoted</a> and
-<a href='https://www.rdocumentation.org/packages/rlang/topics/eval_tidy'>evaluated</a> in the context of the data
-frame. They support <a href='https://www.rdocumentation.org/packages/rlang/topics/quasiquotation'>unquoting</a> and
+<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and
+<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
+frame. They support <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a> and
 splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
 these concepts.</p></td>
     </tr>
@@ -221,7 +221,7 @@ the tibble by groups for performance reasons.</p>
 
     
     <p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://www.rdocumentation.org/packages/tibble/topics/rownames'>tibble::rownames_to_column()</a></code>.</p>
+convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
     
     <h2 class="hasAnchor" id="scoped-filtering"><a class="anchor" href="#scoped-filtering"></a>Scoped filtering</h2>
 

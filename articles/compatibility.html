@@ -41,7 +41,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
         </div>
       </div>
     </div>
@@ -187,14 +187,14 @@
 <a class="sourceLine" id="cb7-7" data-line-number="7"><span class="co">#&gt; expr: ^mean(cyl)</span></a>
 <a class="sourceLine" id="cb7-8" data-line-number="8"><span class="co">#&gt; env:  global</span></a>
 <a class="sourceLine" id="cb7-9" data-line-number="9"></a>
-<a class="sourceLine" id="cb7-10" data-line-number="10">rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/as_quosure">as_quosure</a></span>(sym)</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/as_quosure.html">as_quosure</a></span>(sym)</a>
 <a class="sourceLine" id="cb7-11" data-line-number="11"><span class="co">#&gt; Warning: `as_quosure()` requires an explicit environment as of rlang 0.3.0.</span></a>
 <a class="sourceLine" id="cb7-12" data-line-number="12"><span class="co">#&gt; Please supply `env`.</span></a>
 <a class="sourceLine" id="cb7-13" data-line-number="13"><span class="co">#&gt; This warning is displayed once per session.</span></a>
 <a class="sourceLine" id="cb7-14" data-line-number="14"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb7-15" data-line-number="15"><span class="co">#&gt; expr: ^cyl</span></a>
 <a class="sourceLine" id="cb7-16" data-line-number="16"><span class="co">#&gt; env:  global</span></a>
-<a class="sourceLine" id="cb7-17" data-line-number="17">rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/as_quosure">as_quosure</a></span>(call)</a>
+<a class="sourceLine" id="cb7-17" data-line-number="17">rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/as_quosure.html">as_quosure</a></span>(call)</a>
 <a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb7-19" data-line-number="19"><span class="co">#&gt; expr: ^mean(cyl)</span></a>
 <a class="sourceLine" id="cb7-20" data-line-number="20"><span class="co">#&gt; env:  global</span></a></code></pre></div>
@@ -202,14 +202,14 @@
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="er">~</span>cyl</a>
 <a class="sourceLine" id="cb8-2" data-line-number="2">f</a>
 <a class="sourceLine" id="cb8-3" data-line-number="3"><span class="co">#&gt; ~cyl</span></a>
-<a class="sourceLine" id="cb8-4" data-line-number="4">rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/as_quosure">as_quosure</a></span>(f)</a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/as_quosure.html">as_quosure</a></span>(f)</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb8-6" data-line-number="6"><span class="co">#&gt; expr: ^cyl</span></a>
 <a class="sourceLine" id="cb8-7" data-line-number="7"><span class="co">#&gt; env:  global</span></a></code></pre></div>
 <p>Finally, and perhaps most importantly, <strong>strings are not and should not be parsed</strong>. As developers, it is tempting to try and solve problems using strings because we have been trained to work with strings rather than quoted expressions. However it’s almost always the wrong way to approach the problem. The exception is for creating symbols. In that case it is perfectly legitimate to use strings:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/sym">sym</a></span>(<span class="st">"cyl"</span>)</a>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1">rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/sym.html">sym</a></span>(<span class="st">"cyl"</span>)</a>
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="co">#&gt; cyl</span></a>
-<a class="sourceLine" id="cb9-3" data-line-number="3">rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/sym">syms</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/sym.html">syms</a></span>(letters[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>])</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; [[1]]</span></a>
 <a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt; a</span></a>
 <a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; </span></a>
@@ -219,37 +219,37 @@
 <a class="sourceLine" id="cb9-10" data-line-number="10"><span class="co">#&gt; [[3]]</span></a>
 <a class="sourceLine" id="cb9-11" data-line-number="11"><span class="co">#&gt; c</span></a></code></pre></div>
 <p>But you should never use strings to create calls. Instead you can use quasiquotation:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">syms &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/sym">syms</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"foo"</span>, <span class="st">"bar"</span>, <span class="st">"baz"</span>))</a>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">syms &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/sym.html">syms</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"foo"</span>, <span class="st">"bar"</span>, <span class="st">"baz"</span>))</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="kw">my_call</span>(<span class="op">!!!</span><span class="st"> </span>syms))</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt; expr: ^my_call(foo, bar, baz)</span></a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; env:  global</span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7">fun &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/sym">sym</a></span>(<span class="st">"my_call"</span>)</a>
+<a class="sourceLine" id="cb10-7" data-line-number="7">fun &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/sym.html">sym</a></span>(<span class="st">"my_call"</span>)</a>
 <a class="sourceLine" id="cb10-8" data-line-number="8"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>((<span class="op">!!</span>fun)(<span class="op">!!!</span><span class="st"> </span>syms))</a>
 <a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; expr: ^my_call(foo, bar, baz)</span></a>
 <a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; env:  global</span></a></code></pre></div>
 <p>Or create the call with <code>call2()</code>:</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">call &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/call2">call2</a></span>(<span class="st">"my_call"</span>, <span class="op">!!!</span><span class="st"> </span>syms)</a>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">call &lt;-<span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/call2.html">call2</a></span>(<span class="st">"my_call"</span>, <span class="op">!!!</span><span class="st"> </span>syms)</a>
 <a class="sourceLine" id="cb11-2" data-line-number="2">call</a>
 <a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; my_call(foo, bar, baz)</span></a>
 <a class="sourceLine" id="cb11-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb11-5" data-line-number="5">rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/as_quosure">as_quosure</a></span>(call)</a>
+<a class="sourceLine" id="cb11-5" data-line-number="5">rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/as_quosure.html">as_quosure</a></span>(call)</a>
 <a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; expr: ^my_call(foo, bar, baz)</span></a>
 <a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; env:  global</span></a>
 <a class="sourceLine" id="cb11-9" data-line-number="9"></a>
 <a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co"># Or equivalently:</span></a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="op">!!</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/call2">call2</a></span>(<span class="st">"my_call"</span>, <span class="op">!!!</span><span class="st"> </span>syms))</a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="op">!!</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/call2.html">call2</a></span>(<span class="st">"my_call"</span>, <span class="op">!!!</span><span class="st"> </span>syms))</a>
 <a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; expr: ^my_call(foo, bar, baz)</span></a>
 <a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; env:  global</span></a></code></pre></div>
 <p>Note that idioms based on <code>interp()</code> should now generally be avoided and replaced with quasiquotation. Where you used to interpolate:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">lazyeval<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lazyeval/topics/interp">interp</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(var), <span class="dt">var =</span> rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/sym">sym</a></span>(<span class="st">"mpg"</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">lazyeval<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/lazyeval/topics/interp">interp</a></span>(<span class="op">~</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(var), <span class="dt">var =</span> rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/sym.html">sym</a></span>(<span class="st">"mpg"</span>))</a></code></pre></div>
 <p>You would now unquote:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">var &lt;-<span class="st"> "mpg"</span></a>
-<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="op">!!</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/rlang/topics/sym">sym</a></span>(var)))</a></code></pre></div>
+<a class="sourceLine" id="cb13-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="op">!!</span><span class="st"> </span>rlang<span class="op">::</span><span class="kw"><a href="https://rlang.r-lib.org/reference/sym.html">sym</a></span>(var)))</a></code></pre></div>
 <p>See also <code><a href="../articles/programming.html">vignette("programming")</a></code> for more about quasiquotation and quosures.</p>
 </div>
 <div id="for-package-authors" class="section level4">

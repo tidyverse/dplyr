@@ -74,7 +74,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0.9000</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
         </div>
       </div>
     </div>
@@ -183,11 +183,19 @@ grouped data frames only.</p></td>
     <p>The sort order for character vectors will depend on the collating sequence
 of the locale in use: see <code><a href='https://www.rdocumentation.org/packages/base/topics/locales'>locales()</a></code>.</p>
     
+    <h2 class="hasAnchor" id="missing-values"><a class="anchor" href="#missing-values"></a>Missing values</h2>
+
+    
+    <p>Unlike base sorting with <code><a href='https://www.rdocumentation.org/packages/base/topics/sort'>sort()</a></code>, <code>NA</code> are:</p><ul>
+<li><p>always sorted to the end for local data, even when wrapped with <code><a href='desc.html'>desc()</a></code>.</p></li>
+<li><p>treated differently for remote data, depending on the backend.</p></li>
+</ul>
+    
     <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
 
     
     <p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://www.rdocumentation.org/packages/tibble/topics/rownames'>tibble::rownames_to_column()</a></code>.</p>
+convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -303,6 +311,8 @@ convert to an explicit variable with <code><a href='https://www.rdocumentation.o
       <li><a href="#value">Value</a></li>
 
       <li><a href="#locales">Locales</a></li>
+
+      <li><a href="#missing-values">Missing values</a></li>
 
       <li><a href="#tidy-data">Tidy data</a></li>
 
