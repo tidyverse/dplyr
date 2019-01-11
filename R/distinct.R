@@ -77,7 +77,7 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
 #' Same basic philosophy as group_by: lazy_dots comes in, list of data and
 #' vars (character vector) comes out.
 #' @noRd
-distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
+distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables
