@@ -38,7 +38,7 @@ public:
   {
     nrows = Rf_length(args[0]);
     for (int i = 0; i < n; i++) {
-      visitors[i]  = order_visitor(args[i], ascending[i], i);
+      visitors[i] = order_visitor(args[i], ascending[i], i);
     }
   }
 

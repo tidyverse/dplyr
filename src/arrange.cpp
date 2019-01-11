@@ -64,7 +64,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
         // we need a new quosure that peels off `desc` from the original
         // quosure, and uses the same environment
         Quosure quo(PROTECT(rlang::quo_set_expr(named_quosure.get(), expr)));
-        v = mask.eval(named_quosure.get(), indices_all);
+        v = mask.eval(quo, indices_all);
         UNPROTECT(1);
       } else {
         // just use the original quosure
@@ -93,6 +93,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
 
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector one_based_index = o.apply();
+
   List res = DataFrameSubsetVisitors(data, frame).subset_all(one_based_index);
 
   // let the grouping class organise the rest (the groups attribute etc ...)
