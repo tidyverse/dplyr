@@ -74,9 +74,10 @@ distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
   UseMethod("distinct_")
 }
 
-#' Same basic philosophy as group_by: lazy_dots comes in, list of data and
+#' Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
 #' vars (character vector) comes out.
-#' @noRd
+#' @rdname group_by_prepare
+#' @export
 distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 

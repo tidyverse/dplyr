@@ -119,9 +119,12 @@ ungroup <- function(x, ...) {
 
 #' Prepare for grouping.
 #'
-#' Performs standard operations that should happen before individual methods
-#' process the data. This includes mutating the tbl to add new grouping columns
+#' `group_by_prepare()` performs standard operations that should
+#' happen before individual methods process the data. This includes
+#' mutating the tbl to add new grouping columns
 #' and updating the groups (based on add)
+#'
+#' `distinct_prepare()` is similar, but in preparation of a [distinct()].
 #'
 #' @return A list
 #'   \item{data}{Modified tbl}
