@@ -18,7 +18,8 @@
   - `filter()` and `slice()` have gained `.preserve`
 
 * Code that assumes that there are no empty groups might fail, because of the 
-  new grouping algorithm described below. 
+  new grouping algorithm described below. If you don't want empty groups, you 
+  can use `group_by(.drop = TRUE)` to drop them. 
   
 * `Error: `.data` is a corrupt grouped_df, ...`  signals code that makes 
   wrong assumptions about the internals of a grouped data frame. 
@@ -96,6 +97,17 @@
     df %>% group_by(f, x)
     df %>% group_by(x, f)
     ```
+    
+  This can be turned off with the `.drop` argument to have the same result
+  as previous versions of `dplyr`
+  
+  ```r
+  tibble(
+      x = 1:2, 
+      f = factor(c("a", "b"), levels = c("a", "b", "c"))
+    ) %>% 
+      group_by(f, .drop = TRUE)
+  ```
 
 * `filter()` and `slice()` gain a `.preserve` argument to control which groups it should keep. The default 
   `filter(.preserve = FALSE)` recalculates the grouping structure based on the resulting data, 
