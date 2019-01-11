@@ -17,12 +17,8 @@ A list
 \item{groups}{Modified groups}
 }
 \description{
-\code{group_by_prepare()} performs standard operations that should
-happen before individual methods process the data. This includes
-mutating the tbl to add new grouping columns
-and updating the groups (based on add)
-}
-\details{
-\code{distinct_prepare()} is similar, but in preparation of a \code{\link[=distinct]{distinct()}}.
+\code{*_prepare()} performs standard manipulation that is needed prior
+to actual data processing. They are only be needed by packages
+that implement dplyr backends.
 }
 \keyword{internal}
