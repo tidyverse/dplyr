@@ -186,6 +186,15 @@ test_that("arrange.data.frame recognizes the .by_group argument (#3546)", {
   expect_identical(res, df)
 })
 
+test_that("desc(<not just a symbol>) works (#4099)", {
+  df <- data.frame(x = rep(1, 5), y = c(0, 3, 1.5, -5, 4)) %>%
+    mutate(diff = x - y, absdiff = abs(x - y))
+  expect_identical(
+    arrange(df, desc(abs(diff))),
+    arrange(df, desc(absdiff))
+  )
+})
+
 # grouped_df --------------------------------------------------------------
 
 test_that("can choose to include grouping vars", {
