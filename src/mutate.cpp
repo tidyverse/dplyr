@@ -491,7 +491,8 @@ SEXP mutate_impl(DataFrame df, QuosureList dots) {
   } else if (is<GroupedDataFrame>(df)) {
 
     GroupedDataFrame gdf(df);
-    if (gdf.ngroups() == 0) {
+    // special case when there are no groups or only empty groups
+    if (gdf.ngroups() == 0 || gdf.nrows() == 0) {
       DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots);
       res.attr("groups") = df.attr("groups");
       return res;
