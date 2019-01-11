@@ -246,7 +246,7 @@ column, consistently with <code><a href='group_split.html'>group_keys()</a></cod
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>group_map</span>(~ {
      <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/quantile'>quantile</a></span>(<span class='no'>.x</span>$<span class='no'>Petal.Length</span>, <span class='kw'>probs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>0.25</span>, <span class='fl'>0.5</span>, <span class='fl'>0.75</span>)) <span class='kw'>%&gt;%</span>
-     <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://www.rdocumentation.org/packages/tibble/topics/enframe'>enframe</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"prob"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"quantile"</span>)
+     <span class='kw pkg'>tibble</span><span class='kw ns'>::</span><span class='fu'><a href='https://tibble.tidyverse.org/reference/enframe.html'>enframe</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"prob"</span>, <span class='kw'>value</span> <span class='kw'>=</span> <span class='st'>"quantile"</span>)
   })</div><div class='output co'>#&gt; # A tibble: 9 x 3
 #&gt; # Groups:   Species [3]
 #&gt;   Species    prob  quantile

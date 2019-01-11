@@ -232,7 +232,7 @@ selection of variables.</p>
 
     
     <p>When applied to a data frame, row names are silently dropped. To preserve,
-convert to an explicit variable with <code><a href='https://www.rdocumentation.org/packages/tibble/topics/rownames'>tibble::rownames_to_column()</a></code>.</p>
+convert to an explicit variable with <code><a href='https://tibble.tidyverse.org/reference/rownames.html'>tibble::rownames_to_column()</a></code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -243,7 +243,7 @@ convert to an explicit variable with <code><a href='https://www.rdocumentation.o
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Newly created variables are available immediately</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
   <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>,
   <span class='kw'>cyl4</span> <span class='kw'>=</span> <span class='no'>cyl2</span> * <span class='fl'>2</span>
 )</div><div class='output co'>#&gt; # A tibble: 32 x 13
@@ -262,7 +262,7 @@ convert to an explicit variable with <code><a href='https://www.rdocumentation.o
 #&gt; # … with 22 more rows</div><div class='input'>
 <span class='co'># You can also use mutate() to remove variables and</span>
 <span class='co'># modify existing variables</span>
-<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/tibble/topics/as_tibble'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>() <span class='kw'>%&gt;%</span> <span class='fu'>mutate</span>(
   <span class='kw'>mpg</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>disp</span> <span class='kw'>=</span> <span class='no'>disp</span> * <span class='fl'>0.0163871</span> <span class='co'># convert to litres</span>
 )</div><div class='output co'>#&gt; # A tibble: 32 x 10
