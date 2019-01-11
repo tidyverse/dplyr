@@ -30,56 +30,13 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
   return value;
 }
 
-template <int RTYPE>
-class ExtractVectorVisitor {
-public:
-  typedef typename Rcpp::Vector<RTYPE> Vec;
-
-  ExtractVectorVisitor(SEXP origin_) :
-    origin(origin_)
-  {}
-
-  virtual SEXP extract(const std::vector<IntegerVector>& new_indices) {
-    int n = new_indices.size();
-    Vec out(no_init(n));
-    copy_most_attributes(out, origin);
-    for (int i = 0; i < n; i++) {
-      int new_index = new_indices[i][0];
-      out[i] = origin[new_index - 1];
-    }
-    return out ;
-  }
-
-private:
-  Vec origin;
-};
-
-inline SEXP extract_visit(SEXP origin, const std::vector<IntegerVector>& new_indices) {
-  switch (TYPEOF(origin)) {
-  case INTSXP:
-    return ExtractVectorVisitor<INTSXP>(origin).extract(new_indices);
-  case REALSXP:
-    return ExtractVectorVisitor<REALSXP>(origin).extract(new_indices);
-  case LGLSXP:
-    return ExtractVectorVisitor<LGLSXP>(origin).extract(new_indices);
-  case STRSXP:
-    return ExtractVectorVisitor<STRSXP>(origin).extract(new_indices);
-  case RAWSXP:
-    return ExtractVectorVisitor<RAWSXP>(origin).extract(new_indices);
-  case CPLXSXP:
-    return ExtractVectorVisitor<CPLXSXP>(origin).extract(new_indices);
-  }
-
-  return R_NilValue;
-}
-
-SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVector>& new_indices) {
+SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, const IntegerVector& firsts, SEXP frame) {
   int nv = old_groups.size() - 1 ;
   List out(nv);
   CharacterVector names(nv);
   CharacterVector old_names(old_groups.names());
   for (int i = 0; i < nv - 1; i++) {
-    out[i] = extract_visit(old_groups[i], new_indices);
+    out[i] = column_subset(old_groups[i], firsts, frame);
     names[i] = old_names[i];
   }
   out[nv - 1] = new_indices;
@@ -92,12 +49,12 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVe
 }
 
 template <typename SlicedTibble>
-void structure_summarise(List& out, const SlicedTibble& df) {
+void structure_summarise(List& out, const SlicedTibble& df, SEXP frame) {
   set_class(out, NaturalDataFrame::classes());
 }
 
 template <>
-void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gdf) {
+void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gdf, SEXP frame) {
   const DataFrame& df = gdf.data();
 
   if (gdf.nvars() > 1) {
@@ -108,18 +65,44 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
     DataFrame old_groups = gdf.group_data();
     int nv = gdf.nvars() - 1;
     DataFrameVisitors visitors(old_groups, nv) ;
-
-    // collect the new indices
-    std::vector<IntegerVector> new_indices;
     int old_nrows = old_groups.nrow();
+
+    // the number of new groups
+    int ngroups = 0;
+
+    // sizes of each new group, there are at most old_nrows groups
+    std::vector<int> sizes(old_nrows);
+
     for (int i = 0; i < old_nrows;) {
-      int start = i;
+      // go through one old group
+      int start = i++;
       while (i < old_nrows && visitors.equal(start, i)) i++ ;
-      new_indices.push_back(seq(start + 1, i));
+
+      sizes[ngroups++] = i - start;
+    }
+
+    // collect the new indices, now that we know the size
+    List new_indices(ngroups);
+
+    // the first index of each group
+    IntegerVector firsts(no_init(ngroups));
+
+    int start = 0;
+    for (int i = 0; i < ngroups; i++) {
+      firsts[i] = start + 1;
+
+      int n = sizes[i];
+      if (n) {
+        new_indices[i] = IntegerVectorView(seq(start + 1, start + n));
+      } else {
+        new_indices[i] = IntegerVectorView(0);
+      }
+
+      start += sizes[i];
     }
 
     // groups
-    DataFrame groups = reconstruct_groups(old_groups, new_indices);
+    DataFrame groups = reconstruct_groups(old_groups, new_indices, firsts, frame);
     GroupedDataFrame::set_groups(out, groups);
   } else {
     // clear groups and reset to non grouped classes
@@ -129,7 +112,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
 }
 
 template <typename SlicedTibble>
-DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP frame) {
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
@@ -189,19 +172,19 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
   int nr = gdf.ngroups();
   set_rownames(out, nr);
-  structure_summarise<SlicedTibble>(out, gdf) ;
+  structure_summarise<SlicedTibble>(out, gdf, frame) ;
   return out;
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, QuosureList dots) {
+SEXP summarise_impl(DataFrame df, QuosureList dots, SEXP frame) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame>(df, dots);
+    return summarise_grouped<RowwiseDataFrame>(df, dots, frame);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame>(df, dots);
+    return summarise_grouped<GroupedDataFrame>(df, dots, frame);
   } else {
-    return summarise_grouped<NaturalDataFrame>(df, dots);
+    return summarise_grouped<NaturalDataFrame>(df, dots, frame);
   }
 }
 

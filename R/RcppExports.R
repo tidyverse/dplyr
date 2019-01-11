@@ -184,8 +184,8 @@ setdiff_data_frame <- function(x, y) {
     .Call(`_dplyr_setdiff_data_frame`, x, y)
 }
 
-summarise_impl <- function(df, dots) {
-    .Call(`_dplyr_summarise_impl`, df, dots)
+summarise_impl <- function(df, dots, frame) {
+    .Call(`_dplyr_summarise_impl`, df, dots, frame)
 }
 
 hybrid_impl <- function(df, quosure) {
