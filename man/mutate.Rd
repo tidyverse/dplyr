@@ -70,6 +70,8 @@ latter normalises by the averages within gender levels.
 
 Note that you can't overwrite a grouping variable within
 \code{mutate()}.
+
+\code{mutate()} does not evaluate the expressions when the group is empty.
 }
 
 \section{Scoped mutation and transmutation}{

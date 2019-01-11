@@ -163,8 +163,14 @@ private:
     const int ng = data.ngroups();
 
     typename SlicedTibble::group_iterator git = data.group_begin();
-    typename SlicedTibble::slicing_index indices = *git;
 
+    int i = 0;
+    while (!(*git).size()) {
+      ++git;
+      i++;
+    }
+
+    typename SlicedTibble::slicing_index indices = *git;
     RObject first(get(indices));
 
     if (Rf_inherits(first, "POSIXlt")) {
@@ -174,8 +180,6 @@ private:
     if (Rf_inherits(first, "data.frame")) {
       bad_col(name, "is of unsupported class data.frame");
     }
-
-    int i = 0;
 
     if (Rf_isNull(first)) {
       while (Rf_isNull(first)) {
@@ -271,8 +275,10 @@ public:
     i++;
     for (; i < ngroups; i++, ++git) {
       const Index& indices = *git;
-      Shield<SEXP> subset(proxy.get(indices));
-      grab(subset, indices);
+      if (indices.size()) {
+        Shield<SEXP> subset(proxy.get(indices));
+        grab(subset, indices);
+      }
     }
     return coll->get();
   }
@@ -364,8 +370,10 @@ public:
     i++;
     for (; i < ngroups; i++, ++git) {
       const Index& indices = *git;
-      List subset(proxy.get(indices));
-      grab(subset, indices);
+      if (indices.size()) {
+        List subset(proxy.get(indices));
+        grab(subset, indices);
+      }
     }
     return data;
   }
@@ -487,7 +495,8 @@ SEXP mutate_impl(DataFrame df, QuosureList dots) {
   } else if (is<GroupedDataFrame>(df)) {
 
     GroupedDataFrame gdf(df);
-    if (gdf.ngroups() == 0) {
+    // special case when there are no groups or only empty groups
+    if (gdf.ngroups() == 0 || gdf.nrows() == 0) {
       DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots);
       res.attr("groups") = df.attr("groups");
       return res;

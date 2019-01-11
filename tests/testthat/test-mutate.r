@@ -883,3 +883,23 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
 test_that("mutate() does not segfault when setting an unknown column to NULL (#4035)", {
   expect_true(all_equal(mutate(mtcars, dummy = NULL), mtcars))
 })
+
+test_that("mutate() skips evaluation of R expression for empty groups (#4088)", {
+  count <- 0
+
+  d <- tibble(f = factor(c("a", "b"), levels = c("a", "b", "c"))) %>%
+    group_by(f)
+  res <- mutate(d, x = { count <<- count + 1; 675} )
+  expect_equal(count, 2L)
+
+  d <- tibble(f = factor(c("c"), levels = c("a", "b", "c"))) %>%
+    group_by(f)
+  res <- mutate(d, x = { count <<- count + 1; 675} )
+  expect_equal(count, 3L)
+
+  res <- tibble(f = factor(levels = c("a", "b", "c"))) %>%
+    group_by(f) %>%
+    mutate(x = { count <<- count + 1; 675} )
+  expect_equal(count, 4L)
+  expect_is(res$x, "numeric")
+})

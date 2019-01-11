@@ -344,6 +344,8 @@ summarize_ <- summarise_
 #' Note that you can't overwrite a grouping variable within
 #' `mutate()`.
 #'
+#' `mutate()` does not evaluate the expressions when the group is empty.
+#'
 #' @section Scoped mutation and transmutation:
 #'
 #' The three [scoped] variants of `mutate()` ([mutate_all()],
