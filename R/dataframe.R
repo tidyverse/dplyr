@@ -210,7 +210,7 @@ reconstruct_set <- function(out, x) {
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, quos(...), .keep_all = .keep_all)
+  dist <- distinct_prepare(.data, quos(...), .keep_all = .keep_all)
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
   distinct_impl(dist$data, vars, keep, environment())

@@ -349,7 +349,7 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 
 #' @export
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(
+  dist <- distinct_prepare(
     .data,
     vars = quos(...),
     group_vars = group_vars(.data),

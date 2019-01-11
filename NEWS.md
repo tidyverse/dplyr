@@ -76,6 +76,9 @@
     group_map(~ head(.x, 2L))
   ```
 
+* `distinct_prepare()`, previously known as `distinct_vars()` is exported. This is mostly useful for
+  alternative backends (e.g. `dbplyr`). 
+
 ## Major changes
 
 * `group_by()` respects levels of factors and keeps empty groups (#341). 

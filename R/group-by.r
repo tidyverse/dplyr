@@ -119,9 +119,9 @@ ungroup <- function(x, ...) {
 
 #' Prepare for grouping.
 #'
-#' Performs standard operations that should happen before individual methods
-#' process the data. This includes mutating the tbl to add new grouping columns
-#' and updating the groups (based on add)
+#' `*_prepare()` performs standard manipulation that is needed prior
+#' to actual data processing. They are only be needed by packages
+#' that implement dplyr backends.
 #'
 #' @return A list
 #'   \item{data}{Modified tbl}
