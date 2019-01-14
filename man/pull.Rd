@@ -4,7 +4,7 @@
 \alias{pull}
 \title{Pull out a single variable}
 \usage{
-pull(.data, var = -1, namevar)
+pull(.data, var = -1, namevar = NULL)
 }
 \arguments{
 \item{.data}{A table of data}

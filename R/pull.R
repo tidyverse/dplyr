@@ -24,16 +24,17 @@
 #' # Pull a named vector
 #' starwars %>% pull(height, name)
 #'
-pull <- function(.data, var = -1, namevar) {
+pull <- function(.data, var = -1, namevar = NULL) {
   UseMethod("pull")
 }
 #' @export
-pull.data.frame <- function(.data, var = -1, namevar) {
+pull.data.frame <- function(.data, var = -1, namevar = NULL) {
   var <- tidyselect::vars_pull(names(.data), !!enquo(var))
-  if (missing(namevar)) {
+  namevar <- enquo(namevar)
+  if (quo_is_null(namevar)) {
     return(.data[[var]])
   }
-  namevar <- tidyselect::vars_pull(names(.data), !!enquo(namevar))
+  namevar <- tidyselect::vars_pull(names(.data), !!namevar)
   rlang::set_names(.data[[var]], nm = .data[[namevar]])
 }
 
