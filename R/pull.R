@@ -35,7 +35,7 @@ pull.data.frame <- function(.data, var = -1, name = NULL) {
     return(.data[[var]])
   }
   name <- tidyselect::vars_pull(names(.data), !!name)
-  rlang::set_names(.data[[var]], nm = .data[[name]])
+  set_names(.data[[var]], nm = .data[[name]])
 }
 
 # FIXME: remove this once dbplyr uses vars_pull()
