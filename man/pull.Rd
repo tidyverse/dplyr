@@ -4,7 +4,7 @@
 \alias{pull}
 \title{Pull out a single variable}
 \usage{
-pull(.data, var = -1, namevar = NULL)
+pull(.data, var = -1, name = NULL)
 }
 \arguments{
 \item{.data}{A table of data}
@@ -23,7 +23,7 @@ This argument is taken by expression and supports
 \link[rlang:quasiquotation]{quasiquotation} (you can unquote column
 names and column positions).}
 
-\item{namevar}{An optional parameter that specifies the column to be used
+\item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
 }
 \description{
