@@ -1114,4 +1114,7 @@ test_that("hybrid sum(), mean() treats NA and NaN differently (#4108)", {
   res <- data.frame(x = c(1, NaN)) %>%
     summarise(sum = sum(x), mean = mean(x), max = max(x), min = min(x))
   expect_true(is.nan(res$sum))
+  expect_true(is.nan(res$mean))
+  expect_true(is.nan(res$max))
+  expect_true(is.nan(res$min))
 })
