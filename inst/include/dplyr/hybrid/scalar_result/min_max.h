@@ -29,7 +29,7 @@ public:
     for (int i = 0; i < n; ++i) {
       STORAGE current = column[indices[i]];
 
-      if (Rcpp::Vector<RTYPE>::is_na(current)) {
+      if (R_IsNA(current)) {
         if (NA_RM)
           continue;
         else

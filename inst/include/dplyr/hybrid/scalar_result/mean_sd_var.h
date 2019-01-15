@@ -97,7 +97,7 @@ struct MeanImpl {
       //
       // INTSXP, LGLSXP: no shortcut, need to test
       if (NA_RM || RTYPE == INTSXP || RTYPE == LGLSXP) {
-        if (Rcpp::traits::is_na<RTYPE>(value)) {
+        if (R_IsNA(value)) {
           if (!NA_RM) {
             return NA_REAL;
           }
@@ -117,7 +117,7 @@ struct MeanImpl {
       long double t = 0.0;
       for (int i = 0; i < n; i++) {
         STORAGE value = ptr[indices[i]];
-        if (!NA_RM || ! Rcpp::traits::is_na<RTYPE>(value)) {
+        if (!NA_RM || ! R_IsNA(value)) {
           t += value - res;
         }
       }
