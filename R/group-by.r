@@ -196,6 +196,7 @@ group_vars.default <- function(x) {
   deparse_names(groups(x))
 }
 
+# does a grouped data frame drop. TRUE unless the `.drop` attribute is FALSE
 group_drops <- function(x) {
-  isTRUE(attr(group_data(x), ".drop"))
+  !identical(attr(group_data(x), ".drop"), FALSE)
 }

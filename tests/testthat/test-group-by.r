@@ -89,6 +89,9 @@ test_that("group_by handles NA in factors #341", {
     x  = 1:4
   )
   expect_warning(g <- group_by(d, f1, f2))
+  expect_equal(group_size(g), c(1L,1L,1L,1L))
+
+  expect_warning(g <- group_by(d, f1, f2, .drop = FALSE))
   expect_equal(group_size(g), c(1L,1L,1L,0L,1L))
 })
 
@@ -117,11 +120,18 @@ test_that("group_by only applies the allow list to grouping variables", {
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
 
-  res <- group_by(df, x)
+  res <- group_by(df, x, .drop = FALSE)
   expect_equal(groups(res), list(sym("x")))
   expect_identical(
     group_data(res),
     structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = FALSE)
+  )
+
+  res <- group_by(df, x)
+  expect_equal(groups(res), list(sym("x")))
+  expect_identical(
+    group_data(res),
+    structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = TRUE)
   )
 })
 
@@ -168,14 +178,15 @@ test_that("group_by only creates one group for NA (#401)", {
 })
 
 test_that("there can be 0 groups (#486)", {
-  data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
+  data <- data_frame(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
   expect_equal(map_int(group_rows(data), length), integer(0))
 })
 
 test_that("group_by works with zero-row data frames (#486)", {
-  dfg <- group_by(data.frame(a = numeric(0), b = numeric(0), g = character(0)), g)
+  df <- data.frame(a = numeric(0), b = numeric(0), g = character(0))
+  dfg <- group_by(df, g, .drop = FALSE)
   expect_equal(dim(dfg), c(0, 3))
   expect_groups(dfg, "g")
   expect_equal(group_size(dfg), integer(0))
@@ -429,8 +440,8 @@ test_that("grouped data frames remember their .drop (#4061)", {
 
   res4 <- res3 %>%
     group_by(Species)
-  expect_false(group_drops(res4))
-  expect_equal(nrow(group_data(res4)), 3L)
+  expect_true(group_drops(res4))
+  expect_equal(nrow(group_data(res4)), 1L)
 })
 
 test_that("summarise maintains the .drop attribute (#4061)", {

@@ -397,7 +397,7 @@ test_that("mutate supports difftime objects (#390)", {
 
 test_that("mutate works on zero-row grouped data frame (#596)", {
   dat <- data.frame(a = numeric(0), b = character(0))
-  res <- dat %>% group_by(b) %>% mutate(a2 = a * 2)
+  res <- dat %>% group_by(b, .drop = FALSE) %>% mutate(a2 = a * 2)
   expect_is(res$a2, "numeric")
   expect_is(res, "grouped_df")
   expect_equal(res$a2, numeric(0))
@@ -898,7 +898,7 @@ test_that("mutate() skips evaluation of R expression for empty groups (#4088)", 
   expect_equal(count, 3L)
 
   res <- tibble(f = factor(levels = c("a", "b", "c"))) %>%
-    group_by(f) %>%
+    group_by(f, .drop = FALSE) %>%
     mutate(x = { count <<- count + 1; 675} )
   expect_equal(count, 4L)
   expect_is(res$x, "numeric")

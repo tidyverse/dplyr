@@ -7,7 +7,7 @@ test_that("group_rows works for 3 most important subclasses (#3489)", {
   expect_equal(group_rows(rowwise(df)), as.list(1:4))
 })
 
-test_that("group_data returns a tidy tibble (#3489)", {
+test_that("group_data() returns a tidy tibble (#3489)", {
   df <- tibble(x = c(1,1,2,2))
 
   expect_identical(
@@ -17,7 +17,7 @@ test_that("group_data returns a tidy tibble (#3489)", {
 
   expect_identical(
     group_by(df,x) %>% group_data(),
-    structure(tibble(x := c(1,2), ".rows" := list(1:2, 3:4)), .drop = FALSE)
+    structure(tibble(x := c(1,2), ".rows" := list(1:2, 3:4)), .drop = TRUE)
   )
 
   expect_identical(
@@ -36,7 +36,7 @@ test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
   expect_identical(group_data(rowwise(df)), tibble(".rows" := list()))
   expect_identical(
     group_data(group_by(df, x)),
-    structure(tibble(x := integer(), ".rows" := list()), .drop = FALSE)
+    structure(tibble(x := integer(), ".rows" := list()), .drop = TRUE)
   )
 })
 

@@ -15,6 +15,9 @@ test_that("group_split() can discard the grouping variables with keep = FALSE", 
 test_that("group_split() respects empty groups", {
   tbl <- tibble(x = 1:4, g = factor(rep(c("a", "b"), each = 2), levels = c("a", "b", "c")))
   res <- group_split(tbl, g)
+  expect_equal(res, list(tbl[1:2,], tbl[3:4,]))
+
+  res <- group_split(tbl, g, .drop = FALSE)
   expect_equal(res, list(tbl[1:2,], tbl[3:4,], tbl[integer(), ]))
 })
 
@@ -38,8 +41,11 @@ test_that("group_split / bind_rows round trip", {
     filter(Species == "setosa")
 
   chunks <- setosa %>% group_split(Species)
-  expect_equal(length(chunks), 3L)
+  expect_equal(length(chunks), 1L)
+  expect_equal(bind_rows(chunks), setosa)
 
+  chunks <- setosa %>% group_split(Species, .drop = FALSE)
+  expect_equal(length(chunks), 3L)
   expect_equal(bind_rows(chunks), setosa)
 })
 
