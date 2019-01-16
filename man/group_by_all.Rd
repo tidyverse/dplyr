@@ -6,13 +6,13 @@
 \alias{group_by_if}
 \title{Group by a selection of variables}
 \usage{
-group_by_all(.tbl, .funs = list(), ..., .drop = FALSE)
+group_by_all(.tbl, .funs = list(), ..., .drop = group_drops(.tbl))
 
 group_by_at(.tbl, .vars, .funs = list(), ..., .add = FALSE,
-  .drop = FALSE)
+  .drop = group_drops(.tbl))
 
 group_by_if(.tbl, .predicate, .funs = list(), ..., .add = FALSE,
-  .drop = FALSE)
+  .drop = group_drops(.tbl))
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
