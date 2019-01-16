@@ -11,24 +11,6 @@ namespace hybrid {
 
 namespace internal {
 
-template <int RTYPE>
-inline bool is_really_na(typename Rcpp::Vector<RTYPE>::stored_type value) {
-  return Rcpp::traits::is_na<RTYPE>(value);
-}
-template <>
-inline bool is_really_na<REALSXP>(double value) {
-  return R_IsNA(value);
-}
-
-template <int RTYPE>
-inline bool is_nan(typename Rcpp::Vector<RTYPE>::stored_type value) {
-  return false;
-}
-template <>
-inline bool is_nan<REALSXP>(double value) {
-  return R_IsNaN(value);
-}
-
 template <int RTYPE, typename SlicedTibble, bool MINIMUM, bool NA_RM>
 class MinMax : public HybridVectorScalarResult<REALSXP, SlicedTibble, MinMax<RTYPE, SlicedTibble, MINIMUM, NA_RM> > {
 public:
