@@ -49,11 +49,11 @@ struct SumImpl<double, slicing_index, NA_RM> {
     for (int i = 0; i < n; i++) {
       double value = data_ptr[indices[i]];
 
-      if (NA_RM && Rcpp::traits::is_na<REALSXP>(value)) {
+      if (NA_RM && R_IsNA(value)) {
         continue;
       }
 
-      if (!NA_RM && Rcpp::traits::is_na<REALSXP>(value)) {
+      if (!NA_RM && R_IsNA(value)) {
         return NA_REAL;
       }
 

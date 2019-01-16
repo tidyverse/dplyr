@@ -29,13 +29,15 @@ public:
     for (int i = 0; i < n; ++i) {
       STORAGE current = column[indices[i]];
 
-      if (Rcpp::Vector<RTYPE>::is_na(current)) {
+      if (is_really_na<RTYPE>(current)) {
         if (NA_RM)
           continue;
         else
           return NA_REAL;
       }
-      else {
+      else if (is_nan<RTYPE>(current)) {
+        return current;
+      } else {
         double current_res = current;
         if (is_better(current_res, res))
           res = current_res;
