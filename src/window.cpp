@@ -7,45 +7,40 @@
 //' R's set of cumulate functions to match the aggregation functions available
 //' in most databases
 //'
+//' * `cumean()`: cumulative mean.
+//'
+//' * `cumall()`, `cumany()`: useful for finding all rows up to,
+//' or all rows after, a condition is true/false for the first/last time
+//'
 //' @param x For `cumall()` and `cumany()`, a logical vector; for
 //'   `cummean()` an integer or numeric vector
 //' @export
 //' @examples
-//' x <- c(1, 3, 5, 2, 2)
 //'
 //' # `cummean()` returns a numeric/integer vector of the same length
 //' # as the input vector.
-//' cummean(x)
-//'
 //' # `cumall()` and `cumany()` return logicals, not numerics/integers.
+//' x <- c(1, 3, 5, 2, 2)
+//' cummean(x)
 //' cumall(x)
-//' cumany(x)
-//'
 //'
 //' # An NA only affects all elements after it for `cumall()` and `cummean()`,
 //' # but NOT for `cumany()`
 //' x <- c(1, 3, 5, NA, 2, 2)
-//'
-//' # NAs in every position after the corresponding NA position in the vector.
-//' cumall(x)
 //' cummean(x)
-//'
-//' # No NAs at all!
-//' cumany(x)
+//' cumall(x)
 //'
 //' # An NA at the beginning of the vector causes all elements after to be NA.
 //' x <- c(NA, 1, 3, 5, 2, 2)
-//'
 //' cummean(x)
 //' cumall(x)
-//' cumany(x)
 //'
-//' # NULLs are thrown out.
-//' x <- c(1, 3, 5, NULL, 2, 2)
+//' # `cumall()` vs. `cumany()`
+//' # `cumall()` will return none of the rows..
+//' # `cumany()` will return all rows except the first handful.
+//' dplyr::filter(storms, cumall(wind > 26))
+//' dplyr::filter(storms, cumany(wind > 26))
 //'
-//' cummean(x)
-//' cumall(x)
-//' cumany(x)
 // [[Rcpp::export]]
 LogicalVector cumall(LogicalVector x) {
   int n = x.length();
