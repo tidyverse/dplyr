@@ -938,7 +938,7 @@ Functions related to the creation and coercion of `tbl_df`s, now live in their o
   `as_data_frame()`), data frames (trivial), and matrices (with efficient
   C++ implementation) (#876). It no longer strips subclasses.
 
-* The internals of `data_frame()` and `as_data_frame()` have been aligned,
+* The internals of `tibble()` and `as_data_frame()` have been aligned,
   so `as_data_frame()` will now automatically recycle length-1 vectors.
   Both functions give more informative error messages if you attempting to
   create an invalid data frame. You can no longer create a data frame with
@@ -952,7 +952,7 @@ Functions related to the creation and coercion of `tbl_df`s, now live in their o
   (#1325).  It now (invisibly) returns its first argument (#1570).
 
 *  `lst()` and `lst_()` which create lists in the same way that
-  `data_frame()` and `data_frame_()` create data frames (#1290).
+  `tibble()` and `data_frame_()` create data frames (#1290).
 
 * `print.tbl_df()` is considerably faster if you have very wide data frames.
   It will now also only list the first 100 additional variables not already
@@ -1001,7 +1001,7 @@ Functions related to the creation and coercion of `tbl_df`s, now live in their o
 ### SQLite
 
 * `src_memdb()` is a session-local in-memory SQLite database.
-  `memdb_frame()` works like `data_frame()`, but creates a new table in
+  `memdb_frame()` works like `tibble()`, but creates a new table in
   that database.
 
 * `src_sqlite()` now uses a stricter quoting character, `` ` ``, instead of
@@ -1235,7 +1235,7 @@ Until now, dplyr's support for non-UTF8 encodings has been rather shaky. This re
   when determining if two `POSIXct` vectors are comparable. If the `tz` of
   all inputs is the same, it's used, otherwise its set to `UTC`.
 
-* `data_frame()` always produces a `tbl_df` (#1151, @kevinushey)
+* `tibble()` always produces a `tbl_df` (#1151, @kevinushey)
 
 * `filter(x, TRUE, TRUE)` now just returns `x` (#1210),
   it doesn't internally modify the first argument (#971), and
@@ -1383,7 +1383,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 ## Minor improvements
 
-* `data_frame()` (and `as_data_frame()` & `tbl_df()`) now explicitly
+* `tibble()` (and `as_data_frame()` & `tbl_df()`) now explicitly
   forbid columns that are data frames or matrices (#775). All columns
   must be either a 1d atomic vector or a 1d list.
 
@@ -1482,7 +1482,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
   problems with xtable (#656). `[.grouped_df` will silently drop grouping
   if you don't include the grouping columns (#733).
 
-* `data_frame()` now acts correctly if the first argument is a vector to be
+* `tibble()` now acts correctly if the first argument is a vector to be
   recycled. (#680 thanks @jimhester)
 
 * `filter.data.table()` works if the table has a variable called "V1" (#615).
@@ -1527,7 +1527,7 @@ This is a minor release containing fixes for a number of crashes and issues iden
 
 * `count()` makes it even easier to do (weighted) counts (#358).
 
-* `data_frame()` by @kevinushey is a nicer way of creating data frames.
+* `tibble()` by @kevinushey is a nicer way of creating data frames.
   It never coerces column types (no more `stringsAsFactors = FALSE`!),
   never munges column names, and never adds row names. You can use previously
   defined columns to compute new columns (#376).
