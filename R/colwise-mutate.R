@@ -2,8 +2,13 @@
 #'
 #' @description
 #'
-#' These verbs are [scoped] variants of [summarise()]. They summarise
-#' a selection of variables.
+#' The [scoped] variants of [summarise()] make it easy to apply the same
+#' transformation to multiple variables.
+#' There are three variants.
+#'  * `summarise_all()` affects every variable
+#'  * `summarise_at()` affects variables selected with a character vector or
+#'   vars()
+#'  * `summarise_if()` affects variables selected with a predicate function
 #'
 #' @inheritParams scoped
 #' @param .cols This argument has been renamed to `.vars` to fit
@@ -41,14 +46,6 @@
 #' @examples
 #' by_species <- iris %>% group_by(Species)
 #'
-#' # The scoped variants of summarise() make it easy to apply the same
-#' # transformation to multiple variables:
-#' by_species %>% summarise_all(mean)
-#'
-#' # There are three variants.
-#' # * _all affects every variable
-#' # * _at affects variables selected with a character vector or vars()
-#' # * _if affects variables selected with a predicate function:
 #'
 #' # The _at() variants directly support strings:
 #' starwars %>% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
@@ -61,7 +58,6 @@
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we apply mean() to the numeric columns:
 #' starwars %>% summarise_if(is.numeric, mean, na.rm = TRUE)
-#'
 #'
 #' # If you want to apply multiple transformations, pass a list of
 #' # functions. When there are multiple functions, they create new
