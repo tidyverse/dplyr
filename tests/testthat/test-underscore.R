@@ -1,6 +1,6 @@
 context("underscore")
 
-df <- data_frame(
+df <- tibble(
   a = c(1:3, 2:3),
   b = letters[c(1:4, 4L)]
 )
@@ -83,18 +83,18 @@ test_that("distinct_ works", {
 test_that("do_ works", {
   scoped_lifecycle_silence()
   expect_equal(
-    do_(df, ~ data_frame(-.$a)),
-    do(df, data_frame(-.$a))
+    do_(df, ~ tibble(-.$a)),
+    do(df, tibble(-.$a))
   )
 
   expect_equal(
-    do_(df, .dots = list(quote(dplyr::data_frame(-.$a)))),
-    do(df, data_frame(-.$a))
+    do_(df, .dots = list(quote(dplyr::tibble(-.$a)))),
+    do(df, tibble(-.$a))
   )
 
   expect_equal(
-    do_(df, .dots = list(~ dplyr::data_frame(-.$a))),
-    do(df, data_frame(-.$a))
+    do_(df, .dots = list(~ dplyr::tibble(-.$a))),
+    do(df, tibble(-.$a))
   )
 
   foo <- "foobar"
@@ -104,18 +104,18 @@ test_that("do_ works", {
   )
 
   expect_equal(
-    do_(df %>% group_by(b), ~ data_frame(-.$a)),
-    do(df %>% group_by(b), data_frame(-.$a))
+    do_(df %>% group_by(b), ~ tibble(-.$a)),
+    do(df %>% group_by(b), tibble(-.$a))
   )
 
   expect_equal(
-    do_(df %>% group_by(b), .dots = list(quote(dplyr::data_frame(-.$a)))),
-    do(df %>% group_by(b), data_frame(-.$a))
+    do_(df %>% group_by(b), .dots = list(quote(dplyr::tibble(-.$a)))),
+    do(df %>% group_by(b), tibble(-.$a))
   )
 
   expect_equal(
-    do_(df %>% group_by(b), .dots = list(~ dplyr::data_frame(-.$a))),
-    do(df %>% group_by(b), data_frame(-.$a))
+    do_(df %>% group_by(b), .dots = list(~ dplyr::tibble(-.$a))),
+    do(df %>% group_by(b), tibble(-.$a))
   )
 })
 

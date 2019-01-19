@@ -84,7 +84,7 @@ test_that("can probe colwise", {
 })
 
 test_that("non syntactic colnames work", {
-  df <- data_frame(`x 1` = 1:3)
+  df <- tibble(`x 1` = 1:3)
   expect_identical(summarise_at(df, "x 1", sum)[[1]], 6L)
   expect_identical(summarise_if(df, is.numeric, sum)[[1]], 6L)
   expect_identical(summarise_all(df, sum)[[1]], 6L)
@@ -111,13 +111,13 @@ test_that("predicate can be quoted", {
 })
 
 test_that("transmute verbs do not retain original variables", {
-  expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_all(tibble(x = 1:3, y = 1:3), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_if(tibble(x = 1:3, y = 1:3), is_integer, funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_at(tibble(x = 1:3, y = 1:3), vars(x:y), funs(mean, sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 
-  expect_named(transmute_all(data_frame(x = 1:3, y = 1:3), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_if(data_frame(x = 1:3, y = 1:3), is_integer, list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
-  expect_named(transmute_at(data_frame(x = 1:3, y = 1:3), vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_all(tibble(x = 1:3, y = 1:3), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_if(tibble(x = 1:3, y = 1:3), is_integer, list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
+  expect_named(transmute_at(tibble(x = 1:3, y = 1:3), vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 })
 
 test_that("can rename with vars() (#2594)", {
@@ -140,7 +140,7 @@ test_that("can use a purrr-style lambda", {
 })
 
 test_that("mutate_at and transmute_at refuses to mutate a grouping variable (#3351, #3480)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
 
   expect_error(
@@ -157,7 +157,7 @@ test_that("mutate_at and transmute_at refuses to mutate a grouping variable (#33
 })
 
 test_that("mutate and transmute variants does not mutate grouping variable (#3351, #3480)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
   res <- mutate(tbl, gr2 = sqrt(gr2), x = sqrt(x))
 
@@ -172,7 +172,7 @@ test_that("mutate and transmute variants does not mutate grouping variable (#335
 })
 
 test_that("summarise_at refuses to treat grouping variables (#3351, #3480)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
 
   expect_error(
@@ -181,7 +181,7 @@ test_that("summarise_at refuses to treat grouping variables (#3351, #3480)", {
 })
 
 test_that("summarise variants does not summarise grouping variable (#3351, #3480)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
   res <- summarise(tbl, gr2 = mean(gr2), x = mean(x))
 

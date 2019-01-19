@@ -41,7 +41,7 @@ test_that("returns user defined variable name", {
   expect_equal(names(res), c("g", var_name))
   expect_equal(res[[var_name]], c(2, 3))
 })
-          
+
 test_that("count() does not ignore non-factor empty groups (#4013)",  {
   d <- data.frame(x = c("a", "a", "b", "b"),
     value = 1:4,
@@ -106,13 +106,13 @@ test_that("returns error if user-defined name equals a grouped variable", {
 # tally -------------------------------------------------------------------
 
 test_that("weighted tally drops NAs (#1145)", {
-  df <- data_frame(x = c(1, 1, NA))
+  df <- tibble(x = c(1, 1, NA))
 
   expect_equal(tally(df, x)$n, 2)
 })
 
 test_that("returns column with user-defined name", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "counts"
   res <- df %>% tally(name = name)
 
@@ -120,7 +120,7 @@ test_that("returns column with user-defined name", {
 })
 
 test_that("returns column with user-defined name if it is not a grouped variable", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "g"
   res <- df %>% tally(name = name)
 
@@ -128,7 +128,7 @@ test_that("returns column with user-defined name if it is not a grouped variable
 })
 
 test_that("returns error if user-defined name equals a grouped variable", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "g"
 
   expect_error(df %>% group_by(g) %>% tally(name = name))
@@ -171,7 +171,7 @@ test_that("add_tally can be given a weighting variable", {
 })
 
 test_that("adds column with user-defined variable name if it is not a grouped variable name", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "val"
   res <- df %>% add_tally(name = name)
 
@@ -179,7 +179,7 @@ test_that("adds column with user-defined variable name if it is not a grouped va
 })
 
 test_that("returns error if user-defined name equals a grouped variable", {
-  df <- data_frame(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
+  df <- tibble(g = c(1, 2, 2, 2), val = c("b", "b", "b", "c"))
   name <- "val"
   expect_error(df %>% group_by(val) %>% add_tally(name = name))
 })
