@@ -78,7 +78,7 @@ test_that("factor comparison requires strict equality of levels (#2440)", {
 })
 
 test_that("BoolResult does not overwrite singleton R_TrueValue", {
-  dplyr:::equal_tibble(mtcars, mtcars)
+  dplyr:::equal_data_frame(mtcars, mtcars)
   expect_equal(class(2 == 2), "logical")
 })
 
