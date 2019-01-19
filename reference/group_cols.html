@@ -189,7 +189,7 @@ variables outside selection contexts.</p></div>
 #&gt; 10 setosa 
 #&gt; # … with 140 more rows</div><div class='input'>
 <span class='co'># Remove the grouping variables from mutate selections:</span>
-<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_at</a></span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'>group_cols</span>()), <span class='no'>`/`</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>gdf</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='mutate_all.html'>mutate_at</a></span>(<span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'>group_cols</span>()), <span class='no'>`/`</span>, <span class='fl'>100</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt; # Groups:   Species [3]
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  

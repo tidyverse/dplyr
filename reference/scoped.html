@@ -228,15 +228,15 @@ operations are <em>not</em> applied on grouping variables. The behaviour
 depends on whether the selection is <strong>implicit</strong> (<code>all</code> and <code>if</code>
 selections) or <strong>explicit</strong> (<code>at</code> selections). Grouping variables
 covered by explicit selections (with <code><a href='summarise_all.html'>summarise_at()</a></code>,
-<code><a href='summarise_all.html'>mutate_at()</a></code>, and <code><a href='summarise_all.html'>transmute_at()</a></code>) are always an error. For
+<code><a href='mutate_all.html'>mutate_at()</a></code>, and <code><a href='mutate_all.html'>transmute_at()</a></code>) are always an error. For
 implicit selections, the grouping variables are always ignored. In
 this case, the level of verbosity depends on the kind of operation:</p><ul>
 <li><p>Summarising operations (<code><a href='summarise_all.html'>summarise_all()</a></code> and <code><a href='summarise_all.html'>summarise_if()</a></code>)
 ignore grouping variables silently because it is obvious that
 operations are not applied on grouping variables.</p></li>
 <li><p>On the other hand it isn't as obvious in the case of mutating
-operations (<code><a href='mutate_all.html'>mutate_all()</a></code>, <code><a href='summarise_all.html'>mutate_if()</a></code>, <code><a href='summarise_all.html'>transmute_all()</a></code>, and
-<code><a href='summarise_all.html'>transmute_if()</a></code>). For this reason, they issue a message
+operations (<code><a href='mutate_all.html'>mutate_all()</a></code>, <code><a href='mutate_all.html'>mutate_if()</a></code>, <code><a href='mutate_all.html'>transmute_all()</a></code>, and
+<code><a href='mutate_all.html'>transmute_if()</a></code>). For this reason, they issue a message
 indicating which grouping variables are ignored.</p></li>
 </ul>
     

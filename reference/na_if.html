@@ -205,7 +205,7 @@ value.</p>
 <span class='co'># na_if can also be used with scoped variants of mutate</span>
 <span class='co'># like mutate_if to mutate multiple columns</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.character</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'>na_if</span>(<span class='no'>.</span>, <span class='st'>"unknown"</span>)))</div><div class='output co'>#&gt; # A tibble: 87 x 13
+  <span class='fu'><a href='mutate_all.html'>mutate_if</a></span>(<span class='no'>is.character</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'>na_if</span>(<span class='no'>.</span>, <span class='st'>"unknown"</span>)))</div><div class='output co'>#&gt; # A tibble: 87 x 13
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
 #&gt;    &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
 #&gt;  1 Luke…    172    77 blond      fair       blue            19   male  
