@@ -109,8 +109,11 @@ summarize_at <- summarise_at
 #'
 #' @description
 #'
-#' These verbs are [scoped] variants of [mutate()] and [transmute()].
-#' They mutate a selection of variables.
+#' The [scoped] variants of [mutate()] and [transmute()] make it easy to apply
+#' the same transformation to multiple variables. There are three variants:
+#'  * _all affects every variable
+#'  * _at affects variables selected with a character vector or vars()
+#'  * _if affects variables selected with a predicate function:
 #'
 #' @inheritParams scoped
 #' @inheritParams summarise_all
@@ -147,12 +150,6 @@ summarize_at <- summarise_at
 #'
 #' @examples
 #' iris <- as_tibble(iris)
-#'
-#' # The scoped variants of mutate() make it easy to apply the same
-#' # transformation to multiple variables. There are three variants:
-#' # * _all affects every variable
-#' # * _at affects variables selected with a character vector or vars()
-#' # * _if affects variables selected with a predicate function:
 #'
 #' # All variants can be passed functions and additional arguments,
 #' # purrr-style. The _at() variants directly support strings. Here
