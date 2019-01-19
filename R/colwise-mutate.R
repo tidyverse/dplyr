@@ -210,14 +210,14 @@ mutate_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   check_grouped(.tbl, "mutate", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
@@ -225,21 +225,21 @@ mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   mutate(.tbl, !!!funs)
 }
 
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 transmute_all <- function(.tbl, .funs, ...) {
   check_grouped(.tbl, "transmute", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 transmute_if <- function(.tbl, .predicate, .funs, ...) {
   check_grouped(.tbl, "transmute", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
