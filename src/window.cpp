@@ -7,10 +7,13 @@
 //' R's set of cumulate functions to match the aggregation functions available
 //' in most databases
 //'
-//' * `cumean()`: cumulative mean.
+//' * `cumean()`: cumulative mean
 //'
-//' * `cumall()`, `cumany()`: useful for finding all rows up to,
-//' or all rows after, a condition is true/false for the first/last time
+//' * `cumall()`: useful for finding all records after where a condition
+//' is `FALSE` for the first time
+//'
+//' * `cumany()`: useful for finding all records up to where a condition
+//' is `TRUE` for the first time
 //'
 //' @param x For `cumall()` and `cumany()`, a logical vector; for
 //'   `cummean()` an integer or numeric vector
@@ -24,20 +27,21 @@
 //' cummean(x)
 //' cumall(x)
 //'
-//' # An NA only affects all elements after it for `cumall()` and `cummean()`,
-//' # but NOT for `cumany()`
+//' # An `NA only affects all elements after it for `cumall()` and `cummean()`,
+//' # but NOT for `cumany()`. This behavior is consistent with that of
+//' # `NA || TRUE` compared to `NA && TRUE`.
 //' x <- c(1, 3, 5, NA, 2, 2)
 //' cummean(x)
 //' cumall(x)
 //'
-//' # An NA at the beginning of the vector causes all elements after to be NA.
+//' # An `NA` at the beginning of the vector causes all elements after to be `NA`.
 //' x <- c(NA, 1, 3, 5, 2, 2)
 //' cummean(x)
 //' cumall(x)
 //'
 //' # `cumall()` vs. `cumany()`
-//' # `cumall()` will return none of the rows..
-//' # `cumany()` will return all rows except the first handful.
+//' # `cumall()` will return all rows until the first `FALSE`.
+//' # `cumany()` will return all rows after the first `TRUE`.
 //' dplyr::filter(storms, cumall(wind > 26))
 //' dplyr::filter(storms, cumany(wind > 26))
 //'
