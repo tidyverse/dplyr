@@ -289,8 +289,8 @@ as.tbl_cube.data.frame <- function(x, dim_names = NULL, met_name = guess_met(x),
 # Verbs -------------------------------------------------------------------
 
 #' @export
-select.tbl_cube <- function(.data, ...) {
-  vars <- tidyselect::vars_select(names(.data$mets), ...)
+select.tbl_cube <- function(.data, ..., .strict = TRUE) {
+  vars <- tidyselect::vars_select(names(.data$mets), ..., .strict = .strict)
   .data$mets <- .data$mets[vars]
   .data
 }
