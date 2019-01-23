@@ -107,9 +107,9 @@ arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 }
 
 #' @export
-select.data.frame <- function(.data, ...) {
+select.data.frame <- function(.data, ..., .strict = TRUE) {
   # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(sel_vars(.data), !!!quos(...))
+  vars <- tidyselect::vars_select(sel_vars(.data), !!!quos(...), .strict = .strict)
   select_impl(.data, vars)
 }
 #' @export
