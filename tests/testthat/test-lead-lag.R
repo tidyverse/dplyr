@@ -19,7 +19,7 @@ test_that("lead and lag preserves dates and times", {
 })
 
 test_that("#925 is fixed", {
-  data <- data_frame(
+  data <- tibble(
     name = c("Rob", "Pete", "Rob", "John", "Rob", "Pete", "John", "Pete", "John", "Pete", "Rob", "Rob"),
     time = c(3, 2, 5, 3, 2, 3, 2, 4, 1, 1, 4, 1)
   )
@@ -39,7 +39,7 @@ test_that("#925 is fixed", {
 })
 
 test_that("#937 is fixed", {
-  df <- data_frame(
+  df <- tibble(
     name = rep(c("Al", "Jen"), 3),
     score = rep(c(100, 80, 60), 2)
   )

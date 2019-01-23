@@ -51,7 +51,7 @@ test_that("named argument become list columns", {
 })
 
 test_that("multiple outputs can access data (#2998)", {
-  out <- do(data_frame(a = 1), g = nrow(.), h = nrow(.))
+  out <- do(tibble(a = 1), g = nrow(.), h = nrow(.))
   expect_equal(names(out), c("g", "h"))
   expect_equal(out$g, list(1L))
   expect_equal(out$h, list(1L))
@@ -128,7 +128,7 @@ test_that("can do on rowwise dataframe", {
 # Zero row inputs --------------------------------------------------------------
 
 test_that("empty data frames give consistent outputs", {
-  dat <- data_frame(x = numeric(0), g = character(0))
+  dat <- tibble(x = numeric(0), g = character(0))
   grp <- dat %>% group_by(g)
   emt <- grp %>% filter(FALSE)
 

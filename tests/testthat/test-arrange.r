@@ -76,7 +76,7 @@ test_that("grouped arrange ignores group (#491 -> #1206)", {
 })
 
 test_that("arrange keeps the grouping structure (#605)", {
-  dat <- data_frame(g = c(2, 2, 1, 1), x = c(1, 3, 2, 4))
+  dat <- tibble(g = c(2, 2, 1, 1), x = c(1, 3, 2, 4))
   res <- dat %>% group_by(g) %>% arrange()
   expect_is(res, "grouped_df")
   expect_equal(res$x, dat$x)
@@ -123,7 +123,7 @@ test_that("arrange works with empty data frame (#1142)", {
 })
 
 test_that("arrange respects locale (#1280)", {
-  df2 <- data_frame(words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano"))
+  df2 <- tibble(words = c("casa", "\u00e1rbol", "zona", "\u00f3rgano"))
 
   res <- df2 %>% arrange(words)
   expect_equal(res$words, sort(df2$words))
@@ -158,7 +158,7 @@ test_that("arrange fails gracefully on list columns (#1489)", {
 })
 
 test_that("arrange supports raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_identical(arrange(df, a), df)
   expect_identical(arrange(df, b), df)
   expect_identical(arrange(df, desc(a)), df[3:1, ])
@@ -166,7 +166,7 @@ test_that("arrange supports raw columns (#1803)", {
 })
 
 test_that("arrange fails gracefully on matrix input (#1870)", {
-  df <- data_frame(a = 1:3, b = 4:6)
+  df <- tibble(a = 1:3, b = 4:6)
   expect_error(
     arrange(df, is.na(df)),
     "Argument 1 is of unsupported type matrix",

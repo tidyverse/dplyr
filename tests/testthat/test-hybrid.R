@@ -6,7 +6,7 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   }
 
   # Can't use pipe here, f and g should have top-level parent.env()
-  df <- data_frame(a = 1) %>% group_by(a)
+  df <- tibble(a = 1) %>% group_by(a)
   df <- mutate(df, f = {
     a
     list(function() {})

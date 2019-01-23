@@ -190,7 +190,7 @@ test_that("filter handles complex vectors (#436)", {
 })
 
 test_that("%in% works as expected (#126)", {
-  df <- data_frame(a = c("a", "b", "ab"), g = c(1, 1, 2))
+  df <- tibble(a = c("a", "b", "ab"), g = c(1, 1, 2))
 
   res <- df %>% filter(a %in% letters)
   expect_equal(nrow(res), 2L)
@@ -219,13 +219,13 @@ test_that("filter does not alter expression (#971)", {
 })
 
 test_that("hybrid evaluation handles $ correctly (#1134)", {
-  df <- data_frame(x = 1:10, g = rep(1:5, 2))
+  df <- tibble(x = 1:10, g = rep(1:5, 2))
   res <- df %>% group_by(g) %>% filter(x > min(df$x))
   expect_equal(nrow(res), 9L)
 })
 
 test_that("filter correctly handles empty data frames (#782)", {
-  res <- data_frame() %>% filter(F)
+  res <- tibble() %>% filter(F)
   expect_equal(nrow(res), 0L)
   expect_equal(length(names(res)), 0L)
 })
@@ -264,7 +264,7 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
 })
 
 test_that("filter works with rowwise data (#1099)", {
-  df <- data_frame(First = c("string1", "string2"), Second = c("Sentence with string1", "something"))
+  df <- tibble(First = c("string1", "string2"), Second = c("Sentence with string1", "something"))
   res <- df %>% rowwise() %>% filter(grepl(First, Second, fixed = TRUE))
   expect_equal(nrow(res), 1L)
   expect_equal(df[1, ], res)
@@ -328,9 +328,9 @@ test_that("hybrid lag and default value for string columns work (#1403)", {
 # .data and .env tests now in test-hybrid-traverse.R
 
 test_that("filter handles raw vectors (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
-  expect_identical(filter(df, a == 1), data_frame(a = 1L, b = as.raw(1)))
-  expect_identical(filter(df, b == 1), data_frame(a = 1L, b = as.raw(1)))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
+  expect_identical(filter(df, a == 1), tibble(a = 1L, b = as.raw(1)))
+  expect_identical(filter(df, b == 1), tibble(a = 1L, b = as.raw(1)))
 })
 
 test_that("`vars` attribute is not added if empty (#2772)", {

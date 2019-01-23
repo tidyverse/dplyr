@@ -23,6 +23,6 @@
 Supports conversion to tables, data frames, tibbles.
 
 For a cube, the data frame returned by
-\code{\link[tibble:as_data_frame]{tibble::as_data_frame()}} resulting data frame contains the
+\code{\link[tibble:as_tibble]{tibble::as_tibble()}} resulting data frame contains the
 dimensions as character values (and not as factors).
 }

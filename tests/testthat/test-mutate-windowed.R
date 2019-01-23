@@ -145,7 +145,7 @@ test_that("ntile works with one argument (#3418)", {
 })
 
 test_that("rank functions deal correctly with NA (#774)", {
-  data <- data_frame(x = c(1, 2, NA, 1, 0, NA))
+  data <- tibble(x = c(1, 2, NA, 1, 0, NA))
   res <- data %>% mutate(
     min_rank = min_rank(x),
     percent_rank = percent_rank(x),
@@ -168,7 +168,7 @@ test_that("rank functions deal correctly with NA (#774)", {
   expect_equal(res$ntile[ c(1, 2, 4, 5) ], c(1L, 2L, 2L, 1L))
   expect_equal(res$row_number[ c(1, 2, 4, 5) ], c(2L, 4L, 3L, 1L))
 
-  data <- data_frame(
+  data <- tibble(
     x = rep(c(1, 2, NA, 1, 0, NA), 2),
     g = rep(c(1, 2), each = 6)
   )
