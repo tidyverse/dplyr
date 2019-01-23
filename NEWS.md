@@ -22,7 +22,7 @@
   
 * `Error: `.data` is a corrupt grouped_df, ...`  signals code that makes 
   wrong assumptions about the internals of a grouped data frame. 
-
+  
 ## New functions
 
 * New selection helpers `group_cols()`. It can be called in selection contexts
@@ -157,6 +157,8 @@
 * `glimpse()` prints group information on grouped tibbles (#3384).
 
 * `sample_n()` and `sample_frac()` gain `...` (#2888). 
+
+* `select.data.frame()` gains a `.strict` argument, passed to `tidyselect::vars_select()` (#4111). 
 
 ## Lifecycle
 
