@@ -153,3 +153,11 @@ test_that("select works on NA names (#3601)", {
   colnames(df) <- c(NA,"y","z")
   expect_identical(select(df, y)$y, 2)
 })
+
+test_that("select(.strict = FALSE) is forgiving (#4111)", {
+  res <- expect_warning(select(iris, Sepal.Length, foo, bar, Species, .strict = FALSE), NA)
+  expect_identical(
+    res,
+    select(iris, Sepal.Length, Species)
+  )
+})
