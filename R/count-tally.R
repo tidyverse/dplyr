@@ -13,14 +13,11 @@
 #' they add an additional column rather than collapsing each group.
 #'
 #' @note
-#' The column name in the returned data is usually `n`, even if you
-#' have supplied a weight.
+#' The column name in the returned data is given by the `name` argument,
+#' set to `"n"` by default.
 #'
-#' If the data already has a column named `n`, the output column
-#' will be called `nn`. If the table already has columns called `n` and `nn`
-#' then the column returned will be `nnn`, and so on.
-#'
-#' To control the output column name use `name`.
+#' If the data already has a column by that name, the output column
+#' will be prefixed by an extra `"n"` as many times as necessary.
 #'
 #' @param x a [tbl()] to tally/count.
 #' @param ... Variables to group by.
