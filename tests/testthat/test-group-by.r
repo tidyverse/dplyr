@@ -43,7 +43,7 @@ test_that("grouping by constant adds column (#410)", {
 
 
 test_that("local group_by preserves variable types", {
-  df_var <- data_frame(
+  df_var <- tibble(
     l = c(T, F),
     i = 1:2,
     d = Sys.Date() + 1:2,
@@ -54,7 +54,7 @@ test_that("local group_by preserves variable types", {
   )
 
   for (var in names(df_var)) {
-    expected <- data_frame(unique(df_var[[var]]), n = 1L)
+    expected <- tibble(unique(df_var[[var]]), n = 1L)
     names(expected)[1] <- var
 
     summarised <- df_var %>% group_by(!!sym(var)) %>% summarise(n = n())
@@ -231,7 +231,7 @@ test_that("group_by gives meaningful message with unknow column (#716)", {
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
-  df <- data_frame(x = 1:5, ` ` = 6:10)
+  df <- tibble(x = 1:5, ` ` = 6:10)
   by_x <- df %>% group_by(x)
   expect_equal(by_x %>% groups(), by_x %>% `[`(1:2) %>% groups())
 
@@ -249,7 +249,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
 })
 
 test_that("group_by works after arrange (#959)", {
-  df <- data_frame(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
+  df <- tibble(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
   res <- df %>%
     arrange(Time) %>%
     group_by(Log) %>%
@@ -295,13 +295,13 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
 })
 
 test_that("group_by handles raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_identical(ungroup(group_by(df, a)), df)
   expect_identical(ungroup(group_by(df, b)), df)
 })
 
 test_that("rowwise handles raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_is(rowwise(df), "rowwise_df")
 })
 

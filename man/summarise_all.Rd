@@ -7,11 +7,6 @@
 \alias{summarize_all}
 \alias{summarize_if}
 \alias{summarize_at}
-\alias{mutate_if}
-\alias{mutate_at}
-\alias{transmute_all}
-\alias{transmute_if}
-\alias{transmute_at}
 \title{Summarise multiple columns}
 \usage{
 summarise_all(.tbl, .funs, ...)
@@ -25,16 +20,6 @@ summarize_all(.tbl, .funs, ...)
 summarize_if(.tbl, .predicate, .funs, ...)
 
 summarize_at(.tbl, .vars, .funs, ..., .cols = NULL)
-
-mutate_if(.tbl, .predicate, .funs, ...)
-
-mutate_at(.tbl, .vars, .funs, ..., .cols = NULL)
-
-transmute_all(.tbl, .funs, ...)
-
-transmute_if(.tbl, .predicate, .funs, ...)
-
-transmute_at(.tbl, .vars, .funs, ..., .cols = NULL)
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}

@@ -4,7 +4,7 @@ context("binds")
 # error -------------------------------------------------------------------
 
 test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
-  df1 <- data_frame(x = 1)
+  df1 <- tibble(x = 1)
   df2 <- structure(list(x = 1), class = "blah_frame")
 
   expect_error(
@@ -20,8 +20,8 @@ test_that("bind_rows() and bind_cols() err for non-data frames (#2373)", {
 })
 
 test_that("bind_rows() err for invalid ID", {
-  df1 <- data_frame(x = 1:3)
-  df2 <- data_frame(x = 4:6)
+  df1 <- tibble(x = 1:3)
+  df2 <- tibble(x = 4:6)
 
   expect_error(
     bind_rows(df1, df2, .id = 5),
@@ -52,7 +52,7 @@ test_that("cbind uses shallow copies", {
 })
 
 test_that("bind_cols handles lists (#1104)", {
-  exp <- data_frame(x = 1, y = "a", z = 2)
+  exp <- tibble(x = 1, y = "a", z = 2)
 
   l1 <- list(x = 1, y = "a")
   l2 <- list(z = 2)
@@ -84,7 +84,7 @@ test_that("bind_cols repairs names", {
 
 # rows --------------------------------------------------------------------
 
-df_var <- data_frame(
+df_var <- tibble(
   l = c(T, F, F),
   i = c(1, 1, 2),
   d = Sys.Date() + c(1, 1, 2),
@@ -110,7 +110,7 @@ test_that("bind_rows reorders columns", {
 })
 
 test_that("bind_rows ignores NULL", {
-  df <- data_frame(a = 1)
+  df <- tibble(a = 1)
 
   expect_equal(bind_rows(df, NULL), df)
   expect_equal(bind_rows(list(df, NULL)), df)
@@ -132,20 +132,20 @@ test_that("bind_rows only accepts data frames or named vectors", {
 })
 
 test_that("bind_rows handles list columns (#463)", {
-  dfl <- data_frame(x = I(list(1:2, 1:3, 1:4)))
+  dfl <- tibble(x = I(list(1:2, 1:3, 1:4)))
   res <- bind_rows(list(dfl, dfl))
   expect_equal(rep(dfl$x, 2L), res$x)
 })
 
 test_that("can bind lists of data frames #1389", {
-  df <- data_frame(x = 1)
+  df <- tibble(x = 1)
 
   res <- bind_rows(list(df, df), list(df, df))
   expect_equal(nrow(res), 4)
 })
 
 test_that("bind_rows handles data frames with no rows (#597)", {
-  df1 <- data_frame(x = 1, y = factor("a"))
+  df1 <- tibble(x = 1, y = factor("a"))
   df0 <- df1[0, ]
 
   expect_equal(bind_rows(df0), df0)
@@ -154,7 +154,7 @@ test_that("bind_rows handles data frames with no rows (#597)", {
 })
 
 test_that("bind_rows handles data frames with no columns (#1346)", {
-  df1 <- data_frame(x = 1, y = factor("a"))
+  df1 <- tibble(x = 1, y = factor("a"))
   df0 <- df1[, 0]
 
   expect_equal(bind_rows(df0), df0)
@@ -165,11 +165,11 @@ test_that("bind_rows handles data frames with no columns (#1346)", {
 })
 
 test_that("bind_rows handles lists with NULL values (#2056)", {
-  df1 <- data_frame(x = 1, y = 1)
-  df2 <- data_frame(x = 2, y = 2)
+  df1 <- tibble(x = 1, y = 1)
+  df2 <- tibble(x = 2, y = 2)
   lst1 <- list(a = df1, NULL, b = df2)
 
-  df3 <- data_frame(
+  df3 <- tibble(
     names = c("a", "b"),
     x = c(1, 2),
     y = c(1, 2)
@@ -183,7 +183,7 @@ test_that("bind_rows handles lists with list() values (#2826)", {
 })
 
 test_that("bind_rows puts data frames in order received even if no columns (#2175)", {
-  df2 <- data_frame(x = 2, y = "b")
+  df2 <- tibble(x = 2, y = "b")
   df1 <- df2[, 0]
 
   res <- bind_rows(df1, df2)
@@ -195,8 +195,8 @@ test_that("bind_rows puts data frames in order received even if no columns (#217
 # Column coercion --------------------------------------------------------------
 
 test_that("bind_rows promotes integer to numeric", {
-  df1 <- data_frame(a = 1L, b = 1L)
-  df2 <- data_frame(a = 1, b = 1L)
+  df1 <- tibble(a = 1L, b = 1L)
+  df2 <- tibble(a = 1, b = 1L)
 
   res <- bind_rows(df1, df2)
   expect_equal(typeof(res$a), "double")
@@ -204,8 +204,8 @@ test_that("bind_rows promotes integer to numeric", {
 })
 
 test_that("bind_rows does not coerce logical to integer", {
-  df1 <- data_frame(a = FALSE)
-  df2 <- data_frame(a = 1L)
+  df1 <- tibble(a = FALSE)
+  df2 <- tibble(a = 1L)
 
   expect_error(
     bind_rows(df1, df2),
@@ -215,8 +215,8 @@ test_that("bind_rows does not coerce logical to integer", {
 })
 
 test_that("bind_rows promotes factor to character with warning", {
-  df1 <- data_frame(a = factor("a"))
-  df2 <- data_frame(a = "b")
+  df1 <- tibble(a = factor("a"))
+  df2 <- tibble(a = "b")
 
   expect_warning(
     res <- bind_rows(df1, df2),
@@ -237,17 +237,17 @@ test_that("bind_rows coerces factor to character when levels don't match", {
 })
 
 test_that("bind_rows handles NA in factors #279", {
-  df1 <- data_frame(a = factor("a"))
-  df2 <- data_frame(a = factor(NA))
+  df1 <- tibble(a = factor("a"))
+  df2 <- tibble(a = factor(NA))
 
   expect_warning(res <- bind_rows(df1, df2), "Unequal factor levels")
   expect_equal(res$a, c("a", NA))
 })
 
 test_that("bind_rows doesn't promote integer/numeric to factor", {
-  df1 <- data_frame(a = factor("a"))
-  df2 <- data_frame(a = 1L)
-  df3 <- data_frame(a = 1)
+  df1 <- tibble(a = factor("a"))
+  df2 <- tibble(a = 1L)
+  df3 <- tibble(a = 1)
 
   expect_error(
     bind_rows(df1, df2),
@@ -431,8 +431,8 @@ test_that("bind_rows handles POSIXct stored as integer (#1402)", {
 })
 
 test_that("bind_cols accepts NULL (#1148)", {
-  df1 <- data_frame(a = 1:10, b = 1:10)
-  df2 <- data_frame(c = 1:10, d = 1:10)
+  df1 <- tibble(a = 1:10, b = 1:10)
+  df2 <- tibble(c = 1:10, d = 1:10)
 
   res1 <- bind_cols(df1, df2)
   res2 <- bind_cols(NULL, df1, df2)
@@ -452,10 +452,10 @@ test_that("bind_rows handles 0-length named list (#1515)", {
 })
 
 test_that("bind_rows handles promotion to strings (#1538)", {
-  df1 <- data_frame(b = c(1, 2))
-  df2 <- data_frame(b = c(1L, 2L))
-  df3 <- data_frame(b = factor(c("A", "B")))
-  df4 <- data_frame(b = c("C", "D"))
+  df1 <- tibble(b = c(1, 2))
+  df2 <- tibble(b = c(1L, 2L))
+  df3 <- tibble(b = factor(c("A", "B")))
+  df4 <- tibble(b = c("C", "D"))
 
   expect_error(
     bind_rows(df1, df3),
@@ -498,7 +498,7 @@ test_that("bind_rows infers classes from first result (#1692)", {
 
 test_that("bind_cols infers classes from first result (#1692)", {
   d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
-  d2 <- data_frame(c = 1:10, d = rep(1:2, each = 5))
+  d2 <- tibble(c = 1:10, d = rep(1:2, each = 5))
   d3 <- group_by(d2, d)
   d4 <- rowwise(d2)
   d5 <- list(c = 1:10, d = rep(1:2, each = 5))
@@ -513,7 +513,7 @@ test_that("bind_cols infers classes from first result (#1692)", {
 })
 
 test_that("bind_rows rejects POSIXlt columns (#1789)", {
-  df <- data_frame(x = Sys.time() + 1:12)
+  df <- tibble(x = Sys.time() + 1:12)
   df$y <- as.POSIXlt(df$x)
   expect_error(
     bind_rows(df, df),

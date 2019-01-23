@@ -2,8 +2,13 @@
 #'
 #' @description
 #'
-#' These verbs are [scoped] variants of [summarise()]. They summarise
-#' a selection of variables.
+#' The [scoped] variants of [summarise()] make it easy to apply the same
+#' transformation to multiple variables.
+#' There are three variants.
+#'  * `summarise_all()` affects every variable
+#'  * `summarise_at()` affects variables selected with a character vector or
+#'   vars()
+#'  * `summarise_if()` affects variables selected with a predicate function
 #'
 #' @inheritParams scoped
 #' @param .cols This argument has been renamed to `.vars` to fit
@@ -41,14 +46,6 @@
 #' @examples
 #' by_species <- iris %>% group_by(Species)
 #'
-#' # The scoped variants of summarise() make it easy to apply the same
-#' # transformation to multiple variables:
-#' by_species %>% summarise_all(mean)
-#'
-#' # There are three variants.
-#' # * _all affects every variable
-#' # * _at affects variables selected with a character vector or vars()
-#' # * _if affects variables selected with a predicate function:
 #'
 #' # The _at() variants directly support strings:
 #' starwars %>% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
@@ -61,7 +58,6 @@
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we apply mean() to the numeric columns:
 #' starwars %>% summarise_if(is.numeric, mean, na.rm = TRUE)
-#'
 #'
 #' # If you want to apply multiple transformations, pass a list of
 #' # functions. When there are multiple functions, they create new
@@ -113,8 +109,11 @@ summarize_at <- summarise_at
 #'
 #' @description
 #'
-#' These verbs are [scoped] variants of [mutate()] and [transmute()].
-#' They mutate a selection of variables.
+#' The [scoped] variants of [mutate()] and [transmute()] make it easy to apply
+#' the same transformation to multiple variables. There are three variants:
+#'  * _all affects every variable
+#'  * _at affects variables selected with a character vector or vars()
+#'  * _if affects variables selected with a predicate function:
 #'
 #' @inheritParams scoped
 #' @inheritParams summarise_all
@@ -151,12 +150,6 @@ summarize_at <- summarise_at
 #'
 #' @examples
 #' iris <- as_tibble(iris)
-#'
-#' # The scoped variants of mutate() make it easy to apply the same
-#' # transformation to multiple variables. There are three variants:
-#' # * _all affects every variable
-#' # * _at affects variables selected with a character vector or vars()
-#' # * _if affects variables selected with a predicate function:
 #'
 #' # All variants can be passed functions and additional arguments,
 #' # purrr-style. The _at() variants directly support strings. Here
@@ -210,14 +203,14 @@ mutate_all <- function(.tbl, .funs, ...) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 mutate_if <- function(.tbl, .predicate, .funs, ...) {
   check_grouped(.tbl, "mutate", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   mutate(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)
@@ -225,21 +218,21 @@ mutate_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   mutate(.tbl, !!!funs)
 }
 
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 transmute_all <- function(.tbl, .funs, ...) {
   check_grouped(.tbl, "transmute", "all", alt = TRUE)
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 transmute_if <- function(.tbl, .predicate, .funs, ...) {
   check_grouped(.tbl, "transmute", "if")
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
   transmute(.tbl, !!!funs)
 }
-#' @rdname summarise_all
+#' @rdname mutate_all
 #' @export
 transmute_at <- function(.tbl, .vars, .funs, ..., .cols = NULL) {
   .vars <- check_dot_cols(.vars, .cols)

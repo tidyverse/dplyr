@@ -20,7 +20,7 @@ add_rownames <- function(df, var = "rowname") {
 
   stopifnot(is.data.frame(df))
 
-  rn <- as_data_frame(setNames(list(rownames(df)), var))
+  rn <- as_tibble(setNames(list(rownames(df)), var))
   rownames(df) <- NULL
 
   bind_cols(rn, df)
@@ -210,7 +210,7 @@ reconstruct_set <- function(out, x) {
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, quos(...), .keep_all = .keep_all)
+  dist <- distinct_prepare(.data, quos(...), .keep_all = .keep_all)
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
   distinct_impl(dist$data, vars, keep, environment())

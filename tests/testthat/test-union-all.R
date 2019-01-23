@@ -5,8 +5,8 @@ test_that("union all on vectors concatenates", {
 })
 
 test_that("union all on data frames calls bind rows", {
-  df1 <- data_frame(x = 1:2)
-  df2 <- data_frame(y = 1:2)
+  df1 <- tibble(x = 1:2)
+  df2 <- tibble(y = 1:2)
 
   expect_equal(union_all(df1, df2), bind_rows(df1, df2))
 })

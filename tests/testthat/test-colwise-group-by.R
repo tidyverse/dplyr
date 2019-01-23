@@ -7,7 +7,7 @@ test_that("group_by_ verbs take scoped inputs", {
 })
 
 test_that("group_by_ verbs accept optional operations", {
-  df <- data_frame(x = 1:2, y = 2:3)
+  df <- tibble(x = 1:2, y = 2:3)
   gdf <- group_by(mutate_all(df, as.factor), x, y)
 
   expect_identical(group_by_all(df, as.factor), gdf)
@@ -16,7 +16,7 @@ test_that("group_by_ verbs accept optional operations", {
 })
 
 test_that("group_by variants can group by an already grouped by data (#3351)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(c(1, 2), each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(c(1, 2), each = 4), x = 1:8) %>%
     group_by(gr1)
 
   expect_identical(

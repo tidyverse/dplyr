@@ -43,7 +43,7 @@ into account to determine distinct rows.
 }
 
 \examples{
-df <- data_frame(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
+df <- tibble(x = rep(2:5, each = 2) / 2, y = rep(2:3, each = 4) / 2)
 df
 distinct_all(df)
 distinct_at(df, vars(x,y))
