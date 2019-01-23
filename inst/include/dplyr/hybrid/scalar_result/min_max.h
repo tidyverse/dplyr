@@ -19,21 +19,36 @@ public:
 
   MinMax(const SlicedTibble& data, Column column_):
     Parent(data),
-    column(column_.data)
+    column(column_.data),
+    warn(false)
   {}
+
+  ~MinMax(){
+    if(NA_RM && warn) {
+      if (MINIMUM) {
+        Rf_warningcall(R_NilValue, "no non-missing arguments to min; returning Inf");
+      } else {
+        Rf_warningcall(R_NilValue, "no non-missing arguments to max; returning -Inf");
+      }
+    }
+  }
 
   inline double process(const typename SlicedTibble::slicing_index& indices) const {
     const int n = indices.size();
     double res = Inf;
+    int missing_count = 0;
 
     for (int i = 0; i < n; ++i) {
       STORAGE current = column[indices[i]];
 
       if (is_really_na<RTYPE>(current)) {
-        if (NA_RM)
+        if (NA_RM) {
+          ++missing_count;
           continue;
-        else
+        } else {
           return NA_REAL;
+        }
+
       }
       else if (is_nan<RTYPE>(current)) {
         return current;
@@ -43,12 +58,15 @@ public:
           res = current_res;
       }
     }
-
+    if (missing_count == n) {
+      warn = true;
+    }
     return res;
   }
 
 private:
   Rcpp::Vector<RTYPE> column;
+  mutable bool warn;
 
   static const double Inf;
 
