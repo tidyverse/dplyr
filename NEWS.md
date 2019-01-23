@@ -158,7 +158,7 @@
 
 * `sample_n()` and `sample_frac()` gain `...` (#2888). 
 
-* `select.data.frame()` gains a `.strict` argument, passed to `tidyselect::vars_select()` (#4111). 
+* `select.data.frame()` and `select_at()` gains a `.strict` argument, passed to `tidyselect::vars_select()` (#4111). 
 
 ## Lifecycle
 

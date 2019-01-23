@@ -17,6 +17,7 @@
 #'
 #' @inheritParams scoped
 #' @param .funs A function `fun`, a purrr style lambda `~ fun(.)` or a list of either form.
+#' @param .strict If `TRUE`, will throw an error if you attempt to select a variable that doesn't exist with `select_at()`.
 #'
 #' @section Grouping variables:
 #'
@@ -81,8 +82,8 @@ rename_if <- function(.tbl, .predicate, .funs = list(), ...) {
 
 #' @rdname select_all
 #' @export
-select_at <- function(.tbl, .vars, .funs = list(), ...) {
-  vars <- tbl_at_vars(.tbl, .vars, .include_group_vars = TRUE)
+select_at <- function(.tbl, .vars, .funs = list(), ..., .strict = TRUE) {
+  vars <- tbl_at_vars(.tbl, .vars, .include_group_vars = TRUE, .strict = .strict)
   funs <- as_fun_list(.funs, enquo(.funs), caller_env(), ...)
   syms <- vars_select_syms(vars, funs, .tbl)
   select(.tbl, !!!syms)

@@ -142,7 +142,7 @@ print.any_vars <- function(x, ...) {
 
 
 # Requires tbl_vars() method
-tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
+tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE, .strict = TRUE) {
   if (.include_group_vars) {
     tibble_vars <- sel_vars(tbl)
   } else {
@@ -152,11 +152,11 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
   if (is_null(vars)) {
     character()
   } else if (is_character(vars)) {
-    vars
+    vars[vars %in% tibble_vars]
   } else if (is_integerish(vars)) {
     tibble_vars[vars]
   } else if (is_quosures(vars)) {
-    out <- tidyselect::vars_select(tibble_vars, !!!vars)
+    out <- tidyselect::vars_select(tibble_vars, !!!vars, .strict = .strict)
     if (!any(have_name(vars))) {
       names(out) <- NULL
     }
@@ -167,8 +167,8 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
     )
   }
 }
-tbl_at_syms <- function(tbl, vars, .include_group_vars = FALSE) {
-  vars <- tbl_at_vars(tbl, vars, .include_group_vars = .include_group_vars)
+tbl_at_syms <- function(tbl, vars, .include_group_vars = FALSE, .strict = TRUE) {
+  vars <- tbl_at_vars(tbl, vars, .include_group_vars = .include_group_vars, .strict = .strict)
   set_names(syms(vars), names(vars))
 }
 
