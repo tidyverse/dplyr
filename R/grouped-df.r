@@ -283,7 +283,7 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @export
 do.grouped_df <- function(.data, ...) {
   index <- group_rows(.data)
-  labels <- select(group_data(.data), -last_col())
+  labels <- group_keys(.data)
 
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
