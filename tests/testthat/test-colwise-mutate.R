@@ -306,3 +306,22 @@ test_that("mutate_all() handles non syntactic names (#4094)", {
   expect_equal(names(tbl), names(res))
   expect_equal(res[["..1"]], "A")
 })
+
+test_that("summarise_at with multiple columns AND unnamed functions works (#4119)", {
+  res <- storms %>%
+    summarise_at(vars(wind, pressure), list(mean, median))
+
+  expect_equal(ncol(res), 4L)
+  expect_equal(names(res), c("wind_<fn>_1", "pressure_<fn>_1", "wind_<fn>_2", "pressure_<fn>_2"))
+})
+
+test_that("mutate_at with multiple columns AND unnamed functions works (#4119)", {
+  res <- storms %>%
+    mutate_at(vars(wind, pressure), list(mean, median))
+
+  expect_equal(ncol(res), ncol(storms) + 4L)
+  expect_equal(
+    names(res),
+    c(names(storms), c("wind_<fn>_1", "pressure_<fn>_1", "wind_<fn>_2", "pressure_<fn>_2"))
+  )
+})
