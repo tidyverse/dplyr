@@ -309,6 +309,13 @@ manip_apply_syms <- function(funs, syms, tbl) {
     names(out) <- names(funs)
   } else {
     syms_names <- map_chr(syms, as_string)
+    if (!attr(funs, "have_name")) {
+      names(funs) <- if_else(
+        names(funs) == "<fn>",
+        paste0("<fn>_", seq_along(funs)),
+        names(funs)
+      )
+    }
     grid <- expand.grid(var = syms_names, call = names(funs))
     names(out) <- paste(grid$var, grid$call, sep = "_")
   }
