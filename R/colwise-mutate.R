@@ -305,19 +305,23 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
   if (length(funs) == 1 && !attr(funs, "have_name")) {
     names(out) <- names(syms)
-  } else if (length(syms) == 1 && all(unnamed)) {
-    names(out) <- names(funs)
   } else {
-    syms_names <- map_chr(syms, as_string)
+
     names(funs) <- if_else(
       names(funs) == "<fn>",
-      paste0("<fn>_", seq_along(funs)),
+      paste0("fn", seq_along(funs)),
       names(funs)
     )
-    grid <- expand.grid(var = syms_names, call = names(funs))
-    names(out) <- paste(grid$var, grid$call, sep = "_")
-  }
+    # TODO: still needs to deal with makeing names unique
 
+    if (length(syms) == 1 && all(unnamed)) {
+      names(out) <- names(funs)
+    } else {
+      syms_names <- map_chr(syms, as_string)
+      grid <- expand.grid(var = syms_names, call = names(funs))
+      names(out) <- paste(grid$var, grid$call, sep = "_")
+    }
+  }
   out
 }
 
