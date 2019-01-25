@@ -7,7 +7,7 @@
 #' @keywords internal
 #' @param data a tbl or data frame.
 #' @param vars a character vector or a list of [name()]
-#' @param drop deprecated
+#' @param drop When `.drop = TRUE`, empty groups are dropped.
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
   assert_that(
