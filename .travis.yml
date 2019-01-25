@@ -6,7 +6,6 @@ dist: trusty
 cache: packages
 latex: false
 fortran: false
-r_build_args: '--no-manual'
 
 jobs:
   include:
