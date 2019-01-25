@@ -6,7 +6,8 @@
 #'
 #' @family grouping functions
 #' @inheritParams scoped
-#' @param .add,.drop see [group_by()]
+#' @inheritParams group_by
+#' @param .add See [group_by()]
 #'
 #' @export
 #'
@@ -30,12 +31,12 @@
 #' d <- tibble(x=c(1,1,2,2), y=c(1,2,1,2))
 #' group_by_all(d, as.factor)
 #' group_by_if(iris, is.factor, as.character)
-group_by_all <- function(.tbl, .funs = list(), ..., .drop = group_drops(.tbl)) {
+group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_drops(.tbl)) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), ...)
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  group_by(.tbl, !!!funs, .drop = .drop)
+  group_by(.tbl, !!!funs, .add = .add, .drop = .drop)
 }
 #' @rdname group_by_all
 #' @export
