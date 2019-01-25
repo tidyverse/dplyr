@@ -158,6 +158,12 @@
 
 * `sample_n()` and `sample_frac()` gain `...` (#2888). 
 
+* Scoped filter variants now support functions and purrr-like lambdas:
+
+  ```r
+  mtcars %>% filter_at(vars(hp, vs), ~ . %% 2 == 0)
+  ```
+
 ## Lifecycle
 
 * `do()`, `rowwise()` and `combine()` are questioning (#3494). 
