@@ -180,7 +180,7 @@ add_tally <- function(x, wt, sort = FALSE, name = "n") {
     out <- arrange(out, desc(!!sym(n_name)))
   }
 
-  grouped_df(out, group_vars(x), group_drops(x))
+  grouped_df(out, group_vars(x), drop = group_drops(x))
 }
 #' @rdname se-deprecated
 #' @export
@@ -203,7 +203,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
   grouped <- group_by(x, ..., add = TRUE)
 
   out <- add_tally(grouped, wt = !!enquo(wt), sort = sort, name = name)
-  grouped_df(out, g, group_drops(grouped))
+  grouped_df(out, g, drop = group_drops(grouped))
 }
 #' @rdname se-deprecated
 #' @export

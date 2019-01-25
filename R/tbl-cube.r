@@ -369,9 +369,9 @@ group_by.tbl_cube <- function(.data, ..., add = FALSE, .drop = FALSE) {
   groups$data
 }
 #' @export
-group_by_.tbl_cube <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
+group_by_.tbl_cube <- function(.data, ..., .dots = list(), add = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add, .drop = .drop)
+  group_by(.data, !!!dots, add = add)
 }
 
 #' @export

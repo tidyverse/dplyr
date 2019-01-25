@@ -36,7 +36,7 @@ group_by_all <- function(.tbl, .funs = list(), ..., .add = FALSE, .drop = group_
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  group_by(.tbl, !!!funs, .add = .add, .drop = .drop)
+  group_by(.tbl, !!!funs, add = .add, .drop = .drop)
 }
 #' @rdname group_by_all
 #' @export

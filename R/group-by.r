@@ -99,7 +99,7 @@ group_by.default <- function(.data, ..., add = FALSE, .drop = FALSE) {
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
-group_by_ <- function(.data, ..., .dots = list(), add = FALSE, .drop = FALSE) {
+group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
   signal_soft_deprecated(paste_line(
     "group_by_() is deprecated. ",
     "Please use group_by() instead",
@@ -197,6 +197,8 @@ group_vars.default <- function(x) {
 }
 
 # does a grouped data frame drop. TRUE unless the `.drop` attribute is FALSE
+#
+# absence of the .drop attribute -> drop = TRUE for backwards compatibility reasons
 group_drops <- function(x) {
   !identical(attr(group_data(x), ".drop"), FALSE)
 }

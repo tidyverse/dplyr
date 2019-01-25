@@ -34,9 +34,9 @@ group_by.data.frame <- function(.data, ..., add = FALSE, .drop = group_drops(.da
   grouped_df(groups$data, groups$group_names, .drop)
 }
 #' @export
-group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE, .drop = group_drops(.data)) {
+group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  group_by(.data, !!!dots, add = add, .drop = .drop)
+  group_by(.data, !!!dots, add = add)
 }
 
 #' @export

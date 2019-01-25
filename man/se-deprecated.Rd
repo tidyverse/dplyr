@@ -39,7 +39,7 @@ do_(.data, ..., .dots = list())
 
 funs_(dots, args = list(), env = base_env())
 
-group_by_(.data, ..., .dots = list(), add = FALSE, .drop = FALSE)
+group_by_(.data, ..., .dots = list(), add = FALSE)
 
 group_indices_(.data, ..., .dots = list())
 
