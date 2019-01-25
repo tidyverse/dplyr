@@ -306,13 +306,13 @@ manip_apply_syms <- function(funs, syms, tbl) {
   if (length(funs) == 1 && !attr(funs, "have_name")) {
     names(out) <- names(syms)
   } else {
-
-    names(funs) <- if_else(
-      names(funs) == "<fn>",
-      paste0("fn", seq_along(funs)),
-      names(funs)
-    )
-    # TODO: still needs to deal with makeing names unique
+    nms <- names(funs)
+    nms[nms == "<fn>"] <- "fn"
+    nms <- tibble:::universal_names(nms, quiet = TRUE)
+    # while(any(dup <- duplicated(nms))) {
+    #   nms[dup] <- paste(nms[dup], which(dup), sep = ".")
+    # }
+    names(funs) <- nms
 
     if (length(syms) == 1 && all(unnamed)) {
       names(out) <- names(funs)
