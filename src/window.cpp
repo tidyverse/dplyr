@@ -25,25 +25,31 @@
 //' # `cumall()` and `cumany()` return logicals, not numerics/integers.
 //' x <- c(1, 3, 5, 2, 2)
 //' cummean(x)
-//' cumall(x)
+//' cumall(x < 5)
 //'
-//' # An `NA only affects all elements after it for `cumall()` and `cummean()`,
-//' # but NOT for `cumany()`. This behavior is consistent with that of
+//' # An `NA` only affects all elements after it for `cummean()` or
+//' # for `cumall()` if all prior conditions evaluate to `TRUE`,
+//' # but NOT in any case for `cumany()`.
+//' # This behavior is consistent with that of
 //' # `NA || TRUE` compared to `NA && TRUE`.
 //' x <- c(1, 3, 5, NA, 2, 2)
 //' cummean(x)
-//' cumall(x)
+//' cumall(x < 5)
+//' cumall(x > 0)
+//' cumany(x > 4)
+//' cumany(x < 4)
 //'
-//' # An `NA` at the beginning of the vector causes all elements after to be `NA`.
+//' # An `NA` at the beginning of the vector causes all elements afterwards
+//' # to be `NA`.
 //' x <- c(NA, 1, 3, 5, 2, 2)
 //' cummean(x)
-//' cumall(x)
+//' cumall(x < 5)
 //'
 //' # `cumall()` vs. `cumany()`
 //' # `cumall()` will return all rows until the first `FALSE`.
 //' # `cumany()` will return all rows after the first `TRUE`.
-//' dplyr::filter(storms, cumall(wind > 26))
-//' dplyr::filter(storms, cumany(wind > 26))
+//' filter(storms, cumall(wind > 26))
+//' filter(storms, cumany(wind > 26))
 //'
 // [[Rcpp::export]]
 LogicalVector cumall(LogicalVector x) {
