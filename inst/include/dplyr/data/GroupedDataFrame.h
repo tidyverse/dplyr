@@ -109,7 +109,7 @@ public:
 
   bool drops() const {
     SEXP drop_attr = Rf_getAttrib(groups, symbols::dot_drop);
-    return is<bool>(drop_attr) && LOGICAL(drop_attr)[0];
+    return Rf_isNull(drop_attr) || (is<bool>(drop_attr) && LOGICAL(drop_attr)[0] == TRUE);
   }
 
 private:
