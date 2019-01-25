@@ -178,7 +178,7 @@ test_that("group_by only creates one group for NA (#401)", {
 })
 
 test_that("there can be 0 groups (#486)", {
-  data <- data_frame(a = numeric(0), g = character(0)) %>% group_by(g)
+  data <- tibble(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
   expect_equal(map_int(group_rows(data), length), integer(0))
