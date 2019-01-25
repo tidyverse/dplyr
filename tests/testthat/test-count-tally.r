@@ -103,6 +103,15 @@ test_that("returns error if user-defined name equals a grouped variable", {
   expect_error(df %>% add_count(g, name = "g"))
 })
 
+test_that("can add_count to a tbl_dbi", {
+  con <- DBI::dbConnect(RSQLite::SQLite())
+  tbl <- copy_to(con, mtcars)
+  tbl %>% add_count(gear)
+  tbl %>% add_count()
+  DBI::dbDisconnect(con)
+})
+
+
 # tally -------------------------------------------------------------------
 
 test_that("weighted tally drops NAs (#1145)", {
