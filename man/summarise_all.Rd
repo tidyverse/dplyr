@@ -48,8 +48,15 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-These verbs are \link{scoped} variants of \code{\link[=summarise]{summarise()}}. They summarise
-a selection of variables.
+The \link{scoped} variants of \code{\link[=summarise]{summarise()}} make it easy to apply the same
+transformation to multiple variables.
+There are three variants.
+\itemize{
+\item \code{summarise_all()} affects every variable
+\item \code{summarise_at()} affects variables selected with a character vector or
+vars()
+\item \code{summarise_if()} affects variables selected with a predicate function
+}
 }
 \section{Grouping variables}{
 
@@ -75,14 +82,6 @@ ignored by \code{summarise_all()} and \code{summarise_if()}.
 \examples{
 by_species <- iris \%>\% group_by(Species)
 
-# The scoped variants of summarise() make it easy to apply the same
-# transformation to multiple variables:
-by_species \%>\% summarise_all(mean)
-
-# There are three variants.
-# * _all affects every variable
-# * _at affects variables selected with a character vector or vars()
-# * _if affects variables selected with a predicate function:
 
 # The _at() variants directly support strings:
 starwars \%>\% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
@@ -95,7 +94,6 @@ starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
 # returns TRUE or FALSE) to determine the relevant subset of
 # columns. Here we apply mean() to the numeric columns:
 starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
-
 
 # If you want to apply multiple transformations, pass a list of
 # functions. When there are multiple functions, they create new
