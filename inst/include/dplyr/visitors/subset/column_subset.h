@@ -168,8 +168,7 @@ SEXP column_subset(SEXP x, const Index& index, SEXP frame) {
     break;
   }
 
-  stop("type not supported");
-  return R_NilValue;
+  return r_column_subset(x, index, frame);
 }
 
 template <typename Index>

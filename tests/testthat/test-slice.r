@@ -186,3 +186,8 @@ test_that("slice does not evaluate the expression in empty groups (#1438)", {
   )
   expect_equal(nrow(res), 3L)
 })
+
+test_that("column_subset() falls back to R indexing on esoteric data types (#4128)", {
+  res <- slice(tibble::enframe(formals(rnorm)), 2:3)
+  expect_identical(res, tibble(name = c("mean", "sd"), value = list(0, 1)))
+})
