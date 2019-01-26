@@ -144,32 +144,31 @@ SEXP column_subset(SEXP x, const Index& index, SEXP frame) {
     return dataframe_subset(x, index, Rf_getAttrib(x, R_ClassSymbol), frame);
   }
 
-  // this has a class, so just use R `[` or `[[`
-  if (OBJECT(x) || !Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
-    return r_column_subset(x, index, frame);
+  // trivial types, treat them specially
+  if (!OBJECT(x) && Rf_isNull(Rf_getAttrib(x, R_ClassSymbol))) {
+    switch (TYPEOF(x)) {
+    case LGLSXP:
+      return column_subset_impl<LGLSXP, Index>(x, index);
+    case RAWSXP:
+      return column_subset_impl<RAWSXP, Index>(x, index);
+    case INTSXP:
+      return column_subset_impl<INTSXP, Index>(x, index);
+    case STRSXP:
+      return column_subset_impl<STRSXP, Index>(x, index);
+    case REALSXP:
+      return column_subset_impl<REALSXP, Index>(x, index);
+    case CPLXSXP:
+      return column_subset_impl<CPLXSXP, Index>(x, index);
+    case VECSXP:
+      return column_subset_impl<VECSXP, Index>(x, index);
+    default:
+      break;
+    }
   }
 
-  switch (TYPEOF(x)) {
-  case LGLSXP:
-    return column_subset_impl<LGLSXP, Index>(x, index);
-  case RAWSXP:
-    return column_subset_impl<RAWSXP, Index>(x, index);
-  case INTSXP:
-    return column_subset_impl<INTSXP, Index>(x, index);
-  case STRSXP:
-    return column_subset_impl<STRSXP, Index>(x, index);
-  case REALSXP:
-    return column_subset_impl<REALSXP, Index>(x, index);
-  case CPLXSXP:
-    return column_subset_impl<CPLXSXP, Index>(x, index);
-  case VECSXP:
-    return column_subset_impl<VECSXP, Index>(x, index);
-  default:
-    break;
-  }
-
-  stop("type not supported");
-  return R_NilValue;
+  // anything else, fall back to R indexing and
+  // possibly dispatch on [ or [[
+  return r_column_subset(x, index, frame);
 }
 
 template <typename Index>
