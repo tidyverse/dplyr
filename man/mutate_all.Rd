@@ -48,8 +48,13 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
-These verbs are \link{scoped} variants of \code{\link[=mutate]{mutate()}} and \code{\link[=transmute]{transmute()}}.
-They mutate a selection of variables.
+The \link{scoped} variants of \code{\link[=mutate]{mutate()}} and \code{\link[=transmute]{transmute()}} make it easy to apply
+the same transformation to multiple variables. There are three variants:
+\itemize{
+\item _all affects every variable
+\item _at affects variables selected with a character vector or vars()
+\item _if affects variables selected with a predicate function:
+}
 }
 \section{Grouping variables}{
 
@@ -75,12 +80,6 @@ data \%>\% mutate_at(vars, myoperation)
 
 \examples{
 iris <- as_tibble(iris)
-
-# The scoped variants of mutate() make it easy to apply the same
-# transformation to multiple variables. There are three variants:
-# * _all affects every variable
-# * _at affects variables selected with a character vector or vars()
-# * _if affects variables selected with a predicate function:
 
 # All variants can be passed functions and additional arguments,
 # purrr-style. The _at() variants directly support strings. Here
