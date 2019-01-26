@@ -57,7 +57,7 @@
 #' # You can mix vectors and data frames:
 #' bind_rows(
 #'   c(a = 1, b = 2),
-#'   data_frame(a = 3:4, b = 5:6),
+#'   tibble(a = 3:4, b = 5:6),
 #'   c(a = 7, b = 8)
 #' )
 #'

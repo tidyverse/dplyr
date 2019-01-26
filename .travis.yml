@@ -6,16 +6,13 @@ dist: trusty
 cache: packages
 latex: false
 fortran: false
-r_build_args: '--no-manual'
 
 jobs:
   include:
   - r: devel
   - r: 3.1
     warnings_are_errors: false
-
-  - stage: full
-    os: osx
+  - os: osx
   - r: release
     after_success:
     - Rscript -e 'covr::codecov()'

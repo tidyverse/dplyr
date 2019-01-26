@@ -1,7 +1,7 @@
 context("transmute")
 
 test_that("non-syntactic grouping variable is preserved (#1138)", {
-  df <- data_frame(`a b` = 1L) %>% group_by(`a b`) %>% transmute()
+  df <- tibble(`a b` = 1L) %>% group_by(`a b`) %>% transmute()
   expect_named(df, "a b")
 })
 
@@ -17,7 +17,7 @@ test_that("transmute with no args returns nothing", {
 # transmute variables -----------------------------------------------
 
 test_that("transmute succeeds in presence of raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_identical(transmute(df, a), df["a"])
   expect_identical(transmute(df, b), df["b"])
 })
