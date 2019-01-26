@@ -238,45 +238,39 @@ quo_is_data_pronoun <- function(quo) {
 #' R's set of cumulate functions to match the aggregation functions available
 #' in most databases
 #'
+#' @section Cumulative logical functions:
+#'
+#' These are particularly useful in conjunction with `filter()`:
+#'
+#' * `cumall(x)`: all records up until the first `FALSE`
+#' * `cumall(!x)`: all records up until the first `TRUE`
+#' * `cumany(x)`: all records after the first `TRUE`
+#' * `cumany(!x)`: all recrods after the first `FALSE`
+#'
 #' @param x For `cumall()` and `cumany()`, a logical vector; for
-#'   `cummean()` an integer or numeric vector
+#'   `cummean()` an integer or numeric vector.
+#' @return A vector the same length as `x`.
 #' @export
 #' @examples
-#' x <- c(1, 3, 5, 2, 2)
-#'
 #' # `cummean()` returns a numeric/integer vector of the same length
 #' # as the input vector.
+#' x <- c(1, 3, 5, 2, 2)
 #' cummean(x)
+#' cumsum(x) / seq_along(x)
 #'
-#' # `cumall()` and `cumany()` return logicals, not numerics/integers.
-#' cumall(x)
-#' cumany(x)
+#' # `cumall()` and `cumany()` return logicals
+#' cumall(x < 5)
+#' cumany(x == 3)
 #'
-#'
-#' # An NA only affects all elements after it for `cumall()` and `cummean()`,
-#' # but NOT for `cumany()`
-#' x <- c(1, 3, 5, NA, 2, 2)
-#'
-#' # NAs in every position after the corresponding NA position in the vector.
-#' cumall(x)
-#' cummean(x)
-#'
-#' # No NAs at all!
-#' cumany(x)
-#'
-#' # An NA at the beginning of the vector causes all elements after to be NA.
-#' x <- c(NA, 1, 3, 5, 2, 2)
-#'
-#' cummean(x)
-#' cumall(x)
-#' cumany(x)
-#'
-#' # NULLs are thrown out.
-#' x <- c(1, 3, 5, NULL, 2, 2)
-#'
-#' cummean(x)
-#' cumall(x)
-#' cumany(x)
+#' # `cumall()` vs. `cumany()`
+#' df <- data.frame(
+#'   date = as.Date("2020-01-01") + 0:6,
+#'   balance = c(100, 50, 25, -25, -50, 30, 120)
+#' )
+#' # all rows after first overdraft
+#' df %>% filter(cumany(balance < 0))
+#' # all rows until first overdraft
+#' df %>% filter(cumall(!(balance < 0)))
 cumall <- function(x) {
     .Call(`_dplyr_cumall`, x)
 }

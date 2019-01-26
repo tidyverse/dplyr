@@ -14,47 +14,46 @@ cummean(x)
 }
 \arguments{
 \item{x}{For \code{cumall()} and \code{cumany()}, a logical vector; for
-\code{cummean()} an integer or numeric vector}
+\code{cummean()} an integer or numeric vector.}
+}
+\value{
+A vector the same length as \code{x}.
 }
 \description{
 dplyr adds \code{cumall()}, \code{cumany()}, and \code{cummean()} to complete
 R's set of cumulate functions to match the aggregation functions available
 in most databases
 }
-\examples{
-x <- c(1, 3, 5, 2, 2)
+\section{Cumulative logical functions}{
 
+
+These are particularly useful in conjunction with \code{filter()}:
+\itemize{
+\item \code{cumall(x)}: all records up until the first \code{FALSE}
+\item \code{cumall(!x)}: all records up until the first \code{TRUE}
+\item \code{cumany(x)}: all records after the first \code{TRUE}
+\item \code{cumany(!x)}: all recrods after the first \code{FALSE}
+}
+}
+
+\examples{
 # `cummean()` returns a numeric/integer vector of the same length
 # as the input vector.
+x <- c(1, 3, 5, 2, 2)
 cummean(x)
+cumsum(x) / seq_along(x)
 
-# `cumall()` and `cumany()` return logicals, not numerics/integers.
-cumall(x)
-cumany(x)
+# `cumall()` and `cumany()` return logicals
+cumall(x < 5)
+cumany(x == 3)
 
-
-# An NA only affects all elements after it for `cumall()` and `cummean()`,
-# but NOT for `cumany()`
-x <- c(1, 3, 5, NA, 2, 2)
-
-# NAs in every position after the corresponding NA position in the vector.
-cumall(x)
-cummean(x)
-
-# No NAs at all!
-cumany(x)
-
-# An NA at the beginning of the vector causes all elements after to be NA.
-x <- c(NA, 1, 3, 5, 2, 2)
-
-cummean(x)
-cumall(x)
-cumany(x)
-
-# NULLs are thrown out.
-x <- c(1, 3, 5, NULL, 2, 2)
-
-cummean(x)
-cumall(x)
-cumany(x)
+# `cumall()` vs. `cumany()`
+df <- data.frame(
+  date = as.Date("2020-01-01") + 0:6,
+  balance = c(100, 50, 25, -25, -50, 30, 120)
+)
+# all rows after first overdraft
+df \%>\% filter(cumany(balance < 0))
+# all rows until first overdraft
+df \%>\% filter(cumall(!(balance < 0)))
 }

@@ -3,54 +3,42 @@
 
 //' Cumulativate versions of any, all, and mean
 //'
-//' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
-//' R's set of cumulate functions to match the aggregation functions available
-//' in most databases
+//' dplyr provides `cumall()`, `cumany()`, and `cummean()` to complete R's set
+//' of cumulativee functions.
 //'
-//' * `cumean()`: cumulative mean
+//' @section Cumulative logical functions:
 //'
-//' * `cumall()`: useful for finding all records after where a condition
-//' is `FALSE` for the first time
+//' These are particularly useful in conjunction with `filter()`:
 //'
-//' * `cumany()`: useful for finding all records up to where a condition
-//' is `TRUE` for the first time
+//' * `cumall(x)`: all cases until the first `FALSE`.
+//' * `cumall(!x)`: all cases until the first `TRUE`.
+//' * `cumany(x)`: all cases after the first `TRUE`.
+//' * `cumany(!x)`: all cases after the first `FALSE`.
 //'
 //' @param x For `cumall()` and `cumany()`, a logical vector; for
-//'   `cummean()` an integer or numeric vector
+//'   `cummean()` an integer or numeric vector.
+//' @return A vector the same length as `x`.
 //' @export
 //' @examples
-//'
 //' # `cummean()` returns a numeric/integer vector of the same length
 //' # as the input vector.
-//' # `cumall()` and `cumany()` return logicals, not numerics/integers.
 //' x <- c(1, 3, 5, 2, 2)
 //' cummean(x)
-//' cumall(x < 5)
+//' cumsum(x) / seq_along(x)
 //'
-//' # An `NA` only affects all elements after it for `cummean()` or
-//' # for `cumall()` if all prior conditions evaluate to `TRUE`,
-//' # but NOT in any case for `cumany()`.
-//' # This behavior is consistent with that of
-//' # `NA || TRUE` compared to `NA && TRUE`.
-//' x <- c(1, 3, 5, NA, 2, 2)
-//' cummean(x)
+//' # `cumall()` and `cumany()` return logicals
 //' cumall(x < 5)
-//' cumall(x > 0)
-//' cumany(x > 4)
-//' cumany(x < 4)
-//'
-//' # An `NA` at the beginning of the vector causes all elements afterwards
-//' # to be `NA`.
-//' x <- c(NA, 1, 3, 5, 2, 2)
-//' cummean(x)
-//' cumall(x < 5)
+//' cumany(x == 3)
 //'
 //' # `cumall()` vs. `cumany()`
-//' # `cumall()` will return all rows until the first `FALSE`.
-//' # `cumany()` will return all rows after the first `TRUE`.
-//' filter(storms, cumall(wind > 26))
-//' filter(storms, cumany(wind > 26))
-//'
+//' df <- data.frame(
+//'   date = as.Date("2020-01-01") + 0:6,
+//'   balance = c(100, 50, 25, -25, -50, 30, 120)
+//' )
+//' # all rows after first overdraft
+//' df %>% filter(cumany(balance < 0))
+//' # all rows until first overdraft
+//' df %>% filter(cumall(!(balance < 0)))
 // [[Rcpp::export]]
 LogicalVector cumall(LogicalVector x) {
   int n = x.length();
