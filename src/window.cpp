@@ -4,7 +4,7 @@
 //' Cumulativate versions of any, all, and mean
 //'
 //' dplyr provides `cumall()`, `cumany()`, and `cummean()` to complete R's set
-//' of cumulativee functions.
+//' of cumulative functions.
 //'
 //' @section Cumulative logical functions:
 //'

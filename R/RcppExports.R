@@ -234,18 +234,17 @@ quo_is_data_pronoun <- function(quo) {
 
 #' Cumulativate versions of any, all, and mean
 #'
-#' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
-#' R's set of cumulate functions to match the aggregation functions available
-#' in most databases
+#' dplyr provides `cumall()`, `cumany()`, and `cummean()` to complete R's set
+#' of cumulative functions.
 #'
 #' @section Cumulative logical functions:
 #'
 #' These are particularly useful in conjunction with `filter()`:
 #'
-#' * `cumall(x)`: all records up until the first `FALSE`
-#' * `cumall(!x)`: all records up until the first `TRUE`
-#' * `cumany(x)`: all records after the first `TRUE`
-#' * `cumany(!x)`: all recrods after the first `FALSE`
+#' * `cumall(x)`: all cases until the first `FALSE`.
+#' * `cumall(!x)`: all cases until the first `TRUE`.
+#' * `cumany(x)`: all cases after the first `TRUE`.
+#' * `cumany(!x)`: all cases after the first `FALSE`.
 #'
 #' @param x For `cumall()` and `cumany()`, a logical vector; for
 #'   `cummean()` an integer or numeric vector.

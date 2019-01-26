@@ -20,19 +20,18 @@ cummean(x)
 A vector the same length as \code{x}.
 }
 \description{
-dplyr adds \code{cumall()}, \code{cumany()}, and \code{cummean()} to complete
-R's set of cumulate functions to match the aggregation functions available
-in most databases
+dplyr provides \code{cumall()}, \code{cumany()}, and \code{cummean()} to complete R's set
+of cumulative functions.
 }
 \section{Cumulative logical functions}{
 
 
 These are particularly useful in conjunction with \code{filter()}:
 \itemize{
-\item \code{cumall(x)}: all records up until the first \code{FALSE}
-\item \code{cumall(!x)}: all records up until the first \code{TRUE}
-\item \code{cumany(x)}: all records after the first \code{TRUE}
-\item \code{cumany(!x)}: all recrods after the first \code{FALSE}
+\item \code{cumall(x)}: all cases until the first \code{FALSE}.
+\item \code{cumall(!x)}: all cases until the first \code{TRUE}.
+\item \code{cumany(x)}: all cases after the first \code{TRUE}.
+\item \code{cumany(!x)}: all cases after the first \code{FALSE}.
 }
 }
 
