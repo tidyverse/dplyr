@@ -31,9 +31,8 @@
 
 <meta property="og:title" content="Cumulativate versions of any, all, and mean — cumall" />
 
-<meta property="og:description" content="dplyr adds cumall(), cumany(), and cummean() to complete
-R's set of cumulate functions to match the aggregation functions available
-in most databases" />
+<meta property="og:description" content="dplyr provides cumall(), cumany(), and cummean() to complete R's set
+of cumulative functions." />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -146,9 +145,8 @@ in most databases" />
 
     <div class="ref-description">
     
-    <p>dplyr adds <code>cumall()</code>, <code>cumany()</code>, and <code>cummean()</code> to complete
-R's set of cumulate functions to match the aggregation functions available
-in most databases</p>
+    <p>dplyr provides <code>cumall()</code>, <code>cumany()</code>, and <code>cummean()</code> to complete R's set
+of cumulative functions.</p>
     
     </div>
 
@@ -164,17 +162,59 @@ in most databases</p>
     <tr>
       <th>x</th>
       <td><p>For <code>cumall()</code> and <code>cumany()</code>, a logical vector; for
-<code>cummean()</code> an integer or numeric vector</p></td>
+<code>cummean()</code> an integer or numeric vector.</p></td>
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>A vector the same length as <code>x</code>.</p>
+    
+    <h2 class="hasAnchor" id="cumulative-logical-functions"><a class="anchor" href="#cumulative-logical-functions"></a>Cumulative logical functions</h2>
+
+    
+    <p>These are particularly useful in conjunction with <code><a href='filter.html'>filter()</a></code>:</p><ul>
+<li><p><code>cumall(x)</code>: all cases until the first <code>FALSE</code>.</p></li>
+<li><p><code>cumall(!x)</code>: all cases until the first <code>TRUE</code>.</p></li>
+<li><p><code>cumany(x)</code>: all cases after the first <code>TRUE</code>.</p></li>
+<li><p><code>cumany(!x)</code>: all cases after the first <code>FALSE</code>.</p></li>
+</ul>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='co'># `cummean()` returns a numeric/integer vector of the same length</span>
+<span class='co'># as the input vector.</span>
+<span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>2</span>)
+<span class='fu'>cummean</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum</a></span>(<span class='no'>x</span>) / <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq_along</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'>
+<span class='co'># `cumall()` and `cumany()` return logicals</span>
+<span class='fu'>cumall</span>(<span class='no'>x</span> <span class='kw'>&lt;</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'><span class='fu'>cumany</span>(<span class='no'>x</span> <span class='kw'>==</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] FALSE  TRUE  TRUE  TRUE  TRUE</div><div class='input'>
+<span class='co'># `cumall()` vs. `cumany()`</span>
+<span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(
+  <span class='kw'>date</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.Date'>as.Date</a></span>(<span class='st'>"2020-01-01"</span>) + <span class='fl'>0</span>:<span class='fl'>6</span>,
+  <span class='kw'>balance</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>100</span>, <span class='fl'>50</span>, <span class='fl'>25</span>, -<span class='fl'>25</span>, -<span class='fl'>50</span>, <span class='fl'>30</span>, <span class='fl'>120</span>)
+)
+<span class='co'># all rows after first overdraft</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'>cumany</span>(<span class='no'>balance</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>))</div><div class='output co'>#&gt;         date balance
+#&gt; 1 2020-01-04     -25
+#&gt; 2 2020-01-05     -50
+#&gt; 3 2020-01-06      30
+#&gt; 4 2020-01-07     120</div><div class='input'><span class='co'># all rows until first overdraft</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'>cumall</span>(!(<span class='no'>balance</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>)))</div><div class='output co'>#&gt;         date balance
+#&gt; 1 2020-01-01     100
+#&gt; 2 2020-01-02      50
+#&gt; 3 2020-01-03      25</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#cumulative-logical-functions">Cumulative logical functions</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

@@ -31,8 +31,12 @@
 
 <meta property="og:title" content="Mutate multiple columns — mutate_all" />
 
-<meta property="og:description" content="These verbs are scoped variants of mutate() and transmute().
-They mutate a selection of variables." />
+<meta property="og:description" content="The scoped variants of mutate() and transmute() make it easy to apply
+the same transformation to multiple variables. There are three variants:
+_all affects every variable
+_at affects variables selected with a character vector or vars()
+_if affects variables selected with a predicate function:
+" />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -145,8 +149,12 @@ They mutate a selection of variables." />
 
     <div class="ref-description">
     
-    <p>These verbs are <a href='scoped.html'>scoped</a> variants of <code><a href='mutate.html'>mutate()</a></code> and <code><a href='mutate.html'>transmute()</a></code>.
-They mutate a selection of variables.</p>
+    <p>The <a href='scoped.html'>scoped</a> variants of <code><a href='mutate.html'>mutate()</a></code> and <code><a href='mutate.html'>transmute()</a></code> make it easy to apply
+the same transformation to multiple variables. There are three variants:</p><ul>
+<li><p>_all affects every variable</p></li>
+<li><p>_at affects variables selected with a character vector or vars()</p></li>
+<li><p>_if affects variables selected with a predicate function:</p></li>
+</ul>
     
     </div>
 
@@ -231,12 +239,6 @@ data %&gt;% mutate_at(vars, myoperation)
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>iris</span>)
-
-<span class='co'># The scoped variants of mutate() make it easy to apply the same</span>
-<span class='co'># transformation to multiple variables. There are three variants:</span>
-<span class='co'># * _all affects every variable</span>
-<span class='co'># * _at affects variables selected with a character vector or vars()</span>
-<span class='co'># * _if affects variables selected with a predicate function:</span>
 
 <span class='co'># All variants can be passed functions and additional arguments,</span>
 <span class='co'># purrr-style. The _at() variants directly support strings. Here</span>

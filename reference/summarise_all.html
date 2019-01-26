@@ -31,8 +31,14 @@
 
 <meta property="og:title" content="Summarise multiple columns — summarise_all" />
 
-<meta property="og:description" content="These verbs are scoped variants of summarise(). They summarise
-a selection of variables." />
+<meta property="og:description" content="The scoped variants of summarise() make it easy to apply the same
+transformation to multiple variables.
+There are three variants.
+summarise_all() affects every variable
+summarise_at() affects variables selected with a character vector or
+vars()
+summarise_if() affects variables selected with a predicate function
+" />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -145,8 +151,14 @@ a selection of variables." />
 
     <div class="ref-description">
     
-    <p>These verbs are <a href='scoped.html'>scoped</a> variants of <code><a href='summarise.html'>summarise()</a></code>. They summarise
-a selection of variables.</p>
+    <p>The <a href='scoped.html'>scoped</a> variants of <code><a href='summarise.html'>summarise()</a></code> make it easy to apply the same
+transformation to multiple variables.
+There are three variants.</p><ul>
+<li><p><code>summarise_all()</code> affects every variable</p></li>
+<li><p><code>summarise_at()</code> affects variables selected with a character vector or
+vars()</p></li>
+<li><p><code>summarise_if()</code> affects variables selected with a predicate function</p></li>
+</ul>
     
     </div>
 
@@ -231,18 +243,6 @@ ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>by_species</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
 
-<span class='co'># The scoped variants of summarise() make it easy to apply the same</span>
-<span class='co'># transformation to multiple variables:</span>
-<span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='no'>mean</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;   Species    Sepal.Length Sepal.Width Petal.Length Petal.Width
-#&gt;   &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;
-#&gt; 1 setosa             5.01        3.43         1.46       0.246
-#&gt; 2 versicolor         5.94        2.77         4.26       1.33 
-#&gt; 3 virginica          6.59        2.97         5.55       2.03 </div><div class='input'>
-<span class='co'># There are three variants.</span>
-<span class='co'># * _all affects every variable</span>
-<span class='co'># * _at affects variables selected with a character vector or vars()</span>
-<span class='co'># * _if affects variables selected with a predicate function:</span>
 
 <span class='co'># The _at() variants directly support strings:</span>
 <span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
@@ -262,7 +262,6 @@ ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li
 #&gt;   height  mass birth_year
 #&gt;    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 #&gt; 1   174.  97.3       87.6</div><div class='input'>
-
 <span class='co'># If you want to apply multiple transformations, pass a list of</span>
 <span class='co'># functions. When there are multiple functions, they create new</span>
 <span class='co'># variables instead of modifying the variables in place:</span>
