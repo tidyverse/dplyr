@@ -36,7 +36,7 @@ test_that("group_rows and group_data work with 0 rows data frames (#3489)", {
   expect_identical(group_data(rowwise(df)), tibble(".rows" := list()))
   expect_identical(
     group_data(group_by(df, x)),
-    tibble::new_tibble(list(x = ingeter(), .rows = list()), .drop = TRUE, nrow = 0L)
+    tibble::new_tibble(list(x = integer(), .rows = list()), .drop = TRUE, nrow = 0L)
   )
 })
 
