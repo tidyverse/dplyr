@@ -299,3 +299,10 @@ test_that("*_(all,at) handle utf-8 names (#2967)", {
     expect_equal(res, name)
   })
 })
+
+test_that("mutate_all() handles non syntactic names (#4094)", {
+  tbl <- tibble(`..1` = "a")
+  res <- mutate_all(tbl, toupper)
+  expect_equal(names(tbl), names(res))
+  expect_equal(res[["..1"]], "A")
+})
