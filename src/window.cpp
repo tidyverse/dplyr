@@ -42,22 +42,37 @@
 // [[Rcpp::export]]
 LogicalVector cumall(LogicalVector x) {
   int n = x.length();
-  LogicalVector out(n, FALSE);
-  int current  = TRUE;
-  int previous = TRUE;
+  LogicalVector out(n, TRUE);
+  int* p_x = x.begin();
+  int* p_out = out.begin();
 
-  for (int i = 0; i < n; i++) {
-    current = x[i];
-    if (current == FALSE) {
+  // nothing to do as long as x[i] is TRUE
+  int i = 0 ;
+  for (; i < n; i++, ++p_x, ++p_out) {
+    if (*p_x != TRUE) {
       break;
-    } else if (current == NA_LOGICAL) {
-      out[i] = NA_LOGICAL;
-      previous = NA_LOGICAL;
-    } else {
-      out[i] = previous;
     }
   }
+  if (i == n) {
+    return out;
+  }
 
+  // set to NA as long as x[i] is NA or TRUE
+  for (; i < n; i++, ++p_x, ++p_out) {
+    if (*p_x == FALSE) {
+      break;
+    }
+    *p_out = NA_LOGICAL;
+  }
+
+  if (i == n) {
+    return out;
+  }
+
+  // then if we are here, the rest is FALSE
+  for (; i < n; i++, ++p_out) {
+    *p_out = FALSE;
+  }
   return out;
 }
 
@@ -66,23 +81,39 @@ LogicalVector cumall(LogicalVector x) {
 // [[Rcpp::export]]
 LogicalVector cumany(LogicalVector x) {
   int n = x.length();
-  LogicalVector out(n, TRUE);
-  int current  = FALSE;
-  int previous = FALSE;
+  LogicalVector out(n, FALSE);
+  int* p_x = x.begin();
+  int* p_out = out.begin();
 
-  for (int i = 0; i < n; i++) {
-    current = x[i];
-    if (current == FALSE) {
-      out[i] = previous;
-    } else if (current == NA_LOGICAL) {
-      out[i]   = NA_LOGICAL;
-      previous = NA_LOGICAL;
-    } else {
+  // nothing to do as long as x[i] is FALSE
+  int i = 0 ;
+  for (; i < n; i++, ++p_x, ++p_out) {
+    if (*p_x != FALSE) {
       break;
     }
   }
+  if (i == n) {
+    return out;
+  }
 
+  // set to NA as long as x[i] is NA or FALSE
+  for (; i < n; i++, ++p_x, ++p_out) {
+    if (*p_x == TRUE) {
+      break;
+    }
+    *p_out = NA_LOGICAL;
+  }
+
+  if (i == n) {
+    return out;
+  }
+
+  // then if we are here, the rest is TRUE
+  for (; i < n; i++, ++p_out) {
+    *p_out = TRUE;
+  }
   return out;
+
 }
 
 //' @export
