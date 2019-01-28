@@ -210,3 +210,18 @@ test_that("count() deals with .drop", {
   expect_equal(nrow(res3), 9L)
 })
 
+test_that("add_count() respects .drop",  {
+  d <- tibble(
+    f1 = factor("b", levels = c("a", "b", "c")),
+    f2 = factor("g", levels = c("e", "f", "g")),
+    x  = 48
+  )
+  res1 <- d %>% group_by(f1) %>% add_count(f2, .drop = FALSE)
+  res2 <- d %>% group_by(f1) %>% add_count(f2, .drop = TRUE)
+  res3 <- d %>% group_by(f1) %>% add_count(f2)
+
+  expect_identical(res2, res3)
+  expect_equal(n_groups(res2), 1)
+  expect_equal(n_groups(res1), 3)
+})
+
