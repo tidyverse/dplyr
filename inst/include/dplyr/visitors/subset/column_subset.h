@@ -138,13 +138,8 @@ inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingInd
   }
 }
 
-template <int RTYPE, typename Index>
-SEXP column_subset_posixct(SEXP x, const Index& index) {
-  return column_subset_impl<RTYPE, Index>(x, index);
-}
-
-inline bool is_trivial_POSIXct(SEXP klass) {
-  return TYPEOF(klass) == STRSXP && Rf_length(klass) == 2 && STRING_ELT(klass, 0) == strings::POSIXct && STRING_ELT(klass, 1) == strings::POSIXt;
+inline bool is_trivial_POSIXct(SEXP x, SEXP klass) {
+  return TYPEOF(x) == REALSXP && TYPEOF(klass) == STRSXP && Rf_length(klass) == 2 && STRING_ELT(klass, 0) == strings::POSIXct && STRING_ELT(klass, 1) == strings::POSIXt;
 }
 
 template <typename Index>
@@ -178,17 +173,8 @@ SEXP column_subset(SEXP x, const Index& index, SEXP frame) {
   }
 
   // special case POSIXct (#3988)
-  if (is_trivial_POSIXct(klass)) {
-    switch (TYPEOF(x)) {
-    case INTSXP:
-      return column_subset_posixct<INTSXP>(x, index);
-    case REALSXP:
-      return column_subset_posixct<REALSXP>(x, index);
-    default:
-      break;
-    }
-
-    return r_column_subset(x, index, frame);
+  if (is_trivial_POSIXct(x, klass)) {
+    return column_subset_impl<REALSXP, Index>(x, index);
   }
 
   // anything else, fall back to R indexing and
