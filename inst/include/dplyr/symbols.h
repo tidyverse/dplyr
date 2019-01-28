@@ -63,6 +63,11 @@ struct fns {
   static SEXP quote;
 };
 
+struct strings {
+  static SEXP POSIXct;
+  static SEXP POSIXt;
+};
+
 } // namespace dplyr
 
 
