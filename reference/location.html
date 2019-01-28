@@ -169,51 +169,51 @@ frames</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x81d1f18&gt;
+    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x7eecb28&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x6cdf2f0&gt;
-#&gt;  * cyl:       &lt;0x6cdf430&gt;
-#&gt;  * disp:      &lt;0x6cdf570&gt;
-#&gt;  * hp:        &lt;0x62a1960&gt;
-#&gt;  * drat:      &lt;0x62a1aa0&gt;
-#&gt;  * wt:        &lt;0x62a1be0&gt;
-#&gt;  * qsec:      &lt;0x60570f0&gt;
-#&gt;  * vs:        &lt;0x6057230&gt;
-#&gt;  * am:        &lt;0x6057370&gt;
-#&gt;  * gear:      &lt;0x60574b0&gt;
-#&gt;  * carb:      &lt;0x60575f0&gt;
+#&gt;  * mpg:       &lt;0x7bc7420&gt;
+#&gt;  * cyl:       &lt;0x5254330&gt;
+#&gt;  * disp:      &lt;0x5254470&gt;
+#&gt;  * hp:        &lt;0x64b20a0&gt;
+#&gt;  * drat:      &lt;0x64b21e0&gt;
+#&gt;  * wt:        &lt;0x3b0e330&gt;
+#&gt;  * qsec:      &lt;0x3b0e470&gt;
+#&gt;  * vs:        &lt;0x3b0e5b0&gt;
+#&gt;  * am:        &lt;0x3b0e6f0&gt;
+#&gt;  * gear:      &lt;0x3b0e830&gt;
+#&gt;  * carb:      &lt;0x3b0e970&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x81d1e68&gt;
-#&gt;  * row.names: &lt;0x6057730&gt;
-#&gt;  * class:     &lt;0x661a660&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x7eeca78&gt;
+#&gt;  * row.names: &lt;0x3b0eab0&gt;
+#&gt;  * class:     &lt;0x723d220&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x86331b8&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x75af9a8&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x6cdf2f0&gt;
-#&gt;  * cyl:       &lt;0x6cdf430&gt;
-#&gt;  * disp:      &lt;0x6cdf570&gt;
-#&gt;  * hp:        &lt;0x62a1960&gt;
-#&gt;  * drat:      &lt;0x62a1aa0&gt;
-#&gt;  * wt:        &lt;0x62a1be0&gt;
-#&gt;  * qsec:      &lt;0x60570f0&gt;
-#&gt;  * vs:        &lt;0x6057230&gt;
-#&gt;  * am:        &lt;0x6057370&gt;
-#&gt;  * gear:      &lt;0x60574b0&gt;
-#&gt;  * carb:      &lt;0x60575f0&gt;
-#&gt;  * cyl2:      &lt;0xa13d990&gt;
+#&gt;  * mpg:       &lt;0x7bc7420&gt;
+#&gt;  * cyl:       &lt;0x5254330&gt;
+#&gt;  * disp:      &lt;0x5254470&gt;
+#&gt;  * hp:        &lt;0x64b20a0&gt;
+#&gt;  * drat:      &lt;0x64b21e0&gt;
+#&gt;  * wt:        &lt;0x3b0e330&gt;
+#&gt;  * qsec:      &lt;0x3b0e470&gt;
+#&gt;  * vs:        &lt;0x3b0e5b0&gt;
+#&gt;  * am:        &lt;0x3b0e6f0&gt;
+#&gt;  * gear:      &lt;0x3b0e830&gt;
+#&gt;  * carb:      &lt;0x3b0e970&gt;
+#&gt;  * cyl2:      &lt;0xa65d020&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x8b7ee58&gt;
-#&gt;  * class:     &lt;0x712f618&gt;
-#&gt;  * row.names: &lt;0x7b72d78&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x75af6e8&gt;
+#&gt;  * class:     &lt;0x728fd30&gt;
+#&gt;  * row.names: &lt;0x7086eb0&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new      
-#&gt; cyl2      &lt;added&gt; 0xa13d990
+#&gt; cyl2      &lt;added&gt; 0xa65d020
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old       new      
-#&gt; names     0x81d1e68 0x8b7ee58
-#&gt; row.names 0x6057730 0x4ac78c8
-#&gt; class     0x661a660 0x712f618</div></pre>
+#&gt; names     0x7eeca78 0x75af6e8
+#&gt; row.names 0x3b0eab0 0x9084c90
+#&gt; class     0x723d220 0x728fd30</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
