@@ -68,6 +68,8 @@ test_that("$<- refuses to modify grouping vars (#143)", {
     "Column `am` can't be modified because it's a grouping variable",
     fixed = TRUE
   )
+  df$xx <- 3
+  expect_equal(df$xx, rep(3, nrow(df)))
 })
 
 test_that("mutate handles constants (#152)", {
