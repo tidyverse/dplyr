@@ -41,7 +41,8 @@ A tbl, grouped the same way as \code{x}.
 \code{tally()} is a convenient wrapper for summarise that will either call
 \code{\link[=n]{n()}} or \code{\link{sum}(n)} depending on whether you're tallying
 for the first time, or re-tallying. \code{count()} is similar but calls
-\code{\link[=group_by]{group_by()}} before and \code{\link[=ungroup]{ungroup()}} after.
+\code{\link[=group_by]{group_by()}} before and \code{\link[=ungroup]{ungroup()}} after. If the data is already
+grouped, \code{count()} adds an additional group that is removed afterwards.
 
 \code{add_tally()} adds a column \code{n} to a table based on the number
 of items within each existing group, while \code{add_count()} is a shortcut that
@@ -65,6 +66,9 @@ mtcars \%>\% tally()
 mtcars \%>\% group_by(cyl) \%>\% tally()
 # count() is a short-hand for group_by() + tally()
 mtcars \%>\% count(cyl)
+# Note that if the data is already grouped, count() adds
+# an additional group that is removed afterwards
+mtcars \%>\% group_by(gear) \%>\% count(carb)
 
 # add_tally() is short-hand for mutate()
 mtcars \%>\% add_tally()
