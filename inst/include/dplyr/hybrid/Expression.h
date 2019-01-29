@@ -273,6 +273,10 @@ public:
     return package;
   }
 
+  inline SEXP get_expr() const {
+    return expr;
+  }
+
 private:
   SEXP expr;
   SEXP env;
