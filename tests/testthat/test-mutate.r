@@ -56,7 +56,15 @@ test_that("mutate can rename variables (#137)", {
 
 test_that("mutate refuses to modify grouping vars (#143)", {
   expect_error(
-    mutate(group_by(tbl_df(mtcars), am), am = am + 2),
+    mutate(group_by(mtcars, am), am = am + 2),
+    "Column `am` can't be modified because it's a grouping variable",
+    fixed = TRUE
+  )
+})
+
+test_that("$<- refuses to modify grouping vars (#143)", {
+  df <- group_by(tbl_df(mtcars), am)
+  expect_error({df$am <- df$am + 2},
     "Column `am` can't be modified because it's a grouping variable",
     fixed = TRUE
   )

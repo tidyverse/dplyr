@@ -186,6 +186,15 @@ ungroup.grouped_df <- function(x, ...) {
   }
 }
 
+#' @export
+`$<-.grouped_df` <- function(x, name, value) {
+  if (name %in% group_vars(x)) {
+    abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
+  }
+  NextMethod()
+}
+
+
 #' @method rbind grouped_df
 #' @export
 rbind.grouped_df <- function(...) {
