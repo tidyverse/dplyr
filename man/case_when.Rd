@@ -59,8 +59,8 @@ case_when(
   x \%\% 35 == 0 ~ "fizz buzz"
 )
 
-Note that NA values in the vector x do not get special treatment. If you want
-to explicitly handle NA values you can use the `is.na` function:
+# Note that NA values in the vector x do not get special treatment. If you want
+# to explicitly handle NA values you can use the `is.na` function:
 x[2:4] <- NA_real_
 case_when(
   x \%\% 35 == 0 ~ "fizz buzz",
