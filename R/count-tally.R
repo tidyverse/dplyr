@@ -4,7 +4,8 @@
 #' `tally()` is a convenient wrapper for summarise that will either call
 #' [n()] or \code{\link{sum}(n)} depending on whether you're tallying
 #' for the first time, or re-tallying. `count()` is similar but calls
-#' [group_by()] before and [ungroup()] after.
+#' [group_by()] before and [ungroup()] after. If the data is already
+#' grouped, `count()` adds an additional group that is removed afterwards.
 #'
 #' `add_tally()` adds a column `n` to a table based on the number
 #' of items within each existing group, while `add_count()` is a shortcut that
@@ -43,6 +44,9 @@
 #' mtcars %>% group_by(cyl) %>% tally()
 #' # count() is a short-hand for group_by() + tally()
 #' mtcars %>% count(cyl)
+#' # Note that if the data is already grouped, count() adds
+#' # an additional group that is removed afterwards
+#' mtcars %>% group_by(gear) %>% count(carb)
 #'
 #' # add_tally() is short-hand for mutate()
 #' mtcars %>% add_tally()
