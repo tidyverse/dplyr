@@ -44,7 +44,6 @@ test_that("default names are smallest unique set", {
   expect_named(summarise_at(df, vars(x), list(mean = mean, sd = sd)), c("mean", "sd"))
   expect_named(summarise_at(df, vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 
-  skip("discussed in #4125")
   expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
 })
 

@@ -308,10 +308,11 @@ manip_apply_syms <- function(funs, syms, tbl) {
   } else {
     nms <- names(funs)
     nms[nms == "<fn>"] <- "fn"
-    nms <- tibble:::universal_names(nms, quiet = TRUE)
-    # while(any(dup <- duplicated(nms))) {
-    #   nms[dup] <- paste(nms[dup], which(dup), sep = ".")
-    # }
+
+    # append ..<position> to duplicates
+    dup <- duplicated(nms)
+    test <- nms %in% nms[dup]
+    nms[test] <- paste(nms[test], which(test), sep = "..")
     names(funs) <- nms
 
     if (length(syms) == 1 && all(unnamed)) {
