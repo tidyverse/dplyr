@@ -62,7 +62,7 @@ test_that("mutate refuses to modify grouping vars (#143)", {
   )
 })
 
-test_that("$<- refuses to modify grouping vars (#143)", {
+test_that("$<- refuses to modify grouping vars (#4004)", {
   df <- group_by(tbl_df(mtcars), am)
   expect_error({df$am <- df$am + 2},
     "Column `am` can't be modified because it's a grouping variable",
