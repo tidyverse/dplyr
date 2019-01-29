@@ -51,14 +51,11 @@ and \code{\link[=count]{count()}} as \code{\link[=mutate]{mutate()}} is to \code
 they add an additional column rather than collapsing each group.
 }
 \note{
-The column name in the returned data is usually \code{n}, even if you
-have supplied a weight.
+The column name in the returned data is given by the \code{name} argument,
+set to \code{"n"} by default.
 
-If the data already has a column named \code{n}, the output column
-will be called \code{nn}. If the table already has columns called \code{n} and \code{nn}
-then the column returned will be \code{nnn}, and so on.
-
-To control the output column name use \code{name}.
+If the data already has a column by that name, the output column
+will be prefixed by an extra \code{"n"} as many times as necessary.
 }
 \examples{
 # tally() is short-hand for summarise()
