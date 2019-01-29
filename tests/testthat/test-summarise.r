@@ -1118,3 +1118,17 @@ test_that("hybrid sum(), mean() treats NA and NaN differently (#4108)", {
   expect_true(is.nan(res$max))
   expect_true(is.nan(res$min))
 })
+
+test_that("hybrid min() and max() warn, just like R's (#3997)", {
+  d <- tibble(
+    x = c(NA, NA,NA, 1),
+    y = c("a","a","b","b")
+  ) %>%
+    group_by(y)
+
+  res <- expect_warning(summarise(d,  z = min(x, na.rm=TRUE)), "no non-missing arguments to min")
+  expect_equal(res$z, c(Inf, 1))
+
+  res <- expect_warning(summarise(d,  z = max(x, na.rm=TRUE)), "no non-missing arguments to max")
+  expect_equal(res$z, c(-Inf, 1))
+})
