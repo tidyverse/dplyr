@@ -34,7 +34,8 @@
 <meta property="og:description" content="tally() is a convenient wrapper for summarise that will either call
 n() or sum(n) depending on whether you're tallying
 for the first time, or re-tallying. count() is similar but calls
-group_by() before and ungroup() after.
+group_by() before and ungroup() after. If the data is already
+grouped, count() adds an additional group that is removed afterwards.
 add_tally() adds a column n to a table based on the number
 of items within each existing group, while add_count() is a shortcut that
 does the grouping as well. These functions are to tally()
@@ -155,7 +156,8 @@ they add an additional column rather than collapsing each group." />
     <p><code>tally()</code> is a convenient wrapper for summarise that will either call
 <code><a href='n.html'>n()</a></code> or <code><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a>(n)</code> depending on whether you're tallying
 for the first time, or re-tallying. <code>count()</code> is similar but calls
-<code><a href='group_by.html'>group_by()</a></code> before and <code><a href='group_by.html'>ungroup()</a></code> after.</p>
+<code><a href='group_by.html'>group_by()</a></code> before and <code><a href='group_by.html'>ungroup()</a></code> after. If the data is already
+grouped, <code>count()</code> adds an additional group that is removed afterwards.</p>
 <p><code>add_tally()</code> adds a column <code>n</code> to a table based on the number
 of items within each existing group, while <code>add_count()</code> is a shortcut that
 does the grouping as well. These functions are to <code>tally()</code>
@@ -211,12 +213,10 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.htm
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>The column name in the returned data is usually <code>n</code>, even if you
-have supplied a weight.</p>
-<p>If the data already has a column named <code>n</code>, the output column
-will be called <code>nn</code>. If the table already has columns called <code>n</code> and <code>nn</code>
-then the column returned will be <code>nnn</code>, and so on.</p>
-<p>To control the output column name use <code>name</code>.</p>
+    <p>The column name in the returned data is given by the <code>name</code> argument,
+set to <code>"n"</code> by default.</p>
+<p>If the data already has a column by that name, the output column
+will be prefixed by an extra <code>"n"</code> as many times as necessary.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -233,7 +233,23 @@ then the column returned will be <code>nnn</code>, and so on.</p>
 #&gt;   &lt;dbl&gt; &lt;int&gt;
 #&gt; 1     4    11
 #&gt; 2     6     7
-#&gt; 3     8    14</div><div class='input'>
+#&gt; 3     8    14</div><div class='input'><span class='co'># Note that if the data is already grouped, count() adds</span>
+<span class='co'># an additional group that is removed afterwards</span>
+<span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>gear</span>) <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>carb</span>)</div><div class='output co'>#&gt; # A tibble: 11 x 3
+#&gt; # Groups:   gear [3]
+#&gt;     gear  carb     n
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+#&gt;  1     3     1     3
+#&gt;  2     3     2     4
+#&gt;  3     3     3     3
+#&gt;  4     3     4     5
+#&gt;  5     4     1     4
+#&gt;  6     4     2     4
+#&gt;  7     4     4     4
+#&gt;  8     5     2     2
+#&gt;  9     5     4     1
+#&gt; 10     5     6     1
+#&gt; 11     5     8     1</div><div class='input'>
 <span class='co'># add_tally() is short-hand for mutate()</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>add_tally</span>()</div><div class='output co'>#&gt; # A tibble: 32 x 12
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb     n
