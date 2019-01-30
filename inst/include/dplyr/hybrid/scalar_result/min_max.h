@@ -24,8 +24,8 @@ public:
     expr(expr_)
   {}
 
-  ~MinMax(){
-    if(NA_RM && warn) {
+  ~MinMax() {
+    if (NA_RM && warn) {
       if (MINIMUM) {
         Rf_warningcall(expr, "no non-missing arguments to min; returning Inf");
       } else {

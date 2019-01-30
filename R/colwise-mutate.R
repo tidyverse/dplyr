@@ -305,14 +305,20 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
   if (length(funs) == 1 && !attr(funs, "have_name")) {
     names(out) <- names(syms)
-  } else if (length(syms) == 1 && all(unnamed)) {
-    names(out) <- names(funs)
   } else {
-    syms_names <- map_chr(syms, as_string)
-    grid <- expand.grid(var = syms_names, call = names(funs))
-    names(out) <- paste(grid$var, grid$call, sep = "_")
-  }
+    nms <- names(funs)
+    nms[nms == "<fn>"] <- "fn"
+    nms <- universal_names(nms, quiet = TRUE)
+    names(funs) <- nms
 
+    if (length(syms) == 1 && all(unnamed)) {
+      names(out) <- names(funs)
+    } else {
+      syms_names <- map_chr(syms, as_string)
+      grid <- expand.grid(var = syms_names, call = names(funs))
+      names(out) <- paste(grid$var, grid$call, sep = "_")
+    }
+  }
   out
 }
 
