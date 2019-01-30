@@ -6,7 +6,7 @@
 \alias{is_grouped_df}
 \title{A grouped data frame.}
 \usage{
-grouped_df(data, vars, drop)
+grouped_df(data, vars, drop = FALSE)
 
 is.grouped_df(x)
 
@@ -17,7 +17,7 @@ is_grouped_df(x)
 
 \item{vars}{a character vector or a list of \code{\link[=name]{name()}}}
 
-\item{drop}{deprecated}
+\item{drop}{When \code{.drop = TRUE}, empty groups are dropped.}
 }
 \description{
 The easiest way to create a grouped data frame is to call the \code{group_by()}

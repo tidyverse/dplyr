@@ -104,8 +104,8 @@ regroup <- function(grouping_data, frame) {
     .Call(`_dplyr_regroup`, grouping_data, frame)
 }
 
-grouped_df_impl <- function(data, symbols) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols)
+grouped_df_impl <- function(data, symbols, drop) {
+    .Call(`_dplyr_grouped_df_impl`, data, symbols, drop)
 }
 
 group_data_grouped_df <- function(data) {

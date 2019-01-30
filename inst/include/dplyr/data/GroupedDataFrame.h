@@ -8,6 +8,7 @@
 #include <tools/SymbolVector.h>
 #include <tools/SymbolMap.h>
 #include <tools/bad.h>
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 
@@ -104,6 +105,11 @@ public:
 
   static inline CharacterVector classes() {
     return Rcpp::CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
+  }
+
+  bool drops() const {
+    SEXP drop_attr = Rf_getAttrib(groups, symbols::dot_drop);
+    return Rf_isNull(drop_attr) || (is<bool>(drop_attr) && LOGICAL(drop_attr)[0] != FALSE);
   }
 
 private:

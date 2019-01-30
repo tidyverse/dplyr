@@ -126,7 +126,7 @@ env_bind_do_pronouns <- function(env, data) {
   bind(env, "." := data, .data = data)
 }
 
-label_output_dataframe <- function(labels, out, groups) {
+label_output_dataframe <- function(labels, out, groups, .drop) {
   data_frame <- vapply(out[[1]], is.data.frame, logical(1))
   if (any(!data_frame)) {
     bad("Results {bad} must be data frames, not {first_bad_class}",
@@ -146,7 +146,7 @@ label_output_dataframe <- function(labels, out, groups) {
     labels <- labels[rep(seq_len(nrow(labels)), rows), , drop = FALSE]
     rownames(labels) <- NULL
 
-    grouped_df(bind_cols(labels, out), groups)
+    grouped_df(bind_cols(labels, out), groups, .drop)
   } else {
     rowwise(out)
   }

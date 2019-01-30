@@ -361,7 +361,7 @@ find_index <- function(x, names) {
 }
 
 #' @export
-group_by.tbl_cube <- function(.data, ..., add = FALSE) {
+group_by.tbl_cube <- function(.data, ..., add = FALSE, .drop = FALSE) {
   groups <- group_by_prepare(.data, ..., add = add)
 
   # Convert symbols to indices

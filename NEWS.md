@@ -18,7 +18,8 @@
   - `filter()` and `slice()` have gained `.preserve`
 
 * Code that assumes that there are no empty groups might fail, because of the 
-  new grouping algorithm described below. 
+  new grouping algorithm described below. If you don't want empty groups, you 
+  can use `group_by(.drop = TRUE)` to drop them. 
   
 * `Error: `.data` is a corrupt grouped_df, ...`  signals code that makes 
   wrong assumptions about the internals of a grouped data frame. 
@@ -81,7 +82,8 @@
 
 ## Major changes
 
-* `group_by()` respects levels of factors and keeps empty groups (#341). 
+* `group_by()` gains the `.drop` argument. When set to `FALSE` the groups are generated 
+  based on factor levels, hence some groups may be empty (#341). 
 
     ```r
     # 3 groups
@@ -89,16 +91,26 @@
       x = 1:2, 
       f = factor(c("a", "b"), levels = c("a", "b", "c"))
     ) %>% 
-      group_by(f)
+      group_by(f, .drop = FALSE)
       
     # the order of the grouping variables matter
     df <- tibble(
       x = c(1,2,1,2), 
       f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
     )
-    df %>% group_by(f, x)
-    df %>% group_by(x, f)
+    df %>% group_by(f, x, .drop = FALSE)
+    df %>% group_by(x, f, .drop = FALSE)
     ```
+    
+  The default behaviour drops the empty groups as in the previous versions. 
+  
+  ```r
+  tibble(
+      x = 1:2, 
+      f = factor(c("a", "b"), levels = c("a", "b", "c"))
+    ) %>% 
+      group_by(f)
+  ```
 
 * `filter()` and `slice()` gain a `.preserve` argument to control which groups it should keep. The default 
   `filter(.preserve = FALSE)` recalculates the grouping structure based on the resulting data, 
@@ -109,7 +121,7 @@
       x = c(1,2,1,2), 
       f = factor(c("a", "b", "a", "b"), levels = c("a", "b", "c"))
     ) %>% 
-      group_by(x, f)
+      group_by(x, f, .drop = FALSE)
     
     df %>% filter(x == 1)
     df %>% filter(x == 1, .preserve = TRUE)

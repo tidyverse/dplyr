@@ -57,6 +57,7 @@ struct symbols {
   static SEXP rlang;
   static SEXP eval_tidy;
   static SEXP quote;
+  static SEXP dot_drop;
 };
 
 struct fns {
