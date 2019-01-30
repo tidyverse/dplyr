@@ -164,7 +164,7 @@ with NSE verbs. Thus, the underscored versions are now superfluous.</p>
 
     <pre class="usage"><span class='fu'>tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+<span class='fu'>count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'>group_drops</span>(<span class='no'>x</span>))
 
 <span class='fu'>add_tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
@@ -228,6 +228,10 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.htm
     <tr>
       <th>vars</th>
       <td><p>Various meanings depending on the verb.</p></td>
+    </tr>
+    <tr>
+      <th>.drop</th>
+      <td><p>see <code><a href='group_by.html'>group_by()</a></code></p></td>
     </tr>
     <tr>
       <th>.data</th>

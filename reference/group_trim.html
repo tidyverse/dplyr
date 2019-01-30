@@ -154,7 +154,7 @@ to select a subset of groups.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>group_trim</span>(<span class='no'>.tbl</span>)</pre>
+    <pre class="usage"><span class='fu'>group_trim</span>(<span class='no'>.tbl</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'>group_drops</span>(<span class='no'>.tbl</span>))</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,6 +162,10 @@ to select a subset of groups.</p>
     <tr>
       <th>.tbl</th>
       <td><p>A <a href='grouped_df.html'>grouped data frame</a></p></td>
+    </tr>
+    <tr>
+      <th>.drop</th>
+      <td><p>See <code><a href='group_by.html'>group_by()</a></code></p></td>
     </tr>
     </table>
     
