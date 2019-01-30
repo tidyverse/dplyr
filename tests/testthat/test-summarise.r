@@ -701,9 +701,9 @@ test_that("hybrid max works when not used on columns (#1369)", {
   expect_equal(summarise(df, z = max(10))$z, 10)
 })
 
-test_that("min and max handle empty sets in summarise (#1481)", {
+test_that("min and max handle empty sets in summarise (#1481, #3997)", {
   df <- tibble(A = numeric())
-  res <- df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE))
+  res <- expect_warning(df %>% summarise(Min = min(A, na.rm = TRUE), Max = max(A, na.rm = TRUE)))
   expect_equal(res$Min, Inf)
   expect_equal(res$Max, -Inf)
 })
@@ -1117,18 +1117,4 @@ test_that("hybrid sum(), mean() treats NA and NaN differently (#4108)", {
   expect_true(is.nan(res$mean))
   expect_true(is.nan(res$max))
   expect_true(is.nan(res$min))
-})
-
-test_that("hybrid min() and max() warn, just like R's (#3997)", {
-  d <- tibble(
-    x = c(NA, NA,NA, 1),
-    y = c("a","a","b","b")
-  ) %>%
-    group_by(y)
-
-  res <- expect_warning(summarise(d,  z = min(x, na.rm=TRUE)), "no non-missing arguments to min")
-  expect_equal(res$z, c(Inf, 1))
-
-  res <- expect_warning(summarise(d,  z = max(x, na.rm=TRUE)), "no non-missing arguments to max")
-  expect_equal(res$z, c(-Inf, 1))
 })
