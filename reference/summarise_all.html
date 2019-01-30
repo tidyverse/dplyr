@@ -265,12 +265,14 @@ ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li
 <span class='co'># If you want to apply multiple transformations, pass a list of</span>
 <span class='co'># functions. When there are multiple functions, they create new</span>
 <span class='co'># variables instead of modifying the variables in place:</span>
-<span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>min</span>, <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 5
-#&gt;   Species  `Sepal.Length_&lt;f… `Sepal.Width_&lt;fn… `Petal.Length_&lt;… `Petal.Width_&lt;f…
-#&gt;   &lt;fct&gt;                &lt;dbl&gt;             &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
-#&gt; 1 setosa                 5.8               4.4              1.9              0.6
-#&gt; 2 versico…               7                 3.4              5.1              1.8
-#&gt; 3 virgini…               7.9               3.8              6.9              2.5</div><div class='input'>
+<span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>min</span>, <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
+#&gt;   Species Sepal.Length_fn… Sepal.Width_fn.… Petal.Length_fn… Petal.Width_fn.…
+#&gt;   &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+#&gt; 1 setosa               4.3              2.3              1                0.1
+#&gt; 2 versic…              4.9              2                3                1  
+#&gt; 3 virgin…              4.9              2.2              4.5              1.4
+#&gt; # … with 4 more variables: Sepal.Length_fn..2 &lt;dbl&gt;, Sepal.Width_fn..2 &lt;dbl&gt;,
+#&gt; #   Petal.Length_fn..2 &lt;dbl&gt;, Petal.Width_fn..2 &lt;dbl&gt;</div><div class='input'>
 <span class='co'># Note how the new variables include the function name, in order to</span>
 <span class='co'># keep things distinct. Passing purrr-style lambdas often creates</span>
 <span class='co'># better default names:</span>

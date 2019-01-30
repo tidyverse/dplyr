@@ -360,21 +360,23 @@ data %&gt;% mutate_at(vars, myoperation)
 <span class='co'># If you want to apply multiple transformations, pass a list of</span>
 <span class='co'># functions. When there are multiple functions, they create new</span>
 <span class='co'># variables instead of modifying the variables in place:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>scale2</span>, <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 9
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species `Sepal.Length_&lt;…
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>scale2</span>, <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_fn…
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa              1.63
-#&gt;  2          4.9         3            1.4         0.2 setosa              1.59
-#&gt;  3          4.7         3.2          1.3         0.2 setosa              1.55
-#&gt;  4          4.6         3.1          1.5         0.2 setosa              1.53
-#&gt;  5          5           3.6          1.4         0.2 setosa              1.61
-#&gt;  6          5.4         3.9          1.7         0.4 setosa              1.69
-#&gt;  7          4.6         3.4          1.4         0.3 setosa              1.53
-#&gt;  8          5           3.4          1.5         0.2 setosa              1.61
-#&gt;  9          4.4         2.9          1.4         0.2 setosa              1.48
-#&gt; 10          4.9         3.1          1.5         0.1 setosa              1.59
-#&gt; # … with 140 more rows, and 3 more variables: `Sepal.Width_&lt;fn&gt;` &lt;dbl&gt;,
-#&gt; #   `Petal.Length_&lt;fn&gt;` &lt;dbl&gt;, `Petal.Width_&lt;fn&gt;` &lt;dbl&gt;</div><div class='input'>
+#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
+#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
+#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
+#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
+#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
+#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
+#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
+#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
+#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
+#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
+#&gt; # … with 140 more rows, and 7 more variables: Sepal.Width_fn..1 &lt;dbl&gt;,
+#&gt; #   Petal.Length_fn..1 &lt;dbl&gt;, Petal.Width_fn..1 &lt;dbl&gt;,
+#&gt; #   Sepal.Length_fn..2 &lt;dbl&gt;, Sepal.Width_fn..2 &lt;dbl&gt;,
+#&gt; #   Petal.Length_fn..2 &lt;dbl&gt;, Petal.Width_fn..2 &lt;dbl&gt;</div><div class='input'>
 <span class='co'># The list can contain purrr-style formulas:</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'>scale2</span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 150 x 13
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
