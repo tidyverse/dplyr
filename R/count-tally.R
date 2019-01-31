@@ -130,10 +130,18 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_dro
   groups <- group_vars(x)
 
   if (dots_n(...)) {
-    x <- group_by(x, ..., add = TRUE, .drop = .drop)
+    x <- if(.drop) {
+      group_by(x, ..., add = TRUE)
+    } else {
+      group_by(x, ..., add = TRUE, .drop = FALSE)
+    }
   }
   x <- tally(x, wt = !!enquo(wt), sort = sort, name = name)
-  x <- group_by(x, !!!syms(groups), add = FALSE, .drop = .drop)
+  x <- if(.drop) {
+    group_by(x, !!!syms(groups), add = FALSE)
+  } else {
+    group_by(x, !!!syms(groups), add = FALSE, .drop = FALSE)
+  }
   x
 }
 #' @export
