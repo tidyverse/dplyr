@@ -5,7 +5,7 @@
 |version  |R version 3.5.0 (2018-04-23) |
 |os       |macOS  10.14.2               |
 |system   |x86_64, darwin15.6.0         |
-|ui       |RStudio                      |
+|ui       |X11                          |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
@@ -81,77 +81,56 @@
 |[weibulltools](problems.md#weibulltools)             |1.0.1   |1      |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0  |1      |1       |2    |
 
-## Broken (67)
+## Broken (46)
 
-|package                                      |version    |error    |warning  |note |
-|:--------------------------------------------|:----------|:--------|:--------|:----|
-|[alphavantager](problems.md#alphavantager)   |0.1.0      |__+1__   |         |1    |
-|[AMR](problems.md#amr)                       |0.5.0      |__+1__   |         |     |
-|[BMTME](problems.md#bmtme)                   |1.0.4      |__+1__   |         |     |
-|[bupaR](problems.md#bupar)                   |0.4.1      |         |__+1__   |     |
-|[carpenter](problems.md#carpenter)           |0.2.1      |__+1__   |         |     |
-|[cleanNLP](problems.md#cleannlp)             |2.3.0      |__+1__   |         |     |
-|[CollapseLevels](problems.md#collapselevels) |0.2.0      |__+1__   |__+1__   |     |
-|[compareDF](problems.md#comparedf)           |1.7.0      |__+1__   |         |1    |
-|[cytominer](problems.md#cytominer)           |0.1.0      |__+1__   |         |     |
-|[dat](problems.md#dat)                       |0.4.0      |__+1__   |__+1__   |     |
-|[dbplyr](problems.md#dbplyr)                 |1.3.0      |__+1__   |         |-1   |
-|[ddpcr](problems.md#ddpcr)                   |1.11       |__+2__   |__+1__   |1    |
-|[desctable](problems.md#desctable)           |0.1.3      |         |__+1__   |     |
-|[dexter](problems.md#dexter)                 |0.8.4      |         |__+1__   |     |
-|[dlookr](problems.md#dlookr)                 |0.3.2      |__+1__   |__+1__   |2    |
-|[docxtools](problems.md#docxtools)           |0.2.0      |__+2__   |         |     |
-|[dplyr.teradata](problems.md#dplyrteradata)  |0.3.0      |         |1 __+1__ |1    |
-|[dtplyr](problems.md#dtplyr)                 |0.0.2      |__+1__   |         |     |
-|[edeaR](problems.md#edear)                   |0.8.1      |         |__+1__   |     |
-|[egor](problems.md#egor)                     |0.18.08-02 |__+1__   |1        |     |
-|[episheet](problems.md#episheet)             |0.4.0      |__+2__   |         |     |
-|[evaluator](problems.md#evaluator)           |0.3.1      |__+1__   |         |     |
-|[extdplyr](problems.md#extdplyr)             |0.1.4      |__+1__   |         |     |
-|[ezsummary](problems.md#ezsummary)           |0.2.1      |__+2__   |__+1__   |     |
-|[gaiah](problems.md#gaiah)                   |0.0.2      |__+1__   |         |1    |
-|[GENESIS](problems.md#genesis)               |2.10.1     |1 __+1__ |         |2    |
-|[geomnet](problems.md#geomnet)               |0.2.0      |__+1__   |         |     |
-|[GerminaR](problems.md#germinar)             |1.2        |__+1__   |__+1__   |1    |
-|[GetITRData](problems.md#getitrdata)         |0.7        |         |__+1__   |     |
-|[ggfan](problems.md#ggfan)                   |0.1.2      |__+2__   |         |1    |
-|[grattan](problems.md#grattan)               |1.7.0.0    |__+1__   |         |1    |
-|[heemod](problems.md#heemod)                 |0.9.2      |__+2__   |__+1__   |1    |
-|[IncucyteDRC](problems.md#incucytedrc)       |0.5.4      |__+1__   |__+1__   |     |
-|[INDperform](problems.md#indperform)         |0.1.1      |__+1__   |         |1    |
-|[lmeresampler](problems.md#lmeresampler)     |0.1.0      |__+1__   |         |1    |
-|[MIAmaxent](problems.md#miamaxent)           |1.0.0      |__+1__   |         |1    |
-|[modeldb](problems.md#modeldb)               |0.1.1      |         |__+1__   |     |
-|[mousetrap](problems.md#mousetrap)           |3.1.1      |__+1__   |         |     |
-|[naniar](problems.md#naniar)                 |0.4.1      |__+2__   |         |     |
-|[pixiedust](problems.md#pixiedust)           |0.8.6      |__+1__   |         |     |
-|[poplite](problems.md#poplite)               |0.99.19    |__+1__   |__+1__   |     |
-|[portalr](problems.md#portalr)               |0.2.1      |__+1__   |         |     |
-|[processcheckR](problems.md#processcheckr)   |0.1.0      |         |__+1__   |     |
-|[psychmeta](problems.md#psychmeta)           |2.3.0      |__+1__   |         |1    |
-|[purrrlyr](problems.md#purrrlyr)             |0.0.3      |__+2__   |         |     |
-|[radiant.model](problems.md#radiantmodel)    |0.9.7      |__+2__   |         |     |
-|[rbin](problems.md#rbin)                     |0.1.1      |__+2__   |__+1__   |1    |
-|[rcv](problems.md#rcv)                       |0.2.1      |__+1__   |         |2    |
-|[replyr](problems.md#replyr)                 |0.9.9      |__+1__   |1        |1    |
-|[rPref](problems.md#rpref)                   |1.2        |__+1__   |__+1__   |1    |
-|[rubias](problems.md#rubias)                 |0.1.0      |__+1__   |         |1    |
-|[ruler](problems.md#ruler)                   |0.1.4      |__+1__   |__+1__   |     |
-|[RWDataPlyr](problems.md#rwdataplyr)         |0.6.2      |__+1__   |         |     |
-|[seqCAT](problems.md#seqcat)                 |1.2.1      |__+2__   |1 __+1__ |     |
-|[seqcombo](problems.md#seqcombo)             |1.2.0      |__+1__   |__+1__   |     |
-|[SeqVarTools](problems.md#seqvartools)       |1.18.0     |__+2__   |1        |1    |
-|[sjPlot](problems.md#sjplot)                 |2.6.2      |__+1__   |         |     |
-|[spdplyr](problems.md#spdplyr)               |0.1.3      |__+1__   |         |     |
-|[tbrf](problems.md#tbrf)                     |0.1.1      |__+1__   |         |     |
-|[tibbletime](problems.md#tibbletime)         |0.1.1      |__+1__   |         |     |
-|[tidygraph](problems.md#tidygraph)           |1.1.1      |         |__+1__   |     |
-|[tidytransit](problems.md#tidytransit)       |0.3.5      |__+2__   |         |3    |
-|[treeplyr](problems.md#treeplyr)             |0.1.4      |__+1__   |         |     |
-|[tsibble](problems.md#tsibble)               |0.6.2      |__+1__   |         |     |
-|[visdat](problems.md#visdat)                 |0.5.2      |__+2__   |         |1    |
-|[vqtl](problems.md#vqtl)                     |2.0.4      |__+1__   |         |2    |
-|[zFactor](problems.md#zfactor)               |0.1.7      |__+2__   |         |1    |
+|package                                     |version |error    |warning  |note |
+|:-------------------------------------------|:-------|:--------|:--------|:----|
+|[alphavantager](problems.md#alphavantager)  |0.1.0   |__+1__   |         |1    |
+|[BMTME](problems.md#bmtme)                  |1.0.4   |__+1__   |         |     |
+|[bupaR](problems.md#bupar)                  |0.4.1   |         |__+1__   |     |
+|[carpenter](problems.md#carpenter)          |0.2.1   |__+1__   |         |     |
+|[compareDF](problems.md#comparedf)          |1.7.0   |__+1__   |         |1    |
+|[cytominer](problems.md#cytominer)          |0.1.0   |__+1__   |         |     |
+|[dbplyr](problems.md#dbplyr)                |1.3.0   |__+1__   |         |-1   |
+|[desctable](problems.md#desctable)          |0.1.3   |         |__+1__   |     |
+|[dexter](problems.md#dexter)                |0.8.4   |         |__+1__   |     |
+|[dlookr](problems.md#dlookr)                |0.3.2   |__+1__   |__+1__   |2    |
+|[docxtools](problems.md#docxtools)          |0.2.0   |__+2__   |         |     |
+|[dplyr.teradata](problems.md#dplyrteradata) |0.3.0   |         |1 __+1__ |1    |
+|[dtplyr](problems.md#dtplyr)                |0.0.2   |__+1__   |         |     |
+|[edeaR](problems.md#edear)                  |0.8.1   |         |__+1__   |     |
+|[evaluator](problems.md#evaluator)          |0.3.1   |__+1__   |         |     |
+|[extdplyr](problems.md#extdplyr)            |0.1.4   |__+1__   |         |     |
+|[ezsummary](problems.md#ezsummary)          |0.2.1   |__+2__   |__+1__   |     |
+|[GENESIS](problems.md#genesis)              |2.10.1  |1 __+1__ |         |2    |
+|[ggfan](problems.md#ggfan)                  |0.1.2   |__+1__   |         |1    |
+|[heemod](problems.md#heemod)                |0.9.2   |__+2__   |__+1__   |1    |
+|[IncucyteDRC](problems.md#incucytedrc)      |0.5.4   |__+1__   |         |     |
+|[INDperform](problems.md#indperform)        |0.1.1   |__+1__   |         |1    |
+|[lmeresampler](problems.md#lmeresampler)    |0.1.0   |__+1__   |         |1    |
+|[modeldb](problems.md#modeldb)              |0.1.1   |         |__+1__   |     |
+|[naniar](problems.md#naniar)                |0.4.1   |__+2__   |         |     |
+|[pixiedust](problems.md#pixiedust)          |0.8.6   |__+1__   |         |     |
+|[poplite](problems.md#poplite)              |0.99.19 |__+1__   |__+1__   |     |
+|[portalr](problems.md#portalr)              |0.2.1   |__+1__   |         |     |
+|[processcheckR](problems.md#processcheckr)  |0.1.0   |         |__+1__   |     |
+|[psychmeta](problems.md#psychmeta)          |2.3.0   |__+1__   |         |1    |
+|[purrrlyr](problems.md#purrrlyr)            |0.0.3   |__+2__   |         |     |
+|[radiant.model](problems.md#radiantmodel)   |0.9.7   |__+2__   |         |     |
+|[replyr](problems.md#replyr)                |0.9.9   |__+1__   |1        |1    |
+|[rPref](problems.md#rpref)                  |1.2     |__+1__   |__+1__   |1    |
+|[ruler](problems.md#ruler)                  |0.1.4   |__+1__   |__+1__   |     |
+|[RWDataPlyr](problems.md#rwdataplyr)        |0.6.2   |__+1__   |         |     |
+|[SeqVarTools](problems.md#seqvartools)      |1.18.0  |__+2__   |1        |1    |
+|[spdplyr](problems.md#spdplyr)              |0.1.3   |__+1__   |         |     |
+|[tbrf](problems.md#tbrf)                    |0.1.1   |__+1__   |         |     |
+|[tibbletime](problems.md#tibbletime)        |0.1.1   |__+1__   |         |     |
+|[tidygraph](problems.md#tidygraph)          |1.1.1   |         |__+1__   |     |
+|[treeplyr](problems.md#treeplyr)            |0.1.4   |__+1__   |         |     |
+|[tsibble](problems.md#tsibble)              |0.6.2   |__+1__   |         |     |
+|[visdat](problems.md#visdat)                |0.5.2   |__+2__   |         |1    |
+|[vqtl](problems.md#vqtl)                    |2.0.4   |__+1__   |         |2    |
+|[zFactor](problems.md#zfactor)              |0.1.7   |__+2__   |         |1    |
 
 ## All (1491)
 
@@ -190,7 +169,7 @@
 |[ameco](problems.md#ameco)                                                  |0.2.9      |         |         |1    |
 |AmesHousing                                                                 |0.0.3      |         |         |     |
 |[amplican](problems.md#amplican)                                            |1.2.1      |         |1        |2    |
-|[AMR](problems.md#amr)                                                      |0.5.0      |__+1__   |         |     |
+|AMR                                                                         |0.5.0      |         |         |     |
 |[amt](problems.md#amt)                                                      |0.0.5.0    |         |         |1    |
 |[analysisPipelines](problems.md#analysispipelines)                          |1.0.0      |         |         |2    |
 |anchoredDistr                                                               |1.0.3      |         |         |     |
@@ -348,7 +327,7 @@
 |CityWaterBalance                                                            |0.1.0      |         |         |     |
 |[civis](problems.md#civis)                                                  |1.5.1      |         |         |1    |
 |classyfireR                                                                 |0.1.2      |         |         |     |
-|[cleanNLP](problems.md#cleannlp)                                            |2.3.0      |__+1__   |         |     |
+|cleanNLP                                                                    |2.3.0      |         |         |     |
 |climbeR                                                                     |0.0.1      |         |         |     |
 |clr                                                                         |0.1.1      |         |         |     |
 |CluMP                                                                       |0.7        |         |         |     |
@@ -370,7 +349,7 @@
 |[cofeatureR](problems.md#cofeaturer)                                        |1.1.1      |         |         |1    |
 |[cogena](problems.md#cogena)                                                |1.14.0     |         |1        |3    |
 |[CollapsABEL](problems.md#collapsabel)                                      |0.10.11    |1        |         |     |
-|[CollapseLevels](problems.md#collapselevels)                                |0.2.0      |__+1__   |__+1__   |     |
+|CollapseLevels                                                              |0.2.0      |         |         |     |
 |collapsibleTree                                                             |0.1.7      |         |         |     |
 |collateral                                                                  |0.4.2      |         |         |     |
 |[colorednoise](problems.md#colorednoise)                                    |1.0.4      |1        |         |     |
@@ -430,7 +409,7 @@
 |DALEX                                                                       |0.2.6      |         |         |     |
 |[dalmatian](problems.md#dalmatian)                                          |0.3.0      |         |1        |1    |
 |[DAPAR](problems.md#dapar)                                                  |1.12.11    |1        |         |     |
-|[dat](problems.md#dat)                                                      |0.4.0      |__+1__   |__+1__   |     |
+|dat                                                                         |0.4.0      |         |         |     |
 |DataCombine                                                                 |0.2.21     |         |         |     |
 |dataCompareR                                                                |0.1.2      |         |         |     |
 |datadogr                                                                    |0.1.2      |         |         |     |
@@ -446,7 +425,7 @@
 |[dbparser](problems.md#dbparser)                                            |1.0.0      |         |         |1    |
 |dbplot                                                                      |0.3.0      |         |         |     |
 |[dbplyr](problems.md#dbplyr)                                                |1.3.0      |__+1__   |         |-1   |
-|[ddpcr](problems.md#ddpcr)                                                  |1.11       |__+2__   |__+1__   |1    |
+|[ddpcr](problems.md#ddpcr)                                                  |1.11       |         |         |1    |
 |deaR                                                                        |1.0        |         |         |     |
 |DecisionAnalysis                                                            |0.1.0      |         |         |     |
 |DeclareDesign                                                               |0.16.0     |         |         |     |
@@ -533,7 +512,7 @@
 |eesim                                                                       |0.1.0      |         |         |     |
 |[EFDR](problems.md#efdr)                                                    |0.1.1      |         |         |1    |
 |efreadr                                                                     |0.2.2      |         |         |     |
-|[egor](problems.md#egor)                                                    |0.18.08-02 |__+1__   |1        |     |
+|[egor](problems.md#egor)                                                    |0.18.08-02 |1        |1        |     |
 |electionsBR                                                                 |0.3.0      |         |         |     |
 |electoral                                                                   |0.1.1      |         |         |     |
 |[ELMER](problems.md#elmer)                                                  |2.4.4      |1        |1        |2    |
@@ -549,7 +528,7 @@
 |epidata                                                                     |0.2.0      |         |         |     |
 |epiphy                                                                      |0.3.4      |         |         |     |
 |[EpiReport](problems.md#epireport)                                          |0.1.0      |         |         |1    |
-|[episheet](problems.md#episheet)                                            |0.4.0      |__+2__   |         |     |
+|episheet                                                                    |0.4.0      |         |         |     |
 |[EpiSignalDetection](problems.md#episignaldetection)                        |0.1.1      |         |         |1    |
 |EpiStats                                                                    |1.2        |         |         |     |
 |epitab                                                                      |0.2.2      |         |         |     |
@@ -627,7 +606,7 @@
 |[GA4GHclient](problems.md#ga4ghclient)                                      |1.4.0      |1        |1        |1    |
 |[GA4GHshiny](problems.md#ga4ghshiny)                                        |1.2.0      |1        |         |2    |
 |GADMTools                                                                   |3.0-1      |         |         |     |
-|[gaiah](problems.md#gaiah)                                                  |0.0.2      |__+1__   |         |1    |
+|[gaiah](problems.md#gaiah)                                                  |0.0.2      |         |         |1    |
 |ganalytics                                                                  |0.10.6     |         |         |     |
 |gapminder                                                                   |0.3.0      |         |         |     |
 |[gastempt](problems.md#gastempt)                                            |0.4.3      |         |         |3    |
@@ -644,19 +623,19 @@
 |[GenomicMating](problems.md#genomicmating)                                  |2.0        |         |         |1    |
 |geoknife                                                                    |1.6.1      |         |         |     |
 |[GEOmetadb](problems.md#geometadb)                                          |1.42.0     |__+1__   |         |2    |
-|[geomnet](problems.md#geomnet)                                              |0.2.0      |__+1__   |         |     |
+|geomnet                                                                     |0.2.0      |         |         |     |
 |geoparser                                                                   |0.1.1      |         |         |     |
 |[GEOquery](problems.md#geoquery)                                            |2.48.0     |         |         |4    |
 |[geoSpectral](problems.md#geospectral)                                      |0.17.4     |         |         |1    |
 |geotoolsR                                                                   |1.0        |         |         |     |
 |germanpolls                                                                 |0.2        |         |         |     |
-|[GerminaR](problems.md#germinar)                                            |1.2        |__+1__   |__+1__   |1    |
+|[GerminaR](problems.md#germinar)                                            |1.2        |         |         |1    |
 |[gespeR](problems.md#gesper)                                                |1.12.0     |         |1        |1    |
 |[gestalt](problems.md#gestalt)                                              |0.1.5      |2        |         |     |
 |getCRUCLdata                                                                |0.2.5      |         |         |     |
 |GetDFPData                                                                  |1.4        |         |         |     |
 |GetHFData                                                                   |1.6        |         |         |     |
-|[GetITRData](problems.md#getitrdata)                                        |0.7        |         |__+1__   |     |
+|GetITRData                                                                  |0.7        |         |         |     |
 |GetLattesData                                                               |1.2        |         |         |     |
 |[getProxy](problems.md#getproxy)                                            |1.12       |         |         |1    |
 |getTBinR                                                                    |0.5.7      |         |         |     |
@@ -669,7 +648,7 @@
 |[ggedit](problems.md#ggedit)                                                |0.3.0      |         |         |1    |
 |[ggeffects](problems.md#ggeffects)                                          |0.8.0      |         |         |1    |
 |[ggenealogy](problems.md#ggenealogy)                                        |0.3.0      |         |         |3    |
-|[ggfan](problems.md#ggfan)                                                  |0.1.2      |__+2__   |         |1    |
+|[ggfan](problems.md#ggfan)                                                  |0.1.2      |__+1__   |         |1    |
 |ggfocus                                                                     |0.9        |         |         |     |
 |ggforce                                                                     |0.1.3      |         |         |     |
 |[ggformula](problems.md#ggformula)                                          |0.9.1      |         |         |2    |
@@ -731,7 +710,7 @@
 |[graphicalVAR](problems.md#graphicalvar)                                    |0.2.2      |1        |         |     |
 |[graphTweets](problems.md#graphtweets)                                      |0.5.0      |         |         |1    |
 |[grasp2db](problems.md#grasp2db)                                            |1.1.0      |1        |4        |4    |
-|[grattan](problems.md#grattan)                                              |1.7.0.0    |__+1__   |         |1    |
+|[grattan](problems.md#grattan)                                              |1.7.0.0    |         |         |1    |
 |gravity                                                                     |0.9.0      |         |         |     |
 |[Greg](problems.md#greg)                                                    |1.3        |         |1        |1    |
 |groupdata2                                                                  |1.0.0      |         |         |     |
@@ -800,7 +779,7 @@
 |[incgraph](problems.md#incgraph)                                            |1.0.1      |         |         |1    |
 |[incR](problems.md#incr)                                                    |1.1.0      |         |         |1    |
 |inctools                                                                    |1.0.14     |         |         |     |
-|[IncucyteDRC](problems.md#incucytedrc)                                      |0.5.4      |__+1__   |__+1__   |     |
+|[IncucyteDRC](problems.md#incucytedrc)                                      |0.5.4      |__+1__   |         |     |
 |[INDperform](problems.md#indperform)                                        |0.1.1      |__+1__   |         |1    |
 |infer                                                                       |0.4.0      |         |         |     |
 |inferr                                                                      |0.3.0      |         |         |     |
@@ -916,7 +895,7 @@
 |mfa                                                                         |1.2.0      |         |         |     |
 |mfGARCH                                                                     |0.1.7      |         |         |     |
 |mglR                                                                        |0.1.0      |         |         |     |
-|[MIAmaxent](problems.md#miamaxent)                                          |1.0.0      |__+1__   |         |1    |
+|[MIAmaxent](problems.md#miamaxent)                                          |1.0.0      |         |         |1    |
 |mice                                                                        |3.3.0      |         |         |     |
 |[miceFast](problems.md#micefast)                                            |0.2.3      |1        |         |     |
 |microbiome                                                                  |1.2.1      |         |         |     |
@@ -948,7 +927,7 @@
 |mosaicCore                                                                  |0.6.0      |         |         |     |
 |[mosaicData](problems.md#mosaicdata)                                        |0.17.0     |         |         |1    |
 |[mosaicModel](problems.md#mosaicmodel)                                      |0.3.0      |         |         |1    |
-|[mousetrap](problems.md#mousetrap)                                          |3.1.1      |__+1__   |         |     |
+|mousetrap                                                                   |3.1.1      |         |         |     |
 |mplot                                                                       |1.0.2      |         |         |     |
 |mpoly                                                                       |1.0.5      |         |         |     |
 |[MPTmultiverse](problems.md#mptmultiverse)                                  |0.1        |1        |1        |     |
@@ -1181,7 +1160,7 @@
 |[rattle](problems.md#rattle)                                                |5.2.0      |         |1        |2    |
 |[RBesT](problems.md#rbest)                                                  |1.3-7      |         |         |2    |
 |rbgm                                                                        |0.0.5      |         |         |     |
-|[rbin](problems.md#rbin)                                                    |0.1.1      |__+2__   |__+1__   |1    |
+|[rbin](problems.md#rbin)                                                    |0.1.1      |         |         |1    |
 |rbison                                                                      |0.7.0      |         |         |     |
 |[rccmisc](problems.md#rccmisc)                                              |0.3.7      |         |         |1    |
 |rchess                                                                      |0.1        |         |         |     |
@@ -1194,7 +1173,7 @@
 |rcrossref                                                                   |0.9.0      |         |         |     |
 |rcrtan                                                                      |0.1.1      |         |         |     |
 |RCrypto                                                                     |0.1.0      |         |         |     |
-|[rcv](problems.md#rcv)                                                      |0.2.1      |__+1__   |         |2    |
+|[rcv](problems.md#rcv)                                                      |0.2.1      |         |         |2    |
 |RCzechia                                                                    |1.3.2      |         |         |     |
 |rdbnomics                                                                   |0.4.4      |         |         |     |
 |rdefra                                                                      |0.3.5      |         |         |     |
@@ -1304,7 +1283,7 @@
 |[rtrends](problems.md#rtrends)                                              |0.1.0      |         |         |1    |
 |[RtutoR](problems.md#rtutor)                                                |1.2        |1        |         |     |
 |rtypeform                                                                   |2.0.0      |         |         |     |
-|[rubias](problems.md#rubias)                                                |0.1.0      |__+1__   |         |1    |
+|[rubias](problems.md#rubias)                                                |0.1.0      |         |         |1    |
 |[ruler](problems.md#ruler)                                                  |0.1.4      |__+1__   |__+1__   |     |
 |rusk                                                                        |0.1.1      |         |         |     |
 |rvertnet                                                                    |0.7.0      |         |         |     |
@@ -1343,8 +1322,8 @@
 |[sejmRP](problems.md#sejmrp)                                                |1.3.4      |         |         |1    |
 |[semdrw](problems.md#semdrw)                                                |0.1.0      |         |         |1    |
 |[seplyr](problems.md#seplyr)                                                |0.8.3      |         |1        |     |
-|[seqCAT](problems.md#seqcat)                                                |1.2.1      |__+2__   |1 __+1__ |     |
-|[seqcombo](problems.md#seqcombo)                                            |1.2.0      |__+1__   |__+1__   |     |
+|[seqCAT](problems.md#seqcat)                                                |1.2.1      |         |1        |     |
+|seqcombo                                                                    |1.2.0      |         |         |     |
 |[SeqVarTools](problems.md#seqvartools)                                      |1.18.0     |__+2__   |1        |1    |
 |[sergeant](problems.md#sergeant)                                            |0.5.2      |         |1        |     |
 |[Seurat](problems.md#seurat)                                                |2.3.4      |         |1        |1    |
@@ -1379,7 +1358,7 @@
 |SiZer                                                                       |0.1-5      |         |         |     |
 |sjlabelled                                                                  |1.0.16     |         |         |     |
 |sjmisc                                                                      |2.7.7      |         |         |     |
-|[sjPlot](problems.md#sjplot)                                                |2.6.2      |__+1__   |         |     |
+|sjPlot                                                                      |2.6.2      |         |         |     |
 |[sjstats](problems.md#sjstats)                                              |0.17.3     |         |         |1    |
 |skimr                                                                       |1.0.4      |         |         |     |
 |[skynet](problems.md#skynet)                                                |1.3.0      |         |         |1    |
@@ -1517,7 +1496,7 @@
 |tidystringdist                                                              |0.1.3      |         |         |     |
 |tidytext                                                                    |0.2.0      |         |         |     |
 |[tidytidbits](problems.md#tidytidbits)                                      |0.1.0      |         |1        |     |
-|[tidytransit](problems.md#tidytransit)                                      |0.3.5      |__+2__   |         |3    |
+|[tidytransit](problems.md#tidytransit)                                      |0.3.5      |         |         |3    |
 |tidytree                                                                    |0.2.3      |         |         |     |
 |[tidyverse](problems.md#tidyverse)                                          |1.2.1      |         |1        |1    |
 |[tidyxl](problems.md#tidyxl)                                                |1.0.4      |         |1        |     |

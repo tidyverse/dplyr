@@ -231,38 +231,6 @@ Version: 1.2.1
     Package unavailable to check Rd xrefs: ‘CrispRVariants’
     ```
 
-# AMR
-
-Version: 0.5.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > 
-    > ### ** Examples
-    > 
-    > mic_data <- as.mic(c(">=32", "1.0", "1", "1.00", 8, "<=0.128", "8", "16", "16"))
-    Warning: 1 results truncated (11%) that were invalid MICs: "1.00"
-    > is.mic(mic_data)
-    [1] TRUE
-    > 
-    > # this can also coerce combined MIC/RSI values:
-    > as.mic("<=0.002; S") # will return <=0.002
-    Class 'mic'
-    [1] <=0.002
-    > 
-    > plot(mic_data)
-    Warning: Factor `mic` contains implicit NA, consider using `forcats::fct_explicit_na`
-    > barplot(mic_data)
-    Warning: Factor `mic` contains implicit NA, consider using `forcats::fct_explicit_na`
-    > freq(mic_data)
-    Error in n() : could not find function "n"
-    Calls: freq ... <Anonymous> -> summarise -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
 # amt
 
 Version: 0.0.5.0
@@ -1933,34 +1901,6 @@ Version: 1.5.1
         R      3.2Mb
     ```
 
-# cleanNLP
-
-Version: 2.3.0
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ── 2. Error: testing tidy_pca (@test-tools.R#36)  ──────────────────────────────
-      could not find function "n"
-      1: cnlp_utils_tfidf(obama) at testthat/test-tools.R:36
-      2: dplyr::summarize_(possible_vocab, prop = "n()") at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cleanNLP/new/cleanNLP.Rcheck/00_pkg_src/cleanNLP/R/tools.R:172
-      3: summarise_.tbl_df(possible_vocab, prop = "n()") at /Users/romain/git/tidyverse/dplyr/R/manip.r:286
-      4: summarise_impl(.data, dots, environment()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:107
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 23 SKIPPED: 21 FAILED: 2
-      1. Error: testing utils_tfidf (@test-tools.R#8) 
-      2. Error: testing tidy_pca (@test-tools.R#36) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # clustermq
 
 Version: 0.8.5
@@ -2295,48 +2235,6 @@ ERROR: lazy loading failed for package ‘CollapsABEL’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CollapsABEL/old/CollapsABEL.Rcheck/CollapsABEL’
 
 ```
-# CollapseLevels
-
-Version: 0.2.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    The error most likely occurred in:
-    
-    > ### Name: IVCalc
-    > ### Title: IVCalc
-    > ### Aliases: IVCalc
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > # Load the German_Credit data set supplied with this package
-    > 
-    > data("German_Credit")
-    > 
-    > l<-list()
-    > 
-    > # Call the function as follows
-    > 
-    > l<-IVCalc(German_Credit,resp="Good_Bad",bins=10)
-    Error in n() : could not find function "n"
-    Calls: IVCalc ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 54-76 (CollapseLevels.Rmd) 
-    Error: processing vignette 'CollapseLevels.Rmd' failed with diagnostics:
-    could not find function "n"
-    Execution halted
-    ```
-
 # colorednoise
 
 Version: 1.0.4
@@ -3035,44 +2933,6 @@ ERROR: lazy loading failed for package ‘DAPAR’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
 
 ```
-# dat
-
-Version: 0.4.0
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      25: freduce(value, `_function_list`)
-      26: withVisible(function_list[[k]](value))
-      27: function_list[[k]](value)
-      28: dplyr::mutate_(., .dots = args)
-      29: mutate_.tbl_df(., .dots = args) at /Users/romain/git/tidyverse/dplyr/R/manip.r:457
-      30: mutate_impl(.data, dots) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:96
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 98 SKIPPED: 1 FAILED: 3
-      1. Error: Basic syntax of a DataFrame (@test-DataFrame.R#127) 
-      2. Error: split-apply-combine (@test-map.R#58) 
-      3. Error: mutars by and sby (@test-mutar.R#21) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 106-107 (Introduction.Rmd) 
-    Error: processing vignette 'Introduction.Rmd' failed with diagnostics:
-    could not find function "n"
-    Execution halted
-    ```
-
 # datadr
 
 Version: 0.8.6.1
@@ -3148,7 +3008,7 @@ Version: 1.3.0
       Calls: <Anonymous> ... <Anonymous> -> <Anonymous> -> postgresqlNewConnection
       In addition: Warning message:
       In dbDisconnect(con) : restarting interrupted promise evaluation
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 565 SKIPPED: 11 FAILED: 1
       1. Failure: tbl_dbi support colwise variants (@test-colwise.R#14) 
       
@@ -3169,62 +3029,11 @@ Version: 1.3.0
 
 Version: 1.11
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘ddpcr-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: load_plate
-    > ### Title: Load a previously saved ddPCR plate
-    > ### Aliases: load_plate
-    > 
-    > ### ** Examples
-    > 
-    > plate <- new_plate(sample_data_dir())
-    Error in n() : could not find function "n"
-    Calls: new_plate ... <Anonymous> -> <Anonymous> -> summarise_.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 163 SKIPPED: 0 FAILED: 13
-      1. Error: (unknown) (@test-custom_thresholds.R#4) 
-      2. Error: get_empty_cutoff works (@test-empty.R#4) 
-      3. Error: get_empty_cutoff for pnpp works (@test-empty.R#18) 
-      4. Error: is_well_success works (@test-failures.R#4) 
-      5. Error: get_outlier_cutoff works (@test-outliers.R#4) 
-      6. Error: test basic plate attribute getters/setters (@test-plate-attribs.R#4) 
-      7. Error: (unknown) (@test-plate.R#3) 
-      8. Error: (unknown) (@test-pnpp_experiment.R#4) 
-      9. Error: read_files targets for channel 1 and 2 (@test-read.R#210) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 205-213 (extend.Rmd) 
-    Error: processing vignette 'extend.Rmd' failed with diagnostics:
-    could not find function "n"
-    Execution halted
-    ```
-
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.2Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
         sample_data   3.0Mb
     ```
@@ -4396,7 +4205,7 @@ Version: 0.1.1
 
 Version: 0.18.08-02
 
-## Newly broken
+## In both
 
 *   checking tests ...
     ```
@@ -4409,7 +4218,7 @@ Version: 0.18.08-02
       EI-Index: female
       EI-Index: female
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 59 SKIPPED: 0 FAILED: 5
+      OK: 60 SKIPPED: 0 FAILED: 5
       1. Error: Composition commands work. (@test_composition.R#6) 
       2. Failure: methods for dplyr verbs keep egor class/attributes (@test_dplyr_methods.R#31) 
       3. Failure: egor() works with missing alters/ aaties / egos. (@test_egor.R#39) 
@@ -4419,8 +4228,6 @@ Version: 0.18.08-02
       Error: testthat unit tests failed
       Execution halted
     ```
-
-## In both
 
 *   checking whether package ‘egor’ can be installed ... WARNING
     ```
@@ -4609,57 +4416,6 @@ Version: 0.1.0
       All declared Imports should be used.
     ```
 
-# episheet
-
-Version: 0.4.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘episheet-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: risk
-    > ### Title: Calculate risk ratio and risk difference
-    > ### Aliases: risk
-    > 
-    > ### ** Examples
-    > 
-    > # Data from stratum 1 of table 15-1., p260
-    > dat <- data.frame(
-    +     exposure_var = c(rep(1, 8), rep(0, 5), rep(1, 98), rep(0, 115)),
-    +   outcome_var = c(rep(1, 8), rep(1, 5), rep(0, 98), rep(0, 115)),
-    +   stringsAsFactors = FALSE
-    + )
-    > risk(data = dat, exposure = exposure_var, outcome = outcome_var)
-    Error in n() : could not find function "n"
-    Calls: risk ... as.data.frame -> summarise -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 6 SKIPPED: 0 FAILED: 9
-      1. Error: Test risk_ratio returns exected estimate (@test-risk.R#16) 
-      2. Error: Test risk_ratio returns exected lci (@test-risk.R#21) 
-      3. Error: Test risk_ratio returns exected uci (@test-risk.R#26) 
-      4. Error: Test risk_diff returns exected estimate (@test-risk.R#31) 
-      5. Error: Test risk_diff returns exected lci (@test-risk.R#36) 
-      6. Error: Test risk_diff returns exected uci (@test-risk.R#41) 
-      7. Error: rrmh returns expected value (@test-stratified_risk.R#6) 
-      8. Error: lci return expected value (@test-stratified_risk.R#13) 
-      9. Error: uci return expected value (@test-stratified_risk.R#28) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # EpiSignalDetection
 
 Version: 0.1.1
@@ -4764,7 +4520,7 @@ Version: 0.3.1
       
       ── 2. Failure: Domain summary (@test-summarize.R#21)  ──────────────────────────
       summarize_domains(simulation_results) not equivalent to `domain_summary`.
-      Rows in x but not y: 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4[...]. Rows in y but not x: 14, 13, 12, 11, 10, 9, 8, 7, 5, 6, 4[...]. 
+      Rows in x but not y: 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4[...]. Rows in y but not x: 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4[...]. 
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 85 SKIPPED: 5 FAILED: 2
@@ -4801,30 +4557,26 @@ Version: 0.1.4
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking tests ...
     ```
-    ...
-    72 65-74    80-119    20-29      2         3
-    73 65-74    80-119      30+      1         1
-    74 65-74      120+ 0-9g/day      3         4
-    75 65-74      120+    10-19      1         2
-    76 65-74      120+    20-29      1         1
-    77 65-74      120+      30+      1         1
-    78   75+ 0-39g/day 0-9g/day      1        18
-    79   75+ 0-39g/day    10-19      2         6
-    80   75+ 0-39g/day      30+      1         3
-    81   75+     40-79 0-9g/day      2         5
-    82   75+     40-79    10-19      1         3
-    83   75+     40-79    20-29      0         3
-    84   75+     40-79      30+      1         1
-    85   75+    80-119 0-9g/day      1         1
-    86   75+    80-119    10-19      1         1
-    87   75+      120+ 0-9g/day      2         2
-    88   75+      120+    10-19      1         1
-    > pct_routine(esoph, agegp, alcgp)
-    Error in n() : could not find function "n"
-    Calls: pct_routine ... eval -> <Anonymous> -> summarise_.tbl_df -> summarise_impl
-    Execution halted
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      4: group_by(.data, !!!dots, add = add) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:39
+      5: group_by.data.frame(.data, !!!dots, add = add) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:93
+      6: grouped_df(groups$data, groups$group_names, .drop) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
+      7: grouped_df_impl(data, unname(vars), drop) at /Users/romain/git/tidyverse/dplyr/R/grouped-df.r:20
+      8: group_drops(.data) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
+      9: group_data(x) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:203
+      10: group_data.grouped_df(x) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:30
+      11: group_data_grouped_df(.data) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:47
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 19 SKIPPED: 0 FAILED: 1
+      1. Error: ind_to_char_ works with grouped_df, tbl_df, tbl, data.frame (@test_grp_routine.R#74) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # ezsummary
@@ -5644,34 +5396,6 @@ Version: 1.2.0
 
 Version: 0.0.2
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    extrc_+                        pred = "predkrig",
-    extrc_+                        sd = "stdkrig")
-    > 
-    > # If this were run it gives an error because there is only 1 bird at the
-    > # location "Charlevoix"
-    > ## Not run: 
-    > ##D group_birds_by_location(x, feather_isotope_col = "Isotope.Value", location_col = "Location")
-    > ## End(Not run)
-    > 
-    > 
-    > # remove that one bird at Charlevoix and re-run
-    > y <- x %>%
-    +   dplyr::filter(Location != "Charlevoix")
-    > 
-    > # then group birds by location
-    > gbl <- group_birds_by_location(D = y,
-    +                                feather_isotope_col = "Isotope.Value",
-    +                                location_col = "Location")
-    Error in n() : could not find function "n"
-    Calls: group_birds_by_location ... <Anonymous> -> <Anonymous> -> summarise_.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
 ## In both
 
 *   checking dependencies in R code ... NOTE
@@ -5792,11 +5516,11 @@ Version: 2.10.1
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 226 SKIPPED: 0 FAILED: 15
+      OK: 224 SKIPPED: 0 FAILED: 15
       1. Error: window (@test_assocTestAggregate.R#10) 
       2. Error: ranges (@test_assocTestAggregate.R#24) 
       3. Error: list (@test_assocTestAggregate.R#40) 
-      4. Error: user weights (@test_assocTestAggregate.R#52) 
+      4. Error: user weights (@test_assocTestAggregate.R#56) 
       5. Error: exclude monomorphs (@test_assocTestAggregate.R#71) 
       6. Error: exclude common (@test_assocTestAggregate.R#84) 
       7. Error: select alleles (@test_assocTestAggregate.R#92) 
@@ -5934,30 +5658,6 @@ Version: 1.42.0
     to your NAMESPACE file.
     ```
 
-# geomnet
-
-Version: 0.2.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘geomnet-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: jtt
-    > ### Title: Number of JTTs in a graph
-    > ### Aliases: jtt
-    > 
-    > ### ** Examples
-    > 
-    > data(blood)
-    > ggplot(data= blood$edges) + geom_net(aes(from_id=from, to_id=to), directed=TRUE) + theme_net()
-    Error in n() : could not find function "n"
-    Calls: <Anonymous> ... f -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
 # GEOquery
 
 Version: 2.48.0
@@ -6034,39 +5734,6 @@ Version: 0.17.4
 # GerminaR
 
 Version: 1.2
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘GerminaR-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: ger_intime
-    > ### Title: Cumulative sum of germination by period of time for line graphic
-    > ### Aliases: ger_intime
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > library(GerminaR)
-    > dt <- prosopis
-    > grt <- ger_intime(Factor = "nacl", SeedN = "seeds", 
-    +                   evalName = "D", method = "percentage", data = dt)
-    Error in n() : could not find function "n"
-    Calls: ger_intime ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 202-205 (GerminaR.Rmd) 
-    Error: processing vignette 'GerminaR.Rmd' failed with diagnostics:
-    could not find function "n"
-    Execution halted
-    ```
 
 ## In both
 
@@ -6166,24 +5833,6 @@ Version: 0.1.5
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-# GetITRData
-
-Version: 0.7
-
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 99-112 (gitrd-vignette-introduction.Rmd) 
-    Error: processing vignette 'gitrd-vignette-introduction.Rmd' failed with diagnostics:
-    Zipped file contains 0 files. This is likelly a problem with the downloaded file. Try running the code again as the corrupted zip file was deleted and will be downloaded again.
-    
-    If the problem persists, my suggestions is to remove the time period with problem.
-    Execution halted
     ```
 
 # getProxy
@@ -6308,49 +5957,23 @@ Version: 0.1.2
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    > ### Name: calc_quantiles
-    > ### Title: Calculate quantiles of a tidy dataframe
-    > ### Aliases: calc_quantiles
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > head(fake_df)
-      x Sim           y
-    1 1  X1  1.05953360
-    2 2  X1 -1.00586200
-    3 3  X1 -0.02297916
-    4 4  X1  1.09988604
-    5 5  X1  2.15035110
-    6 6  X1  1.51674379
-    > 
-    > fake_q <- calc_quantiles(fake_df, intervals=c(0,0.5,0.8))
-    Error in n() : could not find function "n"
-    Calls: calc_quantiles -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      length(unique(p_b$data[[1]]$interval)) not equal to 1.
+      1/1 mismatches
       [1] 0 - 1 == -1
       
-      ── 4. Failure: stat_interval filters precomputed quantiles to match interval arg
+      ── 2. Failure: stat_interval filters precomputed quantiles to match interval arg
       unique(p_b$data[[1]]$interval) not equal to as.factor(0.2).
       target is NULL, current is factor
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 7 SKIPPED: 0 FAILED: 4
-      1. Error: calc_quantile returns df with x and y (@test_calc_quantile.R#8) 
-      2. Error: calc_quantile allows retention of original df names (@test_calc_quantile.R#17) 
-      3. Failure: stat_interval filters precomputed quantiles to match interval args (@test_stat_interval.R#30) 
-      4. Failure: stat_interval filters precomputed quantiles to match interval args (@test_stat_interval.R#31) 
+      OK: 13 SKIPPED: 0 FAILED: 2
+      1. Failure: stat_interval filters precomputed quantiles to match interval args (@test_stat_interval.R#30) 
+      2. Failure: stat_interval filters precomputed quantiles to match interval args (@test_stat_interval.R#31) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -6915,30 +6538,6 @@ Version: 1.1.0
 
 Version: 1.7.0.0
 
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-             names(x)))
-      15: tryCatchList(expr, classes, parentenv, handlers)
-      16: tryCatchOne(expr, names, parentenv, handlers[[1L]])
-      17: value[[3L]](cond)
-      18: .checkTypos(e, names(x))
-      19: stop(err$message, call. = FALSE)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 797 SKIPPED: 98 FAILED: 1
-      1. Error: cpi returns reasonable forecasts (@test_cpi.R#203) 
-      
-      Error: testthat unit tests failed
-      In addition: Warning message:
-      package 'data.table' was built under R version 3.5.2 
-      Execution halted
-    ```
-
 ## In both
 
 *   checking package dependencies ... NOTE
@@ -7080,26 +6679,26 @@ Version: 0.9.2
 *   checking examples ... ERROR
     ```
     ...
+    +   ),
+    +   define_state(
+    +     cost = 456,
+    +     ly = .8
+    +   )
+    + )
+    No named state -> generating names.
+    No named state -> generating names.
     > 
-    > res_mod <- run_model(
-    +   mod = mod,
+    > res2 <- run_model(
+    +   mod1, mod2,
     +   parameters = param,
-    +   init = c(1000L, 0L),
+    +   init = c(100, 0),
     +   cycles = 10,
     +   cost = cost,
-    +   effect = effect,
-    +   method = "end"
+    +   effect = ly
     + )
-    > 
-    > f <- function(x) {
-    +   dplyr::filter(
-    +     get_counts(x),
-    +     state_names == "A" & markov_cycle == 10
-    +   )$count
-    + }
-    > f(res_mod)
-    Error in row_number() : could not find function "row_number"
-    Calls: f ... <Anonymous> -> <Anonymous> -> mutate_.tbl_df -> mutate_impl
+    No named model -> generating names.
+    Error in n() : could not find function "n"
+    Calls: run_model ... <Anonymous> -> mutate_.tbl_df -> mutate_impl -> discount
     Execution halted
     ```
 
@@ -7109,16 +6708,16 @@ Version: 0.9.2
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 417 SKIPPED: 0 FAILED: 21
-      1. Error: one-dimensional calibration (@test_calibration.R#41) 
-      2. Error: multi-dimensional calibration (@test_calibration.R#263) 
-      3. Error: exactly match HIV model (@test_dmhee.R#102) 
-      4. Error: Exactly match THR model (@test_dmhee.R#267) 
-      5. Error: Demographic analysis (@test_heterogeneity.R#73) 
-      6. Error: Same results using 1 core or 2. (@test_parallel.R#7) 
-      7. Error: part surv works (@test_part_surv.R#129) 
-      8. Error: run_model behaves as expected (@test_run_model.R#241) 
-      9. Error: Discounting (@test_run_model.R#350) 
+      OK: 566 SKIPPED: 0 FAILED: 17
+      1. Error: multi-dimensional calibration (@test_calibration.R#263) 
+      2. Error: exactly match HIV model (@test_dmhee.R#102) 
+      3. Error: Exactly match THR model (@test_dmhee.R#267) 
+      4. Error: Same results using 1 core or 2. (@test_parallel.R#7) 
+      5. Error: Discounting (@test_run_model.R#350) 
+      6. Error: run sensitivity (@test_sensitivity.R#123) 
+      7. Error: discount rate as a parameter works (@test_sensitivity.R#164) 
+      8. Error: sensitivity expression inputs (@test_sensitivity.R#227) 
+      9. Error: Discounting works (@test_states.R#269) 
       1. ...
       
       Error: testthat unit tests failed
@@ -7129,9 +6728,13 @@ Version: 0.9.2
     ```
     Error in re-building vignettes:
       ...
-    Quitting from lines 114-115 (a_introduction.Rmd) 
-    Error: processing vignette 'a_introduction.Rmd' failed with diagnostics:
-    could not find function "row_number"
+    Scale for 'colour' is already present. Adding another scale for
+    'colour', which will replace the existing scale.
+    Scale for 'colour' is already present. Adding another scale for
+    'colour', which will replace the existing scale.
+    Quitting from lines 166-173 (c_homogeneous.Rmd) 
+    Error: processing vignette 'c_homogeneous.Rmd' failed with diagnostics:
+    could not find function "n"
     Execution halted
     ```
 
@@ -7139,7 +6742,7 @@ Version: 0.9.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.2Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
         doc       1.5Mb
         R         2.1Mb
@@ -7990,41 +7593,26 @@ Version: 0.5.4
 *   checking examples ... ERROR
     ```
     ...
-    Importing platemap xml from /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IncucyteDRC/new/IncucyteDRC.Rcheck/IncucyteDRC/extdata/example.PlateMap
-    Plate map import successful!
-    > data_file <- system.file(file='extdata/example_data.txt', package='IncucyteDRC')
-    > test_data <- importIncucyteData(data_file, metric='pc')
-    Getting pc data for plate example_data.txt from:
-    /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IncucyteDRC/new/IncucyteDRC.Rcheck/IncucyteDRC/extdata/example_data.txt
-    > 
-    > test_list <- splitIncucyteDRCPlateData(test_pm, test_data, group_columns='growthcondition')
-    > 
-    > print(test_list)
-    ## This is an IncucyteDRCSetList S3 object containing 4 IncucyteDRCSet objects
-    ## Access using standard list notation ie my_list[[1]]
-    ## Try lapply(my_list, print) to see more information on each object> 
-    > test_idrc_set <- fitGrowthCurvesGrouped(test_list[[2]])
-    > test_idrc_set <- fitGrowthCurvesIndividual(test_idrc_set)
-    > test_idrc_set <- calculateDRCData(test_idrc_set, cut_time=100)
-    Using cut time provided to function
-    > test_idrc_set <- fitDoseResponseCurve(test_idrc_set)
-    Error in row_number() : could not find function "row_number"
-    Calls: fitDoseResponseCurve ... <Anonymous> -> <Anonymous> -> mutate.tbl_df -> mutate_impl
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Importing platemap xml from /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IncucyteDRC/new/IncucyteDRC.Rcheck/IncucyteDRC/extdata/example2.PlateMap
-    Plate map import successful!
-    Getting pc data for plate example_data2.txt from:
-    /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IncucyteDRC/new/IncucyteDRC.Rcheck/IncucyteDRC/extdata/example_data2.txt
-    Using cut time provided to function
-    Quitting from lines 94-99 (Overview.Rmd) 
-    Error: processing vignette 'Overview.Rmd' failed with diagnostics:
-    could not find function "row_number"
+    
+    ## Cut Time (cut_time)
+    100
+    ## Metadata (metadata)
+      group_idx growthcondition metric          plateid
+    1         4     8 x 10e4/mL     pc example_data.txt
+    
+    > print(test_drc[[2]])
+    ## This is an IncucyteDRCSet S3 object with the following elements
+    platemap platedata cut_time metadata fitted_data_indiv fitted_models_indiv fitted_data_grouped fitted_models_grouped drc_data
+    
+    ## Cut Time (cut_time)
+    100
+    ## Metadata (metadata)
+      group_idx growthcondition metric          plateid
+    1         2     2 x 10e4/mL     pc example_data.txt
+    > exportDRCDataToDotmatics(test_drc, test_pm)
+    Generating Dotmatics data for IncucyteDRCSetList
+    Error in first(row) : could not find function "first"
+    Calls: exportDRCDataToDotmatics ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
     Execution halted
     ```
 
@@ -9406,25 +8994,6 @@ Version: 0.2.0
 
 Version: 1.0.0
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘MIAmaxent-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: deriveVars
-    > ### Title: Derive variables by transformation.
-    > ### Aliases: deriveVars
-    > 
-    > ### ** Examples
-    > 
-    > toydata_dvs <- deriveVars(toydata_sp1po, c("L", "M", "D", "HF", "HR", "T", "B"))
-    Error in n() : could not find function "n"
-    Calls: deriveVars ... as.data.frame -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
 ## In both
 
 *   checking dependencies in R code ... NOTE
@@ -9914,34 +9483,6 @@ Version: 0.3.0
     Namespaces in Imports field not imported from:
       ‘caret’ ‘ggformula’ ‘knitr’ ‘MASS’ ‘testthat’ ‘tidyverse’
       All declared Imports should be used.
-    ```
-
-# mousetrap
-
-Version: 3.1.1
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘mousetrap-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: mt_import_long
-    > ### Title: Import mouse-tracking data saved in long format.
-    > ### Aliases: mt_import_long
-    > 
-    > ### ** Examples
-    > 
-    > # Create data in long format for test purposes
-    > mt_data_long <- mt_export_long(mt_example,
-    +   use2_variables=c("subject_nr","Condition"))
-    > 
-    > # Import the data using mt_import_long
-    > mt_data <- mt_import_long(mt_data_long)
-    Error in row_number() : could not find function "row_number"
-    Calls: mt_import_long ... <Anonymous> -> <Anonymous> -> mutate_.tbl_df -> mutate_impl
-    Execution halted
     ```
 
 # MPTmultiverse
@@ -11338,7 +10879,7 @@ Version: 0.99.19
       Calls: test_dir ... <Anonymous> -> o_apply -> lapply -> FUN -> <Anonymous>
       
       ══ Results ═════════════════════════════════════════════════════════════════════
-      Duration: 1.0 s
+      Duration: 1.3 s
       
       OK:       122
       Failed:   4
@@ -11408,18 +10949,18 @@ Version: 0.2.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      8: eval(quote(`_fseq`(`_lhs`)), env, env)
-      9: `_fseq`(`_lhs`)
-      10: freduce(value, `_function_list`)
-      11: function_list[[i]](value)
-      12: dplyr::summarize(., count = n())
-      13: summarise.tbl_df(., count = n()) at /Users/romain/git/tidyverse/dplyr/R/manip.r:269
-      14: summarise_impl(.data, dots, environment()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:102
+      > library(portalr)
+      > 
+      > test_check("portalr")
+      ── 1. Failure: data generated by level = plot, time = newmoon, type = granivore,
+      digest::digest(data) not identical to "22f018525c242edaa3f94814e04d230b".
+      1/1 mismatches
+      x[1]: "edcd782e39d3a642b3d6273d893f8ed1"
+      y[1]: "22f018525c242edaa3f94814e04d230b"
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 134 SKIPPED: 14 FAILED: 2
+      OK: 137 SKIPPED: 14 FAILED: 1
       1. Failure: data generated by level = plot, time = newmoon, type = granivore, shape = flat is same (@test-99-regression.R#26) 
-      2. Error: data generated by default setting is same (shrub_cover) (@test-99-regression.R#96) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -11958,7 +11499,7 @@ Version: 2.3.0
     ```
       installed size is  8.8Mb
       sub-directories of 1Mb or more:
-        R   7.0Mb
+        R   7.1Mb
     ```
 
 # psycho
@@ -12530,57 +12071,6 @@ Version: 1.3-7
 
 Version: 0.1.1
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘rbin-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: rbin_create
-    > ### Title: Create dummy variables
-    > ### Aliases: rbin_create
-    > 
-    > ### ** Examples
-    > 
-    > k <- rbin_manual(mbank, y, age, c(29, 39, 56))
-    Error in n() : could not find function "n"
-    Calls: rbin_manual ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 2 SKIPPED: 5 FAILED: 9
-      1. Error: winsorized binning works as expected (@test-bins.R#4) 
-      2. Error: quantile binning works as expected (@test-bins.R#9) 
-      3. Error: manual binning works as expected (@test-bins.R#14) 
-      4. Error: equal length binning works as expected (@test-bins.R#19) 
-      5. Error: equal frequency binning works as expected (@test-bins.R#24) 
-      6. Error: output from rbin_create is as expected as expected (@test-bins.R#29) 
-      7. Error: output from rbin_factor is as expected (@test-bins.R#41) 
-      8. Error: output from rbin_print is as expected (@test-bins.R#81) 
-      9. Error: output from rbin_print_custom  is as expected (@test-bins.R#109) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 52-54 (introduction.Rmd) 
-    Error: processing vignette 'introduction.Rmd' failed with diagnostics:
-    could not find function "n"
-    Execution halted
-    ```
-
 ## In both
 
 *   checking dependencies in R code ... NOTE
@@ -12680,25 +12170,6 @@ Version: 0.4.6
 # rcv
 
 Version: 0.2.1
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘rcv-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: rcv_tally
-    > ### Title: Determines RCV round results in a dataframe
-    > ### Aliases: rcv_tally
-    > 
-    > ### ** Examples
-    > 
-    > rcv_tally(image = sf_bos_clean, rcvcontest = "Board of Supervisors, District 7")
-    Error in n() : could not find function "n"
-    Calls: rcv_tally ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
 
 ## In both
 
@@ -13734,27 +13205,6 @@ ERROR: lazy loading failed for package ‘RtutoR’
 
 Version: 0.1.0
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘rubias-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: assess_reference_loo
-    > ### Title: Simulate mixtures and estimate reporting group and collection
-    > ###   proportions.
-    > ### Aliases: assess_reference_loo
-    > 
-    > ### ** Examples
-    > 
-    > # very small number of reps so it is quick enough for example
-    > ale_dev <- assess_reference_loo(alewife, 17, reps = 5)
-    Error in n() : could not find function "n"
-    Calls: assess_reference_loo ... <Anonymous> -> <Anonymous> -> mutate.tbl_df -> mutate_impl
-    Execution halted
-    ```
-
 ## In both
 
 *   checking dependencies in R code ... NOTE
@@ -14211,77 +13661,6 @@ Version: 0.8.3
 
 Version: 1.2.1
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘seqCAT-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: plot_impacts
-    > ### Title: Plot SNV impact distribution
-    > ### Aliases: plot_impacts
-    > 
-    > ### ** Examples
-    > 
-    > # Load test comparison data
-    > data(test_comparison)
-    > 
-    > # Plot the impact distribution
-    > impacts <- plot_impacts(test_comparison)
-    Error in n() : could not find function "n"
-    Calls: plot_impacts -> <Anonymous> -> summarise_.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > 
-      > test_check("seqCAT")
-      ── 1. Error: (unknown) (@test_06_plot_impacts.R#8)  ────────────────────────────
-      could not find function "n"
-      1: plot_impacts(test_comparison) at testthat/test_06_plot_impacts.R:8
-      2: dplyr::summarise_(data, count = ~n()) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/seqCAT/new/seqCAT.Rcheck/00_pkg_src/seqCAT/R/plot_impacts.R:58
-      3: summarise_.tbl_df(data, count = ~n()) at /Users/romain/git/tidyverse/dplyr/R/manip.r:286
-      4: summarise_impl(.data, dots, environment()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:107
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 88 SKIPPED: 0 FAILED: 1
-      1. Error: (unknown) (@test_06_plot_impacts.R#8) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    Creating SNV profile ...
-    Created and stored SNV profile for "HCT116" in [hct116_profile.txt].
-    Reading VCF file ...
-    Creating SNV profile ...
-    Created and stored SNV profile for "RKO" in [rko_profile.txt].
-    Reading COSMIC cell line data ...
-    Reading COSMIC cell line data ...
-    Reading profile for HCT116 in file hct116_profile.txt ...
-    Reading profile for RKO in file rko_profile.txt ...
-    Comparing HCT116 and RKO ...
-    Comparing HCT116 and RKO ...
-    Comparing HCT116 and COSMIC.HCT116 ...
-    Reading VCF file ...
-    Creating SNV profile ...
-    Created and stored SNV profile for "HKE3" in [hke3_profile.txt].
-    Reading profile for HKE3 in file hke3_profile.txt ...
-    Comparing HCT116 and HKE3 ...
-    Quitting from lines 343-345 (seqCAT.Rmd) 
-    Error: processing vignette 'seqCAT.Rmd' failed with diagnostics:
-    could not find function "n"
-    Execution halted
-    ```
-
 ## In both
 
 *   checking whether package ‘seqCAT’ can be installed ... WARNING
@@ -14292,57 +13671,6 @@ Version: 1.2.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
       Warning: package ‘Rsamtools’ was built under R version 3.5.1
     See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/seqCAT/new/seqCAT.Rcheck/00install.out’ for details.
-    ```
-
-# seqcombo
-
-Version: 1.2.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘seqcombo-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: plot
-    > ### Title: plot method for SeqDiff object
-    > ### Aliases: plot plot,SeqDiff,ANY-method
-    > 
-    > ### ** Examples
-    > 
-    > fas <- list.files(system.file("examples","GVariation", package="seqcombo"), pattern="fas", full.names=TRUE)
-    > x1 <- seqdiff(fas[1], reference=1)
-    > plot(x1)
-    Error in n() : could not find function "n"
-    Calls: plot ... <Anonymous> -> summarize -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-      ...
-    Loading required package: igraph
-    
-    Attaching package: 'igraph'
-    
-    The following object is masked from 'package:tibble':
-    
-        as_data_frame
-    
-    The following objects are masked from 'package:stats':
-    
-        decompose, spectrum
-    
-    The following object is masked from 'package:base':
-    
-        union
-    
-    Quitting from lines 54-55 (seqcombo.Rmd) 
-    Error: processing vignette 'seqcombo.Rmd' failed with diagnostics:
-    could not find function "n"
-    Execution halted
     ```
 
 # SeqVarTools
@@ -14837,34 +14165,6 @@ Version: 1.1.1
     Quitting from lines 244-252 (simTool.Rmd) 
     Error: processing vignette 'simTool.Rmd' failed with diagnostics:
     Argument 1 must be a data frame or a named atomic vector, not a summary.lm
-    Execution halted
-    ```
-
-# sjPlot
-
-Version: 2.6.2
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘sjPlot-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: plot_gpt
-    > ### Title: Plot grouped proportional tables
-    > ### Aliases: plot_gpt
-    > 
-    > ### ** Examples
-    > 
-    > data(efc)
-    > 
-    > # the proportion of dependency levels in female
-    > # elderly, for each family carer's relationship
-    > # to elderly
-    > plot_gpt(efc, e42dep, e16sex, e15relat)
-    Error in n() : could not find function "n"
-    Calls: plot_gpt ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
     Execution halted
     ```
 
@@ -16345,54 +15645,11 @@ Version: 0.1.0
 
 Version: 0.3.5
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘tidytransit-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: get_route_frequency
-    > ### Title: Get Route Frequency
-    > ### Aliases: get_route_frequency
-    > 
-    > ### ** Examples
-    > 
-    > data(gtfs_obj)
-    > gtfs_obj <- get_route_frequency(gtfs_obj)
-    Calculating route and stop headways using defaults (6 am to 10 pm for weekday service).
-    Error in n() : could not find function "n"
-    Calls: get_route_frequency ... <Anonymous> -> <Anonymous> -> mutate.tbl_df -> mutate_impl
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      16: `_fseq`(`_lhs`)
-      17: freduce(value, `_function_list`)
-      18: function_list[[i]](value)
-      19: dplyr::mutate(., service_trips = n())
-      20: mutate.tbl_df(., service_trips = n()) at /Users/romain/git/tidyverse/dplyr/R/manip.r:440
-      21: mutate_impl(.data, dots) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:91
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 3 SKIPPED: 7 FAILED: 3
-      1. Error: Stop frequencies (headways) for included data are as expected (@test_headways.R#4) 
-      2. Error: Route frequencies (headways) for included data are as expected (@test_headways.R#11) 
-      3. Error: Route frequencies (headways) can be calculated for included data for a particular service id (@test_headways.R#17) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.3Mb
+      installed size is  5.4Mb
       sub-directories of 1Mb or more:
         extdata   4.4Mb
     ```
