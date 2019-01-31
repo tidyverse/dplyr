@@ -110,18 +110,40 @@ public:
       // then match that against the hash map
       FindFunData finder(head, env);
       if (finder.findFun()) {
+        if (Rf_isNull(finder.res)) {
+          // no function was found, but
+          //
+          // handle n(), row_number(), group_indices() in case dplyr is not imported
+          bool workaround = true;
+          if (head == symbols::n) {
+            Rcpp::warningcall(R_NilValue, "Calling n() without importing or prefixing it is deprecated");
+          } else if (head == symbols::row_number) {
+            Rcpp::warningcall(R_NilValue, "Calling row_number() without importing or prefixing it is deprecated");
+          } else if (head == symbols::group_indices) {
+            Rcpp::warningcall(R_NilValue, "Calling group_indices() without importing or prefixing it is deprecated");
+          } else {
+            workaround = false;
+          }
 
-        // The function resolves to finder.res
-        // If this happens to be a rlang_lambda_function we need to look further
-        SEXP f = resolve_rlang_lambda(finder.res);
+          if (workaround) {
+            func = head;
+            package = symbols::dplyr;
+            id = get_hybrid_named_map().find(func)->second.id;
+          }
+        } else {
+          // The function resolves to finder.res
+          // If this happens to be a rlang_lambda_function we need to look further
+          SEXP f = resolve_rlang_lambda(finder.res);
 
-        // this also may update expr
-        dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
-        if (it != get_hybrid_inline_map().end()) {
-          func = it->second.name;
-          package = it->second.package;
-          id = it->second.id;
+          // this also may update expr
+          dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
+          if (it != get_hybrid_inline_map().end()) {
+            func = it->second.name;
+            package = it->second.package;
+            id = it->second.id;
+          }
         }
+
       }
 
     } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
