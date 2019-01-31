@@ -200,5 +200,13 @@ group_vars.default <- function(x) {
 #
 # absence of the .drop attribute -> drop = TRUE for backwards compatibility reasons
 group_drops <- function(x) {
+  UseMethod("group_drops")
+}
+
+group_drops.default <- function(x) {
+  TRUE
+}
+
+group_drops.grouped_df <- function(x) {
   !identical(attr(group_data(x), ".drop"), FALSE)
 }
