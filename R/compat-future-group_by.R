@@ -12,6 +12,6 @@
   if(.drop) {
     group_by(...)
   } else {
-    group_by(..., .drop = TRUE)
+    group_by(..., .drop = FALSE)
   }
 }
