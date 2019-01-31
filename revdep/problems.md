@@ -1787,34 +1787,6 @@ Version: 1.2.1
     See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/chromswitch/new/chromswitch.Rcheck/00install.out’ for details.
     ```
 
-# chunked
-
-Version: 0.4
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-                     call <- dplyr:::compat_lazy_dots(call, env)
-                 }
-                 map(call, partial_eval, vars = vars, env = env)
-             }, abort(glue("Unknown input type: ", class(call))))
-      17: sym_partial_eval(call, vars, env)
-      18: eval_bare(sym, env)
-      19: group_drops(x)
-      20: group_data(x) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:203
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 39 SKIPPED: 0 FAILED: 1
-      1. Error: write_chunkwise to db works (@test-write.R#29) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # cimir
 
 Version: 0.1-0
@@ -3176,7 +3148,7 @@ Version: 1.3.0
       Calls: <Anonymous> ... <Anonymous> -> <Anonymous> -> postgresqlNewConnection
       In addition: Warning message:
       In dbDisconnect(con) : restarting interrupted promise evaluation
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════
       OK: 565 SKIPPED: 11 FAILED: 1
       1. Failure: tbl_dbi support colwise variants (@test-colwise.R#14) 
       
@@ -4853,28 +4825,6 @@ Version: 0.1.4
     Error in n() : could not find function "n"
     Calls: pct_routine ... eval -> <Anonymous> -> summarise_.tbl_df -> summarise_impl
     Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      4: group_by(.data, !!!dots, add = add) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:39
-      5: group_by.data.frame(.data, !!!dots, add = add) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:93
-      6: grouped_df(groups$data, groups$group_names, .drop) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
-      7: grouped_df_impl(data, unname(vars), drop) at /Users/romain/git/tidyverse/dplyr/R/grouped-df.r:20
-      8: group_drops(.data) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
-      9: group_data(x) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:203
-      10: group_data.grouped_df(x) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:30
-      11: group_data_grouped_df(.data) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:47
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 19 SKIPPED: 0 FAILED: 1
-      1. Error: ind_to_char_ works with grouped_df, tbl_df, tbl, data.frame (@test_grp_routine.R#74) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # ezsummary
@@ -10156,34 +10106,6 @@ Version: 1.2.0
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘RforProteomics’
-    ```
-
-# mudata2
-
-Version: 1.0.5
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/test-all.R’ failed.
-    Last 13 lines of output:
-      25: group_data(x) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:203
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 921 SKIPPED: 0 FAILED: 8
-      1. Error: mudata constructor works with sqlite data frames (@test_mudata_remote.R#42) 
-      2. Error: mudata_sql works as expected (@test_mudata_remote.R#78) 
-      3. Error: summary and print methods are sql type safe (@test_mudata_remote.R#100) 
-      4. Error: distinct_* functions return the correct values (@test_mudata_remote.R#115) 
-      5. Error: autoplot/plot works on sqlite sources (@test_mudata_remote.R#129) 
-      6. Error: long_pairs works with sqlite sources (@test_mudata_remote.R#137) 
-      7. Error: subsetting, filtering, combining functions fail with a suitable error message (@test_mudata_remote.R#154) 
-      8. Error: generate_type_str works with sqlite sources (@test_types.R#361) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # multicolor

@@ -5,7 +5,7 @@
 |version  |R version 3.5.0 (2018-04-23) |
 |os       |macOS  10.14.2               |
 |system   |x86_64, darwin15.6.0         |
-|ui       |X11                          |
+|ui       |RStudio                      |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
@@ -81,7 +81,7 @@
 |[weibulltools](problems.md#weibulltools)             |1.0.1   |1      |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0  |1      |1       |2    |
 
-## Broken (69)
+## Broken (67)
 
 |package                                      |version    |error    |warning  |note |
 |:--------------------------------------------|:----------|:--------|:--------|:----|
@@ -90,7 +90,6 @@
 |[BMTME](problems.md#bmtme)                   |1.0.4      |__+1__   |         |     |
 |[bupaR](problems.md#bupar)                   |0.4.1      |         |__+1__   |     |
 |[carpenter](problems.md#carpenter)           |0.2.1      |__+1__   |         |     |
-|[chunked](problems.md#chunked)               |0.4        |__+1__   |         |     |
 |[cleanNLP](problems.md#cleannlp)             |2.3.0      |__+1__   |         |     |
 |[CollapseLevels](problems.md#collapselevels) |0.2.0      |__+1__   |__+1__   |     |
 |[compareDF](problems.md#comparedf)           |1.7.0      |__+1__   |         |1    |
@@ -108,7 +107,7 @@
 |[egor](problems.md#egor)                     |0.18.08-02 |__+1__   |1        |     |
 |[episheet](problems.md#episheet)             |0.4.0      |__+2__   |         |     |
 |[evaluator](problems.md#evaluator)           |0.3.1      |__+1__   |         |     |
-|[extdplyr](problems.md#extdplyr)             |0.1.4      |__+2__   |         |     |
+|[extdplyr](problems.md#extdplyr)             |0.1.4      |__+1__   |         |     |
 |[ezsummary](problems.md#ezsummary)           |0.2.1      |__+2__   |__+1__   |     |
 |[gaiah](problems.md#gaiah)                   |0.0.2      |__+1__   |         |1    |
 |[GENESIS](problems.md#genesis)               |2.10.1     |1 __+1__ |         |2    |
@@ -124,7 +123,6 @@
 |[MIAmaxent](problems.md#miamaxent)           |1.0.0      |__+1__   |         |1    |
 |[modeldb](problems.md#modeldb)               |0.1.1      |         |__+1__   |     |
 |[mousetrap](problems.md#mousetrap)           |3.1.1      |__+1__   |         |     |
-|[mudata2](problems.md#mudata2)               |1.0.5      |__+1__   |         |     |
 |[naniar](problems.md#naniar)                 |0.4.1      |__+2__   |         |     |
 |[pixiedust](problems.md#pixiedust)           |0.8.6      |__+1__   |         |     |
 |[poplite](problems.md#poplite)               |0.99.19    |__+1__   |__+1__   |     |
@@ -342,7 +340,7 @@
 |[chorrrds](problems.md#chorrrds)                                            |0.1.8      |         |         |1    |
 |[chromer](problems.md#chromer)                                              |0.1        |         |         |2    |
 |[chromswitch](problems.md#chromswitch)                                      |1.2.1      |         |1        |     |
-|[chunked](problems.md#chunked)                                              |0.4        |__+1__   |         |     |
+|chunked                                                                     |0.4        |         |         |     |
 |[cimir](problems.md#cimir)                                                  |0.1-0      |         |         |1    |
 |[CINdex](problems.md#cindex)                                                |1.8.0      |         |2        |3    |
 |[circumplex](problems.md#circumplex)                                        |0.2.1      |1        |         |     |
@@ -572,7 +570,7 @@
 |[EventStudy](problems.md#eventstudy)                                        |0.34       |         |         |2    |
 |ExPanDaR                                                                    |0.3.0      |         |         |-1   |
 |explor                                                                      |0.3.4      |         |         |     |
-|[extdplyr](problems.md#extdplyr)                                            |0.1.4      |__+2__   |         |     |
+|[extdplyr](problems.md#extdplyr)                                            |0.1.4      |__+1__   |         |     |
 |exuber                                                                      |0.1.0      |         |         |     |
 |eyelinker                                                                   |0.1        |         |         |     |
 |eyetrackingR                                                                |0.1.8      |         |         |     |
@@ -964,7 +962,7 @@
 |[MSstatsQC](problems.md#msstatsqc)                                          |1.2.0      |         |         |1    |
 |MSstatsQCgui                                                                |1.0.0      |         |         |     |
 |mtconnectR                                                                  |1.2.1      |         |         |     |
-|[mudata2](problems.md#mudata2)                                              |1.0.5      |__+1__   |         |     |
+|mudata2                                                                     |1.0.5      |         |         |     |
 |muHVT                                                                       |0.2.1      |         |         |     |
 |muir                                                                        |0.1.0      |         |         |     |
 |[multicolor](problems.md#multicolor)                                        |0.1.1      |         |         |1    |
