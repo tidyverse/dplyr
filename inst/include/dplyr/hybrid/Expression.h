@@ -116,7 +116,7 @@ public:
           // handle n(), row_number(), group_indices() in case dplyr is not imported
           bool workaround = true;
           if (head == symbols::n) {
-            Rcpp::warningcall(R_NilValue, "Calling n() without importing or prefixing it is deprecated");
+            Rcpp::warningcall(R_NilValue, "Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()`.");
           } else if (head == symbols::row_number) {
             Rcpp::warningcall(R_NilValue, "Calling row_number() without importing or prefixing it is deprecated");
           } else if (head == symbols::group_indices) {
