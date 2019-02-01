@@ -338,8 +338,9 @@ private:
     SEXP f = resolve_rlang_lambda(finder.res);
 
     // this also may update expr
-    dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
-    if (it != get_hybrid_inline_map().end()) {
+    dplyr_hash_map<SEXP, hybrid_function>& map = get_hybrid_inline_map();
+    dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = map.find(f);
+    if (it != map.end()) {
       func = it->second.name;
       package = it->second.package;
       id = it->second.id;
@@ -347,21 +348,30 @@ private:
   }
 
   inline void handle_symbol_workaround(SEXP head) {
-    bool workaround = true;
-    if (head == symbols::n) {
-      Rcpp::warningcall(R_NilValue, "Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()`.");
-    } else if (head == symbols::row_number) {
-      Rcpp::warningcall(R_NilValue, "Calling row_number() without importing or prefixing it is deprecated, use `dplyr::row_number()`.");
-    } else if (head == symbols::group_indices) {
-      Rcpp::warningcall(R_NilValue, "Calling group_indices() without importing or prefixing it is deprecated, use `dplyr::group_indices()`.");
-    } else {
-      workaround = false;
-    }
+    dplyr_hash_map<SEXP, hybrid_function>& named_map = get_hybrid_named_map();
+    dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = named_map.find(head);
 
-    if (workaround) {
+    if (it != named_map.end()) {
+      // here when the name of the function is known by hybrid but the
+      // function by that name was not found
+      //
+      // that means the relevant package was not loaded
+      //
+      // in 0.8.0 we warn and proceed anyway, to ease the transition from older versions
       func = head;
-      package = symbols::dplyr;
-      id = get_hybrid_named_map().find(func)->second.id;
+      package = it->second.package;
+      id = it->second.id;
+
+      std::stringstream stream;
+      stream << "Calling `"
+             << CHAR(PRINTNAME(head))
+             << "()` without importing or prefixing it is deprecated, use `"
+             << CHAR(PRINTNAME(package))
+             << "::"
+             << CHAR(PRINTNAME(head))
+             << "()`.";
+      Rcpp::warningcall(R_NilValue, stream.str());
+
     }
   }
 
