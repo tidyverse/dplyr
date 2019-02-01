@@ -7556,38 +7556,6 @@ Version: 1.1.0
       All declared Imports should be used.
     ```
 
-# IncucyteDRC
-
-Version: 0.5.4
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    ## Cut Time (cut_time)
-    100
-    ## Metadata (metadata)
-      group_idx growthcondition metric          plateid
-    1         4     8 x 10e4/mL     pc example_data.txt
-    
-    > print(test_drc[[2]])
-    ## This is an IncucyteDRCSet S3 object with the following elements
-    platemap platedata cut_time metadata fitted_data_indiv fitted_models_indiv fitted_data_grouped fitted_models_grouped drc_data
-    
-    ## Cut Time (cut_time)
-    100
-    ## Metadata (metadata)
-      group_idx growthcondition metric          plateid
-    1         2     2 x 10e4/mL     pc example_data.txt
-    > exportDRCDataToDotmatics(test_drc, test_pm)
-    Generating Dotmatics data for IncucyteDRCSetList
-    Error in first(row) : could not find function "first"
-    Calls: exportDRCDataToDotmatics ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
-    ```
-
 # INDperform
 
 Version: 0.1.1
