@@ -2,11 +2,8 @@
 
 ## Breaking changes
 
-* The warning 
-
-  ```
-  Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()` 
-  ``` 
+* The error `could not find function "n"` or the warning 
+  ```Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()` ``` 
   
   indicates when functions like `n()`, `row_number()`, ... are not imported or prefixed. 
   
