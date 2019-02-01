@@ -2,8 +2,13 @@
 
 ## Breaking changes
 
-* `Error in n() : could not find function "n"` indicates when functions 
-  like `n()`, `row_number()`, ... are not imported or prefixed. 
+* The warning 
+
+  ```
+  Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()` 
+  ``` 
+  
+  indicates when functions like `n()`, `row_number()`, ... are not imported or prefixed. 
   
   The easiest fix is to import dplyr with `import(dplyr)` in your `NAMESPACE` or
   `#' @import dplyr` in a roxygen comment, alternatively such functions can be 
@@ -16,12 +21,9 @@
   
   - `sample_n()` and `sample_frac()` have gained `...`
   - `filter()` and `slice()` have gained `.preserve`
+  - `group_by()` has gained `.drop`
 
-* Code that assumes that there are no empty groups might fail, because of the 
-  new grouping algorithm described below. If you don't want empty groups, you 
-  can use `group_by(.drop = TRUE)` to drop them. 
-  
-* `Error: `.data` is a corrupt grouped_df, ...`  signals code that makes 
+* ```Error: `.data` is a corrupt grouped_df, ...```  signals code that makes 
   wrong assumptions about the internals of a grouped data frame. 
 
 ## New functions
