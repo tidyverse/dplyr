@@ -67,6 +67,7 @@ struct fns {
 struct strings {
   static SEXP POSIXct;
   static SEXP POSIXt;
+  static SEXP Date;
 };
 
 } // namespace dplyr
