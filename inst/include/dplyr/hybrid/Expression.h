@@ -89,6 +89,24 @@ struct FindFunData {
 
 template <typename SlicedTibble>
 class Expression {
+private:
+  SEXP expr;
+  SEXP env;
+
+  SEXP func;
+  SEXP package;
+  bool valid;
+
+  const DataMask<SlicedTibble>& data_mask;
+
+  int n;
+  std::vector<SEXP> values;
+  std::vector<SEXP> tags;
+
+  hybrid_id id;
+
+  SEXP dot_alias;
+
 public:
   typedef std::pair<bool, SEXP> ArgPair;
 
@@ -106,73 +124,14 @@ public:
     SEXP head = CAR(expr);
 
     if (TYPEOF(head) == SYMSXP) {
-      // the head is a symbol, so we lookup what it resolves to
-      // then match that against the hash map
-      FindFunData finder(head, env);
-      if (finder.findFun()) {
-        if (Rf_isNull(finder.res)) {
-          // no function was found, but
-          //
-          // handle n(), row_number(), group_indices() in case dplyr is not imported
-          bool workaround = true;
-          if (head == symbols::n) {
-            Rcpp::warningcall(R_NilValue, "Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()`.");
-          } else if (head == symbols::row_number) {
-            Rcpp::warningcall(R_NilValue, "Calling row_number() without importing or prefixing it is deprecated");
-          } else if (head == symbols::group_indices) {
-            Rcpp::warningcall(R_NilValue, "Calling group_indices() without importing or prefixing it is deprecated");
-          } else {
-            workaround = false;
-          }
-
-          if (workaround) {
-            func = head;
-            package = symbols::dplyr;
-            id = get_hybrid_named_map().find(func)->second.id;
-          }
-        } else {
-          // The function resolves to finder.res
-          // If this happens to be a rlang_lambda_function we need to look further
-          SEXP f = resolve_rlang_lambda(finder.res);
-
-          // this also may update expr
-          dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
-          if (it != get_hybrid_inline_map().end()) {
-            func = it->second.name;
-            package = it->second.package;
-            id = it->second.id;
-          }
-        }
-
-      }
-
+      handle_symbol(head);
     } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
-      // head is an inlined function. if it is an rlang_lambda_function, we need to look inside
-      SEXP f = resolve_rlang_lambda(head);
-
-      dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
-      if (it != get_hybrid_inline_map().end()) {
-        func = it->second.name;
-        package = it->second.package;
-        id = it->second.id;
-      }
+      handle_function(head);
     } else if (TYPEOF(head) == LANGSXP && Rf_length(head) == 3 && CAR(head) == symbols::double_colon && TYPEOF(CADR(head)) == SYMSXP && TYPEOF(CADDR(head)) == SYMSXP) {
-      // a call of the `::` function, so we do not need lookup
-      func = CADDR(head);
-      package = CADR(head);
-
-      dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_named_map().find(func);
-      if (it != get_hybrid_named_map().end() && it->second.package == package) {
-        id = it->second.id;
-      }
+      handle_explicit(head);
     }
 
-    // the arguments
-    for (SEXP p = CDR(expr); !Rf_isNull(p); p = CDR(p)) {
-      n++;
-      values.push_back(CAR(p));
-      tags.push_back(TAG(p));
-    }
+    handle_arguments(expr);
   }
 
   // the number of arguments in the call
@@ -300,23 +259,6 @@ public:
   }
 
 private:
-  SEXP expr;
-  SEXP env;
-
-  SEXP func;
-  SEXP package;
-  bool valid;
-
-  const DataMask<SlicedTibble>& data_mask;
-
-  int n;
-  std::vector<SEXP> values;
-  std::vector<SEXP> tags;
-
-  hybrid_id id;
-
-  SEXP dot_alias;
-
   SEXP resolve_rlang_lambda(SEXP f) {
     if (Rf_inherits(f, "rlang_lambda_function") && Rf_length(expr) == 2 && TYPEOF(CADR(expr)) == SYMSXP) {
       dot_alias =  CADR(expr);
@@ -388,6 +330,87 @@ private:
     column.data = data;
     column.is_desc = desc;
     return true;
+  }
+
+  inline void handle_symbol_match(FindFunData& finder) {
+    // The function resolves to finder.res
+    // If this happens to be a rlang_lambda_function we need to look further
+    SEXP f = resolve_rlang_lambda(finder.res);
+
+    // this also may update expr
+    dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
+    if (it != get_hybrid_inline_map().end()) {
+      func = it->second.name;
+      package = it->second.package;
+      id = it->second.id;
+    }
+  }
+
+  inline void handle_symbol_workaround(SEXP head) {
+    bool workaround = true;
+    if (head == symbols::n) {
+      Rcpp::warningcall(R_NilValue, "Calling `n()` without importing or prefixing it is deprecated, use `dplyr::n()`.");
+    } else if (head == symbols::row_number) {
+      Rcpp::warningcall(R_NilValue, "Calling row_number() without importing or prefixing it is deprecated, use `dplyr::row_number()`.");
+    } else if (head == symbols::group_indices) {
+      Rcpp::warningcall(R_NilValue, "Calling group_indices() without importing or prefixing it is deprecated, use `dplyr::group_indices()`.");
+    } else {
+      workaround = false;
+    }
+
+    if (workaround) {
+      func = head;
+      package = symbols::dplyr;
+      id = get_hybrid_named_map().find(func)->second.id;
+    }
+  }
+
+  inline void handle_symbol(SEXP head) {
+    // the head is a symbol, so we lookup what it resolves to
+    // then match that against the hash map
+    FindFunData finder(head, env);
+    if (finder.findFun()) {
+      if (Rf_isNull(finder.res)) {
+        // no match was found, but
+        // handle n(), row_number(), group_indices() in case dplyr is not imported
+        // this is a workaround to smooth the transition to 0.8.0
+        handle_symbol_workaround(head);
+      } else {
+        handle_symbol_match(finder);
+      }
+    }
+  }
+
+  inline void handle_function(SEXP head) {
+    // head is an inlined function. if it is an rlang_lambda_function, we need to look inside
+    SEXP f = resolve_rlang_lambda(head);
+
+    dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_inline_map().find(f);
+    if (it != get_hybrid_inline_map().end()) {
+      func = it->second.name;
+      package = it->second.package;
+      id = it->second.id;
+    }
+  }
+
+  inline void handle_explicit(SEXP head) {
+    // a call of the `::` function, so we do not need lookup
+    func = CADDR(head);
+    package = CADR(head);
+
+    dplyr_hash_map<SEXP, hybrid_function>::const_iterator it = get_hybrid_named_map().find(func);
+    if (it != get_hybrid_named_map().end() && it->second.package == package) {
+      id = it->second.id;
+    }
+  }
+
+  inline void handle_arguments(SEXP expr) {
+    // the arguments
+    for (SEXP p = CDR(expr); !Rf_isNull(p); p = CDR(p)) {
+      n++;
+      values.push_back(CAR(p));
+      tags.push_back(TAG(p));
+    }
   }
 
 };
