@@ -99,4 +99,5 @@ SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);
+SEXP strings::Date = STRING_ELT(get_date_classes(), 0);
 }
