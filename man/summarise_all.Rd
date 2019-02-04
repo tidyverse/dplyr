@@ -68,7 +68,8 @@ selection is \strong{implicit} (\code{all} and \code{if} selections) or
 \itemize{
 \item Grouping variables covered by explicit selections in
 \code{summarise_at()} are always an error. Add \code{-group_cols()} to the
-\code{\link[=vars]{vars()}} selection to avoid this:\preformatted{data \%>\% summarise_at(vars(-group_cols(), ...), myoperation)
+\code{\link[=vars]{vars()}} selection to avoid this:\preformatted{data \%>\%
+  summarise_at(vars(-group_cols(), ...), myoperation)
 }
 
 Or remove \code{group_vars()} from the character vector of column names:\preformatted{nms <- setdiff(nms, group_vars(data))
@@ -79,34 +80,62 @@ ignored by \code{summarise_all()} and \code{summarise_if()}.
 }
 }
 
+\section{Naming}{
+
+
+The names of the created columns is derived from the names of the
+input variables and the names of the functions.
+\itemize{
+\item if there is only one unnamed function, the names of the input variables
+are used to name the created columns
+\item if there is only one unnamed variable, the names of the functions
+are used to name the created columns.
+\item otherwise in the most general case, the created names are created by
+concatenating the names of the input variables and the names of the functions.
+}
+
+The names of the functions here means the names of the list of functions
+that is supplied. When needed and not supplied, the name of a function
+is the prefix "fn" followed by the index of this function within the
+unnamed functions in the list. Ultimately, names are made
+unique.
+}
+
 \examples{
-by_species <- iris \%>\% group_by(Species)
+by_species <- iris \%>\%
+  group_by(Species)
 
 
 # The _at() variants directly support strings:
-starwars \%>\% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
+starwars \%>\%
+  summarise_at(c("height", "mass"), mean, na.rm = TRUE)
 
 # You can also supply selection helpers to _at() functions but you have
 # to quote them with vars():
-starwars \%>\% summarise_at(vars(height:mass), mean, na.rm = TRUE)
+starwars \%>\%
+  summarise_at(vars(height:mass), mean, na.rm = TRUE)
 
 # The _if() variants apply a predicate function (a function that
 # returns TRUE or FALSE) to determine the relevant subset of
 # columns. Here we apply mean() to the numeric columns:
-starwars \%>\% summarise_if(is.numeric, mean, na.rm = TRUE)
+starwars \%>\%
+  summarise_if(is.numeric, mean, na.rm = TRUE)
 
 # If you want to apply multiple transformations, pass a list of
 # functions. When there are multiple functions, they create new
 # variables instead of modifying the variables in place:
-by_species \%>\% summarise_all(list(min, max))
+by_species \%>\%
+  summarise_all(list(min, max))
 
 # Note how the new variables include the function name, in order to
 # keep things distinct. Passing purrr-style lambdas often creates
 # better default names:
-by_species \%>\% summarise_all(list(~min(.), ~max(.)))
+by_species \%>\%
+  summarise_all(list(~min(.), ~max(.)))
 
 # When that's not good enough, you can also supply the names explicitly:
-by_species \%>\% summarise_all(list(min = min, max = max))
+by_species \%>\%
+  summarise_all(list(min = min, max = max))
 
 # When there's only one function in the list, it modifies existing
 # variables in place. Give it a name to create new variables instead:
