@@ -142,6 +142,10 @@ inline bool is_trivial_POSIXct(SEXP x, SEXP klass) {
   return TYPEOF(x) == REALSXP && TYPEOF(klass) == STRSXP && Rf_length(klass) == 2 && STRING_ELT(klass, 0) == strings::POSIXct && STRING_ELT(klass, 1) == strings::POSIXt;
 }
 
+inline bool is_trivial_Date(SEXP x, SEXP klass) {
+  return TYPEOF(x) == REALSXP && TYPEOF(klass) == STRSXP && Rf_length(klass) == 1 && STRING_ELT(klass, 0) == strings::Date;
+}
+
 template <typename Index>
 SEXP column_subset(SEXP x, const Index& index, SEXP frame) {
   if (Rf_inherits(x, "data.frame")) {
@@ -174,6 +178,11 @@ SEXP column_subset(SEXP x, const Index& index, SEXP frame) {
 
   // special case POSIXct (#3988)
   if (is_trivial_POSIXct(x, klass)) {
+    return column_subset_impl<REALSXP, Index>(x, index);
+  }
+
+  // special case Date (#3988)
+  if (is_trivial_Date(x, klass)) {
     return column_subset_impl<REALSXP, Index>(x, index);
   }
 

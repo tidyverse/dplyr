@@ -5,12 +5,12 @@
 |version  |R version 3.5.0 (2018-04-23) |
 |os       |macOS  10.14.2               |
 |system   |x86_64, darwin15.6.0         |
-|ui       |X11                          |
+|ui       |RStudio                      |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2019-01-31                   |
+|date     |2019-02-01                   |
 
 # Dependencies
 
@@ -81,7 +81,7 @@
 |[weibulltools](problems.md#weibulltools)             |1.0.1   |1      |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0  |1      |1       |2    |
 
-## Broken (46)
+## Broken (44)
 
 |package                                     |version |error    |warning  |note |
 |:-------------------------------------------|:-------|:--------|:--------|:----|
@@ -100,12 +100,10 @@
 |[dtplyr](problems.md#dtplyr)                |0.0.2   |__+1__   |         |     |
 |[edeaR](problems.md#edear)                  |0.8.1   |         |__+1__   |     |
 |[evaluator](problems.md#evaluator)          |0.3.1   |__+1__   |         |     |
-|[extdplyr](problems.md#extdplyr)            |0.1.4   |__+1__   |         |     |
 |[ezsummary](problems.md#ezsummary)          |0.2.1   |__+2__   |__+1__   |     |
 |[GENESIS](problems.md#genesis)              |2.10.1  |1 __+1__ |         |2    |
 |[ggfan](problems.md#ggfan)                  |0.1.2   |__+1__   |         |1    |
 |[heemod](problems.md#heemod)                |0.9.2   |__+2__   |__+1__   |1    |
-|[IncucyteDRC](problems.md#incucytedrc)      |0.5.4   |__+1__   |         |     |
 |[INDperform](problems.md#indperform)        |0.1.1   |__+1__   |         |1    |
 |[lmeresampler](problems.md#lmeresampler)    |0.1.0   |__+1__   |         |1    |
 |[modeldb](problems.md#modeldb)              |0.1.1   |         |__+1__   |     |
@@ -549,7 +547,7 @@
 |[EventStudy](problems.md#eventstudy)                                        |0.34       |         |         |2    |
 |ExPanDaR                                                                    |0.3.0      |         |         |-1   |
 |explor                                                                      |0.3.4      |         |         |     |
-|[extdplyr](problems.md#extdplyr)                                            |0.1.4      |__+1__   |         |     |
+|extdplyr                                                                    |0.1.4      |         |         |     |
 |exuber                                                                      |0.1.0      |         |         |     |
 |eyelinker                                                                   |0.1        |         |         |     |
 |eyetrackingR                                                                |0.1.8      |         |         |     |
@@ -779,7 +777,7 @@
 |[incgraph](problems.md#incgraph)                                            |1.0.1      |         |         |1    |
 |[incR](problems.md#incr)                                                    |1.1.0      |         |         |1    |
 |inctools                                                                    |1.0.14     |         |         |     |
-|[IncucyteDRC](problems.md#incucytedrc)                                      |0.5.4      |__+1__   |         |     |
+|IncucyteDRC                                                                 |0.5.4      |         |         |     |
 |[INDperform](problems.md#indperform)                                        |0.1.1      |__+1__   |         |1    |
 |infer                                                                       |0.4.0      |         |         |     |
 |inferr                                                                      |0.3.0      |         |         |     |

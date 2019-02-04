@@ -4551,34 +4551,6 @@ Version: 0.34
       All declared Imports should be used.
     ```
 
-# extdplyr
-
-Version: 0.1.4
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      4: group_by(.data, !!!dots, add = add) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:39
-      5: group_by.data.frame(.data, !!!dots, add = add) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:93
-      6: grouped_df(groups$data, groups$group_names, .drop) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
-      7: grouped_df_impl(data, unname(vars), drop) at /Users/romain/git/tidyverse/dplyr/R/grouped-df.r:20
-      8: group_drops(.data) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
-      9: group_data(x) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:203
-      10: group_data.grouped_df(x) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:30
-      11: group_data_grouped_df(.data) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:47
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 19 SKIPPED: 0 FAILED: 1
-      1. Error: ind_to_char_ works with grouped_df, tbl_df, tbl, data.frame (@test_grp_routine.R#74) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # ezsummary
 
 Version: 0.2.1
@@ -7582,38 +7554,6 @@ Version: 1.1.0
     Namespaces in Imports field not imported from:
       ‘dplyr’ ‘rgeos’
       All declared Imports should be used.
-    ```
-
-# IncucyteDRC
-
-Version: 0.5.4
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    ## Cut Time (cut_time)
-    100
-    ## Metadata (metadata)
-      group_idx growthcondition metric          plateid
-    1         4     8 x 10e4/mL     pc example_data.txt
-    
-    > print(test_drc[[2]])
-    ## This is an IncucyteDRCSet S3 object with the following elements
-    platemap platedata cut_time metadata fitted_data_indiv fitted_models_indiv fitted_data_grouped fitted_models_grouped drc_data
-    
-    ## Cut Time (cut_time)
-    100
-    ## Metadata (metadata)
-      group_idx growthcondition metric          plateid
-    1         2     2 x 10e4/mL     pc example_data.txt
-    > exportDRCDataToDotmatics(test_drc, test_pm)
-    Generating Dotmatics data for IncucyteDRCSetList
-    Error in first(row) : could not find function "first"
-    Calls: exportDRCDataToDotmatics ... <Anonymous> -> <Anonymous> -> summarise.tbl_df -> summarise_impl
-    Execution halted
     ```
 
 # INDperform
