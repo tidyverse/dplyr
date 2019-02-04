@@ -93,6 +93,7 @@ class Expression {
 private:
   SEXP expr;
   SEXP env;
+  SEXP caller_env;
 
   SEXP func;
   SEXP package;
@@ -111,9 +112,10 @@ private:
 public:
   typedef std::pair<bool, SEXP> ArgPair;
 
-  Expression(SEXP expr_, const DataMask<SlicedTibble>& data_mask_, SEXP env_) :
+  Expression(SEXP expr_, const DataMask<SlicedTibble>& data_mask_, SEXP env_, SEXP caller_env_) :
     expr(expr_),
     env(env_),
+    caller_env(caller_env_),
     func(R_NilValue),
     package(R_NilValue),
     data_mask(data_mask_),
@@ -372,7 +374,7 @@ private:
              << CHAR(PRINTNAME(head))
              << "()`.";
 
-      lifecycle::warn_deprecated(stream.str());
+      lifecycle::signal_soft_deprecated(stream.str(), caller_env);
     }
   }
 

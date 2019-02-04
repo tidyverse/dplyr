@@ -113,7 +113,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
 }
 
 template <typename SlicedTibble>
-DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP frame) {
+DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP frame, SEXP caller_env) {
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
@@ -148,7 +148,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
     if (is_vector(quosure.expr())) {
       result = validate_unquoted_value(quosure.expr(), gdf.ngroups(), quosure.name());
     } else {
-      result = hybrid::summarise(quosure, gdf, mask);
+      result = hybrid::summarise(quosure, gdf, mask, caller_env);
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
@@ -178,37 +178,37 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
 }
 
 // [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, QuosureList dots, SEXP frame) {
+SEXP summarise_impl(DataFrame df, QuosureList dots, SEXP frame, SEXP caller_env) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame>(df, dots, frame);
+    return summarise_grouped<RowwiseDataFrame>(df, dots, frame, caller_env);
   } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame>(df, dots, frame);
+    return summarise_grouped<GroupedDataFrame>(df, dots, frame, caller_env);
   } else {
-    return summarise_grouped<NaturalDataFrame>(df, dots, frame);
+    return summarise_grouped<NaturalDataFrame>(df, dots, frame, caller_env);
   }
 }
 
 template <typename SlicedTibble>
-SEXP hybrid_template(DataFrame df, const Quosure& quosure) {
+SEXP hybrid_template(DataFrame df, const Quosure& quosure, SEXP caller_env) {
   SlicedTibble gdf(df);
 
   const Environment& env = quosure.env();
   SEXP expr = quosure.expr();
   DataMask<SlicedTibble> mask(gdf);
-  return hybrid::match(expr, gdf, mask, env);
+  return hybrid::match(expr, gdf, mask, env, caller_env);
 }
 
 
 // [[Rcpp::export]]
-SEXP hybrid_impl(DataFrame df, Quosure quosure) {
+SEXP hybrid_impl(DataFrame df, Quosure quosure, SEXP caller_env) {
   check_valid_colnames(df);
 
   if (is<RowwiseDataFrame>(df)) {
-    return hybrid_template<RowwiseDataFrame >(df, quosure);
+    return hybrid_template<RowwiseDataFrame >(df, quosure, caller_env);
   } else if (is<GroupedDataFrame>(df)) {
-    return hybrid_template<GroupedDataFrame >(df, quosure);
+    return hybrid_template<GroupedDataFrame >(df, quosure, caller_env);
   } else {
-    return hybrid_template<NaturalDataFrame >(df, quosure);
+    return hybrid_template<NaturalDataFrame >(df, quosure, caller_env);
   }
 }

@@ -375,6 +375,16 @@ void warn_deprecated(const std::string& s) {
   Rcpp::Rcpp_eval(call, ns_dplyr);
 }
 
+void signal_soft_deprecated(const std::string& s, SEXP caller_env) {
+  static Rcpp::Environment ns_dplyr(Environment::namespace_env("dplyr"));
+
+  Rcpp::CharacterVector msg(Rcpp::CharacterVector::create(s));
+  Shield<SEXP> call(Rf_lang4(symbols::signal_soft_deprecated, msg, msg, caller_env));
+
+  Rcpp::Rcpp_eval(call, ns_dplyr);
+}
+
+
 }
 }
 
