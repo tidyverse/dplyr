@@ -127,10 +127,10 @@ combine_result <- function(item1, item2,
     # - Factor with NA is Factor
     # Otherwise use the default approach with unlist and add classes
     # if needed.
-    if ((class1 == "factor" && class2 == "character") ||
-      (class2 == "factor" && class1 == "character")) {
+    if ((identical(class1, "factor") && identical(class2, "character")) ||
+      (identical(class2, "factor") && identical(class1,"character"))) {
       result <- c(as.character(item1), as.character(item2))
-    } else if ((class1 == "factor" && class2 == "factor") &&
+    } else if ((identical(class1, "factor") && identical(class2, "factor")) &&
       !identical(levels(item1), levels(item2))) {
       result <- c(as.character(item1), as.character(item2))
     } else if ((is.factor(item1) && all(is.na(item2))) ||

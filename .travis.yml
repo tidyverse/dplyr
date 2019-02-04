@@ -10,8 +10,6 @@ fortran: false
 jobs:
   include:
   - r: devel
-    env:
-      - _R_CHECK_LENGTH_1_CONDITION_=abort,verbose
   - r: 3.1
     warnings_are_errors: false
   - os: osx
