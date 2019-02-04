@@ -8,8 +8,6 @@
 #include <tools/SlicingIndex.h>
 #include <dplyr/symbols.h>
 
-SEXP ns_methods();
-
 namespace base {
 SEXP bracket_one();
 SEXP bracket_two();
