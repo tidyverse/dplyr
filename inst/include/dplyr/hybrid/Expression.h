@@ -257,10 +257,6 @@ public:
     return package;
   }
 
-  inline SEXP get_expr() const {
-    return expr;
-  }
-
 private:
   SEXP resolve_rlang_lambda(SEXP f) {
     if (Rf_inherits(f, "rlang_lambda_function") && Rf_length(expr) == 2 && TYPEOF(CADR(expr)) == SYMSXP) {
