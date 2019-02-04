@@ -60,8 +60,10 @@ can_be_combined <- function(item1, item2,
   }
 
   # coerce factor with character
-  if ((class1 == "factor" && class2 == "character") ||
-    (class2 == "factor" && class1 == "character")) {
+  if (
+    (identical(class1, "factor") && identical(class2, "character")) ||
+    (identical(class2, "factor") && identical(class1, "character"))
+  ){
     return(TRUE)
   }
 
@@ -86,13 +88,15 @@ give_a_warning <- function(item1, item2,
   }
 
   # factor and character give a warning when combined (coercion to character)
-  if ((class1 == "factor" && class2 == "character") ||
-    (class1 == "character" && class2 == "factor")) {
+  if (
+    (identical(class1, "factor") && identical(class2, "character")) ||
+    (identical(class1, "character") && identical(class2, "factor"))
+  ) {
     return(TRUE)
   }
 
   # Two factors give a warning if they don't have identical levels (coercion to character)
-  if (class1 == "factor" && class2 == "factor") {
+  if (identical(class1, "factor") && identical(class2, "factor")) {
     if (!identical(levels(item1), levels(item2))) {
       return(TRUE)
     }
