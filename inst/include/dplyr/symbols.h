@@ -58,6 +58,7 @@ struct symbols {
   static SEXP eval_tidy;
   static SEXP quote;
   static SEXP dot_drop;
+  static SEXP warn_deprecated;
 };
 
 struct fns {

@@ -5,6 +5,7 @@
 #include <tools/SymbolString.h>
 #include <dplyr/data/DataMask.h>
 #include <dplyr/symbols.h>
+#include <dplyr/lifecycle.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -370,8 +371,8 @@ private:
              << "::"
              << CHAR(PRINTNAME(head))
              << "()`.";
-      Rcpp::warningcall(R_NilValue, stream.str());
 
+      lifecycle::warn_deprecated(stream.str());
     }
   }
 
