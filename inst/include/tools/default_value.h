@@ -19,15 +19,6 @@ inline SEXP default_value<VECSXP>() {
 }
 
 template <int RTYPE>
-inline bool is_really_na(typename Rcpp::Vector<RTYPE>::stored_type value) {
-  return Rcpp::traits::is_na<RTYPE>(value);
-}
-template <>
-inline bool is_really_na<REALSXP>(double value) {
-  return R_IsNA(value);
-}
-
-template <int RTYPE>
 inline bool is_nan(typename Rcpp::Vector<RTYPE>::stored_type value) {
   return false;
 }

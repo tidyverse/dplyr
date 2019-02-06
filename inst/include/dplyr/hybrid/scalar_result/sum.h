@@ -10,57 +10,32 @@ namespace hybrid {
 
 namespace internal {
 
-template <typename STORAGE, typename slicing_index, bool NA_RM>
+template <int RTYPE, typename STORAGE, typename slicing_index, bool NA_RM>
 struct SumImpl {
-
   static STORAGE process(STORAGE* data_ptr, const slicing_index& indices) {
     long double res = 0;
     int n = indices.size();
     for (int i = 0; i < n; i++) {
       STORAGE value = data_ptr[indices[i]];
 
-      if (Rcpp::traits::is_na<INTSXP>(value)) {
+      // this is both NA and NaN
+      if (Rcpp::traits::is_na<RTYPE>(value)) {
         if (NA_RM) {
           continue;
         }
 
-        return Rcpp::traits::get_na<INTSXP>();
+        return value;
       }
 
       res += value;
     }
 
-    if (res > INT_MAX || res <= INT_MIN) {
+    if (RTYPE == INTSXP && (res > INT_MAX || res <= INT_MIN)) {
       warning("integer overflow - use sum(as.numeric(.))");
       return Rcpp::traits::get_na<INTSXP>();
     }
 
     return (STORAGE)res;
-  }
-
-};
-
-template <typename slicing_index, bool NA_RM>
-struct SumImpl<double, slicing_index, NA_RM> {
-
-  static double process(double* data_ptr, const slicing_index& indices) {
-    long double res = 0;
-    int n = indices.size();
-    for (int i = 0; i < n; i++) {
-      double value = data_ptr[indices[i]];
-
-      if (NA_RM && R_IsNA(value)) {
-        continue;
-      }
-
-      if (!NA_RM && R_IsNA(value)) {
-        return NA_REAL;
-      }
-
-      res += value;
-    }
-
-    return (double)res;
   }
 };
 
@@ -79,7 +54,7 @@ public :
   {}
 
   STORAGE process(const typename SlicedTibble::slicing_index& indices) const {
-    return SumImpl<STORAGE, typename SlicedTibble::slicing_index, NA_RM>::process(data_ptr, indices);
+    return SumImpl<RTYPE, STORAGE, typename SlicedTibble::slicing_index, NA_RM>::process(data_ptr, indices);
   }
 
 private:
