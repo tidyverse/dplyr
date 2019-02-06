@@ -1110,11 +1110,23 @@ test_that("tidy eval does not infloop (#4049)", {
   expect_identical(summarise(df, x = eval_tidy(call)), data.frame(x = 5L))
 })
 
-test_that("hybrid sum(), mean() treats NA and NaN differently (#4108)", {
+test_that("hybrid sum(), mean(), min(), max() treats NA and NaN correctly (#4108, #4163)", {
   res <- data.frame(x = c(1, NaN)) %>%
     summarise(sum = sum(x), mean = mean(x), max = max(x), min = min(x))
   expect_true(is.nan(res$sum))
   expect_true(is.nan(res$mean))
   expect_true(is.nan(res$max))
   expect_true(is.nan(res$min))
+
+  res <- data.frame(x = c(1, NaN)) %>%
+    summarise(
+      sum = sum(x, na.rm = TRUE),
+      mean = mean(x, na.rm = TRUE),
+      max = max(x, na.rm = TRUE),
+      min = min(x, na.rm = TRUE)
+    )
+  expect_equal(res$sum , 1)
+  expect_equal(res$mean, 1)
+  expect_equal(res$max , 1)
+  expect_equal(res$min , 1)
 })

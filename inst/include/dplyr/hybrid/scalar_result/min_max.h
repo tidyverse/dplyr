@@ -32,20 +32,17 @@ public:
     for (int i = 0; i < n; ++i) {
       STORAGE current = column[indices[i]];
 
-      if (is_really_na<RTYPE>(current)) {
+      // both NA and NaN in the REALSXP case
+      if (Rcpp::traits::is_na<RTYPE>(current)) {
         if (NA_RM) {
           continue;
         } else {
-          return NA_REAL;
+          return RTYPE == REALSXP ? current : NA_REAL;
         }
-
-      }
-      else if (is_nan<RTYPE>(current)) {
-        return current;
       } else {
-        double current_res = current;
-        if (is_better(current_res, res))
-          res = current_res;
+        if (is_better(current, res)) {
+          res = current;
+        }
       }
     }
     return res;
