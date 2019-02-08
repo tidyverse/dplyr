@@ -1,5 +1,5 @@
-release_date: February 1
-rel_release_date: weeks
+release_date: February 8
+rel_release_date: days
 my_version: 0.7.8
 my_news_url: https://github.com/tidyverse/dplyr/blob/master/NEWS.md#dplyr-080
 release_version: 0.8.0

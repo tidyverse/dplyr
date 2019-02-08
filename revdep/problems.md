@@ -7587,8 +7587,9 @@ Version: 0.1.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.2Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
+        R      1.0Mb
         data   3.0Mb
         help   1.1Mb
     ```
