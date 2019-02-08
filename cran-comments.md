@@ -3,6 +3,9 @@
 Fairly major update. We tried to limit the disruption as much as possible, 
 but this introduces a few breaking changes that are documented in the NEWS file. 
 
+Maintainers have been notified twice: a month ago and a week ago. 
+We confirmed that all changes were deliberate (either bug fixes or deliberate API changes) and provided guidance on how to update existing code
+
 ## Test environments
 
 * local mac OS install, R 3.5.0
@@ -27,84 +30,48 @@ We checked 1491 reverse dependencies (1361 from CRAN + 130 from BioConductor), c
  * We saw 42 new problems
  * We failed to check 43 packages
 
-Issues with CRAN packages are summarised below. Package maintainers have been notified twice: a month ago 
-and a week ago, with guidance on how to update their code when a change cannot be done here. 
+Issues with CRAN packages are summarised below. 
 
 ### New problems
 (This reports the first line of each new failure)
 
-* alphavantager
-  checking tests ...
+* alphavantager: API rate limit issue
 
-* BMTME
-  checking tests ...
+* BMTME: test problem
+* compareDF: test problem
 
-* bupaR
-  checking S3 generic/method consistency ... WARNING
+* bupaR: 
+* dplyr.teradata: 
+* dtplyr: S3 generic/method consistency sample_n() gained ... 
 
-* carpenter
-  checking tests ...
-
-* compareDF
-  checking tests ...
-
-* cytominer
-  checking tests ...
-
-* dbplyr
-  checking tests ...
-
-* desctable
-  checking for code/documentation mismatches ... WARNING
-
-* dexter
-  checking re-building of vignette outputs ... WARNING
-
-* dlookr
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* docxtools
-  checking examples ... ERROR
-  checking tests ...
-
-* dplyr.teradata
-  checking S3 generic/method consistency ... WARNING
-
-* dtplyr
-  checking tests ...
-
-* edeaR
-  checking re-building of vignette outputs ... WARNING
-
-* evaluator
-  checking tests ...
-
-* ezsummary
-  checking examples ... ERROR
-  checking tests ...
-  checking re-building of vignette outputs ... WARNING
-
-* ggfan
-  checking tests ...
-
-* heemod
-  checking examples ... ERROR
-  checking tests ...
-  checking re-building of vignette outputs ... WARNING
-
-* INDperform
-  checking examples ... ERROR
-
-* lmeresampler
-  checking tests ...
-
-* modeldb
-  checking re-building of vignette outputs ... WARNING
-
+* carpenter: 
+* docxtools: 
+* ggfan: Needs to import dplyr::n()
+* heemod: 
 * naniar
-  checking examples ... ERROR
-  checking tests ...
+
+* cytominer: related to dbplyr issue
+
+* dbplyr: data base connection issue
+
+* desctable: code/documentation mismatches. group_by() gained .drop argument
+
+* dexter : attempts to modify .data pronoun, which is read only
+
+* dlookr: 
+* edeaR:
+* evaluator : not sure what the problem is
+* modeldb: 
+
+* ezsummary: 
+* lmeresampler: test errors
+
+* INDperform: not sure what the problem is, but it appears to be fixed on the dev version
+
+
+
+
+
 
 * pixiedust
   checking tests ...
