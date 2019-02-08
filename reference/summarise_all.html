@@ -234,7 +234,8 @@ selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> sel
 <strong>explicit</strong> (<code>at</code> selections).</p><ul>
 <li><p>Grouping variables covered by explicit selections in
 <code>summarise_at()</code> are always an error. Add <code>-group_cols()</code> to the
-<code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre>data %&gt;% summarise_at(vars(-group_cols(), ...), myoperation)
+<code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre>data %&gt;%
+  summarise_at(vars(-group_cols(), ...), myoperation)
 </pre>
     <p>Or remove <code><a href='groups.html'>group_vars()</a></code> from the character vector of column names:</p><pre>nms &lt;- setdiff(nms, group_vars(data))
 data %&gt;% summarise_at(vars, myoperation)
@@ -243,48 +244,72 @@ data %&gt;% summarise_at(vars, myoperation)
 ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li>
 </ul>
     
+    <h2 class="hasAnchor" id="naming"><a class="anchor" href="#naming"></a>Naming</h2>
+
+    
+    <p>The names of the created columns is derived from the names of the
+input variables and the names of the functions.</p><ul>
+<li><p>if there is only one unnamed function, the names of the input variables
+are used to name the created columns</p></li>
+<li><p>if there is only one unnamed variable, the names of the functions
+are used to name the created columns.</p></li>
+<li><p>otherwise in the most general case, the created names are created by
+concatenating the names of the input variables and the names of the functions.</p></li>
+</ul>
+    <p>The names of the functions here means the names of the list of functions
+that is supplied. When needed and not supplied, the name of a function
+is the prefix "fn" followed by the index of this function within the
+unnamed functions in the list. Ultimately, names are made
+unique.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='scoped.html'>The other scoped verbs</a>, <code><a href='vars.html'>vars()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>by_species</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
+    <pre class="examples"><div class='input'><span class='no'>by_species</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
 
 
 <span class='co'># The _at() variants directly support strings:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
 #&gt;   height  mass
 #&gt;    &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1   174.  97.3</div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>height</span>:<span class='no'>mass</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='no'>height</span>:<span class='no'>mass</span>), <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 2
 #&gt;   height  mass
 #&gt;    &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1   174.  97.3</div><div class='input'>
 <span class='co'># The _if() variants apply a predicate function (a function that</span>
 <span class='co'># returns TRUE or FALSE) to determine the relevant subset of</span>
 <span class='co'># columns. Here we apply mean() to the numeric columns:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_if</span>(<span class='no'>is.numeric</span>, <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise_if</span>(<span class='no'>is.numeric</span>, <span class='no'>mean</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 3
 #&gt;   height  mass birth_year
 #&gt;    &lt;dbl&gt; &lt;dbl&gt;      &lt;dbl&gt;
 #&gt; 1   174.  97.3       87.6</div><div class='input'>
 <span class='co'># If you want to apply multiple transformations, pass a list of</span>
 <span class='co'># functions. When there are multiple functions, they create new</span>
 <span class='co'># variables instead of modifying the variables in place:</span>
-<span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>min</span>, <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   Species Sepal.Length_fn… Sepal.Width_fn.… Petal.Length_fn… Petal.Width_fn.…
-#&gt;   &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
-#&gt; 1 setosa               4.3              2.3              1                0.1
-#&gt; 2 versic…              4.9              2                3                1  
-#&gt; 3 virgin…              4.9              2.2              4.5              1.4
-#&gt; # … with 4 more variables: Sepal.Length_fn..2 &lt;dbl&gt;, Sepal.Width_fn..2 &lt;dbl&gt;,
-#&gt; #   Petal.Length_fn..2 &lt;dbl&gt;, Petal.Width_fn..2 &lt;dbl&gt;</div><div class='input'>
+<span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>min</span>, <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
+#&gt;   Species Sepal.Length_fn1 Sepal.Width_fn1 Petal.Length_fn1 Petal.Width_fn1
+#&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
+#&gt; 1 setosa               4.3             2.3              1               0.1
+#&gt; 2 versic…              4.9             2                3               1  
+#&gt; 3 virgin…              4.9             2.2              4.5             1.4
+#&gt; # … with 4 more variables: Sepal.Length_fn2 &lt;dbl&gt;, Sepal.Width_fn2 &lt;dbl&gt;,
+#&gt; #   Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</div><div class='input'>
 <span class='co'># Note how the new variables include the function name, in order to</span>
 <span class='co'># keep things distinct. Passing purrr-style lambdas often creates</span>
 <span class='co'># better default names:</span>
-<span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 9
+<span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 9
 #&gt;   Species Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
 #&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
 #&gt; 1 setosa               4.3             2.3              1               0.1
@@ -293,7 +318,8 @@ ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li
 #&gt; # … with 4 more variables: Sepal.Length_max &lt;dbl&gt;, Sepal.Width_max &lt;dbl&gt;,
 #&gt; #   Petal.Length_max &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</div><div class='input'>
 <span class='co'># When that's not good enough, you can also supply the names explicitly:</span>
-<span class='no'>by_species</span> <span class='kw'>%&gt;%</span> <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
+<span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
 #&gt;   Species Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
 #&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
 #&gt; 1 setosa               4.3             2.3              1               0.1
@@ -323,6 +349,8 @@ ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li
       <li><a href="#value">Value</a></li>
 
       <li><a href="#grouping-variables">Grouping variables</a></li>
+
+      <li><a href="#naming">Naming</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
