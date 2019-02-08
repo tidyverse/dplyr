@@ -78,6 +78,27 @@ data \%>\% mutate_at(vars, myoperation)
 }
 }
 
+\section{Naming}{
+
+
+The names of the created columns is derived from the names of the
+input variables and the names of the functions.
+\itemize{
+\item if there is only one unnamed function, the names of the input variables
+are used to name the created columns
+\item if there is only one unnamed variable, the names of the functions
+are used to name the created columns.
+\item otherwise in the most general case, the created names are created by
+concatenating the names of the input variables and the names of the functions.
+}
+
+The names of the functions here means the names of the list of functions
+that is supplied. When needed and not supplied, the name of a function
+is the prefix "fn" followed by the index of this function within the
+unnamed functions in the list. Ultimately, names are made
+unique.
+}
+
 \examples{
 iris <- as_tibble(iris)
 

@@ -30,7 +30,8 @@
 #'   [vars()] selection to avoid this:
 #'
 #'   ```
-#'   data %>% summarise_at(vars(-group_cols(), ...), myoperation)
+#'   data %>%
+#'     summarise_at(vars(-group_cols(), ...), myoperation)
 #'   ```
 #'
 #'   Or remove `group_vars()` from the character vector of column names:
@@ -43,34 +44,61 @@
 #' * Grouping variables covered by implicit selections are silently
 #'   ignored by `summarise_all()` and `summarise_if()`.
 #'
+#' @section Naming:
+#'
+#' The names of the created columns is derived from the names of the
+#' input variables and the names of the functions.
+#'
+#' - if there is only one unnamed function, the names of the input variables
+#'   are used to name the created columns
+#'
+#' - if there is only one unnamed variable, the names of the functions
+#'   are used to name the created columns.
+#'
+#' - otherwise in the most general case, the created names are created by
+#'   concatenating the names of the input variables and the names of the functions.
+#'
+#' The names of the functions here means the names of the list of functions
+#' that is supplied. When needed and not supplied, the name of a function
+#' is the prefix "fn" followed by the index of this function within the
+#' unnamed functions in the list. Ultimately, names are made
+#' unique.
+#'
 #' @examples
-#' by_species <- iris %>% group_by(Species)
+#' by_species <- iris %>%
+#'   group_by(Species)
 #'
 #'
 #' # The _at() variants directly support strings:
-#' starwars %>% summarise_at(c("height", "mass"), mean, na.rm = TRUE)
+#' starwars %>%
+#'   summarise_at(c("height", "mass"), mean, na.rm = TRUE)
 #'
 #' # You can also supply selection helpers to _at() functions but you have
 #' # to quote them with vars():
-#' starwars %>% summarise_at(vars(height:mass), mean, na.rm = TRUE)
+#' starwars %>%
+#'   summarise_at(vars(height:mass), mean, na.rm = TRUE)
 #'
 #' # The _if() variants apply a predicate function (a function that
 #' # returns TRUE or FALSE) to determine the relevant subset of
 #' # columns. Here we apply mean() to the numeric columns:
-#' starwars %>% summarise_if(is.numeric, mean, na.rm = TRUE)
+#' starwars %>%
+#'   summarise_if(is.numeric, mean, na.rm = TRUE)
 #'
 #' # If you want to apply multiple transformations, pass a list of
 #' # functions. When there are multiple functions, they create new
 #' # variables instead of modifying the variables in place:
-#' by_species %>% summarise_all(list(min, max))
+#' by_species %>%
+#'   summarise_all(list(min, max))
 #'
 #' # Note how the new variables include the function name, in order to
 #' # keep things distinct. Passing purrr-style lambdas often creates
 #' # better default names:
-#' by_species %>% summarise_all(list(~min(.), ~max(.)))
+#' by_species %>%
+#'   summarise_all(list(~min(.), ~max(.)))
 #'
 #' # When that's not good enough, you can also supply the names explicitly:
-#' by_species %>% summarise_all(list(min = min, max = max))
+#' by_species %>%
+#'   summarise_all(list(min = min, max = max))
 #'
 #' # When there's only one function in the list, it modifies existing
 #' # variables in place. Give it a name to create new variables instead:
@@ -147,6 +175,8 @@ summarize_at <- summarise_at
 #' * Grouping variables covered by implicit selections are ignored by
 #'   `mutate_all()`, `transmute_all()`, `mutate_if()`, and
 #'   `transmute_if()`.
+#'
+#' @inheritSection summarise_all Naming
 #'
 #' @examples
 #' iris <- as_tibble(iris)
@@ -307,8 +337,10 @@ manip_apply_syms <- function(funs, syms, tbl) {
     names(out) <- names(syms)
   } else {
     nms <- names(funs)
-    nms[nms == "<fn>"] <- "fn"
-    nms <- universal_names(nms, quiet = TRUE)
+    is_fun <- nms == "<fn>"
+    nms[is_fun] <- paste0("fn", seq_len(sum(is_fun)))
+
+    nms <- unique_names(nms, quiet = TRUE)
     names(funs) <- nms
 
     if (length(syms) == 1 && all(unnamed)) {

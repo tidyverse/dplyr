@@ -44,7 +44,7 @@ test_that("default names are smallest unique set", {
   expect_named(summarise_at(df, vars(x), list(mean = mean, sd = sd)), c("mean", "sd"))
   expect_named(summarise_at(df, vars(x:y), list(mean = mean, sd = sd)), c("x_mean", "y_mean", "x_sd", "y_sd"))
 
-  expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base..mean", "y_base..mean", "x_stats..sd", "y_stats..sd"))
+  expect_named(summarise_at(df, vars(x:y), funs(base::mean, stats::sd)), c("x_base::mean", "y_base::mean", "x_stats::sd", "y_stats::sd"))
 })
 
 test_that("named arguments force complete named", {
@@ -313,7 +313,13 @@ test_that("summarise_at with multiple columns AND unnamed functions works (#4119
     summarise_at(vars(wind, pressure), list(mean, median))
 
   expect_equal(ncol(res), 4L)
-  expect_equal(names(res), c("wind_fn..1", "pressure_fn..1", "wind_fn..2", "pressure_fn..2"))
+  expect_equal(names(res), c("wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
+
+  res <- storms %>%
+    summarise_at(vars(wind, pressure), list(n = length, mean, median))
+
+  expect_equal(ncol(res), 6L)
+  expect_equal(names(res), c("wind_n", "pressure_n", "wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
 })
 
 test_that("mutate_at with multiple columns AND unnamed functions works (#4119)", {
@@ -323,6 +329,6 @@ test_that("mutate_at with multiple columns AND unnamed functions works (#4119)",
   expect_equal(ncol(res), ncol(storms) + 4L)
   expect_equal(
     names(res),
-    c(names(storms), c("wind_fn..1", "pressure_fn..1", "wind_fn..2", "pressure_fn..2"))
+    c(names(storms), c("wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
   )
 })
