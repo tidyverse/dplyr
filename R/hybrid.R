@@ -16,7 +16,7 @@ hybrid_call <- function(.data, expr){
 
 #' @export
 hybrid_call.data.frame <- function(.data, expr){
-  hybrid_impl(.data, enquo(expr))
+  hybrid_impl(.data, enquo(expr), caller_env())
 }
 
 #' @export

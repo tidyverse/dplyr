@@ -88,23 +88,23 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 #' @export
 mutate.tbl_df <- function(.data, ...) {
   dots <- quos(..., .named = TRUE)
-  mutate_impl(.data, dots)
+  mutate_impl(.data, dots, caller_env())
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  mutate_impl(.data, dots)
+  mutate_impl(.data, dots, caller_env())
 }
 
 #' @export
 summarise.tbl_df <- function(.data, ...) {
   dots <- quos(..., .named = TRUE)
-  summarise_impl(.data, dots, environment())
+  summarise_impl(.data, dots, environment(), caller_env())
 }
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  summarise_impl(.data, dots, environment())
+  summarise_impl(.data, dots, environment(), caller_env())
 }
 
 # Joins ------------------------------------------------------------------------

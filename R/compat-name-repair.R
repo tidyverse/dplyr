@@ -3,6 +3,10 @@
 # This file serves as a reference for compatibility functions for
 # name repair in tibble, until name repair is available in rlang.
 
+error_name_length_required <- function() {
+  "`n` must be specified, when the `names` attribute is `NULL`."
+}
+
 minimal_names <- function(name, n) {
   if (is.null(name) && missing(n)) {
     abort(error_name_length_required())

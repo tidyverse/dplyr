@@ -33,11 +33,6 @@ SEXP get_time_classes() {
   return VECTOR_ELT(get_cache(), 1);
 }
 
-SEXP ns_methods() {
-  static Environment ns = Environment::namespace_env("methods");
-  return ns;
-}
-
 namespace dplyr {
 SEXP symbols::package = Rf_install("package");
 SEXP symbols::n = Rf_install("n");
@@ -94,9 +89,12 @@ SEXP symbols::rlang = Rf_install("rlang");
 SEXP symbols::eval_tidy = Rf_install("eval_tidy");
 SEXP symbols::quote = Rf_install("quote");
 SEXP symbols::dot_drop = Rf_install(".drop");
+SEXP symbols::warn_deprecated = Rf_install("warn_deprecated");
+SEXP symbols::signal_soft_deprecated = Rf_install("signal_soft_deprecated");
 
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);
+SEXP strings::Date = STRING_ELT(get_date_classes(), 0);
 }

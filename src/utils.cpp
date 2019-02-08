@@ -7,6 +7,7 @@
 #include <tools/bad.h>
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/symbols.h>
+#include <dplyr/lifecycle.h>
 
 using namespace Rcpp;
 
@@ -361,3 +362,30 @@ int get_size(SEXP x) {
     return Rf_length(x);
   }
 }
+
+namespace dplyr {
+namespace lifecycle {
+
+void warn_deprecated(const std::string& s) {
+  static Rcpp::Environment ns_dplyr(Environment::namespace_env("dplyr"));
+
+  Rcpp::CharacterVector msg(Rcpp::CharacterVector::create(s));
+  Shield<SEXP> call(Rf_lang2(symbols::warn_deprecated, msg));
+
+  Rcpp::Rcpp_eval(call, ns_dplyr);
+}
+
+void signal_soft_deprecated(const std::string& s, SEXP caller_env) {
+  static Rcpp::Environment ns_dplyr(Environment::namespace_env("dplyr"));
+
+  Rcpp::CharacterVector msg(Rcpp::CharacterVector::create(s));
+  Shield<SEXP> call(Rf_lang4(symbols::signal_soft_deprecated, msg, msg, caller_env));
+
+  Rcpp::Rcpp_eval(call, ns_dplyr);
+}
+
+
+}
+}
+
+

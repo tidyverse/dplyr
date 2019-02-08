@@ -419,7 +419,7 @@ private:
 }
 
 template <typename SlicedTibble>
-DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
+DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP caller_env) {
   LOG_DEBUG << "initializing proxy";
 
   SlicedTibble gdf(df);
@@ -447,7 +447,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
     LOG_VERBOSE << "Variable " << name.get_utf8_cstring();
 
-    RObject variable = hybrid::window(quosure.expr(), gdf, mask, quosure.env()) ;
+    RObject variable = hybrid::window(quosure.expr(), gdf, mask, quosure.env(), caller_env) ;
 
     LOG_VERBOSE << "Checking result";
 
@@ -487,23 +487,23 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots) {
 
 
 // [[Rcpp::export]]
-SEXP mutate_impl(DataFrame df, QuosureList dots) {
+SEXP mutate_impl(DataFrame df, QuosureList dots, SEXP caller_env) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return mutate_grouped<RowwiseDataFrame>(df, dots);
+    return mutate_grouped<RowwiseDataFrame>(df, dots, caller_env);
   } else if (is<GroupedDataFrame>(df)) {
 
     GroupedDataFrame gdf(df);
     // special case when there are no groups or only empty groups
     if (gdf.ngroups() == 0 || gdf.nrows() == 0) {
-      DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots);
+      DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots, caller_env);
       res.attr("groups") = df.attr("groups");
       return res;
     }
 
-    return mutate_grouped<GroupedDataFrame>(df, dots);
+    return mutate_grouped<GroupedDataFrame>(df, dots, caller_env);
   } else {
-    return mutate_grouped<NaturalDataFrame>(df, dots);
+    return mutate_grouped<NaturalDataFrame>(df, dots, caller_env);
   }
 }

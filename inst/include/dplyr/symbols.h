@@ -58,6 +58,8 @@ struct symbols {
   static SEXP eval_tidy;
   static SEXP quote;
   static SEXP dot_drop;
+  static SEXP warn_deprecated;
+  static SEXP signal_soft_deprecated;
 };
 
 struct fns {
@@ -67,6 +69,7 @@ struct fns {
 struct strings {
   static SEXP POSIXct;
   static SEXP POSIXt;
+  static SEXP Date;
 };
 
 } // namespace dplyr

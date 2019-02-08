@@ -152,8 +152,8 @@ full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
     .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
 
-mutate_impl <- function(df, dots) {
-    .Call(`_dplyr_mutate_impl`, df, dots)
+mutate_impl <- function(df, dots, caller_env) {
+    .Call(`_dplyr_mutate_impl`, df, dots, caller_env)
 }
 
 select_impl <- function(df, vars) {
@@ -184,12 +184,12 @@ setdiff_data_frame <- function(x, y) {
     .Call(`_dplyr_setdiff_data_frame`, x, y)
 }
 
-summarise_impl <- function(df, dots, frame) {
-    .Call(`_dplyr_summarise_impl`, df, dots, frame)
+summarise_impl <- function(df, dots, frame, caller_env) {
+    .Call(`_dplyr_summarise_impl`, df, dots, frame, caller_env)
 }
 
-hybrid_impl <- function(df, quosure) {
-    .Call(`_dplyr_hybrid_impl`, df, quosure)
+hybrid_impl <- function(df, quosure, caller_env) {
+    .Call(`_dplyr_hybrid_impl`, df, quosure, caller_env)
 }
 
 test_comparisons <- function() {
