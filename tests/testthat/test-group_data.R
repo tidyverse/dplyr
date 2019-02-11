@@ -78,3 +78,14 @@ test_that("GroupedDataFrame is compatible with older style grouped_df (#3604)", 
   expect_null(attr(df, "vars"))
 })
 
+test_that("old group format repair does not keep a vars attribute around", {
+  tbl <- tibble(x = 1:10, y = 1:10)
+  attr(tbl, "vars") <- rlang::sym("x")
+  class(tbl) <- c("grouped_df", "tbl_df", "tbl", "data.frame")
+
+  res <- tbl %>%
+    group_by(y)
+  expect_equal(group_vars(res), "y")
+  expect_null(attr(res, " vars"))
+  expect_null(attr(tbl, " vars"))
+})
