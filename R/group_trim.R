@@ -19,7 +19,7 @@
 #' @examples
 #' iris %>%
 #'   group_by(Species) %>%
-#'   filter(Species == "setosa") %>%
+#'   filter(Species == "setosa", .preserve = TRUE) %>%
 #'   group_trim()
 #'
 #' @export
