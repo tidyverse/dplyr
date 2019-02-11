@@ -50,11 +50,12 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
     is.data.frame(groups),
     tail(names(groups), 1L) == ".rows"
   )
-  structure(
+  tibble::new_tibble(
     x,
     groups = groups,
     ...,
-    class = c(class, "grouped_df", "tbl_df", "tbl", "data.frame")
+    nrow = NROW(x),
+    class = c(class, "grouped_df")
   )
 }
 
