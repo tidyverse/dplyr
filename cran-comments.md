@@ -80,7 +80,7 @@ Issues with CRAN packages are summarised below.
  * edeaR: needs an update of the bupaR package
 
 
-## Need to deal with #4094
+## Need to deal with #4094, #4174
 
  * psychmeta: Using `.data$.` instead of `.`, Pull request sent. 
  * radiant.model
