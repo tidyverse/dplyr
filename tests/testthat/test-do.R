@@ -206,3 +206,10 @@ test_that("handling of empty data frames in do", {
   res <- dat %>% group_by(b, .drop = FALSE) %>% do(blankdf(.))
   expect_equal(names(res), c("b", "blank"))
 })
+
+test_that("do() does not retain .drop attribute (#4176)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    do(data.frame(n=1))
+  expect_null(attr(res, ".drop", exact = TRUE))
+})
