@@ -42,6 +42,7 @@ grouped_df <- function(data, vars, drop = FALSE) {
 #' # mean of each bootstrap sample
 #' summarise(tbl, x = mean(x))
 #'
+#' @importFrom tibble new_tibble
 #' @keywords internal
 #' @export
 new_grouped_df <- function(x, groups, ..., class = character()) {
@@ -50,7 +51,7 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
     is.data.frame(groups),
     tail(names(groups), 1L) == ".rows"
   )
-  tibble::new_tibble(
+  new_tibble(
     x,
     groups = groups,
     ...,
