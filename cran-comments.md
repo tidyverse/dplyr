@@ -37,20 +37,21 @@ Issues with CRAN packages are summarised below.
 
 * alphavantager: API rate limit issue
 
-* bupaR
-* dplyr.teradata
-* dtplyr
+ * bupaR
+ * dplyr.teradata
+ * dtplyr
+ * tidygraph
   S3 generic/method consistency: sample_n() gained ... 
 
-* desctable
+ * desctable
   code/documentation mismatches ... group_by() gained .drop=
 
+ * zFactor
+ * visdat
  * heemod: 
  * naniar: Needs to import dplyr::n()
 
  * cytominer: related to failures from dbplyr
-
- * dbplyr: fixed in dev version
 
  * ggmap: NOTE, sub directory data/ > 1Mb
 
@@ -60,45 +61,23 @@ Issues with CRAN packages are summarised below.
 
  * purrrlyr: Work is being done in the dev version
 
+ * simTool: test uses internal format of grouped tibbles, which has changed. PR sent. 
+  
+ * tibbletime: test problem. PR sent. 
+ 
+ * treeplyr: The package uses internal details. PR sent. 
+
+ * tsibble: Fixed in the dev version
+ * vqtl: Fixed in the dev version
+ * modeldb: Fixed in the dev version
  * rPref: Fixed in the dev version
-
  * ruler: Fixed in the dev version 
+ * dbplyr: fixed in dev version
 
- * rzeit2
-  checking re-building of vignette outputs ... WARNING
+ * dexter: Fails to build the vignette, not sure why
 
-* safetyGraphics
-  checking examples ... ERROR
-  checking tests ...
-
-* simTool
-  checking tests ...
-
-* tibbletime
-  checking tests ...
-
-* tidygraph
-  checking S3 generic/method consistency ... WARNING
-
-* treeplyr
-  checking examples ... ERROR
-
-* tsibble
-  checking tests ...
-
-* visdat
-  checking examples ... ERROR
-  checking tests ...
-
-* vqtl
-  checking tests ...
-
-* XKCDdata
-  checking tests ...
-
-* zFactor
-  checking examples ... ERROR
-  checking tests ...
+ * processcheckR: needs an update of the bupaR package
+ * edeaR: needs an update of the bupaR package
 
 
 ## Need to deal with #4094
@@ -106,7 +85,7 @@ Issues with CRAN packages are summarised below.
  * psychmeta: Using `.data$.` instead of `.`, Pull request sent. 
  * radiant.model
  * replyr
-
+ * safetyGraphics
 
 ## Not sure
 
@@ -117,13 +96,6 @@ Issues with CRAN packages are summarised below.
 * gravity
 * lmeresampler
 * poplite
-
-## Vignette problem
-
-* dexter
-* edeaR
-* modeldb
-* processcheckR
 
 ### Failed to check
 
