@@ -23,98 +23,55 @@ We confirmed that all changes were deliberate (either bug fixes or deliberate AP
        R      2.1Mb
        libs   2.4Mb
        
-## Reverse dependencies
+## revdepcheck results
 
-We checked 1491 reverse dependencies (1361 from CRAN + 130 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+We checked 1509 reverse dependencies (1379 from CRAN + 130 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 42 new problems
- * We failed to check 43 packages
+ * We saw 40 new problems
+ * We failed to check 46 packages
 
-Issues with CRAN packages are summarised below. 
+Issues with CRAN packages are summarised below.
 
 ### New problems
 (This reports the first line of each new failure)
 
 * alphavantager: API rate limit issue
 
-* BMTME: test problem
-* compareDF: test problem
+* bupaR
+* dplyr.teradata
+* dtplyr
+  S3 generic/method consistency: sample_n() gained ... 
 
-* bupaR: 
-* dplyr.teradata: 
-* dtplyr: S3 generic/method consistency sample_n() gained ... 
+* desctable
+  code/documentation mismatches ... group_by() gained .drop=
 
-* carpenter: 
-* docxtools: 
-* ggfan: Needs to import dplyr::n()
-* heemod: 
-* naniar
+ * heemod: 
+ * naniar: Needs to import dplyr::n()
 
-* cytominer: related to dbplyr issue
+ * cytominer: related to failures from dbplyr
 
-* dbplyr: data base connection issue
+ * dbplyr: fixed in dev version
 
-* desctable: code/documentation mismatches. group_by() gained .drop argument
+ * ggmap: NOTE, sub directory data/ > 1Mb
 
-* dexter : attempts to modify .data pronoun, which is read only
+ * portalr: test relies on digest()ing a data frame, probably related to changes in internals of grouped data frames
 
-* dlookr: 
-* edeaR:
-* evaluator : not sure what the problem is
-* modeldb: 
+ * postal: IO problem, probably unrelated
 
-* ezsummary: 
-* lmeresampler: test errors
+ * purrrlyr: Work is being done in the dev version
 
-* INDperform: not sure what the problem is, but it appears to be fixed on the dev version
+ * rPref: Fixed in the dev version
 
+ * ruler: Fixed in the dev version 
 
-
-
-
-
-* pixiedust
-  checking tests ...
-
-* poplite
-  checking tests ...
-  checking for code/documentation mismatches ... WARNING
-
-* portalr
-  checking tests ...
-
-* processcheckR
+ * rzeit2
   checking re-building of vignette outputs ... WARNING
 
-* psychmeta
-  checking examples ... ERROR
-
-* purrrlyr
+* safetyGraphics
   checking examples ... ERROR
   checking tests ...
 
-* radiant.model
-  checking examples ... ERROR
-  checking tests ...
-
-* replyr
-  checking examples ... ERROR
-
-* rPref
-  checking examples ... ERROR
-  checking re-building of vignette outputs ... WARNING
-
-* ruler
-  checking tests ...
-  checking re-building of vignette outputs ... WARNING
-
-* RWDataPlyr
-  checking tests ...
-
-* spdplyr
-  checking tests ...
-
-* tbrf
+* simTool
   checking tests ...
 
 * tibbletime
@@ -136,9 +93,37 @@ Issues with CRAN packages are summarised below.
 * vqtl
   checking tests ...
 
+* XKCDdata
+  checking tests ...
+
 * zFactor
   checking examples ... ERROR
   checking tests ...
+
+
+## Need to deal with #4094
+
+ * psychmeta: Using `.data$.` instead of `.`, Pull request sent. 
+ * radiant.model
+ * replyr
+
+
+## Not sure
+
+* ggfan: 
+* compareDF
+* corrr
+* ezsummary
+* gravity
+* lmeresampler
+* poplite
+
+## Vignette problem
+
+* dexter
+* edeaR
+* modeldb
+* processcheckR
 
 ### Failed to check
 
@@ -165,10 +150,13 @@ Issues with CRAN packages are summarised below.
 * lilikoi            (failed to install)
 * LLSR               (failed to install)
 * lpirfs             (failed to install)
+* mapfuser           (failed to install)
 * mbgraphic          (failed to install)
 * miceFast           (failed to install)
+* MonetDBLite        (check timed out)
 * morse              (failed to install)
 * petro.One          (failed to install)
+* phase1PRMD         (failed to install)
 * pmc                (check timed out)
 * poppr              (failed to install)
 * qdap               (failed to install)
@@ -176,7 +164,6 @@ Issues with CRAN packages are summarised below.
 * rmcfs              (failed to install)
 * rpcdsearch         (failed to install)
 * RtutoR             (failed to install)
-* SEERaBomb          (failed to install)
 * segclust2d         (failed to install)
 * sf                 (failed to install)
 * simputation        (failed to install)
@@ -185,3 +172,4 @@ Issues with CRAN packages are summarised below.
 * vlad               (failed to install)
 * wand               (failed to install)
 * weibulltools       (failed to install)
+* windfarmGA         (failed to install)
