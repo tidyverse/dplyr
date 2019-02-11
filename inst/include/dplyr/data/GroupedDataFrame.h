@@ -82,8 +82,6 @@ public:
     return symbols.get_names();
   }
 
-  static SymbolVector group_vars(SEXP x);
-
   inline const DataFrame& group_data() const {
     return groups;
   }
@@ -113,6 +111,8 @@ public:
   }
 
 private:
+
+  SymbolVector group_vars() const ;
 
   DataFrame data_;
   SymbolMap symbols;

@@ -569,11 +569,17 @@ SEXP check_grouped(RObject data) {
   SEXP vars = Rf_getAttrib(data, symbols::vars);
 
   if (!Rf_isNull(vars)) {
-    Rcpp::warning("Detecting old grouped_df format, replacing `vars` attribute by `groups`");
-    // using drop = true here because this is likely to play better with
-    // older representations
-    DataFrame groups = build_index_cpp(data, SymbolVector(vars), true);
-    data.attr("groups") = groups;
+    Rf_warningcall(R_NilValue, "Detecting old grouped_df format, replacing `vars` attribute by `groups`");
+
+    // only make the groups attribute if it does not yet exist
+    if (Rf_isNull(Rf_getAttrib(data, symbols::groups))) {
+      // using drop = true here because this is likely to play better with
+      // older representations
+      DataFrame groups = build_index_cpp(data, SymbolVector(vars), true);
+      data.attr("groups") = groups;
+    }
+
+    // but always clean the pre 0.8.0 attributes
     data.attr("vars") = R_NilValue;
     data.attr("indices") = R_NilValue;
     data.attr("labels") = R_NilValue;
@@ -607,7 +613,7 @@ SEXP check_grouped(RObject data) {
 
 GroupedDataFrame::GroupedDataFrame(DataFrame x):
   data_(check_grouped(x)),
-  symbols(group_vars(data_)),
+  symbols(group_vars()),
   groups(data_.attr("groups")),
   nvars_(symbols.size())
 {}
@@ -621,12 +627,8 @@ GroupedDataFrame::GroupedDataFrame(DataFrame x, const GroupedDataFrame& model):
   set_groups(data_, groups);
 }
 
-
-
-SymbolVector GroupedDataFrame::group_vars(SEXP x) {
-  check_grouped(x);
-
-  SEXP groups = Rf_getAttrib(x, dplyr::symbols::groups);
+SymbolVector GroupedDataFrame::group_vars() const {
+  SEXP groups = Rf_getAttrib(data_, dplyr::symbols::groups);
 
   int n = Rf_length(groups) - 1;
   CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
@@ -646,6 +648,13 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
 
   DataFrame copy(shallow_copy(data));
   set_class(copy, GroupedDataFrame::classes());
+
+  // we've made a copy and we are about to create the groups
+  // attribute, so we make sure there is no more a vars
+  // attribute lurking around from the pore 0.8.0 area
+  copy.attr("vars") = R_NilValue;
+  copy.attr("drop") = R_NilValue;
+
   GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols, drop));
 
   return copy;
