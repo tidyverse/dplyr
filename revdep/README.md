@@ -5,7 +5,7 @@
 |version  |R version 3.5.0 (2018-04-23) |
 |os       |macOS  10.14.2               |
 |system   |x86_64, darwin15.6.0         |
-|ui       |X11                          |
+|ui       |RStudio                      |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
@@ -83,7 +83,7 @@
 |[windfarmGA](problems.md#windfarmga)                 |1.2.1   |1      |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0  |1      |1       |2    |
 
-## Broken (43)
+## Broken (42)
 
 |package                                      |version |error    |warning  |note   |
 |:--------------------------------------------|:-------|:--------|:--------|:------|
@@ -118,7 +118,6 @@
 |[replyr](problems.md#replyr)                 |0.9.9   |__+1__   |1        |1      |
 |[rPref](problems.md#rpref)                   |1.2     |__+1__   |__+1__   |1      |
 |[ruler](problems.md#ruler)                   |0.1.4   |__+1__   |         |       |
-|[rzeit2](problems.md#rzeit2)                 |0.2.3   |         |__+1__   |1      |
 |[safetyGraphics](problems.md#safetygraphics) |0.7.3   |__+2__   |         |       |
 |[SeqVarTools](problems.md#seqvartools)       |1.18.0  |__+2__   |1        |1      |
 |[simTool](problems.md#simtool)               |1.1.2   |__+1__   |         |       |
@@ -1303,7 +1302,7 @@
 |RWDataPlyr                                                                  |0.6.2      |         |         |       |
 |rwunderground                                                               |0.1.8      |         |         |       |
 |[RxODE](problems.md#rxode)                                                  |0.8.0-9    |         |         |2      |
-|[rzeit2](problems.md#rzeit2)                                                |0.2.3      |         |__+1__   |1      |
+|[rzeit2](problems.md#rzeit2)                                                |0.2.3      |         |         |1      |
 |sabre                                                                       |0.2.1      |         |         |       |
 |saeSim                                                                      |0.9.0      |         |         |       |
 |[safetyGraphics](problems.md#safetygraphics)                                |0.7.3      |__+2__   |         |       |

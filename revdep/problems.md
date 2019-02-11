@@ -13462,28 +13462,6 @@ Version: 0.8.0-9
 
 Version: 0.2.3
 
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 90-104 (sentiment.Rmd) 
-    Error: processing vignette 'sentiment.Rmd' failed with diagnostics:
-    All columns in a tibble must be 1d or 2d objects:
-    ```
-
 ## In both
 
 *   checking data for non-ASCII characters ... NOTE
