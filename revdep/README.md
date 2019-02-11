@@ -83,7 +83,7 @@
 |[windfarmGA](problems.md#windfarmga)                 |1.2.1   |1      |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0  |1      |1       |2    |
 
-## Broken (42)
+## Broken (41)
 
 |package                                      |version |error    |warning  |note   |
 |:--------------------------------------------|:-------|:--------|:--------|:------|
@@ -127,7 +127,6 @@
 |[tsibble](problems.md#tsibble)               |0.6.2   |__+1__   |         |       |
 |[visdat](problems.md#visdat)                 |0.5.2   |__+2__   |         |1      |
 |[vqtl](problems.md#vqtl)                     |2.0.4   |__+1__   |         |2      |
-|[XKCDdata](problems.md#xkcddata)             |0.1.0   |__+1__   |         |1      |
 |[zFactor](problems.md#zfactor)               |0.1.7   |__+2__   |         |1      |
 
 ## All (1509)
@@ -1625,7 +1624,7 @@
 |[XBSeq](problems.md#xbseq)                                                  |1.12.0     |1        |1        |2      |
 |xesreadR                                                                    |0.2.2      |         |         |       |
 |[XGR](problems.md#xgr)                                                      |1.1.4      |         |         |1      |
-|[XKCDdata](problems.md#xkcddata)                                            |0.1.0      |__+1__   |         |1      |
+|[XKCDdata](problems.md#xkcddata)                                            |0.1.0      |         |         |1      |
 |xmrr                                                                        |1.0.36     |         |         |       |
 |[xpose](problems.md#xpose)                                                  |0.4.3      |1        |         |       |
 |[xpose4](problems.md#xpose4)                                                |4.6.1      |         |         |1      |

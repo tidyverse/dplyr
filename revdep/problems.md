@@ -17210,30 +17210,6 @@ Version: 1.1.4
 
 Version: 0.1.0
 
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ── 1. Error: getcomics  (@test-tibble_creation.R#4)  ───────────────────────────
-      Failed to connect to xkcd.com port 80: Operation timed out
-      1: get_comic(comic = 614) at testthat/test-tibble_creation.R:4
-      2: httr::GET(url) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/XKCDdata/new/XKCDdata.Rcheck/00_pkg_src/XKCDdata/R/get_comic.R:22
-      3: request_perform(req, hu$handle$handle)
-      4: request_fetch(req$output, req$url, handle)
-      5: request_fetch.write_memory(req$output, req$url, handle)
-      6: curl::curl_fetch_memory(url, handle = handle)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 1 SKIPPED: 0 FAILED: 1
-      1. Error: getcomics  (@test-tibble_creation.R#4) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 ## In both
 
 *   checking dependencies in R code ... NOTE
