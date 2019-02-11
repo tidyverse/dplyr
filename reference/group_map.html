@@ -229,7 +229,7 @@ column, consistently with <code><a href='group_split.html'>group_keys()</a></cod
   <span class='fu'>group_map</span>(~ <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='no'>.x</span>, <span class='fl'>2L</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 11
 #&gt; # Groups:   cyl [3]
 #&gt;     cyl   mpg  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt; * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     4  22.8  108     93  3.85  2.32  18.6     1     1     4     1
 #&gt; 2     4  24.4  147.    62  3.69  3.19  20       1     0     4     2
 #&gt; 3     6  21    160    110  3.9   2.62  16.5     0     1     4     4
@@ -243,7 +243,7 @@ column, consistently with <code><a href='group_split.html'>group_keys()</a></cod
 }</div><div class='output co'>#&gt; # A tibble: 6 x 6
 #&gt; # Groups:   Species [3]
 #&gt;   Species    term         estimate std.error statistic  p.value
-#&gt; * &lt;fct&gt;      &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+#&gt;   &lt;fct&gt;      &lt;chr&gt;           &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
 #&gt; 1 setosa     (Intercept)     0.803    0.344      2.34  2.38e- 2
 #&gt; 2 setosa     Sepal.Length    0.132    0.0685     1.92  6.07e- 2
 #&gt; 3 versicolor (Intercept)     0.185    0.514      0.360 7.20e- 1
@@ -258,7 +258,7 @@ column, consistently with <code><a href='group_split.html'>group_keys()</a></cod
   })</div><div class='output co'>#&gt; # A tibble: 9 x 3
 #&gt; # Groups:   Species [3]
 #&gt;   Species    prob  quantile
-#&gt; * &lt;fct&gt;      &lt;chr&gt;    &lt;dbl&gt;
+#&gt;   &lt;fct&gt;      &lt;chr&gt;    &lt;dbl&gt;
 #&gt; 1 setosa     25%       1.4 
 #&gt; 2 setosa     50%       1.5 
 #&gt; 3 setosa     75%       1.58
@@ -277,7 +277,7 @@ column, consistently with <code><a href='group_split.html'>group_keys()</a></cod
   })</div><div class='output co'>#&gt; # A tibble: 15 x 6
 #&gt; # Groups:   Species [3]
 #&gt;    Species    Sepal.Length Sepal.Width Petal.Length Petal.Width nms   
-#&gt;  * &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt; 
+#&gt;    &lt;fct&gt;             &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt; 
 #&gt;  1 setosa              4.3         2.3         1            0.1 min   
 #&gt;  2 setosa              4.8         3.2         1.4          0.2 Q1    
 #&gt;  3 setosa              5           3.4         1.5          0.2 median
