@@ -1,27 +1,8 @@
 # abjutils
 
-Version: 0.2.1
+Version: 0.2.3
 
 ## In both
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘abjutils-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: extract_parts
-    > ### Title: Extract different parts from lawsuit ID
-    > ### Aliases: extract_parts
-    > 
-    > ### ** Examples
-    > 
-    > {
-    + extract_parts("001040620018260004", "N")
-    + extract_parts("001040620018260004", c("N", "A", "O"))
-    + }
-    Error: `.x` must be a list, not a character vector
-    Execution halted
-    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -42,7 +23,7 @@ Version: 2.1.1
       sub-directories of 1Mb or more:
         data    1.3Mb
         files   1.7Mb
-        R       3.0Mb
+        R       3.1Mb
     ```
 
 # admixturegraph
@@ -91,6 +72,13 @@ Version: 0.22-1
 
 ## In both
 
+*   checking whether package ‘afex’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘lme4’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/afex/new/afex.Rcheck/00install.out’ for details.
+    ```
+
 *   checking Rd cross-references ... WARNING
     ```
     Package unavailable to check Rd xrefs: ‘ez’
@@ -125,7 +113,7 @@ Version: 0.3.0
 
 # aire.zmvm
 
-Version: 0.8.0
+Version: 0.8.1
 
 ## In both
 
@@ -156,12 +144,12 @@ Version: 0.1.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      2: stop(content, call. = F) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/alphavantager/new/alphavantager.Rcheck/00_pkg_src/alphavantager/R/av_get.R:103
+      2: stop(content, call. = F) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/alphavantager/new/alphavantager.Rcheck/00_pkg_src/alphavantager/R/av_get.R:103
       
       ── 3. Error: call Technical Indicators (@test_av_get.R#57)  ────────────────────
       Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.. API parameters used: symbol=MSFT, function=SMA, interval=monthly, time_period=60, series_type=close, apikey=HIDDEN_FOR_YOUR_SAFETY
       1: av_get(symbol, av_fun, interval = interval, time_period = time_period, series_type = series_type) at testthat/test_av_get.R:57
-      2: stop(content, call. = F) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/alphavantager/new/alphavantager.Rcheck/00_pkg_src/alphavantager/R/av_get.R:103
+      2: stop(content, call. = F) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/alphavantager/new/alphavantager.Rcheck/00_pkg_src/alphavantager/R/av_get.R:103
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 5 SKIPPED: 0 FAILED: 3
@@ -216,7 +204,7 @@ Version: 1.2.1
     Found the following significant warnings:
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘data.table’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/amplican/new/amplican.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/amplican/new/amplican.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -326,16 +314,16 @@ Version: 1.6.0
 *   checking R code for possible problems ... NOTE
     ```
     plot_coannotations: no visible binding for global variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:176-178)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:176-178)
     plot_numerical_coannotations: no visible binding for global variable
       ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:463-480)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:463-480)
     plot_numerical_coannotations: no visible binding for global variable
       ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:466-471)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:466-471)
     plot_numerical_coannotations: no visible binding for global variable
       ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:473-478)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/annotatr/new/annotatr.Rcheck/00_pkg_src/annotatr/R/visualize.R:473-478)
     Undefined global functions or variables:
       .
     ```
@@ -362,7 +350,7 @@ Version: 0.2.5
 *   checking whether package ‘anomalyDetection’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/anomalyDetection/new/anomalyDetection.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/anomalyDetection/new/anomalyDetection.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -373,11 +361,11 @@ Version: 0.2.5
 * installing *source* package ‘anomalyDetection’ ...
 ** package ‘anomalyDetection’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/anomalyDetection/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/anomalyDetection/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/anomalyDetection/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/anomalyDetection/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘anomalyDetection’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/anomalyDetection/new/anomalyDetection.Rcheck/anomalyDetection’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/anomalyDetection/new/anomalyDetection.Rcheck/anomalyDetection’
 
 ```
 ### CRAN
@@ -386,11 +374,11 @@ ERROR: compilation failed for package ‘anomalyDetection’
 * installing *source* package ‘anomalyDetection’ ...
 ** package ‘anomalyDetection’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/anomalyDetection/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/anomalyDetection/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/anomalyDetection/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/anomalyDetection/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘anomalyDetection’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/anomalyDetection/old/anomalyDetection.Rcheck/anomalyDetection’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/anomalyDetection/old/anomalyDetection.Rcheck/anomalyDetection’
 
 ```
 # anyflights
@@ -487,7 +475,7 @@ Version: 0.1.0
 
 # auk
 
-Version: 0.3.1
+Version: 0.3.2
 
 ## In both
 
@@ -571,15 +559,16 @@ Version: 1.4.0
         extdata   2.8Mb
     ```
 
-# basictabler
+# bayesCT
 
-Version: 0.1.1
+Version: 0.99.0
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘dplyr’
+    Namespaces in Imports field not imported from:
+      ‘devtools’ ‘msm’ ‘parallel’ ‘tidyr’
       All declared Imports should be used.
     ```
 
@@ -588,6 +577,13 @@ Version: 0.1.1
 Version: 0.1.1
 
 ## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.4Mb
+      sub-directories of 1Mb or more:
+        libs   4.6Mb
+    ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
     ```
@@ -621,17 +617,6 @@ Version: 0.1.0
       All declared Imports should be used.
     ```
 
-# benchmarkmeData
-
-Version: 1.0.0
-
-## In both
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘benchmarkme’
-    ```
-
 # BgeeDB
 
 Version: 2.6.2
@@ -641,7 +626,7 @@ Version: 2.6.2
 *   checking whether package ‘BgeeDB’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BgeeDB/new/BgeeDB.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BgeeDB/new/BgeeDB.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -657,7 +642,7 @@ Version: 2.6.2
 Warning: package ‘graph’ was built under R version 3.5.1
 Error : package ‘GO.db’ required by ‘topGO’ could not be found
 ERROR: lazy loading failed for package ‘BgeeDB’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BgeeDB/new/BgeeDB.Rcheck/BgeeDB’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BgeeDB/new/BgeeDB.Rcheck/BgeeDB’
 
 ```
 ### CRAN
@@ -671,7 +656,7 @@ ERROR: lazy loading failed for package ‘BgeeDB’
 Warning: package ‘graph’ was built under R version 3.5.1
 Error : package ‘GO.db’ required by ‘topGO’ could not be found
 ERROR: lazy loading failed for package ‘BgeeDB’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BgeeDB/old/BgeeDB.Rcheck/BgeeDB’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BgeeDB/old/BgeeDB.Rcheck/BgeeDB’
 
 ```
 # billboard
@@ -693,7 +678,7 @@ Version: 0.1.0
 
 # binneR
 
-Version: 2.0.7
+Version: 2.0.10
 
 ## In both
 
@@ -750,16 +735,16 @@ Version: 1.12.1
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/qvalue_tidiers.R:65-66)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/qvalue_tidiers.R:65-66)
     tidy.RangedSummarizedExperiment: no visible binding for global variable
       ‘value’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/SummarizedExperiment_tidiers.R:43-45)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/SummarizedExperiment_tidiers.R:43-45)
     tidy.RangedSummarizedExperiment: no visible binding for global variable
       ‘gene’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/SummarizedExperiment_tidiers.R:43-45)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/SummarizedExperiment_tidiers.R:43-45)
     tidy.RangedSummarizedExperiment: no visible global function definition
       for ‘colData’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/SummarizedExperiment_tidiers.R:48)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/biobroom/new/biobroom.Rcheck/00_pkg_src/biobroom/R/SummarizedExperiment_tidiers.R:48)
     Undefined global functions or variables:
       . calcNormFactors colData counts design DGEList end estimate
       estimateSizeFactors exprs<- fData<- gene gr is lambda model.matrix
@@ -797,7 +782,7 @@ Version: 1.4.0
     ```
     Found the following significant warnings:
       Warning: package ‘dbplyr’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocFileCache/new/BiocFileCache.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocFileCache/new/BiocFileCache.Rcheck/00install.out’ for details.
     ```
 
 # BiocOncoTK
@@ -835,22 +820,22 @@ Version: 1.0.3
     ```
     ...
     rainfall: no visible global function definition for ‘ylab’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:164-168)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:164-168)
     rainfall: no visible global function definition for ‘xlab’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:164-168)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:164-168)
     rainfall: no visible global function definition for ‘geom_vline’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:169-171)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:169-171)
     rainfall: no visible global function definition for ‘aes’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:169-171)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:169-171)
     rainfall: no visible global function definition for
       ‘scale_x_continuous’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:169-171)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:169-171)
     rainfall: no visible global function definition for ‘ggtitle’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:172)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:172)
     rainfall: no visible global function definition for ‘geom_text’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:173-174)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:173-174)
     rainfall: no visible global function definition for ‘aes’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:173-174)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BiocOncoTK/new/BiocOncoTK.Rcheck/00_pkg_src/BiocOncoTK/R/rainfall3.R:173-174)
     Undefined global functions or variables:
       aes BiocFileCache element_blank genome geom_point geom_text
       geom_vline ggplot ggtitle scale_x_continuous seqlengths theme xlab
@@ -956,34 +941,6 @@ Version: 1.3.9
     GNU make is a SystemRequirements.
     ```
 
-# BMTME
-
-Version: 1.0.4
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 152 SKIPPED: 0 FAILED: 14
-      1. Failure: BME function with Mada data (@test.R#143) 
-      2. Failure: BME function with Mada data (@test.R#144) 
-      3. Failure: BME function with Mada data (@test.R#145) 
-      4. Failure: BME function with Mada data (@test.R#155) 
-      5. Failure: BMTME function with Iranian data (@test.R#254) 
-      6. Failure: BMTME function with Iranian data (@test.R#255) 
-      7. Failure: BMTME function with Iranian data (@test.R#265) 
-      8. Failure: BMORS function with Wheat full data (@test.R#331) 
-      9. Failure: BMORS function with Wheat full data (@test.R#332) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # bodenmiller
 
 Version: 0.1
@@ -1024,7 +981,7 @@ Version: 0.1.0
 
 # bpbounds
 
-Version: 0.1.1
+Version: 0.1.3
 
 ## In both
 
@@ -1064,7 +1021,7 @@ Version: 1.0.0.1
     ```
     Found the following significant warnings:
       Warning: package ‘QCA’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/braQCA/new/braQCA.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/braQCA/new/braQCA.Rcheck/00install.out’ for details.
     ```
 
 # brazilmaps
@@ -1121,7 +1078,7 @@ Version: 1.1.2
 *   checking whether package ‘bsam’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/bsam/new/bsam.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/bsam/new/bsam.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -1139,13 +1096,13 @@ Version: 1.1.2
 Error: package or namespace load failed for ‘rjags’:
  .onLoad failed in loadNamespace() for 'rjags', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/bsam/rjags/libs/rjags.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/bsam/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/bsam/rjags/libs/rjags.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/bsam/rjags/libs/rjags.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/bsam/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/bsam/rjags/libs/rjags.so
   Reason: image not found
 Error : package ‘rjags’ could not be loaded
 ERROR: lazy loading failed for package ‘bsam’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/bsam/new/bsam.Rcheck/bsam’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/bsam/new/bsam.Rcheck/bsam’
 
 ```
 ### CRAN
@@ -1161,13 +1118,13 @@ ERROR: lazy loading failed for package ‘bsam’
 Error: package or namespace load failed for ‘rjags’:
  .onLoad failed in loadNamespace() for 'rjags', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/bsam/rjags/libs/rjags.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/bsam/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/bsam/rjags/libs/rjags.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/bsam/rjags/libs/rjags.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/bsam/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/bsam/rjags/libs/rjags.so
   Reason: image not found
 Error : package ‘rjags’ could not be loaded
 ERROR: lazy loading failed for package ‘bsam’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/bsam/old/bsam.Rcheck/bsam’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/bsam/old/bsam.Rcheck/bsam’
 
 ```
 # BubbleTree
@@ -1181,7 +1138,7 @@ Version: 2.10.0
     Found the following significant warnings:
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BubbleTree/new/BubbleTree.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BubbleTree/new/BubbleTree.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -1196,7 +1153,7 @@ Version: 2.10.0
     ```
     annoByOverlap,Annotate: no visible binding for global variable
       'queryHits'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/BubbleTree/new/BubbleTree.Rcheck/00_pkg_src/BubbleTree/R/Annotate.R:107)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BubbleTree/new/BubbleTree.Rcheck/00_pkg_src/BubbleTree/R/Annotate.R:107)
     Undefined global functions or variables:
       queryHits
     ```
@@ -1264,7 +1221,7 @@ Version: 1.22.9
       ── 1. Failure: Incorrect Data Types (@test-other--BASE.R#44)  ──────────────────
       `canvasXpress(data = "'Test'")` threw an error with unexpected message.
       Expected match: "[Couldn't|Could not] resolve.*"
-      Actual message: "Failed to connect to 'Test' port 80: Connection refused"
+      Actual message: "Not a valid URL!"
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 730 SKIPPED: 0 FAILED: 1
@@ -1332,34 +1289,6 @@ Version: 6.0-81
         R        4.1Mb
     ```
 
-# carpenter
-
-Version: 0.2.1
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      11: eval(quote(`_fseq`(`_lhs`)), env, env)
-      12: `_fseq`(`_lhs`)
-      13: freduce(value, `_function_list`)
-      14: withVisible(function_list[[k]](value))
-      15: function_list[[k]](value)
-      16: dplyr::mutate_(., id = lazyeval::interp("1:n()"))
-      17: mutate_.tbl_df(., id = lazyeval::interp("1:n()")) at /Users/romain/git/tidyverse/dplyr/R/manip.r:457
-      18: mutate_impl(.data, dots) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:96
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 19 SKIPPED: 0 FAILED: 1
-      1. Error: build_table outputs correct information (@test-build_tables.R#21) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # cartools
 
 Version: 0.1.0
@@ -1416,21 +1345,21 @@ Version: 1.4.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 10.5Mb
+      installed size is 10.6Mb
       sub-directories of 1Mb or more:
         data   3.1Mb
         doc    5.1Mb
-        R      2.0Mb
+        R      2.1Mb
     ```
 
 *   checking R code for possible problems ... NOTE
     ```
     plotDiffHeatmap,matrix-SummarizedExperiment: no visible binding for
       global variable ‘cluster_id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CATALYST/new/CATALYST.Rcheck/00_pkg_src/CATALYST/R/plotDiffHeatmap.R:136)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CATALYST/new/CATALYST.Rcheck/00_pkg_src/CATALYST/R/plotDiffHeatmap.R:136)
     plotDiffHeatmap,matrix-SummarizedExperiment: no visible binding for
       global variable ‘sample_id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CATALYST/new/CATALYST.Rcheck/00_pkg_src/CATALYST/R/plotDiffHeatmap.R:136)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CATALYST/new/CATALYST.Rcheck/00_pkg_src/CATALYST/R/plotDiffHeatmap.R:136)
     Undefined global functions or variables:
       cluster_id sample_id
     ```
@@ -1486,7 +1415,7 @@ Version: 1.2.3
     ConstructModel: warning in AddDynamicRegression(ss, formula, data =
       data, sigma.mean.prior = sigma.mean.prior): partial argument match of
       'sigma.mean.prior' to 'sigma.mean.prior.DEPRECATED'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CausalImpact/new/CausalImpact.Rcheck/00_pkg_src/CausalImpact/R/impact_model.R:232-233)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CausalImpact/new/CausalImpact.Rcheck/00_pkg_src/CausalImpact/R/impact_model.R:232-233)
     ```
 
 # CDECRetrieve
@@ -1508,7 +1437,7 @@ Version: 0.1.2
     > 
     > cdec_rt("abj") # get the stage to rating curve for ABJ
     Error in open.connection(x, "rb") : 
-      Timeout was reached: Connection timed out after 10009 milliseconds
+      Timeout was reached: Connection timed out after 10006 milliseconds
     Calls: cdec_rt ... %in% -> cdec_rt_list -> <Anonymous> -> read_html.default
     Execution halted
     ```
@@ -1519,7 +1448,7 @@ Version: 0.1.2
       ...
     Quitting from lines 36-45 (advanced-queries.Rmd) 
     Error: processing vignette 'advanced-queries.Rmd' failed with diagnostics:
-    cannot open URL 'http://cdec.water.ca.gov/cgi-progs/querySHEF?station_id=kwk&sensor_num=25&dur_code=h&start_date=2019-01-28&end_date=2019-01-31&data_wish=Download+SHEF+Data+Now'
+    cannot open URL 'http://cdec.water.ca.gov/cgi-progs/querySHEF?station_id=kwk&sensor_num=25&dur_code=h&start_date=2019-02-08&end_date=2019-02-11&data_wish=Download+SHEF+Data+Now'
     Execution halted
     ```
 
@@ -1562,18 +1491,18 @@ Version: 1.4.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1134)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1134)
     getMutOrder: no visible global function definition for ‘coef’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1135)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1135)
     getTargetedHeatmapForEachSC: no visible binding for global variable
       ‘single_cell_id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1156)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1156)
     getTargetedHeatmapForEachSC: no visible binding for global variable
       ‘chr’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1156)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1156)
     getTargetedHeatmapForEachSC: no visible binding for global variable
       ‘coord’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1156)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cellscape/new/cellscape.Rcheck/00_pkg_src/cellscape/R/cellscape.R:1156)
     Undefined global functions or variables:
       chr chrom_index coef combn coord copy_number cumsum_values dist
       genotype hclust lm melt mode_cnv n n_gt na.omit px px_width sc_id
@@ -1680,7 +1609,7 @@ Version: 1.4.0
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
       Warning: package ‘Rsamtools’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ChIPexoQual/new/ChIPexoQual.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ChIPexoQual/new/ChIPexoQual.Rcheck/00install.out’ for details.
     ```
 
 *   checking data for non-ASCII characters ... NOTE
@@ -1708,6 +1637,19 @@ Version: 1.16.1
     manual.
     ```
 
+# choroplethr
+
+Version: 3.6.3
+
+## In both
+
+*   checking whether package ‘choroplethr’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘XML’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/choroplethr/new/choroplethr.Rcheck/00install.out’ for details.
+    ```
+
 # chorrrds
 
 Version: 0.1.8
@@ -1733,7 +1675,7 @@ Version: 0.1
 *   checking R code for possible problems ... NOTE
     ```
     parse_counts: no visible global function definition for ‘na.omit’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/chromer/new/chromer.Rcheck/00_pkg_src/chromer/R/clean-data.R:77)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/chromer/new/chromer.Rcheck/00_pkg_src/chromer/R/clean-data.R:77)
     Undefined global functions or variables:
       na.omit
     Consider adding
@@ -1752,7 +1694,7 @@ Version: 1.2.1
     Found the following significant warnings:
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/chromswitch/new/chromswitch.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/chromswitch/new/chromswitch.Rcheck/00install.out’ for details.
     ```
 
 # cimir
@@ -1778,7 +1720,7 @@ Version: 1.8.0
     Found the following significant warnings:
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -1824,21 +1766,21 @@ Version: 1.8.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.probe.anno.R:21)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.probe.anno.R:21)
     process.probe.anno: no visible binding for global variable ‘ID’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.probe.anno.R:31)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.probe.anno.R:31)
     process.reference.genome: no visible binding for global variable
       ‘chrom’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.reference.genome.R:21-23)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.reference.genome.R:21-23)
     process.reference.genome: no visible binding for global variable ‘name’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.reference.genome.R:21-23)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.reference.genome.R:21-23)
     process.reference.genome: no visible binding for global variable
       ‘stain’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.reference.genome.R:21-23)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/process.reference.genome.R:21-23)
     run.cin.chr: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/run.cin.chr.R:45-64)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/run.cin.chr.R:45-64)
     run.cin.cyto: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/run.cin.cyto.R:53-84)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CINdex/new/CINdex.Rcheck/00_pkg_src/CINdex/R/run.cin.cyto.R:53-84)
     Undefined global functions or variables:
       chrom dataMatrix ID is midpoint name stain
     Consider adding
@@ -1856,7 +1798,7 @@ Version: 0.2.1
 *   checking whether package ‘circumplex’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/circumplex/new/circumplex.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/circumplex/new/circumplex.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -1867,11 +1809,11 @@ Version: 0.2.1
 * installing *source* package ‘circumplex’ ...
 ** package ‘circumplex’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/circumplex/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/circumplex/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/circumplex/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/circumplex/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘circumplex’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/circumplex/new/circumplex.Rcheck/circumplex’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/circumplex/new/circumplex.Rcheck/circumplex’
 
 ```
 ### CRAN
@@ -1880,11 +1822,11 @@ ERROR: compilation failed for package ‘circumplex’
 * installing *source* package ‘circumplex’ ...
 ** package ‘circumplex’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/circumplex/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/circumplex/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/circumplex/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/circumplex/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘circumplex’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/circumplex/old/circumplex.Rcheck/circumplex’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/circumplex/old/circumplex.Rcheck/circumplex’
 
 ```
 # civis
@@ -1895,10 +1837,23 @@ Version: 1.5.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.4Mb
+      installed size is  6.1Mb
       sub-directories of 1Mb or more:
-        help   2.6Mb
+        help   2.3Mb
         R      3.2Mb
+    ```
+
+# ClinReport
+
+Version: 0.9.1.1
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘emmeans’ ‘ggplot2’ ‘utils’
+      All declared Imports should be used.
     ```
 
 # clustermq
@@ -1956,7 +1911,7 @@ Version: 1.10.0
     Found the following significant warnings:
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00install.out’ for details.
     ```
 
 *   checking Rd \usage sections ... WARNING
@@ -1974,10 +1929,10 @@ Version: 1.10.0
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
-    0 indirect objects
-    No pages of output.
-    Transcript written on pdfetex.log.
-    fmtutil [INFO]: /Users/romain/Library/TinyTeX/texmf-var/web2c/pdftex/pdfetex.fmt installed.
+    14 preloaded fonts
+    warning  (pdf backend): no pages of output.
+    Transcript written on lualatex.log.
+    fmtutil [INFO]: /Users/romain/Library/TinyTeX/texmf-var/web2c/luatex/lualatex.fmt installed.
     fmtutil [INFO]: Disabled formats: 1
     fmtutil [INFO]: Successfully rebuilt formats: 14
     fmtutil [INFO]: Total formats: 15
@@ -2010,10 +1965,10 @@ Version: 1.10.0
     ```
     copyNumber,SingleBatchCopyNumber: no visible binding for global
       variable ‘theta.star’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00_pkg_src/CNPBayes/R/copynumber-models.R:148-149)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00_pkg_src/CNPBayes/R/copynumber-models.R:148-149)
     copyNumber,SingleBatchCopyNumber: no visible binding for global
       variable ‘theta.star’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00_pkg_src/CNPBayes/R/copynumber-models.R:150-151)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00_pkg_src/CNPBayes/R/copynumber-models.R:150-151)
     Undefined global functions or variables:
       theta.star
     ```
@@ -2026,7 +1981,8 @@ Version: 1.9.7
 
 *   checking package dependencies ... ERROR
     ```
-    Package required but not available: ‘BSgenome.Hsapiens.UCSC.hg19’
+    Packages required but not available:
+      ‘OpenImageR’ ‘BSgenome.Hsapiens.UCSC.hg19’
     
     See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
     manual.
@@ -2141,7 +2097,7 @@ Version: 1.14.0
     ```
     Found the following significant warnings:
       Warning: replacing previous import ‘class::somgrid’ by ‘kohonen::somgrid’ when loading ‘cogena’
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cogena/new/cogena.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cogena/new/cogena.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -2156,13 +2112,13 @@ Version: 1.14.0
     ```
     ...
       ‘legend’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cogena/new/cogena.Rcheck/00_pkg_src/cogena/R/heatmapCluster.R:151-153)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cogena/new/cogena.Rcheck/00_pkg_src/cogena/R/heatmapCluster.R:151-153)
     heatmapCluster,cogena: no visible global function definition for
       ‘legend’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cogena/new/cogena.Rcheck/00_pkg_src/cogena/R/heatmapCluster.R:155-157)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cogena/new/cogena.Rcheck/00_pkg_src/cogena/R/heatmapCluster.R:155-157)
     heatmapCluster,cogena: no visible global function definition for
       ‘legend’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/cogena/new/cogena.Rcheck/00_pkg_src/cogena/R/heatmapCluster.R:159-160)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cogena/new/cogena.Rcheck/00_pkg_src/cogena/R/heatmapCluster.R:159-160)
     Undefined global functions or variables:
       abline as.dist axis cor data density dist hist image layout legend
       lines median mtext order.dendrogram p.adjust par phyper plot.new
@@ -2192,7 +2148,7 @@ Version: 0.10.11
 *   checking whether package ‘CollapsABEL’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CollapsABEL/new/CollapsABEL.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CollapsABEL/new/CollapsABEL.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -2207,13 +2163,13 @@ Version: 0.10.11
 Error: package or namespace load failed for ‘rJava’:
  .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so
   Reason: image not found
 Error : package ‘rJava’ could not be loaded
 ERROR: lazy loading failed for package ‘CollapsABEL’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CollapsABEL/new/CollapsABEL.Rcheck/CollapsABEL’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CollapsABEL/new/CollapsABEL.Rcheck/CollapsABEL’
 
 ```
 ### CRAN
@@ -2226,13 +2182,13 @@ ERROR: lazy loading failed for package ‘CollapsABEL’
 Error: package or namespace load failed for ‘rJava’:
  .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CollapsABEL/rJava/libs/rJava.so
   Reason: image not found
 Error : package ‘rJava’ could not be loaded
 ERROR: lazy loading failed for package ‘CollapsABEL’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/CollapsABEL/old/CollapsABEL.Rcheck/CollapsABEL’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CollapsABEL/old/CollapsABEL.Rcheck/CollapsABEL’
 
 ```
 # colorednoise
@@ -2244,7 +2200,7 @@ Version: 1.0.4
 *   checking whether package ‘colorednoise’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/colorednoise/new/colorednoise.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/colorednoise/new/colorednoise.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -2255,11 +2211,11 @@ Version: 1.0.4
 * installing *source* package ‘colorednoise’ ...
 ** package ‘colorednoise’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/colorednoise/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/colorednoise/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/colorednoise/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/colorednoise/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘colorednoise’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/colorednoise/new/colorednoise.Rcheck/colorednoise’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/colorednoise/new/colorednoise.Rcheck/colorednoise’
 
 ```
 ### CRAN
@@ -2268,11 +2224,11 @@ ERROR: compilation failed for package ‘colorednoise’
 * installing *source* package ‘colorednoise’ ...
 ** package ‘colorednoise’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/colorednoise/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/colorednoise/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/colorednoise/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/colorednoise/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘colorednoise’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/colorednoise/old/colorednoise.Rcheck/colorednoise’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/colorednoise/old/colorednoise.Rcheck/colorednoise’
 
 ```
 # colorspace
@@ -2335,10 +2291,10 @@ Version: 1.18.1
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
-    14 preloaded fonts
+    50 preloaded fonts
     No pages of output.
-    Transcript written on dvilualatex.log.
-    fmtutil [INFO]: /Users/romain/Library/TinyTeX/texmf-var/web2c/luatex/dvilualatex.fmt installed.
+    Transcript written on dviluatex.log.
+    fmtutil [INFO]: /Users/romain/Library/TinyTeX/texmf-var/web2c/luatex/dviluatex.fmt installed.
     fmtutil [INFO]: Disabled formats: 1
     fmtutil [INFO]: Successfully rebuilt formats: 14
     fmtutil [INFO]: Total formats: 15
@@ -2371,18 +2327,18 @@ Version: 1.18.1
     ```
     COMPASSfitToCountsTable: no visible binding for global variable
       ‘population’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:193)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:193)
     COMPASSfitToCountsTable: no visible binding for global variable ‘Count’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:193)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:193)
     COMPASSfitToCountsTable: no visible binding for global variable
       ‘population’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:194)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:194)
     COMPASSfitToCountsTable: no visible binding for global variable ‘Count’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:194)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:194)
     COMPASSfitToCountsTable: no visible binding for global variable ‘id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:200)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:200)
     COMPASSfitToCountsTable: no visible binding for global variable ‘id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:206)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/COMPASS/new/COMPASS.Rcheck/00_pkg_src/COMPASS/R/utils.R:206)
     Undefined global functions or variables:
       Count id population
     ```
@@ -2403,7 +2359,7 @@ Version: 0.1.0
     ```
     Found the following significant warnings:
       Warning: package ‘comperes’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/comperank/new/comperank.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/comperank/new/comperank.Rcheck/00install.out’ for details.
     ```
 
 # condformat
@@ -2423,8 +2379,8 @@ Version: 0.8.0
       -- 1. Error: condformat2excel generates a file (@test_rendering.R#42)  ---------
       Please install the xlsx package in order to export to excel
       1: condformat2excel(condformat(head(iris, n = rows_to_write)), filename = filename) at testthat/test_rendering.R:42
-      2: require_xlsx() at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/condformat/new/condformat.Rcheck/00_pkg_src/condformat/R/render_xlsx.R:19
-      3: stop("Please install the xlsx package in order to export to excel") at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/condformat/new/condformat.Rcheck/00_pkg_src/condformat/R/render_xlsx.R:3
+      2: require_xlsx() at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/condformat/new/condformat.Rcheck/00_pkg_src/condformat/R/render_xlsx.R:19
+      3: stop("Please install the xlsx package in order to export to excel") at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/condformat/new/condformat.Rcheck/00_pkg_src/condformat/R/render_xlsx.R:3
       
       == testthat results  ===========================================================
       OK: 125 SKIPPED: 0 FAILED: 1
@@ -2458,6 +2414,43 @@ Version: 0.1.8
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘congressbr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: sen_coalition_info
+    > ### Title: Downloads and tidies data on specific coalitions in the Federal
+    > ###   Senate
+    > ### Aliases: sen_coalition_info
+    > 
+    > ### ** Examples
+    > 
+    > moderador <- sen_coalition_info(code = 200)
+    Error: All columns in a tibble must be 1d or 2d objects:
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Loading required package: dplyr
+    
+    Attaching package: 'dplyr'
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
+    Quitting from lines 52-55 (senate.Rmd) 
+    Error: processing vignette 'senate.Rmd' failed with diagnostics:
+    All columns in a tibble must be 1d or 2d objects:
+    ```
+
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 1 marked UTF-8 string
@@ -2466,6 +2459,18 @@ Version: 0.1.8
 # corrr
 
 Version: 0.3.0
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 39-44 (corrr-databases.Rmd) 
+    Error: processing vignette 'corrr-databases.Rmd' failed with diagnostics:
+    object 'mpg' not found
+    Execution halted
+    ```
 
 ## In both
 
@@ -2566,7 +2571,8 @@ Version: 0.2.0
     Found the following significant warnings:
       Warning: package ‘rms’ was built under R version 3.5.2
       Warning: package ‘Hmisc’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/coxed/new/coxed.Rcheck/00install.out’ for details.
+      Warning: package ‘mgcv’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/coxed/new/coxed.Rcheck/00install.out’ for details.
     ```
 
 *   checking Rd cross-references ... NOTE
@@ -2649,6 +2655,19 @@ Version: 0.3.6
       All declared Imports should be used.
     ```
 
+# CRPClustering
+
+Version: 1.2
+
+## In both
+
+*   checking whether package ‘CRPClustering’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘lucid’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CRPClustering/new/CRPClustering.Rcheck/00install.out’ for details.
+    ```
+
 # crplyr
 
 Version: 0.2.0
@@ -2659,7 +2678,7 @@ Version: 0.2.0
     ```
     Found the following significant warnings:
       Warning: package ‘crunch’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/crplyr/new/crplyr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/crplyr/new/crplyr.Rcheck/00install.out’ for details.
     ```
 
 # crsra
@@ -2732,7 +2751,7 @@ Version: 1.10.2
     Found the following significant warnings:
       Warning: package ‘ExperimentHub’ was built under R version 3.5.1
       Warning: package ‘AnnotationHub’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/curatedMetagenomicData/new/curatedMetagenomicData.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/curatedMetagenomicData/new/curatedMetagenomicData.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -2861,9 +2880,9 @@ Version: 0.3.0
     Error: processing vignette 'weights-1-simulate.Rmd' failed with diagnostics:
     .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/dalmatian/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/dalmatian/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/dalmatian/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dalmatian/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dalmatian/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dalmatian/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
@@ -2886,7 +2905,7 @@ Version: 1.12.11
 *   checking whether package ‘DAPAR’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -2909,7 +2928,7 @@ Warning in fun(libname, pkgname) : couldn't connect to display ""
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
   there is no package called ‘DO.db’
 ERROR: lazy loading failed for package ‘DAPAR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/DAPAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/DAPAR’
 
 ```
 ### CRAN
@@ -2930,7 +2949,7 @@ Warning in fun(libname, pkgname) : couldn't connect to display ""
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
   there is no package called ‘DO.db’
 ERROR: lazy loading failed for package ‘DAPAR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
 
 ```
 # datadr
@@ -2967,7 +2986,7 @@ Version: 0.4.1
     
     Quitting from lines 78-85 (Introduction_to_datasus.Rmd) 
     Error: processing vignette 'Introduction_to_datasus.Rmd' failed with diagnostics:
-    Timeout was reached: Connection timed out after 10006 milliseconds
+    Timeout was reached: Connection timed out after 10008 milliseconds
     Execution halted
     ```
 
@@ -3033,7 +3052,7 @@ Version: 1.11
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.3Mb
+      installed size is  5.2Mb
       sub-directories of 1Mb or more:
         sample_data   3.0Mb
     ```
@@ -3043,6 +3062,13 @@ Version: 1.11
 Version: 1.6.0
 
 ## In both
+
+*   checking whether package ‘DeepBlueR’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘XML’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DeepBlueR/new/DeepBlueR.Rcheck/00install.out’ for details.
+    ```
 
 *   checking Rd files ... NOTE
     ```
@@ -3073,23 +3099,23 @@ Version: 1.16.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/methods.R:274-282)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/methods.R:274-282)
     degMV: no visible binding for global variable ‘max_sd’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/methods.R:274-282)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/methods.R:274-282)
     degPatterns: no visible global function definition for ‘rowMedians’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/clustering.R:785-787)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/clustering.R:785-787)
     degPatterns: no visible binding for global variable ‘genes’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/clustering.R:816-821)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/clustering.R:816-821)
     degPlotWide : <anonymous>: no visible binding for global variable
       ‘count’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/genePlots.R:155-158)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/genePlots.R:155-158)
     significants,list : <anonymous>: no visible binding for global variable
       ‘gene’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/AllMethods.R:225)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/AllMethods.R:225)
     significants,TopTags: no visible binding for global variable ‘FDR’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/AllMethods.R:147-151)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/AllMethods.R:147-151)
     significants,TopTags: no visible binding for global variable ‘logFC’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/AllMethods.R:147-151)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DEGreport/new/DEGreport.Rcheck/00_pkg_src/DEGreport/R/AllMethods.R:147-151)
     Undefined global functions or variables:
       .x base_mean comp compare count counts covar enrichGO FDR gene genes
       keys log2fc log2FoldChange logFC max_sd min_median ratios rowMedians
@@ -3144,7 +3170,7 @@ Version: 2.0.4
 *   checking whether package ‘DepthProc’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DepthProc/new/DepthProc.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DepthProc/new/DepthProc.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -3155,11 +3181,11 @@ Version: 2.0.4
 * installing *source* package ‘DepthProc’ ...
 ** package ‘DepthProc’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DepthProc/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DepthProc/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c Depth.cpp -o Depth.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DepthProc/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DepthProc/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c Depth.cpp -o Depth.o
 clang: error: unsupported option '-fopenmp'
 make: *** [Depth.o] Error 1
 ERROR: compilation failed for package ‘DepthProc’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DepthProc/new/DepthProc.Rcheck/DepthProc’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DepthProc/new/DepthProc.Rcheck/DepthProc’
 
 ```
 ### CRAN
@@ -3168,11 +3194,11 @@ ERROR: compilation failed for package ‘DepthProc’
 * installing *source* package ‘DepthProc’ ...
 ** package ‘DepthProc’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DepthProc/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DepthProc/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c Depth.cpp -o Depth.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DepthProc/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DepthProc/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c Depth.cpp -o Depth.o
 clang: error: unsupported option '-fopenmp'
 make: *** [Depth.o] Error 1
 ERROR: compilation failed for package ‘DepthProc’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DepthProc/old/DepthProc.Rcheck/DepthProc’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DepthProc/old/DepthProc.Rcheck/DepthProc’
 
 ```
 # DescriptiveStats.OBeu
@@ -3188,7 +3214,7 @@ Version: 1.3.1
 
 # desctable
 
-Version: 0.1.3
+Version: 0.1.4
 
 ## Newly broken
 
@@ -3255,7 +3281,7 @@ Version: 0.1.5
     ```
     Found the following significant warnings:
       Warning: package ‘dexter’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/dextergui/new/dextergui.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dextergui/new/dextergui.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -3300,7 +3326,7 @@ Version: 1.0.0
       installed size is  6.9Mb
       sub-directories of 1Mb or more:
         htmlwidgets   3.0Mb
-        R             3.0Mb
+        R             3.1Mb
     ```
 
 *   checking data for non-ASCII characters ... NOTE
@@ -3317,7 +3343,7 @@ Version: 2.8.0
 *   checking whether package ‘DiffBind’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiffBind/new/DiffBind.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiffBind/new/DiffBind.Rcheck/00install.out’ for details.
     ```
 
 *   checking package dependencies ... NOTE
@@ -3332,28 +3358,28 @@ Version: 2.8.0
 ```
 * installing *source* package ‘DiffBind’ ...
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c bamReader.cpp -o bamReader.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c bedReader.cpp -o bedReader.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c bitBucket.cpp -o bitBucket.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c croi_func.cpp -o croi_func.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c croi_main.cpp -o croi_main.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c densitySet.cpp -o densitySet.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c iBucket.cpp -o iBucket.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c interval.cpp -o interval.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalDensity.cpp -o intervalDensity.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalNode.cpp -o intervalNode.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalSet.cpp -o intervalSet.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalTree.cpp -o intervalTree.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c merge.cpp -o merge.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mergeOne.c -o mergeOne.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c nodeGroup.cpp -o nodeGroup.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c peakOrder.cpp -o peakOrder.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c reader.cpp -o reader.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c sequence.cpp -o sequence.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c util.cpp -o util.o
-clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o DiffBind.so RcppExports.o bamReader.o bedReader.o bitBucket.o croi_func.o croi_main.o densitySet.o iBucket.o interval.o intervalDensity.o intervalNode.o intervalSet.o intervalTree.o merge.o mergeOne.o nodeGroup.o peakOrder.o reader.o sequence.o util.o /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbam.a /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbcf.a /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libtabix.a -lz -pthread -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiffBind/new/DiffBind.Rcheck/DiffBind/libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c bamReader.cpp -o bamReader.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c bedReader.cpp -o bedReader.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c bitBucket.cpp -o bitBucket.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c croi_func.cpp -o croi_func.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c croi_main.cpp -o croi_main.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c densitySet.cpp -o densitySet.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c iBucket.cpp -o iBucket.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c interval.cpp -o interval.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalDensity.cpp -o intervalDensity.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalNode.cpp -o intervalNode.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalSet.cpp -o intervalSet.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalTree.cpp -o intervalTree.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c merge.cpp -o merge.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mergeOne.c -o mergeOne.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c nodeGroup.cpp -o nodeGroup.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c peakOrder.cpp -o peakOrder.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c reader.cpp -o reader.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c sequence.cpp -o sequence.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c util.cpp -o util.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o DiffBind.so RcppExports.o bamReader.o bedReader.o bitBucket.o croi_func.o croi_main.o densitySet.o iBucket.o interval.o intervalDensity.o intervalNode.o intervalSet.o intervalTree.o merge.o mergeOne.o nodeGroup.o peakOrder.o reader.o sequence.o util.o /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbam.a /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbcf.a /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libtabix.a -lz -pthread -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiffBind/new/DiffBind.Rcheck/DiffBind/libs
 ** R
 ** data
 ** inst
@@ -3364,7 +3390,7 @@ Warning: package ‘DelayedArray’ was built under R version 3.5.1
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
   there is no package called ‘GO.db’
 ERROR: lazy loading failed for package ‘DiffBind’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiffBind/new/DiffBind.Rcheck/DiffBind’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiffBind/new/DiffBind.Rcheck/DiffBind’
 
 ```
 ### CRAN
@@ -3372,28 +3398,28 @@ ERROR: lazy loading failed for package ‘DiffBind’
 ```
 * installing *source* package ‘DiffBind’ ...
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c bamReader.cpp -o bamReader.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c bedReader.cpp -o bedReader.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c bitBucket.cpp -o bitBucket.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c croi_func.cpp -o croi_func.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c croi_main.cpp -o croi_main.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c densitySet.cpp -o densitySet.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c iBucket.cpp -o iBucket.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c interval.cpp -o interval.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalDensity.cpp -o intervalDensity.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalNode.cpp -o intervalNode.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalSet.cpp -o intervalSet.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c intervalTree.cpp -o intervalTree.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c merge.cpp -o merge.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mergeOne.c -o mergeOne.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c nodeGroup.cpp -o nodeGroup.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c peakOrder.cpp -o peakOrder.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c reader.cpp -o reader.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c sequence.cpp -o sequence.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c util.cpp -o util.o
-clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o DiffBind.so RcppExports.o bamReader.o bedReader.o bitBucket.o croi_func.o croi_main.o densitySet.o iBucket.o interval.o intervalDensity.o intervalNode.o intervalSet.o intervalTree.o merge.o mergeOne.o nodeGroup.o peakOrder.o reader.o sequence.o util.o /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbam.a /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbcf.a /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libtabix.a -lz -pthread -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiffBind/old/DiffBind.Rcheck/DiffBind/libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c bamReader.cpp -o bamReader.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c bedReader.cpp -o bedReader.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c bitBucket.cpp -o bitBucket.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c croi_func.cpp -o croi_func.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c croi_main.cpp -o croi_main.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c densitySet.cpp -o densitySet.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c iBucket.cpp -o iBucket.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c interval.cpp -o interval.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalDensity.cpp -o intervalDensity.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalNode.cpp -o intervalNode.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalSet.cpp -o intervalSet.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c intervalTree.cpp -o intervalTree.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c merge.cpp -o merge.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mergeOne.c -o mergeOne.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c nodeGroup.cpp -o nodeGroup.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c peakOrder.cpp -o peakOrder.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c reader.cpp -o reader.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c sequence.cpp -o sequence.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c util.cpp -o util.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o DiffBind.so RcppExports.o bamReader.o bedReader.o bitBucket.o croi_func.o croi_main.o densitySet.o iBucket.o interval.o intervalDensity.o intervalNode.o intervalSet.o intervalTree.o merge.o mergeOne.o nodeGroup.o peakOrder.o reader.o sequence.o util.o /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbam.a /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libbcf.a /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/usrlib//libtabix.a -lz -pthread -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiffBind/old/DiffBind.Rcheck/DiffBind/libs
 ** R
 ** data
 ** inst
@@ -3404,7 +3430,7 @@ Warning: package ‘DelayedArray’ was built under R version 3.5.1
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
   there is no package called ‘GO.db’
 ERROR: lazy loading failed for package ‘DiffBind’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiffBind/old/DiffBind.Rcheck/DiffBind’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiffBind/old/DiffBind.Rcheck/DiffBind’
 
 ```
 # diffcyt
@@ -3431,25 +3457,25 @@ Version: 1.0.10
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMedians.R:133-136)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMedians.R:133-136)
     calcMediansByClusterMarker: no visible binding for global variable
       ‘cluster_id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansByClusterMarker.R:123-126)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansByClusterMarker.R:123-126)
     calcMediansByClusterMarker: no visible binding for global variable
       ‘marker’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansByClusterMarker.R:123-126)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansByClusterMarker.R:123-126)
     calcMediansByClusterMarker: no visible binding for global variable
       ‘value’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansByClusterMarker.R:123-126)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansByClusterMarker.R:123-126)
     calcMediansBySampleMarker: no visible binding for global variable
       ‘sample_id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansBySampleMarker.R:119-122)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansBySampleMarker.R:119-122)
     calcMediansBySampleMarker: no visible binding for global variable
       ‘marker’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansBySampleMarker.R:119-122)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansBySampleMarker.R:119-122)
     calcMediansBySampleMarker: no visible binding for global variable
       ‘value’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansBySampleMarker.R:119-122)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffcyt/new/diffcyt.Rcheck/00_pkg_src/diffcyt/R/calcMediansBySampleMarker.R:119-122)
     Undefined global functions or variables:
       cluster_id marker sample_id value
     ```
@@ -3478,7 +3504,7 @@ Version: 0.1.14
     ```
     Found the following significant warnings:
       Warning: package ‘rtext’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/diffrprojects/new/diffrprojects.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/diffrprojects/new/diffrprojects.Rcheck/00install.out’ for details.
     ```
 
 # DirectEffects
@@ -3566,7 +3592,7 @@ Version: 1.0.6
 *   checking whether package ‘DiversityOccupancy’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiversityOccupancy/new/DiversityOccupancy.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiversityOccupancy/new/DiversityOccupancy.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -3581,14 +3607,15 @@ Version: 1.0.6
 *** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
+Warning: package ‘unmarked’ was built under R version 3.5.2
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘DiversityOccupancy’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiversityOccupancy/new/DiversityOccupancy.Rcheck/DiversityOccupancy’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiversityOccupancy/new/DiversityOccupancy.Rcheck/DiversityOccupancy’
 
 ```
 ### CRAN
@@ -3601,14 +3628,15 @@ ERROR: lazy loading failed for package ‘DiversityOccupancy’
 *** moving datasets to lazyload DB
 ** inst
 ** byte-compile and prepare package for lazy loading
+Warning: package ‘unmarked’ was built under R version 3.5.2
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiversityOccupancy/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘DiversityOccupancy’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/DiversityOccupancy/old/DiversityOccupancy.Rcheck/DiversityOccupancy’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DiversityOccupancy/old/DiversityOccupancy.Rcheck/DiversityOccupancy’
 
 ```
 # DLMtool
@@ -3627,76 +3655,15 @@ Version: 5.2.3
 
 # dlookr
 
-Version: 0.3.2
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    [351]  91.00 105.00 122.00  92.00 145.00 146.00 164.00  72.00 118.00 130.00
-    [361] 114.00 104.00 110.00 108.00 131.00 162.00 134.00  77.00  79.00 122.00
-    [371] 119.00 126.00  98.00 116.00 118.00 124.00  92.00 125.00 119.00 107.00
-    [381]  89.00 151.00 121.00  68.00 112.00 132.00 160.00 115.00  78.00 107.00
-    [391] 111.00 124.00 130.00 120.00 139.00 128.00 120.00 159.00  95.00 120.00
-    attr(,"method")
-    [1] "capping"
-    attr(,"var_type")
-    [1] "numerical"
-    attr(,"outlier_pos")
-    [1]  43 126 166 175 368
-    attr(,"outliers")
-    [1]  24  49 191 185  53
-    attr(,"type")
-    [1] "outliers"
-    attr(,"class")
-    [1] "imputation" "numeric"   
-    > summary(price)
-    Error in is_character(x) : object 'key' not found
-    Calls: summary ... vars_select_eval -> map_if -> map -> .f -> - -> is_character
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Loading required package: DBI
-    Loading required package: RSQLite
-    Loading required package: dbplyr
-    Warning: package 'dbplyr' was built under R version 3.5.2
-    
-    Attaching package: 'dbplyr'
-    
-    The following objects are masked from 'package:dplyr':
-    
-        ident, sql
-    
-    Warning: Factor `Urban` contains implicit NA, consider using `forcats::fct_explicit_na`
-    Quitting from lines 349-353 (EDA.Rmd) 
-    Error: processing vignette 'EDA.Rmd' failed with diagnostics:
-    Can't subset with `[` using an object of class NULL.
-    Execution halted
-    ```
+Version: 0.3.8
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.1Mb
+      installed size is  5.2Mb
       sub-directories of 1Mb or more:
-        doc   4.2Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘dbplyr’ ‘randomForest’
-      All declared Imports should be used.
+        doc   4.1Mb
     ```
 
 # doBy
@@ -3727,87 +3694,6 @@ Version: 4.6-2
     Execution halted
     ```
 
-# docxtools
-
-Version: 0.2.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘docxtools-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: format_engr
-    > ### Title: Format numerical variables in engineering notation.
-    > ### Aliases: format_engr
-    > 
-    > ### ** Examples
-    > 
-    > # Factors unaffected; ambiguous trailing zeros.
-    > data("CO2")
-    > x <- head(CO2, n = 5L)
-    > format_engr(x)
-    Error in n() : could not find function "n"
-    Calls: format_engr ... as.data.frame -> mutate -> mutate.tbl_df -> mutate_impl
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      5: mutate.data.frame(x, observ_index = 1:n()) at /Users/romain/git/tidyverse/dplyr/R/manip.r:440
-      6: as.data.frame(mutate(tbl_df(.data), ...)) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:91
-      7: mutate(tbl_df(.data), ...) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:91
-      8: mutate.tbl_df(tbl_df(.data), ...) at /Users/romain/git/tidyverse/dplyr/R/manip.r:440
-      9: mutate_impl(.data, dots) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:91
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 14 SKIPPED: 0 FAILED: 4
-      1. Error: Factors are returned unaffected (@test_format_engr.R#14) 
-      2. Error: Integers are returned as characters but unformatted (@test_format_engr.R#27) 
-      3. Error: sigdig vector is correct (@test_format_engr.R#35) 
-      4. Error: (unknown) (@test_format_engr.R#55) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# dotwhisker
-
-Version: 0.5.0
-
-## In both
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Loading required package: ggplot2
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 199-207 (dotwhisker-vignette.Rmd) 
-    Error: processing vignette 'dotwhisker-vignette.Rmd' failed with diagnostics:
-    there is no package called 'mfx'
-    Execution halted
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package suggested but not available for checking: ‘mfx’
-    ```
-
 # dplyr.teradata
 
 Version: 0.3.0
@@ -3831,7 +3717,7 @@ Version: 0.3.0
     ```
     Found the following significant warnings:
       Warning: package ‘dbplyr’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/dplyr.teradata/new/dplyr.teradata.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dplyr.teradata/new/dplyr.teradata.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -3924,7 +3810,7 @@ Version: 5.5.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.6Mb
+      installed size is  5.7Mb
       sub-directories of 1Mb or more:
         doc   2.5Mb
         R     2.0Mb
@@ -3957,7 +3843,7 @@ Version: 0.5.2
 *   checking whether package ‘dynfrail’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/dynfrail/new/dynfrail.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dynfrail/new/dynfrail.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -3968,11 +3854,11 @@ Version: 0.5.2
 * installing *source* package ‘dynfrail’ ...
 ** package ‘dynfrail’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/dynfrail/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/dynfrail/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dynfrail/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dynfrail/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘dynfrail’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/dynfrail/new/dynfrail.Rcheck/dynfrail’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dynfrail/new/dynfrail.Rcheck/dynfrail’
 
 ```
 ### CRAN
@@ -3981,26 +3867,13 @@ ERROR: compilation failed for package ‘dynfrail’
 * installing *source* package ‘dynfrail’ ...
 ** package ‘dynfrail’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/dynfrail/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/dynfrail/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dynfrail/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dynfrail/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘dynfrail’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/dynfrail/old/dynfrail.Rcheck/dynfrail’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dynfrail/old/dynfrail.Rcheck/dynfrail’
 
 ```
-# dynutils
-
-Version: 1.0.0
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘processx’ ‘Rcpp’
-      All declared Imports should be used.
-    ```
-
 # easyformatr
 
 Version: 0.1.2
@@ -4010,7 +3883,7 @@ Version: 0.1.2
 *   checking whether package ‘easyformatr’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/easyformatr/new/easyformatr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/easyformatr/new/easyformatr.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -4030,7 +3903,7 @@ Warning in materialize_binding(index, mask_proxy_xp) :
   Hybrid callback proxy out of scope
 Error in envlist(e) : object 'name' not found
 ERROR: lazy loading failed for package ‘easyformatr’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/easyformatr/new/easyformatr.Rcheck/easyformatr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/easyformatr/new/easyformatr.Rcheck/easyformatr’
 
 ```
 ### CRAN
@@ -4066,6 +3939,18 @@ Version: 0.2.1
       sub-directories of 1Mb or more:
         htmlwidgets   3.6Mb
         R             2.0Mb
+    ```
+
+# echor
+
+Version: 0.1.2
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘lubridate’
+      All declared Imports should be used.
     ```
 
 # ecoengine
@@ -4178,18 +4063,18 @@ Version: 0.1.1
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:686)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:686)
     .relist.dwt: no visible global function definition for ‘as’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:686)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:686)
     .std.wav.coeff : <anonymous>: no visible global function definition for
       ‘mad’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:698)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:698)
     regrid: no visible global function definition for ‘predict’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:391-396)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:391-396)
     regrid: no visible global function definition for ‘var’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:406)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:406)
     regrid: no visible global function definition for ‘medpolish’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:427)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EFDR/new/EFDR.Rcheck/00_pkg_src/EFDR/R/EFDR_functions.R:427)
     Undefined global functions or variables:
       as mad medpolish pnorm predict relist rnorm var
     Consider adding
@@ -4203,37 +4088,15 @@ Version: 0.1.1
 
 # egor
 
-Version: 0.18.08-02
+Version: 0.19.1
 
 ## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      EI-Index: sex
-      EI-Index: sex
-      EI-Index: int_var
-      EI-Index: female
-      EI-Index: female
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 60 SKIPPED: 0 FAILED: 5
-      1. Error: Composition commands work. (@test_composition.R#6) 
-      2. Failure: methods for dplyr verbs keep egor class/attributes (@test_dplyr_methods.R#31) 
-      3. Failure: egor() works with missing alters/ aaties / egos. (@test_egor.R#39) 
-      4. Failure: egor() works with missing alters/ aaties / egos. (@test_egor.R#42) 
-      5. Failure: egor() works with missing alters/ aaties / egos. (@test_egor.R#46) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
 
 *   checking whether package ‘egor’ can be installed ... WARNING
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/egor/new/egor.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/egor/new/egor.Rcheck/00install.out’ for details.
     ```
 
 # ELMER
@@ -4265,19 +4128,19 @@ Version: 2.4.4
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:148-157)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:148-157)
     scatter: no visible binding for global variable 'value'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/Scatter.plot.R:217-231)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/Scatter.plot.R:217-231)
     scatter: no visible global function definition for 'cor.test'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/Scatter.plot.R:236-238)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/Scatter.plot.R:236-238)
     scatter: no visible binding for global variable 'mae'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/Scatter.plot.R:250-267)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/Scatter.plot.R:250-267)
     TF.rank.plot: no visible binding for global variable 'pvalue'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:291-304)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:291-304)
     TF.rank.plot: no visible binding for global variable 'label'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:291-304)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:291-304)
     TF.rank.plot: no visible binding for global variable 'Gene'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:308-320)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ELMER/new/ELMER.Rcheck/00_pkg_src/ELMER/R/motif.TF.Plots.R:308-320)
     Undefined global functions or variables:
       cor.test fisher.test Gene GeneID gr hm450.hg38.manifest Hugo_Symbol
       label lowerOR mae motif OR precede Probe pvalue subsetByOverlaps
@@ -4364,15 +4227,15 @@ Version: 2.6.0
     ```
     ...
     step6_target: no visible binding for global variable ‘target’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:354-355)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:354-355)
     step7: no visible binding for global variable ‘organism’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:424-425)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:424-425)
     step8: no visible binding for global variable ‘investigated_as’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:436-437)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:436-437)
     step8: no visible binding for global variable ‘target’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:439-440)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:439-440)
     step9: no visible binding for global variable ‘organism’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:449-450)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ENCODExplorer/new/ENCODExplorer.Rcheck/00_pkg_src/ENCODExplorer/R/prepare_data.R:449-450)
     Undefined global functions or variables:
       . accession antibody_caption antibody_characterization
       antibody_target assay biological_replicate_number biosample_name
@@ -4494,41 +4357,13 @@ Version: 3.9.4
 
 # eurostat
 
-Version: 3.3.1.2
+Version: 3.3.1.3
 
 ## In both
 
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 595 marked UTF-8 strings
-    ```
-
-# evaluator
-
-Version: 0.3.1
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      31: function_list[[i]](value)
-      32: purrrlyr::by_slice(., ~arrange(.x, max_loss) %>% mutate(prob = 1 - percent_rank(max_loss)), 
-             .collate = "rows")
-      
-      ── 2. Failure: Domain summary (@test-summarize.R#21)  ──────────────────────────
-      summarize_domains(simulation_results) not equivalent to `domain_summary`.
-      Rows in x but not y: 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4[...]. Rows in y but not x: 14, 13, 12, 11, 10, 9, 8, 7, 6, 5, 4[...]. 
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 85 SKIPPED: 5 FAILED: 2
-      1. Error: Analyze report renders (@test-reports.R#35) 
-      2. Failure: Domain summary (@test-summarize.R#21) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # EventStudy
@@ -4548,6 +4383,29 @@ Version: 0.34
     ```
     Namespaces in Imports field not imported from:
       ‘curl’ ‘openxlsx’ ‘stringr’
+      All declared Imports should be used.
+    ```
+
+# ezpickr
+
+Version: 1.0.0
+
+## In both
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘BrailleR’
+    ```
+
+# ezplot
+
+Version: 0.2.2
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘magrittr’
       All declared Imports should be used.
     ```
 
@@ -4660,7 +4518,7 @@ Version: 0.5.0
 *   checking whether package ‘fastLink’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/fastLink/new/fastLink.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/fastLink/new/fastLink.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -4671,11 +4529,11 @@ Version: 0.5.0
 * installing *source* package ‘fastLink’ ...
 ** package ‘fastLink’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/fastLink/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/fastLink/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/fastLink/RcppEigen/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/fastLink/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/fastLink/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/fastLink/RcppEigen/include" -I/usr/local/include  -fopenmp  -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘fastLink’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/fastLink/new/fastLink.Rcheck/fastLink’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/fastLink/new/fastLink.Rcheck/fastLink’
 
 ```
 ### CRAN
@@ -4684,11 +4542,11 @@ ERROR: compilation failed for package ‘fastLink’
 * installing *source* package ‘fastLink’ ...
 ** package ‘fastLink’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/fastLink/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/fastLink/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/fastLink/RcppEigen/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/fastLink/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/fastLink/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/fastLink/RcppEigen/include" -I/usr/local/include  -fopenmp  -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘fastLink’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/fastLink/old/fastLink.Rcheck/fastLink’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/fastLink/old/fastLink.Rcheck/fastLink’
 
 ```
 # fastR2
@@ -4702,7 +4560,7 @@ Version: 1.2.1
     Found the following significant warnings:
       Warning: package ‘mosaic’ was built under R version 3.5.2
       Warning: package ‘ggformula’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/fastR2/new/fastR2.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/fastR2/new/fastR2.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -4738,30 +4596,15 @@ Version: 2.5.6
 
 # fedregs
 
-Version: 0.1.0
+Version: 0.1.1
 
 ## In both
 
-*   checking tests ...
+*   checking dependencies in R code ... NOTE
     ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      ── 4. Error: We can go all the way (@test-fedregs.R#145)  ──────────────────────
-      There aren't any regulations for title 50 in 2012.
-      1: cfr_text(good_year, good_title_number, good_chapter, good_part) at testthat/test-fedregs.R:145
-      2: stop(sprintf("There aren't any regulations for title %s in %s.\n", title_number, 
-             year)) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/fedregs/new/fedregs.Rcheck/00_pkg_src/fedregs/R/functions.R:244
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 19 SKIPPED: 0 FAILED: 4
-      1. Failure: We get the best CFR URLs. (@test-fedregs.R#38) 
-      2. Failure: We get the best CFR URLs. (@test-fedregs.R#39) 
-      3. Error: We can parse some parts. (@test-fedregs.R#66) 
-      4. Error: We can go all the way (@test-fedregs.R#145) 
-      
-      Error: testthat unit tests failed
-      Execution halted
+    Namespaces in Imports field not imported from:
+      ‘rvest’ ‘stringi’
+      All declared Imports should be used.
     ```
 
 # FindMyFriends
@@ -4794,13 +4637,14 @@ Version: 1.10.0
 
 # fingertipscharts
 
-Version: 0.0.3
+Version: 0.0.4
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘mapproj’
+    Namespaces in Imports field not imported from:
+      ‘curl’ ‘mapproj’
       All declared Imports should be used.
     ```
 
@@ -4837,7 +4681,7 @@ Version: 0.1.1
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/flatr/new/flatr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flatr/new/flatr.Rcheck/00install.out’ for details.
     ```
 
 # flora
@@ -4865,16 +4709,16 @@ Version: 3.28.2
       Warning: package ‘flowCore’ was built under R version 3.5.1
       Warning: package ‘RcppArmadillo’ was built under R version 3.5.2
       Warning: package ‘BH’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.7Mb
+      installed size is 33.8Mb
       sub-directories of 1Mb or more:
         doc    1.4Mb
-        lib    2.1Mb
-        libs   2.7Mb
+        lib   27.0Mb
+        libs   2.9Mb
         R      2.0Mb
     ```
 
@@ -4907,14 +4751,14 @@ Version: 3.28.2
     ...
     show,flowJoWorkspace: no visible binding for global variable
       ‘groupName’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/flowJoWorkspace_Methods.R:66)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/flowJoWorkspace_Methods.R:66)
     transform,GatingSet: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2291-2296)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2291-2296)
     transform,GatingSet: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2298-2308)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2298-2308)
     transform,GatingSet : <anonymous>: no visible global function
       definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2301-2302)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2301-2302)
     Undefined global functions or variables:
       . .hasSlot as as.formula callNextMethod desc extends gray groupName
       IQR is median new node old openCyto.count parallel sampleName
@@ -5027,9 +4871,9 @@ Version: 0.1.1
       10: freduce(value, `_function_list`)
       11: function_list[[i]](value)
       12: dplyr::group_by(., get.col1.)
-      13: group_by.data.frame(., get.col1.) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:93
-      14: grouped_df(groups$data, groups$group_names, .drop) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
-      15: grouped_df_impl(data, unname(vars), drop) at /Users/romain/git/tidyverse/dplyr/R/grouped-df.r:20
+      13: group_by.data.frame(., get.col1.) at /Users/romain/git/tidyverse/dplyr-revdep/R/group-by.r:93
+      14: grouped_df(groups$data, groups$group_names, .drop) at /Users/romain/git/tidyverse/dplyr-revdep/R/dataframe.R:34
+      15: grouped_df_impl(data, unname(vars), drop) at /Users/romain/git/tidyverse/dplyr-revdep/R/grouped-df.r:20
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 24 SKIPPED: 0 FAILED: 2
@@ -5079,11 +4923,11 @@ Version: 0.2.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.8Mb
+      installed size is  9.7Mb
       sub-directories of 1Mb or more:
         data   5.4Mb
         doc    2.1Mb
-        R      2.1Mb
+        R      2.0Mb
     ```
 
 # FSA
@@ -5106,7 +4950,7 @@ Version: 0.3.0
 *   checking whether package ‘FSelectorRcpp’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/FSelectorRcpp/new/FSelectorRcpp.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/FSelectorRcpp/new/FSelectorRcpp.Rcheck/00install.out’ for details.
     ```
 
 *   checking package dependencies ... NOTE
@@ -5122,11 +4966,11 @@ Version: 0.3.0
 * installing *source* package ‘FSelectorRcpp’ ...
 ** package ‘FSelectorRcpp’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/testthat/include" -I/usr/local/include  -fopenmp -I../inst/include -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/testthat/include" -I/usr/local/include  -fopenmp -I../inst/include -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘FSelectorRcpp’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/FSelectorRcpp/new/FSelectorRcpp.Rcheck/FSelectorRcpp’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/FSelectorRcpp/new/FSelectorRcpp.Rcheck/FSelectorRcpp’
 
 ```
 ### CRAN
@@ -5135,11 +4979,11 @@ ERROR: compilation failed for package ‘FSelectorRcpp’
 * installing *source* package ‘FSelectorRcpp’ ...
 ** package ‘FSelectorRcpp’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/FSelectorRcpp/testthat/include" -I/usr/local/include  -fopenmp -I../inst/include -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/FSelectorRcpp/testthat/include" -I/usr/local/include  -fopenmp -I../inst/include -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘FSelectorRcpp’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/FSelectorRcpp/old/FSelectorRcpp.Rcheck/FSelectorRcpp’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/FSelectorRcpp/old/FSelectorRcpp.Rcheck/FSelectorRcpp’
 
 ```
 # ftDK
@@ -5163,7 +5007,7 @@ Version: 1.6.8
     ```
     Found the following significant warnings:
       Warning: package ‘Hmisc’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/funModeling/new/funModeling.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/funModeling/new/funModeling.Rcheck/00install.out’ for details.
     ```
 
 # furniture
@@ -5189,7 +5033,7 @@ Version: 1.8.0
     Found the following significant warnings:
       Warning: package ‘EBImage’ was built under R version 3.5.1
       Warning: replacing previous import ‘EBImage::abind’ by ‘abind::abind’ when loading ‘furrowSeg’
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -5218,26 +5062,26 @@ Version: 1.8.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 358.5Mb
+      installed size is 359.7Mb
       sub-directories of 1Mb or more:
-        data  357.4Mb
+        data  358.6Mb
     ```
 
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:76-77)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:76-77)
     plotFeatureEvolution: no visible global function definition for
       ‘polygon’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:78-79)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:78-79)
     plotFeatureEvolution: no visible global function definition for ‘rgb’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:78-79)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:78-79)
     plotFeatureEvolution: no visible global function definition for ‘axis’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:80)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:80)
     plotFeatureEvolution: no visible global function definition for ‘mtext’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:81)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:81)
     plotFeatureEvolution: no visible global function definition for ‘title’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:84)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrowSeg/new/furrowSeg.Rcheck/00_pkg_src/furrowSeg/R/featureAnalysis.R:84)
     Undefined global functions or variables:
       abline axis median mtext par plot points polygon predict quantile rgb
       title
@@ -5259,7 +5103,7 @@ Version: 0.1.0
     ```
     Found the following significant warnings:
       Warning: package ‘future’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/furrr/new/furrr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/furrr/new/furrr.Rcheck/00install.out’ for details.
     ```
 
 # GA4GHclient
@@ -5362,6 +5206,19 @@ Version: 1.2.0
       .travis.yml
     These were most likely included in error. See section ‘Package
     structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
+# GADMTools
+
+Version: 3.5-1
+
+## In both
+
+*   checking whether package ‘GADMTools’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘tibble’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GADMTools/new/GADMTools.Rcheck/00install.out’ for details.
     ```
 
 # gaiah
@@ -5488,7 +5345,7 @@ Version: 2.10.1
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 224 SKIPPED: 0 FAILED: 15
+      OK: 225 SKIPPED: 0 FAILED: 15
       1. Error: window (@test_assocTestAggregate.R#10) 
       2. Error: ranges (@test_assocTestAggregate.R#24) 
       3. Error: list (@test_assocTestAggregate.R#40) 
@@ -5537,6 +5394,30 @@ Version: 1.6.0
 
 Version: 1.4.3
 
+## Newly fixed
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+         })
+      17: tryCatch(if (missE) ...elt(i) else eval(cl.i, envir = envir), error = function(e) {
+             e$call <- cl.i
+             stop(e)
+         })
+      18: tryCatchList(expr, classes, parentenv, handlers)
+      19: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      20: value[[3L]](cond)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 42 SKIPPED: 0 FAILED: 1
+      1. Error: (unknown) (@test_legacy.R#16) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 ## In both
 
 *   checking Rd \usage sections ... WARNING
@@ -5555,11 +5436,11 @@ Version: 1.4.3
     ```
     default_fields.character: no visible binding for global variable
       ‘defaults’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GenomicDataCommons/new/GenomicDataCommons.Rcheck/00_pkg_src/GenomicDataCommons/R/fields.R:51)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GenomicDataCommons/new/GenomicDataCommons.Rcheck/00_pkg_src/GenomicDataCommons/R/fields.R:51)
     gdc_rnaseq: no visible binding for global variable ‘case_id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GenomicDataCommons/new/GenomicDataCommons.Rcheck/00_pkg_src/GenomicDataCommons/R/gdc_rnaseq.R:106-107)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GenomicDataCommons/new/GenomicDataCommons.Rcheck/00_pkg_src/GenomicDataCommons/R/gdc_rnaseq.R:106-107)
     gdc_rnaseq: no visible binding for global variable ‘file_id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GenomicDataCommons/new/GenomicDataCommons.Rcheck/00_pkg_src/GenomicDataCommons/R/gdc_rnaseq.R:106-107)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GenomicDataCommons/new/GenomicDataCommons.Rcheck/00_pkg_src/GenomicDataCommons/R/gdc_rnaseq.R:106-107)
     Undefined global functions or variables:
       case_id defaults file_id
     ```
@@ -5576,7 +5457,7 @@ Version: 1.14.0
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GenomicInteractions/new/GenomicInteractions.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GenomicInteractions/new/GenomicInteractions.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -5603,11 +5484,6 @@ Version: 2.0
 
 Version: 1.42.0
 
-## Newly broken
-
-*   R CMD check timed out
-    
-
 ## In both
 
 *   checking for hidden files and directories ... NOTE
@@ -5622,7 +5498,7 @@ Version: 1.42.0
     ```
     getSQLiteFile: no visible global function definition for
       ‘download.file’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOmetadb/new/GEOmetadb.Rcheck/00_pkg_src/GEOmetadb/R/getSQLiteFile.R:6)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOmetadb/new/GEOmetadb.Rcheck/00_pkg_src/GEOmetadb/R/getSQLiteFile.R:6)
     Undefined global functions or variables:
       download.file
     Consider adding
@@ -5666,19 +5542,19 @@ Version: 2.48.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:531-539)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:531-539)
     parseGSEMatrix: no visible binding for global variable ‘accession’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:531-539)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:531-539)
     parseGSEMatrix: no visible binding for global variable ‘accession’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:541-542)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:541-542)
     parseGSEMatrix: no visible global function definition for ‘new’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:568)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:568)
     parseGSEMatrix: no visible global function definition for ‘new’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:590)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:590)
     parseGSEMatrix: no visible global function definition for ‘new’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:606-610)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:606-610)
     parseGSEMatrix: no visible global function definition for ‘as’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:606-610)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/GEOquery/new/GEOquery.Rcheck/00_pkg_src/GEOquery/R/parseGEO.R:606-610)
     Undefined global functions or variables:
       . accession as characteristics k kvpair MA new read.delim read.table
       v
@@ -5687,6 +5563,38 @@ Version: 2.48.0
       importFrom("utils", "read.delim", "read.table")
     to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
     contains 'methods').
+    ```
+
+# geosample
+
+Version: 0.2.1
+
+## In both
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    If you have questions, suggestions, or comments regarding the 'maxLik' package, please use a forum or 'tracker' at maxLik's R-Forge site:
+    https://r-forge.r-project.org/projects/maxlik/
+    Loading required package: raster
+    Loading required package: pdist
+    Loading required package: Matrix
+    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
+      Running 'texi2dvi' on 'geosample-vignette.tex' failed.
+    LaTeX errors:
+    ! LaTeX Error: File `bbm.sty' not found.
+    
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
+    
+    ! Emergency stop.
+    <read *> 
+             
+    l.63 \usepackage
+                    {amsmath}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    Calls: buildVignettes -> texi2pdf -> texi2dvi
+    Execution halted
     ```
 
 # geoSpectral
@@ -5735,20 +5643,20 @@ Version: 1.12.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:42-43)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:42-43)
     .select.model: no visible global function definition for ‘predict’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:236)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:236)
     concordance: no visible global function definition for ‘cor’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-concordance.R:65)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-concordance.R:65)
     lasso.rand: no visible global function definition for ‘runif’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:137-145)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:137-145)
     plot.gespeR: no visible global function definition for ‘hist’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-class.R:218)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-class.R:218)
     stability.selection: no visible global function definition for ‘lm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:214)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/gespeR-functions.R:214)
     Phenotypes,character: no visible global function definition for
       ‘read.delim’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/Phenotypes-class.R:75)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/gespeR/new/gespeR.Rcheck/00_pkg_src/gespeR/R/Phenotypes-class.R:75)
     Undefined global functions or variables:
       coef cor hist lm predict read.delim runif
     Consider adding
@@ -5943,7 +5851,7 @@ Version: 0.1.2
       target is NULL, current is factor
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 13 SKIPPED: 0 FAILED: 2
+      OK: 9 SKIPPED: 0 FAILED: 2
       1. Failure: stat_interval filters precomputed quantiles to match interval args (@test_stat_interval.R#30) 
       2. Failure: stat_interval filters precomputed quantiles to match interval args (@test_stat_interval.R#31) 
       
@@ -5968,10 +5876,10 @@ Version: 0.9.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.1Mb
+      installed size is  6.0Mb
       sub-directories of 1Mb or more:
         doc   2.7Mb
-        R     2.1Mb
+        R     2.0Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -6067,15 +5975,15 @@ Version: 0.1.3
 
 # ggmap
 
-Version: 2.6.2
+Version: 3.0.0
 
-## In both
+## Newly broken
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.0Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
-        data   5.1Mb
+        data   4.8Mb
     ```
 
 # ggmcmc
@@ -6131,7 +6039,7 @@ Version: 3.1.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.4Mb
+      installed size is  7.3Mb
       sub-directories of 1Mb or more:
         doc   1.8Mb
         R     3.9Mb
@@ -6229,7 +6137,7 @@ Version: 2.0.1
     ```
     Found the following significant warnings:
       Warning: package ‘randomForestSRC’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ggRandomForests/new/ggRandomForests.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ggRandomForests/new/ggRandomForests.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -6276,6 +6184,34 @@ Version: 1.0.3
       All declared Imports should be used.
     ```
 
+# ggstatsplot
+
+Version: 0.0.8
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      2 levels with non-zero frequencies.
+      Note: 99% CI for effect size estimate was computed with 15 bootstrap samples.
+      Error in chisq.test(counts, p = expProps) : 
+        'x' must at least have 2 elements
+      Warning: Proportion test will not be run because it requires x to have at least 
+      2 levels with non-zero frequencies.
+      Error in chisq.test(counts, p = expProps) : 
+        'x' must at least have 2 elements
+      Note: 95% CI for effect size estimate was computed with 100 bootstrap samples.
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 686 SKIPPED: 54 FAILED: 1
+      1. Failure: check merMod output (@test_ggcoefstats.R#515) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # ggthemes
 
 Version: 4.0.1
@@ -6296,7 +6232,7 @@ Version: 1.12.7
 *   checking whether package ‘ggtree’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ggtree/new/ggtree.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ggtree/new/ggtree.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -6310,7 +6246,7 @@ Version: 1.12.7
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘ggtree’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ggtree/new/ggtree.Rcheck/ggtree’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ggtree/new/ggtree.Rcheck/ggtree’
 
 ```
 ### CRAN
@@ -6322,7 +6258,7 @@ ERROR: lazy loading failed for package ‘ggtree’
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘ggtree’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ggtree/old/ggtree.Rcheck/ggtree’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ggtree/old/ggtree.Rcheck/ggtree’
 
 ```
 # ggwordcloud
@@ -6386,7 +6322,7 @@ Version: 0.2.2
 *   checking whether package ‘graphicalVAR’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/graphicalVAR/new/graphicalVAR.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/graphicalVAR/new/graphicalVAR.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -6397,11 +6333,11 @@ Version: 0.2.2
 * installing *source* package ‘graphicalVAR’ ...
 ** package ‘graphicalVAR’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/graphicalVAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/graphicalVAR/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/graphicalVAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/graphicalVAR/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘graphicalVAR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/graphicalVAR/new/graphicalVAR.Rcheck/graphicalVAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/graphicalVAR/new/graphicalVAR.Rcheck/graphicalVAR’
 
 ```
 ### CRAN
@@ -6410,11 +6346,11 @@ ERROR: compilation failed for package ‘graphicalVAR’
 * installing *source* package ‘graphicalVAR’ ...
 ** package ‘graphicalVAR’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/graphicalVAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/graphicalVAR/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/graphicalVAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/graphicalVAR/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘graphicalVAR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/graphicalVAR/old/graphicalVAR.Rcheck/graphicalVAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/graphicalVAR/old/graphicalVAR.Rcheck/graphicalVAR’
 
 ```
 # graphTweets
@@ -6442,7 +6378,7 @@ Version: 1.1.0
     ```
     Found the following significant warnings:
       Warning: package ‘dbplyr’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00install.out’ for details.
     ```
 
 *   checking for missing documentation entries ... WARNING
@@ -6494,14 +6430,14 @@ Version: 1.1.0
     ```
     .grasp2ToAnnotationHub: no visible global function definition for
       ‘outputFile’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/db_AnnotationHub.R:39)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/db_AnnotationHub.R:39)
     .grasp2ToAnnotationHub: no visible global function definition for
       ‘outputFile’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/db_AnnotationHub.R:40)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/db_AnnotationHub.R:40)
     checkAnti: no visible binding for global variable ‘chr_hg19’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/doanti.R:19-20)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/doanti.R:19-20)
     getJoinCompatible: no visible binding for global variable ‘gwrngs19’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/doanti.R:7)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/grasp2db/new/grasp2db.Rcheck/00_pkg_src/grasp2db/R/doanti.R:7)
     Undefined global functions or variables:
       chr_hg19 gwrngs19 outputFile
     ```
@@ -6518,6 +6454,77 @@ Version: 1.7.0.0
       ‘taxstats’ ‘taxstats1516’
     ```
 
+# gravity
+
+Version: 0.9.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    
+    > data("gravity_no_zeros")
+    > 
+    > # Choose 5 countries for testing
+    > countries_chosen <- c("AUS", "CHN", "GBR", "BRA", "CAN")
+    > grav_small <- filter(gravity_no_zeros, iso_o %in% countries_chosen)
+    > 
+    > fit <- bvu(
+    +   dependent_variable = "flow",
+    +   distance = "distw",
+    +   additional_regressors = c("rta", "contig", "comcur"),
+    +   income_origin = "gdp_o",
+    +   income_destination = "gdp_d",
+    +   code_origin = "iso_o",
+    +   code_destination = "iso_d",
+    +   robust = FALSE,
+    +   data = grav_small
+    + )
+    Error in (function (.)  : object 'distw' not found
+    Calls: bvu ... filter -> filter.tbl_df -> filter_impl -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 0 SKIPPED: 0 FAILED: 15
+      1. Error: BVU returns a valid output (@test-bvu.R#13) 
+      2. Error: BVW returns a valid output (@test-bvw.R#13) 
+      3. Error: DDM returns a valid output (@test-ddm.R#13) 
+      4. Error: EK Tobit returns a valid output (@test-ek_tobit.R#20) 
+      5. Error: ET Tobit returns a valid output (@test-et_tobit.R#20) 
+      6. Error: Fixed Effects returns a valid output (@test-fixed_effects.R#13) 
+      7. Error: GPML returns a valid output (@test-gpml.R#19) 
+      8. Error: Stata summary returns a valid output (@test-hm_summary.R#14) 
+      9. Error: NBPML returns a valid output (@test-nbpml.R#13) 
+      1. ...
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    
+    Attaching package: 'gravity'
+    
+    The following object is masked from 'package:stats':
+    
+        nls
+    
+    Quitting from lines 117-129 (crash-course-on-gravity-models.Rmd) 
+    Error: processing vignette 'crash-course-on-gravity-models.Rmd' failed with diagnostics:
+    object 'distw' not found
+    Execution halted
+    ```
+
 # Greg
 
 Version: 1.3
@@ -6530,7 +6537,7 @@ Version: 1.3
       Warning: package ‘checkmate’ was built under R version 3.5.2
       Warning: package ‘Gmisc’ was built under R version 3.5.2
       Warning: package ‘htmlTable’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Greg/new/Greg.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Greg/new/Greg.Rcheck/00install.out’ for details.
     ```
 
 *   checking Rd cross-references ... NOTE
@@ -6569,7 +6576,7 @@ Version: 0.2.3
 *   checking whether package ‘harrietr’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/harrietr/new/harrietr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/harrietr/new/harrietr.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -6585,7 +6592,7 @@ Version: 0.2.3
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘harrietr’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/harrietr/new/harrietr.Rcheck/harrietr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/harrietr/new/harrietr.Rcheck/harrietr’
 
 ```
 ### CRAN
@@ -6599,9 +6606,20 @@ ERROR: lazy loading failed for package ‘harrietr’
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘harrietr’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/harrietr/old/harrietr.Rcheck/harrietr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/harrietr/old/harrietr.Rcheck/harrietr’
 
 ```
+# hdme
+
+Version: 0.2.1
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘Rglpk’
+    ```
+
 # heatwaveR
 
 Version: 0.3.6
@@ -6611,7 +6629,7 @@ Version: 0.3.6
 *   checking whether package ‘heatwaveR’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/heatwaveR/new/heatwaveR.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/heatwaveR/new/heatwaveR.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -6622,11 +6640,11 @@ Version: 0.3.6
 * installing *source* package ‘heatwaveR’ ...
 ** package ‘heatwaveR’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/heatwaveR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘heatwaveR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/heatwaveR/new/heatwaveR.Rcheck/heatwaveR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/heatwaveR/new/heatwaveR.Rcheck/heatwaveR’
 
 ```
 ### CRAN
@@ -6635,11 +6653,11 @@ ERROR: compilation failed for package ‘heatwaveR’
 * installing *source* package ‘heatwaveR’ ...
 ** package ‘heatwaveR’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/heatwaveR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘heatwaveR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/heatwaveR/old/heatwaveR.Rcheck/heatwaveR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/heatwaveR/old/heatwaveR.Rcheck/heatwaveR’
 
 ```
 # heemod
@@ -6680,7 +6698,7 @@ Version: 0.9.2
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 566 SKIPPED: 0 FAILED: 17
+      OK: 432 SKIPPED: 0 FAILED: 17
       1. Error: multi-dimensional calibration (@test_calibration.R#263) 
       2. Error: exactly match HIV model (@test_dmhee.R#102) 
       3. Error: Exactly match THR model (@test_dmhee.R#267) 
@@ -6732,25 +6750,25 @@ Version: 1.14.0
     Found the following significant warnings:
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00install.out’ for details.
     ```
 
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:424-428)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:424-428)
     makeGRanges: no visible global function definition for ‘seqlengths’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:439-440)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:439-440)
     makeGRanges: no visible global function definition for ‘seqlevels<-’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:464)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:464)
     makeGRanges: no visible global function definition for ‘sortSeqlevels’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:464)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:464)
     makeGRanges: no visible global function definition for ‘seqlevelsInUse’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:464)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:464)
     makeGRanges: no visible global function definition for ‘seqlengths<-’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:465)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:465)
     makeGRanges: no visible global function definition for ‘seqlevels’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:465)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiAnnotator/new/hiAnnotator.Rcheck/00_pkg_src/hiAnnotator/R/hiAnnotator.R:465)
     Undefined global functions or variables:
       breakInChunks countQueryHits detectCores dist featureName IRanges
       keepSeqlevels mid n overlapsAny qStrand queryHits seqlengths
@@ -6784,19 +6802,19 @@ Version: 1.2.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/total_sum.R:62)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/total_sum.R:62)
     volcano: no visible binding for global variable ‘A’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:2)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:2)
     volcano: no visible binding for global variable ‘adj.IF1’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:2)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:2)
     volcano: no visible binding for global variable ‘adj.IF2’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:2)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:2)
     volcano: no visible binding for global variable ‘p.value’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:5)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:5)
     volcano: no visible binding for global variable ‘A’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:5)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:5)
     volcano: no visible binding for global variable ‘D’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:5)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HiCcompare/new/HiCcompare.Rcheck/00_pkg_src/HiCcompare/R/volcano.R:5)
     Undefined global functions or variables:
       A adj.IF1 adj.IF2 adj.M axis bias.slope bp centromere_locations chr1
       chr2 count D fold.change i IF IF1 IF2 j M p.adj p.value pnorm region1
@@ -6834,7 +6852,7 @@ Version: 1.16.0
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
       Warning: package ‘Rsamtools’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00install.out’ for details.
     ```
 
 *   checking for hidden files and directories ... NOTE
@@ -6850,20 +6868,20 @@ Version: 1.16.0
     ...
     vpairwiseAlignSeqs: no visible global function definition for
       ‘runLength’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1393-1396)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1393-1396)
     vpairwiseAlignSeqs: no visible global function definition for ‘Rle’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1398)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1398)
     vpairwiseAlignSeqs: no visible global function definition for
       ‘runLength’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1399-1402)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1399-1402)
     vpairwiseAlignSeqs: no visible global function definition for
       ‘runValue’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1400-1401)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1400-1401)
     vpairwiseAlignSeqs: no visible global function definition for
       ‘runLength’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1400-1401)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1400-1401)
     vpairwiseAlignSeqs: no visible global function definition for ‘IRanges’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1420-1424)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hiReadsProcessor/new/hiReadsProcessor.Rcheck/00_pkg_src/hiReadsProcessor/R/hiReadsProcessor.R:1420-1424)
     Undefined global functions or variables:
       breakInChunks clusteredValue clusteredValue.freq DataFrame
       detectCores fasta.info IRanges IRangesList matches mclapply metadata
@@ -6883,7 +6901,7 @@ Version: 1.0.1
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HMP16SData/new/HMP16SData.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -6977,7 +6995,7 @@ Version: 4.3.0
       7: withVisible(code)
       8: eval_bare(get_expr(quo), get_env(quo))
       9: quick_pdf(m, dfr, ht, file = tf, height = "4in")
-      10: tools::texi2pdf(latex_file, clean = TRUE) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/huxtable/new/huxtable.Rcheck/00_pkg_src/huxtable/R/quick-functions.R:83
+      10: tools::texi2pdf(latex_file, clean = TRUE) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/huxtable/new/huxtable.Rcheck/00_pkg_src/huxtable/R/quick-functions.R:83
       11: texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet, texi2dvi = texi2dvi, 
              texinputs = texinputs, index = index)
       12: stop(msg, domain = NA)
@@ -6996,7 +7014,7 @@ Version: 4.3.0
       installed size is  5.3Mb
       sub-directories of 1Mb or more:
         doc   2.9Mb
-        R     2.0Mb
+        R     2.1Mb
     ```
 
 # HydeNet
@@ -7024,9 +7042,9 @@ Version: 0.10.9
     > compiledNet <- compileJagsModel(Net, n.chains=5)
     Error: .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/HydeNet/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/HydeNet/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/HydeNet/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/HydeNet/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/HydeNet/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/HydeNet/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
@@ -7062,9 +7080,9 @@ Version: 0.10.9
     Error: processing vignette 'DecisionNetworks.Rmd' failed with diagnostics:
     .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/HydeNet/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/HydeNet/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/HydeNet/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/HydeNet/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/HydeNet/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/HydeNet/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
@@ -7090,7 +7108,7 @@ Version: 1.0.0
 *   checking whether package ‘iCNV’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/iCNV/new/iCNV.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/iCNV/new/iCNV.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -7109,7 +7127,7 @@ Warning: package ‘IRanges’ was built under R version 3.5.1
 Warning: package ‘GenomicRanges’ was built under R version 3.5.1
 Error : package ‘BSgenome.Hsapiens.UCSC.hg19’ required by ‘CODEX’ could not be found
 ERROR: lazy loading failed for package ‘iCNV’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/iCNV/new/iCNV.Rcheck/iCNV’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/iCNV/new/iCNV.Rcheck/iCNV’
 
 ```
 ### CRAN
@@ -7126,7 +7144,7 @@ Warning: package ‘IRanges’ was built under R version 3.5.1
 Warning: package ‘GenomicRanges’ was built under R version 3.5.1
 Error : package ‘BSgenome.Hsapiens.UCSC.hg19’ required by ‘CODEX’ could not be found
 ERROR: lazy loading failed for package ‘iCNV’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/iCNV/old/iCNV.Rcheck/iCNV’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/iCNV/old/iCNV.Rcheck/iCNV’
 
 ```
 # iCOBRA
@@ -7137,11 +7155,11 @@ Version: 1.8.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.7Mb
+      installed size is  5.6Mb
       sub-directories of 1Mb or more:
         doc       1.2Mb
         extdata   1.7Mb
-        R         2.1Mb
+        R         2.0Mb
     ```
 
 # IDE
@@ -7197,9 +7215,9 @@ Version: 0.5.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.7Mb
+      installed size is  6.2Mb
       sub-directories of 1Mb or more:
-        libs   3.6Mb
+        libs   4.1Mb
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -7216,7 +7234,7 @@ Version: 0.3.3
 *   checking whether package ‘idefix’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/idefix/new/idefix.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/idefix/new/idefix.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -7227,11 +7245,11 @@ Version: 0.3.3
 * installing *source* package ‘idefix’ ...
 ** package ‘idefix’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/idefix/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/idefix/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c InfoDes_cpp.cpp -o InfoDes_cpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/idefix/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/idefix/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c InfoDes_cpp.cpp -o InfoDes_cpp.o
 clang: error: unsupported option '-fopenmp'
 make: *** [InfoDes_cpp.o] Error 1
 ERROR: compilation failed for package ‘idefix’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/idefix/new/idefix.Rcheck/idefix’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/idefix/new/idefix.Rcheck/idefix’
 
 ```
 ### CRAN
@@ -7240,11 +7258,11 @@ ERROR: compilation failed for package ‘idefix’
 * installing *source* package ‘idefix’ ...
 ** package ‘idefix’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/idefix/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/idefix/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c InfoDes_cpp.cpp -o InfoDes_cpp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/idefix/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/idefix/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c InfoDes_cpp.cpp -o InfoDes_cpp.o
 clang: error: unsupported option '-fopenmp'
 make: *** [InfoDes_cpp.o] Error 1
 ERROR: compilation failed for package ‘idefix’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/idefix/old/idefix.Rcheck/idefix’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/idefix/old/idefix.Rcheck/idefix’
 
 ```
 # IHW
@@ -7294,20 +7312,20 @@ Version: 1.8.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:101)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:101)
     plot_decisionboundary: no visible binding for global variable
       ‘covariate’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:110-112)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:110-112)
     plot_decisionboundary: no visible binding for global variable ‘pvalue’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:110-112)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:110-112)
     plot_decisionboundary: no visible binding for global variable ‘fold’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:110-112)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/plots.R:110-112)
     thresholds_ihwResult: no visible global function definition for
       ‘na.exclude’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/ihw_class.R:96-97)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/ihw_class.R:96-97)
     thresholds,ihwResult: no visible global function definition for
       ‘na.exclude’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/ihw_class.R:96-97)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHW/new/IHW.Rcheck/00_pkg_src/IHW/R/ihw_class.R:96-97)
     Undefined global functions or variables:
       covariate fold gurobi mcols mcols<- metadata metadata<- na.exclude
       p.adjust pvalue runif str stratum
@@ -7371,21 +7389,21 @@ Version: 1.7.0
 *   checking R code for possible problems ... NOTE
     ```
     scott_fdrreg: no visible global function definition for ‘FDRreg’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/covariate_methods.R:88)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/covariate_methods.R:88)
     scott_fdrreg: no visible global function definition for ‘getFDR’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/covariate_methods.R:97)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/covariate_methods.R:97)
     sim_fun_eval: no visible binding for global variable ‘fdr_method’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
     sim_fun_eval: no visible binding for global variable ‘fdr_pars’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
     sim_fun_eval: no visible binding for global variable ‘FDP’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
     sim_fun_eval: no visible binding for global variable ‘rj_ratio’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
     sim_fun_eval: no visible binding for global variable ‘FPR’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
     sim_fun_eval: no visible binding for global variable ‘FWER’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IHWpaper/new/IHWpaper.Rcheck/00_pkg_src/IHWpaper/R/benchmarking.R:61-63)
     Undefined global functions or variables:
       FDP fdr_method fdr_pars FDRreg FPR FWER getFDR rj_ratio
     ```
@@ -7399,7 +7417,7 @@ Version: 1.5.0
 *   checking whether package ‘ijtiff’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ijtiff/new/ijtiff.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ijtiff/new/ijtiff.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -7426,7 +7444,7 @@ is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
 R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
 --------------------------------------------------------------------
 ERROR: configuration failed for package ‘ijtiff’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ijtiff/new/ijtiff.Rcheck/ijtiff’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ijtiff/new/ijtiff.Rcheck/ijtiff’
 
 ```
 ### CRAN
@@ -7451,7 +7469,7 @@ is unavailable you can set INCLUDE_DIR and LIB_DIR manually via:
 R CMD INSTALL --configure-vars='INCLUDE_DIR=... LIB_DIR=...'
 --------------------------------------------------------------------
 ERROR: configuration failed for package ‘ijtiff’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ijtiff/old/ijtiff.Rcheck/ijtiff’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ijtiff/old/ijtiff.Rcheck/ijtiff’
 
 ```
 # imager
@@ -7465,8 +7483,8 @@ Version: 0.41.2
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -Dcimg_r_mode -fpermissive -I/usr/X11R6/include -I/opt/X11/include  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/imager/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/imager/new/imager.Rcheck/imager/include" -I"/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/Rtmp3usyNR/sourceCpp-x86_64-apple-darwin15.6.0-1.0.0" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c file2aa320f9f66.cpp -o file2aa320f9f66.o
-      clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o sourceCpp_2.so file2aa320f9f66.o -lX11 -L/usr/X11R6/lib -L/opt/X11/include -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+      clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -Dcimg_r_mode -fpermissive -I/usr/X11R6/include -I/opt/X11/include  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/imager/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/imager/new/imager.Rcheck/imager/include" -I"/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpFAyNJ7/sourceCpp-x86_64-apple-darwin15.6.0-1.0.0" -I/usr/local/include   -fPIC  -O3 -c filef7a94c1c69d9.cpp -o filef7a94c1c69d9.o
+      clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o sourceCpp_2.so filef7a94c1c69d9.o -lX11 -L/usr/X11R6/lib -L/opt/X11/include -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
       ── 1. Error: cpp_plugin (@test_cpp_api.R#14)  ──────────────────────────────────
       Error 1 occurred building shared library.
       1: cppFunction(foo.inline, depends = "imager") at testthat/test_cpp_api.R:14
@@ -7512,9 +7530,9 @@ Version: 0.2.4
       Error: package or namespace load failed for 'rJava':
        .onLoad failed in loadNamespace() for 'rJava', details:
         call: dyn.load(file, DLLpath = DLLpath, ...)
-        error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/implyr/rJava/libs/rJava.so':
-        dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/implyr/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-        Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/implyr/rJava/libs/rJava.so
+        error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/implyr/rJava/libs/rJava.so':
+        dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/implyr/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+        Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/implyr/rJava/libs/rJava.so
         Reason: image not found
       Error: package 'rJava' could not be loaded
       Execution halted
@@ -7558,30 +7576,7 @@ Version: 1.1.0
 
 # INDperform
 
-Version: 0.1.1
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘INDperform-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: plot_spiechart
-    > ### Title: Create score-based spie chart
-    > ### Aliases: plot_spiechart
-    > 
-    > ### ** Examples
-    > 
-    > # Using the Baltic Sea demo data in this package
-    > scores_tbl <- scoring(trend_tbl = model_trend_ex,
-    +   mod_tbl = all_results_ex, press_type = press_type_ex)
-    > summary_tbl <- summary_sc(scores_tbl)
-    > p <- plot_spiechart(summary_tbl)
-    Error in unique(n_press) : object 'n_press' not found
-    Calls: plot_spiechart ... <Anonymous> -> summarise_.tbl_df -> summarise_impl -> unique
-    Execution halted
-    ```
+Version: 0.2.0
 
 ## In both
 
@@ -7589,9 +7584,15 @@ Version: 0.1.1
     ```
       installed size is  5.3Mb
       sub-directories of 1Mb or more:
-        R      1.0Mb
-        data   3.0Mb
+        data   3.1Mb
         help   1.1Mb
+        R      1.0Mb
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘lazyeval’
+      All declared Imports should be used.
     ```
 
 # inlabru
@@ -7625,6 +7626,13 @@ Version: 0.2.1
 
 ## In both
 
+*   checking whether package ‘interplot’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘lme4’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/interplot/new/interplot.Rcheck/00install.out’ for details.
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘gridExtra’
@@ -7649,19 +7657,19 @@ Version: 2.4.0
     ```
     ...
       ‘idx’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/Methods-subsetting.R:19-21)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/Methods-subsetting.R:19-21)
     [,Fast5Summary-ANY-ANY-ANY: no visible binding for global variable
       ‘component’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/Methods-subsetting.R:24-26)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/Methods-subsetting.R:24-26)
     [,Fast5Summary-ANY-ANY-ANY: no visible binding for global variable
       ‘idx’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/Methods-subsetting.R:24-26)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/Methods-subsetting.R:24-26)
     show,Fast5Summary: no visible binding for global variable ‘full_2D’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/classes.R:70-71)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/classes.R:70-71)
     show,Fast5Summary: no visible binding for global variable ‘pass’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/classes.R:75)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/classes.R:75)
     show,Fast5Summary: no visible binding for global variable ‘pass’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/classes.R:77)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IONiseR/new/IONiseR.Rcheck/00_pkg_src/IONiseR/R/classes.R:77)
     Undefined global functions or variables:
       := AAAAA accumulation baseCalledComplement baseCalledTemplate
       bases_called category channel circleFun component duration error freq
@@ -7703,7 +7711,7 @@ Version: 2.0.0
 *   checking whether package ‘iRF’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/iRF/new/iRF.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/iRF/new/iRF.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -7714,11 +7722,11 @@ Version: 2.0.0
 * installing *source* package ‘iRF’ ...
 ** package ‘iRF’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/iRF/Rcpp/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c ExportedFunctionsRIT.cpp -o ExportedFunctionsRIT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/iRF/Rcpp/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c ExportedFunctionsRIT.cpp -o ExportedFunctionsRIT.o
 clang: error: unsupported option '-fopenmp'
 make: *** [ExportedFunctionsRIT.o] Error 1
 ERROR: compilation failed for package ‘iRF’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/iRF/new/iRF.Rcheck/iRF’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/iRF/new/iRF.Rcheck/iRF’
 
 ```
 ### CRAN
@@ -7727,11 +7735,11 @@ ERROR: compilation failed for package ‘iRF’
 * installing *source* package ‘iRF’ ...
 ** package ‘iRF’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/iRF/Rcpp/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c ExportedFunctionsRIT.cpp -o ExportedFunctionsRIT.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/iRF/Rcpp/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c ExportedFunctionsRIT.cpp -o ExportedFunctionsRIT.o
 clang: error: unsupported option '-fopenmp'
 make: *** [ExportedFunctionsRIT.o] Error 1
 ERROR: compilation failed for package ‘iRF’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/iRF/old/iRF.Rcheck/iRF’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/iRF/old/iRF.Rcheck/iRF’
 
 ```
 # IrisSpatialFeatures
@@ -7753,7 +7761,7 @@ Version: 1.3.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.2Mb
+      installed size is  5.1Mb
       sub-directories of 1Mb or more:
         data      2.1Mb
         extdata   1.9Mb
@@ -7809,7 +7817,7 @@ Version: 1.0.1
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/iSEE/new/iSEE.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/iSEE/new/iSEE.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -7974,7 +7982,7 @@ Version: 2.2-2
     Calls: <Anonymous> -> texi2dvi
     Execution halted
     make: *** [ResponseModels.pdf] Error 1
-    Error in buildVignettes(dir = "/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/kitagawa/new/kitagawa.Rcheck/vign_test/kitagawa") : 
+    Error in buildVignettes(dir = "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/kitagawa/new/kitagawa.Rcheck/vign_test/kitagawa") : 
       running 'make' failed
     Execution halted
     ```
@@ -8052,7 +8060,7 @@ Version: 0.1.0
 *   checking whether package ‘lilikoi’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lilikoi/new/lilikoi.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lilikoi/new/lilikoi.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -8069,12 +8077,12 @@ Version: 0.1.0
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lilikoi/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lilikoi/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lilikoi/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘lilikoi’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lilikoi/new/lilikoi.Rcheck/lilikoi’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lilikoi/new/lilikoi.Rcheck/lilikoi’
 
 ```
 ### CRAN
@@ -8089,12 +8097,12 @@ ERROR: lazy loading failed for package ‘lilikoi’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lilikoi/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lilikoi/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lilikoi/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lilikoi/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘lilikoi’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lilikoi/old/lilikoi.Rcheck/lilikoi’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lilikoi/old/lilikoi.Rcheck/lilikoi’
 
 ```
 # live
@@ -8119,7 +8127,7 @@ Version: 0.0.2.6
 *   checking whether package ‘LLSR’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LLSR/new/LLSR.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LLSR/new/LLSR.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -8135,12 +8143,12 @@ Version: 0.0.2.6
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/LLSR/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/LLSR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/LLSR/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘LLSR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LLSR/new/LLSR.Rcheck/LLSR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LLSR/new/LLSR.Rcheck/LLSR’
 
 ```
 ### CRAN
@@ -8154,12 +8162,12 @@ ERROR: lazy loading failed for package ‘LLSR’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/LLSR/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/LLSR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/LLSR/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/LLSR/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘LLSR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LLSR/old/LLSR.Rcheck/LLSR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LLSR/old/LLSR.Rcheck/LLSR’
 
 ```
 # lmeresampler
@@ -8182,7 +8190,7 @@ Version: 0.1.0
       nrow(cr3) >= 48 * min(grouped$count) isn't true.
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 15 SKIPPED: 58 FAILED: 2
+      OK: 17 SKIPPED: 58 FAILED: 2
       1. Failure: two-level additive random intercept model (@test-case-lme4.R#30) 
       2. Failure: two-level additive random intercept model (@test-case-lme4.R#32) 
       
@@ -8207,18 +8215,18 @@ Version: 1.0.0
 *   checking R code for possible problems ... NOTE
     ```
     AnalyticalOptim: no visible global function definition for ‘optim’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:84)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:84)
     LLConstructor : LL: no visible global function definition for ‘dpois’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:60)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:60)
     LLConstructor : LL: no visible global function definition for ‘dpois’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:63-64)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:63-64)
     MixtureDensity: no visible global function definition for ‘glm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:35)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:35)
     MixtureDensity : f_hat: no visible global function definition for
       ‘predict’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:42)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:42)
     NullDensity : f0: no visible global function definition for ‘dpois’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:106)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LocFDRPois/new/LocFDRPois.Rcheck/00_pkg_src/LocFDRPois/R/locfdr.R:106)
     Undefined global functions or variables:
       dpois glm optim predict
     Consider adding
@@ -8236,7 +8244,7 @@ Version: 0.1
     ```
     Found the following significant warnings:
       Warning: package ‘data.table’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lookupTable/new/lookupTable.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lookupTable/new/lookupTable.Rcheck/00install.out’ for details.
     ```
 
 # loopr
@@ -8248,9 +8256,9 @@ Version: 1.0.1
 *   checking R code for possible problems ... NOTE
     ```
     amendColumns: no visible global function definition for ‘setNames’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/loopr/new/loopr.Rcheck/00_pkg_src/loopr/R/loopr.R:96-104)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/loopr/new/loopr.Rcheck/00_pkg_src/loopr/R/loopr.R:96-104)
     fillColumns: no visible global function definition for ‘setNames’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/loopr/new/loopr.Rcheck/00_pkg_src/loopr/R/loopr.R:126-136)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/loopr/new/loopr.Rcheck/00_pkg_src/loopr/R/loopr.R:126-136)
     Undefined global functions or variables:
       setNames
     Consider adding
@@ -8280,7 +8288,7 @@ Version: 0.1.4
 *   checking whether package ‘lpirfs’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lpirfs/new/lpirfs.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lpirfs/new/lpirfs.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -8291,11 +8299,11 @@ Version: 0.1.4
 * installing *source* package ‘lpirfs’ ...
 ** package ‘lpirfs’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lpirfs/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lpirfs/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lpirfs/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lpirfs/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘lpirfs’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lpirfs/new/lpirfs.Rcheck/lpirfs’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lpirfs/new/lpirfs.Rcheck/lpirfs’
 
 ```
 ### CRAN
@@ -8304,16 +8312,16 @@ ERROR: compilation failed for package ‘lpirfs’
 * installing *source* package ‘lpirfs’ ...
 ** package ‘lpirfs’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lpirfs/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lpirfs/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lpirfs/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lpirfs/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘lpirfs’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lpirfs/old/lpirfs.Rcheck/lpirfs’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lpirfs/old/lpirfs.Rcheck/lpirfs’
 
 ```
 # lucid
 
-Version: 1.6
+Version: 1.7
 
 ## In both
 
@@ -8328,11 +8336,11 @@ Version: 1.6
     Error: package or namespace load failed for 'rjags':
      .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lucid/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lucid/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/lucid/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lucid/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lucid/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/lucid/rjags/libs/rjags.so
       Reason: image not found
-    Quitting from lines 271-295 (lucid_examples.Rmd) 
+    Quitting from lines 242-266 (lucid_examples.Rmd) 
     Error: processing vignette 'lucid_examples.Rmd' failed with diagnostics:
     could not find function "jags.model"
     Execution halted
@@ -8348,7 +8356,7 @@ Version: 0.3.4
     ```
     Found the following significant warnings:
       Warning: package ‘OpenMx’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/lvnet/new/lvnet.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lvnet/new/lvnet.Rcheck/00install.out’ for details.
     ```
 
 # LymphoSeq
@@ -8360,7 +8368,7 @@ Version: 1.8.0
 *   checking whether package ‘LymphoSeq’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LymphoSeq/new/LymphoSeq.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LymphoSeq/new/LymphoSeq.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -8374,7 +8382,7 @@ Version: 1.8.0
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘LymphoSeq’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LymphoSeq/new/LymphoSeq.Rcheck/LymphoSeq’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LymphoSeq/new/LymphoSeq.Rcheck/LymphoSeq’
 
 ```
 ### CRAN
@@ -8386,7 +8394,7 @@ ERROR: lazy loading failed for package ‘LymphoSeq’
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘LymphoSeq’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/LymphoSeq/old/LymphoSeq.Rcheck/LymphoSeq’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/LymphoSeq/old/LymphoSeq.Rcheck/LymphoSeq’
 
 ```
 # madness
@@ -8443,16 +8451,16 @@ Version: 1.3.0
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/manifestoR/new/manifestoR.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/manifestoR/new/manifestoR.Rcheck/00install.out’ for details.
     ```
 
 *   checking R code for possible problems ... NOTE
     ```
     mp_corpus: no visible binding for global variable ‘annotations’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/manifestoR/new/manifestoR.Rcheck/00_pkg_src/manifestoR/R/manifesto.R:456-457)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/manifestoR/new/manifestoR.Rcheck/00_pkg_src/manifestoR/R/manifesto.R:456-457)
     print.ManifestoAvailability: no visible binding for global variable
       ‘annotations’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/manifestoR/new/manifestoR.Rcheck/00_pkg_src/manifestoR/R/manifesto.R:371-374)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/manifestoR/new/manifestoR.Rcheck/00_pkg_src/manifestoR/R/manifesto.R:371-374)
     Undefined global functions or variables:
       annotations
     ```
@@ -8468,6 +8476,48 @@ Version: 0.4.3
     Package which this enhances but not available for checking: ‘geojsonio’
     ```
 
+# mapfuser
+
+Version: 0.1.2
+
+## In both
+
+*   checking whether package ‘mapfuser’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mapfuser/new/mapfuser.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘mapfuser’ ...
+** package ‘mapfuser’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘Rglpk’
+ERROR: lazy loading failed for package ‘mapfuser’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mapfuser/new/mapfuser.Rcheck/mapfuser’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘mapfuser’ ...
+** package ‘mapfuser’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘Rglpk’
+ERROR: lazy loading failed for package ‘mapfuser’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mapfuser/old/mapfuser.Rcheck/mapfuser’
+
+```
 # mapview
 
 Version: 2.6.3
@@ -8476,10 +8526,10 @@ Version: 2.6.3
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.0Mb
+      installed size is  5.1Mb
       sub-directories of 1Mb or more:
         extdata   1.0Mb
-        R         2.0Mb
+        R         2.1Mb
     ```
 
 # mason
@@ -8514,7 +8564,7 @@ Version: 1.0.0
 *   checking whether package ‘mbgraphic’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -8525,12 +8575,12 @@ Version: 1.0.0
 * installing *source* package ‘mbgraphic’ ...
 ** package ‘mbgraphic’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c cmasum.cpp -o cmasum.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mbgraphic_init.c -o mbgraphic_init.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c variableflip.cpp -o variableflip.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c cmasum.cpp -o cmasum.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mbgraphic_init.c -o mbgraphic_init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c variableflip.cpp -o variableflip.o
 clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mbgraphic.so RcppExports.o cmasum.o mbgraphic_init.o variableflip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/mbgraphic/libs
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/mbgraphic/libs
 ** R
 ** data
 *** moving datasets to lazyload DB
@@ -8538,12 +8588,12 @@ installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mbg
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘mbgraphic’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/mbgraphic’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/mbgraphic’
 
 ```
 ### CRAN
@@ -8552,12 +8602,12 @@ ERROR: lazy loading failed for package ‘mbgraphic’
 * installing *source* package ‘mbgraphic’ ...
 ** package ‘mbgraphic’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c cmasum.cpp -o cmasum.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mbgraphic_init.c -o mbgraphic_init.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c variableflip.cpp -o variableflip.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c cmasum.cpp -o cmasum.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mbgraphic_init.c -o mbgraphic_init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c variableflip.cpp -o variableflip.o
 clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mbgraphic.so RcppExports.o cmasum.o mbgraphic_init.o variableflip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/mbgraphic/libs
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/mbgraphic/libs
 ** R
 ** data
 *** moving datasets to lazyload DB
@@ -8565,12 +8615,12 @@ installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mbg
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘mbgraphic’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/mbgraphic’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/mbgraphic’
 
 ```
 # mboxr
@@ -8610,7 +8660,7 @@ Version: 0.1.6
     Found the following significant warnings:
       Warning: package ‘mosaic’ was built under R version 3.5.2
       Warning: package ‘ggformula’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mdsr/new/mdsr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mdsr/new/mdsr.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -8641,6 +8691,19 @@ Version: 2.12
       All declared Imports should be used.
     ```
 
+# merTools
+
+Version: 0.4.1
+
+## In both
+
+*   checking whether package ‘merTools’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘lme4’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/merTools/new/merTools.Rcheck/00install.out’ for details.
+    ```
+
 # metacoder
 
 Version: 0.3.1
@@ -8651,7 +8714,7 @@ Version: 0.3.1
     ```
     Found the following significant warnings:
       Warning: package ‘taxa’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/metacoder/new/metacoder.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/metacoder/new/metacoder.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -8671,24 +8734,24 @@ Version: 1.2.1
     ```
     ...
     collectData: no visible binding for global variable ‘value’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/collectData.R:27)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/collectData.R:27)
     panelSummary: no visible binding for global variable ‘antibodies’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/panelSummary.R:34)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/panelSummary.R:34)
     panelSummary: no visible binding for global variable ‘value’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/panelSummary.R:34)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/panelSummary.R:34)
     plotGA: no visible binding for global variable ‘lower’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/plotGA.R:33-39)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/plotGA.R:33-39)
     plotGA: no visible binding for global variable ‘upper’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/plotGA.R:33-39)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/plotGA.R:33-39)
     searchCluster : <anonymous>: no visible binding for global variable
       ‘triS’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/searchCluster.R:102)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/searchCluster.R:102)
     searchCluster : <anonymous>: no visible binding for global variable
       ‘triS’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/searchCluster.R:103)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/searchCluster.R:103)
     searchCluster : <anonymous>: no visible binding for global variable
       ‘triS’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/searchCluster.R:104)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MetaCyto/new/MetaCyto.Rcheck/00_pkg_src/MetaCyto/R/searchCluster.R:104)
     Undefined global functions or variables:
       antibodies lower parameter_name triS upper value
     ```
@@ -8750,7 +8813,7 @@ Version: 2.0.0
       Warning: subclass "QualityScaledDNAStringSet" of class "DNAStringSet" is not local and cannot be updated for new inheritance information; consider setClassUnion()
       Warning: replacing previous import ‘lazyeval::is_formula’ by ‘purrr::is_formula’ when loading ‘metagenomeFeatures’
       Warning: replacing previous import ‘lazyeval::is_atomic’ by ‘purrr::is_atomic’ when loading ‘metagenomeFeatures’
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00install.out’ for details.
     ```
 
 *   checking for missing documentation entries ... WARNING
@@ -8772,7 +8835,7 @@ Version: 2.0.0
     ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
     ✔ ggplot2 3.1.0     ✔ purrr   0.3.0
     ✔ tibble  2.0.1     ✔ dplyr   0.8.0
-    ✔ tidyr   0.8.2     ✔ stringr 1.3.1
+    ✔ tidyr   0.8.2     ✔ stringr 1.4.0
     ✔ readr   1.3.1     ✔ forcats 0.3.0
     ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
     ✖ dplyr::combine()    masks Biobase::combine(), BiocGenerics::combine()
@@ -8799,13 +8862,13 @@ Version: 2.0.0
 *   checking R code for possible problems ... NOTE
     ```
     .select: no visible binding for global variable ‘identifier’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/mgDb_method_select.R:96-97)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/mgDb_method_select.R:96-97)
     .select.taxa: no visible binding for global variable ‘Keys’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/mgDb_method_select.R:21)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/mgDb_method_select.R:21)
     .select.taxa: no visible binding for global variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/mgDb_method_select.R:21)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/mgDb_method_select.R:21)
     get_gg13.8_85MgDb: no visible binding for global variable ‘metadata’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/gg13.8_85MgDb.R:23-25)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/metagenomeFeatures/new/metagenomeFeatures.Rcheck/00_pkg_src/metagenomeFeatures/R/gg13.8_85MgDb.R:23-25)
     Undefined global functions or variables:
       . identifier Keys metadata
     ```
@@ -8922,7 +8985,7 @@ Version: 0.2.0
       sub-directories of 1Mb or more:
         data   1.1Mb
         doc    1.5Mb
-        R      2.0Mb
+        R      2.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -8952,7 +9015,7 @@ Version: 0.2.3
 *   checking whether package ‘miceFast’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/miceFast/new/miceFast.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/miceFast/new/miceFast.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -8963,11 +9026,11 @@ Version: 0.2.3
 * installing *source* package ‘miceFast’ ...
 ** package ‘miceFast’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/miceFast/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/miceFast/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c R_funs.cpp -o R_funs.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/miceFast/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/miceFast/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c R_funs.cpp -o R_funs.o
 clang: error: unsupported option '-fopenmp'
 make: *** [R_funs.o] Error 1
 ERROR: compilation failed for package ‘miceFast’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/miceFast/new/miceFast.Rcheck/miceFast’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/miceFast/new/miceFast.Rcheck/miceFast’
 
 ```
 ### CRAN
@@ -8976,11 +9039,11 @@ ERROR: compilation failed for package ‘miceFast’
 * installing *source* package ‘miceFast’ ...
 ** package ‘miceFast’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/miceFast/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/miceFast/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c R_funs.cpp -o R_funs.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/miceFast/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/miceFast/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c R_funs.cpp -o R_funs.o
 clang: error: unsupported option '-fopenmp'
 make: *** [R_funs.o] Error 1
 ERROR: compilation failed for package ‘miceFast’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/miceFast/old/miceFast.Rcheck/miceFast’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/miceFast/old/miceFast.Rcheck/miceFast’
 
 ```
 # Miso
@@ -9082,9 +9145,9 @@ Version: 0.1.3
       call: NULL
       error: .onLoad failed in loadNamespace() for 'rJava', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mleap/rJava/libs/rJava.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mleap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/mleap/rJava/libs/rJava.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so
       Reason: image not found
     Execution halted
     ```
@@ -9114,7 +9177,7 @@ Version: 0.1.1
       ...
     Quitting from lines 46-50 (kmeans.Rmd) 
     Error: processing vignette 'kmeans.Rmd' failed with diagnostics:
-    only defined on a data frame with all numeric variables
+    object 'dep_time' not found
     Execution halted
     ```
 
@@ -9133,7 +9196,7 @@ Version: 1.1.1.0
 
 # modelr
 
-Version: 0.1.2
+Version: 0.1.3
 
 ## In both
 
@@ -9200,6 +9263,11 @@ Version: 1.2.9
 
 Version: 0.6.0
 
+## Newly broken
+
+*   R CMD check timed out
+    
+
 ## In both
 
 *   checking installed package size ... NOTE
@@ -9226,6 +9294,13 @@ Version: 0.2.0
 Version: 2.8.0
 
 ## In both
+
+*   checking whether package ‘monocle’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘irlba’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00install.out’ for details.
+    ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
@@ -9262,23 +9337,23 @@ Version: 2.8.0
     ```
     ...
     importCDS: no visible global function definition for ‘gaussianff’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/cds_conversion.R:235)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/cds_conversion.R:235)
     make_canonical: no visible global function definition for ‘nei’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:297)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:297)
     make_canonical: no visible global function definition for ‘nei’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:298)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:298)
     measure_diameter_path: no visible global function definition for ‘nei’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:470-481)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:470-481)
     orderCells: no visible binding for '<<-' assignment to ‘next_node’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:1097)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:1097)
     plot_multiple_branches_pseudotime: no visible binding for global
       variable ‘pseudocount’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/plotting.R:2740)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/plotting.R:2740)
     plot_multiple_branches_pseudotime: no visible binding for global
       variable ‘Branch’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/plotting.R:2753)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/plotting.R:2753)
     project2MST: no visible global function definition for ‘nei’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:1606)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/monocle/new/monocle.Rcheck/00_pkg_src/monocle/R/order_cells.R:1606)
     Undefined global functions or variables:
       Branch gaussianff nei next_node pseudocount Size_Factor
       use_for_ordering
@@ -9300,7 +9375,7 @@ Version: 3.2.0
 *   checking whether package ‘morse’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/morse/new/morse.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/morse/new/morse.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -9317,12 +9392,12 @@ Version: 3.2.0
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rjags', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/morse/rjags/libs/rjags.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/morse/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/morse/rjags/libs/rjags.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/morse/rjags/libs/rjags.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/morse/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/morse/rjags/libs/rjags.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘morse’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/morse/new/morse.Rcheck/morse’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/morse/new/morse.Rcheck/morse’
 
 ```
 ### CRAN
@@ -9337,12 +9412,12 @@ ERROR: lazy loading failed for package ‘morse’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rjags', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/morse/rjags/libs/rjags.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/morse/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/morse/rjags/libs/rjags.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/morse/rjags/libs/rjags.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/morse/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/morse/rjags/libs/rjags.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘morse’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/morse/old/morse.Rcheck/morse’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/morse/old/morse.Rcheck/morse’
 
 ```
 # mosaic
@@ -9355,16 +9430,16 @@ Version: 1.5.0
     ```
     Found the following significant warnings:
       Warning: package ‘ggformula’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/mosaic/new/mosaic.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mosaic/new/mosaic.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
     
-    Warning in block_exec(params) :
-      Failed to tidy R code in chunk 'unnamed-chunk-27'. Reason:
-    Error in loadNamespace(name) : there is no package called 'formatR'
+    Using parallel package.
+      * Set seed with set.rseed().
+      * Disable this message with options(`mosaic:parallelMessage` = FALSE)
     
     Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
       Running 'texi2dvi' on 'MinimalRgg.tex' failed.
@@ -9462,9 +9537,9 @@ Version: 0.1
     Error: processing vignette 'introduction-bayen_kuhlmann_2011.rmd' failed with diagnostics:
     .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/MPTmultiverse/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/MPTmultiverse/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/MPTmultiverse/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/MPTmultiverse/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/MPTmultiverse/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/MPTmultiverse/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
@@ -9479,7 +9554,7 @@ Version: 6.2.1
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/msigdbr/new/msigdbr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/msigdbr/new/msigdbr.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -9498,20 +9573,20 @@ Version: 1.14.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:600)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:600)
     infer_parsimonious_accessions,MSnID : infer_acc: no visible binding for
       global variable ‘N’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:600)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:600)
     infer_parsimonious_accessions,MSnID : infer_acc: no visible binding for
       global variable ‘accession’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:601)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:601)
     infer_parsimonious_accessions,MSnID : infer_acc: no visible binding for
       global variable ‘pepSeq’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:603)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:603)
     recalibrate,MSnID: no visible global function definition for ‘median’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:520)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:520)
     recalibrate,MSnID: no visible global function definition for ‘density’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:529)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSnID/new/MSnID.Rcheck/00_pkg_src/MSnID/R/MSnID-methods.R:529)
     Undefined global functions or variables:
       accession DatabaseAccess DatabaseDescription DBseqLength density i
       location mass median modification N name optim pepSeq quantile rnorm
@@ -9558,19 +9633,19 @@ Version: 3.12.3
     ...
     SpectronauttoMSstatsFormat: no visible binding for global variable
       ‘missing.col’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:46-47)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:46-47)
     SpectronauttoMSstatsFormat: no visible binding for global variable
       ‘fea’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:188)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:188)
     SpectronauttoMSstatsFormat: no visible binding for global variable
       ‘Intensity’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:188)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:188)
     SpectronauttoMSstatsFormat: no visible binding for global variable
       ‘PeptideSequence’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:214)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:214)
     SpectronauttoMSstatsFormat: no visible binding for global variable
       ‘ProteinName’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:214)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/MSstats/new/MSstats.Rcheck/00_pkg_src/MSstats/R/SpectronauttoMSstatsFormat.R:214)
     Undefined global functions or variables:
       ABUNDANCE aggr_Fragment_Annotation aggr_Peak_Area analysis ciw
       datafeature fea FEATURE FRACTION Intensity label LABEL logFC Mean
@@ -9604,33 +9679,33 @@ Version: 0.1.1
 
 # multistateutils
 
-Version: 1.2.0
+Version: 1.2.2
 
 ## In both
 
 *   checking examples ... ERROR
     ```
     ...
+    +                data=ebmt3,
+    +                trans=tmat,
+    +                keep=c('age', 'dissub'))
+    > 
+    > # Fit parametric models
+    > models <- lapply(1:3, function(i) {
+    +     flexsurvreg(Surv(time, status) ~ age + dissub, data=long, dist='weibull')
     + })
     > 
-    > # New individual to estimate transition probabilities for
-    > newdata <- data.frame(age="20-40", dissub="AML")
-    > 
-    > # Estimate length of stay in each state after a year, given starting in state 1
-    > length_of_stay(models, 
-    +                newdata=newdata,
-    +                tmat, times=365.25,
-    +                start=1)
+    > sim <- cohort_simulation(models, ebmt3, tmat)
     
      *** caught illegal operation ***
-    address 0x10d840830, cause 'illegal opcode'
+    address 0x112e9ab50, cause 'illegal opcode'
     
     Traceback:
      1: desCpp(transitions, trans_mat, newdata_mat, start_times, start_states -     1, tcovs)
      2: data.table::as.data.table(desCpp(transitions, trans_mat, newdata_mat,     start_times, start_states - 1, tcovs))
      3: run_sim(transition_list, attr_mat, trans_mat, tcovs, start_times,     start_states)
-     4: state_occupancy(models, trans_mat, newdata_ext, tcovs, initial_times,     start_states, ci, M, agelimit, agecol, agescale)
-     5: length_of_stay(models, newdata = newdata, tmat, times = 365.25,     start = 1)
+     4: state_occupancy(models, trans_mat, newdata, tcovs, start_time,     start_state, ci, M, agelimit, agecol, agescale)
+     5: cohort_simulation(models, ebmt3, tmat)
     An irrecoverable exception occurred. R is aborting now ...
     ```
 
@@ -9678,14 +9753,13 @@ Version: 1.2.0
     27: tryCatchOne(expr, names, parentenv, handlers[[1L]])
     28: tryCatchList(expr, classes, parentenv, handlers)
     29: tryCatch({    engine$weave(file, quiet = quiet, encoding = enc)    setwd(startdir)    find_vignette_product(name, by = "weave", engine = engine)}, error = function(e) {    stop(gettextf("processing vignette '%s' failed with diagnostics:\n%s",         file, conditionMessage(e)), domain = NA, call. = FALSE)})
-    30: buildVignettes(dir = "/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/multistateutils/new/multistateutils.Rcheck/vign_test/multistateutils")
+    30: buildVignettes(dir = "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/multistateutils/new/multistateutils.Rcheck/vign_test/multistateutils")
     An irrecoverable exception occurred. R is aborting now ...
     ```
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespaces in Imports field not imported from:
-      ‘Rcpp’ ‘survival’
+    Namespace in Imports field not imported from: ‘webshot’
       All declared Imports should be used.
     ```
 
@@ -9732,13 +9806,13 @@ Version: 1.4.2
 
 # myTAI
 
-Version: 0.8.0
+Version: 0.9.0
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.5Mb
+      installed size is  5.7Mb
       sub-directories of 1Mb or more:
         data   2.0Mb
         doc    2.4Mb
@@ -9797,8 +9871,8 @@ Version: 0.4.1
       16: withVisible(function_list[[k]](value))
       17: function_list[[k]](value)
       18: dplyr::mutate(., !!!magic_shade_case_when)
-      19: mutate.tbl_df(., !!!magic_shade_case_when) at /Users/romain/git/tidyverse/dplyr/R/manip.r:440
-      20: mutate_impl(.data, dots) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:91
+      19: mutate.tbl_df(., !!!magic_shade_case_when) at /Users/romain/git/tidyverse/dplyr-revdep/R/manip.r:440
+      20: mutate_impl(.data, dots, caller_env()) at /Users/romain/git/tidyverse/dplyr-revdep/R/tbl-df.r:91
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 469 SKIPPED: 15 FAILED: 2
@@ -9821,6 +9895,17 @@ Version: 0.3.0
       All declared Imports should be used.
     ```
 
+# NestedCategBayesImpute
+
+Version: 1.2.1
+
+## In both
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
 # neuropsychology
 
 Version: 0.5.0
@@ -9831,7 +9916,7 @@ Version: 0.5.0
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/neuropsychology/new/neuropsychology.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -9851,7 +9936,7 @@ Version: 0.99.2
     ```
     Found the following significant warnings:
       Warning: package ‘graph’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/NFP/new/NFP.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/NFP/new/NFP.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -9900,9 +9985,10 @@ Version: 1.0.0-7
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.1Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
-        R   3.0Mb
+        libs   1.0Mb
+        R      3.0Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -9910,6 +9996,76 @@ Version: 1.0.0-7
     Namespaces in Imports field not imported from:
       ‘numDeriv’ ‘PreciseSums’
       All declared Imports should be used.
+    ```
+
+# NLMR
+
+Version: 0.4.1
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘NLMR-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: nlm_fbm
+    > ### Title: nlm_fbm
+    > ### Aliases: nlm_fbm
+    > 
+    > ### ** Examples
+    > 
+    > # simulate fractional brownian motion
+    > fbm_raster  <- nlm_fbm(ncol = 20, nrow = 30, fract_dim = 0.8)
+    Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+      there is no package called ‘RandomFieldsUtils’
+    Calls: nlm_fbm ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      4: getRandomFieldsModelGen(model)
+      5: kraeverRandomFields()
+      6: kraever("RandomFieldsUtils")
+      7: stop(paste("The package", sQuote(package), "is required"), call. = FALSE)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 57 SKIPPED: 0 FAILED: 5
+      1. Error: (unknown) (@test_fBm.R#4) 
+      2. Error: nlm_gaussianfield behaves like it should (@test_gaussianfield.R#5) 
+      3. Error: nlm_gaussianfield produces the right number of rows (@test_gaussianfield.R#11) 
+      4. Error: nlm_gaussianfield produces the right number of columns (@test_gaussianfield.R#16) 
+      5. Error: (unknown) (@test_mosaicfield.R#4) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 111-116 (getstarted.Rmd) 
+    Error: processing vignette 'getstarted.Rmd' failed with diagnostics:
+    there is no package called 'RandomFieldsUtils'
+    Execution halted
+    ```
+
+# nlshelper
+
+Version: 0.2
+
+## In both
+
+*   checking whether package ‘nlshelper’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘mgcv’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/nlshelper/new/nlshelper.Rcheck/00install.out’ for details.
     ```
 
 # noaastormevents
@@ -10075,7 +10231,7 @@ Version: 2.10.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.1Mb
+      installed size is  7.2Mb
       sub-directories of 1Mb or more:
         doc   5.4Mb
     ```
@@ -10185,6 +10341,46 @@ Version: 0.5.0
 
 Version: 1.8.1
 
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    +      ~symbol %startsWith% "SNORD" & tx_start < 25070000))
+    # Source:     lazy query [?? x 7]
+    # Database:   sqlite 3.22.0 []
+    # Ordered by: tx_id
+      tx_chrom tx_start   tx_end tx_strand  tx_id tx_name    symbol    
+      <chr>       <int>    <int> <chr>      <int> <chr>      <chr>     
+    1 chr15    25051477 25051571 +         123215 uc001yxg.4 SNORD116-1
+    2 chr15    25054210 25054304 +         123216 uc001yxi.4 SNORD116-2
+    3 chr15    25056860 25056954 +         123217 uc001yxk.4 SNORD116-3
+    4 chr15    25059538 25059633 +         123218 uc001yxl.5 SNORD116-4
+    5 chr15    25062333 25062427 +         123219 uc001yxo.4 SNORD116-5
+    6 chr15    25065026 25065121 +         123221 uc001yxp.5 SNORD116-2
+    7 chr15    25067788 25067882 +         123222 uc059gus.1 SNORD116-5
+    > 
+    > ## transcript coordinates with filter in granges format
+    > filters <- GRangesFilter(GenomicRanges::GRanges("chr15:1-25070000"))
+    > transcripts(src, filters)
+    Warning in as.data.frame(mcols(x), ...) : Arguments in '...' ignored
+    Error in (function (.)  : object 'tx_chrom' not found
+    Calls: transcripts ... switch_type -> lang_partial_eval -> eval_bare -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Warning in has_utility("convert", "ImageMagick") :
+      ImageMagick not installed or not in PATH
+    Quitting from lines 262-264 (Organism.dplyr.Rmd) 
+    Error: processing vignette 'Organism.dplyr.Rmd' failed with diagnostics:
+    object 'tx_chrom' not found
+    Execution halted
+    ```
+
 ## In both
 
 *   checking tests ...
@@ -10229,22 +10425,22 @@ Version: 1.8.1
 *   checking R code for possible problems ... NOTE
     ```
     .toGRanges: no visible binding for global variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/extractors.R:236)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/extractors.R:236)
     intronsByTranscript,src_organism: no visible binding for global
       variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/extractor-methods.R:254-255)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/extractor-methods.R:254-255)
     intronsByTranscript,src_organism: no visible binding for global
       variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/extractor-methods.R:264-265)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/extractor-methods.R:264-265)
     orgPackageName,src_organism: no visible binding for global variable
       ‘name’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/src.R:432-433)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/src.R:432-433)
     orgPackageName,src_organism: no visible binding for global variable
       ‘organism’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/src.R:434)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/src.R:434)
     orgPackageName,src_organism: no visible binding for global variable
       ‘OrgDb’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/src.R:434)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Organism.dplyr/new/Organism.dplyr.Rcheck/00_pkg_src/Organism.dplyr/R/src.R:434)
     Undefined global functions or variables:
       . name organism OrgDb
     ```
@@ -10353,7 +10549,7 @@ Version: 0.2.3
 *   checking whether package ‘petro.One’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -10370,12 +10566,12 @@ Version: 0.2.3
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/petro.One/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘petro.One’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/petro.One’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/petro.One/new/petro.One.Rcheck/petro.One’
 
 ```
 ### CRAN
@@ -10390,12 +10586,64 @@ ERROR: lazy loading failed for package ‘petro.One’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/petro.One/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/petro.One/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘petro.One’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/petro.One/old/petro.One.Rcheck/petro.One’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/petro.One/old/petro.One.Rcheck/petro.One’
+
+```
+# phase1PRMD
+
+Version: 1.0.1
+
+## In both
+
+*   checking whether package ‘phase1PRMD’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/phase1PRMD/new/phase1PRMD.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘phase1PRMD’ ...
+** package ‘phase1PRMD’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error : .onLoad failed in loadNamespace() for 'rjags', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/phase1PRMD/rjags/libs/rjags.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/phase1PRMD/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/phase1PRMD/rjags/libs/rjags.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘phase1PRMD’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/phase1PRMD/new/phase1PRMD.Rcheck/phase1PRMD’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘phase1PRMD’ ...
+** package ‘phase1PRMD’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error : .onLoad failed in loadNamespace() for 'rjags', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/phase1PRMD/rjags/libs/rjags.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/phase1PRMD/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/phase1PRMD/rjags/libs/rjags.so
+  Reason: image not found
+ERROR: lazy loading failed for package ‘phase1PRMD’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/phase1PRMD/old/phase1PRMD.Rcheck/phase1PRMD’
 
 ```
 # phenopath
@@ -10424,7 +10672,7 @@ Version: 1.6.0
 *   checking whether package ‘philr’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/philr/new/philr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/philr/new/philr.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -10438,7 +10686,7 @@ Version: 1.6.0
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘philr’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/philr/new/philr.Rcheck/philr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/philr/new/philr.Rcheck/philr’
 
 ```
 ### CRAN
@@ -10450,7 +10698,7 @@ ERROR: lazy loading failed for package ‘philr’
 ** byte-compile and prepare package for lazy loading
 Error : object ‘as_data_frame’ is not exported by 'namespace:tidytree'
 ERROR: lazy loading failed for package ‘philr’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/philr/old/philr.Rcheck/philr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/philr/old/philr.Rcheck/philr’
 
 ```
 # pitchRx
@@ -10490,39 +10738,11 @@ Version: 1.0.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.2Mb
+      installed size is  8.1Mb
       sub-directories of 1Mb or more:
         data   2.0Mb
         doc    2.9Mb
         R      3.0Mb
-    ```
-
-# pixiedust
-
-Version: 0.8.6
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > 
-      > test_check("pixiedust")
-      ── 1. Failure: print.dust for latex output with hhline = FALSE (@test-print.dust
-      `print(dust(mtcars) %>% sprinkle_print_method("latex"))` produced warnings.
-      
-      ── 2. Failure: print.dust for latex output with hhline = TRUE (@test-print.dust-
-      `print(dust(mtcars, hhline = TRUE) %>% sprinkle_print_method("latex"))` produced warnings.
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 511 SKIPPED: 120 FAILED: 2
-      1. Failure: print.dust for latex output with hhline = FALSE (@test-print.dust-explicit.R#26) 
-      2. Failure: print.dust for latex output with hhline = TRUE (@test-print.dust-explicit.R#33) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # pkggraph
@@ -10535,7 +10755,7 @@ Version: 0.2.3
     ```
     Found the following significant warnings:
       Warning: package ‘data.table’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/pkggraph/new/pkggraph.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/pkggraph/new/pkggraph.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -10611,7 +10831,7 @@ Version: 4.8.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.0Mb
+      installed size is  7.1Mb
       sub-directories of 1Mb or more:
         htmlwidgets   3.1Mb
         R             2.3Mb
@@ -10663,7 +10883,7 @@ Version: 1.0.3
     Found the following significant warnings:
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/plyranges/new/plyranges.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/plyranges/new/plyranges.Rcheck/00install.out’ for details.
     ```
 
 *   checking package dependencies ... NOTE
@@ -10717,12 +10937,12 @@ Version: 0.1.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      tests/testthat/test-summarise.r:1063:20:style :Put spaces around all infix operators. 
-      tests/testthat/test-summarise.r:1068:21:style :Put spaces around all infix operators. 
-      tests/testthat/test-summarise.r:1068:26:style :Commas should always have a space after. 
       tests/testthat/test-summarise.r:1068:28:style :Commas should always have a space after. 
       tests/testthat/test-summarise.r:1103:48:style :Commas should never have a space before. 
       tests/testthat/test-summarise.r:1104:48:style :Commas should never have a space before. 
+      tests/testthat/test-summarise.r:1128:24:style :Commas should never have a space before. 
+      tests/testthat/test-summarise.r:1130:24:style :Commas should never have a space before. 
+      tests/testthat/test-summarise.r:1131:24:style :Commas should never have a space before. 
       tests/testthat/test-utils.R:6:1:style :lines should not be more than 120 characters. 
       tests/testthat/test-utils.R:15:53:style :Commas should always have a space after. 
       
@@ -10820,7 +11040,7 @@ Version: 0.99.19
       Calls: test_dir ... <Anonymous> -> o_apply -> lapply -> FUN -> <Anonymous>
       
       ══ Results ═════════════════════════════════════════════════════════════════════
-      Duration: 1.3 s
+      Duration: 1.2 s
       
       OK:       122
       Failed:   4
@@ -10848,7 +11068,7 @@ Version: 2.8.1
 *   checking whether package ‘poppr’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/poppr/new/poppr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/poppr/new/poppr.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -10863,7 +11083,7 @@ clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I/usr/lo
 clang: error: unsupported option '-fopenmp'
 make: *** [adjust_missing.o] Error 1
 ERROR: compilation failed for package ‘poppr’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/poppr/new/poppr.Rcheck/poppr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/poppr/new/poppr.Rcheck/poppr’
 
 ```
 ### CRAN
@@ -10876,7 +11096,7 @@ clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I/usr/lo
 clang: error: unsupported option '-fopenmp'
 make: *** [adjust_missing.o] Error 1
 ERROR: compilation failed for package ‘poppr’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/poppr/old/poppr.Rcheck/poppr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/poppr/old/poppr.Rcheck/poppr’
 
 ```
 # portalr
@@ -10900,7 +11120,7 @@ Version: 0.2.1
       y[1]: "22f018525c242edaa3f94814e04d230b"
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 137 SKIPPED: 14 FAILED: 1
+      OK: 130 SKIPPED: 14 FAILED: 1
       1. Failure: data generated by level = plot, time = newmoon, type = granivore, shape = flat is same (@test-99-regression.R#26) 
       
       Error: testthat unit tests failed
@@ -10909,16 +11129,17 @@ Version: 0.2.1
 
 # postal
 
-Version: 0.1.0
+Version: 0.1.1
 
-## In both
+## Newly broken
 
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      18: readr::write_csv(this, write_to, append = TRUE, col_names = FALSE) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/postal/new/postal.Rcheck/00_pkg_src/postal/R/fetch_zones_all.R:57
+      17: .f(.x[[i]], ...) at /private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpyNcqJs/R.INSTALL1f604015383a/purrr/R/map.R:137
+      18: readr::write_csv(this, write_to, append = TRUE, col_names = FALSE) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/postal/new/postal.Rcheck/00_pkg_src/postal/R/fetch_zones_all.R:57
       19: write_delim(x, path, delim = ",", na = na, append = append, col_names = col_names, 
              quote_escape = quote_escape)
       20: stream_delim(x, path, delim = delim, col_names = col_names, append = append, na = na, 
@@ -10927,9 +11148,8 @@ Version: 0.1.0
       22: open.connection(path, "ab")
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 109 SKIPPED: 0 FAILED: 2
-      1. Failure: Priority Mail exceptions are noted (@test_fetch_zones.R#92) 
-      2. Error: (unknown) (@test_fetch_zones.R#144) 
+      OK: 109 SKIPPED: 0 FAILED: 1
+      1. Error: (unknown) (@test_fetch_zones.R#144) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -11053,7 +11273,6 @@ Version: 1.20.2
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      
       Warning messages:
       1: package 'MSnbase' was built under R version 3.5.1 
       2: In fun(libname, pkgname) :
@@ -11064,7 +11283,8 @@ Version: 1.20.2
       https://support.bioconductor.org/. For details see also
       https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
       3: package 'IRanges' was built under R version 3.5.1 
-      4: replacing previous import 'BiocGenerics::var' by 'stats::var' when loading 'MLInterfaces' 
+      4: package 'XML' was built under R version 3.5.2 
+      5: replacing previous import 'BiocGenerics::var' by 'stats::var' when loading 'MLInterfaces' 
       > library("pRolocdata")
       Error in library("pRolocdata") : there is no package called 'pRolocdata'
       Execution halted
@@ -11075,7 +11295,8 @@ Version: 1.20.2
     Found the following significant warnings:
       Warning: package ‘MSnbase’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/pRoloc/new/pRoloc.Rcheck/00install.out’ for details.
+      Warning: package ‘XML’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/pRoloc/new/pRoloc.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -11192,8 +11413,9 @@ Version: 1.14.0
       Warning: package ‘pRoloc’ was built under R version 3.5.1
       Warning: package ‘MSnbase’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
+      Warning: package ‘XML’ was built under R version 3.5.2
       Warning: namespace ‘dimRed’ is not available and has been replaced
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/pRolocGUI/new/pRolocGUI.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/pRolocGUI/new/pRolocGUI.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -11250,7 +11472,7 @@ Version: 0.4
     ```
     Found the following significant warnings:
       Warning: package ‘rlang’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/prophet/new/prophet.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/prophet/new/prophet.Rcheck/00install.out’ for details.
     ```
 
 # proteoQC
@@ -11262,8 +11484,9 @@ Version: 1.16.0
 *   checking whether package ‘proteoQC’ can be installed ... WARNING
     ```
     Found the following significant warnings:
+      Warning: package ‘XML’ was built under R version 3.5.2
       Warning: package ‘MSnbase’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -11292,21 +11515,21 @@ Version: 1.16.0
     ```
     ...
     qcHist: no visible binding for global variable ‘techRep’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:406-416)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:406-416)
     qcHist: no visible binding for global variable ‘bioRep’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:406-416)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:406-416)
     qcHist2: no visible binding for global variable ‘error’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:357-365)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:357-365)
     qcHist2: no visible binding for global variable ‘fractile’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:357-365)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:357-365)
     qcHist2: no visible binding for global variable ‘fractile’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:367-369)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:367-369)
     qcHist2: no visible binding for global variable ‘error’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:377-385)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:377-385)
     qcHist2: no visible binding for global variable ‘fractile’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:377-385)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:377-385)
     qcHist2: no visible binding for global variable ‘fractile’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:389-391)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/proteoQC/new/proteoQC.Rcheck/00_pkg_src/proteoQC/R/visualization.R:389-391)
     Undefined global functions or variables:
       ..count.. bioRep curenv delta error exprs fractile fraction grid.draw
       Intensity iTRAQ4 iTRAQ8 label MS1QC MS2QC peplength peptide_summary
@@ -11316,13 +11539,13 @@ Version: 1.16.0
 
 # proustr
 
-Version: 0.2.1
+Version: 0.4.0
 
 ## In both
 
 *   checking data for non-ASCII characters ... NOTE
     ```
-      Note: found 20105 marked UTF-8 strings
+      Note: found 12717 marked UTF-8 strings
     ```
 
 # provSummarizeR
@@ -11440,7 +11663,7 @@ Version: 2.3.0
     ```
       installed size is  8.8Mb
       sub-directories of 1Mb or more:
-        R   7.1Mb
+        R   7.0Mb
     ```
 
 # psycho
@@ -11540,7 +11763,7 @@ Version: 0.1.0
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/pysd2r/new/pysd2r.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/pysd2r/new/pysd2r.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -11558,7 +11781,7 @@ Version: 2.3.2
 *   checking whether package ‘qdap’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/qdap/new/qdap.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/qdap/new/qdap.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -11575,12 +11798,12 @@ Version: 2.3.2
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/qdap/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/qdap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/qdap/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘qdap’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/qdap/new/qdap.Rcheck/qdap’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/qdap/new/qdap.Rcheck/qdap’
 
 ```
 ### CRAN
@@ -11595,12 +11818,12 @@ ERROR: lazy loading failed for package ‘qdap’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/qdap/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/qdap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/qdap/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/qdap/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘qdap’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/qdap/old/qdap.Rcheck/qdap’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/qdap/old/qdap.Rcheck/qdap’
 
 ```
 # qqplotr
@@ -11641,11 +11864,11 @@ Version: 1.4.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  6.7Mb
       sub-directories of 1Mb or more:
         data   1.3Mb
-        libs   1.1Mb
-        R      3.0Mb
+        libs   1.3Mb
+        R      3.1Mb
     ```
 
 *   checking data for non-ASCII characters ... NOTE
@@ -11792,14 +12015,14 @@ Version: 0.9.7
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-             descr) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/radiant.model/new/radiant.model.Rcheck/00_pkg_src/radiant.model/R/nn.R:197
+             descr) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/radiant.model/new/radiant.model.Rcheck/00_pkg_src/radiant.model/R/nn.R:197
       4: eval(lhs, parent, parent)
       5: eval(lhs, parent, parent)
       6: mutate_at(dataset, .vars = intersect(names(ms), cn), .funs = funs((. - ms$.)/(sf * 
              sds$.)))
-      7: mutate(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/colwise-mutate.R:218
-      8: mutate.tbl_df(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/manip.r:440
-      9: mutate_impl(.data, dots) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:91
+      7: mutate(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr-revdep/R/colwise-mutate.R:248
+      8: mutate.tbl_df(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr-revdep/R/manip.r:440
+      9: mutate_impl(.data, dots, caller_env()) at /Users/romain/git/tidyverse/dplyr-revdep/R/tbl-df.r:91
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 15 SKIPPED: 0 FAILED: 1
@@ -11853,6 +12076,50 @@ Version: 0.1.3
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘raptr-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: sim.space
+    > ### Title: Simulate attribute space data for RAP
+    > ### Aliases: sim.space sim.space.RasterLayer sim.space.SpatialPolygons
+    > 
+    > ### ** Examples
+    > 
+    > # simulate plannign units
+    > sim_pus <- sim.pus(225L)
+    > 
+    > # simulate 1d space using RasterLayer
+    > s1 <- sim.space(blank.raster(sim_pus, 1), d = 1)
+    Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+      there is no package called ‘RandomFieldsUtils’
+    Calls: sim.space ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      5: getExportedValue(pkg, name)
+      6: asNamespace(ns)
+      7: getNamespace(ns)
+      8: tryCatch(loadNamespace(name), error = function(e) stop(e))
+      9: tryCatchList(expr, classes, parentenv, handlers)
+      10: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      11: value[[3L]](cond)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 293 SKIPPED: 24 FAILED: 2
+      1. Error: simulate space functions (@test-05-simulate-data.R#19) 
+      2. Error: simulate species functions (@test-05-simulate-data.R#34) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘gurobi’
@@ -11905,7 +12172,7 @@ Version: 1.16.0
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
       Warning: package ‘Rsamtools’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00install.out’ for details.
     ```
 
 *   checking package dependencies ... NOTE
@@ -11924,12 +12191,12 @@ Version: 1.16.0
 *   checking R code for possible problems ... NOTE
     ```
     tallyBamRegion: no visible global function definition for 'PileupParam'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00_pkg_src/Rariant/R/tally.R:101-110)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00_pkg_src/Rariant/R/tally.R:101-110)
     tallyBamRegion: no visible global function definition for
       'ScanBamParam'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00_pkg_src/Rariant/R/tally.R:112)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00_pkg_src/Rariant/R/tally.R:112)
     tallyBamRegion: no visible global function definition for 'pileup'
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00_pkg_src/Rariant/R/tally.R:114)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Rariant/new/Rariant.Rcheck/00_pkg_src/Rariant/R/tally.R:114)
     Undefined global functions or variables:
       pileup PileupParam ScanBamParam
     ```
@@ -11996,7 +12263,7 @@ Version: 1.3-7
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  6.6Mb
       sub-directories of 1Mb or more:
         doc    1.9Mb
         libs   2.2Mb
@@ -12149,7 +12416,7 @@ Version: 1.1.1
 *   checking whether package ‘Rdrools’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Rdrools/new/Rdrools.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Rdrools/new/Rdrools.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -12167,13 +12434,13 @@ Version: 1.1.1
 Error: package or namespace load failed for ‘rJava’:
  .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/Rdrools/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/Rdrools/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/Rdrools/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so
   Reason: image not found
 Error : package ‘rJava’ could not be loaded
 ERROR: lazy loading failed for package ‘Rdrools’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Rdrools/new/Rdrools.Rcheck/Rdrools’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Rdrools/new/Rdrools.Rcheck/Rdrools’
 
 ```
 ### CRAN
@@ -12189,13 +12456,13 @@ ERROR: lazy loading failed for package ‘Rdrools’
 Error: package or namespace load failed for ‘rJava’:
  .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/Rdrools/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/Rdrools/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/Rdrools/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/Rdrools/rJava/libs/rJava.so
   Reason: image not found
 Error : package ‘rJava’ could not be loaded
 ERROR: lazy loading failed for package ‘Rdrools’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Rdrools/old/Rdrools.Rcheck/Rdrools’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Rdrools/old/Rdrools.Rcheck/Rdrools’
 
 ```
 # rdrop2
@@ -12210,19 +12477,6 @@ Version: 0.8.1
       All declared Imports should be used.
     ```
 
-# readabs
-
-Version: 0.2.9
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘dplyr’ ‘sjmisc’ ‘stringr’
-      All declared Imports should be used.
-    ```
-
 # readat
 
 Version: 1.6.0
@@ -12232,9 +12486,9 @@ Version: 1.6.0
 *   checking R code for possible problems ... NOTE
     ```
     sfread: no visible binding for global variable ‘header’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/readat/new/readat.Rcheck/00_pkg_src/readat/R/sfread.R:54)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/readat/new/readat.Rcheck/00_pkg_src/readat/R/sfread.R:54)
     sfread: no visible binding for global variable ‘nrows’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/readat/new/readat.Rcheck/00_pkg_src/readat/R/sfread.R:54)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/readat/new/readat.Rcheck/00_pkg_src/readat/R/sfread.R:54)
     Undefined global functions or variables:
       header nrows
     ```
@@ -12250,7 +12504,7 @@ Version: 0.1.4
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      14: dimRed::FastICA at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/recipes/new/recipes.Rcheck/00_pkg_src/recipes/R/ica.R:158
+      14: dimRed::FastICA at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/recipes/new/recipes.Rcheck/00_pkg_src/recipes/R/ica.R:158
       15: getExportedValue(pkg, name)
       16: asNamespace(ns)
       17: getNamespace(ns)
@@ -12293,7 +12547,7 @@ Version: 0.1.0
     ```
     Found the following significant warnings:
       Warning: package ‘data.table’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/reinsureR/new/reinsureR.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/reinsureR/new/reinsureR.Rcheck/00install.out’ for details.
     ```
 
 # replyr
@@ -12334,7 +12588,7 @@ Version: 0.9.9
     ```
     Found the following significant warnings:
       Warning: package ‘wrapr’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/replyr/new/replyr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/replyr/new/replyr.Rcheck/00install.out’ for details.
     ```
 
 *   checking Rd cross-references ... NOTE
@@ -12342,21 +12596,9 @@ Version: 0.9.9
     Package unavailable to check Rd xrefs: ‘rquery’
     ```
 
-# reproducible
-
-Version: 0.2.5
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘devtools’
-      All declared Imports should be used.
-    ```
-
 # rerddap
 
-Version: 0.4.2
+Version: 0.5.0
 
 ## In both
 
@@ -12452,7 +12694,7 @@ Version: 1.0.2
 *   checking whether package ‘RGMQL’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RGMQL/new/RGMQL.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RGMQL/new/RGMQL.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -12466,12 +12708,12 @@ Version: 1.0.2
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RGMQL/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RGMQL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RGMQL/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘RGMQL’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RGMQL/new/RGMQL.Rcheck/RGMQL’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RGMQL/new/RGMQL.Rcheck/RGMQL’
 
 ```
 ### CRAN
@@ -12483,12 +12725,12 @@ ERROR: lazy loading failed for package ‘RGMQL’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RGMQL/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RGMQL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RGMQL/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RGMQL/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘RGMQL’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RGMQL/old/RGMQL.Rcheck/RGMQL’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RGMQL/old/RGMQL.Rcheck/RGMQL’
 
 ```
 # rhmmer
@@ -12532,7 +12774,7 @@ Version: 1.8.0
     ```
     buildNewSqliteDb: no visible global function definition for
       ‘dbListTables’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RImmPort/new/RImmPort.Rcheck/00_pkg_src/RImmPort/R/ImmPortSqlite.R:1890)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RImmPort/new/RImmPort.Rcheck/00_pkg_src/RImmPort/R/ImmPortSqlite.R:1890)
     Undefined global functions or variables:
       dbListTables
     ```
@@ -12570,7 +12812,7 @@ Version: 1.2.15
 *   checking whether package ‘rmcfs’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/rmcfs/new/rmcfs.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rmcfs/new/rmcfs.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -12586,13 +12828,13 @@ Version: 1.2.15
 Error: package or namespace load failed for ‘rJava’:
  .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rmcfs/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rmcfs/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rmcfs/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so
   Reason: image not found
 Error : package ‘rJava’ could not be loaded
 ERROR: lazy loading failed for package ‘rmcfs’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/rmcfs/new/rmcfs.Rcheck/rmcfs’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rmcfs/new/rmcfs.Rcheck/rmcfs’
 
 ```
 ### CRAN
@@ -12606,13 +12848,13 @@ ERROR: lazy loading failed for package ‘rmcfs’
 Error: package or namespace load failed for ‘rJava’:
  .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rmcfs/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rmcfs/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rmcfs/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rmcfs/rJava/libs/rJava.so
   Reason: image not found
 Error : package ‘rJava’ could not be loaded
 ERROR: lazy loading failed for package ‘rmcfs’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/rmcfs/old/rmcfs.Rcheck/rmcfs’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rmcfs/old/rmcfs.Rcheck/rmcfs’
 
 ```
 # RMCriteria
@@ -12629,7 +12871,7 @@ Version: 0.2.0
 
 # rmd
 
-Version: 0.1.3
+Version: 0.1.4
 
 ## In both
 
@@ -12640,14 +12882,15 @@ Version: 0.1.3
       Warning: package ‘tinytex’ was built under R version 3.5.2
       Warning: package ‘mindr’ was built under R version 3.5.2
       Warning: package ‘bookdownplus’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/rmd/new/rmd.Rcheck/00install.out’ for details.
+      Warning: package ‘pagedown’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rmd/new/rmd.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
-      ‘blogdown’ ‘bookdown’ ‘bookdownplus’ ‘citr’ ‘knitr’ ‘rmarkdown’
-      ‘rticles’ ‘tinytex’ ‘xaringan’
+      ‘blogdown’ ‘bookdown’ ‘bookdownplus’ ‘citr’ ‘pagedown’ ‘rticles’
+      ‘tinytex’ ‘xaringan’
       All declared Imports should be used.
     ```
 
@@ -12746,7 +12989,7 @@ Version: 1.0
 *   checking whether package ‘rpcdsearch’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/rpcdsearch/new/rpcdsearch.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rpcdsearch/new/rpcdsearch.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -12761,12 +13004,12 @@ Version: 1.0
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘rpcdsearch’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/rpcdsearch/new/rpcdsearch.Rcheck/rpcdsearch’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rpcdsearch/new/rpcdsearch.Rcheck/rpcdsearch’
 
 ```
 ### CRAN
@@ -12779,12 +13022,12 @@ ERROR: lazy loading failed for package ‘rpcdsearch’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rpcdsearch/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘rpcdsearch’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/rpcdsearch/old/rpcdsearch.Rcheck/rpcdsearch’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rpcdsearch/old/rpcdsearch.Rcheck/rpcdsearch’
 
 ```
 # rPref
@@ -12900,7 +13143,7 @@ Version: 2.0.8
 
 # rsinaica
 
-Version: 0.6.0
+Version: 0.6.1
 
 ## In both
 
@@ -12923,7 +13166,7 @@ Version: 0.1.2
 
 # rstap
 
-Version: 1.0.2
+Version: 1.0.3
 
 ## In both
 
@@ -13010,25 +13253,25 @@ Version: 1.10.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
     ggbiplot: no visible binding for global variable ‘xvar’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
     ggbiplot: no visible binding for global variable ‘yvar’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
     ggbiplot: no visible binding for global variable ‘angle’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
     ggbiplot: no visible binding for global variable ‘hjust’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/ggbiplot.R:157-161)
     read.mutations: no visible binding for global variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/readTCGA.R:383)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/readTCGA.R:383)
     read.mutations: no visible binding for global variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/readTCGA.R:386)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/readTCGA.R:386)
     read.rnaseq: no visible binding for global variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/readTCGA.R:372-375)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/readTCGA.R:372-375)
     survivalTCGA: no visible binding for global variable ‘times’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/survivalTCGA.R:101-137)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/survivalTCGA.R:101-137)
     whichDateToUse: no visible binding for global variable ‘.’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/downloadTCGA.R:167-168)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RTCGA/new/RTCGA.Rcheck/00_pkg_src/RTCGA/R/downloadTCGA.R:167-168)
     Undefined global functions or variables:
       . angle hjust muted times varname xvar yvar
     ```
@@ -13101,7 +13344,7 @@ Version: 1.2
 *   checking whether package ‘RtutoR’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RtutoR/new/RtutoR.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RtutoR/new/RtutoR.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -13116,12 +13359,12 @@ Version: 1.2
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RtutoR/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RtutoR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RtutoR/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘RtutoR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RtutoR/new/RtutoR.Rcheck/RtutoR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RtutoR/new/RtutoR.Rcheck/RtutoR’
 
 ```
 ### CRAN
@@ -13134,17 +13377,17 @@ ERROR: lazy loading failed for package ‘RtutoR’
 ** byte-compile and prepare package for lazy loading
 Error : .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RtutoR/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RtutoR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/RtutoR/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/RtutoR/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘RtutoR’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/RtutoR/old/RtutoR.Rcheck/RtutoR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/RtutoR/old/RtutoR.Rcheck/RtutoR’
 
 ```
 # rubias
 
-Version: 0.1.0
+Version: 0.2.0
 
 ## In both
 
@@ -13171,7 +13414,7 @@ Version: 0.1.4
       9: all.equal.tbl_df(target[[i]], current[[i]], check.attributes = check.attributes, 
              use.names = use.names, ...)
       10: equal_data_frame(target, current, ignore_col_order = ignore_col_order, ignore_row_order = ignore_row_order, 
-             convert = convert) at /Users/romain/git/tidyverse/dplyr/R/all-equal.r:35
+             convert = convert) at /Users/romain/git/tidyverse/dplyr-revdep/R/all-equal.r:35
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 296 SKIPPED: 0 FAILED: 2
@@ -13180,16 +13423,6 @@ Version: 0.1.4
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 150-172 (validation.Rmd) 
-    Error: processing vignette 'validation.Rmd' failed with diagnostics:
-    In some column pack not all columns contain rule separator
-    Execution halted
     ```
 
 # rwavelet
@@ -13204,34 +13437,6 @@ Version: 0.1.0
       All declared Imports should be used.
     ```
 
-# RWDataPlyr
-
-Version: 0.6.2
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      [3] 0 - NaN == NaN
-      [4] 0 - NaN == NaN
-      [5] 0 - NaN == NaN
-      [6] 0 - NaN == NaN
-      [7] 0 - NaN == NaN
-      [8] 0 - NaN == NaN
-      [9] 0 - NaN == NaN
-      ...
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 659 SKIPPED: 0 FAILED: 1
-      1. Failure: `NaN`s are treated properly in `rdf_aggregate()` (@test_rdf_aggregate.R#188) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # RxODE
 
 Version: 0.8.0-9
@@ -13240,11 +13445,11 @@ Version: 0.8.0-9
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.0Mb
+      installed size is  6.2Mb
       sub-directories of 1Mb or more:
         doc    1.6Mb
-        libs   2.0Mb
-        R      2.0Mb
+        libs   2.1Mb
+        R      2.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -13257,11 +13462,77 @@ Version: 0.8.0-9
 
 Version: 0.2.3
 
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    
+    Attaching package: 'dplyr'
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
+    Quitting from lines 90-104 (sentiment.Rmd) 
+    Error: processing vignette 'sentiment.Rmd' failed with diagnostics:
+    All columns in a tibble must be 1d or 2d objects:
+    ```
+
 ## In both
 
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 841 marked UTF-8 strings
+    ```
+
+# safetyGraphics
+
+Version: 0.7.3
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘safetyGraphics-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: checkColumnSetting
+    > ### Title: Check that a setting parameter has a matching data column
+    > ### Aliases: checkColumnSetting
+    > 
+    > ### ** Examples
+    > 
+    > testSettings<-generateSettings(standard="AdAM")
+    Error: Result must have length 25, not 0
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 37 SKIPPED: 0 FAILED: 13
+      1. Error: a list with the expected properties and structure is returned (@test_detectStandard.R#5) 
+      2. Error: correct standards are identified (@test_detectStandard.R#18) 
+      3. Error: a list with the expected properties and structure is returned for all standards (@test_generateSettings.R#7) 
+      4. Error: a warning is thrown if chart isn't eDish (@test_generateSettings.R#23) 
+      5. Error: data mappings are null when setting=none, character otherwise (@test_generateSettings.R#30) 
+      6. Error: default function call works as expected (@test_getRequiredSettings.R#31) 
+      7. Error: options work as expected (@test_getRequiredSettings.R#37) 
+      8. Error: nested keys are supported (@test_getRequiredSettings.R#43) 
+      9. Error: (unknown) (@test_getSettingKeys.R#5) 
+      1. ...
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # SanFranBeachWater
@@ -13289,6 +13560,24 @@ Version: 0.1.0
       All declared Imports should be used.
     ```
 
+# SAR
+
+Version: 1.0.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘httr’ ‘jsonlite’
+      All declared Imports should be used.
+    ```
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
 # scater
 
 Version: 1.8.4
@@ -13300,7 +13589,7 @@ Version: 1.8.4
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-             dims = ncomponents, check_duplicates = FALSE, ...) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/scater/new/scater.Rcheck/00_pkg_src/scater/R/runTSNE.R:90
+             dims = ncomponents, check_duplicates = FALSE, ...) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/scater/new/scater.Rcheck/00_pkg_src/scater/R/runTSNE.R:90
       9: Rtsne.default(vals, initial_dims = initial_dims, pca = pca, perplexity = perplexity, 
              dims = ncomponents, check_duplicates = FALSE, ...)
       10: .check_tsne_params(nrow(X), dims = dims, perplexity = perplexity, theta = theta, 
@@ -13323,7 +13612,7 @@ Version: 1.8.4
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/scater/new/scater.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/scater/new/scater.Rcheck/00install.out’ for details.
     ```
 
 *   checking examples ... WARNING
@@ -13427,7 +13716,7 @@ Version: 1.0.4
     ```
     Found the following significant warnings:
       Warning: replacing previous import ‘flowCore::view’ by ‘tibble::view’ when loading ‘Sconify’
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Sconify/new/Sconify.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Sconify/new/Sconify.Rcheck/00install.out’ for details.
     ```
 
 # scoper
@@ -13461,64 +13750,14 @@ Version: 2018.1
 
 ## In both
 
-*   checking whether package ‘SEERaBomb’ can be installed ... ERROR
+*   checking whether package ‘SEERaBomb’ can be installed ... WARNING
     ```
-    Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SEERaBomb/new/SEERaBomb.Rcheck/00install.out’ for details.
+    Found the following significant warnings:
+      Warning: package ‘demography’ was built under R version 3.5.2
+      Warning: package ‘forecast’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SEERaBomb/new/SEERaBomb.Rcheck/00install.out’ for details.
     ```
 
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘SEERaBomb’ ...
-** package ‘SEERaBomb’ successfully unpacked and MD5 sums checked
-** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c SEERaBomb_init.c -o SEERaBomb_init.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c fillPYM.cpp -o fillPYM.o
-clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o SEERaBomb.so RcppExports.o SEERaBomb_init.o fillPYM.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SEERaBomb/new/SEERaBomb.Rcheck/SEERaBomb/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Warning: package ‘demography’ was built under R version 3.5.2
-Warning: package ‘forecast’ was built under R version 3.5.2
-Error: package or namespace load failed for ‘demography’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
- there is no package called ‘ftsa’
-Error : package ‘demography’ could not be loaded
-ERROR: lazy loading failed for package ‘SEERaBomb’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SEERaBomb/new/SEERaBomb.Rcheck/SEERaBomb’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘SEERaBomb’ ...
-** package ‘SEERaBomb’ successfully unpacked and MD5 sums checked
-** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c SEERaBomb_init.c -o SEERaBomb_init.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c fillPYM.cpp -o fillPYM.o
-clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o SEERaBomb.so RcppExports.o SEERaBomb_init.o fillPYM.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SEERaBomb/old/SEERaBomb.Rcheck/SEERaBomb/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Warning: package ‘demography’ was built under R version 3.5.2
-Warning: package ‘forecast’ was built under R version 3.5.2
-Error: package or namespace load failed for ‘demography’ in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]):
- there is no package called ‘ftsa’
-Error : package ‘demography’ could not be loaded
-ERROR: lazy loading failed for package ‘SEERaBomb’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SEERaBomb/old/SEERaBomb.Rcheck/SEERaBomb’
-
-```
 # segclust2d
 
 Version: 0.1.0
@@ -13528,7 +13767,7 @@ Version: 0.1.0
 *   checking whether package ‘segclust2d’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/segclust2d/new/segclust2d.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/segclust2d/new/segclust2d.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -13539,11 +13778,11 @@ Version: 0.1.0
 * installing *source* package ‘segclust2d’ ...
 ** package ‘segclust2d’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/segclust2d/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/segclust2d/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/segclust2d/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/segclust2d/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘segclust2d’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/segclust2d/new/segclust2d.Rcheck/segclust2d’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/segclust2d/new/segclust2d.Rcheck/segclust2d’
 
 ```
 ### CRAN
@@ -13552,11 +13791,11 @@ ERROR: compilation failed for package ‘segclust2d’
 * installing *source* package ‘segclust2d’ ...
 ** package ‘segclust2d’ successfully unpacked and MD5 sums checked
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/segclust2d/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/segclust2d/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/segclust2d/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/segclust2d/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘segclust2d’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/segclust2d/old/segclust2d.Rcheck/segclust2d’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/segclust2d/old/segclust2d.Rcheck/segclust2d’
 
 ```
 # sejmRP
@@ -13595,7 +13834,7 @@ Version: 0.8.3
     ```
     Found the following significant warnings:
       Warning: package ‘wrapr’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/seplyr/new/seplyr.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/seplyr/new/seplyr.Rcheck/00install.out’ for details.
     ```
 
 # seqCAT
@@ -13611,7 +13850,7 @@ Version: 1.2.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
       Warning: package ‘Rsamtools’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/seqCAT/new/seqCAT.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/seqCAT/new/seqCAT.Rcheck/00install.out’ for details.
     ```
 
 # SeqVarTools
@@ -13674,7 +13913,7 @@ Version: 1.18.0
     ```
     Found the following significant warnings:
       Warning: package ‘SeqArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SeqVarTools/new/SeqVarTools.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SeqVarTools/new/SeqVarTools.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... NOTE
@@ -13713,7 +13952,7 @@ Version: 0.5.2
     ```
     Found the following significant warnings:
       Warning: package ‘dbplyr’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sergeant/new/sergeant.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sergeant/new/sergeant.Rcheck/00install.out’ for details.
     ```
 
 # Seurat
@@ -13726,7 +13965,7 @@ Version: 2.3.4
     ```
     Found the following significant warnings:
       Warning: package ‘cowplot’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/Seurat/new/Seurat.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Seurat/new/Seurat.Rcheck/00install.out’ for details.
     ```
 
 *   checking package dependencies ... NOTE
@@ -13757,7 +13996,7 @@ Version: 0.7-2
 *   checking whether package ‘sf’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sf/new/sf.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sf/new/sf.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -13773,7 +14012,7 @@ checking for gdal-config... no
 no
 configure: error: gdal-config not found or not executable.
 ERROR: configuration failed for package ‘sf’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sf/new/sf.Rcheck/sf’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sf/new/sf.Rcheck/sf’
 
 ```
 ### CRAN
@@ -13787,7 +14026,7 @@ checking for gdal-config... no
 no
 configure: error: gdal-config not found or not executable.
 ERROR: configuration failed for package ‘sf’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sf/old/sf.Rcheck/sf’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sf/old/sf.Rcheck/sf’
 
 ```
 # shiny.semantic
@@ -13865,9 +14104,9 @@ Version: 2.1.3
     > fitEllipse(x, y, parms, priors)
     Error: .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SIBER/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SIBER/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SIBER/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
@@ -13880,9 +14119,9 @@ Version: 2.1.3
     Error: processing vignette 'Centroid-Vectors.Rmd' failed with diagnostics:
     .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SIBER/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SIBER/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/SIBER/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
@@ -13957,7 +14196,7 @@ Version: 0.1.14
     ```
     Found the following significant warnings:
       Warning: package ‘simmer’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/simmer.plot/new/simmer.plot.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/simmer.plot/new/simmer.plot.Rcheck/00install.out’ for details.
     ```
 
 # simputation
@@ -13969,7 +14208,7 @@ Version: 0.2.2
 *   checking whether package ‘simputation’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/simputation/new/simputation.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/simputation/new/simputation.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -13984,7 +14223,7 @@ clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I/usr/lo
 clang: error: unsupported option '-fopenmp'
 make: *** [R_register_native.o] Error 1
 ERROR: compilation failed for package ‘simputation’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/simputation/new/simputation.Rcheck/simputation’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/simputation/new/simputation.Rcheck/simputation’
 
 ```
 ### CRAN
@@ -13997,34 +14236,12 @@ clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG   -I/usr/lo
 clang: error: unsupported option '-fopenmp'
 make: *** [R_register_native.o] Error 1
 ERROR: compilation failed for package ‘simputation’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/simputation/old/simputation.Rcheck/simputation’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/simputation/old/simputation.Rcheck/simputation’
 
 ```
 # SimRVPedigree
 
 Version: 0.3.0
-
-## Newly fixed
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Complete output:
-      > library(testthat)
-      > library(SimRVPedigree)
-      > 
-      > test_check("SimRVPedigree")
-      ── 1. Failure: ascertained pedigrees meet number affected criteria (@test_ascert
-      |... isn't true.
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 80 SKIPPED: 0 FAILED: 1
-      1. Failure: ascertained pedigrees meet number affected criteria (@test_ascertain_ped.R#44) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
 
 ## In both
 
@@ -14036,77 +14253,30 @@ Version: 0.3.0
 
 # simTool
 
-Version: 1.1.1
+Version: 1.1.2
 
-## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    End of the simulation: 2019-01-31 06:09:47
-    > 
-    > presever_rownames = function(mat)
-    + {
-    +   rn = rownames(mat)
-    +   ret = tibble::as_tibble(mat)
-    +   ret$term = rn
-    +   ret
-    + }
-    > 
-    > eg <- eval_tibbles(
-    +   expand_tibble(fun="regData", n=5L, SD=1:2),
-    +   expand_tibble(proc="lm", formula=c("y~x", "y~I(x^2)")),
-    +   post_analyze = purrr::compose(presever_rownames, coef, summary),
-    +   #post_analyze = broom::tidy, # is a nice out of the box alternative
-    +   summary_fun = list(mean = mean, sd = sd),
-    +   group_for_summary = "term",
-    +   replications=3
-    + )
-    Error: Argument 1 must be a data frame or a named atomic vector, not a summary.lm
-    Execution halted
-    ```
+## Newly broken
 
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      Objects equal but not identical
       
-      [1] "Estimated replications per hour:  35279192"
-      [1] "Estimated replications per hour:  38226568"
-      [1] "Estimated replications per hour:  259076"
-      [1] "Estimated replications per hour:  4035895"
-      [1] "Estimated replications per hour:  577800"
-      [1] "Estimated replications per hour:  6028223"
-      [1] "Estimated replications per hour:  573850"
+      [1] "Estimated replications per hour:  53734855"
+      [1] "Estimated replications per hour:  36036979"
+      [1] "Estimated replications per hour:  262009"
+      [1] "Estimated replications per hour:  4166182"
+      [1] "Estimated replications per hour:  477783"
+      [1] "Estimated replications per hour:  3766117"
+      [1] "Estimated replications per hour:  515073"
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 117 SKIPPED: 0 FAILED: 2
-      1. Failure: Post analyze function works (@test_eval_tibbles.R#404) 
-      2. Failure: Two groups for summary_fun. Results were created and stored in simulation (@test_eval_tibbles.R#842) 
+      OK: 119 SKIPPED: 0 FAILED: 1
+      1. Failure: Two groups for summary_fun. Results were created and stored in simulation (@test_eval_tibbles.R#847) 
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 244-252 (simTool.Rmd) 
-    Error: processing vignette 'simTool.Rmd' failed with diagnostics:
-    Argument 1 must be a data frame or a named atomic vector, not a summary.lm
-    Execution halted
     ```
 
 # sjstats
@@ -14178,18 +14348,18 @@ Version: 0.7.26
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:115)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:115)
     regression_plot : <anonymous>: no visible global function definition
       for ‘pnorm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:115)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:115)
     regression_plot: no visible global function definition for
       ‘flush.console’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:138)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:138)
     regression_plot: no visible global function definition for ‘density’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:147)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:147)
     regression_plot: no visible global function definition for
       ‘flush.console’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:194)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sorvi/new/sorvi.Rcheck/00_pkg_src/sorvi/R/regression_plot.R:194)
     Undefined global functions or variables:
       colorRampPalette density flush.console loess loess.control pnorm
       predict quantile read.csv
@@ -14216,74 +14386,125 @@ Version: 1.0.1
 
 # SpaDES.core
 
-Version: 0.2.3
+Version: 0.2.4
 
 ## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 13 lines of output:
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 331 SKIPPED: 33 FAILED: 17
+      1. Error: test cache (@test-cache.R#32) 
+      2. Error: test event-level cache (@test-cache.R#83) 
+      3. Error: test module-level cache (@test-cache.R#131) 
+      4. Error: test checkpointing (@test-checkpoint.R#24) 
+      5. Error: test checkpointing with disk-backed raster (@test-checkpoint.R#85) 
+      6. Error: simulation runs with simInit and spades (@test-conditionalEvents.R#74) 
+      7. Error: experiment does not work correctly (@test-experiment.R#33) 
+      8. Error: test-load.R: loading inputs does not work correctly (@test-load.R#36) 
+      9. Error: test-load.R: passing arguments to filelist in simInit does not work correctly (@test-load.R#164) 
+      1. ...
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking whether package ‘SpaDES.core’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘reproducible’ was built under R version 3.5.2
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/00install.out’ for details.
+    ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
     
-    Attaching package: 'RandomFields'
-    
-    The following object is masked from 'package:RandomFieldsUtils':
-    
-        RFoptions
-    
-    The following objects are masked from 'package:base':
-    
-        abs, acosh, asin, asinh, atan, atan2, atanh, cos, cosh, exp,
-        expm1, floor, gamma, lgamma, log, log1p, log2, logb, max, min,
-        round, sin, sinh, sqrt, tan, tanh, trunc
-    
-    Quitting from lines 477-498 (ii-modules.Rmd) 
+    Setting:
+      options(
+        spades.outputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpRnsWAJ/simOutputs'
+        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
+      )
+    Paths set to:
+      options(
+        reproducible.cachePath = '/private/tmp/RtmpblkGAL/reproducible/cache'
+        spades.inputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpfcFdeB/SpaDES/inputs'
+        spades.outputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpRnsWAJ/simOutputs'
+        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
+      )
+    Loading required namespace: RandomFields
+    Failed with error:  'there is no package called 'RandomFieldsUtils''
+    Quitting from lines 638-678 (ii-modules.Rmd) 
+    Because of an interrupted spades call, the sim object at the time of interruption  was saved in 
+    SpaDES.core:::.pkgEnv$.sim . It will be deleted on next call to spades
     Error: processing vignette 'ii-modules.Rmd' failed with diagnostics:
-    GLPK not found on this system.
-    igraph is used internally and requires a GLPK installation.
-    It can be installed using, e.g., `brew install glpk`, after which you should reinstall igraph from source using:
-    `install.packages('igraph', type = 'source')`
-    For more info see https://github.com/igraph/rigraph/issues/273.
+    The 'RandomFields' package is required but not installed.
     Execution halted
     ```
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.4Mb
+      installed size is  5.6Mb
       sub-directories of 1Mb or more:
-        doc   1.4Mb
+        doc   1.6Mb
         R     3.1Mb
     ```
 
 # SpaDES.tools
 
-Version: 0.3.0
+Version: 0.3.1
 
 ## In both
 
 *   checking examples ... ERROR
     ```
     ...
-    +   out
+    > cirsSP <- SpatialPoints(coords = cirs[, c("x", "y")])
+    > cirsRas <- raster(ras)
+    > cirsRas[] <- 0
+    > cirsRas[cirs[, "indices"]] <- 1
+    > 
+    > if (interactive()) {
+    +   clearPlot()
+    +   Plot(ras)
+    +   Plot(cirsRas, addTo = "ras", cols = c("transparent", "#00000055"))
+    +   Plot(agent, addTo = "ras")
+    +   Plot(cirsSP, addTo = "ras")
     + }
-    Loading required package: dplyr
-    
-    Attaching package: ‘dplyr’
-    
-    The following objects are masked from ‘package:raster’:
-    
-        intersect, select, union
-    
-    The following objects are masked from ‘package:stats’:
-    
-        filter, lag
-    
-    The following objects are masked from ‘package:base’:
-    
-        intersect, setdiff, setequal, union
-    
-    Error in is_character(x) : object 'Var1.1' not found
-    Calls: %>% ... vars_select_eval -> map_if -> map -> .f -> - -> is_character
+    > 
+    > # Example comparing rings and cir
+    > a <- raster(extent(0, 30, 0, 30), res = 1)
+    > hab <- gaussMap(a, speedup = 1) # if raster is large (>1e6 pixels) use speedup > 1
+    Loading required namespace: RandomFields
+    Failed with error:  ‘there is no package called ‘RandomFieldsUtils’’
+    Error in gaussMap(a, speedup = 1) : 
+      The 'RandomFields' package is required but not installed.
     Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 13 lines of output:
+      The 'RandomFields' package is required but not installed.
+      1: gaussMap(a, speedup = 1) at testthat/test-spread2.R:625
+      2: stop("The 'RandomFields' package is required but not installed.") at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.tools/new/SpaDES.tools.Rcheck/00_pkg_src/SpaDES.tools/R/initialize.R:99
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 697 SKIPPED: 8 FAILED: 6
+      1. Error: spread stopRule does not work correctly (@test-spread.R#74) 
+      2. Error: asymmetry doesn't work properly (@test-spread.R#321) 
+      3. Error: rings and cir (@test-spread.R#571) 
+      4. Error: distanceFromPoints does not work correctly (@test-spread.R#711) 
+      5. Error: spread2 tests (@test-spread2.R#14) 
+      6. Error: spread2 tests -- asymmetry (@test-spread2.R#625) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # sparklyr
@@ -14388,34 +14609,6 @@ Version: 0.3
       All declared Imports should be used.
     ```
 
-# spdplyr
-
-Version: 0.1.3
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      16: function_list[[k]](value)
-      17: summarize(., alon = mean(LON), mxlat = max(LAT), mxarea = max(AREA))
-      18: summarise.Spatial(., alon = mean(LON), mxlat = max(LAT), mxarea = max(AREA)) at /Users/romain/git/tidyverse/dplyr/R/manip.r:269
-      19: tibble(labs = unlist(lapply(seq_along(grp_sizes), function(x) rep(x, grp_sizes[x]))), 
-             inds = unlist(groups) + 1) at /Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/spdplyr/new/spdplyr.Rcheck/00_pkg_src/spdplyr/R/sdplyr-Spatial.r:172
-      20: lst_to_tibble(xlq$output, .rows, .name_repair, lengths = xlq$lengths)
-      21: check_valid_cols(x)
-      22: abort(error_column_must_be_vector(names_x[is_xd], classes))
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 43 SKIPPED: 5 FAILED: 1
-      1. Error: group by and summarize is quiet (@test-adv-dplyr.R#14) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # sport
 
 Version: 0.1.2
@@ -14484,7 +14677,7 @@ Version: 0.2-0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 10.9Mb
+      installed size is 10.8Mb
       sub-directories of 1Mb or more:
         doc   6.4Mb
         nc    2.9Mb
@@ -14544,7 +14737,7 @@ Version: 0.3.3
     ```
     Found the following significant warnings:
       Warning: package ‘data.table’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/stranger/new/stranger.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/stranger/new/stranger.Rcheck/00install.out’ for details.
     ```
 
 # StratigrapheR
@@ -14572,7 +14765,7 @@ Version: 0.5.8
       Warning: package ‘Rsamtools’ was built under R version 3.5.1
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/STRMPS/new/STRMPS.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/STRMPS/new/STRMPS.Rcheck/00install.out’ for details.
     ```
 
 *   checking package dependencies ... NOTE
@@ -14624,15 +14817,15 @@ Version: 1.10.0
 *   checking R code for possible problems ... NOTE
     ```
     ...
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
     summary.subsamples: no visible binding for global variable ‘percent’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
     summary.subsamples: no visible binding for global variable ‘proportion’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
     summary.subsamples: no visible binding for global variable ‘method’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/summary.subsamples.R:127-129)
     voomLimma: no visible global function definition for ‘model.matrix’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/handlers.R:41)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/subSeq/new/subSeq.Rcheck/00_pkg_src/subSeq/R/handlers.R:41)
     Undefined global functions or variables:
       . average.depth average.value coefficient cor count cov depth estFDP
       ID method metric model.matrix o.coefficient o.lfdr o.padj p.adjust
@@ -14645,18 +14838,6 @@ Version: 1.10.0
                  "var")
     to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
     contains 'methods').
-    ```
-
-# sugrrants
-
-Version: 0.2.1
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘gtable’
-      All declared Imports should be used.
     ```
 
 # SummarizedBenchmark
@@ -14672,7 +14853,7 @@ Version: 1.0.4
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
       Warning: package ‘rlang’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00install.out’ for details.
     ```
 
 *   checking re-building of vignette outputs ... WARNING
@@ -14714,9 +14895,9 @@ Version: 1.0.4
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.3Mb
+      installed size is 13.1Mb
       sub-directories of 1Mb or more:
-        data   9.5Mb
+        data   9.3Mb
         doc    3.3Mb
     ```
 
@@ -14730,17 +14911,17 @@ Version: 1.0.4
     ```
     .list2mat : <anonymous>: no visible binding for global variable
       ‘.method’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/buildBench.R:275)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/buildBench.R:275)
     .list2mat : <anonymous>: no visible binding for global variable ‘.val’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/buildBench.R:275)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/buildBench.R:275)
     .list2mat : <anonymous>: no visible binding for global variable ‘.id’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/buildBench.R:276-277)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/buildBench.R:276-277)
     plotROC: no visible binding for global variable ‘FDR’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/PlottingFunctions.R:81-82)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/PlottingFunctions.R:81-82)
     plotROC: no visible binding for global variable ‘TPR’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/PlottingFunctions.R:81-82)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/PlottingFunctions.R:81-82)
     plotROC: no visible binding for global variable ‘method’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/PlottingFunctions.R:81-82)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SummarizedBenchmark/new/SummarizedBenchmark.Rcheck/00_pkg_src/SummarizedBenchmark/R/PlottingFunctions.R:81-82)
     Undefined global functions or variables:
       .id .method .val FDR method TPR
     ```
@@ -14779,7 +14960,7 @@ Version: 0.1.0
     ```
     Found the following significant warnings:
       Warning: replacing previous import ‘purrr::flatten_raw’ by ‘rlang::flatten_raw’ when loading ‘survivalAnalysis’
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/survivalAnalysis/new/survivalAnalysis.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/survivalAnalysis/new/survivalAnalysis.Rcheck/00install.out’ for details.
     ```
 
 # survminer
@@ -14888,9 +15069,9 @@ Version: 1.6.0
 *   checking R code for possible problems ... NOTE
     ```
     lm_pi0: no visible global function definition for ‘glm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/swfdr/new/swfdr.Rcheck/00_pkg_src/swfdr/R/lm_pi0.R:56)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/swfdr/new/swfdr.Rcheck/00_pkg_src/swfdr/R/lm_pi0.R:56)
     lm_pi0: no visible binding for global variable ‘binomial’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/swfdr/new/swfdr.Rcheck/00_pkg_src/swfdr/R/lm_pi0.R:56)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/swfdr/new/swfdr.Rcheck/00_pkg_src/swfdr/R/lm_pi0.R:56)
     Undefined global functions or variables:
       binomial glm
     Consider adding
@@ -14910,7 +15091,7 @@ Version: 1.6.0
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/switchde/new/switchde.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/switchde/new/switchde.Rcheck/00install.out’ for details.
     ```
 
 *   checking for hidden files and directories ... NOTE
@@ -14952,11 +15133,11 @@ Version: 1.10.0
     ```
     ...
     zFactor: no visible binding for global variable ‘sd’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/synlet/new/synlet.Rcheck/00_pkg_src/synlet/R/zFactor.R:37-38)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/synlet/new/synlet.Rcheck/00_pkg_src/synlet/R/zFactor.R:37-38)
     zFactor: no visible binding for global variable ‘median’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/synlet/new/synlet.Rcheck/00_pkg_src/synlet/R/zFactor.R:37-38)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/synlet/new/synlet.Rcheck/00_pkg_src/synlet/R/zFactor.R:37-38)
     zFactor: no visible global function definition for ‘complete.cases’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/synlet/new/synlet.Rcheck/00_pkg_src/synlet/R/zFactor.R:50)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/synlet/new/synlet.Rcheck/00_pkg_src/synlet/R/zFactor.R:50)
     Undefined global functions or variables:
       COL_NAME colorRampPalette complete.cases condition dev.off
       EXPERIMENT_MODIFICATION EXPERIMENT_TYPE experiments is mad
@@ -15060,34 +15241,6 @@ Version: 0.1.2
       All declared Imports should be used.
     ```
 
-# tbrf
-
-Version: 0.1.1
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Expected match: "unit must be one of years, months, weeks, days, hours, minutes, seconds."
-      Actual message: "unit must be one of years, months, weeks, days, hours, minutes, seconds"
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 25 SKIPPED: 0 FAILED: 7
-      1. Failure: tbr_binom returns error (@test-expectedMessages.R#10) 
-      2. Failure: tbr_gmean returns error (@test-expectedMessages.R#26) 
-      3. Failure: tbr_mean returns error (@test-expectedMessages.R#35) 
-      4. Failure: tbr_median returns error (@test-expectedMessages.R#44) 
-      5. Failure: tbr_sd returns error (@test-expectedMessages.R#53) 
-      6. Failure: tbr_sum returns error (@test-expectedMessages.R#62) 
-      7. Failure: tbr_misc returns error (@test-expectedMessages.R#72) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # TCGAbiolinks
 
 Version: 2.8.4
@@ -15112,9 +15265,9 @@ Version: 2.8.4
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 74.2Mb
+      installed size is 74.6Mb
       sub-directories of 1Mb or more:
-        data   3.5Mb
+        data   3.9Mb
         doc   66.4Mb
         R      4.1Mb
     ```
@@ -15123,21 +15276,21 @@ Version: 2.8.4
     ```
     ...
     TCGAtumor_purity: no visible binding for global variable ‘Tumor.purity’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/clinical.R:639-640)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/clinical.R:639-640)
     TCGAvisualize_oncoprint: no visible binding for global variable ‘value’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:944)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:944)
     TCGAvisualize_SurvivalCoxNET: no visible global function definition for
       ‘dNetInduce’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:156-157)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:156-157)
     TCGAvisualize_SurvivalCoxNET: no visible global function definition for
       ‘dNetPipeline’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:161-162)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:161-162)
     TCGAvisualize_SurvivalCoxNET: no visible global function definition for
       ‘dCommSignif’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:174)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:174)
     TCGAvisualize_SurvivalCoxNET: no visible global function definition for
       ‘visNet’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:184-189)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TCGAbiolinks/new/TCGAbiolinks.Rcheck/00_pkg_src/TCGAbiolinks/R/visualize.R:184-189)
     Undefined global functions or variables:
       barcode c3net clinical coordinates dCommSignif dNetInduce
       dNetPipeline exon knnmi.cross limmacontrasts.fit limmamakeContrasts
@@ -15219,6 +15372,24 @@ Version: 0.3.0
       All declared Imports should be used.
     ```
 
+# TextForecast
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘doParallel’ ‘forecast’ ‘lars’ ‘parallel’ ‘tau’ ‘tsDyn’
+      All declared Imports should be used.
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 40 marked UTF-8 strings
+    ```
+
 # textmining
 
 Version: 0.0.1
@@ -15228,7 +15399,7 @@ Version: 0.0.1
 *   checking whether package ‘textmining’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/textmining/new/textmining.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/textmining/new/textmining.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -15246,12 +15417,12 @@ Error : .onLoad failed in loadNamespace() for 'mallet', details:
   call: NULL
   error: .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/textmining/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/textmining/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/textmining/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘textmining’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/textmining/new/textmining.Rcheck/textmining’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/textmining/new/textmining.Rcheck/textmining’
 
 ```
 ### CRAN
@@ -15267,12 +15438,12 @@ Error : .onLoad failed in loadNamespace() for 'mallet', details:
   call: NULL
   error: .onLoad failed in loadNamespace() for 'rJava', details:
   call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/textmining/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/textmining/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/textmining/rJava/libs/rJava.so
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-9.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/textmining/rJava/libs/rJava.so
   Reason: image not found
 ERROR: lazy loading failed for package ‘textmining’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/textmining/old/textmining.Rcheck/textmining’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/textmining/old/textmining.Rcheck/textmining’
 
 ```
 # textrecipes
@@ -15516,7 +15687,7 @@ Version: 0.0.2
     Found the following significant warnings:
       Warning: package ‘rsample’ was built under R version 3.5.2
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/tidymodels/new/tidymodels.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/tidymodels/new/tidymodels.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -15536,7 +15707,7 @@ Version: 0.5.5
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/tidyquant/new/tidyquant.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/tidyquant/new/tidyquant.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
@@ -15579,18 +15750,18 @@ Version: 0.1.0
     ```
     Found the following significant warnings:
       Warning: replacing previous import ‘purrr::flatten_raw’ by ‘rlang::flatten_raw’ when loading ‘tidytidbits’
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/tidytidbits/new/tidytidbits.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/tidytidbits/new/tidytidbits.Rcheck/00install.out’ for details.
     ```
 
 # tidytransit
 
-Version: 0.3.5
+Version: 0.3.6
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.4Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
         extdata   4.4Mb
     ```
@@ -15617,7 +15788,7 @@ Version: 1.2.1
     ```
     Found the following significant warnings:
       Warning: package ‘tibble’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/tidyverse/new/tidyverse.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/tidyverse/new/tidyverse.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -15684,26 +15855,26 @@ Version: 1.10.0
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Warning in has_utility("pdfcrop") :
-      pdfcrop not installed or not in PATH
-    Warning: Removed 27 rows containing missing values (geom_point).
-    Warning: Removed 27 rows containing missing values (geom_errorbar).
+      no non-missing arguments to min; returning Inf
     Warning in min(x, na.rm = TRUE) :
       no non-missing arguments to min; returning Inf
-    Warning in max(x, na.rm = TRUE) :
-      no non-missing arguments to max; returning -Inf
-    Warning in getBreaks10(range(dfs$CV)) : NaNs produced
-    Quitting from lines 215-230 (genPaperFigures.Rnw) 
-    Error: processing vignette 'genPaperFigures.Rnw' failed with diagnostics:
-    NA/NaN argument
+    Warning in min(x, na.rm = TRUE) :
+      no non-missing arguments to min; returning Inf
+    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
+      Running 'texi2dvi' on 'genPaperFigures.tex' failed.
+    LaTeX errors:
+    ! LaTeX Error: File `float.sty' not found.
+    
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
+    
+    ! Emergency stop.
+    <read *> 
+             
+    l.30 \date
+              {}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    Calls: buildVignettes -> texi2pdf -> texi2dvi
     Execution halted
     ```
 
@@ -15712,16 +15883,16 @@ Version: 1.10.0
     ...
     plotPrimordiumProfile: no visible global function definition for
       ‘points’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/plotPrimordiumProfile.R:24)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/plotPrimordiumProfile.R:24)
     plotPrimordiumProfile: no visible global function definition for
       ‘polygon’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/plotPrimordiumProfile.R:26-27)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/plotPrimordiumProfile.R:26-27)
     plotPrimordiumProfile: no visible global function definition for ‘rgb’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/plotPrimordiumProfile.R:26-27)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/plotPrimordiumProfile.R:26-27)
     simulatedRatio: no visible global function definition for ‘rnorm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/SAPSstochastic.R:4)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/SAPSstochastic.R:4)
     simulatedRatio: no visible global function definition for ‘rnorm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/SAPSstochastic.R:5)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TimerQuant/new/TimerQuant.Rcheck/00_pkg_src/TimerQuant/R/SAPSstochastic.R:5)
     Undefined global functions or variables:
       approxfun axis mad median optimize par plot points polygon predict
       rainbow rgb rnorm
@@ -15773,7 +15944,7 @@ Version: 1.4.0
     ```
     getMutationsData: no visible binding for global variable
       ‘show_warnings’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/timescape/new/timescape.Rcheck/00_pkg_src/timescape/R/timescape.R:653-657)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/timescape/new/timescape.Rcheck/00_pkg_src/timescape/R/timescape.R:653-657)
     Undefined global functions or variables:
       show_warnings
     ```
@@ -15803,8 +15974,9 @@ Version: 1.0.7
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
+      Warning: package ‘XML’ was built under R version 3.5.2
       Warning: package ‘graph’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TissueEnrich/new/TissueEnrich.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TissueEnrich/new/TissueEnrich.Rcheck/00install.out’ for details.
     ```
 
 # TitanCNA
@@ -15827,12 +15999,12 @@ Version: 1.18.0
       Warning: replacing previous import ‘IRanges::desc’ by ‘dplyr::desc’ when loading ‘TitanCNA’
       Warning: replacing previous import ‘data.table::between’ by ‘dplyr::between’ when loading ‘TitanCNA’
       Warning: replacing previous import ‘dplyr::select’ by ‘VariantAnnotation::select’ when loading ‘TitanCNA’
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TitanCNA/new/TitanCNA.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TitanCNA/new/TitanCNA.Rcheck/00install.out’ for details.
     ```
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.0Mb
+      installed size is  8.1Mb
       sub-directories of 1Mb or more:
         data      1.7Mb
         extdata   4.9Mb
@@ -15877,11 +16049,11 @@ Version: 2.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.1Mb
+      installed size is  6.8Mb
       sub-directories of 1Mb or more:
         data   1.4Mb
         doc    1.4Mb
-        R      3.0Mb
+        R      3.7Mb
     ```
 
 # TPP
@@ -15945,10 +16117,10 @@ Version: 3.8.5
     
     plot_fSta_distribution: no visible binding for global variable
       ‘..density..’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TPP/new/TPP.Rcheck/00_pkg_src/TPP/R/plot_fSta_distribution.R:19-28)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TPP/new/TPP.Rcheck/00_pkg_src/TPP/R/plot_fSta_distribution.R:19-28)
     plot_pVal_distribution: no visible binding for global variable
       ‘..density..’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/TPP/new/TPP.Rcheck/00_pkg_src/TPP/R/plot_pVal_distribution.R:22-31)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/TPP/new/TPP.Rcheck/00_pkg_src/TPP/R/plot_pVal_distribution.R:22-31)
     Undefined global functions or variables:
       ..density..
     ```
@@ -16112,9 +16284,9 @@ Version: 0.7.5
     + n.adapt = 500)
     Error: .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
@@ -16132,24 +16304,36 @@ Version: 0.7.5
     Error: processing vignette 'Multiple_model_calculation_of_trophic_position_in_R.Rmd' failed with diagnostics:
     .onLoad failed in loadNamespace() for 'rjags', details:
       call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so
+      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so':
+      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
+      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/tRophicPosition/rjags/libs/rjags.so
       Reason: image not found
     Execution halted
     ```
 
 # trread
 
-Version: 0.2.5
+Version: 0.2.7
 
 ## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.2Mb
+      sub-directories of 1Mb or more:
+        extdata   4.4Mb
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
-      ‘here’ ‘htmltools’ ‘magrittr’ ‘scales’ ‘stringr’
+      ‘here’ ‘htmltools’ ‘scales’ ‘stringr’
       All declared Imports should be used.
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 41 marked UTF-8 strings
     ```
 
 # tsibble
@@ -16214,16 +16398,44 @@ Version: 0.8-7
 *   checking R code for possible problems ... NOTE
     ```
     turf: no visible global function definition for ‘read.table’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/turfR/new/turfR.Rcheck/00_pkg_src/turfR/R/turfR_0.8-7.R:12)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/turfR/new/turfR.Rcheck/00_pkg_src/turfR/R/turfR_0.8-7.R:12)
     turf: no visible global function definition for ‘flush.console’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/turfR/new/turfR.Rcheck/00_pkg_src/turfR/R/turfR_0.8-7.R:102)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/turfR/new/turfR.Rcheck/00_pkg_src/turfR/R/turfR_0.8-7.R:102)
     turf.combos: no visible global function definition for ‘combn’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/turfR/new/turfR.Rcheck/00_pkg_src/turfR/R/turfR_0.8-7.R:158)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/turfR/new/turfR.Rcheck/00_pkg_src/turfR/R/turfR_0.8-7.R:158)
     Undefined global functions or variables:
       combn flush.console read.table
     Consider adding
       importFrom("utils", "combn", "flush.console", "read.table")
     to your NAMESPACE file.
+    ```
+
+# ubeR
+
+Version: 0.1.4
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      > library(testthat)
+      > library(ubeR)
+      > 
+      > test_check("ubeR")
+      ── 1. Failure: raise error on fail to geocode (@test_utils.R#4)  ───────────────
+      `geocode("Kryptonopolis")` threw an error with unexpected message.
+      Expected match: "Unable to find location 'Kryptonopolis'."
+      Actual message: "Google now requires an API key.\n       See ?register_google for details."
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 8 SKIPPED: 0 FAILED: 1
+      1. Failure: raise error on fail to geocode (@test_utils.R#4) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # ufs
@@ -16343,7 +16555,7 @@ Version: 0.1.0
 *   checking whether package ‘vapour’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/vapour/new/vapour.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/vapour/new/vapour.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -16359,7 +16571,7 @@ checking for gdal-config... no
 no
 configure: error: gdal-config not found or not executable.
 ERROR: configuration failed for package ‘vapour’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/vapour/new/vapour.Rcheck/vapour’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/vapour/new/vapour.Rcheck/vapour’
 
 ```
 ### CRAN
@@ -16373,7 +16585,7 @@ checking for gdal-config... no
 no
 configure: error: gdal-config not found or not executable.
 ERROR: configuration failed for package ‘vapour’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/vapour/old/vapour.Rcheck/vapour’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/vapour/old/vapour.Rcheck/vapour’
 
 ```
 # vdmR
@@ -16400,7 +16612,7 @@ Version: 4.7.0
     Found the following significant warnings:
       Warning: package ‘colorspace’ was built under R version 3.5.2
       Warning: package ‘data.table’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/VIM/new/VIM.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/VIM/new/VIM.Rcheck/00install.out’ for details.
     ```
 
 *   checking Rd cross-references ... NOTE
@@ -16451,8 +16663,8 @@ Version: 0.5.2
       7: freduce(value, `_function_list`)
       8: function_list[[i]](value)
       9: dplyr::mutate(., rows = 1:n())
-      10: mutate.tbl_df(., rows = 1:n()) at /Users/romain/git/tidyverse/dplyr/R/manip.r:440
-      11: mutate_impl(.data, dots) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:91
+      10: mutate.tbl_df(., rows = 1:n()) at /Users/romain/git/tidyverse/dplyr-revdep/R/manip.r:440
+      11: mutate_impl(.data, dots, caller_env()) at /Users/romain/git/tidyverse/dplyr-revdep/R/tbl-df.r:91
       
       nrows =  1000 ncols =  1000══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 37 SKIPPED: 9 FAILED: 1
@@ -16491,7 +16703,7 @@ Version: 0.2.0
 *   checking whether package ‘vlad’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/vlad/new/vlad.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/vlad/new/vlad.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -16502,11 +16714,11 @@ Version: 0.2.0
 * installing *source* package ‘vlad’ ...
 ** package ‘vlad’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/vlad/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/vlad/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/vlad/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/vlad/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘vlad’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/vlad/new/vlad.Rcheck/vlad’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/vlad/new/vlad.Rcheck/vlad’
 
 ```
 ### CRAN
@@ -16515,11 +16727,11 @@ ERROR: compilation failed for package ‘vlad’
 * installing *source* package ‘vlad’ ...
 ** package ‘vlad’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/vlad/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/vlad/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include/ -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/vlad/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/vlad/RcppArmadillo/include" -I/usr/local/include  -fopenmp -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘vlad’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/vlad/old/vlad.Rcheck/vlad’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/vlad/old/vlad.Rcheck/vlad’
 
 ```
 # vqtl
@@ -16539,8 +16751,8 @@ Version: 2.0.4
              mean.se = quote(sd/sqrt(n())), sd.se = quote(sqrt(2) * sd^2/sqrt(n() - 1)))
       13: summarise_.tbl_df(., mean = lazyeval::interp(~mean(var, na.rm = TRUE), var = as.name(phenotype.name)), 
              sd = lazyeval::interp(~sd(var, na.rm = TRUE), var = as.name(phenotype.name)), 
-             mean.se = quote(sd/sqrt(n())), sd.se = quote(sqrt(2) * sd^2/sqrt(n() - 1))) at /Users/romain/git/tidyverse/dplyr/R/manip.r:286
-      14: summarise_impl(.data, dots, environment()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:107
+             mean.se = quote(sd/sqrt(n())), sd.se = quote(sqrt(2) * sd^2/sqrt(n() - 1))) at /Users/romain/git/tidyverse/dplyr-revdep/R/manip.r:286
+      14: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romain/git/tidyverse/dplyr-revdep/R/tbl-df.r:107
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 118 SKIPPED: 2 FAILED: 1
@@ -16670,7 +16882,7 @@ Version: 0.2.0
 *   checking whether package ‘wand’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/wand/new/wand.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wand/new/wand.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -16682,21 +16894,16 @@ Version: 0.2.0
 ** package ‘wand’ successfully unpacked and MD5 sums checked
 Checking to see if libmagic is available...
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: warning: argument unused during compilation: '-L/usr/local/include' [-Wunused-command-line-argument]
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c wand.cpp -o wand.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c wand.cpp -o wand.o
 clang: warning: argument unused during compilation: '-L/usr/local/include' [-Wunused-command-line-argument]
-In file included from wand.cpp:13:
-./magic.h:123:2: warning: extra ';' outside of a function is a C++11 extension [-Wc++11-extra-semi]
-};
- ^
-1 warning generated.
 clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o wand.so RcppExports.o wand.o -L/usr/local/lib -L/usr/lib -lmagic -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: library not found for -lmagic
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [wand.so] Error 1
 ERROR: compilation failed for package ‘wand’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/wand/new/wand.Rcheck/wand’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wand/new/wand.Rcheck/wand’
 
 ```
 ### CRAN
@@ -16706,21 +16913,16 @@ ERROR: compilation failed for package ‘wand’
 ** package ‘wand’ successfully unpacked and MD5 sums checked
 Checking to see if libmagic is available...
 ** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c RcppExports.cpp -o RcppExports.o
 clang: warning: argument unused during compilation: '-L/usr/local/include' [-Wunused-command-line-argument]
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -Wno-unused-result -Wno-c++11-inline-namespace -O3 -Wsign-compare -Wall -pedantic -Wno-long-long -c wand.cpp -o wand.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -L/usr/local/include -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wand/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -c wand.cpp -o wand.o
 clang: warning: argument unused during compilation: '-L/usr/local/include' [-Wunused-command-line-argument]
-In file included from wand.cpp:13:
-./magic.h:123:2: warning: extra ';' outside of a function is a C++11 extension [-Wc++11-extra-semi]
-};
- ^
-1 warning generated.
 clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o wand.so RcppExports.o wand.o -L/usr/local/lib -L/usr/lib -lmagic -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: library not found for -lmagic
 clang: error: linker command failed with exit code 1 (use -v to see invocation)
 make: *** [wand.so] Error 1
 ERROR: compilation failed for package ‘wand’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/wand/old/wand.Rcheck/wand’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wand/old/wand.Rcheck/wand’
 
 ```
 # weathercan
@@ -16749,7 +16951,7 @@ Version: 1.0.1
 *   checking whether package ‘weibulltools’ can be installed ... ERROR
     ```
     Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/weibulltools/new/weibulltools.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/weibulltools/new/weibulltools.Rcheck/00install.out’ for details.
     ```
 
 ## Installation
@@ -16760,11 +16962,11 @@ Version: 1.0.1
 * installing *source* package ‘weibulltools’ ...
 ** package ‘weibulltools’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/weibulltools/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/weibulltools/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/weibulltools/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/weibulltools/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘weibulltools’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/weibulltools/new/weibulltools.Rcheck/weibulltools’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/weibulltools/new/weibulltools.Rcheck/weibulltools’
 
 ```
 ### CRAN
@@ -16773,11 +16975,11 @@ ERROR: compilation failed for package ‘weibulltools’
 * installing *source* package ‘weibulltools’ ...
 ** package ‘weibulltools’ successfully unpacked and MD5 sums checked
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/weibulltools/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/revdep/library.noindex/weibulltools/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wno-unused-result -Wall -O3 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/weibulltools/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/weibulltools/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
 clang: error: unsupported option '-fopenmp'
 make: *** [RcppExports.o] Error 1
 ERROR: compilation failed for package ‘weibulltools’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/weibulltools/old/weibulltools.Rcheck/weibulltools’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/weibulltools/old/weibulltools.Rcheck/weibulltools’
 
 ```
 # whereport
@@ -16862,13 +17064,13 @@ Version: 1.4.0
 *   checking R code for possible problems ... NOTE
     ```
     plotCoverage: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:184)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:184)
     plotCoverage: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:185)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:185)
     plotTranscripts: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:33)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:33)
     plotTranscripts: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:34)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wiggleplotr/new/wiggleplotr.Rcheck/00_pkg_src/wiggleplotr/R/wiggleplotr.R:34)
     Undefined global functions or variables:
       is
     Consider adding
@@ -16883,13 +17085,44 @@ Version: 1.2.1
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking whether package ‘windfarmGA’ can be installed ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘data.table’ ‘RandomFields’
-      All declared Imports should be used.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/windfarmGA/new/windfarmGA.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘windfarmGA’ ...
+** package ‘windfarmGA’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Warning in fun(libname, pkgname) : couldn't connect to display ""
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘RandomFieldsUtils’
+ERROR: lazy loading failed for package ‘windfarmGA’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/windfarmGA/new/windfarmGA.Rcheck/windfarmGA’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘windfarmGA’ ...
+** package ‘windfarmGA’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Warning in fun(libname, pkgname) : couldn't connect to display ""
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘RandomFieldsUtils’
+ERROR: lazy loading failed for package ‘windfarmGA’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/windfarmGA/old/windfarmGA.Rcheck/windfarmGA’
+
+```
 # wiseR
 
 Version: 1.0.1
@@ -16941,7 +17174,7 @@ Version: 1.12.0
       Warning: package ‘IRanges’ was built under R version 3.5.1
       Warning: package ‘GenomicRanges’ was built under R version 3.5.1
       Warning: package ‘DelayedArray’ was built under R version 3.5.1
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00install.out’ for details.
     ```
 
 *   checking whether the namespace can be loaded with stated dependencies ... NOTE
@@ -16959,13 +17192,13 @@ Version: 1.12.0
     ```
     ...
       ‘conditions’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00_pkg_src/XBSeq/R/core_functions.R:106)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00_pkg_src/XBSeq/R/core_functions.R:106)
     estimateSCV,XBSeqDataSet: no visible global function definition for
       ‘conditions’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00_pkg_src/XBSeq/R/core_functions.R:107)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00_pkg_src/XBSeq/R/core_functions.R:107)
     estimateSCV,XBSeqDataSet: no visible global function definition for
       ‘dispTable<-’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00_pkg_src/XBSeq/R/core_functions.R:108)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/XBSeq/new/XBSeq.Rcheck/00_pkg_src/XBSeq/R/core_functions.R:108)
     Undefined global functions or variables:
       ..count.. assay assay<- assays baseMean coefficients complete.cases
       conditions cor data DataFrame ddelap dispTable dispTable<- dnbinom
@@ -16999,6 +17232,30 @@ Version: 1.1.4
 
 Version: 0.1.0
 
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ── 1. Error: getcomics  (@test-tibble_creation.R#4)  ───────────────────────────
+      Failed to connect to xkcd.com port 80: Operation timed out
+      1: get_comic(comic = 614) at testthat/test-tibble_creation.R:4
+      2: httr::GET(url) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/XKCDdata/new/XKCDdata.Rcheck/00_pkg_src/XKCDdata/R/get_comic.R:22
+      3: request_perform(req, hu$handle$handle)
+      4: request_fetch(req$output, req$url, handle)
+      5: request_fetch.write_memory(req$output, req$url, handle)
+      6: curl::curl_fetch_memory(url, handle = handle)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 1 SKIPPED: 0 FAILED: 1
+      1. Error: getcomics  (@test-tibble_creation.R#4) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 ## In both
 
 *   checking dependencies in R code ... NOTE
@@ -17024,7 +17281,7 @@ Version: 0.4.3
       6: all.equal(x, y, ...)
       7: all.equal.tbl_df(x, y, ...)
       8: equal_data_frame(target, current, ignore_col_order = ignore_col_order, ignore_row_order = ignore_row_order, 
-             convert = convert) at /Users/romain/git/tidyverse/dplyr/R/all-equal.r:35
+             convert = convert) at /Users/romain/git/tidyverse/dplyr-revdep/R/all-equal.r:35
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 522 SKIPPED: 6 FAILED: 2
@@ -17054,43 +17311,18 @@ Version: 3.4.2
 
 ## In both
 
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘xtractomatic-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: getInfo
-    > ### Title: Extract dataset information for a given dtype name or number
-    > ### Aliases: getInfo
-    > 
-    > ### ** Examples
-    > 
-    > getInfo('atsstamday')
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10003 milliseconds
-    Calls: getInfo ... request_fetch -> request_fetch.write_memory -> <Anonymous>
-    Execution halted
-    ```
-
 *   checking re-building of vignette outputs ... WARNING
     ```
     Error in re-building vignettes:
       ...
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10004 milliseconds
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10007 milliseconds
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10006 milliseconds
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10001 milliseconds
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10000 milliseconds
-    Error in curl::curl_fetch_memory(url, handle = handle) : 
-      Timeout was reached: Connection timed out after 10000 milliseconds
-    Quitting from lines 183-211 (Usingxtractomatic.Rmd) 
+    date	lon	lat	lowLon	higLon	lowLat	higLat
+    4/23/2003	203.899	19.664	203.899	203.899	19.664	19.664
+    4/24/2003	204.151	19.821	203.912597	204.389403	18.78051934	20.86148066
+    4/30/2003	203.919	20.351	203.6793669	204.1586331	18.79728188	21.90471812
+    5/1/2003	204.229	20.305	203.9943343	204.4636657	18.90440013	21.70559987
+    Quitting from lines 818-843 (Usingxtractomatic.Rmd) 
     Error: processing vignette 'Usingxtractomatic.Rmd' failed with diagnostics:
-    cannot coerce class '"try-error"' to a data.frame
+    (converted from warning) Removed 4070 rows containing missing values (geom_raster).
     Execution halted
     ```
 
@@ -17158,8 +17390,8 @@ Version: 0.1.7
       12: summarise.tbl_df(grouped, z.chart, z.calc, RMSE = sqrt(mean((z.chart - z.calc)^2)), 
              MPE = sum((z.chart - z.calc)/z.chart) * 100/n(), MAPE = sum(abs((z.chart - z.calc)/z.chart)) * 
                  100/n(), MSE = sum((z.chart - z.calc)^2)/n(), RSS = sum((z.chart - z.calc)^2), 
-             MAE = sum(abs(z.chart - z.calc))/n(), MAAPE = sum(atan(abs((z.chart - z.calc)/z.chart)))/n()) at /Users/romain/git/tidyverse/dplyr/R/manip.r:269
-      13: summarise_impl(.data, dots, environment()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:102
+             MAE = sum(abs(z.chart - z.calc))/n(), MAAPE = sum(atan(abs((z.chart - z.calc)/z.chart)))/n()) at /Users/romain/git/tidyverse/dplyr-revdep/R/manip.r:269
+      13: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romain/git/tidyverse/dplyr-revdep/R/tbl-df.r:102
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 120 SKIPPED: 0 FAILED: 4
@@ -17216,19 +17448,19 @@ Version: 1.2.0
     ```
     ...
     PlotGaussianFitDF: no visible binding for global variable ‘density’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:223)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:223)
     PlotGaussianFitDF: no visible binding for global variable ‘log2fpkm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:223)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:223)
     PlotGaussianFitDF: no visible binding for global variable ‘sample_name’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:223)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:223)
     PlotGaussianFitDF: no visible binding for global variable ‘log2fpkm’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:227-233)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:227-233)
     PlotGaussianFitDF: no visible binding for global variable ‘density’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:227-233)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:227-233)
     zFPKMCalc: no visible global function definition for ‘density’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:162)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:162)
     zFPKMTransform: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:125-127)
+      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/zFPKM/new/zFPKM.Rcheck/00_pkg_src/zFPKM/R/zfpkm.R:125-127)
     Undefined global functions or variables:
       density dnorm is log2fpkm sample_name
     Consider adding
@@ -17248,7 +17480,7 @@ Version: 1.0.1
     ```
     Found the following significant warnings:
       Warning: package ‘rlang’ was built under R version 3.5.2
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/revdep/checks.noindex/ZipRadius/new/ZipRadius.Rcheck/00install.out’ for details.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ZipRadius/new/ZipRadius.Rcheck/00install.out’ for details.
     ```
 
 *   checking dependencies in R code ... NOTE
