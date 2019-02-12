@@ -80,20 +80,19 @@ apply_filter_syms <- function(pred, syms, tbl) {
     if (inherits(pred, "any_vars")) {
       joiner <- any_exprs
     }
-    pred <- new_function(exprs(. = ), quo_get_expr(pred), quo_get_env(pred))
-  } else if (is_bare_formula(pred)) {
+    pred <- map(syms, function(sym) expr_substitute(pred, quote(.), sym))
+  } else if (is_bare_formula(pred) || is_function(pred)) {
     pred <- as_function(pred)
-  } else if (!is_function(pred)) {
+    pred <- map(syms, function(sym) call2(pred, sym))
+  } else {
     bad_args(".vars_predicate", "must be a function or a call to `all_vars()` or `any_vars()`, ",
       "not {friendly_type_of(pred)}"
     )
   }
 
-  pred <- map(syms, function(sym) call2(pred, sym))
-
-  if (length(pred)) {
-    joiner(!!!pred)
+  if (length(pred) == 1) {
+    pred[[1L]]
   } else {
-    pred
+    joiner(!!!pred)
   }
 }
