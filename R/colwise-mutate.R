@@ -323,8 +323,8 @@ manip_apply_syms <- function(funs, syms, tbl) {
   dim(out) <- c(length(syms), length(funs))
   for (i in seq_along(syms)) {
     for (j in seq_along(funs)) {
-      var_call <- call('$', sym(".data"), sym(syms[[i]]))
-      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_call)
+      var_sym <- sym(syms[[i]])
+      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
     }
   }
   dim(out) <- NULL
