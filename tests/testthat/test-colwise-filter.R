@@ -66,3 +66,20 @@ test_that("can supply functions to scoped filters", {
   out <- mtcars %>% filter_at(c("cyl", "am"), function(.x) .x == 4 | .x == 0)
   expect_identical(as.list(out), exp)
 })
+
+test_that("colwise filter support .data$. in the quosure versions", {
+   expect_identical(
+     filter_if(iris, is.numeric, any_vars(.data$. > 4)),
+     filter_if(iris, is.numeric, any_vars(. > 4))
+   )
+
+  expect_identical(
+    filter_all(select(iris, -Species), any_vars(.data$. > 4)),
+    filter_all(select(iris, -Species), any_vars(. > 4))
+  )
+
+  expect_identical(
+    filter_at(iris, vars(contains(".")), any_vars(.data$. > 4)),
+    filter_at(iris, vars(contains(".")), any_vars(. > 4))
+  )
+})
