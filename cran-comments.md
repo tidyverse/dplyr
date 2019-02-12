@@ -89,9 +89,7 @@ Issues with CRAN packages are summarised below.
 
  * corrr: Not sure what the problem is. Issue sent. 
 
-## Need to deal with #4094, #4174
-
- * safetyGraphics
+ * safetyGraphics: Should use `.` instead of `.data$.` PR sent. 
 
 ### Failed to check
 
