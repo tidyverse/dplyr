@@ -73,12 +73,21 @@ Issues with CRAN packages are summarised below.
  * rPref: Fixed in the dev version
  * ruler: Fixed in the dev version 
  * dbplyr: fixed in dev version
+ * lmeresampler: Fixed in dev version
+ * ggfan: Fixed in dev version
 
  * dexter: Fails to build the vignette, not sure why
 
  * processcheckR: needs an update of the bupaR package
  * edeaR: needs an update of the bupaR package
 
+ * ezsummary: Needs to use api instead of attributes. PR sent. 
+
+ * gravity: Does not correctly use tidyeval, PR sent. 
+
+ * poplite: Not sure what the problem is. 
+
+ * corrr: Not sure what the problem is. Issue sent. 
 
 ## Need to deal with #4094, #4174
 
@@ -86,16 +95,6 @@ Issues with CRAN packages are summarised below.
  * radiant.model
  * replyr
  * safetyGraphics
-
-## Not sure
-
-* ggfan: 
-* compareDF
-* corrr
-* ezsummary
-* gravity
-* lmeresampler
-* poplite
 
 ### Failed to check
 
