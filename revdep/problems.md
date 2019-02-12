@@ -3247,21 +3247,8 @@ Version: 0.8.4
 
 *   checking re-building of vignette outputs ... WARNING
     ```
-    ...
     Error in re-building vignettes:
       ...
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Loading required package: RSQLite
     no column `person_id` provided, automatically generating unique person id's
     no column `person_id` provided, automatically generating unique person id's
     no column `person_id` provided, automatically generating unique person id's
@@ -11633,30 +11620,6 @@ Version: 0.2.0
 
 Version: 2.3.0
 
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘psychmeta-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: format_num
-    > ### Title: Format numbers for presentation
-    > ### Aliases: format_num
-    > 
-    > ### ** Examples
-    > 
-    > # format_num() converts numeric values to characters with the specified formatting options.
-    > # By default, thousands digit groups are separated by thin spaces, negative signs are replaced
-    > # with minus signs, and positive signs and leading zeros are replaced with figure spaces
-    > # (which have the same width as numbers and minus signs). These options ensure that all
-    > # results will align neatly in columns when tabled.
-    > format_num(x = c(10000, 1000, 2.41, -1.20, 0.41, -0.20))
-    Error in .data$(.data$x) : invalid subscript type 'language'
-    Calls: format_num ... mutate_impl -> <Anonymous> -> stri_replace_all_regex
-    Execution halted
-    ```
-
 ## In both
 
 *   checking installed package size ... NOTE
@@ -11976,60 +11939,6 @@ Version: 0.9.7
     ```
     Namespace in Imports field not imported from: ‘shinyFiles’
       All declared Imports should be used.
-    ```
-
-# radiant.model
-
-Version: 0.9.7
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-      .. ..- attr(*, "description")= chr "## Titanic\n\nThis dataset describes the survival status of individual passengers on the Titanic. The titanic d"| __truncated__
-     $ entropy    : logi TRUE
-     $ linout     : logi FALSE
-     $ rv         : Factor w/ 2 levels "Yes","No": 1 1 2 2 2 1 1 2 1 2 ...
-     $ df_name    : chr "titanic"
-     $ vars       : chr [1:2] "pclass" "sex"
-     $ rvar       : chr "survived"
-     $ evar       : chr [1:2] "pclass" "sex"
-     $ type       : chr "classification"
-     $ lev        : chr "Yes"
-     $ size       : num 1
-     $ decay      : num 0.5
-     $ wts        : NULL
-     $ seed       : chr NA
-     $ check      : chr "standardize"
-     $ data_filter: chr ""
-     - attr(*, "class")= chr [1:3] "nn" "model" "list"
-    > nn(diamonds, "price", c("carat", "clarity"), type = "regression") %>% summary()
-    Error in ms$(.data$price) : invalid subscript type 'language'
-    Calls: %>% ... mutate_at -> mutate -> mutate.tbl_df -> mutate_impl
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-             descr) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/radiant.model/new/radiant.model.Rcheck/00_pkg_src/radiant.model/R/nn.R:197
-      4: eval(lhs, parent, parent)
-      5: eval(lhs, parent, parent)
-      6: mutate_at(dataset, .vars = intersect(names(ms), cn), .funs = funs((. - ms$.)/(sf * 
-             sds$.)))
-      7: mutate(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr-revdep/R/colwise-mutate.R:248
-      8: mutate.tbl_df(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr-revdep/R/manip.r:440
-      9: mutate_impl(.data, dots, caller_env()) at /Users/romain/git/tidyverse/dplyr-revdep/R/tbl-df.r:91
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 15 SKIPPED: 0 FAILED: 1
-      1. Error: Neural Network - predict for regression (@test_stats.R#89) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # railtrails
@@ -12553,34 +12462,6 @@ Version: 0.1.0
 # replyr
 
 Version: 0.9.9
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    +                 x= c(NA,2,3),
-    +                 y= factor(c(3,5,NA)),
-    +                 z= c('a',NA,'z'),
-    +                 stringsAsFactors=FALSE)
-    > # sc <- sparklyr::spark_connect(version='2.2.0',
-    > #                                  master = "local")
-    > # dS <- replyr_copy_to(sc, dplyr::select(d, -r, -t), 'dS',
-    > #                      temporary=TRUE, overwrite=TRUE)
-    > # replyr_summary(dS)
-    > # sparklyr::spark_disconnect(sc)
-    > if (requireNamespace("RSQLite", quietly = TRUE)) {
-    +   my_db <- DBI::dbConnect(RSQLite::SQLite(), ":memory:")
-    +   RSQLite::initExtension(my_db)
-    +   dM <- replyr_copy_to(my_db, dplyr::select(d, -r, -t), 'dM',
-    +                        temporary=TRUE, overwrite=TRUE)
-    +   print(replyr_summary(dM))
-    +   DBI::dbDisconnect(my_db)
-    + }
-    Error in eval_bare(call, env) : object '.data' not found
-    Calls: print -> replyr_summary
-    Execution halted
-    ```
 
 ## In both
 
@@ -13496,8 +13377,8 @@ Version: 0.7.3
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 37 SKIPPED: 0 FAILED: 13
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      OK: 39 SKIPPED: 0 FAILED: 13
       1. Error: a list with the expected properties and structure is returned (@test_detectStandard.R#5) 
       2. Error: correct standards are identified (@test_detectStandard.R#18) 
       3. Error: a list with the expected properties and structure is returned for all standards (@test_generateSettings.R#7) 

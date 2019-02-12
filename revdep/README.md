@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2019-02-11                   |
+|date     |2019-02-12                   |
 
 # Dependencies
 
@@ -83,7 +83,7 @@
 |[windfarmGA](problems.md#windfarmga)                 |1.2.1   |1      |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0  |1      |1       |2    |
 
-## Broken (41)
+## Broken (38)
 
 |package                                      |version |error    |warning  |note   |
 |:--------------------------------------------|:-------|:--------|:--------|:------|
@@ -112,10 +112,7 @@
 |[portalr](problems.md#portalr)               |0.2.1   |__+1__   |         |       |
 |[postal](problems.md#postal)                 |0.1.1   |__+1__   |         |       |
 |[processcheckR](problems.md#processcheckr)   |0.1.0   |         |__+1__   |       |
-|[psychmeta](problems.md#psychmeta)           |2.3.0   |__+1__   |         |1      |
 |[purrrlyr](problems.md#purrrlyr)             |0.0.3   |__+2__   |         |       |
-|[radiant.model](problems.md#radiantmodel)    |0.9.7   |__+2__   |         |       |
-|[replyr](problems.md#replyr)                 |0.9.9   |__+1__   |1        |1      |
 |[rPref](problems.md#rpref)                   |1.2     |__+1__   |__+1__   |1      |
 |[ruler](problems.md#ruler)                   |0.1.4   |__+1__   |         |       |
 |[safetyGraphics](problems.md#safetygraphics) |0.7.3   |__+2__   |         |       |
@@ -1124,7 +1121,7 @@
 |[prozor](problems.md#prozor)                                                |0.2.11     |         |         |2      |
 |[psichomics](problems.md#psichomics)                                        |1.6.2      |         |         |2      |
 |[PSLM2015](problems.md#pslm2015)                                            |0.2.0      |         |         |2      |
-|[psychmeta](problems.md#psychmeta)                                          |2.3.0      |__+1__   |         |1      |
+|[psychmeta](problems.md#psychmeta)                                          |2.3.0      |         |         |1      |
 |[psycho](problems.md#psycho)                                                |0.4.0      |         |         |2      |
 |psychReport                                                                 |0.4        |         |         |       |
 |[ptstem](problems.md#ptstem)                                                |0.0.4      |         |         |1      |
@@ -1156,7 +1153,7 @@
 |radiant.basics                                                              |0.9.7      |         |         |       |
 |[radiant.data](problems.md#radiantdata)                                     |0.9.7      |         |         |1      |
 |radiant.design                                                              |0.9.7      |         |         |       |
-|[radiant.model](problems.md#radiantmodel)                                   |0.9.7      |__+2__   |         |       |
+|radiant.model                                                               |0.9.7      |         |         |       |
 |radiant.multivariate                                                        |0.9.7      |         |         |       |
 |radtools                                                                    |1.0.3      |         |         |       |
 |[railtrails](problems.md#railtrails)                                        |0.1.1      |         |         |1      |
@@ -1208,7 +1205,7 @@
 |refund.shiny                                                                |0.3.0      |         |         |       |
 |rehydratoR                                                                  |0.5.2      |         |         |       |
 |[reinsureR](problems.md#reinsurer)                                          |0.1.0      |         |1        |       |
-|[replyr](problems.md#replyr)                                                |0.9.9      |__+1__   |1        |1      |
+|[replyr](problems.md#replyr)                                                |0.9.9      |         |1        |1      |
 |reproducible                                                                |0.2.6      |         |         |       |
 |[rerddap](problems.md#rerddap)                                              |0.5.0      |         |         |1      |
 |reReg                                                                       |1.1.6      |         |         |       |
