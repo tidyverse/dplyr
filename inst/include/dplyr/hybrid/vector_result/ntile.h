@@ -27,7 +27,7 @@ public:
   void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::IntegerVector& out) const {
     int m = indices.size();
     for (int j = m - 1; j >= 0; j--) {
-      out[ indices[j] ] = (int)floor((ntiles * j) / m) + 1;
+      out[ indices[j] ] = (ntiles * j) / m + 1;
     }
   }
 
@@ -73,7 +73,7 @@ public:
       }
     }
     for (; j >= 0; j--) {
-      out_slice[idx[j]] = (int)floor((ntiles * j) / m) + 1;
+      out_slice[idx[j]] = (ntiles * j) / m + 1;
     }
   }
 
