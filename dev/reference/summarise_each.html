@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -28,6 +28,14 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
+
+
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Summarise and mutate multiple columns. — summarise_each" />
 
@@ -156,12 +164,12 @@ information." />
     
     <p><code>mutate_each()</code> and <code>summarise_each()</code> are deprecated in favour of
 a more featureful family of functions: <code><a href='mutate_all.html'>mutate_all()</a></code>,
-<code><a href='summarise_all.html'>mutate_at()</a></code>, <code><a href='summarise_all.html'>mutate_if()</a></code>, <code><a href='summarise_all.html'>summarise_all()</a></code>, <code><a href='summarise_all.html'>summarise_at()</a></code>
+<code><a href='mutate_all.html'>mutate_at()</a></code>, <code><a href='mutate_all.html'>mutate_if()</a></code>, <code><a href='summarise_all.html'>summarise_all()</a></code>, <code><a href='summarise_all.html'>summarise_at()</a></code>
 and <code><a href='summarise_all.html'>summarise_if()</a></code>.</p>
 <p>The <code>_each()</code> functions have two replacements depending on what
 variables you want to apply <code>funs</code> to. To apply a function to all
 variables, use <code><a href='mutate_all.html'>mutate_all()</a></code> or <code><a href='summarise_all.html'>summarise_all()</a></code>. To apply a
-function to a selection of variables, use <code><a href='summarise_all.html'>mutate_at()</a></code> or
+function to a selection of variables, use <code><a href='mutate_all.html'>mutate_at()</a></code> or
 <code><a href='summarise_all.html'>summarise_at()</a></code>.</p>
 <p>See the relevant section of <code><a href='../articles/compatibility.html'>vignette("compatibility")</a></code> for more
 information.</p>

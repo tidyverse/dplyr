@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -29,10 +29,22 @@
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
 
+
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
+
 <meta property="og:title" content="Mutate multiple columns — mutate_all" />
 
-<meta property="og:description" content="These verbs are scoped variants of mutate() and transmute().
-They mutate a selection of variables." />
+<meta property="og:description" content="The scoped variants of mutate() and transmute() make it easy to apply
+the same transformation to multiple variables. There are three variants:
+_all affects every variable
+_at affects variables selected with a character vector or vars()
+_if affects variables selected with a predicate function:
+" />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -145,12 +157,26 @@ They mutate a selection of variables." />
 
     <div class="ref-description">
     
-    <p>These verbs are <a href='scoped.html'>scoped</a> variants of <code><a href='mutate.html'>mutate()</a></code> and <code><a href='mutate.html'>transmute()</a></code>.
-They mutate a selection of variables.</p>
+    <p>The <a href='scoped.html'>scoped</a> variants of <code><a href='mutate.html'>mutate()</a></code> and <code><a href='mutate.html'>transmute()</a></code> make it easy to apply
+the same transformation to multiple variables. There are three variants:</p><ul>
+<li><p>_all affects every variable</p></li>
+<li><p>_at affects variables selected with a character vector or vars()</p></li>
+<li><p>_if affects variables selected with a predicate function:</p></li>
+</ul>
     
     </div>
 
-    <pre class="usage"><span class='fu'>mutate_all</span>(<span class='no'>.tbl</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>mutate_all</span>(<span class='no'>.tbl</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)
+
+<span class='fu'>mutate_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)
+
+<span class='fu'>mutate_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='no'>.funs</span>, <span class='no'>...</span>, <span class='kw'>.cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>transmute_all</span>(<span class='no'>.tbl</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)
+
+<span class='fu'>transmute_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='no'>.funs</span>, <span class='no'>...</span>)
+
+<span class='fu'>transmute_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='no'>.funs</span>, <span class='no'>...</span>, <span class='kw'>.cols</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -168,6 +194,25 @@ They mutate a selection of variables.</p>
       <td><p>Additional arguments for the function calls in
 <code>.funs</code>. These are evaluated only once, with <a href='https://rlang.r-lib.org/reference/tidy-dots.html'>tidy dots</a> support.</p></td>
     </tr>
+    <tr>
+      <th>.predicate</th>
+      <td><p>A predicate function to be applied to the columns
+or a logical vector. The variables for which <code>.predicate</code> is or
+returns <code>TRUE</code> are selected. This argument is passed to
+<code><a href='https://rlang.r-lib.org/reference/as_function.html'>rlang::as_function()</a></code> and thus supports quosure-style lambda
+functions and strings representing function names.</p></td>
+    </tr>
+    <tr>
+      <th>.vars</th>
+      <td><p>A list of columns generated by <code><a href='vars.html'>vars()</a></code>,
+a character vector of column names, a numeric vector of column
+positions, or <code>NULL</code>.</p></td>
+    </tr>
+    <tr>
+      <th>.cols</th>
+      <td><p>This argument has been renamed to <code>.vars</code> to fit
+dplyr's terminology and is deprecated.</p></td>
+    </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -184,16 +229,34 @@ to the grouping variables. The behaviour depends on whether the
 selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> selections) or
 <strong>explicit</strong> (<code>at</code> selections).</p><ul>
 <li><p>Grouping variables covered by explicit selections in
-<code><a href='summarise_all.html'>mutate_at()</a></code> and <code><a href='summarise_all.html'>transmute_at()</a></code> are always an error. Add
+<code>mutate_at()</code> and <code>transmute_at()</code> are always an error. Add
 <code>-group_cols()</code> to the <code><a href='vars.html'>vars()</a></code> selection to avoid this:</p><pre>data %&gt;% mutate_at(vars(-group_cols(), ...), myoperation)
 </pre>
     <p>Or remove <code><a href='groups.html'>group_vars()</a></code> from the character vector of column names:</p><pre>nms &lt;- setdiff(nms, group_vars(data))
 data %&gt;% mutate_at(vars, myoperation)
 </pre></li>
 <li><p>Grouping variables covered by implicit selections are ignored by
-<code>mutate_all()</code>, <code><a href='summarise_all.html'>transmute_all()</a></code>, <code><a href='summarise_all.html'>mutate_if()</a></code>, and
-<code><a href='summarise_all.html'>transmute_if()</a></code>.</p></li>
+<code>mutate_all()</code>, <code>transmute_all()</code>, <code>mutate_if()</code>, and
+<code>transmute_if()</code>.</p></li>
 </ul>
+    
+    <h2 class="hasAnchor" id="naming"><a class="anchor" href="#naming"></a>Naming</h2>
+
+    
+    <p>The names of the created columns is derived from the names of the
+input variables and the names of the functions.</p><ul>
+<li><p>if there is only one unnamed function, the names of the input variables
+are used to name the created columns</p></li>
+<li><p>if there is only one unnamed variable, the names of the functions
+are used to name the created columns.</p></li>
+<li><p>otherwise in the most general case, the created names are created by
+concatenating the names of the input variables and the names of the functions.</p></li>
+</ul>
+    <p>The names of the functions here means the names of the list of functions
+that is supplied. When needed and not supplied, the name of a function
+is the prefix "fn" followed by the index of this function within the
+unnamed functions in the list. Ultimately, names are made
+unique.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
@@ -203,17 +266,11 @@ data %&gt;% mutate_at(vars, myoperation)
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>iris</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></span>(<span class='no'>iris</span>)
 
-<span class='co'># The scoped variants of mutate() make it easy to apply the same</span>
-<span class='co'># transformation to multiple variables. There are three variants:</span>
-<span class='co'># * _all affects every variable</span>
-<span class='co'># * _at affects variables selected with a character vector or vars()</span>
-<span class='co'># * _if affects variables selected with a predicate function:</span>
-
 <span class='co'># All variants can be passed functions and additional arguments,</span>
 <span class='co'># purrr-style. The _at() variants directly support strings. Here</span>
 <span class='co'># we'll scale the variables `height` and `mass`:</span>
 <span class='no'>scale2</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>, <span class='no'>na.rm</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) (<span class='no'>x</span> - <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>x</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>na.rm</span>)) / <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/sd'>sd</a></span>(<span class='no'>x</span>, <span class='no'>na.rm</span>)
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_at</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
 #&gt;    name  height  mass hair_color skin_color eye_color birth_year gender
 #&gt;    &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
 #&gt;  1 Luke…     NA    NA blond      fair       blue            19   male  
@@ -229,7 +286,7 @@ data %&gt;% mutate_at(vars, myoperation)
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># You can pass additional arguments to the function:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_at</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year gender
 #&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
 #&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue            19   male  
@@ -245,7 +302,7 @@ data %&gt;% mutate_at(vars, myoperation)
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># You can also pass formulas to create functions on the spot, purrr-style:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_at</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~<span class='fu'>scale2</span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 13
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~<span class='fu'>scale2</span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 13
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year gender
 #&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
 #&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue            19   male  
@@ -262,7 +319,7 @@ data %&gt;% mutate_at(vars, myoperation)
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_at</a></span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
 #&gt;  1         1.63        1.25          1.4         0.2 setosa 
@@ -279,7 +336,7 @@ data %&gt;% mutate_at(vars, myoperation)
 <span class='co'># The _if() variants apply a predicate function (a function that</span>
 <span class='co'># returns TRUE or FALSE) to determine the relevant subset of</span>
 <span class='co'># columns. Here we divide all the numeric columns by 100:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.numeric</span>, <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='no'>scale2</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 87 x 13
 #&gt;    name   height    mass hair_color skin_color eye_color birth_year gender
 #&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
 #&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue          -0.443 male  
@@ -296,7 +353,7 @@ data %&gt;% mutate_at(vars, myoperation)
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># mutate_if() is particularly useful for transforming variables from</span>
 <span class='co'># one type to another</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.factor</span>, <span class='no'>as.character</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;chr&gt;  
 #&gt;  1          5.1         3.5          1.4         0.2 setosa 
@@ -309,7 +366,7 @@ data %&gt;% mutate_at(vars, myoperation)
 #&gt;  8          5           3.4          1.5         0.2 setosa 
 #&gt;  9          4.4         2.9          1.4         0.2 setosa 
 #&gt; 10          4.9         3.1          1.5         0.1 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.double</span>, <span class='no'>as.integer</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;int&gt;       &lt;int&gt;        &lt;int&gt;       &lt;int&gt; &lt;fct&gt;  
 #&gt;  1            5           3            1           0 setosa 
@@ -329,23 +386,24 @@ data %&gt;% mutate_at(vars, myoperation)
 <span class='co'># If you want to apply multiple transformations, pass a list of</span>
 <span class='co'># functions. When there are multiple functions, they create new</span>
 <span class='co'># variables instead of modifying the variables in place:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>scale2</span>, <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 9
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species `Sepal.Length_&lt;…
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>scale2</span>, <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_fn1
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
-#&gt;  1          5.1         3.5          1.4         0.2 setosa              1.63
-#&gt;  2          4.9         3            1.4         0.2 setosa              1.59
-#&gt;  3          4.7         3.2          1.3         0.2 setosa              1.55
-#&gt;  4          4.6         3.1          1.5         0.2 setosa              1.53
-#&gt;  5          5           3.6          1.4         0.2 setosa              1.61
-#&gt;  6          5.4         3.9          1.7         0.4 setosa              1.69
-#&gt;  7          4.6         3.4          1.4         0.3 setosa              1.53
-#&gt;  8          5           3.4          1.5         0.2 setosa              1.61
-#&gt;  9          4.4         2.9          1.4         0.2 setosa              1.48
-#&gt; 10          4.9         3.1          1.5         0.1 setosa              1.59
-#&gt; # … with 140 more rows, and 3 more variables: `Sepal.Width_&lt;fn&gt;` &lt;dbl&gt;,
-#&gt; #   `Petal.Length_&lt;fn&gt;` &lt;dbl&gt;, `Petal.Width_&lt;fn&gt;` &lt;dbl&gt;</div><div class='input'>
+#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
+#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
+#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
+#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
+#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
+#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
+#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
+#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
+#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
+#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
+#&gt; # … with 140 more rows, and 7 more variables: Sepal.Width_fn1 &lt;dbl&gt;,
+#&gt; #   Petal.Length_fn1 &lt;dbl&gt;, Petal.Width_fn1 &lt;dbl&gt;, Sepal.Length_fn2 &lt;dbl&gt;,
+#&gt; #   Sepal.Width_fn2 &lt;dbl&gt;, Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</div><div class='input'>
 <span class='co'># The list can contain purrr-style formulas:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'>scale2</span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'>scale2</span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 150 x 13
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
 #&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
@@ -365,7 +423,7 @@ data %&gt;% mutate_at(vars, myoperation)
 <span class='co'># Note how the new variables include the function name, in order to</span>
 <span class='co'># keep things distinct. The default names are not always helpful</span>
 <span class='co'># but you can also supply explicit names:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>, <span class='kw'>log</span> <span class='kw'>=</span> <span class='no'>log</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 13
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
 #&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
@@ -383,7 +441,7 @@ data %&gt;% mutate_at(vars, myoperation)
 #&gt; #   Sepal.Width_log &lt;dbl&gt;, Petal.Length_log &lt;dbl&gt;, Petal.Width_log &lt;dbl&gt;</div><div class='input'>
 <span class='co'># When there's only one function in the list, it modifies existing</span>
 <span class='co'># variables in place. Give it a name to instead create new variables:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>scale2</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='no'>scale2</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
 #&gt;  1       -0.898      1.02          -1.34       -1.31 setosa 
@@ -396,7 +454,7 @@ data %&gt;% mutate_at(vars, myoperation)
 #&gt;  8       -1.02       0.786         -1.28       -1.31 setosa 
 #&gt;  9       -1.74      -0.361         -1.34       -1.31 setosa 
 #&gt; 10       -1.14       0.0979        -1.28       -1.44 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise_all.html'>mutate_if</a></span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 9
+#&gt; # … with 140 more rows</div><div class='input'><span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>scale</span> <span class='kw'>=</span> <span class='no'>scale2</span>))</div><div class='output co'>#&gt; # A tibble: 150 x 9
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
 #&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
@@ -420,6 +478,8 @@ data %&gt;% mutate_at(vars, myoperation)
       <li><a href="#value">Value</a></li>
 
       <li><a href="#grouping-variables">Grouping variables</a></li>
+
+      <li><a href="#naming">Naming</a></li>
 
       <li><a href="#see-also">See also</a></li>
       

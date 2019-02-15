@@ -19,7 +19,7 @@
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.7.1/clipboard.min.js" integrity="sha384-cV+rhyOuRHc9Ub/91rihWcGmMmCXDeksTtCihMupQHSsi8GIIRDG0ThDc3HGQFJ3" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
 <!-- sticky kit -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
@@ -28,6 +28,14 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script>
 <link href="../tidyverse-2.css" rel="stylesheet">
+
+
+<!-- docsearch -->
+<script src="../docsearch.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
+<link href="../docsearch.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+
 
 <meta property="og:title" content="Print the location in memory of a data frame — location" />
 
@@ -169,51 +177,51 @@ frames</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x770d2a8&gt;
+    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x9010cd8&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x73179a0&gt;
-#&gt;  * cyl:       &lt;0x7317ae0&gt;
-#&gt;  * disp:      &lt;0x6fca4c0&gt;
-#&gt;  * hp:        &lt;0x6fca600&gt;
-#&gt;  * drat:      &lt;0x1758a60&gt;
-#&gt;  * wt:        &lt;0x1758ba0&gt;
-#&gt;  * qsec:      &lt;0x70f6b90&gt;
-#&gt;  * vs:        &lt;0x70f6cd0&gt;
-#&gt;  * am:        &lt;0x7089d00&gt;
-#&gt;  * gear:      &lt;0x7089e40&gt;
-#&gt;  * carb:      &lt;0x7351f00&gt;
+#&gt;  * mpg:       &lt;0x6dac9f0&gt;
+#&gt;  * cyl:       &lt;0x6d834f0&gt;
+#&gt;  * disp:      &lt;0x6d83630&gt;
+#&gt;  * hp:        &lt;0x6d83770&gt;
+#&gt;  * drat:      &lt;0x6d838b0&gt;
+#&gt;  * wt:        &lt;0x6d841e0&gt;
+#&gt;  * qsec:      &lt;0x6d84320&gt;
+#&gt;  * vs:        &lt;0x6d84460&gt;
+#&gt;  * am:        &lt;0x6d845a0&gt;
+#&gt;  * gear:      &lt;0x6d846e0&gt;
+#&gt;  * carb:      &lt;0x6d84820&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x770d1f8&gt;
-#&gt;  * row.names: &lt;0x7352040&gt;
-#&gt;  * class:     &lt;0x6adc5e0&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x9010c28&gt;
+#&gt;  * row.names: &lt;0x6d84960&gt;
+#&gt;  * class:     &lt;0x83f9768&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x8f2e428&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x85c7c88&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x73179a0&gt;
-#&gt;  * cyl:       &lt;0x7317ae0&gt;
-#&gt;  * disp:      &lt;0x6fca4c0&gt;
-#&gt;  * hp:        &lt;0x6fca600&gt;
-#&gt;  * drat:      &lt;0x1758a60&gt;
-#&gt;  * wt:        &lt;0x1758ba0&gt;
-#&gt;  * qsec:      &lt;0x70f6b90&gt;
-#&gt;  * vs:        &lt;0x70f6cd0&gt;
-#&gt;  * am:        &lt;0x7089d00&gt;
-#&gt;  * gear:      &lt;0x7089e40&gt;
-#&gt;  * carb:      &lt;0x7351f00&gt;
-#&gt;  * cyl2:      &lt;0x6a1e790&gt;
+#&gt;  * mpg:       &lt;0x6dac9f0&gt;
+#&gt;  * cyl:       &lt;0x6d834f0&gt;
+#&gt;  * disp:      &lt;0x6d83630&gt;
+#&gt;  * hp:        &lt;0x6d83770&gt;
+#&gt;  * drat:      &lt;0x6d838b0&gt;
+#&gt;  * wt:        &lt;0x6d841e0&gt;
+#&gt;  * qsec:      &lt;0x6d84320&gt;
+#&gt;  * vs:        &lt;0x6d84460&gt;
+#&gt;  * am:        &lt;0x6d845a0&gt;
+#&gt;  * gear:      &lt;0x6d846e0&gt;
+#&gt;  * carb:      &lt;0x6d84820&gt;
+#&gt;  * cyl2:      &lt;0x44e4d50&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x8f2e2c8&gt;
-#&gt;  * class:     &lt;0x6ac4848&gt;
-#&gt;  * row.names: &lt;0x4a3b998&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x85c7b28&gt;
+#&gt;  * class:     &lt;0x844e1d0&gt;
+#&gt;  * row.names: &lt;0x9afb2e0&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new      
-#&gt; cyl2      &lt;added&gt; 0x6a1e790
+#&gt; cyl2      &lt;added&gt; 0x44e4d50
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old       new      
-#&gt; names     0x770d1f8 0x8f2e2c8
-#&gt; row.names 0x7352040 0xd4e0888
-#&gt; class     0x6adc5e0 0x6ac4848</div></pre>
+#&gt; names     0x9010c28 0x85c7b28
+#&gt; row.names 0x6d84960 0xa9fbd38
+#&gt; class     0x83f9768 0x844e1d0</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
