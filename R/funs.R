@@ -46,7 +46,7 @@ funs <- function(..., .args = list()) {
     "please use list() instead",
     "",
     "# Before:",
-    "funs(name = f(.)",
+    "funs(name = f(.))",
     "",
     "# After: ",
     "list(name = ~f(.))"
