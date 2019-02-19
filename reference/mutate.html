@@ -121,8 +121,24 @@ New variables overwrite existing variables of the same name." />
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
+    </li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
+    </li>
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr">
@@ -454,8 +470,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
 #&gt; [85]        NA        NA 0.8330248</div><div class='input'>
 <span class='co'># Note that you can't overwrite grouping variables:</span>
 <span class='no'>gdf</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>mutate</span>(<span class='no'>gdf</span>, <span class='kw'>cyl</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>100</span>))
-
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/try'>try</a></span>(<span class='fu'>mutate</span>(<span class='no'>gdf</span>, <span class='kw'>cyl</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>100</span>))</div><div class='output co'>#&gt; Error : Column `cyl` can't be modified because it's a grouping variable</div><div class='input'>
 
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>vars</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"mass"</span>, <span class='st'>"height"</span>)
