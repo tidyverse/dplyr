@@ -69,6 +69,10 @@ public:
     return nrows();
   }
 
+  inline R_xlen_t max_group_size() const {
+    return 1;
+  }
+
   inline SymbolVector get_vars() const {
     return SymbolVector();
   }

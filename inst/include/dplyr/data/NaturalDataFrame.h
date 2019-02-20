@@ -85,8 +85,14 @@ public:
     return SymbolVector();
   }
 
-  static inline CharacterVector classes() {
+  static inline Rcpp::CharacterVector classes() {
+    // TODO: no need to make this vector each time
+    //       we can cache it
     return Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  }
+
+  inline R_xlen_t max_group_size() const {
+    return nrows();
   }
 
 private:

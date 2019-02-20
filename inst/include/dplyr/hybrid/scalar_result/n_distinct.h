@@ -26,7 +26,7 @@ public:
     Parent(data),
 
     visitors(columns_, nrows_, ngroups_),
-    set(nrows_, Hash(visitors), Pred(visitors))
+    set(data.max_group_size(), Hash(visitors), Pred(visitors))
   {}
 
   inline int process(const typename SlicedTibble::slicing_index& indices) const {

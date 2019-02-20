@@ -101,22 +101,32 @@ public:
     x.attr("groups") = y.attr("groups");
   }
 
-  static inline CharacterVector classes() {
+  static inline Rcpp::CharacterVector classes() {
     return Rcpp::CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
   }
 
   bool drops() const {
     SEXP drop_attr = Rf_getAttrib(groups, symbols::dot_drop);
-    return Rf_isNull(drop_attr) || (is<bool>(drop_attr) && LOGICAL(drop_attr)[0] != FALSE);
+    return Rf_isNull(drop_attr) || (Rcpp::is<bool>(drop_attr) && LOGICAL(drop_attr)[0] != FALSE);
+  }
+
+  inline R_xlen_t max_group_size() const {
+    R_xlen_t res = 0;
+    SEXP rows = indices();
+    R_xlen_t ng = XLENGTH(rows);
+    for (R_xlen_t i = 0; i < ng; i++) {
+      res = std::max(XLENGTH(VECTOR_ELT(rows, i)), res);
+    }
+    return res;
   }
 
 private:
 
   SymbolVector group_vars() const ;
 
-  DataFrame data_;
+  Rcpp::DataFrame data_;
   SymbolMap symbols;
-  DataFrame groups;
+  Rcpp::DataFrame groups;
   int nvars_;
 
 };
