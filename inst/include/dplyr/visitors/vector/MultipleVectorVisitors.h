@@ -27,14 +27,14 @@ private:
 public:
   typedef VectorVisitor visitor_type;
 
-  MultipleVectorVisitors(List data, int nrows, int ngroups_, int g) :
+  MultipleVectorVisitors(Rcpp::List data, int length_, int ngroups_) :
     visitors(),
-    length(nrows),
+    length(length_),
     ngroups(ngroups_)
   {
     int n = data.size();
     for (int i = 0; i < n; i++) {
-      push_back(data[i], g);
+      push_back(data[i]);
     }
   }
 
@@ -47,10 +47,7 @@ public:
   }
 
   inline int nrows() const {
-    if (visitors.size() == 0) {
-      stop("Need at least one column for `nrows()`");
-    }
-    return visitors[0]->size();
+    return length;
   }
 
   inline bool is_na(int index) const {
@@ -61,14 +58,12 @@ public:
 
 private:
 
-  inline void push_back(SEXP x, int g) {
+  inline void push_back(SEXP x) {
     int s = get_size(x);
     if (s == length) {
       visitors.push_back(boost::shared_ptr<VectorVisitor>(visitor(x)));
-    } else if (s == ngroups) {
-      visitors.push_back(boost::shared_ptr<VectorVisitor>(recycling_visitor(x, g, length)));
-    } else {
-      stop("incompatible size, should be either %d or %d (thr number of groups)", length, ngroups);
+    } else if (s != ngroups) {
+      Rcpp::stop("incompatible size, should be either %d or %d (the number of groups)", length, ngroups);
     }
   }
 

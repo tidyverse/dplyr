@@ -76,8 +76,7 @@ int n_distinct_multi(List variables, bool na_rm = false) {
     }
   }
 
-
-  MultipleVectorVisitors visitors(variables, length, 1, 0);
+  MultipleVectorVisitors visitors(variables, length, 1);
 
   typedef VisitorHash<MultipleVectorVisitors> Hash;
   typedef VisitorEqualPredicate<MultipleVectorVisitors> Pred;
