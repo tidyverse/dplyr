@@ -85,13 +85,18 @@ public:
     return SymbolVector();
   }
 
-  static inline CharacterVector classes() {
-    return Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  static inline Rcpp::CharacterVector classes() {
+    static Rcpp::CharacterVector classes = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+    return classes;
+  }
+
+  inline R_xlen_t max_group_size() const {
+    return nrows();
   }
 
 private:
 
-  DataFrame data_;
+  Rcpp::DataFrame data_;
 
 };
 

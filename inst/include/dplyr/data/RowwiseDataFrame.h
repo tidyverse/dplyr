@@ -69,16 +69,21 @@ public:
     return nrows();
   }
 
+  inline R_xlen_t max_group_size() const {
+    return 1;
+  }
+
   inline SymbolVector get_vars() const {
     return SymbolVector();
   }
 
-  static inline CharacterVector classes() {
-    return Rcpp::CharacterVector::create("rowwise_df", "tbl_df", "tbl", "data.frame");
+  static inline Rcpp::CharacterVector classes() {
+    static Rcpp::CharacterVector classes = Rcpp::CharacterVector::create("rowwise_df", "tbl_df", "tbl", "data.frame");
+    return classes;
   }
 
 private:
-  DataFrame data_;
+  Rcpp::DataFrame data_;
 
 };
 

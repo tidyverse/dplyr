@@ -22,17 +22,16 @@ public:
   typedef VisitorEqualPredicate<MultipleVectorVisitors> Pred;
   typedef dplyr_hash_set<int, Hash, Pred > Set;
 
-  N_Distinct(const SlicedTibble& data, List columns_):
+  N_Distinct(const SlicedTibble& data, Rcpp::List columns_, int nrows_, int ngroups_):
     Parent(data),
-    columns(columns_),
-    nrows(data.nrows()),
-    ngroups(data.ngroups())
+
+    visitors(columns_, nrows_, ngroups_),
+    set(data.max_group_size(), Hash(visitors), Pred(visitors))
   {}
 
   inline int process(const typename SlicedTibble::slicing_index& indices) const {
-    MultipleVectorVisitors visitors(columns, nrows, ngroups, indices.group());
+    set.clear();
     int n = indices.size();
-    Set set(n, Hash(visitors), Pred(visitors));
 
     for (int i = 0; i < n; i++) {
       int index = indices[i];
@@ -42,9 +41,8 @@ public:
   }
 
 private:
-  List columns;
-  int nrows;
-  int ngroups;
+  MultipleVectorVisitors visitors;
+  mutable Set set;
 };
 
 }
@@ -81,9 +79,9 @@ SEXP n_distinct_dispatch(const SlicedTibble& data, const Expression& expression,
   }
 
   if (narm) {
-    return op(internal::N_Distinct<SlicedTibble, true>(data, wrap(columns)));
+    return op(internal::N_Distinct<SlicedTibble, true>(data, Rcpp::wrap(columns), data.nrows(), data.ngroups()));
   } else {
-    return op(internal::N_Distinct<SlicedTibble, false>(data, wrap(columns)));
+    return op(internal::N_Distinct<SlicedTibble, false>(data, Rcpp::wrap(columns), data.nrows(), data.ngroups()));
   }
 }
 
