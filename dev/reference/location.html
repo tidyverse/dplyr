@@ -83,7 +83,7 @@ frames" />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9001</span>
         </div>
       </div>
     </div>
@@ -119,8 +119,24 @@ frames" />
     </li>
   </ul>
 </li>
-<li>
-  <a href="../news/index.html">News</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    News
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
+    </li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
+    </li>
+    <li>
+      <a href="../news/index.html">Change log</a>
+    </li>
+  </ul>
 </li>
         <li>
   <a href="https://github.com/tidyverse/dplyr">
@@ -177,51 +193,51 @@ frames</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x9010cd8&gt;
+    <pre class="examples"><div class='input'><span class='fu'>location</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;0x80391d8&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x6dac9f0&gt;
-#&gt;  * cyl:       &lt;0x6d834f0&gt;
-#&gt;  * disp:      &lt;0x6d83630&gt;
-#&gt;  * hp:        &lt;0x6d83770&gt;
-#&gt;  * drat:      &lt;0x6d838b0&gt;
-#&gt;  * wt:        &lt;0x6d841e0&gt;
-#&gt;  * qsec:      &lt;0x6d84320&gt;
-#&gt;  * vs:        &lt;0x6d84460&gt;
-#&gt;  * am:        &lt;0x6d845a0&gt;
-#&gt;  * gear:      &lt;0x6d846e0&gt;
-#&gt;  * carb:      &lt;0x6d84820&gt;
+#&gt;  * mpg:       &lt;0x7d82180&gt;
+#&gt;  * cyl:       &lt;0x683cd70&gt;
+#&gt;  * disp:      &lt;0x683ceb0&gt;
+#&gt;  * hp:        &lt;0x683cff0&gt;
+#&gt;  * drat:      &lt;0x683d130&gt;
+#&gt;  * wt:        &lt;0x6790050&gt;
+#&gt;  * qsec:      &lt;0x6790190&gt;
+#&gt;  * vs:        &lt;0x67902d0&gt;
+#&gt;  * am:        &lt;0x6790410&gt;
+#&gt;  * gear:      &lt;0x6790550&gt;
+#&gt;  * carb:      &lt;0x6790690&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x9010c28&gt;
-#&gt;  * row.names: &lt;0x6d84960&gt;
-#&gt;  * class:     &lt;0x83f9768&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x8039128&gt;
+#&gt;  * row.names: &lt;0x67907d0&gt;
+#&gt;  * class:     &lt;0x6ba8ea0&gt;</div><div class='input'>
 <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>mtcars</span>, <span class='kw'>cyl2</span> <span class='kw'>=</span> <span class='no'>cyl</span> * <span class='fl'>2</span>)
-<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x85c7c88&gt;
+<span class='fu'>location</span>(<span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; &lt;0x89924c8&gt;
 #&gt; Variables:
-#&gt;  * mpg:       &lt;0x6dac9f0&gt;
-#&gt;  * cyl:       &lt;0x6d834f0&gt;
-#&gt;  * disp:      &lt;0x6d83630&gt;
-#&gt;  * hp:        &lt;0x6d83770&gt;
-#&gt;  * drat:      &lt;0x6d838b0&gt;
-#&gt;  * wt:        &lt;0x6d841e0&gt;
-#&gt;  * qsec:      &lt;0x6d84320&gt;
-#&gt;  * vs:        &lt;0x6d84460&gt;
-#&gt;  * am:        &lt;0x6d845a0&gt;
-#&gt;  * gear:      &lt;0x6d846e0&gt;
-#&gt;  * carb:      &lt;0x6d84820&gt;
-#&gt;  * cyl2:      &lt;0x44e4d50&gt;
+#&gt;  * mpg:       &lt;0x7d82180&gt;
+#&gt;  * cyl:       &lt;0x683cd70&gt;
+#&gt;  * disp:      &lt;0x683ceb0&gt;
+#&gt;  * hp:        &lt;0x683cff0&gt;
+#&gt;  * drat:      &lt;0x683d130&gt;
+#&gt;  * wt:        &lt;0x6790050&gt;
+#&gt;  * qsec:      &lt;0x6790190&gt;
+#&gt;  * vs:        &lt;0x67902d0&gt;
+#&gt;  * am:        &lt;0x6790410&gt;
+#&gt;  * gear:      &lt;0x6790550&gt;
+#&gt;  * carb:      &lt;0x6790690&gt;
+#&gt;  * cyl2:      &lt;0x6c15650&gt;
 #&gt; Attributes:
-#&gt;  * names:     &lt;0x85c7b28&gt;
-#&gt;  * class:     &lt;0x844e1d0&gt;
-#&gt;  * row.names: &lt;0x9afb2e0&gt;</div><div class='input'>
+#&gt;  * names:     &lt;0x8992368&gt;
+#&gt;  * class:     &lt;0x7981718&gt;
+#&gt;  * row.names: &lt;0x9dc5ee0&gt;</div><div class='input'>
 <span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars</span>)</div><div class='output co'>#&gt; &lt;identical&gt;</div><div class='input'><span class='fu'>changes</span>(<span class='no'>mtcars</span>, <span class='no'>mtcars2</span>)</div><div class='output co'>#&gt; Changed variables:
 #&gt;           old     new      
-#&gt; cyl2      &lt;added&gt; 0x44e4d50
+#&gt; cyl2      &lt;added&gt; 0x6c15650
 #&gt; 
 #&gt; Changed attributes:
 #&gt;           old       new      
-#&gt; names     0x9010c28 0x85c7b28
-#&gt; row.names 0x6d84960 0xa9fbd38
-#&gt; class     0x83f9768 0x844e1d0</div></pre>
+#&gt; names     0x8039128 0x8992368
+#&gt; row.names 0x67907d0 0xa4ca130
+#&gt; class     0x6ba8ea0 0x7981718</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
