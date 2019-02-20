@@ -86,9 +86,7 @@ public:
   }
 
   static inline Rcpp::CharacterVector classes() {
-    // TODO: no need to make this vector each time
-    //       we can cache it
-    static Rcpp::CharacterVector classes("tbl_df", "tbl", "data.frame");
+    static Rcpp::CharacterVector classes = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
     return classes;
   }
 
@@ -98,7 +96,7 @@ public:
 
 private:
 
-  DataFrame data_;
+  Rcpp::DataFrame data_;
 
 };
 

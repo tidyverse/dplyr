@@ -102,7 +102,8 @@ public:
   }
 
   static inline Rcpp::CharacterVector classes() {
-    return Rcpp::CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
+    static Rcpp::CharacterVector classes = Rcpp::CharacterVector::create("grouped_df", "tbl_df", "tbl", "data.frame");
+    return classes;
   }
 
   bool drops() const {
