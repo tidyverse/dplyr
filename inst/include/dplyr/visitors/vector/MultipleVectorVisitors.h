@@ -32,6 +32,7 @@ public:
     length(length_),
     ngroups(ngroups_)
   {
+    visitors.reserve(data.size());
     int n = data.size();
     for (int i = 0; i < n; i++) {
       push_back(data[i]);
