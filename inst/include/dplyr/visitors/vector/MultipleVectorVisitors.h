@@ -20,6 +20,7 @@ class MultipleVectorVisitors :
   public VisitorSetGreater<MultipleVectorVisitors> {
 
 private:
+  // TODO: this does not need to be shared_ptr
   std::vector< boost::shared_ptr<VectorVisitor> > visitors;
   int length;
   int ngroups;
@@ -58,6 +59,9 @@ public:
   }
 
 private:
+
+  // prevent copy construction
+  MultipleVectorVisitors(const MultipleVectorVisitors&);
 
   inline void push_back(SEXP x) {
     int s = get_size(x);
