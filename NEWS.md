@@ -1,3 +1,7 @@
+# dplyr 0.8.0.9000
+
+* Fixed performance of `n_distint()` (#4202). 
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 
