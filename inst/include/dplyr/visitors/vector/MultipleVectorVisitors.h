@@ -8,7 +8,7 @@
 #include <dplyr/visitor_set/VisitorSetLess.h>
 #include <dplyr/visitor_set/VisitorSetGreater.h>
 
-#include <dplyr/visitors/vector/visitor.h>
+#include <dplyr/visitors/vector/VectorVisitor.h>
 #include <tools/utils.h>
 
 namespace dplyr {

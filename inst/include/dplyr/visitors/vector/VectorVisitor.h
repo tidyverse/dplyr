@@ -30,7 +30,8 @@ public:
   virtual bool is_na(int i) const = 0;
 };
 
-} // namespace dplyr
+inline VectorVisitor* visitor(SEXP vec);
 
+}
 
 #endif
