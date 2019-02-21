@@ -68,6 +68,12 @@ test_that("group_indices() can be used inside mutate (#1185)", {
 
 test_that("group_indices() recognizes .drop", {
   d <- tibble(f = factor("b", levels = c("a", "b", "c")))
-  expect_equal(group_indices(d, f), 2L)
-  expect_equal(group_indices(d, f, .drop = TRUE), 1L)
+  expect_equal(group_indices(d, f), 1L)
+  expect_equal(group_indices(d, f, .drop = FALSE), 2L)
+
+  # these two should return the same result (#4208):
+  #   d %>% group_indices(...)
+  #   d %>% group_by(...) %>% group_indices()
+  d2 <- group_by(d, f)
+  expect_equal(group_indices(d2), 1L)
 })
