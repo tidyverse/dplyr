@@ -89,11 +89,11 @@
 #'   group_by(y) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., add = FALSE, .drop = FALSE) {
+group_by <- function(.data, ..., add = FALSE, .drop = group_drops(.data)) {
   UseMethod("group_by")
 }
 #' @export
-group_by.default <- function(.data, ..., add = FALSE, .drop = FALSE) {
+group_by.default <- function(.data, ..., add = FALSE, .drop = group_drops(.data)) {
   group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
 }
 #' @export
