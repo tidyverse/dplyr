@@ -456,6 +456,14 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
 
       // NULL columns are not removed if `setup()` is not called here
       mask.setup();
+
+      // fix the quosure if it's an rlang lambda
+      SEXP expr = quosure.expr();
+      if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
+        // FIXME: Mutation
+        SET_CLOENV(CAR(expr), mask.get_data_mask()) ;
+      }
+
       variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
     }
 

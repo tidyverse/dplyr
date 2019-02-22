@@ -449,6 +449,11 @@ public:
     }
   }
 
+  SEXP get_data_mask() const {
+    return data_mask;
+  }
+
+
   // get ready to evaluate an R expression for a given group
   // as identified by the indices
   void update(const slicing_index& indices) {
@@ -505,20 +510,12 @@ public:
   }
 
   SEXP eval(const Quosure& quo, const slicing_index& indices) {
-    setup();
-
     // update the bindings
     update(indices);
 
     // update the data context variables, these are used by n(), ...
     get_context_env()["..group_size"] = indices.size();
     get_context_env()["..group_number"] = indices.group() + 1;
-
-    SEXP expr = quo.expr();
-    if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
-      // FIXME: Mutation
-      SET_CLOENV(CAR(expr), mask_resolved) ;
-    }
 
 #if (R_VERSION < R_Version(3, 5, 0))
     Shield<SEXP> call_quote(Rf_lang2(fns::quote, quo));
