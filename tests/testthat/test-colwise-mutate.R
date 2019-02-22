@@ -335,11 +335,27 @@ test_that("mutate_at with multiple columns AND unnamed functions works (#4119)",
 })
 
 test_that("colwise mutate have .data in scope of rlang lambdas (#4183)", {
-  res1 <- iris %>% mutate_if(is.numeric, ~ . / iris$Petal.Width)
-  res2 <- iris %>% mutate_if(is.numeric, ~ . / Petal.Width)
-  res3 <- iris %>% mutate_if(is.numeric, ~ . / .data$Petal.Width)
+  results <- list(
+    iris %>% mutate_if(is.numeric, ~ . / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ . / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ . / .data$Petal.Width),
 
-  expect_identical(res1, res2)
-  expect_identical(res1, res3)
+    iris %>% mutate_if(is.numeric, list(~ . / iris$Petal.Width )),
+    iris %>% mutate_if(is.numeric, list(~ . / Petal.Width      )),
+    iris %>% mutate_if(is.numeric, list(~ . / .data$Petal.Width)),
+
+    iris %>% mutate_if(is.numeric, ~ .x / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ .x / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ .x / .data$Petal.Width),
+
+    iris %>% mutate_if(is.numeric, list(~ .x / iris$Petal.Width )),
+    iris %>% mutate_if(is.numeric, list(~ .x / Petal.Width      )),
+    iris %>% mutate_if(is.numeric, list(~ .x / .data$Petal.Width))
+  )
+
+  for(i in 2:12) {
+    expect_equal(results[[1]], results[[i]])
+  }
+
 })
 

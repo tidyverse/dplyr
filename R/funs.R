@@ -88,13 +88,16 @@ as_fun_list <- function(.x, .quo, .env, ...) {
     .x <- list(.quo)
   } else if (is_character(.x)) {
     .x <- as.list(.x)
-  } else if (is_bare_formula(.x, lhs = FALSE)) {
-    .x <- list(as_function(.x))
   } else if (!is_list(.x)) {
     .x <- list(.x)
   }
 
-  funs <- map(.x, as_fun, .env = fun_env(.quo, .env), args)
+  funs <- map(.x, function(fun) {
+    if (is_bare_formula(fun, lhs = FALSE)) {
+      fun <- as_function(fun)
+    }
+    as_fun(fun, .env = fun_env(.quo, .env), args)
+  })
   new_funs(funs)
 }
 
