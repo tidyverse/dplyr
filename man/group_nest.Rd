@@ -55,7 +55,7 @@ iris \%>\%
   group_nest()
 
 #----- use case 2: using group_nest() on a ungrouped data frame with
-#                  a grouoping specification that uses the data mask
+#                  a grouping specification that uses the data mask
 starwars \%>\%
   group_nest(species, homeworld)
 
