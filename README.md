@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dplyr <a href='https:/dplyr.tidyverse.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# dplyr <a href='https://dplyr.tidyverse.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
@@ -49,16 +49,6 @@ install.packages("tidyverse")
 
 # Alternatively, install just dplyr:
 install.packages("dplyr")
-```
-
-### Release candidate
-
-dplyr 0.8.0 will be release on February 1st, you can install the release
-candidate from GitHub.
-
-``` r
-# install.packages("devtools")
-devtools::install_github("tidyverse/dplyr@rc_0.8.0")
 ```
 
 ### Development version
@@ -137,8 +127,9 @@ starwars %>%
     n = n(),
     mass = mean(mass, na.rm = TRUE)
   ) %>%
-  filter(n > 1)
-#> # A tibble: 9 x 3
+  filter(n > 1,
+         mass > 50)
+#> # A tibble: 8 x 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
 #> 1 Droid        5  69.8
@@ -146,7 +137,7 @@ starwars %>%
 #> 3 Human       35  82.8
 #> 4 Kaminoan     2  88  
 #> 5 Mirialan     2  53.1
-#> # … with 4 more rows
+#> # … with 3 more rows
 ```
 
 ## Getting help
