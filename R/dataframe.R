@@ -133,13 +133,17 @@ rename_.data.frame <- function(.data, ..., .dots = list()) {
 # Joins ------------------------------------------------------------------------
 
 #' @export
-inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(inner_join(tbl_df(x), y, by = by, copy = copy, ...))
+inner_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                                  na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  as.data.frame(inner_join(tbl_df(x), y, by = by, copy = copy, ...,
+                           na_matches = na_matches))
 }
 
 #' @export
-left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(left_join(tbl_df(x), y, by = by, copy = copy, ...))
+left_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                                 na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  as.data.frame(left_join(tbl_df(x), y, by = by, copy = copy, ...,
+                          na_matches = na_matches))
 }
 
 #' @export
@@ -149,23 +153,31 @@ nest_join.data.frame <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, na
 }
 
 #' @export
-right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(right_join(tbl_df(x), y, by = by, copy = copy, ...))
+right_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                                  na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  as.data.frame(right_join(tbl_df(x), y, by = by, copy = copy, ...,
+                           na_matches = na_matches))
 }
 
 #' @export
-full_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(full_join(tbl_df(x), y, by = by, copy = copy, ...))
+full_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                                 na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  as.data.frame(full_join(tbl_df(x), y, by = by, copy = copy, ...,
+                          na_matches = na_matches))
 }
 
 #' @export
-semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(semi_join(tbl_df(x), y, by = by, copy = copy, ...))
+semi_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                                 na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  as.data.frame(semi_join(tbl_df(x), y, by = by, copy = copy, ...,
+                          na_matches = na_matches))
 }
 
 #' @export
-anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
-  as.data.frame(anti_join(tbl_df(x), y, by = by, copy = copy, ...))
+anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...,
+                                 na_matches = pkgconfig::get_config("dplyr::na_matches")) {
+  as.data.frame(anti_join(tbl_df(x), y, by = by, copy = copy, ...,
+                          na_matches = na_matches))
 }
 
 # Set operations ---------------------------------------------------------------
