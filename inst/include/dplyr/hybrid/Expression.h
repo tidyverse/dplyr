@@ -228,25 +228,27 @@ public:
   inline bool is_column(int i, Column& column) const {
     LOG_VERBOSE << "is_column(" << i << ")";
 
-    Rcpp::Shield<SEXP> val(values[i]);
-
+    SEXP val = PROTECT(values[i]);
+    int nprot = 1;
     // when val is a quosure, grab its expression
     //
     // this allows for things like mean(!!quo(x)) or mean(!!quo(!!sym("x")))
     // to go through hybrid evaluation
     if (rlang::is_quosure(val)) {
       LOG_VERBOSE << "is quosure";
-      val = rlang::quo_get_expr(val);
+      val = PROTECT(rlang::quo_get_expr(val));
+      nprot++;
     }
 
     LOG_VERBOSE << "is_column_impl(false)";
+    bool result = false;
     if (is_column_impl(val, column, false)) {
-      return true;
+      result = true;
+    } else if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == symbols::desc && is_column_impl(CADR(val), column, true)) {
+      result = true;
     }
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == symbols::desc && is_column_impl(CADR(val), column, true)) {
-      return true;
-    }
-    return false;
+    UNPROTECT(nprot);
+    return result;
   }
 
   inline SEXP get_fun() const {
