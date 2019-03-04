@@ -80,7 +80,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9003</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9004</span>
         </div>
       </div>
     </div>
@@ -168,7 +168,8 @@
 <a href="#dplyr-0-8-0-9000" class="anchor"></a>dplyr 0.8.0.9000<small> Unreleased </small>
 </h1>
 <ul>
-<li><p>Fixed mutate() on rowwise data frames with 0 rows (<a href='https://github.com/tidyverse/dplyr/issues/4224'>#4224</a>).</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by()</a></code> does a shallow copy even in the no groups case (<a href='https://github.com/tidyverse/dplyr/issues/4221'>#4221</a>).</p></li>
+<li><p>Fixed <code><a href="../reference/mutate.html">mutate()</a></code> on rowwise data frames with 0 rows (<a href='https://github.com/tidyverse/dplyr/issues/4224'>#4224</a>).</p></li>
 <li><p>Fixed handling of bare formulas in colwise verbs (<a href='https://github.com/tidyverse/dplyr/issues/4183'>#4183</a>).</p></li>
 <li><p>Fixed performance of <code>n_distint()</code> (<a href='https://github.com/tidyverse/dplyr/issues/4202'>#4202</a>).</p></li>
 <li><p><code><a href="../reference/group_indices.html">group_indices()</a></code> now ignores empty groups by default for <code>data.frame</code>, which is consistent with the default of <code><a href="../reference/group_by.html">group_by()</a></code> (<a href='https://github.com/yutannihilation'>@yutannihilation</a>, <a href='https://github.com/tidyverse/dplyr/issues/4208'>#4208</a>).</p></li>
