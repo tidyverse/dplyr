@@ -88,6 +88,13 @@
 #' @param keep If `TRUE` the by columns are kept in the nesting joins.
 #' @param ... other parameters passed onto methods, for instance, `na_matches`
 #'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
+#' @param na_matches
+#'   Use `"never"` to always treat two `NA` or `NaN` values as
+#'   different, like joins for database sources, similarly to
+#'   `merge(incomparables = FALSE)`.
+#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal, like [merge()].
+#'   Users and package authors can change the default behavior by calling
+#'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
 #' @name join
 #' @examples
 #' # "Mutating" joins combine variables from the LHS and RHS
@@ -114,31 +121,36 @@ NULL
 
 #' @rdname join
 #' @export
-inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+inner_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...,
+                       na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   UseMethod("inner_join")
 }
 
 #' @rdname join
 #' @export
-left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+left_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...,
+                      na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   UseMethod("left_join")
 }
 
 #' @rdname join
 #' @export
-right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+right_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...,
+                       na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   UseMethod("right_join")
 }
 
 #' @rdname join
 #' @export
-full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...) {
+full_join <- function(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...,
+                      na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   UseMethod("full_join")
 }
 
 #' @rdname join
 #' @export
-semi_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+semi_join <- function(x, y, by = NULL, copy = FALSE, ...,
+                      na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   UseMethod("semi_join")
 }
 
@@ -150,7 +162,8 @@ nest_join <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, 
 
 #' @rdname join
 #' @export
-anti_join <- function(x, y, by = NULL, copy = FALSE, ...) {
+anti_join <- function(x, y, by = NULL, copy = FALSE, ...,
+                      na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   UseMethod("anti_join")
 }
 
