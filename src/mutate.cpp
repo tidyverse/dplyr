@@ -493,24 +493,27 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
   return SlicedTibble(res, gdf).data();
 }
 
+template <typename SlicedTibble>
+SEXP mutate_zero(const DataFrame& df, const QuosureList& dots, SEXP caller_env, bool set_groups) {
+  SlicedTibble tbl(df);
+  if (tbl.ngroups() == 0 || tbl.nrows() == 0) {
+    DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots, caller_env);
+    if (set_groups) {
+      res.attr("groups") = df.attr("groups");
+    }
+    return res;
+  }
+  return mutate_grouped<SlicedTibble>(df, dots, caller_env);
+}
 
 // [[Rcpp::export]]
 SEXP mutate_impl(DataFrame df, QuosureList dots, SEXP caller_env) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
-    return mutate_grouped<RowwiseDataFrame>(df, dots, caller_env);
+    return mutate_zero<RowwiseDataFrame>(df, dots, caller_env, false);
   } else if (is<GroupedDataFrame>(df)) {
-
-    GroupedDataFrame gdf(df);
-    // special case when there are no groups or only empty groups
-    if (gdf.ngroups() == 0 || gdf.nrows() == 0) {
-      DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots, caller_env);
-      res.attr("groups") = df.attr("groups");
-      return res;
-    }
-
-    return mutate_grouped<GroupedDataFrame>(df, dots, caller_env);
+    return mutate_zero<GroupedDataFrame>(df, dots, caller_env, true);
   } else {
     return mutate_grouped<NaturalDataFrame>(df, dots, caller_env);
   }

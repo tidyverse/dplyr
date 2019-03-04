@@ -406,6 +406,14 @@ test_that("mutate works on zero-row grouped data frame (#596)", {
   expect_equal(group_data(res)$b, factor(character(0)))
 })
 
+test_that("mutate works on zero-row rowwise data frame (#4224)", {
+  dat <- data.frame(a = numeric(0))
+  res <- dat %>% rowwise() %>% mutate(a2 = a * 2)
+  expect_is(res$a2, "numeric")
+  expect_is(res, "rowwise_df")
+  expect_equal(res$a2, numeric(0))
+})
+
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
   # Currently failing (#2967)
   skip_on_os("windows")

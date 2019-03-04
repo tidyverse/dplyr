@@ -1,5 +1,7 @@
 # dplyr 0.8.0.9000
 
+* Fixed mutate() on rowwise data frames with 0 rows (#4224).
+
 * Fixed handling of bare formulas in colwise verbs (#4183).
 
 * Fixed performance of `n_distint()` (#4202). 
