@@ -198,8 +198,10 @@ support <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquotin
     </tr>
     <tr>
       <th>.args, args</th>
-      <td><p>A named list of additional arguments to be added
-to all function calls.</p></td>
+      <td><p>A named list of additional arguments to be added to all
+function calls. As <code>funs()</code> is being deprecated, use other methods to
+supply arguments: <code>...</code> argument in <a href='summarise_all.html'>scoped verbs</a> or make
+own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.html'>purrr::partial()</a></code>.</p></td>
     </tr>
     </table>
     
