@@ -49,10 +49,49 @@ public:
     return quosure;
   }
 
+  bool is_rlang_lambda() const {
+    SEXP expr_ = expr();
+    return TYPEOF(expr_) == LANGSXP && Rf_inherits(CAR(expr_), "rlang_lambda_function");
+  }
+
 private:
   Quosure quosure;
   SymbolString name_;
 };
+
+class LambdaQuosure {
+public:
+  LambdaQuosure(const NamedQuosure& named_quosure, SEXP data_mask) :
+    quosure(make_lambda_quosure(named_quosure, data_mask))
+  {}
+
+  const NamedQuosure& get() const {
+    return quosure;
+  }
+
+  ~LambdaQuosure() {
+    UNPROTECT(2);
+  }
+
+private:
+
+  NamedQuosure make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
+    // need to create a new quosure to put the data mask in scope
+    // of the lambda function
+    SEXP expr = PROTECT(Rf_duplicate(named_quosure.expr()));
+    SET_CLOENV(CAR(expr), data_mask) ;
+    return NamedQuosure(
+             PROTECT(rlang::new_quosure(expr, named_quosure.env())),
+             named_quosure.name()
+           );
+  }
+
+  LambdaQuosure(const LambdaQuosure&) ;
+
+  NamedQuosure quosure;
+};
+
+
 
 } // namespace dplyr
 
@@ -60,18 +99,18 @@ namespace dplyr {
 
 class QuosureList {
 public:
-  QuosureList(const List& data_) : data() {
+  QuosureList(const Rcpp::List& data_) : data() {
     int n = data_.size();
     if (n == 0) return;
 
     data.reserve(n);
 
-    CharacterVector names = data_.names();
+    Rcpp::CharacterVector names = data_.names();
     for (int i = 0; i < n; i++) {
       SEXP x = data_[i];
 
       if (!rlang::is_quosure(x)) {
-        stop("corrupt tidy quote");
+        Rcpp::stop("corrupt tidy quote");
       }
 
       data.push_back(NamedQuosure(x, SymbolString(names[i])));
@@ -96,7 +135,7 @@ public:
   }
 
   SymbolVector names() const {
-    CharacterVector out(data.size());
+    Rcpp::CharacterVector out(data.size());
 
     for (size_t i = 0; i < data.size(); ++i) {
       out[i] = data[i].name().get_string();

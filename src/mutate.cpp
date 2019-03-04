@@ -457,14 +457,14 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
       // NULL columns are not removed if `setup()` is not called here
       mask.setup();
 
-      // fix the quosure if it's an rlang lambda
-      SEXP expr = quosure.expr();
-      if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
-        // FIXME: Mutation
-        SET_CLOENV(CAR(expr), mask.get_data_mask()) ;
+      if (quosure.is_rlang_lambda()) {
+        // need to create a new quosure to put the data mask in scope
+        // of the lambda function
+        LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
+        variable = MutateCallProxy<SlicedTibble>(gdf, mask, lambda_quosure.get()).get();
+      } else {
+        variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
       }
-
-      variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
     }
 
     if (Rf_isNull(variable)) {

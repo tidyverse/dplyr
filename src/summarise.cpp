@@ -155,14 +155,15 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
       if (result == R_UnboundValue) {
         mask.setup();
 
-        // fix the quosure if it's an rlang lambda
-        SEXP expr = quosure.expr();
-        if (TYPEOF(expr) == LANGSXP && Rf_inherits(CAR(expr), "rlang_lambda_function")) {
-          // FIXME: Mutation
-          SET_CLOENV(CAR(expr), mask.get_data_mask()) ;
+        if (quosure.is_rlang_lambda()) {
+          // need to create a new quosure to put the data mask in scope
+          // of the lambda function
+          LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
+          result = GroupedCallReducer<SlicedTibble>(lambda_quosure.get(), mask).process(gdf);
+        } else {
+          result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
         }
 
-        result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
       }
     }
     check_not_null(result, quosure.name());
