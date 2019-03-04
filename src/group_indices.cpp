@@ -640,18 +640,19 @@ SymbolVector GroupedDataFrame::group_vars() const {
 
 // [[Rcpp::export]]
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
+  DataFrame copy(shallow_copy(data));
+
   if (!symbols.size()) {
-    GroupedDataFrame::strip_groups(data);
-    data.attr("class") = NaturalDataFrame::classes();
-    return data;
+    GroupedDataFrame::strip_groups(copy);
+    copy.attr("class") = NaturalDataFrame::classes();
+    return copy;
   }
 
-  DataFrame copy(shallow_copy(data));
   set_class(copy, GroupedDataFrame::classes());
 
   // we've made a copy and we are about to create the groups
   // attribute, so we make sure there is no more a vars
-  // attribute lurking around from the pore 0.8.0 area
+  // attribute lurking around from the pre 0.8.0 area
   copy.attr("vars") = R_NilValue;
   copy.attr("drop") = R_NilValue;
 

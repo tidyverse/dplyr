@@ -493,3 +493,10 @@ test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
   expect_equal(n_groups(res), 1L)
   expect_true(group_drops(res))
 })
+
+test_that("group_by() makes a shallow copy of data even in the corner case", {
+  df <- data.frame(x = 1:4)
+  gdf <- group_by(df)
+  expect_true(inherits(gdf, "tbl_df"))
+  expect_false(inherits(df, "tbl_df"))
+})
