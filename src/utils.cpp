@@ -12,7 +12,8 @@
 using namespace Rcpp;
 
 SEXP child_env(SEXP parent) {
-  return Rf_eval(Rf_lang3(symbols::new_env, Rf_ScalarLogical(TRUE), parent), R_BaseEnv);
+  Shield<SEXP> call(Rf_lang3(symbols::new_env, Rf_ScalarLogical(TRUE), parent));
+  return Rf_eval(call, R_BaseEnv);
 }
 
 // [[Rcpp::export]]
