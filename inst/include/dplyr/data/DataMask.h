@@ -280,7 +280,8 @@ public:
   {}
 
   virtual SEXP materialize(int idx) {
-    if (boost::shared_ptr< DataMaskProxy<SlicedTibble> > lock = real.lock()) {
+    boost::shared_ptr< DataMaskProxy<SlicedTibble> > lock = real.lock();
+    if (lock) {
       return lock.get()->materialize(idx);
     } else {
       warning("Hybrid callback proxy out of scope");
