@@ -228,7 +228,7 @@ public:
   inline bool is_column(int i, Column& column) const {
     LOG_VERBOSE << "is_column(" << i << ")";
 
-    SEXP val = values[i];
+    Rcpp::Shield<SEXP> val(values[i]);
 
     // when val is a quosure, grab its expression
     //
