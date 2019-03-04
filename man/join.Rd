@@ -12,21 +12,24 @@
 \title{Join two tbls together}
 \usage{
 inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-  ...)
+  ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
 
 right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
-  ...)
+  ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
-full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+full_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
-semi_join(x, y, by = NULL, copy = FALSE, ...)
+semi_join(x, y, by = NULL, copy = FALSE, ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 nest_join(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL,
   ...)
 
-anti_join(x, y, by = NULL, copy = FALSE, ...)
+anti_join(x, y, by = NULL, copy = FALSE, ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 }
 \arguments{
 \item{x, y}{tbls to join}
@@ -52,6 +55,13 @@ Should be a character vector of length 2.}
 
 \item{...}{other parameters passed onto methods, for instance, \code{na_matches}
 to control how \code{NA} values are matched.  See \link{join.tbl_df} for more.}
+
+\item{na_matches}{Use \code{"never"} to always treat two \code{NA} or \code{NaN} values as
+different, like joins for database sources, similarly to
+\code{merge(incomparables = FALSE)}.
+The default, \code{"na"}, always treats two \code{NA} or \code{NaN} values as equal, like \code{\link[=merge]{merge()}}.
+Users and package authors can change the default behavior by calling
+\code{pkgconfig::set_config("dplyr::na_matches" = "never")}.}
 
 \item{keep}{If \code{TRUE} the by columns are kept in the nesting joins.}
 
