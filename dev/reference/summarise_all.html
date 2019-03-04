@@ -89,7 +89,7 @@ summarise_if() affects variables selected with a predicate function
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9002</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9003</span>
         </div>
       </div>
     </div>
@@ -326,13 +326,15 @@ unique.</p>
 <span class='co'># better default names:</span>
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>min</a></span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 3 x 9
-#&gt;   Species Sepal.Length_min Sepal.Width_min Petal.Length_min Petal.Width_min
-#&gt;   &lt;fct&gt;              &lt;dbl&gt;           &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;
-#&gt; 1 setosa               4.3             2.3              1               0.1
-#&gt; 2 versic…              4.9             2                3               1  
-#&gt; 3 virgin…              4.9             2.2              4.5             1.4
-#&gt; # … with 4 more variables: Sepal.Length_max &lt;dbl&gt;, Sepal.Width_max &lt;dbl&gt;,
-#&gt; #   Petal.Length_max &lt;dbl&gt;, Petal.Width_max &lt;dbl&gt;</div><div class='input'>
+#&gt;   Species `Sepal.Length_&lt;… `Sepal.Width_&lt;S… `Petal.Length_&lt;… `Petal.Width_&lt;S…
+#&gt;   &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+#&gt; 1 setosa               4.3              2.3              1                0.1
+#&gt; 2 versic…              4.9              2                3                1  
+#&gt; 3 virgin…              4.9              2.2              4.5              1.4
+#&gt; # … with 4 more variables: `Sepal.Length_&lt;S3: rlang_lambda_function&gt;..2` &lt;dbl&gt;,
+#&gt; #   `Sepal.Width_&lt;S3: rlang_lambda_function&gt;..2` &lt;dbl&gt;, `Petal.Length_&lt;S3:
+#&gt; #   rlang_lambda_function&gt;..2` &lt;dbl&gt;, `Petal.Width_&lt;S3:
+#&gt; #   rlang_lambda_function&gt;..2` &lt;dbl&gt;</div><div class='input'>
 <span class='co'># When that's not good enough, you can also supply the names explicitly:</span>
 <span class='no'>by_species</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise_all</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>min</span> <span class='kw'>=</span> <span class='no'>min</span>, <span class='kw'>max</span> <span class='kw'>=</span> <span class='no'>max</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 9
