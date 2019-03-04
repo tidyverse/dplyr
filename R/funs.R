@@ -23,8 +23,10 @@
 #'  - An anonymous function, `function(x) mean(x, na.rm = TRUE)`
 #'  - An anonymous function in \pkg{purrr} notation, `~mean(., na.rm = TRUE)`
 #'
-#' @param .args,args A named list of additional arguments to be added
-#'   to all function calls.
+#' @param .args,args A named list of additional arguments to be added to all
+#'   function calls. As `funs()` is being deprecated, use other methods to
+#'   supply arguments: `...` argument in [scoped verbs][summarise_at()] or make
+#'   own functions with [purrr::partial()].
 #' @export
 #' @examples
 #' funs(mean, "mean", mean(., na.rm = TRUE))

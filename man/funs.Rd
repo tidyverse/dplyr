@@ -25,8 +25,10 @@ The following notations are \strong{not} supported, see examples:
 \item An anonymous function in \pkg{purrr} notation, \code{~mean(., na.rm = TRUE)}
 }}
 
-\item{.args, args}{A named list of additional arguments to be added
-to all function calls.}
+\item{.args, args}{A named list of additional arguments to be added to all
+function calls. As \code{funs()} is being deprecated, use other methods to
+supply arguments: \code{...} argument in \link[=summarise_at]{scoped verbs} or make
+own functions with \code{\link[purrr:partial]{purrr::partial()}}.}
 }
 \description{
 \code{funs()} provides a flexible way to generate a named list of
