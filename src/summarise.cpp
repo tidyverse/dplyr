@@ -154,7 +154,16 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
       // we can use a GroupedCallReducer which will callback to R.
       if (result == R_UnboundValue) {
         mask.setup();
-        result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
+
+        if (quosure.is_rlang_lambda()) {
+          // need to create a new quosure to put the data mask in scope
+          // of the lambda function
+          LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
+          result = GroupedCallReducer<SlicedTibble>(lambda_quosure.get(), mask).process(gdf);
+        } else {
+          result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
+        }
+
       }
     }
     check_not_null(result, quosure.name());

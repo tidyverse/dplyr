@@ -333,3 +333,29 @@ test_that("mutate_at with multiple columns AND unnamed functions works (#4119)",
     c(names(storms), c("wind_fn1", "pressure_fn1", "wind_fn2", "pressure_fn2"))
   )
 })
+
+test_that("colwise mutate have .data in scope of rlang lambdas (#4183)", {
+  results <- list(
+    iris %>% mutate_if(is.numeric, ~ . / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ . / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ . / .data$Petal.Width),
+
+    iris %>% mutate_if(is.numeric, list(~ . / iris$Petal.Width )),
+    iris %>% mutate_if(is.numeric, list(~ . / Petal.Width      )),
+    iris %>% mutate_if(is.numeric, list(~ . / .data$Petal.Width)),
+
+    iris %>% mutate_if(is.numeric, ~ .x / iris$Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ .x / Petal.Width),
+    iris %>% mutate_if(is.numeric, ~ .x / .data$Petal.Width),
+
+    iris %>% mutate_if(is.numeric, list(~ .x / iris$Petal.Width )),
+    iris %>% mutate_if(is.numeric, list(~ .x / Petal.Width      )),
+    iris %>% mutate_if(is.numeric, list(~ .x / .data$Petal.Width))
+  )
+
+  for(i in 2:12) {
+    expect_equal(results[[1]], results[[i]])
+  }
+
+})
+

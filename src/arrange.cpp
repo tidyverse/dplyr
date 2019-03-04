@@ -59,6 +59,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
     }
 
     // otherwise need to evaluate in the data mask
+    mask.setup();
     if (v.isNULL()) {
       if (is_desc) {
         // we need a new quosure that peels off `desc` from the original

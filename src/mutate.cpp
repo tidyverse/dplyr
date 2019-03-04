@@ -456,7 +456,15 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
 
       // NULL columns are not removed if `setup()` is not called here
       mask.setup();
-      variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
+
+      if (quosure.is_rlang_lambda()) {
+        // need to create a new quosure to put the data mask in scope
+        // of the lambda function
+        LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
+        variable = MutateCallProxy<SlicedTibble>(gdf, mask, lambda_quosure.get()).get();
+      } else {
+        variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
+      }
     }
 
     if (Rf_isNull(variable)) {

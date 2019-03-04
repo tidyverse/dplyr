@@ -234,6 +234,8 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
   GroupFilterIndices<SlicedTibble> group_indices(gdf);
 
   // traverse each group and fill `group_indices`
+  mask.setup();
+
   for (int i = 0; i < ngroups; i++, ++git) {
     const slicing_index& indices = *git;
     int chunk_size = indices.size();
@@ -484,6 +486,8 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   GroupSliceIndices<SlicedTibble> group_indices(gdf);
 
   group_iterator git = gdf.group_begin();
+  mask.setup();
+
   for (int i = 0; i < ngroups; i++, ++git) {
     const slicing_index& indices = *git;
 
