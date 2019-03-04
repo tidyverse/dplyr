@@ -1,6 +1,8 @@
 # dplyr 0.8.0.9000
 
-* Fixed mutate() on rowwise data frames with 0 rows (#4224).
+* `group_by()` does a shallow copy even in the no groups case (#4221).
+
+* Fixed `mutate()` on rowwise data frames with 0 rows (#4224).
 
 * Fixed handling of bare formulas in colwise verbs (#4183).
 
