@@ -107,44 +107,6 @@ summarise_.tbl_df <- function(.data, ..., .dots = list()) {
   summarise_impl(.data, dots, environment(), caller_env())
 }
 
-# Joins ------------------------------------------------------------------------
-
-#' Join data frame tbls
-#'
-#' See [join] for a description of the general purpose of the
-#' functions.
-#'
-#' @inheritParams inner_join
-#' @param ... included for compatibility with the generic; otherwise ignored.
-#' @param na_matches
-#'   Use `"never"` to always treat two `NA` or `NaN` values as
-#'   different, like joins for database sources, similarly to
-#'   `merge(incomparables = FALSE)`.
-#'   The default, `"na"`, always treats two `NA` or `NaN` values as equal, like [merge()].
-#'   Users and package authors can change the default behavior by calling
-#'   `pkgconfig::set_config("dplyr::na_matches" = "never")`.
-#' @examples
-#' if (require("Lahman")) {
-#' batting_df <- tbl_df(Batting)
-#' person_df <- tbl_df(Master)
-#'
-#' uperson_df <- tbl_df(Master[!duplicated(Master$playerID), ])
-#'
-#' # Inner join: match batting and person data
-#' inner_join(batting_df, person_df)
-#' inner_join(batting_df, uperson_df)
-#'
-#' # Left join: match, but preserve batting data
-#' left_join(batting_df, uperson_df)
-#'
-#' # Anti join: find batters without person data
-#' anti_join(batting_df, person_df)
-#' # or people who didn't bat
-#' anti_join(person_df, batting_df)
-#' }
-#' @name join.tbl_df
-NULL
-
 check_na_matches <- function(na_matches) {
   na_matches <- match.arg(na_matches, choices = c("na", "never"))
   accept_na_match <- (na_matches == "na")
@@ -152,7 +114,6 @@ check_na_matches <- function(na_matches) {
 }
 
 #' @export
-#' @rdname join.tbl_df
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
@@ -177,7 +138,6 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
 nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% expr_name(enexpr(y))
   check_valid_names(tbl_vars(x))
@@ -200,7 +160,6 @@ nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name =
 
 
 #' @export
-#' @rdname join.tbl_df
 left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
@@ -225,7 +184,6 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
 right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                               suffix = c(".x", ".y"), ...,
                               na_matches = pkgconfig::get_config("dplyr::na_matches")) {
@@ -250,7 +208,6 @@ right_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
 full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
                              suffix = c(".x", ".y"), ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
@@ -275,7 +232,6 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 }
 
 #' @export
-#' @rdname join.tbl_df
 semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   check_valid_names(tbl_vars(x), warn_only = TRUE)
@@ -291,7 +247,6 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
 }
 
 #' @export
-#' @rdname join.tbl_df
 anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
                              na_matches = pkgconfig::get_config("dplyr::na_matches")) {
   check_valid_names(tbl_vars(x), warn_only = TRUE)
