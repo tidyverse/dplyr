@@ -635,3 +635,10 @@ test_that("bind_rows handles typed lists (#3924)", {
   lst <- structure(list(df, df, df), class = "special_lst")
   expect_equal(bind_rows(lst), bind_rows(df,df,df))
 })
+
+test_that("bind_rows() refuses .id that is a column (#4230)", {
+  d1 <- tibble(x = 1:2, y = 1:2)
+  d2 <- tibble(x = 1:2, y = 1:2)
+
+  expect_error(bind_rows(d1, d2, .id = "x"))
+})

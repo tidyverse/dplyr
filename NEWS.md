@@ -55,6 +55,8 @@
   https://www.tidyverse.org/articles/2019/04/r-version-support/
 
 * `rename_at()` handles empty selection (#4324). 
+* Exporting `group_by_drop_default()`, previously known as `dplyr:::group_drops()` (#4245).
+* `bind_rows()` aborts if `.id` is a column name (#4230). 
 
 # dplyr 0.8.0.1 (2019-02-15)
 
