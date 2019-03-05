@@ -5,7 +5,7 @@
 \alias{group_walk}
 \title{Apply a function to each group}
 \usage{
-group_map(.tbl, .f, ...)
+group_map(.tbl, .f, ..., keep = FALSE)
 
 group_walk(.tbl, .f, ...)
 }
@@ -27,10 +27,12 @@ that identifies the group
 }}
 
 \item{...}{Additional arguments passed on to \code{.f}}
+
+\item{keep}{are the grouping variables kept in \code{.x}}
 }
 \value{
 \itemize{
-\item \code{group_map()} row binds the data frames returned by \code{.f}
+\item \code{group_map()} returns a list of results from calling \code{.f} on each group
 \item \code{group_walk()} calls \code{.f} for side effects and returns the input \code{.tbl}, invisibly
 }
 }
@@ -52,8 +54,6 @@ Each conceptual group of the data frame is exposed to the function \code{.f} wit
 \item The subset of the data for the group, exposed as \code{.x}.
 \item The key, a tibble with exactly one row and columns for each grouping variable, exposed as \code{.y}.
 }
-
-\code{.f} must return a data frame that does not contain any of the grouping variables of \code{.tbl}.
 
 For completeness, \code{group_map()} and \code{group_walk()} also work on
 ungrouped data frames, in that case the function is applied to the

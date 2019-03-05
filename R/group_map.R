@@ -28,8 +28,6 @@ as_group_map_function <- function(.f) {
 #'   - The subset of the data for the group, exposed as `.x`.
 #'   - The key, a tibble with exactly one row and columns for each grouping variable, exposed as `.y`.
 #'
-#' `.f` must return a data frame that does not contain any of the grouping variables of `.tbl`.
-#'
 #' For completeness, `group_map()` and `group_walk()` also work on
 #' ungrouped data frames, in that case the function is applied to the
 #' entire data frame (exposed as `.x`), and `.y` is a one row tibble with no
@@ -53,9 +51,10 @@ as_group_map_function <- function(.f) {
 #'   that identifies the group
 #'
 #' @param ... Additional arguments passed on to `.f`
+#' @param keep are the grouping variables kept in `.x`
 #'
 #' @return
-#'  - `group_map()` row binds the data frames returned by `.f`
+#'  - `group_map()` returns a list of results from calling `.f` on each group
 #'  - `group_walk()` calls `.f` for side effects and returns the input `.tbl`, invisibly
 #'
 #' @examples
@@ -97,7 +96,7 @@ as_group_map_function <- function(.f) {
 #'   group_map(~ head(.x, 2L))
 #'
 #' @export
-group_map <- function(.tbl, .f, ...) {
+group_map <- function(.tbl, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
