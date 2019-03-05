@@ -11,6 +11,8 @@
 * `group_indices()` now ignores empty groups by default for `data.frame`, which is
   consistent with the default of `group_by()` (@yutannihilation, #4208). 
 
+* Fixed integer overflow in hybrid `ntile()` (#4186). 
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 

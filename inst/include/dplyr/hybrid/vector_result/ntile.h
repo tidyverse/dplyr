@@ -32,7 +32,7 @@ public:
   }
 
 private:
-  int ntiles;
+  R_xlen_t ntiles;
 };
 
 template <typename SlicedTibble, int RTYPE, bool ascending>
@@ -79,7 +79,7 @@ public:
 
 private:
   Rcpp::Vector<RTYPE> vec;
-  int ntiles;
+  R_xlen_t ntiles;
 };
 
 
