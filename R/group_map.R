@@ -1,4 +1,12 @@
 
+as_group_map_function <- function(.f) {
+  .f <- rlang::as_function(.f)
+  if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
+    stop("The function must accept at least two arguments. You can use ... to absorb unused components")
+  }
+  .f
+}
+
 #' Apply a function to each group
 #'
 #' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
@@ -90,92 +98,18 @@
 #'
 #' @export
 group_map <- function(.tbl, .f, ...) {
-  UseMethod("group_map")
-}
-
-#' @export
-group_map.formula <- function(.tbl, .f, ...) {
-  abort("Did you forget to provide the primary input tibble?")
-}
-
-#' @export
-group_map.function <- function(.tbl, .f, ...) {
-  abort("Did you forget to provide the primary input tibble?")
-}
-
-as_group_map_function <- function(.f) {
-  .f <- rlang::as_function(.f)
-  if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
-    stop("The function must accept at least two arguments. You can use ... to absorb unused components")
-  }
-  .f
-}
-
-
-#' @export
-group_map.data.frame <- function(.tbl, .f, ...) {
-  .f <- as_group_map_function(.f)
-  .f(.tbl, group_keys(.tbl), ...)
-}
-
-#' @export
-group_map.grouped_df <- function(.tbl, .f, ...) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.tbl, keep = FALSE)
+  chunks <- group_split(.tbl, keep = keep)
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  result_tibbles <- map2(chunks, group_keys, function(.x, .y){
-    res <- .f(.x, .y, ...)
-    if (!inherits(res, "data.frame")) {
-      abort("The result of .f should be a data frame")
-    }
-    if (any(bad <- names(res) %in% group_vars(.tbl))) {
-      abort(sprintf(
-        "The returned data frame cannot contain the original grouping variables : ",
-        paste(names(res)[bad], collapse = ", ")
-      ))
-    }
-    bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
-  })
-
-  # recalculates .rows based on the number of rows on each tibble
-  .rows <- vector(mode = "list", length = length(result_tibbles))
-  k <- 1L
-  for (i in seq_along(result_tibbles)) {
-    n <- nrow(result_tibbles[[i]])
-    .rows[[i]] <- seq2(k, k + n - 1L)
-    k <- k + n
-  }
-
-  # structure the result as a grouped data frame
-  new_grouped_df(
-    bind_rows(!!!result_tibbles),
-    groups = tibble::add_column(keys, ".rows" := .rows)
-  )
+  map2(chunks, group_keys, .f)
 }
 
 #' @export
 #' @rdname group_map
 group_walk <- function(.tbl, .f, ...) {
-  UseMethod("group_walk")
-}
-
-#' @export
-group_walk.grouped_df <- function(.tbl, .f, ...) {
-  .f <- as_group_map_function(.f)
-
-  # call the function on each group
-  chunks <- group_split(.tbl, keep = FALSE)
-  keys  <- group_keys(.tbl)
-  group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  walk2(chunks, group_keys, .f)
-  invisible(.tbl)
-}
-
-#' @export
-group_walk.data.frame <- function(.tbl, .f, ...) {
   group_map(.tbl, .f, ...)
   .tbl
 }
