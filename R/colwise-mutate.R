@@ -346,7 +346,7 @@ manip_apply_syms <- function(funs, syms, tbl) {
     if (length(syms) == 1 && all(unnamed)) {
       names(out) <- names(funs)
     } else {
-      syms_names <- map_chr(syms, as_string)
+      syms_names <- ifelse(unnamed, map_chr(syms, as_string), names(syms))
       grid <- expand.grid(var = syms_names, call = names(funs))
       names(out) <- paste(grid$var, grid$call, sep = "_")
     }
