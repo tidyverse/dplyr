@@ -359,3 +359,13 @@ test_that("colwise mutate have .data in scope of rlang lambdas (#4183)", {
 
 })
 
+test_that("can choose the name of vars with multiple funs (#4180)", {
+  expect_identical(
+    mtcars %>%
+      group_by(cyl) %>%
+      summarise_at(vars(DISP = disp), list(mean = mean, median = median)),
+    mtcars %>%
+      group_by(cyl) %>%
+      summarise(DISP_mean = mean(disp), DISP_median = median(disp))
+  )
+})

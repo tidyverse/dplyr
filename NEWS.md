@@ -13,6 +13,8 @@
 
 * Fixed integer overflow in hybrid `ntile()` (#4186). 
 
+* colwise functions `summarise_at()` ... can rename vars in the case of multiple functions (#4180).
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 
