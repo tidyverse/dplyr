@@ -14,7 +14,8 @@
 inner_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
   ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
-left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...)
+left_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"), ...,
+  na_matches = pkgconfig::get_config("dplyr::na_matches"))
 
 right_join(x, y, by = NULL, copy = FALSE, suffix = c(".x", ".y"),
   ..., na_matches = pkgconfig::get_config("dplyr::na_matches"))
