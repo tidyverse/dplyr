@@ -1,7 +1,6 @@
 #' Join two tbls together
 #'
-#' These are generic functions that dispatch to individual tbl methods - see the
-#' method documentation for details of individual data sources. `x` and
+#' These are generic functions that dispatch to individual tbl methods. `x` and
 #' `y` should usually be from the same data source, but if `copy` is
 #' `TRUE`, `y` will automatically be copied to the same source as `x`.
 #'
