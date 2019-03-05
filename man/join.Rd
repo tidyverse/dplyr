@@ -69,8 +69,7 @@ Users and package authors can change the default behavior by calling
 \item{name}{the name of the list column nesting joins create. If \code{NULL} the name of \code{y} is used.}
 }
 \description{
-These are generic functions that dispatch to individual tbl methods - see the
-method documentation for details of individual data sources. \code{x} and
+These are generic functions that dispatch to individual tbl methods. \code{x} and
 \code{y} should usually be from the same data source, but if \code{copy} is
 \code{TRUE}, \code{y} will automatically be copied to the same source as \code{x}.
 }
