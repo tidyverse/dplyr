@@ -265,7 +265,8 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
 
   group_indices.process();
 
-  return structure_filter(gdf, group_indices, quo.env()) ;
+  Shield<SEXP> env(quo.env());
+  return structure_filter(gdf, group_indices, env) ;
 }
 
 // [[Rcpp::export]]

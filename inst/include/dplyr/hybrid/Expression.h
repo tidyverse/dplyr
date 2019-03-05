@@ -228,25 +228,22 @@ public:
   inline bool is_column(int i, Column& column) const {
     LOG_VERBOSE << "is_column(" << i << ")";
 
-    SEXP val = values[i];
-
+    SEXP val = PROTECT(values[i]);
+    int nprot = 1;
     // when val is a quosure, grab its expression
     //
     // this allows for things like mean(!!quo(x)) or mean(!!quo(!!sym("x")))
     // to go through hybrid evaluation
     if (rlang::is_quosure(val)) {
       LOG_VERBOSE << "is quosure";
-      val = rlang::quo_get_expr(val);
+      val = PROTECT(rlang::quo_get_expr(val));
+      nprot++;
     }
 
     LOG_VERBOSE << "is_column_impl(false)";
-    if (is_column_impl(val, column, false)) {
-      return true;
-    }
-    if (TYPEOF(val) == LANGSXP && Rf_length(val) == 1 && CAR(val) == symbols::desc && is_column_impl(CADR(val), column, true)) {
-      return true;
-    }
-    return false;
+    bool result = is_column_impl(val, column, false) || is_desc_column_impl(val, column);
+    UNPROTECT(nprot);
+    return result;
   }
 
   inline SEXP get_fun() const {
@@ -288,6 +285,15 @@ private:
     }
     return f;
   }
+
+  inline bool is_desc_column_impl(SEXP val, Column& column) const {
+    return TYPEOF(val) == LANGSXP &&
+           Rf_length(val) == 1 &&
+           CAR(val) == symbols::desc &&
+           is_column_impl(CADR(val), column, true)
+           ;
+  }
+
 
   inline bool is_column_impl(SEXP val, Column& column, bool desc) const {
     if (TYPEOF(val) == SYMSXP) {
