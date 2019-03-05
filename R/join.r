@@ -86,7 +86,7 @@
 #' @param name the name of the list column nesting joins create. If `NULL` the name of `y` is used.
 #' @param keep If `TRUE` the by columns are kept in the nesting joins.
 #' @param ... other parameters passed onto methods, for instance, `na_matches`
-#'   to control how `NA` values are matched.  See \link{join.tbl_df} for more.
+#'   to control how `NA` values are matched.  See [join.tbl_df()] for more.
 #' @param na_matches
 #'   Use `"never"` to always treat two `NA` or `NaN` values as
 #'   different, like joins for database sources, similarly to
