@@ -167,3 +167,18 @@ test_that("mutate_all does not change the order of columns (#3351)", {
   tbl <- group_by(tibble(x = 1:4, y = 1:4, z = 1:4), y)
   expect_message(expect_identical(names(mutate_all(tbl, identity)), names(tbl)), "ignored")
 })
+
+test_that("select_if() and rename_if() handles logical (#4213)", {
+  ids <- "Sepal.Length"
+  expect_identical(
+    iris %>% select_if(!names(.) %in% ids),
+    iris %>% select(-Sepal.Length)
+  )
+
+  expect_identical(
+    iris %>% rename_if(!names(.) %in% ids, toupper),
+    iris %>% rename_at(setdiff(names(.), "Sepal.Length"), toupper)
+  )
+
+})
+
