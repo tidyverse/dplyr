@@ -118,11 +118,11 @@ bind_rows <- function(..., .id = NULL) {
       names(x) <- seq_along(x)
     }
 
-    walk(x, function(.x) {
+    for(.x in x) {
       if(.id %in% names(.x)) {
         glubort(NULL, '"{.id}" is a column name, it cannot be used as .id')
       }
-    })
+    }
   }
 
   bind_rows_(x, .id)
