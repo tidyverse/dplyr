@@ -22,8 +22,8 @@ Can also be a function or purrr-like formula. In this case, the
 intersection of the results is taken by default and there's
 currently no way to request the union.}
 
-\item{.preserve}{when \code{TRUE} (the default), the grouping structure
-is preserved, otherwise it is recalculated based on the resulting data.}
+\item{.preserve}{when \code{FALSE} (the default), the grouping structure
+is recalculated based on the resulting data, otherwise it is kept as is.}
 
 \item{.predicate}{A predicate function to be applied to the columns
 or a logical vector. The variables for which \code{.predicate} is or

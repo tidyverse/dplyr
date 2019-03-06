@@ -12,8 +12,8 @@
 #'   Can also be a function or purrr-like formula. In this case, the
 #'   intersection of the results is taken by default and there's
 #'   currently no way to request the union.
-#' @param .preserve when `TRUE` (the default), the grouping structure
-#'   is preserved, otherwise it is recalculated based on the resulting data.
+#' @param .preserve when `FALSE` (the default), the grouping structure
+#'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @export
 #'
 #' @section Grouping variables:
