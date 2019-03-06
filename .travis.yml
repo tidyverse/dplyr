@@ -6,6 +6,8 @@ dist: trusty
 cache: packages
 latex: false
 fortran: false
+env:
+  - _R_CHECK_SYSTEM_CLOCK_=FALSE
 
 jobs:
   include:
