@@ -60,7 +60,6 @@ group_indices_.rowwise_df <- function(.data, ..., .dots = list()) {
   group_indices(.data, !!!dots)
 }
 
-#' @importFrom rlang dots_n
 #' @export
 group_indices.grouped_df <- function(.data, ...) {
   if (dots_n(...)) {
