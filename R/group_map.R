@@ -103,7 +103,7 @@ group_map <- function(.tbl, .f, ..., keep = FALSE) {
   chunks <- group_split(.tbl, keep = keep)
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  map2(chunks, group_keys, .f)
+  map2(chunks, group_keys, .f, ...)
 }
 
 #' @export
