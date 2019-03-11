@@ -480,7 +480,7 @@ test_that("row_number handles empty data frames (#762)", {
 })
 
 test_that("no utf8 invasion (#722)", {
-  skip_on_os("windows")
+  skip("fails on windows, but also on one cran machine")
 
   source("utf-8.txt", local = TRUE, encoding = "UTF-8")
 })
