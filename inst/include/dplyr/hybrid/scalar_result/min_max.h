@@ -71,6 +71,8 @@ inline bool is_infinite(double x) {
 
 template <int RTYPE>
 SEXP maybe_coerce_minmax(SEXP x) {
+  if (TYPEOF(x) != REALSXP) return x;
+
   double* end = REAL(x) + XLENGTH(x);
   if (std::find_if(REAL(x), end, is_infinite) != end) {
     return x;
@@ -92,8 +94,10 @@ SEXP minmax_narm(const SlicedTibble& data, Column x, const Operation& op) {
   switch (TYPEOF(x.data)) {
   case RAWSXP:
     return internal::maybe_coerce_minmax<RAWSXP>(op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x)));
+
   case INTSXP:
     return internal::maybe_coerce_minmax<INTSXP>(op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x)));
+
   case REALSXP:
     return op(internal::MinMax<REALSXP, SlicedTibble, MINIMUM, NARM>(data, x));
   default:
