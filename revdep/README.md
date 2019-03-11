@@ -80,7 +80,7 @@
 |[weibulltools](problems.md#weibulltools)             |1.0.1    |1     |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0   |1     |        |2    |
 
-## Broken (5)
+## Broken (4)
 
 |package                                    |version |error  |warning |note   |
 |:------------------------------------------|:-------|:------|:-------|:------|
@@ -88,7 +88,6 @@
 |[echarts4r](problems.md#echarts4r)         |0.2.1   |       |        |__+1__ |
 |[rERR](problems.md#rerr)                   |0.1     |       |__+1__  |       |
 |[rstap](problems.md#rstap)                 |1.0.3   |       |__+1__  |3 -1   |
-|[SpaDES.core](problems.md#spadescore)      |0.2.4   |1      |__+1__  |1      |
 
 ## All (1509)
 
@@ -1342,7 +1341,7 @@
 |[sorvi](problems.md#sorvi)                                                  |0.7.26     |       |1       |1      |
 |[sourceR](problems.md#sourcer)                                              |1.0.1      |       |        |1      |
 |SpaCCr                                                                      |0.1.0      |       |        |       |
-|[SpaDES.core](problems.md#spadescore)                                       |0.2.4      |1      |__+1__  |1      |
+|[SpaDES.core](problems.md#spadescore)                                       |0.2.4      |1      |        |1      |
 |SpaDES.tools                                                                |0.3.1      |       |        |       |
 |sparkavro                                                                   |0.2.0      |       |        |       |
 |sparkbq                                                                     |0.1.0      |       |        |       |

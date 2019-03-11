@@ -12442,34 +12442,6 @@ Version: 1.0.1
 
 Version: 0.2.4
 
-## Newly broken
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    Attaching package: 'magrittr'
-    
-    The following object is masked from 'package:raster':
-    
-        extract
-    
-    Setting:
-      options(
-        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
-      )
-    Paths set to:
-      options(
-        reproducible.cachePath = '/private/tmp/RtmpCU1RuD/reproducible/cache'
-        spades.inputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpRzqzNf/SpaDES/inputs'
-        spades.outputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpRzqzNf/SpaDES/outputs'
-        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
-      )
-    Quitting from lines 134-142 (iii-cache.Rmd) 
-    Error: processing vignette 'iii-cache.Rmd' failed with diagnostics:
-    database is locked
-    Execution halted
-    ```
-
 ## In both
 
 *   checking tests ...
@@ -12480,10 +12452,10 @@ Version: 0.2.4
       [9]  -6.33 -  -8.17 ==  1.831
       ...
       
-        Using cached copy of .inputObjects event in child6 module.   
-        Using memoised copy of .inputObjects event in child6 module
-        Using memoised copy of .inputObjects event in child6 module
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [34m  Using cached copy of .inputObjects event in child6 module.   
+      [39m[34m  Using memoised copy of .inputObjects event in child6 module
+      [39m[34m  Using memoised copy of .inputObjects event in child6 module
+      [39m══ testthat results  ═══════════════════════════════════════════════════════════════════════════
       OK: 452 SKIPPED: 33 FAILED: 2
       1. Failure: simulation runs with simInit and spades (@test-simulation.R#86) 
       2. Failure: simulation runs with simInit and spades (@test-simulation.R#87) 
