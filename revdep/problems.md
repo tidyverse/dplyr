@@ -9687,34 +9687,6 @@ ERROR: compilation failed for package ‘poppr’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/poppr/old/poppr.Rcheck/poppr’
 
 ```
-# postal
-
-Version: 0.1.1
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      17: .f(.x[[i]], ...) at /private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/Rtmpnw0Q1t/R.INSTALL2bfa490733cb/purrr/R/map.R:137
-      18: readr::write_csv(this, write_to, append = TRUE, col_names = FALSE) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/postal/new/postal.Rcheck/00_pkg_src/postal/R/fetch_zones_all.R:57
-      19: write_delim(x, path, delim = ",", na = na, append = append, col_names = col_names, 
-             quote_escape = quote_escape)
-      20: stream_delim(x, path, delim = delim, col_names = col_names, append = append, na = na, 
-             quote_escape = quote_escape)
-      21: open(path, "ab")
-      22: open.connection(path, "ab")
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 109 SKIPPED: 0 FAILED: 1
-      1. Error: (unknown) (@test_fetch_zones.R#144) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # predict3d
 
 Version: 0.1.0

@@ -5,7 +5,7 @@
 |version  |R version 3.5.2 (2018-12-20) |
 |os       |macOS Mojave 10.14.3         |
 |system   |x86_64, darwin15.6.0         |
-|ui       |X11                          |
+|ui       |RStudio                      |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
@@ -80,13 +80,12 @@
 |[weibulltools](problems.md#weibulltools)             |1.0.1    |1     |        |     |
 |[XBSeq](problems.md#xbseq)                           |1.12.0   |1     |        |2    |
 
-## Broken (6)
+## Broken (5)
 
 |package                                    |version |error  |warning |note   |
 |:------------------------------------------|:-------|:------|:-------|:------|
 |[alphavantager](problems.md#alphavantager) |0.1.0   |__+1__ |        |1      |
 |[echarts4r](problems.md#echarts4r)         |0.2.1   |       |        |__+1__ |
-|[postal](problems.md#postal)               |0.1.1   |__+1__ |        |       |
 |[rERR](problems.md#rerr)                   |0.1     |       |__+1__  |       |
 |[rstap](problems.md#rstap)                 |1.0.3   |       |__+1__  |3 -1   |
 |[SpaDES.core](problems.md#spadescore)      |0.2.4   |1      |__+1__  |1      |
@@ -1057,7 +1056,7 @@
 |poplite                                                                     |0.99.21    |       |        |       |
 |[poppr](problems.md#poppr)                                                  |2.8.1      |1      |        |       |
 |portalr                                                                     |0.2.2      |       |        |       |
-|[postal](problems.md#postal)                                                |0.1.1      |__+1__ |        |       |
+|postal                                                                      |0.1.1      |       |        |       |
 |powerlmm                                                                    |0.4.0      |       |        |       |
 |ppcSpatial                                                                  |0.2.0      |       |        |       |
 |PPforest                                                                    |0.1.1      |       |        |       |
