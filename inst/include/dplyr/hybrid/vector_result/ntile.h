@@ -26,13 +26,14 @@ public:
 
   void fill(const typename SlicedTibble::slicing_index& indices, Rcpp::IntegerVector& out) const {
     int m = indices.size();
+    double ratio = static_cast<double>(ntiles) / m;
     for (int j = m - 1; j >= 0; j--) {
-      out[ indices[j] ] = (ntiles * j) / m + 1;
+      out[ indices[j] ] = static_cast<int>(floor(ratio * j)) + 1;
     }
   }
 
 private:
-  R_xlen_t ntiles;
+  int ntiles;
 };
 
 template <typename SlicedTibble, int RTYPE, bool ascending>
@@ -72,14 +73,15 @@ public:
         break;
       }
     }
+    double ratio = static_cast<double>(ntiles) / m;
     for (; j >= 0; j--) {
-      out_slice[idx[j]] = (ntiles * j) / m + 1;
+      out_slice[idx[j]] = static_cast<int>(floor(ratio * j)) + 1;
     }
   }
 
 private:
   Rcpp::Vector<RTYPE> vec;
-  R_xlen_t ntiles;
+  int ntiles;
 };
 
 
