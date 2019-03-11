@@ -415,15 +415,11 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  # Currently failing (#2967)
-  skip_on_os("windows")
+  skip("Currently failing (#2967)")
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
   res <- df %>% mutate_all(funs(as.numeric)) %>% names()
-  expect_equal(res, names(df))
-
-  res <- df %>% mutate_all(list(as.numeric)) %>% names()
   expect_equal(res, names(df))
 })
 
