@@ -46,6 +46,7 @@ struct symbols {
   static SEXP comment;
   static SEXP groups;
   static SEXP vars;
+  static SEXP position;
 
   static SEXP op_minus;
   static SEXP str;
