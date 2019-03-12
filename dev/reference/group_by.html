@@ -84,7 +84,7 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9006</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9008</span>
         </div>
       </div>
     </div>
@@ -176,7 +176,7 @@ where operations are performed "by group". <code>ungroup()</code> removes groupi
     
     </div>
 
-    <pre class="usage"><span class='fu'>group_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'>group_drops</span>(<span class='no'>.data</span>))
+    <pre class="usage"><span class='fu'>group_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.data</span>))
 
 <span class='fu'>ungroup</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
     
@@ -201,7 +201,8 @@ override existing groups. To add to the existing groups, use
     </tr>
     <tr>
       <th>.drop</th>
-      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped.</p></td>
+      <td><p>When <code>.drop = TRUE</code>, empty groups are dropped. See <code><a href='group_by_drop_default.html'>group_by_drop_default()</a></code> for
+what the default value is for this argument.</p></td>
     </tr>
     <tr>
       <th>x</th>

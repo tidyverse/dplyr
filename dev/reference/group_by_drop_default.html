@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Force computation of a database query — compute • dplyr</title>
+<title>Default value for .drop argument of group_by — group_by_drop_default • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,13 +37,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Force computation of a database query — compute" />
+<meta property="og:title" content="Default value for .drop argument of group_by — group_by_drop_default" />
 
-<meta property="og:description" content="compute() stores results in a remote temporary table.
-collect() retrieves data into a local tibble.
-collapse() is slightly different: it doesn't force computation, but
-instead forces generation of the SQL query. This is sometimes needed to work
-around bugs in dplyr's SQL generation." />
+<meta property="og:description" content="Default value for .drop argument of group_by" />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -165,98 +161,50 @@ around bugs in dplyr's SQL generation." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Force computation of a database query</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/compute-collect.r'><code>R/compute-collect.r</code></a></small>
-    <div class="hidden name"><code>compute.Rd</code></div>
+    <h1>Default value for .drop argument of group_by</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/group-by.r'><code>R/group-by.r</code></a></small>
+    <div class="hidden name"><code>group_by_drop_default.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p><code>compute()</code> stores results in a remote temporary table.
-<code>collect()</code> retrieves data into a local tibble.
-<code>collapse()</code> is slightly different: it doesn't force computation, but
-instead forces generation of the SQL query. This is sometimes needed to work
-around bugs in dplyr's SQL generation.</p>
+    <p>Default value for .drop argument of group_by</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>compute</span>(<span class='no'>x</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>random_table_name</span>(), <span class='no'>...</span>)
-
-<span class='fu'>collect</span>(<span class='no'>x</span>, <span class='no'>...</span>)
-
-<span class='fu'>collapse</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>group_by_drop_default</span>(<span class='no'>.tbl</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A tbl</p></td>
-    </tr>
-    <tr>
-      <th>name</th>
-      <td><p>Name of temporary table on database.</p></td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td><p>Other arguments passed on to methods</p></td>
+      <th>.tbl</th>
+      <td><p>A data frame</p></td>
     </tr>
     </table>
     
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>All functions preserve grouping and ordering.</p>
-    
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p><code><a href='copy_to.html'>copy_to()</a></code>, the opposite of <code>collect()</code>: it takes a local data
-frame and uploads it to the remote source.</p></div>
+    <p><code>TRUE</code> unless <code>.tbl</code> is a grouped data frame that was previously
+obtained by <code><a href='group_by.html'>group_by(.drop = FALSE)</a></code></p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='no'>dbplyr</span>)) {
-  <span class='no'>mtcars2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/dbplyr/topics/memdb_frame'>src_memdb</a></span>() <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='copy_to.html'>copy_to</a></span>(<span class='no'>mtcars</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"mtcars2-cc"</span>, <span class='kw'>overwrite</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
-
-  <span class='no'>remote</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars2</span> <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>cyl</span> <span class='kw'>==</span> <span class='fl'>8</span>) <span class='kw'>%&gt;%</span>
-    <span class='fu'><a href='select.html'>select</a></span>(<span class='no'>mpg</span>:<span class='no'>drat</span>)
-
-  <span class='co'># Compute query and save in remote table</span>
-  <span class='fu'>compute</span>(<span class='no'>remote</span>)
-
-  <span class='co'># Compute query bring back to this session</span>
-  <span class='fu'>collect</span>(<span class='no'>remote</span>)
-
-  <span class='co'># Creates a fresh query based on the generated SQL</span>
-  <span class='fu'>collapse</span>(<span class='no'>remote</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Loading required package: dbplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dbplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:dplyr’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    ident, sql</span></div><div class='output co'>#&gt; # Source:   SQL [?? x 5]
-#&gt; # Database: sqlite 3.22.0 [:memory:]
-#&gt;      mpg   cyl  disp    hp  drat
-#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt;  1  18.7     8  360    175  3.15
-#&gt;  2  14.3     8  360    245  3.21
-#&gt;  3  16.4     8  276.   180  3.07
-#&gt;  4  17.3     8  276.   180  3.07
-#&gt;  5  15.2     8  276.   180  3.07
-#&gt;  6  10.4     8  472    205  2.93
-#&gt;  7  10.4     8  460    215  3   
-#&gt;  8  14.7     8  440    230  3.23
-#&gt;  9  15.5     8  318    150  2.76
-#&gt; 10  15.2     8  304    150  3.15
-#&gt; # … with more rows</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>group_by_drop_default</span>(<span class='no'>iris</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>group_by_drop_default</span>()</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>group_by_drop_default</span>()</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#see-also">See also</a></li>
+      <li><a href="#value">Value</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>

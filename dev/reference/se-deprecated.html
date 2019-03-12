@@ -89,7 +89,7 @@ with NSE verbs. Thus, the underscored versions are now superfluous." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9006</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9008</span>
         </div>
       </div>
     </div>
@@ -188,7 +188,8 @@ with NSE verbs. Thus, the underscored versions are now superfluous.</p>
 
     <pre class="usage"><span class='fu'>tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'>group_drops</span>(<span class='no'>x</span>))
+<span class='fu'>count_</span>(<span class='no'>x</span>, <span class='no'>vars</span>, <span class='kw'>wt</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>x</span>))
 
 <span class='fu'>add_tally_</span>(<span class='no'>x</span>, <span class='no'>wt</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 

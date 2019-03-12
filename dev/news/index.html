@@ -80,7 +80,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9006</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9008</span>
         </div>
       </div>
     </div>
@@ -176,6 +176,8 @@
 <li><p>Fixed integer overflow in hybrid <code><a href="../reference/ranking.html">ntile()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/4186'>#4186</a>).</p></li>
 <li><p>colwise functions <code><a href="../reference/summarise_all.html">summarise_at()</a></code> … can rename vars in the case of multiple functions (<a href='https://github.com/tidyverse/dplyr/issues/4180'>#4180</a>).</p></li>
 <li><p><code><a href="../reference/select_all.html">select_if()</a></code> and <code><a href="../reference/select_all.html">rename_if()</a></code> handle logical vector predicate (<a href='https://github.com/tidyverse/dplyr/issues/4213'>#4213</a>).</p></li>
+<li><p>hybrid <code><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min()</a></code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max()</a></code> cast to integer when possible (<a href='https://github.com/tidyverse/dplyr/issues/4258'>#4258</a>).</p></li>
+<li><p>Exporting <code><a href="../reference/group_by_drop_default.html">group_by_drop_default()</a></code>, previously known as <code>dplyr:::group_drops()</code> (<a href='https://github.com/tidyverse/dplyr/issues/4245'>#4245</a>).</p></li>
 </ul>
 </div>
     <div id="dplyr-0-8-0-1-2019-02-15" class="section level1">
