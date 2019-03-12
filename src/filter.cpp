@@ -291,7 +291,7 @@ SEXP filter_impl(DataFrame df, Quosure quo) {
 inline bool all_lgl_na(SEXP lgl) {
   R_xlen_t n = XLENGTH(lgl);
   int* p = LOGICAL(lgl);
-  for (R_xlen_t i=0; i<n; i++) {
+  for (R_xlen_t i = 0; i < n; i++) {
     if (*p != NA_LOGICAL) {
       return false;
     }
@@ -524,7 +524,9 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
   }
   group_indices.process();
-  return structure_filter(gdf, group_indices, quo.env());
+
+  Shield<SEXP> quo_env(quo.env());
+  return structure_filter(gdf, group_indices, quo_env);
 }
 
 // [[Rcpp::export]]
