@@ -197,7 +197,8 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   CharacterVector uniques(set.begin(), set.end());
 
   static Function sort("sort", R_BaseEnv);
-  CharacterVector s_uniques = Language(sort, uniques).fast_eval();
+  Language call(sort, uniques);
+  CharacterVector s_uniques = call.fast_eval();
 
   // order the uniques with a callback to R
   IntegerVector o = r_match(uniques, s_uniques);

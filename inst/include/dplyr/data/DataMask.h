@@ -96,23 +96,25 @@ public:
     int pos,
     boost::shared_ptr< DataMaskProxy<SlicedTibble> >& data_mask_proxy
   ) {
-    static Function make_active_binding_fun(
+    static Rcpp::Function make_active_binding_fun(
       ".make_active_binding_fun",
       Rcpp::Environment::namespace_env("dplyr")
     );
 
     // external pointer to the weak proxy of the data mask
     // eventually this calls back to the reak DataMask
-    XPtr< DataMaskWeakProxy<SlicedTibble> > weak_proxy(
+    Rcpp::XPtr< DataMaskWeakProxy<SlicedTibble> > weak_proxy(
       new DataMaskWeakProxy<SlicedTibble>(data_mask_proxy)
     );
+
+    Rcpp::Shield<SEXP> fun(make_active_binding_fun(pos, weak_proxy));
 
     R_MakeActiveBinding(
       // the name of the binding
       symbol,
 
       // the function
-      make_active_binding_fun(pos, weak_proxy),
+      fun,
 
       // where to set it up as an active binding
       mask_active

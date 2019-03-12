@@ -401,12 +401,12 @@ List cbind_all(List dots) {
       continue;
 
     if (TYPEOF(current) == VECSXP) {
-      CharacterVector current_names = vec_names_or_empty(current);
+      Shield<SEXP> current_names(vec_names_or_empty(current));
 
       int nc = Rf_length(current);
       for (int j = 0; j < nc; j++, k++) {
         out[k] = shared_SEXP(VECTOR_ELT(current, j));
-        out_names[k] = current_names[j];
+        out_names[k] = STRING_ELT(current_names, j);
       }
     } else {
       out[k] = current;
