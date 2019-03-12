@@ -660,11 +660,11 @@ BEGIN_RCPP
 END_RCPP
 }
 // check_valid_names
-void check_valid_names(const CharacterVector& names, bool warn_only);
+void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only);
 RcppExport SEXP _dplyr_check_valid_names(SEXP namesSEXP, SEXP warn_onlySEXP) {
 BEGIN_RCPP
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< const CharacterVector& >::type names(namesSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::CharacterVector& >::type names(namesSEXP);
     Rcpp::traits::input_parameter< bool >::type warn_only(warn_onlySEXP);
     check_valid_names(names, warn_only);
     return R_NilValue;

@@ -21,7 +21,6 @@ DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :
   visitors(),
   visitor_names(vec_names_or_empty(data))
 {
-
   for (int i = 0; i < data.size(); i++) {
     VectorVisitor* v = visitor(data[i]);
     visitors.push_back(v);

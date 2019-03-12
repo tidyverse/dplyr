@@ -59,7 +59,8 @@ public:
 private:
   Rcpp::CharacterVector v;
 
-  SEXP init(SEXP x) {
+  SEXP init(SEXP x_) {
+    Rcpp::Shield<SEXP> x(x_);
     switch (TYPEOF(x)) {
     case NILSXP:
       return Rcpp::CharacterVector();

@@ -13,7 +13,7 @@ SEXP get_date_classes() {
   return klasses;
 }
 
-inline SEXP init_time_classes(){
+inline SEXP init_time_classes() {
   Shield<SEXP> res(Rf_allocVector(STRSXP, 2));
   SET_STRING_ELT(res, 0, Rf_mkChar("POSIXct"));
   SET_STRING_ELT(res, 1, Rf_mkChar("POSIXt"));
