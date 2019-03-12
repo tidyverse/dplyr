@@ -6,31 +6,25 @@
 
 using namespace Rcpp;
 
-SEXP get_cache() {
-  static SEXP cache = 0;
-  if (!cache) {
-    SEXP vec = PROTECT(Rf_allocVector(VECSXP, 2));
-    SEXP date_classes = PROTECT(Rf_mkString("Date"));
-    SET_VECTOR_ELT(vec, 0, date_classes);
-    CharacterVector time_classes = CharacterVector::create("POSIXct", "POSIXt");
-    SET_VECTOR_ELT(vec, 1, time_classes);
-    UNPROTECT(2);
-    R_PreserveObject(vec);
-    cache = vec;
-  }
-  return cache;
-}
-
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
 SEXP get_date_classes() {
-  return VECTOR_ELT(get_cache(), 0);
+  static CharacterVector klasses(1, Rf_mkChar("Date"));
+  return klasses;
+}
+
+inline SEXP init_time_classes(){
+  Shield<SEXP> res(Rf_allocVector(STRSXP, 2));
+  SET_STRING_ELT(res, 0, Rf_mkChar("POSIXct"));
+  SET_STRING_ELT(res, 1, Rf_mkChar("POSIXt"));
+  return res;
 }
 
 // [[Rcpp::interfaces(cpp)]]
 // [[Rcpp::export]]
 SEXP get_time_classes() {
-  return VECTOR_ELT(get_cache(), 1);
+  static CharacterVector klasses(init_time_classes());
+  return klasses;
 }
 
 namespace dplyr {
