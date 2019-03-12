@@ -87,8 +87,10 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
   visitors(names_left.size()),
   warn(warn_)
 {
-  IntegerVector indices_left  = names_left.match_in_table(RCPP_GET_NAMES(left));
-  IntegerVector indices_right = names_right.match_in_table(RCPP_GET_NAMES(right));
+  Shield<SEXP> left_names(RCPP_GET_NAMES(left));
+  Shield<SEXP> right_names(RCPP_GET_NAMES(right));
+  IntegerVector indices_left  = names_left.match_in_table((SEXP)left_names);
+  IntegerVector indices_right = names_right.match_in_table((SEXP)right_names);
 
   const int nvisitors = indices_left.size();
   if (indices_right.size() != nvisitors) {
