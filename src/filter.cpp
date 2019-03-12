@@ -288,18 +288,27 @@ SEXP filter_impl(DataFrame df, Quosure quo) {
 
 // ------------------------------------------------- slice()
 
-inline SEXP check_slice_result(SEXP tmp) {
+inline bool all_lgl_na(SEXP lgl) {
+  R_xlen_t n = XLENGTH(lgl);
+  int* p = LOGICAL(lgl);
+  for (R_xlen_t i=0; i<n; i++) {
+    if (*p != NA_LOGICAL) {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline void check_slice_result(SEXP tmp) {
   switch (TYPEOF(tmp)) {
   case INTSXP:
   case REALSXP:
     break;
   case LGLSXP:
-    if (all_na(tmp)) break;
+    if (all_lgl_na(tmp)) break;
   default:
-    stop("slice condition does not evaluate to an integer or numeric vector. ");
+    Rcpp::stop("slice condition does not evaluate to an integer or numeric vector. ");
   }
-
-  return tmp;
 }
 
 struct SlicePositivePredicate {
@@ -499,7 +508,9 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
 
     // evaluate the expression in the data mask
-    IntegerVector g_positions = check_slice_result(mask.eval(quo, indices));
+    Shield<SEXP> res(mask.eval(quo, indices));
+    check_slice_result(res);
+    IntegerVector g_positions(res);
 
     // scan the results to see if all >= 1 or all <= -1
     CountIndices counter(indices.size(), g_positions);
