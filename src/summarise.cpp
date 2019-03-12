@@ -204,7 +204,7 @@ SEXP hybrid_template(DataFrame df, const Quosure& quosure, SEXP caller_env) {
   SlicedTibble gdf(df);
 
   const Environment& env = quosure.env();
-  SEXP expr = quosure.expr();
+  Shield<SEXP> expr(quosure.expr());
   DataMask<SlicedTibble> mask(gdf);
   return hybrid::match(expr, gdf, mask, env, caller_env);
 }
