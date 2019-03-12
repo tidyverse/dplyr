@@ -19,6 +19,8 @@
 
 * hybrid `min()` and `max()` cast to integer when possible (#4258).
 
+* Exporting `group_by_drop_default()`, previously known as `dplyr:::group_drops()` (#4245).
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 
