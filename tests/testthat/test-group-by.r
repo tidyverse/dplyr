@@ -422,7 +422,7 @@ test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
     )
   )
 
-  expect_true(group_drops(res))
+  expect_true(group_by_drop_default(res))
 })
 
 test_that("grouped data frames remember their .drop (#4061)", {
@@ -432,15 +432,15 @@ test_that("grouped data frames remember their .drop (#4061)", {
 
   res2 <- res %>%
     filter(Sepal.Length > 5)
-  expect_true(group_drops(res2))
+  expect_true(group_by_drop_default(res2))
 
   res3 <- res %>%
     filter(Sepal.Length > 5, .preserve = FALSE)
-  expect_true(group_drops(res3))
+  expect_true(group_by_drop_default(res3))
 
   res4 <- res3 %>%
     group_by(Species)
-  expect_true(group_drops(res4))
+  expect_true(group_by_drop_default(res4))
   expect_equal(nrow(group_data(res4)), 1L)
 })
 
@@ -457,7 +457,7 @@ test_that("summarise maintains the .drop attribute (#4061)", {
 
   res2 <- summarise(res, x = sum(x))
   expect_equal(n_groups(res2), 1L)
-  expect_true(group_drops(res2))
+  expect_true(group_by_drop_default(res2))
 })
 
 test_that("joins maintain the .drop attribute (#4061)", {
@@ -491,7 +491,7 @@ test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
 
   res <- group_by(group_by(d, f1, .drop = TRUE), f2, add = TRUE)
   expect_equal(n_groups(res), 1L)
-  expect_true(group_drops(res))
+  expect_true(group_by_drop_default(res))
 })
 
 test_that("group_by() makes a shallow copy of data even in the corner case", {

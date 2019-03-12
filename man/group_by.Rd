@@ -5,7 +5,7 @@
 \alias{ungroup}
 \title{Group by one or more variables}
 \usage{
-group_by(.data, ..., add = FALSE, .drop = group_drops(.data))
+group_by(.data, ..., add = FALSE, .drop = group_by_drop_default(.data))
 
 ungroup(x, ...)
 }
@@ -20,7 +20,8 @@ will be silently dropped.}
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
 
-\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped.}
+\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
+what the default value is for this argument.}
 
 \item{x}{A \code{\link[=tbl]{tbl()}}}
 }

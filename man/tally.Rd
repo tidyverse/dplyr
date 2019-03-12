@@ -10,7 +10,7 @@
 tally(x, wt, sort = FALSE, name = "n")
 
 count(x, ..., wt = NULL, sort = FALSE, name = "n",
-  .drop = group_drops(x))
+  .drop = group_by_drop_default(x))
 
 add_tally(x, wt, sort = FALSE, name = "n")
 

@@ -126,7 +126,7 @@ n_name <- function(x, name = "n") {
 
 #' @export
 #' @rdname tally
-count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_drops(x)) {
+count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_by_drop_default(x)) {
   groups <- group_vars(x)
 
   if (dots_n(...)) {
@@ -138,7 +138,7 @@ count <- function(x, ..., wt = NULL, sort = FALSE, name = "n", .drop = group_dro
 }
 #' @export
 #' @rdname se-deprecated
-count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_drops(x)) {
+count_ <- function(x, vars, wt = NULL, sort = FALSE, .drop = group_by_drop_default(x)) {
   signal_soft_deprecated(paste_line(
     "count_() is deprecated. ",
     "Please use count() instead",
@@ -181,7 +181,7 @@ add_tally <- function(x, wt, sort = FALSE, name = "n") {
     out <- arrange(out, desc(!!sym(n_name)))
   }
 
-  grouped_df(out, group_vars(x), drop = group_drops(x))
+  grouped_df(out, group_vars(x), drop = group_by_drop_default(x))
 }
 #' @rdname se-deprecated
 #' @export
@@ -204,7 +204,7 @@ add_count <- function(x, ..., wt = NULL, sort = FALSE, name = "n") {
   grouped <- group_by(x, ..., add = TRUE)
 
   out <- add_tally(grouped, wt = !!enquo(wt), sort = sort, name = name)
-  grouped_df(out, g, drop = group_drops(grouped))
+  grouped_df(out, g, drop = group_by_drop_default(grouped))
 }
 #' @rdname se-deprecated
 #' @export

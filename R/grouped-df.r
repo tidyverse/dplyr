@@ -181,7 +181,7 @@ ungroup.grouped_df <- function(x, ...) {
   if (!all(group_names %in% names(y))) {
     tbl_df(y)
   } else {
-    grouped_df(y, group_names, group_drops(x))
+    grouped_df(y, group_names, group_by_drop_default(x))
   }
 }
 
@@ -305,7 +305,7 @@ do.grouped_df <- function(.data, ...) {
       env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), groups(.data), group_drops(.data))
+      out <- label_output_dataframe(labels, list(list(out)), groups(.data), group_by_drop_default(.data))
     }
     return(out)
   }
@@ -334,7 +334,7 @@ do.grouped_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(labels, out, groups(.data), group_drops(.data))
+    label_output_dataframe(labels, out, groups(.data), group_by_drop_default(.data))
   } else {
     label_output_list(labels, out, groups(.data))
   }
@@ -358,7 +358,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
   out <- distinct_impl(dist$data, vars, keep, environment())
-  grouped_df(out, groups(.data), group_drops(.data))
+  grouped_df(out, groups(.data), group_by_drop_default(.data))
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {

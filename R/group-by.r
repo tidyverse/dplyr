@@ -33,7 +33,8 @@
 #' @param add When `add = FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
-#' @param .drop When `.drop = TRUE`, empty groups are dropped.
+#' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
+#'   what the default value is for this argument.
 #' @inheritParams filter
 #'
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
@@ -89,11 +90,11 @@
 #'   group_by(y) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., add = FALSE, .drop = group_drops(.data)) {
+group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   UseMethod("group_by")
 }
 #' @export
-group_by.default <- function(.data, ..., add = FALSE, .drop = group_drops(.data)) {
+group_by.default <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
 }
 #' @export
@@ -196,9 +197,30 @@ group_vars.default <- function(x) {
   deparse_names(groups(x))
 }
 
-# does a grouped data frame drop. TRUE unless the `.drop` attribute is FALSE
-#
-# absence of the .drop attribute -> drop = TRUE for backwards compatibility reasons
-group_drops <- function(x) {
-  !is_grouped_df(x) || is.null(attr(x, "groups")) || !identical(attr(group_data(x), ".drop"), FALSE)
+#' Default value for .drop argument of group_by
+#'
+#' @param .tbl A data frame
+#'
+#' @return `TRUE` unless `.tbl` is a grouped data frame that was previously
+#'   obtained by `group_by(.drop = FALSE)`
+#'
+#' @examples
+#' group_by_drop_default(iris)
+#'
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_by_drop_default()
+#'
+#' iris %>%
+#'   group_by(Species, .drop = FALSE) %>%
+#'   group_by_drop_default()
+#'
+#' @export
+group_by_drop_default <- function(.tbl) {
+  UseMethod("group_by_drop_default")
+}
+
+#' @export
+group_by_drop_default.default <- function(.tbl) {
+  !identical(attr(group_data(.tbl), ".drop"), FALSE)
 }
