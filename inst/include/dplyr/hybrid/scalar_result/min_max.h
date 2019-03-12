@@ -65,6 +65,25 @@ private:
 template <int RTYPE, typename SlicedTibble, bool MINIMUM, bool NA_RM>
 const double MinMax<RTYPE, SlicedTibble, MINIMUM, NA_RM>::Inf = (MINIMUM ? R_PosInf : R_NegInf);
 
+inline bool is_infinite(double x) {
+  return !R_FINITE(x);
+}
+
+template <int RTYPE>
+SEXP maybe_coerce_minmax(SEXP x) {
+  if (TYPEOF(x) != REALSXP) return x;
+
+  double* end = REAL(x) + XLENGTH(x);
+  if (std::find_if(REAL(x), end, is_infinite) != end) {
+    return x;
+  }
+
+  PROTECT(x);
+  SEXP out = Rcpp::as< Rcpp::Vector<RTYPE> >(x);
+  UNPROTECT(1);
+  return out;
+}
+
 }
 
 // min( <column> )
@@ -74,9 +93,11 @@ SEXP minmax_narm(const SlicedTibble& data, Column x, const Operation& op) {
   // only handle basic number types, anything else goes through R
   switch (TYPEOF(x.data)) {
   case RAWSXP:
-    return op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x));
+    return internal::maybe_coerce_minmax<RAWSXP>(op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x)));
+
   case INTSXP:
-    return op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x));
+    return internal::maybe_coerce_minmax<INTSXP>(op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x)));
+
   case REALSXP:
     return op(internal::MinMax<REALSXP, SlicedTibble, MINIMUM, NARM>(data, x));
   default:

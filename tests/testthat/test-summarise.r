@@ -1130,3 +1130,23 @@ test_that("hybrid sum(), mean(), min(), max() treats NA and NaN correctly (#4108
   expect_equal(res$max , 1)
   expect_equal(res$min , 1)
 })
+
+test_that("hybrid min() and max() coerce to integer if there is no infinity (#4258)", {
+  tbl <- data.frame(a = 1L) %>% summarise_all(list(min = min, max = max))
+  expect_equal(tbl, data.frame(min = 1L, max = 1L))
+  expect_is(tbl$min, "integer")
+  expect_is(tbl$max, "integer")
+
+  tbl <- data.frame(a = 1L, b = factor("a", levels = c("a", "b"))) %>%
+    group_by(b, .drop = FALSE) %>%
+    summarise_all(list(min = min, max = max))
+  expect_equal(tbl,
+    data.frame(
+      b = factor(c("a", "b"), levels = c("a", "b")),
+      min = c(1, Inf),
+      max = c(1, -Inf)
+    )
+  )
+  expect_is(tbl$min, "numeric")
+  expect_is(tbl$max, "numeric")
+})
