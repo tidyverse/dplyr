@@ -17,6 +17,8 @@
 
 * `select_if()` and `rename_if()` handle logical vector predicate (#4213). 
 
+* hybrid `min()` and `max()` cast to integer when possible (#4258).
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 
