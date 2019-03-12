@@ -419,10 +419,12 @@ public:
   // as we might not need them at all
   void setup() {
     if (!active_bindings_ready) {
+      Rcpp::Shelter<SEXP> shelter;
+
       // the active bindings have not been used at all
       // so setup the environments ...
-      mask_active = child_env(R_EmptyEnv);
-      mask_resolved = child_env(mask_active);
+      mask_active = shelter(child_env(R_EmptyEnv));
+      mask_resolved = shelter(child_env(mask_active));
 
       // ... and install the bindings
       for (size_t i = 0; i < column_bindings.size(); i++) {
@@ -438,13 +440,10 @@ public:
       // top       : the environment containing active bindings.
       //
       // data_mask : where .data etc ... are installed
-      data_mask = rlang::new_data_mask(
-                    mask_resolved, // bottom
-                    mask_active    // top
-                  );
+      data_mask = shelter(rlang::new_data_mask(mask_resolved, mask_active));
 
       // install the pronoun
-      Rf_defineVar(symbols::dot_data, rlang::as_data_pronoun(data_mask), data_mask);
+      Rf_defineVar(symbols::dot_data, shelter(rlang::as_data_pronoun(data_mask)), data_mask);
 
       active_bindings_ready = true;
     } else {
