@@ -321,13 +321,18 @@ manip_apply_syms <- function(funs, syms, tbl) {
 
   out <- vector("list", length(syms) * length(funs))
   dim(out) <- c(length(syms), length(funs))
+  syms_position <- match(tbl_vars(tbl), as.character(syms))
+
   for (i in seq_along(syms)) {
+    pos <- syms_position[i]
     for (j in seq_along(funs)) {
-      var_sym <- sym(syms[[i]])
-      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), var_sym)
+      out[[i, j]] <- expr_substitute(funs[[j]], quote(.), syms[[i]])
+      attr(out[[i, j]], "position") <- pos
     }
   }
+
   dim(out) <- NULL
+
 
   # Use symbols as default names
   unnamed <- !have_name(syms)

@@ -66,6 +66,7 @@ SEXP symbols::new_env = Rf_install("new.env");
 SEXP symbols::comment = Rf_install("comment");
 SEXP symbols::groups = Rf_install("groups");
 SEXP symbols::vars = Rf_install("vars");
+SEXP symbols::position = Rf_install("position");
 
 SEXP symbols::op_minus = Rf_install("-");
 SEXP symbols::str = Rf_install("str");

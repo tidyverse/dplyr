@@ -392,6 +392,15 @@ public:
     }
   }
 
+  const ColumnBinding<SlicedTibble>*
+  get_subset_binding(int position) const {
+    const ColumnBinding<SlicedTibble>& res = column_bindings[position];
+    if (res.is_null()) {
+      return 0;
+    }
+    return &res;
+  }
+
   // remove this variable from the environments
   void rm(const SymbolString& symbol) {
     int idx = symbol_map.find(symbol);
