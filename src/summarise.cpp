@@ -145,8 +145,9 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
 
     // Unquoted vectors are directly used as column. Expressions are
     // evaluated in each group.
-    if (is_vector(quosure.expr())) {
-      result = validate_unquoted_value(quosure.expr(), gdf.ngroups(), quosure.name());
+    Shield<SEXP> quo_expr(quosure.expr());
+    if (is_vector(quo_expr)) {
+      result = validate_unquoted_value(quo_expr, gdf.ngroups(), quosure.name());
     } else {
       result = hybrid::summarise(quosure, gdf, mask, caller_env);
 
