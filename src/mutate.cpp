@@ -371,7 +371,8 @@ public:
     for (; i < ngroups; i++, ++git) {
       const Index& indices = *git;
       if (indices.size()) {
-        List subset(proxy.get(indices));
+        Shield<SEXP> res(proxy.get(indices));
+        List subset(res);
         grab(subset, indices);
       }
     }

@@ -631,8 +631,12 @@ SymbolVector GroupedDataFrame::group_vars() const {
   SEXP groups = Rf_getAttrib(data_, dplyr::symbols::groups);
 
   int n = Rf_length(groups) - 1;
-  CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
-  vars.erase(n);
+  Rcpp::Shelter<SEXP> shelter;
+  SEXP vars_attr = shelter(Rf_getAttrib(groups, R_NamesSymbol));
+  SEXP vars = shelter(Rf_allocVector(STRSXP, n));
+  for(int i=0; i<n; i++) {
+    SET_STRING_ELT(vars, i, STRING_ELT(vars_attr, i));
+  }
   return SymbolVector(vars);
 }
 
@@ -678,28 +682,29 @@ DataFrame ungroup_grouped_df(DataFrame df) {
 List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype) {
   ListView rows = gdf.indices();
   R_xlen_t n = rows.size();
+
   DataFrame group_data = gdf.group_data();
   DataFrame data = gdf.data();
 
   if (!keep) {
-    CharacterVector all_names = vec_names(data);
+    Shield<SEXP> all_names(vec_names(data));
     int nv = data.size();
     dplyr_hash_set<SEXP> all_set;
     for (int i = 0; i < nv; i++) {
-      all_set.insert(all_names[i]);
+      all_set.insert(STRING_ELT(all_names, i));
     }
 
     int ng = group_data.ncol() - 1;
-    CharacterVector group_names = vec_names(group_data);
+    Rcpp::Shield<SEXP> group_names(vec_names(group_data));
     for (int i = 0; i < ng; i++) {
-      SEXP name = group_names[i];
+      SEXP name = STRING_ELT(group_names, i);
       if (all_set.count(name)) all_set.erase(name);
     }
 
     IntegerVector kept_cols(all_set.size());
     int k = 0;
     for (int i = 0; i < nv; i++) {
-      if (all_set.count(all_names[i])) {
+      if (all_set.count(STRING_ELT(all_names, i))) {
         kept_cols[k++] = i + 1;
       }
     }

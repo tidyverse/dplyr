@@ -436,10 +436,18 @@ public:
 
 private:
   bool is_valid_difftime(RObject x) {
-    return
-      x.inherits("difftime") &&
-      x.sexp_type() == REALSXP &&
-      get_units_map().is_valid_difftime_unit(Rcpp::as<std::string>(x.attr("units")));
+    if (!Rf_inherits(x, "difftime") || TYPEOF(x) != REALSXP) {
+      return false;
+    }
+
+    Shield<SEXP> units(Rf_getAttrib(x, symbols::units));
+    if (TYPEOF(units) != STRSXP) {
+      return false;
+    }
+
+    return get_units_map().is_valid_difftime_unit(
+        CHAR(STRING_ELT(units, 0))
+    );
   }
 
 

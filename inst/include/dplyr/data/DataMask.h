@@ -286,7 +286,7 @@ public:
     if (lock) {
       return lock.get()->materialize(idx);
     } else {
-      warning("Hybrid callback proxy out of scope");
+      Rcpp::warning("Hybrid callback proxy out of scope");
       return R_NilValue;
     }
   }

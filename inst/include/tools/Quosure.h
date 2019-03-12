@@ -80,8 +80,9 @@ private:
     // of the lambda function
     SEXP expr = PROTECT(Rf_duplicate(named_quosure.expr()));
     SET_CLOENV(CAR(expr), data_mask) ;
+    Rcpp::Shield<SEXP> named_quosure_env(named_quosure.env());
     return NamedQuosure(
-             PROTECT(rlang::new_quosure(expr, named_quosure.env())),
+             PROTECT(rlang::new_quosure(expr, named_quosure_env)),
              named_quosure.name()
            );
   }

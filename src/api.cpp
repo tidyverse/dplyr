@@ -239,7 +239,8 @@ CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& 
   std::copy(right.begin(), right.end(), it + nleft);
 
   static Function unique("unique", R_BaseEnv);
-  return Language(unique, big).fast_eval();
+  Language call(unique, big) ;
+  return call.fast_eval();
 }
 
 }
