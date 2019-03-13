@@ -431,7 +431,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
 
   NamedListAccumulator<SlicedTibble> accumulator;
   int ncolumns = df.size();
-  SEXP column_names = Rf_getAttrib(df, symbols::names);
+  Shield<SEXP> column_names(Rf_getAttrib(df, symbols::names));
   for (int i = 0; i < ncolumns; i++) {
     accumulator.set(STRING_ELT(column_names, i), df[i]);
   }
