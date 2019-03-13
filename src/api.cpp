@@ -34,14 +34,15 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector&
 {
 
   int n = names.size();
-  CharacterVector data_names = vec_names_or_empty(data);
-  IntegerVector indices = names.match_in_table(data_names);
+  Shield<SEXP> data_names(vec_names_or_empty(data));
+  Shield<SEXP> indices(r_match(names.get_vector(), data_names));
+  int* p_indices = INTEGER(indices);
 
   for (int i = 0; i < n; i++) {
-    if (indices[i] == NA_INTEGER) {
+    if (p_indices[i] == NA_INTEGER) {
       bad_col(names[i], "is unknown");
     }
-    SEXP column = data[indices[i] - 1];
+    SEXP column = data[p_indices[i] - 1];
     visitors.push_back(visitor(column));
   }
 
@@ -53,7 +54,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
   visitor_names()
 {
 
-  CharacterVector data_names = vec_names_or_empty(data);
+  Shield<SEXP> data_names(vec_names_or_empty(data));
 
   int n = indices.size();
   for (int i = 0; i < n; i++) {
@@ -61,7 +62,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
 
     VectorVisitor* v = visitor(data[pos - 1]);
     visitors.push_back(v);
-    visitor_names.push_back(data_names[pos - 1]);
+    visitor_names.push_back(STRING_ELT(data_names, pos - 1));
   }
 }
 
@@ -71,11 +72,11 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_,  int n) :
   visitor_names(n)
 {
 
-  CharacterVector data_names = vec_names_or_empty(data);
+  Shield<SEXP> data_names(vec_names_or_empty(data));
 
   for (int i = 0; i < n; i++) {
     visitors[i] = visitor(data[i]);
-    visitor_names.set(i, data_names[i]);
+    visitor_names.set(i, STRING_ELT(data_names, i));
   }
 }
 
