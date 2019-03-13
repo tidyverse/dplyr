@@ -163,7 +163,7 @@ bool dplyr_is_bind_spliceable(SEXP x) {
   return true;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP flatten_bindable(SEXP x) {
   // FIXME: This is temporary and should be replaced with rlang::flatten_if()
   typedef bool(*is_spliceable_t)(SEXP);
@@ -345,7 +345,7 @@ List rbind__impl(List dots, const SymbolString& id) {
   return out;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 List bind_rows_(List dots, SEXP id) {
   LOG_VERBOSE;
 
@@ -355,7 +355,7 @@ List bind_rows_(List dots, SEXP id) {
     return rbind__impl(dots, SymbolString(Rcpp::as<String>(id)));
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP cbind_all(List dots) {
   int n_dots = dots.size();
 
@@ -429,7 +429,7 @@ SEXP cbind_all(List dots) {
   return out;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP combine_all(List data) {
   int nv = data.size();
 

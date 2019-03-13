@@ -16,7 +16,7 @@ SEXP child_env(SEXP parent) {
   return Rf_eval(call, R_BaseEnv);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only = false) {
   R_xlen_t n = XLENGTH(names);
 
@@ -62,7 +62,7 @@ int check_range_one_based(int x, int max) {
   return x;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 void assert_all_allow_list(const DataFrame& data) {
   // checking variables are on the allow list
   int nc = data.size();
@@ -318,7 +318,7 @@ bool has_name_at(SEXP x, R_len_t i) {
   return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool is_data_pronoun(SEXP expr) {
   if (TYPEOF(expr) != LANGSXP || Rf_length(expr) != 3)
     return false;
@@ -341,7 +341,7 @@ bool is_data_pronoun(SEXP expr) {
   return false;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool is_variable_reference(SEXP expr) {
   // x
   if (TYPEOF(expr) == SYMSXP)
@@ -350,12 +350,12 @@ bool is_variable_reference(SEXP expr) {
   return is_data_pronoun(expr);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool quo_is_variable_reference(SEXP quo) {
   return is_variable_reference(CADR(quo));
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool quo_is_data_pronoun(SEXP quo) {
   return is_data_pronoun(CADR(quo));
 }

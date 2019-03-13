@@ -14,7 +14,7 @@ using namespace dplyr;
 
 SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names);
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector& keep, SEXP frame) {
   if (df.size() == 0) {
     DataFrame res = DataFrame::create();
@@ -54,7 +54,7 @@ SEXP distinct_impl(DataFrame df, const IntegerVector& vars, const IntegerVector&
   return res;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 int n_distinct_multi(List variables, bool na_rm = false) {
   if (variables.length() == 0) {
     stop("Need at least one column for `n_distinct()`");

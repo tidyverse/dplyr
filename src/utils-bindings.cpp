@@ -5,7 +5,7 @@
 
 using namespace Rcpp;
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP materialize_binding(int idx, XPtr<DataMaskWeakProxyBase> mask_proxy_xp) {
   LOG_VERBOSE << idx;
 

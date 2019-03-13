@@ -7,7 +7,7 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 LogicalVector test_comparisons() {
   typedef dplyr::comparisons<REALSXP> comp;
   return LogicalVector::create(comp::is_less(1.0, 2.0),
@@ -21,7 +21,7 @@ LogicalVector test_comparisons() {
                               );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 List test_matches() {
   typedef dplyr::join_match<INTSXP, INTSXP, true> int_int_na;
   typedef dplyr::join_match<REALSXP, REALSXP, true> real_real_na;
@@ -105,7 +105,7 @@ List test_matches() {
     );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 LogicalVector test_length_wrap() {
   R_xlen_t small = R_LEN_T_MAX / 2;
 

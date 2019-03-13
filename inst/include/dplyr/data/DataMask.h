@@ -487,7 +487,6 @@ public:
   //
   //  materialize_binding is defined in utils-bindings.cpp as:
   //
-  // // [[Rcpp::export]]
   // SEXP materialize_binding(
   //   int idx,
   //   XPtr<DataMaskWeakProxyBase> mask_proxy_xp)

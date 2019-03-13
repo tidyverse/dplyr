@@ -39,7 +39,7 @@
 //' df %>% filter(cumany(balance < 0))
 //' # all rows until first overdraft
 //' df %>% filter(cumall(!(balance < 0)))
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 LogicalVector cumall(LogicalVector x) {
   int n = x.length();
   LogicalVector out(n, TRUE);
@@ -78,7 +78,7 @@ LogicalVector cumall(LogicalVector x) {
 
 //' @export
 //' @rdname cumall
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 LogicalVector cumany(LogicalVector x) {
   int n = x.length();
   LogicalVector out(n, FALSE);
@@ -118,7 +118,7 @@ LogicalVector cumany(LogicalVector x) {
 
 //' @export
 //' @rdname cumall
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 NumericVector cummean(NumericVector x) {
   int n = x.length();
   NumericVector out(no_init(n));

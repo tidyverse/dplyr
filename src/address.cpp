@@ -13,14 +13,14 @@ const char* address(SEXP x) {
   return (const char*)buffer;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 CharacterVector loc(RObject data) {
   CharacterVector out(1);
   out[0] = address(data);
   return out;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 CharacterVector dfloc(List df) {
   int n = df.size();
   CharacterVector pointers(n);
@@ -31,7 +31,7 @@ CharacterVector dfloc(List df) {
   return pointers;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 CharacterVector plfloc(Pairlist data) {
   int n = data.size();
   CharacterVector pointers(n), names(n);
@@ -47,7 +47,7 @@ CharacterVector plfloc(Pairlist data) {
   return pointers;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 CharacterVector strings_addresses(CharacterVector s) {
   static char buffer[20];
   int n = s.size();
@@ -72,18 +72,18 @@ CharacterVector strings_addresses(CharacterVector s) {
 //'   or "NONE".
 //'
 //' @keywords internal
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 void init_logging(const std::string& log_level) {
   plog::init_r(log_level);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool is_maybe_shared(SEXP env, SEXP name) {
   SEXP x = Rf_eval(name, env);
   return MAYBE_SHARED(x);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 LogicalVector maybe_shared_columns(SEXP df) {
   int n = Rf_length(df);
   LogicalVector res(no_init(n));

@@ -96,7 +96,7 @@ void check_by(const CharacterVector& by) {
   if (by.size() == 0) bad_arg("by", "must specify variables to join by");
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match, SEXP frame) {
   check_by(by_x);
 
@@ -144,7 +144,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   return res;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match, SEXP frame) {
   check_by(by_x);
 
@@ -191,7 +191,7 @@ void check_by(const IntegerVector& by) {
   if (by.size() == 0) bad_arg("by", "must specify variables to join by");
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
                           IntegerVector aux_x, IntegerVector aux_y,
@@ -227,7 +227,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 List nest_join_impl(DataFrame x, DataFrame y,
                     IntegerVector by_x, IntegerVector by_y,
                     IntegerVector aux_y,
@@ -305,8 +305,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
 }
 
 
-
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
                          IntegerVector aux_x, IntegerVector aux_y,
@@ -347,7 +346,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
                           IntegerVector aux_x, IntegerVector aux_y,
@@ -386,7 +385,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
                          IntegerVector aux_x, IntegerVector aux_y,

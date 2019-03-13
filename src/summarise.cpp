@@ -188,7 +188,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
   return out;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP summarise_impl(DataFrame df, QuosureList dots, SEXP frame, SEXP caller_env) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
@@ -211,7 +211,7 @@ SEXP hybrid_template(DataFrame df, const Quosure& quosure, SEXP caller_env) {
 }
 
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP hybrid_impl(DataFrame df, Quosure quosure, SEXP caller_env) {
   check_valid_colnames(df);
 

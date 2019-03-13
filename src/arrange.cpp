@@ -100,7 +100,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
   return SlicedTibble(res, gdf).data();
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP arrange_impl(DataFrame df, QuosureList quosures, SEXP frame) {
   if (is<RowwiseDataFrame>(df)) {
     return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures, frame);

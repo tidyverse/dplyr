@@ -508,7 +508,7 @@ SEXP mutate_zero(const DataFrame& df, const QuosureList& dots, SEXP caller_env, 
   return mutate_grouped<SlicedTibble>(df, dots, caller_env);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP mutate_impl(DataFrame df, QuosureList dots, SEXP caller_env) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);

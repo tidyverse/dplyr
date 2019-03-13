@@ -30,7 +30,7 @@ using namespace dplyr;
 #define MOVE(x) x
 # endif
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
   int n = gdf.nrows();
   IntegerVector res(no_init(n));
@@ -46,7 +46,7 @@ IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
   return res;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
   return hybrid::n_(gdf).summarise() ;
 }
@@ -435,7 +435,7 @@ bool has_no_factors(const std::vector<SEXP>& x) {
   return std::find_if(x.begin(), x.end(), is_factor) == x.end();
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP regroup(DataFrame grouping_data, SEXP frame) {
   size_t nc = grouping_data.size() - 1;
 
@@ -644,7 +644,7 @@ SymbolVector GroupedDataFrame::group_vars() const {
 
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
   DataFrame copy(shallow_copy(data));
 
@@ -667,12 +667,12 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
   return copy;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame group_data_grouped_df(DataFrame data) {
   return GroupedDataFrame(data).group_data();
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame ungroup_grouped_df(DataFrame df) {
   DataFrame copy(shallow_copy(df));
   GroupedDataFrame::strip_groups(copy);
@@ -680,7 +680,7 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   return copy;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype) {
   ListView rows = gdf.indices();
   R_xlen_t n = rows.size();

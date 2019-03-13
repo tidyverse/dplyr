@@ -16,7 +16,7 @@ using namespace Rcpp;
 //'
 //' x <- rnorm(1e2)
 //' x[between(x, -1, 1)]
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 LogicalVector between(NumericVector x, double left, double right) {
   int n = x.size();
   LogicalVector out(no_init(n));

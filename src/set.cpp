@@ -51,7 +51,7 @@ private:
   int max_count;
 };
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool convert) {
   int n = x.size();
   if (n != y.size())
@@ -199,7 +199,7 @@ std::string type_describe(SEXP x) {
   }
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false) {
   int n = x.size();
 
@@ -275,7 +275,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   return yes();
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false) {
   BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
   if (!compat) return compat;
@@ -361,7 +361,7 @@ DataFrame reconstruct_metadata(DataFrame out, const DataFrame& x) {
   }
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame union_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
@@ -396,7 +396,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
@@ -427,7 +427,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {

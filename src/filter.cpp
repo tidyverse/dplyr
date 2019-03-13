@@ -269,7 +269,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
   return structure_filter(gdf, group_indices, env) ;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP filter_impl(DataFrame df, Quosure quo) {
   if (df.nrows() == 0 || Rf_isNull(df)) {
     return df;
@@ -529,7 +529,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   return structure_filter(gdf, group_indices, quo_env);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP slice_impl(DataFrame df, Quosure quosure) {
   if (is<GroupedDataFrame>(df)) {
     return slice_template<GroupedDataFrame>(GroupedDataFrame(df), quosure);

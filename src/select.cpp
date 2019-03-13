@@ -67,7 +67,7 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
   return copy;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame select_impl(DataFrame df, CharacterVector vars) {
   check_valid_colnames(df);
   SymbolVector s_vars(vars);
