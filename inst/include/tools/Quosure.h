@@ -60,40 +60,15 @@ private:
   SymbolString name_;
 };
 
-class LambdaQuosure {
-public:
-  LambdaQuosure(const NamedQuosure& named_quosure, SEXP data_mask) :
-    quosure(make_lambda_quosure(named_quosure, data_mask))
-  {}
+inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
+  // need to create a new quosure to put the data mask in scope of the lambda function
+  Rcpp::Shield<SEXP> expr(Rf_duplicate(named_quosure.expr()));
+  SET_CLOENV(CAR(expr), data_mask);
 
-  const NamedQuosure& get() const {
-    return quosure;
-  }
+  Rcpp::Shield<SEXP> named_quosure_env(named_quosure.env());
 
-  ~LambdaQuosure() {
-    UNPROTECT(2);
-  }
-
-private:
-
-  NamedQuosure make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
-    // need to create a new quosure to put the data mask in scope
-    // of the lambda function
-    SEXP expr = PROTECT(Rf_duplicate(named_quosure.expr()));
-    SET_CLOENV(CAR(expr), data_mask) ;
-    Rcpp::Shield<SEXP> named_quosure_env(named_quosure.env());
-    return NamedQuosure(
-             PROTECT(rlang::new_quosure(expr, named_quosure_env)),
-             named_quosure.name()
-           );
-  }
-
-  LambdaQuosure(const LambdaQuosure&) ;
-
-  NamedQuosure quosure;
-};
-
-
+  return rlang::new_quosure(expr, named_quosure_env);
+}
 
 } // namespace dplyr
 

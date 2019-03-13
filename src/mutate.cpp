@@ -461,8 +461,9 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
       if (quosure.is_rlang_lambda()) {
         // need to create a new quosure to put the data mask in scope
         // of the lambda function
-        LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
-        variable = MutateCallProxy<SlicedTibble>(gdf, mask, lambda_quosure.get()).get();
+        Shield<SEXP> new_quosure(make_lambda_quosure(quosure, mask.get_data_mask()));
+        NamedQuosure lambda_quosure(new_quosure, quosure.name());
+        variable = MutateCallProxy<SlicedTibble>(gdf, mask, lambda_quosure).get();
       } else {
         variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
       }

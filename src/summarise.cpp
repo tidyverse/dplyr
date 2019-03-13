@@ -159,8 +159,9 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
         if (quosure.is_rlang_lambda()) {
           // need to create a new quosure to put the data mask in scope
           // of the lambda function
-          LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
-          result = GroupedCallReducer<SlicedTibble>(lambda_quosure.get(), mask).process(gdf);
+          Shield<SEXP> new_quosure(make_lambda_quosure(quosure, mask.get_data_mask()));
+          NamedQuosure lambda_quosure(new_quosure, quosure.name());
+          result = GroupedCallReducer<SlicedTibble>(lambda_quosure, mask).process(gdf);
         } else {
           result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
         }
