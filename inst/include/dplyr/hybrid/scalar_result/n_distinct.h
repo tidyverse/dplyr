@@ -78,7 +78,8 @@ SEXP n_distinct_dispatch(const SlicedTibble& data, const Expression& expression,
     return R_UnboundValue;
   }
 
-  Rcpp::List lst_columns(Rcpp::wrap(columns));
+  Rcpp::Shield<SEXP> s_columns(Rcpp::wrap(columns));
+  Rcpp::List lst_columns(s_columns);
   if (narm) {
     return op(internal::N_Distinct<SlicedTibble, true>(data, lst_columns, data.nrows(), data.ngroups()));
   } else {
