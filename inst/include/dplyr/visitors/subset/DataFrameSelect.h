@@ -13,12 +13,13 @@ private:
 public:
   DataFrameSelect(const Rcpp::DataFrame& data_, const SymbolVector& names): data(names.size()) {
     Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data_));
-    Rcpp::IntegerVector indices = names.match_in_table((SEXP)data_names);
-    R_xlen_t n = indices.size();
+    Rcpp::Shield<SEXP> indices(names.match_in_table((SEXP)data_names));
+    R_xlen_t n = XLENGTH(indices);
+    int* p_indices = INTEGER(indices);
     Rcpp::Shield<SEXP> out_names(Rf_allocVector(STRSXP, n));
 
     for (R_xlen_t i = 0; i < n; i++) {
-      R_xlen_t pos = indices[i];
+      R_xlen_t pos = p_indices[i];
       if (pos == NA_INTEGER) {
         bad_col(names[i], "is unknown");
       }

@@ -45,7 +45,7 @@ public:
     return Rcpp::as<int>(res);
   }
 
-  const Rcpp::IntegerVector match_in_table(const Rcpp::CharacterVector& t) const {
+  SEXP match_in_table(const Rcpp::CharacterVector& t) const {
     return r_match(v, t);
   }
 

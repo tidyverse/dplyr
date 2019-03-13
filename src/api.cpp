@@ -87,13 +87,16 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
   visitors(names_left.size()),
   warn(warn_)
 {
-  Shield<SEXP> left_names(RCPP_GET_NAMES(left));
-  Shield<SEXP> right_names(RCPP_GET_NAMES(right));
-  IntegerVector indices_left  = names_left.match_in_table((SEXP)left_names);
-  IntegerVector indices_right = names_right.match_in_table((SEXP)right_names);
+  Rcpp::Shield<SEXP> left_names(RCPP_GET_NAMES(left));
+  Rcpp::Shield<SEXP> right_names(RCPP_GET_NAMES(right));
 
-  const int nvisitors = indices_left.size();
-  if (indices_right.size() != nvisitors) {
+  Rcpp::Shield<SEXP> indices_left(names_left.match_in_table((SEXP)left_names));
+  Rcpp::Shield<SEXP> indices_right(names_right.match_in_table((SEXP)right_names));
+  int* p_indices_left = INTEGER(indices_left);
+  int* p_indices_right = INTEGER(indices_right);
+
+  R_xlen_t nvisitors = XLENGTH(indices_left);
+  if (XLENGTH(indices_right) != nvisitors) {
     stop("Different size of join column index vectors");
   }
 
@@ -101,19 +104,18 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
     const SymbolString& name_left  = names_left[i];
     const SymbolString& name_right = names_right[i];
 
-    if (indices_left[i] == NA_INTEGER) {
+    if (p_indices_left[i] == NA_INTEGER) {
       stop("'%s' column not found in lhs, cannot join", name_left.get_utf8_cstring());
     }
-    if (indices_right[i] == NA_INTEGER) {
+    if (p_indices_right[i] == NA_INTEGER) {
       stop("'%s' column not found in rhs, cannot join", name_right.get_utf8_cstring());
     }
 
-    visitors[i] =
-      join_visitor(
-        Column(left[indices_left[i] - 1], name_left),
-        Column(right[indices_right[i] - 1], name_right),
-        warn, na_match
-      );
+    visitors[i] = join_visitor(
+                    Column(left[p_indices_left[i] - 1], name_left),
+                    Column(right[p_indices_right[i] - 1], name_right),
+                    warn, na_match
+                  );
   }
 }
 
