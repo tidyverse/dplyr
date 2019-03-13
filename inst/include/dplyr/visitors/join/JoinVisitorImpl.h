@@ -14,8 +14,6 @@ namespace dplyr {
 
 JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn, bool accept_na_match = true);
 
-CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& right);
-
 void check_attribute_compatibility(const Column& left, const Column& right);
 
 template <int LHS_RTYPE, int RHS_RTYPE>
