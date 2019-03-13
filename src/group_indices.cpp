@@ -498,13 +498,14 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
 SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars, bool drop) {
   const int nvars = vars.size();
 
-  SEXP names = Rf_getAttrib(data, symbols::names);
-  IntegerVector indx = vars.match_in_table(names);
+  Shield<SEXP> names(Rf_getAttrib(data, symbols::names));
+  Shield<SEXP> indx(r_match(vars.get_vector(), names));
+  int* p_indx = INTEGER(indx);
   std::vector<SEXP> visited_data(nvars);
   CharacterVector groups_names(nvars + 1);
 
   for (int i = 0; i < nvars; ++i) {
-    int pos = indx[i];
+    int pos = p_indx[i];
     if (pos == NA_INTEGER) {
       bad_col(vars[i], "is unknown");
     }
