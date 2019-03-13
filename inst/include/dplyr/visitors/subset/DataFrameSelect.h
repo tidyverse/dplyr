@@ -25,7 +25,7 @@ public:
       data[i] = data_[pos - 1];
       SET_STRING_ELT(out_names, i, STRING_ELT(data_names, pos - 1));
     }
-    data.attr("names") = out_names;
+    Rf_namesgets(data, out_names);
     copy_class(data, data_);
   }
 
@@ -38,7 +38,7 @@ public:
       SET_STRING_ELT(out_names, i, STRING_ELT(data_names, pos - 1));
       data[i] = data_[pos - 1];
     }
-    data.attr("names") = out_names;
+    Rf_namesgets(data, out_names);
     copy_class(data, data_);
   }
 

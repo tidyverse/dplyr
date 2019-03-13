@@ -45,7 +45,7 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, co
   set_rownames(out, new_indices.size());
   set_class(out, NaturalDataFrame::classes());
   copy_attrib(out, old_groups, symbols::dot_drop);
-  out.attr("names") = names;
+  Rf_namesgets(out, names);
   return out ;
 }
 
@@ -108,7 +108,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
   } else {
     // clear groups and reset to non grouped classes
     GroupedDataFrame::strip_groups(out);
-    out.attr("class") = NaturalDataFrame::classes();
+    Rf_classgets(out, NaturalDataFrame::classes());
   }
 }
 

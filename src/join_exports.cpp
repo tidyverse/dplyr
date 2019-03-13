@@ -293,9 +293,8 @@ List nest_join_impl(DataFrame x, DataFrame y,
   names_x.push_back(yname) ;
   out[ncol_x] = list_col ;
   out.names() = names_x;
-  out.attr("class") = x.attr("class");
-  out.attr("row.names") = x.attr("row.names");
-
+  copy_attrib(out, x, R_ClassSymbol);
+  copy_attrib(out, x, R_RowNamesSymbol);
   GroupedDataFrame::copy_groups(out, x) ;
 
   return out;

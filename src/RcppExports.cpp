@@ -4,8 +4,6 @@
 #include "../inst/include/dplyr.h"
 #include "../inst/include/dplyr_types.h"
 #include <Rcpp.h>
-#include <string>
-#include <set>
 
 using namespace Rcpp;
 
@@ -299,72 +297,6 @@ BEGIN_RCPP
     rcpp_result_gen = Rcpp::wrap(hybrids());
     return rcpp_result_gen;
 END_RCPP
-}
-// get_date_classes
-SEXP get_date_classes();
-static SEXP _dplyr_get_date_classes_try() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    rcpp_result_gen = Rcpp::wrap(get_date_classes());
-    return rcpp_result_gen;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP _dplyr_get_date_classes() {
-    SEXP rcpp_result_gen;
-    {
-        Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_dplyr_get_date_classes_try());
-    }
-    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
-    if (rcpp_isInterrupt_gen) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
-    if (rcpp_isLongjump_gen) {
-        Rcpp::internal::resumeJump(rcpp_result_gen);
-    }
-    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
-    if (rcpp_isError_gen) {
-        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
-        UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
-    }
-    UNPROTECT(1);
-    return rcpp_result_gen;
-}
-// get_time_classes
-SEXP get_time_classes();
-static SEXP _dplyr_get_time_classes_try() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    rcpp_result_gen = Rcpp::wrap(get_time_classes());
-    return rcpp_result_gen;
-END_RCPP_RETURN_ERROR
-}
-RcppExport SEXP _dplyr_get_time_classes() {
-    SEXP rcpp_result_gen;
-    {
-        Rcpp::RNGScope rcpp_rngScope_gen;
-        rcpp_result_gen = PROTECT(_dplyr_get_time_classes_try());
-    }
-    Rboolean rcpp_isInterrupt_gen = Rf_inherits(rcpp_result_gen, "interrupted-error");
-    if (rcpp_isInterrupt_gen) {
-        UNPROTECT(1);
-        Rf_onintr();
-    }
-    bool rcpp_isLongjump_gen = Rcpp::internal::isLongjumpSentinel(rcpp_result_gen);
-    if (rcpp_isLongjump_gen) {
-        Rcpp::internal::resumeJump(rcpp_result_gen);
-    }
-    Rboolean rcpp_isError_gen = Rf_inherits(rcpp_result_gen, "try-error");
-    if (rcpp_isError_gen) {
-        SEXP rcpp_msgSEXP_gen = Rf_asChar(rcpp_result_gen);
-        UNPROTECT(1);
-        Rf_error(CHAR(rcpp_msgSEXP_gen));
-    }
-    UNPROTECT(1);
-    return rcpp_result_gen;
 }
 // semi_join_impl
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match, SEXP frame);
@@ -758,24 +690,6 @@ BEGIN_RCPP
 END_RCPP
 }
 
-// validate (ensure exported C++ functions exist before calling them)
-static int _dplyr_RcppExport_validate(const char* sig) { 
-    static std::set<std::string> signatures;
-    if (signatures.empty()) {
-        signatures.insert("SEXP(*get_date_classes)()");
-        signatures.insert("SEXP(*get_time_classes)()");
-    }
-    return signatures.find(sig) != signatures.end();
-}
-
-// registerCCallable (register entry points for exported C++ functions)
-RcppExport SEXP _dplyr_RcppExport_registerCCallable() { 
-    R_RegisterCCallable("dplyr", "_dplyr_get_date_classes", (DL_FUNC)_dplyr_get_date_classes_try);
-    R_RegisterCCallable("dplyr", "_dplyr_get_time_classes", (DL_FUNC)_dplyr_get_time_classes_try);
-    R_RegisterCCallable("dplyr", "_dplyr_RcppExport_validate", (DL_FUNC)_dplyr_RcppExport_validate);
-    return R_NilValue;
-}
-
 static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_loc", (DL_FUNC) &_dplyr_loc, 1},
     {"_dplyr_dfloc", (DL_FUNC) &_dplyr_dfloc, 1},
@@ -802,8 +716,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_group_split_impl", (DL_FUNC) &_dplyr_group_split_impl, 4},
     {"_dplyr_hybrids", (DL_FUNC) &_dplyr_hybrids, 0},
-    {"_dplyr_get_date_classes", (DL_FUNC) &_dplyr_get_date_classes, 0},
-    {"_dplyr_get_time_classes", (DL_FUNC) &_dplyr_get_time_classes, 0},
     {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 6},
     {"_dplyr_anti_join_impl", (DL_FUNC) &_dplyr_anti_join_impl, 6},
     {"_dplyr_inner_join_impl", (DL_FUNC) &_dplyr_inner_join_impl, 8},
@@ -834,7 +746,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},
     {"_dplyr_cumany", (DL_FUNC) &_dplyr_cumany, 1},
     {"_dplyr_cummean", (DL_FUNC) &_dplyr_cummean, 1},
-    {"_dplyr_RcppExport_registerCCallable", (DL_FUNC) &_dplyr_RcppExport_registerCCallable, 0},
     {NULL, NULL, 0}
 };
 

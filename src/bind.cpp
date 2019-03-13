@@ -322,7 +322,7 @@ List rbind__impl(List dots, const SymbolString& id) {
 
     out_names.set(0, id);
   }
-  out.attr("names") = out_names;
+  Rf_namesgets(out, out_names.get_vector());
   set_rownames(out, n);
 
   LOG_VERBOSE << "result has " << n << " rows";

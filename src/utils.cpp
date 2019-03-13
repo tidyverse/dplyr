@@ -188,7 +188,7 @@ CharacterVector get_class(SEXP x) {
 }
 
 void copy_attrib(SEXP out, SEXP origin, SEXP symbol) {
-  Rf_setAttrib(out, symbol, Rf_getAttrib(origin, symbol));
+  Rf_setAttrib(out, symbol, Rcpp::Shield<SEXP>(Rf_getAttrib(origin, symbol)));
 }
 
 void copy_class(SEXP out, SEXP origin) {

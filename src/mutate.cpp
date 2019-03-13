@@ -500,7 +500,7 @@ SEXP mutate_zero(const DataFrame& df, const QuosureList& dots, SEXP caller_env, 
   if (tbl.ngroups() == 0 || tbl.nrows() == 0) {
     DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots, caller_env);
     if (set_groups) {
-      res.attr("groups") = df.attr("groups");
+      GroupedDataFrame::copy_groups(res, df);
     }
     return res;
   }

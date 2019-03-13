@@ -1,13 +1,11 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <dplyr/registration.h>
+#include <tools/utils.h>
 #include <dplyr/symbols.h>
 
 using namespace Rcpp;
 
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
 SEXP get_date_classes() {
   static CharacterVector klasses(1, Rf_mkChar("Date"));
   return klasses;
@@ -20,8 +18,6 @@ inline SEXP init_time_classes() {
   return res;
 }
 
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
 SEXP get_time_classes() {
   static CharacterVector klasses(init_time_classes());
   return klasses;
@@ -85,6 +81,14 @@ SEXP symbols::quote = Rf_install("quote");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::warn_deprecated = Rf_install("warn_deprecated");
 SEXP symbols::signal_soft_deprecated = Rf_install("signal_soft_deprecated");
+SEXP symbols::call = Rf_install("call");
+SEXP symbols::env = Rf_install("env");
+SEXP symbols::fun = Rf_install("fun");
+SEXP symbols::cpp_class = Rf_install("cpp_class");
+SEXP symbols::levels = Rf_install("levels");
+SEXP symbols::labels = Rf_install("labels");
+SEXP symbols::indices = Rf_install("indices");
+SEXP symbols::ptype = Rf_install("ptype");
 
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 

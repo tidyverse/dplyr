@@ -187,7 +187,7 @@ public:
     visitors(visitors_),
 
     f(data[depth]),
-    nlevels(Rf_length(f.attr("levels"))),
+    nlevels(Rf_length(Rf_getAttrib(f, symbols::levels))),
 
     indices(nlevels + 1),
     slicers(nlevels + 1),
@@ -487,9 +487,9 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
   }
   vec_groups[nc] = indices;
 
-  vec_groups.attr("names") = vec_names(grouping_data);
-  vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_groups.attr("class") = NaturalDataFrame::classes() ;
+  Rf_namesgets(vec_groups, vec_names(grouping_data));
+  set_rownames(vec_groups, ncases);
+  Rf_classgets(vec_groups, NaturalDataFrame::classes());
 
   return vec_groups;
 }
@@ -554,10 +554,10 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars, bool drop)
     }
   }
 
-  vec_groups.attr("names") = groups_names;
-  vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_groups.attr("class") = NaturalDataFrame::classes() ;
-  vec_groups.attr(".drop") = drop;
+  Rf_namesgets(vec_groups, groups_names);
+  set_rownames(vec_groups, ncases);
+  Rf_classgets(vec_groups, NaturalDataFrame::classes());
+  Rf_setAttrib(vec_groups, symbols::dot_drop, Rf_ScalarLogical(drop));
 
   return vec_groups;
 }
@@ -576,13 +576,14 @@ SEXP check_grouped(RObject data) {
       // using drop = true here because this is likely to play better with
       // older representations
       DataFrame groups = build_index_cpp(data, SymbolVector(vars), true);
-      data.attr("groups") = groups;
+      Rf_setAttrib(data, symbols::groups, groups);
     }
 
     // but always clean the pre 0.8.0 attributes
-    data.attr("vars") = R_NilValue;
-    data.attr("indices") = R_NilValue;
-    data.attr("labels") = R_NilValue;
+    Rf_setAttrib(data, symbols::vars, R_NilValue);
+    Rf_setAttrib(data, symbols::indices, R_NilValue);
+    Rf_setAttrib(data, symbols::labels, R_NilValue);
+
   }
 
   // get the groups attribute and check for consistency
@@ -614,7 +615,7 @@ SEXP check_grouped(RObject data) {
 GroupedDataFrame::GroupedDataFrame(DataFrame x):
   data_(check_grouped(x)),
   symbols(group_vars()),
-  groups(data_.attr("groups")),
+  groups(Rf_getAttrib(data_, symbols::groups)),
   nvars_(symbols.size())
 {}
 
@@ -634,7 +635,7 @@ SymbolVector GroupedDataFrame::group_vars() const {
   Rcpp::Shelter<SEXP> shelter;
   SEXP vars_attr = shelter(Rf_getAttrib(groups, R_NamesSymbol));
   SEXP vars = shelter(Rf_allocVector(STRSXP, n));
-  for(int i=0; i<n; i++) {
+  for (int i = 0; i < n; i++) {
     SET_STRING_ELT(vars, i, STRING_ELT(vars_attr, i));
   }
   return SymbolVector(vars);
@@ -648,7 +649,7 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
 
   if (!symbols.size()) {
     GroupedDataFrame::strip_groups(copy);
-    copy.attr("class") = NaturalDataFrame::classes();
+    Rf_classgets(copy, NaturalDataFrame::classes());
     return copy;
   }
 
@@ -657,8 +658,8 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
   // we've made a copy and we are about to create the groups
   // attribute, so we make sure there is no more a vars
   // attribute lurking around from the pre 0.8.0 area
-  copy.attr("vars") = R_NilValue;
-  copy.attr("drop") = R_NilValue;
+  Rf_setAttrib(copy, symbols::vars, R_NilValue);
+  Rf_setAttrib(copy, symbols::drop, R_NilValue);
 
   GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols, drop));
 
@@ -719,7 +720,10 @@ List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype) {
     out[i] = out_i;
   }
   if (ptype) {
-    out.attr("ptype") = dataframe_subset(data, IntegerVector(0), NaturalDataFrame::classes(), frame);
+    Rf_setAttrib(
+      out, symbols::ptype,
+      dataframe_subset(data, IntegerVector(0), NaturalDataFrame::classes(), frame)
+    );
   }
   return out;
 }

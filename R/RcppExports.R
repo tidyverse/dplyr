@@ -286,7 +286,3 @@ cummean <- function(x) {
     .Call(`_dplyr_cummean`, x)
 }
 
-# Register entry points for exported C++ functions
-methods::setLoadAction(function(ns) {
-    .Call('_dplyr_RcppExport_registerCCallable', PACKAGE = 'dplyr')
-})

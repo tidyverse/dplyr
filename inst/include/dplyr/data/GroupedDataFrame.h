@@ -1,7 +1,6 @@
 #ifndef dplyr_tools_GroupedDataFrame_H
 #define dplyr_tools_GroupedDataFrame_H
 
-#include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 #include <tools/VectorView.h>
 
@@ -87,18 +86,18 @@ public:
   }
 
   template <typename Data>
-  static void strip_groups(Data& x) {
-    x.attr("groups") = R_NilValue;
+  static void set_groups(Data& x, SEXP groups) {
+    Rf_setAttrib(x, symbols::groups, groups);
   }
 
   template <typename Data>
-  static void set_groups(Data& x, SEXP groups) {
-    x.attr("groups") = groups;
+  static void strip_groups(Data& x) {
+    set_groups(x, R_NilValue);
   }
 
   template <typename Data1, typename Data2>
   static void copy_groups(Data1& x, const Data2& y) {
-    x.attr("groups") = y.attr("groups");
+    copy_attrib(x, y, symbols::groups);
   }
 
   static inline Rcpp::CharacterVector classes() {

@@ -116,7 +116,7 @@ List hybrids() {
                _["package"] = packages,
                _["fun"] = funs
              );
-  out.attr("class") = NaturalDataFrame::classes();
+  Rf_classgets(out, NaturalDataFrame::classes());
   set_rownames(out, n);
   return out;
 }

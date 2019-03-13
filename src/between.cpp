@@ -23,7 +23,7 @@ LogicalVector between(NumericVector x, double left, double right) {
 
   // Assume users know what they're doing with date/times. In the future
   // should ensure that left and right are the correct class too.
-  if (x.attr("class") != R_NilValue && !Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
+  if (!Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
     warningcall(R_NilValue, "between() called on numeric vector with S3 class");
   }
 

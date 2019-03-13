@@ -8,6 +8,8 @@
 #include <dplyr/visitors/join/JoinVisitor.h>
 #include <dplyr/visitors/join/Column.h>
 
+#include <dplyr/symbols.h>
+
 namespace dplyr {
 
 JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn, bool accept_na_match = true);
@@ -187,22 +189,22 @@ public:
     Parent(left, right, false),
     tzone(R_NilValue)
   {
-    RObject tzone_left  = left.get_data().attr("tzone");
-    RObject tzone_right = right.get_data().attr("tzone");
-    if (tzone_left.isNULL() && tzone_right.isNULL()) return;
+    Shield<SEXP> tzone_left(Rf_getAttrib(left.get_data(), symbols::tzone));
+    Shield<SEXP> tzone_right(Rf_getAttrib(right.get_data(), symbols::tzone));
 
-    if (tzone_left.isNULL()) {
+    bool null_left = Rf_isNull(tzone_left);
+    bool null_right = Rf_isNull(tzone_right);
+    if (null_left && null_right) return;
+
+    if (null_left) {
       tzone = tzone_right;
-    } else if (tzone_right.isNULL()) {
+    } else if (null_right) {
       tzone = tzone_left;
     } else {
-      std::string s_left  = as<std::string>(tzone_left);
-      std::string s_right = as<std::string>(tzone_right);
-
-      if (s_left == s_right) {
-        tzone = wrap(s_left);
+      if (STRING_ELT(tzone_left, 0) == STRING_ELT(tzone_right, 0)) {
+        tzone = tzone_left;
       } else {
-        tzone = wrap("UTC");
+        tzone = Rf_mkString("UTC");
       }
     }
   }
@@ -215,10 +217,11 @@ public:
   }
 
 private:
+
   inline SEXP promote(NumericVector x) {
-    set_class(x, Rcpp::CharacterVector::create("POSIXct", "POSIXt"));
+    Rf_classgets(x, get_time_classes());
     if (!tzone.isNULL()) {
-      x.attr("tzone") = tzone;
+      Rf_setAttrib(x, symbols::tzone, tzone);
     }
     return x;
   }
@@ -251,7 +254,7 @@ public:
 
 private:
   static SEXP promote(SEXP x) {
-    set_class(x, "Date");
+    Rf_classgets(x, get_date_classes());
     return x;
   }
 

@@ -1,7 +1,6 @@
 #ifndef dplyr_tools_NaturalDataFrame_H
 #define dplyr_tools_NaturalDataFrame_H
 
-#include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 
 #include <tools/SymbolVector.h>
