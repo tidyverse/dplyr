@@ -76,7 +76,7 @@ SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& ma
   bool test = !is_vector(expr);
   Rcpp::RObject klass;
   if (test) {
-    klass = (hybrid_do(expr, data, mask, env, caller_env, Match()));
+    klass = hybrid_do(expr, data, mask, env, caller_env, Match());
     test = klass != R_UnboundValue;
   }
   Rcpp::LogicalVector res(1, test) ;
