@@ -34,7 +34,7 @@ SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, co
   int nv = old_groups.size() - 1 ;
   Shield<SEXP> out(Rf_allocVector(VECSXP, nv));
   Shield<SEXP> names(Rf_allocVector(STRSXP, nv));
-  SEXP old_names = Rf_getAttrib(old_groups, symbols::names);
+  Shield<SEXP> old_names(Rf_getAttrib(old_groups, symbols::names));
   for (int i = 0; i < nv - 1; i++) {
     SET_VECTOR_ELT(out, i, column_subset(old_groups[i], firsts, frame));
     SET_STRING_ELT(names, i, STRING_ELT(old_names, i));

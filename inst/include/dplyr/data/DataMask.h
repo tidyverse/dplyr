@@ -345,7 +345,7 @@ public:
     proxy(new DataMaskProxy<SlicedTibble>(this))
   {
     const Rcpp::DataFrame& data = gdf.data();
-    SEXP names = Rf_getAttrib(data, symbols::names);
+    Rcpp::Shield<SEXP> names(Rf_getAttrib(data, symbols::names));
     int n = data.size();
     LOG_INFO << "processing " << n << " vars: " << names;
 

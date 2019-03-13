@@ -286,7 +286,7 @@ List nest_join_impl(DataFrame x, DataFrame y,
 
   int ncol_x = x.size();
   List out(ncol_x + 1);
-  SEXP x_names = Rf_getAttrib(x, symbols::names);
+  Shield<SEXP> x_names(Rf_getAttrib(x, symbols::names));
   Shield<SEXP> new_names(Rf_allocVector(STRSXP, ncol_x + 1));
 
   for (int i = 0; i < ncol_x; i++) {

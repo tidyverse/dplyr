@@ -248,11 +248,12 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
 
   if (why.length() > 0) return no_because(why);
 
-  IntegerVector orders(r_match(names_x, names_y));
+  Rcpp::Shield<SEXP> orders(r_match(names_x, names_y));
+  int* p_orders = INTEGER(orders);
 
   for (int i = 0; i < n; i++) {
     SymbolString name = names_x[i];
-    SEXP xi = x[i], yi = y[orders[i] - 1];
+    SEXP xi = x[i], yi = y[p_orders[i] - 1];
 
     std::stringstream ss;
     bool compatible = convert ? type_compatible(xi, yi) : type_same(xi, yi, ss, name);

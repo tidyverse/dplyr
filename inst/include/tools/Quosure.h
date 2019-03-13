@@ -82,7 +82,7 @@ public:
 
     data.reserve(n);
 
-    SEXP names = Rf_getAttrib(data_, symbols::names);
+    Rcpp::Shield<SEXP> names(Rf_getAttrib(data_, symbols::names));
     for (int i = 0; i < n; i++) {
       SEXP x = data_[i];
 

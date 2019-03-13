@@ -203,12 +203,13 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   Shield<SEXP> s_uniques(call.fast_eval());
 
   // order the uniques with a callback to R
-  IntegerVector o(r_match(uniques, s_uniques));
+  Shield<SEXP> o(r_match(uniques, s_uniques));
+  int* p_o = INTEGER(o);
 
   // combine uniques and o into a hash map for fast retrieval
   dplyr_hash_map<SEXP, int> map(n_uniques);
   for (int i = 0; i < n_uniques; i++) {
-    map.insert(std::make_pair(uniques[i], o[i]));
+    map.insert(std::make_pair(uniques[i], p_o[i]));
   }
 
   // grab min ranks
