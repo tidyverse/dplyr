@@ -78,10 +78,7 @@ SEXP maybe_coerce_minmax(SEXP x) {
     return x;
   }
 
-  PROTECT(x);
-  SEXP out = Rcpp::as< Rcpp::Vector<RTYPE> >(x);
-  UNPROTECT(1);
-  return out;
+  return Rcpp::as< Rcpp::Vector<RTYPE> >(x);
 }
 
 }
@@ -93,10 +90,10 @@ SEXP minmax_narm(const SlicedTibble& data, Column x, const Operation& op) {
   // only handle basic number types, anything else goes through R
   switch (TYPEOF(x.data)) {
   case RAWSXP:
-    return internal::maybe_coerce_minmax<RAWSXP>(op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x)));
+    return internal::maybe_coerce_minmax<RAWSXP>(Rcpp::Shield<SEXP>(op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x))));
 
   case INTSXP:
-    return internal::maybe_coerce_minmax<INTSXP>(op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x)));
+    return internal::maybe_coerce_minmax<INTSXP>(Rcpp::Shield<SEXP>(op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x))));
 
   case REALSXP:
     return op(internal::MinMax<REALSXP, SlicedTibble, MINIMUM, NARM>(data, x));

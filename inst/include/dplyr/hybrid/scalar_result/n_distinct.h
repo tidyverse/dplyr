@@ -22,7 +22,7 @@ public:
   typedef VisitorEqualPredicate<MultipleVectorVisitors> Pred;
   typedef dplyr_hash_set<int, Hash, Pred > Set;
 
-  N_Distinct(const SlicedTibble& data, Rcpp::List columns_, int nrows_, int ngroups_):
+  N_Distinct(const SlicedTibble& data, const Rcpp::List& columns_, int nrows_, int ngroups_):
     Parent(data),
 
     visitors(columns_, nrows_, ngroups_),
@@ -78,11 +78,11 @@ SEXP n_distinct_dispatch(const SlicedTibble& data, const Expression& expression,
     return R_UnboundValue;
   }
 
-  Rcpp::Shield<SEXP> lst_columns(Rcpp::wrap(columns));
+  Rcpp::List lst_columns(Rcpp::wrap(columns));
   if (narm) {
-    return op(internal::N_Distinct<SlicedTibble, true>(data, (SEXP)lst_columns, data.nrows(), data.ngroups()));
+    return op(internal::N_Distinct<SlicedTibble, true>(data, lst_columns, data.nrows(), data.ngroups()));
   } else {
-    return op(internal::N_Distinct<SlicedTibble, false>(data, (SEXP)lst_columns, data.nrows(), data.ngroups()));
+    return op(internal::N_Distinct<SlicedTibble, false>(data, lst_columns, data.nrows(), data.ngroups()));
   }
 }
 
