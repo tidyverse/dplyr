@@ -134,7 +134,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // cbind_all
-List cbind_all(List dots);
+SEXP cbind_all(List dots);
 RcppExport SEXP _dplyr_cbind_all(SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

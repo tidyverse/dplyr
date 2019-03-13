@@ -4,6 +4,7 @@
 #include <tools/SymbolString.h>
 #include <tools/utils.h>
 #include "SymbolVector.h"
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 
@@ -106,7 +107,7 @@ public:
 
     data.reserve(n);
 
-    Rcpp::CharacterVector names = data_.names();
+    SEXP names = Rf_getAttrib(data_, symbols::names);
     for (int i = 0; i < n; i++) {
       SEXP x = data_[i];
 
@@ -114,7 +115,7 @@ public:
         Rcpp::stop("corrupt tidy quote");
       }
 
-      data.push_back(NamedQuosure(x, SymbolString(names[i])));
+      data.push_back(NamedQuosure(x, SymbolString(STRING_ELT(names, i))));
     }
   }
 
@@ -135,14 +136,15 @@ public:
     return true;
   }
 
-  SymbolVector names() const {
-    Rcpp::CharacterVector out(data.size());
+  SEXP names() const {
+    R_xlen_t n = data.size();
+    Rcpp::Shield<SEXP> out(Rf_allocVector(STRSXP, n));
 
     for (size_t i = 0; i < data.size(); ++i) {
-      out[i] = data[i].name().get_string();
+      SET_STRING_ELT(out, i, data[i].name().get_sexp());
     }
 
-    return SymbolVector(out);
+    return out;
   }
 
 private:

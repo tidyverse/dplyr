@@ -90,8 +90,7 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
     variables[i] = v;
     ascending[i] = !is_desc;
   }
-  variables.names() = quosures.names();
-
+  Rf_namesgets(variables, quosures.names());
   OrderVisitors o(variables, ascending, nargs);
   IntegerVector one_based_index = o.apply();
 

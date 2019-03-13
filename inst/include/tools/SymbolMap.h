@@ -27,7 +27,7 @@ private:
 public:
   SymbolMap(): lookup(), names() {}
 
-  SymbolMap(int n, const CharacterVector& names_): lookup(n), names((SEXP)names_) {
+  SymbolMap(int n, const Rcpp::CharacterVector& names_): lookup(n), names((SEXP)names_) {
     for (int i = 0; i < n; i++) {
       lookup.insert(std::make_pair(names_[i], i));
     }
@@ -61,7 +61,7 @@ public:
     }
   }
 
-  SymbolVector get_names() const {
+  const SymbolVector& get_names() const {
     return names;
   }
 
@@ -85,7 +85,7 @@ public:
   int get(const SymbolString& name) const {
     dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
     if (it == lookup.end()) {
-      stop("variable '%s' not found", name.get_utf8_cstring());
+      Rcpp::stop("variable '%s' not found", name.get_utf8_cstring());
     }
     return it->second;
   }

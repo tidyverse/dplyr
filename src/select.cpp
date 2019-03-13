@@ -9,11 +9,13 @@ using namespace Rcpp;
 using namespace dplyr;
 
 SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names) {
-  IntegerVector positions = keep.match_in_table(df.names());
+  Shield<SEXP> positions(r_match(keep.get_vector(), Rf_getAttrib(df, symbols::names)));
+  int* p_positions = INTEGER(positions);
+
   int n = keep.size();
   List res(n);
   for (int i = 0; i < n; i++) {
-    int pos = positions[i];
+    int pos = p_positions[i];
     if (pos < 1 || pos > df.size()) {
       std::stringstream s;
       if (pos == NA_INTEGER) {
@@ -27,7 +29,8 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
     res[i] = df[ pos - 1 ];
   }
   copy_most_attributes(res, df);
-  res.names() = new_names;
+  Rf_namesgets(res, new_names.get_vector());
+
   return res;
 }
 
@@ -42,20 +45,22 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
 
   // update the names of the grouping variables in case they are involved in
   // the selection, i.e. select(data, g1 = g2)
-  CharacterVector group_names = clone<CharacterVector>(groups.names());
-  IntegerVector positions = keep.match(group_names);
+  Shield<SEXP> group_names(Rf_duplicate(Rf_getAttrib(groups, symbols::names)));
+
+  Shield<SEXP> positions(r_match(group_names, keep.get_vector()));
   int nl = gdf.nvars();
 
   // maybe rename the variables in the groups metadata
+  int* p_positions = INTEGER(positions);
   for (int i = 0; i < nl; i++) {
-    int pos = positions[i];
+    int pos = p_positions[i];
     if (pos != NA_INTEGER) {
-      group_names[i] = new_names[pos - 1].get_string();
+      SET_STRING_ELT(group_names, i, new_names[pos - 1].get_sexp());
     } else {
-      bad_col(group_names[i], "not found in groups metadata. Probably a corrupt grouped_df object.");
+      bad_col(STRING_ELT(group_names, i), "not found in groups metadata. Probably a corrupt grouped_df object.");
     }
   }
-  groups.names() = group_names;
+  Rf_namesgets(groups, group_names);
 
   // then keep the grouping structure in the groups attribute
   GroupedDataFrame::set_groups(copy, groups) ;
@@ -65,9 +70,11 @@ DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const S
 // [[Rcpp::export]]
 DataFrame select_impl(DataFrame df, CharacterVector vars) {
   check_valid_colnames(df);
+  SymbolVector s_vars(vars);
+  SymbolVector s_names_vars(Rf_getAttrib(vars, symbols::names));
   if (is<GroupedDataFrame>(df)) {
-    return select_grouped(GroupedDataFrame(df), SymbolVector(vars), SymbolVector(vars.names()));
+    return select_grouped(GroupedDataFrame(df), s_vars, s_names_vars);
   } else {
-    return select_not_grouped(df, SymbolVector(vars), SymbolVector(vars.names()));
+    return select_not_grouped(df, s_vars, s_names_vars);
   }
 }

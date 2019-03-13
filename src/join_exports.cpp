@@ -286,13 +286,17 @@ List nest_join_impl(DataFrame x, DataFrame y,
 
   int ncol_x = x.size();
   List out(ncol_x + 1);
-  CharacterVector names_x = x.names();
+  SEXP x_names = Rf_getAttrib(x, symbols::names);
+  Shield<SEXP> new_names(Rf_allocVector(STRSXP, ncol_x + 1));
+
   for (int i = 0; i < ncol_x; i++) {
     out[i] = x[i];
+    SET_STRING_ELT(new_names, i, STRING_ELT(x_names, i));
   }
-  names_x.push_back(yname) ;
   out[ncol_x] = list_col ;
-  out.names() = names_x;
+  SET_STRING_ELT(new_names, ncol_x, yname.get_sexp());
+  Rf_namesgets(out, new_names);
+
   copy_attrib(out, x, R_ClassSymbol);
   copy_attrib(out, x, R_RowNamesSymbol);
   GroupedDataFrame::copy_groups(out, x) ;

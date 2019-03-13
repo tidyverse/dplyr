@@ -2,6 +2,8 @@
 #include <dplyr/main.h>
 
 #include <tools/encoding.h>
+#include <tools/utils.h>
+#include <dplyr/symbols.h>
 
 using namespace Rcpp;
 
@@ -25,7 +27,7 @@ CharacterVector dfloc(List df) {
   for (int i = 0; i < n; i++) {
     pointers[i] = address(df[i]);
   }
-  pointers.names() = df.names();
+  copy_attrib(pointers, df, dplyr::symbols::names);
   return pointers;
 }
 
@@ -41,7 +43,7 @@ CharacterVector plfloc(Pairlist data) {
     p = CDR(p);
     i++;
   }
-  pointers.names() = names;
+  Rf_namesgets(pointers, names);
   return pointers;
 }
 
@@ -56,7 +58,7 @@ CharacterVector strings_addresses(CharacterVector s) {
     snprintf(buffer, 20, "%p", reinterpret_cast<void*>(x));
     res[i] = buffer;
   }
-  res.names() = s;
+  Rf_namesgets(res, s);
 
   return res;
 }

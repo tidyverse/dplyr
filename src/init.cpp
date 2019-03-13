@@ -89,6 +89,7 @@ SEXP symbols::levels = Rf_install("levels");
 SEXP symbols::labels = Rf_install("labels");
 SEXP symbols::indices = Rf_install("indices");
 SEXP symbols::ptype = Rf_install("ptype");
+SEXP symbols::names = R_NamesSymbol;
 
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 

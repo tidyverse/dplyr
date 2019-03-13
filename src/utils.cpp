@@ -68,7 +68,7 @@ void assert_all_allow_list(const DataFrame& data) {
   int nc = data.size();
   for (int i = 0; i < nc; i++) {
     if (!allow_list(data[i])) {
-      SymbolVector names = data.names();
+      SymbolVector names(Rf_getAttrib(data, symbols::names));
       const SymbolString& name_i = names[i];
       SEXP v = data[i];
 
@@ -118,7 +118,7 @@ void copy_only_attributes(SEXP out, SEXP data) {
   SEXP att = ATTRIB(data);
   const bool has_attributes = !Rf_isNull(att);
   if (has_attributes) {
-    LOG_VERBOSE << "copying attributes: " << CharacterVector(List(att).names());
+    LOG_VERBOSE << "copying attributes: " << CharacterVector(Rf_getAttrib(List(att), symbols::names));
 
     SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }

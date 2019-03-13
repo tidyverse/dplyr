@@ -131,8 +131,8 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(
     stop("Different size of join column index vectors");
   }
 
-  SymbolVector left_names = left.names();
-  SymbolVector right_names = right.names();
+  SymbolVector left_names(Rf_getAttrib(left, symbols::names));
+  SymbolVector right_names(Rf_getAttrib(right, symbols::names));
 
   for (int i = 0; i < size(); i++) {
     const int index_left = check_range_one_based(indices_left[i], left.size());
@@ -202,7 +202,7 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   CharacterVector s_uniques = call.fast_eval();
 
   // order the uniques with a callback to R
-  IntegerVector o = r_match(uniques, s_uniques);
+  IntegerVector o(r_match(uniques, s_uniques));
 
   // combine uniques and o into a hash map for fast retrieval
   dplyr_hash_map<SEXP, int> map(n_uniques);

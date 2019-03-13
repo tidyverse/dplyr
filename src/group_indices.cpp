@@ -498,7 +498,7 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
 SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars, bool drop) {
   const int nvars = vars.size();
 
-  CharacterVector names = data.names();
+  SEXP names = Rf_getAttrib(data, symbols::names);
   IntegerVector indx = vars.match_in_table(names);
   std::vector<SEXP> visited_data(nvars);
   CharacterVector groups_names(nvars + 1);
@@ -511,7 +511,7 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars, bool drop)
 
     SEXP v = data[pos - 1];
     visited_data[i] = v;
-    groups_names[i] = names[pos - 1];
+    groups_names[i] = STRING_ELT(names, pos - 1);
 
     if (!allow_list(v) || TYPEOF(v) == VECSXP) {
       bad_col(vars[i], "can't be used as a grouping variable because it's a {type}",

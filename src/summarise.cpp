@@ -32,15 +32,15 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
 
 SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, const IntegerVector& firsts, SEXP frame) {
   int nv = old_groups.size() - 1 ;
-  List out(nv);
-  CharacterVector names(nv);
-  CharacterVector old_names(old_groups.names());
+  Shield<SEXP> out(Rf_allocVector(VECSXP, nv));
+  Shield<SEXP> names(Rf_allocVector(STRSXP, nv));
+  SEXP old_names = Rf_getAttrib(old_groups, symbols::names);
   for (int i = 0; i < nv - 1; i++) {
-    out[i] = column_subset(old_groups[i], firsts, frame);
-    names[i] = old_names[i];
+    SET_VECTOR_ELT(out, i, column_subset(old_groups[i], firsts, frame));
+    SET_STRING_ELT(names, i, STRING_ELT(old_names, i));
   }
-  out[nv - 1] = new_indices;
-  names[nv - 1] = ".rows";
+  SET_VECTOR_ELT(out, nv - 1, new_indices);
+  SET_STRING_ELT(names, nv - 1, Rf_mkChar(".rows"));
 
   set_rownames(out, new_indices.size());
   set_class(out, NaturalDataFrame::classes());
@@ -179,7 +179,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
   // so that the attributes of the original tibble are preserved
   // as requested in issue #1064
   copy_most_attributes(out, df);
-  out.names() = accumulator.names();
+  Rf_namesgets(out, accumulator.names().get_vector());
 
   int nr = gdf.ngroups();
   set_rownames(out, nr);

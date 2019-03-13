@@ -203,7 +203,8 @@ std::string type_describe(SEXP x) {
 dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false) {
   int n = x.size();
 
-  bool null_x = Rf_isNull(x.names()), null_y = Rf_isNull(y.names());
+  bool null_x = Rf_isNull(Rf_getAttrib(x, symbols::names));
+  bool null_y = Rf_isNull(Rf_getAttrib(y, symbols::names));
   if (null_x && !null_y) {
     return no_because("x does not have names, but y does");
   } else if (null_y && !null_x) {
@@ -212,8 +213,8 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     return compatible_data_frame_nonames(x, y, convert);
   }
 
-  CharacterVector names_x = x.names();
-  CharacterVector names_y = y.names();
+  CharacterVector names_x(Rf_getAttrib(x, symbols::names));
+  CharacterVector names_y(Rf_getAttrib(y, symbols::names));
 
   CharacterVector names_y_not_in_x = setdiff(names_y, names_x);
   CharacterVector names_x_not_in_y = setdiff(names_x, names_y);
@@ -244,7 +245,7 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
 
   if (why.length() > 0) return no_because(why);
 
-  IntegerVector orders = r_match(names_x, names_y);
+  IntegerVector orders(r_match(names_x, names_y));
 
   for (int i = 0; i < n; i++) {
     SymbolString name = names_x[i];
@@ -276,7 +277,7 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
   if (!compat) return compat;
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  SymbolVector x_names = x.names();
+  SymbolVector x_names(Rf_getAttrib(x, symbols::names));
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Map map(visitors);
 
@@ -364,7 +365,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector x_names = x.names();
+  SymbolVector x_names(Rf_getAttrib(x, symbols::names));
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
@@ -399,7 +400,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector x_names = x.names();
+  SymbolVector x_names(Rf_getAttrib(x, symbols::names));
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
@@ -430,7 +431,7 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector y_names = y.names();
+  SymbolVector y_names(Rf_getAttrib(y, symbols::names));
   DataFrameJoinVisitors visitors(x, y, y_names, y_names, true, true);
   Set set(visitors);
 

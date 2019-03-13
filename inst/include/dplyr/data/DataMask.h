@@ -340,12 +340,12 @@ public:
   // - delays setting up the environment until needed
   DataMask(const SlicedTibble& gdf) :
     column_bindings(),
-    symbol_map(gdf.data().size(), gdf.data().names()),
+    symbol_map(gdf.data().size(), Rf_getAttrib(gdf.data(), symbols::names)),
     active_bindings_ready(false),
     proxy(new DataMaskProxy<SlicedTibble>(this))
   {
-    const DataFrame& data = gdf.data();
-    CharacterVector names = data.names();
+    const Rcpp::DataFrame& data = gdf.data();
+    SEXP names = Rf_getAttrib(data, symbols::names);
     int n = data.size();
     LOG_INFO << "processing " << n << " vars: " << names;
 
@@ -354,7 +354,7 @@ public:
     for (int i = 0; i < n; i++) {
       column_bindings.push_back(
         ColumnBinding<SlicedTibble>(
-          false, SymbolString(names[i]).get_symbol(),
+          false, SymbolString(STRING_ELT(names, i)).get_symbol(),
           data[i]
         )
       );

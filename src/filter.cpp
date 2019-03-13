@@ -491,7 +491,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
 
   const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
-  SymbolVector names = data.names();
+  SymbolVector names(Rf_getAttrib(data, symbols::names));
 
   GroupSliceIndices<SlicedTibble> group_indices(gdf);
 

@@ -4,7 +4,7 @@
 
 namespace dplyr {
 
-inline Rcpp::IntegerVector r_match(SEXP x, SEXP y, SEXP incomparables = R_NilValue) {
+inline SEXP r_match(SEXP x, SEXP y, SEXP incomparables = R_NilValue) {
   static Rcpp::Function match("match", R_BaseEnv);
 
   if (R_VERSION == R_Version(3, 3, 0)) {
