@@ -203,12 +203,17 @@ private:
       }
     }
 
+    SEXP res;
     if (TYPEOF(first) == VECSXP) {
-      return ListGatherer<SlicedTibble> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      List list_first(first);
+      ListGatherer<SlicedTibble> gatherer(list_first, indices, const_cast<MutateCallProxy&>(*this), data, i, name);
+      res = PROTECT(gatherer.collect());
     } else {
-      return Gatherer<SlicedTibble> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      Gatherer<SlicedTibble> gatherer(first, indices, const_cast<MutateCallProxy&>(*this), data, i, name);
+      res = PROTECT(gatherer.collect());
     }
-
+    UNPROTECT(1);
+    return res;
   }
 
 
