@@ -199,7 +199,7 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
 
   static Function sort("sort", R_BaseEnv);
   Language call(sort, uniques);
-  CharacterVector s_uniques = call.fast_eval();
+  Shield<SEXP> s_uniques(call.fast_eval());
 
   // order the uniques with a callback to R
   IntegerVector o(r_match(uniques, s_uniques));
