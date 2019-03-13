@@ -40,12 +40,9 @@ public:
   }
 
   int match(const SymbolString& s) const {
-    Rcpp::CharacterVector vs = Rcpp::CharacterVector::create(s.get_string());
-    return Rcpp::as<int>(match(vs));
-  }
-
-  const Rcpp::IntegerVector match(const Rcpp::CharacterVector& m) const {
-    return r_match(m, v);
+    Rcpp::Shield<SEXP> vs(Rf_ScalarString(s.get_sexp()));
+    Rcpp::Shield<SEXP> res(r_match(vs, v));
+    return Rcpp::as<int>(res);
   }
 
   const Rcpp::IntegerVector match_in_table(const Rcpp::CharacterVector& t) const {

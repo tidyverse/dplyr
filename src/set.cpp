@@ -203,8 +203,11 @@ std::string type_describe(SEXP x) {
 dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false) {
   int n = x.size();
 
-  bool null_x = Rf_isNull(Rf_getAttrib(x, symbols::names));
-  bool null_y = Rf_isNull(Rf_getAttrib(y, symbols::names));
+  Rcpp::Shield<SEXP> x_names(Rf_getAttrib(x, symbols::names));
+  Rcpp::Shield<SEXP> y_names(Rf_getAttrib(y, symbols::names));
+
+  bool null_x = Rf_isNull(x_names);
+  bool null_y = Rf_isNull(y_names);
   if (null_x && !null_y) {
     return no_because("x does not have names, but y does");
   } else if (null_y && !null_x) {
@@ -213,8 +216,8 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     return compatible_data_frame_nonames(x, y, convert);
   }
 
-  CharacterVector names_x(Rf_getAttrib(x, symbols::names));
-  CharacterVector names_y(Rf_getAttrib(y, symbols::names));
+  CharacterVector names_x(x_names);
+  CharacterVector names_y(y_names);
 
   CharacterVector names_y_not_in_x = setdiff(names_y, names_x);
   CharacterVector names_x_not_in_y = setdiff(names_x, names_y);
