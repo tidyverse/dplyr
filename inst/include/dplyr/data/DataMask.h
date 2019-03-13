@@ -282,13 +282,21 @@ public:
   {}
 
   virtual SEXP materialize(int idx) {
-    boost::shared_ptr< DataMaskProxy<SlicedTibble> > lock = real.lock();
-    if (lock) {
-      return lock.get()->materialize(idx);
-    } else {
-      Rcpp::warning("Hybrid callback proxy out of scope");
-      return R_NilValue;
+    int nprot = 0;
+    SEXP res = R_NilValue;
+    {
+      boost::shared_ptr< DataMaskProxy<SlicedTibble> > lock(real.lock());
+      if (lock) {
+        res = PROTECT(lock.get()->materialize(idx));
+        ++nprot;
+      }
     }
+    if (nprot == 0) {
+      Rcpp::warning("Hybrid callback proxy out of scope");
+    }
+
+    UNPROTECT(nprot);
+    return res;
   }
 };
 
