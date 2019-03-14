@@ -27,7 +27,7 @@ CharacterVector dfloc(List df) {
   for (int i = 0; i < n; i++) {
     pointers[i] = address(df[i]);
   }
-  copy_attrib(pointers, df, dplyr::symbols::names);
+  dplyr::copy_attrib(pointers, df, dplyr::symbols::names);
   return pointers;
 }
 

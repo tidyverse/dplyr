@@ -645,7 +645,7 @@ SymbolVector GroupedDataFrame::group_vars() const {
 }
 
 // [[Rcpp::export(rng = false)]]
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
+DataFrame grouped_df_impl(DataFrame data, const SymbolVector& symbols, bool drop) {
   DataFrame copy(shallow_copy(data));
 
   if (!symbols.size()) {

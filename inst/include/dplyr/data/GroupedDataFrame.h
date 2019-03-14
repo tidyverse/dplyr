@@ -27,7 +27,7 @@ public:
 
 class GroupedDataFrame {
 private:
-  GroupedDataFrame(const GroupedDataFrame& );
+  GroupedDataFrame(const GroupedDataFrame&);
 
 public:
   typedef GroupedDataFrameIndexIterator group_iterator;
@@ -79,11 +79,11 @@ public:
     return groups[groups.size() - 1] ;
   }
 
-  inline SymbolVector get_vars() const {
+  inline const SymbolVector& get_vars() const {
     return symbols.get_names();
   }
 
-  inline const DataFrame& group_data() const {
+  inline const Rcpp::DataFrame& group_data() const {
     return groups;
   }
 
@@ -159,7 +159,7 @@ class ConstReferenceInputParameter<dplyr::GroupedDataFrame> {
 public:
   typedef const dplyr::GroupedDataFrame& const_reference ;
 
-  ConstReferenceInputParameter(SEXP x_) : df(x_), obj(df){}
+  ConstReferenceInputParameter(SEXP x_) : df(x_), obj(df) {}
 
   inline operator const_reference() {
     return obj ;

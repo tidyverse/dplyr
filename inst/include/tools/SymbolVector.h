@@ -18,7 +18,6 @@ public:
   explicit SymbolVector(SEXP x) : v(init(x)) {}
   explicit SymbolVector(Rcpp::RObject x) : v(init(x)) {}
 
-public:
   void push_back(const SymbolString& s) {
     v.push_back(s.get_string());
   }
@@ -54,6 +53,7 @@ public:
   }
 
 private:
+
   Rcpp::CharacterVector v;
 
   SEXP init(SEXP x_) {
@@ -86,11 +86,26 @@ private:
 }
 
 namespace Rcpp {
-using namespace dplyr;
 
-template <> inline SEXP wrap(const SymbolVector& x) {
+template <> inline SEXP wrap(const dplyr::SymbolVector& x) {
   return x.get_vector();
 }
+
+template <>
+class ConstReferenceInputParameter<dplyr::SymbolVector> {
+public:
+  typedef const dplyr::SymbolVector& const_reference ;
+
+  ConstReferenceInputParameter(SEXP x_) : obj(x_) {}
+
+  inline operator const_reference() {
+    return obj ;
+  }
+
+private:
+  dplyr::SymbolVector obj ;
+} ;
+
 
 }
 

@@ -127,7 +127,7 @@ public:
 
 private:
 
-  void train_lookup(){
+  void train_lookup() {
     int n = names.size();
     for (int i = 0; i < n; i++) {
       lookup.insert(std::make_pair(names[i].get_sexp(), i));

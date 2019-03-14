@@ -220,12 +220,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // grouped_df_impl
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop);
+DataFrame grouped_df_impl(DataFrame data, const SymbolVector& symbols, bool drop);
 RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< SymbolVector >::type symbols(symbolsSEXP);
+    Rcpp::traits::input_parameter< const SymbolVector& >::type symbols(symbolsSEXP);
     Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
     return rcpp_result_gen;

@@ -12,7 +12,7 @@
 using namespace Rcpp;
 
 SEXP child_env(SEXP parent) {
-  Shield<SEXP> call(Rf_lang3(symbols::new_env, Rf_ScalarLogical(TRUE), parent));
+  Shield<SEXP> call(Rf_lang3(dplyr::symbols::new_env, Rf_ScalarLogical(TRUE), parent));
   return Rf_eval(call, R_BaseEnv);
 }
 
@@ -30,7 +30,7 @@ void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only = fals
   }
 
   if (which_na.size() > 0) {
-    SymbolVector which_na_symbols(wrap(which_na));
+    dplyr::SymbolVector which_na_symbols(wrap(which_na));
     String msg = msg_bad_cols(which_na_symbols, "cannot have NA as name");
     if (warn_only)
       warning(msg.get_cstring());
@@ -40,7 +40,7 @@ void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only = fals
 
   LogicalVector dup(duplicated(names));
   if (any(dup).is_true()) {
-    String msg = msg_bad_cols(SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
+    String msg = msg_bad_cols(dplyr::SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
     if (warn_only)
       warning(msg.get_cstring());
     else
@@ -67,15 +67,15 @@ void assert_all_allow_list(const DataFrame& data) {
   // checking variables are on the allow list
   int nc = data.size();
   for (int i = 0; i < nc; i++) {
-    if (!allow_list(data[i])) {
-      SymbolVector names(Rf_getAttrib(data, symbols::names));
-      const SymbolString& name_i = names[i];
+    if (!dplyr::allow_list(data[i])) {
+      dplyr::SymbolVector names(Rf_getAttrib(data, dplyr::symbols::names));
+      const dplyr::SymbolString& name_i = names[i];
       SEXP v = data[i];
 
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
         bad_col(name_i, "is of unsupported class {type}",
-                _["type"] = get_single_class(v));
+                _["type"] = dplyr::get_single_class(v));
       }
       else {
         bad_col(name_i, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
@@ -118,7 +118,7 @@ void copy_only_attributes(SEXP out, SEXP data) {
   SEXP att = ATTRIB(data);
   const bool has_attributes = !Rf_isNull(att);
   if (has_attributes) {
-    LOG_VERBOSE << "copying attributes: " << CharacterVector(Rf_getAttrib(List(att), symbols::names));
+    LOG_VERBOSE << "copying attributes: " << CharacterVector(Rf_getAttrib(List(att), dplyr::symbols::names));
 
     SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }
@@ -324,7 +324,7 @@ bool is_data_pronoun(SEXP expr) {
     return false;
 
   SEXP first = CADR(expr);
-  if (first != symbols::dot_data)
+  if (first != dplyr::symbols::dot_data)
     return false;
 
   SEXP second = CADDR(expr);
