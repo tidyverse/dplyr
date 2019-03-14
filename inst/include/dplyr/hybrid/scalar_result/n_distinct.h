@@ -85,7 +85,6 @@ SEXP n_distinct_dispatch(const SlicedTibble& tbl, const Expression& expression, 
   Rcpp::List lst_columns(s_columns);
 
   SEXP res;
-  int nprot = 0;
   if (narm) {
     internal::N_Distinct<SlicedTibble, true> distinct(tbl, lst_columns, tbl.nrows(), tbl.ngroups());
     res = PROTECT(op(distinct));
