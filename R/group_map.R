@@ -141,40 +141,24 @@ group_modify.data.frame <- function(.tbl, .f, ..., keep = FALSE) {
 
 #' @export
 group_modify.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
-  .f <- as_group_map_function(.f)
+  tbl_group_vars <- group_vars(.tbl)
 
-  # call the function on each group
-  chunks <- group_split(.tbl, keep = keep)
-  keys  <- group_keys(.tbl)
-  group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  result_tibbles <- map2(chunks, group_keys, function(.x, .y){
+  .f <- as_group_map_function(.f)
+  fun <- function(.x, .y){
     res <- .f(.x, .y, ...)
     if (!inherits(res, "data.frame")) {
       abort("The result of .f should be a data frame")
     }
-    if (any(bad <- names(res) %in% group_vars(.tbl))) {
+    if (any(bad <- names(res) %in% tbl_group_vars)) {
       abort(sprintf(
         "The returned data frame cannot contain the original grouping variables : ",
         paste(names(res)[bad], collapse = ", ")
       ))
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
-  })
-
-  # recalculates .rows based on the number of rows on each tibble
-  .rows <- vector(mode = "list", length = length(result_tibbles))
-  k <- 1L
-  for (i in seq_along(result_tibbles)) {
-    n <- nrow(result_tibbles[[i]])
-    .rows[[i]] <- seq2(k, k + n - 1L)
-    k <- k + n
   }
-
-  # structure the result as a grouped data frame
-  new_grouped_df(
-    bind_rows(!!!result_tibbles),
-    groups = tibble::add_column(keys, ".rows" := .rows)
-  )
+  res <- bind_rows(!!!group_map(.tbl, fun, ..., keep = keep))
+  group_by(res, !!!groups(.tbl), .drop = group_by_drop_default(.tbl))
 }
 
 #' @export
