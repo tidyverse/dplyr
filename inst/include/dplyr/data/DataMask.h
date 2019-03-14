@@ -348,7 +348,7 @@ public:
   // - delays setting up the environment until needed
   DataMask(const SlicedTibble& gdf) :
     column_bindings(),
-    symbol_map(gdf.data().size(), Rf_getAttrib(gdf.data(), symbols::names)),
+    symbol_map(gdf.data().size(), Rcpp::Shield<SEXP>(Rf_getAttrib(gdf.data(), symbols::names))),
     active_bindings_ready(false),
     proxy(new DataMaskProxy<SlicedTibble>(this))
   {
