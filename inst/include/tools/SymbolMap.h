@@ -25,6 +25,8 @@ private:
   dplyr_hash_map<SEXP, int> lookup;
   SymbolVector names;
 
+  SymbolMap(const SymbolMap&) ;
+
 public:
   SymbolMap(): lookup(), names() {}
 

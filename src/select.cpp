@@ -34,7 +34,7 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
   return res;
 }
 
-DataFrame select_grouped(GroupedDataFrame gdf, const SymbolVector& keep, const SymbolVector& new_names) {
+DataFrame select_grouped(const GroupedDataFrame& gdf, const SymbolVector& keep, const SymbolVector& new_names) {
   // start by selecting the columns without taking care of the grouping structure
   DataFrame copy = select_not_grouped(gdf.data(), keep, new_names);
 
@@ -73,7 +73,8 @@ DataFrame select_impl(DataFrame df, CharacterVector vars) {
   SymbolVector s_vars(vars);
   SymbolVector s_names_vars(Rf_getAttrib(vars, symbols::names));
   if (is<GroupedDataFrame>(df)) {
-    return select_grouped(GroupedDataFrame(df), s_vars, s_names_vars);
+    GroupedDataFrame gdf(df);
+    return select_grouped(gdf, s_vars, s_names_vars);
   } else {
     return select_not_grouped(df, s_vars, s_names_vars);
   }

@@ -189,21 +189,21 @@ BEGIN_RCPP
 END_RCPP
 }
 // grouped_indices_grouped_df_impl
-IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf);
+IntegerVector grouped_indices_grouped_df_impl(const GroupedDataFrame& gdf);
 RcppExport SEXP _dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
+    Rcpp::traits::input_parameter< const GroupedDataFrame& >::type gdf(gdfSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_indices_grouped_df_impl(gdf));
     return rcpp_result_gen;
 END_RCPP
 }
 // group_size_grouped_cpp
-IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf);
+IntegerVector group_size_grouped_cpp(const GroupedDataFrame& gdf);
 RcppExport SEXP _dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
+    Rcpp::traits::input_parameter< const GroupedDataFrame& >::type gdf(gdfSEXP);
     rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
     return rcpp_result_gen;
 END_RCPP
@@ -252,11 +252,11 @@ BEGIN_RCPP
 END_RCPP
 }
 // group_split_impl
-List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype);
+List group_split_impl(const GroupedDataFrame& gdf, bool keep, SEXP frame, bool ptype);
 RcppExport SEXP _dplyr_group_split_impl(SEXP gdfSEXP, SEXP keepSEXP, SEXP frameSEXP, SEXP ptypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< GroupedDataFrame >::type gdf(gdfSEXP);
+    Rcpp::traits::input_parameter< const GroupedDataFrame& >::type gdf(gdfSEXP);
     Rcpp::traits::input_parameter< bool >::type keep(keepSEXP);
     Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
     Rcpp::traits::input_parameter< bool >::type ptype(ptypeSEXP);

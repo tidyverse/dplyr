@@ -10,7 +10,6 @@
 #include <dplyr/symbols.h>
 
 namespace dplyr {
-
 class GroupedDataFrame;
 
 class GroupedDataFrameIndexIterator {
@@ -27,6 +26,9 @@ public:
 };
 
 class GroupedDataFrame {
+private:
+  GroupedDataFrame(const GroupedDataFrame& );
+
 public:
   typedef GroupedDataFrameIndexIterator group_iterator;
   typedef GroupedSlicingIndex slicing_index;
@@ -146,12 +148,27 @@ inline GroupedSlicingIndex GroupedDataFrameIndexIterator::operator*() const {
 }
 
 namespace Rcpp {
-using namespace dplyr;
 
 template <>
-inline bool is<GroupedDataFrame>(SEXP x) {
+inline bool is<dplyr::GroupedDataFrame>(SEXP x) {
   return Rf_inherits(x, "grouped_df");
 }
+
+template <>
+class ConstReferenceInputParameter<dplyr::GroupedDataFrame> {
+public:
+  typedef const dplyr::GroupedDataFrame& const_reference ;
+
+  ConstReferenceInputParameter(SEXP x_) : df(x_), obj(df){}
+
+  inline operator const_reference() {
+    return obj ;
+  }
+
+private:
+  DataFrame df;
+  dplyr::GroupedDataFrame obj ;
+} ;
 
 }
 
