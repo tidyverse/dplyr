@@ -21,6 +21,10 @@
 
 * Exporting `group_by_drop_default()`, previously known as `dplyr:::group_drops()` (#4245).
 
+* `group_modify()` is the new name of the function previously known as `group_map()`
+
+* `group_map()` now only calls the function on each group and return a list. 
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 
