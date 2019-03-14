@@ -5,6 +5,7 @@
 #include <tools/match.h>
 #include <tools/SymbolString.h>
 #include <tools/SymbolVector.h>
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 
@@ -28,16 +29,18 @@ public:
   SymbolMap(): lookup(), names() {}
 
   SymbolMap(int n, const Rcpp::CharacterVector& names_): lookup(n), names((SEXP)names_) {
-    for (int i = 0; i < n; i++) {
-      lookup.insert(std::make_pair(names_[i], i));
-    }
+    train_lookup();
   }
 
   SymbolMap(const SymbolVector& names_): lookup(names_.size()), names(names_) {
-    int n = names.size();
-    for (int i = 0; i < n; i++) {
-      lookup.insert(std::make_pair(names_[i].get_sexp(), i));
-    }
+    train_lookup();
+  }
+
+  SymbolMap(const Rcpp::DataFrame& tbl):
+    lookup(tbl.size()),
+    names(Rf_getAttrib(tbl, symbols::names))
+  {
+    train_lookup();
   }
 
   SymbolMapIndex insert(const SymbolString& name) {
@@ -120,6 +123,14 @@ public:
     return SymbolMapIndex(names.size(), NEW);
   }
 
+private:
+
+  void train_lookup(){
+    int n = names.size();
+    for (int i = 0; i < n; i++) {
+      lookup.insert(std::make_pair(names[i].get_sexp(), i));
+    }
+  }
 
 };
 
