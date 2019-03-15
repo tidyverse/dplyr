@@ -78,7 +78,7 @@ mtcars \%>\%
   group_vars()
 
 # Note that with data frames, newly created summaries immediately
-# overwrite existing variables
+# overwrite existing variables of the same name.
 mtcars \%>\%
   group_by(cyl) \%>\%
   summarise(disp = mean(disp), sd = sd(disp))
