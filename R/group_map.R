@@ -1,28 +1,34 @@
 
+as_group_map_function <- function(.f) {
+  .f <- rlang::as_function(.f)
+  if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
+    stop("The function must accept at least two arguments. You can use ... to absorb unused components")
+  }
+  .f
+}
+
 #' Apply a function to each group
 #'
 #' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("experimental")}
 #'
 #' @description
 #'
-#' `group_map()` and `group_walk()` are purrr-style functions that can
+#' `group_map()`, `group_modify()` and `group_walk()` are purrr-style functions that can
 #' be used to iterate on grouped tibbles.
 #'
 #' @details
 #'
-#' - Use `group_map()` when `summarize()` is too limited, in terms of what you need
-#'   to do and return for each group. `group_map()` is good for "data frame in, data frame out".
+#' Use `group_modify()` when `summarize()` is too limited, in terms of what you need
+#'   to do and return for each group. `group_modify()` is good for "data frame in, data frame out".
 #'   If that is too limited, you need to use a [nested][group_nest()] or [split][group_split()] workflow.
-#' - `group_map()` and `group_walk()` are an evolution of [do()], if you have used that before.
+#'   `group_modify()` is an evolution of [do()], if you have used that before.
 #'
 #' Each conceptual group of the data frame is exposed to the function `.f` with two pieces of information:
 #'
 #'   - The subset of the data for the group, exposed as `.x`.
 #'   - The key, a tibble with exactly one row and columns for each grouping variable, exposed as `.y`.
 #'
-#' `.f` must return a data frame that does not contain any of the grouping variables of `.tbl`.
-#'
-#' For completeness, `group_map()` and `group_walk()` also work on
+#' For completeness, `group_modify()`, `group_map` and `group_walk()` also work on
 #' ungrouped data frames, in that case the function is applied to the
 #' entire data frame (exposed as `.x`), and `.y` is a one row tibble with no
 #' column, consistently with [group_keys()].
@@ -45,32 +51,54 @@
 #'   that identifies the group
 #'
 #' @param ... Additional arguments passed on to `.f`
+#' @param keep are the grouping variables kept in `.x`
 #'
 #' @return
-#'  - `group_map()` row binds the data frames returned by `.f`
+#'  - `group_modify()` returns a grouped tibble. In that case `.f` must return a data frame.
+#'  - `group_map()` returns a list of results from calling `.f` on each group
 #'  - `group_walk()` calls `.f` for side effects and returns the input `.tbl`, invisibly
 #'
 #' @examples
+#'
+#' # return a list
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   group_map(~ head(.x, 2L))
 #'
+#' # return a tibble grouped by `cyl` with 2 rows per group
+#' # the grouping data is recalculated
+#' mtcars %>%
+#'   group_by(cyl) %>%
+#'   group_modify(~ head(.x, 2L))
+#'
 #' if (requireNamespace("broom", quietly = TRUE)) {
+#'   # a list of tibbles
 #'   iris %>%
 #'     group_by(Species) %>%
 #'     group_map(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
+#'
+#'   # a restructured grouped tibble
+#'   iris %>%
+#'     group_by(Species) %>%
+#'     group_modify(~ broom::tidy(lm(Petal.Length ~ Sepal.Length, data = .x)))
 #' }
 #'
+#' # a list of vectors
 #' iris %>%
 #'   group_by(Species) %>%
-#'   group_map(~ {
+#'   group_map(~ quantile(.x$Petal.Length, probs = c(0.25, 0.5, 0.75)))
+#'
+#' # to use group_modify() the lambda must return a data frame
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_modify(~ {
 #'      quantile(.x$Petal.Length, probs = c(0.25, 0.5, 0.75)) %>%
 #'      tibble::enframe(name = "prob", value = "quantile")
 #'   })
 #'
 #' iris %>%
 #'   group_by(Species) %>%
-#'   group_map(~ {
+#'   group_modify(~ {
 #'     .x %>%
 #'       purrr::map_dfc(fivenum) %>%
 #'       mutate(nms = c("min", "Q1", "median", "Q3", "max"))
@@ -84,98 +112,58 @@
 #' list.files(temp, pattern = "csv$")
 #' unlink(temp, recursive = TRUE)
 #'
-#' # group_map() and ungrouped data frames
+#' # group_modify() and ungrouped data frames
 #' mtcars %>%
-#'   group_map(~ head(.x, 2L))
+#'   group_modify(~ head(.x, 2L))
 #'
 #' @export
-group_map <- function(.tbl, .f, ...) {
-  UseMethod("group_map")
+group_map <- function(.tbl, .f, ..., keep = FALSE) {
+  .f <- as_group_map_function(.f)
+
+  # call the function on each group
+  chunks <- group_split(.tbl, keep = keep)
+  keys  <- group_keys(.tbl)
+  group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
+  map2(chunks, group_keys, .f, ...)
+}
+
+#' @rdname group_map
+#' @export
+group_modify <- function(.tbl, .f, ..., keep = FALSE) {
+  UseMethod("group_modify")
 }
 
 #' @export
-group_map.formula <- function(.tbl, .f, ...) {
-  abort("Did you forget to provide the primary input tibble?")
-}
-
-#' @export
-group_map.function <- function(.tbl, .f, ...) {
-  abort("Did you forget to provide the primary input tibble?")
-}
-
-as_group_map_function <- function(.f) {
-  .f <- rlang::as_function(.f)
-  if (length(form <- formals(.f)) < 2 && ! "..." %in% names(form)){
-    stop("The function must accept at least two arguments. You can use ... to absorb unused components")
-  }
-  .f
-}
-
-
-#' @export
-group_map.data.frame <- function(.tbl, .f, ...) {
+group_modify.data.frame <- function(.tbl, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
   .f(.tbl, group_keys(.tbl), ...)
 }
 
 #' @export
-group_map.grouped_df <- function(.tbl, .f, ...) {
-  .f <- as_group_map_function(.f)
+group_modify.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
+  tbl_group_vars <- group_vars(.tbl)
 
-  # call the function on each group
-  chunks <- group_split(.tbl, keep = FALSE)
-  keys  <- group_keys(.tbl)
-  group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  result_tibbles <- map2(chunks, group_keys, function(.x, .y){
+  .f <- as_group_map_function(.f)
+  fun <- function(.x, .y){
     res <- .f(.x, .y, ...)
     if (!inherits(res, "data.frame")) {
       abort("The result of .f should be a data frame")
     }
-    if (any(bad <- names(res) %in% group_vars(.tbl))) {
+    if (any(bad <- names(res) %in% tbl_group_vars)) {
       abort(sprintf(
         "The returned data frame cannot contain the original grouping variables : ",
         paste(names(res)[bad], collapse = ", ")
       ))
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
-  })
-
-  # recalculates .rows based on the number of rows on each tibble
-  .rows <- vector(mode = "list", length = length(result_tibbles))
-  k <- 1L
-  for (i in seq_along(result_tibbles)) {
-    n <- nrow(result_tibbles[[i]])
-    .rows[[i]] <- seq2(k, k + n - 1L)
-    k <- k + n
   }
-
-  # structure the result as a grouped data frame
-  new_grouped_df(
-    bind_rows(!!!result_tibbles),
-    groups = tibble::add_column(keys, ".rows" := .rows)
-  )
+  res <- bind_rows(!!!group_map(.tbl, fun, ..., keep = keep))
+  group_by(res, !!!groups(.tbl), .drop = group_by_drop_default(.tbl))
 }
 
 #' @export
 #' @rdname group_map
 group_walk <- function(.tbl, .f, ...) {
-  UseMethod("group_walk")
-}
-
-#' @export
-group_walk.grouped_df <- function(.tbl, .f, ...) {
-  .f <- as_group_map_function(.f)
-
-  # call the function on each group
-  chunks <- group_split(.tbl, keep = FALSE)
-  keys  <- group_keys(.tbl)
-  group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  walk2(chunks, group_keys, .f)
-  invisible(.tbl)
-}
-
-#' @export
-group_walk.data.frame <- function(.tbl, .f, ...) {
   group_map(.tbl, .f, ...)
   .tbl
 }
