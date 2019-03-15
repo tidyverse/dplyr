@@ -52,8 +52,8 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
 void check_attribute_compatibility(const Column& left, const Column& right) {
   // Rely on R function based on all.equal
   static Function attr_equal = Function("attr_equal", Environment::namespace_env("dplyr"));
-  bool ok = as<bool>(attr_equal(left.get_data(), right.get_data()));
-  if (!ok) {
+  Shield<SEXP> s_ok(attr_equal(left.get_data(), right.get_data()));
+  if (!as<bool>(s_ok)) {
     warn_bad_var(left.get_name(), right.get_name(), "has different attributes on LHS and RHS of join");
   }
 }

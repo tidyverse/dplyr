@@ -8,37 +8,38 @@ namespace dplyr {
 
 class DataFrameSelect {
 private:
-  List data;
+  Rcpp::List data;
 
 public:
-  DataFrameSelect(const DataFrame& data_, const SymbolVector& names): data(names.size()) {
-    CharacterVector data_names = vec_names_or_empty(data_);
-    IntegerVector indices = names.match_in_table(data_names);
-    int n = indices.size();
-    CharacterVector out_names(n);
+  DataFrameSelect(const Rcpp::DataFrame& data_, const SymbolVector& names): data(names.size()) {
+    Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data_));
+    Rcpp::Shield<SEXP> indices(names.match_in_table((SEXP)data_names));
+    R_xlen_t n = XLENGTH(indices);
+    int* p_indices = INTEGER(indices);
+    Rcpp::Shield<SEXP> out_names(Rf_allocVector(STRSXP, n));
 
-    for (int i = 0; i < n; i++) {
-      int pos = indices[i];
+    for (R_xlen_t i = 0; i < n; i++) {
+      R_xlen_t pos = p_indices[i];
       if (pos == NA_INTEGER) {
         bad_col(names[i], "is unknown");
       }
       data[i] = data_[pos - 1];
-      out_names[i] = data_names[pos - 1];
+      SET_STRING_ELT(out_names, i, STRING_ELT(data_names, pos - 1));
     }
-    data.attr("names") = out_names;
+    Rf_namesgets(data, out_names);
     copy_class(data, data_);
   }
 
-  DataFrameSelect(const DataFrame& data_, const IntegerVector& indices, bool check = true) : data(indices.size()) {
-    CharacterVector data_names = vec_names_or_empty(data_);
+  DataFrameSelect(const Rcpp::DataFrame& data_, const Rcpp::IntegerVector& indices, bool check = true) : data(indices.size()) {
+    Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data_));
     int n = indices.size();
-    CharacterVector out_names(n);
+    Rcpp::Shield<SEXP> out_names(Rf_allocVector(STRSXP, n));
     for (int i = 0; i < n; i++) {
       int pos = check ? check_range_one_based(indices[i], data_.size()) : indices[i];
-      out_names[i] = data_names[pos - 1];
+      SET_STRING_ELT(out_names, i, STRING_ELT(data_names, pos - 1));
       data[i] = data_[pos - 1];
     }
-    data.attr("names") = out_names;
+    Rf_namesgets(data, out_names);
     copy_class(data, data_);
   }
 

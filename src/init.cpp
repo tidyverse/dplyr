@@ -1,36 +1,26 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <dplyr/registration.h>
+#include <tools/utils.h>
 #include <dplyr/symbols.h>
 
 using namespace Rcpp;
 
-SEXP get_cache() {
-  static SEXP cache = 0;
-  if (!cache) {
-    SEXP vec = PROTECT(Rf_allocVector(VECSXP, 2));
-    SEXP date_classes = PROTECT(Rf_mkString("Date"));
-    SET_VECTOR_ELT(vec, 0, date_classes);
-    CharacterVector time_classes = CharacterVector::create("POSIXct", "POSIXt");
-    SET_VECTOR_ELT(vec, 1, time_classes);
-    UNPROTECT(2);
-    R_PreserveObject(vec);
-    cache = vec;
-  }
-  return cache;
-}
-
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
 SEXP get_date_classes() {
-  return VECTOR_ELT(get_cache(), 0);
+  static CharacterVector klasses(1, Rf_mkChar("Date"));
+  return klasses;
 }
 
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
+inline SEXP init_time_classes() {
+  Shield<SEXP> res(Rf_allocVector(STRSXP, 2));
+  SET_STRING_ELT(res, 0, Rf_mkChar("POSIXct"));
+  SET_STRING_ELT(res, 1, Rf_mkChar("POSIXt"));
+  return res;
+}
+
 SEXP get_time_classes() {
-  return VECTOR_ELT(get_cache(), 1);
+  static CharacterVector klasses(init_time_classes());
+  return klasses;
 }
 
 namespace dplyr {
@@ -91,6 +81,15 @@ SEXP symbols::quote = Rf_install("quote");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::warn_deprecated = Rf_install("warn_deprecated");
 SEXP symbols::signal_soft_deprecated = Rf_install("signal_soft_deprecated");
+SEXP symbols::call = Rf_install("call");
+SEXP symbols::env = Rf_install("env");
+SEXP symbols::fun = Rf_install("fun");
+SEXP symbols::cpp_class = Rf_install("cpp_class");
+SEXP symbols::levels = Rf_install("levels");
+SEXP symbols::labels = Rf_install("labels");
+SEXP symbols::indices = Rf_install("indices");
+SEXP symbols::ptype = Rf_install("ptype");
+SEXP symbols::names = R_NamesSymbol;
 
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 

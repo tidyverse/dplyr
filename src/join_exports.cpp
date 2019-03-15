@@ -96,7 +96,7 @@ void check_by(const CharacterVector& by) {
   if (by.size() == 0) bad_arg("by", "must specify variables to join by");
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match, SEXP frame) {
   check_by(by_x);
 
@@ -144,7 +144,7 @@ DataFrame semi_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, Charact
   return res;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame anti_join_impl(DataFrame x, DataFrame y, CharacterVector by_x, CharacterVector by_y, bool na_match, SEXP frame) {
   check_by(by_x);
 
@@ -191,7 +191,7 @@ void check_by(const IntegerVector& by) {
   if (by.size() == 0) bad_arg("by", "must specify variables to join by");
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame inner_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
                           IntegerVector aux_x, IntegerVector aux_y,
@@ -227,7 +227,7 @@ DataFrame inner_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 List nest_join_impl(DataFrame x, DataFrame y,
                     IntegerVector by_x, IntegerVector by_y,
                     IntegerVector aux_y,
@@ -286,24 +286,26 @@ List nest_join_impl(DataFrame x, DataFrame y,
 
   int ncol_x = x.size();
   List out(ncol_x + 1);
-  CharacterVector names_x = x.names();
+  Shield<SEXP> x_names(Rf_getAttrib(x, symbols::names));
+  Shield<SEXP> new_names(Rf_allocVector(STRSXP, ncol_x + 1));
+
   for (int i = 0; i < ncol_x; i++) {
     out[i] = x[i];
+    SET_STRING_ELT(new_names, i, STRING_ELT(x_names, i));
   }
-  names_x.push_back(yname) ;
   out[ncol_x] = list_col ;
-  out.names() = names_x;
-  out.attr("class") = x.attr("class");
-  out.attr("row.names") = x.attr("row.names");
+  SET_STRING_ELT(new_names, ncol_x, yname.get_sexp());
+  Rf_namesgets(out, new_names);
 
+  copy_attrib(out, x, R_ClassSymbol);
+  copy_attrib(out, x, R_RowNamesSymbol);
   GroupedDataFrame::copy_groups(out, x) ;
 
   return out;
 }
 
 
-
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame left_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
                          IntegerVector aux_x, IntegerVector aux_y,
@@ -344,7 +346,7 @@ DataFrame left_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame right_join_impl(DataFrame x, DataFrame y,
                           IntegerVector by_x, IntegerVector by_y,
                           IntegerVector aux_x, IntegerVector aux_y,
@@ -383,7 +385,7 @@ DataFrame right_join_impl(DataFrame x, DataFrame y,
                     );
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame full_join_impl(DataFrame x, DataFrame y,
                          IntegerVector by_x, IntegerVector by_y,
                          IntegerVector aux_x, IntegerVector aux_y,

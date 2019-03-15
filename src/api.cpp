@@ -21,7 +21,6 @@ DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :
   visitors(),
   visitor_names(vec_names_or_empty(data))
 {
-
   for (int i = 0; i < data.size(); i++) {
     VectorVisitor* v = visitor(data[i]);
     visitors.push_back(v);
@@ -35,14 +34,15 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const SymbolVector&
 {
 
   int n = names.size();
-  CharacterVector data_names = vec_names_or_empty(data);
-  IntegerVector indices = names.match_in_table(data_names);
+  Shield<SEXP> data_names(vec_names_or_empty(data));
+  Shield<SEXP> indices(r_match(names.get_vector(), data_names));
+  int* p_indices = INTEGER(indices);
 
   for (int i = 0; i < n; i++) {
-    if (indices[i] == NA_INTEGER) {
+    if (p_indices[i] == NA_INTEGER) {
       bad_col(names[i], "is unknown");
     }
-    SEXP column = data[indices[i] - 1];
+    SEXP column = data[p_indices[i] - 1];
     visitors.push_back(visitor(column));
   }
 
@@ -54,7 +54,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
   visitor_names()
 {
 
-  CharacterVector data_names = vec_names_or_empty(data);
+  Shield<SEXP> data_names(vec_names_or_empty(data));
 
   int n = indices.size();
   for (int i = 0; i < n; i++) {
@@ -62,7 +62,7 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_, const IntegerVector
 
     VectorVisitor* v = visitor(data[pos - 1]);
     visitors.push_back(v);
-    visitor_names.push_back(data_names[pos - 1]);
+    visitor_names.push_back(STRING_ELT(data_names, pos - 1));
   }
 }
 
@@ -72,11 +72,11 @@ DataFrameVisitors::DataFrameVisitors(const DataFrame& data_,  int n) :
   visitor_names(n)
 {
 
-  CharacterVector data_names = vec_names_or_empty(data);
+  Shield<SEXP> data_names(vec_names_or_empty(data));
 
   for (int i = 0; i < n; i++) {
     visitors[i] = visitor(data[i]);
-    visitor_names.set(i, data_names[i]);
+    visitor_names.set(i, STRING_ELT(data_names, i));
   }
 }
 
@@ -87,11 +87,16 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
   visitors(names_left.size()),
   warn(warn_)
 {
-  IntegerVector indices_left  = names_left.match_in_table(RCPP_GET_NAMES(left));
-  IntegerVector indices_right = names_right.match_in_table(RCPP_GET_NAMES(right));
+  Rcpp::Shield<SEXP> left_names(RCPP_GET_NAMES(left));
+  Rcpp::Shield<SEXP> right_names(RCPP_GET_NAMES(right));
 
-  const int nvisitors = indices_left.size();
-  if (indices_right.size() != nvisitors) {
+  Rcpp::Shield<SEXP> indices_left(names_left.match_in_table((SEXP)left_names));
+  Rcpp::Shield<SEXP> indices_right(names_right.match_in_table((SEXP)right_names));
+  int* p_indices_left = INTEGER(indices_left);
+  int* p_indices_right = INTEGER(indices_right);
+
+  R_xlen_t nvisitors = XLENGTH(indices_left);
+  if (XLENGTH(indices_right) != nvisitors) {
     stop("Different size of join column index vectors");
   }
 
@@ -99,19 +104,18 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(const DataFrame& left_, const DataF
     const SymbolString& name_left  = names_left[i];
     const SymbolString& name_right = names_right[i];
 
-    if (indices_left[i] == NA_INTEGER) {
+    if (p_indices_left[i] == NA_INTEGER) {
       stop("'%s' column not found in lhs, cannot join", name_left.get_utf8_cstring());
     }
-    if (indices_right[i] == NA_INTEGER) {
+    if (p_indices_right[i] == NA_INTEGER) {
       stop("'%s' column not found in rhs, cannot join", name_right.get_utf8_cstring());
     }
 
-    visitors[i] =
-      join_visitor(
-        Column(left[indices_left[i] - 1], name_left),
-        Column(right[indices_right[i] - 1], name_right),
-        warn, na_match
-      );
+    visitors[i] = join_visitor(
+                    Column(left[p_indices_left[i] - 1], name_left),
+                    Column(right[p_indices_right[i] - 1], name_right),
+                    warn, na_match
+                  );
   }
 }
 
@@ -130,8 +134,8 @@ DataFrameJoinVisitors::DataFrameJoinVisitors(
     stop("Different size of join column index vectors");
   }
 
-  SymbolVector left_names = left.names();
-  SymbolVector right_names = right.names();
+  SymbolVector left_names(Rf_getAttrib(left, symbols::names));
+  SymbolVector right_names(Rf_getAttrib(right, symbols::names));
 
   for (int i = 0; i < size(); i++) {
     const int index_left = check_range_one_based(indices_left[i], left.size());
@@ -197,15 +201,17 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
   CharacterVector uniques(set.begin(), set.end());
 
   static Function sort("sort", R_BaseEnv);
-  CharacterVector s_uniques = Language(sort, uniques).fast_eval();
+  Language call(sort, uniques);
+  Shield<SEXP> s_uniques(call.fast_eval());
 
   // order the uniques with a callback to R
-  IntegerVector o = r_match(uniques, s_uniques);
+  Shield<SEXP> o(r_match(uniques, s_uniques));
+  int* p_o = INTEGER(o);
 
   // combine uniques and o into a hash map for fast retrieval
   dplyr_hash_map<SEXP, int> map(n_uniques);
   for (int i = 0; i < n_uniques; i++) {
-    map.insert(std::make_pair(uniques[i], o[i]));
+    map.insert(std::make_pair(uniques[i], p_o[i]));
   }
 
   // grab min ranks
@@ -225,19 +231,6 @@ CharacterVectorOrderer::CharacterVectorOrderer(const CharacterVector& data) :
     orders[i] = o_pos = map.find(s)->second;
   }
 
-}
-
-CharacterVector get_uniques(const CharacterVector& left, const CharacterVector& right) {
-  int nleft = left.size(), nright = right.size();
-  int n = nleft + nright;
-
-  CharacterVector big(no_init(n));
-  CharacterVector::iterator it = big.begin();
-  std::copy(left.begin(), left.end(), it);
-  std::copy(right.begin(), right.end(), it + nleft);
-
-  static Function unique("unique", R_BaseEnv);
-  return Language(unique, big).fast_eval();
 }
 
 }

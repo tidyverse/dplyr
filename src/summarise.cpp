@@ -32,20 +32,20 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
 
 SEXP reconstruct_groups(const DataFrame& old_groups, const List& new_indices, const IntegerVector& firsts, SEXP frame) {
   int nv = old_groups.size() - 1 ;
-  List out(nv);
-  CharacterVector names(nv);
-  CharacterVector old_names(old_groups.names());
+  Shield<SEXP> out(Rf_allocVector(VECSXP, nv));
+  Shield<SEXP> names(Rf_allocVector(STRSXP, nv));
+  Shield<SEXP> old_names(Rf_getAttrib(old_groups, symbols::names));
   for (int i = 0; i < nv - 1; i++) {
-    out[i] = column_subset(old_groups[i], firsts, frame);
-    names[i] = old_names[i];
+    SET_VECTOR_ELT(out, i, column_subset(old_groups[i], firsts, frame));
+    SET_STRING_ELT(names, i, STRING_ELT(old_names, i));
   }
-  out[nv - 1] = new_indices;
-  names[nv - 1] = ".rows";
+  SET_VECTOR_ELT(out, nv - 1, new_indices);
+  SET_STRING_ELT(names, nv - 1, Rf_mkChar(".rows"));
 
   set_rownames(out, new_indices.size());
   set_class(out, NaturalDataFrame::classes());
   copy_attrib(out, old_groups, symbols::dot_drop);
-  out.attr("names") = names;
+  Rf_namesgets(out, names);
   return out ;
 }
 
@@ -108,7 +108,7 @@ void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gd
   } else {
     // clear groups and reset to non grouped classes
     GroupedDataFrame::strip_groups(out);
-    out.attr("class") = NaturalDataFrame::classes();
+    Rf_classgets(out, NaturalDataFrame::classes());
   }
 }
 
@@ -145,8 +145,9 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
 
     // Unquoted vectors are directly used as column. Expressions are
     // evaluated in each group.
-    if (is_vector(quosure.expr())) {
-      result = validate_unquoted_value(quosure.expr(), gdf.ngroups(), quosure.name());
+    Shield<SEXP> quo_expr(quosure.expr());
+    if (is_vector(quo_expr)) {
+      result = validate_unquoted_value(quo_expr, gdf.ngroups(), quosure.name());
     } else {
       result = hybrid::summarise(quosure, gdf, mask, caller_env);
 
@@ -158,8 +159,9 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
         if (quosure.is_rlang_lambda()) {
           // need to create a new quosure to put the data mask in scope
           // of the lambda function
-          LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
-          result = GroupedCallReducer<SlicedTibble>(lambda_quosure.get(), mask).process(gdf);
+          Shield<SEXP> new_quosure(make_lambda_quosure(quosure, mask.get_data_mask()));
+          NamedQuosure lambda_quosure(new_quosure, quosure.name());
+          result = GroupedCallReducer<SlicedTibble>(lambda_quosure, mask).process(gdf);
         } else {
           result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
         }
@@ -178,7 +180,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
   // so that the attributes of the original tibble are preserved
   // as requested in issue #1064
   copy_most_attributes(out, df);
-  out.names() = accumulator.names();
+  Rf_namesgets(out, accumulator.names().get_vector());
 
   int nr = gdf.ngroups();
   set_rownames(out, nr);
@@ -186,7 +188,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
   return out;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP summarise_impl(DataFrame df, QuosureList dots, SEXP frame, SEXP caller_env) {
   check_valid_colnames(df);
   if (is<RowwiseDataFrame>(df)) {
@@ -202,14 +204,14 @@ template <typename SlicedTibble>
 SEXP hybrid_template(DataFrame df, const Quosure& quosure, SEXP caller_env) {
   SlicedTibble gdf(df);
 
-  const Environment& env = quosure.env();
-  SEXP expr = quosure.expr();
+  Shield<SEXP> env(quosure.env());
+  Shield<SEXP> expr(quosure.expr());
   DataMask<SlicedTibble> mask(gdf);
   return hybrid::match(expr, gdf, mask, env, caller_env);
 }
 
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP hybrid_impl(DataFrame df, Quosure quosure, SEXP caller_env) {
   check_valid_colnames(df);
 

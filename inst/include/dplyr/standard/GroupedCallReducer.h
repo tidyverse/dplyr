@@ -97,9 +97,11 @@ public:
 
     // We need to copy carefully here to avoid accessing uninitialized
     // parts of res_, which triggers valgrind failures and is inefficient
+    Rcpp::Shelter<SEXP> shelter;
+
     R_xlen_t orig_length = Rf_xlength(res_);
-    SEXP short_res_ = Rf_xlengthgets(res_, pos);
-    res = Rf_xlengthgets(as<Vec>(short_res_), orig_length);
+    SEXP short_res_ = shelter(Rf_xlengthgets(res_, pos));
+    res = shelter(Rf_xlengthgets(shelter(Rcpp::as<Vec>(short_res_)), orig_length));
 
     // try_handle() changes pos as a side effect, needs to be done after copying
     // (we don't care about the unnecessary copy in the failure case)

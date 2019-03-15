@@ -269,7 +269,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
   return structure_filter(gdf, group_indices, env) ;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP filter_impl(DataFrame df, Quosure quo) {
   if (df.nrows() == 0 || Rf_isNull(df)) {
     return df;
@@ -288,18 +288,27 @@ SEXP filter_impl(DataFrame df, Quosure quo) {
 
 // ------------------------------------------------- slice()
 
-inline SEXP check_slice_result(SEXP tmp) {
+inline bool all_lgl_na(SEXP lgl) {
+  R_xlen_t n = XLENGTH(lgl);
+  int* p = LOGICAL(lgl);
+  for (R_xlen_t i = 0; i < n; i++) {
+    if (*p != NA_LOGICAL) {
+      return false;
+    }
+  }
+  return true;
+}
+
+inline void check_slice_result(SEXP tmp) {
   switch (TYPEOF(tmp)) {
   case INTSXP:
   case REALSXP:
     break;
   case LGLSXP:
-    if (all_na(tmp)) break;
+    if (all_lgl_na(tmp)) break;
   default:
-    stop("slice condition does not evaluate to an integer or numeric vector. ");
+    Rcpp::stop("slice condition does not evaluate to an integer or numeric vector. ");
   }
-
-  return tmp;
 }
 
 struct SlicePositivePredicate {
@@ -482,7 +491,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
 
   const DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
-  SymbolVector names = data.names();
+  SymbolVector names(Rf_getAttrib(data, symbols::names));
 
   GroupSliceIndices<SlicedTibble> group_indices(gdf);
 
@@ -499,7 +508,9 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
 
     // evaluate the expression in the data mask
-    IntegerVector g_positions = check_slice_result(mask.eval(quo, indices));
+    Shield<SEXP> res(mask.eval(quo, indices));
+    check_slice_result(res);
+    IntegerVector g_positions(res);
 
     // scan the results to see if all >= 1 or all <= -1
     CountIndices counter(indices.size(), g_positions);
@@ -513,10 +524,12 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
   }
   group_indices.process();
-  return structure_filter(gdf, group_indices, quo.env());
+
+  Shield<SEXP> quo_env(quo.env());
+  return structure_filter(gdf, group_indices, quo_env);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP slice_impl(DataFrame df, Quosure quosure) {
   if (is<GroupedDataFrame>(df)) {
     return slice_template<GroupedDataFrame>(GroupedDataFrame(df), quosure);

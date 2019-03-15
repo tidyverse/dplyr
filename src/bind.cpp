@@ -163,7 +163,7 @@ bool dplyr_is_bind_spliceable(SEXP x) {
   return true;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP flatten_bindable(SEXP x) {
   // FIXME: This is temporary and should be replaced with rlang::flatten_if()
   typedef bool(*is_spliceable_t)(SEXP);
@@ -322,7 +322,7 @@ List rbind__impl(List dots, const SymbolString& id) {
 
     out_names.set(0, id);
   }
-  out.attr("names") = out_names;
+  Rf_namesgets(out, out_names.get_vector());
   set_rownames(out, n);
 
   LOG_VERBOSE << "result has " << n << " rows";
@@ -345,7 +345,7 @@ List rbind__impl(List dots, const SymbolString& id) {
   return out;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 List bind_rows_(List dots, SEXP id) {
   LOG_VERBOSE;
 
@@ -355,8 +355,8 @@ List bind_rows_(List dots, SEXP id) {
     return rbind__impl(dots, SymbolString(Rcpp::as<String>(id)));
 }
 
-// [[Rcpp::export]]
-List cbind_all(List dots) {
+// [[Rcpp::export(rng = false)]]
+SEXP cbind_all(List dots) {
   int n_dots = dots.size();
 
   // First check that the number of rows is the same based on first
@@ -388,8 +388,8 @@ List cbind_all(List dots) {
   }
 
   // collect columns
-  List out(nv);
-  CharacterVector out_names(nv);
+  Shield<SEXP> out(Rf_allocVector(VECSXP, nv));
+  Shield<SEXP> out_names(Rf_allocVector(STRSXP, nv));
 
   // Can't use CharacterVector because the result might be R_NilValue
   RObject dots_names = vec_names(dots);
@@ -401,16 +401,16 @@ List cbind_all(List dots) {
       continue;
 
     if (TYPEOF(current) == VECSXP) {
-      CharacterVector current_names = vec_names_or_empty(current);
+      Shield<SEXP> current_names(vec_names_or_empty(current));
 
       int nc = Rf_length(current);
       for (int j = 0; j < nc; j++, k++) {
-        out[k] = shared_SEXP(VECTOR_ELT(current, j));
-        out_names[k] = current_names[j];
+        SET_VECTOR_ELT(out, k, shared_SEXP(VECTOR_ELT(current, j)));
+        SET_STRING_ELT(out_names, k, STRING_ELT(current_names, j));
       }
     } else {
-      out[k] = current;
-      out_names[k] = STRING_ELT(dots_names, i);
+      SET_VECTOR_ELT(out, k, current);
+      SET_STRING_ELT(out_names, k, STRING_ELT(dots_names, i));
       k++;
     }
 
@@ -423,14 +423,13 @@ List cbind_all(List dots) {
   } else {
     set_class(out, NaturalDataFrame::classes());
   }
-
-  out.names() = out_names;
+  Rf_namesgets(out, out_names);
   set_rownames(out, nrows);
 
   return out;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP combine_all(List data) {
   int nv = data.size();
 

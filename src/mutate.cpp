@@ -203,12 +203,17 @@ private:
       }
     }
 
+    SEXP res;
     if (TYPEOF(first) == VECSXP) {
-      return ListGatherer<SlicedTibble> (List(first), indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      List list_first(first);
+      ListGatherer<SlicedTibble> gatherer(list_first, indices, const_cast<MutateCallProxy&>(*this), data, i, name);
+      res = PROTECT(gatherer.collect());
     } else {
-      return Gatherer<SlicedTibble> (first, indices, const_cast<MutateCallProxy&>(*this), data, i, name).collect();
+      Gatherer<SlicedTibble> gatherer(first, indices, const_cast<MutateCallProxy&>(*this), data, i, name);
+      res = PROTECT(gatherer.collect());
     }
-
+    UNPROTECT(1);
+    return res;
   }
 
 
@@ -371,7 +376,8 @@ public:
     for (; i < ngroups; i++, ++git) {
       const Index& indices = *git;
       if (indices.size()) {
-        List subset(proxy.get(indices));
+        Shield<SEXP> res(proxy.get(indices));
+        List subset(res);
         grab(subset, indices);
       }
     }
@@ -430,9 +436,9 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
 
   NamedListAccumulator<SlicedTibble> accumulator;
   int ncolumns = df.size();
-  CharacterVector column_names = df.names();
+  Shield<SEXP> column_names(Rf_getAttrib(df, symbols::names));
   for (int i = 0; i < ncolumns; i++) {
-    accumulator.set(column_names[i], df[i]);
+    accumulator.set(STRING_ELT(column_names, i), df[i]);
   }
 
   LOG_VERBOSE << "processing " << nexpr << " variables";
@@ -460,8 +466,9 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
       if (quosure.is_rlang_lambda()) {
         // need to create a new quosure to put the data mask in scope
         // of the lambda function
-        LambdaQuosure lambda_quosure(quosure, mask.get_data_mask());
-        variable = MutateCallProxy<SlicedTibble>(gdf, mask, lambda_quosure.get()).get();
+        Shield<SEXP> new_quosure(make_lambda_quosure(quosure, mask.get_data_mask()));
+        NamedQuosure lambda_quosure(new_quosure, quosure.name());
+        variable = MutateCallProxy<SlicedTibble>(gdf, mask, lambda_quosure).get();
       } else {
         variable = MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
       }
@@ -499,14 +506,14 @@ SEXP mutate_zero(const DataFrame& df, const QuosureList& dots, SEXP caller_env, 
   if (tbl.ngroups() == 0 || tbl.nrows() == 0) {
     DataFrame res = mutate_grouped<NaturalDataFrame>(df, dots, caller_env);
     if (set_groups) {
-      res.attr("groups") = df.attr("groups");
+      GroupedDataFrame::copy_groups(res, df);
     }
     return res;
   }
   return mutate_grouped<SlicedTibble>(df, dots, caller_env);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP mutate_impl(DataFrame df, QuosureList dots, SEXP caller_env) {
   if (dots.size() == 0) return df;
   check_valid_colnames(df);

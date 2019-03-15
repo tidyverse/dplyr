@@ -73,8 +73,8 @@ public:
     return 1;
   }
 
-  inline SymbolVector get_vars() const {
-    return SymbolVector();
+  inline const SymbolVector& get_vars() const {
+    return vars;
   }
 
   static inline Rcpp::CharacterVector classes() {
@@ -84,7 +84,7 @@ public:
 
 private:
   Rcpp::DataFrame data_;
-
+  SymbolVector vars;
 };
 
 }

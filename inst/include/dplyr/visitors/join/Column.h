@@ -3,14 +3,14 @@
 
 class Column {
 public:
-  Column(SEXP data_, const SymbolString& name_) : data(data_), name(name_) {}
+  Column(SEXP data_, const dplyr::SymbolString& name_) : data(data_), name(name_) {}
 
 public:
   const RObject& get_data() const {
     return data;
   }
 
-  const SymbolString& get_name() const {
+  const dplyr::SymbolString& get_name() const {
     return name;
   }
 
@@ -19,8 +19,8 @@ public:
   }
 
 private:
-  RObject data;
-  SymbolString name;
+  Rcpp::RObject data;
+  dplyr::SymbolString name;
 };
 
 #endif //DPLYR_DPLYR_COLUMN_H

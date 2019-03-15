@@ -5,6 +5,7 @@
 #include <tools/match.h>
 #include <tools/SymbolString.h>
 #include <tools/SymbolVector.h>
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 
@@ -24,20 +25,24 @@ private:
   dplyr_hash_map<SEXP, int> lookup;
   SymbolVector names;
 
+  SymbolMap(const SymbolMap&) ;
+
 public:
   SymbolMap(): lookup(), names() {}
 
-  SymbolMap(int n, const CharacterVector& names_): lookup(n), names((SEXP)names_) {
-    for (int i = 0; i < n; i++) {
-      lookup.insert(std::make_pair(names_[i], i));
-    }
+  SymbolMap(int n, const Rcpp::CharacterVector& names_): lookup(n), names((SEXP)names_) {
+    train_lookup();
   }
 
   SymbolMap(const SymbolVector& names_): lookup(names_.size()), names(names_) {
-    int n = names.size();
-    for (int i = 0; i < n; i++) {
-      lookup.insert(std::make_pair(names_[i].get_sexp(), i));
-    }
+    train_lookup();
+  }
+
+  SymbolMap(const Rcpp::DataFrame& tbl):
+    lookup(tbl.size()),
+    names(Rf_getAttrib(tbl, symbols::names))
+  {
+    train_lookup();
   }
 
   SymbolMapIndex insert(const SymbolString& name) {
@@ -61,7 +66,7 @@ public:
     }
   }
 
-  SymbolVector get_names() const {
+  const SymbolVector& get_names() const {
     return names;
   }
 
@@ -85,7 +90,7 @@ public:
   int get(const SymbolString& name) const {
     dplyr_hash_map<SEXP, int>::const_iterator it = lookup.find(name.get_sexp());
     if (it == lookup.end()) {
-      stop("variable '%s' not found", name.get_utf8_cstring());
+      Rcpp::stop("variable '%s' not found", name.get_utf8_cstring());
     }
     return it->second;
   }
@@ -120,6 +125,14 @@ public:
     return SymbolMapIndex(names.size(), NEW);
   }
 
+private:
+
+  void train_lookup() {
+    int n = names.size();
+    for (int i = 0; i < n; i++) {
+      lookup.insert(std::make_pair(names[i].get_sexp(), i));
+    }
+  }
 
 };
 

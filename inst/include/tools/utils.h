@@ -24,6 +24,8 @@ SEXP child_env(SEXP parent);
 
 int get_size(SEXP x);
 
+SEXP get_time_classes();
+SEXP get_date_classes();
 
 namespace dplyr {
 

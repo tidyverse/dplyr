@@ -28,7 +28,7 @@ private:
 public:
   typedef VectorVisitor visitor_type;
 
-  MultipleVectorVisitors(Rcpp::List data, int length_, int ngroups_) :
+  MultipleVectorVisitors(const Rcpp::List& data, int length_, int ngroups_) :
     visitors(),
     length(length_),
     ngroups(ngroups_)

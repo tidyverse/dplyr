@@ -51,7 +51,7 @@ private:
   int max_count;
 };
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool convert) {
   int n = x.size();
   if (n != y.size())
@@ -199,11 +199,15 @@ std::string type_describe(SEXP x) {
   }
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false) {
   int n = x.size();
 
-  bool null_x = Rf_isNull(x.names()), null_y = Rf_isNull(y.names());
+  Rcpp::Shield<SEXP> x_names(Rf_getAttrib(x, symbols::names));
+  Rcpp::Shield<SEXP> y_names(Rf_getAttrib(y, symbols::names));
+
+  bool null_x = Rf_isNull(x_names);
+  bool null_y = Rf_isNull(y_names);
   if (null_x && !null_y) {
     return no_because("x does not have names, but y does");
   } else if (null_y && !null_x) {
@@ -212,8 +216,8 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
     return compatible_data_frame_nonames(x, y, convert);
   }
 
-  CharacterVector names_x = x.names();
-  CharacterVector names_y = y.names();
+  CharacterVector names_x(x_names);
+  CharacterVector names_y(y_names);
 
   CharacterVector names_y_not_in_x = setdiff(names_y, names_x);
   CharacterVector names_x_not_in_y = setdiff(names_x, names_y);
@@ -244,11 +248,12 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
 
   if (why.length() > 0) return no_because(why);
 
-  IntegerVector orders = r_match(names_x, names_y);
+  Rcpp::Shield<SEXP> orders(r_match(names_x, names_y));
+  int* p_orders = INTEGER(orders);
 
   for (int i = 0; i < n; i++) {
     SymbolString name = names_x[i];
-    SEXP xi = x[i], yi = y[orders[i] - 1];
+    SEXP xi = x[i], yi = y[p_orders[i] - 1];
 
     std::stringstream ss;
     bool compatible = convert ? type_compatible(xi, yi) : type_same(xi, yi, ss, name);
@@ -270,13 +275,13 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
   return yes();
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false) {
   BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
   if (!compat) return compat;
 
   typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  SymbolVector x_names = x.names();
+  SymbolVector x_names(Rf_getAttrib(x, symbols::names));
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Map map(visitors);
 
@@ -356,7 +361,7 @@ DataFrame reconstruct_metadata(DataFrame out, const DataFrame& x) {
   }
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame union_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
@@ -364,7 +369,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector x_names = x.names();
+  SymbolVector x_names(Rf_getAttrib(x, symbols::names));
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
@@ -391,7 +396,7 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
   return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
@@ -399,7 +404,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector x_names = x.names();
+  SymbolVector x_names(Rf_getAttrib(x, symbols::names));
   DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
@@ -422,7 +427,7 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
   return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
   BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
@@ -430,7 +435,7 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
   }
 
   typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector y_names = y.names();
+  SymbolVector y_names(Rf_getAttrib(y, symbols::names));
   DataFrameJoinVisitors visitors(x, y, y_names, y_names, true, true);
   Set set(visitors);
 

@@ -4,6 +4,7 @@
 #include <tools/SymbolString.h>
 #include <tools/utils.h>
 #include "SymbolVector.h"
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 
@@ -59,39 +60,15 @@ private:
   SymbolString name_;
 };
 
-class LambdaQuosure {
-public:
-  LambdaQuosure(const NamedQuosure& named_quosure, SEXP data_mask) :
-    quosure(make_lambda_quosure(named_quosure, data_mask))
-  {}
+inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
+  // need to create a new quosure to put the data mask in scope of the lambda function
+  Rcpp::Shield<SEXP> expr(Rf_duplicate(named_quosure.expr()));
+  SET_CLOENV(CAR(expr), data_mask);
 
-  const NamedQuosure& get() const {
-    return quosure;
-  }
+  Rcpp::Shield<SEXP> named_quosure_env(named_quosure.env());
 
-  ~LambdaQuosure() {
-    UNPROTECT(2);
-  }
-
-private:
-
-  NamedQuosure make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
-    // need to create a new quosure to put the data mask in scope
-    // of the lambda function
-    SEXP expr = PROTECT(Rf_duplicate(named_quosure.expr()));
-    SET_CLOENV(CAR(expr), data_mask) ;
-    return NamedQuosure(
-             PROTECT(rlang::new_quosure(expr, named_quosure.env())),
-             named_quosure.name()
-           );
-  }
-
-  LambdaQuosure(const LambdaQuosure&) ;
-
-  NamedQuosure quosure;
-};
-
-
+  return rlang::new_quosure(expr, named_quosure_env);
+}
 
 } // namespace dplyr
 
@@ -105,7 +82,7 @@ public:
 
     data.reserve(n);
 
-    Rcpp::CharacterVector names = data_.names();
+    Rcpp::Shield<SEXP> names(Rf_getAttrib(data_, symbols::names));
     for (int i = 0; i < n; i++) {
       SEXP x = data_[i];
 
@@ -113,7 +90,7 @@ public:
         Rcpp::stop("corrupt tidy quote");
       }
 
-      data.push_back(NamedQuosure(x, SymbolString(names[i])));
+      data.push_back(NamedQuosure(x, SymbolString(STRING_ELT(names, i))));
     }
   }
 
@@ -134,14 +111,15 @@ public:
     return true;
   }
 
-  SymbolVector names() const {
-    Rcpp::CharacterVector out(data.size());
+  SEXP names() const {
+    R_xlen_t n = data.size();
+    Rcpp::Shield<SEXP> out(Rf_allocVector(STRSXP, n));
 
     for (size_t i = 0; i < data.size(); ++i) {
-      out[i] = data[i].name().get_string();
+      SET_STRING_ELT(out, i, data[i].name().get_sexp());
     }
 
-    return SymbolVector(out);
+    return out;
   }
 
 private:

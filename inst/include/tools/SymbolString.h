@@ -11,6 +11,8 @@ public:
 
   SymbolString(const char* str) : s(str) {}
 
+  SymbolString(SEXP other) : s(other) {}
+
   SymbolString(const String& other) : s(other) {}
 
   SymbolString(const String::StringProxy& other) : s(other) {}

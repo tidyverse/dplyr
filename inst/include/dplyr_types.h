@@ -1,6 +1,5 @@
 #include <dplyr/main.h>
 #include <tools/Quosure.h>
-#include <dplyr/registration.h>
 #include <tools/BoolResult.h>
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/DataMask.h>

@@ -74,26 +74,26 @@ SEXP window(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& m
 template <typename SlicedTibble>
 SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& mask, SEXP env, SEXP caller_env) {
   bool test = !is_vector(expr);
-  RObject klass;
+  Rcpp::RObject klass;
   if (test) {
-    klass = (hybrid_do(expr, data, mask, env, caller_env, Match()));
+    klass = hybrid_do(expr, data, mask, env, caller_env, Match());
     test = klass != R_UnboundValue;
   }
-  LogicalVector res(1, test) ;
-  res.attr("class") = "hybrid_call";
-  res.attr("call") = expr;
-  res.attr("env") = env;
+  Rcpp::LogicalVector res(1, test) ;
+  Rf_classgets(res, Rf_mkString("hybrid_call"));
+  Rf_setAttrib(res, symbols::call, expr);
+  Rf_setAttrib(res, symbols::env, env);
 
   if (test) {
     Expression<SlicedTibble> expression(expr, mask, env, caller_env);
-    res.attr("fun") = Rf_ScalarString(PRINTNAME(expression.get_fun()));
-    res.attr("package") = Rf_ScalarString(PRINTNAME(expression.get_package()));
-    res.attr("cpp_class") = klass;
+    Rf_setAttrib(res, symbols::fun, Rf_ScalarString(PRINTNAME(expression.get_fun())));
+    Rf_setAttrib(res, symbols::package, Rf_ScalarString(PRINTNAME(expression.get_package())));
+    Rf_setAttrib(res, symbols::cpp_class, klass);
 
-    SEXP call = PROTECT(Rf_duplicate(expr));
-    SETCAR(call, Rf_lang3(symbols::double_colon, expression.get_package(), expression.get_fun()));
-    res.attr("call") = call;
-    UNPROTECT(1);
+    Rcpp::Shield<SEXP> expr_clone(Rf_duplicate(expr));
+    Rcpp::Shield<SEXP> call(Rf_lang3(symbols::double_colon, expression.get_package(), expression.get_fun()));
+    SETCAR(expr_clone, call);
+    Rf_setAttrib(res, symbols::call, expr_clone);
   }
   return res;
 }

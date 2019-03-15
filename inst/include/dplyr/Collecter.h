@@ -4,7 +4,6 @@
 #include <tools/all_na.h>
 #include <tools/hash.h>
 
-#include <dplyr/registration.h>
 #include <tools/vector_class.h>
 #include <tools/collapse.h>
 
@@ -360,9 +359,9 @@ public:
   }
 
   inline SEXP get() {
-    set_class(data, get_time_classes());
+    Rf_classgets(data, get_time_classes());
     if (!tz.isNULL()) {
-      Parent::data.attr("tzone") = tz;
+      Rf_setAttrib(Parent::data, symbols::tzone, tz);
     }
     return Parent::data;
   }
@@ -394,7 +393,7 @@ private:
       if (STRING_ELT(tz, 0) == STRING_ELT(v_tz, 0)) return;
 
       // otherwise, settle to UTC
-      tz = wrap("UTC");
+      tz = Rf_mkString("UTC");
     }
   }
 
@@ -417,8 +416,8 @@ public:
   }
 
   inline SEXP get() {
-    set_class(Parent::data, types);
-    Parent::data.attr("units") = wrap(units);
+    Rf_classgets(Parent::data, types);
+    Rf_setAttrib(Parent::data, symbols::units, Shield<SEXP>(Rf_mkString(units.c_str())));
     return Parent::data;
   }
 
@@ -436,10 +435,18 @@ public:
 
 private:
   bool is_valid_difftime(RObject x) {
-    return
-      x.inherits("difftime") &&
-      x.sexp_type() == REALSXP &&
-      get_units_map().is_valid_difftime_unit(Rcpp::as<std::string>(x.attr("units")));
+    if (!Rf_inherits(x, "difftime") || TYPEOF(x) != REALSXP) {
+      return false;
+    }
+
+    Shield<SEXP> units(Rf_getAttrib(x, symbols::units));
+    if (TYPEOF(units) != STRSXP) {
+      return false;
+    }
+
+    return get_units_map().is_valid_difftime_unit(
+             CHAR(STRING_ELT(units, 0))
+           );
   }
 
 
@@ -447,8 +454,7 @@ private:
     if (!is_valid_difftime(v)) {
       stop("Invalid difftime object");
     }
-    // attr() might allocate (according to rchk), need to protect
-    RObject units_attr(v.attr("units"));
+    Shield<SEXP> units_attr(Rf_getAttrib(v, symbols::units));
     std::string v_units = Rcpp::as<std::string>(units_attr);
     if (!get_units_map().is_valid_difftime_unit(units)) {
       // if current unit is NULL, grab the new one

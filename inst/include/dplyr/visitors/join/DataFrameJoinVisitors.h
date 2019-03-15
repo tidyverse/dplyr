@@ -20,8 +20,8 @@ class DataFrameJoinVisitors :
 {
 public:
   DataFrameJoinVisitors(
-    const DataFrame& left_,
-    const DataFrame& right_,
+    const Rcpp::DataFrame& left_,
+    const Rcpp::DataFrame& right_,
     const SymbolVector& names_left,
     const SymbolVector& names_right,
     bool warn_,
@@ -29,10 +29,10 @@ public:
   );
 
   DataFrameJoinVisitors(
-    const DataFrame& left_,
-    const DataFrame& right_,
-    const IntegerVector& indices_left,
-    const IntegerVector& indices_right,
+    const Rcpp::DataFrame& left_,
+    const Rcpp::DataFrame& right_,
+    const Rcpp::IntegerVector& indices_left,
+    const Rcpp::IntegerVector& indices_right,
     bool warn_,
     bool na_match
   );
@@ -42,7 +42,7 @@ public:
   int size() const;
 
   template <typename Container>
-  inline DataFrame subset(const Container& index, const CharacterVector& classes) {
+  inline Rcpp::DataFrame subset(const Container& index, const Rcpp::CharacterVector& classes) {
     int nrows = index.size();
     const int nvisitors = size();
     Rcpp::List out(nvisitors);
@@ -51,13 +51,13 @@ public:
     }
     set_class(out, classes);
     set_rownames(out, nrows);
-    out.names() = visitor_names_left;
+    Rf_namesgets(out, visitor_names_left.get_vector());
     return (SEXP)out;
   }
 
 private:
-  const DataFrame& left;
-  const DataFrame& right;
+  const Rcpp::DataFrame& left;
+  const Rcpp::DataFrame& right;
   SymbolVector visitor_names_left;
   SymbolVector visitor_names_right;
 

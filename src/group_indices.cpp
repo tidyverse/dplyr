@@ -30,8 +30,8 @@ using namespace dplyr;
 #define MOVE(x) x
 # endif
 
-// [[Rcpp::export]]
-IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
+// [[Rcpp::export(rng = false)]]
+IntegerVector grouped_indices_grouped_df_impl(const GroupedDataFrame& gdf) {
   int n = gdf.nrows();
   IntegerVector res(no_init(n));
   int ngroups = gdf.ngroups();
@@ -46,8 +46,8 @@ IntegerVector grouped_indices_grouped_df_impl(GroupedDataFrame gdf) {
   return res;
 }
 
-// [[Rcpp::export]]
-IntegerVector group_size_grouped_cpp(GroupedDataFrame gdf) {
+// [[Rcpp::export(rng = false)]]
+IntegerVector group_size_grouped_cpp(const GroupedDataFrame& gdf) {
   return hybrid::n_(gdf).summarise() ;
 }
 
@@ -187,7 +187,7 @@ public:
     visitors(visitors_),
 
     f(data[depth]),
-    nlevels(Rf_length(f.attr("levels"))),
+    nlevels(Rf_length(Rf_getAttrib(f, symbols::levels))),
 
     indices(nlevels + 1),
     slicers(nlevels + 1),
@@ -435,7 +435,7 @@ bool has_no_factors(const std::vector<SEXP>& x) {
   return std::find_if(x.begin(), x.end(), is_factor) == x.end();
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 SEXP regroup(DataFrame grouping_data, SEXP frame) {
   size_t nc = grouping_data.size() - 1;
 
@@ -487,9 +487,9 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
   }
   vec_groups[nc] = indices;
 
-  vec_groups.attr("names") = vec_names(grouping_data);
-  vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_groups.attr("class") = NaturalDataFrame::classes() ;
+  Rf_namesgets(vec_groups, vec_names(grouping_data));
+  set_rownames(vec_groups, ncases);
+  Rf_classgets(vec_groups, NaturalDataFrame::classes());
 
   return vec_groups;
 }
@@ -498,20 +498,21 @@ SEXP regroup(DataFrame grouping_data, SEXP frame) {
 SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars, bool drop) {
   const int nvars = vars.size();
 
-  CharacterVector names = data.names();
-  IntegerVector indx = vars.match_in_table(names);
+  Shield<SEXP> names(Rf_getAttrib(data, symbols::names));
+  Shield<SEXP> indx(r_match(vars.get_vector(), names));
+  int* p_indx = INTEGER(indx);
   std::vector<SEXP> visited_data(nvars);
   CharacterVector groups_names(nvars + 1);
 
   for (int i = 0; i < nvars; ++i) {
-    int pos = indx[i];
+    int pos = p_indx[i];
     if (pos == NA_INTEGER) {
       bad_col(vars[i], "is unknown");
     }
 
     SEXP v = data[pos - 1];
     visited_data[i] = v;
-    groups_names[i] = names[pos - 1];
+    groups_names[i] = STRING_ELT(names, pos - 1);
 
     if (!allow_list(v) || TYPEOF(v) == VECSXP) {
       bad_col(vars[i], "can't be used as a grouping variable because it's a {type}",
@@ -554,10 +555,10 @@ SEXP build_index_cpp(const DataFrame& data, const SymbolVector& vars, bool drop)
     }
   }
 
-  vec_groups.attr("names") = groups_names;
-  vec_groups.attr("row.names") = IntegerVector::create(NA_INTEGER, -ncases);
-  vec_groups.attr("class") = NaturalDataFrame::classes() ;
-  vec_groups.attr(".drop") = drop;
+  Rf_namesgets(vec_groups, groups_names);
+  set_rownames(vec_groups, ncases);
+  Rf_classgets(vec_groups, NaturalDataFrame::classes());
+  Rf_setAttrib(vec_groups, symbols::dot_drop, Rf_ScalarLogical(drop));
 
   return vec_groups;
 }
@@ -576,13 +577,14 @@ SEXP check_grouped(RObject data) {
       // using drop = true here because this is likely to play better with
       // older representations
       DataFrame groups = build_index_cpp(data, SymbolVector(vars), true);
-      data.attr("groups") = groups;
+      Rf_setAttrib(data, symbols::groups, groups);
     }
 
     // but always clean the pre 0.8.0 attributes
-    data.attr("vars") = R_NilValue;
-    data.attr("indices") = R_NilValue;
-    data.attr("labels") = R_NilValue;
+    Rf_setAttrib(data, symbols::vars, R_NilValue);
+    Rf_setAttrib(data, symbols::indices, R_NilValue);
+    Rf_setAttrib(data, symbols::labels, R_NilValue);
+
   }
 
   // get the groups attribute and check for consistency
@@ -614,7 +616,7 @@ SEXP check_grouped(RObject data) {
 GroupedDataFrame::GroupedDataFrame(DataFrame x):
   data_(check_grouped(x)),
   symbols(group_vars()),
-  groups(data_.attr("groups")),
+  groups(Rf_getAttrib(data_, symbols::groups)),
   nvars_(symbols.size())
 {}
 
@@ -631,20 +633,24 @@ SymbolVector GroupedDataFrame::group_vars() const {
   SEXP groups = Rf_getAttrib(data_, dplyr::symbols::groups);
 
   int n = Rf_length(groups) - 1;
-  CharacterVector vars = Rf_getAttrib(groups, R_NamesSymbol);
-  vars.erase(n);
+  Rcpp::Shelter<SEXP> shelter;
+  SEXP vars_attr = shelter(Rf_getAttrib(groups, R_NamesSymbol));
+  SEXP vars = shelter(Rf_allocVector(STRSXP, n));
+  for (int i = 0; i < n; i++) {
+    SET_STRING_ELT(vars, i, STRING_ELT(vars_attr, i));
+  }
   return SymbolVector(vars);
 }
 
 }
 
-// [[Rcpp::export]]
-DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
+// [[Rcpp::export(rng = false)]]
+DataFrame grouped_df_impl(DataFrame data, const SymbolVector& symbols, bool drop) {
   DataFrame copy(shallow_copy(data));
 
   if (!symbols.size()) {
     GroupedDataFrame::strip_groups(copy);
-    copy.attr("class") = NaturalDataFrame::classes();
+    Rf_classgets(copy, NaturalDataFrame::classes());
     return copy;
   }
 
@@ -653,20 +659,20 @@ DataFrame grouped_df_impl(DataFrame data, SymbolVector symbols, bool drop) {
   // we've made a copy and we are about to create the groups
   // attribute, so we make sure there is no more a vars
   // attribute lurking around from the pre 0.8.0 area
-  copy.attr("vars") = R_NilValue;
-  copy.attr("drop") = R_NilValue;
+  Rf_setAttrib(copy, symbols::vars, R_NilValue);
+  Rf_setAttrib(copy, symbols::drop, R_NilValue);
 
   GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols, drop));
 
   return copy;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame group_data_grouped_df(DataFrame data) {
   return GroupedDataFrame(data).group_data();
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 DataFrame ungroup_grouped_df(DataFrame df) {
   DataFrame copy(shallow_copy(df));
   GroupedDataFrame::strip_groups(copy);
@@ -674,32 +680,33 @@ DataFrame ungroup_grouped_df(DataFrame df) {
   return copy;
 }
 
-// [[Rcpp::export]]
-List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype) {
+// [[Rcpp::export(rng = false)]]
+List group_split_impl(const GroupedDataFrame& gdf, bool keep, SEXP frame, bool ptype) {
   ListView rows = gdf.indices();
   R_xlen_t n = rows.size();
+
   DataFrame group_data = gdf.group_data();
   DataFrame data = gdf.data();
 
   if (!keep) {
-    CharacterVector all_names = vec_names(data);
+    Shield<SEXP> all_names(vec_names(data));
     int nv = data.size();
     dplyr_hash_set<SEXP> all_set;
     for (int i = 0; i < nv; i++) {
-      all_set.insert(all_names[i]);
+      all_set.insert(STRING_ELT(all_names, i));
     }
 
     int ng = group_data.ncol() - 1;
-    CharacterVector group_names = vec_names(group_data);
+    Rcpp::Shield<SEXP> group_names(vec_names(group_data));
     for (int i = 0; i < ng; i++) {
-      SEXP name = group_names[i];
+      SEXP name = STRING_ELT(group_names, i);
       if (all_set.count(name)) all_set.erase(name);
     }
 
     IntegerVector kept_cols(all_set.size());
     int k = 0;
     for (int i = 0; i < nv; i++) {
-      if (all_set.count(all_names[i])) {
+      if (all_set.count(STRING_ELT(all_names, i))) {
         kept_cols[k++] = i + 1;
       }
     }
@@ -714,7 +721,10 @@ List group_split_impl(GroupedDataFrame gdf, bool keep, SEXP frame, bool ptype) {
     out[i] = out_i;
   }
   if (ptype) {
-    out.attr("ptype") = dataframe_subset(data, IntegerVector(0), NaturalDataFrame::classes(), frame);
+    Rf_setAttrib(
+      out, symbols::ptype,
+      dataframe_subset(data, IntegerVector(0), NaturalDataFrame::classes(), frame)
+    );
   }
   return out;
 }

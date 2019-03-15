@@ -16,14 +16,14 @@ using namespace Rcpp;
 //'
 //' x <- rnorm(1e2)
 //' x[between(x, -1, 1)]
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 LogicalVector between(NumericVector x, double left, double right) {
   int n = x.size();
   LogicalVector out(no_init(n));
 
   // Assume users know what they're doing with date/times. In the future
   // should ensure that left and right are the correct class too.
-  if (x.attr("class") != R_NilValue && !Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
+  if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol)) && !Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
     warningcall(R_NilValue, "between() called on numeric vector with S3 class");
   }
 

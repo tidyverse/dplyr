@@ -1,7 +1,6 @@
 #ifndef dplyr_tools_GroupedDataFrame_H
 #define dplyr_tools_GroupedDataFrame_H
 
-#include <dplyr/registration.h>
 #include <tools/SlicingIndex.h>
 #include <tools/VectorView.h>
 
@@ -11,7 +10,6 @@
 #include <dplyr/symbols.h>
 
 namespace dplyr {
-
 class GroupedDataFrame;
 
 class GroupedDataFrameIndexIterator {
@@ -28,6 +26,9 @@ public:
 };
 
 class GroupedDataFrame {
+private:
+  GroupedDataFrame(const GroupedDataFrame&);
+
 public:
   typedef GroupedDataFrameIndexIterator group_iterator;
   typedef GroupedSlicingIndex slicing_index;
@@ -78,27 +79,27 @@ public:
     return groups[groups.size() - 1] ;
   }
 
-  inline SymbolVector get_vars() const {
+  inline const SymbolVector& get_vars() const {
     return symbols.get_names();
   }
 
-  inline const DataFrame& group_data() const {
+  inline const Rcpp::DataFrame& group_data() const {
     return groups;
   }
 
   template <typename Data>
-  static void strip_groups(Data& x) {
-    x.attr("groups") = R_NilValue;
+  static void set_groups(Data& x, SEXP groups) {
+    Rf_setAttrib(x, symbols::groups, groups);
   }
 
   template <typename Data>
-  static void set_groups(Data& x, SEXP groups) {
-    x.attr("groups") = groups;
+  static void strip_groups(Data& x) {
+    set_groups(x, R_NilValue);
   }
 
   template <typename Data1, typename Data2>
   static void copy_groups(Data1& x, const Data2& y) {
-    x.attr("groups") = y.attr("groups");
+    copy_attrib(x, y, symbols::groups);
   }
 
   static inline Rcpp::CharacterVector classes() {
@@ -147,12 +148,27 @@ inline GroupedSlicingIndex GroupedDataFrameIndexIterator::operator*() const {
 }
 
 namespace Rcpp {
-using namespace dplyr;
 
 template <>
-inline bool is<GroupedDataFrame>(SEXP x) {
+inline bool is<dplyr::GroupedDataFrame>(SEXP x) {
   return Rf_inherits(x, "grouped_df");
 }
+
+template <>
+class ConstReferenceInputParameter<dplyr::GroupedDataFrame> {
+public:
+  typedef const dplyr::GroupedDataFrame& const_reference ;
+
+  ConstReferenceInputParameter(SEXP x_) : df(x_), obj(df) {}
+
+  inline operator const_reference() {
+    return obj ;
+  }
+
+private:
+  DataFrame df;
+  dplyr::GroupedDataFrame obj ;
+} ;
 
 }
 

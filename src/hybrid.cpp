@@ -94,7 +94,7 @@ void init_hybrid_inline_map(DllInfo* /*dll*/) {
   ::base::primitive_bracket_two = Rf_eval(R_Bracket2Symbol, R_BaseEnv);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 List hybrids() {
   using namespace dplyr::hybrid;
 
@@ -116,7 +116,7 @@ List hybrids() {
                _["package"] = packages,
                _["fun"] = funs
              );
-  out.attr("class") = NaturalDataFrame::classes();
+  Rf_classgets(out, NaturalDataFrame::classes());
   set_rownames(out, n);
   return out;
 }

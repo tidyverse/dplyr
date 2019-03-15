@@ -12,30 +12,35 @@
 using namespace Rcpp;
 
 SEXP child_env(SEXP parent) {
-  Shield<SEXP> call(Rf_lang3(symbols::new_env, Rf_ScalarLogical(TRUE), parent));
+  Shield<SEXP> call(Rf_lang3(dplyr::symbols::new_env, Rf_ScalarLogical(TRUE), parent));
   return Rf_eval(call, R_BaseEnv);
 }
 
-// [[Rcpp::export]]
-void check_valid_names(const CharacterVector& names, bool warn_only = false) {
-  IntegerVector which_na;
-  for (int i = 0; i < names.size(); ++i) {
-    if (String(names[i]) == R_NaString) {
+// [[Rcpp::export(rng = false)]]
+void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only = false) {
+  R_xlen_t n = XLENGTH(names);
+
+  std::vector<int> which_na;
+  which_na.reserve(n);
+
+  for (int i = 0; i < n; ++i) {
+    if (STRING_ELT(names, i) == R_NaString) {
       which_na.push_back(i + 1);
     }
   }
 
   if (which_na.size() > 0) {
-    String msg = msg_bad_cols(SymbolVector(static_cast<SEXP>(which_na)), "cannot have NA as name");
+    dplyr::SymbolVector which_na_symbols(wrap(which_na));
+    String msg = msg_bad_cols(which_na_symbols, "cannot have NA as name");
     if (warn_only)
       warning(msg.get_cstring());
     else
       stop(msg.get_cstring());
   }
 
-  LogicalVector dup = duplicated(names);
+  LogicalVector dup(duplicated(names));
   if (any(dup).is_true()) {
-    String msg = msg_bad_cols(SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
+    String msg = msg_bad_cols(dplyr::SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
     if (warn_only)
       warning(msg.get_cstring());
     else
@@ -45,7 +50,8 @@ void check_valid_names(const CharacterVector& names, bool warn_only = false) {
 
 // Need forwarder to avoid compilation warning for default argument
 void check_valid_colnames(const DataFrame& df, bool warn_only) {
-  check_valid_names(vec_names_or_empty(df), warn_only);
+  Shield<SEXP> names(vec_names_or_empty(df));
+  check_valid_names((SEXP)names, warn_only);
 }
 
 int check_range_one_based(int x, int max) {
@@ -56,20 +62,20 @@ int check_range_one_based(int x, int max) {
   return x;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 void assert_all_allow_list(const DataFrame& data) {
   // checking variables are on the allow list
   int nc = data.size();
   for (int i = 0; i < nc; i++) {
-    if (!allow_list(data[i])) {
-      SymbolVector names = data.names();
-      const SymbolString& name_i = names[i];
+    if (!dplyr::allow_list(data[i])) {
+      dplyr::SymbolVector names(Rf_getAttrib(data, dplyr::symbols::names));
+      const dplyr::SymbolString& name_i = names[i];
       SEXP v = data[i];
 
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
         bad_col(name_i, "is of unsupported class {type}",
-                _["type"] = get_single_class(v));
+                _["type"] = dplyr::get_single_class(v));
       }
       else {
         bad_col(name_i, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
@@ -112,7 +118,7 @@ void copy_only_attributes(SEXP out, SEXP data) {
   SEXP att = ATTRIB(data);
   const bool has_attributes = !Rf_isNull(att);
   if (has_attributes) {
-    LOG_VERBOSE << "copying attributes: " << CharacterVector(List(att).names());
+    LOG_VERBOSE << "copying attributes: " << CharacterVector(Rf_getAttrib(List(att), dplyr::symbols::names));
 
     SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }
@@ -182,7 +188,7 @@ CharacterVector get_class(SEXP x) {
 }
 
 void copy_attrib(SEXP out, SEXP origin, SEXP symbol) {
-  Rf_setAttrib(out, symbol, Rf_getAttrib(origin, symbol));
+  Rf_setAttrib(out, symbol, Rcpp::Shield<SEXP>(Rf_getAttrib(origin, symbol)));
 }
 
 void copy_class(SEXP out, SEXP origin) {
@@ -312,13 +318,13 @@ bool has_name_at(SEXP x, R_len_t i) {
   return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool is_data_pronoun(SEXP expr) {
   if (TYPEOF(expr) != LANGSXP || Rf_length(expr) != 3)
     return false;
 
   SEXP first = CADR(expr);
-  if (first != symbols::dot_data)
+  if (first != dplyr::symbols::dot_data)
     return false;
 
   SEXP second = CADDR(expr);
@@ -335,7 +341,7 @@ bool is_data_pronoun(SEXP expr) {
   return false;
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool is_variable_reference(SEXP expr) {
   // x
   if (TYPEOF(expr) == SYMSXP)
@@ -344,12 +350,12 @@ bool is_variable_reference(SEXP expr) {
   return is_data_pronoun(expr);
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool quo_is_variable_reference(SEXP quo) {
   return is_variable_reference(CADR(quo));
 }
 
-// [[Rcpp::export]]
+// [[Rcpp::export(rng = false)]]
 bool quo_is_data_pronoun(SEXP quo) {
   return is_data_pronoun(CADR(quo));
 }

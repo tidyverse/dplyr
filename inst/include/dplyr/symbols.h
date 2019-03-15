@@ -60,6 +60,15 @@ struct symbols {
   static SEXP dot_drop;
   static SEXP warn_deprecated;
   static SEXP signal_soft_deprecated;
+  static SEXP call;
+  static SEXP env;
+  static SEXP fun;
+  static SEXP cpp_class;
+  static SEXP levels;
+  static SEXP labels;
+  static SEXP indices;
+  static SEXP ptype;
+  static SEXP names;
 };
 
 struct fns {
