@@ -388,12 +388,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // mutate_impl
-SEXP mutate_impl(DataFrame df, QuosureList dots, SEXP caller_env);
+SEXP mutate_impl(Rcpp::DataFrame df, dplyr::QuosureList dots, SEXP caller_env);
 RcppExport SEXP _dplyr_mutate_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP caller_envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< dplyr::QuosureList >::type dots(dotsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type caller_env(caller_envSEXP);
     rcpp_result_gen = Rcpp::wrap(mutate_impl(df, dots, caller_env));
     return rcpp_result_gen;
@@ -556,10 +556,10 @@ BEGIN_RCPP
 END_RCPP
 }
 // assert_all_allow_list
-void assert_all_allow_list(const DataFrame& data);
+void assert_all_allow_list(const Rcpp::DataFrame& data);
 RcppExport SEXP _dplyr_assert_all_allow_list(SEXP dataSEXP) {
 BEGIN_RCPP
-    Rcpp::traits::input_parameter< const DataFrame& >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< const Rcpp::DataFrame& >::type data(dataSEXP);
     assert_all_allow_list(data);
     return R_NilValue;
 END_RCPP
