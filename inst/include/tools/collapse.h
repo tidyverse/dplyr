@@ -10,7 +10,7 @@ const char* to_string_utf8(typename Rcpp::traits::storage_type<RTYPE>::type from
 }
 
 template <int RTYPE>
-std::string collapse_utf8(const Vector<RTYPE>& x, const char* sep = ", ", const char* quote = "") {
+std::string collapse_utf8(const Rcpp::Vector<RTYPE>& x, const char* sep = ", ", const char* quote = "") {
   std::stringstream ss;
   int n = x.size();
   if (n > 0) {

@@ -202,7 +202,7 @@ public:
     {
       if (Rf_length(val) != 1) return false;
       int value = INTEGER(val)[0];
-      if (IntegerVector::is_na(value)) {
+      if (Rcpp::IntegerVector::is_na(value)) {
         return false;
       }
       out = unary_minus ? -value : value;
@@ -212,7 +212,7 @@ public:
     {
       if (Rf_length(val) != 1) return false;
       int value = Rcpp::internal::r_coerce<REALSXP, INTSXP>(REAL(val)[0]);
-      if (IntegerVector::is_na(value)) {
+      if (Rcpp::IntegerVector::is_na(value)) {
         return false;
       }
       out = unary_minus ? -value : value;

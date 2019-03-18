@@ -22,7 +22,7 @@ public:
 
   int i;
   const GroupedDataFrame& gdf;
-  ListView indices;
+  Rcpp::ListView indices;
 };
 
 class GroupedDataFrame {
@@ -33,8 +33,8 @@ public:
   typedef GroupedDataFrameIndexIterator group_iterator;
   typedef GroupedSlicingIndex slicing_index;
 
-  GroupedDataFrame(DataFrame x);
-  GroupedDataFrame(DataFrame x, const GroupedDataFrame& model);
+  GroupedDataFrame(Rcpp::DataFrame x);
+  GroupedDataFrame(Rcpp::DataFrame x, const GroupedDataFrame& model);
 
   group_iterator group_begin() const {
     return GroupedDataFrameIndexIterator(*this);
@@ -44,10 +44,10 @@ public:
     return symbols.get_name(i);
   }
 
-  DataFrame& data() {
+  Rcpp::DataFrame& data() {
     return data_;
   }
-  const DataFrame& data() const {
+  const Rcpp::DataFrame& data() const {
     return data_;
   }
 

@@ -6,7 +6,7 @@ public:
   Column(SEXP data_, const dplyr::SymbolString& name_) : data(data_), name(name_) {}
 
 public:
-  const RObject& get_data() const {
+  const Rcpp::RObject& get_data() const {
     return data;
   }
 

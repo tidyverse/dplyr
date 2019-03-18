@@ -31,7 +31,7 @@ private:
 
 public:
 
-  OrderVisitors(List args, LogicalVector ascending, int n_) :
+  OrderVisitors(Rcpp::List args, Rcpp::LogicalVector ascending, int n_) :
     visitors(n_),
     n(n_),
     nrows(0)
@@ -42,9 +42,9 @@ public:
     }
   }
 
-  inline IntegerVector apply() const {
-    if (nrows == 0) return IntegerVector(0);
-    IntegerVector x = seq(1, nrows);
+  inline Rcpp::IntegerVector apply() const {
+    if (nrows == 0) return Rcpp::IntegerVector(0);
+    Rcpp::IntegerVector x = Rcpp::seq(1, nrows);
     std::sort(x.begin(), x.end(), Compare(*this));
     return x;
   }

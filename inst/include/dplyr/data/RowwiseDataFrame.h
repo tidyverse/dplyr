@@ -42,10 +42,10 @@ public:
     return RowwiseDataFrameIndexIterator();
   }
 
-  DataFrame& data() {
+  Rcpp::DataFrame& data() {
     return data_;
   }
-  const DataFrame& data() const {
+  const Rcpp::DataFrame& data() const {
     return data_;
   }
 
@@ -54,7 +54,7 @@ public:
   }
 
   inline SymbolString symbol(int) {
-    stop("Rowwise data frames don't have grouping variables");
+    Rcpp::stop("Rowwise data frames don't have grouping variables");
   }
 
   inline SEXP label(int) {

@@ -265,7 +265,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // hybrids
-List hybrids();
+Rcpp::List hybrids();
 RcppExport SEXP _dplyr_hybrids() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -605,31 +605,31 @@ BEGIN_RCPP
 END_RCPP
 }
 // cumall
-LogicalVector cumall(LogicalVector x);
+Rcpp::LogicalVector cumall(Rcpp::LogicalVector x);
 RcppExport SEXP _dplyr_cumall(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(cumall(x));
     return rcpp_result_gen;
 END_RCPP
 }
 // cumany
-LogicalVector cumany(LogicalVector x);
+Rcpp::LogicalVector cumany(Rcpp::LogicalVector x);
 RcppExport SEXP _dplyr_cumany(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< LogicalVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::LogicalVector >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(cumany(x));
     return rcpp_result_gen;
 END_RCPP
 }
 // cummean
-NumericVector cummean(NumericVector x);
+Rcpp::NumericVector cummean(Rcpp::NumericVector x);
 RcppExport SEXP _dplyr_cummean(SEXP xSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
     rcpp_result_gen = Rcpp::wrap(cummean(x));
     return rcpp_result_gen;
 END_RCPP

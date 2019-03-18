@@ -116,7 +116,7 @@ template <>
 class VectorVisitorImpl<STRSXP> : public VectorVisitor {
 public:
 
-  VectorVisitorImpl(const CharacterVector& vec_) :
+  VectorVisitorImpl(const Rcpp::CharacterVector& vec_) :
     vec(reencode_char(vec_)), has_orders(false)
   {}
 
@@ -146,7 +146,7 @@ public:
   }
 
   bool is_na(int i) const {
-    return CharacterVector::is_na(vec[i]);
+    return Rcpp::CharacterVector::is_na(vec[i]);
   }
 
 private:
@@ -163,8 +163,8 @@ private:
   }
 
 private:
-  CharacterVector vec;
-  mutable IntegerVector orders;
+  Rcpp::CharacterVector vec;
+  mutable Rcpp::IntegerVector orders;
   mutable bool has_orders;
 
 };

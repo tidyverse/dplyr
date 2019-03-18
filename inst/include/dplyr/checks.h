@@ -56,7 +56,7 @@ inline std::string type_name(SEXP x) {
   }
 }
 
-inline SupportedType check_supported_type(SEXP x, const SymbolString& name = String()) {
+inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Rcpp::String()) {
   switch (TYPEOF(x)) {
   case LGLSXP:
     return DPLYR_LGLSXP;
@@ -77,7 +77,7 @@ inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Str
       Rcpp::stop("is of unsupported type %s", type_name(x));
     } else {
       bad_col(name, "is of unsupported type {type}",
-              _["type"] = type_name(x));
+              Rcpp::_["type"] = type_name(x));
     }
   }
 }
@@ -85,11 +85,11 @@ inline SupportedType check_supported_type(SEXP x, const SymbolString& name = Str
 inline void check_length(const int actual, const int expected, const char* comment, const SymbolString& name) {
   if (actual == expected || actual == 1) return;
 
-  static Function check_length_col("check_length_col", Environment::namespace_env("dplyr"));
-  static Function identity("identity", Environment::base_env());
-  String message = check_length_col(actual, expected, CharacterVector::create(name.get_sexp()), std::string(comment), _[".abort"] = identity);
+  static Rcpp::Function check_length_col("check_length_col", Rcpp::Environment::namespace_env("dplyr"));
+  static Rcpp::Function identity("identity", Rcpp::Environment::base_env());
+  Rcpp::String message = check_length_col(actual, expected, Rcpp::CharacterVector::create(name.get_sexp()), std::string(comment), Rcpp::_[".abort"] = identity);
   message.set_encoding(CE_UTF8);
-  stop(message.get_cstring());
+  Rcpp::stop(message.get_cstring());
 }
 
 inline void check_not_null(SEXP result, const SymbolString& name) {

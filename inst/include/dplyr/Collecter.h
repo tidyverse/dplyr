@@ -107,7 +107,7 @@ public:
   }
 
 protected:
-  Vector<RTYPE> data;
+  Rcpp::Vector<RTYPE> data;
 
 private:
   void collect_logicalNA(const SlicingIndex& index) {
@@ -118,7 +118,7 @@ private:
 
   void collect_sexp(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
-    Vector<RTYPE> source(v);
+    Rcpp::Vector<RTYPE> source(v);
     STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
     source_ptr = source_ptr + offset;
     for (int i = 0; i < index.size(); i++) {
@@ -135,7 +135,7 @@ public:
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
-    NumericVector source(v);
+    Rcpp::NumericVector source(v);
     double* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
@@ -162,7 +162,7 @@ public:
   }
 
 protected:
-  NumericVector data;
+  Rcpp::NumericVector data;
 
 };
 
@@ -180,7 +180,7 @@ public:
     } else if (all_logical_na(v, TYPEOF(v))) {
       collect_logicalNA(index, v);
     } else {
-      CharacterVector vec(v);
+      Rcpp::CharacterVector vec(v);
       collect_strings(index, vec, offset);
     }
   }
@@ -202,18 +202,18 @@ public:
   }
 
 protected:
-  CharacterVector data;
+  Rcpp::CharacterVector data;
 
 private:
 
-  void collect_logicalNA(const SlicingIndex& index, LogicalVector) {
+  void collect_logicalNA(const SlicingIndex& index, Rcpp::LogicalVector) {
     int n = index.size();
     for (int i = 0; i < n; i++) {
       SET_STRING_ELT(data, index[i], NA_STRING);
     }
   }
 
-  void collect_strings(const SlicingIndex& index, CharacterVector source,
+  void collect_strings(const SlicingIndex& index, Rcpp::CharacterVector source,
                        int offset = 0) {
     SEXP* p_source = Rcpp::internal::r_vector_start<STRSXP>(source) + offset;
     int n = index.size();
@@ -222,9 +222,9 @@ private:
     }
   }
 
-  void collect_factor(const SlicingIndex& index, IntegerVector source,
+  void collect_factor(const SlicingIndex& index, Rcpp::IntegerVector source,
                       int offset = 0) {
-    CharacterVector levels = get_levels(source);
+    Rcpp::CharacterVector levels = get_levels(source);
     Rf_warning("binding character and factor vector, coercing into character vector");
     for (int i = 0; i < index.size(); i++) {
       if (source[i] == NA_INTEGER) {
@@ -244,7 +244,7 @@ public:
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
-    IntegerVector source(v);
+    Rcpp::IntegerVector source(v);
     int* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
@@ -269,7 +269,7 @@ public:
   }
 
 protected:
-  IntegerVector data;
+  Rcpp::IntegerVector data;
 
 };
 
@@ -280,7 +280,7 @@ public:
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
-    RawVector source(v);
+    Rcpp::RawVector source(v);
     Rbyte* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
       data[index[i]] = source_ptr[i];
@@ -307,7 +307,7 @@ public:
   }
 
 protected:
-  RawVector data;
+  Rcpp::RawVector data;
 
 };
 
@@ -320,13 +320,13 @@ public:
     Collecter_Impl<RTYPE>(n), types(types_) {}
 
   inline SEXP get() {
-    Vector<RTYPE> data = Collecter_Impl<RTYPE>::data;
+    Rcpp::Vector<RTYPE> data = Collecter_Impl<RTYPE>::data;
     set_class(data, types);
     return data;
   }
 
   inline bool compatible(SEXP x) {
-    String type = STRING_ELT(types, 0);
+    Rcpp::String type = STRING_ELT(types, 0);
     return Rf_inherits(x, type.get_cstring()) || all_logical_na(x, TYPEOF(x));
   }
 
@@ -380,7 +380,7 @@ public:
 
 private:
   void update_tz(SEXP v) {
-    RObject v_tz(Rf_getAttrib(v, symbols::tzone));
+    Rcpp::RObject v_tz(Rf_getAttrib(v, symbols::tzone));
     // if the new tz is NULL, keep previous value
     if (v_tz.isNULL()) return;
 
@@ -397,7 +397,7 @@ private:
     }
   }
 
-  RObject tz;
+  Rcpp::RObject tz;
 };
 
 class DifftimeCollecter : public Collecter_Impl<REALSXP> {
@@ -417,7 +417,7 @@ public:
 
   inline SEXP get() {
     Rf_classgets(Parent::data, types);
-    Rf_setAttrib(Parent::data, symbols::units, Shield<SEXP>(Rf_mkString(units.c_str())));
+    Rf_setAttrib(Parent::data, symbols::units, Rcpp::Shield<SEXP>(Rf_mkString(units.c_str())));
     return Parent::data;
   }
 
@@ -434,12 +434,12 @@ public:
   }
 
 private:
-  bool is_valid_difftime(RObject x) {
+  bool is_valid_difftime(Rcpp::RObject x) {
     if (!Rf_inherits(x, "difftime") || TYPEOF(x) != REALSXP) {
       return false;
     }
 
-    Shield<SEXP> units(Rf_getAttrib(x, symbols::units));
+    Rcpp::Shield<SEXP> units(Rf_getAttrib(x, symbols::units));
     if (TYPEOF(units) != STRSXP) {
       return false;
     }
@@ -450,11 +450,11 @@ private:
   }
 
 
-  void collect_difftime(const SlicingIndex& index, RObject v, int offset = 0) {
+  void collect_difftime(const SlicingIndex& index, Rcpp::RObject v, int offset = 0) {
     if (!is_valid_difftime(v)) {
-      stop("Invalid difftime object");
+      Rcpp::stop("Invalid difftime object");
     }
-    Shield<SEXP> units_attr(Rf_getAttrib(v, symbols::units));
+    Rcpp::Shield<SEXP> units_attr(Rf_getAttrib(v, symbols::units));
     std::string v_units = Rcpp::as<std::string>(units_attr);
     if (!get_units_map().is_valid_difftime_unit(units)) {
       // if current unit is NULL, grab the new one
@@ -479,7 +479,7 @@ private:
         units = "secs";
         double factor_v = get_units_map().time_conversion_factor(v_units);
         if (Rf_length(v) < index.size()) {
-          stop("Wrong size of vector to collect");
+          Rcpp::stop("Wrong size of vector to collect");
         }
         for (int i = 0; i < index.size(); i++) {
           Parent::data[index[i]] = factor_v * (REAL(v)[i + offset]);
@@ -519,7 +519,7 @@ private:
     double time_conversion_factor(const std::string& v_units) const {
       units_map::const_iterator it = valid_units.find(v_units);
       if (it == valid_units.end()) {
-        stop("Invalid difftime units (%s).", v_units.c_str());
+        Rcpp::stop("Invalid difftime units (%s).", v_units.c_str());
       }
 
       return it->second;
@@ -543,7 +543,7 @@ public:
   typedef dplyr_hash_map<SEXP, int> LevelsMap;
 
   FactorCollecter(int n, SEXP model_):
-    data(n, IntegerVector::get_na()),
+    data(n, Rcpp::IntegerVector::get_na()),
     model(model_),
     levels(get_levels(model_)),
     levels_map()
@@ -557,7 +557,7 @@ public:
   }
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
-    if (offset != 0) stop("Nonzero offset ot supported by FactorCollecter");
+    if (offset != 0) Rcpp::stop("Nonzero offset ot supported by FactorCollecter");
     if (Rf_inherits(v, "factor") && has_same_levels_as(v)) {
       collect_factor(index, v);
     } else if (all_logical_na(v, TYPEOF(v))) {
@@ -581,7 +581,7 @@ public:
   }
 
   inline bool has_same_levels_as(SEXP x) const {
-    CharacterVector levels_other = get_levels(x);
+    Rcpp::CharacterVector levels_other = get_levels(x);
 
     int nlevels = levels_other.size();
     if (nlevels != (int)levels_map.size()) return false;
@@ -597,16 +597,16 @@ public:
   }
 
 private:
-  IntegerVector data;
-  RObject model;
-  CharacterVector levels;
+  Rcpp::IntegerVector data;
+  Rcpp::RObject model;
+  Rcpp::CharacterVector levels;
   LevelsMap levels_map;
 
   void collect_factor(const SlicingIndex& index, SEXP v) {
     // here we can assume that v is a factor with the right levels
     // we however do not assume that they are in the same order
-    IntegerVector source(v);
-    CharacterVector levels = get_levels(source);
+    Rcpp::IntegerVector source(v);
+    Rcpp::CharacterVector levels = get_levels(source);
     SEXP* levels_ptr = Rcpp::internal::r_vector_start<STRSXP>(levels);
     int* source_ptr = Rcpp::internal::r_vector_start<INTSXP>(source);
     for (int i = 0; i < index.size(); i++) {
@@ -653,7 +653,7 @@ inline Collecter* collecter(SEXP model, int n) {
     if (Rf_inherits(model, "Date"))
       return new TypedCollecter<REALSXP>(n, get_date_classes());
     if (Rf_inherits(model, "integer64"))
-      return new TypedCollecter<REALSXP>(n, CharacterVector::create("integer64"));
+      return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
     return new Collecter_Impl<REALSXP>(n);
   case CPLXSXP:
     return new Collecter_Impl<CPLXSXP>(n);
@@ -663,10 +663,10 @@ inline Collecter* collecter(SEXP model, int n) {
     return new Collecter_Impl<STRSXP>(n);
   case VECSXP:
     if (Rf_inherits(model, "POSIXlt")) {
-      stop("POSIXlt not supported");
+      Rcpp::stop("POSIXlt not supported");
     }
     if (Rf_inherits(model, "data.frame")) {
-      stop("Columns of class data.frame not supported");
+      Rcpp::stop("Columns of class data.frame not supported");
     }
     return new Collecter_Impl<VECSXP>(n);
   case RAWSXP:
@@ -675,7 +675,7 @@ inline Collecter* collecter(SEXP model, int n) {
     break;
   }
 
-  stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
+  Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
 }
 
 inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
@@ -706,7 +706,7 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
     if (Rf_inherits(model, "Date"))
       return new TypedCollecter<REALSXP>(n, get_date_classes());
     if (Rf_inherits(model, "integer64"))
-      return new TypedCollecter<REALSXP>(n, CharacterVector::create("integer64"));
+      return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
     return new Collecter_Impl<REALSXP>(n);
   case LGLSXP:
     return new Collecter_Impl<LGLSXP>(n);
@@ -717,7 +717,7 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
   default:
     break;
   }
-  stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
+  Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
 }
 
 }

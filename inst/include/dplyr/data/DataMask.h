@@ -130,7 +130,7 @@ public:
   // this is a fairly expensive callback to R, but it only happens
   // when we use the syntax <column> = NULL
   inline void detach(SEXP mask_active, SEXP mask_resolved) {
-    Language("rm", symbol, _["envir"] = mask_active).eval(R_BaseEnv);
+    Rcpp::Language("rm", symbol, Rcpp::_["envir"] = mask_active).eval(R_BaseEnv);
   }
 
 private:
@@ -144,10 +144,10 @@ private:
     SEXP frame = ENCLOS(ENCLOS(mask_resolved));
 
     // materialize
-    Shield<SEXP> value(summary ?
-                       column_subset(data, RowwiseSlicingIndex(indices.group()), frame) :
-                       column_subset(data, indices, frame)
-                      );
+    Rcpp::Shield<SEXP> value(summary ?
+                             column_subset(data, RowwiseSlicingIndex(indices.group()), frame) :
+                             column_subset(data, indices, frame)
+                            );
     MARK_NOT_MUTABLE(value);
 
     // store it in the mask_resolved environment
@@ -226,7 +226,7 @@ public:
   // remove the binding in the mask_active environment
   // so that standard evaluation does not find it
   inline void detach(SEXP mask_active, SEXP mask_resolved) {
-    Language("rm", symbol, _["envir"] = mask_active).eval();
+    Rcpp::Language("rm", symbol, Rcpp::_["envir"] = mask_active).eval();
   }
 
 private:
@@ -555,9 +555,9 @@ private:
   SymbolMap symbol_map;
 
   // The 3 environments of the data mask
-  Environment mask_active;  // where the active bindings live
-  Environment mask_resolved; // where the resolved active bindings live
-  Environment data_mask; // actual data mask, contains the .data pronoun
+  Rcpp::Environment mask_active;  // where the active bindings live
+  Rcpp::Environment mask_resolved; // where the resolved active bindings live
+  Rcpp::Environment data_mask; // actual data mask, contains the .data pronoun
 
   // are the active bindings ready ?
   bool active_bindings_ready;
@@ -566,8 +566,8 @@ private:
   const slicing_index* current_indices;
 
   // previous values for group_number and group_size
-  RObject previous_group_size;
-  RObject previous_group_number;
+  Rcpp::RObject previous_group_size;
+  Rcpp::RObject previous_group_number;
 
   boost::shared_ptr< DataMaskProxy<SlicedTibble> > proxy;
 
@@ -630,7 +630,7 @@ private:
   }
 
   static SEXP rlang_eval_tidy() {
-    static Language call("::", symbols::rlang, symbols::eval_tidy);
+    static Rcpp::Language call("::", symbols::rlang, symbols::eval_tidy);
     return call;
   }
 

@@ -67,7 +67,7 @@ private:
 template <bool ascending>
 class OrderCharacterVectorVisitorImpl : public OrderVisitor {
 public:
-  OrderCharacterVectorVisitorImpl(const CharacterVector& vec_) :
+  OrderCharacterVectorVisitorImpl(const Rcpp::CharacterVector& vec_) :
     vec(vec_),
     orders(CharacterVectorOrderer(vec).get())
   {}
@@ -81,8 +81,8 @@ public:
   }
 
 private:
-  CharacterVector vec;
-  OrderVectorVisitorImpl<INTSXP, ascending, IntegerVector> orders;
+  Rcpp::CharacterVector vec;
+  OrderVectorVisitorImpl<INTSXP, ascending, Rcpp::IntegerVector> orders;
 };
 
 // ---------- data frame columns
@@ -91,7 +91,7 @@ private:
 template <bool ascending>
 class OrderVisitorDataFrame : public OrderVisitor {
 public:
-  OrderVisitorDataFrame(const DataFrame& data_) : data(data_), visitors(data) {}
+  OrderVisitorDataFrame(const Rcpp::DataFrame& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
     return visitors.equal(i, j);
@@ -102,14 +102,14 @@ public:
   }
 
 private:
-  DataFrame data;
+  Rcpp::DataFrame data;
   DataFrameVisitors visitors;
 };
 
 template <>
 class OrderVisitorDataFrame<false> : public OrderVisitor {
 public:
-  OrderVisitorDataFrame(const DataFrame& data_) : data(data_), visitors(data) {}
+  OrderVisitorDataFrame(const Rcpp::DataFrame& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
     return visitors.equal(i, j);
@@ -120,7 +120,7 @@ public:
   }
 
 private:
-  DataFrame data;
+  Rcpp::DataFrame data;
   DataFrameVisitors visitors;
 };
 
@@ -130,7 +130,7 @@ private:
 template <int RTYPE, bool ascending>
 class OrderVisitorMatrix : public OrderVisitor {
 public:
-  OrderVisitorMatrix(const Matrix<RTYPE>& data_) : data(data_), visitors(data) {}
+  OrderVisitorMatrix(const Rcpp::Matrix<RTYPE>& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
     return visitors.equal(i, j);
@@ -141,7 +141,7 @@ public:
   }
 
 private:
-  Matrix<RTYPE> data;
+  Rcpp::Matrix<RTYPE> data;
   MatrixColumnVisitor<RTYPE> visitors;
 };
 
@@ -149,7 +149,7 @@ private:
 template <int RTYPE>
 class OrderVisitorMatrix<RTYPE, false> : public OrderVisitor {
 public:
-  OrderVisitorMatrix(const Matrix<RTYPE>& data_) : data(data_), visitors(data) {}
+  OrderVisitorMatrix(const Rcpp::Matrix<RTYPE>& data_) : data(data_), visitors(data) {}
 
   inline bool equal(int i, int j) const {
     return visitors.equal(i, j);
@@ -160,7 +160,7 @@ public:
   }
 
 private:
-  Matrix<RTYPE> data;
+  Rcpp::Matrix<RTYPE> data;
   MatrixColumnVisitor<RTYPE> visitors;
 };
 
@@ -216,10 +216,10 @@ inline OrderVisitor* order_visitor_asc_matrix(SEXP vec) {
   case DPLYR_RAWSXP:
     return new OrderVisitorMatrix<RAWSXP, ascending>(vec);
   case DPLYR_VECSXP:
-    stop("Matrix can't be a list");
+    Rcpp::stop("Matrix can't be a list");
   }
 
-  stop("Unreachable");
+  Rcpp::stop("Unreachable");
   return 0;
 }
 
@@ -227,17 +227,17 @@ template <bool ascending>
 inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
   switch (TYPEOF(vec)) {
   case INTSXP:
-    return new OrderVectorVisitorImpl<INTSXP, ascending, Vector<INTSXP > >(vec);
+    return new OrderVectorVisitorImpl<INTSXP, ascending, Rcpp::Vector<INTSXP > >(vec);
   case REALSXP:
-    return new OrderVectorVisitorImpl<REALSXP, ascending, Vector<REALSXP> >(vec);
+    return new OrderVectorVisitorImpl<REALSXP, ascending, Rcpp::Vector<REALSXP> >(vec);
   case LGLSXP:
-    return new OrderVectorVisitorImpl<LGLSXP, ascending, Vector<LGLSXP > >(vec);
+    return new OrderVectorVisitorImpl<LGLSXP, ascending, Rcpp::Vector<LGLSXP > >(vec);
   case STRSXP:
     return new OrderCharacterVectorVisitorImpl<ascending>(vec);
   case CPLXSXP:
-    return new OrderVectorVisitorImpl<CPLXSXP, ascending, Vector<CPLXSXP > >(vec);
+    return new OrderVectorVisitorImpl<CPLXSXP, ascending, Rcpp::Vector<CPLXSXP > >(vec);
   case RAWSXP:
-    return new OrderVectorVisitorImpl<RAWSXP, ascending, Vector<RAWSXP > >(vec);
+    return new OrderVectorVisitorImpl<RAWSXP, ascending, Rcpp::Vector<RAWSXP > >(vec);
   case VECSXP:
   {
     if (Rf_inherits(vec, "data.frame")) {
@@ -249,7 +249,7 @@ inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
     break;
   }
 
-  stop("is of unsupported type %s", Rf_type2char(TYPEOF(vec)));
+  Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(vec)));
 }
 }
 
