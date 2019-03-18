@@ -262,7 +262,7 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
   <span class='fu'>summarise</span>(<span class='kw'>cyl_n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
 <span class='co'># Note that with data frames, newly created summaries immediately</span>
-<span class='co'># overwrite existing variables</span>
+<span class='co'># overwrite existing variables of the same name.</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/sd'>sd</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
