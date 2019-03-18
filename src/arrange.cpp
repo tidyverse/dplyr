@@ -9,7 +9,6 @@
 
 #include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
 #include <dplyr/visitors/order/Order.h>
-#include <dplyr/Groups.h>
 #include <tools/bad.h>
 
 #include <dplyr/data/DataMask.h>

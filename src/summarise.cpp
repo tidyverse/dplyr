@@ -10,8 +10,6 @@
 #include <dplyr/standard/GroupedCallReducer.h>
 
 #include <dplyr/NamedListAccumulator.h>
-#include <dplyr/Groups.h>
-
 #include <dplyr/hybrid/hybrid.h>
 
 using namespace Rcpp;
@@ -118,7 +116,7 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots, SEXP f
 
   int nexpr = dots.size();
   int nvars = gdf.nvars();
-  check_not_groups(dots, gdf);
+  gdf.check_not_groups(dots);
 
   LOG_VERBOSE << "copying " << nvars << " variables to accumulator";
 

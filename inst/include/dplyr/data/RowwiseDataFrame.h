@@ -5,6 +5,7 @@
 
 #include <tools/SymbolVector.h>
 #include <tools/SymbolString.h>
+#include <tools/Quosure.h>
 
 namespace dplyr {
 
@@ -81,6 +82,8 @@ public:
     static Rcpp::CharacterVector classes = Rcpp::CharacterVector::create("rowwise_df", "tbl_df", "tbl", "data.frame");
     return classes;
   }
+
+  void check_not_groups(const QuosureList& quosures) const {}
 
 private:
   Rcpp::DataFrame data_;

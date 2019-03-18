@@ -8,6 +8,7 @@
 #include <tools/SymbolMap.h>
 #include <tools/bad.h>
 #include <dplyr/symbols.h>
+#include <tools/Quosure.h>
 
 namespace dplyr {
 class GroupedDataFrame;
@@ -120,6 +121,14 @@ public:
       res = std::max(XLENGTH(VECTOR_ELT(rows, i)), res);
     }
     return res;
+  }
+
+  void check_not_groups(const QuosureList& quosures) const {
+    int n = quosures.size();
+    for (int i = 0; i < n; i++) {
+      if (has_group(quosures[i].name()))
+        bad_col(quosures[i].name(), "can't be modified because it's a grouping variable");
+    }
   }
 
 private:

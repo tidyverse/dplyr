@@ -22,6 +22,5 @@
 #include <dplyr/Collecter.h>
 #include <dplyr/NamedListAccumulator.h>
 #include <tools/train.h>
-#include <dplyr/Groups.h>
 
 #endif // #ifndef dplyr_dplyr_dplyr_H

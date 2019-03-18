@@ -20,17 +20,6 @@
 using namespace Rcpp;
 using namespace dplyr;
 
-void check_not_groups(const QuosureList&, const RowwiseDataFrame&) {}
-void check_not_groups(const QuosureList&, const NaturalDataFrame&) {}
-
-void check_not_groups(const QuosureList& quosures, const GroupedDataFrame& gdf) {
-  int n = quosures.size();
-  for (int i = 0; i < n; i++) {
-    if (gdf.has_group(quosures[i].name()))
-      bad_col(quosures[i].name(), "can't be modified because it's a grouping variable");
-  }
-}
-
 namespace dplyr {
 
 template <typename SlicedTibble>
@@ -430,7 +419,7 @@ DataFrame mutate_grouped(const DataFrame& df, const QuosureList& dots, SEXP call
 
   SlicedTibble gdf(df);
   int nexpr = dots.size();
-  check_not_groups(dots, gdf);
+  gdf.check_not_groups(dots);
 
   LOG_DEBUG << "copying data to accumulator";
 
