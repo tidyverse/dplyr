@@ -93,10 +93,9 @@ private:
 }
 
 namespace Rcpp {
-using namespace dplyr;
 
 template <>
-inline bool is<RowwiseDataFrame>(SEXP x) {
+inline bool is<dplyr::RowwiseDataFrame>(SEXP x) {
   return Rf_inherits(x, "rowwise_df");
 }
 

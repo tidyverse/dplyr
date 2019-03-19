@@ -270,7 +270,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
 }
 
 // [[Rcpp::export(rng = false)]]
-SEXP filter_impl(DataFrame df, Quosure quo) {
+SEXP filter_impl(DataFrame df, dplyr::Quosure quo) {
   if (df.nrows() == 0 || Rf_isNull(df)) {
     return df;
   }
@@ -483,7 +483,7 @@ public:
 };
 
 template <typename SlicedTibble>
-DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
+DataFrame slice_template(const SlicedTibble& gdf, const dplyr::Quosure& quo) {
   typedef typename SlicedTibble::group_iterator group_iterator;
   typedef typename SlicedTibble::slicing_index slicing_index ;
 
@@ -530,7 +530,7 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
 }
 
 // [[Rcpp::export(rng = false)]]
-SEXP slice_impl(DataFrame df, Quosure quosure) {
+SEXP slice_impl(DataFrame df, dplyr::Quosure quosure) {
   if (is<GroupedDataFrame>(df)) {
     return slice_template<GroupedDataFrame>(GroupedDataFrame(df), quosure);
   } else {

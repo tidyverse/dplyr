@@ -78,12 +78,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-SEXP arrange_impl(DataFrame df, QuosureList quosures, SEXP frame);
+SEXP arrange_impl(DataFrame df, dplyr::QuosureList quosures, SEXP frame);
 RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP, SEXP frameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< QuosureList >::type quosures(quosuresSEXP);
+    Rcpp::traits::input_parameter< dplyr::QuosureList >::type quosures(quosuresSEXP);
     Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
     rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures, frame));
     return rcpp_result_gen;
@@ -167,43 +167,43 @@ BEGIN_RCPP
 END_RCPP
 }
 // filter_impl
-SEXP filter_impl(DataFrame df, Quosure quo);
+SEXP filter_impl(DataFrame df, dplyr::Quosure quo);
 RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< Quosure >::type quo(quoSEXP);
+    Rcpp::traits::input_parameter< dplyr::Quosure >::type quo(quoSEXP);
     rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo));
     return rcpp_result_gen;
 END_RCPP
 }
 // slice_impl
-SEXP slice_impl(DataFrame df, Quosure quosure);
+SEXP slice_impl(DataFrame df, dplyr::Quosure quosure);
 RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP quosureSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< Quosure >::type quosure(quosureSEXP);
+    Rcpp::traits::input_parameter< dplyr::Quosure >::type quosure(quosureSEXP);
     rcpp_result_gen = Rcpp::wrap(slice_impl(df, quosure));
     return rcpp_result_gen;
 END_RCPP
 }
 // grouped_indices_grouped_df_impl
-IntegerVector grouped_indices_grouped_df_impl(const GroupedDataFrame& gdf);
+IntegerVector grouped_indices_grouped_df_impl(const dplyr::GroupedDataFrame& gdf);
 RcppExport SEXP _dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const GroupedDataFrame& >::type gdf(gdfSEXP);
+    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_indices_grouped_df_impl(gdf));
     return rcpp_result_gen;
 END_RCPP
 }
 // group_size_grouped_cpp
-IntegerVector group_size_grouped_cpp(const GroupedDataFrame& gdf);
+IntegerVector group_size_grouped_cpp(const dplyr::GroupedDataFrame& gdf);
 RcppExport SEXP _dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const GroupedDataFrame& >::type gdf(gdfSEXP);
+    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
     rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
     return rcpp_result_gen;
 END_RCPP
@@ -220,12 +220,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // grouped_df_impl
-DataFrame grouped_df_impl(DataFrame data, const SymbolVector& symbols, bool drop);
+DataFrame grouped_df_impl(DataFrame data, const dplyr::SymbolVector& symbols, bool drop);
 RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< const SymbolVector& >::type symbols(symbolsSEXP);
+    Rcpp::traits::input_parameter< const dplyr::SymbolVector& >::type symbols(symbolsSEXP);
     Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
     return rcpp_result_gen;
@@ -252,11 +252,11 @@ BEGIN_RCPP
 END_RCPP
 }
 // group_split_impl
-List group_split_impl(const GroupedDataFrame& gdf, bool keep, SEXP frame, bool ptype);
+List group_split_impl(const dplyr::GroupedDataFrame& gdf, bool keep, SEXP frame, bool ptype);
 RcppExport SEXP _dplyr_group_split_impl(SEXP gdfSEXP, SEXP keepSEXP, SEXP frameSEXP, SEXP ptypeSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const GroupedDataFrame& >::type gdf(gdfSEXP);
+    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
     Rcpp::traits::input_parameter< bool >::type keep(keepSEXP);
     Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
     Rcpp::traits::input_parameter< bool >::type ptype(ptypeSEXP);
@@ -483,12 +483,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // summarise_impl
-SEXP summarise_impl(DataFrame df, QuosureList dots, SEXP frame, SEXP caller_env);
+SEXP summarise_impl(DataFrame df, dplyr::QuosureList dots, SEXP frame, SEXP caller_env);
 RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP frameSEXP, SEXP caller_envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< QuosureList >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< dplyr::QuosureList >::type dots(dotsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type caller_env(caller_envSEXP);
     rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots, frame, caller_env));
@@ -496,12 +496,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // hybrid_impl
-SEXP hybrid_impl(DataFrame df, Quosure quosure, SEXP caller_env);
+SEXP hybrid_impl(DataFrame df, dplyr::Quosure quosure, SEXP caller_env);
 RcppExport SEXP _dplyr_hybrid_impl(SEXP dfSEXP, SEXP quosureSEXP, SEXP caller_envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< Quosure >::type quosure(quosureSEXP);
+    Rcpp::traits::input_parameter< dplyr::Quosure >::type quosure(quosureSEXP);
     Rcpp::traits::input_parameter< SEXP >::type caller_env(caller_envSEXP);
     rcpp_result_gen = Rcpp::wrap(hybrid_impl(df, quosure, caller_env));
     return rcpp_result_gen;

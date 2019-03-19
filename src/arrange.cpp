@@ -100,13 +100,13 @@ SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP
 }
 
 // [[Rcpp::export(rng = false)]]
-SEXP arrange_impl(DataFrame df, QuosureList quosures, SEXP frame) {
+SEXP arrange_impl(DataFrame df, dplyr::QuosureList quosures, SEXP frame) {
   if (is<RowwiseDataFrame>(df)) {
-    return arrange_template<RowwiseDataFrame>(RowwiseDataFrame(df), quosures, frame);
+    return arrange_template<RowwiseDataFrame>(dplyr::RowwiseDataFrame(df), quosures, frame);
   } else if (is<GroupedDataFrame>(df)) {
-    return arrange_template<GroupedDataFrame>(GroupedDataFrame(df), quosures, frame);
+    return arrange_template<GroupedDataFrame>(dplyr::GroupedDataFrame(df), quosures, frame);
   } else {
-    return arrange_template<NaturalDataFrame>(NaturalDataFrame(df), quosures, frame);
+    return arrange_template<NaturalDataFrame>(dplyr::NaturalDataFrame(df), quosures, frame);
   }
 }
 

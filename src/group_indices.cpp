@@ -31,7 +31,7 @@ using namespace dplyr;
 # endif
 
 // [[Rcpp::export(rng = false)]]
-IntegerVector grouped_indices_grouped_df_impl(const GroupedDataFrame& gdf) {
+IntegerVector grouped_indices_grouped_df_impl(const dplyr::GroupedDataFrame& gdf) {
   int n = gdf.nrows();
   IntegerVector res(no_init(n));
   int ngroups = gdf.ngroups();
@@ -47,7 +47,7 @@ IntegerVector grouped_indices_grouped_df_impl(const GroupedDataFrame& gdf) {
 }
 
 // [[Rcpp::export(rng = false)]]
-IntegerVector group_size_grouped_cpp(const GroupedDataFrame& gdf) {
+IntegerVector group_size_grouped_cpp(const dplyr::GroupedDataFrame& gdf) {
   return hybrid::n_(gdf).summarise() ;
 }
 
@@ -645,7 +645,7 @@ SymbolVector GroupedDataFrame::group_vars() const {
 }
 
 // [[Rcpp::export(rng = false)]]
-DataFrame grouped_df_impl(DataFrame data, const SymbolVector& symbols, bool drop) {
+DataFrame grouped_df_impl(DataFrame data, const dplyr::SymbolVector& symbols, bool drop) {
   DataFrame copy(shallow_copy(data));
 
   if (!symbols.size()) {
@@ -681,7 +681,7 @@ DataFrame ungroup_grouped_df(DataFrame df) {
 }
 
 // [[Rcpp::export(rng = false)]]
-List group_split_impl(const GroupedDataFrame& gdf, bool keep, SEXP frame, bool ptype) {
+List group_split_impl(const dplyr::GroupedDataFrame& gdf, bool keep, SEXP frame, bool ptype) {
   ListView rows = gdf.indices();
   R_xlen_t n = rows.size();
 
