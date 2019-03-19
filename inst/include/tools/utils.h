@@ -24,10 +24,10 @@ SEXP child_env(SEXP parent);
 
 int get_size(SEXP x);
 
+namespace dplyr {
+
 SEXP get_time_classes();
 SEXP get_date_classes();
-
-namespace dplyr {
 
 SEXP constant_recycle(SEXP x, int n, const SymbolString& name);
 std::string get_single_class(SEXP x);

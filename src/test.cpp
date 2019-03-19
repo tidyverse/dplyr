@@ -1,7 +1,9 @@
 #include "pch.h"
-#include <dplyr/main.h>
 
 #include <tools/comparisons.h>
+
+#include <dplyr/main.h>
+
 #include <dplyr/visitors/join/join_match.h>
 
 // [[Rcpp::export(rng = false)]]
