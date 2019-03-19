@@ -10,7 +10,7 @@ class MatrixColumnVisitor : public VectorVisitor {
 public:
 
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
-  typedef typename Matrix<RTYPE>::Column Column;
+  typedef typename Rcpp::Matrix<RTYPE>::Column Column;
 
   class ColumnVisitor {
   public:
@@ -18,7 +18,7 @@ public:
     typedef comparisons<RTYPE> compare;
     typedef boost::hash<STORAGE> hasher;
 
-    ColumnVisitor(Matrix<RTYPE>& data, int column) :
+    ColumnVisitor(Rcpp::Matrix<RTYPE>& data, int column) :
       column(data.column(column)) {}
 
     inline size_t hash(int i) const {
@@ -46,7 +46,7 @@ public:
     hasher hash_fun;
   };
 
-  MatrixColumnVisitor(const Matrix<RTYPE>& data_) : data(data_), visitors() {
+  MatrixColumnVisitor(const Rcpp::Matrix<RTYPE>& data_) : data(data_), visitors() {
     for (int h = 0; h < data.ncol(); h++) {
       visitors.push_back(ColumnVisitor(data, h));
     }
@@ -107,7 +107,7 @@ public:
   }
 
 private:
-  Matrix<RTYPE> data;
+  Rcpp::Matrix<RTYPE> data;
   std::vector<ColumnVisitor> visitors;
 };
 
@@ -117,7 +117,7 @@ public:
 
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  RecyclingMatrixColumnVisitor(const Matrix<RTYPE>& data_, int g_, int n_) :
+  RecyclingMatrixColumnVisitor(const Rcpp::Matrix<RTYPE>& data_, int g_, int n_) :
     data(data_),
     g(g_),
     n(n_)
@@ -152,7 +152,7 @@ public:
   }
 
 private:
-  Matrix<RTYPE> data;
+  Rcpp::Matrix<RTYPE> data;
   int g;
   int n;
 };

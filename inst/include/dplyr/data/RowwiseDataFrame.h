@@ -5,6 +5,7 @@
 
 #include <tools/SymbolVector.h>
 #include <tools/SymbolString.h>
+#include <tools/Quosure.h>
 
 namespace dplyr {
 
@@ -42,10 +43,10 @@ public:
     return RowwiseDataFrameIndexIterator();
   }
 
-  DataFrame& data() {
+  Rcpp::DataFrame& data() {
     return data_;
   }
-  const DataFrame& data() const {
+  const Rcpp::DataFrame& data() const {
     return data_;
   }
 
@@ -54,7 +55,7 @@ public:
   }
 
   inline SymbolString symbol(int) {
-    stop("Rowwise data frames don't have grouping variables");
+    Rcpp::stop("Rowwise data frames don't have grouping variables");
   }
 
   inline SEXP label(int) {
@@ -82,6 +83,8 @@ public:
     return classes;
   }
 
+  void check_not_groups(const QuosureList& quosures) const {}
+
 private:
   Rcpp::DataFrame data_;
   SymbolVector vars;
@@ -90,10 +93,9 @@ private:
 }
 
 namespace Rcpp {
-using namespace dplyr;
 
 template <>
-inline bool is<RowwiseDataFrame>(SEXP x) {
+inline bool is<dplyr::RowwiseDataFrame>(SEXP x) {
   return Rf_inherits(x, "rowwise_df");
 }
 

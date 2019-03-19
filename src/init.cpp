@@ -1,29 +1,29 @@
 #include "pch.h"
-#include <dplyr/main.h>
 
 #include <tools/utils.h>
+
+#include <dplyr/main.h>
 #include <dplyr/symbols.h>
 
-using namespace Rcpp;
+namespace dplyr {
 
 SEXP get_date_classes() {
-  static CharacterVector klasses(1, Rf_mkChar("Date"));
+  static Rcpp::CharacterVector klasses(1, Rf_mkChar("Date"));
   return klasses;
 }
 
 inline SEXP init_time_classes() {
-  Shield<SEXP> res(Rf_allocVector(STRSXP, 2));
+  Rcpp::Shield<SEXP> res(Rf_allocVector(STRSXP, 2));
   SET_STRING_ELT(res, 0, Rf_mkChar("POSIXct"));
   SET_STRING_ELT(res, 1, Rf_mkChar("POSIXt"));
   return res;
 }
 
 SEXP get_time_classes() {
-  static CharacterVector klasses(init_time_classes());
+  static Rcpp::CharacterVector klasses(init_time_classes());
   return klasses;
 }
 
-namespace dplyr {
 SEXP symbols::package = Rf_install("package");
 SEXP symbols::n = Rf_install("n");
 SEXP symbols::tzone = Rf_install("tzone");

@@ -5,22 +5,20 @@
 #include <tools/Quosure.h>
 #include <tools/utils.h>
 #include <tools/SymbolString.h>
+#include <tools/bad.h>
+#include <tools/set_rownames.h>
+#include <tools/all_na.h>
 
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
 #include <dplyr/data/DataMask.h>
 
-#include <tools/bad.h>
-#include <tools/set_rownames.h>
-#include <tools/all_na.h>
-
-using namespace Rcpp;
-using namespace dplyr;
+namespace dplyr {
 
 inline
-void check_result_length(const LogicalVector& test, int n) {
+void check_result_length(const Rcpp::LogicalVector& test, int n) {
   if (test.size() != n) {
-    stop("Result must have length %d, not %d", n, test.size());
+    Rcpp::stop("Result must have length %d, not %d", n, test.size());
   }
 }
 
@@ -41,7 +39,7 @@ class GroupFilterIndices {
 
   int n;
 
-  LogicalVector test;
+  Rcpp::LogicalVector test;
   std::vector<int> groups;
 
   int ngroups;
@@ -53,8 +51,8 @@ class GroupFilterIndices {
 
 public:
 
-  IntegerVector indices;
-  List rows;
+  Rcpp::IntegerVector indices;
+  Rcpp::List rows;
 
   GroupFilterIndices(const SlicedTibble& tbl_) :
     tbl(tbl_),
@@ -119,7 +117,7 @@ public:
   // once this has been trained on all groups
   // this materialize indices and rows
   void process() {
-    indices = IntegerVector(no_init(k));
+    indices = Rcpp::IntegerVector(Rcpp::no_init(k));
     std::vector<int*> p_rows(ngroups);
     for (int i = 0; i < ngroups; i++) {
       rows[i] = Rf_allocVector(INTSXP, new_sizes[i]);
@@ -153,7 +151,7 @@ template <typename SlicedTibble, typename IndexCollector>
 class FilterTibbleRebuilder {
 public:
   FilterTibbleRebuilder(const IndexCollector& index, const SlicedTibble& data) {}
-  void reconstruct(List& out) {}
+  void reconstruct(Rcpp::List& out) {}
 };
 
 // specific case for GroupedDataFrame, we need to take care of `groups`
@@ -165,15 +163,15 @@ public:
     data(data_)
   {}
 
-  void reconstruct(List& out) {
+  void reconstruct(Rcpp::List& out) {
     GroupedDataFrame::set_groups(out, update_groups(data.group_data(), index.rows));
   }
 
 private:
 
-  SEXP update_groups(DataFrame old, List indices) {
+  SEXP update_groups(Rcpp::DataFrame old, Rcpp::List indices) {
     int nc = old.size();
-    List groups(nc);
+    Rcpp::List groups(nc);
     copy_most_attributes(groups, old);
     copy_names(groups, old);
 
@@ -192,10 +190,10 @@ private:
 
 template <typename SlicedTibble, typename IndexCollector>
 SEXP structure_filter(const SlicedTibble& gdf, const IndexCollector& group_indices, SEXP frame) {
-  const DataFrame& data = gdf.data();
+  const Rcpp::DataFrame& data = gdf.data();
   // create the result data frame
   int nc = data.size();
-  List out(nc);
+  Rcpp::List out(nc);
 
   // this is shared by all types of SlicedTibble
   copy_most_attributes(out, data);
@@ -204,7 +202,7 @@ SEXP structure_filter(const SlicedTibble& gdf, const IndexCollector& group_indic
   set_rownames(out, group_indices.size());
 
   // retrieve the 1-based indices vector
-  const IntegerVector& idx = group_indices.indices;
+  const Rcpp::IntegerVector& idx = group_indices.indices;
 
   // extract each column with column_subset
   for (int i = 0; i < nc; i++) {
@@ -247,7 +245,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
 
     // the result of the expression in the group
-    LogicalVector g_test = check_result_lgl_type(mask.eval(quo, indices));
+    Rcpp::LogicalVector g_test = check_result_lgl_type(mask.eval(quo, indices));
     if (g_test.size() == 1) {
       // we get length 1 so either we have an empty group, or a dense group, i.e.
       // a group that has all the rows from the original data
@@ -265,28 +263,32 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
 
   group_indices.process();
 
-  Shield<SEXP> env(quo.env());
+  Rcpp::Shield<SEXP> env(quo.env());
   return structure_filter(gdf, group_indices, env) ;
 }
 
+}
+
 // [[Rcpp::export(rng = false)]]
-SEXP filter_impl(DataFrame df, Quosure quo) {
+SEXP filter_impl(Rcpp::DataFrame df, dplyr::Quosure quo) {
   if (df.nrows() == 0 || Rf_isNull(df)) {
     return df;
   }
   check_valid_colnames(df);
   assert_all_allow_list(df);
 
-  if (is<GroupedDataFrame>(df)) {
-    return filter_template<GroupedDataFrame>(GroupedDataFrame(df), quo);
-  } else if (is<RowwiseDataFrame>(df)) {
-    return filter_template<RowwiseDataFrame>(RowwiseDataFrame(df), quo);
+  if (Rcpp::is<dplyr::GroupedDataFrame>(df)) {
+    return dplyr::filter_template<dplyr::GroupedDataFrame>(dplyr::GroupedDataFrame(df), quo);
+  } else if (Rcpp::is<dplyr::RowwiseDataFrame>(df)) {
+    return dplyr::filter_template<dplyr::RowwiseDataFrame>(dplyr::RowwiseDataFrame(df), quo);
   } else {
-    return filter_template<NaturalDataFrame>(NaturalDataFrame(df), quo);
+    return dplyr::filter_template<dplyr::NaturalDataFrame>(dplyr::NaturalDataFrame(df), quo);
   }
 }
 
 // ------------------------------------------------- slice()
+
+namespace dplyr {
 
 inline bool all_lgl_na(SEXP lgl) {
   R_xlen_t n = XLENGTH(lgl);
@@ -330,7 +332,7 @@ struct SliceNegativePredicate {
 };
 class CountIndices {
 public:
-  CountIndices(int nr_, IntegerVector test_) : nr(nr_), test(test_), n_pos(0), n_neg(0) {
+  CountIndices(int nr_, Rcpp::IntegerVector test_) : nr(nr_), test(test_), n_pos(0), n_neg(0) {
 
     for (int j = 0; j < test.size(); j++) {
       int i = test[j];
@@ -342,7 +344,7 @@ public:
     }
 
     if (n_neg > 0 && n_pos > 0) {
-      stop("Indices must be either all positive or all negative, not a mix of both. Found %d positive indices and %d negative indices", n_pos, n_neg);
+      Rcpp::stop("Indices must be either all positive or all negative, not a mix of both. Found %d positive indices and %d negative indices", n_pos, n_neg);
     }
 
   }
@@ -364,7 +366,7 @@ public:
 
 private:
   int nr;
-  IntegerVector test;
+  Rcpp::IntegerVector test;
   int n_pos;
   int n_neg;
 };
@@ -388,8 +390,8 @@ class GroupSliceIndices {
 
 public:
 
-  IntegerVector indices;
-  List rows;
+  Rcpp::IntegerVector indices;
+  Rcpp::List rows;
 
   GroupSliceIndices(const SlicedTibble& tbl_) :
     tbl(tbl_),
@@ -413,7 +415,7 @@ public:
     ++git;
   }
 
-  void add_group_slice_positive(int i, const IntegerVector& g_idx) {
+  void add_group_slice_positive(int i, const Rcpp::IntegerVector& g_idx) {
     slicing_index old_indices = *git;
     int ng = g_idx.size();
     SlicePositivePredicate pred(old_indices.size());
@@ -427,16 +429,16 @@ public:
     if (old_k == k) {
       rows[i] = Rf_allocVector(INTSXP, 0);
     } else {
-      rows[i] = IntegerVectorView(seq(old_k + 1, k));
+      rows[i] = Rcpp::IntegerVectorView(Rcpp::seq(old_k + 1, k));
     }
     ++git;
   }
 
-  void add_group_slice_negative(int i, const IntegerVector& g_idx) {
+  void add_group_slice_negative(int i, const Rcpp::IntegerVector& g_idx) {
     slicing_index old_indices = *git;
     SliceNegativePredicate pred(old_indices.size());
 
-    LogicalVector test_lgl(old_indices.size(), TRUE);
+    Rcpp::LogicalVector test_lgl(old_indices.size(), TRUE);
     for (int j = 0; j < g_idx.size(); j++) {
       int idx = g_idx[j];
       if (pred(idx)) {
@@ -449,7 +451,7 @@ public:
       empty_group(i);
     } else {
       int old_k = k;
-      IntegerVector test(ng);
+      Rcpp::IntegerVector test(ng);
       for (int j = 0; j < test_lgl.size(); j++) {
         if (test_lgl[j] == TRUE) {
 
@@ -461,7 +463,7 @@ public:
       if (old_k == k) {
         rows[i] = Rf_allocVector(INTSXP, 0);
       } else {
-        rows[i] = IntegerVectorView(seq(old_k + 1, k));
+        rows[i] = Rcpp::IntegerVectorView(Rcpp::seq(old_k + 1, k));
       }
 
       ++git;
@@ -477,19 +479,19 @@ public:
   // once this has been trained on all groups
   // this materialize indices and rows
   void process() {
-    indices = wrap(slice_indices);
+    indices = Rcpp::wrap(slice_indices);
   }
 
 };
 
 template <typename SlicedTibble>
-DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
+Rcpp::DataFrame slice_template(const SlicedTibble& gdf, const dplyr::Quosure& quo) {
   typedef typename SlicedTibble::group_iterator group_iterator;
   typedef typename SlicedTibble::slicing_index slicing_index ;
 
   DataMask<SlicedTibble> mask(gdf);
 
-  const DataFrame& data = gdf.data() ;
+  const Rcpp::DataFrame& data = gdf.data() ;
   int ngroups = gdf.ngroups() ;
   SymbolVector names(Rf_getAttrib(data, symbols::names));
 
@@ -508,9 +510,9 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
     }
 
     // evaluate the expression in the data mask
-    Shield<SEXP> res(mask.eval(quo, indices));
+    Rcpp::Shield<SEXP> res(mask.eval(quo, indices));
     check_slice_result(res);
-    IntegerVector g_positions(res);
+    Rcpp::IntegerVector g_positions(res);
 
     // scan the results to see if all >= 1 or all <= -1
     CountIndices counter(indices.size(), g_positions);
@@ -525,15 +527,17 @@ DataFrame slice_template(const SlicedTibble& gdf, const Quosure& quo) {
   }
   group_indices.process();
 
-  Shield<SEXP> quo_env(quo.env());
+  Rcpp::Shield<SEXP> quo_env(quo.env());
   return structure_filter(gdf, group_indices, quo_env);
 }
 
+}
+
 // [[Rcpp::export(rng = false)]]
-SEXP slice_impl(DataFrame df, Quosure quosure) {
-  if (is<GroupedDataFrame>(df)) {
-    return slice_template<GroupedDataFrame>(GroupedDataFrame(df), quosure);
+SEXP slice_impl(Rcpp::DataFrame df, dplyr::Quosure quosure) {
+  if (Rcpp::is<dplyr::GroupedDataFrame>(df)) {
+    return dplyr::slice_template<dplyr::GroupedDataFrame>(dplyr::GroupedDataFrame(df), quosure);
   } else {
-    return slice_template<NaturalDataFrame>(NaturalDataFrame(df), quosure);
+    return dplyr::slice_template<dplyr::NaturalDataFrame>(dplyr::NaturalDataFrame(df), quosure);
   }
 }

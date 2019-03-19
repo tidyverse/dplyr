@@ -3,11 +3,11 @@
 
 #include <tools/SymbolVector.h>
 
-void check_valid_colnames(const DataFrame& df, bool warn_only = false);
+void check_valid_colnames(const Rcpp::DataFrame& df, bool warn_only = false);
 int check_range_one_based(int x, int max);
-void assert_all_allow_list(const DataFrame&);
+void assert_all_allow_list(const Rcpp::DataFrame&);
 SEXP shared_SEXP(SEXP x);
-SEXP shallow_copy(const List& data);
+SEXP shallow_copy(const Rcpp::List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
 SEXP null_if_empty(SEXP x);
@@ -24,10 +24,10 @@ SEXP child_env(SEXP parent);
 
 int get_size(SEXP x);
 
+namespace dplyr {
+
 SEXP get_time_classes();
 SEXP get_date_classes();
-
-namespace dplyr {
 
 SEXP constant_recycle(SEXP x, int n, const SymbolString& name);
 std::string get_single_class(SEXP x);

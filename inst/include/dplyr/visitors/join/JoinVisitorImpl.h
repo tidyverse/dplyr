@@ -21,9 +21,9 @@ class DualVector {
 public:
   enum { RTYPE = (LHS_RTYPE > RHS_RTYPE ? LHS_RTYPE : RHS_RTYPE) };
 
-  typedef Vector<LHS_RTYPE> LHS_Vec;
-  typedef Vector<RHS_RTYPE> RHS_Vec;
-  typedef Vector<RTYPE> Vec;
+  typedef Rcpp::Vector<LHS_RTYPE> LHS_Vec;
+  typedef Rcpp::Vector<RHS_RTYPE> RHS_Vec;
+  typedef Rcpp::Vector<RTYPE> Vec;
 
   typedef typename Rcpp::traits::storage_type<LHS_RTYPE>::type LHS_STORAGE;
   typedef typename Rcpp::traits::storage_type<RHS_RTYPE>::type RHS_STORAGE;
@@ -33,12 +33,12 @@ public:
   DualVector(LHS_Vec left_, RHS_Vec right_) : left(left_), right(right_) {}
 
   LHS_STORAGE get_left_value(const int i) const {
-    if (i < 0) stop("get_left_value() called with negative argument");
+    if (i < 0) Rcpp::stop("get_left_value() called with negative argument");
     return left[i];
   }
 
   RHS_STORAGE get_right_value(const int i) const {
-    if (i >= 0) stop("get_right_value() called with nonnegative argument");
+    if (i >= 0) Rcpp::stop("get_right_value() called with nonnegative argument");
     return right[-i - 1];
   }
 
@@ -81,7 +81,7 @@ public:
   template <class iterator>
   SEXP subset(iterator it, const int n) {
     // We use the fact that LGLSXP < INTSXP < REALSXP, this defines our coercion precedence
-    RObject ret;
+    Rcpp::RObject ret;
     if (LHS_RTYPE == RHS_RTYPE)
       ret = subset_same(it, n);
     else if (LHS_RTYPE > RHS_RTYPE)
@@ -95,7 +95,7 @@ public:
 
   template <class iterator>
   SEXP subset_same(iterator it, const int n) {
-    Vec res(no_init(n));
+    Vec res(Rcpp::no_init(n));
     for (int i = 0; i < n; i++, ++it) {
       res[i] = get_value(*it);
     }
@@ -104,7 +104,7 @@ public:
 
   template <class iterator>
   SEXP subset_left(iterator it, const int n) {
-    LHS_Vec res(no_init(n));
+    LHS_Vec res(Rcpp::no_init(n));
     for (int i = 0; i < n; i++, ++it) {
       res[i] = get_value_as_left(*it);
     }
@@ -113,7 +113,7 @@ public:
 
   template <class iterator>
   SEXP subset_right(iterator it, const int n) {
-    RHS_Vec res(no_init(n));
+    RHS_Vec res(Rcpp::no_init(n));
     for (int i = 0; i < n; i++, ++it) {
       res[i] = get_value_as_right(*it);
     }
@@ -187,8 +187,8 @@ public:
     Parent(left, right, false),
     tzone(R_NilValue)
   {
-    Shield<SEXP> tzone_left(Rf_getAttrib(left.get_data(), symbols::tzone));
-    Shield<SEXP> tzone_right(Rf_getAttrib(right.get_data(), symbols::tzone));
+    Rcpp::Shield<SEXP> tzone_left(Rf_getAttrib(left.get_data(), symbols::tzone));
+    Rcpp::Shield<SEXP> tzone_right(Rf_getAttrib(right.get_data(), symbols::tzone));
 
     bool null_left = Rf_isNull(tzone_left);
     bool null_right = Rf_isNull(tzone_right);
@@ -216,7 +216,7 @@ public:
 
 private:
 
-  inline SEXP promote(NumericVector x) {
+  inline SEXP promote(Rcpp::NumericVector x) {
     Rf_classgets(x, get_time_classes());
     if (!tzone.isNULL()) {
       Rf_setAttrib(x, symbols::tzone, tzone);
@@ -225,7 +225,7 @@ private:
   }
 
 private:
-  RObject tzone;
+  Rcpp::RObject tzone;
 };
 
 class DateJoinVisitorGetter {

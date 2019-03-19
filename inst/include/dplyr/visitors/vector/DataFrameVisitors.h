@@ -28,13 +28,13 @@ private:
 public:
   typedef VectorVisitor visitor_type;
 
-  DataFrameVisitors(const DataFrame& data_);
+  DataFrameVisitors(const Rcpp::DataFrame& data_);
 
-  DataFrameVisitors(const DataFrame& data_, const SymbolVector& names);
+  DataFrameVisitors(const Rcpp::DataFrame& data_, const SymbolVector& names);
 
-  DataFrameVisitors(const DataFrame& data_, const IntegerVector& indices);
+  DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::IntegerVector& indices);
 
-  DataFrameVisitors(const DataFrame& data_, int n);
+  DataFrameVisitors(const Rcpp::DataFrame& data_, int n);
 
   inline int size() const {
     return visitors.size();

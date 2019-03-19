@@ -37,7 +37,7 @@ inline VectorVisitor* visitor_matrix(SEXP vec) {
     break;
   }
 
-  stop("unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
+  Rcpp::stop("unsupported matrix type %s", Rf_type2char(TYPEOF(vec)));
 }
 
 inline VectorVisitor* visitor_vector(SEXP vec) {
@@ -60,7 +60,7 @@ inline VectorVisitor* visitor_vector(SEXP vec) {
       return new DataFrameColumnVisitor(vec);
     }
     if (Rf_inherits(vec, "POSIXlt")) {
-      stop("POSIXlt not supported");
+      Rcpp::stop("POSIXlt not supported");
     }
     return new VectorVisitorImpl<VECSXP>(vec);
   }
@@ -69,7 +69,7 @@ inline VectorVisitor* visitor_vector(SEXP vec) {
   }
 
   // should not happen, safeguard against segfaults anyway
-  stop("is of unsupported type %s", Rf_type2char(TYPEOF(vec)));
+  Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(vec)));
 }
 
 }

@@ -51,9 +51,9 @@ void warn_bad_var(const SymbolString& var_left, const SymbolString& var_right,
 
 void check_attribute_compatibility(const Column& left, const Column& right) {
   // Rely on R function based on all.equal
-  static Function attr_equal = Function("attr_equal", Environment::namespace_env("dplyr"));
-  Shield<SEXP> s_ok(attr_equal(left.get_data(), right.get_data()));
-  if (!as<bool>(s_ok)) {
+  static Rcpp::Function attr_equal = Rcpp::Function("attr_equal", Rcpp::Environment::namespace_env("dplyr"));
+  Rcpp::Shield<SEXP> s_ok(attr_equal(left.get_data(), right.get_data()));
+  if (!Rcpp::as<bool>(s_ok)) {
     warn_bad_var(left.get_name(), right.get_name(), "has different attributes on LHS and RHS of join");
   }
 }
@@ -66,7 +66,7 @@ JoinVisitor* date_join_visitor_right(const Column& left, const Column& right) {
   case REALSXP:
     return new DateJoinVisitor<LHS_RTYPE, REALSXP, ACCEPT_NA_MATCH>(left, right);
   default:
-    stop("Date objects should be represented as integer or numeric");
+    Rcpp::stop("Date objects should be represented as integer or numeric");
   }
 }
 
@@ -78,7 +78,7 @@ JoinVisitor* date_join_visitor(const Column& left, const Column& right) {
   case REALSXP:
     return date_join_visitor_right<REALSXP, ACCEPT_NA_MATCH>(left, right);
   default:
-    stop("Date objects should be represented as integer or numeric");
+    Rcpp::stop("Date objects should be represented as integer or numeric");
   }
 }
 
@@ -92,7 +92,7 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
   case 2:
     return date_join_visitor<ACCEPT_NA_MATCH>(left, right);
   case 1:
-    stop("cannot join a Date object with an object that is not a Date object");
+    Rcpp::stop("cannot join a Date object with an object that is not a Date object");
   case 0:
     break;
   default:
@@ -105,7 +105,7 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
   case 2:
     return new POSIXctJoinVisitor<ACCEPT_NA_MATCH>(left, right);
   case 1:
-    stop("cannot join a POSIXct object with an object that is not a POSIXct object");
+    Rcpp::stop("cannot join a POSIXct object with an object that is not a POSIXct object");
   case 0:
     break;
   default:
@@ -262,7 +262,7 @@ JoinVisitor* join_visitor(const Column& left, const Column& right, bool warn_) {
     break;
   }
 
-  stop(
+  Rcpp::stop(
     "Can't join on '%s' x '%s' because of incompatible types (%s / %s)",
     left.get_name().get_utf8_cstring(), right.get_name().get_utf8_cstring(),
     get_single_class(left.get_data()), get_single_class(right.get_data())

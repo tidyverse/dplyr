@@ -8,6 +8,7 @@
 #include <tools/SymbolMap.h>
 #include <tools/bad.h>
 #include <dplyr/symbols.h>
+#include <tools/Quosure.h>
 
 namespace dplyr {
 class GroupedDataFrame;
@@ -22,7 +23,7 @@ public:
 
   int i;
   const GroupedDataFrame& gdf;
-  ListView indices;
+  Rcpp::ListView indices;
 };
 
 class GroupedDataFrame {
@@ -33,8 +34,8 @@ public:
   typedef GroupedDataFrameIndexIterator group_iterator;
   typedef GroupedSlicingIndex slicing_index;
 
-  GroupedDataFrame(DataFrame x);
-  GroupedDataFrame(DataFrame x, const GroupedDataFrame& model);
+  GroupedDataFrame(Rcpp::DataFrame x);
+  GroupedDataFrame(Rcpp::DataFrame x, const GroupedDataFrame& model);
 
   group_iterator group_begin() const {
     return GroupedDataFrameIndexIterator(*this);
@@ -44,10 +45,10 @@ public:
     return symbols.get_name(i);
   }
 
-  DataFrame& data() {
+  Rcpp::DataFrame& data() {
     return data_;
   }
-  const DataFrame& data() const {
+  const Rcpp::DataFrame& data() const {
     return data_;
   }
 
@@ -120,6 +121,14 @@ public:
       res = std::max(XLENGTH(VECTOR_ELT(rows, i)), res);
     }
     return res;
+  }
+
+  void check_not_groups(const QuosureList& quosures) const {
+    int n = quosures.size();
+    for (int i = 0; i < n; i++) {
+      if (has_group(quosures[i].name()))
+        bad_col(quosures[i].name(), "can't be modified because it's a grouping variable");
+    }
   }
 
 private:

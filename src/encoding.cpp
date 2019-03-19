@@ -6,7 +6,7 @@
 
 namespace dplyr {
 
-R_xlen_t get_first_reencode_pos(const CharacterVector& x) {
+R_xlen_t get_first_reencode_pos(const Rcpp::CharacterVector& x) {
   R_xlen_t len = x.length();
   for (R_xlen_t i = 0; i < len; ++i) {
     SEXP xi = x[i];
@@ -18,10 +18,10 @@ R_xlen_t get_first_reencode_pos(const CharacterVector& x) {
   return len;
 }
 
-CharacterVector reencode_char(SEXP x) {
+Rcpp::CharacterVector reencode_char(SEXP x) {
   if (Rf_isFactor(x)) return reencode_factor(x);
 
-  CharacterVector ret(x);
+  Rcpp::CharacterVector ret(x);
   R_xlen_t first = get_first_reencode_pos(ret);
   if (first >= ret.length()) return ret;
 
@@ -31,16 +31,16 @@ CharacterVector reencode_char(SEXP x) {
   for (R_xlen_t i = first; i < len; ++i) {
     SEXP reti = ret[i];
     if (reti != NA_STRING && !IS_ASCII(reti) && !IS_UTF8(reti)) {
-      ret[i] = String(Rf_translateCharUTF8(reti), CE_UTF8);
+      ret[i] = Rcpp::String(Rf_translateCharUTF8(reti), CE_UTF8);
     }
   }
 
   return ret;
 }
 
-CharacterVector reencode_factor(IntegerVector x) {
-  CharacterVector levels(reencode_char(get_levels(x)));
-  CharacterVector ret(x.length());
+Rcpp::CharacterVector reencode_factor(Rcpp::IntegerVector x) {
+  Rcpp::CharacterVector levels(reencode_char(get_levels(x)));
+  Rcpp::CharacterVector ret(x.length());
 
   R_xlen_t nlevels = levels.length();
 

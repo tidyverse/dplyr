@@ -1,44 +1,44 @@
 #include "pch.h"
-#include <dplyr/main.h>
 
 #include <tools/encoding.h>
 #include <tools/utils.h>
+
+#include <dplyr/main.h>
 #include <dplyr/symbols.h>
 
-using namespace Rcpp;
+namespace dplyr {
 
 const char* address(SEXP x) {
   static char buffer[20];
   snprintf(buffer, 20, "%p", reinterpret_cast<void*>(x));
   return (const char*)buffer;
 }
-
-// [[Rcpp::export(rng = false)]]
-CharacterVector loc(RObject data) {
-  CharacterVector out(1);
-  out[0] = address(data);
-  return out;
 }
 
 // [[Rcpp::export(rng = false)]]
-CharacterVector dfloc(List df) {
+Rcpp::CharacterVector loc(SEXP data) {
+  return Rf_mkString(dplyr::address(data));
+}
+
+// [[Rcpp::export(rng = false)]]
+Rcpp::CharacterVector dfloc(Rcpp::List df) {
   int n = df.size();
-  CharacterVector pointers(n);
+  Rcpp::CharacterVector pointers(n);
   for (int i = 0; i < n; i++) {
-    pointers[i] = address(df[i]);
+    pointers[i] = dplyr::address(df[i]);
   }
   dplyr::copy_attrib(pointers, df, dplyr::symbols::names);
   return pointers;
 }
 
 // [[Rcpp::export(rng = false)]]
-CharacterVector plfloc(Pairlist data) {
+Rcpp::CharacterVector plfloc(Rcpp::Pairlist data) {
   int n = data.size();
-  CharacterVector pointers(n), names(n);
+  Rcpp::CharacterVector pointers(n), names(n);
   SEXP p = data;
   int i = 0;
   while (! Rf_isNull(p)) {
-    pointers[i] = address(CAR(p));
+    pointers[i] = dplyr::address(CAR(p));
     names[i] = PRINTNAME(TAG(p));
     p = CDR(p);
     i++;
@@ -48,11 +48,11 @@ CharacterVector plfloc(Pairlist data) {
 }
 
 // [[Rcpp::export(rng = false)]]
-CharacterVector strings_addresses(CharacterVector s) {
+Rcpp::CharacterVector strings_addresses(Rcpp::CharacterVector s) {
   static char buffer[20];
   int n = s.size();
 
-  CharacterVector res(n);
+  Rcpp::CharacterVector res(n);
   for (int i = 0; i < n; i++) {
     SEXP x = s[i];
     snprintf(buffer, 20, "%p", reinterpret_cast<void*>(x));
@@ -84,9 +84,9 @@ bool is_maybe_shared(SEXP env, SEXP name) {
 }
 
 // [[Rcpp::export(rng = false)]]
-LogicalVector maybe_shared_columns(SEXP df) {
+Rcpp::LogicalVector maybe_shared_columns(SEXP df) {
   int n = Rf_length(df);
-  LogicalVector res(no_init(n));
+  Rcpp::LogicalVector res(Rcpp::no_init(n));
   for (int i = 0; i < n; i++) {
     res[i] = MAYBE_SHARED(VECTOR_ELT(df, i));
   }

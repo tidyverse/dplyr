@@ -31,7 +31,7 @@ struct SumImpl {
     }
 
     if (RTYPE == INTSXP && (res > INT_MAX || res <= INT_MIN)) {
-      warning("integer overflow - use sum(as.numeric(.))");
+      Rcpp::warning("integer overflow - use sum(as.numeric(.))");
       return Rcpp::traits::get_na<INTSXP>();
     }
 

@@ -9,10 +9,8 @@
 #include <dplyr/symbols.h>
 #include <dplyr/lifecycle.h>
 
-using namespace Rcpp;
-
 SEXP child_env(SEXP parent) {
-  Shield<SEXP> call(Rf_lang3(dplyr::symbols::new_env, Rf_ScalarLogical(TRUE), parent));
+  Rcpp::Shield<SEXP> call(Rf_lang3(dplyr::symbols::new_env, Rf_ScalarLogical(TRUE), parent));
   return Rf_eval(call, R_BaseEnv);
 }
 
@@ -30,40 +28,40 @@ void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only = fals
   }
 
   if (which_na.size() > 0) {
-    dplyr::SymbolVector which_na_symbols(wrap(which_na));
-    String msg = msg_bad_cols(which_na_symbols, "cannot have NA as name");
+    dplyr::SymbolVector which_na_symbols(Rcpp::wrap(which_na));
+    Rcpp::String msg = msg_bad_cols(which_na_symbols, "cannot have NA as name");
     if (warn_only)
-      warning(msg.get_cstring());
+      Rcpp::warning(msg.get_cstring());
     else
-      stop(msg.get_cstring());
+      Rcpp::stop(msg.get_cstring());
   }
 
-  LogicalVector dup(duplicated(names));
+  Rcpp::LogicalVector dup(duplicated(names));
   if (any(dup).is_true()) {
-    String msg = msg_bad_cols(dplyr::SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
+    Rcpp::String msg = msg_bad_cols(dplyr::SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
     if (warn_only)
-      warning(msg.get_cstring());
+      Rcpp::warning(msg.get_cstring());
     else
-      stop(msg.get_cstring());
+      Rcpp::stop(msg.get_cstring());
   }
 }
 
 // Need forwarder to avoid compilation warning for default argument
-void check_valid_colnames(const DataFrame& df, bool warn_only) {
-  Shield<SEXP> names(vec_names_or_empty(df));
+void check_valid_colnames(const Rcpp::DataFrame& df, bool warn_only) {
+  Rcpp::Shield<SEXP> names(vec_names_or_empty(df));
   check_valid_names((SEXP)names, warn_only);
 }
 
 int check_range_one_based(int x, int max) {
   // Also covers NA
   if (x <= 0 || x > max) {
-    stop("Index out of range");
+    Rcpp::stop("Index out of range");
   }
   return x;
 }
 
 // [[Rcpp::export(rng = false)]]
-void assert_all_allow_list(const DataFrame& data) {
+void assert_all_allow_list(const Rcpp::DataFrame& data) {
   // checking variables are on the allow list
   int nc = data.size();
   for (int i = 0; i < nc; i++) {
@@ -75,10 +73,10 @@ void assert_all_allow_list(const DataFrame& data) {
       SEXP klass = Rf_getAttrib(v, R_ClassSymbol);
       if (!Rf_isNull(klass)) {
         bad_col(name_i, "is of unsupported class {type}",
-                _["type"] = dplyr::get_single_class(v));
+                Rcpp::_["type"] = dplyr::get_single_class(v));
       }
       else {
-        bad_col(name_i, "is of unsupported type {type}", _["type"] = Rf_type2char(TYPEOF(v)));
+        bad_col(name_i, "is of unsupported type {type}", Rcpp::_["type"] = Rf_type2char(TYPEOF(v)));
       }
     }
   }
@@ -89,9 +87,9 @@ SEXP shared_SEXP(SEXP x) {
   return x;
 }
 
-SEXP shallow_copy(const List& data) {
+SEXP shallow_copy(const Rcpp::List& data) {
   int n = data.size();
-  List out(n);
+  Rcpp::List out(n);
   for (int i = 0; i < n; i++) {
     out[i] = shared_SEXP(data[i]);
   }
@@ -100,12 +98,12 @@ SEXP shallow_copy(const List& data) {
 }
 
 SEXP pairlist_shallow_copy(SEXP p) {
-  Shield<SEXP> attr(Rf_cons(CAR(p), R_NilValue));
+  Rcpp::Shield<SEXP> attr(Rf_cons(CAR(p), R_NilValue));
   SEXP q = attr;
   SET_TAG(q, TAG(p));
   p = CDR(p);
   while (!Rf_isNull(p)) {
-    Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
+    Rcpp::Shield<SEXP> s(Rf_cons(CAR(p), R_NilValue));
     SETCDR(q, s);
     q = CDR(q);
     SET_TAG(q, TAG(p));
@@ -118,7 +116,7 @@ void copy_only_attributes(SEXP out, SEXP data) {
   SEXP att = ATTRIB(data);
   const bool has_attributes = !Rf_isNull(att);
   if (has_attributes) {
-    LOG_VERBOSE << "copying attributes: " << CharacterVector(Rf_getAttrib(List(att), dplyr::symbols::names));
+    LOG_VERBOSE << "copying attributes: " << Rcpp::CharacterVector(Rf_getAttrib(Rcpp::List(att), dplyr::symbols::names));
 
     SET_ATTRIB(out, pairlist_shallow_copy(ATTRIB(data)));
   }
@@ -143,7 +141,7 @@ namespace dplyr {
 std::string get_single_class(SEXP x) {
   SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
   if (!Rf_isNull(klass)) {
-    CharacterVector classes(klass);
+    Rcpp::CharacterVector classes(klass);
     return collapse_utf8(classes, "/");
   }
 
@@ -172,17 +170,17 @@ std::string get_single_class(SEXP x) {
   }
 
   // just call R to deal with other cases
-  RObject class_call(Rf_lang2(R_ClassSymbol, x));
+  Rcpp::RObject class_call(Rf_lang2(R_ClassSymbol, x));
   klass = Rf_eval(class_call, R_GlobalEnv);
   return CHAR(STRING_ELT(klass, 0));
 }
 
-CharacterVector default_chars(SEXP x, R_xlen_t len) {
-  if (Rf_isNull(x)) return CharacterVector(len);
+Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len) {
+  if (Rf_isNull(x)) return Rcpp::CharacterVector(len);
   return x;
 }
 
-CharacterVector get_class(SEXP x) {
+Rcpp::CharacterVector get_class(SEXP x) {
   SEXP class_attr = Rf_getAttrib(x, R_ClassSymbol);
   return default_chars(class_attr, 0);
 }
@@ -199,17 +197,17 @@ void copy_names(SEXP out, SEXP origin) {
   copy_attrib(out, origin, R_NamesSymbol);
 }
 
-SEXP set_class(SEXP x, const CharacterVector& class_) {
+SEXP set_class(SEXP x, const Rcpp::CharacterVector& class_) {
   SEXP class_attr = class_.length() == 0 ? R_NilValue : (SEXP)class_;
   return Rf_setAttrib(x, R_ClassSymbol, class_attr);
 }
 
-CharacterVector get_levels(SEXP x) {
+Rcpp::CharacterVector get_levels(SEXP x) {
   SEXP levels_attr = Rf_getAttrib(x, R_LevelsSymbol);
   return default_chars(levels_attr, 0);
 }
 
-SEXP set_levels(SEXP x, const CharacterVector& levels) {
+SEXP set_levels(SEXP x, const Rcpp::CharacterVector& levels) {
   return Rf_setAttrib(x, R_LevelsSymbol, levels);
 }
 
@@ -219,7 +217,7 @@ bool same_levels(SEXP left, SEXP right) {
 
 SEXP list_as_chr(SEXP x) {
   int n = Rf_length(x);
-  CharacterVector chr(n);
+  Rcpp::CharacterVector chr(n);
 
   for (int i = 0; i != n; ++i) {
     SEXP elt = VECTOR_ELT(x, i);
@@ -237,13 +235,13 @@ SEXP list_as_chr(SEXP x) {
       break;
     }
 
-    stop("corrupt grouped data frame");
+    Rcpp::stop("corrupt grouped data frame");
   }
 
   return chr;
 }
 
-bool character_vector_equal(const CharacterVector& x, const CharacterVector& y) {
+bool character_vector_equal(const Rcpp::CharacterVector& x, const Rcpp::CharacterVector& y) {
   if ((SEXP)x == (SEXP)y) return true;
 
   if (x.length() != y.length())
@@ -364,7 +362,7 @@ int get_size(SEXP x) {
   if (Rf_isMatrix(x)) {
     return INTEGER(Rf_getAttrib(x, R_DimSymbol))[0];
   } else if (Rf_inherits(x, "data.frame")) {
-    return DataFrame(x).nrows();
+    return Rcpp::DataFrame(x).nrows();
   } else {
     return Rf_length(x);
   }
@@ -374,19 +372,19 @@ namespace dplyr {
 namespace lifecycle {
 
 void warn_deprecated(const std::string& s) {
-  static Rcpp::Environment ns_dplyr(Environment::namespace_env("dplyr"));
+  static Rcpp::Environment ns_dplyr(Rcpp::Environment::namespace_env("dplyr"));
 
   Rcpp::CharacterVector msg(Rcpp::CharacterVector::create(s));
-  Shield<SEXP> call(Rf_lang2(symbols::warn_deprecated, msg));
+  Rcpp::Shield<SEXP> call(Rf_lang2(symbols::warn_deprecated, msg));
 
   Rcpp::Rcpp_eval(call, ns_dplyr);
 }
 
 void signal_soft_deprecated(const std::string& s, SEXP caller_env) {
-  static Rcpp::Environment ns_dplyr(Environment::namespace_env("dplyr"));
+  static Rcpp::Environment ns_dplyr(Rcpp::Environment::namespace_env("dplyr"));
 
   Rcpp::CharacterVector msg(Rcpp::CharacterVector::create(s));
-  Shield<SEXP> call(Rf_lang4(symbols::signal_soft_deprecated, msg, msg, caller_env));
+  Rcpp::Shield<SEXP> call(Rf_lang4(symbols::signal_soft_deprecated, msg, msg, caller_env));
 
   Rcpp::Rcpp_eval(call, ns_dplyr);
 }

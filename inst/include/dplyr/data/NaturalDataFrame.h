@@ -5,6 +5,7 @@
 
 #include <tools/SymbolVector.h>
 #include <tools/bad.h>
+#include <tools/Quosure.h>
 
 namespace dplyr {
 
@@ -46,10 +47,10 @@ public:
     return SymbolString() ;
   }
 
-  DataFrame& data() {
+  Rcpp::DataFrame& data() {
     return data_;
   }
-  const DataFrame& data() const {
+  const Rcpp::DataFrame& data() const {
     return data_;
   }
 
@@ -92,6 +93,8 @@ public:
   inline R_xlen_t max_group_size() const {
     return nrows();
   }
+
+  void check_not_groups(const QuosureList& quosures) const {}
 
 private:
   Rcpp::DataFrame data_;

@@ -14,7 +14,7 @@ namespace hybrid {
 namespace internal {
 
 struct min_rank_increment {
-  typedef IntegerVector OutputVector;
+  typedef Rcpp::IntegerVector OutputVector;
   typedef int scalar_type;
   enum { rtype = INTSXP };
 
@@ -35,7 +35,7 @@ struct min_rank_increment {
 };
 
 struct dense_rank_increment {
-  typedef IntegerVector OutputVector;
+  typedef Rcpp::IntegerVector OutputVector;
   typedef int scalar_type;
   enum { rtype = INTSXP };
 
@@ -56,7 +56,7 @@ struct dense_rank_increment {
 };
 
 struct percent_rank_increment {
-  typedef NumericVector OutputVector;
+  typedef Rcpp::NumericVector OutputVector;
   typedef double scalar_type;
   enum { rtype = REALSXP };
 
@@ -78,7 +78,7 @@ struct percent_rank_increment {
 };
 
 struct cume_dist_increment {
-  typedef NumericVector OutputVector;
+  typedef Rcpp::NumericVector OutputVector;
   typedef double scalar_type;
   enum { rtype = REALSXP };
 
