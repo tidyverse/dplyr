@@ -2,18 +2,16 @@
 #include <dplyr/main.h>
 
 #include <tools/utils.h>
-
 #include <dplyr/data/GroupedDataFrame.h>
 
-using namespace Rcpp;
-using namespace dplyr;
+namespace dplyr {
 
-SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names) {
-  Shield<SEXP> positions(r_match(keep.get_vector(), Rf_getAttrib(df, symbols::names)));
+SEXP select_not_grouped(const Rcpp::DataFrame& df, const SymbolVector& keep, const SymbolVector& new_names) {
+  Rcpp::Shield<SEXP> positions(r_match(keep.get_vector(), Rf_getAttrib(df, symbols::names)));
   int* p_positions = INTEGER(positions);
 
   int n = keep.size();
-  List res(n);
+  Rcpp::List res(n);
   for (int i = 0; i < n; i++) {
     int pos = p_positions[i];
     if (pos < 1 || pos > df.size()) {
@@ -23,8 +21,8 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
       } else {
         s << pos;
       }
-      stop("invalid column index : %d for variable: '%s' = '%s'",
-           s.str(), new_names[i].get_utf8_cstring(), keep[i].get_utf8_cstring());
+      Rcpp::stop("invalid column index : %d for variable: '%s' = '%s'",
+                 s.str(), new_names[i].get_utf8_cstring(), keep[i].get_utf8_cstring());
     }
     res[i] = df[ pos - 1 ];
   }
@@ -34,20 +32,20 @@ SEXP select_not_grouped(const DataFrame& df, const SymbolVector& keep, const Sym
   return res;
 }
 
-DataFrame select_grouped(const GroupedDataFrame& gdf, const SymbolVector& keep, const SymbolVector& new_names) {
+Rcpp::DataFrame select_grouped(const GroupedDataFrame& gdf, const SymbolVector& keep, const SymbolVector& new_names) {
   // start by selecting the columns without taking care of the grouping structure
-  DataFrame copy = select_not_grouped(gdf.data(), keep, new_names);
+  Rcpp::DataFrame copy = select_not_grouped(gdf.data(), keep, new_names);
 
   // then handle the groups attribute
   // it is almost the same as the groups attribute of the input data frame, but
   // names might change so we need to create a shallow copy and then deal with the names
-  DataFrame groups(shallow_copy(List(gdf.group_data())));
+  Rcpp::DataFrame groups(shallow_copy(Rcpp::List(gdf.group_data())));
 
   // update the names of the grouping variables in case they are involved in
   // the selection, i.e. select(data, g1 = g2)
-  Shield<SEXP> group_names(Rf_duplicate(Rf_getAttrib(groups, symbols::names)));
+  Rcpp::Shield<SEXP> group_names(Rf_duplicate(Rf_getAttrib(groups, dplyr::symbols::names)));
 
-  Shield<SEXP> positions(r_match(group_names, keep.get_vector()));
+  Rcpp::Shield<SEXP> positions(r_match(group_names, keep.get_vector()));
   int nl = gdf.nvars();
 
   // maybe rename the variables in the groups metadata
@@ -67,15 +65,17 @@ DataFrame select_grouped(const GroupedDataFrame& gdf, const SymbolVector& keep, 
   return copy;
 }
 
+}
+
 // [[Rcpp::export(rng = false)]]
-DataFrame select_impl(DataFrame df, CharacterVector vars) {
+Rcpp::DataFrame select_impl(Rcpp::DataFrame df, Rcpp::CharacterVector vars) {
   check_valid_colnames(df);
-  SymbolVector s_vars(vars);
-  SymbolVector s_names_vars(Rf_getAttrib(vars, symbols::names));
-  if (is<GroupedDataFrame>(df)) {
-    GroupedDataFrame gdf(df);
-    return select_grouped(gdf, s_vars, s_names_vars);
+  dplyr::SymbolVector s_vars(vars);
+  dplyr::SymbolVector s_names_vars(Rf_getAttrib(vars, dplyr::symbols::names));
+  if (Rcpp::is<dplyr::GroupedDataFrame>(df)) {
+    dplyr::GroupedDataFrame gdf(df);
+    return dplyr::select_grouped(gdf, s_vars, s_names_vars);
   } else {
-    return select_not_grouped(df, s_vars, s_names_vars);
+    return dplyr::select_not_grouped(df, s_vars, s_names_vars);
   }
 }

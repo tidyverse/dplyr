@@ -3,9 +3,10 @@
 
 #include <tools/all_na.h>
 #include <tools/hash.h>
-
 #include <tools/vector_class.h>
 #include <tools/collapse.h>
+#include <tools/SlicingIndex.h>
+#include <tools/utils.h>
 
 #include <dplyr/symbols.h>
 

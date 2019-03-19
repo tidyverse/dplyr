@@ -1,6 +1,9 @@
 #include "pch.h"
-#include <dplyr/main.h>
+
 #include <tools/hash.h>
+
+#include <dplyr/main.h>
+
 #include <dplyr/hybrid/Expression.h>
 
 namespace base {
@@ -54,14 +57,8 @@ void hybrid_init(SEXP env, SEXP name, SEXP package, hybrid_id id) {
   );
 }
 
-}
-}
-
-// [[Rcpp::init]]
-void init_hybrid_inline_map(DllInfo* /*dll*/) {
-  using namespace dplyr;
-
-  if (hybrid::hybrid_inline_map.size() == 0) {
+void init() {
+  if (hybrid_inline_map.size() == 0) {
     Rcpp::Environment dplyr = Rcpp::Environment::namespace_env("dplyr");
     hybrid_init(dplyr, symbols::n, symbols::dplyr, hybrid::N);
     hybrid_init(dplyr, symbols::group_indices, symbols::dplyr, hybrid::GROUP_INDICES);
@@ -94,17 +91,23 @@ void init_hybrid_inline_map(DllInfo* /*dll*/) {
   ::base::primitive_bracket_two = Rf_eval(R_Bracket2Symbol, R_BaseEnv);
 }
 
+}
+}
+
+// [[Rcpp::init]]
+void init_hybrid_inline_map(DllInfo* /*dll*/) {
+  dplyr::hybrid::init();
+}
+
 // [[Rcpp::export(rng = false)]]
 Rcpp::List hybrids() {
-  using namespace dplyr;
-
-  int n = hybrid::hybrid_inline_map.size();
+  int n = dplyr::hybrid::hybrid_inline_map.size();
 
   Rcpp::CharacterVector names(n);
   Rcpp::CharacterVector packages(n);
   Rcpp::List funs(n);
 
-  dplyr_hash_map<SEXP, hybrid::hybrid_function>::iterator it = hybrid::hybrid_inline_map.begin();
+  dplyr_hash_map<SEXP, dplyr::hybrid::hybrid_function>::iterator it = dplyr::hybrid::hybrid_inline_map.begin();
   for (int i = 0; i < n; ++it, ++i) {
     names[i] = PRINTNAME(it->second.name);
     packages[i] = PRINTNAME(it->second.package);
@@ -116,7 +119,7 @@ Rcpp::List hybrids() {
                      Rcpp::_["package"] = packages,
                      Rcpp::_["fun"] = funs
                    );
-  Rf_classgets(out, NaturalDataFrame::classes());
-  set_rownames(out, n);
+  Rf_classgets(out, dplyr::NaturalDataFrame::classes());
+  dplyr::set_rownames(out, n);
   return out;
 }

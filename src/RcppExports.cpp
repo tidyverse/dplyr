@@ -78,11 +78,11 @@ BEGIN_RCPP
 END_RCPP
 }
 // arrange_impl
-SEXP arrange_impl(DataFrame df, dplyr::QuosureList quosures, SEXP frame);
+SEXP arrange_impl(Rcpp::DataFrame df, dplyr::QuosureList quosures, SEXP frame);
 RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP, SEXP frameSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< dplyr::QuosureList >::type quosures(quosuresSEXP);
     Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
     rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures, frame));
@@ -112,32 +112,32 @@ BEGIN_RCPP
 END_RCPP
 }
 // bind_rows_
-List bind_rows_(List dots, SEXP id);
+Rcpp::List bind_rows_(Rcpp::List dots, SEXP id);
 RcppExport SEXP _dplyr_bind_rows_(SEXP dotsSEXP, SEXP idSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< List >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type dots(dotsSEXP);
     Rcpp::traits::input_parameter< SEXP >::type id(idSEXP);
     rcpp_result_gen = Rcpp::wrap(bind_rows_(dots, id));
     return rcpp_result_gen;
 END_RCPP
 }
 // cbind_all
-SEXP cbind_all(List dots);
+SEXP cbind_all(Rcpp::List dots);
 RcppExport SEXP _dplyr_cbind_all(SEXP dotsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< List >::type dots(dotsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type dots(dotsSEXP);
     rcpp_result_gen = Rcpp::wrap(cbind_all(dots));
     return rcpp_result_gen;
 END_RCPP
 }
 // combine_all
-SEXP combine_all(List data);
+SEXP combine_all(Rcpp::List data);
 RcppExport SEXP _dplyr_combine_all(SEXP dataSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< List >::type data(dataSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type data(dataSEXP);
     rcpp_result_gen = Rcpp::wrap(combine_all(data));
     return rcpp_result_gen;
 END_RCPP
@@ -400,12 +400,12 @@ BEGIN_RCPP
 END_RCPP
 }
 // select_impl
-DataFrame select_impl(DataFrame df, CharacterVector vars);
+Rcpp::DataFrame select_impl(Rcpp::DataFrame df, Rcpp::CharacterVector vars);
 RcppExport SEXP _dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< CharacterVector >::type vars(varsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type vars(varsSEXP);
     rcpp_result_gen = Rcpp::wrap(select_impl(df, vars));
     return rcpp_result_gen;
 END_RCPP
@@ -508,7 +508,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // test_comparisons
-LogicalVector test_comparisons();
+Rcpp::LogicalVector test_comparisons();
 RcppExport SEXP _dplyr_test_comparisons() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -517,7 +517,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // test_matches
-List test_matches();
+Rcpp::List test_matches();
 RcppExport SEXP _dplyr_test_matches() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
@@ -526,7 +526,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // test_length_wrap
-LogicalVector test_length_wrap();
+Rcpp::LogicalVector test_length_wrap();
 RcppExport SEXP _dplyr_test_length_wrap() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
