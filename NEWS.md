@@ -25,6 +25,8 @@
 
 * `group_map()` now only calls the function on each group and return a list. 
 
+* `bind_rows()` correctly handles the cases where there are multiple consecutive `NULL` (#4296). 
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 

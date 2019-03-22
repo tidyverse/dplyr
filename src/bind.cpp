@@ -264,7 +264,7 @@ Rcpp::List rbind__impl(Rcpp::List dots, const dplyr::SymbolString& id) {
       SEXP* p_dots_names = STRING_PTR(dots_names);
       SEXP* p_dots = get_vector_ptr(dots);
 
-      // we id_col now, so it is definitely younger than dots_names
+      // we create id_col now, so it is definitely younger than dots_names
       // this is surely write barrier proof
       SEXP id_col = PROTECT(Rf_allocVector(STRSXP, n));
 
@@ -273,7 +273,7 @@ Rcpp::List rbind__impl(Rcpp::List dots, const dplyr::SymbolString& id) {
 
         // skip NULL on dots. because the way df_nrows is made above
         // need to skip dots_names too
-        if (Rf_isNull(*p_dots)) {
+        while (Rf_isNull(*p_dots)) {
           ++p_dots;
           ++p_dots_names;
         }
