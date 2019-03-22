@@ -2,7 +2,7 @@ context("funs")
 
 test_that("fun_list is merged with new args", {
   funs <- funs(fn = bar)
-  funs <- as_fun_list(funs, quo(bar), env(), baz = "baz")
+  funs <- as_fun_list(funs, env(), baz = "baz")
   expect_identical(funs$fn, quo(bar(., baz = "baz")))
 })
 
@@ -42,20 +42,24 @@ test_that("funs() gives a clear error message (#3368)", {
 
 test_that("funs() can be merged with new arguments", {
   fns <- funs(foo(.))
-  expect_identical(as_fun_list(fns, ~ NULL, current_env(), foo = 1L), funs(foo(., foo = 1L)))
+  expect_identical(as_fun_list(fns, current_env(), foo = 1L), funs(foo(., foo = 1L)))
 })
 
 
 enfun <- function(.funs, ...) {
-  as_fun_list(.funs, enquo(.funs), caller_env(), ...)
+  as_fun_list(.funs, caller_env(), ...)
 }
 
 test_that("can enfun() literal functions", {
-  expect_identical(enfun(identity(mean)), funs(!!mean))
+  res <- enfun(identity(mean))
+  expect_equal(length(res), 1L)
+  expect_identical(res[[1L]], mean)
 })
 
 test_that("can enfun() named functions by expression", {
-  expect_identical(enfun(mean), funs(mean(.)))
+  res <- enfun(mean)
+  expect_equal(length(res), 1L)
+  expect_identical(res[[1L]], mean)
 })
 
 test_that("local objects are not treated as symbols", {
@@ -64,20 +68,21 @@ test_that("local objects are not treated as symbols", {
 })
 
 test_that("can enfun() character vectors", {
-  expect_identical(enfun(c("min", "max")), funs(min, max))
-})
-
-test_that("can enfun() quosures", {
-  expect_identical(enfun(quo(mean(.))), funs(mean(.)))
+  res <- enfun(c("min", "max"))
+  expect_equal(length(res), 2L)
+  expect_equal(res[[1]], min)
+  expect_equal(res[[2]], max)
 })
 
 test_that("can enfun() purrr-style lambdas", {
   my_mean <- as_function(~ mean(.x))
-  expect_identical(enfun(~ mean(.x)), funs(!!my_mean))
+  res <- enfun(~ mean(.x))
+  expect_equal(length(res), 1L)
+  expect_equal(res[[1]], my_mean)
 })
 
 test_that("as_fun_list() uses rlang auto-naming", {
-  nms <- names(as_fun_list(list(min, max), quo(), env()))
+  nms <- names(as_fun_list(list(min, max), env()))
 
   # Just check they are labellised as literals enclosed in brackets to
   # insulate from upstream changes
