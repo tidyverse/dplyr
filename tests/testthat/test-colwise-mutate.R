@@ -369,3 +369,14 @@ test_that("can choose the name of vars with multiple funs (#4180)", {
       summarise(DISP_mean = mean(disp), DISP_median = median(disp))
   )
 })
+
+test_that("summarise_at() unquotes in lambda (#4287)", {
+  df <- tibble::tibble(year = seq(2015, 2050, 5), P = 5.0 + 2.5 * year)
+  year <- 2037
+
+  expect_equal(
+    summarise_at(df, vars(-year), ~approx(x = year, y = ., xout = !!year)$y),
+    summarise(df, P = approx(x = year, y = P, xout = !!year)$y)
+  )
+})
+
