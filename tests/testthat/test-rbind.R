@@ -315,3 +315,16 @@ test_that("bind_rows warns on binding factor and character (#1485)", {
   df2 <- tail(iris, 1) %>% mutate(Species = as.character(Species))
   expect_warning(bind_rows(df1, df2), "binding factor and character vector, coercing into character vector")
 })
+
+test_that("bind_rows() correctly handles consecutive NULLs (#4296)", {
+  res <- list(
+    a = tibble(expected_id = "a"),
+    b = NULL,
+    c = NULL,
+    d = tibble(expected_id = "d"),
+    c = NULL,
+    e = tibble(expected_id = "e")
+  ) %>%
+    bind_rows(.id = "id")
+  expect_equal(res$id, res$expected_id)
+})
