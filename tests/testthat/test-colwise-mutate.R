@@ -380,3 +380,14 @@ test_that("summarise_at() unquotes in lambda (#4287)", {
   )
 })
 
+test_that("mutate_at() unquotes in lambdas (#4199)", {
+  df <- tibble(a = 1:10, b = runif(1:10), c = letters[1:10])
+  varname <- "a"
+  symname <- rlang::sym(varname)
+  quoname <- enquo(symname)
+
+  expect_identical(
+    df %>%  mutate(b = mean(!!quoname)),
+    df %>% mutate_at(vars(matches("b")), list(~mean(!!quoname)))
+  )
+})
