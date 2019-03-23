@@ -216,10 +216,11 @@ slice_ <- function(.data, ..., .dots = list()) {
 #' further transformed or combined within the summary, as in [mutate()].
 #' However, it also means that summary variables with the same names as previous
 #' variables overwrite them, making those variables unavailable to later summary
-#' variables. This is illustrated in the examples.
+#' variables.
 #'
-#' Other backends do not support this: summary variables cannot be refered to
-#' within the same summary.
+#' This behaviour may not be supported in other backends. To avoid unexpected
+#' results, consider using new names for your summary variables, especially when
+#' creating multiple summaries.
 #'
 #' @export
 #' @inheritParams filter
@@ -254,10 +255,7 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   group_vars()
 #'
 #'
-#' # Because the groups are single rows, and sd refers to mean(disp) for data
-#' # frames (rather than the original disp column), sd evaluates to NA for
-#' # each group. But double_disp, which is also calculated grouped, evaluates
-#' # as expected. This behaviour may be different for other backends.
+#' # Reusing variable names when summarising may lead to unexpected results
 #' mtcars %>%
 #'   group_by(cyl) %>%
 #'   summarise(disp = mean(disp), sd = sd(disp), double_disp = disp * 2)
