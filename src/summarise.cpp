@@ -4,18 +4,15 @@
 #include <tools/Quosure.h>
 #include <tools/set_rownames.h>
 
+#include <dplyr/NamedListAccumulator.h>
+
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
 
+#include <dplyr/hybrid/hybrid.h>
 #include <dplyr/standard/GroupedCallReducer.h>
 
-#include <dplyr/NamedListAccumulator.h>
-#include <dplyr/Groups.h>
-
-#include <dplyr/hybrid/hybrid.h>
-
-using namespace Rcpp;
-using namespace dplyr;
+namespace dplyr {
 
 static
 SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
@@ -30,117 +27,101 @@ SEXP validate_unquoted_value(SEXP value, int nrows, const SymbolString& name) {
   return value;
 }
 
-template <int RTYPE>
-class ExtractVectorVisitor {
-public:
-  typedef typename Rcpp::Vector<RTYPE> Vec;
-
-  ExtractVectorVisitor(SEXP origin_) :
-    origin(origin_)
-  {}
-
-  virtual SEXP extract(const std::vector<IntegerVector>& new_indices) {
-    int n = new_indices.size();
-    Vec out(no_init(n));
-    copy_most_attributes(out, origin);
-    for (int i = 0; i < n; i++) {
-      int new_index = new_indices[i][0];
-      out[i] = origin[new_index - 1];
-    }
-    return out ;
-  }
-
-private:
-  Vec origin;
-};
-
-inline SEXP extract_visit(SEXP origin, const std::vector<IntegerVector>& new_indices) {
-  switch (TYPEOF(origin)) {
-  case INTSXP:
-    return ExtractVectorVisitor<INTSXP>(origin).extract(new_indices);
-  case REALSXP:
-    return ExtractVectorVisitor<REALSXP>(origin).extract(new_indices);
-  case LGLSXP:
-    return ExtractVectorVisitor<LGLSXP>(origin).extract(new_indices);
-  case STRSXP:
-    return ExtractVectorVisitor<STRSXP>(origin).extract(new_indices);
-  case RAWSXP:
-    return ExtractVectorVisitor<RAWSXP>(origin).extract(new_indices);
-  case CPLXSXP:
-    return ExtractVectorVisitor<CPLXSXP>(origin).extract(new_indices);
-  }
-
-  return R_NilValue;
-}
-
-SEXP reconstruct_groups(const DataFrame& old_groups, const std::vector<IntegerVector>& new_indices) {
+SEXP reconstruct_groups(const Rcpp::DataFrame& old_groups, const Rcpp::List& new_indices, const Rcpp::IntegerVector& firsts, SEXP frame) {
   int nv = old_groups.size() - 1 ;
-  List out(nv);
-  CharacterVector names(nv);
-  CharacterVector old_names(old_groups.names());
+  Rcpp::Shield<SEXP> out(Rf_allocVector(VECSXP, nv));
+  Rcpp::Shield<SEXP> names(Rf_allocVector(STRSXP, nv));
+  Rcpp::Shield<SEXP> old_names(Rf_getAttrib(old_groups, symbols::names));
   for (int i = 0; i < nv - 1; i++) {
-    out[i] = extract_visit(old_groups[i], new_indices);
-    names[i] = old_names[i];
+    SET_VECTOR_ELT(out, i, column_subset(old_groups[i], firsts, frame));
+    SET_STRING_ELT(names, i, STRING_ELT(old_names, i));
   }
-  out[nv - 1] = new_indices;
-  names[nv - 1] = ".rows";
+  SET_VECTOR_ELT(out, nv - 1, new_indices);
+  SET_STRING_ELT(names, nv - 1, Rf_mkChar(".rows"));
 
   set_rownames(out, new_indices.size());
   set_class(out, NaturalDataFrame::classes());
-  out.attr("names") = names;
+  copy_attrib(out, old_groups, symbols::dot_drop);
+  Rf_namesgets(out, names);
   return out ;
 }
 
 template <typename SlicedTibble>
-void structure_summarise(List& out, const SlicedTibble& df) {
+void structure_summarise(Rcpp::List& out, const SlicedTibble& df, SEXP frame) {
   set_class(out, NaturalDataFrame::classes());
 }
 
 template <>
-void structure_summarise<GroupedDataFrame>(List& out, const GroupedDataFrame& gdf) {
-  const DataFrame& df = gdf.data();
+void structure_summarise<GroupedDataFrame>(Rcpp::List& out, const GroupedDataFrame& gdf, SEXP frame) {
+  const Rcpp::DataFrame& df = gdf.data();
 
   if (gdf.nvars() > 1) {
     copy_class(out, df);
     SymbolVector vars = gdf.get_vars();
     vars.remove(gdf.nvars() - 1);
 
-    DataFrame old_groups = gdf.group_data();
+    Rcpp::DataFrame old_groups = gdf.group_data();
     int nv = gdf.nvars() - 1;
     DataFrameVisitors visitors(old_groups, nv) ;
-
-    // collect the new indices
-    std::vector<IntegerVector> new_indices;
     int old_nrows = old_groups.nrow();
+
+    // the number of new groups
+    int ngroups = 0;
+
+    // sizes of each new group, there are at most old_nrows groups
+    std::vector<int> sizes(old_nrows);
+
     for (int i = 0; i < old_nrows;) {
-      int start = i;
+      // go through one old group
+      int start = i++;
       while (i < old_nrows && visitors.equal(start, i)) i++ ;
-      new_indices.push_back(seq(start + 1, i));
+
+      sizes[ngroups++] = i - start;
+    }
+
+    // collect the new indices, now that we know the size
+    Rcpp::List new_indices(ngroups);
+
+    // the first index of each group
+    Rcpp::IntegerVector firsts(Rcpp::no_init(ngroups));
+
+    int start = 0;
+    for (int i = 0; i < ngroups; i++) {
+      firsts[i] = start + 1;
+
+      int n = sizes[i];
+      if (n) {
+        new_indices[i] = Rcpp::IntegerVectorView(Rcpp::seq(start + 1, start + n));
+      } else {
+        new_indices[i] = Rcpp::IntegerVectorView(0);
+      }
+
+      start += sizes[i];
     }
 
     // groups
-    DataFrame groups = reconstruct_groups(old_groups, new_indices);
+    Rcpp::DataFrame groups = reconstruct_groups(old_groups, new_indices, firsts, frame);
     GroupedDataFrame::set_groups(out, groups);
   } else {
     // clear groups and reset to non grouped classes
     GroupedDataFrame::strip_groups(out);
-    out.attr("class") = NaturalDataFrame::classes();
+    Rf_classgets(out, NaturalDataFrame::classes());
   }
 }
 
 template <typename SlicedTibble>
-DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
+Rcpp::DataFrame summarise_grouped(const Rcpp::DataFrame& df, const QuosureList& dots, SEXP frame, SEXP caller_env) {
   SlicedTibble gdf(df);
 
   int nexpr = dots.size();
   int nvars = gdf.nvars();
-  check_not_groups(dots, gdf);
+  gdf.check_not_groups(dots);
 
   LOG_VERBOSE << "copying " << nvars << " variables to accumulator";
 
   NamedListAccumulator<SlicedTibble> accumulator;
   int i = 0;
-  List results(nvars + nexpr);
+  Rcpp::List results(nvars + nexpr);
   for (; i < nvars; i++) {
     LOG_VERBOSE << "copying " << gdf.symbol(i).get_utf8_cstring();
     results[i] = gdf.label(i);
@@ -157,20 +138,31 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
 
     LOG_VERBOSE << "processing variable " << quosure.name().get_utf8_cstring();
 
-    RObject result;
+    Rcpp::RObject result;
 
     // Unquoted vectors are directly used as column. Expressions are
     // evaluated in each group.
-    if (is_vector(quosure.expr())) {
-      result = validate_unquoted_value(quosure.expr(), gdf.ngroups(), quosure.name());
+    Rcpp::Shield<SEXP> quo_expr(quosure.expr());
+    if (is_vector(quo_expr)) {
+      result = validate_unquoted_value(quo_expr, gdf.ngroups(), quosure.name());
     } else {
-      result = hybrid::summarise(quosure, gdf, mask);
+      result = hybrid::summarise(quosure, gdf, mask, caller_env);
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
       if (result == R_UnboundValue) {
-        mask.rechain(quosure.env());
-        result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
+        mask.setup();
+
+        if (quosure.is_rlang_lambda()) {
+          // need to create a new quosure to put the data mask in scope
+          // of the lambda function
+          Rcpp::Shield<SEXP> new_quosure(make_lambda_quosure(quosure, mask.get_data_mask()));
+          NamedQuosure lambda_quosure(new_quosure, quosure.name());
+          result = GroupedCallReducer<SlicedTibble>(lambda_quosure, mask).process(gdf);
+        } else {
+          result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
+        }
+
       }
     }
     check_not_null(result, quosure.name());
@@ -181,50 +173,55 @@ DataFrame summarise_grouped(const DataFrame& df, const QuosureList& dots) {
     mask.input_summarised(quosure.name(), result);
   }
 
-  List out = accumulator;
+  Rcpp::List out = accumulator;
   // so that the attributes of the original tibble are preserved
   // as requested in issue #1064
   copy_most_attributes(out, df);
-  out.names() = accumulator.names();
+  Rf_namesgets(out, accumulator.names().get_vector());
 
   int nr = gdf.ngroups();
   set_rownames(out, nr);
-  structure_summarise<SlicedTibble>(out, gdf) ;
+  structure_summarise<SlicedTibble>(out, gdf, frame) ;
   return out;
 }
 
-// [[Rcpp::export]]
-SEXP summarise_impl(DataFrame df, QuosureList dots) {
+}
+
+// [[Rcpp::export(rng = false)]]
+SEXP summarise_impl(Rcpp::DataFrame df, dplyr::QuosureList dots, SEXP frame, SEXP caller_env) {
   check_valid_colnames(df);
-  if (is<RowwiseDataFrame>(df)) {
-    return summarise_grouped<RowwiseDataFrame>(df, dots);
-  } else if (is<GroupedDataFrame>(df)) {
-    return summarise_grouped<GroupedDataFrame>(df, dots);
+  if (Rcpp::is<dplyr::RowwiseDataFrame>(df)) {
+    return dplyr::summarise_grouped<dplyr::RowwiseDataFrame>(df, dots, frame, caller_env);
+  } else if (Rcpp::is<dplyr::GroupedDataFrame>(df)) {
+    return dplyr::summarise_grouped<dplyr::GroupedDataFrame>(df, dots, frame, caller_env);
   } else {
-    return summarise_grouped<NaturalDataFrame>(df, dots);
+    return dplyr::summarise_grouped<dplyr::NaturalDataFrame>(df, dots, frame, caller_env);
   }
 }
 
+namespace dplyr {
+
 template <typename SlicedTibble>
-SEXP hybrid_template(DataFrame df, const Quosure& quosure) {
+SEXP hybrid_template(Rcpp::DataFrame df, const Quosure& quosure, SEXP caller_env) {
   SlicedTibble gdf(df);
 
-  const Environment& env = quosure.env();
-  SEXP expr = quosure.expr();
+  Rcpp::Shield<SEXP> env(quosure.env());
+  Rcpp::Shield<SEXP> expr(quosure.expr());
   DataMask<SlicedTibble> mask(gdf);
-  return hybrid::match(expr, gdf, mask, env);
+  return hybrid::match(expr, gdf, mask, env, caller_env);
 }
 
+}
 
-// [[Rcpp::export]]
-SEXP hybrid_impl(DataFrame df, Quosure quosure) {
+// [[Rcpp::export(rng = false)]]
+SEXP hybrid_impl(Rcpp::DataFrame df, dplyr::Quosure quosure, SEXP caller_env) {
   check_valid_colnames(df);
 
-  if (is<RowwiseDataFrame>(df)) {
-    return hybrid_template<RowwiseDataFrame >(df, quosure);
-  } else if (is<GroupedDataFrame>(df)) {
-    return hybrid_template<GroupedDataFrame >(df, quosure);
+  if (Rcpp::is<dplyr::RowwiseDataFrame>(df)) {
+    return dplyr::hybrid_template<dplyr::RowwiseDataFrame >(df, quosure, caller_env);
+  } else if (Rcpp::is<dplyr::GroupedDataFrame>(df)) {
+    return dplyr::hybrid_template<dplyr::GroupedDataFrame >(df, quosure, caller_env);
   } else {
-    return hybrid_template<NaturalDataFrame >(df, quosure);
+    return dplyr::hybrid_template<dplyr::NaturalDataFrame >(df, quosure, caller_env);
   }
 }

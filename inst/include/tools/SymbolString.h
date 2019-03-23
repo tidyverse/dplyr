@@ -11,28 +11,31 @@ public:
 
   SymbolString(const char* str) : s(str) {}
 
-  SymbolString(const String& other) : s(other) {}
+  SymbolString(SEXP other) : s(other) {}
 
-  SymbolString(const String::StringProxy& other) : s(other) {}
+  SymbolString(const Rcpp::String& other) : s(other) {}
 
-  SymbolString(const String::const_StringProxy& other) : s(other) {}
+  SymbolString(const Rcpp::String::StringProxy& other) : s(other) {}
+
+  SymbolString(const Rcpp::String::const_StringProxy& other) : s(other) {}
 
   // Symbols are always encoded in the native encoding (#1950)
-  explicit SymbolString(const Symbol& symbol) : s(CHAR(PRINTNAME(symbol)), CE_NATIVE) {}
+  explicit SymbolString(const Rcpp::Symbol& symbol) : s(CHAR(PRINTNAME(symbol)), CE_NATIVE) {}
 
 public:
-  const String& get_string() const {
+  const Rcpp::String& get_string() const {
     return s;
   }
 
-  const Symbol get_symbol() const {
-    return Symbol(Rf_translateChar(s.get_sexp()));
+  const Rcpp::Symbol get_symbol() const {
+    return Rcpp::Symbol(Rf_translateChar(s.get_sexp()));
   }
 
   const std::string get_utf8_cstring() const {
-    static Environment rlang = Environment::namespace_env("rlang");
-    static Function as_string = Function("as_string", rlang);
-    SEXP utf8_string = as_string(Rf_lang2(R_QuoteSymbol, get_symbol()));
+    static Rcpp::Environment rlang = Rcpp::Environment::namespace_env("rlang");
+    static Rcpp::Function as_string = Rcpp::Function("as_string", rlang);
+    Rcpp::Shield<SEXP> call(Rf_lang2(R_QuoteSymbol, get_symbol()));
+    Rcpp::Shield<SEXP> utf8_string(as_string(call));
     return CHAR(STRING_ELT(utf8_string, 0));
   }
 
@@ -49,7 +52,7 @@ public:
   }
 
 private:
-  String s;
+  Rcpp::String s;
 };
 
 }

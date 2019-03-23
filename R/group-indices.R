@@ -25,16 +25,21 @@ group_indices.default <- function(.data, ...) {
 #' @export
 #' @rdname se-deprecated
 group_indices_ <- function(.data, ..., .dots = list()) {
+  signal_soft_deprecated(paste_line(
+    "group_indices_() is deprecated. ",
+    "Please use group_indices() instead"
+  ))
+
   UseMethod("group_indices_")
 }
 
 #' @export
-group_indices.data.frame <- function(.data, ...) {
+group_indices.data.frame <- function(.data, ..., .drop = TRUE) {
   dots <- quos(...)
   if (length(dots) == 0L) {
     return(rep(1L, nrow(.data)))
   }
-  grouped_indices_grouped_df_impl(group_by(.data, !!!dots))
+  grouped_indices_grouped_df_impl(group_by(.data, !!!dots, .drop = .drop))
 }
 #' @export
 group_indices_.data.frame <- function(.data, ..., .dots = list()) {

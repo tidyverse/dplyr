@@ -4,6 +4,7 @@
 #include <tools/SymbolMap.h>
 
 #include <dplyr/checks.h>
+#include <dplyr/data/RowwiseDataFrame.h>
 
 namespace dplyr {
 
@@ -11,12 +12,12 @@ template <typename SlicedTibble>
 class NamedListAccumulator {
 private:
   SymbolMap symbol_map;
-  std::vector<RObject> data; // owns the results
+  std::vector<Rcpp::RObject> data; // owns the results
 
 public:
   NamedListAccumulator() {}
 
-  inline void set(const SymbolString& name, RObject x) {
+  inline void set(const SymbolString& name, Rcpp::RObject x) {
     if (! Rcpp::traits::same_type<SlicedTibble, RowwiseDataFrame>::value)
       check_supported_type(x, name);
     MARK_NOT_MUTABLE(x);
@@ -36,9 +37,9 @@ public:
     }
   }
 
-  inline operator List() const {
-    List out = wrap(data);
-    out.names() = symbol_map.get_names();
+  inline operator Rcpp::List() const {
+    Rcpp::List out = wrap(data);
+    Rf_namesgets(out, symbol_map.get_names().get_vector());
     return out;
   }
 
@@ -46,7 +47,7 @@ public:
     return data.size();
   }
 
-  inline const SymbolVector names() const {
+  inline const SymbolVector& names() const {
     return symbol_map.get_names();
   }
 

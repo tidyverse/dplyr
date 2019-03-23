@@ -36,4 +36,7 @@ function to a selection of variables, use \code{\link[=mutate_at]{mutate_at()}} 
 See the relevant section of \code{vignette("compatibility")} for more
 information.
 }
+\details{
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
+}
 \keyword{internal}

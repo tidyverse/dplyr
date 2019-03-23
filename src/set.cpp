@@ -19,9 +19,6 @@
 #include <tools/train.h>
 #include <dplyr/data/GroupedDataFrame.h>
 
-using namespace Rcpp;
-using namespace dplyr;
-
 class RowTrack {
 public:
   RowTrack(const std::string& msg, int max_count_ = 10) : ss(), count(0), max_count(max_count_) {
@@ -51,49 +48,49 @@ private:
   int max_count;
 };
 
-// [[Rcpp::export]]
-dplyr::BoolResult compatible_data_frame_nonames(DataFrame x, DataFrame y, bool convert) {
+// [[Rcpp::export(rng = false)]]
+dplyr::BoolResult compatible_data_frame_nonames(Rcpp::DataFrame x, Rcpp::DataFrame y, bool convert) {
   int n = x.size();
   if (n != y.size())
-    return no_because(tfm::format("different number of columns : %d x %d", n, y.size()));
+    return dplyr::no_because(tfm::format("different number of columns : %d x %d", n, y.size()));
 
   if (convert) {
     for (int i = 0; i < n; i++) {
       try {
-        boost::scoped_ptr<JoinVisitor> v(
-          join_visitor(
-            Column(x[i], SymbolString("x")), Column(y[i], SymbolString("y")), true, true
+        boost::scoped_ptr<dplyr::JoinVisitor> v(
+          dplyr::join_visitor(
+            Column(x[i], dplyr::SymbolString("x")), Column(y[i], dplyr::SymbolString("y")), true, true
           )
         );
       } catch (...) {
-        return no_because("incompatible");
+        return dplyr::no_because("incompatible");
       }
     }
   } else {
     for (int i = 0; i < n; i++) {
       SEXP xi = x[i], yi = y[i];
       if (TYPEOF(xi) != TYPEOF(yi))
-        return no_because("incompatible types");
+        return dplyr::no_because("incompatible types");
 
       if (TYPEOF(xi) == INTSXP) {
         if (Rf_inherits(xi, "factor") && Rf_inherits(yi, "factor")) {
-          if (same_levels(xi, yi)) continue;
-          return no_because("factors with different levels");
+          if (dplyr::same_levels(xi, yi)) continue;
+          return dplyr::no_because("factors with different levels");
         }
 
-        if (Rf_inherits(xi, "factor")) return no_because("cannot compare factor and integer");
-        if (Rf_inherits(yi, "factor")) return no_because("cannot compare factor and integer");
+        if (Rf_inherits(xi, "factor")) return dplyr::no_because("cannot compare factor and integer");
+        if (Rf_inherits(yi, "factor")) return dplyr::no_because("cannot compare factor and integer");
 
       }
     }
   }
 
-  return yes();
+  return dplyr::yes();
 
 }
 
-bool same_factor_levels(SEXP x, SEXP y, std::stringstream& ss, const SymbolString& name) {
-  bool res = same_levels(x, y);
+bool same_factor_levels(SEXP x, SEXP y, std::stringstream& ss, const dplyr::SymbolString& name) {
+  bool res = dplyr::same_levels(x, y);
   if (!res) {
     ss << "Factor levels not equal for column `" << name.get_utf8_cstring() << "`";
   }
@@ -142,7 +139,7 @@ bool type_compatible(SEXP x, SEXP y) {
   return false;
 }
 
-bool type_same(SEXP x, SEXP y, std::stringstream& ss, const SymbolString& name) {
+bool type_same(SEXP x, SEXP y, std::stringstream& ss, const dplyr::SymbolString& name) {
   // if one is a matrix but not the other, the types are not compatible
   if (Rf_isMatrix(x) + Rf_isMatrix(y) == 1) {
     return false;
@@ -189,66 +186,71 @@ std::string type_describe(SEXP x) {
   if (Rf_isMatrix(x)) {
     return "matrix";
   } else if (Rf_inherits(x, "data.frame")) {
-    return get_single_class(x);
+    return dplyr::get_single_class(x);
   } else if (Rf_inherits(x, "Date")) {
     return "Date";
   } else if (Rf_isFactor(x)) {
-    return get_single_class(x);
+    return dplyr::get_single_class(x);
   } else {
-    return get_single_class(x);
+    return dplyr::get_single_class(x);
   }
 }
 
-// [[Rcpp::export]]
-dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool convert = false) {
+// [[Rcpp::export(rng = false)]]
+dplyr::BoolResult compatible_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y, bool ignore_col_order = true, bool convert = false) {
   int n = x.size();
 
-  bool null_x = Rf_isNull(x.names()), null_y = Rf_isNull(y.names());
+  Rcpp::Shield<SEXP> x_names(Rf_getAttrib(x, dplyr::symbols::names));
+  Rcpp::Shield<SEXP> y_names(Rf_getAttrib(y, dplyr::symbols::names));
+
+  bool null_x = Rf_isNull(x_names);
+  bool null_y = Rf_isNull(y_names);
   if (null_x && !null_y) {
-    return no_because("x does not have names, but y does");
+    return dplyr::no_because("x does not have names, but y does");
   } else if (null_y && !null_x) {
-    return no_because("y does not have names, but x does");
+    return dplyr::no_because("y does not have names, but x does");
   } else if (null_x && null_y) {
     return compatible_data_frame_nonames(x, y, convert);
   }
 
-  CharacterVector names_x = x.names();
-  CharacterVector names_y = y.names();
+  Rcpp::CharacterVector names_x(x_names);
+  Rcpp::CharacterVector names_y(y_names);
 
-  CharacterVector names_y_not_in_x = setdiff(names_y, names_x);
-  CharacterVector names_x_not_in_y = setdiff(names_x, names_y);
+  Rcpp::CharacterVector names_y_not_in_x = setdiff(names_y, names_x);
+  Rcpp::CharacterVector names_x_not_in_y = setdiff(names_x, names_y);
 
   if (!ignore_col_order) {
     if (names_y_not_in_x.size() == 0 && names_x_not_in_y.size() == 0) {
       // so the names are the same, check if they are in the same order
       for (int i = 0; i < n; i++) {
         if (names_x[i] != names_y[i]) {
-          return no_because("Same column names, but different order");
+          return dplyr::no_because("Same column names, but different order");
         }
       }
     }
   }
 
-  CharacterVector why;
+  Rcpp::CharacterVector why;
   if (names_y_not_in_x.size()) {
     std::stringstream ss;
-    ss << "Cols in y but not x: " << collapse_utf8(names_y_not_in_x, ", ", "`") << ". ";
-    why.push_back(String(ss.str(), CE_UTF8));
+    ss << "Cols in y but not x: " << dplyr::collapse_utf8(names_y_not_in_x, ", ", "`") << ". ";
+    why.push_back(Rcpp::String(ss.str(), CE_UTF8));
   }
 
   if (names_x_not_in_y.size()) {
     std::stringstream ss;
-    ss << "Cols in x but not y: " << collapse_utf8(names_x_not_in_y, ", ", "`") << ". ";
-    why.push_back(String(ss.str(), CE_UTF8));
+    ss << "Cols in x but not y: " << dplyr::collapse_utf8(names_x_not_in_y, ", ", "`") << ". ";
+    why.push_back(Rcpp::String(ss.str(), CE_UTF8));
   }
 
-  if (why.length() > 0) return no_because(why);
+  if (why.length() > 0) return dplyr::no_because(why);
 
-  IntegerVector orders = r_match(names_x, names_y);
+  Rcpp::Shield<SEXP> orders(dplyr::r_match(names_x, names_y));
+  int* p_orders = INTEGER(orders);
 
   for (int i = 0; i < n; i++) {
-    SymbolString name = names_x[i];
-    SEXP xi = x[i], yi = y[orders[i] - 1];
+    dplyr::SymbolString name = names_x[i];
+    SEXP xi = x[i], yi = y[p_orders[i] - 1];
 
     std::stringstream ss;
     bool compatible = convert ? type_compatible(xi, yi) : type_same(xi, yi, ss, name);
@@ -261,23 +263,23 @@ dplyr::BoolResult compatible_data_frame(DataFrame x, DataFrame y, bool ignore_co
            << ", y " << type_describe(yi);
       }
 
-      why.push_back(String(ss.str(), CE_UTF8));
+      why.push_back(Rcpp::String(ss.str(), CE_UTF8));
     }
 
   }
 
-  if (why.length() > 0) return no_because(why);
-  return yes();
+  if (why.length() > 0) return dplyr::no_because(why);
+  return dplyr::yes();
 }
 
-// [[Rcpp::export]]
-dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false) {
-  BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
+// [[Rcpp::export(rng = false)]]
+dplyr::BoolResult equal_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y, bool ignore_col_order = true, bool ignore_row_order = true, bool convert = false) {
+  dplyr::BoolResult compat = compatible_data_frame(x, y, ignore_col_order, convert);
   if (!compat) return compat;
 
-  typedef VisitorSetIndexMap<DataFrameJoinVisitors, std::vector<int> > Map;
-  SymbolVector x_names = x.names();
-  DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
+  typedef dplyr::VisitorSetIndexMap<dplyr::DataFrameJoinVisitors, std::vector<int> > Map;
+  dplyr::SymbolVector x_names(Rf_getAttrib(x, dplyr::symbols::names));
+  dplyr::DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Map map(visitors);
 
   // train the map in both x and y
@@ -285,9 +287,9 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
   int nrows_y = y.nrows();
 
   if (nrows_x != nrows_y)
-    return no_because("Different number of rows");
+    return dplyr::no_because("Different number of rows");
   if (x.size() == 0)
-    return yes();
+    return dplyr::yes();
 
   for (int i = 0; i < nrows_x; i++) map[i].push_back(i);
   for (int i = 0; i < nrows_y; i++) map[-i - 1].push_back(-i - 1);
@@ -330,42 +332,42 @@ dplyr::BoolResult equal_data_frame(DataFrame x, DataFrame y, bool ignore_col_ord
     if (! track_y.empty()) ss << track_y.str() << ". ";
     if (! track_mismatch.empty()) ss << track_mismatch.str();
 
-    return no_because(CharacterVector::create(String(ss.str(), CE_UTF8)));
+    return dplyr::no_because(Rcpp::CharacterVector::create(Rcpp::String(ss.str(), CE_UTF8)));
   }
 
-  if (ok && ignore_row_order) return yes();
+  if (ok && ignore_row_order) return dplyr::yes();
 
   if (!ignore_row_order) {
     for (int i = 0; i < nrows_x; i++) {
       if (!visitors.equal(i, -i - 1)) {
-        return no_because("Same row values, but different order");
+        return dplyr::no_because("Same row values, but different order");
       }
     }
   }
 
-  return yes();
+  return dplyr::yes();
 }
 
-DataFrame reconstruct_metadata(DataFrame out, const DataFrame& x) {
-  if (is<GroupedDataFrame>(x)) {
+Rcpp::DataFrame reconstruct_metadata(Rcpp::DataFrame out, const Rcpp::DataFrame& x) {
+  if (Rcpp::is<dplyr::GroupedDataFrame>(x)) {
     // go through the GroupedDataFrame class so that the groups attribute is generated
-    return GroupedDataFrame(out, x).data();
+    return dplyr::GroupedDataFrame(out, x).data();
   } else {
     // nothing to do for rowwise and natural data frames
     return out;
   }
 }
 
-// [[Rcpp::export]]
-DataFrame union_data_frame(DataFrame x, DataFrame y) {
-  BoolResult compat = compatible_data_frame(x, y, true, true);
+// [[Rcpp::export(rng = false)]]
+Rcpp::DataFrame union_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
+  dplyr::BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
-    stop("not compatible: %s", compat.why_not());
+    Rcpp::stop("not compatible: %s", compat.why_not());
   }
 
-  typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector x_names = x.names();
-  DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
+  typedef dplyr::VisitorSetIndexSet<dplyr::DataFrameJoinVisitors> Set;
+  dplyr::SymbolVector x_names(Rf_getAttrib(x, dplyr::symbols::names));
+  dplyr::DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
   int n_x = x.nrows();
@@ -388,25 +390,25 @@ DataFrame union_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
+  return reconstruct_metadata(visitors.subset(indices, dplyr::get_class(x)), x);
 }
 
-// [[Rcpp::export]]
-DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
-  BoolResult compat = compatible_data_frame(x, y, true, true);
+// [[Rcpp::export(rng = false)]]
+Rcpp::DataFrame intersect_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
+  dplyr::BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
-    stop("not compatible: %s", compat.why_not());
+    Rcpp::stop("not compatible: %s", compat.why_not());
   }
 
-  typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector x_names = x.names();
-  DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
+  typedef dplyr::VisitorSetIndexSet<dplyr::DataFrameJoinVisitors> Set;
+  dplyr::SymbolVector x_names(Rf_getAttrib(x, dplyr::symbols::names));
+  dplyr::DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
   Set set(visitors);
 
   int n_x = x.nrows();
   int n_y = y.nrows();
 
-  train_insert_right(set, n_y);
+  dplyr::train_insert_right(set, n_y);
 
   std::vector<int> indices;
   indices.reserve(std::min(n_x, n_y));
@@ -419,19 +421,19 @@ DataFrame intersect_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
+  return reconstruct_metadata(visitors.subset(indices, dplyr::get_class(x)), x);
 }
 
-// [[Rcpp::export]]
-DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
-  BoolResult compat = compatible_data_frame(x, y, true, true);
+// [[Rcpp::export(rng = false)]]
+Rcpp::DataFrame setdiff_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
+  dplyr::BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {
-    stop("not compatible: %s", compat.why_not());
+    Rcpp::stop("not compatible: %s", compat.why_not());
   }
 
-  typedef VisitorSetIndexSet<DataFrameJoinVisitors> Set;
-  SymbolVector y_names = y.names();
-  DataFrameJoinVisitors visitors(x, y, y_names, y_names, true, true);
+  typedef dplyr::VisitorSetIndexSet<dplyr::DataFrameJoinVisitors> Set;
+  dplyr::SymbolVector y_names(Rf_getAttrib(y, dplyr::symbols::names));
+  dplyr::DataFrameJoinVisitors visitors(x, y, y_names, y_names, true, true);
   Set set(visitors);
 
   int n_x = x.nrows();
@@ -449,5 +451,5 @@ DataFrame setdiff_data_frame(DataFrame x, DataFrame y) {
     }
   }
 
-  return reconstruct_metadata(visitors.subset(indices, get_class(x)), x);
+  return reconstruct_metadata(visitors.subset(indices, dplyr::get_class(x)), x);
 }

@@ -97,9 +97,16 @@ struct MeanImpl {
       //
       // INTSXP, LGLSXP: no shortcut, need to test
       if (NA_RM || RTYPE == INTSXP || RTYPE == LGLSXP) {
+        // both NA and NaN
         if (Rcpp::traits::is_na<RTYPE>(value)) {
           if (!NA_RM) {
-            return NA_REAL;
+            // make sure we return the right kind of naan
+            // because of this:
+            // mean(c(NaN, 1)) -> NaN
+            // mean(c(NA, 1) ) -> NA
+            //
+            // there are no NaN for INTSXP so we return NA_REAL in that case
+            return RTYPE == REALSXP ? value : NA_REAL;
           }
 
           --m;
@@ -117,6 +124,7 @@ struct MeanImpl {
       long double t = 0.0;
       for (int i = 0; i < n; i++) {
         STORAGE value = ptr[indices[i]];
+        // need to take both NA and NaN into account here
         if (!NA_RM || ! Rcpp::traits::is_na<RTYPE>(value)) {
           t += value - res;
         }

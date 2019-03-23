@@ -1,15 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# dplyr <img src="man/figures/logo.png" align="right" />
+# dplyr <a href='https://dplyr.tidyverse.org'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
-[![Build
-Status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
-[![AppVeyor Build
-Status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
-[![Coverage
-Status](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+<!-- badges: start -->
+
+[![CRAN
+status](https://www.r-pkg.org/badges/version/dplyr)](https://cran.r-project.org/package=dplyr)
+[![Travis build
+status](https://travis-ci.org/tidyverse/dplyr.svg?branch=master)](https://travis-ci.org/tidyverse/dplyr)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/tidyverse/dplyr?branch=master&svg=true)](https://ci.appveyor.com/project/tidyverse/dplyr)
+[![Codecov test
+coverage](https://codecov.io/gh/tidyverse/dplyr/branch/master/graph/badge.svg)](https://codecov.io/gh/tidyverse/dplyr?branch=master)
+<!-- badges: end -->
 
 ## Overview
 
@@ -76,7 +80,7 @@ starwars %>%
 #> 3 R5-D4     97    32 <NA>       white, red red               NA <NA>  
 #> 4 IG-88    200   140 none       metal      red               15 none  
 #> 5 BB8       NA    NA none       none       black             NA none  
-#> # ... with 5 more variables: homeworld <chr>, species <chr>, films <list>,
+#> # … with 5 more variables: homeworld <chr>, species <chr>, films <list>,
 #> #   vehicles <list>, starships <list>
 
 starwars %>% 
@@ -89,7 +93,7 @@ starwars %>%
 #> 3 R2-D2          <NA>       white, blue red      
 #> 4 Darth Vader    none       white       yellow   
 #> 5 Leia Organa    brown      light       brown    
-#> # ... with 82 more rows
+#> # … with 82 more rows
 
 starwars %>% 
   mutate(name, bmi = mass / ((height / 100)  ^ 2)) %>%
@@ -102,7 +106,7 @@ starwars %>%
 #> 3 R2-D2              96    32  34.7
 #> 4 Darth Vader       202   136  33.3
 #> 5 Leia Organa       150    49  21.8
-#> # ... with 82 more rows
+#> # … with 82 more rows
 
 starwars %>% 
   arrange(desc(mass))
@@ -114,7 +118,7 @@ starwars %>%
 #> 3 IG-88    200   140 none       metal      red             15   none  
 #> 4 Dart…    202   136 none       white      yellow          41.9 male  
 #> 5 Tarf…    234   136 brown      brown      blue            NA   male  
-#> # ... with 82 more rows, and 5 more variables: homeworld <chr>,
+#> # … with 82 more rows, and 5 more variables: homeworld <chr>,
 #> #   species <chr>, films <list>, vehicles <list>, starships <list>
 
 starwars %>%
@@ -123,16 +127,17 @@ starwars %>%
     n = n(),
     mass = mean(mass, na.rm = TRUE)
   ) %>%
-  filter(n > 1)
-#> # A tibble: 9 x 3
+  filter(n > 1,
+         mass > 50)
+#> # A tibble: 8 x 3
 #>   species      n  mass
 #>   <chr>    <int> <dbl>
-#> 1 <NA>         5  48  
-#> 2 Droid        5  69.8
-#> 3 Gungan       3  74  
-#> 4 Human       35  82.8
-#> 5 Kaminoan     2  88  
-#> # ... with 4 more rows
+#> 1 Droid        5  69.8
+#> 2 Gungan       3  74  
+#> 3 Human       35  82.8
+#> 4 Kaminoan     2  88  
+#> 5 Mirialan     2  53.1
+#> # … with 3 more rows
 ```
 
 ## Getting help

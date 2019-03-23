@@ -63,13 +63,22 @@ distinct.default <- function(.data, ..., .keep_all = FALSE) {
 #' @rdname se-deprecated
 #' @inheritParams distinct
 distinct_ <- function(.data, ..., .dots, .keep_all = FALSE) {
+  signal_soft_deprecated(paste_line(
+    "distinct_() is deprecated. ",
+    "Please use distinct() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with distinct() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("distinct_")
 }
 
-#' Same basic philosophy as group_by: lazy_dots comes in, list of data and
+#' Same basic philosophy as group_by_prepare(): lazy_dots comes in, list of data and
 #' vars (character vector) comes out.
-#' @noRd
-distinct_vars <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
+#' @rdname group_by_prepare
+#' @export
+distinct_prepare <- function(.data, vars, group_vars = character(), .keep_all = FALSE) {
   stopifnot(is_quosures(vars), is.character(group_vars))
 
   # If no input, keep all variables

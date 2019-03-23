@@ -8,7 +8,7 @@
 #include <dplyr/visitor_set/VisitorSetLess.h>
 #include <dplyr/visitor_set/VisitorSetGreater.h>
 
-#include <dplyr/visitors/vector/visitor.h>
+#include <dplyr/visitors/vector/VectorVisitor.h>
 #include <tools/utils.h>
 
 namespace dplyr {
@@ -20,6 +20,7 @@ class MultipleVectorVisitors :
   public VisitorSetGreater<MultipleVectorVisitors> {
 
 private:
+  // TODO: this does not need to be shared_ptr
   std::vector< boost::shared_ptr<VectorVisitor> > visitors;
   int length;
   int ngroups;
@@ -27,14 +28,15 @@ private:
 public:
   typedef VectorVisitor visitor_type;
 
-  MultipleVectorVisitors(List data, int nrows, int ngroups_, int g) :
+  MultipleVectorVisitors(const Rcpp::List& data, int length_, int ngroups_) :
     visitors(),
-    length(nrows),
+    length(length_),
     ngroups(ngroups_)
   {
+    visitors.reserve(data.size());
     int n = data.size();
     for (int i = 0; i < n; i++) {
-      push_back(data[i], g);
+      push_back(data[i]);
     }
   }
 
@@ -47,10 +49,7 @@ public:
   }
 
   inline int nrows() const {
-    if (visitors.size() == 0) {
-      stop("Need at least one column for `nrows()`");
-    }
-    return visitors[0]->size();
+    return length;
   }
 
   inline bool is_na(int index) const {
@@ -61,14 +60,15 @@ public:
 
 private:
 
-  inline void push_back(SEXP x, int g) {
+  // prevent copy construction
+  MultipleVectorVisitors(const MultipleVectorVisitors&);
+
+  inline void push_back(SEXP x) {
     int s = get_size(x);
     if (s == length) {
       visitors.push_back(boost::shared_ptr<VectorVisitor>(visitor(x)));
-    } else if (s == ngroups) {
-      visitors.push_back(boost::shared_ptr<VectorVisitor>(recycling_visitor(x, g, length)));
-    } else {
-      stop("incompatible size, should be either %d or %d (thr number of groups)", length, ngroups);
+    } else if (s != ngroups) {
+      Rcpp::stop("incompatible size, should be either %d or %d (the number of groups)", length, ngroups);
     }
   }
 

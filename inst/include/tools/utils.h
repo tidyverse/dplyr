@@ -3,11 +3,11 @@
 
 #include <tools/SymbolVector.h>
 
-void check_valid_colnames(const DataFrame& df, bool warn_only = false);
+void check_valid_colnames(const Rcpp::DataFrame& df, bool warn_only = false);
 int check_range_one_based(int x, int max);
-void assert_all_allow_list(const DataFrame&);
+void assert_all_allow_list(const Rcpp::DataFrame&);
 SEXP shared_SEXP(SEXP x);
-SEXP shallow_copy(const List& data);
+SEXP shallow_copy(const Rcpp::List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
 SEXP null_if_empty(SEXP x);
@@ -19,26 +19,28 @@ SEXP vec_names(SEXP x);
 SEXP vec_names_or_empty(SEXP x);
 bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
-SEXP name_at(SEXP x, size_t i);
 
 SEXP child_env(SEXP parent);
 
 int get_size(SEXP x);
 
-
 namespace dplyr {
+
+SEXP get_time_classes();
+SEXP get_date_classes();
 
 SEXP constant_recycle(SEXP x, int n, const SymbolString& name);
 std::string get_single_class(SEXP x);
-CharacterVector default_chars(SEXP x, R_xlen_t len);
-CharacterVector get_class(SEXP x);
-SEXP set_class(SEXP x, const CharacterVector& class_);
+Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len);
+Rcpp::CharacterVector get_class(SEXP x);
+SEXP set_class(SEXP x, const Rcpp::CharacterVector& class_);
+void copy_attrib(SEXP out, SEXP origin, SEXP symbol);
 void copy_class(SEXP out, SEXP origin);
 void copy_names(SEXP out, SEXP origin);
-CharacterVector get_levels(SEXP x);
-SEXP set_levels(SEXP x, const CharacterVector& levels);
+Rcpp::CharacterVector get_levels(SEXP x);
+SEXP set_levels(SEXP x, const Rcpp::CharacterVector& levels);
 bool same_levels(SEXP left, SEXP right);
-bool character_vector_equal(const CharacterVector& x, const CharacterVector& y);
+bool character_vector_equal(const Rcpp::CharacterVector& x, const Rcpp::CharacterVector& y);
 
 SymbolVector get_vars(SEXP x);
 
@@ -61,6 +63,7 @@ struct rlang_api_ptrs_t {
   SEXP (*as_data_pronoun)(SEXP data);
   SEXP (*as_data_mask)(SEXP data, SEXP parent);
   SEXP (*new_data_mask)(SEXP bottom, SEXP top);
+  SEXP (*eval_tidy)(SEXP expr, SEXP data, SEXP env);
 
   rlang_api_ptrs_t() {
     quo_get_expr =      (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_quo_get_expr");
@@ -72,6 +75,7 @@ struct rlang_api_ptrs_t {
     as_data_pronoun =   (SEXP (*)(SEXP))             R_GetCCallable("rlang", "rlang_as_data_pronoun");
     as_data_mask =      (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_as_data_mask");
     new_data_mask =     (SEXP (*)(SEXP, SEXP))       R_GetCCallable("rlang", "rlang_new_data_mask_3.0.0");
+    eval_tidy =         (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_eval_tidy");
   }
 };
 // *INDENT-ON*
@@ -89,6 +93,10 @@ inline SEXP quo_get_expr(SEXP quo) {
   return dplyr::internal::rlang_api().quo_get_expr(quo);
 }
 
+inline SEXP quo_set_expr(SEXP quo, SEXP expr) {
+  return dplyr::internal::rlang_api().quo_set_expr(quo, expr);
+}
+
 inline SEXP quo_get_env(SEXP quo) {
   return dplyr::internal::rlang_api().quo_get_env(quo);
 }
@@ -103,6 +111,14 @@ inline SEXP new_data_mask(SEXP bottom, SEXP top) {
 
 inline SEXP as_data_pronoun(SEXP data) {
   return dplyr::internal::rlang_api().as_data_pronoun(data);
+}
+
+inline SEXP eval_tidy(SEXP expr, SEXP data, SEXP env) {
+  return dplyr::internal::rlang_api().eval_tidy(expr, data, env);
+}
+
+inline SEXP new_quosure(SEXP expr, SEXP env) {
+  return dplyr::internal::rlang_api().new_quosure(expr, env);
 }
 
 }

@@ -8,14 +8,14 @@ namespace dplyr {
 class CharacterVectorOrderer {
 public:
 
-  CharacterVectorOrderer(const CharacterVector& data_);
+  CharacterVectorOrderer(const Rcpp::CharacterVector& data_);
 
-  inline IntegerVector get() const {
+  inline Rcpp::IntegerVector get() const {
     return orders;
   }
 
 private:
-  IntegerVector orders;
+  Rcpp::IntegerVector orders;
 };
 
 }

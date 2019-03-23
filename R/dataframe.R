@@ -20,7 +20,7 @@ add_rownames <- function(df, var = "rowname") {
 
   stopifnot(is.data.frame(df))
 
-  rn <- as_data_frame(setNames(list(rownames(df)), var))
+  rn <- as_tibble(setNames(list(rownames(df)), var))
   rownames(df) <- NULL
 
   bind_cols(rn, df)
@@ -29,9 +29,9 @@ add_rownames <- function(df, var = "rowname") {
 # Grouping methods ------------------------------------------------------------
 
 #' @export
-group_by.data.frame <- function(.data, ..., add = FALSE) {
+group_by.data.frame <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   groups <- group_by_prepare(.data, ..., add = add)
-  grouped_df(groups$data, groups$group_names)
+  grouped_df(groups$data, groups$group_names, .drop)
 }
 #' @export
 group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
@@ -57,18 +57,18 @@ n_groups.data.frame <- function(x) 1L
 # is just a convenience layer, I didn't bother. They should still be fast.
 
 #' @export
-filter.data.frame <- function(.data, ..., .preserve = TRUE) {
+filter.data.frame <- function(.data, ..., .preserve = FALSE) {
   as.data.frame(filter(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
-filter_.data.frame <- function(.data, ..., .dots = list(), .preserve = TRUE) {
+filter_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
-  filter(.data, !!!dots, .preserve = .preserve)
+  filter(.data, !!!dots)
 }
 
 #' @export
-slice.data.frame <- function(.data, ...) {
-  as.data.frame(slice(tbl_df(.data), ...))
+slice.data.frame <- function(.data, ..., .preserve = FALSE) {
+  as.data.frame(slice(tbl_df(.data), ..., .preserve = .preserve))
 }
 #' @export
 slice_.data.frame <- function(.data, ..., .dots = list()) {
@@ -202,7 +202,7 @@ setequal.data.frame <- function(x, y, ...) {
 
 reconstruct_set <- function(out, x) {
   if (is_grouped_df(x)) {
-    out <- grouped_df_impl(out, group_vars(x))
+    out <- grouped_df_impl(out, group_vars(x), group_by_drop_default(x))
   }
 
   out
@@ -210,7 +210,7 @@ reconstruct_set <- function(out, x) {
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(.data, quos(...), .keep_all = .keep_all)
+  dist <- distinct_prepare(.data, quos(...), .keep_all = .keep_all)
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
   distinct_impl(dist$data, vars, keep, environment())
@@ -257,7 +257,7 @@ do_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 sample_n.data.frame <- function(tbl, size, replace = FALSE,
-                                weight = NULL, .env = NULL) {
+                                weight = NULL, .env = NULL, ...) {
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }
@@ -271,7 +271,7 @@ sample_n.data.frame <- function(tbl, size, replace = FALSE,
 
 #' @export
 sample_frac.data.frame <- function(tbl, size = 1, replace = FALSE,
-                                   weight = NULL, .env = NULL) {
+                                   weight = NULL, .env = NULL, ...) {
   if (!is_null(.env)) {
     inform("`.env` is deprecated and no longer has any effect")
   }

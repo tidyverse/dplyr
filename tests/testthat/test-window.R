@@ -12,7 +12,7 @@ test_that("If n = length(x), returns all missing", {
   expect_equal(lag(1:2, 2), miss)
 })
 
-test_that("cumany and cumall handle NAs consistently (#408, #3749)", {
+test_that("cumany and cumall handle NAs consistently (#408, #3749, #4132)", {
   batman <- c(NA, NA, NA, NA, NA)
   expect_true(all(is.na(cumany(batman))))
   expect_true(all(is.na(cumall(batman))))
@@ -26,6 +26,16 @@ test_that("cumany and cumall handle NAs consistently (#408, #3749)", {
   expect_identical(
     cumall(c(FALSE, NA, TRUE)),
     c(FALSE, FALSE, FALSE)
+  )
+
+  expect_identical(
+    cumall(c(NA, TRUE)),
+    c(NA, NA)
+  )
+
+  expect_identical(
+    cumall(c(NA, FALSE)),
+    c(NA, FALSE)
   )
 
   expect_identical(

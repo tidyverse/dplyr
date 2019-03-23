@@ -36,3 +36,11 @@ test_that("validate_grouped_df (#3837)", {
   attr(df, "groups") <- NULL
   expect_error(validate_grouped_df(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
 })
+
+test_that("new_grouped_df does not have rownames (#4173)", {
+  tbl <- new_grouped_df(
+    tibble(x = rnorm(10)),
+    groups = tibble(".rows" := replicate(5, sample(1:10, replace = TRUE), simplify = FALSE))
+  )
+  expect_false(tibble::has_rownames(tbl))
+})

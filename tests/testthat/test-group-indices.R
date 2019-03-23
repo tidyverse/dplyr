@@ -47,21 +47,33 @@ test_that("group_indices() warns when passed extra arguments on grouped or rowwi
 })
 
 test_that("group_indices() can be used inside mutate (#1185)", {
-  df <- data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6) %>% group_by(v1)
+  df <- tibble(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6) %>% group_by(v1)
   expect_identical(
     pull(mutate(df, g = group_indices())),
     group_indices(df)
   )
 
-  df <- data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6)
+  df <- tibble(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6)
   expect_identical(
     pull(mutate(df, g = group_indices())),
     group_indices(df)
   )
 
-  df <- rowwise(data_frame(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6))
+  df <- rowwise(tibble(v1 = c(3, 3, 2, 2, 3, 1), v2 = 1:6))
   expect_identical(
     pull(mutate(df, g = group_indices())),
     group_indices(df)
   )
+})
+
+test_that("group_indices() recognizes .drop", {
+  d <- tibble(f = factor("b", levels = c("a", "b", "c")))
+  expect_equal(group_indices(d, f), 1L)
+  expect_equal(group_indices(d, f, .drop = FALSE), 2L)
+
+  # these two should return the same result (#4208):
+  #   d %>% group_indices(...)
+  #   d %>% group_by(...) %>% group_indices()
+  d2 <- group_by(d, f)
+  expect_equal(group_indices(d2), 1L)
 })

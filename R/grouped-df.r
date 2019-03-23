@@ -7,23 +7,17 @@
 #' @keywords internal
 #' @param data a tbl or data frame.
 #' @param vars a character vector or a list of [name()]
-#' @param drop deprecated
+#' @param drop When `.drop = TRUE`, empty groups are dropped.
 #' @export
-grouped_df <- function(data, vars, drop) {
-  if (length(vars) == 0) {
-    return(tbl_df(data))
-  }
+grouped_df <- function(data, vars, drop = FALSE) {
   assert_that(
     is.data.frame(data),
     (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars)
   )
-  if (!missing(drop)) {
-    warning("`drop` is deprecated")
-  }
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
-  grouped_df_impl(data, unname(vars))
+  grouped_df_impl(data, unname(vars), drop)
 }
 
 #' Low-level construction and validation for the grouped_df class
@@ -48,6 +42,7 @@ grouped_df <- function(data, vars, drop) {
 #' # mean of each bootstrap sample
 #' summarise(tbl, x = mean(x))
 #'
+#' @importFrom tibble new_tibble
 #' @keywords internal
 #' @export
 new_grouped_df <- function(x, groups, ..., class = character()) {
@@ -56,11 +51,12 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
     is.data.frame(groups),
     tail(names(groups), 1L) == ".rows"
   )
-  structure(
+  new_tibble(
     x,
     groups = groups,
     ...,
-    class = c(class, "grouped_df", "tbl_df", "tbl", "data.frame")
+    nrow = NROW(x),
+    class = c(class, "grouped_df")
   )
 }
 
@@ -108,12 +104,16 @@ is.grouped_df <- function(x) inherits(x, "grouped_df")
 #' @export
 is_grouped_df <- is.grouped_df
 
+group_sum <- function(x) {
+  grps <- n_groups(x)
+  paste0(commas(group_vars(x)), " [", big_mark(grps), "]")
+}
+
 #' @export
 tbl_sum.grouped_df <- function(x) {
-  grps <- n_groups(x)
   c(
     NextMethod(),
-    c("Groups" = paste0(commas(group_vars(x)), " [", big_mark(grps), "]"))
+    c("Groups" = group_sum(x))
   )
 }
 
@@ -181,7 +181,7 @@ ungroup.grouped_df <- function(x, ...) {
   if (!all(group_names %in% names(y))) {
     tbl_df(y)
   } else {
-    grouped_df(y, group_names)
+    grouped_df(y, group_names, group_by_drop_default(x))
   }
 }
 
@@ -283,6 +283,7 @@ rename_.grouped_df <- function(.data, ..., .dots = list()) {
 do.grouped_df <- function(.data, ...) {
   index <- group_rows(.data)
   labels <- select(group_data(.data), -last_col())
+  attr(labels, ".drop") <- NULL
 
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
@@ -304,7 +305,7 @@ do.grouped_df <- function(.data, ...) {
       env_bind_do_pronouns(mask, group_data)
       out <- eval_tidy(args[[1]], mask)
       out <- out[0, , drop = FALSE]
-      out <- label_output_dataframe(labels, list(list(out)), groups(.data))
+      out <- label_output_dataframe(labels, list(list(out)), groups(.data), group_by_drop_default(.data))
     }
     return(out)
   }
@@ -333,7 +334,7 @@ do.grouped_df <- function(.data, ...) {
   }
 
   if (!named) {
-    label_output_dataframe(labels, out, groups(.data))
+    label_output_dataframe(labels, out, groups(.data), group_by_drop_default(.data))
   } else {
     label_output_list(labels, out, groups(.data))
   }
@@ -348,7 +349,7 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 
 #' @export
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_vars(
+  dist <- distinct_prepare(
     .data,
     vars = quos(...),
     group_vars = group_vars(.data),
@@ -357,7 +358,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
   out <- distinct_impl(dist$data, vars, keep, environment())
-  grouped_df(out, groups(.data))
+  grouped_df(out, groups(.data), group_by_drop_default(.data))
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {

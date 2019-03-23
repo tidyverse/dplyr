@@ -5,7 +5,7 @@
 \alias{ungroup}
 \title{Group by one or more variables}
 \usage{
-group_by(.data, ..., add = FALSE)
+group_by(.data, ..., add = FALSE, .drop = group_by_drop_default(.data))
 
 ungroup(x, ...)
 }
@@ -20,7 +20,15 @@ will be silently dropped.}
 override existing groups. To add to the existing groups, use
 \code{add = TRUE}.}
 
+\item{.drop}{When \code{.drop = TRUE}, empty groups are dropped. See \code{\link[=group_by_drop_default]{group_by_drop_default()}} for
+what the default value is for this argument.}
+
 \item{x}{A \code{\link[=tbl]{tbl()}}}
+}
+\value{
+A \link[=grouped_df]{grouped data frame}, unless the combination of \code{...} and \code{add}
+yields a non empty set of grouping columns, a regular (ungrouped) data frame
+otherwise.
 }
 \description{
 Most data operations are done on groups defined by variables.
@@ -102,7 +110,9 @@ tbl \%>\%
 }
 \seealso{
 Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_indices}}, \code{\link{group_rows}},
-  \code{\link{group_size}}, \code{\link{groups}}
+  \code{\link{group_indices}}, \code{\link{group_keys}},
+  \code{\link{group_map}}, \code{\link{group_nest}},
+  \code{\link{group_rows}}, \code{\link{group_size}},
+  \code{\link{group_trim}}, \code{\link{groups}}
 }
 \concept{grouping functions}

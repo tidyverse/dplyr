@@ -1,44 +1,29 @@
 #include "pch.h"
-#include <dplyr/main.h>
 
-#include <dplyr/registration.h>
+#include <tools/utils.h>
+
+#include <dplyr/main.h>
 #include <dplyr/symbols.h>
 
-using namespace Rcpp;
-
-SEXP get_cache() {
-  static SEXP cache = 0;
-  if (!cache) {
-    SEXP vec = PROTECT(Rf_allocVector(VECSXP, 2));
-    SEXP date_classes = PROTECT(Rf_mkString("Date"));
-    SET_VECTOR_ELT(vec, 0, date_classes);
-    CharacterVector time_classes = CharacterVector::create("POSIXct", "POSIXt");
-    SET_VECTOR_ELT(vec, 1, time_classes);
-    UNPROTECT(2);
-    R_PreserveObject(vec);
-    cache = vec;
-  }
-  return cache;
-}
-
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
-SEXP get_date_classes() {
-  return VECTOR_ELT(get_cache(), 0);
-}
-
-// [[Rcpp::interfaces(cpp)]]
-// [[Rcpp::export]]
-SEXP get_time_classes() {
-  return VECTOR_ELT(get_cache(), 1);
-}
-
-SEXP ns_methods() {
-  static Environment ns = Environment::namespace_env("methods");
-  return ns;
-}
-
 namespace dplyr {
+
+SEXP get_date_classes() {
+  static Rcpp::CharacterVector klasses(1, Rf_mkChar("Date"));
+  return klasses;
+}
+
+inline SEXP init_time_classes() {
+  Rcpp::Shield<SEXP> res(Rf_allocVector(STRSXP, 2));
+  SET_STRING_ELT(res, 0, Rf_mkChar("POSIXct"));
+  SET_STRING_ELT(res, 1, Rf_mkChar("POSIXt"));
+  return res;
+}
+
+SEXP get_time_classes() {
+  static Rcpp::CharacterVector klasses(init_time_classes());
+  return klasses;
+}
+
 SEXP symbols::package = Rf_install("package");
 SEXP symbols::n = Rf_install("n");
 SEXP symbols::tzone = Rf_install("tzone");
@@ -81,6 +66,7 @@ SEXP symbols::new_env = Rf_install("new.env");
 SEXP symbols::comment = Rf_install("comment");
 SEXP symbols::groups = Rf_install("groups");
 SEXP symbols::vars = Rf_install("vars");
+SEXP symbols::position = Rf_install("position");
 
 SEXP symbols::op_minus = Rf_install("-");
 SEXP symbols::str = Rf_install("str");
@@ -89,4 +75,26 @@ SEXP symbols::inspect = Rf_install("inspect");
 SEXP symbols::dot = Rf_install(".");
 SEXP symbols::dot_x = Rf_install(".x");
 SEXP symbols::drop = Rf_install("drop");
+
+SEXP symbols::rlang = Rf_install("rlang");
+SEXP symbols::eval_tidy = Rf_install("eval_tidy");
+SEXP symbols::quote = Rf_install("quote");
+SEXP symbols::dot_drop = Rf_install(".drop");
+SEXP symbols::warn_deprecated = Rf_install("warn_deprecated");
+SEXP symbols::signal_soft_deprecated = Rf_install("signal_soft_deprecated");
+SEXP symbols::call = Rf_install("call");
+SEXP symbols::env = Rf_install("env");
+SEXP symbols::fun = Rf_install("fun");
+SEXP symbols::cpp_class = Rf_install("cpp_class");
+SEXP symbols::levels = Rf_install("levels");
+SEXP symbols::labels = Rf_install("labels");
+SEXP symbols::indices = Rf_install("indices");
+SEXP symbols::ptype = Rf_install("ptype");
+SEXP symbols::names = R_NamesSymbol;
+
+SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
+
+SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
+SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);
+SEXP strings::Date = STRING_ELT(get_date_classes(), 0);
 }

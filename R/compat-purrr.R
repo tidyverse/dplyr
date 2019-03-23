@@ -1,4 +1,4 @@
-# nocov - compat-purrr (last updated: rlang 0.0.0.9007)
+# nocov start - compat-purrr (last updated: rlang 0.3.0.9000)
 
 # This file serves as a reference for compatibility functions for
 # purrr. They are not drop-in replacements but allow a similar style
@@ -11,7 +11,8 @@ map <- function(.x, .f, ...) {
 }
 map_mold <- function(.x, .f, .mold, ...) {
   out <- vapply(.x, .f, .mold, ..., USE.NAMES = FALSE)
-  rlang::set_names(out, names(.x))
+  names(out) <- names(.x)
+  out
 }
 map_lgl <- function(.x, .f, ...) {
   map_mold(.x, .f, logical(1), ...)
@@ -49,7 +50,12 @@ pluck_cpl <- function(.x, .f) {
 }
 
 map2 <- function(.x, .y, .f, ...) {
-  Map(.f, .x, .y, ...)
+  out <- mapply(.f, .x, .y, MoreArgs = list(...), SIMPLIFY = FALSE)
+  if (length(out) == length(.x)) {
+    set_names(out, names(.x))
+  } else {
+    set_names(out, NULL)
+  }
 }
 map2_lgl <- function(.x, .y, .f, ...) {
   as.vector(map2(.x, .y, .f, ...), "logical")
@@ -66,9 +72,12 @@ map2_chr <- function(.x, .y, .f, ...) {
 map2_cpl <- function(.x, .y, .f, ...) {
   as.vector(map2(.x, .y, .f, ...), "complex")
 }
-
+walk2 <- function(.x, .y, .f, ...) {
+  map2(.x, .y, .f, ...)
+  invisible(.x)
+}
 args_recycle <- function(args) {
-  lengths <- map_int(args, length)
+  lengths <- lengths(args)
   n <- max(lengths)
 
   stopifnot(all(lengths == 1L | lengths == n))
@@ -157,5 +166,37 @@ accumulate_right <- function(.x, .f, ..., .init) {
   f <- function(x, y) .f(y, x, ...)
   Reduce(f, .x, init = .init, right = TRUE, accumulate = TRUE)
 }
+
+detect <- function(.x, .f, ..., .right = FALSE, .p = is_true) {
+  for (i in index(.x, .right)) {
+    if (.p(.f(.x[[i]], ...))) {
+      return(.x[[i]])
+    }
+  }
+  NULL
+}
+detect_index <- function(.x, .f, ..., .right = FALSE, .p = is_true) {
+  for (i in index(.x, .right)) {
+    if (.p(.f(.x[[i]], ...))) {
+      return(i)
+    }
+  }
+  0L
+}
+index <- function(x, right = FALSE) {
+  idx <- seq_along(x)
+  if (right) {
+    idx <- rev(idx)
+  }
+  idx
+}
+
+imap <- function(.x, .f, ...) {
+  map2(.x, vec_index(.x), .f, ...)
+}
+vec_index <- function(x) {
+  names(x) %||% seq_along(x)
+}
+
 
 # nocov end

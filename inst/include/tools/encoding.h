@@ -43,8 +43,8 @@ struct sxpinfo_struct {
 
 namespace dplyr {
 
-CharacterVector reencode_factor(IntegerVector x);
-CharacterVector reencode_char(SEXP x);
+Rcpp::CharacterVector reencode_factor(Rcpp::IntegerVector x);
+Rcpp::CharacterVector reencode_char(SEXP x);
 
 }
 

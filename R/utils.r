@@ -90,3 +90,11 @@ unstructure <- function(x) {
   attributes(x) <- NULL
   x
 }
+
+compact_null <- function(x) {
+  Filter(function(elt) !is.null(elt), x)
+}
+
+paste_line <- function(...) {
+  paste(chr(...), collapse = "\n")
+}

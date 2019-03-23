@@ -56,7 +56,7 @@
 #'
 #'    `nest_join()` is the most fundamental join since you can recreate the other joins from it.
 #'    An `inner_join()` is a `nest_join()` plus an [tidyr::unnest()], and `left_join()` is a
-#'    `nest_join()` plus an `unnest(drop = FALSE)`.
+#'    `nest_join()` plus an `unnest(.drop = FALSE)`.
 #'    A `semi_join()` is a `nest_join()` plus a `filter()` where you check that every element of data has
 #'    at least one row, and an `anti_join()` is a `nest_join()` plus a `filter()` where you check every element has zero rows.
 #'    }
@@ -223,14 +223,14 @@ auto_by_msg <- function(by) {
 #' @export
 common_by.default <- function(by, x, y) {
   bad_args("by", "must be a (named) character vector, list, or NULL for ",
-    "natural joins (not recommended in production code), not {type_of(by)}"
+    "natural joins (not recommended in production code), not {friendly_type_of(by)}"
   )
 }
 
 check_suffix <- function(x) {
   if (!is.character(x) || length(x) != 2) {
     bad_args("suffix", "must be a character vector of length 2, ",
-      "not {type_of(x)} of length {length(x)}"
+      "not {friendly_type_of(x)} of length {length(x)}"
     )
   }
 

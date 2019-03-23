@@ -31,20 +31,20 @@ private:
 
 public:
 
-  OrderVisitors(List args, LogicalVector ascending, int n_) :
+  OrderVisitors(Rcpp::List args, Rcpp::LogicalVector ascending, int n_) :
     visitors(n_),
     n(n_),
     nrows(0)
   {
     nrows = Rf_length(args[0]);
     for (int i = 0; i < n; i++) {
-      visitors[i]  = order_visitor(args[i], ascending[i], i);
+      visitors[i] = order_visitor(args[i], ascending[i], i);
     }
   }
 
-  inline IntegerVector apply() const {
-    if (nrows == 0) return IntegerVector(0);
-    IntegerVector x = seq(1, nrows);
+  inline Rcpp::IntegerVector apply() const {
+    if (nrows == 0) return Rcpp::IntegerVector(0);
+    Rcpp::IntegerVector x = Rcpp::seq(1, nrows);
     std::sort(x.begin(), x.end(), Compare(*this));
     return x;
   }

@@ -87,14 +87,14 @@ tbl_cube <- function(dimensions, measures) {
   if (!is.list(dimensions) || any_apply(dimensions, Negate(is.atomic)) ||
     is.null(names(dimensions))) {
     bad_args("dimensions", "must be a named list of vectors, ",
-      "not {type_of(dimensions)}"
+      "not {friendly_type_of(dimensions)}"
     )
   }
 
   if (!is.list(measures) || any_apply(measures, Negate(is.array)) ||
     is.null(names(measures))) {
     bad_args("measures", "must be a named list of arrays, ",
-      "not {type_of(measures)}"
+      "not {friendly_type_of(measures)}"
     )
   }
 
@@ -184,11 +184,11 @@ as.data.frame.tbl_cube <- function(x, ...) {
 
 #' @rdname as.table.tbl_cube
 #' @description For a cube, the data frame returned by
-#'   [tibble::as_data_frame()] resulting data frame contains the
+#'   [tibble::as_tibble()] resulting data frame contains the
 #'   dimensions as character values (and not as factors).
 #' @export
 as_tibble.tbl_cube <- function(x, ...) {
-  as_data_frame(as.data.frame(x, ..., stringsAsFactors = FALSE))
+  as_tibble(as.data.frame(x, ..., stringsAsFactors = FALSE))
 }
 
 # Coercion methods -------------------------------------------------------------
@@ -361,7 +361,7 @@ find_index <- function(x, names) {
 }
 
 #' @export
-group_by.tbl_cube <- function(.data, ..., add = FALSE) {
+group_by.tbl_cube <- function(.data, ..., add = FALSE, .drop = FALSE) {
   groups <- group_by_prepare(.data, ..., add = add)
 
   # Convert symbols to indices
@@ -393,7 +393,7 @@ summarise.tbl_cube <- function(.data, ...) {
   dots <- quos(..., .named = TRUE)
 
   out_dims <- .data$dims[.data$groups]
-  n <- map_int(out_dims, length)
+  n <- lengths(out_dims)
 
   out_mets <- list()
   for (nm in names(dots)) {

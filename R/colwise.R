@@ -84,9 +84,8 @@ NULL
 #' [select()]. It is used for instance in scoped summarising and
 #' mutating verbs ([mutate_at()] and [summarise_at()]).
 #'
-#' Note that verbs accepting a `vars()` specification also accept an
-#' [integerish][rlang::is_integerish] vector of positions or a
-#' character vector of column names.
+#' Note that verbs accepting a `vars()` specification also accept a
+#' numeric vector of positions or a character vector of column names.
 #'
 #' @param ... Variables to include/exclude in mutate/summarise. You
 #'   can use same specifications as in [select()]. If missing,
@@ -164,7 +163,7 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
     out
   } else {
     bad_args(".vars", "must be a character/numeric vector or a `vars()` object, ",
-      "not {type_of(vars)}"
+      "not {friendly_type_of(vars)}"
     )
   }
 }

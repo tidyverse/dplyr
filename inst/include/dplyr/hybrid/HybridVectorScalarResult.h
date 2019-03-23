@@ -17,7 +17,7 @@ public:
   inline Vec summarise() const {
     int ng = data.ngroups();
 
-    Vec vec = init(ng);
+    Vec vec(Rcpp::no_init(ng));
 
     typename SlicedTibble::group_iterator git = data.group_begin();
     for (int i = 0; i < ng; i++, ++git) {
@@ -31,7 +31,7 @@ public:
     int ng = data.ngroups();
     int nr = data.nrows();
 
-    Vec vec = init(nr);
+    Vec vec(Rcpp::no_init(nr));
 
     typename SlicedTibble::group_iterator git = data.group_begin();
     for (int i = 0; i < ng; i++, ++git) {
@@ -53,10 +53,6 @@ private:
 
   inline const Impl* self() const {
     return static_cast<const Impl*>(this);
-  }
-
-  inline Vec init(int n) const {
-    return Rcpp::no_init(n);
   }
 
 };

@@ -8,8 +8,12 @@
 #' @inheritParams scoped
 #' @param .vars_predicate A quoted predicate expression as returned by
 #'   [all_vars()] or [any_vars()].
-#' @param .preserve when `TRUE` (the default), the grouping structure
-#'   is preserved, otherwise it is recalculated based on the resulting data.
+#'
+#'   Can also be a function or purrr-like formula. In this case, the
+#'   intersection of the results is taken by default and there's
+#'   currently no way to request the union.
+#' @param .preserve when `FALSE` (the default), the grouping structure
+#'   is recalculated based on the resulting data, otherwise it is kept as is.
 #' @export
 #'
 #' @section Grouping variables:
@@ -39,21 +43,28 @@
 #'
 #' # And filter_if() selects variables with a predicate function:
 #' filter_if(mtcars, ~ all(floor(.) == .), all_vars(. != 0))
-filter_all <- function(.tbl, .vars_predicate, .preserve = TRUE) {
+#'
+#'
+#' # We're working on a new syntax to allow functions instead,
+#' # including purrr-like lambda functions. This is already
+#' # operational, but there's currently no way to specify the union of
+#' # the predicate results:
+#' mtcars %>% filter_at(vars(hp, vs), ~ . %% 2 == 0)
+filter_all <- function(.tbl, .vars_predicate, .preserve = FALSE) {
   syms <- syms(tbl_vars(.tbl))
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)
 }
 #' @rdname filter_all
 #' @export
-filter_if <- function(.tbl, .predicate, .vars_predicate, .preserve = TRUE) {
+filter_if <- function(.tbl, .predicate, .vars_predicate, .preserve = FALSE) {
   syms <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)
 }
 #' @rdname filter_all
 #' @export
-filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = TRUE) {
+filter_at <- function(.tbl, .vars, .vars_predicate, .preserve = FALSE) {
   syms <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   pred <- apply_filter_syms(.vars_predicate, syms, .tbl)
   filter(.tbl, !!pred, .preserve = .preserve)
@@ -63,22 +74,25 @@ apply_filter_syms <- function(pred, syms, tbl) {
   if (is_empty(syms)) {
     bad_args(".predicate", "has no matching columns")
   }
+  joiner <- all_exprs
 
-  if (inherits(pred, "all_vars")) {
-    joiner <- all_exprs
-  } else if (inherits(pred, "any_vars")) {
-    joiner <- any_exprs
+  if (inherits_any(pred, c("all_vars", "any_vars"))) {
+    if (inherits(pred, "any_vars")) {
+      joiner <- any_exprs
+    }
+    pred <- map(syms, function(sym) expr_substitute(pred, quote(.), sym))
+  } else if (is_bare_formula(pred) || is_function(pred)) {
+    pred <- as_function(pred)
+    pred <- map(syms, function(sym) call2(pred, sym))
   } else {
-    bad_args(".vars_predicate", "must be a call to `all_vars()` or `any_vars()`, ",
-      "not {type_of(pred)}"
+    bad_args(".vars_predicate", "must be a function or a call to `all_vars()` or `any_vars()`, ",
+      "not {friendly_type_of(pred)}"
     )
   }
 
-  pred <- map(syms, function(sym) expr_substitute(pred, quote(.), sym))
-
-  if (length(pred)) {
-    joiner(!!!pred)
+  if (length(pred) == 1) {
+    pred[[1L]]
   } else {
-    pred
+    joiner(!!!pred)
   }
 }

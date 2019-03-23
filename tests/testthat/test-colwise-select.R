@@ -1,6 +1,6 @@
 context("colwise select")
 
-df <- data_frame(x = 0L, y = 0.5, z = 1)
+df <- tibble(x = 0L, y = 0.5, z = 1)
 
 test_that("can select/rename all variables", {
   expect_identical(select_all(df), df)
@@ -71,7 +71,7 @@ test_that("can select/rename with vars()", {
 })
 
 test_that("select variants can use grouping variables (#3351, #3480)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
 
   expect_identical(
@@ -94,7 +94,7 @@ test_that("select_if keeps grouping cols", {
 })
 
 test_that("select_if() handles non-syntactic colnames", {
-  df <- data_frame(`x 1` = 1:3)
+  df <- tibble(`x 1` = 1:3)
   expect_identical(select_if(df, is_integer)[[1]], 1:3)
 })
 
@@ -126,7 +126,7 @@ test_that("scoping (#3426)", {
 })
 
 test_that("rename variants can rename a grouping variable (#3351)", {
-  tbl <- data_frame(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
+  tbl <- tibble(gr1 = rep(1:2, 4), gr2 = rep(1:2, each = 4), x = 1:8) %>%
     group_by(gr1)
   res <- rename(tbl, GR1 = gr1, GR2 = gr2, X = x)
 
@@ -167,3 +167,18 @@ test_that("mutate_all does not change the order of columns (#3351)", {
   tbl <- group_by(tibble(x = 1:4, y = 1:4, z = 1:4), y)
   expect_message(expect_identical(names(mutate_all(tbl, identity)), names(tbl)), "ignored")
 })
+
+test_that("select_if() and rename_if() handles logical (#4213)", {
+  ids <- "Sepal.Length"
+  expect_identical(
+    iris %>% select_if(!names(.) %in% ids),
+    iris %>% select(-Sepal.Length)
+  )
+
+  expect_identical(
+    iris %>% rename_if(!names(.) %in% ids, toupper),
+    iris %>% rename_at(setdiff(names(.), "Sepal.Length"), toupper)
+  )
+
+})
+

@@ -5,6 +5,7 @@
 
 #include <tools/SymbolVector.h>
 #include <tools/SymbolString.h>
+#include <tools/Quosure.h>
 
 namespace dplyr {
 
@@ -42,10 +43,10 @@ public:
     return RowwiseDataFrameIndexIterator();
   }
 
-  DataFrame& data() {
+  Rcpp::DataFrame& data() {
     return data_;
   }
-  const DataFrame& data() const {
+  const Rcpp::DataFrame& data() const {
     return data_;
   }
 
@@ -54,7 +55,7 @@ public:
   }
 
   inline SymbolString symbol(int) {
-    stop("Rowwise data frames don't have grouping variables");
+    Rcpp::stop("Rowwise data frames don't have grouping variables");
   }
 
   inline SEXP label(int) {
@@ -69,26 +70,32 @@ public:
     return nrows();
   }
 
-  inline SymbolVector get_vars() const {
-    return SymbolVector();
+  inline R_xlen_t max_group_size() const {
+    return 1;
   }
 
-  static inline CharacterVector classes() {
-    return Rcpp::CharacterVector::create("rowwise_df", "tbl_df", "tbl", "data.frame");
+  inline const SymbolVector& get_vars() const {
+    return vars;
   }
+
+  static inline Rcpp::CharacterVector classes() {
+    static Rcpp::CharacterVector classes = Rcpp::CharacterVector::create("rowwise_df", "tbl_df", "tbl", "data.frame");
+    return classes;
+  }
+
+  void check_not_groups(const QuosureList& quosures) const {}
 
 private:
-  DataFrame data_;
-
+  Rcpp::DataFrame data_;
+  SymbolVector vars;
 };
 
 }
 
 namespace Rcpp {
-using namespace dplyr;
 
 template <>
-inline bool is<RowwiseDataFrame>(SEXP x) {
+inline bool is<dplyr::RowwiseDataFrame>(SEXP x) {
   return Rf_inherits(x, "rowwise_df");
 }
 

@@ -33,7 +33,14 @@
 #' @param add When `add = FALSE`, the default, `group_by()` will
 #'   override existing groups. To add to the existing groups, use
 #'   `add = TRUE`.
+#' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
+#'   what the default value is for this argument.
 #' @inheritParams filter
+#'
+#' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
+#'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
+#'   otherwise.
+#'
 #' @export
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
@@ -83,17 +90,25 @@
 #'   group_by(y) %>%
 #'   group_rows()
 #'
-group_by <- function(.data, ..., add = FALSE) {
+group_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   UseMethod("group_by")
 }
 #' @export
-group_by.default <- function(.data, ..., add = FALSE) {
-  group_by_(.data, .dots = compat_as_lazy_dots(...))
+group_by.default <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
+  group_by_(.data, .dots = compat_as_lazy_dots(...), add = add)
 }
 #' @export
 #' @rdname se-deprecated
 #' @inheritParams group_by
 group_by_ <- function(.data, ..., .dots = list(), add = FALSE) {
+  signal_soft_deprecated(paste_line(
+    "group_by_() is deprecated. ",
+    "Please use group_by() instead",
+    "",
+    "The 'programming' vignette or the tidyeval book can help you",
+    "to program with group_by() : https://tidyeval.tidyverse.org"
+  ))
+
   UseMethod("group_by_")
 }
 
@@ -106,9 +121,9 @@ ungroup <- function(x, ...) {
 
 #' Prepare for grouping.
 #'
-#' Performs standard operations that should happen before individual methods
-#' process the data. This includes mutating the tbl to add new grouping columns
-#' and updating the groups (based on add)
+#' `*_prepare()` performs standard manipulation that is needed prior
+#' to actual data processing. They are only be needed by packages
+#' that implement dplyr backends.
 #'
 #' @return A list
 #'   \item{data}{Modified tbl}
@@ -180,4 +195,32 @@ group_vars <- function(x) {
 #' @export
 group_vars.default <- function(x) {
   deparse_names(groups(x))
+}
+
+#' Default value for .drop argument of group_by
+#'
+#' @param .tbl A data frame
+#'
+#' @return `TRUE` unless `.tbl` is a grouped data frame that was previously
+#'   obtained by `group_by(.drop = FALSE)`
+#'
+#' @examples
+#' group_by_drop_default(iris)
+#'
+#' iris %>%
+#'   group_by(Species) %>%
+#'   group_by_drop_default()
+#'
+#' iris %>%
+#'   group_by(Species, .drop = FALSE) %>%
+#'   group_by_drop_default()
+#'
+#' @export
+group_by_drop_default <- function(.tbl) {
+  UseMethod("group_by_drop_default")
+}
+
+#' @export
+group_by_drop_default.default <- function(.tbl) {
+  !identical(attr(group_data(.tbl), ".drop"), FALSE)
 }

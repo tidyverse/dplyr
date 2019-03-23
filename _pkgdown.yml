@@ -1,9 +1,7 @@
-url: http://dplyr.tidyverse.org
+url: https://dplyr.tidyverse.org
 
 template:
-  ganalytics: "UA-115082821"
   package: tidytemplate
-  default_assets: false
   params:
     docsearch:
       api_key: 1270c4079b26a138795263974bbf302d
@@ -119,10 +117,21 @@ navbar:
     - text: Compatibility
       href: articles/compatibility.html
   - text: News
-    href: news/index.html
+    menu:
+    - text: "Release notes"
+    - text: "Version 0.8.0"
+      href: https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/
+    - text: "Version 0.7.5"
+      href: https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/
+    - text: "Change log"
+      href: news/index.html
   right:
   - icon: fa-github fa-lg
     href: https://github.com/tidyverse/dplyr
 
 development:
   mode: auto
+
+authors:
+  Kirill Müller:
+    href: http://krlmlr.info

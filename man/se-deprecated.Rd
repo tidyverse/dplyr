@@ -27,7 +27,8 @@
 \usage{
 tally_(x, wt, sort = FALSE)
 
-count_(x, vars, wt = NULL, sort = FALSE)
+count_(x, vars, wt = NULL, sort = FALSE,
+  .drop = group_by_drop_default(x))
 
 add_tally_(x, wt, sort = FALSE)
 
@@ -43,7 +44,7 @@ group_by_(.data, ..., .dots = list(), add = FALSE)
 
 group_indices_(.data, ..., .dots = list())
 
-filter_(.data, ..., .dots = list(), .preserve = TRUE)
+filter_(.data, ..., .dots = list())
 
 slice_(.data, ..., .dots = list())
 
@@ -81,6 +82,8 @@ frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 
 \item{vars}{Various meanings depending on the verb.}
+
+\item{.drop}{see \code{\link[=group_by]{group_by()}}}
 
 \item{.data}{A data frame.}
 

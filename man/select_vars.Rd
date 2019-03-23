@@ -35,3 +35,6 @@ rename a variable that doesn't exist.}
 \code{\link[tidyselect:vars_pull]{tidyselect::vars_pull()}}. These dplyr aliases are soft-deprecated
 and will be deprecated sometimes in the future.
 }
+\details{
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("deprecated")}
+}

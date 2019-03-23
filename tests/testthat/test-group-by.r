@@ -10,6 +10,15 @@ test_that("group_by with add = TRUE adds groups", {
   expect_groups(add_groups2(df), c("x", "y"))
 })
 
+test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
+  add_groups_extendedclass <- function(tbl) {
+    grouped <- group_by(tbl, x)
+    group_by.default(grouped, y, add = TRUE)
+  }
+
+  expect_groups(add_groups_extendedclass(df), c("x", "y"))
+})
+
 test_that("joins preserve grouping", {
   g <- group_by(df, x)
 
@@ -34,7 +43,7 @@ test_that("grouping by constant adds column (#410)", {
 
 
 test_that("local group_by preserves variable types", {
-  df_var <- data_frame(
+  df_var <- tibble(
     l = c(T, F),
     i = 1:2,
     d = Sys.Date() + 1:2,
@@ -45,7 +54,7 @@ test_that("local group_by preserves variable types", {
   )
 
   for (var in names(df_var)) {
-    expected <- data_frame(unique(df_var[[var]]), n = 1L)
+    expected <- tibble(unique(df_var[[var]]), n = 1L)
     names(expected)[1] <- var
 
     summarised <- df_var %>% group_by(!!sym(var)) %>% summarise(n = n())
@@ -80,6 +89,9 @@ test_that("group_by handles NA in factors #341", {
     x  = 1:4
   )
   expect_warning(g <- group_by(d, f1, f2))
+  expect_equal(group_size(g), c(1L,1L,1L,1L))
+
+  expect_warning(g <- group_by(d, f1, f2, .drop = FALSE))
   expect_equal(group_size(g), c(1L,1L,1L,0L,1L))
 })
 
@@ -108,9 +120,19 @@ test_that("group_by only applies the allow list to grouping variables", {
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
 
+  res <- group_by(df, x, .drop = FALSE)
+  expect_equal(groups(res), list(sym("x")))
+  expect_identical(
+    group_data(res),
+    structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = FALSE)
+  )
+
   res <- group_by(df, x)
   expect_equal(groups(res), list(sym("x")))
-  expect_identical(group_data(res), tibble(x := 1:5, ".rows" := as.list(1:5)))
+  expect_identical(
+    group_data(res),
+    structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = TRUE)
+  )
 })
 
 test_that("group_by fails when lists are used as grouping variables (#276)", {
@@ -141,7 +163,7 @@ test_that("grouped_df errors on NULL labels (#398)", {
 test_that("grouped_df errors on non-existent var (#2330)", {
   df <- data.frame(x = 1:5)
   expect_error(
-    grouped_df(df, list(quote(y))),
+    grouped_df(df, list(quote(y)), FALSE),
     "Column `y` is unknown"
   )
 })
@@ -156,14 +178,15 @@ test_that("group_by only creates one group for NA (#401)", {
 })
 
 test_that("there can be 0 groups (#486)", {
-  data <- data.frame(a = numeric(0), g = character(0)) %>% group_by(g)
+  data <- tibble(a = numeric(0), g = character(0)) %>% group_by(g)
   expect_equal(length(data$a), 0L)
   expect_equal(length(data$g), 0L)
   expect_equal(map_int(group_rows(data), length), integer(0))
 })
 
 test_that("group_by works with zero-row data frames (#486)", {
-  dfg <- group_by(data.frame(a = numeric(0), b = numeric(0), g = character(0)), g)
+  df <- data.frame(a = numeric(0), b = numeric(0), g = character(0))
+  dfg <- group_by(df, g, .drop = FALSE)
   expect_equal(dim(dfg), c(0, 3))
   expect_groups(dfg, "g")
   expect_equal(group_size(dfg), integer(0))
@@ -208,7 +231,7 @@ test_that("group_by gives meaningful message with unknow column (#716)", {
 })
 
 test_that("[ on grouped_df preserves grouping if subset includes grouping vars", {
-  df <- data_frame(x = 1:5, ` ` = 6:10)
+  df <- tibble(x = 1:5, ` ` = 6:10)
   by_x <- df %>% group_by(x)
   expect_equal(by_x %>% groups(), by_x %>% `[`(1:2) %>% groups())
 
@@ -226,7 +249,7 @@ test_that("[ on grouped_df drops grouping if subset doesn't include grouping var
 })
 
 test_that("group_by works after arrange (#959)", {
-  df <- data_frame(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
+  df <- tibble(Log = c(1, 2, 1, 2, 1, 2), Time = c(10, 1, 3, 0, 15, 11))
   res <- df %>%
     arrange(Time) %>%
     group_by(Log) %>%
@@ -272,13 +295,13 @@ test_that(paste0("group_by handles encodings for native strings (#1507)"), {
 })
 
 test_that("group_by handles raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_identical(ungroup(group_by(df, a)), df)
   expect_identical(ungroup(group_by(df, b)), df)
 })
 
 test_that("rowwise handles raw columns (#1803)", {
-  df <- data_frame(a = 1:3, b = as.raw(1:3))
+  df <- tibble(a = 1:3, b = as.raw(1:3))
   expect_is(rowwise(df), "rowwise_df")
 })
 
@@ -376,4 +399,104 @@ test_that("arrange handles grouped tibble with 0 groups (#3935)", {
   df <- tibble(x=integer()) %>% group_by(x)
   res <- arrange(df, x)
   expect_identical(df, res)
+})
+
+test_that("group_by() with empty spec produces a grouped data frame with 0 grouping variables", {
+  gdata <- group_data(group_by(iris))
+  expect_equal(names(gdata), ".rows")
+  expect_equal(gdata$.rows, list(1:nrow(iris)))
+})
+
+# .drop = TRUE ---------------------------------------------------
+
+test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
+  res <- iris %>%
+    filter(Species == "setosa") %>%
+    group_by(Species, .drop = TRUE)
+
+  expect_identical(
+    group_data(res),
+    structure(
+      tibble(Species = factor("setosa", levels = levels(iris$Species)), .rows := list(1:50)),
+      .drop = TRUE
+    )
+  )
+
+  expect_true(group_by_drop_default(res))
+})
+
+test_that("grouped data frames remember their .drop (#4061)", {
+  res <- iris %>%
+    filter(Species == "setosa") %>%
+    group_by(Species, .drop = TRUE)
+
+  res2 <- res %>%
+    filter(Sepal.Length > 5)
+  expect_true(group_by_drop_default(res2))
+
+  res3 <- res %>%
+    filter(Sepal.Length > 5, .preserve = FALSE)
+  expect_true(group_by_drop_default(res3))
+
+  res4 <- res3 %>%
+    group_by(Species)
+  expect_true(group_by_drop_default(res4))
+  expect_equal(nrow(group_data(res4)), 1L)
+})
+
+test_that("summarise maintains the .drop attribute (#4061)", {
+  df <- tibble(
+    f1 = factor("a", levels = c("a", "b", "c")),
+    f2 = factor("d", levels = c("d", "e", "f", "g")),
+    x  = 42
+  )
+
+  res <- df %>%
+    group_by(f1, f2, .drop = TRUE)
+  expect_equal(n_groups(res), 1L)
+
+  res2 <- summarise(res, x = sum(x))
+  expect_equal(n_groups(res2), 1L)
+  expect_true(group_by_drop_default(res2))
+})
+
+test_that("joins maintain the .drop attribute (#4061)", {
+  df1 <- group_by(tibble(
+    f1 = factor(c("a", "b"), levels = c("a", "b", "c")),
+    x  = 42:43
+  ), f1, .drop = TRUE)
+
+  df2 <- group_by(tibble(
+    f1 = factor(c("a"), levels = c("a", "b", "c")),
+    y = 1
+  ), f1, .drop = TRUE)
+
+  res <- left_join(df1, df2)
+  expect_equal(n_groups(res), 2L)
+
+  df2 <- group_by(tibble(
+    f1 = factor(c("a", "c"), levels = c("a", "b", "c")),
+    y = 1:2
+  ), f1, .drop = TRUE)
+  res <- full_join(df1, df2)
+  expect_equal(n_groups(res), 3L)
+})
+
+test_that("group_by(add = TRUE) sets .drop if the origonal data was .drop", {
+  d <- tibble(
+    f1 = factor("b", levels = c("a", "b", "c")),
+    f2 = factor("g", levels = c("e", "f", "g")),
+    x  = 48
+  )
+
+  res <- group_by(group_by(d, f1, .drop = TRUE), f2, add = TRUE)
+  expect_equal(n_groups(res), 1L)
+  expect_true(group_by_drop_default(res))
+})
+
+test_that("group_by() makes a shallow copy of data even in the corner case", {
+  df <- data.frame(x = 1:4)
+  gdf <- group_by(df)
+  expect_true(inherits(gdf, "tbl_df"))
+  expect_false(inherits(df, "tbl_df"))
 })

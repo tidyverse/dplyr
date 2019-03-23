@@ -20,6 +20,8 @@
 #' @param .env This variable is deprecated and no longer has any
 #'   effect. To evaluate `weight` in a particular context, you can
 #'   now unquote a [quosure][rlang::quosure].
+#' @param ... ignored
+#'
 #' @name sample
 #' @examples
 #' by_cyl <- mtcars %>% group_by(cyl)
@@ -47,13 +49,13 @@ NULL
 
 #' @rdname sample
 #' @export
-sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL) {
+sample_n <- function(tbl, size, replace = FALSE, weight = NULL, .env = NULL, ...) {
   UseMethod("sample_n")
 }
 
 #' @rdname sample
 #' @export
-sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL) {
+sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NULL, ...) {
   UseMethod("sample_frac")
 }
 
@@ -66,16 +68,14 @@ sample_frac <- function(tbl, size = 1, replace = FALSE, weight = NULL, .env = NU
 
 #' @export
 sample_n.default <- function(tbl, size, replace = FALSE, weight = NULL,
-                             .env = parent.frame()) {
-
-  bad_args("tbl", "must be a data frame, not {fmt_classes(tbl)}")
+                             .env = parent.frame(), ...) {
+  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}")
 }
 
 #' @export
 sample_frac.default <- function(tbl, size = 1, replace = FALSE, weight = NULL,
-                                .env = parent.frame()) {
-
-  bad_args("tbl", "must be a data frame, not {fmt_classes(tbl)}")
+                                .env = parent.frame(), ...) {
+  bad_args("tbl", "must be a data frame, not {friendly_type_of(tbl)}")
 }
 
 # Helper functions -------------------------------------------------------------
@@ -84,7 +84,7 @@ check_weight <- function(x, n) {
   if (is.null(x)) return()
 
   if (!is.numeric(x)) {
-    bad_args("weight", "must be a numeric, not {type_of(x)}")
+    bad_args("weight", "must be a numeric, not {friendly_type_of(x)}")
   }
   if (any(x < 0)) {
     bad_args("weight", "must be a vector with all values nonnegative, ",

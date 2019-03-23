@@ -1,6 +1,4 @@
 #include "pch.h"
-#include <Rcpp.h>
-using namespace Rcpp;
 
 //' Do values in a numeric vector fall in specified range?
 //'
@@ -16,25 +14,25 @@ using namespace Rcpp;
 //'
 //' x <- rnorm(1e2)
 //' x[between(x, -1, 1)]
-// [[Rcpp::export]]
-LogicalVector between(NumericVector x, double left, double right) {
+// [[Rcpp::export(rng = false)]]
+Rcpp::LogicalVector between(Rcpp::NumericVector x, double left, double right) {
   int n = x.size();
-  LogicalVector out(no_init(n));
+  Rcpp::LogicalVector out(Rcpp::no_init(n));
 
   // Assume users know what they're doing with date/times. In the future
   // should ensure that left and right are the correct class too.
-  if (x.attr("class") != R_NilValue && !Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
-    warningcall(R_NilValue, "between() called on numeric vector with S3 class");
+  if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol)) && !Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
+    Rcpp::warningcall(R_NilValue, "between() called on numeric vector with S3 class");
   }
 
-  if (NumericVector::is_na(left) || NumericVector::is_na(right)) {
+  if (Rcpp::NumericVector::is_na(left) || Rcpp::NumericVector::is_na(right)) {
     for (int i = 0; i < n; ++i)
       out[i] = NA_LOGICAL;
     return out;
   }
 
   for (int i = 0; i < n; ++i) {
-    if (NumericVector::is_na(x[i])) {
+    if (Rcpp::NumericVector::is_na(x[i])) {
       out[i] = NA_LOGICAL;
     } else if ((x[i] >= left) && (x[i] <= right)) {
       out[i] = true;

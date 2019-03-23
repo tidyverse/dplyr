@@ -7,13 +7,14 @@
 \alias{add_count}
 \title{Count/tally observations by group}
 \usage{
-tally(x, wt, sort = FALSE)
+tally(x, wt, sort = FALSE, name = "n")
 
-count(x, ..., wt = NULL, sort = FALSE)
+count(x, ..., wt = NULL, sort = FALSE, name = "n",
+  .drop = group_by_drop_default(x))
 
-add_tally(x, wt, sort = FALSE)
+add_tally(x, wt, sort = FALSE, name = "n")
 
-add_count(x, ..., wt = NULL, sort = FALSE)
+add_count(x, ..., wt = NULL, sort = FALSE, name = "n")
 }
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to tally/count.}
@@ -30,7 +31,11 @@ frame. It supports \link[rlang:quasiquotation]{unquoting}. See
 
 \item{sort}{if \code{TRUE} will sort output in descending order of \code{n}}
 
+\item{name}{The output column name. If omitted, it will be \code{n}.}
+
 \item{...}{Variables to group by.}
+
+\item{.drop}{see \code{\link[=group_by]{group_by()}}}
 }
 \value{
 A tbl, grouped the same way as \code{x}.
@@ -39,7 +44,8 @@ A tbl, grouped the same way as \code{x}.
 \code{tally()} is a convenient wrapper for summarise that will either call
 \code{\link[=n]{n()}} or \code{\link{sum}(n)} depending on whether you're tallying
 for the first time, or re-tallying. \code{count()} is similar but calls
-\code{\link[=group_by]{group_by()}} before and \code{\link[=ungroup]{ungroup()}} after.
+\code{\link[=group_by]{group_by()}} before and \code{\link[=ungroup]{ungroup()}} after. If the data is already
+grouped, \code{count()} adds an additional group that is removed afterwards.
 
 \code{add_tally()} adds a column \code{n} to a table based on the number
 of items within each existing group, while \code{add_count()} is a shortcut that
@@ -48,17 +54,11 @@ and \code{\link[=count]{count()}} as \code{\link[=mutate]{mutate()}} is to \code
 they add an additional column rather than collapsing each group.
 }
 \note{
-The column name in the returned data is usually \code{n}, even if you
-have supplied a weight.
+The column name in the returned data is given by the \code{name} argument,
+set to \code{"n"} by default.
 
-If the data already has a column named \code{n}, the output column
-will be called \code{nn}. If the table already has columns called \code{n} and \code{nn}
-then the column returned will be \code{nnn}, and so on.
-
-There is currently no way to control the output variable name - if you
-need to change the default,
-you can call \code{\link[=rename]{rename()}} on the result,
-or write the \code{\link[=summarise]{summarise()}} yourself.
+If the data already has a column by that name, the output column
+will be prefixed by an extra \code{"n"} as many times as necessary.
 }
 \examples{
 # tally() is short-hand for summarise()
@@ -66,6 +66,9 @@ mtcars \%>\% tally()
 mtcars \%>\% group_by(cyl) \%>\% tally()
 # count() is a short-hand for group_by() + tally()
 mtcars \%>\% count(cyl)
+# Note that if the data is already grouped, count() adds
+# an additional group that is removed afterwards
+mtcars \%>\% group_by(gear) \%>\% count(carb)
 
 # add_tally() is short-hand for mutate()
 mtcars \%>\% add_tally()
@@ -80,15 +83,13 @@ species <-
 species
 species \%>\% count(species, sort = TRUE)
 
-# Use rename() to change the name of the newly created column:
+# Change the name of the newly created column:
 species <-
  starwars \%>\%
- count(species, homeworld, sort = TRUE) \%>\%
- rename(n_species_by_homeworld = n)
+ count(species, homeworld, sort = TRUE, name = "n_species_by_homeworld")
 species
 species \%>\%
- count(species, sort = TRUE) \%>\%
- rename(n_species = n)
+ count(species, sort = TRUE, name = "n_species")
 
 # add_count() is useful for groupwise filtering
 # e.g.: show details for species that have a single member

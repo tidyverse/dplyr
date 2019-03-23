@@ -19,8 +19,11 @@ public:
 
   MinMax(const SlicedTibble& data, Column column_):
     Parent(data),
-    column(column_.data)
+    column(column_.data),
+    warn(false)
   {}
+
+  ~MinMax() {}
 
   inline double process(const typename SlicedTibble::slicing_index& indices) const {
     const int n = indices.size();
@@ -29,24 +32,25 @@ public:
     for (int i = 0; i < n; ++i) {
       STORAGE current = column[indices[i]];
 
-      if (Rcpp::Vector<RTYPE>::is_na(current)) {
-        if (NA_RM)
+      // both NA and NaN in the REALSXP case
+      if (Rcpp::traits::is_na<RTYPE>(current)) {
+        if (NA_RM) {
           continue;
-        else
-          return NA_REAL;
-      }
-      else {
-        double current_res = current;
-        if (is_better(current_res, res))
-          res = current_res;
+        } else {
+          return RTYPE == REALSXP ? current : NA_REAL;
+        }
+      } else {
+        if (is_better(current, res)) {
+          res = current;
+        }
       }
     }
-
     return res;
   }
 
 private:
   Rcpp::Vector<RTYPE> column;
+  mutable bool warn;
 
   static const double Inf;
 
@@ -61,6 +65,22 @@ private:
 template <int RTYPE, typename SlicedTibble, bool MINIMUM, bool NA_RM>
 const double MinMax<RTYPE, SlicedTibble, MINIMUM, NA_RM>::Inf = (MINIMUM ? R_PosInf : R_NegInf);
 
+inline bool is_infinite(double x) {
+  return !R_FINITE(x);
+}
+
+template <int RTYPE>
+SEXP maybe_coerce_minmax(SEXP x) {
+  if (TYPEOF(x) != REALSXP) return x;
+
+  double* end = REAL(x) + XLENGTH(x);
+  if (std::find_if(REAL(x), end, is_infinite) != end) {
+    return x;
+  }
+
+  return Rcpp::as< Rcpp::Vector<RTYPE> >(x);
+}
+
 }
 
 // min( <column> )
@@ -70,9 +90,11 @@ SEXP minmax_narm(const SlicedTibble& data, Column x, const Operation& op) {
   // only handle basic number types, anything else goes through R
   switch (TYPEOF(x.data)) {
   case RAWSXP:
-    return op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x));
+    return internal::maybe_coerce_minmax<RAWSXP>(Rcpp::Shield<SEXP>(op(internal::MinMax<RAWSXP, SlicedTibble, MINIMUM, NARM>(data, x))));
+
   case INTSXP:
-    return op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x));
+    return internal::maybe_coerce_minmax<INTSXP>(Rcpp::Shield<SEXP>(op(internal::MinMax<INTSXP, SlicedTibble, MINIMUM, NARM>(data, x))));
+
   case REALSXP:
     return op(internal::MinMax<REALSXP, SlicedTibble, MINIMUM, NARM>(data, x));
   default:

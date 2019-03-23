@@ -43,3 +43,12 @@ test_that("ntile handles character vectors consistently", {
   charvec_sort_test()
   withr::with_collate("C", charvec_sort_test())
 })
+
+test_that("ntile() does not overflow (#4186)", {
+  res <- tibble(a = 1:1e5) %>%
+    mutate(b = ntile(n = 1e5)) %>%
+    count(b) %>%
+    pull()
+
+  expect_true(all(res == 1L))
+})

@@ -100,8 +100,12 @@ group_size_grouped_cpp <- function(gdf) {
     .Call(`_dplyr_group_size_grouped_cpp`, gdf)
 }
 
-grouped_df_impl <- function(data, symbols) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols)
+regroup <- function(grouping_data, frame) {
+    .Call(`_dplyr_regroup`, grouping_data, frame)
+}
+
+grouped_df_impl <- function(data, symbols, drop) {
+    .Call(`_dplyr_grouped_df_impl`, data, symbols, drop)
 }
 
 group_data_grouped_df <- function(data) {
@@ -110,6 +114,10 @@ group_data_grouped_df <- function(data) {
 
 ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
+}
+
+group_split_impl <- function(gdf, keep, frame, ptype) {
+    .Call(`_dplyr_group_split_impl`, gdf, keep, frame, ptype)
 }
 
 hybrids <- function() {
@@ -144,8 +152,8 @@ full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
     .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
 
-mutate_impl <- function(df, dots) {
-    .Call(`_dplyr_mutate_impl`, df, dots)
+mutate_impl <- function(df, dots, caller_env) {
+    .Call(`_dplyr_mutate_impl`, df, dots, caller_env)
 }
 
 select_impl <- function(df, vars) {
@@ -176,12 +184,12 @@ setdiff_data_frame <- function(x, y) {
     .Call(`_dplyr_setdiff_data_frame`, x, y)
 }
 
-summarise_impl <- function(df, dots) {
-    .Call(`_dplyr_summarise_impl`, df, dots)
+summarise_impl <- function(df, dots, frame, caller_env) {
+    .Call(`_dplyr_summarise_impl`, df, dots, frame, caller_env)
 }
 
-hybrid_impl <- function(df, quosure) {
-    .Call(`_dplyr_hybrid_impl`, df, quosure)
+hybrid_impl <- function(df, quosure, caller_env) {
+    .Call(`_dplyr_hybrid_impl`, df, quosure, caller_env)
 }
 
 test_comparisons <- function() {
@@ -226,13 +234,42 @@ quo_is_data_pronoun <- function(quo) {
 
 #' Cumulativate versions of any, all, and mean
 #'
-#' dplyr adds `cumall()`, `cumany()`, and `cummean()` to complete
-#' R's set of cumulate functions to match the aggregation functions available
-#' in most databases
+#' dplyr provides `cumall()`, `cumany()`, and `cummean()` to complete R's set
+#' of cumulative functions.
+#'
+#' @section Cumulative logical functions:
+#'
+#' These are particularly useful in conjunction with `filter()`:
+#'
+#' * `cumall(x)`: all cases until the first `FALSE`.
+#' * `cumall(!x)`: all cases until the first `TRUE`.
+#' * `cumany(x)`: all cases after the first `TRUE`.
+#' * `cumany(!x)`: all cases after the first `FALSE`.
 #'
 #' @param x For `cumall()` and `cumany()`, a logical vector; for
-#'   `cummean()` an integer or numeric vector
+#'   `cummean()` an integer or numeric vector.
+#' @return A vector the same length as `x`.
 #' @export
+#' @examples
+#' # `cummean()` returns a numeric/integer vector of the same length
+#' # as the input vector.
+#' x <- c(1, 3, 5, 2, 2)
+#' cummean(x)
+#' cumsum(x) / seq_along(x)
+#'
+#' # `cumall()` and `cumany()` return logicals
+#' cumall(x < 5)
+#' cumany(x == 3)
+#'
+#' # `cumall()` vs. `cumany()`
+#' df <- data.frame(
+#'   date = as.Date("2020-01-01") + 0:6,
+#'   balance = c(100, 50, 25, -25, -50, 30, 120)
+#' )
+#' # all rows after first overdraft
+#' df %>% filter(cumany(balance < 0))
+#' # all rows until first overdraft
+#' df %>% filter(cumall(!(balance < 0)))
 cumall <- function(x) {
     .Call(`_dplyr_cumall`, x)
 }
@@ -249,7 +286,3 @@ cummean <- function(x) {
     .Call(`_dplyr_cummean`, x)
 }
 
-# Register entry points for exported C++ functions
-methods::setLoadAction(function(ns) {
-    .Call('_dplyr_RcppExport_registerCCallable', PACKAGE = 'dplyr')
-})

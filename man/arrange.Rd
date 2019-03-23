@@ -31,6 +31,15 @@ The sort order for character vectors will depend on the collating sequence
 of the locale in use: see \code{\link[=locales]{locales()}}.
 }
 
+\section{Missing values}{
+
+Unlike base sorting with \code{sort()}, \code{NA} are:
+\itemize{
+\item always sorted to the end for local data, even when wrapped with \code{desc()}.
+\item treated differently for remote data, depending on the backend.
+}
+}
+
 \section{Tidy data}{
 
 When applied to a data frame, row names are silently dropped. To preserve,

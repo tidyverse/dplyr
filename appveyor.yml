@@ -15,6 +15,7 @@ install:
 environment:
   global:
     WARNINGS_ARE_ERRORS: 1
+    _R_CHECK_SYSTEM_CLOCK_: FALSE
     GITHUB_PAT:
       secure: SAjXHKPAFPipSOE/6giubmF50pmgGtSFxyhe88E7RDv+q4PucnkyRK7Rs+/a7Vo0
 

@@ -22,17 +22,16 @@ public:
   typedef VisitorEqualPredicate<MultipleVectorVisitors> Pred;
   typedef dplyr_hash_set<int, Hash, Pred > Set;
 
-  N_Distinct(const SlicedTibble& data, List columns_):
+  N_Distinct(const SlicedTibble& data, const Rcpp::List& columns_, int nrows_, int ngroups_):
     Parent(data),
-    columns(columns_),
-    nrows(data.nrows()),
-    ngroups(data.ngroups())
+
+    visitors(columns_, nrows_, ngroups_),
+    set(data.max_group_size(), Hash(visitors), Pred(visitors))
   {}
 
   inline int process(const typename SlicedTibble::slicing_index& indices) const {
-    MultipleVectorVisitors visitors(columns, nrows, ngroups, indices.group());
+    set.clear();
     int n = indices.size();
-    Set set(n, Hash(visitors), Pred(visitors));
 
     for (int i = 0; i < n; i++) {
       int index = indices[i];
@@ -42,16 +41,18 @@ public:
   }
 
 private:
-  List columns;
-  int nrows;
-  int ngroups;
+  MultipleVectorVisitors visitors;
+  mutable Set set;
 };
 
 }
 
 template <typename SlicedTibble, typename Expression, typename Operation>
-SEXP n_distinct_dispatch(const SlicedTibble& data, const Expression& expression, const Operation& op) {
+SEXP n_distinct_dispatch(const SlicedTibble& tbl, const Expression& expression, const Operation& op) {
   std::vector<SEXP> columns;
+  columns.reserve(tbl.data().size());
+
+  Rcpp::Shelter<SEXP> shelter;
   bool narm = false;
 
   int n = expression.size();
@@ -68,7 +69,7 @@ SEXP n_distinct_dispatch(const SlicedTibble& data, const Expression& expression,
         return R_UnboundValue;
       }
     } else if (expression.is_column(i, column)) {
-      columns.push_back(column.data);
+      columns.push_back(shelter(column.data));
     } else {
       // give up, R will handle the call
       return R_UnboundValue;
@@ -80,11 +81,19 @@ SEXP n_distinct_dispatch(const SlicedTibble& data, const Expression& expression,
     return R_UnboundValue;
   }
 
+  Rcpp::Shield<SEXP> s_columns(Rcpp::wrap(columns));
+  Rcpp::List lst_columns(s_columns);
+
+  SEXP res;
   if (narm) {
-    return op(internal::N_Distinct<SlicedTibble, true>(data, wrap(columns)));
+    internal::N_Distinct<SlicedTibble, true> distinct(tbl, lst_columns, tbl.nrows(), tbl.ngroups());
+    res = PROTECT(op(distinct));
   } else {
-    return op(internal::N_Distinct<SlicedTibble, false>(data, wrap(columns)));
+    internal::N_Distinct<SlicedTibble, false> distinct(tbl, lst_columns, tbl.nrows(), tbl.ngroups());
+    res = PROTECT(op(distinct));
   }
+  UNPROTECT(1);
+  return res;
 }
 
 }

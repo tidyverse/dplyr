@@ -292,7 +292,7 @@ test_that("bind_rows() creates a column of identifiers (#1337)", {
 })
 
 test_that("empty data frame are handled (#1346)", {
-  res <- data_frame() %>% bind_rows(data_frame(x = "a"))
+  res <- tibble() %>% bind_rows(tibble(x = "a"))
   expect_equal(nrow(res), 1L)
 })
 
@@ -314,4 +314,17 @@ test_that("bind_rows warns on binding factor and character (#1485)", {
   df1 <- head(iris, 1)
   df2 <- tail(iris, 1) %>% mutate(Species = as.character(Species))
   expect_warning(bind_rows(df1, df2), "binding factor and character vector, coercing into character vector")
+})
+
+test_that("bind_rows() correctly handles consecutive NULLs (#4296)", {
+  res <- list(
+    a = tibble(expected_id = "a"),
+    b = NULL,
+    c = NULL,
+    d = tibble(expected_id = "d"),
+    c = NULL,
+    e = tibble(expected_id = "e")
+  ) %>%
+    bind_rows(.id = "id")
+  expect_equal(res$id, res$expected_id)
 })
