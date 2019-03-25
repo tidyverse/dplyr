@@ -74,7 +74,7 @@ Version: 0.23-0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.4Mb
+      installed size is  5.5Mb
       sub-directories of 1Mb or more:
         doc       2.7Mb
         extdata   1.8Mb
@@ -95,18 +95,6 @@ Version: 0.0.1
     ```
     Namespaces in Imports field not imported from:
       ‘assertthat’ ‘DBI’ ‘tibble’
-      All declared Imports should be used.
-    ```
-
-# AGread
-
-Version: 0.2.0
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘reshape2’
       All declared Imports should be used.
     ```
 
@@ -143,42 +131,6 @@ Version: 0.1.2
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 676 marked UTF-8 strings
-    ```
-
-# alphavantager
-
-Version: 0.1.0
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      2: stop(content, call. = F) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/alphavantager/new/alphavantager.Rcheck/00_pkg_src/alphavantager/R/av_get.R:103
-      
-      ── 3. Error: call Technical Indicators (@test_av_get.R#57)  ────────────────────
-      Thank you for using Alpha Vantage! Our standard API call frequency is 5 calls per minute and 500 calls per day. Please visit https://www.alphavantage.co/premium/ if you would like to target a higher API call frequency.. API parameters used: symbol=MSFT, function=SMA, interval=monthly, time_period=60, series_type=close, apikey=HIDDEN_FOR_YOUR_SAFETY
-      1: av_get(symbol, av_fun, interval = interval, time_period = time_period, series_type = series_type) at testthat/test_av_get.R:57
-      2: stop(content, call. = F) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/alphavantager/new/alphavantager.Rcheck/00_pkg_src/alphavantager/R/av_get.R:103
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 7 SKIPPED: 0 FAILED: 3
-      1. Error: call TIMES_SERIES_INTRADAY (@test_av_get.R#22) 
-      2. Error: call SECTOR (@test_av_get.R#38) 
-      3. Error: call Technical Indicators (@test_av_get.R#57) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘devtools’
-      All declared Imports should be used.
     ```
 
 # alternativeSplicingEvents.hg19
@@ -225,7 +177,7 @@ Version: 1.2.1
 
 # amt
 
-Version: 0.0.5.0
+Version: 0.0.6
 
 ## In both
 
@@ -334,6 +286,65 @@ Version: 1.6.0
 Version: 0.1.1
 
 ## In both
+
+*   checking examples ... ERROR
+    ```
+    ...
+    
+        filter, lag
+    
+    The following objects are masked from ‘package:base’:
+    
+        intersect, setdiff, setequal, union
+    
+    > 
+    > # Needed to pass CRAN check / This is loaded by default
+    > set_time_scale_template(time_scale_template())
+    > 
+    > data(tidyverse_cran_downloads)
+    > 
+    > tidyverse_cran_downloads %>%
+    +     time_decompose(count, method = "stl") %>%
+    +     anomalize(remainder, method = "iqr")
+    Warning: Detecting old grouped_df format, replacing `vars` attribute by `groups`
+    Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+      there is no package called ‘quantmod’
+    Calls: %>% ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 35 SKIPPED: 0 FAILED: 14
+      1. Error: returns a ggplot (@test-plot_anomalies.R#8) 
+      2. Error: returns a ggplot (@test-plot_anomaly_decomposition.R#10) 
+      3. Error: single tbl_df (@test-time_decompose.R#14) 
+      4. Error: grouped tbl_df (@test-time_decompose.R#26) 
+      5. Error: method = stl, auto freq/trend (@test-time_decompose.R#36) 
+      6. Error: method = stl, character freq/trend (@test-time_decompose.R#46) 
+      7. Error: method = stl, numeric freq/trend (@test-time_decompose.R#56) 
+      8. Error: method = twitter, auto freq/trend (@test-time_decompose.R#66) 
+      9. Error: method = twitter, character freq/trend (@test-time_decompose.R#76) 
+      1. ...
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Warning: Detecting old grouped_df format, replacing `vars` attribute by `groups`
+    Quitting from lines 87-110 (anomalize_methods.Rmd) 
+    Error: processing vignette 'anomalize_methods.Rmd' failed with diagnostics:
+    there is no package called 'quantmod'
+    Execution halted
+    ```
 
 *   checking installed package size ... NOTE
     ```
@@ -507,6 +518,32 @@ Version: 0.9.3
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    ...
+    
+    > ### Name: plotDetectorTrace
+    > ### Title: Plot BANTER Detector Traces
+    > ### Aliases: plotDetectorTrace
+    > 
+    > ### ** Examples
+    > 
+    > data(train.data)
+    > # initialize BANTER model with event data
+    > bant.mdl <- initBanterModel(train.data$events)
+    > # add all detector models
+    > bant.mdl <- addBanterDetector(
+    +   bant.mdl, train.data$detectors, 
+    +   ntree = 50, sampsize = 1, num.cores = 1
+    + )
+    > 
+    > plotDetectorTrace(bant.mdl)
+    Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+      there is no package called ‘spatstat’
+    Calls: plotDetectorTrace ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
+    Execution halted
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘ranger’
@@ -527,17 +564,18 @@ Version: 1.4.0
         extdata   2.8Mb
     ```
 
-# bayesCT
+# BatchGetSymbols
 
-Version: 0.99.0
+Version: 2.4
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘devtools’ ‘msm’ ‘parallel’ ‘tidyr’
-      All declared Imports should be used.
+    Package required but not available: ‘quantmod’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # bayesdfa
@@ -548,9 +586,9 @@ Version: 0.1.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.6Mb
+      installed size is  5.8Mb
       sub-directories of 1Mb or more:
-        libs   4.8Mb
+        libs   4.9Mb
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -585,6 +623,54 @@ Version: 0.1.0
       All declared Imports should be used.
     ```
 
+# BETS
+
+Version: 0.4.9
+
+## In both
+
+*   checking whether package ‘BETS’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BETS/new/BETS.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘BETS’ ...
+** package ‘BETS’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘BETS’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BETS/new/BETS.Rcheck/BETS’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘BETS’ ...
+** package ‘BETS’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘BETS’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/BETS/old/BETS.Rcheck/BETS’
+
+```
 # BgeeDB
 
 Version: 2.6.2
@@ -602,6 +688,9 @@ Version: 2.6.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘BgeeDB’ ...
 ** R
 ** data
@@ -615,6 +704,9 @@ ERROR: lazy loading failed for package ‘BgeeDB’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘BgeeDB’ ...
 ** R
 ** data
@@ -644,7 +736,7 @@ Version: 0.1.0
 
 # binneR
 
-Version: 2.0.10
+Version: 2.0.11
 
 ## In both
 
@@ -889,9 +981,39 @@ Version: 1.3.11
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘bmlm-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: mlm_path_plot
+    > ### Title: Plot 'bmlm"s mediation model as a path diagram
+    > ### Aliases: mlm_path_plot
+    > 
+    > ### ** Examples
+    > 
+    > # Draw a template path diagram of the mediation model
+    > mlm_path_plot()
+    Error: qgraph package needed for this function. Please install it.
+    Execution halted
+    ```
+
 *   checking for GNU extensions in Makefiles ... NOTE
     ```
     GNU make is a SystemRequirements.
+    ```
+
+# BMSC
+
+Version: 0.1.1
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.1Mb
+      sub-directories of 1Mb or more:
+        libs   4.7Mb
     ```
 
 # bodenmiller
@@ -907,16 +1029,27 @@ Version: 0.1
         data   8.7Mb
     ```
 
+# bomrang
+
+Version: 0.5.0
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
 # bootnet
 
 Version: 1.2
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘psych’
-      All declared Imports should be used.
+    Package required but not available: ‘BDgraph’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # bossMaps
@@ -960,7 +1093,7 @@ Version: 0.29.1
       installed size is  5.6Mb
       sub-directories of 1Mb or more:
         doc     1.3Mb
-        R       2.1Mb
+        R       2.0Mb
         Sound   1.0Mb
     ```
 
@@ -998,6 +1131,39 @@ Version: 0.4.7
     GNU make is a SystemRequirements.
     ```
 
+# broom
+
+Version: 0.5.1
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘broom-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: tidy.gamlss
+    > ### Title: Tidy a(n) gamlss object
+    > ### Aliases: tidy.gamlss
+    > 
+    > ### ** Examples
+    > 
+    > 
+    > library(gamlss)
+    Error in library(gamlss) : there is no package called ‘gamlss’
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘gamlss’
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘gamlss’
+    ```
+
 # broom.mixed
 
 Version: 0.2.4
@@ -1006,7 +1172,61 @@ Version: 0.2.4
 
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘glmmADMB’
+    Packages suggested but not available for checking: ‘gamlss’ ‘glmmADMB’
+    ```
+
+# broomExtra
+
+Version: 0.0.1
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### Title: Augmented data from grouped analysis of any function that has
+    > ###   'data' argument in its function call.
+    > ### Aliases: grouped_augment
+    > 
+    > ### ** Examples
+    > 
+    > set.seed(123)
+    > # to speed up computation, let's use only 50% of the data
+    > 
+    > # linear model
+    > broomExtra::grouped_augment(
+    +   data = dplyr::sample_frac(tbl = ggplot2::diamonds, size = 0.5),
+    +   grouping.vars = c(cut, color),
+    +   formula = price ~ carat - 1,
+    +   ..f = stats::lm,
+    +   na.action = na.omit
+    + )
+    Error in UseMethod("ungroup") : 
+      no applicable method for 'ungroup' applied to an object of class "list"
+    Calls: <Anonymous> ... freduce -> withVisible -> <Anonymous> -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      5: eval(quote(`_fseq`(`_lhs`)), env, env)
+      6: `_fseq`(`_lhs`)
+      7: freduce(value, `_function_list`)
+      8: withVisible(function_list[[k]](value))
+      9: function_list[[k]](value)
+      10: dplyr::ungroup(x = .)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 9 SKIPPED: 0 FAILED: 3
+      1. Error: `grouped_augment()` works (@test_grouped_augment.R#12) 
+      2. Error: `grouped_glance()` works (@test_grouped_glance.R#12) 
+      3. Error: `grouped_tidy()` works (@test_grouped_tidy.R#12) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # bsam
@@ -1026,6 +1246,9 @@ Version: 1.1.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘bsam’ ...
 ** package ‘bsam’ successfully unpacked and MD5 sums checked
 ** R
@@ -1048,6 +1271,9 @@ ERROR: lazy loading failed for package ‘bsam’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘bsam’ ...
 ** package ‘bsam’ successfully unpacked and MD5 sums checked
 ** R
@@ -1113,89 +1339,6 @@ Version: 0.2.2
       All declared Imports should be used.
     ```
 
-# cansim
-
-Version: 0.2.3
-
-## In both
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > ### Aliases: get_cansim_changed_tables
-    > 
-    > ### ** Examples
-    > 
-    > get_cansim_changed_tables("2018-08-01")
-    Error in get_cansim_changed_tables("2018-08-01") : 
-      Problem downloading data, status code 503
-    <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-    <html>
-    <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>503 Service Unavailable</title>
-    </head>
-    <body>
-    <h1>Service Unavailable</h1>
-    <p>The server is temporarily unable to service your
-    request due to maintenance downtime or capacity
-    problems. Please try again later.</p>
-    </body>
-    </html>
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 62-66 (cansim.Rmd) 
-    Error: processing vignette 'cansim.Rmd' failed with diagnostics:
-    Problem downloading data, status code 503
-    <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
-    <html>
-    <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>503 Service Unavailable</title>
-    </head>
-    <body>
-    <h1>Service Unavailable</h1>
-    <p>The server is temporarily unable to service your
-    request due to maintenance downtime or capacity
-    problems. Please try again later.</p>
-    </body>
-    </html>
-    Execution halted
-    ```
-
-# canvasXpress
-
-Version: 1.23.3
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      > library(testthat)
-      > library(canvasXpress)
-      > 
-      > test_check("canvasXpress")
-      ── 1. Failure: Incorrect Data Types (@test-other--BASE.R#44)  ──────────────────
-      `canvasXpress(data = "'Test'")` threw an error with unexpected message.
-      Expected match: "[Couldn't|Could not] resolve.*"
-      Actual message: "Not a valid URL!"
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 745 SKIPPED: 0 FAILED: 1
-      1. Failure: Incorrect Data Types (@test-other--BASE.R#44) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
 # capm
 
 Version: 0.13.9
@@ -1245,6 +1388,51 @@ Version: 6.0-81
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘caret-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: bagFDA
+    > ### Title: Bagged FDA
+    > ### Aliases: bagFDA print.bagFDA bagFDA.default bagFDA.formula
+    > ### Keywords: regression
+    > 
+    > ### ** Examples
+    > 
+    > library(mlbench)
+    > library(earth)
+    Error in library(earth) : there is no package called ‘earth’
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+             trControl = trainControl(classProbs = TRUE, summaryFunction = twoClassSummary)) at testthat/test_twoClassSummary.R:16
+      2: train.formula(Class ~ ., data = tr_dat, method = "fda", tuneLength = 10, metric = "ROC", 
+             trControl = trainControl(classProbs = TRUE, summaryFunction = twoClassSummary)) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/caret/new/caret.Rcheck/00_pkg_src/caret/R/train.default.R:291
+      3: train(x, y, weights = w, ...) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/caret/new/caret.Rcheck/00_pkg_src/caret/R/train.default.R:940
+      4: train.default(x, y, weights = w, ...) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/caret/new/caret.Rcheck/00_pkg_src/caret/R/train.default.R:291
+      5: checkInstall(models$library) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/caret/new/caret.Rcheck/00_pkg_src/caret/R/train.default.R:338
+      6: stop("Required package is missing", call. = FALSE) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/caret/new/caret.Rcheck/00_pkg_src/caret/R/modelLookup.R:110
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 102 SKIPPED: 32 FAILED: 2
+      1. Error: auc calculation is > .5 when Xs provide prediction (@test_misc.R#35) 
+      2. Error: twoClassSummary is calculating correctly (@test_twoClassSummary.R#16) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘earth’
+    ```
+
 *   checking installed package size ... NOTE
     ```
       installed size is  9.5Mb
@@ -1252,6 +1440,11 @@ Version: 6.0-81
         data     1.5Mb
         models   2.4Mb
         R        4.1Mb
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘earth’
     ```
 
 # cartools
@@ -1274,13 +1467,280 @@ Version: 0.1
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking whether package ‘CaseBasedReasoning’ can be installed ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘cowplot’ ‘dplyr’ ‘ranger’ ‘Rcpp’ ‘rms’ ‘survival’ ‘tidyverse’
-      All declared Imports should be used.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CaseBasedReasoning/new/CaseBasedReasoning.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘CaseBasedReasoning’ ...
+** package ‘CaseBasedReasoning’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distanceAPI.cpp -o distanceAPI.o
+In file included from distanceAPI.cpp:1:
+./distanceAPI.h:134:16: warning: 'rfDepthXYDistanceAPI::calc' hides overloaded virtual function [-Woverloaded-virtual]
+  virtual void calc(arma::mat& xNodeIDs, arma::mat& yNodeIDs);
+               ^
+./distanceAPI.h:121:16: note: hidden overloaded virtual function 'rfDepthDistanceAPI::calc' declared here: different number of parameters (1 vs 2)
+  virtual void calc(arma::mat& xNodeIDs);
+               ^
+In file included from distanceAPI.cpp:1:
+In file included from ./distanceAPI.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/RcppArmadillo.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/RcppArmadilloForward.h:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'weightedDistance' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<weightedDistance, std::__1::allocator<weightedDistance> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<weightedDistance, std::__1::allocator<weightedDistance> >::__shared_ptr_emplace<weightedDistance &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<weightedDistance>::make_shared<weightedDistance &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+distanceAPI.cpp:27:16: note: in instantiation of function template specialization 'std::__1::make_shared<weightedDistance, weightedDistance &>' requested here
+  dist_ = std::make_shared<weightedDistance>(dist);
+               ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'rangerProximity' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<rangerProximity, std::__1::allocator<rangerProximity> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<rangerProximity, std::__1::allocator<rangerProximity> >::__shared_ptr_emplace<rangerProximity &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<rangerProximity>::make_shared<rangerProximity &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+distanceAPI.cpp:89:16: note: in instantiation of function template specialization 'std::__1::make_shared<rangerProximity, rangerProximity &>' requested here
+  dist_ = std::make_shared<rangerProximity>(dist);
+               ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'rfDepthDistance' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<rfDepthDistance, std::__1::allocator<rfDepthDistance> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<rfDepthDistance, std::__1::allocator<rfDepthDistance> >::__shared_ptr_emplace<rfDepthDistance &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<rfDepthDistance>::make_shared<rfDepthDistance &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+distanceAPI.cpp:124:16: note: in instantiation of function template specialization 'std::__1::make_shared<rfDepthDistance, rfDepthDistance &>' requested here
+  dist_ = std::make_shared<rfDepthDistance>(dist);
+               ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+4 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances.cpp -o distances.o
+In file included from distances.cpp:4:
+./distanceAPI.h:134:16: warning: 'rfDepthXYDistanceAPI::calc' hides overloaded virtual function [-Woverloaded-virtual]
+  virtual void calc(arma::mat& xNodeIDs, arma::mat& yNodeIDs);
+               ^
+./distanceAPI.h:121:16: note: hidden overloaded virtual function 'rfDepthDistanceAPI::calc' declared here: different number of parameters (1 vs 2)
+  virtual void calc(arma::mat& xNodeIDs);
+               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c kNN.cpp -o kNN.o
+kNN.cpp:25:19: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprecated-declarations]
+    order = arma::sort_index(tmpDist, sortDirection);
+                  ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
+arma_deprecated
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:275:44: note: expanded from macro 'arma_deprecated'
+    #define arma_deprecated __attribute__((__deprecated__))
+                                           ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c order.cpp -o order.o
+order.cpp:26:21: warning: 'sort_index<arma::subview<double> >' is deprecated [-Wdeprecated-declarations]
+      order = arma::sort_index(x_.col(i), sortDirection_);
+                    ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::subview<double> >' has been explicitly marked deprecated here
+arma_deprecated
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:275:44: note: expanded from macro 'arma_deprecated'
+    #define arma_deprecated __attribute__((__deprecated__))
+                                           ^
+order.cpp:75:28: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprecated-declarations]
+  arma::uvec order = arma::sort_index(x, sortDirection) + 1;
+                           ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
+arma_deprecated
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:275:44: note: expanded from macro 'arma_deprecated'
+    #define arma_deprecated __attribute__((__deprecated__))
+                                           ^
+2 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c parallelTerminalNodeID.cpp -o parallelTerminalNodeID.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o CaseBasedReasoning.so RcppExports.o distanceAPI.o distances.o kNN.o order.o parallelTerminalNodeID.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [CaseBasedReasoning.so] Error 1
+ERROR: compilation failed for package ‘CaseBasedReasoning’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CaseBasedReasoning/new/CaseBasedReasoning.Rcheck/CaseBasedReasoning’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘CaseBasedReasoning’ ...
+** package ‘CaseBasedReasoning’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distanceAPI.cpp -o distanceAPI.o
+In file included from distanceAPI.cpp:1:
+./distanceAPI.h:134:16: warning: 'rfDepthXYDistanceAPI::calc' hides overloaded virtual function [-Woverloaded-virtual]
+  virtual void calc(arma::mat& xNodeIDs, arma::mat& yNodeIDs);
+               ^
+./distanceAPI.h:121:16: note: hidden overloaded virtual function 'rfDepthDistanceAPI::calc' declared here: different number of parameters (1 vs 2)
+  virtual void calc(arma::mat& xNodeIDs);
+               ^
+In file included from distanceAPI.cpp:1:
+In file included from ./distanceAPI.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/RcppArmadillo.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/RcppArmadilloForward.h:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'weightedDistance' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<weightedDistance, std::__1::allocator<weightedDistance> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<weightedDistance, std::__1::allocator<weightedDistance> >::__shared_ptr_emplace<weightedDistance &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<weightedDistance>::make_shared<weightedDistance &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+distanceAPI.cpp:27:16: note: in instantiation of function template specialization 'std::__1::make_shared<weightedDistance, weightedDistance &>' requested here
+  dist_ = std::make_shared<weightedDistance>(dist);
+               ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'rangerProximity' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<rangerProximity, std::__1::allocator<rangerProximity> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<rangerProximity, std::__1::allocator<rangerProximity> >::__shared_ptr_emplace<rangerProximity &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<rangerProximity>::make_shared<rangerProximity &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+distanceAPI.cpp:89:16: note: in instantiation of function template specialization 'std::__1::make_shared<rangerProximity, rangerProximity &>' requested here
+  dist_ = std::make_shared<rangerProximity>(dist);
+               ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'rfDepthDistance' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<rfDepthDistance, std::__1::allocator<rfDepthDistance> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<rfDepthDistance, std::__1::allocator<rfDepthDistance> >::__shared_ptr_emplace<rfDepthDistance &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<rfDepthDistance>::make_shared<rfDepthDistance &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+distanceAPI.cpp:124:16: note: in instantiation of function template specialization 'std::__1::make_shared<rfDepthDistance, rfDepthDistance &>' requested here
+  dist_ = std::make_shared<rfDepthDistance>(dist);
+               ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+4 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances.cpp -o distances.o
+In file included from distances.cpp:4:
+./distanceAPI.h:134:16: warning: 'rfDepthXYDistanceAPI::calc' hides overloaded virtual function [-Woverloaded-virtual]
+  virtual void calc(arma::mat& xNodeIDs, arma::mat& yNodeIDs);
+               ^
+./distanceAPI.h:121:16: note: hidden overloaded virtual function 'rfDepthDistanceAPI::calc' declared here: different number of parameters (1 vs 2)
+  virtual void calc(arma::mat& xNodeIDs);
+               ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c kNN.cpp -o kNN.o
+kNN.cpp:25:19: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprecated-declarations]
+    order = arma::sort_index(tmpDist, sortDirection);
+                  ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
+arma_deprecated
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:275:44: note: expanded from macro 'arma_deprecated'
+    #define arma_deprecated __attribute__((__deprecated__))
+                                           ^
+1 warning generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c order.cpp -o order.o
+order.cpp:26:21: warning: 'sort_index<arma::subview<double> >' is deprecated [-Wdeprecated-declarations]
+      order = arma::sort_index(x_.col(i), sortDirection_);
+                    ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::subview<double> >' has been explicitly marked deprecated here
+arma_deprecated
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:275:44: note: expanded from macro 'arma_deprecated'
+    #define arma_deprecated __attribute__((__deprecated__))
+                                           ^
+order.cpp:75:28: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprecated-declarations]
+  arma::uvec order = arma::sort_index(x, sortDirection) + 1;
+                           ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
+arma_deprecated
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:275:44: note: expanded from macro 'arma_deprecated'
+    #define arma_deprecated __attribute__((__deprecated__))
+                                           ^
+2 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c parallelTerminalNodeID.cpp -o parallelTerminalNodeID.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o CaseBasedReasoning.so RcppExports.o distanceAPI.o distances.o kNN.o order.o parallelTerminalNodeID.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [CaseBasedReasoning.so] Error 1
+ERROR: compilation failed for package ‘CaseBasedReasoning’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CaseBasedReasoning/old/CaseBasedReasoning.Rcheck/CaseBasedReasoning’
+
+```
 # casino
 
 Version: 0.1.0
@@ -1310,7 +1770,7 @@ Version: 1.4.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 10.6Mb
+      installed size is 10.5Mb
       sub-directories of 1Mb or more:
         data   3.1Mb
         doc    5.1Mb
@@ -1389,12 +1849,46 @@ Version: 0.1.0
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking whether package ‘ccrs’ can be installed ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘methods’
-      All declared Imports should be used.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ccrs/new/ccrs.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘ccrs’ ...
+** package ‘ccrs’ successfully unpacked and MD5 sums checked
+** R
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘gsl’
+ERROR: lazy loading failed for package ‘ccrs’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ccrs/new/ccrs.Rcheck/ccrs’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘ccrs’ ...
+** package ‘ccrs’ successfully unpacked and MD5 sums checked
+** R
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘gsl’
+ERROR: lazy loading failed for package ‘ccrs’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/ccrs/old/ccrs.Rcheck/ccrs’
+
+```
 # cellscape
 
 Version: 1.4.0
@@ -1468,19 +1962,15 @@ Version: 0.1.0
 
 # CGPfunctions
 
-Version: 0.4
+Version: 0.5.2
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘devtools’
+    Namespaces in Imports field not imported from:
+      ‘devtools’ ‘pwr’
       All declared Imports should be used.
-    ```
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Packages unavailable to check Rd xrefs: ‘BSDA’, ‘janitor’
     ```
 
 # childesr
@@ -1497,19 +1987,16 @@ Version: 0.1.0
 
 # childsds
 
-Version: 0.7.1
+Version: 0.7.3
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘gamlss.dist’
-      All declared Imports should be used.
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 24 marked UTF-8 strings
+    Package required but not available: ‘gamlss’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # chimeraviz
@@ -1596,16 +2083,32 @@ Version: 0.1
     to your NAMESPACE file.
     ```
 
-# cimir
+# chunked
 
-Version: 0.1-0
+Version: 0.4
 
-## In both
+## Newly broken
 
-*   checking dependencies in R code ... NOTE
+*   checking tests ...
     ```
-    Namespace in Imports field not imported from: ‘readr’
-      All declared Imports should be used.
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      3: count(x) %>% collect at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/chunked/new/chunked.Rcheck/00_pkg_src/chunked/R/write.R:119
+      4: eval(lhs, parent, parent)
+      5: eval(lhs, parent, parent)
+      6: count(x)
+      7: .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop) at /Users/romain/git/tidyverse/dplyr/R/count-tally.R:136
+      8: group_by_drop_default(x) at /Users/romain/git/tidyverse/dplyr/R/count-tally.R:136
+      9: group_by_drop_default.default(x) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:220
+      10: group_data(.tbl) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:225
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 39 SKIPPED: 0 FAILED: 1
+      1. Error: write_chunkwise to db works (@test-write.R#29) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # CINdex
@@ -1697,6 +2200,9 @@ Version: 0.2.1
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘circumplex’ ...
 ** package ‘circumplex’ successfully unpacked and MD5 sums checked
 ** libs
@@ -1710,6 +2216,9 @@ ERROR: compilation failed for package ‘circumplex’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘circumplex’ ...
 ** package ‘circumplex’ successfully unpacked and MD5 sums checked
 ** libs
@@ -1728,15 +2237,69 @@ Version: 1.6.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.2Mb
+      installed size is  6.1Mb
       sub-directories of 1Mb or more:
-        help   2.4Mb
+        help   2.3Mb
         R      3.2Mb
     ```
 
 # ClinReport
 
-Version: 0.9.1.10
+Version: 0.9.1.11
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > 
+    > 
+    > # Load the data
+    > 
+    > data(data)
+    > 
+    > # The default statistics are given here:
+    > 
+    > tab1=report.quanti(data=data,y="y_numeric",x1="GROUP",total=TRUE,subjid="SUBJID")
+    > 
+    > # Define the function corresponding to the coefficient of variation for example
+    > 
+    > cv=function(y) sd(y,na.rm=TRUE)/mean(y,na.rm=TRUE)
+    > 
+    > # We use the add.stat function to add CV at the second row:
+    > 
+    > tab1.cv=add.stat(tab1,data,func.stat=cv,func.stat.name="Coef. Var",
+    + pos=2)
+    Error in func.stat(y_numeric) : could not find function "func.stat"
+    Calls: add.stat ... summarise -> summarise.tbl_df -> summarise_impl -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/69-unifont.conf", line 5: invalid attribute 'translate'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/69-unifont.conf", line 5: invalid attribute 'selector'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/69-unifont.conf", line 6: invalid attribute 'xmlns:its'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/69-unifont.conf", line 6: invalid attribute 'version'
+    Fontconfig warning: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/80-delicious.conf", line 4: unknown element "its:rules"
+    Fontconfig warning: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/80-delicious.conf", line 5: unknown element "its:translateRule"
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/80-delicious.conf", line 5: invalid attribute 'translate'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/80-delicious.conf", line 5: invalid attribute 'selector'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/80-delicious.conf", line 6: invalid attribute 'xmlns:its'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/80-delicious.conf", line 6: invalid attribute 'version'
+    Fontconfig warning: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 4: unknown element "its:rules"
+    Fontconfig warning: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 5: unknown element "its:translateRule"
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 5: invalid attribute 'translate'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 5: invalid attribute 'selector'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 6: invalid attribute 'xmlns:its'
+    Fontconfig error: "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 6: invalid attribute 'version'
+    Fontconfig error: Cannot load default config file
+    Quitting from lines 81-90 (clinreport_modify_outputs.Rmd) 
+    Error: processing vignette 'clinreport_modify_outputs.Rmd' failed with diagnostics:
+    could not find function "func.stat"
+    Execution halted
+    ```
 
 ## In both
 
@@ -1752,9 +2315,6 @@ Version: 0.9.1.10
 Version: 0.8.6
 
 ## In both
-
-*   R CMD check timed out
-    
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -1797,65 +2357,72 @@ Version: 1.10.0
 
 ## In both
 
-*   checking Rd \usage sections ... WARNING
+*   checking whether package ‘CNPBayes’ can be installed ... ERROR
     ```
-    Undocumented arguments in documentation object 'marginal_lik'
-      ‘value’
-    
-    Functions with \usage entries need to have the appropriate \alias
-    entries, and all their arguments documented.
-    The \usage entries must correspond to syntactically valid R code.
-    See chapter ‘Writing R documentation files’ in the ‘Writing R
-    Extensions’ manual.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00install.out’ for details.
     ```
 
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    fmtutil [INFO]: Total formats: 15
-    fmtutil [INFO]: exiting with status 0
-    tlmgr install fancyhdr
-    TeX Live 2018 is frozen forever and will no
-    longer be updated.  This happens in preparation for a new release.
-    
-    If you're interested in helping to pretest the new release (when
-    pretests are available), please read http://tug.org/texlive/pretest.html.
-    Otherwise, just wait, and the new release will be ready in due time.
-    
-    tlmgr: Fundamental package texlive.infra not present, uh oh, goodbyeShould not happen, texlive.infra not found at /usr/local/bin/tlmgr line 7344.
-    tlmgr: package repository http://mirrors.standaloneinstaller.com/ctan/systems/texlive/tlnet (not verified: gpg unavailable)
-    tlmgr path add
-    ! LaTeX Error: File `fancyhdr.sty' not found.
-    
-    ! Emergency stop.
-    <read *> 
-    
-    Error: processing vignette 'Convergence.Rmd' failed with diagnostics:
-    Failed to compile Convergence.tex. See Convergence.log for more info.
-    Execution halted
-    ```
+## Installation
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  8.7Mb
-      sub-directories of 1Mb or more:
-        doc    3.4Mb
-        libs   1.3Mb
-        R      3.0Mb
-    ```
+### Devel
 
-*   checking R code for possible problems ... NOTE
-    ```
-    copyNumber,SingleBatchCopyNumber: no visible binding for global
-      variable ‘theta.star’
-      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00_pkg_src/CNPBayes/R/copynumber-models.R:148-149)
-    copyNumber,SingleBatchCopyNumber: no visible binding for global
-      variable ‘theta.star’
-      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/00_pkg_src/CNPBayes/R/copynumber-models.R:150-151)
-    Undefined global functions or variables:
-      theta.star
-    ```
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘CNPBayes’ ...
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c miscfunctions.cpp -o miscfunctions.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch.cpp -o multibatch.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch_pooledvar.cpp -o multibatch_pooledvar.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch_pooledvar_reduced.cpp -o multibatch_pooledvar_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch_reduced.cpp -o multibatch_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch.cpp -o singlebatch.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch_pooledvar.cpp -o singlebatch_pooledvar.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch_pooledvar_reduced.cpp -o singlebatch_pooledvar_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch_reduced.cpp -o singlebatch_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c update.cpp -o update.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o CNPBayes.so RcppExports.o miscfunctions.o multibatch.o multibatch_pooledvar.o multibatch_pooledvar_reduced.o multibatch_reduced.o singlebatch.o singlebatch_pooledvar.o singlebatch_pooledvar_reduced.o singlebatch_reduced.o update.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [CNPBayes.so] Error 1
+ERROR: compilation failed for package ‘CNPBayes’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/new/CNPBayes.Rcheck/CNPBayes’
 
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘CNPBayes’ ...
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c miscfunctions.cpp -o miscfunctions.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch.cpp -o multibatch.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch_pooledvar.cpp -o multibatch_pooledvar.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch_pooledvar_reduced.cpp -o multibatch_pooledvar_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c multibatch_reduced.cpp -o multibatch_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch.cpp -o singlebatch.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch_pooledvar.cpp -o singlebatch_pooledvar.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch_pooledvar_reduced.cpp -o singlebatch_pooledvar_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c singlebatch_reduced.cpp -o singlebatch_reduced.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/CNPBayes/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c update.cpp -o update.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o CNPBayes.so RcppExports.o miscfunctions.o multibatch.o multibatch_pooledvar.o multibatch_pooledvar_reduced.o multibatch_reduced.o singlebatch.o singlebatch_pooledvar.o singlebatch_pooledvar_reduced.o singlebatch_reduced.o update.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [CNPBayes.so] Error 1
+ERROR: compilation failed for package ‘CNPBayes’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/old/CNPBayes.Rcheck/CNPBayes’
+
+```
 # CNVScope
 
 Version: 1.9.7
@@ -1868,6 +2435,82 @@ Version: 1.9.7
     
     See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
     manual.
+    ```
+
+# coalitions
+
+Version: 0.6.5
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘coalitions-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: calculate_prob
+    > ### Title: Calculate coalition probability from majority table
+    > ### Aliases: calculate_prob
+    > 
+    > ### ** Examples
+    > 
+    > test_df <- data.frame(
+    +  cdu            = c(rep(FALSE, 9), TRUE),
+    +  cdu_fdp        = c(rep(FALSE, 8), TRUE, TRUE),
+    +  cdu_fdp_greens = c(TRUE, TRUE, rep(FALSE, 6), TRUE, TRUE))
+    > calculate_prob(test_df, "cdu_fdp_greens") # exclude_superior defaults to TRUE
+    Error in (function (..., .x = ..1, .y = ..2, . = ..1)  : 
+      object 'n_all' not found
+    Calls: calculate_prob ... summarise -> summarise.tbl_df -> summarise_impl -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      30: function_list[[k]](value)
+      31: summarize_at(., coalition, ~sum(.)/n_all * 100)
+      32: summarise(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/colwise-mutate.R:123
+      33: summarise.tbl_df(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/manip.r:269
+      34: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:102
+      35: (structure(function (..., .x = ..1, .y = ..2, . = ..1) 
+         sum(.)/n_all * 100, class = "rlang_lambda_function"))(cdu) at /Users/romain/git/tidyverse/dplyr/R/RcppExports.R:188
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 81 SKIPPED: 0 FAILED: 2
+      1. Error: Pooling works as expected (@test-pooling.R#12) 
+      2. Error: workflow stable (@test-workflow.R#64) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    The following object is masked from 'package:magrittr':
+    
+        set_names
+    
+    
+    Attaching package: 'dplyr'
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
+    Warning:  1 failed to parse.
+    Warning:  1 failed to parse.
+    Quitting from lines 155-161 (workflow.Rmd) 
+    Error: processing vignette 'workflow.Rmd' failed with diagnostics:
+    object 'n_all' not found
+    Execution halted
     ```
 
 # cocktailApp
@@ -1906,31 +2549,9 @@ Version: 0.8.0
 
 # codemetar
 
-Version: 0.1.6
+Version: 0.1.7
 
 ## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      ── 2. Error: (unknown) (@test-jsonld-compact.R#20)  ────────────────────────────
-      jsonld.InvalidUrllist(code = "loading remote context failed", url = "http://purl.org/codemeta/2.0", cause = "Evaluation error: Download (HTTP 404): http://purl.org/codemeta/2.0.")
-      1: jsonld_compact(doc, "http://purl.org/codemeta/2.0") at testthat/test-jsonld-compact.R:20
-      2: structure(store_val(), class = "json")
-      3: store_val()
-      4: stop(out$err)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 80 SKIPPED: 10 FAILED: 2
-      1. Error: we can call crosswalk (@test-crosswalk.R#25) 
-      2. Error: (unknown) (@test-jsonld-compact.R#20) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -1979,6 +2600,34 @@ Version: 0.3.2
     Execution halted
     ```
 
+# codyn
+
+Version: 2.0.1
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ── 5. Failure: Name checking works (@test_utilities.R#43)  ─────────────────────
+      `check_names(given = c("species", "year", "subplot", "DDD"), data = knz_001d)` threw an error with unexpected message.
+      Expected match: "data does not have name .*"
+      Actual message: "data does not have all of these name(s): 'DDD'"
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 355 SKIPPED: 0 FAILED: 5
+      1. Failure: community_stability loads and returns correct result (@test_community_stability.R#47) 
+      2. Failure: Name checking works (@test_utilities.R#34) 
+      3. Failure: Name checking works (@test_utilities.R#37) 
+      4. Failure: Name checking works (@test_utilities.R#40) 
+      5. Failure: Name checking works (@test_utilities.R#43) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # cofeatureR
 
 Version: 1.1.1
@@ -2006,7 +2655,7 @@ Version: 1.14.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.5Mb
+      installed size is  6.4Mb
       sub-directories of 1Mb or more:
         doc       1.9Mb
         extdata   3.1Mb
@@ -2060,6 +2709,9 @@ Version: 0.10.11
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘CollapsABEL’ ...
 ** package ‘CollapsABEL’ successfully unpacked and MD5 sums checked
 ** R
@@ -2079,6 +2731,9 @@ ERROR: lazy loading failed for package ‘CollapsABEL’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘CollapsABEL’ ...
 ** package ‘CollapsABEL’ successfully unpacked and MD5 sums checked
 ** R
@@ -2112,6 +2767,9 @@ Version: 1.0.4
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘colorednoise’ ...
 ** package ‘colorednoise’ successfully unpacked and MD5 sums checked
 ** libs
@@ -2125,6 +2783,9 @@ ERROR: compilation failed for package ‘colorednoise’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘colorednoise’ ...
 ** package ‘colorednoise’ successfully unpacked and MD5 sums checked
 ** libs
@@ -2137,7 +2798,7 @@ ERROR: compilation failed for package ‘colorednoise’
 ```
 # colorspace
 
-Version: 1.4-0
+Version: 1.4-1
 
 ## In both
 
@@ -2146,12 +2807,36 @@ Version: 1.4-0
       installed size is  5.9Mb
       sub-directories of 1Mb or more:
         doc   2.0Mb
-        R     2.0Mb
+        R     2.1Mb
     ```
 
 # compareDF
 
 Version: 1.7.1
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ── 1. Failure: (unknown) (@test-fnsComparison.R#74)  ───────────────────────────
+      output$change_count not equivalent to `expected_change_count`.
+      Incompatible type for column `changes`: x integer, y numeric
+      
+      ── 2. Failure: (unknown) (@test-fnsComparison.R#357)  ──────────────────────────
+      `expected_change_count` not equivalent to actual_comparison_summary$change_count.
+      Incompatible type for column `changes`: x numeric, y integer
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 46 SKIPPED: 0 FAILED: 2
+      1. Failure: (unknown) (@test-fnsComparison.R#74) 
+      2. Failure: (unknown) (@test-fnsComparison.R#357) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
 
 ## In both
 
@@ -2190,7 +2875,7 @@ Version: 1.18.1
     <read *> 
     
     Error: processing vignette 'SimpleCOMPASS.Rmd' failed with diagnostics:
-    Failed to compile SimpleCOMPASS.tex. See SimpleCOMPASS.log for more info.
+    Failed to compile SimpleCOMPASS.tex. See https://yihui.name/tinytex/r/#debugging for debugging tips. See SimpleCOMPASS.log for more info.
     Execution halted
     ```
 
@@ -2301,6 +2986,22 @@ Version: 0.2.0
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 1 marked UTF-8 string
+    ```
+
+# corrr
+
+Version: 0.3.1
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 39-44 (corrr-databases.Rmd) 
+    Error: processing vignette 'corrr-databases.Rmd' failed with diagnostics:
+    object 'mpg' not found
+    Execution halted
     ```
 
 # Countr
@@ -2416,6 +3117,54 @@ Version: 2.2.1
       All declared Imports should be used.
     ```
 
+# cricketr
+
+Version: 0.0.17
+
+## In both
+
+*   checking whether package ‘cricketr’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cricketr/new/cricketr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘cricketr’ ...
+** package ‘cricketr’ successfully unpacked and MD5 sums checked
+** R
+** data
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘cricketr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cricketr/new/cricketr.Rcheck/cricketr’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘cricketr’ ...
+** package ‘cricketr’ successfully unpacked and MD5 sums checked
+** R
+** data
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘cricketr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/cricketr/old/cricketr.Rcheck/cricketr’
+
+```
 # CrossClustering
 
 Version: 4.0.3
@@ -2567,6 +3316,70 @@ Version: 0.7.4
       Execution halted
     ```
 
+# cytominer
+
+Version: 0.1.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    
+    > ### Name: normalize
+    > ### Title: Normalize observation variables.
+    > ### Aliases: normalize
+    > 
+    > ### ** Examples
+    > 
+    > suppressMessages(suppressWarnings(library(magrittr)))
+    > population <- tibble::data_frame(
+    +    Metadata_group = c("control", "control", "control", "control",
+    +                       "experiment", "experiment", "experiment", "experiment"),
+    +    Metadata_batch = c("a", "a", "b", "b", "a", "a", "b", "b"),
+    +    AreaShape_Area = c(10, 12, 15, 16, 8, 8, 7, 7)
+    +  )
+    > variables <- c('AreaShape_Area')
+    > strata <- c('Metadata_batch')
+    > sample <- population %>% dplyr::filter(Metadata_group == 'control')
+    > cytominer::normalize(population, variables, strata, sample, operation = "standardize")
+    Error in mean(., na.rm = TRUE) : object '.' not found
+    Calls: <Anonymous> ... summarise.tbl_df -> summarise_impl -> <Anonymous> -> eval_tidy -> mean
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      32: eval_bare(call, env)
+      33: (function (...) 
+         eval_tidy(~mean(.)))(x)
+      34: eval_tidy(~mean(.))
+      35: mean(.)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 28 SKIPPED: 0 FAILED: 4
+      1. Error: `aggregate` aggregates data (@test-aggregate.R#37) 
+      2. Error: cytominer can process dataset with a normalized schema (@test-cytominer.R#71) 
+      3. Error: cytominer can process dataset with a CellProfiler schema (@test-cytominer.R#227) 
+      4. Error: `normalize' normalizes data (@test-normalize.R#49) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 149-165 (cytominer-pipeline.Rmd) 
+    Error: processing vignette 'cytominer-pipeline.Rmd' failed with diagnostics:
+    object '.' not found
+    Execution halted
+    ```
+
 # d3r
 
 Version: 0.8.5
@@ -2677,20 +3490,22 @@ Version: 1.12.11
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DAPAR’ ...
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
 Warning in fun(libname, pkgname) :
   mzR has been built against a different Rcpp version (0.12.16)
-than is installed on your system (1.0.0). This might lead to errors
+than is installed on your system (1.0.1). This might lead to errors
 when loading mzR. If you encounter such issues, please send a report,
 including the output of sessionInfo() to the Bioc support forum at 
 https://support.bioconductor.org/. For details see also
 https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
-Warning in fun(libname, pkgname) : couldn't connect to display ""
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘DO.db’
+  there is no package called ‘quantmod’
 ERROR: lazy loading failed for package ‘DAPAR’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DAPAR/new/DAPAR.Rcheck/DAPAR’
 
@@ -2698,20 +3513,22 @@ ERROR: lazy loading failed for package ‘DAPAR’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DAPAR’ ...
 ** R
 ** inst
 ** byte-compile and prepare package for lazy loading
 Warning in fun(libname, pkgname) :
   mzR has been built against a different Rcpp version (0.12.16)
-than is installed on your system (1.0.0). This might lead to errors
+than is installed on your system (1.0.1). This might lead to errors
 when loading mzR. If you encounter such issues, please send a report,
 including the output of sessionInfo() to the Bioc support forum at 
 https://support.bioconductor.org/. For details see also
 https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
-Warning in fun(libname, pkgname) : couldn't connect to display ""
 Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
-  there is no package called ‘DO.db’
+  there is no package called ‘quantmod’
 ERROR: lazy loading failed for package ‘DAPAR’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/DAPAR/old/DAPAR.Rcheck/DAPAR’
 
@@ -2750,7 +3567,7 @@ Version: 0.4.1
     
     Quitting from lines 78-85 (Introduction_to_datasus.Rmd) 
     Error: processing vignette 'Introduction_to_datasus.Rmd' failed with diagnostics:
-    Timeout was reached: Connection timed out after 10009 milliseconds
+    Timeout was reached: Connection timed out after 10010 milliseconds
     Execution halted
     ```
 
@@ -2771,6 +3588,41 @@ Version: 1.0.0
     Namespaces in Imports field not imported from:
       ‘dplyr’ ‘ggplot2’
       All declared Imports should be used.
+    ```
+
+# dbplyr
+
+Version: 1.3.0
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      could not connect to server: Connection refused
+      	Is the server running on host "localhost" (127.0.0.1) and accepting
+      	TCP/IP connections on port 5432?
+      )
+      Calls: <Anonymous> ... <Anonymous> -> <Anonymous> -> postgresqlNewConnection
+      In addition: Warning message:
+      In dbDisconnect(con) : restarting interrupted promise evaluation
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 565 SKIPPED: 11 FAILED: 1
+      1. Error: tbl_dbi support colwise variants (@test-colwise.R#13) 
+      
+      Error: testthat unit tests failed
+      In addition: Warning message:
+      call dbDisconnect() when finished working with a connection 
+      Execution halted
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Unexported objects imported by ':::' calls:
+      ‘dplyr:::compat_lazy_dots’ ‘dplyr:::find_var’
+      See the note in ?`:::` about the use of this operator.
     ```
 
 # ddpcr
@@ -2852,9 +3704,9 @@ Version: 1.5.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.9Mb
+      installed size is  8.0Mb
       sub-directories of 1Mb or more:
-        libs   4.9Mb
+        libs   5.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -2900,6 +3752,9 @@ Version: 2.0.4
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DepthProc’ ...
 ** package ‘DepthProc’ successfully unpacked and MD5 sums checked
 ** libs
@@ -2913,6 +3768,9 @@ ERROR: compilation failed for package ‘DepthProc’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DepthProc’ ...
 ** package ‘DepthProc’ successfully unpacked and MD5 sums checked
 ** libs
@@ -2936,18 +3794,19 @@ Version: 1.3.1
 
 # desctable
 
-Version: 0.1.4
+Version: 0.1.5
 
-## In both
+## Newly broken
 
 *   checking for code/documentation mismatches ... WARNING
     ```
     Codoc mismatches from documentation object 'group_by':
     group_by
-      Code: function(.data, ..., add = FALSE, .drop = group_drops(.data))
-      Docs: function(.data, ..., add = FALSE)
-      Argument names in code not in docs:
-        .drop
+      Code: function(.data, ..., add = FALSE, .drop =
+                     group_by_drop_default(.data))
+      Docs: function(.data, ..., add = FALSE, .drop = FALSE)
+      Mismatches in argument default values:
+        Name: '.drop' Code: group_by_drop_default(.data) Docs: FALSE
     ```
 
 # detrendr
@@ -2956,11 +3815,76 @@ Version: 0.6.0
 
 ## In both
 
-*   checking for GNU extensions in Makefiles ... NOTE
+*   checking whether package ‘detrendr’ can be installed ... ERROR
     ```
-    GNU make is a SystemRequirements.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/detrendr/new/detrendr.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘detrendr’ ...
+** package ‘detrendr’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c anyNA.cpp -o anyNA.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c col_stats_parallel.cpp -o col_stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c frame_utils.cpp -o frame_utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pillar_stats.cpp -o pillar_stats.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pillar_stats_parallel.cpp -o pillar_stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pillar_utils_parallel.cpp -o pillar_utils_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c rbernoulli_parallel.cpp -o rbernoulli_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c rboxes.cpp -o rboxes.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c row_stats_parallel.cpp -o row_stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c rpois_parallel.cc -o rpois_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c smooth.cc -o smooth.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c smooth_parallel.cc -o smooth_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c stats_parallel.cc -o stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils.cpp -o utils.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o anyNA.o col_stats_parallel.o frame_utils.o pillar_stats.o pillar_stats_parallel.o pillar_utils_parallel.o rbernoulli_parallel.o rboxes.o row_stats_parallel.o rpois_parallel.o smooth.o smooth_parallel.o stats_parallel.o utils.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o detrendr.so RcppExports.o anyNA.o col_stats_parallel.o frame_utils.o pillar_stats.o pillar_stats_parallel.o pillar_utils_parallel.o rbernoulli_parallel.o rboxes.o row_stats_parallel.o rpois_parallel.o smooth.o smooth_parallel.o stats_parallel.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o detrendr.so RcppExports.o anyNA.o col_stats_parallel.o frame_utils.o pillar_stats.o pillar_stats_parallel.o pillar_utils_parallel.o rbernoulli_parallel.o rboxes.o row_stats_parallel.o rpois_parallel.o smooth.o smooth_parallel.o stats_parallel.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [detrendr.so] Error 2
+ERROR: compilation failed for package ‘detrendr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/detrendr/new/detrendr.Rcheck/detrendr’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘detrendr’ ...
+** package ‘detrendr’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c anyNA.cpp -o anyNA.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c col_stats_parallel.cpp -o col_stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c frame_utils.cpp -o frame_utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pillar_stats.cpp -o pillar_stats.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pillar_stats_parallel.cpp -o pillar_stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pillar_utils_parallel.cpp -o pillar_utils_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c rbernoulli_parallel.cpp -o rbernoulli_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c rboxes.cpp -o rboxes.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c row_stats_parallel.cpp -o row_stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c rpois_parallel.cc -o rpois_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c smooth.cc -o smooth.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c smooth_parallel.cc -o smooth_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c stats_parallel.cc -o stats_parallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/detrendr/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils.cpp -o utils.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o anyNA.o col_stats_parallel.o frame_utils.o pillar_stats.o pillar_stats_parallel.o pillar_utils_parallel.o rbernoulli_parallel.o rboxes.o row_stats_parallel.o rpois_parallel.o smooth.o smooth_parallel.o stats_parallel.o utils.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o detrendr.so RcppExports.o anyNA.o col_stats_parallel.o frame_utils.o pillar_stats.o pillar_stats_parallel.o pillar_utils_parallel.o rbernoulli_parallel.o rboxes.o row_stats_parallel.o rpois_parallel.o smooth.o smooth_parallel.o stats_parallel.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o detrendr.so RcppExports.o anyNA.o col_stats_parallel.o frame_utils.o pillar_stats.o pillar_stats_parallel.o pillar_utils_parallel.o rbernoulli_parallel.o rboxes.o row_stats_parallel.o rpois_parallel.o smooth.o smooth_parallel.o stats_parallel.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [detrendr.so] Error 2
+ERROR: compilation failed for package ‘detrendr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/detrendr/old/detrendr.Rcheck/detrendr’
+
+```
 # dextergui
 
 Version: 0.1.6
@@ -2982,10 +3906,10 @@ Version: 1.0.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.9Mb
+      installed size is  6.8Mb
       sub-directories of 1Mb or more:
         htmlwidgets   3.0Mb
-        R             3.1Mb
+        R             3.0Mb
     ```
 
 *   checking data for non-ASCII characters ... NOTE
@@ -3015,6 +3939,9 @@ Version: 2.8.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DiffBind’ ...
 ** libs
 clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
@@ -3052,6 +3979,9 @@ ERROR: lazy loading failed for package ‘DiffBind’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DiffBind’ ...
 ** libs
 clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -D_USE_KNETFILE -DBGZF_CACHE -D_FILE_OFFSET_BITS=64 -D_LARGEFILE64_SOURCE -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rsamtools/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/DiffBind/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
@@ -3240,6 +4170,9 @@ Version: 1.0.6
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DiversityOccupancy’ ...
 ** package ‘DiversityOccupancy’ successfully unpacked and MD5 sums checked
 ** R
@@ -3260,6 +4193,9 @@ ERROR: lazy loading failed for package ‘DiversityOccupancy’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘DiversityOccupancy’ ...
 ** package ‘DiversityOccupancy’ successfully unpacked and MD5 sums checked
 ** R
@@ -3285,7 +4221,7 @@ Version: 5.3
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.5Mb
+      installed size is  9.4Mb
       sub-directories of 1Mb or more:
         data   2.1Mb
         R      6.0Mb
@@ -3293,15 +4229,64 @@ Version: 5.3
 
 # dlookr
 
-Version: 0.3.8
+Version: 0.3.9
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘dlookr’ can be installed ... ERROR
     ```
-      installed size is  5.2Mb
-      sub-directories of 1Mb or more:
-        doc   4.1Mb
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dlookr/new/dlookr.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘dlookr’ ...
+** package ‘dlookr’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘dlookr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dlookr/new/dlookr.Rcheck/dlookr’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘dlookr’ ...
+** package ‘dlookr’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘dlookr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dlookr/old/dlookr.Rcheck/dlookr’
+
+```
+# DMwR2
+
+Version: 0.0.2
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘quantmod’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # doBy
@@ -3330,6 +4315,19 @@ Version: 4.6-2
     !  ==> Fatal error occurred, no output PDF file produced!
     Calls: buildVignettes -> texi2pdf -> texi2dvi
     Execution halted
+    ```
+
+# dplyr.teradata
+
+Version: 0.3.1
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘bit64’ ‘rstudioapi’
+      All declared Imports should be used.
     ```
 
 # DSAIDE
@@ -3373,45 +4371,86 @@ Version: 5.5.2
 
 ## In both
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking whether package ‘dtwclust’ can be installed ... ERROR
     ```
-    ...
-      Distance matrix is not symmetric, and hierarchical clustering assumes it is (it ignores the upper triangular).
-    Loading required package: doParallel
-    Loading required package: foreach
-    Loading required package: iterators
-    Loading required package: clue
-    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
-      Running 'texi2dvi' on 'dtwclust.tex' failed.
-    LaTeX errors:
-    ! LaTeX Error: File `placeins.sty' not found.
-    
-    Type X to quit or <RETURN> to proceed,
-    or enter new name. (Default extension: sty)
-    
-    ! Emergency stop.
-    <read *> 
-             
-    l.80 ^^M
-            
-    !  ==> Fatal error occurred, no output PDF file produced!
-    Calls: buildVignettes -> texi2pdf -> texi2dvi
-    Execution halted
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dtwclust/new/dtwclust.Rcheck/00install.out’ for details.
     ```
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.7Mb
-      sub-directories of 1Mb or more:
-        doc   2.5Mb
-        R     2.0Mb
-    ```
+## Installation
 
-*   checking for GNU extensions in Makefiles ... NOTE
-    ```
-    GNU make is a SystemRequirements.
-    ```
+### Devel
 
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘dtwclust’ ...
+** package ‘dtwclust’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/utils.cpp -o utils/utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/R-utils.cpp -o utils/R-utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/KahanSummer.cpp -o utils/KahanSummer.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/envelope.cpp -o utils/envelope.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c centroids/dba.cpp -o centroids/dba.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/distmat.cpp -o distmat/distmat.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/fillers.cpp -o distmat/fillers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c init.cpp -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/dtw-basic.cpp -o distances/dtw-basic.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/R-gateways.cpp -o distances/R-gateways.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/soft-dtw.cpp -o distances/soft-dtw.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/calculators.cpp -o distances/calculators.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/logGAK.cpp -o distances/logGAK.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/lbk.cpp -o distances/lbk.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/lbi.cpp -o distances/lbi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c tadpole/tadpole.cpp -o tadpole/tadpole.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "z./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L"/Library/Frameworks/R.framework/Resources/lib" -lRlapack -L"/Library/Frameworks/R.framework/Resources/lib" -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L"/Library/Frameworks/R.framework/Resources/lib" -lRlapack -L"/Library/Frameworks/R.framework/Resources/lib" -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [dtwclust.so] Error 2
+ERROR: compilation failed for package ‘dtwclust’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dtwclust/new/dtwclust.Rcheck/dtwclust’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘dtwclust’ ...
+** package ‘dtwclust’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/utils.cpp -o utils/utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/R-utils.cpp -o utils/R-utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/KahanSummer.cpp -o utils/KahanSummer.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils/envelope.cpp -o utils/envelope.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c centroids/dba.cpp -o centroids/dba.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/distmat.cpp -o distmat/distmat.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/fillers.cpp -o distmat/fillers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c init.cpp -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/dtw-basic.cpp -o distances/dtw-basic.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/R-gateways.cpp -o distances/R-gateways.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/soft-dtw.cpp -o distances/soft-dtw.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/calculators.cpp -o distances/calculators.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/logGAK.cpp -o distances/logGAK.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/lbk.cpp -o distances/lbk.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c distances/lbi.cpp -o distances/lbi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c tadpole/tadpole.cpp -o tadpole/tadpole.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "z./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L"/Library/Frameworks/R.framework/Resources/lib" -lRlapack -L"/Library/Frameworks/R.framework/Resources/lib" -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L"/Library/Frameworks/R.framework/Resources/lib" -lRlapack -L"/Library/Frameworks/R.framework/Resources/lib" -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [dtwclust.so] Error 2
+ERROR: compilation failed for package ‘dtwclust’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dtwclust/old/dtwclust.Rcheck/dtwclust’
+
+```
 # duawranglr
 
 Version: 0.6.3
@@ -3454,6 +4493,9 @@ Version: 0.5.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘dynfrail’ ...
 ** package ‘dynfrail’ successfully unpacked and MD5 sums checked
 ** libs
@@ -3467,6 +4509,9 @@ ERROR: compilation failed for package ‘dynfrail’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘dynfrail’ ...
 ** package ‘dynfrail’ successfully unpacked and MD5 sums checked
 ** libs
@@ -3477,18 +4522,69 @@ ERROR: compilation failed for package ‘dynfrail’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/dynfrail/old/dynfrail.Rcheck/dynfrail’
 
 ```
+# easyalluvial
+
+Version: 0.1.8
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    ...
+        filter, lag
+    
+    The following objects are masked from ‘package:base’:
+    
+        intersect, setdiff, setequal, union
+    
+    > 
+    > data = as_tibble(mtcars)
+    > categoricals = c('cyl', 'vs', 'am', 'gear', 'carb')
+    > numericals = c('mpg', 'cyl', 'disp', 'hp', 'drat', 'wt', 'qsec')
+    > max_variables = 5
+    > 
+    > data = data %>%
+    +   mutate_at( vars(categoricals), as.factor )
+    > 
+    > 
+    > alluvial_wide( data = data
+    +                 , max_variables = max_variables
+    +                 , fill_by = 'first_variable' )
+    Error: No role currently exists for column(s): 'easyalluvialid'. Please use `update_role()` instead.
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      14: add_role(., easyalluvialid, new_role = "id variable")
+      15: stop(glue::glue("No role currently exists for column(s): {vars}. Please use ", "`update_role()` instead."), 
+             call. = FALSE)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 6 SKIPPED: 9 FAILED: 6
+      1. Error: alluvial_long (@test_alluvial_long.R#94) 
+      2. Error: alluvial_wide (@test_alluvial_wide.R#17) 
+      3. Error: manip_bin_numerics (@test_manip.R#28) 
+      4. Error: manip_bin_numerics zero variance columns (@test_manip.R#84) 
+      5. Error: manip_bin_numerics with vector (@test_manip.R#96) 
+      6. Error: plot condensation (@test_plot_condensation.R#15) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # echarts4r
 
 Version: 0.2.1
 
-## Newly broken
+## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... NOTE
     ```
-      installed size is  6.0Mb
-      sub-directories of 1Mb or more:
-        htmlwidgets   3.6Mb
-        R             2.0Mb
+    Package suggested but not available for checking: ‘quantmod’
     ```
 
 # echor
@@ -3561,6 +4657,19 @@ Version: 0.2.0
       All declared Imports should be used.
     ```
 
+# EdSurvey
+
+Version: 2.2.3
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.8Mb
+      sub-directories of 1Mb or more:
+        R   4.1Mb
+    ```
+
 # EFDR
 
 Version: 0.1.1
@@ -3591,6 +4700,27 @@ Version: 0.1.1
       importFrom("utils", "relist")
     to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
     contains 'methods').
+    ```
+
+# EHRtemporalVariability
+
+Version: 1.0
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 10.3Mb
+      sub-directories of 1Mb or more:
+        doc       4.9Mb
+        extdata   5.1Mb
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘devtools’ ‘shiny’
+      All declared Imports should be used.
     ```
 
 # ELMER
@@ -3692,7 +4822,7 @@ Version: 1.1.2
       sub-directories of 1Mb or more:
         doc       1.2Mb
         extdata   1.5Mb
-        R         3.0Mb
+        R         3.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -3779,6 +4909,42 @@ Version: 0.1.1
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    ...
+    + )
+    > 
+    > #-- Example dataset
+    > dataset <- EpiSignalDetection::SignalData
+    > 
+    > #-- Filtering on declared input parameters
+    > dataset <- filterAtlasExport(dataset, input)
+    > 
+    > #-- Aggregating the data by geographical level and time point
+    > dataset <- aggAtlasExport(dataset, input)
+    > 
+    > #-- Bulding the corresponding sts object
+    > dataset.sts <- stsSD(observedCases = dataset$NumValue,
+    +                      studyPeriod = dataset$StudyPeriod,
+    +                      timeUnit = input$unit,
+    +                      startYM = c(as.numeric(format(as.Date(input$daterange[1], "%Y-%m-%d"), "%Y")),
+    +                                  as.numeric(format(as.Date(input$daterange[1], "%Y-%m-%d"), "%m"))))
+    Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+      there is no package called ‘spatstat’
+    Calls: stsSD ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 365-379 (EpiSignalDetection_Vignette.Rmd) 
+    Error: processing vignette 'EpiSignalDetection_Vignette.Rmd' failed with diagnostics:
+    there is no package called 'spatstat'
+    Execution halted
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
@@ -3862,27 +5028,83 @@ Version: 3.3.1.3
 
 # EventStudy
 
-Version: 0.35
+Version: 0.36
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘EventStudy’ can be installed ... ERROR
     ```
-      installed size is  6.1Mb
-      sub-directories of 1Mb or more:
-        doc   5.0Mb
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EventStudy/new/EventStudy.Rcheck/00install.out’ for details.
     ```
 
-*   checking dependencies in R code ... NOTE
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘EventStudy’ ...
+** package ‘EventStudy’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘EventStudy’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EventStudy/new/EventStudy.Rcheck/EventStudy’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘EventStudy’ ...
+** package ‘EventStudy’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘EventStudy’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/EventStudy/old/EventStudy.Rcheck/EventStudy’
+
+```
+# extdplyr
+
+Version: 0.1.4
+
+## Newly broken
+
+*   checking tests ...
     ```
-    Namespaces in Imports field not imported from:
-      ‘curl’ ‘openxlsx’ ‘stringr’
-      All declared Imports should be used.
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      5: group_by.data.frame(.data, !!!dots, add = add) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:94
+      6: grouped_df(groups$data, groups$group_names, .drop) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
+      7: grouped_df_impl(data, unname(vars), drop) at /Users/romain/git/tidyverse/dplyr/R/grouped-df.r:20
+      8: group_by_drop_default(.data) at /Users/romain/git/tidyverse/dplyr/R/dataframe.R:34
+      9: group_by_drop_default.default(.data) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:220
+      10: group_data(.tbl) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:225
+      11: group_data.grouped_df(.tbl) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:30
+      12: group_data_grouped_df(.data) at /Users/romain/git/tidyverse/dplyr/R/group_data.R:47
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 19 SKIPPED: 0 FAILED: 1
+      1. Error: ind_to_char_ works with grouped_df, tbl_df, tbl, data.frame (@test_grp_routine.R#74) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # ezpickr
 
-Version: 1.0.3
+Version: 1.0.4
 
 ## In both
 
@@ -3945,6 +5167,9 @@ Version: 0.5.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘fastLink’ ...
 ** package ‘fastLink’ successfully unpacked and MD5 sums checked
 ** libs
@@ -3958,6 +5183,9 @@ ERROR: compilation failed for package ‘fastLink’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘fastLink’ ...
 ** package ‘fastLink’ successfully unpacked and MD5 sums checked
 ** libs
@@ -4113,82 +5341,3628 @@ Version: 3.28.2
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘flowWorkspace’ can be installed ... ERROR
     ```
-      installed size is 33.8Mb
-      sub-directories of 1Mb or more:
-        doc    1.4Mb
-        lib   27.0Mb
-        libs   2.9Mb
-        R      2.1Mb
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00install.out’ for details.
     ```
 
-*   checking DESCRIPTION meta-information ... NOTE
-    ```
-    Versioned 'LinkingTo' values for
-      ‘BH’ ‘cytolib’
-    are only usable in R >= 3.0.2
-    ```
+## Installation
 
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘graphics’ ‘grDevices’ ‘RBGL’
-      All declared Imports should be used.
-    Unexported objects imported by ':::' calls:
-      ‘flowCore:::.estimateLogicle’ ‘flowCore:::checkClass’
-      ‘flowCore:::copyFlowSet’ ‘flowCore:::guid’
-      ‘flowCore:::logicle_transform’ ‘flowCore:::updateTransformKeywords’
-      ‘graph:::.makeEdgeKeys’ ‘lattice:::updateList’
-      ‘ncdfFlow:::.isValidSamples’ ‘stats:::.splinefun’
-      See the note in ?`:::` about the use of this operator.
-    There are ::: calls to the package's namespace in its code. A package
-      almost never needs to use ::: for its own objects:
-      ‘.cpp_setIndices’ ‘.getNodeInd’
-    ```
+### Devel
 
-*   checking R code for possible problems ... NOTE
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘flowWorkspace’ ...
+checking whether the C++ compiler works... yes
+checking for C++ compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether clang++ -std=gnu++11 accepts -g... yes
+checking for gcc... clang
+checking whether we are using the GNU C compiler... yes
+checking whether clang accepts -g... yes
+checking for clang option to accept ISO C89... none needed
+configure: setting xml2 flags...
+configure: No directory was specified for --with-xml2. Trying to find xml2 using other methods.
+checking for xml2-config... /usr/bin/xml2-config
+configure: Using the following compilation and linking flags for flowWorkspace
+configure:    PKG_CPPFLAGS=-I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900
+configure:    PKG_LIBS=-L/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib -lxml2 -lz -lpthread -licucore -lm
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c R_API.cpp -o R_API.o
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/iostream:38:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/ios:216:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string:477:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string_view:176:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__string:56:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c R_GatingHierarchy.cpp -o R_GatingHierarchy.o
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/iostream:38:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/ios:216:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string:477:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string_view:176:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__string:56:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c R_GatingSet.cpp -o R_GatingSet.o
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:12:
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:433:30: warning: '/*' within block comment [-Wcomment]
+           * "*[local-name()='edge']/*[local-name()='vertex']" is for ellipsoidGate
+                                    ^
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:417:13: warning: variable 'quad' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                else if(quadPattern == "--")
+                        ^~~~~~~~~~~~~~~~~~~
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:425:45: note: uninitialized use occurs here
+                CurlyGuadGate * g=new CurlyGuadGate(pp, quad);
+                                                        ^~~~
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:417:10: note: remove the 'if' if its condition is always true
+                else if(quadPattern == "--")
+                     ^~~~~~~~~~~~~~~~~~~~~~~
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:410:5: note: variable 'quad' is declared here
+                QUAD quad;
+                ^
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:779:12: warning: unused variable 'minRange' [-Wunused-variable]
+                                double minRange=atof(transNode.getProperty("minRange").c_str());
+                                       ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/vector:266:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__bit_reference:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+15 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/iostream:38:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/ios:216:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string:477:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string_view:176:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__string:56:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c getDescendants.cpp -o getDescendants.o
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getDescendants.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c getSingleCellExpression.cpp -o getSingleCellExpression.o
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getSingleCellExpression.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c setCounts.cpp -o setCounts.o
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from setCounts.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+mkdir -p "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib"
+ar rs "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a" R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o getDescendants.o getSingleCellExpression.o setCounts.o
+ar: creating archive /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o flowWorkspace.so R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o getDescendants.o getSingleCellExpression.o setCounts.o Backtrace: █ 1. └─base::options(...) /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/lib/GatingSet.pb.o /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/lib/libprotobuf.a -L/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib -lxml2 -lz -lpthread -licucore -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [flowWorkspace.so] Error 1
+ERROR: compilation failed for package ‘flowWorkspace’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/flowWorkspace’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘flowWorkspace’ ...
+checking whether the C++ compiler works... yes
+checking for C++ compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C++ compiler... yes
+checking whether clang++ -std=gnu++11 accepts -g... yes
+checking for gcc... clang
+checking whether we are using the GNU C compiler... yes
+checking whether clang accepts -g... yes
+checking for clang option to accept ISO C89... none needed
+configure: setting xml2 flags...
+configure: No directory was specified for --with-xml2. Trying to find xml2 using other methods.
+checking for xml2-config... /usr/bin/xml2-config
+configure: Using the following compilation and linking flags for flowWorkspace
+configure:    PKG_CPPFLAGS=-I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900
+configure:    PKG_LIBS=-L/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib -lxml2 -lz -lpthread -licucore -lm
+configure: creating ./config.status
+config.status: creating src/Makevars
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c R_API.cpp -o R_API.o
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_API.cpp:9:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/iostream:38:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/ios:216:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string:477:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string_view:176:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__string:56:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c R_GatingHierarchy.cpp -o R_GatingHierarchy.o
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingHierarchy.cpp:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/iostream:38:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/ios:216:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string:477:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string_view:176:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__string:56:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c R_GatingSet.cpp -o R_GatingSet.o
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:14:
+In file included from ../inst/include/flowWorkspace/wsNode.hpp:10:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:12:
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:433:30: warning: '/*' within block comment [-Wcomment]
+           * "*[local-name()='edge']/*[local-name()='vertex']" is for ellipsoidGate
+                                    ^
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:417:13: warning: variable 'quad' is used uninitialized whenever 'if' condition is false [-Wsometimes-uninitialized]
+                else if(quadPattern == "--")
+                        ^~~~~~~~~~~~~~~~~~~
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:425:45: note: uninitialized use occurs here
+                CurlyGuadGate * g=new CurlyGuadGate(pp, quad);
+                                                        ^~~~
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:417:10: note: remove the 'if' if its condition is always true
+                else if(quadPattern == "--")
+                     ^~~~~~~~~~~~~~~~~~~~~~~
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:410:5: note: variable 'quad' is declared here
+                QUAD quad;
+                ^
+../inst/include/flowWorkspace/winFlowJoWorkspace.hpp:779:12: warning: unused variable 'minRange' [-Wunused-variable]
+                                double minRange=atof(transNode.getProperty("minRange").c_str());
+                                       ^
+In file included from R_GatingSet.cpp:10:
+In file included from ../inst/include/flowWorkspace/openWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/macFlowJoWorkspace.hpp:10:
+In file included from ../inst/include/flowWorkspace/flowJoWorkspace.hpp:11:
+In file included from ../inst/include/flowWorkspace/workspace.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/vector:266:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__bit_reference:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+15 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/flowWorkspace.h:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:10:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/iostream:38:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/ios:216:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__locale:15:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string:477:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/string_view:176:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__string:56:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/algorithm:643:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c getDescendants.cpp -o getDescendants.o
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from getDescendants.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getDescendants.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c getSingleCellExpression.cpp -o getSingleCellExpression.o
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from getSingleCellExpression.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from getSingleCellExpression.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DROUT -I../inst/include/ -I/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/include/libxml2 -ftemplate-depth=900 -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/BH/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c setCounts.cpp -o setCounts.o
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:47:9: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:61:13: warning: 'OSAtomicCompareAndSwap32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap32(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:502:9: note: 'OSAtomicCompareAndSwap32' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:68:10: warning: 'OSAtomicAdd32' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:146:9: note: 'OSAtomicAdd32' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:73:10: warning: 'OSAtomicAdd32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd32Barrier(increment, const_cast<Atomic32*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:161:9: note: 'OSAtomicAdd32Barrier' has been explicitly marked deprecated here
+int32_t OSAtomicAdd32Barrier( int32_t __theAmount, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:77:3: warning: 'OSMemoryBarrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_thread_fence() from <atomic> instead [-Wdeprecated-declarations]
+  OSMemoryBarrier();
+  ^
+/usr/include/libkern/OSAtomicDeprecated.h:749:9: note: 'OSMemoryBarrier' has been explicitly marked deprecated here
+void    OSMemoryBarrier( void );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:85:9: warning: 'OSAtomicCompareAndSwap32Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap32Barrier(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:518:9: note: 'OSAtomicCompareAndSwap32Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap32Barrier( int32_t __oldValue, int32_t __newValue, volatile int32_t *__theValue );
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:138:9: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64(old_value, new_value,
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:152:13: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  } while (!OSAtomicCompareAndSwap64(old_value, new_value,
+            ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:159:10: warning: 'OSAtomicAdd64' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add_explicit(std::memory_order_relaxed) from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64(increment, reinterpret_cast<volatile int64_t*>(ptr));
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:231:9: note: 'OSAtomicAdd64' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64( int64_t __theAmount,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:164:10: warning: 'OSAtomicAdd64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_fetch_add() from <atomic> instead [-Wdeprecated-declarations]
+  return OSAtomicAdd64Barrier(increment,
+         ^
+/usr/include/libkern/OSAtomicDeprecated.h:247:9: note: 'OSAtomicAdd64Barrier' has been explicitly marked deprecated here
+int64_t OSAtomicAdd64Barrier( int64_t __theAmount,
+        ^
+In file included from setCounts.cpp:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingSet.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/GatingHierarchy.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/populationTree.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/nodeProperties.hpp:11:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/POPINDICES.hpp:15:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/gate.hpp:14:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/transformation.hpp:23:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/cytolib/include/cytolib/calibrationTable.hpp:20:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/GatingSet.pb.h:22:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/generated_message_util.h:44:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/once.h:81:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops.h:179:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/include/google/protobuf/stubs/atomicops_internals_macosx.h:173:9: warning: 'OSAtomicCompareAndSwap64Barrier' is deprecated: first deprecated in macOS 10.12 - Use std::atomic_compare_exchange_strong() from <atomic> instead [-Wdeprecated-declarations]
+    if (OSAtomicCompareAndSwap64Barrier(
+        ^
+/usr/include/libkern/OSAtomicDeprecated.h:645:9: note: 'OSAtomicCompareAndSwap64Barrier' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64Barrier( int64_t __oldValue, int64_t __newValue,
+        ^
+In file included from setCounts.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:58: warning: destructor called on non-final 'trans_global' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1727:18: note: in instantiation of member function 'std::__1::allocator<trans_global>::destroy' requested here
+            {__a.destroy(__p);}
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1595:14: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::__destroy<trans_global>' requested here
+            {__destroy(__has_destroy<allocator_type, _Tp*>(), __a, __p);}
+             ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:413:25: note: in instantiation of function template specialization 'std::__1::allocator_traits<std::__1::allocator<trans_global> >::destroy<trans_global>' requested here
+        __alloc_traits::destroy(__alloc(), _VSTD::__to_raw_pointer(--__soon_to_be_end));
+                        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:356:29: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::__destruct_at_end' requested here
+    void clear() _NOEXCEPT {__destruct_at_end(__begin_);}
+                            ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/vector:441:9: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::clear' requested here
+        clear();
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/iterator:1425:74: note: in instantiation of member function 'std::__1::__vector_base<trans_global, std::__1::allocator<trans_global> >::~__vector_base' requested here
+    template <class _Tp, class _Alloc> friend class _LIBCPP_TEMPLATE_VIS vector;
+                                                                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:1860:64: note: qualify call to silence this warning
+    _LIBCPP_INLINE_VISIBILITY void destroy(pointer __p) {__p->~_Tp();}
+                                                               ^
+12 warnings generated.
+mkdir -p "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib"
+ar rs "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a" R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o getDescendants.o getSingleCellExpression.o setCounts.o
+ar: creating archive /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace/lib/libflowWorkspace.a
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o flowWorkspace.so R_API.o R_GatingHierarchy.o R_GatingSet.o RcppExports.o getDescendants.o getSingleCellExpression.o setCounts.o Backtrace: █ 1. └─base::options(...) /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/lib/GatingSet.pb.o /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/flowWorkspace/RProtoBufLib/lib/libprotobuf.a -L/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk/usr/lib -lxml2 -lz -lpthread -licucore -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [flowWorkspace.so] Error 1
+ERROR: compilation failed for package ‘flowWorkspace’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/old/flowWorkspace.Rcheck/flowWorkspace’
+
+```
+# foghorn
+
+Version: 1.1.0
+
+## In both
+
+*   checking examples ... ERROR
     ```
     ...
-    show,flowJoWorkspace: no visible binding for global variable
-      ‘groupName’
-      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/flowJoWorkspace_Methods.R:66)
-    transform,GatingSet: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2291-2296)
-    transform,GatingSet: no visible global function definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2298-2308)
-    transform,GatingSet : <anonymous>: no visible global function
-      definition for ‘is’
-      (/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/flowWorkspace/new/flowWorkspace.Rcheck/00_pkg_src/flowWorkspace/R/GatingSet_Methods.R:2301-2302)
-    Undefined global functions or variables:
-      . .hasSlot as as.formula callNextMethod desc extends gray groupName
-      IQR is median new node old openCyto.count parallel sampleName
-      selectMethod slot validObject xml.count
-    Consider adding
-      importFrom("grDevices", "gray")
-      importFrom("methods", ".hasSlot", "as", "callNextMethod", "extends",
-                 "is", "new", "selectMethod", "slot", "validObject")
-      importFrom("stats", "as.formula", "IQR", "median")
-    to your NAMESPACE file (and ensure that your DESCRIPTION Imports field
-    contains 'methods').
+    The error most likely occurred in:
+    
+    > ### Name: cran_results
+    > ### Title: Table of the CRAN check results
+    > ### Aliases: cran_results
+    > 
+    > ### ** Examples
+    > 
+    >   if (curl::has_internet()) {
+    +     cran_results(pkg="MASS")
+    +   }
+    Warning in doTryCatch(return(expr), name, parentenv, handler) :
+      restarting interrupted promise evaluation
+    Warning in doTryCatch(return(expr), name, parentenv, handler) :
+      restarting interrupted promise evaluation
+    Warning in doTryCatch(return(expr), name, parentenv, handler) :
+      restarting interrupted promise evaluation
+    Error: Something went wrong with getting data for package name(s): ‘MASS’
+      Error in open.connection(x, "rb") : 
+      Could not resolve host: cloud.r-project.org
+    Execution halted
     ```
 
-*   checking for GNU extensions in Makefiles ... NOTE
+*   checking tests ...
     ```
-    GNU make is a SystemRequirements.
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      1: cran_results(pkg = "MASS") at testthat/test-foghorn.R:421
+      2: cran_results_web(email, pkg, ...) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/foghorn/new/foghorn.Rcheck/00_pkg_src/foghorn/R/cran_results.R:77
+      3: read_cran_web_from_pkg(pkg, ...) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/foghorn/new/foghorn.Rcheck/00_pkg_src/foghorn/R/cran_results.R:9
+      4: handle_cran_web_issues(pkg, res, "Invalid package name(s): ", "Something went wrong with getting data for package name(s): ") at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/foghorn/new/foghorn.Rcheck/00_pkg_src/foghorn/R/foghorn.R:103
+      5: stop(msg_other, paste(sQuote(input[bad]), collapse = ", "), "\n", "  ", res[[bad]], 
+             call. = FALSE) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/foghorn/new/foghorn.Rcheck/00_pkg_src/foghorn/R/foghorn.R:81
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 18 SKIPPED: 18 FAILED: 3
+      1. Failure: invalid package name (@test-foghorn.R#12) 
+      2. Failure: invalid email address (@test-foghorn.R#23) 
+      3. Error: check output for MASS (@test-foghorn.R#421) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
-*   checking compiled code ... NOTE
+*   checking re-building of vignette outputs ... WARNING
     ```
-    File ‘flowWorkspace/libs/flowWorkspace.so’:
-      Found ‘__ZNSt3__14coutE’, possibly from ‘std::cout’ (C++)
-        Object: ‘R_GatingSet.o’
-    
-    Compiled code should not call entry points which might terminate R nor
-    write to stdout/stderr instead of to the console, nor use Fortran I/O
-    nor system RNGs.
-    
-    See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 23-25 (quick_start.Rmd) 
+    Error: processing vignette 'quick_start.Rmd' failed with diagnostics:
+    Something went wrong with getting data with email address(es): 'francois.michonneau@gmail.com'
+      Error in open.connection(x, "rb") : 
+      Could not resolve host: cloud.r-project.org
+    Execution halted
     ```
 
 # fredr
@@ -4281,6 +9055,9 @@ Version: 0.3.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘FSelectorRcpp’ ...
 ** package ‘FSelectorRcpp’ successfully unpacked and MD5 sums checked
 ** libs
@@ -4294,6 +9071,9 @@ ERROR: compilation failed for package ‘FSelectorRcpp’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘FSelectorRcpp’ ...
 ** package ‘FSelectorRcpp’ successfully unpacked and MD5 sums checked
 ** libs
@@ -4366,9 +9146,9 @@ Version: 1.8.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 351.8Mb
+      installed size is 365.2Mb
       sub-directories of 1Mb or more:
-        data  350.7Mb
+        data  364.1Mb
     ```
 
 *   checking R code for possible problems ... NOTE
@@ -4512,6 +9292,43 @@ Version: 1.2.0
     structure’ in the ‘Writing R Extensions’ manual.
     ```
 
+# GADMTools
+
+Version: 3.6-1
+
+## In both
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    fmtutil [INFO]: Total formats: 15
+    fmtutil [INFO]: exiting with status 0
+    tlmgr install multirow
+    TeX Live 2018 is frozen forever and will no
+    longer be updated.  This happens in preparation for a new release.
+    
+    If you're interested in helping to pretest the new release (when
+    pretests are available), please read http://tug.org/texlive/pretest.html.
+    Otherwise, just wait, and the new release will be ready in due time.
+    
+    tlmgr: Fundamental package texlive.infra not present, uh oh, goodbyeShould not happen, texlive.infra not found at /usr/local/bin/tlmgr line 7344.
+    tlmgr: package repository http://mirrors.standaloneinstaller.com/ctan/systems/texlive/tlnet (not verified: gpg unavailable)
+    tlmgr path add
+    ! LaTeX Error: File `multirow.sty' not found.
+    
+    ! Emergency stop.
+    <read *> 
+    
+    Error: processing vignette 'GADMTools_ISO_3166-1_alpha-3.Rmd' failed with diagnostics:
+    Failed to compile GADMTools_ISO_3166-1_alpha-3.tex. See https://yihui.name/tinytex/r/#debugging for debugging tips. See GADMTools_ISO_3166-1_alpha-3.log for more info.
+    Execution halted
+    ```
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 19 marked UTF-8 strings
+    ```
+
 # gaiah
 
 Version: 0.0.2
@@ -4533,9 +9350,9 @@ Version: 0.4.4
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.7Mb
+      installed size is  8.0Mb
       sub-directories of 1Mb or more:
-        libs   7.2Mb
+        libs   7.5Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -4634,7 +9451,7 @@ Version: 2.10.1
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 222 SKIPPED: 0 FAILED: 15
+      OK: 220 SKIPPED: 0 FAILED: 15
       1. Error: window (@test_assocTestAggregate.R#10) 
       2. Error: ranges (@test_assocTestAggregate.R#24) 
       3. Error: list (@test_assocTestAggregate.R#40) 
@@ -4718,7 +9535,7 @@ Version: 1.14.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 11.5Mb
+      installed size is 11.4Mb
       sub-directories of 1Mb or more:
         doc       1.8Mb
         extdata   7.9Mb
@@ -4741,9 +9558,6 @@ Version: 2.0
 Version: 1.42.0
 
 ## In both
-
-*   R CMD check timed out
-    
 
 *   checking for hidden files and directories ... NOTE
     ```
@@ -4773,7 +9587,7 @@ Version: 2.48.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.9Mb
+      installed size is 14.0Mb
       sub-directories of 1Mb or more:
         extdata  12.8Mb
     ```
@@ -4866,7 +9680,7 @@ Version: 0.17.4
     ```
       installed size is  5.2Mb
       sub-directories of 1Mb or more:
-        R           2.1Mb
+        R           2.0Mb
         test_data   2.9Mb
     ```
 
@@ -4938,6 +9752,38 @@ Version: 1.12
       All declared Imports should be used.
     ```
 
+# GFE
+
+Version: 0.1.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > citaModI[(nCanT0 + 1), 1:nCanT1 ] 	 <-  (1-rhoMMI) * (1-psiI) * colSums(P * c(eta))
+    > citaModI   <- round_preserve_sum(citaModI * N)
+    > DBcitaModI <- createBase(citaModI)
+    > 
+    > # Creating auxiliary information
+    > DBcitaModI[,AuxVar := rnorm(nrow(DBcitaModI), mean = 45, sd = 10)]
+    > # Selects a sample with unequal probabilities
+    > res <- S.piPS(n = 1200, as.data.frame(DBcitaModI)[,"AuxVar"])
+    > sam <- res[,1]
+    > pik <- res[,2]
+    > DBcitaModISam <- copy(DBcitaModI[sam,])
+    > DBcitaModISam[,Pik := pik]
+    > 
+    > # Gross flows estimation
+    > estima <- estGF(sampleBase = DBcitaModISam, niter = 500, model = "II", colWeights = "Pik")
+    > # gross flows variance estimation
+    > varEstima <- reSamGF(sampleBase = DBcitaModISam, type = "Bootstrap", nRepBoot = 100,
+    + 						model = "II", niter = 101,  colWeights = "Pik")
+    Warning in var(.) : NAs introduced by coercion
+    Error: Column `t1_Santos` must be length 1 (a summary value), not 25
+    Execution halted
+    ```
+
 # ggalt
 
 Version: 0.4.0
@@ -4985,17 +9831,6 @@ Version: 0.3.0
     ```
     Namespace in Imports field not imported from: ‘magrittr’
       All declared Imports should be used.
-    ```
-
-# ggeffects
-
-Version: 0.8.0
-
-## In both
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘ordinal’
     ```
 
 # ggenealogy
@@ -5062,7 +9897,7 @@ Version: 0.9.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.1Mb
+      installed size is  6.0Mb
       sub-directories of 1Mb or more:
         doc   2.7Mb
         R     2.1Mb
@@ -5072,6 +9907,56 @@ Version: 0.9.1
     ```
     Namespace in Imports field not imported from: ‘tidyr’
       All declared Imports should be used.
+    ```
+
+# ggfortify
+
+Version: 0.4.6
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘ggfortify-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: autoplot.forecast
+    > ### Title: Autoplot 'forecast::forecast'
+    > ### Aliases: autoplot.forecast
+    > 
+    > ### ** Examples
+    > 
+    > d.arima <- forecast::auto.arima(AirPassengers)
+    Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+      there is no package called ‘quantmod’
+    Calls: :: ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    
+        as.Date, as.Date.numeric
+    
+    Loading required package: sandwich
+    Loading required package: urca
+    Loading required package: lmtest
+    Loading required package: maps
+    
+    Attaching package: 'cluster'
+    
+    The following object is masked from 'package:maps':
+    
+        votes.repub
+    
+    Scale for 'y' is already present. Adding another scale for 'y', which
+    will replace the existing scale.
+    Quitting from lines 97-101 (plot_ts.Rmd) 
+    Error: processing vignette 'plot_ts.Rmd' failed with diagnostics:
+    package or namespace load failed for 'forecast' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     there is no package called 'quantmod'
+    Execution halted
     ```
 
 # ggguitar
@@ -5159,6 +10044,19 @@ Version: 0.1.3
       All declared Imports should be used.
     ```
 
+# ggmap
+
+Version: 3.0.0
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.4Mb
+      sub-directories of 1Mb or more:
+        data   4.8Mb
+    ```
+
 # ggmcmc
 
 Version: 1.2
@@ -5212,10 +10110,10 @@ Version: 3.1.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.4Mb
+      installed size is  7.3Mb
       sub-directories of 1Mb or more:
         doc   1.8Mb
-        R     3.9Mb
+        R     3.8Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -5251,7 +10149,7 @@ Version: 0.3.0
 
 # ggpol
 
-Version: 0.0.4
+Version: 0.0.5
 
 ## In both
 
@@ -5320,10 +10218,10 @@ Version: 1.0.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.5Mb
+      installed size is  5.6Mb
       sub-directories of 1Mb or more:
         doc   3.0Mb
-        R     2.0Mb
+        R     2.1Mb
     ```
 
 # ggridges
@@ -5352,13 +10250,41 @@ Version: 1.0.3
 
 # ggstatsplot
 
-Version: 0.0.9
+Version: 0.0.10
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ###   between-subjects designs.
+    > ### Aliases: ggbetweenstats
+    > 
+    > ### ** Examples
+    > 
+    > 
+    > # to get reproducible results from bootstrapping
+    > set.seed(123)
+    > 
+    > # simple function call with the defaults
+    > ggstatsplot::ggbetweenstats(
+    +   data = mtcars,
+    +   x = am,
+    +   y = mpg,
+    +   title = "Fuel efficiency by type of car transmission",
+    +   caption = "Transmission (0 = automatic, 1 = manual)",
+    +   bf.message = TRUE
+    + )
+    Error in specify_decimal_p(x = ., k = k) : object 'k' not found
+    Calls: <Anonymous> ... mutate.tbl_df -> mutate_impl -> <Anonymous> -> specify_decimal_p
+    Execution halted
+    ```
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.3Mb
+      installed size is  6.4Mb
       sub-directories of 1Mb or more:
         help   4.1Mb
         R      2.0Mb
@@ -5392,6 +10318,9 @@ Version: 1.12.7
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘ggtree’ ...
 ** R
 ** inst
@@ -5404,6 +10333,9 @@ ERROR: lazy loading failed for package ‘ggtree’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘ggtree’ ...
 ** R
 ** inst
@@ -5482,6 +10414,9 @@ Version: 0.2.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘graphicalVAR’ ...
 ** package ‘graphicalVAR’ successfully unpacked and MD5 sums checked
 ** libs
@@ -5495,6 +10430,9 @@ ERROR: compilation failed for package ‘graphicalVAR’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘graphicalVAR’ ...
 ** package ‘graphicalVAR’ successfully unpacked and MD5 sums checked
 ** libs
@@ -5589,14 +10527,57 @@ Version: 1.1.0
 
 # grattan
 
-Version: 1.7.0.0
+Version: 1.7.1.0
 
 ## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      15: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      16: value[[3L]](cond)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 817 SKIPPED: 105 FAILED: 7
+      1. Error: Returns correct values (@test_aus_pop_qtr.R#5) 
+      2. Error: Default from_fy and to_fy (@test_cpi.R#6) 
+      3. Error: cpi returns reasonable forecasts (@test_cpi.R#191) 
+      4. Error: generic inflator doesn't fail! (@test_generic_inflator.R#13) 
+      5. Error: generic inflator gives higher/lower for upper/lower (@test_generic_inflator.R#17) 
+      6. Error: Default from_fy and to_fy (@test_wage_inflator.R#4) 
+      7. Error: upper/lower higher/lower (@test_wage_inflator.R#42) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    
+    The downloaded source packages are in
+    	'/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpkNYchu/downloaded_packages'
+    trying URL 'https://hughparsonage.github.io/tax-drat/src/contrib/taxstats1516_1.0.0.tar.gz'
+    Content type 'application/gzip' length 7492439 bytes (7.1 MB)
+    ==================================================
+    downloaded 7.1 MB
+    ```
 
 *   checking package dependencies ... NOTE
     ```
     Packages suggested but not available for checking:
       ‘taxstats’ ‘taxstats1516’
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.5Mb
+      sub-directories of 1Mb or more:
+        doc   3.5Mb
+        R     2.2Mb
     ```
 
 # Greg
@@ -5608,6 +10589,70 @@ Version: 1.3
 *   checking Rd cross-references ... NOTE
     ```
     Package unavailable to check Rd xrefs: ‘rmeta’
+    ```
+
+# groupedstats
+
+Version: 0.0.6
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    The error most likely occurred in:
+    
+    > ### Name: grouped_glm
+    > ### Title: Function to run generalized linear model (glm) across multiple
+    > ###   grouping variables.
+    > ### Aliases: grouped_glm
+    > 
+    > ### ** Examples
+    > 
+    > 
+    > # to get tidy output
+    > groupedstats::grouped_glm(
+    +   data = groupedstats::Titanic_full,
+    +   formula = Survived ~ Sex,
+    +   grouping.vars = Class,
+    +   family = stats::binomial(link = "logit")
+    + )
+    Error in UseMethod("ungroup") : 
+      no applicable method for 'ungroup' applied to an object of class "list"
+    Calls: <Anonymous> ... freduce -> withVisible -> <Anonymous> -> <Anonymous>
+    Execution halted
+    ```
+
+# guardianapi
+
+Version: 0.1.0
+
+## In both
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
+    
+    Attaching package: 'lubridate'
+    
+    The following object is masked from 'package:base':
+    
+        date
+    
+    Retrieving page 1
+    Quitting from lines 30-60 (introduction.Rmd) 
+    Error: processing vignette 'introduction.Rmd' failed with diagnostics:
+    HTTP error 429.
+    Execution halted
     ```
 
 # gutenbergr
@@ -5649,6 +10694,9 @@ Version: 0.2.3
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘harrietr’ ...
 ** package ‘harrietr’ successfully unpacked and MD5 sums checked
 ** R
@@ -5663,6 +10711,9 @@ ERROR: lazy loading failed for package ‘harrietr’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘harrietr’ ...
 ** package ‘harrietr’ successfully unpacked and MD5 sums checked
 ** R
@@ -5674,6 +10725,38 @@ ERROR: lazy loading failed for package ‘harrietr’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/harrietr/old/harrietr.Rcheck/harrietr’
 
 ```
+# healthcareai
+
+Version: 2.3.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+     8           0.0292            117    0.244    21           52           4
+     9           0.0277            141    0.244    21           52           4
+    10           0.153             181    0.244    21           52           4
+    # … with 615 more rows, and 3 more variables: skinfold <int>, insulin <int>,
+    #   weight_class <chr>
+    > 
+    > # Here is an example in which both the varying and non-varying feature values
+    > # are explicitly specified.
+    > explore(m,
+    +         vary = list(weight_class = c("normal", "overweight", "obese"),
+    +                     plasma_glucose = seq(60, 200, 10)),
+    +         hold = list(pregnancies = 2,
+    +                     pedigree = .5,
+    +                     age = 25,
+    +                     insulin = NA,
+    +                     skinfold = NA,
+    +                     diastolic_bp = 85)) %>%
+    +   plot()
+    Error in tapply(X = X, INDEX = x, FUN = FUN, ...) : object 'x' not found
+    Calls: %>% ... <Anonymous> -> reorder -> reorder.default -> tapply
+    Execution halted
+    ```
+
 # heatwaveR
 
 Version: 0.3.6
@@ -5691,6 +10774,9 @@ Version: 0.3.6
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘heatwaveR’ ...
 ** package ‘heatwaveR’ successfully unpacked and MD5 sums checked
 ** libs
@@ -5704,6 +10790,9 @@ ERROR: compilation failed for package ‘heatwaveR’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘heatwaveR’ ...
 ** package ‘heatwaveR’ successfully unpacked and MD5 sums checked
 ** libs
@@ -5820,18 +10909,66 @@ Version: 1.2.0
     to your NAMESPACE file.
     ```
 
+# HierDpart
+
+Version: 0.3.5
+
+## In both
+
+*   checking whether package ‘HierDpart’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HierDpart/new/HierDpart.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘HierDpart’ ...
+** package ‘HierDpart’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘HierDpart’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HierDpart/new/HierDpart.Rcheck/HierDpart’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘HierDpart’ ...
+** package ‘HierDpart’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘HierDpart’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/HierDpart/old/HierDpart.Rcheck/HierDpart’
+
+```
 # highcharter
 
 Version: 0.7.0
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  9.2Mb
-      sub-directories of 1Mb or more:
-        doc           3.7Mb
-        htmlwidgets   4.0Mb
+    Package required but not available: ‘quantmod’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # hiReadsProcessor
@@ -5925,12 +11062,52 @@ Version: 0.2.0
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking whether package ‘hpiR’ can be installed ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘knitr’
-      All declared Imports should be used.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hpiR/new/hpiR.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘hpiR’ ...
+** package ‘hpiR’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘hpiR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hpiR/new/hpiR.Rcheck/hpiR’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘hpiR’ ...
+** package ‘hpiR’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘hpiR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/hpiR/old/hpiR.Rcheck/hpiR’
+
+```
 # HTSSIP
 
 Version: 1.4.0
@@ -5959,38 +11136,16 @@ Version: 0.0.1
 
 # huxtable
 
-Version: 4.4.0
+Version: 4.5.0
 
 ## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Message: Failed to compile /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/huxtable/new/huxtable.Rcheck/tests/testthat/temp-artefacts/bookdown-test.tex. See bookdown-test.log for more info.
-      Class:   simpleError/error/condition
-      bookdown-test.Rmd
-      bookdown::pdf_book
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 878 SKIPPED: 57 FAILED: 5
-      1. Failure: huxreg copes with different models (@test-huxreg.R#31) 
-      2. Error: quick_pdf works (@test-quick-output.R#41) 
-      3. Error: quick_pdf works with height and width options (@test-quick-output.R#53) 
-      4. Failure: echo = TRUE does not cause option clash (@test-yy-end-to-end.R#108) 
-      5. Failure: Bookdown files (@test-yy-end-to-end.R#143) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
 
 *   checking installed package size ... NOTE
     ```
       installed size is  5.3Mb
       sub-directories of 1Mb or more:
         doc   2.9Mb
-        R     2.0Mb
+        R     2.1Mb
     ```
 
 # HydeNet
@@ -6075,6 +11230,54 @@ Version: 0.10.0
       All declared Imports should be used.
     ```
 
+# IATscores
+
+Version: 0.2.1
+
+## In both
+
+*   checking whether package ‘IATscores’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IATscores/new/IATscores.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘IATscores’ ...
+** package ‘IATscores’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘IATscores’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IATscores/new/IATscores.Rcheck/IATscores’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘IATscores’ ...
+** package ‘IATscores’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘IATscores’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/IATscores/old/IATscores.Rcheck/IATscores’
+
+```
 # ICD10gm
 
 Version: 1.0.3
@@ -6110,6 +11313,9 @@ Version: 1.0.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘iCNV’ ...
 ** R
 ** data
@@ -6124,6 +11330,9 @@ ERROR: lazy loading failed for package ‘iCNV’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘iCNV’ ...
 ** R
 ** data
@@ -6203,9 +11412,9 @@ Version: 0.7.1
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.8Mb
+      installed size is  6.9Mb
       sub-directories of 1Mb or more:
-        libs   5.1Mb
+        libs   5.2Mb
         R      1.0Mb
     ```
 
@@ -6231,6 +11440,9 @@ Version: 0.3.3
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘idefix’ ...
 ** package ‘idefix’ successfully unpacked and MD5 sums checked
 ** libs
@@ -6244,6 +11456,9 @@ ERROR: compilation failed for package ‘idefix’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘idefix’ ...
 ** package ‘idefix’ successfully unpacked and MD5 sums checked
 ** libs
@@ -6293,7 +11508,7 @@ Version: 1.8.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.2Mb
+      installed size is  6.3Mb
       sub-directories of 1Mb or more:
         doc   5.8Mb
     ```
@@ -6414,6 +11629,9 @@ Version: 1.5.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘ijtiff’ ...
 ** package ‘ijtiff’ successfully unpacked and MD5 sums checked
 Package libtiff-4 was not found in the pkg-config search path.
@@ -6439,6 +11657,9 @@ ERROR: configuration failed for package ‘ijtiff’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘ijtiff’ ...
 ** package ‘ijtiff’ successfully unpacked and MD5 sums checked
 Package libtiff-4 was not found in the pkg-config search path.
@@ -6472,8 +11693,8 @@ Version: 0.41.2
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -Dcimg_r_mode -fpermissive -I/usr/X11R6/include -I/opt/X11/include  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/imager/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/imager/new/imager.Rcheck/imager/include" -I"/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/Rtmphc2M4h/sourceCpp-x86_64-apple-darwin15.6.0-1.0.0" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c file4fb421a7273e.cpp -o file4fb421a7273e.o
-      clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o sourceCpp_2.so file4fb421a7273e.o -lX11 -L/usr/X11R6/lib -L/opt/X11/include -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+      clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -Dcimg_r_mode -fpermissive -I/usr/X11R6/include -I/opt/X11/include  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/imager/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/imager/new/imager.Rcheck/imager/include" -I"/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/Rtmpzjcryy/sourceCpp-x86_64-apple-darwin15.6.0-1.0.1" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c file1498d1a3a8c24.cpp -o file1498d1a3a8c24.o
+      clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o sourceCpp_2.so file1498d1a3a8c24.o -lX11 -L/usr/X11R6/lib -L/opt/X11/include -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
       ── 1. Error: cpp_plugin (@test_cpp_api.R#14)  ──────────────────────────────────
       Error 1 occurred building shared library.
       1: cppFunction(foo.inline, depends = "imager") at testthat/test_cpp_api.R:14
@@ -6487,6 +11708,11 @@ Version: 0.41.2
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘spatstat’
     ```
 
 *   checking installed package size ... NOTE
@@ -6527,6 +11753,54 @@ Version: 0.2.4
       Execution halted
     ```
 
+# imputeTestbench
+
+Version: 3.0.1
+
+## In both
+
+*   checking whether package ‘imputeTestbench’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/imputeTestbench/new/imputeTestbench.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘imputeTestbench’ ...
+** package ‘imputeTestbench’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘imputeTestbench’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/imputeTestbench/new/imputeTestbench.Rcheck/imputeTestbench’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘imputeTestbench’ ...
+** package ‘imputeTestbench’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘imputeTestbench’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/imputeTestbench/old/imputeTestbench.Rcheck/imputeTestbench’
+
+```
 # incadata
 
 Version: 0.6.4
@@ -6571,17 +11845,49 @@ Version: 0.2.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.4Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
         data   3.1Mb
         help   1.1Mb
-        R      1.1Mb
+        R      1.0Mb
     ```
 
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘lazyeval’
       All declared Imports should be used.
+    ```
+
+# InjurySeverityScore
+
+Version: 0.0.0.1
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### Aliases: injury_score
+    > 
+    > ### ** Examples
+    > 
+    > pat_id <- c(2,2,2,2,2,1,2,1,2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1)
+    > icd9 <- c('874.2', '874.8', '900.81', '900.82', '900.89', '805.06', 
+    +           'E966', '805.07', 'V14.0', '807.02', 'V70.4', '821.01', '823.20', 
+    +           '860.0', '861.01', '861.21', '861.22', '863.84', '864.04', '865.04', 
+    +           '865.09', '866.02', '868.04', '958.4')
+    > sample_data <- data.frame(subj = pat_id, code = icd9, stringsAsFactors = FALSE)
+    > injury_score(sample_data, subj, code)
+    Error: Argument 3 must be an integer vector, not a double vector
+    Backtrace:
+        █
+     1. └─InjurySeverityScore::injury_score(sample_data, subj, code)
+     2.   ├─base::cbind(...) 00_pkg_src/InjurySeverityScore/R/injury_score.R:78:2
+     3.   └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default) 00_pkg_src/InjurySeverityScore/R/injury_score.R:78:2
+     4.     └─dplyr:::replace_with(...) /Users/romain/git/tidyverse/dplyr/R/coalesce.R:42:4
+     5.       └─dplyr:::check_type(val, x, name) /Users/romain/git/tidyverse/dplyr/R/utils-replace-with.R:7:2
+     6.         └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") /Users/romain/git/tidyverse/dplyr/R/utils-replace-with.R:52:2
+    Execution halted
     ```
 
 # inlabru
@@ -6592,7 +11898,7 @@ Version: 2.1.9
 
 *   checking package dependencies ... NOTE
     ```
-    Package suggested but not available for checking: ‘INLA’
+    Packages suggested but not available for checking: ‘spatstat’ ‘INLA’
     ```
 
 *   checking installed package size ... NOTE
@@ -6601,7 +11907,7 @@ Version: 2.1.9
       sub-directories of 1Mb or more:
         data   1.1Mb
         misc   1.8Mb
-        R      2.0Mb
+        R      2.1Mb
     ```
 
 *   checking Rd cross-references ... NOTE
@@ -6713,6 +12019,9 @@ Version: 2.0.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘iRF’ ...
 ** package ‘iRF’ successfully unpacked and MD5 sums checked
 ** libs
@@ -6726,6 +12035,9 @@ ERROR: compilation failed for package ‘iRF’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘iRF’ ...
 ** package ‘iRF’ successfully unpacked and MD5 sums checked
 ** libs
@@ -6742,23 +12054,12 @@ Version: 1.3.0
 
 ## In both
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking package dependencies ... ERROR
     ```
-    Error in re-building vignettes:
-      ...
-    ! LaTeX Error: Unknown graphics extension: .png?raw=true.
+    Package required but not available: ‘spatstat’
     
-    Error: processing vignette 'IrisSpatialFeatures.Rmd' failed with diagnostics:
-    Failed to compile IrisSpatialFeatures.tex. See IrisSpatialFeatures.log for more info.
-    Execution halted
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.1Mb
-      sub-directories of 1Mb or more:
-        data      2.1Mb
-        extdata   1.9Mb
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # iSEE
@@ -6942,33 +12243,67 @@ Version: 0.3.2
 
 # kableExtra
 
-Version: 1.0.1
+Version: 1.1.0
 
 ## In both
 
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
+    fmtutil [INFO]: Total formats: 15
+    fmtutil [INFO]: exiting with status 0
+    tlmgr install multirow
+    TeX Live 2018 is frozen forever and will no
+    longer be updated.  This happens in preparation for a new release.
+    
+    If you're interested in helping to pretest the new release (when
+    pretests are available), please read http://tug.org/texlive/pretest.html.
+    Otherwise, just wait, and the new release will be ready in due time.
+    
+    tlmgr: Fundamental package texlive.infra not present, uh oh, goodbyeShould not happen, texlive.infra not found at /usr/local/bin/tlmgr line 7344.
+    tlmgr: package repository http://mirrors.standaloneinstaller.com/ctan/systems/texlive/tlnet (not verified: gpg unavailable)
+    tlmgr path add
+    ! LaTeX Error: File `multirow.sty' not found.
+    
+    ! Emergency stop.
+    <read *> 
+    
+    Error: processing vignette 'awesome_table_in_pdf.Rmd' failed with diagnostics:
+    Failed to compile awesome_table_in_pdf.tex. See https://yihui.name/tinytex/r/#debugging for debugging tips. See awesome_table_in_pdf.log for more info.
+    Execution halted
+    ```
+
+# kayadata
+
+Version: 0.4.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘kayadata-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: project_top_down
+    > ### Title: Get top-down projections of Kaya variables for a country or
+    > ###   region for a given year
+    > ### Aliases: project_top_down
+    > 
+    > ### ** Examples
+    > 
+    > project_top_down("China", 2037)
+    Error in approx(x = year, y = ., xout = ytmp) : object 'ytmp' not found
+    Calls: project_top_down ... summarise.tbl_df -> summarise_impl -> <Anonymous> -> approx
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
     Error in re-building vignettes:
       ...
-    
-    Attaching package: 'dplyr'
-    
-    The following object is masked from 'package:kableExtra':
-    
-        group_rows
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 327-331 (awesome_table_in_html.Rmd) 
-    Error: processing vignette 'awesome_table_in_html.Rmd' failed with diagnostics:
-    unused arguments ("Group 1", 4, 7)
+    Quitting from lines 165-181 (policy_analysis.Rmd) 
+    Error: processing vignette 'policy_analysis.Rmd' failed with diagnostics:
+    object '.f' of mode 'function' was not found
     Execution halted
     ```
 
@@ -7059,13 +12394,32 @@ Version: 6.0-0
 
 # landscapemetrics
 
-Version: 0.3.1
+Version: 1.0
 
 ## In both
 
 *   checking package dependencies ... NOTE
     ```
     Package which this enhances but not available for checking: ‘stars’
+    ```
+
+# leafpm
+
+Version: 0.1.0
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages which this enhances but not available for checking:
+      ‘geojsonio’ ‘mapedit’ ‘mapview’
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘dplyr’ ‘htmlwidgets’ ‘jsonlite’ ‘sf’
+      All declared Imports should be used.
     ```
 
 # lilikoi
@@ -7085,6 +12439,9 @@ Version: 0.1.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘lilikoi’ ...
 ** package ‘lilikoi’ successfully unpacked and MD5 sums checked
 ** R
@@ -7105,6 +12462,9 @@ ERROR: lazy loading failed for package ‘lilikoi’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘lilikoi’ ...
 ** package ‘lilikoi’ successfully unpacked and MD5 sums checked
 ** R
@@ -7122,6 +12482,18 @@ ERROR: lazy loading failed for package ‘lilikoi’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lilikoi/old/lilikoi.Rcheck/lilikoi’
 
 ```
+# LilRhino
+
+Version: 0.1.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘reshape2’
+      All declared Imports should be used.
+    ```
+
 # live
 
 Version: 1.5.10
@@ -7151,6 +12523,9 @@ Version: 0.0.2.19
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘LLSR’ ...
 ** package ‘LLSR’ successfully unpacked and MD5 sums checked
 ** R
@@ -7171,6 +12546,9 @@ ERROR: lazy loading failed for package ‘LLSR’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘LLSR’ ...
 ** package ‘LLSR’ successfully unpacked and MD5 sums checked
 ** R
@@ -7265,6 +12643,9 @@ Version: 0.1.4
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘lpirfs’ ...
 ** package ‘lpirfs’ successfully unpacked and MD5 sums checked
 ** libs
@@ -7278,6 +12659,9 @@ ERROR: compilation failed for package ‘lpirfs’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘lpirfs’ ...
 ** package ‘lpirfs’ successfully unpacked and MD5 sums checked
 ** libs
@@ -7315,6 +12699,54 @@ Version: 1.7
     Execution halted
     ```
 
+# lvnet
+
+Version: 0.3.4
+
+## In both
+
+*   checking whether package ‘lvnet’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lvnet/new/lvnet.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘lvnet’ ...
+** package ‘lvnet’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘lvnet’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lvnet/new/lvnet.Rcheck/lvnet’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘lvnet’ ...
+** package ‘lvnet’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘lvnet’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/lvnet/old/lvnet.Rcheck/lvnet’
+
+```
 # LymphoSeq
 
 Version: 1.8.0
@@ -7332,6 +12764,9 @@ Version: 1.8.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘LymphoSeq’ ...
 ** R
 ** inst
@@ -7344,6 +12779,9 @@ ERROR: lazy loading failed for package ‘LymphoSeq’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘LymphoSeq’ ...
 ** R
 ** inst
@@ -7429,7 +12867,7 @@ Version: 0.1.0
 
 # mapedit
 
-Version: 0.4.3
+Version: 0.5.0
 
 ## In both
 
@@ -7481,68 +12919,14 @@ Version: 1.0.0
 
 ## In both
 
-*   checking whether package ‘mbgraphic’ can be installed ... ERROR
+*   checking package dependencies ... ERROR
     ```
-    Installation failed.
-    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/00install.out’ for details.
+    Package required but not available: ‘extracat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘mbgraphic’ ...
-** package ‘mbgraphic’ successfully unpacked and MD5 sums checked
-** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c cmasum.cpp -o cmasum.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mbgraphic_init.c -o mbgraphic_init.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c variableflip.cpp -o variableflip.o
-clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mbgraphic.so RcppExports.o cmasum.o mbgraphic_init.o variableflip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/mbgraphic/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘mbgraphic’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/new/mbgraphic.Rcheck/mbgraphic’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘mbgraphic’ ...
-** package ‘mbgraphic’ successfully unpacked and MD5 sums checked
-** libs
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c cmasum.cpp -o cmasum.o
-clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c mbgraphic_init.c -o mbgraphic_init.o
-clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c variableflip.cpp -o variableflip.o
-clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mbgraphic.so RcppExports.o cmasum.o mbgraphic_init.o variableflip.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/mbgraphic/libs
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error : .onLoad failed in loadNamespace() for 'rJava', details:
-  call: dyn.load(file, DLLpath = DLLpath, ...)
-  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so':
-  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
-  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mbgraphic/rJava/libs/rJava.so
-  Reason: image not found
-ERROR: lazy loading failed for package ‘mbgraphic’
-* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mbgraphic/old/mbgraphic.Rcheck/mbgraphic’
-
-```
 # MCbiclust
 
 Version: 1.4.0
@@ -7589,6 +12973,81 @@ Version: 2.12
       ‘shinydashboard’ ‘shinydashboardPlus’ ‘shinyjs’ ‘shinythemes’
       ‘stringi’ ‘stringr’ ‘tidyr’
       All declared Imports should be used.
+    ```
+
+# merTools
+
+Version: 0.4.1
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘merTools-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: REsim
+    > ### Title: Simulate random effects from merMod 'REsim' simulates random
+    > ###   effects from merMod object posterior distributions
+    > ### Aliases: REsim
+    > 
+    > ### ** Examples
+    > 
+    > require(lme4)
+    > m2 <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
+    > re2 <- REsim(m2, 25)
+    Error in `[.data.frame`(dat, , c("groupFctr", "groupID", "term", "mean",  : 
+      undefined columns selected
+    Calls: REsim -> [ -> [.data.frame
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat-a_m.R’ failed.
+    Last 13 lines of output:
+      undefined columns selected
+      1: expect_is(REsim(lmerSlope1, n.sims = 100), "data.frame") at testthat/test-merExtract.R:90
+      2: quasi_label(enquo(object), label)
+      3: eval_bare(get_expr(quo), get_env(quo))
+      4: REsim(lmerSlope1, n.sims = 100)
+      5: dat[, c("groupFctr", "groupID", "term", "mean", "median", "sd")] at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/merTools/new/merTools.Rcheck/00_pkg_src/merTools/R/merExtract.R:101
+      6: `[.data.frame`(dat, , c("groupFctr", "groupID", "term", "mean", "median", "sd")) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/merTools/new/merTools.Rcheck/00_pkg_src/merTools/R/merExtract.R:101
+      7: stop("undefined columns selected")
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 358 SKIPPED: 20 FAILED: 1
+      1. Error: REsim produces data.frames (@test-merExtract.R#90) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+        select
+    
+    The following objects are masked from 'package:stats':
+    
+        filter, lag
+    
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
+    Loading required package: Rcpp
+    ## 
+    ## Amelia II: Multiple Imputation
+    ## (Version 1.7.5, built: 2018-05-07)
+    ## Copyright (C) 2005-2019 James Honaker, Gary King and Matthew Blackwell
+    ## Refer to http://gking.harvard.edu/amelia/ for more information
+    ## 
+    Quitting from lines 115-117 (merToolsIntro.Rmd) 
+    Error: processing vignette 'merToolsIntro.Rmd' failed with diagnostics:
+    undefined columns selected
+    Execution halted
     ```
 
 # metacoder
@@ -7713,8 +13172,8 @@ Version: 2.0.0
         'citation("Biobase")', and for packages 'citation("pkgname")'.
     
     ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
-    ✔ ggplot2 3.1.0          ✔ purrr   0.3.1     
-    ✔ tibble  2.0.1          ✔ dplyr   0.8.0.9006
+    ✔ ggplot2 3.1.0          ✔ purrr   0.3.2     
+    ✔ tibble  2.1.1          ✔ dplyr   0.8.0.9010
     ✔ tidyr   0.8.3          ✔ stringr 1.4.0     
     ✔ readr   1.3.1          ✔ forcats 0.4.0     
     ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
@@ -7761,11 +13220,10 @@ Version: 2.0.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.4Mb
+      installed size is  5.3Mb
       sub-directories of 1Mb or more:
         data   1.9Mb
         doc    2.2Mb
-        R      1.0Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -7847,22 +13305,22 @@ Version: 1.2.0
 *   checking package dependencies ... NOTE
     ```
     Packages suggested but not available for checking:
-      ‘minfiData’ ‘methyvimData’
+      ‘earth’ ‘minfiData’ ‘methyvimData’
     ```
 
 # metR
 
-Version: 0.2.0
+Version: 0.3.0
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.4Mb
+      installed size is  6.4Mb
       sub-directories of 1Mb or more:
         data   1.1Mb
-        doc    1.5Mb
-        R      2.0Mb
+        doc    2.6Mb
+        R      2.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -7883,6 +13341,67 @@ Version: 1.0.0
       All declared Imports should be used.
     ```
 
+# mice
+
+Version: 3.4.0
+
+## In both
+
+*   checking whether package ‘mice’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mice/new/mice.Rcheck/00install.out’ for details.
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘gamlss’
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘mice’ ...
+** package ‘mice’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mice/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mice/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c match.cpp -o match.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mice.so RcppExports.o match.o Backtrace: █ 1. └─base::options(...) -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [mice.so] Error 1
+ERROR: compilation failed for package ‘mice’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mice/new/mice.Rcheck/mice’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘mice’ ...
+** package ‘mice’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mice/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mice/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c match.cpp -o match.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mice.so RcppExports.o match.o Backtrace: █ 1. └─base::options(...) -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [mice.so] Error 1
+ERROR: compilation failed for package ‘mice’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mice/old/mice.Rcheck/mice’
+
+```
 # miceFast
 
 Version: 0.2.3
@@ -7900,6 +13419,9 @@ Version: 0.2.3
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘miceFast’ ...
 ** package ‘miceFast’ successfully unpacked and MD5 sums checked
 ** libs
@@ -7913,6 +13435,9 @@ ERROR: compilation failed for package ‘miceFast’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘miceFast’ ...
 ** package ‘miceFast’ successfully unpacked and MD5 sums checked
 ** libs
@@ -7925,7 +13450,7 @@ ERROR: compilation failed for package ‘miceFast’
 ```
 # MlBayesOpt
 
-Version: 0.3.3
+Version: 0.3.4
 
 ## In both
 
@@ -7955,22 +13480,128 @@ Version: 0.1.3
 
 ## In both
 
-*   checking whether the package can be loaded ... ERROR
+*   checking whether package ‘mleap’ can be installed ... ERROR
     ```
-    Loading this package had a fatal error status code 1
-    Loading log:
-    Error: package or namespace load failed for ‘mleap’:
-     .onLoad failed in loadNamespace() for 'mleap', details:
-      call: NULL
-      error: .onLoad failed in loadNamespace() for 'rJava', details:
-      call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so
-      Reason: image not found
-    Execution halted
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mleap/new/mleap.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘mleap’ ...
+** package ‘mleap’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+Backtrace:
+    █
+ 1. └─base::options(...)
+Error: package or namespace load failed for ‘mleap’:
+ .onLoad failed in loadNamespace() for 'mleap', details:
+  call: NULL
+  error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so
+  Reason: image not found
+Error: loading failed
+Execution halted
+ERROR: loading failed
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mleap/new/mleap.Rcheck/mleap’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘mleap’ ...
+** package ‘mleap’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+** help
+*** installing help indices
+** building package indices
+** testing if installed package can be loaded
+Backtrace:
+    █
+ 1. └─base::options(...)
+Error: package or namespace load failed for ‘mleap’:
+ .onLoad failed in loadNamespace() for 'mleap', details:
+  call: NULL
+  error: .onLoad failed in loadNamespace() for 'rJava', details:
+  call: dyn.load(file, DLLpath = DLLpath, ...)
+  error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so':
+  dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so, 6): Library not loaded: /Library/Java/JavaVirtualMachines/jdk-11.0.1.jdk/Contents/Home/lib/server/libjvm.dylib
+  Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/mleap/rJava/libs/rJava.so
+  Reason: image not found
+Error: loading failed
+Execution halted
+ERROR: loading failed
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mleap/old/mleap.Rcheck/mleap’
+
+```
+# mlVAR
+
+Version: 0.4.2
+
+## In both
+
+*   checking whether package ‘mlVAR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mlVAR/new/mlVAR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘mlVAR’ ...
+** package ‘mlVAR’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘mlVAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mlVAR/new/mlVAR.Rcheck/mlVAR’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘mlVAR’ ...
+** package ‘mlVAR’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘mlVAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/mlVAR/old/mlVAR.Rcheck/mlVAR’
+
+```
 # MLZ
 
 Version: 0.1.1
@@ -7982,6 +13613,22 @@ Version: 0.1.1
       installed size is 14.3Mb
       sub-directories of 1Mb or more:
         libs  13.6Mb
+    ```
+
+# modeldb
+
+Version: 0.1.2
+
+## Newly broken
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 45-49 (kmeans.Rmd) 
+    Error: processing vignette 'kmeans.Rmd' failed with diagnostics:
+    object 'dep_time' not found
+    Execution halted
     ```
 
 # modelgrid
@@ -8014,52 +13661,76 @@ Version: 1.4.3
 
 ## In both
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking whether package ‘momentuHMM’ can be installed ... ERROR
     ```
-    ...
-    1: DM$angle = list(mean = ~state2(angleFormula(d, strength = w)), 
-    2:                 concentration= ~1))
-                                         ^
-    Warning in highr::hilight(x, format, prompt = options$prompt, markup = opts$markup) :
-      the syntax of the source code is invalid; the fallback mode is used
-    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
-      Running 'texi2dvi' on 'momentuHMM.tex' failed.
-    LaTeX errors:
-    ! LaTeX Error: File `setspace.sty' not found.
-    
-    Type X to quit or <RETURN> to proceed,
-    or enter new name. (Default extension: sty)
-    
-    ! Emergency stop.
-    <read *> 
-             
-    l.58 \usepackage
-                    {natbib}^^M
-    !  ==> Fatal error occurred, no output PDF file produced!
-    Calls: buildVignettes -> texi2pdf -> texi2dvi
-    Execution halted
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/momentuHMM/new/momentuHMM.Rcheck/00install.out’ for details.
     ```
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.6Mb
-      sub-directories of 1Mb or more:
-        data   1.2Mb
-        doc    1.8Mb
-        R      3.0Mb
-    ```
+## Installation
 
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘momentuHMM’ ...
+** package ‘momentuHMM’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c XBloop.cpp -o XBloop.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c getDM.cpp -o getDM.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c momentuHMM_init.c -o momentuHMM_init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c nLogLike.cpp -o nLogLike.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c trMatrix.cpp -o trMatrix.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o momentuHMM.so RcppExports.o XBloop.o getDM.o momentuHMM_init.o nLogLike.o trMatrix.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [momentuHMM.so] Error 1
+ERROR: compilation failed for package ‘momentuHMM’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/momentuHMM/new/momentuHMM.Rcheck/momentuHMM’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘momentuHMM’ ...
+** package ‘momentuHMM’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c XBloop.cpp -o XBloop.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c getDM.cpp -o getDM.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c momentuHMM_init.c -o momentuHMM_init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c nLogLike.cpp -o nLogLike.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/momentuHMM/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c trMatrix.cpp -o trMatrix.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o momentuHMM.so RcppExports.o XBloop.o getDM.o momentuHMM_init.o nLogLike.o trMatrix.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [momentuHMM.so] Error 1
+ERROR: compilation failed for package ‘momentuHMM’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/momentuHMM/old/momentuHMM.Rcheck/momentuHMM’
+
+```
 # Momocs
 
 Version: 1.2.9
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  5.2Mb
-      sub-directories of 1Mb or more:
-        R   3.1Mb
+    Package required but not available: ‘geomorph’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # MonetDBLite
@@ -8067,6 +13738,9 @@ Version: 1.2.9
 Version: 0.6.0
 
 ## In both
+
+*   R CMD check timed out
+    
 
 *   checking installed package size ... NOTE
     ```
@@ -8173,6 +13847,9 @@ Version: 3.2.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘morse’ ...
 ** package ‘morse’ successfully unpacked and MD5 sums checked
 ** R
@@ -8193,6 +13870,9 @@ ERROR: lazy loading failed for package ‘morse’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘morse’ ...
 ** package ‘morse’ successfully unpacked and MD5 sums checked
 ** R
@@ -8286,7 +13966,7 @@ Version: 0.3.0
 
 # MPTmultiverse
 
-Version: 0.1
+Version: 0.2-0
 
 ## In both
 
@@ -8306,7 +13986,7 @@ Version: 0.1
       ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 0 SKIPPED: 3 FAILED: 2
       1. Error: No-pooling approaches work (@test-mptinr.R#23) 
-      2. Error: Complete-pooling approaches work (@test-mptinr.R#164) 
+      2. Error: Complete-pooling approaches work (@test-mptinr.R#167) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -8441,9 +14121,37 @@ Version: 1.2.0
     Package suggested but not available for checking: ‘RforProteomics’
     ```
 
+# mudata2
+
+Version: 1.0.6
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 13 lines of output:
+      15: group_data(.tbl) at /Users/romain/git/tidyverse/dplyr/R/group-by.r:225
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 921 SKIPPED: 0 FAILED: 8
+      1. Error: mudata constructor works with sqlite data frames (@test_mudata_remote.R#42) 
+      2. Error: mudata_sql works as expected (@test_mudata_remote.R#78) 
+      3. Error: summary and print methods are sql type safe (@test_mudata_remote.R#100) 
+      4. Error: distinct_* functions return the correct values (@test_mudata_remote.R#115) 
+      5. Error: autoplot/plot works on sqlite sources (@test_mudata_remote.R#129) 
+      6. Error: long_pairs works with sqlite sources (@test_mudata_remote.R#137) 
+      7. Error: subsetting, filtering, combining functions fail with a suitable error message (@test_mudata_remote.R#154) 
+      8. Error: generate_type_str works with sqlite sources (@test_types.R#361) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # multicolor
 
-Version: 0.1.1
+Version: 0.1.2
 
 ## In both
 
@@ -8474,7 +14182,7 @@ Version: 1.2.2
     > sim <- cohort_simulation(models, ebmt3, tmat)
     
      *** caught illegal operation ***
-    address 0x11142fb50, cause 'illegal opcode'
+    address 0x111374ca0, cause 'illegal opcode'
     
     Traceback:
      1: desCpp(transitions, trans_mat, newdata_mat, start_times, start_states -     1, tcovs)
@@ -8625,11 +14333,86 @@ Version: 1.2.1
 
 ## In both
 
-*   checking for GNU extensions in Makefiles ... NOTE
+*   checking whether package ‘NestedCategBayesImpute’ can be installed ... ERROR
     ```
-    GNU make is a SystemRequirements.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/NestedCategBayesImpute/new/NestedCategBayesImpute.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘NestedCategBayesImpute’ ...
+** package ‘NestedCategBayesImpute’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c SampleMatrix.cpp -o SampleMatrix.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c SampleMising.cpp -o SampleMising.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c SpecialFunctions.cpp -o SpecialFunctions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c checkconstraints.cpp -o checkconstraints.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c checkconstraints_imp.cpp -o checkconstraints_imp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c generateData.cpp -o generateData.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c groupcount.cpp -o groupcount.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleG.cpp -o sampleG.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleLambda.cpp -o sampleLambda.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleM.cpp -o sampleM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplePhi.cpp -o samplePhi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleW.cpp -o sampleW.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sample_households_imp.cpp -o sample_households_imp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplealpha.cpp -o samplealpha.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplehhparallel.cpp -o samplehhparallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplehouseholds.cpp -o samplehouseholds.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleomega.cpp -o sampleomega.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplepi.cpp -o samplepi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils.cpp -o utils.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o SampleMatrix.o SampleMising.o SpecialFunctions.o checkconstraints.o checkconstraints_imp.o generateData.o groupcount.o sampleG.o sampleLambda.o sampleM.o samplePhi.o sampleW.o sample_households_imp.o samplealpha.o samplehhparallel.o samplehouseholds.o sampleomega.o samplepi.o utils.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o NestedCategBayesImpute.so RcppExports.o SampleMatrix.o SampleMising.o SpecialFunctions.o checkconstraints.o checkconstraints_imp.o generateData.o groupcount.o sampleG.o sampleLambda.o sampleM.o samplePhi.o sampleW.o sample_households_imp.o samplealpha.o samplehhparallel.o samplehouseholds.o sampleomega.o samplepi.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o NestedCategBayesImpute.so RcppExports.o SampleMatrix.o SampleMising.o SpecialFunctions.o checkconstraints.o checkconstraints_imp.o generateData.o groupcount.o sampleG.o sampleLambda.o sampleM.o samplePhi.o sampleW.o sample_households_imp.o samplealpha.o samplehhparallel.o samplehouseholds.o sampleomega.o samplepi.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [NestedCategBayesImpute.so] Error 2
+ERROR: compilation failed for package ‘NestedCategBayesImpute’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/NestedCategBayesImpute/new/NestedCategBayesImpute.Rcheck/NestedCategBayesImpute’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘NestedCategBayesImpute’ ...
+** package ‘NestedCategBayesImpute’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c SampleMatrix.cpp -o SampleMatrix.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c SampleMising.cpp -o SampleMising.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c SpecialFunctions.cpp -o SpecialFunctions.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c checkconstraints.cpp -o checkconstraints.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c checkconstraints_imp.cpp -o checkconstraints_imp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c generateData.cpp -o generateData.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c groupcount.cpp -o groupcount.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleG.cpp -o sampleG.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleLambda.cpp -o sampleLambda.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleM.cpp -o sampleM.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplePhi.cpp -o samplePhi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleW.cpp -o sampleW.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sample_households_imp.cpp -o sample_households_imp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplealpha.cpp -o samplealpha.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplehhparallel.cpp -o samplehhparallel.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplehouseholds.cpp -o samplehouseholds.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c sampleomega.cpp -o sampleomega.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c samplepi.cpp -o samplepi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/NestedCategBayesImpute/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c utils.cpp -o utils.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o SampleMatrix.o SampleMising.o SpecialFunctions.o checkconstraints.o checkconstraints_imp.o generateData.o groupcount.o sampleG.o sampleLambda.o sampleM.o samplePhi.o sampleW.o sample_households_imp.o samplealpha.o samplehhparallel.o samplehouseholds.o sampleomega.o samplepi.o utils.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o NestedCategBayesImpute.so RcppExports.o SampleMatrix.o SampleMising.o SpecialFunctions.o checkconstraints.o checkconstraints_imp.o generateData.o groupcount.o sampleG.o sampleLambda.o sampleM.o samplePhi.o sampleW.o sample_households_imp.o samplealpha.o samplehhparallel.o samplehouseholds.o sampleomega.o samplepi.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o NestedCategBayesImpute.so RcppExports.o SampleMatrix.o SampleMising.o SpecialFunctions.o checkconstraints.o checkconstraints_imp.o generateData.o groupcount.o sampleG.o sampleLambda.o sampleM.o samplePhi.o sampleW.o sample_households_imp.o samplealpha.o samplehhparallel.o samplehouseholds.o sampleomega.o samplepi.o utils.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [NestedCategBayesImpute.so] Error 2
+ERROR: compilation failed for package ‘NestedCategBayesImpute’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/NestedCategBayesImpute/old/NestedCategBayesImpute.Rcheck/NestedCategBayesImpute’
+
+```
 # neuropsychology
 
 Version: 0.5.0
@@ -8700,9 +14483,9 @@ Version: 0.99.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.6Mb
+      installed size is  8.7Mb
       sub-directories of 1Mb or more:
-        data   8.1Mb
+        data   8.2Mb
     ```
 
 # nlmixr
@@ -8711,19 +14494,1068 @@ Version: 1.0.0-7
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘nlmixr’ can be installed ... ERROR
     ```
-      installed size is  5.3Mb
-      sub-directories of 1Mb or more:
-        libs   1.0Mb
-        R      3.0Mb
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/nlmixr/new/nlmixr.Rcheck/00install.out’ for details.
     ```
 
-*   checking dependencies in R code ... NOTE
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘nlmixr’ ...
+** package ‘nlmixr’ successfully unpacked and MD5 sums checked
+** libs
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c jj.c -o jj.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c jj.g.d_parser.c -o jj.g.d_parser.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c rprintf.c -o rprintf.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c chkSolved.c -o chkSolved.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c merge3.c -o merge3.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c neldermead.cpp -o neldermead.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c slice.cpp -o slice.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c RcppExportMod.cpp -o RcppExportMod.o
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Core:535:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/LU:47:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Jacobi:29:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/QR:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Householder:27:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SVD:48:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Geometry:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:7:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Eigenvalues:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCore:66:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/OrderingMethods:71:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseQR:35:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:33:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/IterativeLinearSolvers:46:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/CholmodSupport:45:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:35:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/KroneckerProduct:34:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:39:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/Polynomials:135:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:40:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/SparseExtra:51:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+17 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c ode_cmt1.cpp -o ode_cmt1.o
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Core:535:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/LU:47:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Jacobi:29:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/QR:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Householder:27:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SVD:48:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Geometry:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:7:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Eigenvalues:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCore:66:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/OrderingMethods:71:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseQR:35:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:33:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/IterativeLinearSolvers:46:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/CholmodSupport:45:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:35:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/KroneckerProduct:34:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:39:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/Polynomials:135:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:40:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/SparseExtra:51:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/mat.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat.hpp:276:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat/prob/dirichlet_rng.hpp:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/gamma_distribution.hpp:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/exponential_distribution.hpp:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/detail/int_float_pair.hpp:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/detail/integer_log2.hpp:19:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/pending/integer_log2.hpp:7:1: warning: This header is deprecated. Use <boost/integer/integer_log2.hpp> instead. [-W#pragma-messages]
+BOOST_HEADER_DEPRECATED("<boost/integer/integer_log2.hpp>");
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/config/header_deprecated.hpp:23:37: note: expanded from macro 'BOOST_HEADER_DEPRECATED'
+# define BOOST_HEADER_DEPRECATED(a) BOOST_PRAGMA_MESSAGE("This header is deprecated. Use " a " instead.")
+                                    ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/config/pragma_message.hpp:24:34: note: expanded from macro 'BOOST_PRAGMA_MESSAGE'
+# define BOOST_PRAGMA_MESSAGE(x) _Pragma(BOOST_STRINGIZE(message(x)))
+                                 ^
+<scratch space>:138:2: note: expanded from here
+ message("This header is deprecated. Use " "<boost/integer/integer_log2.hpp>" " instead.")
+ ^
+In file included from ode_cmt1.cpp:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/mat.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/core.hpp:44:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/core/set_zero_all_adjoints.hpp:14:13: warning: unused function 'set_zero_all_adjoints' [-Wunused-function]
+static void set_zero_all_adjoints() {
+            ^
+In file included from ode_cmt1.cpp:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/mat.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat.hpp:70:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat/fun/autocorrelation.hpp:18:8: warning: function 'fft_next_good_size' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+size_t fft_next_good_size(size_t N) {
+       ^
+20 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Core:535:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/LU:47:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Jacobi:29:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/QR:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Householder:27:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SVD:48:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Geometry:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:7:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Eigenvalues:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCore:66:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/OrderingMethods:71:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseQR:35:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:33:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/IterativeLinearSolvers:46:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/CholmodSupport:45:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:35:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/KroneckerProduct:34:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:39:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/Polynomials:135:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:40:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/SparseExtra:51:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+17 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c resid.cpp -o resid.o
+resid.cpp:2:10: fatal error: 'RcppArmadillo.h' file not found
+#include <RcppArmadillo.h>
+         ^~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [resid.o] Error 1
+ERROR: compilation failed for package ‘nlmixr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/nlmixr/new/nlmixr.Rcheck/nlmixr’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘nlmixr’ ...
+** package ‘nlmixr’ successfully unpacked and MD5 sums checked
+** libs
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c jj.c -o jj.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c jj.g.d_parser.c -o jj.g.d_parser.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c init.c -o init.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c rprintf.c -o rprintf.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c chkSolved.c -o chkSolved.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c merge3.c -o merge3.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c neldermead.cpp -o neldermead.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c slice.cpp -o slice.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c RcppExportMod.cpp -o RcppExportMod.o
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Core:535:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/LU:47:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Jacobi:29:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/QR:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Householder:27:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SVD:48:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Geometry:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:7:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Eigenvalues:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCore:66:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/OrderingMethods:71:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseQR:35:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:33:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/IterativeLinearSolvers:46:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/CholmodSupport:45:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:35:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/KroneckerProduct:34:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:39:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/Polynomials:135:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExportMod.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:40:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/SparseExtra:51:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+17 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c ode_cmt1.cpp -o ode_cmt1.o
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Core:535:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/LU:47:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Jacobi:29:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/QR:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Householder:27:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SVD:48:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Geometry:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:7:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Eigenvalues:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCore:66:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/OrderingMethods:71:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseQR:35:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:33:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/IterativeLinearSolvers:46:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/CholmodSupport:45:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:35:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/KroneckerProduct:34:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:39:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/Polynomials:135:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:1:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:40:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/SparseExtra:51:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from ode_cmt1.cpp:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/mat.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat.hpp:276:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat/prob/dirichlet_rng.hpp:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/gamma_distribution.hpp:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/exponential_distribution.hpp:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/detail/int_float_pair.hpp:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/random/detail/integer_log2.hpp:19:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/pending/integer_log2.hpp:7:1: warning: This header is deprecated. Use <boost/integer/integer_log2.hpp> instead. [-W#pragma-messages]
+BOOST_HEADER_DEPRECATED("<boost/integer/integer_log2.hpp>");
+^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/config/header_deprecated.hpp:23:37: note: expanded from macro 'BOOST_HEADER_DEPRECATED'
+# define BOOST_HEADER_DEPRECATED(a) BOOST_PRAGMA_MESSAGE("This header is deprecated. Use " a " instead.")
+                                    ^
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include/boost/config/pragma_message.hpp:24:34: note: expanded from macro 'BOOST_PRAGMA_MESSAGE'
+# define BOOST_PRAGMA_MESSAGE(x) _Pragma(BOOST_STRINGIZE(message(x)))
+                                 ^
+<scratch space>:138:2: note: expanded from here
+ message("This header is deprecated. Use " "<boost/integer/integer_log2.hpp>" " instead.")
+ ^
+In file included from ode_cmt1.cpp:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/mat.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/core.hpp:44:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/core/set_zero_all_adjoints.hpp:14:13: warning: unused function 'set_zero_all_adjoints' [-Wunused-function]
+static void set_zero_all_adjoints() {
+            ^
+In file included from ode_cmt1.cpp:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math.hpp:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/rev/mat.hpp:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat.hpp:70:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include/stan/math/prim/mat/fun/autocorrelation.hpp:18:8: warning: function 'fft_next_good_size' is not needed and will not be emitted [-Wunneeded-internal-declaration]
+size_t fft_next_good_size(size_t N) {
+       ^
+20 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Core:535:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:2:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/LU:47:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:12:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Jacobi:29:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:3:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Cholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/QR:17:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Householder:27:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:5:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SVD:48:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:6:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Geometry:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:30:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Dense:7:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Eigenvalues:58:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:26:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCore:66:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/OrderingMethods:71:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseCholesky:43:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/SparseQR:35:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:31:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/Sparse:33:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/IterativeLinearSolvers:46:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:32:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/CholmodSupport:45:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:35:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/KroneckerProduct:34:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:39:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/Polynomials:135:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+In file included from RcppExports.cpp:4:
+In file included from ./../inst/include/nlmixr_types.h:4:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigen.h:25:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/RcppEigenForward.h:40:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/SparseExtra:51:
+/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include/unsupported/Eigen/../../Eigen/src/Core/util/ReenableStupidWarnings.h:10:30: warning: pragma diagnostic pop could not pop, no matching push [-Wunknown-pragmas]
+    #pragma clang diagnostic pop
+                             ^
+17 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/dparser/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/RcppEigen/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/StanHeaders/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/nlmixr/BH/include" -I/usr/local/include  -Id -I../inst/include -DBOOST_DISABLE_ASSERTS -I"`"/Library/Frameworks/R.framework/Resources/bin/Rscript" -e 'cat(file.path(find.package("RcppArmadillo"),"include"))'`" -fPIC  -Wall -g -O2 -c resid.cpp -o resid.o
+resid.cpp:2:10: fatal error: 'RcppArmadillo.h' file not found
+#include <RcppArmadillo.h>
+         ^~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [resid.o] Error 1
+ERROR: compilation failed for package ‘nlmixr’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/nlmixr/old/nlmixr.Rcheck/nlmixr’
+
+```
+# NLMR
+
+Version: 0.4.2
+
+## In both
+
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘numDeriv’ ‘PreciseSums’
-      All declared Imports should be used.
+    Package required but not available: ‘spatstat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # noaastormevents
@@ -8797,7 +15629,7 @@ Version: 2.12.1
     <read *> 
     
     Error: processing vignette 'nucleR.Rmd' failed with diagnostics:
-    Failed to compile nucleR.tex. See nucleR.log for more info.
+    Failed to compile nucleR.tex. See https://yihui.name/tinytex/r/#debugging for debugging tips. See nucleR.log for more info.
     Execution halted
     ```
 
@@ -8806,6 +15638,32 @@ Version: 2.12.1
 Version: 0.3.5
 
 ## In both
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### ** Examples
+    > 
+    > require(forecast)
+    Loading required package: forecast
+    Error: package or namespace load failed for ‘forecast’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     there is no package called ‘quantmod’
+    > require(tidyverse)
+    Loading required package: tidyverse
+    ── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──
+    ✔ ggplot2 3.1.0          ✔ purrr   0.3.2     
+    ✔ tibble  2.1.1          ✔ dplyr   0.8.0.9010
+    ✔ tidyr   0.8.3          ✔ stringr 1.4.0     
+    ✔ readr   1.3.1          ✔ forcats 0.4.0     
+    ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+    ✖ dplyr::filter() masks stats::filter()
+    ✖ dplyr::lag()    masks stats::lag()
+    > data(aud)
+    > l <- lineup(null_ts("rate", auto.arima), aud)
+    Error in function_list[[k]](value) : object 'auto.arima' not found
+    Calls: lineup ... eval -> _fseq -> freduce -> withVisible -> <Anonymous>
+    Execution halted
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -8876,7 +15734,7 @@ Version: 2.10.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.3Mb
+      installed size is  7.2Mb
       sub-directories of 1Mb or more:
         doc   5.4Mb
     ```
@@ -8887,13 +15745,58 @@ Version: 2.6-1
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘openair’ can be installed ... ERROR
     ```
-      installed size is  6.0Mb
-      sub-directories of 1Mb or more:
-        R   4.0Mb
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/openair/new/openair.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘openair’ ...
+** package ‘openair’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c cluster.cpp -o cluster.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c init.c -o init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c rolling.cpp -o rolling.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o openair.so cluster.o init.o rolling.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [openair.so] Error 1
+ERROR: compilation failed for package ‘openair’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/openair/new/openair.Rcheck/openair’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘openair’ ...
+** package ‘openair’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c cluster.cpp -o cluster.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c init.c -o init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/openair/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c rolling.cpp -o rolling.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o openair.so cluster.o init.o rolling.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [openair.so] Error 1
+ERROR: compilation failed for package ‘openair’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/openair/old/openair.Rcheck/openair’
+
+```
 # opendotaR
 
 Version: 0.1.4
@@ -8939,6 +15842,8 @@ Version: 1.8.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      1: suppressPackageStartupMessages({
+             library(TxDb.Hsapiens.UCSC.hg38.knownGene)
          }) at testthat/test-src_organism-select.R:3
       2: withCallingHandlers(expr, packageStartupMessage = function(c) invokeRestart("muffleMessage"))
       3: library(TxDb.Hsapiens.UCSC.hg38.knownGene) at testthat/test-src_organism-select.R:4
@@ -8951,8 +15856,6 @@ Version: 1.8.1
       3. Error: (unknown) (@test-src_organism-select.R#3) 
       
       Error: testthat unit tests failed
-      In addition: Warning message:
-      call dbDisconnect() when finished working with a connection 
       Execution halted
     ```
 
@@ -9008,9 +15911,37 @@ Version: 1.0.0
       All declared Imports should be used.
     ```
 
+# pammtools
+
+Version: 0.1.9
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      13: eval(lhs, parent, parent)
+      14: mutate_at(.tbl = data, .vars = qname_term, .funs = ~identity(z))
+      15: mutate(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/colwise-mutate.R:248
+      16: mutate.tbl_df(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/manip.r:440
+      17: mutate_impl(.data, dots, caller_env()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:91
+      18: (structure(function (..., .x = ..1, .y = ..2, . = ..1) 
+         identity(z), class = "rlang_lambda_function"))(age) at /Users/romain/git/tidyverse/dplyr/R/RcppExports.R:156
+      19: identity(z)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 286 SKIPPED: 0 FAILED: 1
+      1. Error: Cumulative coefficients work (@test-cumulative-coefficients.R#15) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # parlitools
 
-Version: 0.3.0
+Version: 0.3.1
 
 ## In both
 
@@ -9029,6 +15960,17 @@ Version: 0.1.1
     ```
     Namespace in Imports field not imported from: ‘dbplyr’
       All declared Imports should be used.
+    ```
+
+# parsnip
+
+Version: 0.0.2
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘earth’
     ```
 
 # particles
@@ -9063,11 +16005,54 @@ Version: 0.2.1
 
 ## In both
 
-*   checking for GNU extensions in Makefiles ... NOTE
+*   checking whether package ‘patternplot’ can be installed ... ERROR
     ```
-    GNU make is a SystemRequirements.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/patternplot/new/patternplot.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘patternplot’ ...
+** package ‘patternplot’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c imagetodf.cpp -o imagetodf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c imagetodf2.cpp -o imagetodf2.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c patternplot_init.c -o patternplot_init.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o imagetodf.o imagetodf2.o patternplot_init.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o patternplot.so RcppExports.o imagetodf.o imagetodf2.o patternplot_init.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o patternplot.so RcppExports.o imagetodf.o imagetodf2.o patternplot_init.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [patternplot.so] Error 2
+ERROR: compilation failed for package ‘patternplot’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/patternplot/new/patternplot.Rcheck/patternplot’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘patternplot’ ...
+** package ‘patternplot’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c imagetodf.cpp -o imagetodf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c imagetodf2.cpp -o imagetodf2.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/patternplot/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c patternplot_init.c -o patternplot_init.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o imagetodf.o imagetodf2.o patternplot_init.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o patternplot.so RcppExports.o imagetodf.o imagetodf2.o patternplot_init.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o patternplot.so RcppExports.o imagetodf.o imagetodf2.o patternplot_init.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [patternplot.so] Error 2
+ERROR: compilation failed for package ‘patternplot’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/patternplot/old/patternplot.Rcheck/patternplot’
+
+```
 # PAutilities
 
 Version: 0.1.2
@@ -9144,9 +16129,25 @@ Version: 0.7.0
 
 ## In both
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘earth’
+    ```
+
 *   checking Rd cross-references ... NOTE
     ```
     Packages unavailable to check Rd xrefs: ‘mlbench’, ‘ICEbox’
+    ```
+
+# performanceEstimation
+
+Version: 1.1.0
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘quantmod’
     ```
 
 # petro.One
@@ -9166,6 +16167,9 @@ Version: 0.2.3
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘petro.One’ ...
 ** package ‘petro.One’ successfully unpacked and MD5 sums checked
 ** R
@@ -9186,6 +16190,9 @@ ERROR: lazy loading failed for package ‘petro.One’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘petro.One’ ...
 ** package ‘petro.One’ successfully unpacked and MD5 sums checked
 ** R
@@ -9220,6 +16227,9 @@ Version: 1.0.1
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘phase1PRMD’ ...
 ** package ‘phase1PRMD’ successfully unpacked and MD5 sums checked
 ** R
@@ -9239,6 +16249,9 @@ ERROR: lazy loading failed for package ‘phase1PRMD’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘phase1PRMD’ ...
 ** package ‘phase1PRMD’ successfully unpacked and MD5 sums checked
 ** R
@@ -9272,6 +16285,9 @@ Version: 0.2.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘phenofit’ ...
 ** package ‘phenofit’ successfully unpacked and MD5 sums checked
 ** libs
@@ -9285,6 +16301,9 @@ ERROR: compilation failed for package ‘phenofit’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘phenofit’ ...
 ** package ‘phenofit’ successfully unpacked and MD5 sums checked
 ** libs
@@ -9303,12 +16322,27 @@ Version: 1.4.0
 
 *   checking re-building of vignette outputs ... WARNING
     ```
-    Error in re-building vignettes:
+    ...
       ...
     Quitting from lines 64-72 (introduction_to_phenopath.Rmd) 
     Error: processing vignette 'introduction_to_phenopath.Rmd' failed with diagnostics:
     Columns 1, 2, 3, 4, 5, … (and 3 more) must be named.
     Use .name_repair to specify repair.
+    Backtrace:
+         █
+      1. ├─tools::buildVignettes(dir = "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/phenopath/new/phenopath.Rcheck/vign_test/phenopath")
+      2. │ ├─base::tryCatch(...)
+      3. │ │ └─base:::tryCatchList(expr, classes, parentenv, handlers)
+      4. │ │   └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      5. │ │     └─base:::doTryCatch(return(expr), name, parentenv, handler)
+      6. │ └─engine$weave(file, quiet = quiet, encoding = enc)
+      7. │   └─knitr:::vweave_rmarkdown(...)
+      8. │     └─rmarkdown::render(...)
+      9. │       └─knitr::knit(...)
+     10. │         └─knitr:::process_file(text, output)
+     11. │           ├─base::withCallingHandlers(...)
+     12. │           ├─knitr:::process_group(group)
+     13. │   
     Execution halted
     ```
 
@@ -9329,6 +16363,9 @@ Version: 1.6.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘philr’ ...
 ** R
 ** inst
@@ -9341,6 +16378,9 @@ ERROR: lazy loading failed for package ‘philr’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘philr’ ...
 ** R
 ** inst
@@ -9381,7 +16421,7 @@ Version: 18.4.17
 
 # pivottabler
 
-Version: 1.1.0
+Version: 1.2.0
 
 ## In both
 
@@ -9473,7 +16513,7 @@ Version: 4.8.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.1Mb
+      installed size is  7.0Mb
       sub-directories of 1Mb or more:
         htmlwidgets   3.1Mb
         R             2.3Mb
@@ -9619,16 +16659,9 @@ Version: 0.0-3
 
 # politicaldata
 
-Version: 0.1.1
+Version: 0.1.2
 
 ## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘ggplot2’ ‘tidyr’
-      All declared Imports should be used.
-    ```
 
 *   checking data for non-ASCII characters ... NOTE
     ```
@@ -9649,7 +16682,7 @@ Version: 0.4.0
 
 # poppr
 
-Version: 2.8.1
+Version: 2.8.2
 
 ## In both
 
@@ -9664,6 +16697,9 @@ Version: 2.8.1
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘poppr’ ...
 ** package ‘poppr’ successfully unpacked and MD5 sums checked
 ** libs
@@ -9677,6 +16713,9 @@ ERROR: compilation failed for package ‘poppr’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘poppr’ ...
 ** package ‘poppr’ successfully unpacked and MD5 sums checked
 ** libs
@@ -9687,6 +16726,62 @@ ERROR: compilation failed for package ‘poppr’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/poppr/old/poppr.Rcheck/poppr’
 
 ```
+# portalr
+
+Version: 0.2.2
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      7: getNamespace(ns)
+      8: tryCatch(loadNamespace(name), error = function(e) stop(e))
+      9: tryCatchList(expr, classes, parentenv, handlers)
+      10: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      11: value[[3L]](cond)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 127 SKIPPED: 14 FAILED: 4
+      1. Error: Missing monthly option data are filled (@test-08-NDVI.R#22) 
+      2. Error: Missing moon option data are filled (@test-08-NDVI.R#31) 
+      3. Error: Monthly NDVI can be forecast (@test-08-NDVI.R#36) 
+      4. Error: Newmoon NDVI can be forecast (@test-08-NDVI.R#44) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+# postal
+
+Version: 0.1.1
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      17: .f(.x[[i]], ...)
+      18: readr::write_csv(this, write_to, append = TRUE, col_names = FALSE) at /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/postal/new/postal.Rcheck/00_pkg_src/postal/R/fetch_zones_all.R:57
+      19: write_delim(x, path, delim = ",", na = na, append = append, col_names = col_names, 
+             quote_escape = quote_escape)
+      20: stream_delim(x, path, delim = delim, col_names = col_names, append = append, na = na, 
+             quote_escape = quote_escape)
+      21: open(path, "ab")
+      22: open.connection(path, "ab")
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 109 SKIPPED: 0 FAILED: 1
+      1. Error: (unknown) (@test_fetch_zones.R#144) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # predict3d
 
 Version: 0.1.0
@@ -9771,104 +16866,10 @@ Version: 1.20.2
 
 ## In both
 
-*   checking examples ... ERROR
+*   checking whether package ‘pRoloc’ can be installed ... ERROR
     ```
-    ...
-    > ### Title: Class '"ClustDist"'
-    > ### Aliases: ClustDist class:ClustDist ClustDist-class
-    > ###   plot,ClustDist,MSnSet-method show,ClustDist-method
-    > ### Keywords: classes
-    > 
-    > ### ** Examples
-    > 
-    >   showClass("ClustDist")
-    Class "ClustDist" [package "pRoloc"]
-    
-    Slots:
-                                                                            
-    Name:           k       dist       term         id       nrow    clustsz
-    Class:    numeric       list  character  character    numeric       list
-                                
-    Name:  components       fcol
-    Class:     vector  character
-    >   
-    >   library('pRolocdata')
-    Error in library("pRolocdata") : there is no package called ‘pRolocdata’
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      This is pRoloc version 1.20.2 
-        Visit https://lgatto.github.io/pRoloc/ to get started.
-      
-      Warning messages:
-      1: In fun(libname, pkgname) :
-        mzR has been built against a different Rcpp version (0.12.16)
-      than is installed on your system (1.0.0). This might lead to errors
-      when loading mzR. If you encounter such issues, please send a report,
-      including the output of sessionInfo() to the Bioc support forum at 
-      https://support.bioconductor.org/. For details see also
-      https://github.com/sneumann/mzR/wiki/mzR-Rcpp-compiler-linker-issue.
-      2: replacing previous import 'BiocGenerics::var' by 'stats::var' when loading 'MLInterfaces' 
-      > library("pRolocdata")
-      Error in library("pRolocdata") : there is no package called 'pRolocdata'
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    The following object is masked from 'package:tools':
-    
-        toHTML
-    
-    
-    Attaching package: 'annotate'
-    
-    The following object is masked from 'package:mzR':
-    
-        nChrom
-    
-    Loading required package: cluster
-    Warning: replacing previous import 'BiocGenerics::var' by 'stats::var' when loading 'MLInterfaces'
-    
-    This is pRoloc version 1.20.2 
-      Visit https://lgatto.github.io/pRoloc/ to get started.
-    
-    Quitting from lines 87-93 (pRoloc-goannotations.Rmd) 
-    Error: processing vignette 'pRoloc-goannotations.Rmd' failed with diagnostics:
-    there is no package called 'pRolocdata'
-    Execution halted
-    ```
-
-*   checking PDF version of manual ... WARNING
-    ```
-    ...
-    LaTeX errors found:
-    ! Please use \mathaccent for accents in math mode.
-    \add@accent ...@spacefactor \spacefactor }\accent 
-                                                      #1 #2\egroup \spacefactor ...
-    l.931 ...{}2}{} protein correlations.}{empPvalues}
-                                                      
-    ! Missing { inserted.
-    <to be read again> 
-                       \egroup 
-    l.931 ...{}2}{} protein correlations.}{empPvalues}
-                                                      
-    ! You can't use `\spacefactor' in math mode.
-    \add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                      \accent@spacefactor 
-    l.931 ...{}2}{} protein correlations.}{empPvalues}
-                                                      
-    ! Missing } inserted.
-    <inserted text> 
-                    }
-    l.931 ...{}2}{} protein correlations.}{empPvalues}
-                                                      
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/pRoloc/new/pRoloc.Rcheck/00install.out’ for details.
     ```
 
 *   checking package dependencies ... NOTE
@@ -9876,33 +16877,46 @@ Version: 1.20.2
     Packages suggested but not available for checking: ‘pRolocdata’ ‘GO.db’
     ```
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is 14.0Mb
-      sub-directories of 1Mb or more:
-        doc  10.6Mb
-        R     2.1Mb
-    ```
+## Installation
 
-*   checking dependencies in R code ... NOTE
-    ```
-    Unexported objects imported by ':::' calls:
-      ‘caret:::predict.plsda’ ‘MLInterfaces:::.macroF1’
-      ‘MLInterfaces:::.precision’ ‘MLInterfaces:::.recall’
-      ‘MLInterfaces:::es2df’
-      See the note in ?`:::` about the use of this operator.
-    There are ::: calls to the package's namespace in its code. A package
-      almost never needs to use ::: for its own objects:
-      ‘opt’
-    ```
+### Devel
 
-*   checking R code for possible problems ... NOTE
-    ```
-    Found the following possibly unsafe calls:
-    File ‘pRoloc/R/annotation.R’:
-      unlockBinding("params", .pRolocEnv)
-    ```
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘pRoloc’ ...
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/pRoloc/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c pRoloc.cpp -o pRoloc.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o pRoloc.so pRoloc.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [pRoloc.so] Error 1
+ERROR: compilation failed for package ‘pRoloc’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/pRoloc/new/pRoloc.Rcheck/pRoloc’
 
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘pRoloc’ ...
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/pRoloc/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/pRoloc/RcppArmadillo/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c pRoloc.cpp -o pRoloc.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o pRoloc.so pRoloc.o Backtrace: █ 1. └─base::options(...) -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [pRoloc.so] Error 1
+ERROR: compilation failed for package ‘pRoloc’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/pRoloc/old/pRoloc.Rcheck/pRoloc’
+
+```
 # pRolocGUI
 
 Version: 1.14.0
@@ -10081,31 +17095,56 @@ Version: 1.6.2
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘psichomics’ can be installed ... ERROR
     ```
-      installed size is  9.7Mb
-      sub-directories of 1Mb or more:
-        doc   5.6Mb
-        R     3.0Mb
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psichomics/new/psichomics.Rcheck/00install.out’ for details.
     ```
 
-*   checking compiled code ... NOTE
-    ```
-    File ‘psichomics/libs/psichomics.so’:
-      Found ‘___stdoutp’, possibly from ‘stdout’ (C)
-        Object: ‘psiFastCalc.o’
-      Found ‘_printf’, possibly from ‘printf’ (C)
-        Object: ‘psiFastCalc.o’
-      Found ‘_putchar’, possibly from ‘putchar’ (C)
-        Object: ‘psiFastCalc.o’
-    
-    Compiled code should not call entry points which might terminate R nor
-    write to stdout/stderr instead of to the console, nor use Fortran I/O
-    nor system RNGs.
-    
-    See ‘Writing portable packages’ in the ‘Writing R Extensions’ manual.
-    ```
+## Installation
 
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘psichomics’ ...
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/psichomics/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/psichomics/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c psiFastCalc.cpp -o psiFastCalc.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o psichomics.so RcppExports.o psiFastCalc.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psichomics/new/psichomics.Rcheck/psichomics/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘psichomics’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psichomics/new/psichomics.Rcheck/psichomics’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘psichomics’ ...
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/psichomics/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/psichomics/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c psiFastCalc.cpp -o psiFastCalc.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o psichomics.so RcppExports.o psiFastCalc.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psichomics/old/psichomics.Rcheck/psichomics/libs
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘psichomics’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psichomics/old/psichomics.Rcheck/psichomics’
+
+```
 # PSLM2015
 
 Version: 0.2.0
@@ -10143,20 +17182,54 @@ Version: 0.4.0
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking whether package ‘psycho’ can be installed ... ERROR
     ```
-      installed size is  5.6Mb
-      sub-directories of 1Mb or more:
-        doc   4.3Mb
-        R     1.0Mb
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psycho/new/psycho.Rcheck/00install.out’ for details.
     ```
 
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘methods’
-      All declared Imports should be used.
-    ```
+## Installation
 
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘psycho’ ...
+** package ‘psycho’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Warning: replacing previous import ‘loo::kfold’ by ‘rstanarm::kfold’ when loading ‘psycho’
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘psycho’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psycho/new/psycho.Rcheck/psycho’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘psycho’ ...
+** package ‘psycho’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Warning: replacing previous import ‘loo::kfold’ by ‘rstanarm::kfold’ when loading ‘psycho’
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘BDgraph’
+ERROR: lazy loading failed for package ‘psycho’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/psycho/old/psycho.Rcheck/psycho’
+
+```
 # ptstem
 
 Version: 0.0.4
@@ -10168,18 +17241,6 @@ Version: 0.0.4
       installed size is  5.3Mb
       sub-directories of 1Mb or more:
         dict   5.1Mb
-    ```
-
-# purrrlyr
-
-Version: 0.0.4
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘tibble’
-      All declared Imports should be used.
     ```
 
 # pysd2r
@@ -10211,6 +17272,9 @@ Version: 2.3.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘qdap’ ...
 ** package ‘qdap’ successfully unpacked and MD5 sums checked
 ** R
@@ -10231,6 +17295,9 @@ ERROR: lazy loading failed for package ‘qdap’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘qdap’ ...
 ** package ‘qdap’ successfully unpacked and MD5 sums checked
 ** R
@@ -10267,37 +17334,90 @@ Version: 1.4.1
 
 ## In both
 
-*   checking PDF version of manual ... WARNING
+*   checking whether package ‘quanteda’ can be installed ... ERROR
     ```
-    LaTeX errors when creating PDF version.
-    This typically indicates Rd problems.
-    LaTeX errors found:
-    ! Please use \mathaccent for accents in math mode.
-    \add@accent ...@spacefactor \spacefactor }\accent 
-                                                      #1 #2\egroup \spacefactor ...
-    l.6264 ...mes 100 \times \frac{n_{conj}}{n_{w}}}{}
-                                                      
-    ! You can't use `\spacefactor' in display math mode.
-    \add@accent ...}\accent #1 #2\egroup \spacefactor 
-                                                      \accent@spacefactor 
-    l.6264 ...mes 100 \times \frac{n_{conj}}{n_{w}}}{}
-                                                      
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/quanteda/new/quanteda.Rcheck/00install.out’ for details.
     ```
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  6.6Mb
-      sub-directories of 1Mb or more:
-        data   1.3Mb
-        libs   1.3Mb
-        R      3.0Mb
-    ```
+## Installation
 
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 71 marked UTF-8 strings
-    ```
+### Devel
 
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘quanteda’ ...
+** package ‘quanteda’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c ca_mt.cpp -o ca_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c collocations_mt_.cpp -o collocations_mt_.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c dist_mt.cpp -o dist_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c fcm_mt.cpp -o fcm_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c kwic_mt.cpp -o kwic_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c simil_mt.cpp -o simil_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_chunk_mt.cpp -o tokens_chunk_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_compound_mt.cpp -o tokens_compound_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_lookup_mt.cpp -o tokens_lookup_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_ngrams_mt.cpp -o tokens_ngrams_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_recompile_mt.cpp -o tokens_recompile_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_replace_mt.cpp -o tokens_replace_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_segment_mt.cpp -o tokens_segment_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_select_mt.cpp -o tokens_select_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c utility.cpp -o utility.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c wordcloud.cpp -o wordcloud.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c wordfish_dense.cpp -o wordfish_dense.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c wordfish_mt.cpp -o wordfish_mt.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o quanteda.so RcppExports.o ca_mt.o collocations_mt_.o dist_mt.o fcm_mt.o kwic_mt.o simil_mt.o tokens_chunk_mt.o tokens_compound_mt.o tokens_lookup_mt.o tokens_ngrams_mt.o tokens_recompile_mt.o tokens_replace_mt.o tokens_segment_mt.o tokens_select_mt.o utility.o wordcloud.o wordfish_dense.o wordfish_mt.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm Backtrace: █ 1. └─base::options(...) -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [quanteda.so] Error 1
+ERROR: compilation failed for package ‘quanteda’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/quanteda/new/quanteda.Rcheck/quanteda’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘quanteda’ ...
+** package ‘quanteda’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c ca_mt.cpp -o ca_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c collocations_mt_.cpp -o collocations_mt_.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c dist_mt.cpp -o dist_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c fcm_mt.cpp -o fcm_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c kwic_mt.cpp -o kwic_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c simil_mt.cpp -o simil_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_chunk_mt.cpp -o tokens_chunk_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_compound_mt.cpp -o tokens_compound_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_lookup_mt.cpp -o tokens_lookup_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_ngrams_mt.cpp -o tokens_ngrams_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_recompile_mt.cpp -o tokens_recompile_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_replace_mt.cpp -o tokens_replace_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_segment_mt.cpp -o tokens_segment_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c tokens_select_mt.cpp -o tokens_select_mt.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c utility.cpp -o utility.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c wordcloud.cpp -o wordcloud.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c wordfish_dense.cpp -o wordfish_dense.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -DARMA_DONT_PRINT_OPENMP_WARNING  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppParallel/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/quanteda/RcppArmadillo/include" -I/usr/local/include  -DARMA_64BIT_WORD=1 -fPIC  -Wall -g -O2 -c wordfish_mt.cpp -o wordfish_mt.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o quanteda.so RcppExports.o ca_mt.o collocations_mt_.o dist_mt.o fcm_mt.o kwic_mt.o simil_mt.o tokens_chunk_mt.o tokens_compound_mt.o tokens_lookup_mt.o tokens_ngrams_mt.o tokens_recompile_mt.o tokens_replace_mt.o tokens_segment_mt.o tokens_select_mt.o utility.o wordcloud.o wordfish_dense.o wordfish_mt.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm Backtrace: █ 1. └─base::options(...) -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [quanteda.so] Error 1
+ERROR: compilation failed for package ‘quanteda’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/quanteda/old/quanteda.Rcheck/quanteda’
+
+```
 # QuaternaryProd
 
 Version: 1.14.0
@@ -10385,6 +17505,143 @@ Version: 0.1.1
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘dplyr’
+      All declared Imports should be used.
+    ```
+
+# radiant.basics
+
+Version: 0.9.9
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘radiant.basics-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: compare_means
+    > ### Title: Compare sample means
+    > ### Aliases: compare_means
+    > 
+    > ### ** Examples
+    > 
+    > compare_means(diamonds, "cut", "price") %>% str()
+    Error in me_calc(se, n, conf_lev) : could not find function "me_calc"
+    Calls: %>% ... summarise -> summarise.tbl_df -> summarise_impl -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      3: summarise(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/colwise-mutate.R:110
+      4: summarise.tbl_df(.tbl, !!!funs) at /Users/romain/git/tidyverse/dplyr/R/manip.r:269
+      5: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romain/git/tidyverse/dplyr/R/tbl-df.r:102
+      6: (structure(function (..., .x = ..1, .y = ..2, . = ..1) 
+         mean(.) - comp_value, class = "rlang_lambda_function"))(age) at /Users/romain/git/tidyverse/dplyr/R/RcppExports.R:188
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 6 SKIPPED: 0 FAILED: 4
+      1. Error: compare_means 1 (@test_stats.R#9) 
+      2. Error: compare_means 2 (@test_stats.R#17) 
+      3. Error: single_mean 1 (@test_stats.R#62) 
+      4. Error: single_mean 2 (@test_stats.R#70) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+# radiant.data
+
+Version: 0.9.9
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+     $ byvar      : chr ""
+     $ fun        : chr [1:2] "mean" "sd"
+     $ top        : chr "fun"
+     $ tabfilt    : chr ""
+     $ tabsort    : chr ""
+     $ nr         : NULL
+     $ data_filter: chr ""
+     - attr(*, "class")= chr [1:2] "explore" "list"
+    > explore(diamonds, "price:x")$tab
+      variable          fn1          fn2
+    1    price 3.907186e+03 3956.9154001
+    2    carat 7.942833e-01    0.4738263
+    3  clarity 1.333333e-02    0.1147168
+    4      cut 3.366667e-02    0.1803998
+    5    color 1.273333e-01    0.3334016
+    6    depth 6.175267e+01    1.4460279
+    7    table 5.746533e+01    2.2411022
+    8        x 5.721823e+00    1.1240545
+    > explore(diamonds, c("price","carat"), byvar = "cut", fun = c("n_missing", "skew"))$tab
+    Error: Each row of output must be identified by a unique combination of keys.
+    Keys are shared for 20 rows:
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      9: function_list[[k]](value)
+      10: spread(., "fun", "value")
+      11: spread.data.frame(., "fun", "value")
+      12: abort(glue("Each row of output must be identified by a unique combination of keys.", 
+             "\nKeys are shared for {shared} rows:", "\n{rows}", "Do you need to create unique ID with tibble::rowid_to_column()?"))
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 27 SKIPPED: 0 FAILED: 4
+      1. Failure: explore 8 x 2 (@test_funs.R#89) 
+      2. Failure: explore 8 x 2 (@test_funs.R#90) 
+      3. Failure: explore 1 x 2 (@test_funs.R#108) 
+      4. Error: explore 2 x 2 x 2 (@test_funs.R#142) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+# radiant.model
+
+Version: 0.9.9
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘radiant.model-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: evalreg
+    > ### Title: Evaluate the performance of different regression models
+    > ### Aliases: evalreg
+    > 
+    > ### ** Examples
+    > 
+    > data.frame(price = diamonds$price, pred1 = rnorm(3000), pred2 = diamonds$price) %>%
+    +   evalreg(pred = c("pred1", "pred2"), "price") %>%
+    +   str()
+    Error in mean((rv - .)^2, na.rm = TRUE) : object 'rv' not found
+    Calls: %>% ... summarise.tbl_df -> summarise_impl -> <Anonymous> -> mean
+    Execution halted
+    ```
+
+# radtools
+
+Version: 1.0.4
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘R.utils’ ‘TCIApathfinder’ ‘xfun’
       All declared Imports should be used.
     ```
 
@@ -10529,8 +17786,8 @@ Version: 5.2.0
 *   checking package dependencies ... NOTE
     ```
     Packages suggested but not available for checking:
-      ‘arulesViz’ ‘cairoDevice’ ‘cba’ ‘ggraptR’ ‘gWidgetsRGtk2’ ‘playwith’
-      ‘rggobi’ ‘RGtk2’ ‘wskm’ ‘RGtk2Extras’
+      ‘cairoDevice’ ‘gWidgetsRGtk2’ ‘playwith’ ‘rggobi’ ‘RGtk2’
+      ‘RGtk2Extras’
     ```
 
 *   checking installed package size ... NOTE
@@ -10541,6 +17798,38 @@ Version: 5.2.0
         etc    1.9Mb
         po     1.2Mb
         R      4.3Mb
+    ```
+
+# raustats
+
+Version: 0.1.0
+
+## Newly fixed
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Loading required package: readxl
+    Attaching package: 'raustats'
+    Navigating to /AUSSTATS/abs@.nsf/DetailsPage/5206.0Dec%202018?OpenDocument
+    Navigating to /AUSSTATS/abs@.nsf/DetailsPage/5206.0Dec%202018?OpenDocument
+    Navigating to /AUSSTATS/abs@.nsf/DetailsPage/6401.0Dec%202018?OpenDocument
+    Navigating to /AUSSTATS/abs@.nsf/DetailsPage/5206.0Dec%202017?OpenDocument
+    Navigating to /AUSSTATS/abs@.nsf/DetailsPage/5206.0Sep%202017?OpenDocument
+    Navigating to /AUSSTATS/abs@.nsf/DetailsPage/1270.0.55.001July%202016?OpenDocument
+    Navigating to /AUSSTATS/abs@.nsf/DetailsPage/5206.0Dec%202018?OpenDocument
+    Quitting from lines 663-665 (raustats_introduction.Rmd) 
+    Error: processing vignette 'raustats_introduction.Rmd' failed with diagnostics:
+    Entity 'nbsp' not defined [26]
+    Execution halted
+    ```
+
+## In both
+
+*   checking data for non-ASCII characters ... NOTE
+    ```
+      Note: found 12 marked UTF-8 strings
     ```
 
 # RBesT
@@ -10596,34 +17885,6 @@ Version: 1.0.2
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 24 marked UTF-8 strings
-    ```
-
-# RColetum
-
-Version: 0.2.0
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      1. Error: Test GetAnswers on a single data frame in a very complex forms,
-                using complex group,relaitonal questions and question with N
-                answers. (@test-GetAnswersComplexForm.R#81944) 
-      2. Failure: error by wrong token (@test-GetForms.R#38) 
-      3. Failure: error by wrong token (@test-GetForms.R#42) 
-      4. Error: get forms with no filter (@test-GetForms.R#74) 
-      5. Error: get forms with the filters (@test-GetForms.R#81) 
-      6. Failure: error by wrong token (@test-GetFormStructure.R#4) 
-      7. Failure: error by wrong token (@test-GetFormStructure.R#8) 
-      8. Failure: error by wrong idForm or nameForm (@test-GetFormStructure.R#15) 
-      9. Failure: error by wrong idForm or nameForm (@test-GetFormStructure.R#20) 
-      1. ...
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # rcongresso
@@ -10740,6 +18001,9 @@ Version: 1.1.1
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘Rdrools’ ...
 ** package ‘Rdrools’ successfully unpacked and MD5 sums checked
 ** R
@@ -10762,6 +18026,9 @@ ERROR: lazy loading failed for package ‘Rdrools’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘Rdrools’ ...
 ** package ‘Rdrools’ successfully unpacked and MD5 sums checked
 ** R
@@ -10811,7 +18078,7 @@ Version: 1.6.0
 
 # recipes
 
-Version: 0.1.4
+Version: 0.1.5
 
 ## In both
 
@@ -10830,16 +18097,11 @@ Version: 0.1.4
       21: value[[3L]](cond)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 1118 SKIPPED: 9 FAILED: 1
+      OK: 1147 SKIPPED: 9 FAILED: 1
       1. Error: printing (@test_ica.R#127) 
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Unknown package ‘dimRed’ in Rd xrefs
     ```
 
 *   checking package dependencies ... NOTE
@@ -10853,17 +18115,23 @@ Version: 0.1.4
       All declared Imports should be used.
     ```
 
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘dimRed’
+    ```
+
 # regrrr
 
 Version: 0.1.0
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘rlang’ ‘spatstat’
-      All declared Imports should be used.
+    Package required but not available: ‘spatstat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # replyr
@@ -10888,38 +18156,52 @@ Version: 0.5.0
     Package which this enhances but not available for checking: ‘taxize’
     ```
 
-# rERR
+# resautonet
 
-Version: 0.1
+Version: 1.0
 
-## Newly broken
+## In both
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking whether package ‘resautonet’ can be installed ... ERROR
     ```
-    ...
-      Please specify either 'title' or 'pagetitle' in the metadata.
-      Falling back to 'rERR.utf8'
-    Could not fetch http://mathurl.com/y7gp2qz5.png
-    HttpExceptionRequest Request {
-      host                 = "mathurl.com"
-      port                 = 80
-      secure               = False
-      requestHeaders       = []
-      path                 = "/y7gp2qz5.png"
-      queryString          = ""
-      method               = "GET"
-      proxy                = Nothing
-      rawBody              = False
-      redirectCount        = 10
-      responseTimeout      = ResponseTimeoutDefault
-      requestVersion       = HTTP/1.1
-    }
-     ConnectionTimeout
-    Error: processing vignette 'rERR.Rmd' failed with diagnostics:
-    pandoc document conversion failed with error 61
-    Execution halted
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/resautonet/new/resautonet.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘resautonet’ ...
+** package ‘resautonet’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/resautonet/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/resautonet/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang: error: unsupported option '-fopenmp'
+make: *** [RcppExports.o] Error 1
+ERROR: compilation failed for package ‘resautonet’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/resautonet/new/resautonet.Rcheck/resautonet’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘resautonet’ ...
+** package ‘resautonet’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/resautonet/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/resautonet/RcppArmadillo/include" -I/usr/local/include  -fopenmp  -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang: error: unsupported option '-fopenmp'
+make: *** [RcppExports.o] Error 1
+ERROR: compilation failed for package ‘resautonet’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/resautonet/old/resautonet.Rcheck/resautonet’
+
+```
 # restfulSE
 
 Version: 1.2.3
@@ -10989,7 +18271,7 @@ Version: 0.1.1
 
 # rfishbase
 
-Version: 3.0.1
+Version: 3.0.3
 
 ## In both
 
@@ -10998,6 +18280,54 @@ Version: 3.0.1
       Note: found 44 marked UTF-8 strings
     ```
 
+# rfPermute
+
+Version: 2.1.6
+
+## In both
+
+*   checking whether package ‘rfPermute’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rfPermute/new/rfPermute.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘rfPermute’ ...
+** package ‘rfPermute’ successfully unpacked and MD5 sums checked
+** R
+** data
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘spatstat’
+ERROR: lazy loading failed for package ‘rfPermute’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rfPermute/new/rfPermute.Rcheck/rfPermute’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘rfPermute’ ...
+** package ‘rfPermute’ successfully unpacked and MD5 sums checked
+** R
+** data
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘spatstat’
+ERROR: lazy loading failed for package ‘rfPermute’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rfPermute/old/rfPermute.Rcheck/rfPermute’
+
+```
 # RGMQL
 
 Version: 1.0.2
@@ -11015,6 +18345,9 @@ Version: 1.0.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘RGMQL’ ...
 ** R
 ** inst
@@ -11032,6 +18365,9 @@ ERROR: lazy loading failed for package ‘RGMQL’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘RGMQL’ ...
 ** R
 ** inst
@@ -11133,6 +18469,9 @@ Version: 1.2.15
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘rmcfs’ ...
 ** package ‘rmcfs’ successfully unpacked and MD5 sums checked
 ** R
@@ -11153,6 +18492,9 @@ ERROR: lazy loading failed for package ‘rmcfs’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘rmcfs’ ...
 ** package ‘rmcfs’ successfully unpacked and MD5 sums checked
 ** R
@@ -11202,9 +18544,6 @@ Version: 2.3.0
 
 ## In both
 
-*   R CMD check timed out
-    
-
 *   checking package dependencies ... NOTE
     ```
     Package suggested but not available for checking: ‘taxadb’
@@ -11218,7 +18557,7 @@ Version: 0.8.4
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.0Mb
+      installed size is  5.1Mb
       sub-directories of 1Mb or more:
         vign   1.2Mb
     ```
@@ -11290,6 +18629,9 @@ Version: 1.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘rpcdsearch’ ...
 ** package ‘rpcdsearch’ successfully unpacked and MD5 sums checked
 ** R
@@ -11308,6 +18650,9 @@ ERROR: lazy loading failed for package ‘rpcdsearch’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘rpcdsearch’ ...
 ** package ‘rpcdsearch’ successfully unpacked and MD5 sums checked
 ** R
@@ -11329,11 +18674,294 @@ Version: 1.3
 
 ## In both
 
-*   checking for GNU extensions in Makefiles ... NOTE
+*   checking whether package ‘rPref’ can be installed ... ERROR
     ```
-    GNU make is a SystemRequirements.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rPref/new/rPref.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘rPref’ ...
+** package ‘rPref’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c bnl.cpp -o bnl.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c hasse.cpp -o hasse.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pref-classes.cpp -o pref-classes.o
+In file included from pref-classes.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'scorepref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<scorepref, std::__1::allocator<scorepref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<scorepref, std::__1::allocator<scorepref> >::__shared_ptr_emplace<const Rcpp::Vector<14, PreserveStorage> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<scorepref>::make_shared<const Rcpp::Vector<14, PreserveStorage> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:20:18: note: in instantiation of function template specialization 'std::__1::make_shared<scorepref, const Rcpp::Vector<14, PreserveStorage> &>' requested here
+  return (ppref)(make_shared<scorepref>(data_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'reversepref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<reversepref, std::__1::allocator<reversepref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<reversepref, std::__1::allocator<reversepref> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<reversepref>::make_shared<std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:37:18: note: in instantiation of function template specialization 'std::__1::make_shared<reversepref, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<reversepref>(p_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'pareto' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<pareto, std::__1::allocator<pareto> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<pareto, std::__1::allocator<pareto> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<pareto>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:57:18: note: in instantiation of function template specialization 'std::__1::make_shared<pareto, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<pareto>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'prior' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<prior, std::__1::allocator<prior> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<prior, std::__1::allocator<prior> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<prior>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:61:18: note: in instantiation of function template specialization 'std::__1::make_shared<prior, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<prior>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'intersectionpref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<intersectionpref, std::__1::allocator<intersectionpref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<intersectionpref, std::__1::allocator<intersectionpref> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<intersectionpref>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:65:18: note: in instantiation of function template specialization 'std::__1::make_shared<intersectionpref, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<intersectionpref>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'unionpref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<unionpref, std::__1::allocator<unionpref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<unionpref, std::__1::allocator<unionpref> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<unionpref>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:69:18: note: in instantiation of function template specialization 'std::__1::make_shared<unionpref, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<unionpref>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+6 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c psel-par-top.cpp -o psel-par-top.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c psel-par.cpp -o psel-par.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c scalagon.cpp -o scalagon.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c topk_setting.cpp -o topk_setting.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o bnl.o hasse.o pref-classes.o psel-par-top.o psel-par.o scalagon.o topk_setting.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o rPref.so RcppExports.o bnl.o hasse.o pref-classes.o psel-par-top.o psel-par.o scalagon.o topk_setting.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o rPref.so RcppExports.o bnl.o hasse.o pref-classes.o psel-par-top.o psel-par.o scalagon.o topk_setting.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [rPref.so] Error 2
+ERROR: compilation failed for package ‘rPref’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rPref/new/rPref.Rcheck/rPref’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘rPref’ ...
+** package ‘rPref’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c bnl.cpp -o bnl.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c hasse.cpp -o hasse.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c pref-classes.cpp -o pref-classes.o
+In file included from pref-classes.cpp:1:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/RcppCommon.h:29:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/Rcpp/r/headers.h:59:
+In file included from /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include/Rcpp/platform/compiler.h:153:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/unordered_map:369:
+In file included from /Library/Developer/CommandLineTools/usr/include/c++/v1/__hash_table:16:
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'scorepref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<scorepref, std::__1::allocator<scorepref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<scorepref, std::__1::allocator<scorepref> >::__shared_ptr_emplace<const Rcpp::Vector<14, PreserveStorage> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<scorepref>::make_shared<const Rcpp::Vector<14, PreserveStorage> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:20:18: note: in instantiation of function template specialization 'std::__1::make_shared<scorepref, const Rcpp::Vector<14, PreserveStorage> &>' requested here
+  return (ppref)(make_shared<scorepref>(data_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'reversepref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<reversepref, std::__1::allocator<reversepref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<reversepref, std::__1::allocator<reversepref> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<reversepref>::make_shared<std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:37:18: note: in instantiation of function template specialization 'std::__1::make_shared<reversepref, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<reversepref>(p_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'pareto' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<pareto, std::__1::allocator<pareto> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<pareto, std::__1::allocator<pareto> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<pareto>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:57:18: note: in instantiation of function template specialization 'std::__1::make_shared<pareto, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<pareto>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'prior' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<prior, std::__1::allocator<prior> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<prior, std::__1::allocator<prior> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<prior>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:61:18: note: in instantiation of function template specialization 'std::__1::make_shared<prior, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<prior>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'intersectionpref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<intersectionpref, std::__1::allocator<intersectionpref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<intersectionpref, std::__1::allocator<intersectionpref> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<intersectionpref>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:65:18: note: in instantiation of function template specialization 'std::__1::make_shared<intersectionpref, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<intersectionpref>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:5: warning: destructor called on non-final 'unionpref' that has virtual functions but non-virtual destructor [-Wdelete-non-virtual-dtor]
+    __data_.second().~_Tp();
+    ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3617:9: note: in instantiation of member function 'std::__1::__shared_ptr_emplace<unionpref, std::__1::allocator<unionpref> >::__on_zero_shared' requested here
+        __shared_ptr_emplace(_Alloc __a, _Args&& ...__args)
+        ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4277:26: note: in instantiation of function template specialization 'std::__1::__shared_ptr_emplace<unionpref, std::__1::allocator<unionpref> >::__shared_ptr_emplace<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    ::new(__hold2.get()) _CntrlBlk(__a2, _VSTD::forward<_Args>(__args)...);
+                         ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:4656:29: note: in instantiation of function template specialization 'std::__1::shared_ptr<unionpref>::make_shared<std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+    return shared_ptr<_Tp>::make_shared(_VSTD::forward<_Args>(__args)...);
+                            ^
+pref-classes.cpp:69:18: note: in instantiation of function template specialization 'std::__1::make_shared<unionpref, std::__1::shared_ptr<pref> &, std::__1::shared_ptr<pref> &>' requested here
+  return (ppref)(make_shared<unionpref>(p1_, p2_));
+                 ^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/memory:3656:23: note: qualify call to silence this warning
+    __data_.second().~_Tp();
+                      ^
+6 warnings generated.
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c psel-par-top.cpp -o psel-par-top.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c psel-par.cpp -o psel-par.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c scalagon.cpp -o scalagon.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/rPref/RcppParallel/include" -I/usr/local/include   -fPIC  -Wall -g -O2 -c topk_setting.cpp -o topk_setting.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o bnl.o hasse.o pref-classes.o psel-par-top.o psel-par.o scalagon.o topk_setting.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o rPref.so RcppExports.o bnl.o hasse.o pref-classes.o psel-par-top.o psel-par.o scalagon.o topk_setting.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o rPref.so RcppExports.o bnl.o hasse.o pref-classes.o psel-par-top.o psel-par.o scalagon.o topk_setting.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [rPref.so] Error 2
+ERROR: compilation failed for package ‘rPref’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/rPref/old/rPref.Rcheck/rPref’
+
+```
 # Rraven
 
 Version: 1.0.5
@@ -11398,7 +19026,7 @@ Version: 2.0.8
 
 # rsimsum
 
-Version: 0.5.0
+Version: 0.5.1
 
 ## In both
 
@@ -11437,34 +19065,25 @@ Version: 0.1.2
 
 Version: 1.0.3
 
-## Newly broken
-
-*   checking Rd cross-references ... WARNING
-    ```
-    Unknown package ‘rstanarm’ in Rd xrefs
-    ```
-
-## Newly fixed
-
-*   checking Rd cross-references ... NOTE
-    ```
-    Package unavailable to check Rd xrefs: ‘rstanarm’
-    ```
-
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  9.8Mb
+      installed size is 10.0Mb
       sub-directories of 1Mb or more:
-        libs   7.1Mb
-        R      2.0Mb
+        libs   7.2Mb
+        R      2.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
     ```
     Namespace in Imports field not imported from: ‘loo’
       All declared Imports should be used.
+    ```
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘rstanarm’
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -11571,6 +19190,20 @@ Version: 0.1.1
       All declared Imports should be used.
     ```
 
+# rtdists
+
+Version: 0.9-0
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘gsl’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # rtimicropem
 
 Version: 1.3
@@ -11630,6 +19263,9 @@ Version: 1.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘RtutoR’ ...
 ** package ‘RtutoR’ successfully unpacked and MD5 sums checked
 ** R
@@ -11648,6 +19284,9 @@ ERROR: lazy loading failed for package ‘RtutoR’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘RtutoR’ ...
 ** package ‘RtutoR’ successfully unpacked and MD5 sums checked
 ** R
@@ -11675,16 +19314,58 @@ Version: 0.2.0
       All declared Imports should be used.
     ```
 
-# rwavelet
+# ruler
 
-Version: 0.1.0
+Version: 0.2.0
 
-## In both
+## Newly broken
 
-*   checking dependencies in R code ... NOTE
+*   checking examples ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘dplyr’
-      All declared Imports should be used.
+    ...
+     1. dplyr::transmute_at(., c("disp", "qsec"), rules(z_score = abs(. -     mean(.))/sd(.) > 1))
+    
+    Use 'functions' to extract the individual functions. 
+    
+    > 
+    > # Dealing with one column edge case
+    > improper_pack <- . %>% dplyr::transmute_at(
+    +   dplyr::vars(vs),
+    +   rules(improper_is_neg = . < 0)
+    + )
+    > 
+    > proper_pack <- . %>% dplyr::transmute_at(
+    +   dplyr::vars(vs = vs),
+    +   rules(proper_is_neg = . < 0)
+    + )
+    > 
+    > mtcars[1:2, ] %>%
+    +   expose(cell_packs(improper_pack, proper_pack)) %>%
+    +   get_report()
+    Error: Column `._.improper_is_neg` must be length 2 (the number of rows) or one, not 22
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      34: is.data.frame(x)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 281 SKIPPED: 1 FAILED: 8
+      1. Error: expose works (@test-expose.R#188) 
+      2. Error: expose preserves pack names (@test-expose.R#246) 
+      3. Error: expose accounts for rule separator (@test-expose.R#264) 
+      4. Error: expose guesses (@test-expose.R#271) 
+      5. Error: expose_single.default guesses col pack (@test-expose.R#309) 
+      6. Error: expose_single.default guesses cell pack (@test-expose.R#335) 
+      7. Error: expose_single.col_pack works (@test-expose.R#402) 
+      8. Error: expose_single.cell_pack works (@test-expose.R#453) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # RxODE
@@ -11695,11 +19376,11 @@ Version: 0.8.0-9
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.1Mb
+      installed size is  6.2Mb
       sub-directories of 1Mb or more:
         doc    1.6Mb
         libs   2.1Mb
-        R      2.0Mb
+        R      2.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -11717,38 +19398,6 @@ Version: 0.2.3
 *   checking data for non-ASCII characters ... NOTE
     ```
       Note: found 841 marked UTF-8 strings
-    ```
-
-# safetyGraphics
-
-Version: 0.7.3
-
-## In both
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    Error in re-building vignettes:
-      ...
-    Could not fetch https://user-images.githubusercontent.com/3680095/51569925-98219500-1e52-11e9-9992-0955ebef9bf4.png
-    HttpExceptionRequest Request {
-      host                 = "user-images.githubusercontent.com"
-      port                 = 443
-      secure               = True
-      requestHeaders       = []
-      path                 = "/3680095/51569925-98219500-1e52-11e9-9992-0955ebef9bf4.png"
-      queryString          = ""
-      method               = "GET"
-      proxy                = Nothing
-      rawBody              = False
-      redirectCount        = 10
-      responseTimeout      = ResponseTimeoutDefault
-      requestVersion       = HTTP/1.1
-    }
-     (ConnectionFailure Network.Socket.getAddrInfo (called with preferred socket type/protocol: AddrInfo {addrFlags = [AI_ADDRCONFIG], addrFamily = AF_UNSPEC, addrSocketType = Stream, addrProtocol = 6, addrAddress = <assumed to be undefined>, addrCanonName = <assumed to be undefined>}, host name: Just "user-images.githubusercontent.com", service name: Just "443"): does not exist (nodename nor servname provided, or not known))
-    Error: processing vignette 'shinyUserGuide.Rmd' failed with diagnostics:
-    pandoc document conversion failed with error 61
-    Execution halted
     ```
 
 # SanFranBeachWater
@@ -11782,18 +19431,54 @@ Version: 1.0.0
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking whether package ‘SAR’ can be installed ... ERROR
     ```
-    Namespaces in Imports field not imported from:
-      ‘httr’ ‘jsonlite’
-      All declared Imports should be used.
-    ```
-
-*   checking for GNU extensions in Makefiles ... NOTE
-    ```
-    GNU make is a SystemRequirements.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SAR/new/SAR.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘SAR’ ...
+** package ‘SAR’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c make_similarity_matrix_sp.cpp -o make_similarity_matrix_sp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c similarity_rescale.cpp -o similarity_rescale.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c userpred.cpp -o userpred.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o make_similarity_matrix_sp.o similarity_rescale.o userpred.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o SAR.so RcppExports.o make_similarity_matrix_sp.o similarity_rescale.o userpred.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o SAR.so RcppExports.o make_similarity_matrix_sp.o similarity_rescale.o userpred.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [SAR.so] Error 2
+ERROR: compilation failed for package ‘SAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SAR/new/SAR.Rcheck/SAR’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘SAR’ ...
+** package ‘SAR’ successfully unpacked and MD5 sums checked
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c make_similarity_matrix_sp.cpp -o make_similarity_matrix_sp.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c similarity_rescale.cpp -o similarity_rescale.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/Rcpp/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppArmadillo/include" -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SAR/RcppParallel/include" -I/usr/local/include  -DARMA_64BIT_WORD -fPIC  -Wall -g -O2 -c userpred.cpp -o userpred.o
+/bin/sh: -c: line 0: syntax error near unexpected token `('
+/bin/sh: -c: line 0: `if test  "zRcppExports.o make_similarity_matrix_sp.o similarity_rescale.o userpred.o" != "z"; then   echo clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o SAR.so RcppExports.o make_similarity_matrix_sp.o similarity_rescale.o userpred.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation;   clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L"/Library/Frameworks/R.framework/Resources/lib" -L/usr/local/lib -o SAR.so RcppExports.o make_similarity_matrix_sp.o similarity_rescale.o userpred.o Backtrace:     █  1. └─base::options(...)  -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation; fi'
+make: *** [SAR.so] Error 2
+ERROR: compilation failed for package ‘SAR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SAR/old/SAR.Rcheck/SAR’
+
+```
 # scater
 
 Version: 1.8.4
@@ -11951,6 +19636,72 @@ Version: 1.0.2
       All declared Imports should be used.
     ```
 
+# SEERaBomb
+
+Version: 2018.1
+
+## In both
+
+*   checking whether package ‘SEERaBomb’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SEERaBomb/new/SEERaBomb.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘SEERaBomb’ ...
+** package ‘SEERaBomb’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c SEERaBomb_init.c -o SEERaBomb_init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c fillPYM.cpp -o fillPYM.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o SEERaBomb.so RcppExports.o SEERaBomb_init.o fillPYM.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SEERaBomb/new/SEERaBomb.Rcheck/SEERaBomb/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘forecast’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+ there is no package called ‘quantmod’
+Error : package ‘forecast’ could not be loaded
+ERROR: lazy loading failed for package ‘SEERaBomb’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SEERaBomb/new/SEERaBomb.Rcheck/SEERaBomb’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘SEERaBomb’ ...
+** package ‘SEERaBomb’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -Wall -g -O2  -c SEERaBomb_init.c -o SEERaBomb_init.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SEERaBomb/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c fillPYM.cpp -o fillPYM.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o SEERaBomb.so RcppExports.o SEERaBomb_init.o fillPYM.o -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+installing to /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SEERaBomb/old/SEERaBomb.Rcheck/SEERaBomb/libs
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error: package or namespace load failed for ‘forecast’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+ there is no package called ‘quantmod’
+Error : package ‘forecast’ could not be loaded
+ERROR: lazy loading failed for package ‘SEERaBomb’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SEERaBomb/old/SEERaBomb.Rcheck/SEERaBomb’
+
+```
 # sejmRP
 
 Version: 1.3.4
@@ -12094,11 +19845,19 @@ Version: 0.7-3
     See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sf/new/sf.Rcheck/00install.out’ for details.
     ```
 
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘spatstat’
+    ```
+
 ## Installation
 
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘sf’ ...
 ** package ‘sf’ successfully unpacked and MD5 sums checked
 configure: CC: clang
@@ -12113,6 +19872,9 @@ ERROR: configuration failed for package ‘sf’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘sf’ ...
 ** package ‘sf’ successfully unpacked and MD5 sums checked
 configure: CC: clang
@@ -12124,6 +19886,20 @@ ERROR: configuration failed for package ‘sf’
 * removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/sf/old/sf.Rcheck/sf’
 
 ```
+# shar
+
+Version: 0.2
+
+## In both
+
+*   checking package dependencies ... ERROR
+    ```
+    Package required but not available: ‘spatstat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
+    ```
+
 # shiny.semantic
 
 Version: 0.2.1
@@ -12180,52 +19956,12 @@ Version: 2.1.4
 
 ## In both
 
-*   checking examples ... ERROR
+*   checking package dependencies ... ERROR
     ```
-    ...
-    > ### ** Examples
-    > 
-    > x <- stats::rnorm(50)
-    > y <- stats::rnorm(50)
-    > parms <- list()
-    > parms$n.iter <- 2 * 10^3
-    > parms$n.burnin <- 500
-    > parms$n.thin <- 2     
-    > parms$n.chains <- 2    
-    > priors <- list()
-    > priors$R <- 1 * diag(2)
-    > priors$k <- 2
-    > priors$tau.mu <- 1.0E-3
-    > fitEllipse(x, y, parms, priors)
-    Error: .onLoad failed in loadNamespace() for 'rjags', details:
-      call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so
-      Reason: image not found
-    Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 74-96 (Centroid-Vectors.Rmd) 
-    Error: processing vignette 'Centroid-Vectors.Rmd' failed with diagnostics:
-    .onLoad failed in loadNamespace() for 'rjags', details:
-      call: dyn.load(file, DLLpath = DLLpath, ...)
-      error: unable to load shared object '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so':
-      dlopen(/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so, 10): Library not loaded: /usr/local/lib/libjags.4.dylib
-      Referenced from: /Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/SIBER/rjags/libs/rjags.so
-      Reason: image not found
-    Execution halted
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespaces in Imports field not imported from:
-      ‘coda’ ‘ellipse’ ‘viridis’
-      All declared Imports should be used.
+    Package required but not available: ‘spatstat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # sicegar
@@ -12298,6 +20034,9 @@ Version: 0.2.2
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘simputation’ ...
 ** package ‘simputation’ successfully unpacked and MD5 sums checked
 ** libs
@@ -12311,6 +20050,9 @@ ERROR: compilation failed for package ‘simputation’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘simputation’ ...
 ** package ‘simputation’ successfully unpacked and MD5 sums checked
 ** libs
@@ -12335,7 +20077,7 @@ Version: 0.3.0
 
 # sjstats
 
-Version: 0.17.3
+Version: 0.17.4
 
 ## In both
 
@@ -12361,6 +20103,17 @@ Version: 1.3.0
 Version: 0.7.0
 
 ## In both
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 23-25 (sophisthse_intro.Rmd) 
+    Error: processing vignette 'sophisthse_intro.Rmd' failed with diagnostics:
+    package or namespace load failed for 'forecast' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     there is no package called 'quantmod'
+    Execution halted
+    ```
 
 *   checking data for non-ASCII characters ... NOTE
     ```
@@ -12440,35 +20193,65 @@ Version: 1.0.1
 
 # SpaDES.core
 
-Version: 0.2.4
+Version: 0.2.5
 
 ## In both
 
-*   checking tests ...
+*   checking examples ... ERROR
     ```
-     ERROR
-    Running the tests in ‘tests/test-all.R’ failed.
-    Last 13 lines of output:
-      [9]  -6.33 -  -8.17 ==  1.831
-      ...
-      
-      [34m  Using cached copy of .inputObjects event in child6 module.   
-      [39m[34m  Using memoised copy of .inputObjects event in child6 module
-      [39m[34m  Using memoised copy of .inputObjects event in child6 module
-      [39m══ testthat results  ═══════════════════════════════════════════════════════════════════════════
-      OK: 452 SKIPPED: 33 FAILED: 2
-      1. Failure: simulation runs with simInit and spades (@test-simulation.R#86) 
-      2. Failure: simulation runs with simInit and spades (@test-simulation.R#87) 
-      
-      Error: testthat unit tests failed
-      In addition: Warning message:
-      In fun(libname, pkgname) : couldn't connect to display ""
-      Execution halted
+    ...
+    +      .globals = list(stackName = "landscape", burnStats = "nPixelsBurned")
+    +    ),
+    +    modules = list("caribouMovement"),
+    +    paths = list(modulePath = path)
+    + )
+    Setting:
+      options(
+        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
+      )
+    Paths set to:
+      options(
+        reproducible.cachePath = '/var/folders/xn/m8dzdsgs7sg8q7jgflnqm8w80000gn/T/RtmpJ09Udo/reproducible/cache'
+        spades.inputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpuA3rXa/SpaDES/inputs'
+        spades.outputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpuA3rXa/SpaDES/outputs'
+        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
+      )
+    Warning in gzfile(file, mode) :
+      cannot open compressed file '/var/folders/xn/m8dzdsgs7sg8q7jgflnqm8w80000gn/T/RtmpJ09Udo/reproducible/cache/.Require/_Users_romain_git_tidyverse_dplyr-revdep_dplyr_revdep_checks.noindex_SpaDES.core_new_SpaDES.core.Rcheck.snapshot.RDS', probable reason 'No such file or directory'
+    Error in gzfile(file, mode) : cannot open the connection
+    Calls: simInit ... Require -> installedVersionsQuick -> saveRDS -> gzfile
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    The following object is masked from 'package:RandomFieldsUtils':
+    
+        RFoptions
+    
+    Setting:
+      options(
+        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
+      )
+    Paths set to:
+      options(
+        reproducible.cachePath = '/var/folders/xn/m8dzdsgs7sg8q7jgflnqm8w80000gn/T/RtmpJ09Udo/reproducible/cache'
+        spades.inputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpuA3rXa/SpaDES/inputs'
+        spades.outputPath = '/private/var/folders/r_/1b2gjtsd7j92jbbpz4t7ps340000gn/T/RtmpuA3rXa/SpaDES/outputs'
+        spades.modulePath = '/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/SpaDES.core/new/SpaDES.core.Rcheck/SpaDES.core/sampleModules'
+      )
+    Warning in gzfile(file, mode) :
+      cannot open compressed file '/var/folders/xn/m8dzdsgs7sg8q7jgflnqm8w80000gn/T/RtmpJ09Udo/reproducible/cache/.Require/_Users_romain_git_tidyverse_dplyr-revdep_dplyr_revdep_checks.noindex_SpaDES.core_new_SpaDES.core.Rcheck.snapshot.RDS', probable reason 'No such file or directory'
+    Quitting from lines 345-373 (ii-modules.Rmd) 
+    Error: processing vignette 'ii-modules.Rmd' failed with diagnostics:
+    cannot open the connection
+    Execution halted
     ```
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.6Mb
+      installed size is  5.7Mb
       sub-directories of 1Mb or more:
         doc   1.6Mb
         R     3.1Mb
@@ -12482,10 +20265,10 @@ Version: 1.0.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.8Mb
+      installed size is  6.7Mb
       sub-directories of 1Mb or more:
         java   1.5Mb
-        R      4.1Mb
+        R      4.0Mb
     ```
 
 # sparseHessianFD
@@ -12576,6 +20359,34 @@ Version: 0.3
       All declared Imports should be used.
     ```
 
+# spbabel
+
+Version: 0.5.0
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+             if (logical.return) 
+                 message(paste("Error:", msg), domain = NA)
+             else stop(msg, call. = FALSE, domain = NA)
+         })
+      3: tryCatchList(expr, classes, parentenv, handlers)
+      4: tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      5: value[[3L]](cond)
+      6: stop(msg, call. = FALSE, domain = NA)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 87 SKIPPED: 2 FAILED: 1
+      1. Error: (unknown) (@test-trip.R#1) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # sport
 
 Version: 0.1.2
@@ -12618,33 +20429,6 @@ Version: 0.5.4.2
     manual.
     ```
 
-# staRdom
-
-Version: 1.0.12
-
-## In both
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 25-63 (Basic_analysis_of_DOM_samples.Rmd) 
-    Error: processing vignette 'Basic_analysis_of_DOM_samples.Rmd' failed with diagnostics:
-    Timeout was reached: Resolving timed out after 10000 milliseconds
-    Execution halted
-    ```
-
 # stars
 
 Version: 0.3-0
@@ -12677,6 +20461,19 @@ Version: 0.1.1
       All declared Imports should be used.
     ```
 
+# statVisual
+
+Version: 1.0.5
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘gbm’ ‘ggfortify’ ‘tibble’
+      All declared Imports should be used.
+    ```
+
 # stlcsb
 
 Version: 0.1.2
@@ -12702,16 +20499,32 @@ Version: 0.3.0
       All declared Imports should be used.
     ```
 
-# StratigrapheR
+# strapgod
 
 Version: 0.0.1
 
-## In both
+## Newly broken
 
-*   checking dependencies in R code ... NOTE
+*   checking tests ...
     ```
-    Namespace in Imports field not imported from: ‘hexbin’
-      All declared Imports should be used.
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      nrow(x_gm) not equal to 5.
+      target is NULL, current is numeric
+      
+      ── 3. Failure: group_map() (@test-dplyr-group-funs.R#52)  ──────────────────────
+      x_gm$.g[[1]] not equal to dplyr::tibble(.bootstrap = 1L).
+      target is NULL, current is tbl_df
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 146 SKIPPED: 0 FAILED: 3
+      1. Failure: group_map() (@test-dplyr-group-funs.R#43) 
+      2. Failure: group_map() (@test-dplyr-group-funs.R#50) 
+      3. Failure: group_map() (@test-dplyr-group-funs.R#52) 
+      
+      Error: testthat unit tests failed
+      Execution halted
     ```
 
 # STRMPS
@@ -12736,7 +20549,7 @@ Version: 0.1.0
       installed size is  5.5Mb
       sub-directories of 1Mb or more:
         paper   2.3Mb
-        R       3.1Mb
+        R       3.0Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -12837,9 +20650,9 @@ Version: 1.0.4
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 13.1Mb
+      installed size is 13.0Mb
       sub-directories of 1Mb or more:
-        data   9.3Mb
+        data   9.2Mb
         doc    3.3Mb
     ```
 
@@ -12903,6 +20716,56 @@ Version: 0.1.1
       All declared Imports should be used.
     ```
 
+# survivalAnalysis
+
+Version: 0.1.1
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    The following objects are masked from ‘package:stats’:
+    
+        filter, lag
+    
+    The following objects are masked from ‘package:base’:
+    
+        intersect, setdiff, setequal, union
+    
+    > survival::aml %>%
+    +   analyse_survival(vars(time, status), x) %>%
+    +   print
+                    records n.max n.start events   *rmean *se(rmean) median 0.95LCL
+    x=Maintained         11    11      11      7 41.96818  11.257627     31      18
+    x=Nonmaintained      12    12      12     11 22.70833   4.180942     23       8
+                    0.95UCL
+    x=Maintained         NA
+    x=Nonmaintained      NA
+    Error in (function (..., .x = ..1, .y = ..2, . = ..1)  : 
+      object 'timespanScaling' not found
+    Calls: %>% ... mutate -> mutate.tbl_df -> mutate_impl -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
+    ✔ ggplot2 3.1.0          ✔ purrr   0.3.2     
+    ✔ tibble  2.1.1          ✔ dplyr   0.8.0.9010
+    ✔ tidyr   0.8.3          ✔ stringr 1.4.0     
+    ✔ readr   1.3.1          ✔ forcats 0.4.0     
+    ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
+    ✖ dplyr::filter() masks stats::filter()
+    ✖ dplyr::lag()    masks stats::lag()
+    Quitting from lines 79-84 (univariate.Rmd) 
+    Error: processing vignette 'univariate.Rmd' failed with diagnostics:
+    object 'timespanScaling' not found
+    Execution halted
+    ```
+
 # survminer
 
 Version: 0.4.3
@@ -12952,35 +20815,72 @@ Version: 0.2.9
 
 Version: 0.2.1.1
 
-## Newly fixed
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘sweep-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: sw_sweep
+    > ### Title: Tidy forecast objects
+    > ### Aliases: sw_sweep
+    > 
+    > ### ** Examples
+    > 
+    > library(forecast)
+    Error: package or namespace load failed for ‘forecast’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     there is no package called ‘quantmod’
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 0 SKIPPED: 0 FAILED: 11
+      1. Error: (unknown) (@test_sw_sweep.R#2) 
+      2. Error: (unknown) (@test_tidiers_arima.R#3) 
+      3. Error: (unknown) (@test_tidiers_bats_tbats.R#2) 
+      4. Error: (unknown) (@test_tidiers_decomposed_ts.R#2) 
+      5. Error: (unknown) (@test_tidiers_ets.R#2) 
+      6. Error: (unknown) (@test_tidiers_hw.R#2) 
+      7. Error: (unknown) (@test_tidiers_lm.R#2) 
+      8. Error: (unknown) (@test_tidiers_nnetar.R#2) 
+      9. Error: (unknown) (@test_tidiers_robets.R#2) 
+      1. ...
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
-    Version 0.4-0 included new data defaults. See ?getSymbols.
-    Loading required package: tidyverse
-    ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
-    ✔ ggplot2 3.1.0       ✔ purrr   0.3.1  
-    ✔ tibble  2.0.1       ✔ dplyr   0.8.0.1
-    ✔ tidyr   0.8.3       ✔ stringr 1.4.0  
-    ✔ readr   1.3.1       ✔ forcats 0.4.0  
-    ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
-    ✖ lubridate::as.difftime() masks base::as.difftime()
-    ✖ lubridate::date()        masks base::date()
-    ✖ dplyr::filter()          masks stats::filter()
-    ✖ dplyr::first()           masks xts::first()
-    ✖ lubridate::intersect()   masks base::intersect()
-    ✖ dplyr::lag()             masks stats::lag()
-    ✖ dplyr::last()            masks xts::last()
-    ✖ lubridate::setdiff()     masks base::setdiff()
-    ✖ lubridate::union()       masks base::union()
-    Quitting from lines 68-76 (SW00_Introduction_to_sweep.Rmd) 
+    Loading required package: PerformanceAnalytics
+    Loading required package: xts
+    Loading required package: zoo
+    
+    Attaching package: 'zoo'
+    
+    The following objects are masked from 'package:base':
+    
+        as.Date, as.Date.numeric
+    
+    
+    Attaching package: 'PerformanceAnalytics'
+    
+    The following object is masked from 'package:graphics':
+    
+        legend
+    
+    Quitting from lines 16-30 (SW00_Introduction_to_sweep.Rmd) 
     Error: processing vignette 'SW00_Introduction_to_sweep.Rmd' failed with diagnostics:
-    `data` must be a data frame, or other object coercible by `fortify()`, not a logical vector
+    package 'quantmod' required by 'tidyquant' could not be found
     Execution halted
     ```
-
-## In both
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -13017,7 +20917,7 @@ Version: 1.6.0
     <read *> 
     
     Error: processing vignette 'swfdrTutorial.Rmd' failed with diagnostics:
-    Failed to compile swfdrTutorial.tex. See swfdrTutorial.log for more info.
+    Failed to compile swfdrTutorial.tex. See https://yihui.name/tinytex/r/#debugging for debugging tips. See swfdrTutorial.log for more info.
     Execution halted
     ```
 
@@ -13117,14 +21017,13 @@ Version: 1.0.4
 
 # tabula
 
-Version: 1.0.0
+Version: 1.2.0
 
 ## In both
 
 *   checking dependencies in R code ... NOTE
     ```
-    Namespaces in Imports field not imported from:
-      ‘dplyr’ ‘tidyr’
+    Namespace in Imports field not imported from: ‘plyr’
       All declared Imports should be used.
     ```
 
@@ -13134,10 +21033,12 @@ Version: 0.5.0
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking package dependencies ... ERROR
     ```
-    Namespace in Imports field not imported from: ‘methods’
-      All declared Imports should be used.
+    Package required but not available: ‘spatstat’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # TAShiny
@@ -13165,7 +21066,7 @@ Version: 0.3.2
       sub-directories of 1Mb or more:
         data   1.1Mb
         doc    1.7Mb
-        R      2.0Mb
+        R      2.1Mb
     ```
 
 *   checking dependencies in R code ... NOTE
@@ -13203,9 +21104,9 @@ Version: 2.8.4
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 74.3Mb
+      installed size is 74.9Mb
       sub-directories of 1Mb or more:
-        data   3.6Mb
+        data   4.1Mb
         doc   66.4Mb
         R      4.1Mb
     ```
@@ -13276,14 +21177,52 @@ Version: 1.0.1
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking whether package ‘Tcomp’ can be installed ... ERROR
     ```
-    Package required but not available: ‘Mcomp’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Tcomp/new/Tcomp.Rcheck/00install.out’ for details.
     ```
 
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘Tcomp’ ...
+** package ‘Tcomp’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘Tcomp’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Tcomp/new/Tcomp.Rcheck/Tcomp’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘Tcomp’ ...
+** package ‘Tcomp’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘Tcomp’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/Tcomp/old/Tcomp.Rcheck/Tcomp’
+
+```
 # tcR
 
 Version: 2.2.3
@@ -13359,6 +21298,9 @@ Version: 0.0.1
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘textmining’ ...
 ** package ‘textmining’ successfully unpacked and MD5 sums checked
 ** R
@@ -13379,6 +21321,9 @@ ERROR: lazy loading failed for package ‘textmining’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘textmining’ ...
 ** package ‘textmining’ successfully unpacked and MD5 sums checked
 ** R
@@ -13414,9 +21359,9 @@ Version: 0.1.4
 
 ## In both
 
-*   checking Rd cross-references ... WARNING
+*   checking Rd cross-references ... NOTE
     ```
-    Unknown package ‘tm’ in Rd xrefs
+    Package unavailable to check Rd xrefs: ‘tm’
     ```
 
 # TFEA.ChIP
@@ -13566,6 +21511,18 @@ Version: 1.0.4
       Execution halted
     ```
 
+# tidyLPA
+
+Version: 1.0.0
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘mix’
+      All declared Imports should be used.
+    ```
+
 # tidymodels
 
 Version: 0.0.2
@@ -13579,17 +21536,51 @@ Version: 0.0.2
       All declared Imports should be used.
     ```
 
+# tidypredict
+
+Version: 0.3.0
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      > library(tidypredict)
+      > 
+      > test_check("tidypredict")
+      ── 1. Error: (unknown) (@test-earth.R#3)  ──────────────────────────────────────
+      there is no package called 'earth'
+      1: data("etitanic", package = "earth") at testthat/test-earth.R:3
+      2: find.package(package, lib.loc, verbose = verbose)
+      3: stop(gettextf("there is no package called %s", sQuote(pkg)), domain = NA)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 23 SKIPPED: 0 FAILED: 1
+      1. Error: (unknown) (@test-earth.R#3) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘earth’
+    ```
+
 # tidyquant
 
 Version: 0.5.5
 
 ## In both
 
-*   checking installed package size ... NOTE
+*   checking package dependencies ... ERROR
     ```
-      installed size is  5.2Mb
-      sub-directories of 1Mb or more:
-        doc   4.1Mb
+    Package required but not available: ‘quantmod’
+    
+    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
+    manual.
     ```
 
 # tidyqwi
@@ -13833,6 +21824,80 @@ Version: 0.1.1.1
 
 ## In both
 
+*   checking examples ... ERROR
+    ```
+    ...
+        date
+    
+    Loading required package: PerformanceAnalytics
+    Loading required package: xts
+    Loading required package: zoo
+    
+    Attaching package: ‘zoo’
+    
+    The following objects are masked from ‘package:base’:
+    
+        as.Date, as.Date.numeric
+    
+    
+    Attaching package: ‘PerformanceAnalytics’
+    
+    The following object is masked from ‘package:graphics’:
+    
+        legend
+    
+    Error: package ‘quantmod’ required by ‘tidyquant’ could not be found
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 0 SKIPPED: 0 FAILED: 9
+      1. Error: (unknown) (@test_tk_augment_timeseries.R#2) 
+      2. Error: (unknown) (@test_tk_get_timeseries.R#2) 
+      3. Error: (unknown) (@test_tk_index.R#1) 
+      4. Error: (unknown) (@test_tk_make_future_timeseries.R#2) 
+      5. Error: (unknown) (@test_tk_tbl.R#2) 
+      6. Error: (unknown) (@test_tk_ts.R#4) 
+      7. Error: (unknown) (@test_tk_xts.R#4) 
+      8. Error: (unknown) (@test_tk_zoo.R#4) 
+      9. Error: (unknown) (@test_tk_zooreg.R#4) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    Loading required package: PerformanceAnalytics
+    Loading required package: xts
+    Loading required package: zoo
+    
+    Attaching package: 'zoo'
+    
+    The following objects are masked from 'package:base':
+    
+        as.Date, as.Date.numeric
+    
+    
+    Attaching package: 'PerformanceAnalytics'
+    
+    The following object is masked from 'package:graphics':
+    
+        legend
+    
+    Quitting from lines 16-29 (TK00_Time_Series_Coercion.Rmd) 
+    Error: processing vignette 'TK00_Time_Series_Coercion.Rmd' failed with diagnostics:
+    package 'quantmod' required by 'tidyquant' could not be found
+    Execution halted
+    ```
+
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
@@ -13865,7 +21930,7 @@ Version: 1.18.0
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.1Mb
+      installed size is  8.0Mb
       sub-directories of 1Mb or more:
         data      1.7Mb
         extdata   4.9Mb
@@ -13910,7 +21975,7 @@ Version: 2.2
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  6.9Mb
+      installed size is  6.8Mb
       sub-directories of 1Mb or more:
         data   1.4Mb
         doc    1.4Mb
@@ -13919,15 +21984,15 @@ Version: 2.2
 
 # toxEval
 
-Version: 1.0.3
+Version: 1.0.4
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking installed package size ... NOTE
     ```
-    Namespaces in Imports field not imported from:
-      ‘shinyAce’ ‘shinycssloaders’ ‘shinydashboard’
-      All declared Imports should be used.
+      installed size is  5.1Mb
+      sub-directories of 1Mb or more:
+        R   3.6Mb
     ```
 
 # TPP
@@ -14076,9 +22141,9 @@ Version: 0.0.7
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  8.1Mb
+      installed size is  8.4Mb
       sub-directories of 1Mb or more:
-        libs   6.5Mb
+        libs   6.8Mb
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -14128,11 +22193,108 @@ Version: 0.2.7
       Note: found 41 marked UTF-8 strings
     ```
 
+# tsfeatures
+
+Version: 1.0.0
+
+## In both
+
+*   checking whether package ‘tsfeatures’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/tsfeatures/new/tsfeatures.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘tsfeatures’ ...
+** package ‘tsfeatures’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘tsfeatures’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/tsfeatures/new/tsfeatures.Rcheck/tsfeatures’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘tsfeatures’ ...
+** package ‘tsfeatures’ successfully unpacked and MD5 sums checked
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘tsfeatures’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/tsfeatures/old/tsfeatures.Rcheck/tsfeatures’
+
+```
 # TSstudio
 
 Version: 0.1.3
 
 ## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘TSstudio-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: plot_forecast
+    > ### Title: Plotting Forecast Object
+    > ### Aliases: plot_forecast
+    > 
+    > ### ** Examples
+    > 
+    > data(USgas)
+    > library(forecast)
+    Error: package or namespace load failed for ‘forecast’ in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     there is no package called ‘quantmod’
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    _E_x_a_m_p_l_e_s:
+    
+         data(USVSales)
+         ts_plot(USVSales)
+         
+         # adding slider
+         ts_plot(USVSales, slider = TRUE)
+         
+    
+    Loading required package: zoo
+    
+    Attaching package: 'zoo'
+    
+    The following objects are masked from 'package:base':
+    
+        as.Date, as.Date.numeric
+    
+    Quitting from lines 99-115 (Plotting_Time_Series.Rmd) 
+    Error: processing vignette 'Plotting_Time_Series.Rmd' failed with diagnostics:
+    there is no package called 'quantmod'
+    Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘quantmod’
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -14193,15 +22355,9 @@ Version: 0.2.0
 
 # ukbtools
 
-Version: 0.11.0
+Version: 0.11.1
 
 ## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘plyr’
-      All declared Imports should be used.
-    ```
 
 *   checking data for non-ASCII characters ... NOTE
     ```
@@ -14226,6 +22382,86 @@ Version: 0.1.0
     ```
     Namespace in Imports field not imported from: ‘rlang’
       All declared Imports should be used.
+    ```
+
+# unpivotr
+
+Version: 0.5.0
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ##D browseURL(nestedspan)
+    > ## End(Not run)
+    > 
+    > as_cells(xml2::read_html(colspan))
+    Error: Columns 1, 2 must not have names of the form ... or ..j.
+    Backtrace:
+         █
+      1. ├─unpivotr::as_cells(xml2::read_html(colspan))
+      2. └─unpivotr:::as_cells.xml_document(xml2::read_html(colspan)) 00_pkg_src/unpivotr/R/as_cells.R:88:2
+      3.   └─base::lapply(tables, as_cells) 00_pkg_src/unpivotr/R/as_cells.R:212:2
+      4.     ├─unpivotr:::FUN(X[[i]], ...)
+      5.     └─unpivotr:::as_cells.xml_node(X[[i]], ...) 00_pkg_src/unpivotr/R/as_cells.R:88:2
+      6.       └─tibble::as_data_frame(out) 00_pkg_src/unpivotr/R/as_cells.R:201:2
+      7.         ├─tibble::as_tibble(x, ...)
+      8.         └─tibble:::as_tibble.list(x, ...)
+      9.           └─tibble:::lst_to_tibble(x, .rows, .name_repair, col_lengths(x))
+     10.             └─tibble:::set_repaired_names(x, .name_repair)
+     11.               ├─rlang::set_names(x, repaired_names(names(x), .name_repair = .name_repair))
+     12.               │ └─rlang:::set_names_impl(x, x, nm, ...)
+     13.               │   └─r
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      19: set_names(x, repaired_names(names(x), .name_repair = .name_repair))
+      20: set_names_impl(x, x, nm, ...)
+      21: is_function(nm)
+      22: is_closure(x)
+      23: repaired_names(names(x), .name_repair = .name_repair)
+      24: check_unique(new_name)
+      25: abort(error_column_must_not_be_dot_dot(dot_dot_name))
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 246 SKIPPED: 0 FAILED: 2
+      1. Error: as_cells() works with html tables (@test-as_cells.R#45) 
+      2. Error: tidy_table works with html tables (@test-tidy_table.R#45) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+      ...
+    Quitting from lines 37-49 (html.Rmd) 
+    Error: processing vignette 'html.Rmd' failed with diagnostics:
+    Columns 1, 2 must not have names of the form ... or ..j.
+    Backtrace:
+         █
+      1. ├─tools::buildVignettes(dir = "/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/unpivotr/new/unpivotr.Rcheck/vign_test/unpivotr")
+      2. │ ├─base::tryCatch(...)
+      3. │ │ └─base:::tryCatchList(expr, classes, parentenv, handlers)
+      4. │ │   └─base:::tryCatchOne(expr, names, parentenv, handlers[[1L]])
+      5. │ │     └─base:::doTryCatch(return(expr), name, parentenv, handler)
+      6. │ └─engine$weave(file, quiet = quiet, encoding = enc)
+      7. │   └─knitr:::vweave_rmarkdown(...)
+      8. │     └─rmarkdown::render(...)
+      9. │       └─knitr::knit(...)
+     10. │         └─knitr:::process_file(text, output)
+     11. │           ├─base::withCallingHandlers(...)
+     12. │           ├─knitr:::process_group(group)
+     13. │           └─knitr:::process_group.block(group)
+     14. │ 
+    Execution halted
     ```
 
 # unvotes
@@ -14302,6 +22538,9 @@ Version: 0.1.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘vapour’ ...
 ** package ‘vapour’ successfully unpacked and MD5 sums checked
 configure: CC: clang
@@ -14316,6 +22555,9 @@ ERROR: configuration failed for package ‘vapour’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘vapour’ ...
 ** package ‘vapour’ successfully unpacked and MD5 sums checked
 configure: CC: clang
@@ -14351,6 +22593,17 @@ Version: 4.8.0
     Packages unavailable to check Rd xrefs: ‘mvoutlier’, ‘StatDA’, ‘mi’, ‘tkrplot’
     ```
 
+# vip
+
+Version: 0.1.2
+
+## In both
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘earth’
+    ```
+
 # vkR
 
 Version: 0.1
@@ -14379,6 +22632,9 @@ Version: 0.2.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘vlad’ ...
 ** package ‘vlad’ successfully unpacked and MD5 sums checked
 ** libs
@@ -14392,6 +22648,9 @@ ERROR: compilation failed for package ‘vlad’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘vlad’ ...
 ** package ‘vlad’ successfully unpacked and MD5 sums checked
 ** libs
@@ -14483,16 +22742,6 @@ Version: 0.1.0
 
 ## In both
 
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 30-36 (Calculate_WACC_in_R.Rmd) 
-    Error: processing vignette 'Calculate_WACC_in_R.Rmd' failed with diagnostics:
-    Timeout was reached: Resolving timed out after 10000 milliseconds
-    Execution halted
-    ```
-
 *   checking dependencies in R code ... NOTE
     ```
     Namespaces in Imports field not imported from:
@@ -14511,10 +22760,10 @@ Version: 0.2.5
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  7.9Mb
+      installed size is  8.0Mb
       sub-directories of 1Mb or more:
         doc    1.8Mb
-        libs   5.6Mb
+        libs   5.8Mb
     ```
 
 *   checking for GNU extensions in Makefiles ... NOTE
@@ -14528,12 +22777,13 @@ Version: 1.0.6
 
 ## In both
 
-*   checking package dependencies ... ERROR
+*   checking dependencies in R code ... NOTE
     ```
-    Package required but not available: ‘spThin’
-    
-    See section ‘The DESCRIPTION file’ in the ‘Writing R Extensions’
-    manual.
+    Namespaces in Imports field not imported from:
+      ‘dismo’ ‘dplyr’ ‘DT’ ‘ENMeval’ ‘leaflet.extras’ ‘maptools’ ‘raster’
+      ‘RColorBrewer’ ‘rgdal’ ‘rgeos’ ‘rmarkdown’ ‘shinyjs’ ‘shinythemes’
+      ‘spocc’ ‘spThin’ ‘XML’ ‘zip’
+      All declared Imports should be used.
     ```
 
 # wand
@@ -14553,6 +22803,9 @@ Version: 0.2.0
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘wand’ ...
 ** package ‘wand’ successfully unpacked and MD5 sums checked
 Checking to see if libmagic is available...
@@ -14574,6 +22827,9 @@ ERROR: compilation failed for package ‘wand’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘wand’ ...
 ** package ‘wand’ successfully unpacked and MD5 sums checked
 Checking to see if libmagic is available...
@@ -14626,6 +22882,9 @@ Version: 1.0.1
 ### Devel
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘weibulltools’ ...
 ** package ‘weibulltools’ successfully unpacked and MD5 sums checked
 ** libs
@@ -14639,6 +22898,9 @@ ERROR: compilation failed for package ‘weibulltools’
 ### CRAN
 
 ```
+Backtrace:
+    █
+ 1. └─base::options(...)
 * installing *source* package ‘weibulltools’ ...
 ** package ‘weibulltools’ successfully unpacked and MD5 sums checked
 ** libs
@@ -14737,61 +22999,6 @@ Version: 1.4.0
     contains 'methods').
     ```
 
-# wikipediatrend
-
-Version: 1.1.14
-
-## In both
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      Loading required package: wikipediatrend
-      ── 1. Failure: wp_linked_pages() is robust against no-data, sparse data (@test_a
-      `{ ... }` threw an error.
-      Message: Timeout was reached: Resolving timed out after 10000 milliseconds
-      Class:   simpleError/error/condition
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 54 SKIPPED: 0 FAILED: 1
-      1. Failure: wp_linked_pages() is robust against no-data, sparse data (@test_aux.R#6) 
-      
-      Error: testthat unit tests failed
-      In addition: Warning message:
-      In .getClassesFromCache(Class) :
-        closing unused connection 3 (https://en.wikipedia.org/wiki/Sheerness_Lifeboat_Station)
-      Execution halted
-    ```
-
-# wikisourcer
-
-Version: 0.1.2
-
-## In both
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    
-    Attaching package: 'dplyr'
-    
-    The following objects are masked from 'package:stats':
-    
-        filter, lag
-    
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Quitting from lines 78-81 (wikisourcer.Rmd) 
-    Error: processing vignette 'wikisourcer.Rmd' failed with diagnostics:
-    HTTP error 404.
-    Execution halted
-    ```
-
 # wiseR
 
 Version: 1.0.1
@@ -14828,6 +23035,112 @@ Version: 0.3.0
       All declared Imports should be used.
     ```
 
+# wrswoR
+
+Version: 1.1
+
+## In both
+
+*   checking whether package ‘wrswoR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wrswoR/new/wrswoR.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘wrswoR’ ...
+** package ‘wrswoR’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wrswoR/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wrswoR/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c sample_int_crank.cpp -o sample_int_crank.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o wrswoR.so RcppExports.o sample_int_crank.o Backtrace: █ 1. └─base::options(...) -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [wrswoR.so] Error 1
+ERROR: compilation failed for package ‘wrswoR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wrswoR/new/wrswoR.Rcheck/wrswoR’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘wrswoR’ ...
+** package ‘wrswoR’ successfully unpacked and MD5 sums checked
+** libs
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wrswoR/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
+clang++  -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/library.noindex/wrswoR/Rcpp/include" -I/usr/local/include   -fPIC  -O3 -Wno-c++11-inline-namespace -c sample_int_crank.cpp -o sample_int_crank.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o wrswoR.so RcppExports.o sample_int_crank.o Backtrace: █ 1. └─base::options(...) -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang: error: no such file or directory: 'Backtrace:'
+clang: error: no such file or directory: '█'
+clang: error: no such file or directory: '1.'
+clang: error: no such file or directory: '└─base::options(...)'
+make: *** [wrswoR.so] Error 1
+ERROR: compilation failed for package ‘wrswoR’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/wrswoR/old/wrswoR.Rcheck/wrswoR’
+
+```
+# WRTDStidal
+
+Version: 1.1.1
+
+## In both
+
+*   checking whether package ‘WRTDStidal’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/WRTDStidal/new/WRTDStidal.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘WRTDStidal’ ...
+** package ‘WRTDStidal’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘WRTDStidal’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/WRTDStidal/new/WRTDStidal.Rcheck/WRTDStidal’
+
+```
+### CRAN
+
+```
+Backtrace:
+    █
+ 1. └─base::options(...)
+* installing *source* package ‘WRTDStidal’ ...
+** package ‘WRTDStidal’ successfully unpacked and MD5 sums checked
+** R
+** data
+*** moving datasets to lazyload DB
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘quantmod’
+ERROR: lazy loading failed for package ‘WRTDStidal’
+* removing ‘/Users/romain/git/tidyverse/dplyr-revdep/dplyr/revdep/checks.noindex/WRTDStidal/old/WRTDStidal.Rcheck/WRTDStidal’
+
+```
 # XBSeq
 
 Version: 1.12.0
@@ -14898,6 +23211,21 @@ Version: 0.1.0
     ```
     Namespace in Imports field not imported from: ‘tibble’
       All declared Imports should be used.
+    ```
+
+# xpose
+
+Version: 0.4.4
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.7Mb
+      sub-directories of 1Mb or more:
+        doc    2.9Mb
+        help   1.1Mb
+        R      1.0Mb
     ```
 
 # xpose4
@@ -14972,55 +23300,29 @@ Version: 1.2.0
 
 ## In both
 
-*   checking examples ... ERROR
-    ```
-    ...
-    > library(dplyr)
-    
-    Attaching package: ‘dplyr’
-    
-    The following objects are masked from ‘package:stats’:
-    
-        filter, lag
-    
-    The following objects are masked from ‘package:base’:
-    
-        intersect, setdiff, setequal, union
-    
-    > gse94802 <- "ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE94nnn/GSE94802/suppl/GSE94802_Minkina_etal_normalized_FPKM.csv.gz"
-    > temp <- tempfile()
-    > download.file(gse94802, temp)
-    trying URL 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE94nnn/GSE94802/suppl/GSE94802_Minkina_etal_normalized_FPKM.csv.gz'
-    Warning in download.file(gse94802, temp) :
-      URL 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE94nnn/GSE94802/suppl/GSE94802_Minkina_etal_normalized_FPKM.csv.gz': status was 'Couldn't resolve host name'
-    Error in download.file(gse94802, temp) : 
-      cannot open URL 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE94nnn/GSE94802/suppl/GSE94802_Minkina_etal_normalized_FPKM.csv.gz'
-    Execution halted
-    ```
-
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
-    
-    The following objects are masked from 'package:matrixStats':
-    
-        colMaxs, colMins, colRanges, rowMaxs, rowMins, rowRanges
-    
-    The following objects are masked from 'package:base':
-    
-        aperm, apply
-    
-    
-    Attaching package: 'tidyr'
-    
     The following object is masked from 'package:S4Vectors':
     
         expand
     
     trying URL 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE94nnn/GSE94802/suppl/GSE94802_Minkina_etal_normalized_FPKM.csv.gz'
-    Quitting from lines 34-70 (zFPKM.Rmd) 
+    Content type 'unknown' length 800733 bytes (781 KB)
+    ==================================================
+    trying URL 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE94nnn/GSE94802/suppl/GSE94802_Minkina_etal_raw_counts.csv.gz'
+    Content type 'unknown' length 574041 bytes (560 KB)
+    ==================================================
+    
+    Attaching package: 'limma'
+    
+    The following object is masked from 'package:BiocGenerics':
+    
+        plotMA
+    
+    Quitting from lines 108-122 (zFPKM.Rmd) 
     Error: processing vignette 'zFPKM.Rmd' failed with diagnostics:
-    cannot open URL 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/GSE94nnn/GSE94802/suppl/GSE94802_Minkina_etal_normalized_FPKM.csv.gz'
+    statmod package required but is not installed
     Execution halted
     ```
 
