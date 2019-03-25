@@ -211,8 +211,16 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'
 #' @section Backend variations:
 #'
-#' Data frames are the only backend that supports creating a variable and
-#' using it in the same summary. See examples for more details.
+#' The data frame backend supports creating a variable and using it in the
+#' same summary. This means that previously created summary variables can be
+#' further transformed or combined within the summary, as in [mutate()].
+#' However, it also means that summary variables with the same names as previous
+#' variables overwrite them, making those variables unavailable to later summary
+#' variables.
+#'
+#' This behaviour may not be supported in other backends. To avoid unexpected
+#' results, consider using new names for your summary variables, especially when
+#' creating multiple summaries.
 #'
 #' @export
 #' @inheritParams filter
@@ -246,11 +254,11 @@ slice_ <- function(.data, ..., .dots = list()) {
 #'   summarise(cyl_n = n()) %>%
 #'   group_vars()
 #'
-#' # Note that with data frames, newly created summaries immediately
-#' # overwrite existing variables of the same name.
+#'
+#' # Reusing variable names when summarising may lead to unexpected results
 #' mtcars %>%
 #'   group_by(cyl) %>%
-#'   summarise(disp = mean(disp), sd = sd(disp))
+#'   summarise(disp = mean(disp), sd = sd(disp), double_disp = disp * 2)
 #'
 #'
 #' # Refer to column names stored as strings with the `.data` pronoun:
