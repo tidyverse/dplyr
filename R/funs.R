@@ -98,7 +98,7 @@ as_fun_list <- function(.funs, .env, ...) {
         # swoosh the extra arguments so that we have a function that only
         # takes one argument `.`, or `.x` as a synonym
         .x <- new_function(
-          list(.=missing_arg(), .x=sym(".")),
+          list( . =missing_arg(), .x = sym(".")),
           call2(.x, sym("."), !!!args),
           env = .env
         )
