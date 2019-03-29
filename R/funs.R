@@ -87,7 +87,10 @@ as_fun_list <- function(.funs, .env, ...) {
 
   funs <- map(.funs, function(.x){
     if (is_formula(.x)) {
-      .x <- as_function(expr_interp(.x), env = .env)
+      # processing unquote operator at inlining time
+      # for rlang lambdas
+      .x <- expr_interp(.x)
+      .x <- as_function(.x, env = .env)
     } else {
       if (is_character(.x)) {
         .x <- get(.x, .env, mode = "function")
