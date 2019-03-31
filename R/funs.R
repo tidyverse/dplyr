@@ -71,37 +71,48 @@ new_funs <- function(funs) {
   funs
 }
 
-as_fun_list <- function(.x, .quo, .env, ...) {
-  # Capture quosure before evaluating .x
-  force(.quo)
-
-  # If a fun_list, update args
+as_fun_list <- function(.funs, .env, ...) {
   args <- list2(...)
-  if (is_fun_list(.x)) {
+
+  if (is_fun_list(.funs)) {
     if (!is_empty(args)) {
-      .x[] <- map(.x, call_modify, !!!args)
+      .funs[] <- map(.funs, call_modify, !!!args)
     }
-    return(.x)
+    return(.funs)
   }
 
-  # Take functions by expression if they are supplied by name. This
-  # way we can evaluate it hybridly.
-  if (is_function(.x) && quo_is_symbol(.quo)) {
-    .x <- list(.quo)
-  } else if (is_character(.x)) {
-    .x <- as.list(.x)
-  } else if (!is_list(.x)) {
-    .x <- list(.x)
+  if (!is_character(.funs) && !is_list(.funs)) {
+    .funs <- list(.funs)
   }
 
-  funs <- map(.x, function(fun) {
-    if (is_bare_formula(fun, lhs = FALSE)) {
-      fun <- as_function(fun)
+  funs <- map(.funs, function(.x){
+    if (is_formula(.x)) {
+      # processing unquote operator at inlining time
+      # for rlang lambdas
+      .x <- expr_interp(.x)
+      .x <- as_function(.x, env = .env)
+    } else {
+      if (is_character(.x)) {
+        .x <- get(.x, .env, mode = "function")
+      } else if (!is_function(.x)) {
+        abort("not expecting this")
+      }
+      if (length(args)) {
+        # swoosh the extra arguments so that we have a function that only
+        # takes one argument `.`, or `.x` as a synonym
+        .x <- new_function(
+          list( . =missing_arg(), .x = sym(".")),
+          call2(.x, sym("."), !!!args),
+          env = .env
+        )
+      }
     }
-    as_fun(fun, .env = fun_env(.quo, .env), args)
+    .x
   })
-  new_funs(funs)
+  attr(funs, "have_name") <- any(names2(funs) != "")
+  funs
 }
+
 
 as_fun <- function(.x, .env, .args) {
   quo <- as_quosure(.x, .env)

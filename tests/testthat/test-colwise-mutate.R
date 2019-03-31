@@ -369,3 +369,25 @@ test_that("can choose the name of vars with multiple funs (#4180)", {
       summarise(DISP_mean = mean(disp), DISP_median = median(disp))
   )
 })
+
+test_that("summarise_at() unquotes in lambda (#4287)", {
+  df <- tibble::tibble(year = seq(2015, 2050, 5), P = 5.0 + 2.5 * year)
+  year <- 2037
+
+  expect_equal(
+    summarise_at(df, vars(-year), ~approx(x = year, y = ., xout = !!year)$y),
+    summarise(df, P = approx(x = year, y = P, xout = !!year)$y)
+  )
+})
+
+test_that("mutate_at() unquotes in lambdas (#4199)", {
+  df <- tibble(a = 1:10, b = runif(1:10), c = letters[1:10])
+  varname <- "a"
+  symname <- rlang::sym(varname)
+  quoname <- enquo(symname)
+
+  expect_identical(
+    df %>%  mutate(b = mean(!!quoname)),
+    df %>% mutate_at(vars(matches("b")), list(~mean(!!quoname)))
+  )
+})
