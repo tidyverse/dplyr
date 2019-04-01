@@ -24,7 +24,7 @@ https://github.com/tidyverse/dplyr/issues/4304
 
 ## corr 
 
-?
+https://github.com/drsimonj/corrr/issues/76
 
 ## cytominer
 ## dbplyr 
