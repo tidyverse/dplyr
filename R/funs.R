@@ -85,7 +85,7 @@ as_fun_list <- function(.funs, .env, ...) {
     .funs <- list(.funs)
   }
 
-  if(is_character(.funs) && is_null(names(.funs))) {
+  if(is_character(.funs) && is_null(names(.funs)) && length(.funs) != 1L) {
     names(.funs) <- .funs
   }
 
