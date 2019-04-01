@@ -222,5 +222,14 @@ group_by_drop_default <- function(.tbl) {
 
 #' @export
 group_by_drop_default.default <- function(.tbl) {
-  !identical(attr(group_data(.tbl), ".drop"), FALSE)
+  TRUE
+}
+
+#' @export
+group_by_drop_default.grouped_df <- function(.tbl) {
+  tryCatch({
+    !identical(attr(group_data(.tbl), ".drop"), FALSE)
+  }, error = function(e){
+    TRUE
+  })
 }

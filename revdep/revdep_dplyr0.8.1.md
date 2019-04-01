@@ -6,12 +6,6 @@
 use of experimental group_map(), probably fixed in dev version. broomExtra::grouped_tidy can replace
 group_map() by group_modify() or choose an alternative approach compatible with both dplyr 0.8.0 and dplyr 0.8.1
 
-## chunked
-
-no applicable method for 'group_data' applied to an object of class "c('tbl_SQLiteConnection', 'tbl_dbi', 'tbl_sql', 'tbl_lazy', 'tbl')"
-
-need to either define group_data() for tbl_lazy objects, or change how `group_by_drop_default.default()` is implemented. 
-
 ## ClinReport
 
 Feels unrelated
@@ -35,11 +29,6 @@ https://github.com/tidyverse/dplyr/issues/4305
 ## desctable
 
 https://github.com/MaximeWack/desctable/issues/14
-
-## extdplyr
-
-need to fix group_by_drop_default
-https://github.com/tidyverse/dplyr/issues/4306
 
 ## ELMER
 ## FindMyFriends

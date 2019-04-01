@@ -5,7 +5,7 @@
 |version  |R version 3.5.3 (2019-03-11) |
 |os       |macOS Mojave 10.14.4         |
 |system   |x86_64, darwin15.6.0         |
-|ui       |RStudio                      |
+|ui       |X11                          |
 |language |(EN)                         |
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
@@ -87,13 +87,12 @@
 |[ZeligEI](problems.md#zeligei)                       |0.1-2    |1     |        |     |[cran/ZeligEI](https://github.com/cran/ZeligEI)                       |
 |[zeligverse](problems.md#zeligverse)                 |0.1.1    |1     |        |     |[cran/zeligverse](https://github.com/cran/zeligverse)                 |
 
-## Broken (34)
+## Broken (32)
 
 |package                                                |version  |error  |warning |note |source                                                                  |
 |:------------------------------------------------------|:--------|:------|:-------|:----|:-----------------------------------------------------------------------|
 |[broomExtra](problems.md#broomextra)                   |0.0.1    |__+2__ |        |     |[cran/broomExtra](https://github.com/cran/broomExtra)                   |
-|[chunked](problems.md#chunked)                         |0.4      |__+1__ |        |     |[cran/chunked](https://github.com/cran/chunked)                         |
-|[ClinReport](problems.md#clinreport)                   |0.9.1.11 |__+1__ |1       |1    |[cran/ClinReport](https://github.com/cran/ClinReport)                   |
+|[ClinReport](problems.md#clinreport)                   |0.9.1.11 |__+1__ |__+1__  |1    |[cran/ClinReport](https://github.com/cran/ClinReport)                   |
 |[coalitions](problems.md#coalitions)                   |0.6.5    |__+2__ |__+1__  |     |[cran/coalitions](https://github.com/cran/coalitions)                   |
 |[compareDF](problems.md#comparedf)                     |1.7.1    |__+1__ |        |1    |[cran/compareDF](https://github.com/cran/compareDF)                     |
 |[corrr](problems.md#corrr)                             |0.3.1    |       |__+1__  |     |[cran/corrr](https://github.com/cran/corrr)                             |
@@ -101,7 +100,6 @@
 |[dbplyr](problems.md#dbplyr)                           |1.3.0    |__+1__ |        |     |[cran/dbplyr](https://github.com/cran/dbplyr)                           |
 |[desctable](problems.md#desctable)                     |0.1.5    |       |__+1__  |     |[cran/desctable](https://github.com/cran/desctable)                     |
 |[ELMER](problems.md#elmer)                             |2.4.4    |1      |1       |3    |[cran/ELMER](https://github.com/cran/ELMER)                             |
-|[extdplyr](problems.md#extdplyr)                       |0.1.4    |__+1__ |        |     |[cran/extdplyr](https://github.com/cran/extdplyr)                       |
 |[FindMyFriends](problems.md#findmyfriends)             |1.10.0   |1      |1       |2    |[cran/FindMyFriends](https://github.com/cran/FindMyFriends)             |
 |[GFE](problems.md#gfe)                                 |0.1.0    |__+1__ |        |     |[cran/GFE](https://github.com/cran/GFE)                                 |
 |[grasp2db](problems.md#grasp2db)                       |1.1.0    |1      |3       |4    |[cran/grasp2db](https://github.com/cran/grasp2db)                       |
