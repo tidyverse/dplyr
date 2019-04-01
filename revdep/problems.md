@@ -42,39 +42,11 @@ Version: 0.0.1
       9: function_list[[k]](value)
       10: dplyr::ungroup(x = .)
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 9 SKIPPED: 0 FAILED: 3
       1. Error: `grouped_augment()` works (@test_grouped_augment.R#12) 
       2. Error: `grouped_glance()` works (@test_grouped_glance.R#12) 
       3. Error: `grouped_tidy()` works (@test_grouped_tidy.R#12) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# chunked
-
-Version: 0.4
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      3: count(x) %>% collect
-      4: eval(lhs, parent, parent)
-      5: eval(lhs, parent, parent)
-      6: count(x)
-      7: .group_by_static_drop(x, !!!syms(groups), add = FALSE, .drop = .drop) at /Users/romainfrancois/git/tidyverse/dplyr/R/count-tally.R:136
-      8: group_by_drop_default(x) at /Users/romainfrancois/git/tidyverse/dplyr/R/count-tally.R:136
-      9: group_by_drop_default.default(x) at /Users/romainfrancois/git/tidyverse/dplyr/R/group-by.r:220
-      10: group_data(.tbl) at /Users/romainfrancois/git/tidyverse/dplyr/R/group-by.r:225
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 39 SKIPPED: 0 FAILED: 1
-      1. Error: write_chunkwise to db works (@test-write.R#29) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -112,8 +84,6 @@ Version: 0.9.1.11
     Execution halted
     ```
 
-## In both
-
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
@@ -134,11 +104,13 @@ Version: 0.9.1.11
     Fontconfig error: "/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 6: invalid attribute 'xmlns:its'
     Fontconfig error: "/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 6: invalid attribute 'version'
     Fontconfig error: Cannot load default config file
-    Quitting from lines 60-71 (clinreport_modify_outputs.Rmd) 
-    Erreur : le traitement de la vignette 'clinreport_modify_outputs.Rmd' a échoué avec le diagnostic :
-    `render_flextable` needs to be used as a renderer for a knitr/rmarkdown R code chunk (render by rmarkdown)
-    Exécution arrêtée
+    Quitting from lines 81-90 (clinreport_modify_outputs.Rmd) 
+    Error: processing vignette 'clinreport_modify_outputs.Rmd' failed with diagnostics:
+    could not find function "func.stat"
+    Execution halted
     ```
+
+## In both
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -182,13 +154,13 @@ Version: 0.6.5
     Last 13 lines of output:
       30: function_list[[k]](value)
       31: summarize_at(., coalition, ~sum(.)/n_all * 100)
-      32: summarise(.tbl, !!!funs) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:123
-      33: summarise.tbl_df(.tbl, !!!funs) at /Users/romainfrancois/git/tidyverse/dplyr/R/manip.r:269
-      34: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romainfrancois/git/tidyverse/dplyr/R/tbl-df.r:102
+      32: summarise(.tbl, !!!funs) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/colwise-mutate.R:123
+      33: summarise.tbl_df(.tbl, !!!funs) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/manip.r:277
+      34: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/tbl-df.r:102
       35: (structure(function (..., .x = ..1, .y = ..2, . = ..1) 
-         sum(.)/n_all * 100, class = "rlang_lambda_function"))(cdu) at /Users/romainfrancois/git/tidyverse/dplyr/R/RcppExports.R:188
+         sum(.)/n_all * 100, class = "rlang_lambda_function"))(cdu) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/RcppExports.R:188
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 81 SKIPPED: 0 FAILED: 2
       1. Error: Pooling works as expected (@test-pooling.R#12) 
       2. Error: workflow stable (@test-workflow.R#64) 
@@ -200,6 +172,10 @@ Version: 0.6.5
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
+    The following object is masked from 'package:magrittr':
+    
+        set_names
+    
     
     Attaching package: 'dplyr'
     
@@ -211,16 +187,12 @@ Version: 0.6.5
     
         intersect, setdiff, setequal, union
     
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
     Warning:  1 failed to parse.
     Warning:  1 failed to parse.
     Quitting from lines 155-161 (workflow.Rmd) 
-    Erreur : le traitement de la vignette 'workflow.Rmd' a échoué avec le diagnostic :
-    objet 'n_all' introuvable
-    Exécution arrêtée
+    Error: processing vignette 'workflow.Rmd' failed with diagnostics:
+    object 'n_all' not found
+    Execution halted
     ```
 
 # compareDF
@@ -234,15 +206,15 @@ Version: 1.7.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      ── 1. Failure: (unknown) (@test-fnsComparison.R#74)  ───────────────────────────
+      [31m──[39m [31m1. Failure: (unknown) (@test-fnsComparison.R#74) [39m [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
       output$change_count not equivalent to `expected_change_count`.
       Incompatible type for column `changes`: x integer, y numeric
       
-      ── 2. Failure: (unknown) (@test-fnsComparison.R#357)  ──────────────────────────
+      [31m──[39m [31m2. Failure: (unknown) (@test-fnsComparison.R#357) [39m [31m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
       `expected_change_count` not equivalent to actual_comparison_summary$change_count.
       Incompatible type for column `changes`: x numeric, y integer
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 46 SKIPPED: 0 FAILED: 2
       1. Failure: (unknown) (@test-fnsComparison.R#74) 
       2. Failure: (unknown) (@test-fnsComparison.R#357) 
@@ -319,7 +291,7 @@ Version: 0.1.0
       34: eval_tidy(~mean(.))
       35: mean(.)
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 28 SKIPPED: 0 FAILED: 4
       1. Error: `aggregate` aggregates data (@test-aggregate.R#37) 
       2. Error: cytominer can process dataset with a normalized schema (@test-cytominer.R#71) 
@@ -334,12 +306,10 @@ Version: 0.1.0
     ```
     Error in re-building vignettes:
       ...
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
     Quitting from lines 149-165 (cytominer-pipeline.Rmd) 
-    Erreur : le traitement de la vignette 'cytominer-pipeline.Rmd' a échoué avec le diagnostic :
-    objet '.' introuvable
-    Exécution arrêtée
+    Error: processing vignette 'cytominer-pipeline.Rmd' failed with diagnostics:
+    object '.' not found
+    Execution halted
     ```
 
 # dbplyr
@@ -360,7 +330,7 @@ Version: 1.3.0
       Calls: <Anonymous> ... <Anonymous> -> <Anonymous> -> .local -> connection_create
       In addition: Warning message:
       In dbDisconnect(con) : restarting interrupted promise evaluation
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 565 SKIPPED: 11 FAILED: 1
       1. Error: tbl_dbi support colwise variants (@test-colwise.R#13) 
       
@@ -442,34 +412,6 @@ Version: 2.4.4
 *   checking for unstated dependencies in vignettes ... NOTE
     ```
     '::' or ':::' import not declared from: ‘devtools’
-    ```
-
-# extdplyr
-
-Version: 0.1.4
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      5: group_by.data.frame(.data, !!!dots, add = add) at /Users/romainfrancois/git/tidyverse/dplyr/R/group-by.r:94
-      6: grouped_df(groups$data, groups$group_names, .drop) at /Users/romainfrancois/git/tidyverse/dplyr/R/dataframe.R:34
-      7: grouped_df_impl(data, unname(vars), drop) at /Users/romainfrancois/git/tidyverse/dplyr/R/grouped-df.r:20
-      8: group_by_drop_default(.data) at /Users/romainfrancois/git/tidyverse/dplyr/R/dataframe.R:34
-      9: group_by_drop_default.default(.data) at /Users/romainfrancois/git/tidyverse/dplyr/R/group-by.r:220
-      10: group_data(.tbl) at /Users/romainfrancois/git/tidyverse/dplyr/R/group-by.r:225
-      11: group_data.grouped_df(.tbl) at /Users/romainfrancois/git/tidyverse/dplyr/R/group_data.R:30
-      12: group_data_grouped_df(.data) at /Users/romainfrancois/git/tidyverse/dplyr/R/group_data.R:47
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 19 SKIPPED: 0 FAILED: 1
-      1. Error: ind_to_char_ works with grouped_df, tbl_df, tbl, data.frame (@test_grp_routine.R#74) 
-      
-      Error: testthat unit tests failed
-      Execution halted
     ```
 
 # FindMyFriends
@@ -701,13 +643,13 @@ Version: 0.0.0.1
     > injury_score(sample_data, subj, code)
     Error: Argument 3 must be an integer vector, not a double vector
     Backtrace:
-        █
-     1. └─InjurySeverityScore::injury_score(sample_data, subj, code)
-     2.   ├─base::cbind(...)
-     3.   └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default)
-     4.     └─dplyr:::replace_with(...) /Users/romainfrancois/git/tidyverse/dplyr/R/coalesce.R:42:4
-     5.       └─dplyr:::check_type(val, x, name) /Users/romainfrancois/git/tidyverse/dplyr/R/utils-replace-with.R:7:2
-     6.         └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") /Users/romainfrancois/git/tidyverse/dplyr/R/utils-replace-with.R:52:2
+    [90m    [39m█
+    [90m 1. [39m└─InjurySeverityScore::injury_score(sample_data, subj, code)
+    [90m 2. [39m  ├─base::cbind(...)
+    [90m 3. [39m  └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default)
+    [90m 4. [39m    └─dplyr:::replace_with(...) [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/coalesce.R:42:4[39m
+    [90m 5. [39m      └─dplyr:::check_type(val, x, name) [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:7:2[39m
+    [90m 6. [39m        └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:52:2[39m
     Execution halted
     ```
 
@@ -786,7 +728,7 @@ Version: 0.4.1
       6: `[.data.frame`(dat, , c("groupFctr", "groupID", "term", "mean", "median", "sd"))
       7: stop("undefined columns selected")
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 358 SKIPPED: 20 FAILED: 1
       1. Error: REsim produces data.frames (@test-merExtract.R#90) 
       
@@ -797,6 +739,10 @@ Version: 0.4.1
 *   checking re-building of vignette outputs ... WARNING
     ```
     ...
+    The following objects are masked from 'package:base':
+    
+        intersect, setdiff, setequal, union
+    
     Loading required package: Rcpp
     rstanarm (Version 2.18.2, packaged: 2018-11-08 22:19:38 UTC)
     - Do not expect the default priors to remain the same in future rstanarm versions.
@@ -804,20 +750,16 @@ Version: 0.4.1
     - For execution on a local, multicore CPU with excess RAM we recommend calling
     options(mc.cores = parallel::detectCores())
     - Plotting theme set to bayesplot::theme_default().
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
     ## 
     ## Amelia II: Multiple Imputation
     ## (Version 1.7.5, built: 2018-05-07)
     ## Copyright (C) 2005-2019 James Honaker, Gary King and Matthew Blackwell
     ## Refer to http://gking.harvard.edu/amelia/ for more information
     ## 
-    Warning in engine$weave(file, quiet = quiet, encoding = enc) :
-      Pandoc (>= 1.12.3) and/or pandoc-citeproc not available. Falling back to R Markdown v1.
     Quitting from lines 115-117 (merToolsIntro.Rmd) 
-    Erreur : le traitement de la vignette 'merToolsIntro.Rmd' a échoué avec le diagnostic :
+    Error: processing vignette 'merToolsIntro.Rmd' failed with diagnostics:
     undefined columns selected
-    Exécution arrêtée
+    Execution halted
     ```
 
 # modeldb
@@ -916,13 +858,13 @@ Version: 0.9.9
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      3: summarise(.tbl, !!!funs) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:110
-      4: summarise.tbl_df(.tbl, !!!funs) at /Users/romainfrancois/git/tidyverse/dplyr/R/manip.r:269
-      5: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romainfrancois/git/tidyverse/dplyr/R/tbl-df.r:102
+      3: summarise(.tbl, !!!funs) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/colwise-mutate.R:110
+      4: summarise.tbl_df(.tbl, !!!funs) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/manip.r:277
+      5: summarise_impl(.data, dots, environment(), caller_env()) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/tbl-df.r:102
       6: (structure(function (..., .x = ..1, .y = ..2, . = ..1) 
-         mean(.) - comp_value, class = "rlang_lambda_function"))(age) at /Users/romainfrancois/git/tidyverse/dplyr/R/RcppExports.R:188
+         mean(.) - comp_value, class = "rlang_lambda_function"))(age) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/RcppExports.R:188
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 6 SKIPPED: 0 FAILED: 4
       1. Error: compare_means 1 (@test_stats.R#9) 
       2. Error: compare_means 2 (@test_stats.R#17) 
@@ -970,13 +912,13 @@ Version: 0.9.9
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
+      8: withVisible(function_list[[k]](value))
       9: function_list[[k]](value)
       10: spread(., "fun", "value")
       11: spread.data.frame(., "fun", "value")
-      12: abort(glue("Each row of output must be identified by a unique combination of keys.", 
-             "\nKeys are shared for {shared} rows:", "\n{rows}", "Do you need to create unique ID with tibble::rowid_to_column()?"))
+      12: abort(glue("Each row of output must be identified by a unique combination of keys.", "\nKeys are shared for {shared} rows:", "\n{rows}", "Do you need to create unique ID with tibble::rowid_to_column()?"))
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 27 SKIPPED: 0 FAILED: 4
       1. Failure: explore 8 x 2 (@test_funs.R#89) 
       2. Failure: explore 8 x 2 (@test_funs.R#90) 
@@ -1066,7 +1008,7 @@ Version: 0.2.0
     Last 13 lines of output:
       34: is.data.frame(x)
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 281 SKIPPED: 1 FAILED: 8
       1. Error: expose works (@test-expose.R#188) 
       2. Error: expose preserves pack names (@test-expose.R#246) 
@@ -1095,11 +1037,11 @@ Version: 0.0.1
       nrow(x_gm) not equal to 5.
       target is NULL, current is numeric
       
-      ── 3. Failure: group_map() (@test-dplyr-group-funs.R#52)  ──────────────────────
+      [31m──[39m [31m3. Failure: group_map() (@test-dplyr-group-funs.R#52) [39m [31m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
       x_gm$.g[[1]] not equal to dplyr::tibble(.bootstrap = 1L).
       target is NULL, current is tbl_df
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
       OK: 146 SKIPPED: 0 FAILED: 3
       1. Failure: group_map() (@test-dplyr-group-funs.R#43) 
       2. Failure: group_map() (@test-dplyr-group-funs.R#50) 
@@ -1145,12 +1087,12 @@ Version: 0.1.1
     ```
     Error in re-building vignettes:
       ...
-    ── Attaching packages ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
     ✔ ggplot2 3.1.0          ✔ purrr   0.3.2     
     ✔ tibble  2.1.1          ✔ dplyr   0.8.0.9010
     ✔ tidyr   0.8.3          ✔ stringr 1.4.0     
     ✔ readr   1.3.1          ✔ forcats 0.4.0     
-    ── Conflicts ──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
     ✖ dplyr::filter() masks stats::filter()
     ✖ dplyr::lag()    masks stats::lag()
     Quitting from lines 79-84 (univariate.Rmd) 
