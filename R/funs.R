@@ -85,6 +85,10 @@ as_fun_list <- function(.funs, .env, ...) {
     .funs <- list(.funs)
   }
 
+  if(is_character(.funs) && is_null(names(.funs))) {
+    names(.funs) <- .funs
+  }
+
   funs <- map(.funs, function(.x){
     if (is_formula(.x)) {
       # processing unquote operator at inlining time
