@@ -687,81 +687,6 @@ Version: 0.4.0
     Execution halted
     ```
 
-# merTools
-
-Version: 0.4.1
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    Running examples in ‘merTools-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: REsim
-    > ### Title: Simulate random effects from merMod 'REsim' simulates random
-    > ###   effects from merMod object posterior distributions
-    > ### Aliases: REsim
-    > 
-    > ### ** Examples
-    > 
-    > require(lme4)
-    > m2 <- lmer(Reaction ~ Days + (Days | Subject), sleepstudy)
-    > re2 <- REsim(m2, 25)
-    Error in `[.data.frame`(dat, , c("groupFctr", "groupID", "term", "mean",  : 
-      undefined columns selected
-    Calls: REsim -> [ -> [.data.frame
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat-a_m.R’ failed.
-    Last 13 lines of output:
-      undefined columns selected
-      1: expect_is(REsim(lmerSlope1, n.sims = 100), "data.frame") at testthat/test-merExtract.R:90
-      2: quasi_label(enquo(object), label)
-      3: eval_bare(get_expr(quo), get_env(quo))
-      4: REsim(lmerSlope1, n.sims = 100)
-      5: dat[, c("groupFctr", "groupID", "term", "mean", "median", "sd")]
-      6: `[.data.frame`(dat, , c("groupFctr", "groupID", "term", "mean", "median", "sd"))
-      7: stop("undefined columns selected")
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-      OK: 358 SKIPPED: 20 FAILED: 1
-      1. Error: REsim produces data.frames (@test-merExtract.R#90) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    ...
-    The following objects are masked from 'package:base':
-    
-        intersect, setdiff, setequal, union
-    
-    Loading required package: Rcpp
-    rstanarm (Version 2.18.2, packaged: 2018-11-08 22:19:38 UTC)
-    - Do not expect the default priors to remain the same in future rstanarm versions.
-    Thus, R scripts should specify priors explicitly, even if they are just the defaults.
-    - For execution on a local, multicore CPU with excess RAM we recommend calling
-    options(mc.cores = parallel::detectCores())
-    - Plotting theme set to bayesplot::theme_default().
-    ## 
-    ## Amelia II: Multiple Imputation
-    ## (Version 1.7.5, built: 2018-05-07)
-    ## Copyright (C) 2005-2019 James Honaker, Gary King and Matthew Blackwell
-    ## Refer to http://gking.harvard.edu/amelia/ for more information
-    ## 
-    Quitting from lines 115-117 (merToolsIntro.Rmd) 
-    Error: processing vignette 'merToolsIntro.Rmd' failed with diagnostics:
-    undefined columns selected
-    Execution halted
-    ```
-
 # modeldb
 
 Version: 0.1.2
@@ -883,50 +808,19 @@ Version: 0.9.9
 
 *   checking examples ... ERROR
     ```
-    ...
-     $ byvar      : chr ""
-     $ fun        : chr [1:2] "mean" "sd"
-     $ top        : chr "fun"
-     $ tabfilt    : chr ""
-     $ tabsort    : chr ""
-     $ nr         : NULL
-     $ data_filter: chr ""
-     - attr(*, "class")= chr [1:2] "explore" "list"
-    > explore(diamonds, "price:x")$tab
-      variable          fn1          fn2
-    1    price 3.907186e+03 3956.9154001
-    2    carat 7.942833e-01    0.4738263
-    3  clarity 1.333333e-02    0.1147168
-    4      cut 3.366667e-02    0.1803998
-    5    color 1.273333e-01    0.3334016
-    6    depth 6.175267e+01    1.4460279
-    7    table 5.746533e+01    2.2411022
-    8        x 5.721823e+00    1.1240545
-    > explore(diamonds, c("price","carat"), byvar = "cut", fun = c("n_missing", "skew"))$tab
-    Error: Each row of output must be identified by a unique combination of keys.
-    Keys are shared for 20 rows:
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      8: withVisible(function_list[[k]](value))
-      9: function_list[[k]](value)
-      10: spread(., "fun", "value")
-      11: spread.data.frame(., "fun", "value")
-      12: abort(glue("Each row of output must be identified by a unique combination of keys.", "\nKeys are shared for {shared} rows:", "\n{rows}", "Do you need to create unique ID with tibble::rowid_to_column()?"))
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-      OK: 27 SKIPPED: 0 FAILED: 4
-      1. Failure: explore 8 x 2 (@test_funs.R#89) 
-      2. Failure: explore 8 x 2 (@test_funs.R#90) 
-      3. Failure: explore 1 x 2 (@test_funs.R#108) 
-      4. Error: explore 2 x 2 x 2 (@test_funs.R#142) 
-      
-      Error: testthat unit tests failed
-      Execution halted
+    Running examples in ‘radiant.data-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: qscatter
+    > ### Title: Create a qscatter plot similar to Stata
+    > ### Aliases: qscatter
+    > 
+    > ### ** Examples
+    > 
+    > qscatter(diamonds, "price", "carat")
+    Error in radiant.data::xtile(., bins) : object 'bins' not found
+    Calls: qscatter ... mutate.tbl_df -> mutate_impl -> <Anonymous> -> <Anonymous>
+    Execution halted
     ```
 
 # radiant.model
@@ -1089,7 +983,7 @@ Version: 0.1.1
       ...
     ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
     ✔ ggplot2 3.1.0          ✔ purrr   0.3.2     
-    ✔ tibble  2.1.1          ✔ dplyr   0.8.0.9010
+    ✔ tibble  2.1.1          ✔ dplyr   0.8.0.9012
     ✔ tidyr   0.8.3          ✔ stringr 1.4.0     
     ✔ readr   1.3.1          ✔ forcats 0.4.0     
     ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──

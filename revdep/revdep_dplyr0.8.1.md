@@ -57,10 +57,6 @@ https://github.com/HealthCatalyst/healthcareai-r/issues/1285
 
 https://github.com/dajuntian/InjurySeverityScore/issues/1
 
-## merTools
-
-https://github.com/jknowles/merTools/issues/103
-
 ## ruler
 
 Note sure yet

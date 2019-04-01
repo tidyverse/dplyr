@@ -87,7 +87,7 @@
 |[ZeligEI](problems.md#zeligei)                       |0.1-2    |1     |        |     |[cran/ZeligEI](https://github.com/cran/ZeligEI)                       |
 |[zeligverse](problems.md#zeligverse)                 |0.1.1    |1     |        |     |[cran/zeligverse](https://github.com/cran/zeligverse)                 |
 
-## Broken (32)
+## Broken (31)
 
 |package                                                |version  |error  |warning |note |source                                                                  |
 |:------------------------------------------------------|:--------|:------|:-------|:----|:-----------------------------------------------------------------------|
@@ -108,14 +108,13 @@
 |[HTSSIP](problems.md#htssip)                           |1.4.0    |1      |        |1    |[cran/HTSSIP](https://github.com/cran/HTSSIP)                           |
 |[InjurySeverityScore](problems.md#injuryseverityscore) |0.0.0.1  |__+1__ |        |     |[cran/InjurySeverityScore](https://github.com/cran/InjurySeverityScore) |
 |[kayadata](problems.md#kayadata)                       |0.4.0    |__+1__ |__+1__  |     |[cran/kayadata](https://github.com/cran/kayadata)                       |
-|[merTools](problems.md#mertools)                       |0.4.1    |__+2__ |__+1__  |     |[cran/merTools](https://github.com/cran/merTools)                       |
 |[modeldb](problems.md#modeldb)                         |0.1.2    |       |__+1__  |     |[cran/modeldb](https://github.com/cran/modeldb)                         |
 |[MonetDBLite](problems.md#monetdblite)                 |0.6.0    |__+1__ |        |1    |[cran/MonetDBLite](https://github.com/cran/MonetDBLite)                 |
 |[perturbatr](problems.md#perturbatr)                   |1.0.0    |__+1__ |        |     |[cran/perturbatr](https://github.com/cran/perturbatr)                   |
 |[pmc](problems.md#pmc)                                 |1.0.3    |1      |        |     |[cran/pmc](https://github.com/cran/pmc)                                 |
 |[QuaternaryProd](problems.md#quaternaryprod)           |1.14.0   |1      |        |1    |[cran/QuaternaryProd](https://github.com/cran/QuaternaryProd)           |
 |[radiant.basics](problems.md#radiantbasics)            |0.9.9    |__+2__ |        |     |[cran/radiant.basics](https://github.com/cran/radiant.basics)           |
-|[radiant.data](problems.md#radiantdata)                |0.9.9    |__+2__ |        |     |[cran/radiant.data](https://github.com/cran/radiant.data)               |
+|[radiant.data](problems.md#radiantdata)                |0.9.9    |__+1__ |        |     |[cran/radiant.data](https://github.com/cran/radiant.data)               |
 |[radiant.model](problems.md#radiantmodel)              |0.9.9    |__+1__ |        |     |[cran/radiant.model](https://github.com/cran/radiant.model)             |
 |[rubias](problems.md#rubias)                           |0.2.0    |1      |        |1    |[cran/rubias](https://github.com/cran/rubias)                           |
 |[ruler](problems.md#ruler)                             |0.2.0    |__+2__ |        |     |[cran/ruler](https://github.com/cran/ruler)                             |
