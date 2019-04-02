@@ -52,37 +52,19 @@ Version: 0.0.1
       Execution halted
     ```
 
+## Newly fixed
+
+*   checking whether package ‘broomExtra’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/broomExtra/old/broomExtra.Rcheck/00install.out’ for details.
+    ```
+
 # ClinReport
 
 Version: 0.9.1.11
 
 ## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    > 
-    > 
-    > # Load the data
-    > 
-    > data(data)
-    > 
-    > # The default statistics are given here:
-    > 
-    > tab1=report.quanti(data=data,y="y_numeric",x1="GROUP",total=TRUE,subjid="SUBJID")
-    > 
-    > # Define the function corresponding to the coefficient of variation for example
-    > 
-    > cv=function(y) sd(y,na.rm=TRUE)/mean(y,na.rm=TRUE)
-    > 
-    > # We use the add.stat function to add CV at the second row:
-    > 
-    > tab1.cv=add.stat(tab1,data,func.stat=cv,func.stat.name="Coef. Var",
-    + pos=2)
-    Error in func.stat(y_numeric) : could not find function "func.stat"
-    Calls: add.stat ... summarise -> summarise.tbl_df -> summarise_impl -> <Anonymous>
-    Execution halted
-    ```
 
 *   checking re-building of vignette outputs ... WARNING
     ```
@@ -111,6 +93,32 @@ Version: 0.9.1.11
     ```
 
 ## In both
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > 
+    > 
+    > # Load the data
+    > 
+    > data(data)
+    > 
+    > # The default statistics are given here:
+    > 
+    > tab1=report.quanti(data=data,y="y_numeric",x1="GROUP",total=TRUE,subjid="SUBJID")
+    > 
+    > # Define the function corresponding to the coefficient of variation for example
+    > 
+    > cv=function(y) sd(y,na.rm=TRUE)/mean(y,na.rm=TRUE)
+    > 
+    > # We use the add.stat function to add CV at the second row:
+    > 
+    > tab1.cv=add.stat(tab1,data,func.stat=cv,func.stat.name="Coef. Var",
+    + pos=2)
+    Error in func.stat(y_numeric) : could not find function "func.stat"
+    Calls: add.stat ... summarise -> summarise.tbl_df -> summarise_impl -> <Anonymous>
+    Execution halted
+    ```
 
 *   checking dependencies in R code ... NOTE
     ```
@@ -245,70 +253,6 @@ Version: 0.3.1
     Quitting from lines 39-44 (corrr-databases.Rmd) 
     Error: processing vignette 'corrr-databases.Rmd' failed with diagnostics:
     object 'mpg' not found
-    Execution halted
-    ```
-
-# cytominer
-
-Version: 0.1.0
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    > ### Name: normalize
-    > ### Title: Normalize observation variables.
-    > ### Aliases: normalize
-    > 
-    > ### ** Examples
-    > 
-    > suppressMessages(suppressWarnings(library(magrittr)))
-    > population <- tibble::data_frame(
-    +    Metadata_group = c("control", "control", "control", "control",
-    +                       "experiment", "experiment", "experiment", "experiment"),
-    +    Metadata_batch = c("a", "a", "b", "b", "a", "a", "b", "b"),
-    +    AreaShape_Area = c(10, 12, 15, 16, 8, 8, 7, 7)
-    +  )
-    > variables <- c('AreaShape_Area')
-    > strata <- c('Metadata_batch')
-    > sample <- population %>% dplyr::filter(Metadata_group == 'control')
-    > cytominer::normalize(population, variables, strata, sample, operation = "standardize")
-    Error in mean(., na.rm = TRUE) : object '.' not found
-    Calls: <Anonymous> ... summarise.tbl_df -> summarise_impl -> <Anonymous> -> eval_tidy -> mean
-    Execution halted
-    ```
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      32: eval_bare(call, env)
-      33: (function (...) 
-         eval_tidy(~mean(.)))(x)
-      34: eval_tidy(~mean(.))
-      35: mean(.)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-      OK: 28 SKIPPED: 0 FAILED: 4
-      1. Error: `aggregate` aggregates data (@test-aggregate.R#37) 
-      2. Error: cytominer can process dataset with a normalized schema (@test-cytominer.R#71) 
-      3. Error: cytominer can process dataset with a CellProfiler schema (@test-cytominer.R#227) 
-      4. Error: `normalize' normalizes data (@test-normalize.R#49) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 149-165 (cytominer-pipeline.Rmd) 
-    Error: processing vignette 'cytominer-pipeline.Rmd' failed with diagnostics:
-    object '.' not found
     Execution halted
     ```
 
