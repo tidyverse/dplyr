@@ -432,7 +432,7 @@ variables. We need to make three changes:
 *   Use `...` in the function definition so our function can accept any number
     of arguments.
 
-*   Use `quos()` to capture all the `...` as a list of formulas.
+*   Use `enquos()` to capture all the `...` as a list of formulas.
 
 *   Use `!!!` instead of `!!` to __splice__ the arguments into `group_by()`.
 
