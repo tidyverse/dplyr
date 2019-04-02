@@ -103,7 +103,7 @@ as_fun_list <- function(.funs, .env, ...) {
       }
       if (length(args)) {
         .x <- new_quosure(
-          expr((!!.x)(., !!!args)),
+          call2(.x, quote(.), !!!args),
           env = .env
         )
       }
