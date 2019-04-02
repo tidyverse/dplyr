@@ -432,15 +432,13 @@ variables. We need to make three changes:
 *   Use `...` in the function definition so our function can accept any number
     of arguments.
 
-*   Use `enquos()`/`quos()` to capture all the `...` as a list of formulas.
+*   Use `enquos()` to capture all the `...` as a list of formulas.
 
 *   Use `!!!` instead of `!!` to __splice__ the arguments into `group_by()`.
 
 ```{r}
 my_summarise <- function(df, ...) {
   group_var <- enquos(...)
-  # `quos()` can be interchangeably used here.
-  # group_var <- quos(...)
 
   df %>%
     group_by(!!! group_var) %>%
