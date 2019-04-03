@@ -69,7 +69,7 @@ As well as `x` and `y`, each mutating join takes an argument `by` that controls 
     Note that the year columns in the output are disambiguated with a suffix.
 
   * A named character vector: `by = c("x" = "a")`. This will
-    match variable `x` in table `x` to variable `a` in table `b`. The 
+    match variable `x` in table `x` to variable `a` in table `y`. The 
     variables from use will be used in the output.
     
     Each flight has an origin and destination `airport`, so we need to specify
