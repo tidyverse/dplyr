@@ -1,3 +1,75 @@
+# banR
+
+Version: 0.2.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### Name: geocode_tbl
+    > ### Title: Geocode tbl
+    > ### Aliases: geocode_tbl
+    > 
+    > ### ** Examples
+    > 
+    > 
+    > table_test <- tibble::tibble(
+    + x = c("39 quai Andre Citroen", "64 Allee de Bercy", "20 avenue de Segur"), 
+    + y = c("75015", "75012", "75007"), 
+    + z = rnorm(3)
+    + )
+    > 
+    > geocode_tbl(tbl = table_test, adresse = x)
+    Writing tempfile to.../var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpgCNAAE/file2d3d57b13d46.csv
+    If file is larger than 8 MB, it must be splitted
+    Size is : 61 bytes
+    Server errorService UnavailableServer error: (503) Service Unavailable
+    Error in geocode_tbl(tbl = table_test, adresse = x) : 
+      The API sent back an error 503
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      1: expect_is(object = reverse_geocode_tbl(tbl = table_reverse, longitude = x, latitude = y), 
+             class = "tbl_df") at testthat/test_geocodetbl.R:60
+      2: quasi_label(enquo(object), label)
+      3: eval_bare(get_expr(quo), get_env(quo))
+      4: reverse_geocode_tbl(tbl = table_reverse, longitude = x, latitude = y)
+      5: stop("The API sent back an error ", httr::status_code(query_results))
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 3 SKIPPED: 0 FAILED: 3
+      1. Error: Geocode tbl works  (@test_geocodetbl.R#12) 
+      2. Error: Input and output DFs have a similar number of rows (@test_geocodetbl.R#31) 
+      3. Error: Reverse geocode tbl works  (@test_geocodetbl.R#60) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 47-49 (geocode.Rmd) 
+    Erreur : le traitement de la vignette 'geocode.Rmd' a échoué avec le diagnostic :
+    The API sent back an error 503
+    Exécution arrêtée
+    ```
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘stringr’
+      All declared Imports should be used.
+    ```
+
 # broomExtra
 
 Version: 0.0.1
@@ -42,7 +114,7 @@ Version: 0.0.1
       9: function_list[[k]](value)
       10: dplyr::ungroup(x = .)
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 9 SKIPPED: 0 FAILED: 3
       1. Error: `grouped_augment()` works (@test_grouped_augment.R#12) 
       2. Error: `grouped_glance()` works (@test_grouped_glance.R#12) 
@@ -52,9 +124,68 @@ Version: 0.0.1
       Execution halted
     ```
 
+# Cardinal
+
+Version: 2.0.4
+
+## Newly broken
+
+*   checking R code for possible problems ... NOTE
+    ```
+    group_by: no visible global function definition for
+      ‘group_by_drop_default’
+    Undefined global functions or variables:
+      group_by_drop_default
+    ```
+
+## In both
+
+*   checking for missing documentation entries ... WARNING
+    ```
+    Undocumented code objects:
+      ‘filter’
+    All user-level objects in a package should have documentation entries.
+    See chapter ‘Writing R documentation files’ in the ‘Writing R
+    Extensions’ manual.
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.9Mb
+      sub-directories of 1Mb or more:
+        R     3.0Mb
+        doc   2.2Mb
+    ```
+
+*   checking re-building of vignette outputs ... NOTE
+    ```
+    ...
+    
+    The following object is masked from ‘package:stats’:
+    
+        filter
+    
+    Error in texi2dvi(file = file, pdf = TRUE, clean = clean, quiet = quiet,  : 
+      l'exécution de 'texi2dvi' sur 'Cardinal-2-guide.tex' a échoué.
+    LaTeX errors:
+    ! LaTeX Error: File `beramono.sty' not found.
+    
+    Type X to quit or <RETURN> to proceed,
+    or enter new name. (Default extension: sty)
+    
+    ! Emergency stop.
+    <read *> 
+             
+    l.87 \RequirePackage
+                        [T1]{fontenc}^^M
+    !  ==> Fatal error occurred, no output PDF file produced!
+    Calls: buildVignettes -> texi2pdf -> texi2dvi
+    Exécution arrêtée
+    ```
+
 # ClinReport
 
-Version: 0.9.1.11
+Version: 0.9.1.12
 
 ## Newly broken
 
@@ -105,9 +236,9 @@ Version: 0.9.1.11
     Fontconfig error: "/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/ClinReport/magick/etc/fonts/conf.d/90-synthetic.conf", line 6: invalid attribute 'version'
     Fontconfig error: Cannot load default config file
     Quitting from lines 81-90 (clinreport_modify_outputs.Rmd) 
-    Error: processing vignette 'clinreport_modify_outputs.Rmd' failed with diagnostics:
-    could not find function "func.stat"
-    Execution halted
+    Erreur : le traitement de la vignette 'clinreport_modify_outputs.Rmd' a échoué avec le diagnostic :
+    impossible de trouver la fonction "func.stat"
+    Exécution arrêtée
     ```
 
 ## In both
@@ -160,7 +291,7 @@ Version: 0.6.5
       35: (structure(function (..., .x = ..1, .y = ..2, . = ..1) 
          sum(.)/n_all * 100, class = "rlang_lambda_function"))(cdu) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/RcppExports.R:188
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 81 SKIPPED: 0 FAILED: 2
       1. Error: Pooling works as expected (@test-pooling.R#12) 
       2. Error: workflow stable (@test-workflow.R#64) 
@@ -190,14 +321,14 @@ Version: 0.6.5
     Warning:  1 failed to parse.
     Warning:  1 failed to parse.
     Quitting from lines 155-161 (workflow.Rmd) 
-    Error: processing vignette 'workflow.Rmd' failed with diagnostics:
-    object 'n_all' not found
-    Execution halted
+    Erreur : le traitement de la vignette 'workflow.Rmd' a échoué avec le diagnostic :
+    objet 'n_all' introuvable
+    Exécution arrêtée
     ```
 
 # compareDF
 
-Version: 1.7.1
+Version: 1.7.2
 
 ## Newly broken
 
@@ -206,18 +337,17 @@ Version: 1.7.1
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      [31m──[39m [31m1. Failure: (unknown) (@test-fnsComparison.R#74) [39m [31m───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
-      output$change_count not equivalent to `expected_change_count`.
-      Incompatible type for column `changes`: x integer, y numeric
-      
-      [31m──[39m [31m2. Failure: (unknown) (@test-fnsComparison.R#357) [39m [31m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+      > library(testthat)
+      > library(compareDF)
+      > 
+      > test_check("compareDF")
+      ── 1. Failure: (unknown) (@test-fnsComparison.R#369)  ──────────────────────────
       `expected_change_count` not equivalent to actual_comparison_summary$change_count.
       Incompatible type for column `changes`: x numeric, y integer
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
-      OK: 46 SKIPPED: 0 FAILED: 2
-      1. Failure: (unknown) (@test-fnsComparison.R#74) 
-      2. Failure: (unknown) (@test-fnsComparison.R#357) 
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 48 SKIPPED: 0 FAILED: 1
+      1. Failure: (unknown) (@test-fnsComparison.R#369) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -243,9 +373,9 @@ Version: 0.3.1
     Error in re-building vignettes:
       ...
     Quitting from lines 39-44 (corrr-databases.Rmd) 
-    Error: processing vignette 'corrr-databases.Rmd' failed with diagnostics:
-    object 'mpg' not found
-    Execution halted
+    Erreur : le traitement de la vignette 'corrr-databases.Rmd' a échoué avec le diagnostic :
+    objet 'mpg' introuvable
+    Exécution arrêtée
     ```
 
 # cytominer
@@ -291,7 +421,7 @@ Version: 0.1.0
       34: eval_tidy(~mean(.))
       35: mean(.)
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 28 SKIPPED: 0 FAILED: 4
       1. Error: `aggregate` aggregates data (@test-aggregate.R#37) 
       2. Error: cytominer can process dataset with a normalized schema (@test-cytominer.R#71) 
@@ -307,9 +437,9 @@ Version: 0.1.0
     Error in re-building vignettes:
       ...
     Quitting from lines 149-165 (cytominer-pipeline.Rmd) 
-    Error: processing vignette 'cytominer-pipeline.Rmd' failed with diagnostics:
-    object '.' not found
-    Execution halted
+    Erreur : le traitement de la vignette 'cytominer-pipeline.Rmd' a échoué avec le diagnostic :
+    objet '.' introuvable
+    Exécution arrêtée
     ```
 
 # dbplyr
@@ -330,7 +460,7 @@ Version: 1.3.0
       Calls: <Anonymous> ... <Anonymous> -> <Anonymous> -> .local -> connection_create
       In addition: Warning message:
       In dbDisconnect(con) : restarting interrupted promise evaluation
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 565 SKIPPED: 11 FAILED: 1
       1. Error: tbl_dbi support colwise variants (@test-colwise.R#13) 
       
@@ -340,83 +470,9 @@ Version: 1.3.0
       Execution halted
     ```
 
-# desctable
-
-Version: 0.1.5
-
-## Newly broken
-
-*   checking for code/documentation mismatches ... WARNING
-    ```
-    Codoc mismatches from documentation object 'group_by':
-    group_by
-      Code: function(.data, ..., add = FALSE, .drop =
-                     group_by_drop_default(.data))
-      Docs: function(.data, ..., add = FALSE, .drop = FALSE)
-      Mismatches in argument default values:
-        Name: '.drop' Code: group_by_drop_default(.data) Docs: FALSE
-    ```
-
-# ELMER
-
-Version: 2.4.4
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking dependencies in R code ... WARNING
-    ```
-    '::' or ':::' import not declared from: 'data.table'
-    ':::' call which should be '::': 'TCGAbiolinks:::TCGAVisualize_volcano'
-      See the note in ?`:::` about the use of this operator.
-    Unexported objects imported by ':::' calls:
-      'TCGAbiolinks:::colDataPrepare' 'TCGAbiolinks:::get.GRCh.bioMart'
-      See the note in ?`:::` about the use of this operator.
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 44.5Mb
-      sub-directories of 1Mb or more:
-        doc  44.1Mb
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    ...
-    heatmapGene: no visible global function definition for
-      'subsetByOverlaps'
-    heatmapGene: no visible binding for global variable 'mae'
-    motif.enrichment.plot: no visible binding for global variable 'y'
-    motif.enrichment.plot: no visible binding for global variable 'x'
-    motif.enrichment.plot: no visible binding for global variable 'z'
-    motif.enrichment.plot: no visible binding for global variable 'upperOR'
-    motif.enrichment.plot: no visible binding for global variable 'lowerOR'
-    motif.enrichment.plot: no visible binding for global variable 'motif'
-    motif.enrichment.plot: no visible binding for global variable 'OR'
-    scatter: no visible binding for global variable 'value'
-    scatter: no visible global function definition for 'cor.test'
-    scatter: no visible binding for global variable 'mae'
-    Undefined global functions or variables:
-      Gene GeneID Hugo_Symbol OR Probe TF Target cor.test fisher.test gr
-      hm450.hg38.manifest label lowerOR mae motif precede pvalue
-      subsetByOverlaps upperOR value write.table x y z
-    Consider adding
-      importFrom("stats", "cor.test", "fisher.test")
-      importFrom("utils", "write.table")
-    to your NAMESPACE file.
-    ```
-
-*   checking for unstated dependencies in vignettes ... NOTE
-    ```
-    '::' or ':::' import not declared from: ‘devtools’
-    ```
-
 # FindMyFriends
 
-Version: 1.10.0
+Version: 1.12.0
 
 ## In both
 
@@ -476,6 +532,80 @@ Version: 0.1.0
     Warning in var(.) : NAs introduced by coercion
     Error: Column `t1_Santos` must be length 1 (a summary value), not 25
     Execution halted
+    ```
+
+# ggfortify
+
+Version: 0.4.6
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/test-all.R’ failed.
+    Last 13 lines of output:
+      2: MSwM::msmFit(lm(Data ~ . - 1, data = d), k = 2, sw = rep(TRUE, 2), control = list(parallelization = FALSE))
+      3: em(ans, control)
+      4: em(ans, control)
+      5: hessian(object)
+      6: hessian(object)
+      7: diag(solve(res$Hessian))
+      8: solve(res$Hessian)
+      9: solve.default(res$Hessian)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 709 SKIPPED: 49 FAILED: 1
+      1. Error: fortify.MSwM works for sample data (@test-MSwM.R#8) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘ggfortify-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: autoplot.forecast
+    > ### Title: Autoplot 'forecast::forecast'
+    > ### Aliases: autoplot.forecast
+    > 
+    > ### ** Examples
+    > 
+    > d.arima <- forecast::auto.arima(AirPassengers)
+    Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+      there is no package called ‘quantmod’
+    Calls: :: ... tryCatch -> tryCatchList -> tryCatchOne -> <Anonymous>
+    Execution halted
+    ```
+
+*   checking re-building of vignette outputs ... WARNING
+    ```
+    ...
+    
+        as.Date, as.Date.numeric
+    
+    Loading required package: sandwich
+    Loading required package: urca
+    Loading required package: lmtest
+    Loading required package: maps
+    
+    Attaching package: 'cluster'
+    
+    The following object is masked from 'package:maps':
+    
+        votes.repub
+    
+    Scale for 'y' is already present. Adding another scale for 'y', which
+    will replace the existing scale.
+    Quitting from lines 97-101 (plot_ts.Rmd) 
+    Erreur : le traitement de la vignette 'plot_ts.Rmd' a échoué avec le diagnostic :
+    package or namespace load failed for 'forecast' in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]):
+     there is no package called 'quantmod'
+    Exécution arrêtée
     ```
 
 # grasp2db
@@ -643,13 +773,13 @@ Version: 0.0.0.1
     > injury_score(sample_data, subj, code)
     Error: Argument 3 must be an integer vector, not a double vector
     Backtrace:
-    [90m    [39m█
-    [90m 1. [39m└─InjurySeverityScore::injury_score(sample_data, subj, code)
-    [90m 2. [39m  ├─base::cbind(...)
-    [90m 3. [39m  └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default)
-    [90m 4. [39m    └─dplyr:::replace_with(...) [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/coalesce.R:42:4[39m
-    [90m 5. [39m      └─dplyr:::check_type(val, x, name) [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:7:2[39m
-    [90m 6. [39m        └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:52:2[39m
+        █
+     1. └─InjurySeverityScore::injury_score(sample_data, subj, code)
+     2.   ├─base::cbind(...)
+     3.   └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default)
+     4.     └─dplyr:::replace_with(...) /Users/romainfrancois/git/dplyr-revdep/dplyr/R/coalesce.R:42:4
+     5.       └─dplyr:::check_type(val, x, name) /Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:7:2
+     6.         └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") /Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:52:2
     Execution halted
     ```
 
@@ -682,9 +812,9 @@ Version: 0.4.0
     Error in re-building vignettes:
       ...
     Quitting from lines 165-181 (policy_analysis.Rmd) 
-    Error: processing vignette 'policy_analysis.Rmd' failed with diagnostics:
-    object '.f' of mode 'function' was not found
-    Execution halted
+    Erreur : le traitement de la vignette 'policy_analysis.Rmd' a échoué avec le diagnostic :
+    objet '.f' de mode 'function' introuvable
+    Exécution arrêtée
     ```
 
 # modeldb
@@ -698,32 +828,118 @@ Version: 0.1.2
     Error in re-building vignettes:
       ...
     Quitting from lines 45-49 (kmeans.Rmd) 
-    Error: processing vignette 'kmeans.Rmd' failed with diagnostics:
-    object 'dep_time' not found
-    Execution halted
+    Erreur : le traitement de la vignette 'kmeans.Rmd' a échoué avec le diagnostic :
+    objet 'dep_time' introuvable
+    Exécution arrêtée
     ```
 
 # MonetDBLite
 
 Version: 0.6.0
 
-## Newly broken
+## In both
 
 *   R CMD check timed out
     
 
-## In both
-
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.8Mb
+      installed size is  5.7Mb
       sub-directories of 1Mb or more:
         libs   5.4Mb
     ```
 
+# Organism.dplyr
+
+Version: 1.10.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    # Source:     lazy query [?? x 7]
+    # Database:   sqlite 3.22.0 []
+    # Ordered by: tx_id
+      tx_chrom tx_start   tx_end tx_strand  tx_id tx_name    symbol    
+      <chr>       <int>    <int> <chr>      <int> <chr>      <chr>     
+    1 chr15    25051477 25051571 +         123215 uc001yxg.4 SNORD116-1
+    2 chr15    25054210 25054304 +         123216 uc001yxi.4 SNORD116-2
+    3 chr15    25056860 25056954 +         123217 uc001yxk.4 SNORD116-3
+    4 chr15    25059538 25059633 +         123218 uc001yxl.5 SNORD116-4
+    5 chr15    25062333 25062427 +         123219 uc001yxo.4 SNORD116-5
+    6 chr15    25065026 25065121 +         123221 uc001yxp.5 SNORD116-2
+    7 chr15    25067788 25067882 +         123222 uc059gus.1 SNORD116-5
+    > 
+    > ## transcript coordinates with filter in granges format
+    > filters <- GRangesFilter(GenomicRanges::GRanges("chr15:1-25070000"))
+    > transcripts(src, filters)
+    Warning: Closing open result set, pending rows
+    Error in result_has_completed(res@ptr) : Invalid result set
+    Calls: transcripts ... dbHasCompleted -> dbHasCompleted -> result_has_completed
+    Warning: Expired, result set already closed
+    Execution halted
+    ```
+
+## In both
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+         }) at testthat/test-src_organism-select.R:3
+      2: withCallingHandlers(expr, packageStartupMessage = function(c) invokeRestart("muffleMessage"))
+      3: library(TxDb.Hsapiens.UCSC.hg38.knownGene) at testthat/test-src_organism-select.R:4
+      4: stop(txt, domain = NA)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 32 SKIPPED: 0 FAILED: 3
+      1. Error: (unknown) (@test-GenomicFeatures-extractors.R#3) 
+      2. Error: mouse (@test-src_organism-class.R#54) 
+      3. Error: (unknown) (@test-src_organism-select.R#3) 
+      
+      Error: testthat unit tests failed
+      In addition: Warning message:
+      call dbDisconnect() when finished working with a connection 
+      Execution halted
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Packages suggested but not available for checking:
+      ‘org.Hs.eg.db’ ‘TxDb.Hsapiens.UCSC.hg38.knownGene’ ‘org.Mm.eg.db’
+      ‘TxDb.Mmusculus.UCSC.mm10.ensGene’
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Unexported objects imported by ':::' calls:
+      ‘AnnotationDbi:::smartKeys’ ‘GenomicFeatures:::.exons_with_3utr’
+      ‘GenomicFeatures:::.exons_with_5utr’
+      ‘GenomicFeatures:::get_TxDb_seqinfo0’
+      ‘S4Vectors:::extract_data_frame_rows’
+      See the note in ?`:::` about the use of this operator.
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    .toGRanges: no visible binding for global variable ‘.’
+    intronsByTranscript,src_organism: no visible binding for global
+      variable ‘.’
+    orgPackageName,src_organism: no visible binding for global variable
+      ‘name’
+    orgPackageName,src_organism: no visible binding for global variable
+      ‘organism’
+    orgPackageName,src_organism: no visible binding for global variable
+      ‘OrgDb’
+    Undefined global functions or variables:
+      . OrgDb name organism
+    ```
+
 # perturbatr
 
-Version: 1.0.0
+Version: 1.2.1
 
 ## Newly broken
 
@@ -738,22 +954,6 @@ Version: 1.0.3
 
 *   R CMD check timed out
     
-
-# QuaternaryProd
-
-Version: 1.14.0
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 17.0Mb
-      sub-directories of 1Mb or more:
-        extdata  16.2Mb
-    ```
 
 # radiant.basics
 
@@ -789,7 +989,7 @@ Version: 0.9.9
       6: (structure(function (..., .x = ..1, .y = ..2, . = ..1) 
          mean(.) - comp_value, class = "rlang_lambda_function"))(age) at /Users/romainfrancois/git/dplyr-revdep/dplyr/R/RcppExports.R:188
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 6 SKIPPED: 0 FAILED: 4
       1. Error: compare_means 1 (@test_stats.R#9) 
       2. Error: compare_means 2 (@test_stats.R#17) 
@@ -902,7 +1102,7 @@ Version: 0.2.0
     Last 13 lines of output:
       34: is.data.frame(x)
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 281 SKIPPED: 1 FAILED: 8
       1. Error: expose works (@test-expose.R#188) 
       2. Error: expose preserves pack names (@test-expose.R#246) 
@@ -931,11 +1131,11 @@ Version: 0.0.1
       nrow(x_gm) not equal to 5.
       target is NULL, current is numeric
       
-      [31m──[39m [31m3. Failure: group_map() (@test-dplyr-group-funs.R#52) [39m [31m──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────[39m
+      ── 3. Failure: group_map() (@test-dplyr-group-funs.R#52)  ──────────────────────
       x_gm$.g[[1]] not equal to dplyr::tibble(.bootstrap = 1L).
       target is NULL, current is tbl_df
       
-      ══ testthat results  ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 146 SKIPPED: 0 FAILED: 3
       1. Failure: group_map() (@test-dplyr-group-funs.R#43) 
       2. Failure: group_map() (@test-dplyr-group-funs.R#50) 
@@ -981,72 +1181,23 @@ Version: 0.1.1
     ```
     Error in re-building vignettes:
       ...
-    ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──
+    ── Attaching packages ────────────────────────────────── tidyverse 1.2.1 ──
     ✔ ggplot2 3.1.0          ✔ purrr   0.3.2     
     ✔ tibble  2.1.1          ✔ dplyr   0.8.0.9012
     ✔ tidyr   0.8.3          ✔ stringr 1.4.0     
     ✔ readr   1.3.1          ✔ forcats 0.4.0     
-    ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+    ── Conflicts ───────────────────────────────────── tidyverse_conflicts() ──
     ✖ dplyr::filter() masks stats::filter()
     ✖ dplyr::lag()    masks stats::lag()
     Quitting from lines 79-84 (univariate.Rmd) 
-    Error: processing vignette 'univariate.Rmd' failed with diagnostics:
-    object 'timespanScaling' not found
-    Execution halted
-    ```
-
-# TCGAbiolinks
-
-Version: 2.8.4
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking dependencies in R code ... WARNING
-    ```
-    '::' or ':::' import not declared from: ‘tidyr’
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is 72.6Mb
-      sub-directories of 1Mb or more:
-        R      2.4Mb
-        data   3.5Mb
-        doc   66.4Mb
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    ...
-    TCGAanalyze_networkInference: no visible global function definition for
-      ‘minet’
-    TCGAquery_recount2: no visible binding for global variable ‘rse_gene’
-    TCGAtumor_purity: no visible binding for global variable ‘Tumor.purity’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘dNetInduce’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘dNetPipeline’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘dCommSignif’
-    TCGAvisualize_SurvivalCoxNET: no visible global function definition for
-      ‘visNet’
-    TCGAvisualize_oncoprint: no visible binding for global variable ‘value’
-    readExonQuantification: no visible binding for global variable ‘exon’
-    readExonQuantification: no visible binding for global variable
-      ‘coordinates’
-    Undefined global functions or variables:
-      TabSubtypesCol_merged Tumor.purity barcode c3net clinical coordinates
-      dCommSignif dNetInduce dNetPipeline exon knnmi.cross
-      limmacontrasts.fit limmamakeContrasts minet portions rse_gene value
-      visNet
+    Erreur : le traitement de la vignette 'univariate.Rmd' a échoué avec le diagnostic :
+    objet 'timespanScaling' introuvable
+    Exécution arrêtée
     ```
 
 # XBSeq
 
-Version: 1.12.0
+Version: 1.14.1
 
 ## In both
 

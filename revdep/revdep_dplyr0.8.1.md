@@ -1,7 +1,6 @@
 
 ## broomExtra
 ## groupedstats
-## strapgod
 
 use of experimental group_map(), probably fixed in dev version. broomExtra::grouped_tidy can replace
 group_map() by group_modify() or choose an alternative approach compatible with both dplyr 0.8.0 and dplyr 0.8.1
@@ -19,16 +18,6 @@ https://github.com/tidyverse/dplyr/issues/4304
 ## corr 
 
 https://github.com/drsimonj/corrr/issues/76
-
-## cytominer
-## dbplyr 
-## modeldb
-
-https://github.com/tidyverse/dplyr/issues/4305
-
-## desctable
-
-https://github.com/MaximeWack/desctable/issues/14
 
 ## ELMER
 ## FindMyFriends
@@ -60,4 +49,19 @@ https://github.com/dajuntian/InjurySeverityScore/issues/1
 ## ruler
 
 Note sure yet
+
+
+
+# Fixed issues
+
+## dbplyr 
+## modeldb
+
+https://github.com/tidyverse/dplyr/issues/4305
+
+Fixed via dev version of dbplyr
+
+## strapgod
+
+Fixed in dev version, ready to be released
 
