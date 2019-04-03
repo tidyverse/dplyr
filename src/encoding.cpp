@@ -21,6 +21,14 @@ R_xlen_t get_first_reencode_pos(const Rcpp::CharacterVector& x) {
 Rcpp::CharacterVector reencode_char(SEXP x) {
   if (Rf_isFactor(x)) return reencode_factor(x);
 
+#if (defined(R_VERSION) && R_VERSION >= R_Version(3, 5, 0))
+  // If ret is an Altrep call DATAPTR to materialize it fully here, since we
+  // will be touching all the elements anyway.
+  if (ALTREP(x)) {
+    DATAPTR(x);
+  }
+#endif
+
   Rcpp::CharacterVector ret(x);
   R_xlen_t first = get_first_reencode_pos(ret);
   if (first >= ret.length()) return ret;
