@@ -198,7 +198,7 @@
 <p>Note that the year columns in the output are disambiguated with a suffix.</p>
 </li>
 <li>
-<p>A named character vector: <code>by = c("x" = "a")</code>. This will match variable <code>x</code> in table <code>x</code> to variable <code>a</code> in table <code>b</code>. The variables from use will be used in the output.</p>
+<p>A named character vector: <code>by = c("x" = "a")</code>. This will match variable <code>x</code> in table <code>x</code> to variable <code>a</code> in table <code>y</code>. The variables from use will be used in the output.</p>
 <p>Each flight has an origin and destination <code>airport</code>, so we need to specify which one we want to join to:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/join.html">left_join</a></span>(airports, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"dest"</span> =<span class="st"> "faa"</span>))</a>
 <a class="sourceLine" id="cb4-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
