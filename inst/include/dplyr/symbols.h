@@ -57,6 +57,7 @@ struct symbols {
   static SEXP drop;
   static SEXP rlang;
   static SEXP eval_tidy;
+  static SEXP eval_bare;
   static SEXP quote;
   static SEXP dot_drop;
   static SEXP warn_deprecated;

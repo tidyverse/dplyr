@@ -71,9 +71,9 @@ inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mas
   Rcpp::Shelter<SEXP> local;
 
   SEXP expr = local(Rf_duplicate(named_quosure.expr()));
-  SEXP call_eval_tidy = local(Rf_lang3(R_DoubleColonSymbol, symbols::rlang, symbols::eval_tidy));
+  SEXP call_eval_bare = local(Rf_lang3(R_DoubleColonSymbol, symbols::rlang, symbols::eval_bare));
   SEXP call_quote = local(Rf_lang2(fns::quote, BODY(CAR(expr))));
-  SEXP body = local(Rf_lang3(call_eval_tidy, call_quote, data_mask));
+  SEXP body = local(Rf_lang3(call_eval_bare, call_quote, data_mask));
 
   SET_BODY(CAR(expr), body);
 
