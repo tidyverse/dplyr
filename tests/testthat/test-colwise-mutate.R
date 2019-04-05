@@ -391,3 +391,17 @@ test_that("mutate_at() unquotes in lambdas (#4199)", {
     df %>% mutate_at(vars(matches("b")), list(~mean(!!quoname)))
   )
 })
+
+test_that("summarise_at() can refer to local variables and columns (#4304)", {
+
+  # using local here in case someone wants to run the content of the test
+  # as opposed to the test_that() call
+  res <- local({
+    value <- 10
+    expect_identical(
+      iris %>% summarise_at("Sepal.Length", ~ sum(. / value)),
+      iris %>% summarise(Sepal.Length = sum(Sepal.Length / value))
+    )
+  })
+
+})

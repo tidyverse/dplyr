@@ -61,11 +61,23 @@ private:
 };
 
 inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
-  // need to create a new quosure to put the data mask in scope of the lambda function
-  Rcpp::Shield<SEXP> expr(Rf_duplicate(named_quosure.expr()));
-  SET_CLOENV(CAR(expr), data_mask);
+  // making a new quosure so that the quosure of the lambda is unchanged, but the
+  // expression is data masked via eval_tidy(),
+  // i.e. going from
+  //
+  // (function(.) some_expression(., <column>, <local object>))(Sepal.Length)
+  // to
+  // (function(.) rlang::eval_tidy(quote(some_expression(., <column>, <local object>)(Sepal.Length)), <data mask>)
+  Rcpp::Shelter<SEXP> local;
 
-  Rcpp::Shield<SEXP> named_quosure_env(named_quosure.env());
+  SEXP expr = local(Rf_duplicate(named_quosure.expr()));
+  SEXP call_eval_tidy = local(Rf_lang3(R_DoubleColonSymbol, symbols::rlang, symbols::eval_tidy));
+  SEXP call_quote = local(Rf_lang2(fns::quote, BODY(CAR(expr))));
+  SEXP body = local(Rf_lang3(call_eval_tidy, call_quote, data_mask));
+
+  SET_BODY(CAR(expr), body);
+
+  SEXP named_quosure_env = local(named_quosure.env());
 
   return rlang::new_quosure(expr, named_quosure_env);
 }
