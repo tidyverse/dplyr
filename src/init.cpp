@@ -97,7 +97,7 @@ SEXP symbols::indices = Rf_install("indices");
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::names = R_NamesSymbol;
 
-SEXP symbols::rlang_eval_bare = mark_precious(Rf_lang3(R_DoubleColonSymbol,
+SEXP symbols::rlang_eval_bare = mark_precious(Rf_lang3(symbols::double_colon,
                                                        symbols::rlang,
                                                        Rf_install("eval_bare")));
 
