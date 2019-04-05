@@ -5,12 +5,12 @@
 |version  |R version 3.5.3 (2019-03-11) |
 |os       |macOS Mojave 10.14.4         |
 |system   |x86_64, darwin15.6.0         |
-|ui       |X11                          |
+|ui       |RStudio                      |
 |language |(EN)                         |
-|collate  |fr_FR.UTF-8                  |
-|ctype    |fr_FR.UTF-8                  |
+|collate  |en_US.UTF-8                  |
+|ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2019-04-03                   |
+|date     |2019-04-05                   |
 
 # Dependencies
 
@@ -92,39 +92,27 @@
 |[ZeligEI](problems.md#zeligei)                       |0.1-2    |1     |        |     |[cran/ZeligEI](https://github.com/cran/ZeligEI)                       |
 |[zeligverse](problems.md#zeligverse)                 |0.1.1    |1     |        |     |[cran/zeligverse](https://github.com/cran/zeligverse)                 |
 
-## Broken (31)
+## Broken (19)
 
-|package                                                |version  |error    |warning |note     |source                                                                  |
-|:------------------------------------------------------|:--------|:--------|:-------|:--------|:-----------------------------------------------------------------------|
-|[banR](problems.md#banr)                               |0.2.0    |__+2__   |__+1__  |1        |[cran/banR](https://github.com/cran/banR)                               |
-|[broomExtra](problems.md#broomextra)                   |0.0.1    |__+2__   |        |         |[cran/broomExtra](https://github.com/cran/broomExtra)                   |
-|[Cardinal](problems.md#cardinal)                       |2.0.4    |         |1       |2 __+1__ |[cran/Cardinal](https://github.com/cran/Cardinal)                       |
-|[ClinReport](problems.md#clinreport)                   |0.9.1.12 |__+1__   |__+1__  |1        |[cran/ClinReport](https://github.com/cran/ClinReport)                   |
-|[coalitions](problems.md#coalitions)                   |0.6.5    |__+2__   |__+1__  |         |[cran/coalitions](https://github.com/cran/coalitions)                   |
-|[compareDF](problems.md#comparedf)                     |1.7.2    |__+1__   |        |1        |[cran/compareDF](https://github.com/cran/compareDF)                     |
-|[corrr](problems.md#corrr)                             |0.3.1    |         |__+1__  |         |[cran/corrr](https://github.com/cran/corrr)                             |
-|[cytominer](problems.md#cytominer)                     |0.1.0    |__+2__   |__+1__  |         |[cran/cytominer](https://github.com/cran/cytominer)                     |
-|[dbplyr](problems.md#dbplyr)                           |1.3.0    |__+1__   |        |         |[cran/dbplyr](https://github.com/cran/dbplyr)                           |
-|[FindMyFriends](problems.md#findmyfriends)             |1.12.0   |1        |1       |2        |[cran/FindMyFriends](https://github.com/cran/FindMyFriends)             |
-|[GFE](problems.md#gfe)                                 |0.1.0    |__+1__   |        |         |[cran/GFE](https://github.com/cran/GFE)                                 |
-|[ggfortify](problems.md#ggfortify)                     |0.4.6    |1 __+1__ |1       |         |[cran/ggfortify](https://github.com/cran/ggfortify)                     |
-|[grasp2db](problems.md#grasp2db)                       |1.1.0    |1        |3       |4        |[cran/grasp2db](https://github.com/cran/grasp2db)                       |
-|[groupedstats](problems.md#groupedstats)               |0.0.6    |__+1__   |        |         |[cran/groupedstats](https://github.com/cran/groupedstats)               |
-|[healthcareai](problems.md#healthcareai)               |2.3.0    |__+1__   |        |         |[cran/healthcareai](https://github.com/cran/healthcareai)               |
-|[HTSSIP](problems.md#htssip)                           |1.4.0    |1        |        |1        |[cran/HTSSIP](https://github.com/cran/HTSSIP)                           |
-|[InjurySeverityScore](problems.md#injuryseverityscore) |0.0.0.1  |__+1__   |        |         |[cran/InjurySeverityScore](https://github.com/cran/InjurySeverityScore) |
-|[kayadata](problems.md#kayadata)                       |0.4.0    |__+1__   |__+1__  |         |[cran/kayadata](https://github.com/cran/kayadata)                       |
-|[modeldb](problems.md#modeldb)                         |0.1.2    |         |__+1__  |         |[cran/modeldb](https://github.com/cran/modeldb)                         |
-|[MonetDBLite](problems.md#monetdblite)                 |0.6.0    |1        |        |1        |[cran/MonetDBLite](https://github.com/cran/MonetDBLite)                 |
-|[Organism.dplyr](problems.md#organismdplyr)            |1.10.0   |1 __+1__ |        |3        |[cran/Organism.dplyr](https://github.com/cran/Organism.dplyr)           |
-|[perturbatr](problems.md#perturbatr)                   |1.2.1    |__+1__   |        |         |[cran/perturbatr](https://github.com/cran/perturbatr)                   |
-|[pmc](problems.md#pmc)                                 |1.0.3    |1        |        |         |[cran/pmc](https://github.com/cran/pmc)                                 |
-|[radiant.basics](problems.md#radiantbasics)            |0.9.9    |__+2__   |        |         |[cran/radiant.basics](https://github.com/cran/radiant.basics)           |
-|[radiant.data](problems.md#radiantdata)                |0.9.9    |__+1__   |        |         |[cran/radiant.data](https://github.com/cran/radiant.data)               |
-|[radiant.model](problems.md#radiantmodel)              |0.9.9    |__+1__   |        |         |[cran/radiant.model](https://github.com/cran/radiant.model)             |
-|[rubias](problems.md#rubias)                           |0.2.0    |1        |        |1        |[cran/rubias](https://github.com/cran/rubias)                           |
-|[ruler](problems.md#ruler)                             |0.2.0    |__+2__   |        |         |[cran/ruler](https://github.com/cran/ruler)                             |
-|[strapgod](problems.md#strapgod)                       |0.0.1    |__+1__   |        |         |[cran/strapgod](https://github.com/cran/strapgod)                       |
-|[survivalAnalysis](problems.md#survivalanalysis)       |0.1.1    |__+1__   |__+1__  |         |[cran/survivalAnalysis](https://github.com/cran/survivalAnalysis)       |
-|[XBSeq](problems.md#xbseq)                             |1.14.1   |1        |        |2        |[cran/XBSeq](https://github.com/cran/XBSeq)                             |
+|package                                                |version |error  |warning |note     |source                                                                  |
+|:------------------------------------------------------|:-------|:------|:-------|:--------|:-----------------------------------------------------------------------|
+|[broomExtra](problems.md#broomextra)                   |0.0.1   |__+2__ |        |         |[cran/broomExtra](https://github.com/cran/broomExtra)                   |
+|[Cardinal](problems.md#cardinal)                       |2.0.4   |       |1       |1 __+1__ |[cran/Cardinal](https://github.com/cran/Cardinal)                       |
+|[compareDF](problems.md#comparedf)                     |1.7.2   |__+1__ |        |1        |[cran/compareDF](https://github.com/cran/compareDF)                     |
+|[corrr](problems.md#corrr)                             |0.3.1   |       |__+1__  |         |[cran/corrr](https://github.com/cran/corrr)                             |
+|[cytominer](problems.md#cytominer)                     |0.1.0   |__+2__ |__+1__  |         |[cran/cytominer](https://github.com/cran/cytominer)                     |
+|[dbplyr](problems.md#dbplyr)                           |1.3.0   |__+1__ |        |         |[cran/dbplyr](https://github.com/cran/dbplyr)                           |
+|[FindMyFriends](problems.md#findmyfriends)             |1.12.0  |1      |1       |2        |[cran/FindMyFriends](https://github.com/cran/FindMyFriends)             |
+|[GFE](problems.md#gfe)                                 |0.1.0   |__+1__ |        |         |[cran/GFE](https://github.com/cran/GFE)                                 |
+|[grasp2db](problems.md#grasp2db)                       |1.1.0   |1      |3       |4        |[cran/grasp2db](https://github.com/cran/grasp2db)                       |
+|[HTSSIP](problems.md#htssip)                           |1.4.0   |1      |        |1        |[cran/HTSSIP](https://github.com/cran/HTSSIP)                           |
+|[InjurySeverityScore](problems.md#injuryseverityscore) |0.0.0.1 |__+1__ |        |         |[cran/InjurySeverityScore](https://github.com/cran/InjurySeverityScore) |
+|[modeldb](problems.md#modeldb)                         |0.1.2   |       |__+1__  |         |[cran/modeldb](https://github.com/cran/modeldb)                         |
+|[MonetDBLite](problems.md#monetdblite)                 |0.6.0   |1      |        |1        |[cran/MonetDBLite](https://github.com/cran/MonetDBLite)                 |
+|[perturbatr](problems.md#perturbatr)                   |1.2.1   |__+1__ |        |         |[cran/perturbatr](https://github.com/cran/perturbatr)                   |
+|[pmc](problems.md#pmc)                                 |1.0.3   |1      |        |         |[cran/pmc](https://github.com/cran/pmc)                                 |
+|[rubias](problems.md#rubias)                           |0.2.0   |1      |        |1        |[cran/rubias](https://github.com/cran/rubias)                           |
+|[ruler](problems.md#ruler)                             |0.2.0   |__+2__ |        |         |[cran/ruler](https://github.com/cran/ruler)                             |
+|[strapgod](problems.md#strapgod)                       |0.0.1   |__+1__ |        |         |[cran/strapgod](https://github.com/cran/strapgod)                       |
+|[XBSeq](problems.md#xbseq)                             |1.14.1  |1      |        |2        |[cran/XBSeq](https://github.com/cran/XBSeq)                             |
 
