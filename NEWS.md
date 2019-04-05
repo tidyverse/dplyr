@@ -27,6 +27,8 @@
 
 * `bind_rows()` correctly handles the cases where there are multiple consecutive `NULL` (#4296). 
 
+* Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. 
+
 # dplyr 0.8.0.1 (2019-02-15)
 
 * Fixed integer C/C++ division, forced released by CRAN (#4185). 
