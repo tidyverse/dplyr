@@ -61,13 +61,8 @@ private:
 };
 
 inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
-  // making a new quosure so that the quosure of the lambda is unchanged, but the
-  // expression is data masked via eval_tidy(),
-  // i.e. going from
-  //
-  // (function(.) some_expression(., <column>, <local object>))(Sepal.Length)
-  // to
-  // (function(.) rlang::eval_tidy(quote(some_expression(., <column>, <local object>)(Sepal.Length)), <data mask>)
+  // Adjust the lambda so its body is rewrapped in a maskable quosure
+  // that inherits from the lambda's environment
   Rcpp::Shelter<SEXP> local;
 
   SEXP fn = local(sym_protect(named_quosure.expr()));

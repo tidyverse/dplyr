@@ -97,10 +97,6 @@ SEXP symbols::indices = Rf_install("indices");
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::names = R_NamesSymbol;
 
-SEXP symbols::rlang_eval_bare = mark_precious(Rf_lang3(symbols::double_colon,
-                                                       symbols::rlang,
-                                                       Rf_install("eval_bare")));
-
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 SEXP fns::new_lambda_quosure = Rf_eval(Rf_install("new_lambda_quosure"),
                                        Rcpp::Environment::namespace_env("dplyr"));

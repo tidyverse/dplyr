@@ -70,9 +70,6 @@ struct symbols {
   static SEXP indices;
   static SEXP ptype;
   static SEXP names;
-
-  // These are qualified symbols of type LANGSXP, not SYMSXP
-  static SEXP rlang_eval_bare;
 };
 
 struct fns {
