@@ -204,8 +204,12 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 
   n <- length(tibble_vars)
   selected <- new_logical(n)
+
+  mask <- as_data_mask(.tbl)
+  quo <- quo(.p(.tbl[[tibble_vars[[i]]]], ...))
+
   for (i in seq_len(n)) {
-    selected[[i]] <- .p(.tbl[[tibble_vars[[i]]]], ...)
+    selected[[i]] <- eval_tidy(quo, mask)
   }
 
   tibble_vars[selected]
@@ -222,27 +226,24 @@ tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 # So we need:
 # - Inheritance from closure -> lexical
 # - A maskable quosure
-new_lambda_quosure <- function(call, mask) {
-  if (typeof(call) != "language") {
-    abort("Internal error: Expected call in `new_lambda_quosure()`")
-  }
+as_inlined_function <- function(f, env) {
+  # Process unquote operator at inlining time
+  f <- expr_interp(f)
 
-  fn <- node_car(call)
+  # Transform to a purrr-like lambda
+  fn <- as_function(f, env = .env)
 
-  # Inline all foreign symbols with quasiquotation because the closure
-  # must inherit from the lexical env of the lambda
   body(fn) <- expr({
+    # Force all arguments
+    base::pairlist(...)
+
     # Transform the lambda body into a maskable quosure inheriting
     # from the execution environment
-    `_quo` <- (!!rlang::quo)(!!body(fn))
+    `_quo` <- rlang::quo(!!body(fn))
 
     # Evaluate the quosure in the mask
-    (!!eval_bare)(`_quo`, !!mask)
+    rlang::eval_bare(`_quo`, base::parent.frame())
   })
 
-  call <- rlang::duplicate(call, shallow = TRUE)
-  node_poke_car(call, fn)
-
-  # The caller expects a quosure
-  new_quosure(call, base_env())
+  fn
 }

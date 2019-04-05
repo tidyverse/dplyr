@@ -60,17 +60,6 @@ private:
   SymbolString name_;
 };
 
-inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
-  // Adjust the lambda so its body is rewrapped in a maskable quosure
-  // that inherits from the lambda's environment
-  Rcpp::Shelter<SEXP> local;
-
-  SEXP fn = local(sym_protect(named_quosure.expr()));
-  SEXP call = local(Rf_lang3(fns::new_lambda_quosure, fn, data_mask));
-
-  return Rcpp::Rcpp_fast_eval(call, R_BaseEnv);
-}
-
 } // namespace dplyr
 
 namespace dplyr {

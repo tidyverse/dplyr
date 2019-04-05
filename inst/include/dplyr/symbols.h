@@ -74,7 +74,6 @@ struct symbols {
 
 struct fns {
   static SEXP quote;
-  static SEXP new_lambda_quosure;
 };
 
 struct strings {

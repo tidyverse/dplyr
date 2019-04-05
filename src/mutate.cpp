@@ -455,16 +455,7 @@ Rcpp::DataFrame mutate_grouped(const Rcpp::DataFrame& df, const dplyr::QuosureLi
 
       // NULL columns are not removed if `setup()` is not called here
       mask.setup();
-
-      if (quosure.is_rlang_lambda()) {
-        // need to create a new quosure to put the data mask in scope
-        // of the lambda function
-        Rcpp::Shield<SEXP> new_quosure(make_lambda_quosure(quosure, mask.get_data_mask()));
-        dplyr::NamedQuosure lambda_quosure(new_quosure, quosure.name());
-        variable = dplyr::MutateCallProxy<SlicedTibble>(gdf, mask, lambda_quosure).get();
-      } else {
-        variable = dplyr::MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
-      }
+      variable = dplyr::MutateCallProxy<SlicedTibble>(gdf, mask, quosure).get();
     }
 
     if (Rf_isNull(variable)) {

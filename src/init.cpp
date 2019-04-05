@@ -98,8 +98,6 @@ SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::names = R_NamesSymbol;
 
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
-SEXP fns::new_lambda_quosure = Rf_eval(Rf_install("new_lambda_quosure"),
-                                       Rcpp::Environment::namespace_env("dplyr"));
 
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);
