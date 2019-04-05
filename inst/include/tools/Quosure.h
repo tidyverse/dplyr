@@ -70,16 +70,10 @@ inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mas
   // (function(.) rlang::eval_tidy(quote(some_expression(., <column>, <local object>)(Sepal.Length)), <data mask>)
   Rcpp::Shelter<SEXP> local;
 
-  SEXP expr = local(Rf_duplicate(named_quosure.expr()));
-  SEXP call_eval_bare = local(Rf_lang3(R_DoubleColonSymbol, symbols::rlang, symbols::eval_bare));
-  SEXP call_quote = local(Rf_lang2(fns::quote, BODY(CAR(expr))));
-  SEXP body = local(Rf_lang3(call_eval_bare, call_quote, data_mask));
+  SEXP fn = local(sym_protect(named_quosure.expr()));
+  SEXP call = local(Rf_lang3(fns::new_lambda_quosure, fn, data_mask));
 
-  SET_BODY(CAR(expr), body);
-
-  SEXP named_quosure_env = local(named_quosure.env());
-
-  return rlang::new_quosure(expr, named_quosure_env);
+  return Rcpp::Rcpp_fast_eval(call, R_BaseEnv);
 }
 
 } // namespace dplyr

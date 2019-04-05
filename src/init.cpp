@@ -24,6 +24,11 @@ SEXP get_time_classes() {
   return klasses;
 }
 
+SEXP mark_precious(SEXP x) {
+  R_PreserveObject(x);
+  return x;
+}
+
 SEXP symbols::package = Rf_install("package");
 SEXP symbols::n = Rf_install("n");
 SEXP symbols::tzone = Rf_install("tzone");
@@ -78,7 +83,6 @@ SEXP symbols::drop = Rf_install("drop");
 
 SEXP symbols::rlang = Rf_install("rlang");
 SEXP symbols::eval_tidy = Rf_install("eval_tidy");
-SEXP symbols::eval_bare = Rf_install("eval_bare");
 SEXP symbols::quote = Rf_install("quote");
 SEXP symbols::dot_drop = Rf_install(".drop");
 SEXP symbols::warn_deprecated = Rf_install("warn_deprecated");
@@ -93,7 +97,13 @@ SEXP symbols::indices = Rf_install("indices");
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::names = R_NamesSymbol;
 
+SEXP symbols::rlang_eval_bare = mark_precious(Rf_lang3(R_DoubleColonSymbol,
+                                                       symbols::rlang,
+                                                       Rf_install("eval_bare")));
+
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
+SEXP fns::new_lambda_quosure = Rf_eval(Rf_install("new_lambda_quosure"),
+                                       Rcpp::Environment::namespace_env("dplyr"));
 
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);

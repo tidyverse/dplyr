@@ -368,6 +368,10 @@ int get_size(SEXP x) {
   }
 }
 
+SEXP sym_protect(SEXP x) {
+  return Rf_lang2(dplyr::fns::quote, x);
+}
+
 namespace dplyr {
 namespace lifecycle {
 

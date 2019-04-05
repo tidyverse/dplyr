@@ -57,7 +57,6 @@ struct symbols {
   static SEXP drop;
   static SEXP rlang;
   static SEXP eval_tidy;
-  static SEXP eval_bare;
   static SEXP quote;
   static SEXP dot_drop;
   static SEXP warn_deprecated;
@@ -71,10 +70,14 @@ struct symbols {
   static SEXP indices;
   static SEXP ptype;
   static SEXP names;
+
+  // These are qualified symbols of type LANGSXP, not SYMSXP
+  static SEXP rlang_eval_bare;
 };
 
 struct fns {
   static SEXP quote;
+  static SEXP new_lambda_quosure;
 };
 
 struct strings {

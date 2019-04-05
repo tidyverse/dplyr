@@ -213,3 +213,36 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars))
 }
+
+# The lambda must inherit from:
+# - Execution environment (bound arguments with purrr lambda syntax)
+# - Lexical environment (local variables)
+# - Data mask (other columns)
+#
+# So we need:
+# - Inheritance from closure -> lexical
+# - A maskable quosure
+new_lambda_quosure <- function(call, mask) {
+  if (typeof(call) != "language") {
+    abort("Internal error: Expected call in `new_lambda_quosure()`")
+  }
+
+  fn <- node_car(call)
+
+  # Inline all foreign symbols with quasiquotation because the closure
+  # must inherit from the lexical env of the lambda
+  body(fn) <- expr({
+    # Transform the lambda body into a maskable quosure inheriting
+    # from the execution environment
+    `_quo` <- (!!rlang::quo)(!!body(fn))
+
+    # Evaluate the quosure in the mask
+    (!!eval_bare)(`_quo`, !!mask)
+  })
+
+  call <- rlang::duplicate(call, shallow = TRUE)
+  node_poke_car(call, fn)
+
+  # The caller expects a quosure
+  new_quosure(call, base_env())
+}
