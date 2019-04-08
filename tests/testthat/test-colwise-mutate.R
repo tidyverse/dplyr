@@ -387,7 +387,7 @@ test_that("mutate_at() unquotes in lambdas (#4199)", {
   quoname <- enquo(symname)
 
   expect_identical(
-    df %>%  mutate(b = mean(!!quoname)),
+    df %>% mutate(b = mean(!!quoname)),
     df %>% mutate_at(vars(matches("b")), list(~mean(!!quoname)))
   )
 })
