@@ -47,11 +47,11 @@ funs <- function(..., .args = list()) {
     "funs() is soft deprecated as of dplyr 0.8.0",
     "please use list() instead",
     "",
-    "# Before:",
-    "funs(name = f(.))",
+    "  # Before:",
+    "  funs(name = f(.))",
     "",
-    "# After: ",
-    "list(name = ~f(.))"
+    "  # After: ",
+    "  list(name = ~f(.))"
   ))
   dots <- quos(...)
   default_env <- caller_env()
