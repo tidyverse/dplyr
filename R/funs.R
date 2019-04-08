@@ -81,6 +81,10 @@ as_fun_list <- function(.funs, .env, ...) {
     return(.funs)
   }
 
+  if (is_list(.funs) && length(.funs) > 1 && is_null(names(.funs))) {
+    .funs <- auto_name_formulas(.funs)
+  }
+
   if (!is_character(.funs) && !is_list(.funs)) {
     .funs <- list(.funs)
   }
@@ -114,6 +118,11 @@ as_fun_list <- function(.funs, .env, ...) {
   funs
 }
 
+auto_name_formulas <- function(funs) {
+  where <- map_lgl(funs, function(x) is_bare_formula(x) && is_call(f_rhs(x)))
+  names(funs)[where] <- map_chr(funs[where], function(x) as_label(f_rhs(x)[[1]]))
+  funs
+}
 
 as_fun <- function(.x, .env, .args) {
   quo <- as_quosure(.x, .env)
