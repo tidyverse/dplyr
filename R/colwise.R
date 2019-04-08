@@ -226,7 +226,7 @@ tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 # So we need:
 # - Inheritance from closure -> lexical
 # - A maskable quosure
-as_inlined_function <- function(f, env) {
+as_inlined_function <- function(f, env, ...) {
   # Process unquote operator at inlining time
   f <- expr_interp(f)
 
