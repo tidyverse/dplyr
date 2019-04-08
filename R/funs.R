@@ -81,7 +81,7 @@ as_fun_list <- function(.funs, .env, ...) {
     return(.funs)
   }
 
-  if (is_list(.funs) && length(.funs) > 1 && is_null(names(.funs))) {
+  if (is_list(.funs) && length(.funs) > 1) {
     .funs <- auto_name_formulas(.funs)
   }
 
@@ -119,7 +119,7 @@ as_fun_list <- function(.funs, .env, ...) {
 }
 
 auto_name_formulas <- function(funs) {
-  where <- map_lgl(funs, function(x) is_bare_formula(x) && is_call(f_rhs(x)))
+  where <- !have_name(funs) & map_lgl(funs, function(x) is_bare_formula(x) && is_call(f_rhs(x)))
   names(funs)[where] <- map_chr(funs[where], function(x) as_label(f_rhs(x)[[1]]))
   funs
 }
