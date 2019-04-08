@@ -11,7 +11,6 @@ SEXP shallow_copy(const Rcpp::List& data);
 SEXP pairlist_shallow_copy(SEXP p);
 void copy_attributes(SEXP out, SEXP data);
 SEXP null_if_empty(SEXP x);
-SEXP sym_protect(SEXP x);
 
 bool is_vector(SEXP x);
 bool is_atomic(SEXP x);
