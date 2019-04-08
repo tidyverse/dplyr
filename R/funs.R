@@ -51,7 +51,7 @@ funs <- function(..., .args = list()) {
     "  funs(name = f(.))",
     "",
     "  # After: ",
-    "  list(name = ~f(.))"
+    "  list(name = ~ f(.))"
   ))
   dots <- quos(...)
   default_env <- caller_env()
