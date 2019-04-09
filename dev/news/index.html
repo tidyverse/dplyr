@@ -168,6 +168,7 @@
 <a href="#dplyr-0-8-0-9000" class="anchor"></a>dplyr 0.8.0.9000<small> Unreleased </small>
 </h1>
 <ul>
+<li><p>Lists of formulas passed to colwise verbs are now automatically named.</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> does a shallow copy even in the no groups case (<a href='https://github.com/tidyverse/dplyr/issues/4221'>#4221</a>).</p></li>
 <li><p>Fixed <code><a href="../reference/mutate.html">mutate()</a></code> on rowwise data frames with 0 rows (<a href='https://github.com/tidyverse/dplyr/issues/4224'>#4224</a>).</p></li>
 <li><p>Fixed handling of bare formulas in colwise verbs (<a href='https://github.com/tidyverse/dplyr/issues/4183'>#4183</a>).</p></li>
@@ -181,6 +182,7 @@
 <li><p><code><a href="../reference/group_map.html">group_modify()</a></code> is the new name of the function previously known as <code><a href="../reference/group_map.html">group_map()</a></code></p></li>
 <li><p><code><a href="../reference/group_map.html">group_map()</a></code> now only calls the function on each group and return a list.</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> correctly handles the cases where there are multiple consecutive <code>NULL</code> (<a href='https://github.com/tidyverse/dplyr/issues/4296'>#4296</a>).</p></li>
+<li><p>Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0.</p></li>
 </ul>
 </div>
     <div id="dplyr-0-8-0-1-2019-02-15" class="section level1">

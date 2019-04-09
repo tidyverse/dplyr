@@ -318,7 +318,21 @@ unique.</p>
 #&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
 #&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># You can also pass formulas to create functions on the spot, purrr-style:</span>
-<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~<span class='fu'>scale2</span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='error'>Error in scale2(., na.rm = TRUE): could not find function "scale2"</span></div><div class='input'>
+<span class='no'>starwars</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"height"</span>, <span class='st'>"mass"</span>), ~<span class='fu'>scale2</span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; # A tibble: 87 x 13
+#&gt;    name   height    mass hair_color skin_color eye_color birth_year gender
+#&gt;    &lt;chr&gt;   &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;      &lt;chr&gt;      &lt;chr&gt;          &lt;dbl&gt; &lt;chr&gt; 
+#&gt;  1 Luke… -0.0678 -0.120  blond      fair       blue            19   male  
+#&gt;  2 C-3PO -0.212  -0.132  &lt;NA&gt;       gold       yellow         112   &lt;NA&gt;  
+#&gt;  3 R2-D2 -2.25   -0.385  &lt;NA&gt;       white, bl… red             33   &lt;NA&gt;  
+#&gt;  4 Dart…  0.795   0.228  none       white      yellow          41.9 male  
+#&gt;  5 Leia… -0.701  -0.285  brown      light      brown           19   female
+#&gt;  6 Owen…  0.105   0.134  brown, gr… light      blue            52   male  
+#&gt;  7 Beru… -0.269  -0.132  brown      light      blue            47   female
+#&gt;  8 R5-D4 -2.22   -0.385  &lt;NA&gt;       white, red red             NA   &lt;NA&gt;  
+#&gt;  9 Bigg…  0.249  -0.0786 black      light      brown           24   male  
+#&gt; 10 Obi-…  0.220  -0.120  auburn, w… fair       blue-gray       57   male  
+#&gt; # … with 77 more rows, and 5 more variables: homeworld &lt;chr&gt;, species &lt;chr&gt;,
+#&gt; #   films &lt;list&gt;, vehicles &lt;list&gt;, starships &lt;list&gt;</div><div class='input'>
 <span class='co'># You can also supply selection helpers to _at() functions but you have</span>
 <span class='co'># to quote them with vars():</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_at</span>(<span class='fu'><a href='vars.html'>vars</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>matches</a></span>(<span class='st'>"Sepal"</span>)), <span class='no'>log</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
@@ -405,7 +419,23 @@ unique.</p>
 #&gt; #   Petal.Length_fn1 &lt;dbl&gt;, Petal.Width_fn1 &lt;dbl&gt;, Sepal.Length_fn2 &lt;dbl&gt;,
 #&gt; #   Sepal.Width_fn2 &lt;dbl&gt;, Petal.Length_fn2 &lt;dbl&gt;, Petal.Width_fn2 &lt;dbl&gt;</div><div class='input'>
 <span class='co'># The list can contain purrr-style formulas:</span>
-<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'>scale2</span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; <span class='error'>Error in scale2(.): could not find function "scale2"</span></div><div class='input'>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span> <span class='fu'>mutate_if</span>(<span class='no'>is.numeric</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'>scale2</span>(<span class='no'>.</span>), ~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Log'>log</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt; # A tibble: 150 x 13
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species Sepal.Length_sc…
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;              &lt;dbl&gt;
+#&gt;  1          5.1         3.5          1.4         0.2 setosa            -0.898
+#&gt;  2          4.9         3            1.4         0.2 setosa            -1.14 
+#&gt;  3          4.7         3.2          1.3         0.2 setosa            -1.38 
+#&gt;  4          4.6         3.1          1.5         0.2 setosa            -1.50 
+#&gt;  5          5           3.6          1.4         0.2 setosa            -1.02 
+#&gt;  6          5.4         3.9          1.7         0.4 setosa            -0.535
+#&gt;  7          4.6         3.4          1.4         0.3 setosa            -1.50 
+#&gt;  8          5           3.4          1.5         0.2 setosa            -1.02 
+#&gt;  9          4.4         2.9          1.4         0.2 setosa            -1.74 
+#&gt; 10          4.9         3.1          1.5         0.1 setosa            -1.14 
+#&gt; # … with 140 more rows, and 7 more variables: Sepal.Width_scale2 &lt;dbl&gt;,
+#&gt; #   Petal.Length_scale2 &lt;dbl&gt;, Petal.Width_scale2 &lt;dbl&gt;,
+#&gt; #   Sepal.Length_log &lt;dbl&gt;, Sepal.Width_log &lt;dbl&gt;, Petal.Length_log &lt;dbl&gt;,
+#&gt; #   Petal.Width_log &lt;dbl&gt;</div><div class='input'>
 <span class='co'># Note how the new variables include the function name, in order to</span>
 <span class='co'># keep things distinct. The default names are not always helpful</span>
 <span class='co'># but you can also supply explicit names:</span>
