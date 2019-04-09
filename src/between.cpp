@@ -8,6 +8,7 @@
 //'
 //' @param x A numeric vector of values
 //' @param left,right Boundary values
+//' @param strictly Should x be strictly between range (x > left & x < right)? Default to FALSE.
 //' @export
 //' @examples
 //' between(1:12, 7, 9)
@@ -15,7 +16,7 @@
 //' x <- rnorm(1e2)
 //' x[between(x, -1, 1)]
 // [[Rcpp::export(rng = false)]]
-Rcpp::LogicalVector between(Rcpp::NumericVector x, double left, double right) {
+Rcpp::LogicalVector between(Rcpp::NumericVector x, double left, double right, bool strictly = false) {
   int n = x.size();
   Rcpp::LogicalVector out(Rcpp::no_init(n));
 
@@ -34,7 +35,9 @@ Rcpp::LogicalVector between(Rcpp::NumericVector x, double left, double right) {
   for (int i = 0; i < n; ++i) {
     if (Rcpp::NumericVector::is_na(x[i])) {
       out[i] = NA_LOGICAL;
-    } else if ((x[i] >= left) && (x[i] <= right)) {
+    } else if (strictly && (x[i] > left) && (x[i] < right)) {
+      out[i] = true;
+    } else if (!strictly && (x[i] >= left) && (x[i] <= right)) {
       out[i] = true;
     } else {
       out[i] = false;
