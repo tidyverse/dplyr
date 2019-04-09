@@ -231,7 +231,7 @@ as_inlined_function <- function(f, env, ...) {
   f <- expr_interp(f)
 
   # Transform to a purrr-like lambda
-  fn <- as_function(f, env = .env)
+  fn <- as_function(f, env = env)
 
   body(fn) <- expr({
     # Force all arguments
