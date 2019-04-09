@@ -152,17 +152,7 @@ Rcpp::DataFrame summarise_grouped(const Rcpp::DataFrame& df, const QuosureList& 
       // we can use a GroupedCallReducer which will callback to R.
       if (result == R_UnboundValue) {
         mask.setup();
-
-        if (quosure.is_rlang_lambda()) {
-          // need to create a new quosure to put the data mask in scope
-          // of the lambda function
-          Rcpp::Shield<SEXP> new_quosure(make_lambda_quosure(quosure, mask.get_data_mask()));
-          NamedQuosure lambda_quosure(new_quosure, quosure.name());
-          result = GroupedCallReducer<SlicedTibble>(lambda_quosure, mask).process(gdf);
-        } else {
-          result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
-        }
-
+        result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
       }
     }
     check_not_null(result, quosure.name());
