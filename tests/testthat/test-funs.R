@@ -78,7 +78,7 @@ test_that("can enfun() purrr-style lambdas", {
   my_mean <- as_function(~ mean(.x))
   res <- enfun(~ mean(.x))
   expect_equal(length(res), 1L)
-  expect_equal(res[[1]], my_mean)
+  expect_true(typeof(res[[1]]) == "closure")
 })
 
 test_that("as_fun_list() uses rlang auto-naming", {

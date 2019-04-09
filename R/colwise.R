@@ -204,12 +204,46 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 
   n <- length(tibble_vars)
   selected <- new_logical(n)
+
+  mask <- as_data_mask(.tbl)
+  quo <- quo(.p(.tbl[[tibble_vars[[i]]]], ...))
+
   for (i in seq_len(n)) {
-    selected[[i]] <- .p(.tbl[[tibble_vars[[i]]]], ...)
+    selected[[i]] <- eval_tidy(quo, mask)
   }
 
   tibble_vars[selected]
 }
 tbl_if_syms <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars))
+}
+
+# The lambda must inherit from:
+# - Execution environment (bound arguments with purrr lambda syntax)
+# - Lexical environment (local variables)
+# - Data mask (other columns)
+#
+# So we need:
+# - Inheritance from closure -> lexical
+# - A maskable quosure
+as_inlined_function <- function(f, env, ...) {
+  # Process unquote operator at inlining time
+  f <- expr_interp(f)
+
+  # Transform to a purrr-like lambda
+  fn <- as_function(f, env = .env)
+
+  body(fn) <- expr({
+    # Force all arguments
+    base::pairlist(...)
+
+    # Transform the lambda body into a maskable quosure inheriting
+    # from the execution environment
+    `_quo` <- rlang::quo(!!body(fn))
+
+    # Evaluate the quosure in the mask
+    rlang::eval_bare(`_quo`, base::parent.frame())
+  })
+
+  structure(fn, class = "inline_colwise_function", formula = f)
 }

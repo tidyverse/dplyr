@@ -60,16 +60,6 @@ private:
   SymbolString name_;
 };
 
-inline SEXP make_lambda_quosure(const NamedQuosure& named_quosure, SEXP data_mask) {
-  // need to create a new quosure to put the data mask in scope of the lambda function
-  Rcpp::Shield<SEXP> expr(Rf_duplicate(named_quosure.expr()));
-  SET_CLOENV(CAR(expr), data_mask);
-
-  Rcpp::Shield<SEXP> named_quosure_env(named_quosure.env());
-
-  return rlang::new_quosure(expr, named_quosure_env);
-}
-
 } // namespace dplyr
 
 namespace dplyr {

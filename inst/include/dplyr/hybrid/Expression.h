@@ -134,6 +134,14 @@ public:
     // the function called, e.g. n, or dplyr::n
     SEXP head = CAR(expr);
 
+    // when it's a inline_colwise_function, we use the formula attribute
+    // to test for hybridability
+    if (TYPEOF(head) == CLOSXP && Rf_inherits(head, "inline_colwise_function")) {
+      dot_alias = CADR(expr);
+      expr = CADR(Rf_getAttrib(head, symbols::formula));
+      head = CAR(expr);
+    }
+
     if (TYPEOF(head) == SYMSXP) {
       handle_symbol(head);
     } else if (TYPEOF(head) == CLOSXP || TYPEOF(head) == BUILTINSXP || TYPEOF(head) == SPECIALSXP) {
@@ -327,20 +335,20 @@ private:
   }
 
   inline bool test_is_column(int i, Rcpp::Symbol s, Column& column, bool desc) const {
-    if (!Rf_isNull(dot_alias) && (s == symbols::dot || s == symbols::dot_x)) {
-      s = dot_alias;
-    }
+    bool is_alias = !Rf_isNull(dot_alias) && (s == symbols::dot || s == symbols::dot_x);
     SEXP data;
-    if (i == 0 && colwise_position > 0) {
-      // we know the position for sure because this has been clowise spliced
+    if (i == 0 && colwise_position > 0 && is_alias) {
+      // we know the position for sure because this has been colwise spliced
       const ColumnBinding<SlicedTibble>* subset = data_mask.get_subset_binding(colwise_position - 1);
-      if (!subset->is_summary()) {
+      if (subset->is_summary()) {
         return false;
       }
       data = subset->get_data();
-
     } else {
       // otherwise use the hashmap
+      if (is_alias) {
+        s = dot_alias;
+      }
       SymbolString symbol(s);
 
       // does the data mask have this symbol, and if so is it a real column (not a summarised)
@@ -441,7 +449,6 @@ private:
   }
 
   inline void handle_arguments(SEXP expr) {
-    // the arguments
     for (SEXP p = CDR(expr); !Rf_isNull(p); p = CDR(p)) {
       n++;
       values.push_back(CAR(p));

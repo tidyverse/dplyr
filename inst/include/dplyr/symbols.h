@@ -70,6 +70,7 @@ struct symbols {
   static SEXP indices;
   static SEXP ptype;
   static SEXP names;
+  static SEXP formula;
 };
 
 struct fns {
