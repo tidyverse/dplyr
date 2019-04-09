@@ -10,8 +10,6 @@ fortran: false
 jobs:
   include:
   - r: devel
-  - r: 3.1
-    warnings_are_errors: false
   - os: osx
   - r: release
     after_success:
