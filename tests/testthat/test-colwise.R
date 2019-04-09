@@ -31,3 +31,13 @@ test_that("tbl_if_vars() errs on bad input", {
     fixed = TRUE
   )
 })
+
+test_that("lists of formulas are auto-named", {
+  df <- tibble(x = 1:3, y = 4:6)
+
+  out <- df %>% summarise_all(list(~ mean(.), ~sd(.x, na.rm = TRUE)))
+  expect_named(out, c("x_mean", "y_mean", "x_sd", "y_sd"))
+
+  out <- df %>% summarise_all(list(foobar = ~ mean(.), ~sd(.x, na.rm = TRUE)))
+  expect_named(out, c("x_foobar", "y_foobar", "x_sd", "y_sd"))
+})

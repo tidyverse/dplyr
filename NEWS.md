@@ -1,5 +1,7 @@
 # dplyr 0.8.0.9000
 
+* Lists of formulas passed to colwise verbs are now automatically named.
+
 * `group_by()` does a shallow copy even in the no groups case (#4221).
 
 * Fixed `mutate()` on rowwise data frames with 0 rows (#4224).

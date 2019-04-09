@@ -47,11 +47,11 @@ funs <- function(..., .args = list()) {
     "funs() is soft deprecated as of dplyr 0.8.0",
     "please use list() instead",
     "",
-    "# Before:",
-    "funs(name = f(.))",
+    "  # Before:",
+    "  funs(name = f(.))",
     "",
-    "# After: ",
-    "list(name = ~f(.))"
+    "  # After: ",
+    "  list(name = ~ f(.))"
   ))
   dots <- quos(...)
   default_env <- caller_env()
@@ -81,6 +81,10 @@ as_fun_list <- function(.funs, .env, ...) {
     return(.funs)
   }
 
+  if (is_list(.funs) && length(.funs) > 1) {
+    .funs <- auto_name_formulas(.funs)
+  }
+
   if (!is_character(.funs) && !is_list(.funs)) {
     .funs <- list(.funs)
   }
@@ -108,6 +112,12 @@ as_fun_list <- function(.funs, .env, ...) {
     .x
   })
   attr(funs, "have_name") <- any(names2(funs) != "")
+  funs
+}
+
+auto_name_formulas <- function(funs) {
+  where <- !have_name(funs) & map_lgl(funs, function(x) is_bare_formula(x) && is_call(f_rhs(x)))
+  names(funs)[where] <- map_chr(funs[where], function(x) as_label(f_rhs(x)[[1]]))
   funs
 }
 
