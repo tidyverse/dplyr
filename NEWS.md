@@ -1,5 +1,17 @@
 # dplyr 0.8.0.9000
 
+## Breaking changes
+
+* `group_modify()` is the new name of the function previously known as `group_map()`
+
+## New functions
+
+* `group_map()` now only calls the function on each group and return a list. 
+
+* `group_by_drop_default()`, previously known as `dplyr:::group_drops()` is exported (#4245).
+
+## Minor changes
+
 * Lists of formulas passed to colwise verbs are now automatically named.
 
 * `group_by()` does a shallow copy even in the no groups case (#4221).
@@ -21,15 +33,10 @@
 
 * hybrid `min()` and `max()` cast to integer when possible (#4258).
 
-* Exporting `group_by_drop_default()`, previously known as `dplyr:::group_drops()` (#4245).
-
-* `group_modify()` is the new name of the function previously known as `group_map()`
-
-* `group_map()` now only calls the function on each group and return a list. 
-
 * `bind_rows()` correctly handles the cases where there are multiple consecutive `NULL` (#4296). 
 
 * Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. 
+  https://www.tidyverse.org/articles/2019/04/r-version-support/
 
 # dplyr 0.8.0.1 (2019-02-15)
 
