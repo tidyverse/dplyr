@@ -1,55 +1,53 @@
-# broomExtra
+# banR
 
-Version: 0.0.1
+Version: 0.2.0
 
 ## Newly broken
 
 *   checking examples ... ERROR
     ```
     ...
-    > ### Title: Augmented data from grouped analysis of any function that has
-    > ###   'data' argument in its function call.
-    > ### Aliases: grouped_augment
+    > ### Name: geocode_tbl
+    > ### Title: Geocode tbl
+    > ### Aliases: geocode_tbl
     > 
     > ### ** Examples
     > 
-    > set.seed(123)
-    > # to speed up computation, let's use only 50% of the data
     > 
-    > # linear model
-    > broomExtra::grouped_augment(
-    +   data = dplyr::sample_frac(tbl = ggplot2::diamonds, size = 0.5),
-    +   grouping.vars = c(cut, color),
-    +   formula = price ~ carat - 1,
-    +   ..f = stats::lm,
-    +   na.action = na.omit
+    > table_test <- tibble::tibble(
+    + x = c("39 quai Andre Citroen", "64 Allee de Bercy", "20 avenue de Segur"), 
+    + y = c("75015", "75012", "75007"), 
+    + z = rnorm(3)
     + )
-    Error in UseMethod("ungroup") : 
-      no applicable method for 'ungroup' applied to an object of class "list"
-    Calls: <Anonymous> ... freduce -> withVisible -> <Anonymous> -> <Anonymous>
+    > 
+    > geocode_tbl(tbl = table_test, adresse = x)
+    Writing tempfile to.../var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpLabKmK/file8ed277e80d06.csv
+    If file is larger than 8 MB, it must be splitted
+    Size is : 61 bytes
+    Server errorService UnavailableServer error: (503) Service Unavailable
+    Error in geocode_tbl(tbl = table_test, adresse = x) : 
+      The API sent back an error 503
     Execution halted
     ```
 
-*   checking tests ...
+## Newly fixed
+
+*   checking re-building of vignette outputs ... WARNING
     ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      5: eval(quote(`_fseq`(`_lhs`)), env, env)
-      6: `_fseq`(`_lhs`)
-      7: freduce(value, `_function_list`)
-      8: withVisible(function_list[[k]](value))
-      9: function_list[[k]](value)
-      10: dplyr::ungroup(x = .)
-      
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 9 SKIPPED: 0 FAILED: 3
-      1. Error: `grouped_augment()` works (@test_grouped_augment.R#12) 
-      2. Error: `grouped_glance()` works (@test_grouped_glance.R#12) 
-      3. Error: `grouped_tidy()` works (@test_grouped_tidy.R#12) 
-      
-      Error: testthat unit tests failed
-      Execution halted
+    Error in re-building vignettes:
+      ...
+    Quitting from lines 47-49 (geocode.Rmd) 
+    Erreur : le traitement de la vignette 'geocode.Rmd' a échoué avec le diagnostic :
+    The API sent back an error 503
+    Exécution arrêtée
+    ```
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘stringr’
+      All declared Imports should be used.
     ```
 
 # Cardinal
@@ -81,8 +79,40 @@ Version: 2.0.4
     ```
       installed size is  6.0Mb
       sub-directories of 1Mb or more:
-        R     3.1Mb
+        R     3.0Mb
         doc   2.2Mb
+    ```
+
+# CluMP
+
+Version: 0.7.1
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    > 
+    > set.seed(123)
+    > dataMale <- GeneratePanel(n = 50, Param = ParamLinear, NbVisit = 10)
+    > dataMale$Gender <- "M"
+    > dataFemale <- GeneratePanel(n = 50, Param = ParamLinear, NbVisit = 10)
+    > dataFemale$ID <- dataFemale$ID + 50
+    > dataFemale$Gender <- "F"
+    > data <- rbind(dataMale, dataFemale)
+    > 
+    > CLUMP3 <- CluMP(formula = Y ~ Time, group = "ID", data = data, cl_numb = 3)
+    > CluMP_profiles(CLUMP3, cat_vars = "Gender")
+                    Stratified by memb_CluMP
+                     1          2          3          p      test
+      n              46         20         34                    
+      Gender = M (%) 22 (47.8)  10 (50.0)  18 (52.9)   0.903     
+                    Stratified by memb_CluMP
+                     1          2          3          p      test
+      n              46         20         34                    
+      Gender = M (%) 22 (47.8)  10 (50.0)  18 (52.9)   0.903     
+    Error: Column `mean_triangle_fn1` is of unsupported type function
+    Execution halted
     ```
 
 # compareDF
@@ -100,11 +130,11 @@ Version: 1.7.2
       > library(compareDF)
       > 
       > test_check("compareDF")
-      [31m──[39m [31m1. Failure: (unknown) (@test-fnsComparison.R#369) [39m [31m───────────────────────────────────────────────────────────────────────[39m
+      ── 1. Failure: (unknown) (@test-fnsComparison.R#369)  ──────────────────────────
       `expected_change_count` not equivalent to actual_comparison_summary$change_count.
       Incompatible type for column `changes`: x numeric, y integer
       
-      ══ testthat results  ════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 48 SKIPPED: 0 FAILED: 1
       1. Failure: (unknown) (@test-fnsComparison.R#369) 
       
@@ -132,9 +162,9 @@ Version: 0.3.1
     Error in re-building vignettes:
       ...
     Quitting from lines 39-44 (corrr-databases.Rmd) 
-    Error: processing vignette 'corrr-databases.Rmd' failed with diagnostics:
-    object 'mpg' not found
-    Execution halted
+    Erreur : le traitement de la vignette 'corrr-databases.Rmd' a échoué avec le diagnostic :
+    objet 'mpg' introuvable
+    Exécution arrêtée
     ```
 
 # cytominer
@@ -143,62 +173,26 @@ Version: 0.1.0
 
 ## Newly broken
 
-*   checking examples ... ERROR
-    ```
-    ...
-    
-    > ### Name: normalize
-    > ### Title: Normalize observation variables.
-    > ### Aliases: normalize
-    > 
-    > ### ** Examples
-    > 
-    > suppressMessages(suppressWarnings(library(magrittr)))
-    > population <- tibble::data_frame(
-    +    Metadata_group = c("control", "control", "control", "control",
-    +                       "experiment", "experiment", "experiment", "experiment"),
-    +    Metadata_batch = c("a", "a", "b", "b", "a", "a", "b", "b"),
-    +    AreaShape_Area = c(10, 12, 15, 16, 8, 8, 7, 7)
-    +  )
-    > variables <- c('AreaShape_Area')
-    > strata <- c('Metadata_batch')
-    > sample <- population %>% dplyr::filter(Metadata_group == 'control')
-    > cytominer::normalize(population, variables, strata, sample, operation = "standardize")
-    Error in mean(., na.rm = TRUE) : object '.' not found
-    Calls: <Anonymous> ... summarise.tbl_df -> summarise_impl -> <Anonymous> -> eval_tidy -> mean
-    Execution halted
-    ```
-
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      32: eval_bare(call, env)
-      33: (function (...) 
-         eval_tidy(~mean(.)))(x)
-      34: eval_tidy(~mean(.))
-      35: mean(.)
+             base::pairlist(...)
+             `_quo` <- rlang::quo(eval_tidy(~mean(.)))
+             rlang::eval_bare(`_quo`, base::parent.frame())
+         }, class = "inline_colwise_function", formula = ~mean(.)))(x)
+      34: base::pairlist(...) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:238
+      35: as.pairlist(list(...))
       
-      ══ testthat results  ════════════════════════════════════════════════════════════════════════════════════════════════════════
-      OK: 28 SKIPPED: 0 FAILED: 4
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 28 SKIPPED: 0 FAILED: 3
       1. Error: `aggregate` aggregates data (@test-aggregate.R#37) 
       2. Error: cytominer can process dataset with a normalized schema (@test-cytominer.R#71) 
-      3. Error: cytominer can process dataset with a CellProfiler schema (@test-cytominer.R#227) 
-      4. Error: `normalize' normalizes data (@test-normalize.R#49) 
+      3. Error: `normalize' normalizes data (@test-normalize.R#49) 
       
       Error: testthat unit tests failed
       Execution halted
-    ```
-
-*   checking re-building of vignette outputs ... WARNING
-    ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 149-165 (cytominer-pipeline.Rmd) 
-    Error: processing vignette 'cytominer-pipeline.Rmd' failed with diagnostics:
-    object '.' not found
-    Execution halted
     ```
 
 # dbplyr
@@ -219,7 +213,7 @@ Version: 1.3.0
       Calls: <Anonymous> ... <Anonymous> -> <Anonymous> -> .local -> connection_create
       In addition: Warning message:
       In dbDisconnect(con) : restarting interrupted promise evaluation
-      ══ testthat results  ════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 565 SKIPPED: 11 FAILED: 1
       1. Error: tbl_dbi support colwise variants (@test-colwise.R#13) 
       
@@ -261,36 +255,32 @@ Version: 1.12.0
       See the note in ?`:::` about the use of this operator.
     ```
 
-# GFE
+# GEOmetadb
 
-Version: 0.1.0
+Version: 1.44.0
 
-## Newly broken
+## In both
 
-*   checking examples ... ERROR
+*   R CMD check timed out
+    
+
+*   checking for hidden files and directories ... NOTE
     ```
-    ...
-    > citaModI[(nCanT0 + 1), 1:nCanT1 ] 	 <-  (1-rhoMMI) * (1-psiI) * colSums(P * c(eta))
-    > citaModI   <- round_preserve_sum(citaModI * N)
-    > DBcitaModI <- createBase(citaModI)
-    > 
-    > # Creating auxiliary information
-    > DBcitaModI[,AuxVar := rnorm(nrow(DBcitaModI), mean = 45, sd = 10)]
-    > # Selects a sample with unequal probabilities
-    > res <- S.piPS(n = 1200, as.data.frame(DBcitaModI)[,"AuxVar"])
-    > sam <- res[,1]
-    > pik <- res[,2]
-    > DBcitaModISam <- copy(DBcitaModI[sam,])
-    > DBcitaModISam[,Pik := pik]
-    > 
-    > # Gross flows estimation
-    > estima <- estGF(sampleBase = DBcitaModISam, niter = 500, model = "II", colWeights = "Pik")
-    > # gross flows variance estimation
-    > varEstima <- reSamGF(sampleBase = DBcitaModISam, type = "Bootstrap", nRepBoot = 100,
-    + 						model = "II", niter = 101,  colWeights = "Pik")
-    Warning in var(.) : NAs introduced by coercion
-    Error: Column `t1_Santos` must be length 1 (a summary value), not 25
-    Execution halted
+    Found the following hidden files and directories:
+      .travis.yml
+    These were most likely included in error. See section ‘Package
+    structure’ in the ‘Writing R Extensions’ manual.
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    getSQLiteFile: no visible global function definition for
+      ‘download.file’
+    Undefined global functions or variables:
+      download.file
+    Consider adding
+      importFrom("utils", "download.file")
+    to your NAMESPACE file.
     ```
 
 # grasp2db
@@ -394,15 +384,24 @@ Version: 0.0.0.1
     > injury_score(sample_data, subj, code)
     Error: Argument 3 must be an integer vector, not a double vector
     Backtrace:
-    [90m    [39m█
-    [90m 1. [39m└─InjurySeverityScore::injury_score(sample_data, subj, code)
-    [90m 2. [39m  ├─base::cbind(...)
-    [90m 3. [39m  └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default)
-    [90m 4. [39m    └─dplyr:::replace_with(...) [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/coalesce.R:42:4[39m
-    [90m 5. [39m      └─dplyr:::check_type(val, x, name) [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:7:2[39m
-    [90m 6. [39m        └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") [90m/Users/romainfrancois/git/dplyr-revdep/dplyr/R/utils-replace-with.R:52:2[39m
+        █
+     1. └─InjurySeverityScore::injury_score(sample_data, subj, code)
+     2.   ├─base::cbind(...)
+     3.   └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default)
+     4.     └─dplyr:::replace_with(...) /Users/romainfrancois/git/tidyverse/dplyr/R/coalesce.R:42:4
+     5.       └─dplyr:::check_type(val, x, name) /Users/romainfrancois/git/tidyverse/dplyr/R/utils-replace-with.R:7:2
+     6.         └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") /Users/romainfrancois/git/tidyverse/dplyr/R/utils-replace-with.R:52:2
     Execution halted
     ```
+
+# IrisSpatialFeatures
+
+Version: 1.3.0
+
+## In both
+
+*   R CMD check timed out
+    
 
 # modeldb
 
@@ -415,9 +414,9 @@ Version: 0.1.2
     Error in re-building vignettes:
       ...
     Quitting from lines 45-49 (kmeans.Rmd) 
-    Error: processing vignette 'kmeans.Rmd' failed with diagnostics:
-    object 'dep_time' not found
-    Execution halted
+    Erreur : le traitement de la vignette 'kmeans.Rmd' a échoué avec le diagnostic :
+    objet 'dep_time' introuvable
+    Exécution arrêtée
     ```
 
 # MonetDBLite
@@ -434,6 +433,34 @@ Version: 0.6.0
       installed size is  5.7Mb
       sub-directories of 1Mb or more:
         libs   5.4Mb
+    ```
+
+# pammtools
+
+Version: 0.1.9
+
+## Newly broken
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      41: tryCatchList(expr, classes, parentenv, handlers)
+      42: tryCatch(withCallingHandlers({    eval(code, test_env)    if (!handled && !is.null(test)) {        skip_empty()    }}, expectation = handle_expectation, skip = handle_skip, warning = handle_warning,     message = handle_message, error = handle_error), error = handle_fatal,     skip = function(e) {    })
+      43: test_code(NULL, exprs, env)
+      44: source_file(path, new.env(parent = env), chdir = TRUE, wrap = wrap)
+      45: force(code)
+      46: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE,             wrap = wrap)        end_context()    })
+      47: FUN(X[[i]], ...)
+      48: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE, wrap = wrap)
+      49: force(code)
+      50: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE, wrap = wrap))
+      51: test_files(paths, reporter = reporter, env = env, stop_on_failure = stop_on_failure,     stop_on_warning = stop_on_warning, wrap = wrap)
+      52: test_dir(path = test_path, reporter = reporter, env = env, filter = filter,     ..., stop_on_failure = stop_on_failure, stop_on_warning = stop_on_warning,     wrap = wrap)
+      53: test_package_dir(package = package, test_path = test_path, filter = filter,     reporter = reporter, ..., stop_on_failure = stop_on_failure,     stop_on_warning = stop_on_warning, wrap = wrap)
+      54: test_check("pammtools")
+      An irrecoverable exception occurred. R is aborting now ...
     ```
 
 # perturbatr
@@ -506,9 +533,9 @@ Version: 0.2.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      34: is.data.frame(x)
+      37: is.data.frame(x)
       
-      ══ testthat results  ════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 281 SKIPPED: 1 FAILED: 8
       1. Error: expose works (@test-expose.R#188) 
       2. Error: expose preserves pack names (@test-expose.R#246) 
@@ -518,6 +545,60 @@ Version: 0.2.0
       6. Error: expose_single.default guesses cell pack (@test-expose.R#335) 
       7. Error: expose_single.col_pack works (@test-expose.R#402) 
       8. Error: expose_single.cell_pack works (@test-expose.R#453) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+# spdplyr
+
+Version: 0.2.0
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    + 
+    + spmap %>% mutate_if(is.numeric, as.character)
+    + spmap %>% mutate_all(funs(as.character))
+    + spmap %>% mutate_at(vars(starts_with("L")), funs(as.integer))
+    + }
+    Error: `data` must be a vector, list, data frame, or environment
+    Backtrace:
+         █
+      1. └─spmap %>% mutate_if(is.numeric, as.character)
+      2.   ├─base::withVisible(eval(quote(`_fseq`(`_lhs`)), env, env))
+      3.   └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      4.     └─base::eval(quote(`_fseq`(`_lhs`)), env, env)
+      5.       └─global::`_fseq`(`_lhs`)
+      6.         └─magrittr::freduce(value, `_function_list`)
+      7.           ├─base::withVisible(function_list[[k]](value))
+      8.           └─function_list[[k]](value)
+      9.             └─dplyr::mutate_if(., is.numeric, as.character)
+     10.               └─dplyr:::manip_if(...) /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:240:2
+     11.                 └─dplyr:::tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars) /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:285:2
+     12.                   ├─rlang::syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      10: manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:240
+      11: tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:285
+      12: syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars)) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:218
+      13: map(x, sym)
+      14: lapply(.x, .f, ...)
+      15: tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:218
+      16: as_data_mask(.tbl) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:208
+      17: rlang::abort(x)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 46 SKIPPED: 4 FAILED: 1
+      1. Error: mutate_all, mutate_at (@test-adv-dplyr.R#83) 
       
       Error: testthat unit tests failed
       Execution halted
@@ -537,11 +618,11 @@ Version: 0.0.1
       nrow(x_gm) not equal to 5.
       target is NULL, current is numeric
       
-      [31m──[39m [31m3. Failure: group_map() (@test-dplyr-group-funs.R#52) [39m [31m───────────────────────────────────────────────────────────────────[39m
+      ── 3. Failure: group_map() (@test-dplyr-group-funs.R#52)  ──────────────────────
       x_gm$.g[[1]] not equal to dplyr::tibble(.bootstrap = 1L).
       target is NULL, current is tbl_df
       
-      ══ testthat results  ════════════════════════════════════════════════════════════════════════════════════════════════════════
+      ══ testthat results  ═══════════════════════════════════════════════════════════
       OK: 146 SKIPPED: 0 FAILED: 3
       1. Failure: group_map() (@test-dplyr-group-funs.R#43) 
       2. Failure: group_map() (@test-dplyr-group-funs.R#50) 
