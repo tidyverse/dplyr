@@ -1,5 +1,21 @@
 
+## banR
+
+http error 503
+
+## Cardinal
+
+Not correctly importing dplyr::group_by I guess
+
+## compareDF
+
+Test bug
+
 ## ELMER
+## TCGAbiolinks
+
+there is no package called 'sesameData'
+
 ## FindMyFriends
 ## grasp2db
 ## HTSSIP
@@ -8,26 +24,25 @@
 ## pmc
 ## QuaternaryProd
 ## rubias
-## TCGAbiolinks
 ## XBSeq
+## GEOmetadb
+## IrisSpatialFeatures
 
 timed out
 
-## corr 
+## corrr 
 
 https://github.com/drsimonj/corrr/issues/76
-
-## GFE
-
-Not sure what is happening: https://github.com/WaceroRuge/GFE/issues/1
 
 ## InjurySeverityScore
 
 https://github.com/dajuntian/InjurySeverityScore/issues/1
 
 ## ruler
+## spdplyr
+## CluMP 
 
-Note sure yet
+Not sure what the problem is
 
 # Fixed issues
 
