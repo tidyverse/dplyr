@@ -108,7 +108,11 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
     if (is_quosure(fun)) {
       fun <- quo_as_function(fun)
     }
-    syms <- set_names(syms(vars), fun(vars))
+    syms <- if (length(vars)) {
+      set_names(syms(vars), fun(vars))
+    } else {
+      set_names(syms(vars))
+    }
   } else if (!strict) {
     syms <- syms(vars)
   } else {
