@@ -1,4 +1,4 @@
-# dplyr 0.8.0.9000
+# dplyr 0.8.1
 
 ## Breaking changes
 
