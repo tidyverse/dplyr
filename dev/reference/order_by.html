@@ -207,12 +207,12 @@ is the vector being operated on</p></td>
 
 <span class='no'>wrong</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>running</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum</a></span>(<span class='no'>value</span>))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>wrong</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running
-#&gt; 1 2000     0      29
-#&gt; 2 2001     1      55
-#&gt; 3 2002     4      29
-#&gt; 4 2003     9      38
-#&gt; 5 2004    16      54
-#&gt; 6 2005    25      25</div><div class='input'>
+#&gt; 1 2000     0      55
+#&gt; 2 2001     1      30
+#&gt; 3 2002     4       4
+#&gt; 4 2003     9      29
+#&gt; 5 2004    16      20
+#&gt; 6 2005    25      55</div><div class='input'>
 <span class='no'>right</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>running</span> <span class='kw'>=</span> <span class='fu'>order_by</span>(<span class='no'>year</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum</a></span>(<span class='no'>value</span>)))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>right</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running
 #&gt; 1 2000     0       0
