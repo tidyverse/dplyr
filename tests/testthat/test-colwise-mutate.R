@@ -430,3 +430,11 @@ test_that("colwise mutate handle named chr vectors", {
   expect_identical(res, tibble(x = 1:10, y = 5.5))
 })
 
+test_that("colwise verbs do not handle quosures (#4330)", {
+  expect_error(
+    mutate_at(mtcars, vars(mpg), quo(mean(.)))
+  )
+  expect_error(
+    summarise_at(mtcars, vars(mpg), quo(mean(.)))
+  )
+})

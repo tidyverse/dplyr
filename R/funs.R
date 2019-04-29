@@ -94,13 +94,13 @@ as_fun_list <- function(.funs, .env, ...) {
   }
 
   funs <- map(.funs, function(.x){
-    if (is_formula(.x)) {
+    if (is_bare_formula(.x)) {
       .x <- as_inlined_function(.x, env = .env)
     } else {
       if (is_character(.x)) {
         .x <- get(.x, .env, mode = "function")
       } else if (!is_function(.x)) {
-        abort("not expecting this")
+        abort("expecting a one sided formula, a function, or a function name.")
       }
       if (length(args)) {
         .x <- new_quosure(
