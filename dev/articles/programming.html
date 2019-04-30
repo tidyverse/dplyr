@@ -250,8 +250,8 @@
 <a class="sourceLine" id="cb12-11" data-line-number="11"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
 <a class="sourceLine" id="cb12-12" data-line-number="12"><span class="co">#&gt;      g1     a</span></a>
 <a class="sourceLine" id="cb12-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt; 1     1  2.5 </span></a>
-<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt; 2     2  3.33</span></a>
+<a class="sourceLine" id="cb12-14" data-line-number="14"><span class="co">#&gt; 1     1  4   </span></a>
+<a class="sourceLine" id="cb12-15" data-line-number="15"><span class="co">#&gt; 2     2  2.33</span></a>
 <a class="sourceLine" id="cb12-16" data-line-number="16"></a>
 <a class="sourceLine" id="cb12-17" data-line-number="17">df <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb12-18" data-line-number="18"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(g2) <span class="op">%&gt;%</span></a>
@@ -259,8 +259,8 @@
 <a class="sourceLine" id="cb12-20" data-line-number="20"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
 <a class="sourceLine" id="cb12-21" data-line-number="21"><span class="co">#&gt;      g2     a</span></a>
 <a class="sourceLine" id="cb12-22" data-line-number="22"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb12-23" data-line-number="23"><span class="co">#&gt; 1     1   2  </span></a>
-<a class="sourceLine" id="cb12-24" data-line-number="24"><span class="co">#&gt; 2     2   4.5</span></a></code></pre></div>
+<a class="sourceLine" id="cb12-23" data-line-number="23"><span class="co">#&gt; 1     1  3.67</span></a>
+<a class="sourceLine" id="cb12-24" data-line-number="24"><span class="co">#&gt; 2     2  2</span></a></code></pre></div>
 <p>You might hope that this will work:</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1">my_summarise &lt;-<span class="st"> </span><span class="cf">function</span>(df, group_var) {</a>
 <a class="sourceLine" id="cb13-2" data-line-number="2">  df <span class="op">%&gt;%</span></a>
@@ -307,8 +307,8 @@
 <a class="sourceLine" id="cb17-8" data-line-number="8"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
 <a class="sourceLine" id="cb17-9" data-line-number="9"><span class="co">#&gt;      g1     a</span></a>
 <a class="sourceLine" id="cb17-10" data-line-number="10"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; 1     1  2.5 </span></a>
-<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; 2     2  3.33</span></a></code></pre></div>
+<a class="sourceLine" id="cb17-11" data-line-number="11"><span class="co">#&gt; 1     1  4   </span></a>
+<a class="sourceLine" id="cb17-12" data-line-number="12"><span class="co">#&gt; 2     2  2.33</span></a></code></pre></div>
 <p>Huzzah!</p>
 <p>There’s just one step left: we want to call this function like we call <code><a href="../reference/group_by.html">group_by()</a></code>:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">my_summarise</span>(df, g1)</a></code></pre></div>
@@ -325,7 +325,7 @@
 <a class="sourceLine" id="cb19-10" data-line-number="10"><span class="kw">my_summarise</span>(df, g1)</a>
 <a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; expr: ^group_var</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; env:  0x41014c8</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; env:  0x57d8ec8</span></a>
 <a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; Error: Column `group_var` is unknown</span></a></code></pre></div>
 <p>I’ve added a <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
 <p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval.html">enquo()</a></code>. <code><a href="../reference/tidyeval.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
@@ -345,8 +345,8 @@
 <a class="sourceLine" id="cb20-14" data-line-number="14"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
 <a class="sourceLine" id="cb20-15" data-line-number="15"><span class="co">#&gt;      g1     a</span></a>
 <a class="sourceLine" id="cb20-16" data-line-number="16"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="co">#&gt; 1     1  2.5 </span></a>
-<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; 2     2  3.33</span></a></code></pre></div>
+<a class="sourceLine" id="cb20-17" data-line-number="17"><span class="co">#&gt; 1     1  4   </span></a>
+<a class="sourceLine" id="cb20-18" data-line-number="18"><span class="co">#&gt; 2     2  2.33</span></a></code></pre></div>
 <p>(If you’re familiar with <code><a href="https://www.rdocumentation.org/packages/base/topics/substitute">quote()</a></code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/substitute">substitute()</a></code> in base R, <code><a href="../reference/tidyeval.html">quo()</a></code> is equivalent to <code><a href="https://www.rdocumentation.org/packages/base/topics/substitute">quote()</a></code> and <code><a href="../reference/tidyeval.html">enquo()</a></code> is equivalent to <code><a href="https://www.rdocumentation.org/packages/base/topics/substitute">substitute()</a></code>.)</p>
 <p>You might wonder how to extend this to handle multiple grouping variables: we’ll come back to that a little later.</p>
 </div>
@@ -363,7 +363,7 @@
 <a class="sourceLine" id="cb21-7" data-line-number="7"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
 <a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt;    mean   sum     n</span></a>
 <a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; 1   9.6    48     5</span></a></code></pre></div>
+<a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; 1   8.6    43     5</span></a></code></pre></div>
 <p>To turn this into a function, we start by testing the basic approach interactively: we quote the variable with <code><a href="../reference/tidyeval.html">quo()</a></code>, then unquoting it in the dplyr call with <code>!!</code>. Notice that we can unquote anywhere inside a complicated expression.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1">my_var &lt;-<span class="st"> </span><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(a)</a>
 <a class="sourceLine" id="cb22-2" data-line-number="2"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(df, <span class="dt">mean =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">sum =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(<span class="op">!!</span><span class="st"> </span>my_var), <span class="dt">n =</span> <span class="kw"><a href="../reference/n.html">n</a></span>())</a>
@@ -399,7 +399,7 @@
 <a class="sourceLine" id="cb24-16" data-line-number="16"><span class="co">#&gt; # A tibble: 1 x 3</span></a>
 <a class="sourceLine" id="cb24-17" data-line-number="17"><span class="co">#&gt;    mean   sum     n</span></a>
 <a class="sourceLine" id="cb24-18" data-line-number="18"><span class="co">#&gt;   &lt;dbl&gt; &lt;int&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb24-19" data-line-number="19"><span class="co">#&gt; 1   9.6    48     5</span></a></code></pre></div>
+<a class="sourceLine" id="cb24-19" data-line-number="19"><span class="co">#&gt; 1   8.6    43     5</span></a></code></pre></div>
 </div>
 <div id="different-input-and-output-variable" class="section level3">
 <h3 class="hasAnchor">
@@ -409,19 +409,19 @@
 <a class="sourceLine" id="cb25-2" data-line-number="2"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
 <a class="sourceLine" id="cb25-3" data-line-number="3"><span class="co">#&gt;      g1    g2     a     b mean_a sum_a</span></a>
 <a class="sourceLine" id="cb25-4" data-line-number="4"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt; 1     1     1     1     3      3    15</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; 2     1     2     4     2      3    15</span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 3     2     1     2     1      3    15</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 4     2     2     5     4      3    15</span></a>
+<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="co">#&gt; 1     1     1     5     4      3    15</span></a>
+<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="co">#&gt; 2     1     2     3     2      3    15</span></a>
+<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="co">#&gt; 3     2     1     4     1      3    15</span></a>
+<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 4     2     2     1     3      3    15</span></a>
 <a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; # … with 1 more row</span></a>
 <a class="sourceLine" id="cb25-10" data-line-number="10"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">mean_b =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(b), <span class="dt">sum_b =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(b))</a>
 <a class="sourceLine" id="cb25-11" data-line-number="11"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
 <a class="sourceLine" id="cb25-12" data-line-number="12"><span class="co">#&gt;      g1    g2     a     b mean_b sum_b</span></a>
 <a class="sourceLine" id="cb25-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb25-14" data-line-number="14"><span class="co">#&gt; 1     1     1     1     3      3    15</span></a>
-<a class="sourceLine" id="cb25-15" data-line-number="15"><span class="co">#&gt; 2     1     2     4     2      3    15</span></a>
-<a class="sourceLine" id="cb25-16" data-line-number="16"><span class="co">#&gt; 3     2     1     2     1      3    15</span></a>
-<a class="sourceLine" id="cb25-17" data-line-number="17"><span class="co">#&gt; 4     2     2     5     4      3    15</span></a>
+<a class="sourceLine" id="cb25-14" data-line-number="14"><span class="co">#&gt; 1     1     1     5     4      3    15</span></a>
+<a class="sourceLine" id="cb25-15" data-line-number="15"><span class="co">#&gt; 2     1     2     3     2      3    15</span></a>
+<a class="sourceLine" id="cb25-16" data-line-number="16"><span class="co">#&gt; 3     2     1     4     1      3    15</span></a>
+<a class="sourceLine" id="cb25-17" data-line-number="17"><span class="co">#&gt; 4     2     2     1     3      3    15</span></a>
 <a class="sourceLine" id="cb25-18" data-line-number="18"><span class="co">#&gt; # … with 1 more row</span></a></code></pre></div>
 <p>This code is similar to the previous example, but there are two new wrinkles:</p>
 <ul>
@@ -443,10 +443,10 @@
 <a class="sourceLine" id="cb26-13" data-line-number="13"><span class="co">#&gt; # A tibble: 5 x 6</span></a>
 <a class="sourceLine" id="cb26-14" data-line-number="14"><span class="co">#&gt;      g1    g2     a     b mean_a sum_a</span></a>
 <a class="sourceLine" id="cb26-15" data-line-number="15"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt; &lt;int&gt;</span></a>
-<a class="sourceLine" id="cb26-16" data-line-number="16"><span class="co">#&gt; 1     1     1     1     3      3    15</span></a>
-<a class="sourceLine" id="cb26-17" data-line-number="17"><span class="co">#&gt; 2     1     2     4     2      3    15</span></a>
-<a class="sourceLine" id="cb26-18" data-line-number="18"><span class="co">#&gt; 3     2     1     2     1      3    15</span></a>
-<a class="sourceLine" id="cb26-19" data-line-number="19"><span class="co">#&gt; 4     2     2     5     4      3    15</span></a>
+<a class="sourceLine" id="cb26-16" data-line-number="16"><span class="co">#&gt; 1     1     1     5     4      3    15</span></a>
+<a class="sourceLine" id="cb26-17" data-line-number="17"><span class="co">#&gt; 2     1     2     3     2      3    15</span></a>
+<a class="sourceLine" id="cb26-18" data-line-number="18"><span class="co">#&gt; 3     2     1     4     1      3    15</span></a>
+<a class="sourceLine" id="cb26-19" data-line-number="19"><span class="co">#&gt; 4     2     2     1     3      3    15</span></a>
 <a class="sourceLine" id="cb26-20" data-line-number="20"><span class="co">#&gt; # … with 1 more row</span></a></code></pre></div>
 </div>
 <div id="capturing-multiple-variables" class="section level3">
@@ -471,10 +471,10 @@
 <a class="sourceLine" id="cb27-11" data-line-number="11"><span class="co">#&gt; # Groups:   g1 [2]</span></a>
 <a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co">#&gt;      g1    g2     a</span></a>
 <a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co">#&gt; 1     1     1   1  </span></a>
-<a class="sourceLine" id="cb27-15" data-line-number="15"><span class="co">#&gt; 2     1     2   4  </span></a>
-<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="co">#&gt; 3     2     1   2.5</span></a>
-<a class="sourceLine" id="cb27-17" data-line-number="17"><span class="co">#&gt; 4     2     2   5</span></a></code></pre></div>
+<a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co">#&gt; 1     1     1     5</span></a>
+<a class="sourceLine" id="cb27-15" data-line-number="15"><span class="co">#&gt; 2     1     2     3</span></a>
+<a class="sourceLine" id="cb27-16" data-line-number="16"><span class="co">#&gt; 3     2     1     3</span></a>
+<a class="sourceLine" id="cb27-17" data-line-number="17"><span class="co">#&gt; 4     2     2     1</span></a></code></pre></div>
 <p><code>!!!</code> takes a list of elements and splices them into to the current call. Look at the bottom of the <code>!!!</code> and think <code>...</code>.</p>
 <div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">args &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="dt">na.rm =</span> <span class="ot">TRUE</span>, <span class="dt">trim =</span> <span class="fl">0.25</span>)</a>
 <a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw"><a href="../reference/tidyeval.html">quo</a></span>(<span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(x, <span class="op">!!!</span><span class="st"> </span>args))</a>
@@ -516,18 +516,18 @@
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x1</a>
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; env:  0x4e25020</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; env:  0x42809d8</span></a>
 <a class="sourceLine" id="cb32-5" data-line-number="5">x2</a>
 <a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; env:  0x4e7c658</span></a></code></pre></div>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; env:  0x4497a68</span></a></code></pre></div>
 <p>But if you inspect the environments using <code><a href="https://rlang.r-lib.org/reference/get_env.html">rlang::get_env()</a></code> — they’re different.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(rlang)</a>
 <a class="sourceLine" id="cb33-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x1)</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x4e25020&gt;</span></a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x42809d8&gt;</span></a>
 <a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x2)</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x4e7c658&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x4497a68&gt;</span></a></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="https://rlang.r-lib.org/reference/eval_tidy.html">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://rlang.r-lib.org/reference/eval_tidy.html">eval_tidy</a></span>(x1)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>

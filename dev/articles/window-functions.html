@@ -250,12 +250,12 @@
 <a class="sourceLine" id="cb10-4" data-line-number="4">wrong &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">prev_value =</span> <span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(value))</a>
 <a class="sourceLine" id="cb10-5" data-line-number="5"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(wrong, year)</a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="co">#&gt;   year value prev_value</span></a>
-<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1 2000     0         NA</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2 2001     1          9</span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3 2002     4         16</span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 4 2003     9         25</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 5 2004    16          0</span></a>
-<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 6 2005    25          4</span></a>
+<a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; 1 2000     0          4</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt; 2 2001     1          0</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; 3 2002     4          9</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 4 2003     9         16</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 5 2004    16         NA</span></a>
+<a class="sourceLine" id="cb10-12" data-line-number="12"><span class="co">#&gt; 6 2005    25          1</span></a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"></a>
 <a class="sourceLine" id="cb10-14" data-line-number="14">right &lt;-<span class="st"> </span><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(scrambled, <span class="dt">prev_value =</span> <span class="kw"><a href="../reference/lead-lag.html">lag</a></span>(value, <span class="dt">order_by =</span> year))</a>
 <a class="sourceLine" id="cb10-15" data-line-number="15"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(right, year)</a>
