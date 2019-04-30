@@ -444,6 +444,17 @@ test_that("grouped data frames remember their .drop (#4061)", {
   expect_equal(nrow(group_data(res4)), 1L)
 })
 
+test_that("grouped data frames remember their .drop = FALSE (#4337)", {
+  res <- iris %>%
+    filter(Species == "setosa") %>%
+    group_by(Species, .drop = FALSE)
+  expect_false(group_by_drop_default(res))
+
+  res2 <- res %>%
+    group_by(Species)
+  expect_false(group_by_drop_default(res2))
+})
+
 test_that("summarise maintains the .drop attribute (#4061)", {
   df <- tibble(
     f1 = factor("a", levels = c("a", "b", "c")),
