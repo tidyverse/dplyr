@@ -26,12 +26,12 @@
 #' # The variables of the sorted tibble keep their original values.
 #' distinct_all(df, round)
 #' arrange_all(df, list(~round(.)))
-distinct_all <- function(.tbl, .funs = list(), ...) {
+distinct_all <- function(.tbl, .funs = list(), ..., .keep_all = .keep_all) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  distinct(.tbl, !!!funs)
+  distinct(.tbl, !!!funs, .keep_all = .keep_all)
 }
 #' @rdname distinct_all
 #' @export
