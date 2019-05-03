@@ -47,25 +47,14 @@
 NULL
 
 
-# Compatibility
-
-#' @export
-rlang::quo
-
-#' @export
-rlang::quos
-
-#' @export
-rlang::quo_name
-
-#' @export
-rlang::ensym
-
-#' @export
-rlang::ensyms
-
-#' @export
-rlang::enexpr
-
-#' @export
-rlang::enexprs
+#' Other tidy eval tools
+#'
+#' These tidy eval tools are no longer recommended for normal usage,
+#' but are still exported for compatibility. See [`?tidyeval`][tidyeval]
+#' for the recommended tools.
+#'
+#' @keywords internal
+#' @name tidyeval-compat
+#' @aliases quo quos quo_name ensym ensyms enexpr enexprs
+#' @export quo quos quo_name ensym ensyms enexpr enexprs
+NULL
