@@ -26,7 +26,7 @@ a list of such quoted expressions.
 is mostly useful to build new expressions around arguments
 captured with \code{\link[=enquo]{enquo()}} or \code{\link[=enquos]{enquos()}}:
 \code{expr(mean(!!enquo(arg), na.rm = TRUE))}.
-\item \code{\link[rlang]{as_name()}} transforms a quoted variable name
+\item \code{\link[rlang]{as_name}()} transforms a quoted variable name
 into a string. Supplying something else than a quoted variable
 name is an error.
 

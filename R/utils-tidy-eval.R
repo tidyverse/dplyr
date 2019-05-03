@@ -17,7 +17,7 @@
 #'   captured with [enquo()] or [enquos()]:
 #'   \code{expr(mean(!!enquo(arg), na.rm = TRUE))}.
 #'
-#' * \code{\link[rlang]{as_name()}} transforms a quoted variable name
+#' * \code{\link[rlang]{as_name}()} transforms a quoted variable name
 #'   into a string. Supplying something else than a quoted variable
 #'   name is an error.
 #'
@@ -49,5 +49,23 @@ NULL
 
 # Compatibility
 
-#' @export quo quos quo_name ensym ensyms enexpr enexprs
-NULL
+#' @export
+rlang::quo
+
+#' @export
+rlang::quos
+
+#' @export
+rlang::quo_name
+
+#' @export
+rlang::ensym
+
+#' @export
+rlang::ensyms
+
+#' @export
+rlang::enexpr
+
+#' @export
+rlang::enexprs
