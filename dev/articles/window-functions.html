@@ -196,15 +196,15 @@
 <a class="sourceLine" id="cb4-4" data-line-number="4"><span class="co">#&gt; [1] 0.0 0.0 0.5 0.5 0.5</span></a></code></pre></div>
 <p>These are useful if you want to select (for example) the top 10% of records within each group. For example:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(players, <span class="kw"><a href="../reference/ranking.html">cume_dist</a></span>(<span class="kw"><a href="../reference/desc.html">desc</a></span>(G)) <span class="op">&lt;</span><span class="st"> </span><span class="fl">0.1</span>)</a>
-<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1,010 x 7</span></a>
-<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [920]</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1,037 x 7</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [945]</span></a>
 <a class="sourceLine" id="cb5-4" data-line-number="4"><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H</span></a>
 <a class="sourceLine" id="cb5-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;</span></a>
 <a class="sourceLine" id="cb5-6" data-line-number="6"><span class="co">#&gt; 1 aaronha01   1963 ML1      161   631   121   201</span></a>
 <a class="sourceLine" id="cb5-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1968 ATL      160   606    84   174</span></a>
 <a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">#&gt; 3 abbotji01   1991 CAL       34     0     0     0</span></a>
 <a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">#&gt; 4 abernte02   1965 CHN       84    18     1     3</span></a>
-<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; # … with 1,006 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">#&gt; # … with 1,033 more rows</span></a></code></pre></div>
 <p>Finally, <code><a href="../reference/ranking.html">ntile()</a></code> divides the data up into <code>n</code> evenly sized buckets. It’s a coarse ranking, and it can be used in with <code><a href="../reference/mutate.html">mutate()</a></code> to divide the data into buckets for further summary. For example, we could use <code><a href="../reference/ranking.html">ntile()</a></code> to divide the players within a team into four ranked groups, and calculate the average number of games within each group.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">by_team_player &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(batting, teamID, playerID)</a>
 <a class="sourceLine" id="cb6-2" data-line-number="2">by_team &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_team_player, <span class="dt">G =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(G))</a>
@@ -213,10 +213,10 @@
 <a class="sourceLine" id="cb6-5" data-line-number="5"><span class="co">#&gt; # A tibble: 4 x 2</span></a>
 <a class="sourceLine" id="cb6-6" data-line-number="6"><span class="co">#&gt;   quartile `mean(G)`</span></a>
 <a class="sourceLine" id="cb6-7" data-line-number="7"><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></a>
-<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 1        1      27.2</span></a>
-<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 2        2      97.4</span></a>
+<a class="sourceLine" id="cb6-8" data-line-number="8"><span class="co">#&gt; 1        1      26.9</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9"><span class="co">#&gt; 2        2      96.7</span></a>
 <a class="sourceLine" id="cb6-10" data-line-number="10"><span class="co">#&gt; 3        3     271. </span></a>
-<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 4        4     975.</span></a></code></pre></div>
+<a class="sourceLine" id="cb6-11" data-line-number="11"><span class="co">#&gt; 4        4     976.</span></a></code></pre></div>
 <p>All ranking functions rank from lowest to highest so that small input values get small ranks. Use <code><a href="../reference/desc.html">desc()</a></code> to rank from highest to lowest.</p>
 </div>
 <div id="lead-and-lag" class="section level2">
@@ -291,26 +291,26 @@
 <p>You can also use this idea to select the records with the highest (<code>x == max(x)</code>) or lowest value (<code>x == min(x)</code>) for a field, but the ranking functions give you more control over ties, and allow you to select any number of records.</p>
 <p>Recycled aggregates are also useful in conjunction with <code><a href="../reference/mutate.html">mutate()</a></code>. For example, with the batting data, we could compute the “career year”, the number of years a player has played since they entered the league:</p>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">career_year =</span> yearID <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min</a></span>(yearID) <span class="op">+</span><span class="st"> </span><span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; # A tibble: 19,404 x 8</span></a>
-<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [1,342]</span></a>
+<a class="sourceLine" id="cb15-2" data-line-number="2"><span class="co">#&gt; # A tibble: 19,834 x 8</span></a>
+<a class="sourceLine" id="cb15-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [1,359]</span></a>
 <a class="sourceLine" id="cb15-4" data-line-number="4"><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H career_year</span></a>
 <a class="sourceLine" id="cb15-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb15-6" data-line-number="6"><span class="co">#&gt; 1 aaronha01   1954 ML1      122   468    58   131           1</span></a>
 <a class="sourceLine" id="cb15-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189           2</span></a>
 <a class="sourceLine" id="cb15-8" data-line-number="8"><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200           3</span></a>
 <a class="sourceLine" id="cb15-9" data-line-number="9"><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198           4</span></a>
-<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; # … with 19,400 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb15-10" data-line-number="10"><span class="co">#&gt; # … with 19,830 more rows</span></a></code></pre></div>
 <p>Or, as in the introductory example, we could compute a z-score:</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(players, <span class="dt">G_z =</span> (G <span class="op">-</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(G)) <span class="op">/</span><span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd</a></span>(G))</a>
-<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; # A tibble: 19,404 x 8</span></a>
-<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [1,342]</span></a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="co">#&gt; # A tibble: 19,834 x 8</span></a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="co">#&gt; # Groups:   playerID [1,359]</span></a>
 <a class="sourceLine" id="cb16-4" data-line-number="4"><span class="co">#&gt;   playerID  yearID teamID     G    AB     R     H    G_z</span></a>
 <a class="sourceLine" id="cb16-5" data-line-number="5"><span class="co">#&gt;   &lt;chr&gt;      &lt;int&gt; &lt;fct&gt;  &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;  &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb16-6" data-line-number="6"><span class="co">#&gt; 1 aaronha01   1954 ML1      122   468    58   131 -1.16 </span></a>
 <a class="sourceLine" id="cb16-7" data-line-number="7"><span class="co">#&gt; 2 aaronha01   1955 ML1      153   602   105   189  0.519</span></a>
 <a class="sourceLine" id="cb16-8" data-line-number="8"><span class="co">#&gt; 3 aaronha01   1956 ML1      153   609   106   200  0.519</span></a>
 <a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 4 aaronha01   1957 ML1      151   615   118   198  0.411</span></a>
-<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; # … with 19,400 more rows</span></a></code></pre></div>
+<a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; # … with 19,830 more rows</span></a></code></pre></div>
 </div>
   </div>
 

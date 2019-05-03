@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Select top (or bottom) n rows (by value) — top_n • dplyr</title>
+<title>Other tidy eval tools — tidyeval-compat • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -37,11 +37,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="Select top (or bottom) n rows (by value) — top_n" />
+<meta property="og:title" content="Other tidy eval tools — tidyeval-compat" />
 
-<meta property="og:description" content="This is a convenient wrapper that uses filter() and
-min_rank() to select the top or bottom entries in each group,
-ordered by wt." />
+<meta property="og:description" content="These tidy eval tools are no longer recommended for normal usage,
+but are still exported for compatibility. See ?tidyeval
+for the recommended tools." />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -163,95 +163,26 @@ ordered by wt." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Select top (or bottom) n rows (by value)</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/top-n.R'><code>R/top-n.R</code></a></small>
-    <div class="hidden name"><code>top_n.Rd</code></div>
+    <h1>Other tidy eval tools</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/utils-tidy-eval.R'><code>R/utils-tidy-eval.R</code></a></small>
+    <div class="hidden name"><code>tidyeval-compat.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>This is a convenient wrapper that uses <code><a href='filter.html'>filter()</a></code> and
-<code><a href='ranking.html'>min_rank()</a></code> to select the top or bottom entries in each group,
-ordered by <code>wt</code>.</p>
+    <p>These tidy eval tools are no longer recommended for normal usage,
+but are still exported for compatibility. See <code><a href='tidyeval.html'>?tidyeval</a></code>
+for the recommended tools.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>top_n</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>wt</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>x</th>
-      <td><p>a <code><a href='tbl.html'>tbl()</a></code> to filter</p></td>
-    </tr>
-    <tr>
-      <th>n</th>
-      <td><p>number of rows to return. If <code>x</code> is grouped, this is the
-number of rows per group. Will include more than <code>n</code> rows if
-there are ties.</p>
-<p>If <code>n</code> is positive, selects the top <code>n</code> rows. If negative,
-selects the bottom <code>n</code> rows.</p></td>
-    </tr>
-    <tr>
-      <th>wt</th>
-      <td><p>(Optional). The variable to use for ordering. If not
-specified, defaults to the last variable in the tbl.</p>
-<p>This argument is automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and later
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a>. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
-    </tr>
-    </table>
-    
+        
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>6</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
-#&gt; 1 10
-#&gt; 2  6</div><div class='input'>
-<span class='co'># Negative values select bottom from group. Note that we get more</span>
-<span class='co'># than 2 values here because there's a tie: top_n() either takes</span>
-<span class='co'># all rows with a value, or none.</span>
-<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(-<span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;   x
-#&gt; 1 1
-#&gt; 2 1
-#&gt; 3 1</div><div class='input'>
-<span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"Lahman"</span>)) {
-<span class='co'># Find 10 players with most games</span>
-<span class='co'># A little nicer with %&gt;%</span>
-<span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>Batting</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='tally.html'>tally</a></span>(<span class='no'>G</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>top_n</span>(<span class='fl'>10</span>)
-
-<span class='co'># Find year with most games for each player</span>
-<span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>Batting</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>1</span>, <span class='no'>G</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; # A tibble: 20,307 x 22
-#&gt; # Groups:   playerID [19,428]
-#&gt;    playerID yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
-#&gt;    &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
-#&gt;  1 abercda…   1871     1 TRO    NA        1     4     0     0     0     0     0
-#&gt;  2 armstbo…   1871     1 FW1    NA       12    49     9    11     2     1     0
-#&gt;  3 barkeal…   1871     1 RC1    NA        1     4     0     1     0     0     0
-#&gt;  4 barrebi…   1871     1 FW1    NA        1     5     1     1     1     0     0
-#&gt;  5 barrofr…   1871     1 BS1    NA       18    86    13    13     2     1     0
-#&gt;  6 bassjo01   1871     1 CL1    NA       22    89    18    27     1    10     3
-#&gt;  7 bellast…   1871     1 TRO    NA       29   128    26    32     3     3     0
-#&gt;  8 berkena…   1871     1 PH1    NA        1     4     0     0     0     0     0
-#&gt;  9 berryto…   1871     1 PH1    NA        1     4     0     1     0     0     0
-#&gt; 10 berthha…   1871     1 WS3    NA       17    73    17    17     1     1     0
-#&gt; # … with 20,297 more rows, and 10 more variables: RBI &lt;int&gt;, SB &lt;int&gt;,
-#&gt; #   CS &lt;int&gt;, BB &lt;int&gt;, SO &lt;int&gt;, IBB &lt;int&gt;, HBP &lt;int&gt;, SH &lt;int&gt;, SF &lt;int&gt;,
-#&gt; #   GIDP &lt;int&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-            
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+                </ul>
 
   </div>
 </div>
