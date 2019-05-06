@@ -43,7 +43,7 @@ src_df <- function(pkg = NULL, env = NULL) {
 
 #' @export
 src_tbls.src_local <- function(x, ...) {
-  objs <- ls(envir = x$env)
+  objs <- ls(envir = x$env, all.names = TRUE)
   Filter(function(obj) is.data.frame(get(obj, envir = x$env)), objs)
 }
 
