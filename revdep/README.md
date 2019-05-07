@@ -10,7 +10,7 @@
 |collate  |en_US.UTF-8                  |
 |ctype    |en_US.UTF-8                  |
 |tz       |Europe/Paris                 |
-|date     |2019-05-06                   |
+|date     |2019-05-07                   |
 
 # Dependencies
 
@@ -120,34 +120,16 @@
 |weibulltools                           |1.0.1     |1         |        |     |
 |XBSeq                                  |1.14.1    |1         |        |2    |
 
-## New problems (26)
+## New problems (8)
 
 |package                                                |version |error  |warning |note     |
 |:------------------------------------------------------|:-------|:------|:-------|:--------|
-|[benthos](problems.md#benthos)                         |1.3-6   |       |__+1__  |         |
-|[bomrang](problems.md#bomrang)                         |0.5.0   |       |__+1__  |         |
-|[bupaR](problems.md#bupar)                             |0.4.2   |       |__+1__  |         |
 |[Cardinal](problems.md#cardinal)                       |2.0.4   |       |1       |1 __+1__ |
 |[CluMP](problems.md#clump)                             |0.7.1   |__+1__ |        |         |
 |[compareDF](problems.md#comparedf)                     |1.7.2   |__+1__ |        |1        |
-|[edeaR](problems.md#edear)                             |0.8.2   |       |__+1__  |         |
-|[heuristicsmineR](problems.md#heuristicsminer)         |0.2.0   |       |__+1__  |1        |
-|[IAT](problems.md#iat)                                 |0.3     |       |__+1__  |         |
 |[idealstan](problems.md#idealstan)                     |0.7.1   |       |__+1__  |2        |
-|[INDperform](problems.md#indperform)                   |0.2.0   |1      |        |1 __+1__ |
 |[InjurySeverityScore](problems.md#injuryseverityscore) |0.0.0.1 |__+1__ |        |         |
-|[lans2r](problems.md#lans2r)                           |1.0.5   |       |__+1__  |         |
-|[MSstatsTMT](problems.md#msstatstmt)                   |1.1.2   |       |__+1__  |         |
-|[networkreporting](problems.md#networkreporting)       |0.1.1   |       |__+1__  |         |
-|[nonmemica](problems.md#nonmemica)                     |0.9.0   |       |__+1__  |         |
-|[processmapR](problems.md#processmapr)                 |0.3.3   |       |__+1__  |         |
 |[ruler](problems.md#ruler)                             |0.2.0   |__+2__ |        |         |
-|[seplyr](problems.md#seplyr)                           |0.8.3   |__+1__ |        |         |
-|[socviz](problems.md#socviz)                           |1.0.0   |       |        |__+1__   |
 |[spdplyr](problems.md#spdplyr)                         |0.2.0   |__+2__ |        |         |
 |[strapgod](problems.md#strapgod)                       |0.0.1   |__+1__ |        |         |
-|[summariser](problems.md#summariser)                   |0.1.0   |       |__+1__  |         |
-|[tbl2xts](problems.md#tbl2xts)                         |0.1.2   |       |__+1__  |1        |
-|[TPP](problems.md#tpp)                                 |3.10.1  |       |__+1__  |3        |
-|[xesreadR](problems.md#xesreadr)                       |0.2.3   |       |__+1__  |         |
 
