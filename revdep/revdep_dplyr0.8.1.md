@@ -1,63 +1,31 @@
 
-## banR
+## replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’
 
-http error 503
+benthos, IAT, idealstan, lans2r, MSstatsTMT, networkreporting, nonmemica, summariser, tbl2xts
 
-## Cardinal
+## replacing previous import ‘dplyr:::=’ by ‘data.table:::=’
 
-Not correctly importing dplyr::group_by I guess
+bomrang, bupaR, edeaR, heuristicsmineR, TPP, xesreadR
 
-## compareDF
+related problem in `seplyr`
 
-Test bug
 
-## ELMER
-## TCGAbiolinks
+## Not correctly importing dplyr::group_by
 
-there is no package called 'sesameData'
+Cardinal
 
-## FindMyFriends
-## grasp2db
-## HTSSIP
-## MonetDBLite
-## perturbatr
-## pmc
-## QuaternaryProd
-## rubias
-## XBSeq
-## GEOmetadb
-## IrisSpatialFeatures
+## Not sure what the problem is
 
-timed out
+CluMP, INDperform, InjurySeverityScore, MonetDBLite
 
-## corrr 
+## test bug
 
-https://github.com/drsimonj/corrr/issues/76
+compareDF, ruler
 
-## InjurySeverityScore
+## colwixe issue
 
-https://github.com/dajuntian/InjurySeverityScore/issues/1
+spdplyr
 
-## ruler
-## spdplyr
-## CluMP 
+## Fixed in dev version
 
-Not sure what the problem is
-
-# Fixed issues
-
-## dbplyr 
-## modeldb
-
-https://github.com/tidyverse/dplyr/issues/4305
-
-Fixed via dev version of dbplyr
-
-## strapgod
-
-Fixed in dev version, ready to be released
-
-## broomExtra
-
-use of experimental group_map(), fixed in dev version. 
-
+strapgod

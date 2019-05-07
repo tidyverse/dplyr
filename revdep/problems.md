@@ -1,58 +1,85 @@
-# banR
+# benthos
 
-Version: 0.2.0
+<details>
+
+* Version: 1.3-6
+* Source code: https://github.com/cran/benthos
+* Date/Publication: 2019-03-17 22:43:20 UTC
+* Number of recursive dependencies: 56
+
+Run `revdep_details(,"benthos")` for more info
+
+</details>
 
 ## Newly broken
 
-*   checking examples ... ERROR
+*   checking whether package ‘benthos’ can be installed ... WARNING
     ```
-    ...
-    > ### Name: geocode_tbl
-    > ### Title: Geocode tbl
-    > ### Aliases: geocode_tbl
-    > 
-    > ### ** Examples
-    > 
-    > 
-    > table_test <- tibble::tibble(
-    + x = c("39 quai Andre Citroen", "64 Allee de Bercy", "20 avenue de Segur"), 
-    + y = c("75015", "75012", "75007"), 
-    + z = rnorm(3)
-    + )
-    > 
-    > geocode_tbl(tbl = table_test, adresse = x)
-    Writing tempfile to.../var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpLabKmK/file8ed277e80d06.csv
-    If file is larger than 8 MB, it must be splitted
-    Size is : 61 bytes
-    Server errorService UnavailableServer error: (503) Service Unavailable
-    Error in geocode_tbl(tbl = table_test, adresse = x) : 
-      The API sent back an error 503
-    Execution halted
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘benthos’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/benthos/new/benthos.Rcheck/00install.out’ for details.
     ```
 
-## Newly fixed
+# bomrang
 
-*   checking re-building of vignette outputs ... WARNING
+<details>
+
+* Version: 0.5.0
+* Source code: https://github.com/cran/bomrang
+* URL: https://github.com/ropensci/bomrang, https://ropensci.github.io/bomrang/
+* BugReports: https://github.com/ropensci/bomrang/issues
+* Date/Publication: 2019-03-21 12:13:23 UTC
+* Number of recursive dependencies: 104
+
+Run `revdep_details(,"bomrang")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘bomrang’ can be installed ... WARNING
     ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 47-49 (geocode.Rmd) 
-    Erreur : le traitement de la vignette 'geocode.Rmd' a échoué avec le diagnostic :
-    The API sent back an error 503
-    Exécution arrêtée
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr:::=’ by ‘data.table:::=’ when loading ‘bomrang’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/bomrang/new/bomrang.Rcheck/00install.out’ for details.
     ```
 
-## In both
+# bupaR
 
-*   checking dependencies in R code ... NOTE
+<details>
+
+* Version: 0.4.2
+* Source code: https://github.com/cran/bupaR
+* URL: https://www.bupar.net
+* Date/Publication: 2019-02-19 11:40:03 UTC
+* Number of recursive dependencies: 38
+
+Run `revdep_details(,"bupaR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘bupaR’ can be installed ... WARNING
     ```
-    Namespace in Imports field not imported from: ‘stringr’
-      All declared Imports should be used.
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr:::=’ by ‘data.table:::=’ when loading ‘bupaR’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/bupaR/new/bupaR.Rcheck/00install.out’ for details.
     ```
 
 # Cardinal
 
-Version: 2.0.4
+<details>
+
+* Version: 2.0.4
+* Source code: https://github.com/cran/Cardinal
+* URL: http://www.cardinalmsi.org
+* Date/Publication: 2019-02-21
+* Number of recursive dependencies: 68
+
+Run `revdep_details(,"Cardinal")` for more info
+
+</details>
 
 ## Newly broken
 
@@ -79,13 +106,23 @@ Version: 2.0.4
     ```
       installed size is  6.0Mb
       sub-directories of 1Mb or more:
-        R     3.0Mb
+        R     3.1Mb
         doc   2.2Mb
     ```
 
 # CluMP
 
-Version: 0.7.1
+<details>
+
+* Version: 0.7.1
+* Source code: https://github.com/cran/CluMP
+* URL: https://arxiv.org/ftp/arxiv/papers/1807/1807.05926.pdf
+* Date/Publication: 2019-04-05 09:42:55 UTC
+* Number of recursive dependencies: 77
+
+Run `revdep_details(,"CluMP")` for more info
+
+</details>
 
 ## Newly broken
 
@@ -117,7 +154,16 @@ Version: 0.7.1
 
 # compareDF
 
-Version: 1.7.2
+<details>
+
+* Version: 1.7.2
+* Source code: https://github.com/cran/compareDF
+* Date/Publication: 2019-04-02 10:30:03 UTC
+* Number of recursive dependencies: 39
+
+Run `revdep_details(,"compareDF")` for more info
+
+</details>
 
 ## Newly broken
 
@@ -135,7 +181,7 @@ Version: 1.7.2
       Incompatible type for column `changes`: x numeric, y integer
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 48 SKIPPED: 0 FAILED: 1
+      OK: 48 SKIPPED: 0 WARNINGS: 0 FAILED: 1
       1. Failure: (unknown) (@test-fnsComparison.R#369) 
       
       Error: testthat unit tests failed
@@ -151,220 +197,189 @@ Version: 1.7.2
       All declared Imports should be used.
     ```
 
-# corrr
+# edeaR
 
-Version: 0.3.1
+<details>
+
+* Version: 0.8.2
+* Source code: https://github.com/cran/edeaR
+* URL: https://www.bupar.net
+* BugReports: https://github.com/gertjanssenswillen/edeaR/issues
+* Date/Publication: 2019-02-22 14:40:13 UTC
+* Number of recursive dependencies: 68
+
+Run `revdep_details(,"edeaR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘edeaR’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr:::=’ by ‘data.table:::=’ when loading ‘edeaR’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/edeaR/new/edeaR.Rcheck/00install.out’ for details.
+    ```
+
+# heuristicsmineR
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/heuristicsmineR
+* URL: https://github.com/fmannhardt/heuristicsmineR
+* BugReports: https://github.com/fmannhardt/heuristicsmineR/issues
+* Date/Publication: 2019-05-02 08:20:04 UTC
+* Number of recursive dependencies: 92
+
+Run `revdep_details(,"heuristicsmineR")` for more info
+
+</details>
 
 ## Newly broken
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking whether package ‘heuristicsmineR’ can be installed ... WARNING
     ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 39-44 (corrr-databases.Rmd) 
-    Erreur : le traitement de la vignette 'corrr-databases.Rmd' a échoué avec le diagnostic :
-    objet 'mpg' introuvable
-    Exécution arrêtée
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr:::=’ by ‘data.table:::=’ when loading ‘heuristicsmineR’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/heuristicsmineR/new/heuristicsmineR.Rcheck/00install.out’ for details.
     ```
 
-# cytominer
+## In both
 
-Version: 0.1.0
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘Rcpp11’ ‘magrittr’
+      All declared Imports should be used.
+    ```
+
+# IAT
+
+<details>
+
+* Version: 0.3
+* Source code: https://github.com/cran/IAT
+* Date/Publication: 2016-04-30 00:51:43
+* Number of recursive dependencies: 38
+
+Run `revdep_details(,"IAT")` for more info
+
+</details>
 
 ## Newly broken
+
+*   checking whether package ‘IAT’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘IAT’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/IAT/new/IAT.Rcheck/00install.out’ for details.
+    ```
+
+# idealstan
+
+<details>
+
+* Version: 0.7.1
+* Source code: https://github.com/cran/idealstan
+* BugReports: https://github.com/saudiwin/idealstan/issues
+* Date/Publication: 2019-02-19 21:40:09 UTC
+* Number of recursive dependencies: 103
+
+Run `revdep_details(,"idealstan")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘idealstan’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘idealstan’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/idealstan/new/idealstan.Rcheck/00install.out’ for details.
+    ```
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  6.1Mb
+      sub-directories of 1Mb or more:
+        libs   5.0Mb
+    ```
+
+*   checking for GNU extensions in Makefiles ... NOTE
+    ```
+    GNU make is a SystemRequirements.
+    ```
+
+# INDperform
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/INDperform
+* URL: https://github.com/saskiaotto/INDperform
+* BugReports: https://github.com/SaskiaAOtto/INDperform/issues
+* Date/Publication: 2019-02-10 03:53:24 UTC
+* Number of recursive dependencies: 70
+
+Run `revdep_details(,"INDperform")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.0Mb
+      sub-directories of 1Mb or more:
+        data   3.5Mb
+        help   1.1Mb
+    ```
+
+## In both
 
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-             base::pairlist(...)
-             `_quo` <- rlang::quo(eval_tidy(~mean(.)))
-             rlang::eval_bare(`_quo`, base::parent.frame())
-         }, class = "inline_colwise_function", formula = ~mean(.)))(x)
-      34: base::pairlist(...) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:238
-      35: as.pairlist(list(...))
-      
+      The conditions set in the crit_scores table for sub-criterion
+      C9_1
+      are not unique, i.e. conditions are met multiple times!
+      Please correct your crit_score table before you continue.  variable required_data_type
+      1      edf            numeric
+        variable required_data_type
+      1     r_sq            numeric
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 28 SKIPPED: 0 FAILED: 3
-      1. Error: `aggregate` aggregates data (@test-aggregate.R#37) 
-      2. Error: cytominer can process dataset with a normalized schema (@test-cytominer.R#71) 
-      3. Error: `normalize' normalizes data (@test-normalize.R#49) 
+      OK: 618 SKIPPED: 0 WARNINGS: 12 FAILED: 3
+      1. Failure: check gams under different distributions (@test_calc_deriv.R#82) 
+      2. Failure: test sample_boot (@test_cond_boot.R#69) 
+      3. Failure: test sample_boot (@test_cond_boot.R#70) 
       
       Error: testthat unit tests failed
       Execution halted
     ```
 
-# dbplyr
-
-Version: 1.3.0
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      13: eval_bare(call, env)
-      
-      Error in connection_create(host, username, password, dbname, as.integer(port),  : 
-        Failed to connect: Can't connect to local MySQL server through socket '/tmp/mysql.sock' (2)
-      Calls: <Anonymous> ... <Anonymous> -> <Anonymous> -> .local -> connection_create
-      In addition: Warning message:
-      In dbDisconnect(con) : restarting interrupted promise evaluation
-      ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 565 SKIPPED: 11 FAILED: 1
-      1. Error: tbl_dbi support colwise variants (@test-colwise.R#13) 
-      
-      Error: testthat unit tests failed
-      In addition: Warning message:
-      call dbDisconnect() when finished working with a connection 
-      Execution halted
-    ```
-
-# FindMyFriends
-
-Version: 1.12.0
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking for code/documentation mismatches ... WARNING
-    ```
-    Functions or methods with usage in documentation object 'pgVirtual-class' but not in code:
-      as
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.8Mb
-      sub-directories of 1Mb or more:
-        R         1.0Mb
-        doc       1.5Mb
-        extdata   1.8Mb
-        libs      1.2Mb
-    ```
-
 *   checking dependencies in R code ... NOTE
     ```
-    Unexported objects imported by ':::' calls:
-      ‘gtable:::insert.unit’ ‘gtable:::z_arrange_gtables’
-      See the note in ?`:::` about the use of this operator.
-    ```
-
-# GEOmetadb
-
-Version: 1.44.0
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking for hidden files and directories ... NOTE
-    ```
-    Found the following hidden files and directories:
-      .travis.yml
-    These were most likely included in error. See section ‘Package
-    structure’ in the ‘Writing R Extensions’ manual.
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    getSQLiteFile: no visible global function definition for
-      ‘download.file’
-    Undefined global functions or variables:
-      download.file
-    Consider adding
-      importFrom("utils", "download.file")
-    to your NAMESPACE file.
-    ```
-
-# grasp2db
-
-Version: 1.1.0
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking for missing documentation entries ... WARNING
-    ```
-    Undocumented code objects:
-      ‘GRASP2’ ‘checkAnti’ ‘getJoinCompatible’
-    Undocumented data sets:
-      ‘mml10p_nox’ ‘uniqueGexNames2.0’ ‘uniquePPDnames2.0’
-    All user-level objects in a package should have documentation entries.
-    See chapter ‘Writing R documentation files’ in the ‘Writing R
-    Extensions’ manual.
-    ```
-
-*   checking data for non-ASCII characters ... WARNING
-    ```
-      Warning: found non-ASCII string
-      'Beh<e7>et's disease' in object 'uniquePPDnames2.0'
-    ```
-
-*   checking data for ASCII and uncompressed saves ... WARNING
-    ```
-      
-      Note: significantly better compression could be obtained
-            by using R CMD build --resave-data
-                            old_size new_size compress
-      mml10p_nox.rda           7.1Mb    2.8Mb       xz
-      uniquePPDnames2.0.rda     17Kb     15Kb    bzip2
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package which this enhances but not available for checking: ‘AnnotationHubData’
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  7.6Mb
-      sub-directories of 1Mb or more:
-        data   7.1Mb
-    ```
-
-*   checking DESCRIPTION meta-information ... NOTE
-    ```
-    License components with restrictions not permitted:
-      Artistic-2.0 + file LICENSE
-    ```
-
-*   checking R code for possible problems ... NOTE
-    ```
-    .grasp2ToAnnotationHub: no visible global function definition for
-      ‘outputFile’
-    checkAnti: no visible binding for global variable ‘chr_hg19’
-    getJoinCompatible: no visible binding for global variable ‘gwrngs19’
-    Undefined global functions or variables:
-      chr_hg19 gwrngs19 outputFile
-    ```
-
-# HTSSIP
-
-Version: 1.4.0
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Namespace in Imports field not imported from: ‘igraph’
+    Namespace in Imports field not imported from: ‘lazyeval’
       All declared Imports should be used.
     ```
 
 # InjurySeverityScore
 
-Version: 0.0.0.1
+<details>
+
+* Version: 0.0.0.1
+* Source code: https://github.com/cran/InjurySeverityScore
+* Date/Publication: 2018-03-28 08:26:07 UTC
+* Number of recursive dependencies: 20
+
+Run `revdep_details(,"InjurySeverityScore")` for more info
+
+</details>
 
 ## Newly broken
 
@@ -388,117 +403,214 @@ Version: 0.0.0.1
      1. └─InjurySeverityScore::injury_score(sample_data, subj, code)
      2.   ├─base::cbind(...)
      3.   └─dplyr::coalesce(iss_br$max_wo_9, iss_br$max_w_9, iss_br$severity_default)
-     4.     └─dplyr:::replace_with(...) /Users/romainfrancois/git/tidyverse/dplyr/R/coalesce.R:42:4
-     5.       └─dplyr:::check_type(val, x, name) /Users/romainfrancois/git/tidyverse/dplyr/R/utils-replace-with.R:7:2
-     6.         └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}") /Users/romainfrancois/git/tidyverse/dplyr/R/utils-replace-with.R:52:2
+     4.     └─dplyr:::replace_with(...)
+     5.       └─dplyr:::check_type(val, x, name)
+     6.         └─dplyr:::glubort(header, "must be {friendly_type_of(template)}, not {friendly_type_of(x)}")
     Execution halted
     ```
 
-# IrisSpatialFeatures
+# lans2r
 
-Version: 1.3.0
+<details>
 
-## In both
+* Version: 1.0.5
+* Source code: https://github.com/cran/lans2r
+* URL: https://github.com/KopfLab/lans2r
+* BugReports: https://github.com/KopfLab/lans2r/issues
+* Date/Publication: 2017-05-24 04:25:53 UTC
+* Number of recursive dependencies: 64
 
-*   R CMD check timed out
-    
+Run `revdep_details(,"lans2r")` for more info
 
-# modeldb
-
-Version: 0.1.2
+</details>
 
 ## Newly broken
 
-*   checking re-building of vignette outputs ... WARNING
+*   checking whether package ‘lans2r’ can be installed ... WARNING
     ```
-    Error in re-building vignettes:
-      ...
-    Quitting from lines 45-49 (kmeans.Rmd) 
-    Erreur : le traitement de la vignette 'kmeans.Rmd' a échoué avec le diagnostic :
-    objet 'dep_time' introuvable
-    Exécution arrêtée
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘lans2r’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/lans2r/new/lans2r.Rcheck/00install.out’ for details.
     ```
 
 # MonetDBLite
 
-Version: 0.6.0
+<details>
 
-## In both
+* Version: 0.6.0
+* Source code: https://github.com/cran/MonetDBLite
+* URL: https://github.com/hannesmuehleisen/MonetDBLite-R
+* BugReports: https://github.com/hannesmuehleisen/MonetDBLite-R/issues
+* Date/Publication: 2018-07-27 09:40:03 UTC
+* Number of recursive dependencies: 73
+
+Run `revdep_details(,"MonetDBLite")` for more info
+
+</details>
+
+## Newly broken
 
 *   R CMD check timed out
     
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.7Mb
-      sub-directories of 1Mb or more:
-        libs   5.4Mb
-    ```
-
-# pammtools
-
-Version: 0.1.9
-
-## Newly broken
+## Newly fixed
 
 *   checking tests ...
     ```
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      41: tryCatchList(expr, classes, parentenv, handlers)
-      42: tryCatch(withCallingHandlers({    eval(code, test_env)    if (!handled && !is.null(test)) {        skip_empty()    }}, expectation = handle_expectation, skip = handle_skip, warning = handle_warning,     message = handle_message, error = handle_error), error = handle_fatal,     skip = function(e) {    })
-      43: test_code(NULL, exprs, env)
-      44: source_file(path, new.env(parent = env), chdir = TRUE, wrap = wrap)
-      45: force(code)
-      46: with_reporter(reporter = reporter, start_end_reporter = start_end_reporter,     {        lister$start_file(basename(path))        source_file(path, new.env(parent = env), chdir = TRUE,             wrap = wrap)        end_context()    })
-      47: FUN(X[[i]], ...)
-      48: lapply(paths, test_file, env = env, reporter = current_reporter,     start_end_reporter = FALSE, load_helpers = FALSE, wrap = wrap)
-      49: force(code)
-      50: with_reporter(reporter = current_reporter, results <- lapply(paths,     test_file, env = env, reporter = current_reporter, start_end_reporter = FALSE,     load_helpers = FALSE, wrap = wrap))
-      51: test_files(paths, reporter = reporter, env = env, stop_on_failure = stop_on_failure,     stop_on_warning = stop_on_warning, wrap = wrap)
-      52: test_dir(path = test_path, reporter = reporter, env = env, filter = filter,     ..., stop_on_failure = stop_on_failure, stop_on_warning = stop_on_warning,     wrap = wrap)
-      53: test_package_dir(package = package, test_path = test_path, filter = filter,     reporter = reporter, ..., stop_on_failure = stop_on_failure,     stop_on_warning = stop_on_warning, wrap = wrap)
-      54: test_check("pammtools")
-      An irrecoverable exception occurred. R is aborting now ...
+      round(confint(a, df = degf(rclus1))[2, 2], 2) not equal to 30808.26.
+      1/1 mismatches
+      [1] 33252 - 30808 == 2443
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 292 SKIPPED: 13 WARNINGS: 10 FAILED: 6
+      1. Error: sample works (@test_04_dplyr.R#41) 
+      2. Failure: db allows svyby commands (@test_05_survey.R#60) 
+      3. Failure: db allows svyby commands (@test_05_survey.R#62) 
+      4. Failure: db allows svyby commands (@test_05_survey.R#66) 
+      5. Failure: db allows svyby commands (@test_05_survey.R#67) 
+      6. Failure: db allows svyby commands (@test_05_survey.R#69) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.8Mb
+      sub-directories of 1Mb or more:
+        libs   5.4Mb
+    ```
+
+# MSstatsTMT
+
+<details>
+
+* Version: 1.1.2
+* Source code: https://github.com/cran/MSstatsTMT
+* URL: http://msstats.org/msstatstmt/
+* BugReports: https://groups.google.com/forum/#!forum/msstats
+* Date/Publication: 2019-02-27
+* Number of recursive dependencies: 82
+
+Run `revdep_details(,"MSstatsTMT")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘MSstatsTMT’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr:::=’ by ‘data.table:::=’ when loading ‘MSstatsTMT’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/MSstatsTMT/new/MSstatsTMT.Rcheck/00install.out’ for details.
+    ```
+
+# networkreporting
+
+<details>
+
+* Version: 0.1.1
+* Source code: https://github.com/cran/networkreporting
+* Date/Publication: 2016-12-05 18:28:47
+* Number of recursive dependencies: 50
+
+Run `revdep_details(,"networkreporting")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘networkreporting’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘networkreporting’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/networkreporting/new/networkreporting.Rcheck/00install.out’ for details.
+    ```
+
+# nonmemica
+
+<details>
+
+* Version: 0.9.0
+* Source code: https://github.com/cran/nonmemica
+* Date/Publication: 2019-04-25 12:10:02 UTC
+* Number of recursive dependencies: 59
+
+Run `revdep_details(,"nonmemica")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘nonmemica’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘nonmemica’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/nonmemica/new/nonmemica.Rcheck/00install.out’ for details.
     ```
 
 # perturbatr
 
-Version: 1.2.1
+<details>
+
+* Version: 1.2.1
+* Source code: https://github.com/cran/perturbatr
+* URL: https://github.com/cbg-ethz/perturbatr
+* BugReports: https://github.com/cbg-ethz/perturbatr/issues
+* Date/Publication: 2019-01-04
+* Number of recursive dependencies: 78
+
+Run `revdep_details(,"perturbatr")` for more info
+
+</details>
 
 ## Newly broken
 
 *   R CMD check timed out
     
 
-# pmc
+# processmapR
 
-Version: 1.0.3
+<details>
 
-## In both
+* Version: 0.3.3
+* Source code: https://github.com/cran/processmapR
+* URL: https://www.bupar.net
+* Date/Publication: 2019-02-24 18:00:15 UTC
+* Number of recursive dependencies: 92
 
-*   R CMD check timed out
-    
+Run `revdep_details(,"processmapR")` for more info
 
-# rubias
+</details>
 
-Version: 0.2.0
+## Newly broken
 
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking dependencies in R code ... NOTE
+*   checking whether package ‘processmapR’ can be installed ... WARNING
     ```
-    Namespace in Imports field not imported from: ‘ggplot2’
-      All declared Imports should be used.
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr:::=’ by ‘data.table:::=’ when loading ‘processmapR’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/processmapR/new/processmapR.Rcheck/00install.out’ for details.
     ```
 
 # ruler
 
-Version: 0.2.0
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/ruler
+* URL: https://echasnovski.github.io/ruler/, https://github.com/echasnovski/ruler
+* BugReports: https://github.com/echasnovski/ruler/issues
+* Date/Publication: 2019-02-15 21:00:03 UTC
+* Number of recursive dependencies: 46
+
+Run `revdep_details(,"ruler")` for more info
+
+</details>
 
 ## Newly broken
 
@@ -536,7 +648,7 @@ Version: 0.2.0
       37: is.data.frame(x)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 281 SKIPPED: 1 FAILED: 8
+      OK: 278 SKIPPED: 1 WARNINGS: 3 FAILED: 8
       1. Error: expose works (@test-expose.R#188) 
       2. Error: expose preserves pack names (@test-expose.R#246) 
       3. Error: expose accounts for rule separator (@test-expose.R#264) 
@@ -550,17 +662,93 @@ Version: 0.2.0
       Execution halted
     ```
 
-# spdplyr
+# seplyr
 
-Version: 0.2.0
+<details>
+
+* Version: 0.8.3
+* Source code: https://github.com/cran/seplyr
+* URL: https://github.com/WinVector/seplyr/, https://winvector.github.io/seplyr/
+* BugReports: https://github.com/WinVector/seplyr/issues
+* Date/Publication: 2019-01-02 23:10:09 UTC
+* Number of recursive dependencies: 38
+
+Run `revdep_details(,"seplyr")` for more info
+
+</details>
 
 ## Newly broken
 
 *   checking examples ... ERROR
     ```
     ...
-    + 
-    + spmap %>% mutate_if(is.numeric, as.character)
+    >  suppressPackageStartupMessages(library("dplyr"))
+    >  # Example: clear one of a or b in any row where both are set.
+    >  d <- data.frame(a = c(0, 0, 1, 1, 1, 1, 1, 1, 1, 1),
+    +                  b = c(0, 1, 0, 1, 1, 1, 1, 1, 1, 1),
+    +                  edited = FALSE)
+    > 
+    >  program <- if_else_device(
+    +    testexpr = '(a+b)>1',
+    +    thenexprs = c(
+    +      if_else_device(
+    +        testexpr = 'runif(n()) >= 0.5',
+    +        thenexprs = 'a' := '0',
+    +        elseexprs = 'b' := '0'),
+    +      'edited' := 'TRUE'))
+    Error: `:=` can only be used within a quasiquoted argument
+    Backtrace:
+        █
+     1. ├─seplyr::if_else_device(...)
+     2. ├─seplyr::if_else_device(...)
+     3. └─`:=`("a", "0")
+    Execution halted
+    ```
+
+# socviz
+
+<details>
+
+* Version: 1.0.0
+* Source code: https://github.com/cran/socviz
+* URL: https://github.com/kjhealy/socviz
+* BugReports: https://github.com/kjhealy/socviz/issues
+* Date/Publication: 2019-04-23 12:00:03 UTC
+* Number of recursive dependencies: 39
+
+Run `revdep_details(,"socviz")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.1Mb
+      sub-directories of 1Mb or more:
+        data   4.5Mb
+    ```
+
+# spdplyr
+
+<details>
+
+* Version: 0.2.0
+* Source code: https://github.com/cran/spdplyr
+* URL: https://github.com/mdsumner/spdplyr
+* BugReports: https://github.com/mdsumner/spdplyr/issues
+* Date/Publication: 2019-02-04 09:50:02 UTC
+* Number of recursive dependencies: 50
+
+Run `revdep_details(,"spdplyr")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
     + spmap %>% mutate_all(funs(as.character))
     + spmap %>% mutate_at(vars(starts_with("L")), funs(as.integer))
     + }
@@ -576,9 +764,11 @@ Version: 0.2.0
       7.           ├─base::withVisible(function_list[[k]](value))
       8.           └─function_list[[k]](value)
       9.             └─dplyr::mutate_if(., is.numeric, as.character)
-     10.               └─dplyr:::manip_if(...) /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:240:2
-     11.                 └─dplyr:::tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars) /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:285:2
-     12.                   ├─rlang::syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group
+     10.               └─dplyr:::manip_if(...)
+     11.                 └─dplyr:::tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars)
+     12.                   ├─rlang::syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars))
+     13.                   │ └─rlang:::map(x, sym)
+     14.                   │   └─base::lapply(.x,
     Execution halted
     ```
 
@@ -587,17 +777,17 @@ Version: 0.2.0
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      10: manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:240
-      11: tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise-mutate.R:285
-      12: syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars)) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:218
+      10: manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), ...)
+      11: tbl_if_syms(.tbl, .predicate, .env, .include_group_vars = .include_group_vars)
+      12: syms(tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars))
       13: map(x, sym)
       14: lapply(.x, .f, ...)
-      15: tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:218
-      16: as_data_mask(.tbl) at /Users/romainfrancois/git/tidyverse/dplyr/R/colwise.R:208
+      15: tbl_if_vars(.tbl, .p, .env, ..., .include_group_vars = .include_group_vars)
+      16: as_data_mask(.tbl)
       17: rlang::abort(x)
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 46 SKIPPED: 4 FAILED: 1
+      OK: 46 SKIPPED: 4 WARNINGS: 2 FAILED: 1
       1. Error: mutate_all, mutate_at (@test-adv-dplyr.R#83) 
       
       Error: testthat unit tests failed
@@ -606,7 +796,18 @@ Version: 0.2.0
 
 # strapgod
 
-Version: 0.0.1
+<details>
+
+* Version: 0.0.1
+* Source code: https://github.com/cran/strapgod
+* URL: https://github.com/DavisVaughan/strapgod
+* BugReports: https://github.com/DavisVaughan/strapgod/issues
+* Date/Publication: 2019-03-16 14:00:03 UTC
+* Number of recursive dependencies: 52
+
+Run `revdep_details(,"strapgod")` for more info
+
+</details>
 
 ## Newly broken
 
@@ -623,7 +824,7 @@ Version: 0.0.1
       target is NULL, current is tbl_df
       
       ══ testthat results  ═══════════════════════════════════════════════════════════
-      OK: 146 SKIPPED: 0 FAILED: 3
+      OK: 146 SKIPPED: 0 WARNINGS: 0 FAILED: 3
       1. Failure: group_map() (@test-dplyr-group-funs.R#43) 
       2. Failure: group_map() (@test-dplyr-group-funs.R#50) 
       3. Failure: group_map() (@test-dplyr-group-funs.R#52) 
@@ -632,49 +833,137 @@ Version: 0.0.1
       Execution halted
     ```
 
-# XBSeq
+# summariser
 
-Version: 1.14.1
+<details>
+
+* Version: 0.1.0
+* Source code: https://github.com/cran/summariser
+* URL: https://github.com/condwanaland/summariser
+* Date/Publication: 2017-03-23 13:10:18 UTC
+* Number of recursive dependencies: 41
+
+Run `revdep_details(,"summariser")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘summariser’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘summariser’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/summariser/new/summariser.Rcheck/00install.out’ for details.
+    ```
+
+# tbl2xts
+
+<details>
+
+* Version: 0.1.2
+* Source code: https://github.com/cran/tbl2xts
+* Date/Publication: 2017-08-02 13:50:58 UTC
+* Number of recursive dependencies: 39
+
+Run `revdep_details(,"tbl2xts")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘tbl2xts’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr::as_name’ by ‘lazyeval::as_name’ when loading ‘tbl2xts’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/tbl2xts/new/tbl2xts.Rcheck/00install.out’ for details.
+    ```
 
 ## In both
 
-*   R CMD check timed out
-    
-
-*   checking whether the namespace can be loaded with stated dependencies ... NOTE
+*   checking dependencies in R code ... NOTE
     ```
-    Warning: no function found corresponding to methods exports from ‘XBSeq’ for: ‘conditions’, ‘conditions<-’, ‘dispTable’
-    
-    A namespace must be able to be loaded with just the base namespace
-    loaded: otherwise if the namespace gets loaded by a saved object, the
-    session will be unable to start.
-    
-    Probably some imports need to be declared in the NAMESPACE file.
+    Namespace in Imports field not imported from: ‘PerformanceAnalytics’
+      All declared Imports should be used.
+    ```
+
+# TPP
+
+<details>
+
+* Version: 3.10.1
+* Source code: https://github.com/cran/TPP
+* Date/Publication: 2019-01-04
+* Number of recursive dependencies: 83
+
+Run `revdep_details(,"TPP")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘TPP’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘data.table:::=’ by ‘dplyr:::=’ when loading ‘TPP’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/TPP/new/TPP.Rcheck/00install.out’ for details.
+    ```
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 13.5Mb
+      sub-directories of 1Mb or more:
+        data           1.9Mb
+        example_data   8.0Mb
+        test_data      1.9Mb
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘broom’
+      All declared Imports should be used.
+    Unexported objects imported by ':::' calls:
+      ‘doParallel:::.options’ ‘mefa:::rep.data.frame’
+      See the note in ?`:::` about the use of this operator.
     ```
 
 *   checking R code for possible problems ... NOTE
     ```
-    ...
-    estimateRealCount,XBSeqDataSet: no visible global function definition
-      for ‘assay’
-    estimateRealCount,XBSeqDataSet: no visible global function definition
-      for ‘assay<-’
-    estimateSCV,XBSeqDataSet: no visible global function definition for
-      ‘conditions’
-    estimateSCV,XBSeqDataSet: no visible global function definition for
-      ‘dispTable<-’
+    File ‘TPP/R/TPP.R’:
+      .onLoad calls:
+        packageStartupMessage(msgText, "\n")
+    
+    See section ‘Good practice’ in '?.onAttach'.
+    
+    plot_fSta_distribution: no visible binding for global variable
+      ‘..density..’
+    plot_pVal_distribution: no visible binding for global variable
+      ‘..density..’
     Undefined global functions or variables:
-      ..count.. DataFrame Gamma Group Sample SummarizedExperiment assay
-      assay<- assays baseMean coefficients complete.cases conditions cor
-      data ddelap dispTable dispTable<- dnbinom dpois formula glm
-      log2FoldChange median optim p.adjust pbeta predict qbeta quantile
-      rnbinom scvBiasCorrectionFits
-    Consider adding
-      importFrom("stats", "Gamma", "coefficients", "complete.cases", "cor",
-                 "dnbinom", "dpois", "formula", "glm", "median", "optim",
-                 "p.adjust", "pbeta", "predict", "qbeta", "quantile",
-                 "rnbinom")
-      importFrom("utils", "data")
-    to your NAMESPACE file.
+      ..density..
+    ```
+
+# xesreadR
+
+<details>
+
+* Version: 0.2.3
+* Source code: https://github.com/cran/xesreadR
+* URL: http://www.bupar.net
+* Date/Publication: 2019-03-19 12:50:03 UTC
+* Number of recursive dependencies: 49
+
+Run `revdep_details(,"xesreadR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘xesreadR’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: replacing previous import ‘dplyr:::=’ by ‘data.table:::=’ when loading ‘xesreadR’
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/xesreadR/new/xesreadR.Rcheck/00install.out’ for details.
     ```
 
