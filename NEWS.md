@@ -2,6 +2,8 @@
 
 * `rename_at()` handles empty selection (#4324). 
 
+* `summarise()` correctly resolves summarised list columns (#4349). 
+
 # dplyr 0.8.0.9000
 
 ## Breaking changes
