@@ -1150,3 +1150,11 @@ test_that("hybrid min() and max() coerce to integer if there is no infinity (#42
   expect_is(tbl$min, "numeric")
   expect_is(tbl$max, "numeric")
 })
+
+test_that("summarise() correctly handle summarised list columns (#4349)", {
+  res <- tibble(grp = "grp") %>%
+    group_by(grp) %>%
+    summarise(z = list(1), y = z)
+  expect_identical(res$z, res$y)
+  expect_equal(res$z, list(1))
+})
