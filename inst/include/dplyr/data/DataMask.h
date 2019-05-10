@@ -27,6 +27,8 @@ template <class SlicedTibble> class DataMaskWeakProxy;
 template <typename SlicedTibble>
 struct ColumnBinding {
 private:
+  typedef typename SlicedTibble::slicing_index Index;
+
   // is this a summary binding, i.e. does it come from summarise
   bool summary;
 
@@ -48,7 +50,7 @@ public:
   // the active binding function calls eventually calls DataMask<>::materialize
   // which calls this method
   inline SEXP get(
-    const typename SlicedTibble::slicing_index& indices,
+    const Index& indices,
     SEXP mask_resolved)
   {
     return materialize(indices, mask_resolved);
@@ -81,7 +83,7 @@ public:
   // this is only used for its side effect of storing the result
   // in the right environment
   inline void update_indices(
-    const typename SlicedTibble::slicing_index& indices,
+    const Index& indices,
     SEXP mask_resolved)
   {
     materialize(indices, mask_resolved);
@@ -145,13 +147,11 @@ private:
 
     // materialize
     Rcpp::Shield<SEXP> value(summary ?
-                             column_subset(data, RowwiseSlicingIndex(indices.group()), frame) :
+                             column_subset(data, Index(indices.group()), frame) :
                              column_subset(data, indices, frame)
                             );
     MARK_NOT_MUTABLE(value);
 
-    // store it in the mask_resolved environment
-    Rf_defineVar(symbol, value, mask_resolved);
     return value;
   }
 
@@ -519,7 +519,6 @@ public:
     SEXP res = column_bindings[idx].get(
                  get_current_indices(), mask_resolved
                );
-
 
     // remember to pro-actievely materialize this binding on the next group
     materialized.push_back(idx);
