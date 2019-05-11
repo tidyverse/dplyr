@@ -53,7 +53,7 @@ funs <- function(..., .args = list()) {
     "  # After: ",
     "  list(name = ~ f(.))"
   ))
-  dots <- quos(...)
+  dots <- enquos(...)
   default_env <- caller_env()
 
   funs <- map(dots, function(quo) as_fun(quo, default_env, .args))

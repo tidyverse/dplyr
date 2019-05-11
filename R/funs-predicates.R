@@ -33,7 +33,7 @@ any_exprs <- function(..., .vectorised = TRUE) {
 quo_reduce <- function(..., .op) {
   stopifnot(is_symbol(.op) || is_function(.op))
 
-  dots <- quos(...)
+  dots <- enquos(...)
   if (length(dots) == 0) {
     abort("At least one expression must be given")
   } else if (length(dots) == 1) {

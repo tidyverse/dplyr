@@ -35,7 +35,7 @@ group_indices_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 group_indices.data.frame <- function(.data, ..., .drop = TRUE) {
-  dots <- quos(...)
+  dots <- enquos(...)
   if (length(dots) == 0L) {
     return(rep(1L, nrow(.data)))
   }

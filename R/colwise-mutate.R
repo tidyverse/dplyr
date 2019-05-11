@@ -387,7 +387,7 @@ manip_apply_syms <- function(funs, syms, tbl) {
 #' @keywords internal
 #' @export
 summarise_each <- function(tbl, funs, ...) {
-  summarise_each_(tbl, funs, quos(...))
+  summarise_each_(tbl, funs, enquos(...))
 }
 #' @export
 #' @rdname summarise_each
@@ -423,7 +423,7 @@ mutate_each <- function(tbl, funs, ...) {
     funs <- funs_(funs)
   }
 
-  mutate_each_(tbl, funs, quos(...))
+  mutate_each_(tbl, funs, enquos(...))
 }
 #' @export
 #' @rdname summarise_each

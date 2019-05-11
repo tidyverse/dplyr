@@ -485,7 +485,7 @@ transmute_ <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.default <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- enquos(..., .named = TRUE)
   out <- mutate(.data, !!!dots)
 
   keep <- names(dots)
@@ -499,7 +499,7 @@ transmute_.default <- function(.data, ..., .dots = list()) {
 
 #' @export
 transmute.grouped_df <- function(.data, ...) {
-  dots <- quos(..., .named = TRUE)
+  dots <- enquos(..., .named = TRUE)
   out <- mutate(.data, !!!dots)
   keep <- names(dots)
 
@@ -568,9 +568,9 @@ arrange_ <- function(.data, ..., .dots = list()) {
 #'   grouped data frames only.
 arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
   if (.by_group) {
-    dots <- quos(!!!groups(.data), ...)
+    dots <- c(quos(!!!groups(.data)), enquos(...))
   } else {
-    dots <- quos(...)
+    dots <- enquos(...)
   }
 
   arrange_impl(.data, dots, environment())

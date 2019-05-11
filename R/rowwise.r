@@ -83,7 +83,7 @@ do.rowwise_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- quos(...)
+  args <- enquos(...)
   named <- named_args(args)
 
   # Create new environment, inheriting from parent, with an active binding

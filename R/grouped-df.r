@@ -233,14 +233,14 @@ group_cols <- function(vars = peek_vars()) {
 
 .select_grouped_df <- function(.data, ..., notify = TRUE) {
   # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(sel_vars(.data), !!!quos(...))
+  vars <- tidyselect::vars_select(sel_vars(.data), !!!enquos(...))
   vars <- ensure_group_vars(vars, .data, notify = notify)
   select_impl(.data, vars)
 }
 
 #' @export
 select.grouped_df <- function(.data, ...) {
-  .select_grouped_df(.data, !!!quos(...), notify = TRUE)
+  .select_grouped_df(.data, !!!enquos(...), notify = TRUE)
 }
 #' @export
 select_.grouped_df <- function(.data, ..., .dots = list()) {
@@ -288,7 +288,7 @@ do.grouped_df <- function(.data, ...) {
   # Create ungroup version of data frame suitable for subsetting
   group_data <- ungroup(.data)
 
-  args <- quos(...)
+  args <- enquos(...)
   named <- named_args(args)
   mask <- new_data_mask(new_environment())
 
@@ -351,7 +351,7 @@ do_.grouped_df <- function(.data, ..., env = caller_env(), .dots = list()) {
 distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   dist <- distinct_prepare(
     .data,
-    vars = quos(...),
+    vars = enquos(...),
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )

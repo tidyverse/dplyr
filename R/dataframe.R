@@ -109,7 +109,7 @@ arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 #' @export
 select.data.frame <- function(.data, ...) {
   # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(sel_vars(.data), !!!quos(...))
+  vars <- tidyselect::vars_select(sel_vars(.data), !!!enquos(...))
   select_impl(.data, vars)
 }
 #' @export
@@ -120,7 +120,7 @@ select_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 rename.data.frame <- function(.data, ...) {
-  vars <- tidyselect::vars_rename(names(.data), !!!quos(...))
+  vars <- tidyselect::vars_rename(names(.data), !!!enquos(...))
   select_impl(.data, vars)
 }
 #' @export
@@ -210,7 +210,7 @@ reconstruct_set <- function(out, x) {
 
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
-  dist <- distinct_prepare(.data, quos(...), .keep_all = .keep_all)
+  dist <- distinct_prepare(.data, enquos(...), .keep_all = .keep_all)
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
   distinct_impl(dist$data, vars, keep, environment())
@@ -226,7 +226,7 @@ distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) 
 
 #' @export
 do.data.frame <- function(.data, ...) {
-  args <- quos(...)
+  args <- enquos(...)
   named <- named_args(args)
 
   # Create custom data mask with `.` pronoun
