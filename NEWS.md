@@ -2,7 +2,7 @@
 
 * `rename_at()` handles empty selection (#4324). 
 
-# dplyr 0.8.0.9000
+# dplyr 0.8.1
 
 ## Breaking changes
 
@@ -41,6 +41,8 @@
 
 * Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. 
   https://www.tidyverse.org/articles/2019/04/r-version-support/
+
+* `rename_at()` handles empty selection (#4324). 
 
 # dplyr 0.8.0.1 (2019-02-15)
 
