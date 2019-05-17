@@ -1,3 +1,7 @@
+# dplyr 0.8.1.9000
+
+* `rename_at()` handles empty selection (#4324). 
+
 # dplyr 0.8.1
 
 ## Breaking changes
