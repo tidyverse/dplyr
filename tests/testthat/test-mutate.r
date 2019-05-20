@@ -813,6 +813,7 @@ test_that("can use character vectors in grouped mutate (#2971)", {
 })
 
 test_that("mutate() to UTF-8 column names", {
+  skip_on_cran()
   df <- tibble(a = 1) %>% mutate("\u5e78" := a)
 
   expect_equal(colnames(df), c("a", "\u5e78"))

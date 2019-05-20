@@ -405,3 +405,28 @@ test_that("summarise_at() can refer to local variables and columns (#4304)", {
   })
 
 })
+
+test_that("colwise mutate handles formulas with constants (#4374)", {
+  expect_identical(
+    tibble(x = 12) %>% mutate_all(~ 42),
+    tibble(x = 42)
+  )
+  expect_identical(
+    tibble(x = 12) %>% mutate_at("x", ~ 42),
+    tibble(x = 42)
+  )
+})
+
+test_that("colwise mutate gives correct error message if column not found (#4374)", {
+  expect_error(
+    mutate_at(tibble(), "test", ~ 1),
+    "Unknown column `test`"
+  )
+})
+
+test_that("colwise mutate handle named chr vectors", {
+  res <- tibble(x = 1:10) %>%
+    mutate_at(c(y = "x"), mean)
+  expect_identical(res, tibble(x = 1:10, y = 5.5))
+})
+
