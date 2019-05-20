@@ -151,11 +151,9 @@ tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
 
   if (is_null(vars)) {
     character()
-  } else if (is_character(vars)) {
-    vars
   } else if (is_integerish(vars)) {
     tibble_vars[vars]
-  } else if (is_quosures(vars)) {
+  } else if (is_quosures(vars) || is_character(vars)) {
     out <- tidyselect::vars_select(tibble_vars, !!!vars)
     if (!any(have_name(vars))) {
       names(out) <- NULL
