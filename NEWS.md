@@ -2,6 +2,8 @@
 
 * `rename_at()` handles empty selection (#4324). 
 
+* colwise functions support constants in formulas (#4374). 
+
 # dplyr 0.8.1
 
 ## Breaking changes

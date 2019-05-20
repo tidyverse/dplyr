@@ -139,6 +139,9 @@ public:
     if (TYPEOF(head) == CLOSXP && Rf_inherits(head, "inline_colwise_function")) {
       dot_alias = CADR(expr);
       expr = CADR(Rf_getAttrib(head, symbols::formula));
+      if (TYPEOF(expr) != LANGSXP) {
+        return;
+      }
       head = CAR(expr);
     }
 
