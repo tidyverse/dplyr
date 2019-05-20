@@ -87,7 +87,7 @@ are crossed, not nested." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9014</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.1.9000</span>
         </div>
       </div>
     </div>
@@ -131,6 +131,9 @@ are crossed, not nested." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -249,13 +252,13 @@ structures into a <code>tbl_cube</code>.</p></div>
 #&gt; D: long [dbl, 24]
 #&gt; D: month [int, 12]
 #&gt; D: year [int, 6]
-#&gt; M: cloudhigh [dbl]
-#&gt; M: cloudlow [dbl]
-#&gt; M: cloudmid [dbl]
-#&gt; M: ozone [dbl]
-#&gt; M: pressure [dbl]
-#&gt; M: surftemp [dbl]
-#&gt; M: temperature [dbl]</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>nasa</span>))</div><div class='output co'>#&gt;        lat   long month year cloudhigh cloudlow cloudmid ozone pressure
+#&gt; M: cloudhigh [dbl[,24,12,6]]
+#&gt; M: cloudlow [dbl[,24,12,6]]
+#&gt; M: cloudmid [dbl[,24,12,6]]
+#&gt; M: ozone [dbl[,24,12,6]]
+#&gt; M: pressure [dbl[,24,12,6]]
+#&gt; M: surftemp [dbl[,24,12,6]]
+#&gt; M: temperature [dbl[,24,12,6]]</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/head'>head</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/as.data.frame'>as.data.frame</a></span>(<span class='no'>nasa</span>))</div><div class='output co'>#&gt;        lat   long month year cloudhigh cloudlow cloudmid ozone pressure
 #&gt; 1 36.20000 -113.8     1 1995      26.0      7.5     34.5   304      835
 #&gt; 2 33.70435 -113.8     1 1995      20.0     11.5     32.5   304      940
 #&gt; 3 31.20870 -113.8     1 1995      16.0     16.5     26.0   298      960
@@ -289,8 +292,8 @@ structures into a <code>tbl_cube</code>.</p></div>
 #&gt; D: agegp [ord, 6]
 #&gt; D: alcgp [ord, 4]
 #&gt; D: tobgp [ord, 4]
-#&gt; M: ncases [dbl]
-#&gt; M: ncontrols [dbl]</div><div class='input'>
+#&gt; M: ncases [dbl[,4,4]]
+#&gt; M: ncontrols [dbl[,4,4]]</div><div class='input'>
 <span class='co'># Some manipulation examples with the NASA dataset --------------------------</span>
 
 <span class='co'># select() operates only on measures: it doesn't affect dimensions in any way</span>
@@ -299,28 +302,28 @@ structures into a <code>tbl_cube</code>.</p></div>
 #&gt; D: long [dbl, 24]
 #&gt; D: month [int, 12]
 #&gt; D: year [int, 6]
-#&gt; M: cloudhigh [dbl]
-#&gt; M: cloudlow [dbl]
-#&gt; M: cloudmid [dbl]</div><div class='input'><span class='fu'><a href='select.html'>select</a></span>(<span class='no'>nasa</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>matches</a></span>(<span class='st'>"temp"</span>))</div><div class='output co'>#&gt; Source: local array [41,472 x 4]
+#&gt; M: cloudhigh [dbl[,24,12,6]]
+#&gt; M: cloudlow [dbl[,24,12,6]]
+#&gt; M: cloudmid [dbl[,24,12,6]]</div><div class='input'><span class='fu'><a href='select.html'>select</a></span>(<span class='no'>nasa</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>matches</a></span>(<span class='st'>"temp"</span>))</div><div class='output co'>#&gt; Source: local array [41,472 x 4]
 #&gt; D: lat [dbl, 24]
 #&gt; D: long [dbl, 24]
 #&gt; D: month [int, 12]
 #&gt; D: year [int, 6]
-#&gt; M: surftemp [dbl]
-#&gt; M: temperature [dbl]</div><div class='input'>
+#&gt; M: surftemp [dbl[,24,12,6]]
+#&gt; M: temperature [dbl[,24,12,6]]</div><div class='input'>
 <span class='co'># filter() operates only on dimensions</span>
 <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>nasa</span>, <span class='no'>lat</span> <span class='kw'>&gt;</span> <span class='fl'>0</span>, <span class='no'>year</span> <span class='kw'>==</span> <span class='fl'>2000</span>)</div><div class='output co'>#&gt; Source: local array [4,320 x 4]
 #&gt; D: lat [dbl, 15]
 #&gt; D: long [dbl, 24]
 #&gt; D: month [int, 12]
 #&gt; D: year [int, 1]
-#&gt; M: cloudhigh [dbl]
-#&gt; M: cloudlow [dbl]
-#&gt; M: cloudmid [dbl]
-#&gt; M: ozone [dbl]
-#&gt; M: pressure [dbl]
-#&gt; M: surftemp [dbl]
-#&gt; M: temperature [dbl]</div><div class='input'># Each component can only refer to one dimensions, ensuring that you always
+#&gt; M: cloudhigh [dbl[,24,12,1]]
+#&gt; M: cloudlow [dbl[,24,12,1]]
+#&gt; M: cloudmid [dbl[,24,12,1]]
+#&gt; M: ozone [dbl[,24,12,1]]
+#&gt; M: pressure [dbl[,24,12,1]]
+#&gt; M: surftemp [dbl[,24,12,1]]
+#&gt; M: temperature [dbl[,24,12,1]]</div><div class='input'># Each component can only refer to one dimensions, ensuring that you always
 # create a rectangular subset
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>nasa</span>, <span class='no'>lat</span> <span class='kw'>&gt;</span> <span class='no'>long</span>)
@@ -331,8 +334,8 @@ structures into a <code>tbl_cube</code>.</p></div>
 <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>by_loc</span>, <span class='kw'>pressure</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>pressure</span>), <span class='kw'>temp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>temperature</span>))</div><div class='output co'>#&gt; Source: local array [576 x 2]
 #&gt; D: lat [dbl, 24]
 #&gt; D: long [dbl, 24]
-#&gt; M: pressure [dbl]
-#&gt; M: temp [dbl]</div></pre>
+#&gt; M: pressure [dbl[,24]]
+#&gt; M: temp [dbl[,24]]</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

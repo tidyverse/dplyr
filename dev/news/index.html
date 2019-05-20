@@ -80,7 +80,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.0.9014</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.1.9000</span>
         </div>
       </div>
     </div>
@@ -124,6 +124,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -172,9 +175,9 @@
 <code><a href="../reference/select_all.html">rename_at()</a></code> handles empty selection (<a href='https://github.com/tidyverse/dplyr/issues/4324'>#4324</a>).</li>
 </ul>
 </div>
-    <div id="dplyr-0-8-0-9000" class="section level1">
+    <div id="dplyr-0-8-1" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-0-9000" class="anchor"></a>dplyr 0.8.0.9000<small> Unreleased </small>
+<a href="#dplyr-0-8-1" class="anchor"></a>dplyr 0.8.1<small> 2019-05-14 </small>
 </h1>
 <div id="breaking-changes" class="section level2">
 <h2 class="hasAnchor">
@@ -201,7 +204,7 @@
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> does a shallow copy even in the no groups case (<a href='https://github.com/tidyverse/dplyr/issues/4221'>#4221</a>).</p></li>
 <li><p>Fixed <code><a href="../reference/mutate.html">mutate()</a></code> on rowwise data frames with 0 rows (<a href='https://github.com/tidyverse/dplyr/issues/4224'>#4224</a>).</p></li>
 <li><p>Fixed handling of bare formulas in colwise verbs (<a href='https://github.com/tidyverse/dplyr/issues/4183'>#4183</a>).</p></li>
-<li><p>Fixed performance of <code>n_distint()</code> (<a href='https://github.com/tidyverse/dplyr/issues/4202'>#4202</a>).</p></li>
+<li><p>Fixed performance of <code><a href="../reference/n_distinct.html">n_distinct()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/4202'>#4202</a>).</p></li>
 <li><p><code><a href="../reference/group_indices.html">group_indices()</a></code> now ignores empty groups by default for <code>data.frame</code>, which is consistent with the default of <code><a href="../reference/group_by.html">group_by()</a></code> (<a href='https://github.com/yutannihilation'>@yutannihilation</a>, <a href='https://github.com/tidyverse/dplyr/issues/4208'>#4208</a>).</p></li>
 <li><p>Fixed integer overflow in hybrid <code><a href="../reference/ranking.html">ntile()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/4186'>#4186</a>).</p></li>
 <li><p>colwise functions <code><a href="../reference/summarise_all.html">summarise_at()</a></code> … can rename vars in the case of multiple functions (<a href='https://github.com/tidyverse/dplyr/issues/4180'>#4180</a>).</p></li>
@@ -209,6 +212,7 @@
 <li><p>hybrid <code><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min()</a></code> and <code><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max()</a></code> cast to integer when possible (<a href='https://github.com/tidyverse/dplyr/issues/4258'>#4258</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_rows()</a></code> correctly handles the cases where there are multiple consecutive <code>NULL</code> (<a href='https://github.com/tidyverse/dplyr/issues/4296'>#4296</a>).</p></li>
 <li><p>Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. <a href="https://www.tidyverse.org/articles/2019/04/r-version-support/" class="uri">https://www.tidyverse.org/articles/2019/04/r-version-support/</a></p></li>
+<li><p><code><a href="../reference/select_all.html">rename_at()</a></code> handles empty selection (<a href='https://github.com/tidyverse/dplyr/issues/4324'>#4324</a>).</p></li>
 </ul>
 </div>
 </div>
@@ -1473,7 +1477,7 @@ starwars %&gt;%
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
         <li><a href="#dplyr-0-8-1-9000">0.8.1.9000</a></li>
-        <li><a href="#dplyr-0-8-0-9000">0.8.0.9000</a></li>
+        <li><a href="#dplyr-0-8-1">0.8.1</a></li>
         <li><a href="#dplyr-0-8-0-1-2019-02-15">0.8.0.1</a></li>
         <li><a href="#dplyr-0-8-0-2019-02-14">0.8.0</a></li>
         <li><a href="#dplyr-0-7-6">0.7.6</a></li>
