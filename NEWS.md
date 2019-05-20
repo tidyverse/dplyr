@@ -24,7 +24,7 @@
 
 * Fixed handling of bare formulas in colwise verbs (#4183).
 
-* Fixed performance of `n_distint()` (#4202). 
+* Fixed performance of `n_distinct()` (#4202). 
 
 * `group_indices()` now ignores empty groups by default for `data.frame`, which is
   consistent with the default of `group_by()` (@yutannihilation, #4208). 
