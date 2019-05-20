@@ -84,7 +84,7 @@ which does the same thing for NULLs." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
         </div>
       </div>
     </div>
@@ -128,6 +128,9 @@ which does the same thing for NULLs." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -203,7 +206,7 @@ missing values replaced by the first non-missing value.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Use a single value to replace all missing values</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>5</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>))
-<span class='fu'>coalesce</span>(<span class='no'>x</span>, <span class='fl'>0L</span>)</div><div class='output co'>#&gt; [1] 0 2 1 0 3 0 5 4</div><div class='input'>
+<span class='fu'>coalesce</span>(<span class='no'>x</span>, <span class='fl'>0L</span>)</div><div class='output co'>#&gt; [1] 0 3 4 0 5 1 2 0</div><div class='input'>
 <span class='co'># Or match together a complete vector from missing pieces</span>
 <span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>2</span>, <span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>5</span>)
 <span class='no'>z</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>NA</span>, <span class='fl'>NA</span>, <span class='fl'>3</span>, <span class='fl'>4</span>, <span class='fl'>5</span>)

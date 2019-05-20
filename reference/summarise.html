@@ -84,7 +84,7 @@ row in the output for each group.  Tbls with no groups will result in one row." 
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
         </div>
       </div>
     </div>
@@ -128,6 +128,9 @@ row in the output for each group.  Tbls with no groups will result in one row." 
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -225,8 +228,15 @@ be dropped.</p>
     <h2 class="hasAnchor" id="backend-variations"><a class="anchor" href="#backend-variations"></a>Backend variations</h2>
 
     
-    <p>Data frames are the only backend that supports creating a variable and
-using it in the same summary. See examples for more details.</p>
+    <p>The data frame backend supports creating a variable and using it in the
+same summary. This means that previously created summary variables can be
+further transformed or combined within the summary, as in <code><a href='mutate.html'>mutate()</a></code>.
+However, it also means that summary variables with the same names as previous
+variables overwrite them, making those variables unavailable to later summary
+variables.</p>
+<p>This behaviour may not be supported in other backends. To avoid unexpected
+results, consider using new names for your summary variables, especially when
+creating multiple summaries.</p>
     
     <h2 class="hasAnchor" id="tidy-data"><a class="anchor" href="#tidy-data"></a>Tidy data</h2>
 
@@ -261,16 +271,16 @@ convert to an explicit variable with <code><a href='https://tibble.tidyverse.org
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>, <span class='no'>vs</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'>summarise</span>(<span class='kw'>cyl_n</span> <span class='kw'>=</span> <span class='fu'><a href='n.html'>n</a></span>()) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='groups.html'>group_vars</a></span>()</div><div class='output co'>#&gt; [1] "cyl"</div><div class='input'>
-<span class='co'># Note that with data frames, newly created summaries immediately</span>
-<span class='co'># overwrite existing variables</span>
+
+<span class='co'># Reusing variable names when summarising may lead to unexpected results</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>cyl</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/sd'>sd</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 3
-#&gt;     cyl  disp    sd
-#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     4  105.    NA
-#&gt; 2     6  183.    NA
-#&gt; 3     8  353.    NA</div><div class='input'>
+  <span class='fu'>summarise</span>(<span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>disp</span>), <span class='kw'>sd</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/sd'>sd</a></span>(<span class='no'>disp</span>), <span class='kw'>double_disp</span> <span class='kw'>=</span> <span class='no'>disp</span> * <span class='fl'>2</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 4
+#&gt;     cyl  disp    sd double_disp
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;
+#&gt; 1     4  105.    NA        210.
+#&gt; 2     6  183.    NA        367.
+#&gt; 3     8  353.    NA        706.</div><div class='input'>
 
 <span class='co'># Refer to column names stored as strings with the `.data` pronoun:</span>
 <span class='no'>var</span> <span class='kw'>&lt;-</span> <span class='st'>"mass"</span>

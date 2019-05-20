@@ -84,7 +84,7 @@ ordered by wt." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
         </div>
       </div>
     </div>
@@ -128,6 +128,9 @@ ordered by wt." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -227,8 +230,8 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.htm
 
 <span class='co'># Find year with most games for each player</span>
 <span class='fu'><a href='tbl_df.html'>tbl_df</a></span>(<span class='no'>Batting</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>playerID</span>) <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>1</span>, <span class='no'>G</span>)
-}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; # A tibble: 19,791 x 22
-#&gt; # Groups:   playerID [18,915]
+}</div><div class='output co'>#&gt; <span class='message'>Selecting by n</span></div><div class='output co'>#&gt; # A tibble: 20,307 x 22
+#&gt; # Groups:   playerID [19,428]
 #&gt;    playerID yearID stint teamID lgID      G    AB     R     H   X2B   X3B    HR
 #&gt;    &lt;chr&gt;     &lt;int&gt; &lt;int&gt; &lt;fct&gt;  &lt;fct&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;int&gt;
 #&gt;  1 abercda…   1871     1 TRO    NA        1     4     0     0     0     0     0
@@ -241,7 +244,7 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.htm
 #&gt;  8 berkena…   1871     1 PH1    NA        1     4     0     0     0     0     0
 #&gt;  9 berryto…   1871     1 PH1    NA        1     4     0     1     0     0     0
 #&gt; 10 berthha…   1871     1 WS3    NA       17    73    17    17     1     1     0
-#&gt; # … with 19,781 more rows, and 10 more variables: RBI &lt;int&gt;, SB &lt;int&gt;,
+#&gt; # … with 20,297 more rows, and 10 more variables: RBI &lt;int&gt;, SB &lt;int&gt;,
 #&gt; #   CS &lt;int&gt;, BB &lt;int&gt;, SO &lt;int&gt;, IBB &lt;int&gt;, HBP &lt;int&gt;, SH &lt;int&gt;, SF &lt;int&gt;,
 #&gt; #   GIDP &lt;int&gt;</div></pre>
   </div>

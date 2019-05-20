@@ -83,7 +83,7 @@ functions for input to other functions like summarise_at()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
         </div>
       </div>
     </div>
@@ -127,6 +127,9 @@ functions for input to other functions like summarise_at()." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -198,8 +201,10 @@ support <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquotin
     </tr>
     <tr>
       <th>.args, args</th>
-      <td><p>A named list of additional arguments to be added
-to all function calls.</p></td>
+      <td><p>A named list of additional arguments to be added to all
+function calls. As <code>funs()</code> is being deprecated, use other methods to
+supply arguments: <code>...</code> argument in <a href='summarise_all.html'>scoped verbs</a> or make
+own functions with <code><a href='https://purrr.tidyverse.org/reference/partial.html'>purrr::partial()</a></code>.</p></td>
     </tr>
     </table>
     
@@ -212,11 +217,11 @@ to all function calls.</p></td>
     <pre class="examples"><div class='input'><span class='fu'>funs</span>(<span class='no'>mean</span>, <span class='st'>"mean"</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>.</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>))</div><div class='output co'>#&gt; <span class='warning'>Warning: funs() is soft deprecated as of dplyr 0.8.0</span>
 #&gt; <span class='warning'>please use list() instead</span>
 #&gt; <span class='warning'></span>
-#&gt; <span class='warning'># Before:</span>
-#&gt; <span class='warning'>funs(name = f(.))</span>
+#&gt; <span class='warning'>  # Before:</span>
+#&gt; <span class='warning'>  funs(name = f(.))</span>
 #&gt; <span class='warning'></span>
-#&gt; <span class='warning'># After: </span>
-#&gt; <span class='warning'>list(name = ~f(.))</span>
+#&gt; <span class='warning'>  # After: </span>
+#&gt; <span class='warning'>  list(name = ~ f(.))</span>
 #&gt; <span class='warning'>This warning is displayed once per session.</span></div><div class='output co'>#&gt; &lt;fun_calls&gt;
 #&gt; $ mean: mean(.)
 #&gt; $ mean: mean(.)

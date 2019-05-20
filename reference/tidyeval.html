@@ -43,22 +43,34 @@
 sym() creates a symbol from a string and
 syms() creates a list of symbols from a
 character vector.
-expr() and quo() quote
-one expression. quo() wraps the quoted expression in a quosure.
-The plural variants rlang::exprs() and
-quos() return a list of quoted expressions or
-quosures.
-enexpr() and enquo()
-capture the expression supplied as argument by the user of the
-current function (enquo() wraps this expression in a quosure).
-enexprs() and enquos()
-capture multiple expressions supplied as arguments, including
-....
+enquo() and enquos()
+delay the execution of one or several function arguments.
+enquo() returns a single quoted expression, which is like
+a blueprint for the delayed computation. enquos() returns
+a list of such quoted expressions.
+expr() quotes a new expression locally. It
+is mostly useful to build new expressions around arguments
+captured with enquo() or enquos():
+expr(mean(!!enquo(arg), na.rm = TRUE)).
+as_name() transforms a quoted variable name
+into a string. Supplying something else than a quoted variable
+name is an error.
+That's unlike as_label() which also returns
+a single string but supports any kind of R object as input,
+including quoted function calls and vectors. Its purpose is to
+summarise that object into a single label. That label is often
+suitable as a default name.
+If you don't know what a quoted expression contains (for instance
+expressions captured with enquo() could be a variable
+name, a call to a function, or an unquoted constant), then use
+as_label(). If you know you have quoted a simple variable
+name, or would like to enforce this, use as_name().
 " />
 
-<meta property="og:description" content="exprs() is not exported by dplyr to avoid conflicts with
-Biobase::exprs().  Use rlang::exprs() even if you have
-attached dplyr." />
+<meta property="og:description" content="To learn more about tidy eval and how to use these tools, visit
+http://tidyeval.tidyverse.org and the
+Metaprogramming
+section of Advanced R." />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -101,7 +113,7 @@ attached dplyr." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
         </div>
       </div>
     </div>
@@ -145,6 +157,9 @@ attached dplyr." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -191,22 +206,34 @@ attached dplyr." />
 <li><p><code><a href='https://rlang.r-lib.org/reference/sym.html'>sym</a>()</code> creates a symbol from a string and
 <code><a href='https://rlang.r-lib.org/reference/sym.html'>syms</a>()</code> creates a list of symbols from a
 character vector.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>expr</a>()</code> and <code><a href='https://rlang.r-lib.org/reference/quotation.html'>quo</a>()</code> quote
-one expression. <code>quo()</code> wraps the quoted expression in a quosure.</p>
-<p>The plural variants <code><a href='https://rlang.r-lib.org/reference/quotation.html'>rlang::exprs()</a></code> and
-<code><a href='https://rlang.r-lib.org/reference/quotation.html'>quos</a>()</code> return a list of quoted expressions or
-quosures.</p></li>
-<li><p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>enexpr</a>()</code> and <code><a href='https://rlang.r-lib.org/reference/quotation.html'>enquo</a>()</code>
-capture the expression supplied as argument by the user of the
-current function (<code>enquo()</code> wraps this expression in a quosure).</p>
-<p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>enexprs</a>()</code> and <code><a href='https://rlang.r-lib.org/reference/quotation.html'>enquos</a>()</code>
-capture multiple expressions supplied as arguments, including
-<code>...</code>.</p></li>
+<li><p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>enquo</a>()</code> and <code><a href='https://rlang.r-lib.org/reference/quotation.html'>enquos</a>()</code>
+delay the execution of one or several function arguments.
+<code>enquo()</code> returns a single quoted expression, which is like
+a blueprint for the delayed computation. <code>enquos()</code> returns
+a list of such quoted expressions.</p></li>
+<li><p><code><a href='https://rlang.r-lib.org/reference/quotation.html'>expr</a>()</code> quotes a new expression <em>locally</em>. It
+is mostly useful to build new expressions around arguments
+captured with <code>enquo()</code> or <code>enquos()</code>:
+<code>expr(mean(!!enquo(arg), na.rm = TRUE))</code>.</p></li>
+<li><p><code><a href='https://rlang.r-lib.org/reference/as_name.html'>as_name</a>()</code> transforms a quoted variable name
+into a string. Supplying something else than a quoted variable
+name is an error.</p>
+<p>That's unlike <code><a href='https://rlang.r-lib.org/reference/as_label.html'>as_label</a>()</code> which also returns
+a single string but supports any kind of R object as input,
+including quoted function calls and vectors. Its purpose is to
+summarise that object into a single label. That label is often
+suitable as a default name.</p>
+<p>If you don't know what a quoted expression contains (for instance
+expressions captured with <code>enquo()</code> could be a variable
+name, a call to a function, or an unquoted constant), then use
+<code>as_label()</code>. If you know you have quoted a simple variable
+name, or would like to enforce this, use <code>as_name()</code>.</p></li>
 </ul>
 
-    <p><code>exprs()</code> is not exported by <span class="pkg">dplyr</span> to avoid conflicts with
-<code>Biobase::exprs()</code>.  Use <code><a href='https://rlang.r-lib.org/reference/quotation.html'>rlang::exprs()</a></code> even if you have
-attached <span class="pkg">dplyr</span>.</p>
+    <p>To learn more about tidy eval and how to use these tools, visit
+<a href='http://tidyeval.tidyverse.org'>http://tidyeval.tidyverse.org</a> and the
+<a href='https://adv-r.hadley.nz/metaprogramming.html'>Metaprogramming
+section</a> of <a href='https://adv-r.hadley.nz'>Advanced R</a>.</p>
     
     </div>
 

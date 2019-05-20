@@ -84,7 +84,7 @@ it will modify the order clause of the OVER function." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
         </div>
       </div>
     </div>
@@ -128,6 +128,9 @@ it will modify the order clause of the OVER function." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -207,12 +210,12 @@ is the vector being operated on</p></td>
 
 <span class='no'>wrong</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>running</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum</a></span>(<span class='no'>value</span>))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>wrong</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running
-#&gt; 1 2000     0      29
-#&gt; 2 2001     1      55
-#&gt; 3 2002     4      29
-#&gt; 4 2003     9      38
-#&gt; 5 2004    16      54
-#&gt; 6 2005    25      25</div><div class='input'>
+#&gt; 1 2000     0      16
+#&gt; 2 2001     1      42
+#&gt; 3 2002     4      46
+#&gt; 4 2003     9      55
+#&gt; 5 2004    16      16
+#&gt; 6 2005    25      41</div><div class='input'>
 <span class='no'>right</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='mutate.html'>mutate</a></span>(<span class='no'>scrambled</span>, <span class='kw'>running</span> <span class='kw'>=</span> <span class='fu'>order_by</span>(<span class='no'>year</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/cumsum'>cumsum</a></span>(<span class='no'>value</span>)))
 <span class='fu'><a href='arrange.html'>arrange</a></span>(<span class='no'>right</span>, <span class='no'>year</span>)</div><div class='output co'>#&gt;   year value running
 #&gt; 1 2000     0       0

@@ -6,13 +6,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>The MIT License (MIT) • dplyr</title>
+<title>Default value for .drop argument of group_by — group_by_drop_default • dplyr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
-<link href="tidyverse.css" rel="stylesheet">
+<link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -25,19 +25,21 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
-<link href="pkgdown.css" rel="stylesheet">
-<script src="pkgdown.js"></script>
-<link href="tidyverse-2.css" rel="stylesheet">
+<link href="../pkgdown.css" rel="stylesheet">
+<script src="../pkgdown.js"></script>
+<link href="../tidyverse-2.css" rel="stylesheet">
 
 
 <!-- docsearch -->
-<script src="docsearch.js"></script>
+<script src="../docsearch.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous" />
-<link href="docsearch.css" rel="stylesheet">
+<link href="../docsearch.css" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
 
 
-<meta property="og:title" content="The MIT License (MIT)" />
+<meta property="og:title" content="Default value for .drop argument of group_by — group_by_drop_default" />
+
+<meta property="og:description" content="Default value for .drop argument of group_by" />
 
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -64,7 +66,7 @@
   </head>
 
   <body>
-    <div class="container template-title-body">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -77,7 +79,7 @@
       </button>
 
       <div class="navbar-brand-container">
-        <a class="navbar-brand" href="index.html">dplyr</a>
+        <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
           <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
@@ -87,10 +89,10 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="articles/dplyr.html">Intro</a>
+  <a href="../articles/dplyr.html">Intro</a>
 </li>
 <li>
-  <a href="reference/index.html">Reference</a>
+  <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
@@ -100,19 +102,19 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="articles/two-table.html">Two-table verbs</a>
+      <a href="../articles/two-table.html">Two-table verbs</a>
     </li>
     <li>
-      <a href="articles/window-functions.html">Window functions</a>
+      <a href="../articles/window-functions.html">Window functions</a>
     </li>
     <li>
       <a href="http://dbplyr.tidyverse.org/articles/dbplyr.html">Databases with dbplyr</a>
     </li>
     <li>
-      <a href="articles/programming.html">Programming with dplyr</a>
+      <a href="../articles/programming.html">Programming with dplyr</a>
     </li>
     <li>
-      <a href="articles/compatibility.html">Compatibility</a>
+      <a href="../articles/compatibility.html">Compatibility</a>
     </li>
   </ul>
 </li>
@@ -134,7 +136,7 @@
       <a href="https://www.tidyverse.org/articles/2018/06/dplyr-0.7.5/">Version 0.7.5</a>
     </li>
     <li>
-      <a href="news/index.html">Change log</a>
+      <a href="../news/index.html">Change log</a>
     </li>
   </ul>
 </li>
@@ -160,23 +162,58 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>The MIT License (MIT)</h1>
+    <h1>Default value for .drop argument of group_by</h1>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/group-by.r'><code>R/group-by.r</code></a></small>
+    <div class="hidden name"><code>group_by_drop_default.Rd</code></div>
     </div>
 
-<div id="the-mit-license-mit" class="section level1">
+    <div class="ref-description">
+    
+    <p>Default value for .drop argument of group_by</p>
+    
+    </div>
 
-<p>Copyright © 2013-2015 RStudio and others.</p>
-<p>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:</p>
-<p>The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.</p>
-<p>THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
-</div>
+    <pre class="usage"><span class='fu'>group_by_drop_default</span>(<span class='no'>.tbl</span>)</pre>
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>.tbl</th>
+      <td><p>A data frame</p></td>
+    </tr>
+    </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>TRUE</code> unless <code>.tbl</code> is a grouped data frame that was previously
+obtained by <code><a href='group_by.html'>group_by(.drop = FALSE)</a></code></p>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>group_by_drop_default</span>(<span class='no'>iris</span>)</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>group_by_drop_default</span>()</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
+<span class='no'>iris</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>) <span class='kw'>%&gt;%</span>
+  <span class='fu'>group_by_drop_default</span>()</div><div class='output co'>#&gt; [1] FALSE</div><div class='input'>
+</div></pre>
+  </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      
+      <li><a href="#value">Value</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
-
 </div>
-
 
       <footer>
       <div class="tidyverse">

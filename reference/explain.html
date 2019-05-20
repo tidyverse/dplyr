@@ -84,7 +84,7 @@ str()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.0</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
         </div>
       </div>
     </div>
@@ -128,6 +128,9 @@ str()." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li class="dropdown-header">Release notes</li>
+    <li>
+      <a href="https://www.tidyverse.org/articles/2019/05/dplyr-0-8-1/">Version 0.8.1</a>
+    </li>
     <li>
       <a href="https://www.tidyverse.org/articles/2019/02/dplyr-0-8-0/">Version 0.8.0</a>
     </li>
@@ -224,291 +227,52 @@ diagnosing performance problems.</p>
 <span class='co'># Joins will use indexes in both tables</span>
 <span class='no'>teams</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='no'>lahman_s</span>, <span class='st'>"Teams"</span>)
 <span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='join.html'>left_join</a></span>(<span class='no'>teams</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"yearID"</span>, <span class='st'>"teamID"</span>)) <span class='kw'>%&gt;%</span> <span class='fu'>explain</span>()
-}</div><div class='output co'>#&gt; <span class='message'>Creating table: AllstarFull</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Appearances</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsPlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsShareManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsSharePlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Batting</span></div><div class='output co'>#&gt; <span class='message'>Creating table: BattingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: CollegePlaying</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Fielding</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingOF</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: HallOfFame</span></div><div class='output co'>#&gt; <span class='message'>Creating table: LahmanData</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Managers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: ManagersHalf</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Master</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Pitching</span></div><div class='output co'>#&gt; <span class='message'>Creating table: PitchingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Salaries</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Schools</span></div><div class='output co'>#&gt; <span class='message'>Creating table: SeriesPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Teams</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsFranchises</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsHalf</span></div><div class='output co'>#&gt; <span class='message'>&lt;SQL&gt;</span>
-#&gt; <span class='message'>SELECT *</span>
-#&gt; <span class='message'>FROM `Batting`</span></div><div class='output co'>#&gt; <span class='message'>&lt;SQL&gt;</span>
-#&gt; <span class='message'>SELECT *</span>
-#&gt; <span class='message'>FROM `Batting`</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>&lt;PLAN&gt;</span>
-#&gt; <span class='message'>   addr      opcode p1   p2  p3 p4 p5 comment</span>
-#&gt; <span class='message'>1     0        Init  0   28   0    00      NA</span>
-#&gt; <span class='message'>2     1    OpenRead  0 3056   0 22 00      NA</span>
-#&gt; <span class='message'>3     2      Rewind  0   27   0    00      NA</span>
-#&gt; <span class='message'>4     3      Column  0    0   1    00      NA</span>
-#&gt; <span class='message'>5     4      Column  0    1   2    00      NA</span>
-#&gt; <span class='message'>6     5      Column  0    2   3    00      NA</span>
-#&gt; <span class='message'>7     6      Column  0    3   4    00      NA</span>
-#&gt; <span class='message'>8     7      Column  0    4   5    00      NA</span>
-#&gt; <span class='message'>9     8      Column  0    5   6    00      NA</span>
-#&gt; <span class='message'>10    9      Column  0    6   7    00      NA</span>
-#&gt; <span class='message'>11   10      Column  0    7   8    00      NA</span>
-#&gt; <span class='message'>12   11      Column  0    8   9    00      NA</span>
-#&gt; <span class='message'>13   12      Column  0    9  10    00      NA</span>
-#&gt; <span class='message'>14   13      Column  0   10  11    00      NA</span>
-#&gt; <span class='message'>15   14      Column  0   11  12    00      NA</span>
-#&gt; <span class='message'>16   15      Column  0   12  13    00      NA</span>
-#&gt; <span class='message'>17   16      Column  0   13  14    00      NA</span>
-#&gt; <span class='message'>18   17      Column  0   14  15    00      NA</span>
-#&gt; <span class='message'>19   18      Column  0   15  16    00      NA</span>
-#&gt; <span class='message'>20   19      Column  0   16  17    00      NA</span>
-#&gt; <span class='message'>21   20      Column  0   17  18    00      NA</span>
-#&gt; <span class='message'>22   21      Column  0   18  19    00      NA</span>
-#&gt; <span class='message'>23   22      Column  0   19  20    00      NA</span>
-#&gt; <span class='message'>24   23      Column  0   20  21    00      NA</span>
-#&gt; <span class='message'>25   24      Column  0   21  22    00      NA</span>
-#&gt; <span class='message'>26   25   ResultRow  1   22   0    00      NA</span>
-#&gt; <span class='message'>27   26        Next  0    3   0    01      NA</span>
-#&gt; <span class='message'>28   27        Halt  0    0   0    00      NA</span>
-#&gt; <span class='message'>29   28 Transaction  0    0 109  0 01      NA</span>
-#&gt; <span class='message'>30   29        Goto  0    1   0    00      NA</span></div><div class='output co'>#&gt; <span class='message'>&lt;SQL&gt;</span>
-#&gt; <span class='message'>SELECT *</span>
-#&gt; <span class='message'>FROM `Batting`</span>
-#&gt; <span class='message'>WHERE (`lgID` = 'NL' AND `yearID` = 2000)</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>&lt;PLAN&gt;</span>
-#&gt; <span class='message'>   addr       opcode   p1   p2  p3       p4 p5 comment</span>
-#&gt; <span class='message'>1     0         Init    0   34   0          00      NA</span>
-#&gt; <span class='message'>2     1     OpenRead    0 3056   0       22 00      NA</span>
-#&gt; <span class='message'>3     2     OpenRead    1 4841   0   k(2,,) 02      NA</span>
-#&gt; <span class='message'>4     3      Integer 2000    1   0          00      NA</span>
-#&gt; <span class='message'>5     4       SeekGE    1   33   1        1 00      NA</span>
-#&gt; <span class='message'>6     5        IdxGT    1   33   1        1 00      NA</span>
-#&gt; <span class='message'>7     6 DeferredSeek    1    0   0          00      NA</span>
-#&gt; <span class='message'>8     7       Column    0    4   2          00      NA</span>
-#&gt; <span class='message'>9     8           Ne    3   32   2 (BINARY) 52      NA</span>
-#&gt; <span class='message'>10    9       Column    0    0   4          00      NA</span>
-#&gt; <span class='message'>11   10       Column    1    0   5          00      NA</span>
-#&gt; <span class='message'>12   11       Column    0    2   6          00      NA</span>
-#&gt; <span class='message'>13   12       Column    0    3   7          00      NA</span>
-#&gt; <span class='message'>14   13         Copy    2    8   0          00      NA</span>
-#&gt; <span class='message'>15   14       Column    0    5   9          00      NA</span>
-#&gt; <span class='message'>16   15       Column    0    6  10          00      NA</span>
-#&gt; <span class='message'>17   16       Column    0    7  11          00      NA</span>
-#&gt; <span class='message'>18   17       Column    0    8  12          00      NA</span>
-#&gt; <span class='message'>19   18       Column    0    9  13          00      NA</span>
-#&gt; <span class='message'>20   19       Column    0   10  14          00      NA</span>
-#&gt; <span class='message'>21   20       Column    0   11  15          00      NA</span>
-#&gt; <span class='message'>22   21       Column    0   12  16          00      NA</span>
-#&gt; <span class='message'>23   22       Column    0   13  17          00      NA</span>
-#&gt; <span class='message'>24   23       Column    0   14  18          00      NA</span>
-#&gt; <span class='message'>25   24       Column    0   15  19          00      NA</span>
-#&gt; <span class='message'>26   25       Column    0   16  20          00      NA</span>
-#&gt; <span class='message'>27   26       Column    0   17  21          00      NA</span>
-#&gt; <span class='message'>28   27       Column    0   18  22          00      NA</span>
-#&gt; <span class='message'>29   28       Column    0   19  23          00      NA</span>
-#&gt; <span class='message'>30   29       Column    0   20  24          00      NA</span>
-#&gt; <span class='message'>31   30       Column    0   21  25          00      NA</span>
-#&gt; <span class='message'>32   31    ResultRow    4   22   0          00      NA</span>
-#&gt; <span class='message'>33   32         Next    1    5   1          00      NA</span>
-#&gt; <span class='message'>34   33         Halt    0    0   0          00      NA</span>
-#&gt; <span class='message'>35   34  Transaction    0    0 109        0 01      NA</span>
-#&gt; <span class='message'>36   35      String8    0    3   0       NL 00      NA</span>
-#&gt; <span class='message'>37   36         Goto    0    1   0          00      NA</span></div><div class='output co'>#&gt; <span class='message'>&lt;SQL&gt;</span>
-#&gt; <span class='message'>SELECT *</span>
-#&gt; <span class='message'>FROM `Batting`</span>
-#&gt; <span class='message'>WHERE (`lgID` = 'NL' OR `yearID` = 2000.0)</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>&lt;PLAN&gt;</span>
-#&gt; <span class='message'>   addr       opcode p1   p2  p3                                            p4</span>
-#&gt; <span class='message'>1     0         Init  0   49   0                                              </span>
-#&gt; <span class='message'>2     1     OpenRead  0 3056   0                                            22</span>
-#&gt; <span class='message'>3     2         Null  0    2   0                                              </span>
-#&gt; <span class='message'>4     3      Integer 23    1   0                                              </span>
-#&gt; <span class='message'>5     4    ReopenIdx  1 5408   0                                        k(2,,)</span>
-#&gt; <span class='message'>6     5      String8  0    4   0                                            NL</span>
-#&gt; <span class='message'>7     6       SeekGE  1   13   4                                             1</span>
-#&gt; <span class='message'>8     7        IdxGT  1   13   4                                             1</span>
-#&gt; <span class='message'>9     8 DeferredSeek  1    0   0 [0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]</span>
-#&gt; <span class='message'>10    9     IdxRowid  1    3   0                                              </span>
-#&gt; <span class='message'>11   10   RowSetTest  2   12   3                                             0</span>
-#&gt; <span class='message'>12   11        Gosub  1   24   0                                              </span>
-#&gt; <span class='message'>13   12         Next  1    7   1                                              </span>
-#&gt; <span class='message'>14   13    ReopenIdx  1 4841   0                                        k(2,,)</span>
-#&gt; <span class='message'>15   14         Real  0    5   0                                          2000</span>
-#&gt; <span class='message'>16   15     Affinity  5    1   0                                             D</span>
-#&gt; <span class='message'>17   16       SeekGE  1   23   5                                             1</span>
-#&gt; <span class='message'>18   17        IdxGT  1   23   5                                             1</span>
-#&gt; <span class='message'>19   18 DeferredSeek  1    0   0 [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]</span>
-#&gt; <span class='message'>20   19     IdxRowid  1    3   0                                              </span>
-#&gt; <span class='message'>21   20   RowSetTest  2   22   3                                            -1</span>
-#&gt; <span class='message'>22   21        Gosub  1   24   0                                              </span>
-#&gt; <span class='message'>23   22         Next  1   17   1                                              </span>
-#&gt; <span class='message'>24   23         Goto  0   48   0                                              </span>
-#&gt; <span class='message'>25   24       Column  0    0   6                                              </span>
-#&gt; <span class='message'>26   25       Column  0    1   7                                              </span>
-#&gt; <span class='message'>27   26       Column  0    2   8                                              </span>
-#&gt; <span class='message'>28   27       Column  0    3   9                                              </span>
-#&gt; <span class='message'>29   28       Column  0    4  10                                              </span>
-#&gt; <span class='message'>30   29       Column  0    5  11                                              </span>
-#&gt; <span class='message'>31   30       Column  0    6  12                                              </span>
-#&gt; <span class='message'>32   31       Column  0    7  13                                              </span>
-#&gt; <span class='message'>33   32       Column  0    8  14                                              </span>
-#&gt; <span class='message'>34   33       Column  0    9  15                                              </span>
-#&gt; <span class='message'>35   34       Column  0   10  16                                              </span>
-#&gt; <span class='message'>36   35       Column  0   11  17                                              </span>
-#&gt; <span class='message'>37   36       Column  0   12  18                                              </span>
-#&gt; <span class='message'>38   37       Column  0   13  19                                              </span>
-#&gt; <span class='message'>39   38       Column  0   14  20                                              </span>
-#&gt; <span class='message'>40   39       Column  0   15  21                                              </span>
-#&gt; <span class='message'>41   40       Column  0   16  22                                              </span>
-#&gt; <span class='message'>42   41       Column  0   17  23                                              </span>
-#&gt; <span class='message'>43   42       Column  0   18  24                                              </span>
-#&gt; <span class='message'>44   43       Column  0   19  25                                              </span>
-#&gt; <span class='message'>45   44       Column  0   20  26                                              </span>
-#&gt; <span class='message'>46   45       Column  0   21  27                                              </span>
-#&gt; <span class='message'>47   46    ResultRow  6   22   0                                              </span>
-#&gt; <span class='message'>48   47       Return  1    0   0                                              </span>
-#&gt; <span class='message'>49   48         Halt  0    0   0                                              </span>
-#&gt; <span class='message'>50   49  Transaction  0    0 109                                             0</span>
-#&gt; <span class='message'>51   50         Goto  0    1   0                                              </span>
-#&gt; <span class='message'>   p5 comment</span>
-#&gt; <span class='message'>1  00      NA</span>
-#&gt; <span class='message'>2  00      NA</span>
-#&gt; <span class='message'>3  00      NA</span>
-#&gt; <span class='message'>4  00      NA</span>
-#&gt; <span class='message'>5  02      NA</span>
-#&gt; <span class='message'>6  00      NA</span>
-#&gt; <span class='message'>7  00      NA</span>
-#&gt; <span class='message'>8  00      NA</span>
-#&gt; <span class='message'>9  00      NA</span>
-#&gt; <span class='message'>10 00      NA</span>
-#&gt; <span class='message'>11 00      NA</span>
-#&gt; <span class='message'>12 00      NA</span>
-#&gt; <span class='message'>13 00      NA</span>
-#&gt; <span class='message'>14 02      NA</span>
-#&gt; <span class='message'>15 00      NA</span>
-#&gt; <span class='message'>16 00      NA</span>
-#&gt; <span class='message'>17 00      NA</span>
-#&gt; <span class='message'>18 00      NA</span>
-#&gt; <span class='message'>19 00      NA</span>
-#&gt; <span class='message'>20 00      NA</span>
-#&gt; <span class='message'>21 00      NA</span>
-#&gt; <span class='message'>22 00      NA</span>
-#&gt; <span class='message'>23 00      NA</span>
-#&gt; <span class='message'>24 00      NA</span>
-#&gt; <span class='message'>25 00      NA</span>
-#&gt; <span class='message'>26 00      NA</span>
-#&gt; <span class='message'>27 00      NA</span>
-#&gt; <span class='message'>28 00      NA</span>
-#&gt; <span class='message'>29 00      NA</span>
-#&gt; <span class='message'>30 00      NA</span>
-#&gt; <span class='message'>31 00      NA</span>
-#&gt; <span class='message'>32 00      NA</span>
-#&gt; <span class='message'>33 00      NA</span>
-#&gt; <span class='message'>34 00      NA</span>
-#&gt; <span class='message'>35 00      NA</span>
-#&gt; <span class='message'>36 00      NA</span>
-#&gt; <span class='message'>37 00      NA</span>
-#&gt; <span class='message'>38 00      NA</span>
-#&gt; <span class='message'>39 00      NA</span>
-#&gt; <span class='message'>40 00      NA</span>
-#&gt; <span class='message'>41 00      NA</span>
-#&gt; <span class='message'>42 00      NA</span>
-#&gt; <span class='message'>43 00      NA</span>
-#&gt; <span class='message'>44 00      NA</span>
-#&gt; <span class='message'>45 00      NA</span>
-#&gt; <span class='message'>46 00      NA</span>
-#&gt; <span class='message'>47 00      NA</span>
-#&gt; <span class='message'>48 00      NA</span>
-#&gt; <span class='message'>49 00      NA</span>
-#&gt; <span class='message'>50 01      NA</span>
-#&gt; <span class='message'>51 00      NA</span></div><div class='output co'>#&gt; <span class='message'>&lt;SQL&gt;</span>
-#&gt; <span class='message'>SELECT `TBL_LEFT`.`playerID` AS `playerID`, `TBL_LEFT`.`yearID` AS `yearID`, `TBL_LEFT`.`stint` AS `stint`, `TBL_LEFT`.`teamID` AS `teamID`, `TBL_LEFT`.`lgID` AS `lgID.x`, `TBL_LEFT`.`G` AS `G.x`, `TBL_LEFT`.`AB` AS `AB.x`, `TBL_LEFT`.`R` AS `R.x`, `TBL_LEFT`.`H` AS `H.x`, `TBL_LEFT`.`X2B` AS `X2B.x`, `TBL_LEFT`.`X3B` AS `X3B.x`, `TBL_LEFT`.`HR` AS `HR.x`, `TBL_LEFT`.`RBI` AS `RBI`, `TBL_LEFT`.`SB` AS `SB.x`, `TBL_LEFT`.`CS` AS `CS.x`, `TBL_LEFT`.`BB` AS `BB.x`, `TBL_LEFT`.`SO` AS `SO.x`, `TBL_LEFT`.`IBB` AS `IBB`, `TBL_LEFT`.`HBP` AS `HBP.x`, `TBL_LEFT`.`SH` AS `SH`, `TBL_LEFT`.`SF` AS `SF.x`, `TBL_LEFT`.`GIDP` AS `GIDP`, `TBL_RIGHT`.`lgID` AS `lgID.y`, `TBL_RIGHT`.`franchID` AS `franchID`, `TBL_RIGHT`.`divID` AS `divID`, `TBL_RIGHT`.`Rank` AS `Rank`, `TBL_RIGHT`.`G` AS `G.y`, `TBL_RIGHT`.`Ghome` AS `Ghome`, `TBL_RIGHT`.`W` AS `W`, `TBL_RIGHT`.`L` AS `L`, `TBL_RIGHT`.`DivWin` AS `DivWin`, `TBL_RIGHT`.`WCWin` AS `WCWin`, `TBL_RIGHT`.`LgWin` AS `LgWin`, `TBL_RIGHT`.`WSWin` AS `WSWin`, `TBL_RIGHT`.`R` AS `R.y`, `TBL_RIGHT`.`AB` AS `AB.y`, `TBL_RIGHT`.`H` AS `H.y`, `TBL_RIGHT`.`X2B` AS `X2B.y`, `TBL_RIGHT`.`X3B` AS `X3B.y`, `TBL_RIGHT`.`HR` AS `HR.y`, `TBL_RIGHT`.`BB` AS `BB.y`, `TBL_RIGHT`.`SO` AS `SO.y`, `TBL_RIGHT`.`SB` AS `SB.y`, `TBL_RIGHT`.`CS` AS `CS.y`, `TBL_RIGHT`.`HBP` AS `HBP.y`, `TBL_RIGHT`.`SF` AS `SF.y`, `TBL_RIGHT`.`RA` AS `RA`, `TBL_RIGHT`.`ER` AS `ER`, `TBL_RIGHT`.`ERA` AS `ERA`, `TBL_RIGHT`.`CG` AS `CG`, `TBL_RIGHT`.`SHO` AS `SHO`, `TBL_RIGHT`.`SV` AS `SV`, `TBL_RIGHT`.`IPouts` AS `IPouts`, `TBL_RIGHT`.`HA` AS `HA`, `TBL_RIGHT`.`HRA` AS `HRA`, `TBL_RIGHT`.`BBA` AS `BBA`, `TBL_RIGHT`.`SOA` AS `SOA`, `TBL_RIGHT`.`E` AS `E`, `TBL_RIGHT`.`DP` AS `DP`, `TBL_RIGHT`.`FP` AS `FP`, `TBL_RIGHT`.`name` AS `name`, `TBL_RIGHT`.`park` AS `park`, `TBL_RIGHT`.`attendance` AS `attendance`, `TBL_RIGHT`.`BPF` AS `BPF`, `TBL_RIGHT`.`PPF` AS `PPF`, `TBL_RIGHT`.`teamIDBR` AS `teamIDBR`, `TBL_RIGHT`.`teamIDlahman45` AS `teamIDlahman45`, `TBL_RIGHT`.`teamIDretro` AS `teamIDretro`</span>
-#&gt; <span class='message'>  FROM `Batting` AS `TBL_LEFT`</span>
-#&gt; <span class='message'>  LEFT JOIN `Teams` AS `TBL_RIGHT`</span>
-#&gt; <span class='message'>  ON (`TBL_LEFT`.`yearID` = `TBL_RIGHT`.`yearID` AND `TBL_LEFT`.`teamID` = `TBL_RIGHT`.`teamID`)</span></div><div class='output co'>#&gt; <span class='message'></span></div><div class='output co'>#&gt; <span class='message'>&lt;PLAN&gt;</span>
-#&gt; <span class='message'>   addr       opcode p1    p2  p3       p4 p5 comment</span>
-#&gt; <span class='message'>1     0         Init  0    94   0          00      NA</span>
-#&gt; <span class='message'>2     1     OpenRead  0  3056   0       22 00      NA</span>
-#&gt; <span class='message'>3     2     OpenRead  1 13335   0       48 00      NA</span>
-#&gt; <span class='message'>4     3     OpenRead  2 13457   0   k(2,,) 02      NA</span>
-#&gt; <span class='message'>5     4       Rewind  0    93   0          00      NA</span>
-#&gt; <span class='message'>6     5      Integer  0     1   0          00      NA</span>
-#&gt; <span class='message'>7     6       Column  0     1   2          00      NA</span>
-#&gt; <span class='message'>8     7       IsNull  2    88   0          00      NA</span>
-#&gt; <span class='message'>9     8     Affinity  2     1   0        D 00      NA</span>
-#&gt; <span class='message'>10    9       SeekGE  2    88   2        1 00      NA</span>
-#&gt; <span class='message'>11   10        IdxGT  2    88   2        1 00      NA</span>
-#&gt; <span class='message'>12   11 DeferredSeek  2     0   1          00      NA</span>
-#&gt; <span class='message'>13   12       Column  0     3   3          00      NA</span>
-#&gt; <span class='message'>14   13       Column  1     2   4          00      NA</span>
-#&gt; <span class='message'>15   14           Ne  4    87   3 (BINARY) 51      NA</span>
-#&gt; <span class='message'>16   15      Integer  1     1   0          00      NA</span>
-#&gt; <span class='message'>17   16       Column  0     0   5          00      NA</span>
-#&gt; <span class='message'>18   17       Column  0     1   6          00      NA</span>
-#&gt; <span class='message'>19   18       Column  0     2   7          00      NA</span>
-#&gt; <span class='message'>20   19       Column  0     3   8          00      NA</span>
-#&gt; <span class='message'>21   20       Column  0     4   9          00      NA</span>
-#&gt; <span class='message'>22   21       Column  0     5  10          00      NA</span>
-#&gt; <span class='message'>23   22       Column  0     6  11          00      NA</span>
-#&gt; <span class='message'>24   23       Column  0     7  12          00      NA</span>
-#&gt; <span class='message'>25   24       Column  0     8  13          00      NA</span>
-#&gt; <span class='message'>26   25       Column  0     9  14          00      NA</span>
-#&gt; <span class='message'>27   26       Column  0    10  15          00      NA</span>
-#&gt; <span class='message'>28   27       Column  0    11  16          00      NA</span>
-#&gt; <span class='message'>29   28       Column  0    12  17          00      NA</span>
-#&gt; <span class='message'>30   29       Column  0    13  18          00      NA</span>
-#&gt; <span class='message'>31   30       Column  0    14  19          00      NA</span>
-#&gt; <span class='message'>32   31       Column  0    15  20          00      NA</span>
-#&gt; <span class='message'>33   32       Column  0    16  21          00      NA</span>
-#&gt; <span class='message'>34   33       Column  0    17  22          00      NA</span>
-#&gt; <span class='message'>35   34       Column  0    18  23          00      NA</span>
-#&gt; <span class='message'>36   35       Column  0    19  24          00      NA</span>
-#&gt; <span class='message'>37   36       Column  0    20  25          00      NA</span>
-#&gt; <span class='message'>38   37       Column  0    21  26          00      NA</span>
-#&gt; <span class='message'>39   38       Column  1     1  27          00      NA</span>
-#&gt; <span class='message'>40   39       Column  1     3  28          00      NA</span>
-#&gt; <span class='message'>41   40       Column  1     4  29          00      NA</span>
-#&gt; <span class='message'>42   41       Column  1     5  30          00      NA</span>
-#&gt; <span class='message'>43   42       Column  1     6  31          00      NA</span>
-#&gt; <span class='message'>44   43       Column  1     7  32          00      NA</span>
-#&gt; <span class='message'>45   44       Column  1     8  33          00      NA</span>
-#&gt; <span class='message'>46   45       Column  1     9  34          00      NA</span>
-#&gt; <span class='message'>47   46       Column  1    10  35          00      NA</span>
-#&gt; <span class='message'>48   47       Column  1    11  36          00      NA</span>
-#&gt; <span class='message'>49   48       Column  1    12  37          00      NA</span>
-#&gt; <span class='message'>50   49       Column  1    13  38          00      NA</span>
-#&gt; <span class='message'>51   50       Column  1    14  39          00      NA</span>
-#&gt; <span class='message'>52   51       Column  1    15  40          00      NA</span>
-#&gt; <span class='message'>53   52       Column  1    16  41          00      NA</span>
-#&gt; <span class='message'>54   53       Column  1    17  42          00      NA</span>
-#&gt; <span class='message'>55   54       Column  1    18  43          00      NA</span>
-#&gt; <span class='message'>56   55       Column  1    19  44          00      NA</span>
-#&gt; <span class='message'>57   56       Column  1    20  45          00      NA</span>
-#&gt; <span class='message'>58   57       Column  1    21  46          00      NA</span>
-#&gt; <span class='message'>59   58       Column  1    22  47          00      NA</span>
-#&gt; <span class='message'>60   59       Column  1    23  48          00      NA</span>
-#&gt; <span class='message'>61   60       Column  1    24  49          00      NA</span>
-#&gt; <span class='message'>62   61       Column  1    25  50          00      NA</span>
-#&gt; <span class='message'>63   62       Column  1    26  51          00      NA</span>
-#&gt; <span class='message'>64   63       Column  1    27  52          00      NA</span>
-#&gt; <span class='message'>65   64       Column  1    28  53          00      NA</span>
-#&gt; <span class='message'>66   65 RealAffinity 53     0   0          00      NA</span>
-#&gt; <span class='message'>67   66       Column  1    29  54          00      NA</span>
-#&gt; <span class='message'>68   67       Column  1    30  55          00      NA</span>
-#&gt; <span class='message'>69   68       Column  1    31  56          00      NA</span>
-#&gt; <span class='message'>70   69       Column  1    32  57          00      NA</span>
-#&gt; <span class='message'>71   70       Column  1    33  58          00      NA</span>
-#&gt; <span class='message'>72   71       Column  1    34  59          00      NA</span>
-#&gt; <span class='message'>73   72       Column  1    35  60          00      NA</span>
-#&gt; <span class='message'>74   73       Column  1    36  61          00      NA</span>
-#&gt; <span class='message'>75   74       Column  1    37  62          00      NA</span>
-#&gt; <span class='message'>76   75       Column  1    38  63          00      NA</span>
-#&gt; <span class='message'>77   76       Column  1    39  64          00      NA</span>
-#&gt; <span class='message'>78   77 RealAffinity 64     0   0          00      NA</span>
-#&gt; <span class='message'>79   78       Column  1    40  65          00      NA</span>
-#&gt; <span class='message'>80   79       Column  1    41  66          00      NA</span>
-#&gt; <span class='message'>81   80       Column  1    42  67          00      NA</span>
-#&gt; <span class='message'>82   81       Column  1    43  68          00      NA</span>
-#&gt; <span class='message'>83   82       Column  1    44  69          00      NA</span>
-#&gt; <span class='message'>84   83       Column  1    45  70          00      NA</span>
-#&gt; <span class='message'>85   84       Column  1    46  71          00      NA</span>
-#&gt; <span class='message'>86   85       Column  1    47  72          00      NA</span>
-#&gt; <span class='message'>87   86    ResultRow  5    68   0          00      NA</span>
-#&gt; <span class='message'>88   87         Next  2    10   1          00      NA</span>
-#&gt; <span class='message'>89   88        IfPos  1    92   0          00      NA</span>
-#&gt; <span class='message'>90   89      NullRow  1     0   0          00      NA</span>
-#&gt; <span class='message'>91   90      NullRow  2     0   0          00      NA</span>
-#&gt; <span class='message'>92   91         Goto  0    15   0          00      NA</span>
-#&gt; <span class='message'>93   92         Next  0     5   0          01      NA</span>
-#&gt; <span class='message'>94   93         Halt  0     0   0          00      NA</span>
-#&gt; <span class='message'>95   94  Transaction  0     0 109        0 01      NA</span>
-#&gt; <span class='message'>96   95         Goto  0     1   0          00      NA</span></div></pre>
+}</div><div class='output co'>#&gt; <span class='message'>Creating table: AllstarFull</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Appearances</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsPlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsShareManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsSharePlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Batting</span></div><div class='output co'>#&gt; <span class='message'>Creating table: BattingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: CollegePlaying</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Fielding</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingOF</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: HallOfFame</span></div><div class='output co'>#&gt; <span class='message'>Creating table: LahmanData</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Managers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: ManagersHalf</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Master</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Parks</span></div><div class='output co'>#&gt; <span class='message'>Creating table: People</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Pitching</span></div><div class='output co'>#&gt; <span class='message'>Creating table: PitchingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Salaries</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Schools</span></div><div class='output co'>#&gt; <span class='message'>Creating table: SeriesPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Teams</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsFranchises</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsHalf</span></div><div class='output co'>#&gt; &lt;SQL&gt;
+#&gt; SELECT *
+#&gt; FROM `Batting`
+#&gt; &lt;SQL&gt;
+#&gt; SELECT *
+#&gt; FROM `Batting`
+#&gt; 
+#&gt; &lt;PLAN&gt;
+#&gt;   selectid order from             detail
+#&gt; 1        0     0    0 SCAN TABLE Batting
+#&gt; &lt;SQL&gt;
+#&gt; SELECT *
+#&gt; FROM `Batting`
+#&gt; WHERE (`lgID` = 'NL' AND `yearID` = 2000)
+#&gt; 
+#&gt; &lt;PLAN&gt;
+#&gt;   selectid order from
+#&gt; 1        0     0    0
+#&gt;                                                       detail
+#&gt; 1 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
+#&gt; &lt;SQL&gt;
+#&gt; SELECT *
+#&gt; FROM `Batting`
+#&gt; WHERE (`lgID` = 'NL' OR `yearID` = 2000.0)
+#&gt; 
+#&gt; &lt;PLAN&gt;
+#&gt;   selectid order from
+#&gt; 1        0     0    0
+#&gt; 2        0     0    0
+#&gt;                                                       detail
+#&gt; 1     SEARCH TABLE Batting USING INDEX Batting_lgID (lgID=?)
+#&gt; 2 SEARCH TABLE Batting USING INDEX Batting_yearID (yearID=?)
+#&gt; &lt;SQL&gt;
+#&gt; SELECT `LHS`.`playerID` AS `playerID`, `LHS`.`yearID` AS `yearID`, `LHS`.`stint` AS `stint`, `LHS`.`teamID` AS `teamID`, `LHS`.`lgID` AS `lgID.x`, `LHS`.`G` AS `G.x`, `LHS`.`AB` AS `AB.x`, `LHS`.`R` AS `R.x`, `LHS`.`H` AS `H.x`, `LHS`.`X2B` AS `X2B.x`, `LHS`.`X3B` AS `X3B.x`, `LHS`.`HR` AS `HR.x`, `LHS`.`RBI` AS `RBI`, `LHS`.`SB` AS `SB.x`, `LHS`.`CS` AS `CS.x`, `LHS`.`BB` AS `BB.x`, `LHS`.`SO` AS `SO.x`, `LHS`.`IBB` AS `IBB`, `LHS`.`HBP` AS `HBP.x`, `LHS`.`SH` AS `SH`, `LHS`.`SF` AS `SF.x`, `LHS`.`GIDP` AS `GIDP`, `RHS`.`lgID` AS `lgID.y`, `RHS`.`franchID` AS `franchID`, `RHS`.`divID` AS `divID`, `RHS`.`Rank` AS `Rank`, `RHS`.`G` AS `G.y`, `RHS`.`Ghome` AS `Ghome`, `RHS`.`W` AS `W`, `RHS`.`L` AS `L`, `RHS`.`DivWin` AS `DivWin`, `RHS`.`WCWin` AS `WCWin`, `RHS`.`LgWin` AS `LgWin`, `RHS`.`WSWin` AS `WSWin`, `RHS`.`R` AS `R.y`, `RHS`.`AB` AS `AB.y`, `RHS`.`H` AS `H.y`, `RHS`.`X2B` AS `X2B.y`, `RHS`.`X3B` AS `X3B.y`, `RHS`.`HR` AS `HR.y`, `RHS`.`BB` AS `BB.y`, `RHS`.`SO` AS `SO.y`, `RHS`.`SB` AS `SB.y`, `RHS`.`CS` AS `CS.y`, `RHS`.`HBP` AS `HBP.y`, `RHS`.`SF` AS `SF.y`, `RHS`.`RA` AS `RA`, `RHS`.`ER` AS `ER`, `RHS`.`ERA` AS `ERA`, `RHS`.`CG` AS `CG`, `RHS`.`SHO` AS `SHO`, `RHS`.`SV` AS `SV`, `RHS`.`IPouts` AS `IPouts`, `RHS`.`HA` AS `HA`, `RHS`.`HRA` AS `HRA`, `RHS`.`BBA` AS `BBA`, `RHS`.`SOA` AS `SOA`, `RHS`.`E` AS `E`, `RHS`.`DP` AS `DP`, `RHS`.`FP` AS `FP`, `RHS`.`name` AS `name`, `RHS`.`park` AS `park`, `RHS`.`attendance` AS `attendance`, `RHS`.`BPF` AS `BPF`, `RHS`.`PPF` AS `PPF`, `RHS`.`teamIDBR` AS `teamIDBR`, `RHS`.`teamIDlahman45` AS `teamIDlahman45`, `RHS`.`teamIDretro` AS `teamIDretro`
+#&gt; FROM `Batting` AS `LHS`
+#&gt; LEFT JOIN `Teams` AS `RHS`
+#&gt; ON (`LHS`.`yearID` = `RHS`.`yearID` AND `LHS`.`teamID` = `RHS`.`teamID`)
+#&gt; 
+#&gt; 
+#&gt; &lt;PLAN&gt;
+#&gt;   selectid order from
+#&gt; 1        0     0    0
+#&gt; 2        0     1    1
+#&gt;                                                          detail
+#&gt; 1                                     SCAN TABLE Batting AS LHS
+#&gt; 2 SEARCH TABLE Teams AS RHS USING INDEX Teams_yearID (yearID=?)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
