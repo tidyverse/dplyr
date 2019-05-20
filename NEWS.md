@@ -1,5 +1,7 @@
 # dplyr 0.8.1.9000
 
+* `arrange()` handles integer64 objects (#4366). 
+
 * `rename_at()` handles empty selection (#4324). 
 
 # dplyr 0.8.1

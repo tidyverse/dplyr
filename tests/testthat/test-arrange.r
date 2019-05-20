@@ -205,6 +205,10 @@ test_that("arrange supports bit64::integer64 (#4366)", {
     arrange(df, desc(x)),
     tibble(x = bit64::as.integer64(c(3, 2, 1, 1)))
   )
+  expect_identical(
+    arrange(df, -x),
+    tibble(x = bit64::as.integer64(c(3, 2, 1, 1)))
+  )
 })
 
 # grouped_df --------------------------------------------------------------
