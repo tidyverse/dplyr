@@ -85,6 +85,31 @@ private:
   OrderVectorVisitorImpl<INTSXP, ascending, Rcpp::IntegerVector> orders;
 };
 
+// ---------- int 64
+
+template <bool ascensing>
+class OrderInt64VectorVisitor : public OrderVisitor {
+public:
+
+  OrderInt64VectorVisitor(const Rcpp::NumericVector& vec_) :
+    vec(vec_),
+    data(reinterpret_cast<int64_t*>(vec.begin()))
+  {}
+
+  inline bool equal(int i, int j) const {
+    return comparisons_int64::equal_or_both_na(data[i], data[j]);
+  }
+
+  inline bool before(int i, int j) const {
+    return ascensing ? comparisons_int64::is_less(data[i], data[j]) : comparisons_int64::is_greater(data[i], data[j]);
+  }
+
+private:
+  Rcpp::NumericVector vec;
+  int64_t* data;
+};
+
+
 // ---------- data frame columns
 
 // ascending = true
@@ -229,6 +254,9 @@ inline OrderVisitor* order_visitor_asc_vector(SEXP vec) {
   case INTSXP:
     return new OrderVectorVisitorImpl<INTSXP, ascending, Rcpp::Vector<INTSXP > >(vec);
   case REALSXP:
+    if (Rf_inherits(vec, "integer64")) {
+      return new OrderInt64VectorVisitor<ascending>(vec);
+    }
     return new OrderVectorVisitorImpl<REALSXP, ascending, Rcpp::Vector<REALSXP> >(vec);
   case LGLSXP:
     return new OrderVectorVisitorImpl<LGLSXP, ascending, Rcpp::Vector<LGLSXP > >(vec);
