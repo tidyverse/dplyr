@@ -4,6 +4,8 @@
 
 * `rename_at()` handles empty selection (#4324). 
 
+* `summarise()` correctly resolves summarised list columns (#4349). 
+
 * colwise functions support constants in formulas (#4374). 
 
 # dplyr 0.8.1
