@@ -203,10 +203,9 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
   n <- length(tibble_vars)
   selected <- new_logical(n)
 
-  mask <- as_data_mask(.tbl)
-
   for (i in seq_len(n)) {
-    selected[[i]] <- eval_tidy( quo(.p(.tbl[[tibble_vars[[!!i]]]], ...)), mask)
+    column <- .tbl[[tibble_vars[[i]]]]
+    selected[[i]] <- eval_tidy(quo(.p(!!column, ...)))
   }
 
   tibble_vars[selected]
