@@ -8,6 +8,8 @@
 
 * colwise functions support constants in formulas (#4374). 
 
+* `select_if()` correctly handles columns named `i` (#4380).
+
 # dplyr 0.8.1
 
 ## Breaking changes
