@@ -4,6 +4,9 @@
 #' selection of variables. Like `distinct()`, you can modify the
 #' variables before ordering with the `.funs` argument.
 #'
+#' @param .keep_all If `TRUE`, keep all variables in `.data`.
+#'   If a combination of `...` is not distinct, this keeps the
+#'   first row of values.
 #' @inheritParams scoped
 #' @export
 #'
@@ -23,28 +26,28 @@
 #' # The variables of the sorted tibble keep their original values.
 #' distinct_all(df, round)
 #' arrange_all(df, list(~round(.)))
-distinct_all <- function(.tbl, .funs = list(), ...) {
+distinct_all <- function(.tbl, .funs = list(), ..., .keep_all = FALSE) {
   funs <- manip_all(.tbl, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- syms(tbl_vars(.tbl))
   }
-  distinct(.tbl, !!!funs)
+  distinct(.tbl, !!!funs, .keep_all = .keep_all)
 }
 #' @rdname distinct_all
 #' @export
-distinct_at <- function(.tbl, .vars, .funs = list(), ...) {
+distinct_at <- function(.tbl, .vars, .funs = list(), ..., .keep_all = FALSE) {
   funs <- manip_at(.tbl, .vars, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- tbl_at_syms(.tbl, .vars, .include_group_vars = TRUE)
   }
-  distinct(.tbl, !!!funs)
+  distinct(.tbl, !!!funs, .keep_all = .keep_all)
 }
 #' @rdname distinct_all
 #' @export
-distinct_if <- function(.tbl, .predicate, .funs = list(), ...) {
+distinct_if <- function(.tbl, .predicate, .funs = list(), ..., .keep_all = FALSE) {
   funs <- manip_if(.tbl, .predicate, .funs, enquo(.funs), caller_env(), .include_group_vars = TRUE, ...)
   if (!length(funs)) {
     funs <- tbl_if_syms(.tbl, .predicate, .include_group_vars = TRUE)
   }
-  distinct(.tbl, !!!funs)
+  distinct(.tbl, !!!funs, .keep_all = .keep_all)
 }

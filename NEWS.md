@@ -1,5 +1,7 @@
 # dplyr 0.8.1.9000
 
+* Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343)
+
 * `arrange()` handles integer64 objects (#4366). 
 
 * `rename_at()` handles empty selection (#4324). 
@@ -10,7 +12,7 @@
 
 * `*_if()` functions correctly handle columns with special names (#4380).
 
-# dplyr 0.8.1
+# dplyr 0.8.1 (2019-05-14)
 
 ## Breaking changes
 
