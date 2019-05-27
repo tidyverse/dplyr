@@ -8,6 +8,8 @@
 
 * colwise functions support constants in formulas (#4374). 
 
+* `*_if()` functions correctly handle columns with special names (#4380).
+
 # dplyr 0.8.1
 
 ## Breaking changes
