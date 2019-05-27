@@ -1,6 +1,8 @@
 # dplyr 0.8.1.9000
 
-* Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343)
+* Using quosures in colwise verbs is deprecated (#4330).
+
+* Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343).
 
 * `arrange()` handles integer64 objects (#4366). 
 
