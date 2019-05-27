@@ -1,4 +1,8 @@
-# dplyr 0.8.0.9000
+# dplyr 0.8.1.9000
+
+* Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343)
+
+# dplyr 0.8.1
 
 ## Breaking changes
 
