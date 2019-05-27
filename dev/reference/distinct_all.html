@@ -179,11 +179,11 @@ variables before ordering with the <code>.funs</code> argument.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>distinct_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>distinct_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>distinct_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+<span class='fu'>distinct_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
 
-<span class='fu'>distinct_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)</pre>
+<span class='fu'>distinct_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>, <span class='kw'>.keep_all</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,7 +199,14 @@ variables before ordering with the <code>.funs</code> argument.</p>
     <tr>
       <th>...</th>
       <td><p>Additional arguments for the function calls in
-<code>.funs</code>. These are evaluated only once, with <a href='https://rlang.r-lib.org/reference/tidy-dots.html'>tidy dots</a> support.</p></td>
+<code>.funs</code>. These are evaluated only once, with <a href='https://rlang.r-lib.org/reference/tidy-dots.html'>tidy
+dots</a> support.</p></td>
+    </tr>
+    <tr>
+      <th>.keep_all</th>
+      <td><p>If <code>TRUE</code>, keep all variables in <code>.data</code>.
+If a combination of <code>...</code> is not distinct, this keeps the
+first row of values.</p></td>
     </tr>
     <tr>
       <th>.vars</th>
