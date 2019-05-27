@@ -18,8 +18,7 @@ distinct_if(.tbl, .predicate, .funs = list(), ..., .keep_all = FALSE)
 \item{.funs}{A function \code{fun}, a quosure style lambda \code{~ fun(.)} or a list of either form.}
 
 \item{...}{Additional arguments for the function calls in
-\code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy
-dots} support.}
+\code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
 
 \item{.keep_all}{If \code{TRUE}, keep all variables in \code{.data}.
 If a combination of \code{...} is not distinct, this keeps the

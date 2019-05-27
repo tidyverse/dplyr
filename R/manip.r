@@ -715,6 +715,11 @@ select_ <- function(.data, ..., .dots = list()) {
   UseMethod("select_")
 }
 
+#' @export
+select.list <- function(.data, ...) {
+  abort("`select()` doesn't handle lists.")
+}
+
 #' @rdname select
 #' @export
 rename <- function(.data, ...) {
