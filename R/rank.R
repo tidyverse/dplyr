@@ -76,8 +76,7 @@ min_rank <- function(x) rank(x, ties.method = "min", na.last = "keep")
 #' @export
 #' @rdname ranking
 dense_rank <- function(x) {
-  r <- rank(x, na.last = "keep")
-  match(r, sort(unique(r)))
+  match(x, sort(unique(x)))
 }
 
 #' @export
