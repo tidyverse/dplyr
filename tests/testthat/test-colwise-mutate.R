@@ -430,7 +430,7 @@ test_that("colwise mutate handle named chr vectors", {
   expect_identical(res, tibble(x = 1:10, y = 5.5))
 })
 
-test_that("colwise verbs do not handle quosures (#4330)", {
+test_that("colwise verbs soft deprecate quosures (#4330)", {
   with_lifecycle_errors({
     expect_error(
       mutate_at(mtcars, vars(mpg), quo(mean(.)))
@@ -439,4 +439,9 @@ test_that("colwise verbs do not handle quosures (#4330)", {
       summarise_at(mtcars, vars(mpg), quo(mean(.)))
     )
   })
+
+  expect_equal(
+    transmute_at(mtcars, vars(mpg), ~. > mean(.)),
+    transmute_at(mtcars, vars(mpg), quo(. > mean(.)))
+  )
 })
