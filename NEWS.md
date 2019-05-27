@@ -2,7 +2,17 @@
 
 * Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343)
 
-# dplyr 0.8.1
+* `arrange()` handles integer64 objects (#4366). 
+
+* `rename_at()` handles empty selection (#4324). 
+
+* `summarise()` correctly resolves summarised list columns (#4349). 
+
+* colwise functions support constants in formulas (#4374). 
+
+* `*_if()` functions correctly handle columns with special names (#4380).
+
+# dplyr 0.8.1 (2019-05-14)
 
 ## Breaking changes
 
@@ -24,7 +34,7 @@
 
 * Fixed handling of bare formulas in colwise verbs (#4183).
 
-* Fixed performance of `n_distint()` (#4202). 
+* Fixed performance of `n_distinct()` (#4202). 
 
 * `group_indices()` now ignores empty groups by default for `data.frame`, which is
   consistent with the default of `group_by()` (@yutannihilation, #4208). 
@@ -41,6 +51,8 @@
 
 * Support for R 3.1.* has been dropped. The minimal R version supported is now 3.2.0. 
   https://www.tidyverse.org/articles/2019/04/r-version-support/
+
+* `rename_at()` handles empty selection (#4324). 
 
 # dplyr 0.8.0.1 (2019-02-15)
 

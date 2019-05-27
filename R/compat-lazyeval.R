@@ -93,7 +93,7 @@ compat_as_lazy <- function(quo) {
   ))
 }
 compat_as_lazy_dots <- function(...) {
-  structure(class = "lazy_dots", lapply(quos(...), compat_as_lazy))
+  structure(class = "lazy_dots", lapply(enquos(...), compat_as_lazy))
 }
 
 

@@ -195,6 +195,22 @@ test_that("desc(<not just a symbol>) works (#4099)", {
   )
 })
 
+test_that("arrange supports bit64::integer64 (#4366)", {
+  df <- tibble(x = bit64::as.integer64(c(1, 3, 2, 1)))
+  expect_identical(
+    arrange(df, x),
+    tibble(x = bit64::as.integer64(c(1, 1, 2, 3)))
+  )
+  expect_identical(
+    arrange(df, desc(x)),
+    tibble(x = bit64::as.integer64(c(3, 2, 1, 1)))
+  )
+  expect_identical(
+    arrange(df, -x),
+    tibble(x = bit64::as.integer64(c(3, 2, 1, 1)))
+  )
+})
+
 # grouped_df --------------------------------------------------------------
 
 test_that("can choose to include grouping vars", {

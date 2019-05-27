@@ -28,6 +28,29 @@ struct comparisons {
 
 };
 
+struct comparisons_int64 {
+  static inline bool is_less(int64_t lhs, int64_t rhs) {
+    if (is_na(lhs)) return false;
+    if (is_na(rhs)) return true;
+
+    return lhs < rhs;
+  }
+
+  static inline bool is_greater(int64_t lhs, int64_t rhs) {
+    return lhs > rhs;
+  }
+
+  static inline bool equal_or_both_na(int64_t lhs, int64_t rhs) {
+    return lhs == rhs;
+  }
+
+  static inline bool is_na(int64_t x) {
+    return x == NA_INT64;
+  }
+
+  static int64_t NA_INT64;
+};
+
 template <>
 struct comparisons<RAWSXP> {
   typedef Rbyte STORAGE;

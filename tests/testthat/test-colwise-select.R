@@ -182,3 +182,9 @@ test_that("select_if() and rename_if() handles logical (#4213)", {
 
 })
 
+test_that("rename_at() handles empty selection (#4324)", {
+  expect_identical(
+    mtcars %>% rename_at(vars(contains("fake_col")),~paste0("NewCol.",.)),
+    mtcars
+  )
+})

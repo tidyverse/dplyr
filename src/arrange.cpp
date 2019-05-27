@@ -16,6 +16,8 @@
 
 namespace dplyr {
 
+int64_t comparisons_int64::NA_INT64 = std::numeric_limits<int64_t>::min();
+
 template <typename SlicedTibble>
 SEXP arrange_template(const SlicedTibble& gdf, const QuosureList& quosures, SEXP frame) {
   const Rcpp::DataFrame& data = gdf.data();
