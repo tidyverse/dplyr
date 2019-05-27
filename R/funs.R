@@ -99,7 +99,7 @@ as_fun_list <- function(.funs, .env, ...) {
         signal_soft_deprecated(paste_line(
           "Using quosures is deprecated",
           "Please use a one-sided formula, a function, or a function name"
-        ))
+        ), env = .env)
         .x <- new_formula(NULL, quo_squash(.x), quo_get_env(.x))
       }
       .x <- as_inlined_function(.x, env = .env)
