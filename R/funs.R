@@ -94,7 +94,13 @@ as_fun_list <- function(.funs, .env, ...) {
   }
 
   funs <- map(.funs, function(.x){
-    if (is_bare_formula(.x)) {
+    if (is_formula(.x)) {
+      if (is_quosure(.x)) {
+        signal_soft_deprecated(paste_line(
+          "Using quosures is deprecated",
+          "Please use a one-sided formula, a function, or a function name"
+        ))
+      }
       .x <- as_inlined_function(.x, env = .env)
     } else {
       if (is_character(.x)) {
