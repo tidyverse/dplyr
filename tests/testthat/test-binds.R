@@ -74,9 +74,7 @@ test_that("bind_cols repairs names", {
   df <- tibble(a = 1, b = 2)
   bound <- bind_cols(df, df)
 
-  repaired <- as_tibble(tibble::repair_names(
-    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE)
-  ))
+  repaired <- as_tibble(data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE), .name_repair = "unique")
 
   expect_equal(bound, repaired)
 })
@@ -626,7 +624,7 @@ test_that("supports NULL values", {
 test_that("bind_cols handles unnamed list (#3402)", {
   expect_identical(
     bind_cols(list(1, 2)),
-    bind_cols(list(V1 = 1, V2 = 2))
+    bind_cols(list(`...1` = 1, `...2` = 2))
   )
 })
 
