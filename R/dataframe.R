@@ -241,7 +241,7 @@ do.data.frame <- function(.data, ...) {
   } else {
     out <- map(args, function(arg) list(eval_tidy(arg, mask)))
     names(out) <- names(args)
-    out <- tibble::as_tibble(out, validate = FALSE)
+    out <- tibble::as_tibble(out, .name_repair = "minimal")
   }
 
   out
