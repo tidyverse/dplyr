@@ -210,7 +210,7 @@ test_that("mutate fails on unsupported column type", {
   df <- data.frame(created = c("2014/1/1", "2014/1/2", "2014/1/2"))
   expect_error(
     mutate(df, date = strptime(created, "%Y/%m/%d")),
-    "Column `date` is of unsupported class POSIXlt",
+    "Column `date` is of unsupported class POSIXlt; please use POSIXct instead",
     fixed = TRUE
   )
 
@@ -220,7 +220,7 @@ test_that("mutate fails on unsupported column type", {
   )
   expect_error(
     mutate(group_by(df, g), date = strptime(created, "%Y/%m/%d")),
-    "Column `date` is of unsupported class POSIXlt",
+    "Column `date` is of unsupported class POSIXlt; please use POSIXct instead",
     fixed = TRUE
   )
 })
@@ -442,7 +442,7 @@ test_that("mutate forbids POSIXlt results (#670)", {
   expect_error(
     data.frame(time = "2014/01/01 10:10:10") %>%
       mutate(time = as.POSIXlt(time)),
-    "Column `time` is of unsupported class POSIXlt",
+    "Column `time` is of unsupported class POSIXlt; please use POSIXct instead",
     fixed = TRUE
   )
 
@@ -450,7 +450,7 @@ test_that("mutate forbids POSIXlt results (#670)", {
     data.frame(time = "2014/01/01 10:10:10", a = 2) %>%
       group_by(a) %>%
       mutate(time = as.POSIXlt(time)),
-    "Column `time` is of unsupported class POSIXlt",
+    "Column `time` is of unsupported class POSIXlt; please use POSIXct instead",
     fixed = TRUE
   )
 })

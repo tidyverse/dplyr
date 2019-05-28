@@ -53,7 +53,7 @@ private:
 
 inline SEXP constant_recycle(SEXP x, int n, const SymbolString& name) {
   if (Rf_inherits(x, "POSIXlt")) {
-    bad_col(name, "is of unsupported class POSIXlt");
+    bad_col(name, "is of unsupported class POSIXlt; please use POSIXct instead");
   }
   switch (TYPEOF(x)) {
   case INTSXP:
@@ -160,7 +160,7 @@ private:
     Rcpp::RObject first(get(indices));
 
     if (Rf_inherits(first, "POSIXlt")) {
-      bad_col(name, "is of unsupported class POSIXlt");
+      bad_col(name, "is of unsupported class POSIXlt; please use POSIXct instead");
     }
 
     if (Rf_inherits(first, "data.frame")) {
@@ -220,7 +220,7 @@ SEXP MutateCallProxy<NaturalDataFrame>::evaluate() {
   if (Rf_isNull(first)) return R_NilValue;
 
   if (Rf_inherits(first, "POSIXlt")) {
-    bad_col(name, "is of unsupported class POSIXlt");
+    bad_col(name, "is of unsupported class POSIXlt; please use POSIXct instead");
   }
 
   if (Rf_inherits(first, "data.frame")) {
