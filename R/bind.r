@@ -30,6 +30,8 @@
 #'   list of data frames is supplied, the labels are taken from the
 #'   names of the list. If no names are found a numeric sequence is
 #'   used instead.
+#' @param .name_repair Treatment of problematic column names, see [tibble::as_tibble()] for details
+#'
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
 #' @aliases rbind_all rbind_list
@@ -124,13 +126,13 @@ bind_rows <- function(..., .id = NULL) {
 
 #' @export
 #' @rdname bind
-bind_cols <- function(...) {
+bind_cols <- function(..., .name_repair = "unique") {
   x <- flatten_bindable(dots_values(...))
   out <- cbind_all(x)
 
   # Using `.name_repair` but then gymnastics to keep
   # attributes in case cbind_all did not return a tibble
-  repaired <- as_tibble(out, .name_repair = "unique")
+  repaired <- as_tibble(out, .name_repair = .name_repair)
   repaired_names <- names(repaired)
   attributes(repaired) <- attributes(out)
   names(repaired) <- repaired_names

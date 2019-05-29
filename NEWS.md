@@ -1,6 +1,6 @@
 # dplyr 0.8.1.9000
 
-* `bind_cols()` uses tibble's name repair (#3772).
+* `bind_cols()` exposes tibble's .name_repair argument (#3772).
 
 * Using quosures in colwise verbs is deprecated (#4330).
 

@@ -10,7 +10,7 @@
 \usage{
 bind_rows(..., .id = NULL)
 
-bind_cols(...)
+bind_cols(..., .name_repair = "unique")
 }
 \arguments{
 \item{...}{Data frames to combine.
@@ -33,6 +33,8 @@ are taken from the named arguments to \code{bind_rows()}. When a
 list of data frames is supplied, the labels are taken from the
 names of the list. If no names are found a numeric sequence is
 used instead.}
+
+\item{.name_repair}{Treatment of problematic column names, see \code{\link[tibble:as_tibble]{tibble::as_tibble()}} for details}
 }
 \value{
 \code{bind_rows()} and \code{bind_cols()} return the same type as
