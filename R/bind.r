@@ -130,14 +130,10 @@ bind_cols <- function(..., .name_repair = "unique") {
   x <- flatten_bindable(dots_values(...))
   out <- cbind_all(x)
 
-  # Using `.name_repair` but then gymnastics to keep
-  # attributes in case cbind_all did not return a tibble
-  repaired <- as_tibble(out, .name_repair = .name_repair)
-  repaired_names <- names(repaired)
-  attributes(repaired) <- attributes(out)
-  names(repaired) <- repaired_names
+  # repair names but not enforce `out` to be a tibble
+  names(out) <- names(as_tibble(out, .name_repair = .name_repair))
+  out
 
-  repaired
 }
 
 #' Combine vectors
