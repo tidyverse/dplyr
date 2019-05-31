@@ -225,7 +225,7 @@ inline SEXP rank_(const SlicedTibble& data, Column column, const Operation& op) 
 template <typename SlicedTibble, typename Operation, typename Increment>
 SEXP rank_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expression, const Operation& op) {
   Column x;
-  if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+  if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
     return internal::rank_<SlicedTibble, Operation, Increment>(data, x, op);
   }
   return R_UnboundValue;

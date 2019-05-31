@@ -5,6 +5,7 @@
 #include <dplyr/hybrid/Column.h>
 #include <tools/default_value.h>
 #include <dplyr/hybrid/Expression.h>
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -50,28 +51,66 @@ private:
   STORAGE def;
 };
 
+template <typename SlicedTibble>
+class Nth2_Factor : public Nth2<INTSXP, SlicedTibble> {
+  typedef Nth2<INTSXP, SlicedTibble> Parent;
+  typedef typename Parent::Vec Vec;
+
+public:
+  Nth2_Factor(const SlicedTibble& data, Column column_, int pos_) :
+    Parent(data, column_, pos_),
+    column(column_)
+  {}
+
+  Nth2_Factor(const SlicedTibble& data, Column column_, int pos_, SEXP def_) :
+    Parent(data, column_, pos_, def_),
+    column(column_)
+  {}
+
+  inline Vec summarise() const {
+    return promote(Parent::summarise());
+  }
+
+  inline Vec window() const {
+    return promote(Parent::window());
+  }
+
+private:
+  Column column;
+
+  inline Vec promote(const Vec& res) const {
+    copy_most_attributes(res, column.data);
+    return res;
+  }
+
+};
+
 }
 
 // nth( <column>, n = <int|double> )
 template <typename SlicedTibble, typename Operation>
 SEXP nth2_(const SlicedTibble& data, Column x, int pos, const Operation& op) {
-  switch (TYPEOF(x.data)) {
-  case LGLSXP:
-    return op(internal::Nth2<LGLSXP, SlicedTibble>(data, x, pos));
-  case RAWSXP:
-    return op(internal::Nth2<RAWSXP, SlicedTibble>(data, x, pos));
-  case INTSXP:
-    return op(internal::Nth2<INTSXP, SlicedTibble>(data, x, pos));
-  case REALSXP:
-    return op(internal::Nth2<REALSXP, SlicedTibble>(data, x, pos));
-  case CPLXSXP:
-    return op(internal::Nth2<CPLXSXP, SlicedTibble>(data, x, pos));
-  case STRSXP:
-    return op(internal::Nth2<STRSXP, SlicedTibble>(data, x, pos));
-  case VECSXP:
-    return op(internal::Nth2<VECSXP, SlicedTibble>(data, x, pos));
-  default:
-    break;
+  if (Rf_isFactor(x.data)) {
+    return op(internal::Nth2_Factor<SlicedTibble>(data, x, pos));
+  } else if (x.is_trivial()) {
+    switch (TYPEOF(x.data)) {
+    case LGLSXP:
+      return op(internal::Nth2<LGLSXP, SlicedTibble>(data, x, pos));
+    case RAWSXP:
+      return op(internal::Nth2<RAWSXP, SlicedTibble>(data, x, pos));
+    case INTSXP:
+      return op(internal::Nth2<INTSXP, SlicedTibble>(data, x, pos));
+    case REALSXP:
+      return op(internal::Nth2<REALSXP, SlicedTibble>(data, x, pos));
+    case CPLXSXP:
+      return op(internal::Nth2<CPLXSXP, SlicedTibble>(data, x, pos));
+    case STRSXP:
+      return op(internal::Nth2<STRSXP, SlicedTibble>(data, x, pos));
+    case VECSXP:
+      return op(internal::Nth2<VECSXP, SlicedTibble>(data, x, pos));
+    default:
+      break;
+    }
   }
 
   return R_UnboundValue;

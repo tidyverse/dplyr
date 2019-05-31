@@ -85,7 +85,7 @@ inline SEXP in_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>
     Column lhs;
     Column rhs;
 
-    if (expression.is_unnamed(0) && expression.is_column(0, lhs) && expression.is_unnamed(1) && expression.is_column(1, rhs)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, lhs) && lhs.is_trivial() && expression.is_unnamed(1) && expression.is_column(1, rhs) && rhs.is_trivial()) {
       return in_column_column(data, lhs, rhs, op);
     }
   }
