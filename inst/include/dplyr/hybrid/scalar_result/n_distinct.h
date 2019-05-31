@@ -68,7 +68,7 @@ SEXP n_distinct_dispatch(const SlicedTibble& tbl, const Expression& expression, 
         // otherwise, we need R to evaluate it, so we give up
         return R_UnboundValue;
       }
-    } else if (expression.is_column(i, column)) {
+    } else if (expression.is_column(i, column) && column.is_trivial()) {
       columns.push_back(shelter(column.data));
     } else {
       // give up, R will handle the call

@@ -2,6 +2,8 @@
 
 * `group_by()` puts NA groups last in character vectors (#4227).
 
+* `first()`, `last()` and `nth()` hybrid version handles factors (#4295).
+
 * Using quosures in colwise verbs is deprecated (#4330).
 
 * Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343).

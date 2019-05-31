@@ -24,6 +24,11 @@ SEXP get_time_classes() {
   return klasses;
 }
 
+SEXP get_factor_classes() {
+  static Rcpp::CharacterVector klasses(1, Rf_mkChar("factor"));
+  return klasses;
+}
+
 SEXP mark_precious(SEXP x) {
   R_PreserveObject(x);
   return x;
@@ -102,4 +107,6 @@ SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);
 SEXP strings::Date = STRING_ELT(get_date_classes(), 0);
+
+SEXP vectors::factor = get_factor_classes();
 }

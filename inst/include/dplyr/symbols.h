@@ -83,6 +83,10 @@ struct strings {
   static SEXP Date;
 };
 
+struct vectors {
+  static SEXP factor;
+};
+
 } // namespace dplyr
 
 

@@ -125,7 +125,7 @@ SEXP lead_lag_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>&
   switch (expression.size()) {
   case 1:
     // lead( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
       return internal::lead_lag<SlicedTibble, Operation, Impl>(data, x, 1, op);
     }
     break;
@@ -134,7 +134,7 @@ SEXP lead_lag_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>&
     // lead( <column>, n = <int> )
     int n;
 
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && n >= 0) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && n >= 0) {
       return internal::lead_lag<SlicedTibble, Operation, Impl>(data, x, n, op);
     }
   default:
