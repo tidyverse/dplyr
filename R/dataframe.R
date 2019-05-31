@@ -109,7 +109,7 @@ arrange_.data.frame <- function(.data, ..., .dots = list(), .by_group = FALSE) {
 #' @export
 select.data.frame <- function(.data, ...) {
   # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(sel_vars(.data), !!!enquos(...))
+  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
   select_impl(.data, vars)
 }
 #' @export

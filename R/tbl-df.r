@@ -17,7 +17,16 @@ as.tbl.data.frame <- function(x, ...) {
 }
 
 #' @export
-tbl_vars.data.frame <- function(x) names(x)
+tbl_vars.data.frame <- function(x) {
+  vars <- names(x)
+  group_vars <- group_vars(x)
+
+  structure(
+    vars,
+    class = "dplyr_sel_vars",
+    groups = group_vars
+  )
+}
 
 #' @export
 same_src.data.frame <- function(x, y) {
