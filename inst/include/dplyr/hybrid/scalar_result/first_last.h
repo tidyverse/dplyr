@@ -135,13 +135,13 @@ SEXP first_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& ex
   switch (expression.size()) {
   case 1:
     // first( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
       return first1_(data, x, op);
     }
     break;
   case 2:
     // first( <column>, default = <scalar> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::default_)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::default_)) {
       return first2_(data, x, /* default = */ expression.value(1), op);
     }
   default:
@@ -157,13 +157,13 @@ SEXP last_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& exp
   switch (expression.size()) {
   case 1:
     // last( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
       return last1_(data, x, op);
     }
     break;
   case 2:
     // last( <column>, default = <scalar> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::default_)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::default_)) {
       return last2_(data, x, /* default = */ expression.value(1), op);
     }
   default:
@@ -180,13 +180,13 @@ inline SEXP nth_dispatch(const SlicedTibble& data, const Expression<SlicedTibble
   switch (expression.size()) {
   case 2:
     // nth( <column>, n = <int> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n)) {
       return nth2_(data, x, n, op);
     }
     break;
   case 3:
     // nth( <column>, n = <int>, default = <scalar> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && expression.is_named(2, symbols::default_)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && expression.is_named(2, symbols::default_)) {
       return nth3_default(data, x, n, expression.value(2), op);
     }
   default:

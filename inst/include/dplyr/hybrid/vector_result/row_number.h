@@ -101,7 +101,7 @@ SEXP row_number_dispatch(const SlicedTibble& data, const Expression<SlicedTibble
   case 1:
     // row_number( <column> )
     Column x;
-    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
       return row_number_1(data, x, op);
     }
   default:

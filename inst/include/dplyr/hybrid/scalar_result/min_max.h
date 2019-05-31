@@ -119,14 +119,14 @@ SEXP minmax_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& e
   switch (expression.size()) {
   case 1:
     // min( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
       return minmax_<SlicedTibble, Operation, MINIMUM>(data, x, false, op) ;
     }
   case 2:
     // min( <column>, na.rm = <bool> )
     bool test;
 
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::narm) && expression.is_scalar_logical(1, test)) {
       return minmax_<SlicedTibble, Operation, MINIMUM>(data, x, test, op) ;
     }
   default:
