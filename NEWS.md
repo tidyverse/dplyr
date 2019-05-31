@@ -1,8 +1,11 @@
 # dplyr 0.8.1.9000
 
+* `group_by()` puts NA groups last in character vectors (#4227).
+
 * Using quosures in colwise verbs is deprecated (#4330).
 
 * Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343).
+
 * `select.list()` method added so that `select()` does not dispatch on lists (#4279). 
 
 * Updated `distinct_if()`, `distinct_at()` and `distinct_all()` to include `.keep_all` argument (@beansrowning, #4343)
