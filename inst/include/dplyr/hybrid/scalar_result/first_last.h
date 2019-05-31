@@ -5,6 +5,7 @@
 #include <dplyr/hybrid/Column.h>
 #include <tools/default_value.h>
 #include <dplyr/hybrid/Expression.h>
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 namespace hybrid {
@@ -50,28 +51,66 @@ private:
   STORAGE def;
 };
 
+template <typename SlicedTibble>
+class Nth2_Factor : public Nth2<INTSXP, SlicedTibble> {
+  typedef Nth2<INTSXP, SlicedTibble> Parent;
+  typedef typename Parent::Vec Vec;
+
+public:
+  Nth2_Factor(const SlicedTibble& data, Column column_, int pos_) :
+    Parent(data, column_, pos_),
+    column(column_)
+  {}
+
+  Nth2_Factor(const SlicedTibble& data, Column column_, int pos_, SEXP def_) :
+    Parent(data, column_, pos_, def_),
+    column(column_)
+  {}
+
+  inline Vec summarise() const {
+    return promote(Parent::summarise());
+  }
+
+  inline Vec window() const {
+    return promote(Parent::window());
+  }
+
+private:
+  Column column;
+
+  inline Vec promote(const Vec& res) const {
+    copy_most_attributes(res, column.data);
+    return res;
+  }
+
+};
+
 }
 
 // nth( <column>, n = <int|double> )
 template <typename SlicedTibble, typename Operation>
 SEXP nth2_(const SlicedTibble& data, Column x, int pos, const Operation& op) {
-  switch (TYPEOF(x.data)) {
-  case LGLSXP:
-    return op(internal::Nth2<LGLSXP, SlicedTibble>(data, x, pos));
-  case RAWSXP:
-    return op(internal::Nth2<RAWSXP, SlicedTibble>(data, x, pos));
-  case INTSXP:
-    return op(internal::Nth2<INTSXP, SlicedTibble>(data, x, pos));
-  case REALSXP:
-    return op(internal::Nth2<REALSXP, SlicedTibble>(data, x, pos));
-  case CPLXSXP:
-    return op(internal::Nth2<CPLXSXP, SlicedTibble>(data, x, pos));
-  case STRSXP:
-    return op(internal::Nth2<STRSXP, SlicedTibble>(data, x, pos));
-  case VECSXP:
-    return op(internal::Nth2<VECSXP, SlicedTibble>(data, x, pos));
-  default:
-    break;
+  if (Rf_isFactor(x.data)) {
+    return op(internal::Nth2_Factor<SlicedTibble>(data, x, pos));
+  } else if (x.is_trivial()) {
+    switch (TYPEOF(x.data)) {
+    case LGLSXP:
+      return op(internal::Nth2<LGLSXP, SlicedTibble>(data, x, pos));
+    case RAWSXP:
+      return op(internal::Nth2<RAWSXP, SlicedTibble>(data, x, pos));
+    case INTSXP:
+      return op(internal::Nth2<INTSXP, SlicedTibble>(data, x, pos));
+    case REALSXP:
+      return op(internal::Nth2<REALSXP, SlicedTibble>(data, x, pos));
+    case CPLXSXP:
+      return op(internal::Nth2<CPLXSXP, SlicedTibble>(data, x, pos));
+    case STRSXP:
+      return op(internal::Nth2<STRSXP, SlicedTibble>(data, x, pos));
+    case VECSXP:
+      return op(internal::Nth2<VECSXP, SlicedTibble>(data, x, pos));
+    default:
+      break;
+    }
   }
 
   return R_UnboundValue;
@@ -135,13 +174,13 @@ SEXP first_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& ex
   switch (expression.size()) {
   case 1:
     // first( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
       return first1_(data, x, op);
     }
     break;
   case 2:
     // first( <column>, default = <scalar> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::default_)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::default_)) {
       return first2_(data, x, /* default = */ expression.value(1), op);
     }
   default:
@@ -157,13 +196,13 @@ SEXP last_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& exp
   switch (expression.size()) {
   case 1:
     // last( <column> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x)) {
       return last1_(data, x, op);
     }
     break;
   case 2:
     // last( <column>, default = <scalar> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::default_)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::default_)) {
       return last2_(data, x, /* default = */ expression.value(1), op);
     }
   default:
@@ -180,13 +219,13 @@ inline SEXP nth_dispatch(const SlicedTibble& data, const Expression<SlicedTibble
   switch (expression.size()) {
   case 2:
     // nth( <column>, n = <int> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n)) {
       return nth2_(data, x, n, op);
     }
     break;
   case 3:
     // nth( <column>, n = <int>, default = <scalar> )
-    if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial() && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && expression.is_named(2, symbols::default_)) {
+    if (expression.is_unnamed(0) && expression.is_column(0, x) && expression.is_named(1, symbols::n) && expression.is_scalar_int(1, n) && expression.is_named(2, symbols::default_)) {
       return nth3_default(data, x, n, expression.value(2), op);
     }
   default:
