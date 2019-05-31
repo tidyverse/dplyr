@@ -34,7 +34,7 @@ For \code{bench_tbls()}: additional benchmarks to run.}
 \item{times}{For benchmarking, the number of times each operation is
 repeated.}
 
-\item{ref}{For checking, an data frame to test results against. If not
+\item{ref}{For checking, a data frame to test results against. If not
 supplied, defaults to the results from the first \code{src}.}
 
 \item{compare}{A function used to compare the results. Defaults to
