@@ -317,24 +317,24 @@ will be prefixed by an extra <code>"n"</code> as many times as necessary.</p>
  <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
  <span class='fu'>count</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='no'>species</span></div><div class='output co'>#&gt; # A tibble: 58 x 3
-#&gt;    species homeworld     n
-#&gt;    &lt;chr&gt;   &lt;chr&gt;     &lt;int&gt;
-#&gt;  1 Human   Tatooine      8
-#&gt;  2 Human   &lt;NA&gt;          5
-#&gt;  3 Human   Naboo         5
-#&gt;  4 Gungan  Naboo         3
-#&gt;  5 Human   Alderaan      3
-#&gt;  6 &lt;NA&gt;    &lt;NA&gt;          2
-#&gt;  7 &lt;NA&gt;    Naboo         2
-#&gt;  8 Droid   &lt;NA&gt;          2
-#&gt;  9 Droid   Tatooine      2
-#&gt; 10 Human   Corellia      2
+#&gt;    species  homeworld     n
+#&gt;    &lt;chr&gt;    &lt;chr&gt;     &lt;int&gt;
+#&gt;  1 Human    Tatooine      8
+#&gt;  2 Human    Naboo         5
+#&gt;  3 Human    &lt;NA&gt;          5
+#&gt;  4 Gungan   Naboo         3
+#&gt;  5 Human    Alderaan      3
+#&gt;  6 Droid    Tatooine      2
+#&gt;  7 Droid    &lt;NA&gt;          2
+#&gt;  8 Human    Corellia      2
+#&gt;  9 Human    Coruscant     2
+#&gt; 10 Kaminoan Kamino        2
 #&gt; # … with 48 more rows</div><div class='input'><span class='no'>species</span> <span class='kw'>%&gt;%</span> <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;    species      n
 #&gt;    &lt;chr&gt;    &lt;int&gt;
 #&gt;  1 Human       16
-#&gt;  2 &lt;NA&gt;         3
-#&gt;  3 Droid        3
+#&gt;  2 Droid        3
+#&gt;  3 &lt;NA&gt;         3
 #&gt;  4 Zabrak       2
 #&gt;  5 Aleena       1
 #&gt;  6 Besalisk     1
@@ -348,25 +348,25 @@ will be prefixed by an extra <code>"n"</code> as many times as necessary.</p>
  <span class='no'>starwars</span> <span class='kw'>%&gt;%</span>
  <span class='fu'>count</span>(<span class='no'>species</span>, <span class='no'>homeworld</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n_species_by_homeworld"</span>)
 <span class='no'>species</span></div><div class='output co'>#&gt; # A tibble: 58 x 3
-#&gt;    species homeworld n_species_by_homeworld
-#&gt;    &lt;chr&gt;   &lt;chr&gt;                      &lt;int&gt;
-#&gt;  1 Human   Tatooine                       8
-#&gt;  2 Human   &lt;NA&gt;                           5
-#&gt;  3 Human   Naboo                          5
-#&gt;  4 Gungan  Naboo                          3
-#&gt;  5 Human   Alderaan                       3
-#&gt;  6 &lt;NA&gt;    &lt;NA&gt;                           2
-#&gt;  7 &lt;NA&gt;    Naboo                          2
-#&gt;  8 Droid   &lt;NA&gt;                           2
-#&gt;  9 Droid   Tatooine                       2
-#&gt; 10 Human   Corellia                       2
+#&gt;    species  homeworld n_species_by_homeworld
+#&gt;    &lt;chr&gt;    &lt;chr&gt;                      &lt;int&gt;
+#&gt;  1 Human    Tatooine                       8
+#&gt;  2 Human    Naboo                          5
+#&gt;  3 Human    &lt;NA&gt;                           5
+#&gt;  4 Gungan   Naboo                          3
+#&gt;  5 Human    Alderaan                       3
+#&gt;  6 Droid    Tatooine                       2
+#&gt;  7 Droid    &lt;NA&gt;                           2
+#&gt;  8 Human    Corellia                       2
+#&gt;  9 Human    Coruscant                      2
+#&gt; 10 Kaminoan Kamino                         2
 #&gt; # … with 48 more rows</div><div class='input'><span class='no'>species</span> <span class='kw'>%&gt;%</span>
  <span class='fu'>count</span>(<span class='no'>species</span>, <span class='kw'>sort</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"n_species"</span>)</div><div class='output co'>#&gt; # A tibble: 38 x 2
 #&gt;    species  n_species
 #&gt;    &lt;chr&gt;        &lt;int&gt;
 #&gt;  1 Human           16
-#&gt;  2 &lt;NA&gt;             3
-#&gt;  3 Droid            3
+#&gt;  2 Droid            3
+#&gt;  3 &lt;NA&gt;             3
 #&gt;  4 Zabrak           2
 #&gt;  5 Aleena           1
 #&gt;  6 Besalisk         1
