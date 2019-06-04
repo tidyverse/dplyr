@@ -115,6 +115,7 @@ protected:
 template <>
 class VectorVisitorImpl<STRSXP> : public VectorVisitor {
 public:
+  typedef comparisons<INTSXP> int_compare;
 
   VectorVisitorImpl(const Rcpp::CharacterVector& vec_) :
     vec(reencode_char(vec_)), has_orders(false)
@@ -129,7 +130,7 @@ public:
 
   inline bool less(int i, int j) const {
     provide_orders();
-    return orders[i] < orders[j];
+    return int_compare::is_less(orders[i], orders[j]);
   }
 
   inline bool equal_or_both_na(int i, int j) const {
@@ -138,7 +139,7 @@ public:
 
   inline bool greater(int i, int j) const {
     provide_orders();
-    return orders[i] > orders[j];
+    return int_compare::is_greater(orders[i], orders[j]);
   }
 
   int size() const {

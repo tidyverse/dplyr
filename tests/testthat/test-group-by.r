@@ -519,3 +519,10 @@ test_that("group_by_drop_default() is forgiving about corrupt grouped df (#4306)
   expect_true(group_by_drop_default(df))
 })
 
+test_that("group_by() puts NA groups last in STRSXP (#4227)", {
+  res <- tibble(x = c("apple", NA, "banana"), y = 1:3) %>%
+    group_by(x) %>%
+    group_data()
+  expect_identical(res$x, c("apple", "banana", NA_character_))
+  expect_identical(res$.rows, list(1L, 3L, 2L))
+})
