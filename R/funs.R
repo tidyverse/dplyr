@@ -45,13 +45,16 @@
 funs <- function(..., .args = list()) {
   signal_soft_deprecated(paste_line(
     "funs() is soft deprecated as of dplyr 0.8.0",
-    "please use list() instead",
+    "please use a list of either functions or lambdas, some examples: ",
     "",
-    "  # Before:",
-    "  funs(name = f(.))",
+    "  # simple named list: ",
+    "  list(mean = mean, median = median)",
     "",
-    "  # After: ",
-    "  list(name = ~ f(.))"
+    "  # auto named with tibble::lst(): ",
+    "  tibble::lst(mean, median)",
+    "",
+    "  # using lambdas",
+    "  list(mean = ~mean(., trim = .2), median = ~median(., na.rm = TRUE))"
   ))
   dots <- enquos(...)
   default_env <- caller_env()
