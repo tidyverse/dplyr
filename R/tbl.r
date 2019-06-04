@@ -41,6 +41,18 @@ as.tbl <- function(x, ...) UseMethod("as.tbl")
 #' @export
 as.tbl.tbl <- function(x, ...) x
 
+tbl_vars_dispatch <- function(x) {
+  UseMethod("tbl_vars")
+}
+
+new_sel_vars <- function(vars, group_vars) {
+  structure(
+    vars,
+    groups = group_vars,
+    class = "dplyr_sel_vars"
+  )
+}
+
 #' List variables provided by a tbl.
 #'
 #' `tbl_vars()` returns all variables while `tbl_nongroup_vars()`
@@ -52,6 +64,9 @@ as.tbl.tbl <- function(x, ...) x
 #'   variables.
 #' @keywords internal
 tbl_vars <- function(x) {
+  return(new_sel_vars(tbl_vars_dispatch(x), group_vars(x)))
+
+  # For roxygen and static analysis
   UseMethod("tbl_vars")
 }
 #' @rdname tbl_vars
