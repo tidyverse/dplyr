@@ -56,7 +56,9 @@ new_sel_vars <- function(vars, group_vars) {
 #' List variables provided by a tbl.
 #'
 #' `tbl_vars()` returns all variables while `tbl_nongroup_vars()`
-#' returns only non-grouping variables.
+#' returns only non-grouping variables. The `groups` attribute
+#' of the object returned by `tbl_vars()` is a character vector of the
+#' grouping columns.
 #'
 #' @export
 #' @param x A tbl object

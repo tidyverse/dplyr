@@ -1,5 +1,7 @@
 # dplyr 0.8.1.9000
 
+* `tbl_vars()` keeps information on grouping columns (#4106). 
+
 * `first()`, `last()` and `nth()` hybrid version handles factors (#4295).
 
 * Using quosures in colwise verbs is deprecated (#4330).
