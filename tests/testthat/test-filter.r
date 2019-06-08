@@ -3,12 +3,12 @@ context("Filter")
 test_that("filter fails if inputs incorrect length (#156)", {
   expect_error(
     filter(tbl_df(mtcars), c(F, T)),
-    "Result must have length 32, not 2",
+    "Result of `c(F, T)` must have length 32, not 2",
     fixed = TRUE
   )
   expect_error(
     filter(group_by(mtcars, am), c(F, T)),
-    "Result must have length 19, not 2",
+    "Result of `c(F, T)` must have length 19, not 2",
     fixed = TRUE
   )
 })

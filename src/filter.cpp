@@ -16,9 +16,13 @@
 namespace dplyr {
 
 inline
-void check_result_length(const Rcpp::LogicalVector& test, int n) {
+void check_result_length(const Rcpp::LogicalVector& test, int n, const Quosure& quo) {
   if (test.size() != n) {
-    Rcpp::stop("Result must have length %d, not %d", n, test.size());
+    Rcpp::Shield<SEXP> expr(quo.expr());
+    Rcpp::Environment rlang = Rcpp::Environment::namespace_env("rlang");
+    Rcpp::Function as_label = rlang["as_label"];
+    Rcpp::CharacterVector label = as_label(quo);
+    Rcpp::stop("Result of `%s` must have length %d, not %d.", CHAR(label[0].get()), n, test.size());
   }
 }
 
@@ -256,7 +260,7 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
       }
     } else {
       // any other size, so we check that it is consistent with the group size
-      check_result_length(g_test, chunk_size);
+      check_result_length(g_test, chunk_size, quo);
       group_indices.add_group_lgl(i, g_test);
     }
   }
