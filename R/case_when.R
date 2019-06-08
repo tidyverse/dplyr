@@ -75,6 +75,16 @@
 #'   x %% 7 == 0 ~ 7,
 #'   TRUE ~ NA_real_
 #' )
+#'
+#' # case_when() evaluates all RHS expressions, and then constructs its
+#' # result by extracting the selected (via the LHS expressions) parts.
+#' # In particular NaN are produced in this case:
+#' y <- seq(-2, 2, by = .5)
+#' case_when(
+#'   y >= 0 ~ sqrt(y),
+#'   TRUE   ~ y
+#' )
+#'
 #' # This throws an error as NA is logical not numeric
 #' \dontrun{
 #' case_when(
