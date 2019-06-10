@@ -1,5 +1,9 @@
 # dplyr 0.8.1.9000
 
+* `top_n()` quotes its `n` argument. 
+
+* `top_frac(data, proportion)` is a shorthand for `top_n(data, proportion * n())` (#4017).  
+
 * `group_by()` puts NA groups last in character vectors (#4227).
 
 * `first()`, `last()` and `nth()` hybrid version handles factors (#4295).

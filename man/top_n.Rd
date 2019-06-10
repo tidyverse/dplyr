@@ -2,36 +2,46 @@
 % Please edit documentation in R/top-n.R
 \name{top_n}
 \alias{top_n}
+\alias{top_frac}
 \title{Select top (or bottom) n rows (by value)}
 \usage{
 top_n(x, n, wt)
+
+top_frac(x, n, wt)
 }
 \arguments{
 \item{x}{a \code{\link[=tbl]{tbl()}} to filter}
 
-\item{n}{number of rows to return. If \code{x} is grouped, this is the
-number of rows per group. Will include more than \code{n} rows if
+\item{n}{number of rows to return for \code{top_n()}, fraction of rows to
+return for \code{top_frac()}.
+
+If \code{x} is grouped, this is the
+number (or fraction) of rows per group. Will include more rows if
 there are ties.
 
-If \code{n} is positive, selects the top \code{n} rows. If negative,
-selects the bottom \code{n} rows.}
+If \code{n} is positive, selects the top rows. If negative,
+selects the bottom rows.}
 
 \item{wt}{(Optional). The variable to use for ordering. If not
-specified, defaults to the last variable in the tbl.
-
-This argument is automatically \link[rlang:quo]{quoted} and later
-\link[rlang:eval_tidy]{evaluated} in the context of the data
-frame. It supports \link[rlang:quasiquotation]{unquoting}. See
-\code{vignette("programming")} for an introduction to these concepts.}
+specified, defaults to the last variable in the tbl.}
 }
 \description{
 This is a convenient wrapper that uses \code{\link[=filter]{filter()}} and
 \code{\link[=min_rank]{min_rank()}} to select the top or bottom entries in each group,
 ordered by \code{wt}.
 }
+\details{
+Both \code{n} and \code{wt} are automatically \link[rlang:quo]{quoted} and later
+\link[rlang:eval_tidy]{evaluated} in the context of the data
+frame. It supports \link[rlang:quasiquotation]{unquoting}.
+}
 \examples{
 df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
 df \%>\% top_n(2)
+
+# half the rows
+df \%>\% top_n(n() * .5)
+df \%>\% top_frac(.5)
 
 # Negative values select bottom from group. Note that we get more
 # than 2 values here because there's a tie: top_n() either takes

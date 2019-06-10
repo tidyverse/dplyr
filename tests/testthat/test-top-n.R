@@ -17,3 +17,16 @@ test_that("top_n() handles missing `wt`", {
 test_that("top_n() handles calls", {
   expect_identical(top_n(mtcars, 2, -disp), top_n(mtcars, -2, disp))
 })
+
+test_that("top_n() quotes n", {
+  expect_identical(top_n(mtcars, n() * .5), top_n(mtcars, 16))
+})
+
+test_that("top_frac() is a shorthand for top_n(n()*)", {
+  expect_identical(top_n(mtcars, n() * .5, disp), top_frac(mtcars, .5, disp))
+
+  expect_message(
+    regexp = "Selecting by carb",
+    expect_identical(top_n(mtcars, n() * .5), top_frac(mtcars, .5))
+  )
+})
