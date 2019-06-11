@@ -179,7 +179,9 @@ ordered by <code>wt</code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>top_n</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>wt</span>)</pre>
+    <pre class="usage"><span class='fu'>top_n</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>wt</span>)
+
+<span class='fu'>top_frac</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>wt</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -190,22 +192,26 @@ ordered by <code>wt</code>.</p>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>number of rows to return. If <code>x</code> is grouped, this is the
-number of rows per group. Will include more than <code>n</code> rows if
+      <td><p>number of rows to return for <code>top_n()</code>, fraction of rows to
+return for <code>top_frac()</code>.</p>
+<p>If <code>x</code> is grouped, this is the
+number (or fraction) of rows per group. Will include more rows if
 there are ties.</p>
-<p>If <code>n</code> is positive, selects the top <code>n</code> rows. If negative,
-selects the bottom <code>n</code> rows.</p></td>
+<p>If <code>n</code> is positive, selects the top rows. If negative,
+selects the bottom rows.</p></td>
     </tr>
     <tr>
       <th>wt</th>
       <td><p>(Optional). The variable to use for ordering. If not
-specified, defaults to the last variable in the tbl.</p>
-<p>This argument is automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and later
-<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a>. See
-<code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to these concepts.</p></td>
+specified, defaults to the last variable in the tbl.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>Both <code>n</code> and <code>wt</code> are automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and later
+<a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
+frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a>.</p>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -213,6 +219,14 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.htm
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
 #&gt; 1 10
 #&gt; 2  6</div><div class='input'>
+<span class='co'># half the rows</span>
+<span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fu'><a href='n.html'>n</a></span>() * <span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
+#&gt; 1 10
+#&gt; 2  4
+#&gt; 3  6</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_frac</span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
+#&gt; 1 10
+#&gt; 2  4
+#&gt; 3  6</div><div class='input'>
 <span class='co'># Negative values select bottom from group. Note that we get more</span>
 <span class='co'># than 2 values here because there's a tie: top_n() either takes</span>
 <span class='co'># all rows with a value, or none.</span>
@@ -252,7 +266,9 @@ frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.htm
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      
+      <li><a href="#details">Details</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
