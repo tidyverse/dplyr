@@ -59,7 +59,7 @@ top_n <- function(x, n, wt) {
     wt <- sym(wt_name)
   }
 
-  pred <- quo(local({
+  pred <- expr(local({
     .n <- !!nn
     if (.n > 0) {
       min_rank(desc(!!wt)) <= .n
