@@ -31,7 +31,7 @@ This is a convenient wrapper that uses \code{\link[=filter]{filter()}} and
 ordered by \code{wt}.
 }
 \details{
-Both \code{n} and \code{wt} are automatically \link[rlang:quo]{quoted} and later
+Both \code{n} and \code{wt} are automatically \link[rlang:enquo]{quoted} and later
 \link[rlang:eval_tidy]{evaluated} in the context of the data
 frame. It supports \link[rlang:quasiquotation]{unquoting}.
 }
