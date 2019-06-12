@@ -27,6 +27,7 @@ test_that("can select/rename with predicate", {
 })
 
 test_that("can supply funs()", {
+  scoped_lifecycle_silence()
   expect_identical(select_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df[c("x", "z")], c("X", "Z")))
   expect_identical(rename_if(df, funs(is_integerish(.)), funs(toupper(.))), set_names(df, c("X", "y", "Z")))
 
@@ -35,6 +36,7 @@ test_that("can supply funs()", {
 })
 
 test_that("fails when more than one renaming function is supplied", {
+  scoped_lifecycle_silence()
   expect_error(
     select_all(df, funs(tolower, toupper)),
     "`.funs` must contain one renaming function, not 2",

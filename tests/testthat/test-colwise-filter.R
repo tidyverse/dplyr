@@ -29,8 +29,9 @@ test_that("aborts when supplied funs() or list", {
     "`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not a list",
     fixed = TRUE
   )
+
   expect_error(
-    filter_all(mtcars, funs(. > 0)),
+    with_lifecycle_silence(filter_all(mtcars, funs(. > 0))),
     "`.vars_predicate` must be a function or a call to `all_vars()` or `any_vars()`, not a `fun_list` object",
     fixed = TRUE
   )

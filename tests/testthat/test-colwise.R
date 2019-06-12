@@ -17,6 +17,7 @@ test_that("tbl_at_vars() treats `NULL` as empty inputs", {
 })
 
 test_that("tbl_if_vars() errs on bad input", {
+  scoped_lifecycle_silence()
   expect_error(
     tbl_if_vars(iris, funs(identity, force), environment()),
     "`.predicate` must have length 1, not 2",

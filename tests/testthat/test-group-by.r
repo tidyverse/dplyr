@@ -11,6 +11,7 @@ test_that("group_by with add = TRUE adds groups", {
 })
 
 test_that("group_by_ backwards compatibility with add = TRUE adds groups", {
+  scoped_lifecycle_silence()
   add_groups_extendedclass <- function(tbl) {
     grouped <- group_by(tbl, x)
     group_by.default(grouped, y, add = TRUE)
