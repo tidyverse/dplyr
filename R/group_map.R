@@ -121,7 +121,7 @@ group_map <- function(.tbl, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.tbl, keep = keep)
+  chunks <- group_split(.tbl, keep = isTRUE(keep))
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
   map2(chunks, group_keys, .f, ...)
