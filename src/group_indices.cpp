@@ -685,7 +685,7 @@ Rcpp::DataFrame ungroup_grouped_df(Rcpp::DataFrame df) {
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::List group_split_impl(const dplyr::GroupedDataFrame& gdf, bool keep, SEXP frame, bool ptype) {
+Rcpp::List group_split_impl(const dplyr::GroupedDataFrame& gdf, bool keep, SEXP frame) {
   Rcpp::ListView rows = gdf.indices();
   R_xlen_t n = rows.size();
 
@@ -724,11 +724,11 @@ Rcpp::List group_split_impl(const dplyr::GroupedDataFrame& gdf, bool keep, SEXP 
     dplyr::GroupedDataFrame::strip_groups(out_i);
     out[i] = out_i;
   }
-  if (ptype) {
-    Rf_setAttrib(
-      out, dplyr::symbols::ptype,
-      dplyr::dataframe_subset(data, Rcpp::IntegerVector(0), dplyr::NaturalDataFrame::classes(), frame)
-    );
-  }
+
+  Rf_setAttrib(
+    out, dplyr::symbols::ptype,
+    dplyr::dataframe_subset(data, Rcpp::IntegerVector(0), dplyr::NaturalDataFrame::classes(), frame)
+  );
+
   return out;
 }
