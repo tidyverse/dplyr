@@ -163,7 +163,12 @@ group_modify.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
-  res <- bind_rows(!!!group_map(.tbl, fun, ..., keep = keep))
+  chunks <- group_map(.tbl, fun, ..., keep = keep)
+  res <- if (length(chunks)) {
+    bind_rows(!!!chunks)
+  } else {
+    attr(chunks, "ptype")
+  }
   group_by(res, !!!groups(.tbl), .drop = group_by_drop_default(.tbl))
 }
 

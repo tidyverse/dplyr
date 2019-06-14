@@ -1,5 +1,9 @@
 # dplyr 0.8.1.9000
 
+* `group_split()` always sets the `ptype` attribute. 
+
+* `group_map()` and `group_modify()` work in the 0 group edge case (#4421)
+
 * `view()` is reexported from tibble (#4423). 
 
 * `top_n()` quotes its `n` argument. 
