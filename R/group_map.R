@@ -124,7 +124,13 @@ group_map <- function(.tbl, .f, ..., keep = FALSE) {
   chunks <- group_split(.tbl, keep = isTRUE(keep))
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  map2(chunks, group_keys, .f, ...)
+
+  if (length(chunks)) {
+    map2(chunks, group_keys, .f, ...)
+  } else {
+    # calling .f with .x and .y set to prototypes
+    structure(list(), ptype = .f(attr(chunks, "ptype"), keys[integer(0L), ], ...))
+  }
 }
 
 #' @rdname group_map
