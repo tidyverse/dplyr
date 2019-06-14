@@ -1,5 +1,7 @@
 # dplyr 0.8.1.9000
 
+* `view()` is reexported from tibble (#4423). 
+
 * `top_n()` quotes its `n` argument. 
 
 * `top_frac(data, proportion)` is a shorthand for `top_n(data, proportion * n())` (#4017).  

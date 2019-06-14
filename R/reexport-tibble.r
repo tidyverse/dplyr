@@ -54,6 +54,9 @@ tibble::tibble
 #' @export
 tibble::as_tibble
 
+#' @importFrom tibble view
+tibble::view
+
 # utils -------------------------------------------------------------------
 
 #' @importFrom tibble trunc_mat
