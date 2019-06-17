@@ -85,7 +85,7 @@ group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
     group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment())
   } else {
-    structure(list(.tbl), ptype = .tbl[integer(0L), ])
+    structure(list(.tbl), ptype = .tbl[0L, ])
   }
 }
 
