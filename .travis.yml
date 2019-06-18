@@ -36,6 +36,8 @@ jobs:
 
 matrix:
   fast_finish: true
+  allow_failures:
+  - env: DEVEL_PACKAGES=true
 
 env:
   global:

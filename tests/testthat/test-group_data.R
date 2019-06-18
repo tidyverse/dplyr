@@ -83,8 +83,9 @@ test_that("old group format repair does not keep a vars attribute around", {
   attr(tbl, "vars") <- rlang::sym("x")
   class(tbl) <- c("grouped_df", "tbl_df", "tbl", "data.frame")
 
-  res <- tbl %>%
-    group_by(y)
+  expect_warning({
+    res <- tbl %>% group_by(y)
+  })
   expect_equal(group_vars(res), "y")
   expect_null(attr(res, " vars"))
   expect_null(attr(tbl, " vars"))

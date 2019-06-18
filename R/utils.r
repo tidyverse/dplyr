@@ -21,7 +21,7 @@ any_apply <- function(xs, f) {
 }
 
 deparse_names <- function(x) {
-  x <- map_if(x, is_quosure, quo_expr)
+  x <- map_if(x, is_quosure, quo_squash)
   x <- map_if(x, is_bare_formula, f_rhs)
   map_chr(x, deparse)
 }

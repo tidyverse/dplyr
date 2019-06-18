@@ -22,7 +22,7 @@ node_walk_replace <- function(node, old, new) {
 }
 expr_substitute <- function(expr, old, new) {
   expr <- duplicate(expr)
-  switch_type(expr,
+  switch(typeof(expr),
     quosure = node_walk_replace(quo_get_expr(expr), old, new),
     formula = ,
     language = node_walk_replace(node_cdr(expr), old, new),
