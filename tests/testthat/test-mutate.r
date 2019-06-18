@@ -479,6 +479,22 @@ test_that("row_number handles empty data frames (#762)", {
   expect_equal(nrow(res), 0L)
 })
 
+test_that("hybrid rank functions handle NA (#4427)", {
+  df <- tibble(a = runif(1000, -1, 1), b = runif(1000, -1, 1))
+  df[df < 0] <- NA
+  df <- df %>%
+    mutate(
+      gain = b - a,
+      cume_dist_hybrid = cume_dist(gain),
+      cume_dist_std = cume_dist(b - a),
+      pct_rank_hybrid = percent_rank(gain),
+      pct_rank_std = percent_rank(b-a)
+    )
+
+  expect_equal(df$cume_dist_hybrid, df$cume_dist_std)
+  expect_equal(df$pct_rank_hybrid, df$pct_rank_std)
+})
+
 test_that("no utf8 invasion (#722)", {
   skip("fails on windows, but also on one cran machine")
 

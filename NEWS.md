@@ -1,5 +1,7 @@
 # dplyr 0.8.1.9000
 
+* hybrid rank functions correctly handle NA (#4427). 
+
 * `tbl_vars()` keeps information on grouping columns (#4106). 
 
 * `group_split()` always sets the `ptype` attribute. 

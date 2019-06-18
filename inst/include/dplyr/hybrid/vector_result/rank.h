@@ -125,6 +125,16 @@ public:
   }
 };
 
+template <typename T>
+inline T fix_na(T value) {
+  return value;
+}
+
+template <>
+inline double fix_na<double>(double value) {
+  return R_IsNA(value) ? NA_REAL : value;
+}
+
 template <typename SlicedTibble, int RTYPE, bool ascending, typename Increment>
 class RankImpl :
   public HybridVectorVectorResult<Increment::rtype, SlicedTibble, RankImpl<SlicedTibble, RTYPE, ascending, Increment> >,
@@ -155,7 +165,7 @@ public:
 
     int m = indices.size();
     for (int j = 0; j < m; j++) {
-      map[ slice[j] ].push_back(j);
+      map[ fix_na(slice[j]) ].push_back(j);
     }
     STORAGE na = Rcpp::traits::get_na<RTYPE>();
     typename Map::const_iterator it = map.find(na);
