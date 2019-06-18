@@ -1,5 +1,7 @@
 # dplyr 0.8.1.9000
 
+* `tbl_vars()` keeps information on grouping columns (#4106). 
+
 * `group_split()` always sets the `ptype` attribute. 
 
 * `group_map()` and `group_modify()` work in the 0 group edge case (#4421)

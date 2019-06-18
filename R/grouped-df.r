@@ -233,7 +233,7 @@ group_cols <- function(vars = peek_vars()) {
 
 .select_grouped_df <- function(.data, ..., notify = TRUE) {
   # Pass via splicing to avoid matching vars_select() arguments
-  vars <- tidyselect::vars_select(sel_vars(.data), !!!enquos(...))
+  vars <- tidyselect::vars_select(tbl_vars(.data), !!!enquos(...))
   vars <- ensure_group_vars(vars, .data, notify = notify)
   select_impl(.data, vars)
 }

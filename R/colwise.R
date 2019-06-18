@@ -144,7 +144,7 @@ print.any_vars <- function(x, ...) {
 # Requires tbl_vars() method
 tbl_at_vars <- function(tbl, vars, .include_group_vars = FALSE) {
   if (.include_group_vars) {
-    tibble_vars <- sel_vars(tbl)
+    tibble_vars <- tbl_vars(tbl)
   } else {
     tibble_vars <- tbl_nongroup_vars(tbl)
   }
