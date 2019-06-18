@@ -83,9 +83,9 @@ group_split <- function(.tbl, ..., keep = TRUE) {
 #' @export
 group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
-    group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment(), FALSE)
+    group_split_impl(group_by(.tbl, ...), isTRUE(keep), environment())
   } else {
-    list(.tbl)
+    structure(list(.tbl), ptype = .tbl[0L, ])
   }
 }
 
@@ -97,7 +97,7 @@ group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
   if (!missing(keep)) {
     warn("keep is ignored in group_split(<rowwise_df>)")
   }
-  map(seq_len(nrow(.tbl)), function(i) .tbl[i, ])
+  structure(map(seq_len(nrow(.tbl)), function(i) .tbl[i, ]), ptype = .tbl[0L, ])
 }
 
 #' @export
@@ -105,5 +105,5 @@ group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
     warn("... is ignored in group_split(<grouped_df>), please use group_by(..., add = TRUE) %>% group_split()")
   }
-  group_split_impl(.tbl, isTRUE(keep), environment(), FALSE)
+  group_split_impl(.tbl, isTRUE(keep), environment())
 }

@@ -96,3 +96,23 @@ test_that("group_modify() works on ungrouped data frames (#4067)", {
     head(mtcars, 2L)
   )
 })
+
+test_that("group_map() uses ptype on empty splits (#4421)", {
+  res <- mtcars %>%
+    group_by(cyl) %>%
+    filter(hp > 1000) %>%
+    group_map(~.x)
+  expect_equivalent(res, list())
+  ptype <- attr(res, "ptype")
+  expect_equal(names(ptype), setdiff(names(mtcars), "cyl"))
+  expect_equal(nrow(ptype), 0L)
+  expect_is(ptype, "data.frame")
+})
+
+test_that("group_modify() uses ptype on empty splits (#4421)", {
+  res <- mtcars %>%
+    group_by(cyl) %>%
+    filter(hp > 1000) %>%
+    group_modify(~.x)
+  expect_equal(res, group_by(mtcars[integer(0L), ], cyl))
+})

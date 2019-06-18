@@ -121,10 +121,16 @@ group_map <- function(.tbl, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.tbl, keep = keep)
+  chunks <- group_split(.tbl, keep = isTRUE(keep))
   keys  <- group_keys(.tbl)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
-  map2(chunks, group_keys, .f, ...)
+
+  if (length(chunks)) {
+    map2(chunks, group_keys, .f, ...)
+  } else {
+    # calling .f with .x and .y set to prototypes
+    structure(list(), ptype = .f(attr(chunks, "ptype"), keys[integer(0L), ], ...))
+  }
 }
 
 #' @rdname group_map
@@ -157,7 +163,12 @@ group_modify.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
-  res <- bind_rows(!!!group_map(.tbl, fun, ..., keep = keep))
+  chunks <- group_map(.tbl, fun, ..., keep = keep)
+  res <- if (length(chunks) > 0L) {
+    bind_rows(!!!chunks)
+  } else {
+    attr(chunks, "ptype")
+  }
   group_by(res, !!!groups(.tbl), .drop = group_by_drop_default(.tbl))
 }
 
