@@ -24,7 +24,7 @@ Imports:
     pkgconfig,
     R6,
     Rcpp (>= 1.0.1),
-    rlang (>= 0.3.1),
+    rlang (>= 0.4.0),
     tibble (>= 2.0.0),
     tidyselect (>= 0.2.5),
     utils

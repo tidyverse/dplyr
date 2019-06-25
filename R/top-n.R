@@ -49,9 +49,7 @@
 #' tbl_df(Batting) %>% group_by(playerID) %>% top_n(1, G)
 #' }
 top_n <- function(x, n, wt) {
-  nn <- enquo(n)
   wt <- enquo(wt)
-
   if (quo_is_missing(wt)) {
     vars <- tbl_vars(x)
     wt_name <- vars[length(vars)]
@@ -59,19 +57,19 @@ top_n <- function(x, n, wt) {
     wt <- sym(wt_name)
   }
 
-  pred <- expr(local({
-    .n <- !!nn
-    if (.n > 0) {
-      min_rank(desc(!!wt)) <= .n
-    } else {
-      min_rank(!!wt) <= abs(.n)
-    }
-  }))
-  filter(x, !!pred)
+  filter(x, top_n_rank({{ n }}, !!wt))
+}
+
+top_n_rank <- function(n, wt) {
+  if (n > 0) {
+    min_rank(desc(wt)) <= n
+  } else {
+    min_rank(wt) <= abs(n)
+  }
 }
 
 #' @export
 #' @rdname top_n
 top_frac <- function(x, n, wt) {
-  top_n(x, !!enquo(n) * n(), !!enquo(wt))
+  top_n(x, {{ n }} * n(), {{ wt }})
 }
