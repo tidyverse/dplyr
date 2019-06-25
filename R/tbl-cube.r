@@ -404,7 +404,7 @@ summarise.tbl_cube <- function(.data, ...) {
 
   # Loop over each group
   for (i in seq_len(nrow(slices))) {
-    index <- as_list(slices[i, , drop = FALSE])
+    index <- as.list(slices[i, , drop = FALSE])
     mets <- map(
       .data$mets, subs_index,
       i = .data$groups, val = index,
