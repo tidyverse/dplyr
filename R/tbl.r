@@ -49,7 +49,7 @@ new_sel_vars <- function(vars, group_vars) {
   structure(
     vars,
     groups = group_vars,
-    class = "dplyr_sel_vars"
+    class = c("dplyr_sel_vars", "character")
   )
 }
 

@@ -138,6 +138,7 @@ recode.numeric <- function(.x, ..., .default = NULL, .missing = NULL) {
 
 #' @export
 recode.character <- function(.x, ..., .default = NULL, .missing = NULL) {
+  .x <- as.character(.x)
   values <- list2(...)
   if (!all(have_name(values))) {
     bad <- which(!have_name(values)) + 1
