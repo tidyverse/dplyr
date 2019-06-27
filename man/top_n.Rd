@@ -50,13 +50,16 @@ df \%>\% top_n(-2)
 
 if (require("Lahman")) {
 # Find 10 players with most games
-# A little nicer with \%>\%
 tbl_df(Batting) \%>\%
   group_by(playerID) \%>\%
   tally(G) \%>\%
   top_n(10)
 
 # Find year with most games for each player
-tbl_df(Batting) \%>\% group_by(playerID) \%>\% top_n(1, G)
+\dontrun{
+tbl_df(Batting) \%>\%
+  group_by(playerID) \%>\%
+  top_n(1, G)
+}
 }
 }
