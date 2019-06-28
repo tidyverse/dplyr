@@ -166,30 +166,54 @@
       <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dplyr-0-8-1-9000" class="section level1">
+    <div id="dplyr-0-8-2-2019-06-28" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-0-8-1-9000" class="anchor"></a>dplyr 0.8.1.9000<small> Unreleased </small>
+<a href="#dplyr-0-8-2-2019-06-28" class="anchor"></a>dplyr 0.8.2 (2019-06-28)<small> Unreleased </small>
 </h1>
+<div id="new-functions" class="section level2">
+<h2 class="hasAnchor">
+<a href="#new-functions" class="anchor"></a>New functions</h2>
 <ul>
-<li><p>hybrid rank functions correctly handle NA (<a href='https://github.com/tidyverse/dplyr/issues/4427'>#4427</a>).</p></li>
-<li><p><code><a href="../reference/tbl_vars.html">tbl_vars()</a></code> keeps information on grouping columns (<a href='https://github.com/tidyverse/dplyr/issues/4106'>#4106</a>).</p></li>
-<li><p><code><a href="../reference/group_split.html">group_split()</a></code> always sets the <code>ptype</code> attribute.</p></li>
-<li><p><code><a href="../reference/group_map.html">group_map()</a></code> and <code><a href="../reference/group_map.html">group_modify()</a></code> work in the 0 group edge case (<a href='https://github.com/tidyverse/dplyr/issues/4421'>#4421</a>)</p></li>
-<li><p><code>view()</code> is reexported from tibble (<a href='https://github.com/tidyverse/dplyr/issues/4423'>#4423</a>).</p></li>
-<li><p><code><a href="../reference/top_n.html">top_n()</a></code> quotes its <code>n</code> argument.</p></li>
-<li><p><code><a href="../reference/top_n.html">top_frac(data, proportion)</a></code> is a shorthand for <code><a href="../reference/top_n.html">top_n(data, proportion * n())</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/4017'>#4017</a>).</p></li>
-<li><p><code><a href="../reference/group_by.html">group_by()</a></code> puts NA groups last in character vectors (<a href='https://github.com/tidyverse/dplyr/issues/4227'>#4227</a>).</p></li>
-<li><p><code><a href="../reference/nth.html">first()</a></code>, <code><a href="../reference/nth.html">last()</a></code> and <code><a href="../reference/nth.html">nth()</a></code> hybrid version handles factors (<a href='https://github.com/tidyverse/dplyr/issues/4295'>#4295</a>).</p></li>
+<li>
+<code><a href="../reference/top_n.html">top_frac(data, proportion)</a></code> is a shorthand for <code><a href="../reference/top_n.html">top_n(data, proportion * n())</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/4017'>#4017</a>).</li>
+</ul>
+</div>
+<div id="colwise-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#colwise-changes" class="anchor"></a>colwise changes</h2>
+<ul>
 <li><p>Using quosures in colwise verbs is deprecated (<a href='https://github.com/tidyverse/dplyr/issues/4330'>#4330</a>).</p></li>
 <li><p>Updated <code><a href="../reference/distinct_all.html">distinct_if()</a></code>, <code><a href="../reference/distinct_all.html">distinct_at()</a></code> and <code><a href="../reference/distinct_all.html">distinct_all()</a></code> to include <code>.keep_all</code> argument (<a href='https://github.com/beansrowning'>@beansrowning</a>, <a href='https://github.com/tidyverse/dplyr/issues/4343'>#4343</a>).</p></li>
-<li><p><code><a href="https://www.rdocumentation.org/packages/utils/topics/select.list">select.list()</a></code> method added so that <code><a href="../reference/select.html">select()</a></code> does not dispatch on lists (<a href='https://github.com/tidyverse/dplyr/issues/4279'>#4279</a>).</p></li>
-<li><p>Updated <code><a href="../reference/distinct_all.html">distinct_if()</a></code>, <code><a href="../reference/distinct_all.html">distinct_at()</a></code> and <code><a href="../reference/distinct_all.html">distinct_all()</a></code> to include <code>.keep_all</code> argument (<a href='https://github.com/beansrowning'>@beansrowning</a>, <a href='https://github.com/tidyverse/dplyr/issues/4343'>#4343</a>)</p></li>
-<li><p><code><a href="../reference/arrange.html">arrange()</a></code> handles integer64 objects (<a href='https://github.com/tidyverse/dplyr/issues/4366'>#4366</a>).</p></li>
 <li><p><code><a href="../reference/select_all.html">rename_at()</a></code> handles empty selection (<a href='https://github.com/tidyverse/dplyr/issues/4324'>#4324</a>).</p></li>
-<li><p><code><a href="../reference/summarise.html">summarise()</a></code> correctly resolves summarised list columns (<a href='https://github.com/tidyverse/dplyr/issues/4349'>#4349</a>).</p></li>
-<li><p>colwise functions support constants in formulas (<a href='https://github.com/tidyverse/dplyr/issues/4374'>#4374</a>).</p></li>
 <li><p><code>*_if()</code> functions correctly handle columns with special names (<a href='https://github.com/tidyverse/dplyr/issues/4380'>#4380</a>).</p></li>
+<li><p>colwise functions support constants in formulas (<a href='https://github.com/tidyverse/dplyr/issues/4374'>#4374</a>).</p></li>
 </ul>
+</div>
+<div id="hybrid-evaluation-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#hybrid-evaluation-changes" class="anchor"></a>Hybrid evaluation changes</h2>
+<ul>
+<li><p>hybrid rank functions correctly handle NA (<a href='https://github.com/tidyverse/dplyr/issues/4427'>#4427</a>).</p></li>
+<li><p><code><a href="../reference/nth.html">first()</a></code>, <code><a href="../reference/nth.html">last()</a></code> and <code><a href="../reference/nth.html">nth()</a></code> hybrid version handles factors (<a href='https://github.com/tidyverse/dplyr/issues/4295'>#4295</a>).</p></li>
+</ul>
+</div>
+<div id="minor-changes" class="section level2">
+<h2 class="hasAnchor">
+<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<ul>
+<li>
+<code><a href="../reference/top_n.html">top_n()</a></code> quotes its <code>n</code> argument, <code>n</code> no longer needs to be constant for all groups (<a href='https://github.com/tidyverse/dplyr/issues/4017'>#4017</a>).<br>
+</li>
+<li><p><code><a href="../reference/tbl_vars.html">tbl_vars()</a></code> keeps information on grouping columns by returning a <code>dplyr_sel_vars</code> object (<a href='https://github.com/tidyverse/dplyr/issues/4106'>#4106</a>).</p></li>
+<li><p><code><a href="../reference/group_split.html">group_split()</a></code> always sets the <code>ptype</code> attribute, which make it more robust in the case where there are 0 groups.</p></li>
+<li><p><code><a href="../reference/group_map.html">group_map()</a></code> and <code><a href="../reference/group_map.html">group_modify()</a></code> work in the 0 group edge case (<a href='https://github.com/tidyverse/dplyr/issues/4421'>#4421</a>)</p></li>
+<li><p><code><a href="https://www.rdocumentation.org/packages/utils/topics/select.list">select.list()</a></code> method added so that <code><a href="../reference/select.html">select()</a></code> does not dispatch on lists (<a href='https://github.com/tidyverse/dplyr/issues/4279'>#4279</a>).</p></li>
+<li><p><code>view()</code> is reexported from tibble (<a href='https://github.com/tidyverse/dplyr/issues/4423'>#4423</a>).</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by()</a></code> puts NA groups last in character vectors (<a href='https://github.com/tidyverse/dplyr/issues/4227'>#4227</a>).</p></li>
+<li><p><code><a href="../reference/arrange.html">arrange()</a></code> handles integer64 objects (<a href='https://github.com/tidyverse/dplyr/issues/4366'>#4366</a>).</p></li>
+<li><p><code><a href="../reference/summarise.html">summarise()</a></code> correctly resolves summarised list columns (<a href='https://github.com/tidyverse/dplyr/issues/4349'>#4349</a>).</p></li>
+</ul>
+</div>
 </div>
     <div id="dplyr-0-8-1-2019-05-14" class="section level1">
 <h1 class="page-header">
@@ -204,17 +228,17 @@
 </li>
 </ul>
 </div>
-<div id="new-functions" class="section level2">
+<div id="new-functions-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions" class="anchor"></a>New functions</h2>
+<a href="#new-functions-1" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="../reference/group_map.html">group_map()</a></code> now only calls the function on each group and return a list.</p></li>
 <li><p><code><a href="../reference/group_by_drop_default.html">group_by_drop_default()</a></code>, previously known as <code>dplyr:::group_drops()</code> is exported (<a href='https://github.com/tidyverse/dplyr/issues/4245'>#4245</a>).</p></li>
 </ul>
 </div>
-<div id="minor-changes" class="section level2">
+<div id="minor-changes-1" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-1" class="anchor"></a>Minor changes</h2>
 <ul>
 <li><p>Lists of formulas passed to colwise verbs are now automatically named.</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> does a shallow copy even in the no groups case (<a href='https://github.com/tidyverse/dplyr/issues/4221'>#4221</a>).</p></li>
@@ -270,9 +294,9 @@
 <li><p><code>Error: `.data` is a corrupt grouped_df, ...</code> signals code that makes wrong assumptions about the internals of a grouped data frame.</p></li>
 </ul>
 </div>
-<div id="new-functions-1" class="section level2">
+<div id="new-functions-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-1" class="anchor"></a>New functions</h2>
+<a href="#new-functions-2" class="anchor"></a>New functions</h2>
 <ul>
 <li><p>New selection helpers <code><a href="../reference/group_cols.html">group_cols()</a></code>. It can be called in selection contexts such as <code><a href="../reference/select.html">select()</a></code> and matches the grouping variables of grouped tibbles.</p></li>
 <li><p><code><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">last_col()</a></code> is re-exported from tidyselect (<a href='https://github.com/tidyverse/dplyr/issues/3584'>#3584</a>).</p></li>
@@ -351,9 +375,9 @@
 <li><p>Subsets of columns now properly dispatch to the <code>[</code> or <code>[[</code> method when the column is an object (a vector with a class) instead of making assumptions on how the column should be handled. The <code>[</code> method must handle integer indices, including <code>NA_integer_</code>, i.e. <code>x[NA_integer_]</code> should produce a vector of the same class as <code>x</code> with whatever represents a missing value.</p></li>
 </ul>
 </div>
-<div id="minor-changes-1" class="section level2">
+<div id="minor-changes-2" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-1" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-2" class="anchor"></a>Minor changes</h2>
 <ul>
 <li><p><code><a href="../reference/tally.html">tally()</a></code> works correctly on non-data frame table sources such as <code>tbl_sql</code> (<a href='https://github.com/tidyverse/dplyr/issues/3075'>#3075</a>).</p></li>
 <li><p><code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> can use <code><a href="../reference/n.html">n()</a></code> (<a href='https://github.com/tidyverse/dplyr/issues/3527'>#3527</a>)</p></li>
@@ -497,9 +521,9 @@ select(mtcars, -(!! vars))</code></pre>
 </li>
 </ul>
 </div>
-<div id="minor-changes-2" class="section level2">
+<div id="minor-changes-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#minor-changes-2" class="anchor"></a>Minor changes</h2>
+<a href="#minor-changes-3" class="anchor"></a>Minor changes</h2>
 <ul>
 <li><p>Support for raw vector columns in <code><a href="../reference/arrange.html">arrange()</a></code>, <code><a href="../reference/group_by.html">group_by()</a></code>, <code><a href="../reference/mutate.html">mutate()</a></code>, <code><a href="../reference/summarise.html">summarise()</a></code> and <code>..._join()</code> (minimal <code>raw</code> x <code>raw</code> support initially) (<a href='https://github.com/tidyverse/dplyr/issues/1803'>#1803</a>).</p></li>
 <li><p><code><a href="../reference/bind.html">bind_cols()</a></code> handles unnamed list (<a href='https://github.com/tidyverse/dplyr/issues/3402'>#3402</a>).</p></li>
@@ -844,9 +868,9 @@ starwars %&gt;%
 </ul>
 </div>
 </div>
-<div id="new-functions-2" class="section level2">
+<div id="new-functions-3" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-2" class="anchor"></a>New functions</h2>
+<a href="#new-functions-3" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="../reference/coalesce.html">coalesce()</a></code> finds the first non-missing value from a set of vectors. (<a href='https://github.com/tidyverse/dplyr/issues/1666'>#1666</a>, thanks to <a href='https://github.com/krlmlr'>@krlmlr</a> for initial implementation).</p></li>
 <li><p><code><a href="../reference/case_when.html">case_when()</a></code> is a general vectorised if + else if (<a href='https://github.com/tidyverse/dplyr/issues/631'>#631</a>).</p></li>
@@ -1194,9 +1218,9 @@ starwars %&gt;%
 <h1 class="page-header">
 <a href="#dplyr-0-3" class="anchor"></a>dplyr 0.3<small> 2014-10-04 </small>
 </h1>
-<div id="new-functions-3" class="section level2">
+<div id="new-functions-4" class="section level2">
 <h2 class="hasAnchor">
-<a href="#new-functions-3" class="anchor"></a>New functions</h2>
+<a href="#new-functions-4" class="anchor"></a>New functions</h2>
 <ul>
 <li><p><code><a href="../reference/between.html">between()</a></code> vector function efficiently determines if numeric values fall in a range, and is translated to special form for SQL (<a href='https://github.com/tidyverse/dplyr/issues/503'>#503</a>).</p></li>
 <li><p><code><a href="../reference/tally.html">count()</a></code> makes it even easier to do (weighted) counts (<a href='https://github.com/tidyverse/dplyr/issues/358'>#358</a>).</p></li>
@@ -1492,7 +1516,7 @@ starwars %&gt;%
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#dplyr-0-8-1-9000">0.8.1.9000</a></li>
+        <li><a href="#dplyr-0-8-2-2019-06-28">0.8.2</a></li>
         <li><a href="#dplyr-0-8-1-2019-05-14">0.8.1</a></li>
         <li><a href="#dplyr-0-8-0-1-2019-02-15">0.8.0.1</a></li>
         <li><a href="#dplyr-0-8-0-2019-02-14">0.8.0</a></li>
