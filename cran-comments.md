@@ -19,111 +19,99 @@ Minor release
        
 ## revdepcheck results
 
-We checked 1647 reverse dependencies (1485 from CRAN + 162 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+## revdepcheck results
 
- * We saw 7 new problems
+We checked 1739 reverse dependencies (1578 from CRAN + 161 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
+
+ * We saw 2 new problems
  * We failed to check 77 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
 
-## Not correctly importing dplyr::group_by
+Packages crplyr and strapgod fail because their tests use tbl_vars() and compare the results
+to a character vector, and tbl_vars() now returns an object of class "dplyr_sel_vars" that 
+has an additional attribute to host information about grouping variable. 
 
-Cardinal
-
-## Not sure what the problem is
-
-CluMP, INDperform, InjurySeverityScore, MonetDBLite
-
-## test bug
-
-compareDF, ruler
-
-## colwixe issue
-
-spdplyr
-
-## Fixed in dev version
-
-strapgod
+Pull requests have been sent to both packages. 
 
 ### Failed to check
 
-* ACDm                 
-* ADMMsigma            
-* airGR                
-* BAS                  
-* BMTME                
-* BradleyTerryScalable 
-* brunnermunzel        
-* bsam                 
-* CaseBasedReasoning   
-* CB2                  
-* circumplex           
-* classyfireR          
-* CollapsABEL          
-* colorednoise         
-* Countr               
-* cpr                  
-* crawl                
-* DataVisualizations   
-* DepthProc            
-* dialr                
-* DiversityOccupancy   
-* dtwclust             
-* dynfrail             
-* exuber               
-* fastLink             
-* fourierin            
-* FSelectorRcpp        
-* GenomicMating        
-* goldi                
-* graphicalVAR         
-* heatwaveR            
-* idefix               
-* ijtiff               
-* iRF                  
-* lilikoi              
-* LLSR                 
-* lpirfs               
-* mbgraphic            
-* miceFast             
-* mleap                
-* momentuHMM           
-* MonetDBLite          
-* morse                
-* mrgsolve             
-* nlmixr               
-* openair              
-* pccc                 
-* petro.One            
-* phase1PRMD           
-* phenofit             
-* poppr                
-* PPforest             
-* qdap                 
-* quanteda             
-* quokar               
-* qwraps2              
-* Rdrools              
-* resautonet           
-* rmcfs                
-* rpcdsearch           
-* RSSL                 
-* RtutoR               
-* RxODE                
-* sarima               
-* scanstatistics       
-* SCPME                
-* sf                   
-* simputation          
-* SpaCCr               
-* telefit              
-* textmining           
-* vapour               
-* VarSelLCM            
-* vlad                 
-* walker               
-* wand                 
-* weibulltools        
+* ACDm                 (NA)
+* ADMMsigma            (NA)
+* airGR                (NA)
+* BAS                  (NA)
+* BMTME                (NA)
+* BradleyTerryScalable (NA)
+* brunnermunzel        (NA)
+* bsam                 (NA)
+* CaseBasedReasoning   (NA)
+* CB2                  (NA)
+* circumplex           (NA)
+* cocktailApp          (NA)
+* colorednoise         (NA)
+* Countr               (NA)
+* cpr                  (NA)
+* crawl                (NA)
+* creditmodel          (NA)
+* DataVisualizations   (NA)
+* DepthProc            (NA)
+* dodgr                (NA)
+* dtwclust             (NA)
+* dynfrail             (NA)
+* exuber               (NA)
+* fastLink             (NA)
+* fastR2               (NA)
+* fourierin            (NA)
+* FSelectorRcpp        (NA)
+* gap                  (NA)
+* GenomicMating        (NA)
+* goldi                (NA)
+* graphicalVAR         (NA)
+* heatwaveR            (NA)
+* idealstan            (NA)
+* idefix               (NA)
+* infer                (NA)
+* iRF                  (NA)
+* lpirfs               (NA)
+* mdsr                 (NA)
+* miceFast             (NA)
+* momentuHMM           (NA)
+* morse                (NA)
+* mosaic               (NA)
+* mrgsolve             (NA)
+* nlmixr               (NA)
+* openair              (NA)
+* partition            (NA)
+* pccc                 (NA)
+* phase1PRMD           (NA)
+* phenofit             (NA)
+* PLNmodels            (NA)
+* pomp                 (NA)
+* poppr                (NA)
+* portalr              (NA)
+* PPforest             (NA)
+* quanteda             (NA)
+* quokar               (NA)
+* qwraps2              (NA)
+* RCMIP5               (NA)
+* rcv                  (NA)
+* resautonet           (NA)
+* RSSL                 (NA)
+* RxODE                (NA)
+* sarima               (NA)
+* scanstatistics       (NA)
+* SCPME                (NA)
+* sf                   (NA)
+* simputation          (NA)
+* SpaCCr               (NA)
+* telefit              (NA)
+* uncmbb               (NA)
+* understandBPMN       (NA)
+* vapour               (NA)
+* VarSelLCM            (NA)
+* vlad                 (NA)
+* walker               (NA)
+* wand                 (NA)
+* weibulltools         (NA)
