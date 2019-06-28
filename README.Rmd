@@ -98,5 +98,5 @@ starwars %>%
 If you encounter a clear bug, please file a minimal reproducible example on [github](https://github.com/tidyverse/dplyr/issues). For questions and other discussion, please use [community.rstudio.com](https://community.rstudio.com/), or the [manipulatr mailing list](https://groups.google.com/group/manipulatr).
 
 ---
-Please note that this project is released with a [Contributor Code of Conduct](https://github.com/tidyverse/dplyr/blob/master/.github/CODE_OF_CONDUCT.md).
+Please note that this project is released with a [Contributor Code of Conduct](https://dplyr.tidyverse.org/CODE_OF_CONDUCT).
 By participating in this project you agree to abide by its terms.
