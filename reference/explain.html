@@ -84,7 +84,7 @@ str()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
         </div>
       </div>
     </div>
@@ -212,7 +212,7 @@ diagnosing performance problems.</p>
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"dbplyr"</span>)) {
 
-<span class='no'>lahman_s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/dbplyr/topics/lahman'>lahman_sqlite</a></span>()
+<span class='no'>lahman_s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span>()
 <span class='no'>batting</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='no'>lahman_s</span>, <span class='st'>"Batting"</span>)
 <span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'>show_query</span>()
 <span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'>explain</span>()

@@ -82,7 +82,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
         </div>
       </div>
     </div>
@@ -301,7 +301,11 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.7         2.5          5.8         1.8 virginica
 #&gt; 10          7.2         3.6          6.1         2.5 virginica
 #&gt; # … with 40 more rows
-#&gt; </div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt; 
+#&gt; attr(,"ptype")
+#&gt; # A tibble: 0 x 5
+#&gt; # … with 5 variables: Sepal.Length &lt;dbl&gt;, Sepal.Width &lt;dbl&gt;,
+#&gt; #   Petal.Length &lt;dbl&gt;, Petal.Width &lt;dbl&gt;, Species &lt;fct&gt;</div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
 #&gt;   &lt;fct&gt;     
 #&gt; 1 setosa    
@@ -359,7 +363,11 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.9         3.2          5.7         2.3 virginica
 #&gt; 10          7.7         2.8          6.7         2   virginica
 #&gt; # … with 12 more rows
-#&gt; </div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt; 
+#&gt; attr(,"ptype")
+#&gt; # A tibble: 0 x 5
+#&gt; # … with 5 variables: Sepal.Length &lt;dbl&gt;, Sepal.Width &lt;dbl&gt;,
+#&gt; #   Petal.Length &lt;dbl&gt;, Petal.Width &lt;dbl&gt;, Species &lt;fct&gt;</div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
 #&gt;   &lt;fct&gt;     
 #&gt; 1 setosa    
@@ -417,7 +425,11 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.7         2.5          5.8         1.8 virginica
 #&gt; 10          7.2         3.6          6.1         2.5 virginica
 #&gt; # … with 40 more rows
-#&gt; </div><div class='input'>
+#&gt; 
+#&gt; attr(,"ptype")
+#&gt; # A tibble: 0 x 5
+#&gt; # … with 5 variables: Sepal.Length &lt;dbl&gt;, Sepal.Width &lt;dbl&gt;,
+#&gt; #   Petal.Length &lt;dbl&gt;, Petal.Width &lt;dbl&gt;, Species &lt;fct&gt;</div><div class='input'>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_keys</span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   

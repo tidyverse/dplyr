@@ -84,7 +84,7 @@ If no cases match, NA is returned." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
         </div>
       </div>
     </div>
@@ -281,7 +281,17 @@ RHS. Inconsistent lengths or types will generate an error.</p>
   <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>7</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>7</span>,
   <span class='fl'>TRUE</span> ~ <span class='fl'>NA_real_</span>
 )</div><div class='output co'>#&gt;  [1] NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5 NA NA NA NA  5  7 NA NA NA  5
-#&gt; [26] NA NA  7 NA  5 NA NA NA NA 35 NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5</div><div class='input'># This throws an error as NA is logical not numeric
+#&gt; [26] NA NA  7 NA  5 NA NA NA NA 35 NA NA NA NA  5 NA  7 NA NA  5 NA NA NA  7  5</div><div class='input'>
+<span class='co'># case_when() evaluates all RHS expressions, and then constructs its</span>
+<span class='co'># result by extracting the selected (via the LHS expressions) parts.</span>
+<span class='co'># In particular NaN are produced in this case:</span>
+<span class='no'>y</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/seq'>seq</a></span>(-<span class='fl'>2</span>, <span class='fl'>2</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>.5</span>)
+<span class='fu'>case_when</span>(
+  <span class='no'>y</span> <span class='kw'>&gt;=</span> <span class='fl'>0</span> ~ <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/MathFun'>sqrt</a></span>(<span class='no'>y</span>),
+  <span class='fl'>TRUE</span>   ~ <span class='no'>y</span>
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: NaNs produced</span></div><div class='output co'>#&gt; [1] -2.0000000 -1.5000000 -1.0000000 -0.5000000  0.0000000  0.7071068  1.0000000
+#&gt; [8]  1.2247449  1.4142136</div><div class='input'>
+# This throws an error as NA is logical not numeric
 </div><span class='co'># NOT RUN {</span>
 <span class='fu'>case_when</span>(
   <span class='no'>x</span> <span class='kw'>%%</span> <span class='fl'>35</span> <span class='kw'>==</span> <span class='fl'>0</span> ~ <span class='fl'>35</span>,

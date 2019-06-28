@@ -43,7 +43,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.1</span>
+          <span class="version version-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.8.2</span>
         </div>
       </div>
     </div>
@@ -154,7 +154,7 @@
 <p>Always condition on <code>&gt; current-version</code>, not <code>&gt;= next-version</code> because this will ensure that this branch is also used for the development version of the package. For example, if the current release is version “0.5.0”, the development version will be “0.5.0.9000”.</p>
 <p>Occasionally, you’ll run into a situation where the <code>NAMESPACE</code> has changed and you need to conditionally import different functions. This typically occurs when functions are moved from one package to another. We try out best to provide automatic fallbacks, but this is not always possible. Often you can work around the problem by avoiding <code>importFrom</code> and using <code>::</code> instead. Do this where possible:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="cf">if</span> (utils<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/utils/topics/packageDescription">packageVersion</a></span>(<span class="st">"dplyr"</span>) <span class="op">&gt;</span><span class="st"> "0.5.0"</span>) {</a>
-<a class="sourceLine" id="cb2-2" data-line-number="2">  dbplyr<span class="op">::</span><span class="kw"><a href="https://www.rdocumentation.org/packages/dbplyr/topics/build_sql">build_sql</a></span>(...)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">  dbplyr<span class="op">::</span><span class="kw"><a href="https://dbplyr.tidyverse.org/reference/build_sql.html">build_sql</a></span>(...)</a>
 <a class="sourceLine" id="cb2-3" data-line-number="3">} <span class="cf">else</span> {</a>
 <a class="sourceLine" id="cb2-4" data-line-number="4">  dplyr<span class="op">::</span><span class="kw">build_sql</span>(...)</a>
 <a class="sourceLine" id="cb2-5" data-line-number="5">}</a></code></pre></div>
