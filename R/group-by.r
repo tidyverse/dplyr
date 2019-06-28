@@ -186,6 +186,9 @@ groups <- function(x) {
   UseMethod("groups")
 }
 
+#' @export
+groups.default <- function(x) NULL
+
 #' @rdname groups
 #' @export
 group_vars <- function(x) {

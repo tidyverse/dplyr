@@ -40,9 +40,6 @@ group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {
 }
 
 #' @export
-groups.data.frame <- function(x) NULL
-
-#' @export
 ungroup.data.frame <- function(x, ...) x
 
 #' @export
