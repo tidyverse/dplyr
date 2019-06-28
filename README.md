@@ -151,5 +151,5 @@ and other discussion, please use
 -----
 
 Please note that this project is released with a [Contributor Code of
-Conduct](.github/CODE_OF_CONDUCT.md). By participating in this project
-you agree to abide by its terms.
+Conduct](https://github.com/tidyverse/dplyr/blob/master/.github/CODE_OF_CONDUCT.md).
+By participating in this project you agree to abide by its terms.

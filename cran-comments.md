@@ -19,8 +19,6 @@ Minor release
        
 ## revdepcheck results
 
-## revdepcheck results
-
 We checked 1739 reverse dependencies (1578 from CRAN + 161 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
  * We saw 2 new problems
