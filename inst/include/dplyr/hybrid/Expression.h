@@ -136,7 +136,7 @@ public:
 
     // when it's a inline_colwise_function, we use the formula attribute
     // to test for hybridability
-    if (TYPEOF(head) == CLOSXP && Rf_inherits(head, "inline_colwise_function")) {
+    if (TYPEOF(head) == CLOSXP && Rf_inherits(head, "dplyr_inline_colwise_function")) {
       dot_alias = CADR(expr);
       expr = CADR(Rf_getAttrib(head, symbols::formula));
       if (TYPEOF(expr) != LANGSXP) {

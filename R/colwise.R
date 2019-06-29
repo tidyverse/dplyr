@@ -241,5 +241,5 @@ as_inlined_function <- function(f, env, ...) {
     rlang::eval_tidy(rlang::eval_bare(`_quo`, base::parent.frame()))
   })
 
-  structure(fn, class = "inline_colwise_function", formula = f)
+  structure(fn, class = "dplyr_inline_colwise_function", formula = f)
 }
