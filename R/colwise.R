@@ -205,7 +205,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 
   for (i in seq_len(n)) {
     column <- .tbl[[tibble_vars[[i]]]]
-    selected[[i]] <- eval_tidy(.p(column, ...))
+    selected[[i]] <- .p(column, ...)
   }
 
   tibble_vars[selected]
@@ -237,8 +237,8 @@ as_inlined_function <- function(f, env, ...) {
     # from the execution environment
     `_quo` <- rlang::quo(!!body(fn))
 
-    # Evaluate the quosure in the mask
-    rlang::eval_bare(`_quo`, base::parent.frame())
+    # Construct the quosure in the mask, and then evaluate it
+    rlang::eval_tidy(rlang::eval_bare(`_quo`, base::parent.frame()))
   })
 
   structure(fn, class = "inline_colwise_function", formula = f)
