@@ -29,11 +29,11 @@
 #' With the grouped equivalent:
 #'
 #' ```
-#' starwars %>% group_by(gender) %>% filter(mass > mean(mass, na.rm = TRUE))
+#' starwars %>% group_by(sex) %>% filter(mass > mean(mass, na.rm = TRUE))
 #' ```
 #'
 #' The former keeps rows with `mass` greater than the global average
-#' whereas the latter keeps rows with `mass` greater than the gender
+#' whereas the latter keeps rows with `mass` greater than the sex
 #' average.
 #'
 #' It is valid to use grouping variables in filter expressions.
@@ -86,9 +86,9 @@
 #' # global average:
 #' starwars %>% filter(mass > mean(mass, na.rm = TRUE))
 #'
-#' # Whereas this keeps rows with `mass` greater than the gender
+#' # Whereas this keeps rows with `mass` greater than the sex
 #' # average:
-#' starwars %>% group_by(gender) %>% filter(mass > mean(mass, na.rm = TRUE))
+#' starwars %>% group_by(sex) %>% filter(mass > mean(mass, na.rm = TRUE))
 #'
 #'
 #' # Refer to column names stored as strings with the `.data` pronoun:
@@ -341,13 +341,13 @@ summarize_ <- summarise_
 #'
 #' ```
 #' starwars %>%
-#'   group_by(gender) %>%
+#'   group_by(sex) %>%
 #'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
 #'   pull()
 #' ```
 #'
 #' The former normalises `mass` by the global average whereas the
-#' latter normalises by the averages within gender levels.
+#' latter normalises by the averages within sex levels.
 #'
 #' Note that you can't overwrite a grouping variable within
 #' `mutate()`.
@@ -420,10 +420,10 @@ summarize_ <- summarise_
 #'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
 #'   pull()
 #'
-#' # Whereas this normalises `mass` by the averages within gender
+#' # Whereas this normalises `mass` by the averages within sex
 #' # levels:
 #' starwars %>%
-#'   group_by(gender) %>%
+#'   group_by(sex) %>%
 #'   mutate(mass / mean(mass, na.rm = TRUE)) %>%
 #'   pull()
 #'
@@ -657,7 +657,7 @@ arrange.grouped_df <- function(.data, ..., .by_group = FALSE) {
 #' select(iris, -starts_with("Petal"))
 #'
 #' # Select the grouping variables:
-#' starwars %>% group_by(gender) %>% select(group_cols())
+#' starwars %>% group_by(sex) %>% select(group_cols())
 #'
 #'
 #' # The .data pronoun is available:
