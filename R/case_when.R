@@ -99,7 +99,7 @@
 #' # create a new variable that relies on a complex combination of existing
 #' # variables
 #' starwars %>%
-#'   select(name:mass, gender, species) %>%
+#'   select(name:mass, sex, species) %>%
 #'   mutate(
 #'     type = case_when(
 #'       height > 200 | mass > 200 ~ "large",
