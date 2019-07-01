@@ -51,8 +51,8 @@ starwars <- tibble(
   homeworld = people %>% map_chr("homeworld") %>% planets[.] %>% unname(),
   species = people %>% map("species") %>% map_chr(1, .null = NA) %>% species[.] %>% unname(),
   films = people %>% map("films") %>% map(. %>% flatten_chr() %>% films[.] %>% unname()),
-  vehicles = people %>% map("vehicles") %>% map(. %>% flatten_chr() %>% vehicles[.] %>% unname()),
-  starships = people %>% map("starships") %>% map(. %>% flatten_chr() %>% starships[.] %>% unname())
+  vehicles = people %>% map(~.[["vehicles"]]) %>% map(. %>% flatten_chr() %>% vehicles[.] %>% unname()),
+  starships = people %>% map(~.[["starships"]]) %>% map(. %>% flatten_chr() %>% starships[.] %>% unname())
 )
 
 # A little exploration
