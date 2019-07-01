@@ -9,7 +9,7 @@
 #' \item{mass}{Weight (kg)}
 #' \item{hair_color,skin_color,eye_color}{Hair, skin, and eye colors}
 #' \item{birth_year}{Year born (BBY = Before Battle of Yavin)}
-#' \item{gender}{male, female, hermaphrodite, or none.}
+#' \item{sex}{Biological sex (male, female, hermaphroditic, or asexual)}
 #' \item{homeworld}{Name of homeworld}
 #' \item{species}{Name of species}
 #' \item{films}{List of films the character appeared in}

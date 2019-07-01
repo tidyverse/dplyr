@@ -53,7 +53,10 @@ starwars <- tibble(
   films = people %>% map("films") %>% map(. %>% flatten_chr() %>% films[.] %>% unname()),
   vehicles = people %>% map(~.[["vehicles"]]) %>% map(. %>% flatten_chr() %>% vehicles[.] %>% unname()),
   starships = people %>% map(~.[["starships"]]) %>% map(. %>% flatten_chr() %>% starships[.] %>% unname())
-)
+) %>%
+  mutate(sex = case_when(sex == 'hermaphrodite' ~ 'hermaphroditic',
+                         sex == 'none' ~ 'asexual',
+                         TRUE ~ sex))
 
 # A little exploration
 starwars %>% count(species, sort = TRUE)
