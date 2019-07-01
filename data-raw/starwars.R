@@ -47,7 +47,7 @@ starwars <- tibble(
   skin_color = people %>% map_chr("skin_color"),
   eye_color = people %>% map_chr("eye_color"),
   birth_year = people %>% map_chr("birth_year") %>% parse_number(na = "unknown"),
-  gender = people %>% map_chr("gender") %>% parse_character(na = "n/a"),
+  sex = people %>% map_chr("gender") %>% parse_character(na = "n/a"),
   homeworld = people %>% map_chr("homeworld") %>% planets[.] %>% unname(),
   species = people %>% map("species") %>% map_chr(1, .null = NA) %>% species[.] %>% unname(),
   films = people %>% map("films") %>% map(. %>% flatten_chr() %>% films[.] %>% unname()),
@@ -59,7 +59,7 @@ starwars <- tibble(
 starwars %>% count(species, sort = TRUE)
 starwars %>% count(homeworld, sort = TRUE)
 starwars %>% count(skin_color, sort = TRUE)
-starwars %>% count(gender, sort = TRUE)
+starwars %>% count(sex, sort = TRUE)
 
 starwars %>% group_by(species) %>% summarise(mass = mean(mass, na.rm = T))
 
