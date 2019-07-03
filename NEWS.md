@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Fixed performance regression introduced in version 0.8.2 (#4458). 
+
 # dplyr 0.8.2 (2019-06-28)
 
 ## New functions
