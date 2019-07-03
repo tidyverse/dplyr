@@ -152,6 +152,9 @@ private:
                             );
     MARK_NOT_MUTABLE(value);
 
+    // store it in the mask_resolved environment
+    Rf_defineVar(symbol, value, mask_resolved);
+
     return value;
   }
 
