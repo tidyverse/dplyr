@@ -1,15 +1,15 @@
-# cocktailApp
+# amplican
 
 <details>
 
-* Version: 0.2.0
-* Source code: https://github.com/cran/cocktailApp
-* URL: https://github.com/shabbychef/cocktailApp
-* BugReports: https://github.com/shabbychef/cocktailApp/issues
-* Date/Publication: 2018-08-19 16:40:02 UTC
-* Number of recursive dependencies: 61
+* Version: 1.4.1
+* Source code: https://github.com/cran/amplican
+* URL: https://github.com/valenlab/amplican
+* BugReports: https://github.com/valenlab/amplican/issues
+* Date/Publication: 2019-01-04
+* Number of recursive dependencies: 97
 
-Run `revdep_details(,"cocktailApp")` for more info
+Run `revdep_details(,"amplican")` for more info
 
 </details>
 
@@ -18,93 +18,34 @@ Run `revdep_details(,"cocktailApp")` for more info
 *   R CMD check timed out
     
 
-## In both
+## Newly fixed
 
-*   checking data for non-ASCII characters ... NOTE
+*   checking Rd cross-references ... NOTE
     ```
-      Note: found 14661 marked UTF-8 strings
+    Package unavailable to check Rd xrefs: ‘CrispRVariants’
     ```
-
-# creditmodel
-
-<details>
-
-* Version: 1.1.0
-* Source code: https://github.com/cran/creditmodel
-* URL: https://github.com/FanHansen/creditmodel
-* BugReports: https://github.com/FanHansen/creditmodel/issues
-* Date/Publication: 2019-05-18 23:10:24 UTC
-* Number of recursive dependencies: 106
-
-Run `revdep_details(,"creditmodel")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
 
 ## In both
 
 *   checking installed package size ... NOTE
     ```
-      installed size is  5.0Mb
+      installed size is 14.9Mb
       sub-directories of 1Mb or more:
-        data   4.3Mb
+        doc  14.0Mb
     ```
 
-# crplyr
+# breathtestcore
 
 <details>
 
-* Version: 0.3.1
-* Source code: https://github.com/cran/crplyr
-* URL: https://crunch.io/r/crplyr/, https://github.com/Crunch-io/crplyr
-* BugReports: https://github.com/Crunch-io/crplyr/issues
-* Date/Publication: 2019-06-06 23:30:07 UTC
-* Number of recursive dependencies: 106
+* Version: 0.4.6
+* Source code: https://github.com/cran/breathtestcore
+* URL: https://github.com/dmenne/breathtestcore
+* BugReports: https://github.com/dmenne/breathtestcore/issues
+* Date/Publication: 2018-12-18 09:10:03 UTC
+* Number of recursive dependencies: 81
 
-Run `revdep_details(,"crplyr")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking tests ...
-    ```
-     ERROR
-    Running the tests in ‘tests/testthat.R’ failed.
-    Last 13 lines of output:
-      
-      The following objects are masked from 'package:base':
-      
-          intersect, setdiff, setequal, union
-      
-      [31m──[39m [31m1. Failure: Grouping helpers work on CrunchDatasets (@test-group-by.R#78) [39m [31m─────────────────────────────────────[39m
-      tbl_vars(ds) not identical to names(ds).
-      Classes differ: dplyr_sel_vars/character is not character
-      
-      ══ testthat results  ══════════════════════════════════════════════════════════════════════════════════════════════
-      OK: 158 SKIPPED: 23 WARNINGS: 0 FAILED: 1
-      1. Failure: Grouping helpers work on CrunchDatasets (@test-group-by.R#78) 
-      
-      Error: testthat unit tests failed
-      Execution halted
-    ```
-
-# infer
-
-<details>
-
-* Version: 0.4.0.1
-* Source code: https://github.com/cran/infer
-* URL: https://github.com/tidymodels/infer
-* BugReports: https://github.com/tidymodels/infer/issues
-* Date/Publication: 2019-04-22 06:58:08 UTC
-* Number of recursive dependencies: 89
-
-Run `revdep_details(,"infer")` for more info
+Run `revdep_details(,"breathtestcore")` for more info
 
 </details>
 
@@ -113,18 +54,204 @@ Run `revdep_details(,"infer")` for more info
 *   R CMD check timed out
     
 
-# perturbatr
+## Newly fixed
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘breathteststan’
+    ```
+
+# genogeographer
 
 <details>
 
-* Version: 1.2.1
-* Source code: https://github.com/cran/perturbatr
-* URL: https://github.com/cbg-ethz/perturbatr
-* BugReports: https://github.com/cbg-ethz/perturbatr/issues
-* Date/Publication: 2019-01-04
-* Number of recursive dependencies: 81
+* Version: 0.1.8
+* Source code: https://github.com/cran/genogeographer
+* Date/Publication: 2018-03-14 10:16:07 UTC
+* Number of recursive dependencies: 109
 
-Run `revdep_details(,"perturbatr")` for more info
+Run `revdep_details(,"genogeographer")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+# GenomicDataCommons
+
+<details>
+
+* Version: 1.6.0
+* Source code: https://github.com/cran/GenomicDataCommons
+* URL: https://bioconductor.org/packages/GenomicDataCommons, http://github.com/Bioconductor/GenomicDataCommons
+* BugReports: https://github.com/Bioconductor/GenomicDataCommons/issues/new
+* Date/Publication: 2018-10-30
+* Number of recursive dependencies: 101
+
+Run `revdep_details(,"GenomicDataCommons")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking Rd \usage sections ... WARNING
+    ```
+    Undocumented arguments in documentation object '.htseq_importer'
+      ‘fnames’
+    
+    Functions with \usage entries need to have the appropriate \alias
+    entries, and all their arguments documented.
+    The \usage entries must correspond to syntactically valid R code.
+    See chapter ‘Writing R documentation files’ in the ‘Writing R
+    Extensions’ manual.
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    default_fields.character: no visible binding for global variable
+      ‘defaults’
+    gdc_rnaseq: no visible binding for global variable ‘case_id’
+    gdc_rnaseq: no visible binding for global variable ‘file_id’
+    Undefined global functions or variables:
+      case_id defaults file_id
+    ```
+
+## Newly fixed
+
+*   R CMD check timed out
+    
+
+# ggmap
+
+<details>
+
+* Version: 3.0.0
+* Source code: https://github.com/cran/ggmap
+* URL: https://github.com/dkahle/ggmap
+* BugReports: https://github.com/dkahle/ggmap/issues
+* Date/Publication: 2019-02-05 10:19:04
+* Number of recursive dependencies: 57
+
+Run `revdep_details(,"ggmap")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.2Mb
+      sub-directories of 1Mb or more:
+        data   4.8Mb
+    ```
+
+# heatwaveR
+
+<details>
+
+* Version: 0.3.6
+* Source code: https://github.com/cran/heatwaveR
+* URL: https://robwschlegel.github.io/heatwaveR/index.html, https://github.com/robwschlegel/heatwaveR
+* BugReports: https://github.com/robwschlegel/heatwaveR/issues
+* Date/Publication: 2019-01-16 20:30:03 UTC
+* Number of recursive dependencies: 111
+
+Run `revdep_details(,"heatwaveR")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking whether package ‘heatwaveR’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/heatwaveR/new/heatwaveR.Rcheck/00install.out’ for details.
+    ```
+
+## Newly fixed
+
+*   R CMD check timed out
+    
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘heatwaveR’ ...
+** package ‘heatwaveR’ successfully unpacked and MD5 sums checked
+** using staged installation
+** libs
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -c RcppExports.cpp -o RcppExports.o
+clang: error: unsupported option '-fopenmp'
+make: *** [RcppExports.o] Error 1
+ERROR: compilation failed for package ‘heatwaveR’
+* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/heatwaveR/new/heatwaveR.Rcheck/heatwaveR’
+
+```
+### CRAN
+
+```
+<00install.out file does not exist>
+```
+# MetaboList
+
+<details>
+
+* Version: 1.4
+* Source code: https://github.com/cran/MetaboList
+* Date/Publication: 2019-06-04 14:20:03 UTC
+* Number of recursive dependencies: 54
+
+Run `revdep_details(,"MetaboList")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+# oec
+
+<details>
+
+* Version: 2.7.8
+* Source code: https://github.com/cran/oec
+* URL: https://CRAN.R-project.org/package=oec
+* BugReports: https://github.com/pachamaltese/oec-r/issues
+* Date/Publication: 2018-05-11 15:31:35 UTC
+* Number of recursive dependencies: 29
+
+Run `revdep_details(,"oec")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘readr’
+      All declared Imports should be used.
+    ```
+
+## Newly fixed
+
+*   R CMD check timed out
+    
+
+# parSim
+
+<details>
+
+* Version: 0.1.1
+* Source code: https://github.com/cran/parSim
+* Date/Publication: 2019-06-21 08:20:11 UTC
+* Number of recursive dependencies: 43
+
+Run `revdep_details(,"parSim")` for more info
 
 </details>
 
@@ -150,73 +277,91 @@ Run `revdep_details(,"portalr")` for more info
 
 ## Newly broken
 
-*   R CMD check timed out
-    
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Complete output:
+      > library(testthat)
+      > library(portalr)
+      > 
+      > test_check("portalr")
+      ── 1. Failure: data generated by level = plot, time = newmoon, type = granivore,
+      Value hashes to 22f018525c, not edcd782e39
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 177 SKIPPED: 10 WARNINGS: 0 FAILED: 1
+      1. Failure: data generated by level = plot, time = newmoon, type = granivore, shape = flat is same (@test-99-regression.R#26) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
 
-# RCMIP5
-
-<details>
-
-* Version: 1.2.0
-* Source code: https://github.com/cran/RCMIP5
-* Date/Publication: 2016-07-30 18:53:27
-* Number of recursive dependencies: 52
-
-Run `revdep_details(,"RCMIP5")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
-# rcv
-
-<details>
-
-* Version: 0.2.1
-* Source code: https://github.com/cran/rcv
-* URL: https://github.com/ds-elections/rcv
-* BugReports: https://github.com/ds-elections/rcv/issues
-* Date/Publication: 2017-08-11 08:11:33 UTC
-* Number of recursive dependencies: 46
-
-Run `revdep_details(,"rcv")` for more info
-
-</details>
-
-## Newly broken
+## Newly fixed
 
 *   R CMD check timed out
     
 
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.2Mb
-      sub-directories of 1Mb or more:
-        data   5.0Mb
-    ```
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 6543 marked UTF-8 strings
-    ```
-
-# strapgod
+# solrium
 
 <details>
 
-* Version: 0.0.2
-* Source code: https://github.com/cran/strapgod
-* URL: https://github.com/DavisVaughan/strapgod
-* BugReports: https://github.com/DavisVaughan/strapgod/issues
-* Date/Publication: 2019-05-16 15:30:04 UTC
+* Version: 1.0.2
+* Source code: https://github.com/cran/solrium
+* URL: https://github.com/ropensci/solrium
+* BugReports: https://github.com/ropensci/solrium/issues
+* Date/Publication: 2018-12-13 06:00:03 UTC
 * Number of recursive dependencies: 54
 
-Run `revdep_details(,"strapgod")` for more info
+Run `revdep_details(,"solrium")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘XML’
+    ```
+
+## Newly fixed
+
+*   checking Rd cross-references ... WARNING
+    ```
+    Unknown package ‘XML’ in Rd xrefs
+    ```
+
+# solvebio
+
+<details>
+
+* Version: 2.6.1
+* Source code: https://github.com/cran/solvebio
+* URL: https://github.com/solvebio/solvebio-r
+* Date/Publication: 2018-10-25 13:10:14 UTC
+* Number of recursive dependencies: 42
+
+Run `revdep_details(,"solvebio")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+# tidyquant
+
+<details>
+
+* Version: 0.5.6
+* Source code: https://github.com/cran/tidyquant
+* URL: https://github.com/business-science/tidyquant
+* BugReports: https://github.com/business-science/tidyquant/issues
+* Date/Publication: 2019-04-22 19:30:03 UTC
+* Number of recursive dependencies: 124
+
+Run `revdep_details(,"tidyquant")` for more info
 
 </details>
 
@@ -227,20 +372,28 @@ Run `revdep_details(,"strapgod")` for more info
      ERROR
     Running the tests in ‘tests/testthat.R’ failed.
     Last 13 lines of output:
-      [31m──[39m [31m1. Failure: group_map() (@test-dplyr-group-funs.R#64) [39m [31m─────────────────────────────────────────────────────────[39m
-      group_map(x, ~.x) not equal to group_split(x, keep = FALSE).
-      Attributes: < target is NULL, current is list >
+      ── 1. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_
+      `test2` inherits from `logical` not `tbl`.
       
-      [31m──[39m [31m2. Failure: group_vars() returns virtual groups (@test-dplyr-group-funs.R#195) [39m [31m────────────────────────────────[39m
-      tbl_vars(x) not equal to colnames(iris).
-      Classes differ: dplyr_sel_vars/character is not character
+      ── 2. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_
+      `test1` not identical to `test2`.
+      Cols in y but not x: `NA`. 
+      Cols in x but not y: `price`, `date`. 
       
-      ══ testthat results  ══════════════════════════════════════════════════════════════════════════════════════════════
-      OK: 151 SKIPPED: 0 WARNINGS: 0 FAILED: 2
-      1. Failure: group_map() (@test-dplyr-group-funs.R#64) 
-      2. Failure: group_vars() returns virtual groups (@test-dplyr-group-funs.R#195) 
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      OK: 124 SKIPPED: 1 WARNINGS: 1 FAILED: 2
+      1. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_economic_data.R#21) 
+      2. Failure: Test returns tibble with correct rows and columns. (@test_tq_get_economic_data.R#23) 
       
       Error: testthat unit tests failed
       Execution halted
+    ```
+
+## In both
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘xml2’
+      All declared Imports should be used.
     ```
 

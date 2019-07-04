@@ -222,6 +222,42 @@ ERROR: compilation failed for package ‘airGR’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/airGR/old/airGR.Rcheck/airGR’
 
 ```
+# amplican
+
+<details>
+
+* Version: 1.4.1
+* Source code: https://github.com/cran/amplican
+* URL: https://github.com/valenlab/amplican
+* BugReports: https://github.com/valenlab/amplican/issues
+* Date/Publication: 2019-01-04
+* Number of recursive dependencies: 97
+
+Run `revdep_details(,"amplican")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+## Newly fixed
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘CrispRVariants’
+    ```
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 14.9Mb
+      sub-directories of 1Mb or more:
+        doc  14.0Mb
+    ```
+
 # BAS
 
 <details>
@@ -574,6 +610,33 @@ ERROR: compilation failed for package ‘BradleyTerryScalable’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/BradleyTerryScalable/old/BradleyTerryScalable.Rcheck/BradleyTerryScalable’
 
 ```
+# breathtestcore
+
+<details>
+
+* Version: 0.4.6
+* Source code: https://github.com/cran/breathtestcore
+* URL: https://github.com/dmenne/breathtestcore
+* BugReports: https://github.com/dmenne/breathtestcore/issues
+* Date/Publication: 2018-12-18 09:10:03 UTC
+* Number of recursive dependencies: 81
+
+Run `revdep_details(,"breathtestcore")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+## Newly fixed
+
+*   checking Rd cross-references ... NOTE
+    ```
+    Package unavailable to check Rd xrefs: ‘breathteststan’
+    ```
+
 # brunnermunzel
 
 <details>
@@ -1124,6 +1187,33 @@ ERROR: compilation failed for package ‘circumplex’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/circumplex/old/circumplex.Rcheck/circumplex’
 
 ```
+# clustermq
+
+<details>
+
+* Version: 0.8.8
+* Source code: https://github.com/cran/clustermq
+* URL: https://github.com/mschubert/clustermq
+* BugReports: https://github.com/mschubert/clustermq/issues
+* Date/Publication: 2019-06-05 22:00:39 UTC
+* Number of recursive dependencies: 74
+
+Run `revdep_details(,"clustermq")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘R6’ ‘purrr’
+      All declared Imports should be used.
+    ```
+
 # CNPBayes
 
 <details>
@@ -1193,33 +1283,6 @@ ERROR: compilation failed for package ‘CNPBayes’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/CNPBayes/old/CNPBayes.Rcheck/CNPBayes’
 
 ```
-# cocktailApp
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/cocktailApp
-* URL: https://github.com/shabbychef/cocktailApp
-* BugReports: https://github.com/shabbychef/cocktailApp/issues
-* Date/Publication: 2018-08-19 16:40:02 UTC
-* Number of recursive dependencies: 61
-
-Run `revdep_details(,"cocktailApp")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
-## In both
-
-*   checking data for non-ASCII characters ... NOTE
-    ```
-      Note: found 14661 marked UTF-8 strings
-    ```
-
 # colorednoise
 
 <details>
@@ -1606,35 +1669,6 @@ ERROR: compilation failed for package ‘crawl’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/crawl/old/crawl.Rcheck/crawl’
 
 ```
-# creditmodel
-
-<details>
-
-* Version: 1.1.0
-* Source code: https://github.com/cran/creditmodel
-* URL: https://github.com/FanHansen/creditmodel
-* BugReports: https://github.com/FanHansen/creditmodel/issues
-* Date/Publication: 2019-05-18 23:10:24 UTC
-* Number of recursive dependencies: 106
-
-Run `revdep_details(,"creditmodel")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
-## In both
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.0Mb
-      sub-directories of 1Mb or more:
-        data   4.3Mb
-    ```
-
 # DataVisualizations
 
 <details>
@@ -2059,12 +2093,12 @@ ERROR: compilation failed for package ‘dodgr’
 
 <details>
 
-* Version: 5.5.2
+* Version: 5.5.3
 * Source code: https://github.com/cran/dtwclust
 * URL: https://github.com/asardaes/dtwclust
 * BugReports: https://github.com/asardaes/dtwclust/issues
-* Date/Publication: 2019-03-09 15:12:40 UTC
-* Number of recursive dependencies: 78
+* Date/Publication: 2019-06-29 20:40:03 UTC
+* Number of recursive dependencies: 82
 
 Run `revdep_details(,"dtwclust")` for more info
 
@@ -2087,27 +2121,28 @@ Run `revdep_details(,"dtwclust")` for more info
 ** package ‘dtwclust’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/utils.cpp -o utils/utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/R-utils.cpp -o utils/R-utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/KahanSummer.cpp -o utils/KahanSummer.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/envelope.cpp -o utils/envelope.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c centroids/dba.cpp -o centroids/dba.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/distmat.cpp -o distmat/distmat.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/fillers.cpp -o distmat/fillers.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c init.cpp -o init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/dtw-basic.cpp -o distances/dtw-basic.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/R-gateways.cpp -o distances/R-gateways.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/soft-dtw.cpp -o distances/soft-dtw.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/calculators.cpp -o distances/calculators.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/logGAK.cpp -o distances/logGAK.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/lbk.cpp -o distances/lbk.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/lbi.cpp -o distances/lbi.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c tadpole/tadpole.cpp -o tadpole/tadpole.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/utils.cpp -o utils/utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/R-utils.cpp -o utils/R-utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/ParallelWorker.cpp -o utils/ParallelWorker.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/KahanSummer.cpp -o utils/KahanSummer.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/envelope.cpp -o utils/envelope.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c centroids/dba.cpp -o centroids/dba.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/distmat.cpp -o distmat/distmat.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/fillers.cpp -o distmat/fillers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c init.cpp -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/dtw-basic.cpp -o distances/dtw-basic.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/R-gateways.cpp -o distances/R-gateways.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/soft-dtw.cpp -o distances/soft-dtw.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/calculators.cpp -o distances/calculators.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/logGAK.cpp -o distances/logGAK.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/lbk.cpp -o distances/lbk.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/lbi.cpp -o distances/lbi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c tadpole/tadpole.cpp -o tadpole/tadpole.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/ParallelWorker.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -2124,27 +2159,28 @@ ERROR: compilation failed for package ‘dtwclust’
 ** package ‘dtwclust’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/utils.cpp -o utils/utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/R-utils.cpp -o utils/R-utils.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/KahanSummer.cpp -o utils/KahanSummer.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c utils/envelope.cpp -o utils/envelope.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c centroids/dba.cpp -o centroids/dba.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/distmat.cpp -o distmat/distmat.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/fillers.cpp -o distmat/fillers.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c init.cpp -o init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/dtw-basic.cpp -o distances/dtw-basic.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/R-gateways.cpp -o distances/R-gateways.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/soft-dtw.cpp -o distances/soft-dtw.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/calculators.cpp -o distances/calculators.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/logGAK.cpp -o distances/logGAK.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/lbk.cpp -o distances/lbk.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c distances/lbi.cpp -o distances/lbi.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c tadpole/tadpole.cpp -o tadpole/tadpole.o
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/utils.cpp -o utils/utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/R-utils.cpp -o utils/R-utils.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/ParallelWorker.cpp -o utils/ParallelWorker.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/KahanSummer.cpp -o utils/KahanSummer.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/UndirectedGraph.cpp -o utils/UndirectedGraph.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c utils/envelope.cpp -o utils/envelope.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c centroids/dba.cpp -o centroids/dba.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c centroids/sdtw-cent.cpp -o centroids/sdtw-cent.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/distmat-loop.cpp -o distmat/distmat-loop.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/distmat.cpp -o distmat/distmat.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/fillers.cpp -o distmat/fillers.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distmat/dtw-lb.cpp -o distmat/dtw-lb.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c init.cpp -o init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/dtw-basic.cpp -o distances/dtw-basic.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/R-gateways.cpp -o distances/R-gateways.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/soft-dtw.cpp -o distances/soft-dtw.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/calculators.cpp -o distances/calculators.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/logGAK.cpp -o distances/logGAK.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/lbk.cpp -o distances/lbk.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c distances/lbi.cpp -o distances/lbi.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppArmadillo/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppParallel/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/dtwclust/RcppThread/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -DRCPP_USE_UNWIND_PROTECT -fPIC  -Wall -c tadpole/tadpole.cpp -o tadpole/tadpole.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dtwclust.so ./utils/utils.o ./utils/R-utils.o ./utils/ParallelWorker.o ./utils/KahanSummer.o ./utils/UndirectedGraph.o ./utils/envelope.o ./centroids/dba.o ./centroids/sdtw-cent.o ./distmat/distmat-loop.o ./distmat/distmat.o ./distmat/fillers.o ./distmat/dtw-lb.o ./init.o ./distances/dtw-basic.o ./distances/R-gateways.o ./distances/soft-dtw.o ./distances/calculators.o ./distances/logGAK.o ./distances/lbk.o ./distances/lbi.o ./tadpole/tadpole.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -2320,108 +2356,6 @@ ERROR: compilation failed for package ‘fastLink’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/fastLink/old/fastLink.Rcheck/fastLink’
 
 ```
-# fastR2
-
-<details>
-
-* Version: 1.2.1
-* Source code: https://github.com/cran/fastR2
-* URL: https://github.com/rpruim/fastR2, http://rpruim.github.io/fastR2/
-* BugReports: https://github.com/rpruim/fastR2/issues
-* Date/Publication: 2018-08-31 20:50:08 UTC
-* Number of recursive dependencies: 153
-
-Run `revdep_details(,"fastR2")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘fastR2’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/fastR2/new/fastR2.Rcheck/00install.out’ for details.
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘fastR2’ ...
-** package ‘fastR2’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package ‘ggstance’ required by ‘ggformula’ could not be found
-Execution halted
-ERROR: lazy loading failed for package ‘fastR2’
-* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/fastR2/new/fastR2.Rcheck/fastR2’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘fastR2’ ...
-** package ‘fastR2’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package ‘ggstance’ required by ‘ggformula’ could not be found
-Execution halted
-ERROR: lazy loading failed for package ‘fastR2’
-* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/fastR2/old/fastR2.Rcheck/fastR2’
-
-```
-# FindMyFriends
-
-<details>
-
-* Version: 1.12.0
-* Source code: https://github.com/cran/FindMyFriends
-* URL: https://github.com/thomasp85/FindMyFriends
-* BugReports: https://github.com/thomasp85/FindMyFriends/issues
-* Date/Publication: 2018-10-30
-* Number of recursive dependencies: 84
-
-Run `revdep_details(,"FindMyFriends")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking for code/documentation mismatches ... WARNING
-    ```
-    Functions or methods with usage in documentation object 'pgVirtual-class' but not in code:
-      ‘as’
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.7Mb
-      sub-directories of 1Mb or more:
-        R         1.0Mb
-        doc       1.5Mb
-        extdata   1.8Mb
-        libs      1.2Mb
-    ```
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Unexported objects imported by ':::' calls:
-      ‘gtable:::insert.unit’ ‘gtable:::z_arrange_gtables’
-      See the note in ?`:::` about the use of this operator.
-    ```
-
 # fourierin
 
 <details>
@@ -2654,6 +2588,24 @@ ERROR: compilation failed for package ‘gap’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/gap/old/gap.Rcheck/gap’
 
 ```
+# genogeographer
+
+<details>
+
+* Version: 0.1.8
+* Source code: https://github.com/cran/genogeographer
+* Date/Publication: 2018-03-14 10:16:07 UTC
+* Number of recursive dependencies: 109
+
+Run `revdep_details(,"genogeographer")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
 # GenomicMating
 
 <details>
@@ -2916,13 +2868,18 @@ Run `revdep_details(,"heatwaveR")` for more info
 
 </details>
 
-## In both
+## Newly broken
 
 *   checking whether package ‘heatwaveR’ can be installed ... ERROR
     ```
     Installation failed.
     See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/heatwaveR/new/heatwaveR.Rcheck/00install.out’ for details.
     ```
+
+## Newly fixed
+
+*   R CMD check timed out
+    
 
 ## Installation
 
@@ -2943,16 +2900,7 @@ ERROR: compilation failed for package ‘heatwaveR’
 ### CRAN
 
 ```
-* installing *source* package ‘heatwaveR’ ...
-** package ‘heatwaveR’ successfully unpacked and MD5 sums checked
-** using staged installation
-** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG  -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/Rcpp/include" -I"/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/library.noindex/heatwaveR/RcppArmadillo/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include -fopenmp -fPIC  -Wall -c RcppExports.cpp -o RcppExports.o
-clang: error: unsupported option '-fopenmp'
-make: *** [RcppExports.o] Error 1
-ERROR: compilation failed for package ‘heatwaveR’
-* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/heatwaveR/old/heatwaveR.Rcheck/heatwaveR’
-
+<00install.out file does not exist>
 ```
 # iCNV
 
@@ -3873,26 +3821,6 @@ ERROR: compilation failed for package ‘idefix’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/idefix/old/idefix.Rcheck/idefix’
 
 ```
-# infer
-
-<details>
-
-* Version: 0.4.0.1
-* Source code: https://github.com/cran/infer
-* URL: https://github.com/tidymodels/infer
-* BugReports: https://github.com/tidymodels/infer/issues
-* Date/Publication: 2019-04-22 06:58:08 UTC
-* Number of recursive dependencies: 89
-
-Run `revdep_details(,"infer")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
 # iRF
 
 <details>
@@ -3962,6 +3890,32 @@ Run `revdep_details(,"IrisSpatialFeatures")` for more info
 *   R CMD check timed out
     
 
+# loose.rock
+
+<details>
+
+* Version: 1.0.16
+* Source code: https://github.com/cran/loose.rock
+* URL: https://www.github.com/averissimo/loose.rock
+* BugReports: https://www.github.com/averissimo/loose.rock/issues
+* Date/Publication: 2019-05-31 14:10:02 UTC
+* Number of recursive dependencies: 105
+
+Run `revdep_details(,"loose.rock")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespace in Imports field not imported from: ‘futile.options’
+      All declared Imports should be used.
+    ```
+
 # lpirfs
 
 <details>
@@ -4014,81 +3968,42 @@ ERROR: compilation failed for package ‘lpirfs’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/lpirfs/old/lpirfs.Rcheck/lpirfs’
 
 ```
-# mdsr
+# LymphoSeq
 
 <details>
 
-* Version: 0.1.7
-* Source code: https://github.com/cran/mdsr
-* URL: http://github.com/beanumber/mdsr
-* BugReports: https://github.com/beanumber/mdsr/issues
-* Date/Publication: 2019-05-20 19:20:03 UTC
-* Number of recursive dependencies: 105
+* Version: 1.10.0
+* Source code: https://github.com/cran/LymphoSeq
+* Date/Publication: 2018-10-30
+* Number of recursive dependencies: 87
 
-Run `revdep_details(,"mdsr")` for more info
+Run `revdep_details(,"LymphoSeq")` for more info
 
 </details>
 
 ## In both
 
-*   checking whether package ‘mdsr’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/mdsr/new/mdsr.Rcheck/00install.out’ for details.
-    ```
+*   R CMD check timed out
+    
 
-## Installation
+# MetaboList
 
-### Devel
+<details>
 
-```
-* installing *source* package ‘mdsr’ ...
-** package ‘mdsr’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded from temporary location
-Error: package or namespace load failed for ‘mdsr’:
- .onAttach failed in attachNamespace() for 'mdsr', details:
-  call: NULL
-  error: package ‘ggstance’ required by ‘ggformula’ could not be found
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/mdsr/new/mdsr.Rcheck/mdsr’
+* Version: 1.4
+* Source code: https://github.com/cran/MetaboList
+* Date/Publication: 2019-06-04 14:20:03 UTC
+* Number of recursive dependencies: 54
 
-```
-### CRAN
+Run `revdep_details(,"MetaboList")` for more info
 
-```
-* installing *source* package ‘mdsr’ ...
-** package ‘mdsr’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** data
-*** moving datasets to lazyload DB
-** inst
-** byte-compile and prepare package for lazy loading
-** help
-*** installing help indices
-** building package indices
-** testing if installed package can be loaded from temporary location
-Error: package or namespace load failed for ‘mdsr’:
- .onAttach failed in attachNamespace() for 'mdsr', details:
-  call: NULL
-  error: package ‘ggstance’ required by ‘ggformula’ could not be found
-Error: loading failed
-Execution halted
-ERROR: loading failed
-* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/mdsr/old/mdsr.Rcheck/mdsr’
+</details>
 
-```
+## Newly broken
+
+*   R CMD check timed out
+    
+
 # miceFast
 
 <details>
@@ -4140,6 +4055,68 @@ clang: error: unsupported option '-fopenmp'
 make: *** [R_funs.o] Error 1
 ERROR: compilation failed for package ‘miceFast’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/miceFast/old/miceFast.Rcheck/miceFast’
+
+```
+# missCompare
+
+<details>
+
+* Version: 1.0.1
+* Source code: https://github.com/cran/missCompare
+* BugReports: https://github.com/Tirgit/missCompare/issues
+* Date/Publication: 2019-02-05 22:22:07 UTC
+* Number of recursive dependencies: 171
+
+Run `revdep_details(,"missCompare")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘missCompare’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/missCompare/new/missCompare.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘missCompare’ ...
+** package ‘missCompare’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘FactoMineR’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘missCompare’
+* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/missCompare/new/missCompare.Rcheck/missCompare’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘missCompare’ ...
+** package ‘missCompare’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘FactoMineR’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘missCompare’
+* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/missCompare/old/missCompare.Rcheck/missCompare’
 
 ```
 # momentuHMM
@@ -4278,68 +4255,6 @@ Error: .onLoad failed in loadNamespace() for 'rjags', details:
 Execution halted
 ERROR: lazy loading failed for package ‘morse’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/morse/old/morse.Rcheck/morse’
-
-```
-# mosaic
-
-<details>
-
-* Version: 1.5.0
-* Source code: https://github.com/cran/mosaic
-* URL: https://github.com/ProjectMOSAIC/mosaic, https://projectmosaic.github.io/mosaic/
-* BugReports: https://github.com/ProjectMOSAIC/mosaic/issues
-* Date/Publication: 2019-01-12 19:20:02 UTC
-* Number of recursive dependencies: 103
-
-Run `revdep_details(,"mosaic")` for more info
-
-</details>
-
-## In both
-
-*   checking whether package ‘mosaic’ can be installed ... ERROR
-    ```
-    Installation failed.
-    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/mosaic/new/mosaic.Rcheck/00install.out’ for details.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package which this enhances but not available for checking: ‘manipulate’
-    ```
-
-## Installation
-
-### Devel
-
-```
-* installing *source* package ‘mosaic’ ...
-** package ‘mosaic’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** demo
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package ‘ggstance’ required by ‘ggformula’ could not be found
-Execution halted
-ERROR: lazy loading failed for package ‘mosaic’
-* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/mosaic/new/mosaic.Rcheck/mosaic’
-
-```
-### CRAN
-
-```
-* installing *source* package ‘mosaic’ ...
-** package ‘mosaic’ successfully unpacked and MD5 sums checked
-** using staged installation
-** R
-** demo
-** inst
-** byte-compile and prepare package for lazy loading
-Error: package ‘ggstance’ required by ‘ggformula’ could not be found
-Execution halted
-ERROR: lazy loading failed for package ‘mosaic’
-* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/mosaic/old/mosaic.Rcheck/mosaic’
 
 ```
 # mrgsolve
@@ -7910,6 +7825,26 @@ ERROR: lazy loading failed for package ‘multiHiCcompare’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/multiHiCcompare/old/multiHiCcompare.Rcheck/multiHiCcompare’
 
 ```
+# neonUtilities
+
+<details>
+
+* Version: 1.2.2
+* Source code: https://github.com/cran/neonUtilities
+* URL: https://github.com/NEONScience/NEON-utilities
+* BugReports: https://github.com/NEONScience/NEON-utilities/issues
+* Date/Publication: 2019-05-24 13:40:03 UTC
+* Number of recursive dependencies: 43
+
+Run `revdep_details(,"neonUtilities")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
 # nlmixr
 
 <details>
@@ -8822,6 +8757,34 @@ ERROR: compilation failed for package ‘nlmixr’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/nlmixr/old/nlmixr.Rcheck/nlmixr’
 
 ```
+# OncoSimulR
+
+<details>
+
+* Version: 2.12.0
+* Source code: https://github.com/cran/OncoSimulR
+* URL: https://github.com/rdiaz02/OncoSimul, https://popmodels.cancercontrol.cancer.gov/gsr/packages/oncosimulr/
+* BugReports: https://github.com/rdiaz02/OncoSimul/issues
+* Date/Publication: 2018-10-30
+* Number of recursive dependencies: 106
+
+Run `revdep_details(,"OncoSimulR")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.4Mb
+      sub-directories of 1Mb or more:
+        doc    5.3Mb
+        libs   1.3Mb
+    ```
+
 # openair
 
 <details>
@@ -8887,6 +8850,85 @@ ERROR: compilation failed for package ‘openair’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/openair/old/openair.Rcheck/openair’
 
 ```
+# OutliersO3
+
+<details>
+
+* Version: 0.6.2
+* Source code: https://github.com/cran/OutliersO3
+* Date/Publication: 2019-03-23 22:36:30 UTC
+* Number of recursive dependencies: 114
+
+Run `revdep_details(,"OutliersO3")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘OutliersO3’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/OutliersO3/new/OutliersO3.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘OutliersO3’ ...
+** package ‘OutliersO3’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘FactoMineR’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘OutliersO3’
+* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/OutliersO3/new/OutliersO3.Rcheck/OutliersO3’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘OutliersO3’ ...
+** package ‘OutliersO3’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+*** moving datasets to lazyload DB
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(i, c(lib.loc, .libPaths()), versionCheck = vI[[i]]) : 
+  there is no package called ‘FactoMineR’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘OutliersO3’
+* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/OutliersO3/old/OutliersO3.Rcheck/OutliersO3’
+
+```
+# parSim
+
+<details>
+
+* Version: 0.1.1
+* Source code: https://github.com/cran/parSim
+* Date/Publication: 2019-06-21 08:20:11 UTC
+* Number of recursive dependencies: 43
+
+Run `revdep_details(,"parSim")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
 # partition
 
 <details>
@@ -9042,7 +9084,7 @@ Run `revdep_details(,"perturbatr")` for more info
 
 </details>
 
-## Newly broken
+## In both
 
 *   R CMD check timed out
     
@@ -9408,26 +9450,6 @@ ERROR: compilation failed for package ‘poppr’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/poppr/old/poppr.Rcheck/poppr’
 
 ```
-# portalr
-
-<details>
-
-* Version: 0.2.5
-* Source code: https://github.com/cran/portalr
-* URL: https://weecology.github.io/portalr/, https://github.com/weecology/portalr
-* BugReports: https://github.com/weecology/portalr/issues
-* Date/Publication: 2019-06-22 04:40:04 UTC
-* Number of recursive dependencies: 127
-
-Run `revdep_details(,"portalr")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
 # PPforest
 
 <details>
@@ -9499,7 +9521,7 @@ ERROR: compilation failed for package ‘PPforest’
 * URL: https://github.com/lgatto/pRoloc
 * BugReports: https://github.com/lgatto/pRoloc/issues
 * Date/Publication: 2019-03-16
-* Number of recursive dependencies: 204
+* Number of recursive dependencies: 203
 
 Run `revdep_details(,"pRoloc")` for more info
 
@@ -10468,56 +10490,29 @@ ERROR: compilation failed for package ‘qwraps2’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/qwraps2/old/qwraps2.Rcheck/qwraps2’
 
 ```
-# RCMIP5
+# radtools
 
 <details>
 
-* Version: 1.2.0
-* Source code: https://github.com/cran/RCMIP5
-* Date/Publication: 2016-07-30 18:53:27
-* Number of recursive dependencies: 52
+* Version: 1.0.6
+* Source code: https://github.com/cran/radtools
+* Date/Publication: 2019-04-28 20:50:06 UTC
+* Number of recursive dependencies: 91
 
-Run `revdep_details(,"RCMIP5")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
-# rcv
-
-<details>
-
-* Version: 0.2.1
-* Source code: https://github.com/cran/rcv
-* URL: https://github.com/ds-elections/rcv
-* BugReports: https://github.com/ds-elections/rcv/issues
-* Date/Publication: 2017-08-11 08:11:33 UTC
-* Number of recursive dependencies: 46
-
-Run `revdep_details(,"rcv")` for more info
+Run `revdep_details(,"radtools")` for more info
 
 </details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
 
 ## In both
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.2Mb
-      sub-directories of 1Mb or more:
-        data   5.0Mb
-    ```
+*   R CMD check timed out
+    
 
-*   checking data for non-ASCII characters ... NOTE
+*   checking dependencies in R code ... NOTE
     ```
-      Note: found 6543 marked UTF-8 strings
+    Namespaces in Imports field not imported from:
+      ‘R.utils’ ‘TCIApathfinder’ ‘xfun’
+      All declared Imports should be used.
     ```
 
 # resautonet
@@ -12029,11 +12024,11 @@ ERROR: compilation failed for package ‘SCPME’
 
 <details>
 
-* Version: 0.7-4
+* Version: 0.7-5
 * Source code: https://github.com/cran/sf
-* URL: https://github.com/r-spatial/sf/
+* URL: https://github.com/r-spatial/sf/, https://r-spatial.github.io/sf/
 * BugReports: https://github.com/r-spatial/sf/issues/
-* Date/Publication: 2019-04-25 22:30:03 UTC
+* Date/Publication: 2019-07-03 14:10:04 UTC
 * Number of recursive dependencies: 135
 
 Run `revdep_details(,"sf")` for more info
@@ -12078,6 +12073,63 @@ no
 configure: error: gdal-config not found or not executable.
 ERROR: configuration failed for package ‘sf’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/sf/old/sf.Rcheck/sf’
+
+```
+# simglm
+
+<details>
+
+* Version: 0.7.4
+* Source code: https://github.com/cran/simglm
+* Date/Publication: 2019-05-31 17:10:03 UTC
+* Number of recursive dependencies: 77
+
+Run `revdep_details(,"simglm")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘simglm’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/simglm/new/simglm.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘simglm’ ...
+** package ‘simglm’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘future’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘simglm’
+* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/simglm/new/simglm.Rcheck/simglm’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘simglm’ ...
+** package ‘simglm’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** inst
+** byte-compile and prepare package for lazy loading
+Error in loadNamespace(j <- i[[1L]], c(lib.loc, .libPaths()), versionCheck = vI[[j]]) : 
+  there is no package called ‘future’
+Calls: <Anonymous> ... loadNamespace -> withRestarts -> withOneRestart -> doWithOneRestart
+Execution halted
+ERROR: lazy loading failed for package ‘simglm’
+* removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/simglm/old/simglm.Rcheck/simglm’
 
 ```
 # simputation
@@ -12133,6 +12185,25 @@ ERROR: compilation failed for package ‘simputation’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/simputation/old/simputation.Rcheck/simputation’
 
 ```
+# solvebio
+
+<details>
+
+* Version: 2.6.1
+* Source code: https://github.com/cran/solvebio
+* URL: https://github.com/solvebio/solvebio-r
+* Date/Publication: 2018-10-25 13:10:14 UTC
+* Number of recursive dependencies: 42
+
+Run `revdep_details(,"solvebio")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
 # SpaCCr
 
 <details>
@@ -14383,44 +14454,6 @@ ERROR: compilation failed for package ‘telefit’
 * removing ‘/Users/romainfrancois/git/dplyr-revdep/dplyr/revdep/checks.noindex/telefit/old/telefit.Rcheck/telefit’
 
 ```
-# uncmbb
-
-<details>
-
-* Version: 0.2.0
-* Source code: https://github.com/cran/uncmbb
-* URL: http://github.com/joongsup/uncmbb
-* BugReports: https://github.com/joongsup/uncmbb/issues
-* Date/Publication: 2018-04-17 18:43:32 UTC
-* Number of recursive dependencies: 35
-
-Run `revdep_details(,"uncmbb")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
-# understandBPMN
-
-<details>
-
-* Version: 1.1.0
-* Source code: https://github.com/cran/understandBPMN
-* Date/Publication: 2018-06-08 15:15:35 UTC
-* Number of recursive dependencies: 72
-
-Run `revdep_details(,"understandBPMN")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
 # vapour
 
 <details>
