@@ -1,4 +1,4 @@
-# dplyr (development version)
+# dplyr 0.8.3 (2019-07-04)
 
 * Fixed performance regression introduced in version 0.8.2 (#4458). 
 
@@ -29,6 +29,7 @@
 ## Minor changes
 
 * `top_n()` quotes its `n` argument, `n` no longer needs to be constant for all groups (#4017).  
+
 * `tbl_vars()` keeps information on grouping columns by returning a `dplyr_sel_vars` object (#4106). 
 
 * `group_split()` always sets the `ptype` attribute, which make it more robust in the case where there
