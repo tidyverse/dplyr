@@ -80,7 +80,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.2.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
         </div>
       </div>
     </div>
@@ -172,6 +172,14 @@
       <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
+    <div id="dplyr-0-8-3-2019-07-04" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-8-3-2019-07-04" class="anchor"></a>dplyr 0.8.3 (2019-07-04)<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fixed performance regression introduced in version 0.8.2 (<a href='https://github.com/tidyverse/dplyr/issues/4458'>#4458</a>).</li>
+</ul>
+</div>
     <div id="dplyr-0-8-2-2019-06-28" class="section level1">
 <h1 class="page-header">
 <a href="#dplyr-0-8-2-2019-06-28" class="anchor"></a>dplyr 0.8.2 (2019-06-28)<small> 2019-06-29 </small>
@@ -207,9 +215,7 @@
 <h2 class="hasAnchor">
 <a href="#minor-changes" class="anchor"></a>Minor changes</h2>
 <ul>
-<li>
-<code><a href="../reference/top_n.html">top_n()</a></code> quotes its <code>n</code> argument, <code>n</code> no longer needs to be constant for all groups (<a href='https://github.com/tidyverse/dplyr/issues/4017'>#4017</a>).<br>
-</li>
+<li><p><code><a href="../reference/top_n.html">top_n()</a></code> quotes its <code>n</code> argument, <code>n</code> no longer needs to be constant for all groups (<a href='https://github.com/tidyverse/dplyr/issues/4017'>#4017</a>).</p></li>
 <li><p><code><a href="../reference/tbl_vars.html">tbl_vars()</a></code> keeps information on grouping columns by returning a <code>dplyr_sel_vars</code> object (<a href='https://github.com/tidyverse/dplyr/issues/4106'>#4106</a>).</p></li>
 <li><p><code><a href="../reference/group_split.html">group_split()</a></code> always sets the <code>ptype</code> attribute, which make it more robust in the case where there are 0 groups.</p></li>
 <li><p><code><a href="../reference/group_map.html">group_map()</a></code> and <code><a href="../reference/group_map.html">group_modify()</a></code> work in the 0 group edge case (<a href='https://github.com/tidyverse/dplyr/issues/4421'>#4421</a>)</p></li>
@@ -1522,6 +1528,7 @@ starwars %&gt;%
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
+        <li><a href="#dplyr-0-8-3-2019-07-04">0.8.3</a></li>
         <li><a href="#dplyr-0-8-2-2019-06-28">0.8.2</a></li>
         <li><a href="#dplyr-0-8-1-2019-05-14">0.8.1</a></li>
         <li><a href="#dplyr-0-8-0-1-2019-02-15">0.8.0.1</a></li>
