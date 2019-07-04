@@ -1,6 +1,7 @@
 ## Release summary
 
-Minor release
+This is an emergency release due to community finding of a 
+major performance regression. 
 
 ## Test environments
 
@@ -21,18 +22,30 @@ Minor release
 
 We checked 1739 reverse dependencies (1578 from CRAN + 161 from BioConductor), comparing R CMD check results across CRAN and dev versions of this package.
 
- * We saw 2 new problems
- * We failed to check 77 packages
+ * We saw 5 new problems
+ * We failed to check 78 packages
 
 Issues with CRAN packages are summarised below.
 
 ### New problems
+(This reports the first line of each new failure)
 
-Packages crplyr and strapgod fail because their tests use tbl_vars() and compare the results
-to a character vector, and tbl_vars() now returns an object of class "dplyr_sel_vars" that 
-has an additional attribute to host information about grouping variable. 
+Packages ggmap, oec, portalr, solrium, tidyquant appear to have false errors. 
 
-Pull requests have been sent to both packages. 
+* ggmap
+  checking installed package size ... NOTE
+
+* oec
+  checking dependencies in R code ... NOTE
+
+* portalr
+  checking tests ...
+
+* solrium
+  checking Rd cross-references ... NOTE
+
+* tidyquant
+  checking tests ...
 
 ### Failed to check
 
@@ -42,17 +55,17 @@ Pull requests have been sent to both packages.
 * BAS                  (NA)
 * BMTME                (NA)
 * BradleyTerryScalable (NA)
+* breathtestcore       (NA)
 * brunnermunzel        (NA)
 * bsam                 (NA)
 * CaseBasedReasoning   (NA)
 * CB2                  (NA)
 * circumplex           (NA)
-* cocktailApp          (NA)
+* clustermq            (NA)
 * colorednoise         (NA)
 * Countr               (NA)
 * cpr                  (NA)
 * crawl                (NA)
-* creditmodel          (NA)
 * DataVisualizations   (NA)
 * DepthProc            (NA)
 * dodgr                (NA)
@@ -60,27 +73,30 @@ Pull requests have been sent to both packages.
 * dynfrail             (NA)
 * exuber               (NA)
 * fastLink             (NA)
-* fastR2               (NA)
 * fourierin            (NA)
 * FSelectorRcpp        (NA)
 * gap                  (NA)
+* genogeographer       (NA)
 * GenomicMating        (NA)
 * goldi                (NA)
 * graphicalVAR         (NA)
 * heatwaveR            (NA)
 * idealstan            (NA)
 * idefix               (NA)
-* infer                (NA)
 * iRF                  (NA)
+* loose.rock           (NA)
 * lpirfs               (NA)
-* mdsr                 (NA)
+* MetaboList           (NA)
 * miceFast             (NA)
+* missCompare          (NA)
 * momentuHMM           (NA)
 * morse                (NA)
-* mosaic               (NA)
 * mrgsolve             (NA)
+* neonUtilities        (NA)
 * nlmixr               (NA)
 * openair              (NA)
+* OutliersO3           (NA)
+* parSim               (NA)
 * partition            (NA)
 * pccc                 (NA)
 * phase1PRMD           (NA)
@@ -88,13 +104,11 @@ Pull requests have been sent to both packages.
 * PLNmodels            (NA)
 * pomp                 (NA)
 * poppr                (NA)
-* portalr              (NA)
 * PPforest             (NA)
 * quanteda             (NA)
 * quokar               (NA)
 * qwraps2              (NA)
-* RCMIP5               (NA)
-* rcv                  (NA)
+* radtools             (NA)
 * resautonet           (NA)
 * RSSL                 (NA)
 * RxODE                (NA)
@@ -102,11 +116,11 @@ Pull requests have been sent to both packages.
 * scanstatistics       (NA)
 * SCPME                (NA)
 * sf                   (NA)
+* simglm               (NA)
 * simputation          (NA)
+* solvebio             (NA)
 * SpaCCr               (NA)
 * telefit              (NA)
-* uncmbb               (NA)
-* understandBPMN       (NA)
 * vapour               (NA)
 * VarSelLCM            (NA)
 * vlad                 (NA)
