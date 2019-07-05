@@ -109,7 +109,7 @@ vars_select_syms <- function(vars, funs, tbl, strict = FALSE) {
       fun <- quo_as_function(fun)
     }
     syms <- if (length(vars)) {
-      set_names(syms(vars), fun(vars))
+      set_names(syms(vars), fun(as.character(vars)))
     } else {
       set_names(syms(vars))
     }
