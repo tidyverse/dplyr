@@ -60,14 +60,14 @@ top_n <- function(x, n, wt) {
     wt <- sym(wt_name)
   }
 
-  filter(x, !!expr({
-    .n <- {{ n }}
-    if (.n > 0) {
-      min_rank(desc(!!wt)) <= .n
+  filter(x, {
+    `_n` <- {{ n }}
+    if (`_n` > 0) {
+      min_rank(desc(!!wt)) <= `_n`
     } else {
-      min_rank(!!wt) <= abs(.n)
+      min_rank(!!wt) <= abs(`_n`)
     }
-  }))
+  })
 }
 
 #' @export
