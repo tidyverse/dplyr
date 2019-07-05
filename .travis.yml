@@ -25,19 +25,19 @@ jobs:
   - r: 3.3
   - r: 3.2
     warnings_are_errors: false
-  - r: release
-    env:
-      - DEVEL_PACKAGES=true
-    r_github_packages:
-      - RcppCore/Rcpp
-      - r-lib/rlang
-      - tidyverse/tibble
-      - tidyverse/tidyselect
+  # - r: release
+  #   env:
+  #     - DEVEL_PACKAGES=true
+  #   r_github_packages:
+  #     - RcppCore/Rcpp
+  #     - r-lib/rlang
+  #     - tidyverse/tibble
+  #     - tidyverse/tidyselect
 
 matrix:
   fast_finish: true
-  allow_failures:
-  - env: DEVEL_PACKAGES=true
+  # allow_failures:
+  # - env: DEVEL_PACKAGES=true
 
 env:
   global:
