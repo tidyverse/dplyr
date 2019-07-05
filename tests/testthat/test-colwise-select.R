@@ -190,3 +190,12 @@ test_that("rename_at() handles empty selection (#4324)", {
     mtcars
   )
 })
+
+test_that("rename_all/at() call the function with simple character vector (#4459)", {
+  fun <- function(x) case_when(x == 'mpg' ~ 'fuel_efficiency', TRUE ~ x)
+  out <- rename_all(mtcars,fun)
+  expect_equal(names(out)[1L], 'fuel_efficiency')
+
+  out <- rename_at(mtcars, vars(everything()), fun)
+  expect_equal(names(out)[1L], 'fuel_efficiency')
+})
