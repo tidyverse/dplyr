@@ -1,10 +1,10 @@
 # dplyr (development version)
 
+* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
+
 * `rename_at()` and `rename_all()` call the function with a simple character vector, not a `dplyr_sel_vars` (#4459). 
 
 * `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()`  are now deprecated   (@perezp44, #4432)
-
-* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
 
 # dplyr 0.8.3 (2019-07-04)
 
