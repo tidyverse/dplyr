@@ -21,15 +21,27 @@ test_that("filter gives useful error message when given incorrect input", {
   )
 })
 
+
+
 test_that("filter complains in inputs are named", {
   expect_error(
     filter(mtcars, x = 1),
-    "`x` (`x = 1`) must not be named, do you need `==`?",
+    "Filter specifications must not be named\n* Did you mean `x == 1`?",
     fixed = TRUE
   )
   expect_error(
     filter(mtcars, x = 1 & y > 2),
-    "`x` (`x = 1 & y > 2`) must not be named, do you need `==`?",
+    "Filter specifications must not be named\n* Did you mean `x == 1 & y > 2`?",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(mtcars, x = 1, y > 2, z = 3),
+    "Filter specifications must not be named\n* Did you mean `x == 1`?\n* Did you mean `z == 3`?",
+    fixed = TRUE
+  )
+  expect_error(
+    filter(mtcars, x = "A"),
+    "Filter specifications must not be named\n* Did you mean `x == \"A\"`?",
     fixed = TRUE
   )
 })
