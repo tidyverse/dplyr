@@ -56,7 +56,8 @@
 #' recode(char_vec, a = "Apple", b = "Banana")
 #'
 #' # Use .default as replacement for unmatched values. Note that NA and
-#' replacement values need to be of the same type.
+#' # replacement values need to be of the same type. For more information, see
+#' # https://adv-r.hadley.nz/vectors-chap.html#missing-values
 #' recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
 #'
 #' # This throws an error as the NA type is of type logical, not character.
