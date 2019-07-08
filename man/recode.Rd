@@ -69,8 +69,15 @@ char_vec <- sample(c("a", "b", "c"), 10, replace = TRUE)
 recode(char_vec, a = "Apple")
 recode(char_vec, a = "Apple", b = "Banana")
 
-# Use .default as replacement for unmatched values
+# Use .default as replacement for unmatched values. Note that NA and
+# replacement values need to be of the same type. For more information, see
+# https://adv-r.hadley.nz/vectors-chap.html#missing-values
 recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
+
+# Throws an error as NA is logical, not character.
+\dontrun{
+recode(char_vec, a = "Apple", b = "Banana", .default = NA)
+}
 
 # Use a named character vector for unquote splicing with !!!
 level_key <- c(a = "apple", b = "banana", c = "carrot")
