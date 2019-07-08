@@ -2,6 +2,8 @@
 
 * `rename_at()` and `rename_all()` call the function with a simple character vector, not a `dplyr_sel_vars` (#4459). 
 
+* `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()`  are now deprecated   (@perezp44, #4432)
+
 # dplyr 0.8.3 (2019-07-04)
 
 * Fixed performance regression introduced in version 0.8.2 (#4458). 
