@@ -4,6 +4,8 @@
 
 * `select_vars()`, `rename_vars()`, `select_var()`, `current_vars()`  are now deprecated   (@perezp44, #4432)
 
+* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
+
 # dplyr 0.8.3 (2019-07-04)
 
 * Fixed performance regression introduced in version 0.8.2 (#4458). 
@@ -2122,5 +2124,3 @@ dplyr 0.2 adds three new verbs:
 
 * dplyr source package no longer includes pandas benchmark, reducing
   download size from 2.8 MB to 0.5 MB.
-
-* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
