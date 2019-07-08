@@ -23,7 +23,7 @@ test_that("filter gives useful error message when given incorrect input", {
 
 
 
-test_that("filter complains in inputs are named", {
+test_that("filter complains if inputs are named", {
   expect_known_output(
     file =   test_path("test-filter-named-inputs.txt"),
     {
