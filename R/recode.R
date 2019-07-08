@@ -60,7 +60,7 @@
 #' # https://adv-r.hadley.nz/vectors-chap.html#missing-values
 #' recode(char_vec, a = "Apple", b = "Banana", .default = NA_character_)
 #'
-#' # This throws an error as the NA type is of type logical, not character.
+#' # Throws an error as NA is logical, not character.
 #' \dontrun{
 #' recode(char_vec, a = "Apple", b = "Banana", .default = NA)
 #' }
