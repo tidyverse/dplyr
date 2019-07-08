@@ -44,9 +44,6 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   arrange_impl(.data, dots, environment())
 }
 
-#> Error: Filter specifications must be named
-#> Did you mean `Species == "setosa"`?
-
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
