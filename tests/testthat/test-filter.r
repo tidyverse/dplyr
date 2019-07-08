@@ -25,27 +25,13 @@ test_that("filter gives useful error message when given incorrect input", {
 
 test_that("filter complains in inputs are named", {
   expect_known_output(
-    capture_error_msg(filter(mtcars, x = 1)),
-    test_path("test-filter-named-inputs-1-bad.txt"),
-    update = FALSE
-  )
-
-  expect_known_output(
-    capture_error_msg(filter(mtcars, x = "A")),
-    test_path("test-filter-named-inputs-1-bad-chr.txt"),
-    update = FALSE
-  )
-
-  expect_known_output(
-    capture_error_msg(filter(mtcars, x = 1 & y > 2)),
-    test_path("test-filter-named-inputs-and.txt"),
-    update = FALSE
-  )
-
-  expect_known_output(
-    capture_error_msg(filter(mtcars, x = 1, y > 2, z = 3)),
-    test_path("test-filter-named-inputs-2-bad-1-good.txt"),
-    update = FALSE
+    file =   test_path("test-filter-named-inputs.txt"),
+    {
+      capture_error_msg(filter(mtcars, x = 1))
+      capture_error_msg(filter(mtcars, x = "A"))
+      capture_error_msg(filter(mtcars, x = 1 & y > 2))
+      capture_error_msg(filter(mtcars, x = 1, y > 2, z = 3))
+    }
   )
 })
 
