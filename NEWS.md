@@ -2122,3 +2122,5 @@ dplyr 0.2 adds three new verbs:
 
 * dplyr source package no longer includes pandas benchmark, reducing
   download size from 2.8 MB to 0.5 MB.
+
+* `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
