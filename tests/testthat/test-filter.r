@@ -24,25 +24,28 @@ test_that("filter gives useful error message when given incorrect input", {
 
 
 test_that("filter complains in inputs are named", {
-  expect_error(
-    filter(mtcars, x = 1),
-    "Filter specifications must not be named\n* Did you mean `x == 1`?",
-    fixed = TRUE
+  expect_known_output(
+    capture_error_msg(filter(mtcars, x = 1)),
+    test_path("test-filter-named-inputs-1-bad.txt"),
+    update = FALSE
   )
-  expect_error(
-    filter(mtcars, x = 1 & y > 2),
-    "Filter specifications must not be named\n* Did you mean `x == 1 & y > 2`?",
-    fixed = TRUE
+
+  expect_known_output(
+    capture_error_msg(filter(mtcars, x = "A")),
+    test_path("test-filter-named-inputs-1-bad-chr.txt"),
+    update = FALSE
   )
-  expect_error(
-    filter(mtcars, x = 1, y > 2, z = 3),
-    "Filter specifications must not be named\n* Did you mean `x == 1`?\n* Did you mean `z == 3`?",
-    fixed = TRUE
+
+  expect_known_output(
+    capture_error_msg(filter(mtcars, x = 1 & y > 2)),
+    test_path("test-filter-named-inputs-and.txt"),
+    update = FALSE
   )
-  expect_error(
-    filter(mtcars, x = "A"),
-    "Filter specifications must not be named\n* Did you mean `x == \"A\"`?",
-    fixed = TRUE
+
+  expect_known_output(
+    capture_error_msg(filter(mtcars, x = 1, y > 2, z = 3)),
+    test_path("test-filter-named-inputs-2-bad-1-good.txt"),
+    update = FALSE
   )
 })
 
