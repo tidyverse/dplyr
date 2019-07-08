@@ -118,14 +118,14 @@ fmt_comma <- function(..., .max = 6) {
   commas(x)
 }
 
-fmt_items <- function(x, .max = 6) {
+fmt_items <- function(x, bullet = "-", .max = 6) {
   if (length(x) > .max) {
     more <- glue("({length(x) - (.max - 1)} more)")
     length(x) <- .max
     x[.max] <- more
   }
 
-  paste0(glue("- {x}"), collapse = "\n")
+  paste0(glue("{bullet} {x}"), collapse = "\n")
 }
 
 parse_args <- function(x) {
