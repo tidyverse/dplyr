@@ -34,7 +34,7 @@ bad_named_calls <- function(named_calls, ..., .envir = parent.frame()) {
 }
 
 bad_eq_ops <- function(named_calls, ..., .envir = parent.frame()) {
-  glubort(fmt_wrong_eq_ops(named_calls), ..., .envir = .envir)
+  glubort(NULL, ..., "\n", fmt_wrong_eq_ops(named_calls), sep="", .envir = .envir)
 }
 
 bad_cols <- function(cols, ..., .envir = parent.frame()) {
@@ -73,8 +73,9 @@ fmt_named_calls <- function(...) {
 
 fmt_wrong_eq_ops <- function(...) {
   x <- parse_named_call(...)
-  fmt_comma(
-    paste0(fmt_obj1(names2(x)), " (", fmt_obj1(paste0(names2(x), " = ", x)), ")")
+  fmt_items(
+    paste0("Did you mean ", fmt_obj1(paste0(names2(x), " == ", x)), "?"),
+    bullet = "*"
   )
 }
 
