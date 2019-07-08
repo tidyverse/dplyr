@@ -265,9 +265,15 @@ package for more tools for working with factors and their levels.</p>
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "Apple" "b"     "Apple" "b"     "c"     "Apple" "c"     "c"     "b"    
 #&gt; [10] "Apple"</div><div class='input'><span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>)</div><div class='output co'>#&gt;  [1] "Apple"  "Banana" "Apple"  "Banana" "c"      "Apple"  "c"      "c"     
 #&gt;  [9] "Banana" "Apple" </div><div class='input'>
-<span class='co'># Use .default as replacement for unmatched values</span>
+<span class='co'># Use .default as replacement for unmatched values. Note that NA and</span>
+<span class='co'># replacement values need to be of the same type. For more information, see</span>
+<span class='co'># https://adv-r.hadley.nz/vectors-chap.html#missing-values</span>
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] "Apple"  "Banana" "Apple"  "Banana" NA       "Apple"  NA       NA      
 #&gt;  [9] "Banana" "Apple" </div><div class='input'>
+# Throws an error as NA is logical, not character.
+</div><span class='co'># NOT RUN {</span>
+<span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
+<span class='co'># }</span><div class='input'>
 <span class='co'># Use a named character vector for unquote splicing with !!!</span>
 <span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] "apple"  "banana" "apple"  "banana" "carrot" "apple"  "carrot" "carrot"
