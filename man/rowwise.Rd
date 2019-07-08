@@ -14,7 +14,7 @@ rowwise(data)
 }
 \details{
 See \href{https://github.com/jennybc/row-oriented-workflows}{this repository}
-for alternative ways to perform row-wise operations
+for alternative ways to perform row-wise operations.
 
 \code{rowwise()} is used for the results of \code{\link[=do]{do()}} when you
 create list-variables. It is also useful to support arbitrary

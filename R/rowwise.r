@@ -3,7 +3,7 @@
 #' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
 #'
 #' See [this repository](https://github.com/jennybc/row-oriented-workflows)
-#' for alternative ways to perform row-wise operations
+#' for alternative ways to perform row-wise operations.
 #'
 #' `rowwise()` is used for the results of [do()] when you
 #' create list-variables. It is also useful to support arbitrary
