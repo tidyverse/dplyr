@@ -21,16 +21,17 @@ test_that("filter gives useful error message when given incorrect input", {
   )
 })
 
-test_that("filter complains in inputs are named", {
-  expect_error(
-    filter(mtcars, x = 1),
-    "`x` (`x = 1`) must not be named, do you need `==`?",
-    fixed = TRUE
-  )
-  expect_error(
-    filter(mtcars, x = 1 & y > 2),
-    "`x` (`x = 1 & y > 2`) must not be named, do you need `==`?",
-    fixed = TRUE
+
+
+test_that("filter complains if inputs are named", {
+  expect_known_output(
+    file =   test_path("test-filter-named-inputs.txt"),
+    {
+      capture_error_msg(filter(mtcars, x = 1))
+      capture_error_msg(filter(mtcars, x = "A"))
+      capture_error_msg(filter(mtcars, x = 1 & y > 2))
+      capture_error_msg(filter(mtcars, x = 1, y > 2, z = 3))
+    }
   )
 })
 
