@@ -32,9 +32,10 @@ print.src <- function(x, ...) {
 #' possible results will be.
 #'
 #' @param x a data src.
+#' @param ... other arguments passed on to the individual methods.
 #' @export
 #' @keywords internal
-src_tbls <- function(x) {
+src_tbls <- function(x, ...) {
   UseMethod("src_tbls")
 }
 
