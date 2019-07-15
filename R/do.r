@@ -2,6 +2,9 @@
 #'
 #' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
 #'
+#' `do()` is marked as questioning as of dplyr 0.8.0, and may be advantageously
+#' replaced by [group_modify()].
+#'
 #' @description This is a general purpose complement to the specialised
 #' manipulation functions [filter()], [select()], [mutate()],
 #' [summarise()] and [arrange()]. You can use `do()`
@@ -14,11 +17,6 @@
 #' For an empty data frame, the expressions will be evaluated once, even in the
 #' presence of a grouping.  This makes sure that the format of the resulting
 #' data frame is the same for both empty and non-empty input.
-#'
-#' @section Alternative:
-#'
-#' `do()` is marked as questioning as of dplyr 0.8.0, and may be advantageously
-#' replaced by [group_map()].
 #'
 #' @section Connection to plyr:
 #'

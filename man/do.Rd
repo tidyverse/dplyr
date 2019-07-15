@@ -43,14 +43,10 @@ data frame is the same for both empty and non-empty input.
 }
 \details{
 \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("questioning")}
-}
-\section{Alternative}{
-
 
 \code{do()} is marked as questioning as of dplyr 0.8.0, and may be advantageously
-replaced by \code{\link[=group_map]{group_map()}}.
+replaced by \code{\link[=group_modify]{group_modify()}}.
 }
-
 \section{Connection to plyr}{
 
 

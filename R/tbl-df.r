@@ -49,7 +49,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
   if (any(have_name(dots))) {
     bad <- dots[have_name(dots)]
-    bad_eq_ops(bad, "must not be named, do you need `==`?")
+    bad_eq_ops(bad, "Filter specifications must not be named")
   } else if (is_empty(dots)) {
     return(.data)
   }
