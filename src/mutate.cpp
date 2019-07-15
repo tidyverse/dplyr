@@ -252,7 +252,7 @@ public:
   ) :
     gdf(gdf_), proxy(proxy_), first_non_na(first_non_na_), name(name_)
   {
-    coll = collecter(first, gdf.nrows());
+    coll = collecter(first, gdf.nrows(), name);
     if (first_non_na < gdf.ngroups())
       grab(first, indices);
   }
@@ -303,7 +303,7 @@ private:
       coll->collect(indices, subset);
     } else if (coll->can_promote(subset)) {
       // setup a new Collecter
-      Collecter* new_collecter = promote_collecter(subset, gdf.nrows(), coll);
+      Collecter* new_collecter = promote_collecter(subset, gdf.nrows(), coll, name);
 
       // import data from previous collecter.
       new_collecter->collect(NaturalSlicingIndex(gdf.nrows()), coll->get());
@@ -315,7 +315,7 @@ private:
       delete coll;
       coll = new_collecter;
     } else if (coll->is_logical_all_na()) {
-      Collecter* new_collecter = collecter(subset, gdf.nrows());
+      Collecter* new_collecter = collecter(subset, gdf.nrows(), name);
       new_collecter->collect(indices, subset);
       delete coll;
       coll = new_collecter;

@@ -167,10 +167,15 @@ protected:
 
 };
 
+inline void warning_with_column(std::string msg, const SymbolString& name) {
+  std::string warning(name.is_empty() ? msg : tfm::format("Column `%s`: %s", name.get_utf8_cstring().c_str(), msg.c_str()));
+  Rf_warning(warning.c_str());
+}
+
 template <>
 class Collecter_Impl<STRSXP> : public Collecter {
 public:
-  Collecter_Impl(int n_): data(n_, NA_STRING) {}
+  Collecter_Impl(int n_, bool already_warned_, const SymbolString& name_): data(n_, NA_STRING), already_warned(already_warned_), name(name_) {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     warn_loss_attr(v);
@@ -204,6 +209,8 @@ public:
 
 protected:
   Rcpp::CharacterVector data;
+  bool already_warned;
+  const SymbolString& name;
 
 private:
 
@@ -226,7 +233,10 @@ private:
   void collect_factor(const SlicingIndex& index, Rcpp::IntegerVector source,
                       int offset = 0) {
     Rcpp::CharacterVector levels = get_levels(source);
-    Rf_warning("binding character and factor vector, coercing into character vector");
+    if (!already_warned) {
+      warning_with_column("binding character and factor vector, coercing into character vector", name);
+      already_warned = true;
+    }
     for (int i = 0; i < index.size(); i++) {
       if (source[i] == NA_INTEGER) {
         data[index[i]] = NA_STRING;
@@ -632,7 +642,7 @@ inline bool Collecter_Impl<LGLSXP>::can_promote(SEXP) const {
   return is_logical_all_na();
 }
 
-inline Collecter* collecter(SEXP model, int n) {
+inline Collecter* collecter(SEXP model, int n, const SymbolString& name) {
   switch (TYPEOF(model)) {
   case INTSXP:
     if (Rf_inherits(model, "POSIXct"))
@@ -661,7 +671,7 @@ inline Collecter* collecter(SEXP model, int n) {
   case LGLSXP:
     return new Collecter_Impl<LGLSXP>(n);
   case STRSXP:
-    return new Collecter_Impl<STRSXP>(n);
+    return new Collecter_Impl<STRSXP>(n, false, name);
   case VECSXP:
     if (Rf_inherits(model, "POSIXlt")) {
       Rcpp::stop("POSIXlt not supported");
@@ -679,19 +689,19 @@ inline Collecter* collecter(SEXP model, int n) {
   Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
 }
 
-inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
+inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous, const SymbolString& name) {
   // handle the case where the previous collecter was a
   // Factor collecter and model is a factor. when this occurs, we need to
   // return a Collecter_Impl<STRSXP> because the factors don't have the
   // same levels
   if (Rf_inherits(model, "factor") && previous->is_factor_collecter()) {
-    Rf_warning("Unequal factor levels: coercing to character");
-    return new Collecter_Impl<STRSXP>(n);
+    warning_with_column("Unequal factor levels: coercing to character", name);
+    return new Collecter_Impl<STRSXP>(n, true, name);
   }
 
   // logical NA can be promoted to whatever type comes next
   if (previous->is_logical_all_na()) {
-    return collecter(model, n);
+    return collecter(model, n, name);
   }
 
   switch (TYPEOF(model)) {
@@ -699,7 +709,7 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
     if (Rf_inherits(model, "Date"))
       return new TypedCollecter<INTSXP>(n, get_date_classes());
     if (Rf_inherits(model, "factor"))
-      return new Collecter_Impl<STRSXP>(n);
+      return new Collecter_Impl<STRSXP>(n, false, name);
     return new Collecter_Impl<INTSXP>(n);
   case REALSXP:
     if (Rf_inherits(model, "POSIXct"))
@@ -712,13 +722,19 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
   case LGLSXP:
     return new Collecter_Impl<LGLSXP>(n);
   case STRSXP:
-    if (previous->is_factor_collecter())
-      Rf_warning("binding factor and character vector, coercing into character vector");
-    return new Collecter_Impl<STRSXP>(n);
+    if (previous->is_factor_collecter()) {
+      warning_with_column("binding factor and character vector, coercing into character vector", name);
+    }
+    return new Collecter_Impl<STRSXP>(n, true, name);
   default:
     break;
   }
   Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
+}
+
+inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
+  SymbolString empty_name;
+  return promote_collecter(model, n, previous, empty_name);
 }
 
 }

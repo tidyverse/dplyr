@@ -199,7 +199,7 @@ Rcpp::List rbind__impl(Rcpp::List dots, const dplyr::SymbolString& id) {
         }
       }
       if (!coll) {
-        coll = collecter(source, n);
+        coll = collecter(source, n, name);
         columns.push_back(coll);
         names.push_back(name);
       }
@@ -208,7 +208,7 @@ Rcpp::List rbind__impl(Rcpp::List dots, const dplyr::SymbolString& id) {
         coll->collect(OffsetSlicingIndex(k, nrows), source, offset);
       } else if (coll->can_promote(source)) {
         // setup a new Collecter
-        Collecter* new_collecter = promote_collecter(source, n, coll);
+        Collecter* new_collecter = promote_collecter(source, n, coll, name);
 
         // import data from this chunk
         new_collecter->collect(OffsetSlicingIndex(k, nrows), source, offset);
@@ -224,7 +224,7 @@ Rcpp::List rbind__impl(Rcpp::List dots, const dplyr::SymbolString& id) {
         // do nothing, the collecter already initialized data with the
         // right NA
       } else if (coll->is_logical_all_na()) {
-        Collecter* new_collecter = collecter(source, n);
+        Collecter* new_collecter = collecter(source, n, name);
         new_collecter->collect(OffsetSlicingIndex(k, nrows), source, offset);
         delete coll;
         columns[index] = new_collecter;
@@ -439,7 +439,8 @@ SEXP combine_all(Rcpp::List data) {
   if (i == nv) return Rcpp::LogicalVector();
 
   // collect
-  boost::scoped_ptr<dplyr::Collecter> coll(dplyr::collecter(data[i], n));
+  dplyr::SymbolString name;
+  boost::scoped_ptr<dplyr::Collecter> coll(dplyr::collecter(data[i], n, name));
   int k = Rf_length(data[i]);
   coll->collect(NaturalSlicingIndex(k), data[i]);
   i++;
