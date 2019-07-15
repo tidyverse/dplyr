@@ -2,8 +2,6 @@
 % Please edit documentation in R/bind.r
 \name{bind}
 \alias{bind}
-\alias{rbind_all}
-\alias{rbind_list}
 \alias{bind_rows}
 \alias{bind_cols}
 \title{Efficiently bind multiple data frames by row and column}
