@@ -11,54 +11,6 @@ df_var <- data.frame(
   stringsAsFactors = FALSE
 )
 
-test_that("rbind_list works on key types", {
-  exp <- tbl_df(rbind(df_var, df_var, df_var))
-  expect_equal(
-    rbind_list_warn(df_var, df_var, df_var),
-    exp
-  )
-})
-
-
-
-test_that("rbind handles NULL", {
-  x <- cbind(a = 1:10, b = 1:10)
-  y <- data.frame(x)
-  res <- rbind_all_warn(list(y, y, NULL, y))
-  expect_equal(nrow(res), 30L)
-})
-
-
-
-test_that("Collecter_Impl<REALSXP> can collect INTSXP. #321", {
-  res <- rbind_list_warn(data.frame(x = 0.5), data.frame(x = 1:3))
-  expect_equal(res$x, c(0.5, 1:3))
-})
-
-test_that("Collecter_Impl<INTSXP> can collect LGLSXP. #321", {
-  res <- rbind_list_warn(data.frame(x = 1:3), data.frame(x = NA))
-  expect_equal(res$x, c(1:3, NA))
-})
-
-
-test_that("rbind handles all NA columns (#493)", {
-  mydata <- list(
-    data.frame(x = c("foo", "bar")),
-    data.frame(x = NA)
-  )
-  res <- rbind_all_warn(mydata)
-  expect_true(is.na(res$x[3]))
-  expect_is(res$x, "factor")
-
-  mydata <- list(
-    data.frame(x = NA),
-    data.frame(x = c("foo", "bar"))
-  )
-  res <- rbind_all_warn(mydata)
-  expect_true(is.na(res$x[1]))
-  expect_is(res$x, "factor")
-})
-
 test_that("bind_rows handles complex. #933", {
   df1 <- data.frame(r = c(1 + 1i, 2 - 1i))
   df2 <- data.frame(r = c(1 - 1i, 2 + 1i))
