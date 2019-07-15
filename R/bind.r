@@ -7,10 +7,6 @@
 #' The output of `bind_rows()` will contain a column if that column
 #' appears in any of the inputs.
 #'
-#' @section Deprecated functions:
-#' `rbind_list()` and `rbind_all()` have been deprecated. Instead use
-#' `bind_rows()`.
-#'
 #' @param ... Data frames to combine.
 #'
 #'   Each argument can either be a data frame, a list that could be a data
@@ -32,7 +28,6 @@
 #'   used instead.
 #' @return `bind_rows()` and `bind_cols()` return the same type as
 #'   the first input, either a data frame, `tbl_df`, or `grouped_df`.
-#' @aliases rbind_all rbind_list
 #' @examples
 #' one <- mtcars[1:4, ]
 #' two <- mtcars[11:14, ]
