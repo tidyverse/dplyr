@@ -45,12 +45,6 @@ data frames into one.
 The output of \code{bind_rows()} will contain a column if that column
 appears in any of the inputs.
 }
-\section{Deprecated functions}{
-
-\code{rbind_list()} and \code{rbind_all()} have been deprecated. Instead use
-\code{bind_rows()}.
-}
-
 \examples{
 one <- mtcars[1:4, ]
 two <- mtcars[11:14, ]

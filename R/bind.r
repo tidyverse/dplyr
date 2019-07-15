@@ -7,10 +7,6 @@
 #' The output of `bind_rows()` will contain a column if that column
 #' appears in any of the inputs.
 #'
-#' @section Deprecated functions:
-#' `rbind_list()` and `rbind_all()` have been deprecated. Instead use
-#' `bind_rows()`.
-#'
 #' @param ... Data frames to combine.
 #'
 #'   Each argument can either be a data frame, a list that could be a data
