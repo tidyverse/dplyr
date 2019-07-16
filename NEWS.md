@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* Improved errors and warnings in `bind_rows()` (#4489). 
+
 * `rbind_all()` and `rbind_list()` have been removed (@bjungbogati, #4433).
 
 * `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).

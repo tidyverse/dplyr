@@ -452,7 +452,7 @@ SEXP combine_all(Rcpp::List data) {
     if (coll->compatible(current)) {
       coll->collect(OffsetSlicingIndex(k, n_current), current);
     } else if (coll->can_promote(current)) {
-      dplyr::Collecter* new_coll = promote_collecter(current, n, coll.get());
+      dplyr::Collecter* new_coll = promote_collecter(current, n, coll.get(), name);
       new_coll->collect(OffsetSlicingIndex(k, n_current), current);
       new_coll->collect(NaturalSlicingIndex(k), coll->get());
       coll.reset(new_coll);

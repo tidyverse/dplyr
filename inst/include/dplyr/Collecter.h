@@ -44,20 +44,13 @@ static bool is_class_known(SEXP x) {
   }
 }
 
-static inline void warn_loss_attr(SEXP x) {
-  /* Attributes are lost with unknown classes */
-  if (!is_class_known(x)) {
-    Rf_warning("Vectorizing '%s' elements may not preserve their attributes",
-               CHAR(STRING_ELT(Rf_getAttrib(x, R_ClassSymbol), 0)));
-  }
-}
-
 static inline bool all_logical_na(SEXP x, SEXPTYPE xtype) {
   return LGLSXP == xtype && all_na(x);
 }
 
 class Collecter {
 public:
+  Collecter(const SymbolString& name_) : name(name_) {}
   virtual ~Collecter() {};
   virtual void collect(const SlicingIndex& index, SEXP v, int offset = 0) = 0;
   virtual SEXP get() = 0;
@@ -70,14 +63,50 @@ public:
     return false;
   }
   virtual std::string describe() const = 0;
+
+  inline void Warn(std::string msg) {
+    Rf_warning(improve_message(msg, name).c_str());
+  }
+
+  inline void Stop(std::string msg) {
+    Rcpp::stop(improve_message(msg, name).c_str());
+  }
+
+  static std::string improve_message(std::string msg, const SymbolString& name) {
+    if (!name.is_empty()) {
+      msg = tfm::format("Column `%s`: %s", name.get_utf8_cstring().c_str(), msg.c_str());
+    }
+    return msg;
+  }
+
+  inline const SymbolString& get_column_name() const {
+    return name;
+  }
+
+private:
+  const SymbolString& name;
+
 };
+
+static inline void warn_loss_attr(SEXP x, const SymbolString& name) {
+  /* Attributes are lost with unknown classes */
+  if (!is_class_known(x)) {
+    Rf_warning(Collecter::improve_message(
+                 tfm::format("Vectorizing '%s' elements may not preserve their attributes", CHAR(STRING_ELT(Rf_getAttrib(x, R_ClassSymbol), 0))),
+                 name
+               ).c_str());
+  }
+}
 
 template <int RTYPE>
 class Collecter_Impl : public Collecter {
 public:
   typedef typename Rcpp::traits::storage_type<RTYPE>::type STORAGE;
 
-  Collecter_Impl(int n_): data(n_, Rcpp::traits::get_na<RTYPE>()) {}
+  Collecter_Impl(const SymbolString& name_, int n_):
+    Collecter(name_),
+    data(n_, Rcpp::traits::get_na<RTYPE>())
+  {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     if (all_logical_na(v, TYPEOF(v))) {
@@ -118,7 +147,7 @@ private:
   }
 
   void collect_sexp(const SlicingIndex& index, SEXP v, int offset = 0) {
-    warn_loss_attr(v);
+    warn_loss_attr(v, get_column_name());
     Rcpp::Vector<RTYPE> source(v);
     STORAGE* source_ptr = Rcpp::internal::r_vector_start<RTYPE>(source);
     source_ptr = source_ptr + offset;
@@ -132,10 +161,13 @@ private:
 template <>
 class Collecter_Impl<REALSXP> : public Collecter {
 public:
-  Collecter_Impl(int n_): data(n_, NA_REAL) {}
+  Collecter_Impl(const SymbolString& name_, int n_):
+    Collecter(name_),
+    data(n_, NA_REAL)
+  {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
-    warn_loss_attr(v);
+    warn_loss_attr(v, get_column_name());
     Rcpp::NumericVector source(v);
     double* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
@@ -167,18 +199,17 @@ protected:
 
 };
 
-inline void warning_with_column(std::string msg, const SymbolString& name) {
-  std::string warning(name.is_empty() ? msg : tfm::format("Column `%s`: %s", name.get_utf8_cstring().c_str(), msg.c_str()));
-  Rf_warning(warning.c_str());
-}
-
 template <>
 class Collecter_Impl<STRSXP> : public Collecter {
 public:
-  Collecter_Impl(int n_, bool already_warned_, const SymbolString& name_): data(n_, NA_STRING), already_warned(already_warned_), name(name_) {}
+  Collecter_Impl(const SymbolString& name_, int n_, bool already_warned_):
+    Collecter(name_),
+    data(n_, NA_STRING),
+    already_warned(already_warned_)
+  {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
-    warn_loss_attr(v);
+    warn_loss_attr(v, get_column_name());
     if (TYPEOF(v) == STRSXP) {
       collect_strings(index, v, offset);
     } else if (Rf_inherits(v, "factor")) {
@@ -210,7 +241,6 @@ public:
 protected:
   Rcpp::CharacterVector data;
   bool already_warned;
-  const SymbolString& name;
 
 private:
 
@@ -234,7 +264,7 @@ private:
                       int offset = 0) {
     Rcpp::CharacterVector levels = get_levels(source);
     if (!already_warned) {
-      warning_with_column("binding character and factor vector, coercing into character vector", name);
+      Warn("binding character and factor vector, coercing into character vector");
       already_warned = true;
     }
     for (int i = 0; i < index.size(); i++) {
@@ -251,10 +281,10 @@ private:
 template <>
 class Collecter_Impl<INTSXP> : public Collecter {
 public:
-  Collecter_Impl(int n_): data(n_, NA_INTEGER) {}
+  Collecter_Impl(const SymbolString& name_, int n_): Collecter(name_), data(n_, NA_INTEGER) {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
-    warn_loss_attr(v);
+    warn_loss_attr(v, get_column_name());
     Rcpp::IntegerVector source(v);
     int* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
@@ -287,10 +317,13 @@ protected:
 template <>
 class Collecter_Impl<RAWSXP> : public Collecter {
 public:
-  Collecter_Impl(int n_): data(n_, (Rbyte)0) {}
+  Collecter_Impl(const SymbolString& name_, int n_):
+    Collecter(name_),
+    data(n_, (Rbyte)0)
+  {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
-    warn_loss_attr(v);
+    warn_loss_attr(v, get_column_name());
     Rcpp::RawVector source(v);
     Rbyte* source_ptr = source.begin() + offset;
     for (int i = 0; i < index.size(); i++) {
@@ -327,8 +360,10 @@ protected:
 template <int RTYPE>
 class TypedCollecter : public Collecter_Impl<RTYPE> {
 public:
-  TypedCollecter(int n, SEXP types_) :
-    Collecter_Impl<RTYPE>(n), types(types_) {}
+  TypedCollecter(const SymbolString& name_, int n, SEXP types_) :
+    Collecter_Impl<RTYPE>(name_, n),
+    types(types_)
+  {}
 
   inline SEXP get() {
     Rcpp::Vector<RTYPE> data = Collecter_Impl<RTYPE>::data;
@@ -357,8 +392,10 @@ class POSIXctCollecter : public Collecter_Impl<REALSXP> {
 public:
   typedef Collecter_Impl<REALSXP> Parent;
 
-  POSIXctCollecter(int n, SEXP tz_) :
-    Parent(n), tz(tz_) {}
+  POSIXctCollecter(const SymbolString& name_, int n, SEXP tz_) :
+    Parent(name_, n),
+    tz(tz_)
+  {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     if (Rf_inherits(v, "POSIXct")) {
@@ -415,8 +452,11 @@ class DifftimeCollecter : public Collecter_Impl<REALSXP> {
 public:
   typedef Collecter_Impl<REALSXP> Parent;
 
-  DifftimeCollecter(int n, std::string units_, SEXP types_) :
-    Parent(n), units(units_), types(types_) {}
+  DifftimeCollecter(const SymbolString& name_, int n, std::string units_, SEXP types_) :
+    Parent(name_, n),
+    units(units_),
+    types(types_)
+  {}
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
     if (Rf_inherits(v, "difftime")) {
@@ -463,7 +503,7 @@ private:
 
   void collect_difftime(const SlicingIndex& index, Rcpp::RObject v, int offset = 0) {
     if (!is_valid_difftime(v)) {
-      Rcpp::stop("Invalid difftime object");
+      Stop("Invalid difftime object");
     }
     Rcpp::Shield<SEXP> units_attr(Rf_getAttrib(v, symbols::units));
     std::string v_units = Rcpp::as<std::string>(units_attr);
@@ -481,16 +521,16 @@ private:
         // If units are different convert the existing data and the new vector
         // to seconds (following the convention on
         // r-source/src/library/base/R/datetime.R)
-        double factor_data = get_units_map().time_conversion_factor(units);
+        double factor_data = get_units_map().time_conversion_factor(units, get_column_name());
         if (factor_data != 1.0) {
           for (int i = 0; i < Parent::data.size(); i++) {
             Parent::data[i] = factor_data * Parent::data[i];
           }
         }
         units = "secs";
-        double factor_v = get_units_map().time_conversion_factor(v_units);
+        double factor_v = get_units_map().time_conversion_factor(v_units, get_column_name());
         if (Rf_length(v) < index.size()) {
-          Rcpp::stop("Wrong size of vector to collect");
+          Stop("Wrong size of vector to collect");
         }
         for (int i = 0; i < index.size(); i++) {
           Parent::data[index[i]] = factor_v * (REAL(v)[i + offset]);
@@ -527,10 +567,10 @@ private:
       return (valid_units.find(x_units) != valid_units.end());
     }
 
-    double time_conversion_factor(const std::string& v_units) const {
+    double time_conversion_factor(const std::string& v_units, const SymbolString& name) const {
       units_map::const_iterator it = valid_units.find(v_units);
       if (it == valid_units.end()) {
-        Rcpp::stop("Invalid difftime units (%s).", v_units.c_str());
+        Rcpp::stop(Collecter::improve_message(tfm::format("Invalid difftime units (%s).", v_units.c_str()), name).c_str());
       }
 
       return it->second;
@@ -553,7 +593,8 @@ class FactorCollecter : public Collecter {
 public:
   typedef dplyr_hash_map<SEXP, int> LevelsMap;
 
-  FactorCollecter(int n, SEXP model_):
+  FactorCollecter(const SymbolString& name_, int n, SEXP model_):
+    Collecter(name_),
     data(n, Rcpp::IntegerVector::get_na()),
     model(model_),
     levels(get_levels(model_)),
@@ -568,7 +609,7 @@ public:
   }
 
   void collect(const SlicingIndex& index, SEXP v, int offset = 0) {
-    if (offset != 0) Rcpp::stop("Nonzero offset ot supported by FactorCollecter");
+    if (offset != 0) Stop("Nonzero offset ot supported by FactorCollecter");
     if (Rf_inherits(v, "factor") && has_same_levels_as(v)) {
       collect_factor(index, v);
     } else if (all_logical_na(v, TYPEOF(v))) {
@@ -646,47 +687,50 @@ inline Collecter* collecter(SEXP model, int n, const SymbolString& name) {
   switch (TYPEOF(model)) {
   case INTSXP:
     if (Rf_inherits(model, "POSIXct"))
-      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols::tzone));
+      return new POSIXctCollecter(name, n, Rf_getAttrib(model, symbols::tzone));
     if (Rf_inherits(model, "factor"))
-      return new FactorCollecter(n, model);
+      return new FactorCollecter(name, n, model);
     if (Rf_inherits(model, "Date"))
-      return new TypedCollecter<INTSXP>(n, get_date_classes());
-    return new Collecter_Impl<INTSXP>(n);
+      return new TypedCollecter<INTSXP>(name, n, get_date_classes());
+    return new Collecter_Impl<INTSXP>(name, n);
   case REALSXP:
     if (Rf_inherits(model, "POSIXct"))
-      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols::tzone));
+      return new POSIXctCollecter(name, n, Rf_getAttrib(model, symbols::tzone));
     if (Rf_inherits(model, "difftime"))
-      return
-        new DifftimeCollecter(
-          n,
-          Rcpp::as<std::string>(Rf_getAttrib(model, symbols::units)),
-          Rf_getAttrib(model, R_ClassSymbol));
+      return new DifftimeCollecter(
+               name,
+               n,
+               Rcpp::as<std::string>(Rf_getAttrib(model, symbols::units)),
+               Rf_getAttrib(model, R_ClassSymbol)
+             );
     if (Rf_inherits(model, "Date"))
-      return new TypedCollecter<REALSXP>(n, get_date_classes());
+      return new TypedCollecter<REALSXP>(name, n, get_date_classes());
     if (Rf_inherits(model, "integer64"))
-      return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
-    return new Collecter_Impl<REALSXP>(n);
+      return new TypedCollecter<REALSXP>(name, n, Rcpp::CharacterVector::create("integer64"));
+    return new Collecter_Impl<REALSXP>(name, n);
   case CPLXSXP:
-    return new Collecter_Impl<CPLXSXP>(n);
+    return new Collecter_Impl<CPLXSXP>(name, n);
   case LGLSXP:
-    return new Collecter_Impl<LGLSXP>(n);
+    return new Collecter_Impl<LGLSXP>(name, n);
   case STRSXP:
-    return new Collecter_Impl<STRSXP>(n, false, name);
+    return new Collecter_Impl<STRSXP>(name, n, false);
   case VECSXP:
     if (Rf_inherits(model, "POSIXlt")) {
-      Rcpp::stop("POSIXlt not supported");
+      Rcpp::stop(Collecter::improve_message("POSIXlt not supported", name));
     }
     if (Rf_inherits(model, "data.frame")) {
-      Rcpp::stop("Columns of class data.frame not supported");
+      Rcpp::stop(Collecter::improve_message("Columns of class data.frame not supported", name));
     }
-    return new Collecter_Impl<VECSXP>(n);
+    return new Collecter_Impl<VECSXP>(name, n);
   case RAWSXP:
-    return new Collecter_Impl<RAWSXP>(n);
+    return new Collecter_Impl<RAWSXP>(name, n);
   default:
     break;
   }
 
-  Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
+  Rcpp::stop(
+    Collecter::improve_message(tfm::format("is of unsupported type %s", Rf_type2char(TYPEOF(model))), name)
+  );
 }
 
 inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous, const SymbolString& name) {
@@ -695,8 +739,8 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous, cons
   // return a Collecter_Impl<STRSXP> because the factors don't have the
   // same levels
   if (Rf_inherits(model, "factor") && previous->is_factor_collecter()) {
-    warning_with_column("Unequal factor levels: coercing to character", name);
-    return new Collecter_Impl<STRSXP>(n, true, name);
+    Rf_warning(Collecter::improve_message("Unequal factor levels: coercing to character", name).c_str());
+    return new Collecter_Impl<STRSXP>(name, n, true);
   }
 
   // logical NA can be promoted to whatever type comes next
@@ -707,34 +751,32 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous, cons
   switch (TYPEOF(model)) {
   case INTSXP:
     if (Rf_inherits(model, "Date"))
-      return new TypedCollecter<INTSXP>(n, get_date_classes());
+      return new TypedCollecter<INTSXP>(name, n, get_date_classes());
     if (Rf_inherits(model, "factor"))
-      return new Collecter_Impl<STRSXP>(n, false, name);
-    return new Collecter_Impl<INTSXP>(n);
+      return new Collecter_Impl<STRSXP>(name, n, false);
+    return new Collecter_Impl<INTSXP>(name, n);
   case REALSXP:
     if (Rf_inherits(model, "POSIXct"))
-      return new POSIXctCollecter(n, Rf_getAttrib(model, symbols::tzone));
+      return new POSIXctCollecter(name, n, Rf_getAttrib(model, symbols::tzone));
     if (Rf_inherits(model, "Date"))
-      return new TypedCollecter<REALSXP>(n, get_date_classes());
+      return new TypedCollecter<REALSXP>(name, n, get_date_classes());
     if (Rf_inherits(model, "integer64"))
-      return new TypedCollecter<REALSXP>(n, Rcpp::CharacterVector::create("integer64"));
-    return new Collecter_Impl<REALSXP>(n);
+      return new TypedCollecter<REALSXP>(name, n, Rcpp::CharacterVector::create("integer64"));
+    return new Collecter_Impl<REALSXP>(name, n);
   case LGLSXP:
-    return new Collecter_Impl<LGLSXP>(n);
+    return new Collecter_Impl<LGLSXP>(name, n);
   case STRSXP:
     if (previous->is_factor_collecter()) {
-      warning_with_column("binding factor and character vector, coercing into character vector", name);
+      Rf_warning(Collecter::improve_message("binding factor and character vector, coercing into character vector", name).c_str());
     }
-    return new Collecter_Impl<STRSXP>(n, true, name);
+    return new Collecter_Impl<STRSXP>(name, n, true);
   default:
     break;
   }
-  Rcpp::stop("is of unsupported type %s", Rf_type2char(TYPEOF(model)));
-}
-
-inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous) {
-  SymbolString empty_name;
-  return promote_collecter(model, n, previous, empty_name);
+  Rcpp::stop(Collecter::improve_message(
+               tfm::format("is of unsupported type %s", Rf_type2char(TYPEOF(model))),
+               name
+             ));
 }
 
 }
