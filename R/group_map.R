@@ -176,5 +176,5 @@ group_modify.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
 #' @rdname group_map
 group_walk <- function(.tbl, .f, ...) {
   group_map(.tbl, .f, ...)
-  .tbl
+  invisible(.tbl)
 }
