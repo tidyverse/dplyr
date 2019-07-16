@@ -65,7 +65,7 @@ public:
   virtual std::string describe() const = 0;
 
   inline void Warn(std::string msg) {
-    Rf_warning(improve_message(msg, name).c_str());
+    Rf_warningcall(R_NilValue, improve_message(msg, name).c_str());
   }
 
   inline void Stop(std::string msg) {
@@ -91,10 +91,10 @@ private:
 static inline void warn_loss_attr(SEXP x, const SymbolString& name) {
   /* Attributes are lost with unknown classes */
   if (!is_class_known(x)) {
-    Rf_warning(Collecter::improve_message(
-                 tfm::format("Vectorizing '%s' elements may not preserve their attributes", CHAR(STRING_ELT(Rf_getAttrib(x, R_ClassSymbol), 0))),
-                 name
-               ).c_str());
+    Rf_warningcall(R_NilValue, Collecter::improve_message(
+                     tfm::format("Vectorizing '%s' elements may not preserve their attributes", CHAR(STRING_ELT(Rf_getAttrib(x, R_ClassSymbol), 0))),
+                     name
+                   ).c_str());
   }
 }
 
@@ -739,7 +739,7 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous, cons
   // return a Collecter_Impl<STRSXP> because the factors don't have the
   // same levels
   if (Rf_inherits(model, "factor") && previous->is_factor_collecter()) {
-    Rf_warning(Collecter::improve_message("Unequal factor levels: coercing to character", name).c_str());
+    Rf_warningcall(R_NilValue, Collecter::improve_message("Unequal factor levels: coercing to character", name).c_str());
     return new Collecter_Impl<STRSXP>(name, n, true);
   }
 
@@ -767,7 +767,7 @@ inline Collecter* promote_collecter(SEXP model, int n, Collecter* previous, cons
     return new Collecter_Impl<LGLSXP>(name, n);
   case STRSXP:
     if (previous->is_factor_collecter()) {
-      Rf_warning(Collecter::improve_message("binding factor and character vector, coercing into character vector", name).c_str());
+      Rf_warningcall(R_NilValue, Collecter::improve_message("binding factor and character vector, coercing into character vector", name).c_str());
     }
     return new Collecter_Impl<STRSXP>(name, n, true);
   default:
