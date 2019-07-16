@@ -376,21 +376,8 @@ column, consistently with <code><a href='group_split.html'>group_keys()</a></cod
 <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/files2'>dir.create</a></span>(<span class='no'>temp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempfile</a></span>())
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_walk</span>(~ <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/write.table'>write.csv</a></span>(<span class='no'>.x</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='no'>temp</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='no'>.y</span>$<span class='no'>Species</span>, <span class='st'>".csv"</span>))))</div><div class='output co'>#&gt; # A tibble: 150 x 5
-#&gt; # Groups:   Species [3]
-#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
-#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
-#&gt;  1          5.1         3.5          1.4         0.2 setosa 
-#&gt;  2          4.9         3            1.4         0.2 setosa 
-#&gt;  3          4.7         3.2          1.3         0.2 setosa 
-#&gt;  4          4.6         3.1          1.5         0.2 setosa 
-#&gt;  5          5           3.6          1.4         0.2 setosa 
-#&gt;  6          5.4         3.9          1.7         0.4 setosa 
-#&gt;  7          4.6         3.4          1.4         0.3 setosa 
-#&gt;  8          5           3.4          1.5         0.2 setosa 
-#&gt;  9          4.4         2.9          1.4         0.2 setosa 
-#&gt; 10          4.9         3.1          1.5         0.1 setosa 
-#&gt; # … with 140 more rows</div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='no'>temp</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"csv$"</span>)</div><div class='output co'>#&gt; [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlink'>unlink</a></span>(<span class='no'>temp</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+  <span class='fu'>group_walk</span>(~ <span class='fu'><a href='https://www.rdocumentation.org/packages/utils/topics/write.table'>write.csv</a></span>(<span class='no'>.x</span>, <span class='kw'>file</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/file.path'>file.path</a></span>(<span class='no'>temp</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/paste'>paste0</a></span>(<span class='no'>.y</span>$<span class='no'>Species</span>, <span class='st'>".csv"</span>))))
+<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list.files'>list.files</a></span>(<span class='no'>temp</span>, <span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"csv$"</span>)</div><div class='output co'>#&gt; [1] "setosa.csv"     "versicolor.csv" "virginica.csv" </div><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/unlink'>unlink</a></span>(<span class='no'>temp</span>, <span class='kw'>recursive</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 
 <span class='co'># group_modify() and ungrouped data frames</span>
 <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span>
