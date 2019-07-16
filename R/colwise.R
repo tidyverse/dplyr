@@ -205,7 +205,7 @@ tbl_if_vars <- function(.tbl, .p, .env, ..., .include_group_vars = FALSE) {
 
   for (i in seq_len(n)) {
     column <- .tbl[[tibble_vars[[i]]]]
-    selected[[i]] <- eval_tidy(.p(column, ...))
+    selected[[i]] <- isTRUE(eval_tidy(.p(column, ...)))
   }
 
   tibble_vars[selected]

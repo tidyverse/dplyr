@@ -199,3 +199,11 @@ test_that("rename_all/at() call the function with simple character vector (#4459
   out <- rename_at(mtcars, vars(everything()), fun)
   expect_equal(names(out)[1L], 'fuel_efficiency')
 })
+
+test_that("select_if() discards the column when predicate gives NA (#4486)", {
+  out <- tibble(mycol=c("","",NA)) %>% select_if(~!all(.==""))
+  expect_identical(
+    out,
+    tibble::new_tibble(list(), nrow = 3L)
+  )
+})
