@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
+
 * `rbind_all()` and `rbind_list()` have been removed (@bjungbogati, #4433).
 
 * `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
