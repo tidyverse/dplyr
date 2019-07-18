@@ -91,7 +91,7 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 mutate.tbl_df <- function(.data, ...) {
   dots <- enquos(..., .named = TRUE)
   out <- mutate_impl(.data, dots, caller_env())
-  attrib(out, "row.names") <- attrib(.data, "row.names")
+  attr(out, "row.names") <- attr(.data, "row.names")
   out
 }
 #' @export
