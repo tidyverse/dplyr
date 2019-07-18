@@ -85,7 +85,7 @@ summarise_.data.frame <- function(.data, ..., .dots = list()) {
 
 #' @export
 mutate.data.frame <- function(.data, ...) {
-  as.data.frame(mutate(tbl_df(.data), ...))
+  as.data.frame(mutate(as_tibble(.data, rownames = NA), ...))
 }
 #' @export
 mutate_.data.frame <- function(.data, ..., .dots = list()) {
