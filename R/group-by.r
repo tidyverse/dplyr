@@ -262,6 +262,5 @@ bunch_by <- function(.data, ..., .drop = group_by_drop_default(.data)) {
     groups <- expand_groups(groups)
   }
 
-  groups
-  # new_grouped_df(.data, groups = structure(groups, .drop = .drop))
+  new_grouped_df(.data, groups = structure(groups, .drop = .drop))
 }

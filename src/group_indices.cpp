@@ -90,6 +90,32 @@ private:
   int index;
 };
 
+class ListExpander {
+public:
+  ListExpander(Rcpp::List& data_, const Rcpp::List& old_rows_):
+    data(data_),
+    old_rows(old_rows_),
+    empty(0),
+    index(0)
+  {}
+
+  int collect(const std::vector<int>& indices) {
+    if (indices.size() == 0) {
+      data[index] = empty;
+    } else {
+      data[index] = old_rows[indices[0]];
+    }
+
+    return index++;
+  }
+
+private:
+  Rcpp::List& data;
+  const Rcpp::List& old_rows;
+  Rcpp::IntegerVector empty;
+  int index;
+};
+
 template <int RTYPE>
 class CopyVectorVisitor {
 public:
@@ -142,6 +168,7 @@ public:
   virtual ~Slicer() {};
   virtual int size() = 0;
   virtual IntRange make(Rcpp::List& vec_groups, ListCollecter& indices_collecter) = 0;
+  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) = 0;
 };
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_, bool drop);
 
@@ -154,6 +181,10 @@ public:
   }
 
   virtual IntRange make(Rcpp::List& vec_groups, ListCollecter& indices_collecter) {
+    return IntRange(indices_collecter.collect(index_range), 1);
+  }
+
+  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) {
     return IntRange(indices_collecter.collect(index_range), 1);
   }
 
@@ -233,6 +264,32 @@ public:
 
     return groups_range;
   }
+
+  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) {
+    IntRange groups_range;
+    SEXP x = vec_groups[depth];
+
+    for (int i = 0; i < nlevels; i++) {
+      // collect the indices for that level
+      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
+
+      // fill the groups at these indices
+      std::fill_n(INTEGER(x) + idx.start, idx.size, levels[i]);
+    }
+
+    if (has_implicit_na) {
+      // collect the indices for the implicit NA pseudo group
+      IntRange idx = slicers[nlevels]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
+
+      // fill the groups at these indices
+      std::fill_n(INTEGER(x) + idx.start, idx.size, NA_INTEGER);
+    }
+
+    return groups_range;
+  }
+
 
   virtual ~FactorSlicer() {}
 
@@ -365,6 +422,23 @@ public:
 
     return groups_range;
   }
+
+  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) {
+    IntRange groups_range;
+    int nlevels = slicers.size();
+
+    for (int i = 0; i < nlevels; i++) {
+      // collect the indices for that level
+      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
+      groups_range.add(idx);
+
+      // fill the groups at these indices
+      copy_visit(idx, agents[i], vec_groups[depth], data[depth]);
+    }
+
+    return groups_range;
+  }
+
 
   virtual ~VectorSlicer() {}
 
@@ -700,17 +774,65 @@ Rcpp::DataFrame grouped_df_impl(Rcpp::DataFrame data, const dplyr::SymbolVector&
 
 // [[Rcpp::export(rng = false)]]
 Rcpp::DataFrame expand_groups(Rcpp::DataFrame old_groups) {
+  int nvars = old_groups.size() - 1;
+
+  // if there's no factors, there's no expansion
+  int n_factors = 0;
+  for (int i = 0; i < nvars; i++) {
+    n_factors += Rf_isFactor(old_groups[i]);
+  }
+  if (n_factors == 0) {
+    return old_groups;
+  }
+
+  SEXP names = Rf_getAttrib(old_groups, R_NamesSymbol);
+  Rcpp::List old_rows(old_groups[nvars]);
+  std::vector<SEXP> visited_data(nvars);
+  // construct the groups data
+  Rcpp::List vec_groups(nvars + 1);
+  Rcpp::CharacterVector groups_names(nvars + 1);
+
+  for (int i = 0; i < nvars; i++) {
+    groups_names[i] = STRING_ELT(names, i);
+    visited_data[i] = old_groups[i];
+  }
+  dplyr::DataFrameVisitors visitors(old_groups, nvars);
+
+  boost::shared_ptr<dplyr::Slicer> s = slicer(std::vector<int>(), 0, visited_data, visitors, false);
+  int ncases = s->size();
+  Rcpp::List indices(ncases);
+
+  for (int i = 0; i < nvars; i++) {
+    vec_groups[i] = Rf_allocVector(TYPEOF(visited_data[i]), ncases);
+    dplyr::copy_most_attributes(vec_groups[i], visited_data[i]);
+  }
+  dplyr::ListExpander indices_collecter(indices, old_rows);
+  if (ncases > 0) {
+    s->make(vec_groups, indices_collecter);
+  }
+
+  vec_groups[nvars] = indices;
+  groups_names[nvars] = ".rows";
+
+  // warn about NA in factors
+  for (int i = 0; i < nvars; i++) {
+    SEXP x = vec_groups[i];
+    if (Rf_isFactor(x)) {
+      Rcpp::IntegerVector xi(x);
+      if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
+        Rcpp::warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(groups_names[i].get())));
+      }
+    }
+  }
+
+  Rf_namesgets(vec_groups, groups_names);
+  dplyr::set_rownames(vec_groups, ncases);
+  Rf_classgets(vec_groups, dplyr::NaturalDataFrame::classes());
+  Rf_setAttrib(vec_groups, dplyr::symbols::dot_drop, Rf_ScalarLogical(false));
 
   // HERE
 
-  // keys <- grouped_df_impl(groups, head(names(groups), -1L), FALSE)
-  // old_rows <- groups$.rows
-  // new_rows <- map(group_rows(keys), function(index) if(length(index) == 1) old_rows[[index]] else integer(0))
-  //
-  // new_groups <- attr(keys, "groups")
-  // new_groups$.rows <- new_rows
-  // new_groups
-  return old_groups;
+  return vec_groups;
 }
 
 
