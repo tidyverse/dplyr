@@ -231,6 +231,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// expand_groups
+Rcpp::DataFrame expand_groups(Rcpp::DataFrame old_groups);
+RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type old_groups(old_groupsSEXP);
+    rcpp_result_gen = Rcpp::wrap(expand_groups(old_groups));
+    return rcpp_result_gen;
+END_RCPP
+}
 // group_data_grouped_df
 Rcpp::DataFrame group_data_grouped_df(Rcpp::DataFrame data);
 RcppExport SEXP _dplyr_group_data_grouped_df(SEXP dataSEXP) {
@@ -656,6 +666,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
     {"_dplyr_regroup", (DL_FUNC) &_dplyr_regroup, 2},
     {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
+    {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 1},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_group_split_impl", (DL_FUNC) &_dplyr_group_split_impl, 3},

@@ -27,7 +27,9 @@ Imports:
     rlang (>= 0.4.0),
     tibble (>= 2.0.0),
     tidyselect (>= 0.2.5),
-    utils
+    utils,
+    vctrs,
+    zeallot
 Suggests: 
     bit64,
     callr,

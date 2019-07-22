@@ -108,6 +108,10 @@ grouped_df_impl <- function(data, symbols, drop) {
     .Call(`_dplyr_grouped_df_impl`, data, symbols, drop)
 }
 
+expand_groups <- function(old_groups) {
+    .Call(`_dplyr_expand_groups`, old_groups)
+}
+
 group_data_grouped_df <- function(data) {
     .Call(`_dplyr_group_data_grouped_df`, data)
 }

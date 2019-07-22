@@ -699,6 +699,22 @@ Rcpp::DataFrame grouped_df_impl(Rcpp::DataFrame data, const dplyr::SymbolVector&
 }
 
 // [[Rcpp::export(rng = false)]]
+Rcpp::DataFrame expand_groups(Rcpp::DataFrame old_groups) {
+
+  // HERE
+
+  // keys <- grouped_df_impl(groups, head(names(groups), -1L), FALSE)
+  // old_rows <- groups$.rows
+  // new_rows <- map(group_rows(keys), function(index) if(length(index) == 1) old_rows[[index]] else integer(0))
+  //
+  // new_groups <- attr(keys, "groups")
+  // new_groups$.rows <- new_rows
+  // new_groups
+  return old_groups;
+}
+
+
+// [[Rcpp::export(rng = false)]]
 Rcpp::DataFrame group_data_grouped_df(Rcpp::DataFrame data) {
   return dplyr::GroupedDataFrame(data).group_data();
 }

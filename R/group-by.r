@@ -236,3 +236,32 @@ group_by_drop_default.grouped_df <- function(.tbl) {
     TRUE
   })
 }
+
+#' Alternative to [group_by()] using vctrs
+#'
+#' @param .data tibble
+#' @param ... selection of columns to group by
+#'
+#' @import vctrs
+#' @importFrom zeallot %<-%
+#' @export
+bunch_by <- function(.data, ..., .drop = group_by_drop_default(.data)) {
+  # only train the dictionary based on selected columns
+  grouping_variables <- select(.data, ...)
+  c(indices, rows) %<-% vctrs:::vec_duplicate_split(grouping_variables)
+
+  # keys and associated rows, in order
+  keys <- vec_slice(grouping_variables, indices)
+  orders <- vec_order(keys)
+  keys <- vec_slice(keys, orders)
+  rows <- rows[orders]
+
+  groups <- tibble(!!!keys, .rows := rows)
+
+  if (!isTRUE(.drop)) {
+    groups <- expand_groups(groups)
+  }
+
+  groups
+  # new_grouped_df(.data, groups = structure(groups, .drop = .drop))
+}
