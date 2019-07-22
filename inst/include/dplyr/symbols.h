@@ -81,10 +81,13 @@ struct strings {
   static SEXP POSIXct;
   static SEXP POSIXt;
   static SEXP Date;
+  static SEXP factor;
+  static SEXP ordered;
 };
 
 struct vectors {
   static SEXP factor;
+  static SEXP ordered;
 };
 
 } // namespace dplyr
