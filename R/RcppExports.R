@@ -84,6 +84,10 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call(`_dplyr_n_distinct_multi`, variables, na_rm)
 }
 
+expand_groups <- function(old_groups, positions) {
+    .Call(`_dplyr_expand_groups`, old_groups, positions)
+}
+
 filter_impl <- function(df, quo) {
     .Call(`_dplyr_filter_impl`, df, quo)
 }
@@ -106,10 +110,6 @@ regroup <- function(grouping_data, frame) {
 
 grouped_df_impl <- function(data, symbols, drop) {
     .Call(`_dplyr_grouped_df_impl`, data, symbols, drop)
-}
-
-expand_groups <- function(old_groups) {
-    .Call(`_dplyr_expand_groups`, old_groups)
 }
 
 group_data_grouped_df <- function(data) {

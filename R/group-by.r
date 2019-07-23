@@ -258,9 +258,14 @@ bunch_by <- function(.data, ..., .drop = group_by_drop_default(.data)) {
 
   groups <- tibble(!!!keys, .rows := rows)
 
-  if (!isTRUE(.drop)) {
-    groups <- expand_groups(groups)
+  if (!isTRUE(.drop) && any(map_lgl(keys, is.factor))) {
+    positions <- map(keys, function(.) {
+      if (is.factor(.)) as.integer(.) else vec_match(., vec_unique(.))
+    })
+
+    xx <- expand_groups(groups, positions)
+    xx
   }
 
-  new_grouped_df(.data, groups = structure(groups, .drop = .drop))
+  # new_grouped_df(.data, groups = structure(groups, .drop = .drop))
 }

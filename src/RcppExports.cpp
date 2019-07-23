@@ -166,6 +166,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// expand_groups
+int expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions);
+RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type old_groups(old_groupsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type positions(positionsSEXP);
+    rcpp_result_gen = Rcpp::wrap(expand_groups(old_groups, positions));
+    return rcpp_result_gen;
+END_RCPP
+}
 // filter_impl
 SEXP filter_impl(Rcpp::DataFrame df, dplyr::Quosure quo);
 RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
@@ -228,16 +239,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const dplyr::SymbolVector& >::type symbols(symbolsSEXP);
     Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
     rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
-    return rcpp_result_gen;
-END_RCPP
-}
-// expand_groups
-Rcpp::DataFrame expand_groups(Rcpp::DataFrame old_groups);
-RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type old_groups(old_groupsSEXP);
-    rcpp_result_gen = Rcpp::wrap(expand_groups(old_groups));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -660,13 +661,13 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 4},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
+    {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 2},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
     {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
     {"_dplyr_regroup", (DL_FUNC) &_dplyr_regroup, 2},
     {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
-    {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 1},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_group_split_impl", (DL_FUNC) &_dplyr_group_split_impl, 3},
