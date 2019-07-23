@@ -38,16 +38,16 @@ chapter](http://r4ds.had.co.nz/transform.html) in R for data science.
 
 ## Backends
 
-dplyr is designed to abstract over how the data is stored. dplyr comes
-with a built-in backend for data frames; other packages provide
+dplyr is designed to abstract over how the data is stored. Out of the
+box, dplyr works with data frames/tibbles; other packages provide
 alternative computational backends:
 
-  - For large in-memory datasets, use
+  - For large, in-memory datasets, try
     [dtplyr](http://dbplyr.tidyverse.org/) to access the excellent
     performance of [data.table](http://r-datatable.com/).
 
-  - For data in relational databases, use
-    [dbplyr](http://dbplyr.tidyverse.org/) to automatically translate
+  - For data in relational databases,
+    [dbplyr](http://dbplyr.tidyverse.org/) will automatically translate
     your dplyr code in to SQL.
 
   - For very large datasets stored in [Apache
