@@ -84,8 +84,8 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call(`_dplyr_n_distinct_multi`, variables, na_rm)
 }
 
-expand_groups <- function(old_groups, positions) {
-    .Call(`_dplyr_expand_groups`, old_groups, positions)
+expand_groups <- function(old_groups, positions, nr) {
+    .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }
 
 filter_impl <- function(df, quo) {

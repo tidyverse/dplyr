@@ -1,42 +1,88 @@
 #include <Rcpp.h>
-#include <boost/shared_ptr.hpp>
 #include <dplyr/symbols.h>
 
-class ExpanderResults;
+class ExpanderCollecter;
+
+struct ExpanderResult {
+  ExpanderResult(int start_, int end_, int index_) :
+    start(start_),
+    end(end_),
+    index(index_)
+  {}
+
+  int start;
+  int end;
+  int index;
+
+  inline int size() const {
+    return end - start;
+  }
+};
 
 class Expander {
 public:
   virtual ~Expander() {};
   virtual int size() const = 0;
-  virtual void collect(ExpanderResults& results, int depth) const = 0;
+  virtual ExpanderResult collect(ExpanderCollecter& results, int depth) const = 0;
 };
 
-class ExpanderResults {
+class ExpanderCollecter {
 public:
-  ExpanderResults(int nvars_, int new_size_, const Rcpp::List& old_rows_) :
+  ExpanderCollecter(int nvars_, int new_size_, const Rcpp::List& old_rows_) :
     nvars(nvars_),
     old_rows(old_rows_),
     new_size(new_size_),
     new_indices(nvars),
     new_rows(new_size),
 
-    leaf_index(0)
+    leaf_index(0),
+    vec_new_indices(nvars)
   {
     for(int i=0; i<nvars; i++) {
       new_indices[i] = Rf_allocVector(INTSXP, new_size);
+      vec_new_indices[i] = INTEGER(new_indices[i]);
     }
   }
 
-  void collect_leaf(int start, int end) {
+  ExpanderResult collect_leaf(int start, int end, int index) {
     if (start == end) {
       new_rows[leaf_index++] = Rf_allocVector(INTSXP, 0);
     } else {
       new_rows[leaf_index++] = old_rows[start];
     }
+
+    return ExpanderResult(leaf_index-1, leaf_index, index);
   }
+
+  ExpanderResult collect_node(int depth, int index, const std::vector<Expander*>& expanders) {
+    int n = expanders.size();
+    int nr = 0;
+
+    ExpanderResult first = expanders[0]->collect(*this, depth + 1);
+    int start = first.start;
+    int end = first.end;
+    fill_indices(depth, start, end, first.index);
+
+    nr += first.size();
+
+    for (int i = 1; i < n; i++) {
+      ExpanderResult exp_i = expanders[i]->collect(*this, depth + 1);
+      fill_indices(depth, exp_i.start, exp_i.end, exp_i.index);
+
+      nr += exp_i.size();
+      end = exp_i.end;
+    }
+
+    return ExpanderResult(start, end, index);
+  }
+
 
   const Rcpp::List& get_new_rows() const {
     return new_rows;
+  }
+
+  const Rcpp::List& get_new_indices() const {
+    return new_indices;
   }
 
 private:
@@ -47,10 +93,25 @@ private:
   Rcpp::List new_rows;
 
   int leaf_index;
+
+  std::vector<int*> vec_new_indices;
+
+  void fill_indices(int depth, int start, int end, int index) {
+    std::fill(vec_new_indices[depth] + start, vec_new_indices[depth] + end, index);
+  }
+
 };
 
 
-boost::shared_ptr<Expander> expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end);
+Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end);
+
+inline int expanders_size(const std::vector<Expander*> expanders) {
+  int n = 0;
+  for (int i=0; i<expanders.size(); i++) {
+    n += expanders[i]->size();
+  }
+  return n;
+}
 
 class FactorExpander : public Expander {
 public:
@@ -77,19 +138,16 @@ public:
       // TODO: implicit NA
     }
   }
-  ~FactorExpander(){}
-
-  virtual int size() const {
-    int n = 0;
-    for (int i=0; i<expanders.size(); i++) n += expanders[i]->size();
-    return n;
+  ~FactorExpander(){
+    for(int i=expanders.size()-1; i>=0; i--) delete expanders[i];
   }
 
-  void collect(ExpanderResults& results, int depth) const {
-    int n = expanders.size();
-    for (int i = 0; i<n; i++) {
-      expanders[i]->collect(results, depth + 1);
-    }
+  virtual int size() const {
+    return expanders_size(expanders);
+  }
+
+  ExpanderResult collect(ExpanderCollecter& results, int depth) const {
+    return results.collect_node(depth, index, expanders);
   }
 
 private:
@@ -99,7 +157,7 @@ private:
   int start;
   int end;
 
-  std::vector<boost::shared_ptr<Expander>> expanders;
+  std::vector<Expander*> expanders;
 };
 
 class VectorExpander : public Expander {
@@ -122,22 +180,21 @@ public:
     }
 
   }
-  ~VectorExpander(){}
-
-  virtual int size() const {
-    return expanders.size();
+  ~VectorExpander(){
+    for(int i=expanders.size()-1; i>=0; i--) delete expanders[i];
   }
 
-  void collect(ExpanderResults& results, int depth) const {
-    int n = expanders.size();
-    for (int i = 0; i<n; i++) {
-      expanders[i]->collect(results, depth + 1);
-    }
+  virtual int size() const {
+    return expanders_size(expanders);
+  }
+
+  ExpanderResult collect(ExpanderCollecter& results, int depth) const {
+    return results.collect_node(depth, index, expanders);
   }
 
 private:
   int index;
-  std::vector<boost::shared_ptr<Expander> > expanders;
+  std::vector<Expander*> expanders;
 };
 
 class LeafExpander : public Expander {
@@ -147,14 +204,15 @@ public:
     start(start_),
     end(end_)
   {}
+
   ~LeafExpander(){}
 
   virtual int size() const {
     return 1;
   }
 
-  void collect(ExpanderResults& results, int depth) const {
-    results.collect_leaf(start, end);
+  ExpanderResult collect(ExpanderCollecter& results, int depth) const {
+    return results.collect_leaf(start, end, index);
   }
 
 private:
@@ -163,20 +221,19 @@ private:
   int end;
 };
 
-boost::shared_ptr<Expander> expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end) {
+Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end) {
   if (depth == positions.size()) {
-    return boost::shared_ptr<Expander>(new LeafExpander(data, positions, depth, index, start, end));
+    return new LeafExpander(data, positions, depth, index, start, end);
   } else if (Rf_isFactor(data[depth])) {
-    return boost::shared_ptr<Expander>(new FactorExpander(data, positions, depth, index, start, end));
+    return new FactorExpander(data, positions, depth, index, start, end);
   } else {
-    return boost::shared_ptr<Expander>(new VectorExpander(data, positions, depth, index, start, end));
+    return new VectorExpander(data, positions, depth, index, start, end);
   }
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions) {
+Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr) {
   int nvars = old_groups.size() - 1;
-  int nr = XLENGTH(positions[0]);
 
   SEXP names = Rf_getAttrib(old_groups, R_NamesSymbol);
   Rcpp::List old_rows(old_groups[nvars]);
@@ -187,12 +244,10 @@ Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions) {
     vec_positions[i] = INTEGER(VECTOR_ELT(positions, i));
   }
 
-  boost::shared_ptr<Expander> exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
-
-  // allocate the results
-  ExpanderResults results(nvars, exp->size(), old_rows);
-
+  Expander* exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
+  ExpanderCollecter results(nvars, exp->size(), old_rows);
   exp->collect(results, 0);
+  delete exp;
 
-  return results.get_new_rows();
+  return Rcpp::List::create(results.get_new_indices(), results.get_new_rows());
 }
