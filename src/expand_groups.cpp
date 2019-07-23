@@ -55,12 +55,33 @@ private:
 
 class VectorExpander : public Expander {
 public:
-  VectorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start_, int end_) {}
+  VectorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start, int end) :
+    index(index_)
+  {
+    // edge case no data, we need a fake expander with NA index
+    if (start == end) {
+      expanders.push_back(expander(data_, positions_, depth_ + 1, NA_INTEGER, start, end));
+    } else {
+      int* vec_pos = positions_[depth_];
+
+      for(int j = start; j < end;) {
+        int current = vec_pos[j];
+        int start_idx = j;
+        while(j < end && vec_pos[++j] == current);
+        expanders.push_back(expander(data_, positions_, depth_ + 1, current, start_idx, j));
+      }
+    }
+
+  }
   ~VectorExpander(){}
 
   virtual int size() const {
-    return 1;
+    return expanders.size();
   }
+
+private:
+  int index;
+  std::vector<boost::shared_ptr<Expander> > expanders;
 };
 
 class LeafExpander : public Expander {
@@ -80,7 +101,6 @@ private:
   int start;
   int end;
 };
-
 
 boost::shared_ptr<Expander> expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end) {
   if (depth == positions.size()) {
