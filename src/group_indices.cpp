@@ -90,32 +90,6 @@ private:
   int index;
 };
 
-class ListExpander {
-public:
-  ListExpander(Rcpp::List& data_, const Rcpp::List& old_rows_):
-    data(data_),
-    old_rows(old_rows_),
-    empty(0),
-    index(0)
-  {}
-
-  int collect(const std::vector<int>& indices) {
-    if (indices.size() == 0) {
-      data[index] = empty;
-    } else {
-      data[index] = old_rows[indices[0]];
-    }
-
-    return index++;
-  }
-
-private:
-  Rcpp::List& data;
-  const Rcpp::List& old_rows;
-  Rcpp::IntegerVector empty;
-  int index;
-};
-
 template <int RTYPE>
 class CopyVectorVisitor {
 public:
@@ -168,7 +142,6 @@ public:
   virtual ~Slicer() {};
   virtual int size() = 0;
   virtual IntRange make(Rcpp::List& vec_groups, ListCollecter& indices_collecter) = 0;
-  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) = 0;
 };
 boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth, const std::vector<SEXP>& data_, const DataFrameVisitors& visitors_, bool drop);
 
@@ -181,10 +154,6 @@ public:
   }
 
   virtual IntRange make(Rcpp::List& vec_groups, ListCollecter& indices_collecter) {
-    return IntRange(indices_collecter.collect(index_range), 1);
-  }
-
-  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) {
     return IntRange(indices_collecter.collect(index_range), 1);
   }
 
@@ -264,32 +233,6 @@ public:
 
     return groups_range;
   }
-
-  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) {
-    IntRange groups_range;
-    SEXP x = vec_groups[depth];
-
-    for (int i = 0; i < nlevels; i++) {
-      // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
-      groups_range.add(idx);
-
-      // fill the groups at these indices
-      std::fill_n(INTEGER(x) + idx.start, idx.size, levels[i]);
-    }
-
-    if (has_implicit_na) {
-      // collect the indices for the implicit NA pseudo group
-      IntRange idx = slicers[nlevels]->make(vec_groups, indices_collecter);
-      groups_range.add(idx);
-
-      // fill the groups at these indices
-      std::fill_n(INTEGER(x) + idx.start, idx.size, NA_INTEGER);
-    }
-
-    return groups_range;
-  }
-
 
   virtual ~FactorSlicer() {}
 
@@ -422,23 +365,6 @@ public:
 
     return groups_range;
   }
-
-  virtual IntRange make(Rcpp::List& vec_groups, ListExpander& indices_collecter) {
-    IntRange groups_range;
-    int nlevels = slicers.size();
-
-    for (int i = 0; i < nlevels; i++) {
-      // collect the indices for that level
-      IntRange idx = slicers[i]->make(vec_groups, indices_collecter);
-      groups_range.add(idx);
-
-      // fill the groups at these indices
-      copy_visit(idx, agents[i], vec_groups[depth], data[depth]);
-    }
-
-    return groups_range;
-  }
-
 
   virtual ~VectorSlicer() {}
 
