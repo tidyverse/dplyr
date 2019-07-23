@@ -158,8 +158,17 @@
 <code><a href="reference/arrange.html">arrange()</a></code> changes the ordering of the rows.</li>
 </ul>
 <p>These all combine naturally with <code><a href="reference/group_by.html">group_by()</a></code> which allows you to perform any operation “by group”. You can learn more about them in <code><a href="articles/dplyr.html">vignette("dplyr")</a></code>. As well as these single-table verbs, dplyr also provides a variety of two-table verbs, which you can learn about in <code><a href="articles/two-table.html">vignette("two-table")</a></code>.</p>
-<p>dplyr is designed to abstract over how the data is stored. That means as well as working with local data frames, you can also work with remote database tables, using exactly the same R code. Install the dbplyr package then read <code>vignette("databases", package = "dbplyr")</code>.</p>
 <p>If you are new to dplyr, the best place to start is the <a href="http://r4ds.had.co.nz/transform.html">data import chapter</a> in R for data science.</p>
+</div>
+<div id="backends" class="section level2">
+<h2 class="hasAnchor">
+<a href="#backends" class="anchor"></a>Backends</h2>
+<p>dplyr is designed to abstract over how the data is stored. Out of the box, dplyr works with data frames/tibbles; other packages provide alternative computational backends:</p>
+<ul>
+<li><p>For large, in-memory datasets, try <a href="http://dbplyr.tidyverse.org/">dtplyr</a> to access the excellent performance of <a href="http://r-datatable.com/">data.table</a>.</p></li>
+<li><p>For data in relational databases, <a href="http://dbplyr.tidyverse.org/">dbplyr</a> will automatically translate your dplyr code in to SQL.</p></li>
+<li><p>For very large datasets stored in <a href="https://spark.apache.org">Apache Spark</a>, use <a href="https://spark.rstudio.com">sparklyr</a>.</p></li>
+</ul>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
