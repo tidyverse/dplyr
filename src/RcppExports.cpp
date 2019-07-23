@@ -167,7 +167,7 @@ BEGIN_RCPP
 END_RCPP
 }
 // expand_groups
-int expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions);
+Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions);
 RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;

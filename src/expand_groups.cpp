@@ -2,11 +2,53 @@
 #include <boost/shared_ptr.hpp>
 #include <dplyr/symbols.h>
 
+class ExpanderResults;
+
 class Expander {
 public:
   virtual ~Expander() {};
   virtual int size() const = 0;
+  virtual void collect(ExpanderResults& results, int depth) const = 0;
 };
+
+class ExpanderResults {
+public:
+  ExpanderResults(int nvars_, int new_size_, const Rcpp::List& old_rows_) :
+    nvars(nvars_),
+    old_rows(old_rows_),
+    new_size(new_size_),
+    new_indices(nvars),
+    new_rows(new_size),
+
+    leaf_index(0)
+  {
+    for(int i=0; i<nvars; i++) {
+      new_indices[i] = Rf_allocVector(INTSXP, new_size);
+    }
+  }
+
+  void collect_leaf(int start, int end) {
+    if (start == end) {
+      new_rows[leaf_index++] = Rf_allocVector(INTSXP, 0);
+    } else {
+      new_rows[leaf_index++] = old_rows[start];
+    }
+  }
+
+  const Rcpp::List& get_new_rows() const {
+    return new_rows;
+  }
+
+private:
+  int nvars;
+  const Rcpp::List& old_rows;
+  int new_size;
+  Rcpp::List new_indices;
+  Rcpp::List new_rows;
+
+  int leaf_index;
+};
+
 
 boost::shared_ptr<Expander> expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end);
 
@@ -41,6 +83,13 @@ public:
     int n = 0;
     for (int i=0; i<expanders.size(); i++) n += expanders[i]->size();
     return n;
+  }
+
+  void collect(ExpanderResults& results, int depth) const {
+    int n = expanders.size();
+    for (int i = 0; i<n; i++) {
+      expanders[i]->collect(results, depth + 1);
+    }
   }
 
 private:
@@ -79,6 +128,13 @@ public:
     return expanders.size();
   }
 
+  void collect(ExpanderResults& results, int depth) const {
+    int n = expanders.size();
+    for (int i = 0; i<n; i++) {
+      expanders[i]->collect(results, depth + 1);
+    }
+  }
+
 private:
   int index;
   std::vector<boost::shared_ptr<Expander> > expanders;
@@ -96,6 +152,11 @@ public:
   virtual int size() const {
     return 1;
   }
+
+  void collect(ExpanderResults& results, int depth) const {
+    results.collect_leaf(start, end);
+  }
+
 private:
   int index;
   int start;
@@ -113,7 +174,7 @@ boost::shared_ptr<Expander> expander(const std::vector<SEXP>& data, const std::v
 }
 
 // [[Rcpp::export(rng = false)]]
-int expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions) {
+Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions) {
   int nvars = old_groups.size() - 1;
   int nr = XLENGTH(positions[0]);
 
@@ -128,5 +189,10 @@ int expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions) {
 
   boost::shared_ptr<Expander> exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
 
-  return exp->size();
+  // allocate the results
+  ExpanderResults results(nvars, exp->size(), old_rows);
+
+  exp->collect(results, 0);
+
+  return results.get_new_rows();
 }
