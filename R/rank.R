@@ -26,6 +26,9 @@
 #' @param x a vector of values to rank. Missing values are left as is.
 #'   If you want to treat them as the smallest or largest values, replace
 #'   with Inf or -Inf before ranking.
+#' @param ties a character string specifying how ties are treated, one of
+#' "average", "first", "last", "random", "max", "min". For details, see
+#' base::rank.
 #' @examples
 #' x <- c(5, 1, 3, 2, 2, NA)
 #' row_number(x)
@@ -45,11 +48,11 @@ NULL
 
 #' @export
 #' @rdname ranking
-row_number <- function(x) {
+row_number <- function(x, ties = "first") {
   if (missing(x)){
     seq_len(from_context("..group_size"))
   } else {
-    rank(x, ties.method = "first", na.last = "keep")
+    rank(x, ties.method = ties, na.last = "keep")
   }
 
 }
@@ -57,15 +60,18 @@ row_number <- function(x) {
 # Definition from
 # http://blogs.msdn.com/b/craigfr/archive/2008/03/31/ranking-functions-rank-dense-rank-and-ntile.aspx
 #' @param n number of groups to split up into.
+#' @param ties a character string specifying how ties are treated, one of
+#' "average", "first", "last", "random", "max", "min". For details, see
+#' base::rank.
 #' @export
 #' @rdname ranking
-ntile <- function(x = row_number(), n) {
+ntile <- function(x = row_number(), n, ties = 'first') {
   len <- sum(!is.na(x))
 
   if (len == 0L) {
     rep(NA_integer_, length(x))
   } else {
-    as.integer(floor(n * (row_number(x) - 1) / len + 1))
+    as.integer(floor(n * (row_number(x, ties=ties) - 1) / len + 1))
   }
 }
 
