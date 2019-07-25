@@ -245,9 +245,11 @@ group_by_drop_default.grouped_df <- function(.tbl) {
 #' @import vctrs
 #' @importFrom zeallot %<-%
 #' @export
-bunch_by <- function(.data, ..., .drop = group_by_drop_default(.data)) {
+bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
+  c(.data, ., group_names) %<-% group_by_prepare(.data, ..., add = add)
+
   # only train the dictionary based on selected columns
-  grouping_variables <- select(.data, ...)
+  grouping_variables <- .data[, group_names, drop = FALSE]
   c(old_indices, old_rows) %<-% vctrs:::vec_duplicate_split(grouping_variables)
 
   # keys and associated rows, in order

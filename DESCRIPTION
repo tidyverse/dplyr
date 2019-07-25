@@ -28,7 +28,7 @@ Imports:
     tibble (>= 2.0.0),
     tidyselect (>= 0.2.5),
     utils,
-    vctrs,
+    vctrs (>= 0.2.0.9000),
     zeallot
 Suggests: 
     bit64,
@@ -65,3 +65,5 @@ Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.1
+Remotes:
+    r-lib/vctrs
