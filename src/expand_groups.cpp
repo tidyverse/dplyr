@@ -251,20 +251,16 @@ Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int n
   for (int i = 0; i < nvars; i++) {
     vec_data[i] = old_groups[i];
     vec_positions[i] = INTEGER(VECTOR_ELT(positions, i));
-
-    if (Rf_isFactor(vec_data[i])) {
-      Rcpp::IntegerVector xi(vec_data[i]);
-      if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
-        Rcpp::warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(STRING_ELT(names, i))));
-      }
-    }
   }
 
   Expander* exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
   ExpanderCollecter results(nvars, exp->size(), old_rows);
   exp->collect(results, 0);
-
+  Rcpp::List out = Rcpp::List::create(
+                     results.get_new_indices(),
+                     results.get_new_rows()
+                   );
   delete exp;
 
-  return Rcpp::List::create(results.get_new_indices(), results.get_new_rows());
+  return out;
 }

@@ -255,6 +255,12 @@ bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.dat
   old_keys <- vec_slice(old_keys, orders)
   old_rows <- old_rows[orders]
 
+  map2(old_keys, names(old_keys), function(x, n) {
+    if (is.factor(x) && anyNA(x)) {
+      warn(glue("Factor `{n}` contains implicit NA, consider using `forcats::fct_explicit_na`"))
+    }
+  })
+
   groups <- tibble(!!!old_keys, .rows := old_rows)
 
   if (!isTRUE(.drop) && any(map_lgl(old_keys, is.factor))) {
