@@ -135,8 +135,13 @@ public:
       int start_i = j;
       while (j < end && fac_pos[j] == i + 1) j++;
       expanders[i] = expander(data, positions, depth_ + 1, i + 1, start_i, j);
-      // TODO: implicit NA
     }
+
+    // implicit NA
+    if (j < end) {
+      expanders.push_back(expander(data, positions, depth_ + 1, NA_INTEGER, j, end));
+    }
+
   }
   ~FactorExpander(){
     for(int i=expanders.size()-1; i>=0; i--) delete expanders[i];
