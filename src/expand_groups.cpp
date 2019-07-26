@@ -56,6 +56,10 @@ public:
 
   ExpanderResult collect_node(int depth, int index, const std::vector<Expander*>& expanders) {
     int n = expanders.size();
+    if(n == 0) {
+      return ExpanderResult(NA_INTEGER, NA_INTEGER, index);
+    }
+
     int nr = 0;
 
     ExpanderResult first = expanders[0]->collect(*this, depth + 1);
@@ -125,6 +129,7 @@ public:
     SEXP fac = data[depth_];
     SEXP levels = Rf_getAttrib(fac, dplyr::symbols::levels);
     int n_levels = XLENGTH(levels);
+
     expanders.resize(n_levels);
 
     int* fac_pos = positions[depth_];
@@ -141,7 +146,6 @@ public:
     if (j < end) {
       expanders.push_back(expander(data, positions, depth_ + 1, NA_INTEGER, j, end));
     }
-
   }
   ~FactorExpander(){
     for(int i=expanders.size()-1; i>=0; i--) delete expanders[i];
@@ -252,6 +256,7 @@ Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int n
   Expander* exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
   ExpanderCollecter results(nvars, exp->size(), old_rows);
   exp->collect(results, 0);
+
   delete exp;
 
   return Rcpp::List::create(results.get_new_indices(), results.get_new_rows());

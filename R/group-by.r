@@ -237,14 +237,8 @@ group_by_drop_default.grouped_df <- function(.tbl) {
   })
 }
 
-#' Alternative to [group_by()] using vctrs
-#'
-#' @param .data tibble
-#' @param ... selection of columns to group by
-#'
 #' @import vctrs
 #' @importFrom zeallot %<-%
-#' @export
 bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   c(.data, ., group_names) %<-% group_by_prepare(.data, ..., add = add)
 
