@@ -241,6 +241,9 @@ group_by_drop_default.grouped_df <- function(.tbl) {
 #' @importFrom zeallot %<-%
 bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   c(.data, ., group_names) %<-% group_by_prepare(.data, ..., add = add)
+  if (!length(group_names)) {
+    return(ungroup(.data))
+  }
 
   # only train the dictionary based on selected columns
   grouping_variables <- .data[, group_names, drop = FALSE]
