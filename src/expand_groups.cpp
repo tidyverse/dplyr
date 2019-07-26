@@ -38,7 +38,7 @@ public:
     leaf_index(0),
     vec_new_indices(nvars)
   {
-    for(int i=0; i<nvars; i++) {
+    for (int i = 0; i < nvars; i++) {
       new_indices[i] = Rf_allocVector(INTSXP, new_size);
       vec_new_indices[i] = INTEGER(new_indices[i]);
     }
@@ -51,12 +51,12 @@ public:
       new_rows[leaf_index++] = old_rows[start];
     }
 
-    return ExpanderResult(leaf_index-1, leaf_index, index);
+    return ExpanderResult(leaf_index - 1, leaf_index, index);
   }
 
   ExpanderResult collect_node(int depth, int index, const std::vector<Expander*>& expanders) {
     int n = expanders.size();
-    if(n == 0) {
+    if (n == 0) {
       return ExpanderResult(NA_INTEGER, NA_INTEGER, index);
     }
 
@@ -111,7 +111,7 @@ Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& posit
 
 inline int expanders_size(const std::vector<Expander*> expanders) {
   int n = 0;
-  for (int i=0; i<expanders.size(); i++) {
+  for (int i = 0; i < expanders.size(); i++) {
     n += expanders[i]->size();
   }
   return n;
@@ -147,8 +147,8 @@ public:
       expanders.push_back(expander(data, positions, depth_ + 1, NA_INTEGER, j, end));
     }
   }
-  ~FactorExpander(){
-    for(int i=expanders.size()-1; i>=0; i--) delete expanders[i];
+  ~FactorExpander() {
+    for (int i = expanders.size() - 1; i >= 0; i--) delete expanders[i];
   }
 
   virtual int size() const {
@@ -180,17 +180,17 @@ public:
     } else {
       int* vec_pos = positions_[depth_];
 
-      for(int j = start; j < end;) {
+      for (int j = start; j < end;) {
         int current = vec_pos[j];
         int start_idx = j;
-        while(j < end && vec_pos[++j] == current);
+        while (j < end && vec_pos[++j] == current);
         expanders.push_back(expander(data_, positions_, depth_ + 1, current, start_idx, j));
       }
     }
 
   }
-  ~VectorExpander(){
-    for(int i=expanders.size()-1; i>=0; i--) delete expanders[i];
+  ~VectorExpander() {
+    for (int i = expanders.size() - 1; i >= 0; i--) delete expanders[i];
   }
 
   virtual int size() const {
@@ -214,7 +214,7 @@ public:
     end(end_)
   {}
 
-  ~LeafExpander(){}
+  ~LeafExpander() {}
 
   virtual int size() const {
     return 1;
@@ -251,6 +251,13 @@ Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int n
   for (int i = 0; i < nvars; i++) {
     vec_data[i] = old_groups[i];
     vec_positions[i] = INTEGER(VECTOR_ELT(positions, i));
+
+    if (Rf_isFactor(vec_data[i])) {
+      Rcpp::IntegerVector xi(vec_data[i]);
+      if (std::find(xi.begin(), xi.end(), NA_INTEGER) < xi.end()) {
+        Rcpp::warningcall(R_NilValue, tfm::format("Factor `%s` contains implicit NA, consider using `forcats::fct_explicit_na`", CHAR(STRING_ELT(names, i))));
+      }
+    }
   }
 
   Expander* exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
