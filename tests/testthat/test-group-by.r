@@ -108,6 +108,7 @@ test_that("group_by orders by groups. #242", {
 })
 
 test_that("group_by only allows grouping by columns whos class are on the allow list", {
+  skip("until https://github.com/r-lib/vctrs/issues/507")
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
   expect_error(
@@ -136,14 +137,12 @@ test_that("group_by only applies the allow list to grouping variables", {
   )
 })
 
-test_that("group_by fails when lists are used as grouping variables (#276)", {
-  df <- data.frame(x = 1:3)
-  df$y <- list(1:2, 1:3, 1:4)
-  expect_error(
-    group_by(df, y),
-    "Column `y` can't be used as a grouping variable because it's a list",
-    fixed = TRUE
-  )
+test_that("group_by() handles list as grouping variables", {
+  df <- tibble(x = 1:3, y = list(1:2, 1:3, 1:2))
+  gdata <- group_data(group_by(df, y))
+  expect_equal(nrow(gdata), 2L)
+  expect_equal(gdata$y, list(1:2, 1:3))
+  expect_equal(gdata$.rows, list(c(1L, 3L), 2L))
 })
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {

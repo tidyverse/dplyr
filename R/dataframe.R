@@ -30,8 +30,10 @@ add_rownames <- function(df, var = "rowname") {
 
 #' @export
 group_by.data.frame <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
-  groups <- group_by_prepare(.data, ..., add = add)
-  grouped_df(groups$data, groups$group_names, .drop)
+  # groups <- group_by_prepare(.data, ..., add = add)
+  # grouped_df(groups$data, groups$group_names, .drop)
+
+  bunch_by(.data, ..., add = add, .drop = .drop)
 }
 #' @export
 group_by_.data.frame <- function(.data, ..., .dots = list(), add = FALSE) {

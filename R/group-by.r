@@ -242,14 +242,23 @@ group_by_drop_default.grouped_df <- function(.tbl) {
 bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.data)) {
   c(.data, ., group_names) %<-% group_by_prepare(.data, ..., add = add)
   if (!length(group_names)) {
-    return(ungroup(.data))
+    return(as_tibble(.data))
   }
 
-  # only train the dictionary based on selected columns
-  grouping_variables <- .data[, group_names, drop = FALSE]
+  unknown <- setdiff(group_names, tbl_vars(.data))
+  if (n_unknown <- length(unknown)) {
+    if(n_unknown == 1) {
+      abort(glue("Column `{unknown}` is unknown"))
+    } else {
+      abort(glue("Column `{unknown}` are unknown", unknown = glue_collapse(unknown, sep  = ", ")))
+    }
+  }
+
+  # Only train the dictionary based on selected columns
+  grouping_variables <- select(ungroup(.data), one_of(group_names))
   c(old_indices, old_rows) %<-% vctrs:::vec_duplicate_split(grouping_variables)
 
-  # keys and associated rows, in order
+  # Keys and associated rows, in order
   old_keys <- vec_slice(grouping_variables, old_indices)
   orders <- vec_order(old_keys)
   old_keys <- vec_slice(old_keys, orders)
@@ -264,13 +273,13 @@ bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.dat
   groups <- tibble(!!!old_keys, .rows := old_rows)
 
   if (!isTRUE(.drop) && any(map_lgl(old_keys, is.factor))) {
-    # extra work is needed to auto expand empty groups
+    # Extra work is needed to auto expand empty groups
 
     uniques <- map(old_keys, function(.) {
       if (is.factor(.)) . else vec_unique(.)
     })
 
-    # internally we only work with integers
+    # Internally we only work with integers
     #
     # so for any grouping column that is not a factor
     # we need to match the values to the unique values
@@ -278,7 +287,7 @@ bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.dat
       if (is.factor(.x)) .x else vec_match(.x, .y)
     })
 
-    # expand groups internally adds empty groups recursively
+    # Expand groups internally adds empty groups recursively
     # we get back:
     # - indices: a list of how to vec_slice the current keys
     #            to get the new keys
@@ -287,7 +296,7 @@ bunch_by <- function(.data, ..., add = FALSE, .drop = group_by_drop_default(.dat
     #            but with some extra empty integer(0) added for empty groups)
     c(new_indices, new_rows) %<-% expand_groups(groups, positions, vec_size(old_keys))
 
-    # make the new keys from the old keys and the new_indices
+    # Make the new keys from the old keys and the new_indices
     new_keys <- pmap(list(old_keys, new_indices, uniques), function(key, index, unique) {
       if(is.factor(key)) {
         new_factor(index, levels = levels(key))
