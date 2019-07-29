@@ -8,6 +8,10 @@
 #' @param data a tbl or data frame.
 #' @param vars a character vector or a list of [name()]
 #' @param drop When `.drop = TRUE`, empty groups are dropped.
+#'
+#' @import vctrs
+#' @importFrom zeallot %<-%
+#'
 #' @export
 grouped_df <- function(data, vars, drop = FALSE) {
   assert_that(
@@ -17,7 +21,76 @@ grouped_df <- function(data, vars, drop = FALSE) {
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
-  grouped_df_impl(data, unname(vars), drop)
+  if (!length(vars)) {
+    return(as_tibble(data))
+  }
+
+  unknown <- setdiff(vars, tbl_vars(data))
+  if (n_unknown <- length(unknown)) {
+    if(n_unknown == 1) {
+      abort(glue("Column `{unknown}` is unknown"))
+    } else {
+      abort(glue("Column `{unknown}` are unknown", unknown = glue_collapse(unknown, sep  = ", ")))
+    }
+  }
+
+  # Only train the dictionary based on selected columns
+  grouping_variables <- select(ungroup(data), one_of(vars))
+  c(old_indices, old_rows) %<-% vctrs:::vec_duplicate_split(grouping_variables)
+
+  # Keys and associated rows, in order
+  old_keys <- vec_slice(grouping_variables, old_indices)
+  orders <- vec_order(old_keys)
+  old_keys <- vec_slice(old_keys, orders)
+  old_rows <- old_rows[orders]
+
+  map2(old_keys, names(old_keys), function(x, n) {
+    if (is.factor(x) && anyNA(x)) {
+      warn(glue("Factor `{n}` contains implicit NA, consider using `forcats::fct_explicit_na`"))
+    }
+  })
+
+  groups <- tibble(!!!old_keys, .rows := old_rows)
+
+  if (!isTRUE(drop) && any(map_lgl(old_keys, is.factor))) {
+    # Extra work is needed to auto expand empty groups
+
+    uniques <- map(old_keys, function(.) {
+      if (is.factor(.)) . else vec_unique(.)
+    })
+
+    # Internally we only work with integers
+    #
+    # so for any grouping column that is not a factor
+    # we need to match the values to the unique values
+    positions <- map2(old_keys, uniques, function(.x, .y) {
+      if (is.factor(.x)) .x else vec_match(.x, .y)
+    })
+
+    # Expand groups internally adds empty groups recursively
+    # we get back:
+    # - indices: a list of how to vec_slice the current keys
+    #            to get the new keys
+    #
+    # - rows:    the new list of rows (i.e. the same as old rows,
+    #            but with some extra empty integer(0) added for empty groups)
+    c(new_indices, new_rows) %<-% expand_groups(groups, positions, vec_size(old_keys))
+
+    # Make the new keys from the old keys and the new_indices
+    new_keys <- pmap(list(old_keys, new_indices, uniques), function(key, index, unique) {
+      if(is.factor(key)) {
+        new_factor(index, levels = levels(key))
+      } else {
+        vec_slice(unique, index)
+      }
+    })
+    names(new_keys) <- names(grouping_variables)
+
+    groups <- tibble(!!!new_keys, .rows := new_rows)
+  }
+
+  # structure the grouped data
+  new_grouped_df(data, groups = structure(groups, .drop = drop))
 }
 
 #' Low-level construction and validation for the grouped_df class
@@ -357,7 +430,7 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
   )
   vars <- match_vars(dist$vars, dist$data)
   keep <- match_vars(dist$keep, dist$data)
-  out <- distinct_impl(dist$data, vars, keep, environment())
+  out <- as_tibble(distinct_impl(dist$data, vars, keep, environment()))
   grouped_df(out, groups(.data), group_by_drop_default(.data))
 }
 #' @export
