@@ -21,8 +21,9 @@ grouped_df <- function(data, vars, drop = FALSE) {
   if (is.list(vars)) {
     vars <- deparse_names(vars)
   }
+  data <- as_tibble(data)
   if (!length(vars)) {
-    return(as_tibble(data))
+    return(data)
   }
 
   unknown <- setdiff(vars, tbl_vars(data))

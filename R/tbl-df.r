@@ -287,7 +287,7 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
   y <- auto_copy(x, y, copy = copy)
   out <- semi_join_impl(x, y, by$x, by$y, check_na_matches(na_matches), environment())
   if (is_grouped_df(x)) {
-    out <- grouped_df_impl(out, group_vars(x), group_by_drop_default(x))
+    out <- grouped_df(out, group_vars(x), group_by_drop_default(x))
   }
   out
 }
@@ -303,7 +303,7 @@ anti_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
   y <- auto_copy(x, y, copy = copy)
   out <- anti_join_impl(x, y, by$x, by$y, check_na_matches(na_matches), environment())
   if (is_grouped_df(x)) {
-    out <- grouped_df_impl(out, group_vars(x), group_by_drop_default(x))
+    out <- grouped_df(out, group_vars(x), group_by_drop_default(x))
   }
   out
 }
@@ -312,7 +312,7 @@ reconstruct_join <- function(out, x, vars) {
   if (is_grouped_df(x)) {
     groups_in_old <- match(group_vars(x), tbl_vars(x))
     groups_in_alias <- match(groups_in_old, vars$x)
-    out <- grouped_df_impl(out, vars$alias[groups_in_alias], group_by_drop_default(x))
+    out <- grouped_df(out, vars$alias[groups_in_alias], group_by_drop_default(x))
   }
   out
 }
