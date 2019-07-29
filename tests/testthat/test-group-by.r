@@ -73,6 +73,7 @@ test_that("mutate does not loose variables (#144)", {
 })
 
 test_that("group_by uses shallow copy", {
+  skip("until https://github.com/tidyverse/tibble/pull/627")
   m1 <- group_by(mtcars, cyl)
   expect_no_groups(mtcars)
 
@@ -119,6 +120,7 @@ test_that("group_by only allows grouping by columns whos class are on the allow 
 })
 
 test_that("group_by only applies the allow list to grouping variables", {
+  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
 
