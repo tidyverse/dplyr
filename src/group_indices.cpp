@@ -676,29 +676,6 @@ SymbolVector GroupedDataFrame::group_vars() const {
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::DataFrame grouped_df_impl(Rcpp::DataFrame data, const dplyr::SymbolVector& symbols, bool drop) {
-  Rcpp::DataFrame copy(shallow_copy(data));
-
-  if (!symbols.size()) {
-    dplyr::GroupedDataFrame::strip_groups(copy);
-    Rf_classgets(copy, dplyr::NaturalDataFrame::classes());
-    return copy;
-  }
-
-  dplyr::set_class(copy, dplyr::GroupedDataFrame::classes());
-
-  // we've made a copy and we are about to create the groups
-  // attribute, so we make sure there is no more a vars
-  // attribute lurking around from the pre 0.8.0 area
-  Rf_setAttrib(copy, dplyr::symbols::vars, R_NilValue);
-  Rf_setAttrib(copy, dplyr::symbols::drop, R_NilValue);
-
-  dplyr::GroupedDataFrame::set_groups(copy, build_index_cpp(copy, symbols, drop));
-
-  return copy;
-}
-
-// [[Rcpp::export(rng = false)]]
 Rcpp::DataFrame group_data_grouped_df(Rcpp::DataFrame data) {
   return dplyr::GroupedDataFrame(data).group_data();
 }
