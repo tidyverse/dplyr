@@ -104,10 +104,6 @@ group_size_grouped_cpp <- function(gdf) {
     .Call(`_dplyr_group_size_grouped_cpp`, gdf)
 }
 
-regroup <- function(grouping_data, frame) {
-    .Call(`_dplyr_regroup`, grouping_data, frame)
-}
-
 group_data_grouped_df <- function(data) {
     .Call(`_dplyr_group_data_grouped_df`, data)
 }

@@ -44,6 +44,30 @@ arrange_.tbl_df <- function(.data, ..., .dots = list(), .by_group = FALSE) {
   arrange_impl(.data, dots, environment())
 }
 
+regroup <- function(data) {
+  # only keep the non empty groups
+  non_empty <- map_lgl(group_rows(data), function(.x) length(.x) > 0)
+  gdata <- filter(group_data(data), non_empty)
+
+  # then group the grouping data to get expansion if needed
+  gdata <- grouped_df(gdata, head(names(gdata), -1L), isTRUE(attr(group_data(data), ".drop")))
+  new_groups <- group_data(gdata)
+  old_rows  <- gdata$.rows
+
+  new_rows <- map(new_groups$.rows, function(.x) {
+    if (length(.x) == 1L) {
+      old_rows[[.x]]
+    } else {
+      integer()
+    }
+  })
+  new_groups$.rows <- new_rows
+
+  attr(data, "groups") <- new_groups
+  data
+}
+
+
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
@@ -57,7 +81,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
   out <- filter_impl(.data, quo)
   if (!.preserve && is_grouped_df(.data)) {
-    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
+    out <- regroup(out)
   }
   out
 }
@@ -77,7 +101,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- quo(c(!!!dots))
   out <- slice_impl(.data, quo)
   if (!.preserve && is_grouped_df(.data)) {
-    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
+    out <- regroup(out)
   }
   out
 }

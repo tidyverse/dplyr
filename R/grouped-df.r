@@ -1,29 +1,11 @@
-#' A grouped data frame.
-#'
-#' The easiest way to create a grouped data frame is to call the `group_by()`
-#' method on a data frame or tbl: this will take care of capturing
-#' the unevaluated expressions for you.
-#'
-#' @keywords internal
-#' @param data a tbl or data frame.
-#' @param vars a character vector or a list of [name()]
-#' @param drop When `.drop = TRUE`, empty groups are dropped.
-#'
-#' @import vctrs
-#' @importFrom zeallot %<-%
-#'
-#' @export
-grouped_df <- function(data, vars, drop = FALSE) {
+make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
+  data <- as_tibble(data)
+
   assert_that(
-    is.data.frame(data),
     (is.list(vars) && all(sapply(vars, is.name))) || is.character(vars)
   )
   if (is.list(vars)) {
     vars <- deparse_names(vars)
-  }
-  data <- as_tibble(data)
-  if (!length(vars)) {
-    return(data)
   }
 
   unknown <- setdiff(vars, tbl_vars(data))
@@ -90,8 +72,34 @@ grouped_df <- function(data, vars, drop = FALSE) {
     groups <- tibble(!!!new_keys, .rows := new_rows)
   }
 
+  structure(groups, .drop = drop)
+}
+
+#' A grouped data frame.
+#'
+#' The easiest way to create a grouped data frame is to call the `group_by()`
+#' method on a data frame or tbl: this will take care of capturing
+#' the unevaluated expressions for you.
+#'
+#' @keywords internal
+#' @param data a tbl or data frame.
+#' @param vars a character vector or a list of [name()]
+#' @param drop When `.drop = TRUE`, empty groups are dropped.
+#'
+#' @import vctrs
+#' @importFrom zeallot %<-%
+#'
+#' @export
+grouped_df <- function(data, vars, drop = FALSE) {
+  if (!length(vars)) {
+    return(as_tibble(data))
+  }
+
   # structure the grouped data
-  new_grouped_df(data, groups = structure(groups, .drop = drop))
+  new_grouped_df(
+    data,
+    groups = make_grouped_df_groups_attribute(data, vars, drop = drop)
+  )
 }
 
 #' Low-level construction and validation for the grouped_df class
