@@ -1,3 +1,5 @@
+utils::globalVariables(c("old_indices", "old_rows", ".rows", "new_indices", "new_rows"))
+
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   data <- as_tibble(data)
 
