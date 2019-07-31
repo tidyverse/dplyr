@@ -438,10 +438,14 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
-  vars <- match_vars(dist$vars, dist$data)
-  keep <- match_vars(dist$keep, dist$data)
-  out <- as_tibble(distinct_impl(dist$data, vars, keep, environment()))
-  grouped_df(out, groups(.data), group_by_drop_default(.data))
+  grouped_df(
+    vec_slice(
+      .data[, dist$keep, drop = FALSE],
+      vec_unique_loc(.data[, dist$vars, drop = FALSE])
+    ),
+    groups(.data),
+    group_by_drop_default(.data)
+  )
 }
 #' @export
 distinct_.grouped_df <- function(.data, ..., .dots = list(), .keep_all = FALSE) {

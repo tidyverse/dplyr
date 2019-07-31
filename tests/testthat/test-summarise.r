@@ -588,12 +588,8 @@ test_that("n_distinct front end supports na.rm argument (#1052)", {
   expect_equal(n_distinct(x, na.rm = TRUE), 3L)
 })
 
-test_that("n_distinct without arguments stops (#1957)", {
-  expect_error(
-    n_distinct(),
-    "Need at least one column for `n_distinct()`",
-    fixed = TRUE
-  )
+test_that("n_distinct() without arguments gives 0 (#1957)", {
+  expect_equal(n_distinct(), 0)
 })
 
 test_that("hybrid evaluation does not take place for objects with a class (#1237)", {
