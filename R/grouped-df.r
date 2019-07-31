@@ -21,7 +21,7 @@ make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
 
   # Only train the dictionary based on selected columns
   grouping_variables <- select(ungroup(data), one_of(vars))
-  c(old_keys, old_rows) %<-% vctrs:::vec_split_id(grouping_variables)
+  c(old_keys, old_rows) %<-% vec_split_id(grouping_variables)
 
   # Keys and associated rows, in order
   orders <- vec_order(old_keys)
