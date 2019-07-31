@@ -860,9 +860,6 @@ test_that("grouped subsets are not lazy (#3360)", {
 test_that("errors don't have tracebacks (#3662)", {
   err <- capture_condition(mutate(tibble(x = 1:10) %>% mutate(z = y)))
   expect_null(conditionCall(err))
-
-  err <- capture_condition(n_distinct())
-  expect_null(conditionCall(err))
 })
 
 test_that("columns are no longer available when set to NULL on mutate (#3799)", {
