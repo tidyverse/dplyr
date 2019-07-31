@@ -36,6 +36,9 @@
 
 * The first argument of `group_map()`, `group_modify()` and `group_walk()`
   has been changed to `.data` for consistency with other generics.
+* `group_by()` uses hashing from the `vctrs` package. 
+
+# dplyr 0.8.4 (development version)
 
 * Better performance for extracting slices of factors and ordered factors (#4501).
 

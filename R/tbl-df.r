@@ -164,6 +164,7 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
+
   rows <- group_rows(.data)
 
   # workaround when there are 0 groups
