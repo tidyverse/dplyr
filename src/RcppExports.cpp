@@ -166,6 +166,18 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// expand_groups
+Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr);
+RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP, SEXP nrSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type old_groups(old_groupsSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type positions(positionsSEXP);
+    Rcpp::traits::input_parameter< int >::type nr(nrSEXP);
+    rcpp_result_gen = Rcpp::wrap(expand_groups(old_groups, positions, nr));
+    return rcpp_result_gen;
+END_RCPP
+}
 // filter_impl
 SEXP filter_impl(Rcpp::DataFrame df, dplyr::Quosure quo);
 RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
@@ -185,49 +197,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< dplyr::Quosure >::type quosure(quosureSEXP);
     rcpp_result_gen = Rcpp::wrap(slice_impl(df, quosure));
-    return rcpp_result_gen;
-END_RCPP
-}
-// grouped_indices_grouped_df_impl
-Rcpp::IntegerVector grouped_indices_grouped_df_impl(const dplyr::GroupedDataFrame& gdf);
-RcppExport SEXP _dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_indices_grouped_df_impl(gdf));
-    return rcpp_result_gen;
-END_RCPP
-}
-// group_size_grouped_cpp
-Rcpp::IntegerVector group_size_grouped_cpp(const dplyr::GroupedDataFrame& gdf);
-RcppExport SEXP _dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
-    rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
-    return rcpp_result_gen;
-END_RCPP
-}
-// regroup
-SEXP regroup(Rcpp::DataFrame grouping_data, SEXP frame);
-RcppExport SEXP _dplyr_regroup(SEXP grouping_dataSEXP, SEXP frameSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type grouping_data(grouping_dataSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
-    rcpp_result_gen = Rcpp::wrap(regroup(grouping_data, frame));
-    return rcpp_result_gen;
-END_RCPP
-}
-// grouped_df_impl
-Rcpp::DataFrame grouped_df_impl(Rcpp::DataFrame data, const dplyr::SymbolVector& symbols, bool drop);
-RcppExport SEXP _dplyr_grouped_df_impl(SEXP dataSEXP, SEXP symbolsSEXP, SEXP dropSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type data(dataSEXP);
-    Rcpp::traits::input_parameter< const dplyr::SymbolVector& >::type symbols(symbolsSEXP);
-    Rcpp::traits::input_parameter< bool >::type drop(dropSEXP);
-    rcpp_result_gen = Rcpp::wrap(grouped_df_impl(data, symbols, drop));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -260,6 +229,26 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< bool >::type keep(keepSEXP);
     Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
     rcpp_result_gen = Rcpp::wrap(group_split_impl(gdf, keep, frame));
+    return rcpp_result_gen;
+END_RCPP
+}
+// grouped_indices_grouped_df_impl
+Rcpp::IntegerVector grouped_indices_grouped_df_impl(const dplyr::GroupedDataFrame& gdf);
+RcppExport SEXP _dplyr_grouped_indices_grouped_df_impl(SEXP gdfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
+    rcpp_result_gen = Rcpp::wrap(grouped_indices_grouped_df_impl(gdf));
+    return rcpp_result_gen;
+END_RCPP
+}
+// group_size_grouped_cpp
+Rcpp::IntegerVector group_size_grouped_cpp(const dplyr::GroupedDataFrame& gdf);
+RcppExport SEXP _dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
+    rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -650,15 +639,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 4},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
+    {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
-    {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
-    {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
-    {"_dplyr_regroup", (DL_FUNC) &_dplyr_regroup, 2},
-    {"_dplyr_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_df_impl, 3},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_group_split_impl", (DL_FUNC) &_dplyr_group_split_impl, 3},
+    {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
+    {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
     {"_dplyr_hybrids", (DL_FUNC) &_dplyr_hybrids, 0},
     {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 6},
     {"_dplyr_anti_join_impl", (DL_FUNC) &_dplyr_anti_join_impl, 6},
