@@ -29,6 +29,14 @@ SEXP get_factor_classes() {
   return klasses;
 }
 
+SEXP get_ordered_classes() {
+  static Rcpp::CharacterVector klasses(2);
+  klasses[0] = "ordered";
+  klasses[1] = "factor";
+  return klasses;
+}
+
+
 SEXP mark_precious(SEXP x) {
   R_PreserveObject(x);
   return x;
@@ -104,9 +112,13 @@ SEXP symbols::names = R_NamesSymbol;
 SEXP symbols::formula = Rf_install("formula");
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 
+SEXP vectors::factor = get_factor_classes();
+SEXP vectors::ordered = get_ordered_classes();
+
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);
 SEXP strings::Date = STRING_ELT(get_date_classes(), 0);
+SEXP strings::factor = STRING_ELT(vectors::factor, 0);
+SEXP strings::ordered = STRING_ELT(vectors::ordered, 0);
 
-SEXP vectors::factor = get_factor_classes();
 }

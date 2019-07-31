@@ -144,6 +144,18 @@ inline bool is_trivial_Date(SEXP x, SEXP klass) {
   return TYPEOF(x) == REALSXP && TYPEOF(klass) == STRSXP && Rf_length(klass) == 1 && STRING_ELT(klass, 0) == strings::Date;
 }
 
+inline bool is_bare_factor_class(SEXP kls) {
+  return TYPEOF(kls) == STRSXP &&
+         (
+           (Rf_xlength(kls) == 1 && STRING_ELT(kls, 0) == strings::factor) ||
+           (Rf_xlength(kls) == 2 && STRING_ELT(kls, 0) == strings::ordered && STRING_ELT(kls, 1) == strings::factor)
+         );
+}
+
+inline bool is_bare_factor(SEXP x) {
+  return Rf_isFactor(x) && is_bare_factor_class(Rf_getAttrib(x, R_ClassSymbol));
+}
+
 template <typename Index>
 SEXP column_subset(SEXP x, const Index& index, SEXP frame) {
   if (Rf_inherits(x, "data.frame")) {
@@ -172,6 +184,13 @@ SEXP column_subset(SEXP x, const Index& index, SEXP frame) {
     default:
       break;
     }
+  }
+
+  // use fast slicing for factors
+  if (is_bare_factor(x)) {
+    Rcpp::Shield<SEXP> out(column_subset_impl<INTSXP, Index>(x, index));
+    copy_most_attributes(out, x);
+    return out;
   }
 
   // special case POSIXct (#3988)
