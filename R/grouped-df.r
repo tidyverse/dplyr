@@ -1,4 +1,4 @@
-utils::globalVariables(c("old_indices", "old_rows", ".rows", "new_indices", "new_rows"))
+utils::globalVariables(c("old_rows", ".rows", "new_indices", "new_rows"))
 
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   data <- as_tibble(data)
@@ -21,10 +21,9 @@ make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
 
   # Only train the dictionary based on selected columns
   grouping_variables <- select(ungroup(data), one_of(vars))
-  c(old_indices, old_rows) %<-% vctrs:::vec_duplicate_split(grouping_variables)
+  c(old_keys, old_rows) %<-% vctrs:::vec_split_id(grouping_variables)
 
   # Keys and associated rows, in order
-  old_keys <- vec_slice(grouping_variables, old_indices)
   orders <- vec_order(old_keys)
   old_keys <- vec_slice(old_keys, orders)
   old_rows <- old_rows[orders]
