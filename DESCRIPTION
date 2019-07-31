@@ -1,7 +1,7 @@
 Type: Package
 Package: dplyr
 Title: A Grammar of Data Manipulation
-Version: 0.8.3.9000
+Version: 0.8.99.9000
 Authors@R: c(
     person("Hadley", "Wickham", , "hadley@rstudio.com", c("aut", "cre"), comment = c(ORCID = "0000-0003-4757-117X")),
     person("Romain", "Fran\u00e7ois", role = "aut", comment = c(ORCID = "0000-0002-2444-4226")),
@@ -25,9 +25,11 @@ Imports:
     R6,
     Rcpp (>= 1.0.1),
     rlang (>= 0.4.0),
-    tibble (>= 2.0.0),
+    tibble (>= 2.1.3.9000),
     tidyselect (>= 0.2.5),
-    utils
+    utils,
+    vctrs (>= 0.2.0.9000),
+    zeallot
 Suggests: 
     bit64,
     callr,
@@ -63,3 +65,6 @@ Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.1
+Remotes:
+    tidyverse/tibble,
+    r-lib/vctrs

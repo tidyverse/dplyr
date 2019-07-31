@@ -1,6 +1,6 @@
 context("group_map")
 
-test_that("group_map() makes a grouped_df", {
+test_that("group_map() respects empty groups", {
   res <- group_by(mtcars, cyl) %>%
     group_map(~ head(.x, 2L))
   expect_equal(length(res), 3L)
