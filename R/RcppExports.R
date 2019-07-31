@@ -80,10 +80,6 @@ expand_groups <- function(old_groups, positions, nr) {
     .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }
 
-expand_groups <- function(old_groups, positions, nr) {
-    .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
-}
-
 filter_impl <- function(df, quo) {
     .Call(`_dplyr_filter_impl`, df, quo)
 }
