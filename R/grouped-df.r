@@ -438,7 +438,6 @@ distinct.grouped_df <- function(.data, ..., .keep_all = FALSE) {
     group_vars = group_vars(.data),
     .keep_all = .keep_all
   )
-
   grouped_df(
     vec_slice(
       .data[, dist$keep, drop = FALSE],
