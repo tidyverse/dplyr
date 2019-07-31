@@ -208,9 +208,10 @@ reconstruct_set <- function(out, x) {
 #' @export
 distinct.data.frame <- function(.data, ..., .keep_all = FALSE) {
   dist <- distinct_prepare(.data, enquos(...), .keep_all = .keep_all)
-  vars <- match_vars(dist$vars, dist$data)
-  keep <- match_vars(dist$keep, dist$data)
-  distinct_impl(dist$data, vars, keep, environment())
+  vec_slice(
+    dist$data[, dist$keep, drop = FALSE],
+    vec_unique_loc(dist$data[, dist$vars, drop = FALSE])
+  )
 }
 #' @export
 distinct_.data.frame <- function(.data, ..., .dots = list(), .keep_all = FALSE) {
