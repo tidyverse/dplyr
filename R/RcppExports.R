@@ -76,10 +76,6 @@ combine_all <- function(data) {
     .Call(`_dplyr_combine_all`, data)
 }
 
-distinct_impl <- function(df, vars, keep, frame) {
-    .Call(`_dplyr_distinct_impl`, df, vars, keep, frame)
-}
-
 n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call(`_dplyr_n_distinct_multi`, variables, na_rm)
 }

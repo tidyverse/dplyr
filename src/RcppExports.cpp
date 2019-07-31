@@ -142,19 +142,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// distinct_impl
-SEXP distinct_impl(Rcpp::DataFrame df, const Rcpp::IntegerVector& vars, const Rcpp::IntegerVector& keep, SEXP frame);
-RcppExport SEXP _dplyr_distinct_impl(SEXP dfSEXP, SEXP varsSEXP, SEXP keepSEXP, SEXP frameSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type vars(varsSEXP);
-    Rcpp::traits::input_parameter< const Rcpp::IntegerVector& >::type keep(keepSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
-    rcpp_result_gen = Rcpp::wrap(distinct_impl(df, vars, keep, frame));
-    return rcpp_result_gen;
-END_RCPP
-}
 // n_distinct_multi
 int n_distinct_multi(Rcpp::List variables, bool na_rm);
 RcppExport SEXP _dplyr_n_distinct_multi(SEXP variablesSEXP, SEXP na_rmSEXP) {
@@ -637,7 +624,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
-    {"_dplyr_distinct_impl", (DL_FUNC) &_dplyr_distinct_impl, 4},
     {"_dplyr_n_distinct_multi", (DL_FUNC) &_dplyr_n_distinct_multi, 2},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
