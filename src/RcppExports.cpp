@@ -154,18 +154,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// expand_groups
-Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr);
-RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP, SEXP nrSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type old_groups(old_groupsSEXP);
-    Rcpp::traits::input_parameter< Rcpp::List >::type positions(positionsSEXP);
-    Rcpp::traits::input_parameter< int >::type nr(nrSEXP);
-    rcpp_result_gen = Rcpp::wrap(expand_groups(old_groups, positions, nr));
-    return rcpp_result_gen;
-END_RCPP
-}
 // filter_impl
 SEXP filter_impl(Rcpp::DataFrame df, dplyr::Quosure quo);
 RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {

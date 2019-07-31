@@ -67,8 +67,4 @@ Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.1
 Remotes:
     tidyverse/tibble,
-<<<<<<< HEAD
-    r-lib/vctrs#515
-=======
     r-lib/vctrs
->>>>>>> origin/dev_0_9_0
