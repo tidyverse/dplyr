@@ -1,4 +1,8 @@
-# dplyr (development version)
+# dplyr 0.9.0 (in development)
+
+* `group_by()` uses hashing from the `vctrs` package. 
+
+# dplyr 0.8.4 (development version)
 
 * `group_map()` is now a generic (#4576).
 

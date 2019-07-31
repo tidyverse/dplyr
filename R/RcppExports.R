@@ -84,28 +84,16 @@ n_distinct_multi <- function(variables, na_rm = FALSE) {
     .Call(`_dplyr_n_distinct_multi`, variables, na_rm)
 }
 
+expand_groups <- function(old_groups, positions, nr) {
+    .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
+}
+
 filter_impl <- function(df, quo) {
     .Call(`_dplyr_filter_impl`, df, quo)
 }
 
 slice_impl <- function(df, quosure) {
     .Call(`_dplyr_slice_impl`, df, quosure)
-}
-
-grouped_indices_grouped_df_impl <- function(gdf) {
-    .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
-}
-
-group_size_grouped_cpp <- function(gdf) {
-    .Call(`_dplyr_group_size_grouped_cpp`, gdf)
-}
-
-regroup <- function(grouping_data, frame) {
-    .Call(`_dplyr_regroup`, grouping_data, frame)
-}
-
-grouped_df_impl <- function(data, symbols, drop) {
-    .Call(`_dplyr_grouped_df_impl`, data, symbols, drop)
 }
 
 group_data_grouped_df <- function(data) {
@@ -118,6 +106,14 @@ ungroup_grouped_df <- function(df) {
 
 group_split_impl <- function(gdf, keep, frame) {
     .Call(`_dplyr_group_split_impl`, gdf, keep, frame)
+}
+
+grouped_indices_grouped_df_impl <- function(gdf) {
+    .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
+}
+
+group_size_grouped_cpp <- function(gdf) {
+    .Call(`_dplyr_group_size_grouped_cpp`, gdf)
 }
 
 hybrids <- function() {
