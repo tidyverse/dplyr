@@ -1054,6 +1054,7 @@ test_that("summarise correctly reconstruct group rows", {
 })
 
 test_that("summarise can handle POSIXlt columns (#3854)", {
+  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(g=c(1,1,3))
   df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
 

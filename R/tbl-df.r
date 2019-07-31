@@ -138,6 +138,30 @@ filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
   .Call(`dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }
 
+regroup <- function(data) {
+  # only keep the non empty groups
+  non_empty <- map_lgl(group_rows(data), function(.x) length(.x) > 0)
+  gdata <- filter(group_data(data), non_empty)
+
+  # then group the grouping data to get expansion if needed
+  gdata <- grouped_df(gdata, head(names(gdata), -1L), isTRUE(attr(group_data(data), ".drop")))
+  new_groups <- group_data(gdata)
+  old_rows  <- gdata$.rows
+
+  new_rows <- map(new_groups$.rows, function(.x) {
+    if (length(.x) == 1L) {
+      old_rows[[.x]]
+    } else {
+      integer()
+    }
+  })
+  new_groups$.rows <- new_rows
+
+  attr(data, "groups") <- new_groups
+  data
+}
+
+
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
@@ -148,7 +172,6 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
-
   rows <- group_rows(.data)
 
   # workaround when there are 0 groups

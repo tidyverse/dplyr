@@ -217,6 +217,8 @@ test_that("mutate handles POSIXlt", {
     NA
   )
 
+test_that("mutate can handle POSIXlt columns (#3854)", {
+  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(g=c(1,1,3))
   df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
 
@@ -280,6 +282,7 @@ test_that("mutate keeps names (#1689, #2675)", {
 })
 
 test_that("mutate does not strip names of list-columns (#2675)", {
+  skip("until https://github.com/tidyverse/tibble/pull/627")
   vec <- list(a = 1, b = 2)
   data <- tibble(x = vec)
   data <- mutate(data, x)
