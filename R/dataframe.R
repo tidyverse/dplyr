@@ -196,8 +196,11 @@ union_all.data.frame <- function(x, y, ...) {
 
 #' @export
 setdiff.data.frame <- function(x, y, ...) {
-  out <- setdiff_data_frame(x, y)
-  reconstruct_set(out, x)
+  check_compatible(x, y)
+  original_x <- x
+  c(x, y) %<-% vec_cast_common(x, y)
+  out <- vec_unique(vec_slice(x, !vec_in(x, y)))
+  reconstruct_set(out, original_x)
 }
 
 #' @export

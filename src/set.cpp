@@ -392,33 +392,3 @@ Rcpp::DataFrame union_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
 
   return reconstruct_metadata(visitors.subset(indices, dplyr::get_class(x)), x);
 }
-
-// [[Rcpp::export(rng = false)]]
-Rcpp::DataFrame setdiff_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
-  dplyr::BoolResult compat = compatible_data_frame(x, y, true, true);
-  if (!compat) {
-    Rcpp::stop("not compatible: %s", compat.why_not());
-  }
-
-  typedef dplyr::VisitorSetIndexSet<dplyr::DataFrameJoinVisitors> Set;
-  dplyr::SymbolVector y_names(Rf_getAttrib(y, dplyr::symbols::names));
-  dplyr::DataFrameJoinVisitors visitors(x, y, y_names, y_names, true, true);
-  Set set(visitors);
-
-  int n_x = x.nrows();
-  int n_y = y.nrows();
-
-  train_insert_right(set, n_y);
-
-  std::vector<int> indices;
-  indices.reserve(n_x);
-
-  for (int i = 0; i < n_x; i++) {
-    std::pair<Set::iterator, bool> inserted = set.insert(i);
-    if (inserted.second) {
-      indices.push_back(i);
-    }
-  }
-
-  return reconstruct_metadata(visitors.subset(indices, dplyr::get_class(x)), x);
-}

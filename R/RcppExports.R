@@ -164,10 +164,6 @@ union_data_frame <- function(x, y) {
     .Call(`_dplyr_union_data_frame`, x, y)
 }
 
-setdiff_data_frame <- function(x, y) {
-    .Call(`_dplyr_setdiff_data_frame`, x, y)
-}
-
 summarise_impl <- function(df, dots, frame, caller_env) {
     .Call(`_dplyr_summarise_impl`, df, dots, frame, caller_env)
 }

@@ -22,7 +22,7 @@ test_that("set operation give useful error message. #903", {
   )
   expect_error(
     setdiff(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`. \n- Cols in x but not y: `data`. \n",
+    "not compatible: \n- Cols in y but not x: `data2`. \n- Cols in x but not y: `data`.",
     fixed = TRUE
   )
 })
@@ -48,9 +48,9 @@ test_that("set operations use coercion rules (#799)", {
   expect_warning(res <- union(df2, df1))
   expect_equal(res, tibble(x = letters[1:15]))
 
-  expect_warning(res <- setdiff(df1, df2))
+  res <- setdiff(df1, df2)
   expect_equal(res, tibble(x = letters[1:5]))
-  expect_warning(res <- setdiff(df2, df1))
+  res <- setdiff(df2, df1)
   expect_equal(res, tibble(x = letters[11:15]))
 })
 
