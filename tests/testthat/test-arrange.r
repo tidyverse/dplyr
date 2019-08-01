@@ -84,7 +84,7 @@ test_that("arrange keeps the grouping structure (#605)", {
   res <- dat %>% group_by(g) %>% arrange(x)
   expect_is(res, "grouped_df")
   expect_equal(res$x, 1:4)
-  expect_equal(group_rows(res), list(c(2, 4), c(1, 3)))
+  expect_equal(group_rows(res), list_of(c(2, 4), c(1, 3), .ptype = integer()))
 })
 
 test_that("arrange handles complex vectors", {

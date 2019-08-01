@@ -36,6 +36,19 @@ SEXP get_ordered_classes() {
   return klasses;
 }
 
+SEXP get_classes_vctrs_list_of() {
+  static Rcpp::CharacterVector klasses(2);
+  klasses[0] = "vctrs_list_of";
+  klasses[1] = "vctrs_vctr";
+  return klasses;
+}
+
+SEXP get_empty_int_vector() {
+  SEXP x = Rf_allocVector(INTSXP, 0);
+  R_PreserveObject(x);
+  return x;
+}
+
 SEXP mark_precious(SEXP x) {
   R_PreserveObject(x);
   return x;
@@ -130,6 +143,8 @@ SEXP fns::rm = Rf_eval(Rf_install("rm"), R_BaseEnv);
 SEXP vectors::factor = get_factor_classes();
 SEXP vectors::ordered = get_ordered_classes();
 SEXP vectors::unbound_sentinel = mark_precious(Rf_allocVector(RAWSXP, 0));
+SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
+SEXP vectors::empty_int_vector = get_empty_int_vector();
 
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);

@@ -102,6 +102,8 @@ struct envs {
   static SEXP ns_stats;
 
   static SEXP context_env;
+  static SEXP classes_vctrs_list_of;
+  static SEXP empty_int_vector;
 };
 
 } // namespace dplyr

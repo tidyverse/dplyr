@@ -275,7 +275,8 @@ test_that("grouped filter handles indices (#880)", {
   res <- iris %>% group_by(Species) %>% filter(Sepal.Length > 5)
   res2 <- mutate(res, Petal = Petal.Width * Petal.Length)
   expect_equal(nrow(res), nrow(res2))
-  expect_identical(group_data(res), group_data(res2))
+  expect_equal(group_rows(res), group_rows(res2))
+  expect_equal(group_keys(res), group_keys(res2))
 })
 
 test_that("filter(FALSE) handles indices", {
@@ -283,13 +284,13 @@ test_that("filter(FALSE) handles indices", {
     group_by(cyl) %>%
     filter(FALSE, .preserve = TRUE) %>%
     group_rows()
-  expect_identical(out, list(integer(), integer(), integer()))
+  expect_identical(out, list_of(integer(), integer(), integer(), .ptype = integer()))
 
   out <- mtcars %>%
     group_by(cyl) %>%
     filter(FALSE, .preserve = FALSE) %>%
     group_rows()
-  expect_identical(out, list())
+  expect_identical(out, list_of(.ptype = integer()))
 })
 
 test_that("filter handles S4 objects (#1366)", {

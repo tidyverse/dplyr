@@ -54,14 +54,13 @@ regroup <- function(data) {
   new_groups <- group_data(gdata)
   old_rows  <- gdata$.rows
 
-  new_rows <- map(new_groups$.rows, function(.x) {
+  new_groups$.rows <- new_list_of(map(new_groups$.rows, function(.x) {
     if (length(.x) == 1L) {
       old_rows[[.x]]
     } else {
       integer()
     }
-  })
-  new_groups$.rows <- new_rows
+  }), ptype = integer())
 
   attr(data, "groups") <- new_groups
   data
