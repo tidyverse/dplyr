@@ -160,10 +160,6 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
     .Call(`_dplyr_equal_data_frame`, x, y, ignore_col_order, ignore_row_order, convert)
 }
 
-union_data_frame <- function(x, y) {
-    .Call(`_dplyr_union_data_frame`, x, y)
-}
-
 summarise_impl <- function(df, dots, frame, caller_env) {
     .Call(`_dplyr_summarise_impl`, df, dots, frame, caller_env)
 }

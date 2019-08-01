@@ -180,7 +180,7 @@ test_that("returns UTF-8 column names (#2441)", {
 test_that("proper message formatting for set operations", {
   expect_error(
     union(tibble(a = 1), tibble(a = "1")),
-    "not compatible: Incompatible type for column `a`: x numeric, y character",
+    "not compatible: \n- Incompatible type for column `a`: x numeric, y character",
     fixed = TRUE
   )
 

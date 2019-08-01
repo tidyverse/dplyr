@@ -184,7 +184,8 @@ intersect.data.frame <- function(x, y, ...) {
 
 #' @export
 union.data.frame <- function(x, y, ...) {
-  out <- union_data_frame(x, y)
+  check_compatible(x, y)
+  out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
   reconstruct_set(out, x)
 }
 
