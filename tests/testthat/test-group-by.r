@@ -108,15 +108,11 @@ test_that("group_by orders by groups. #242", {
   expect_equal(group_data(df)$a, sqrt(1:10))
 })
 
-test_that("group_by only allows grouping by columns whos class are on the allow list", {
-  skip("until https://github.com/r-lib/vctrs/issues/507")
+test_that("Can group_by() a POSIXlt", {
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
-  expect_error(
-    group_by(df, times),
-    "Column `times` can't be used as a grouping variable because it's a POSIXlt/POSIXt",
-    fixed = TRUE
-  )
+  g <- group_by(df, times)
+  expect_equal(group_rows(g), list_of(1L, 2L, 3L, 4L, 5L))
 })
 
 test_that("group_by only applies the allow list to grouping variables", {
