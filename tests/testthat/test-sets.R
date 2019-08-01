@@ -77,9 +77,9 @@ test_that("set operations reconstruct grouping metadata (#3587)", {
   expect_equal(intersect(df1, df2), filter(df1, x >= 3))
   expect_equal(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)) %>% group_by(g))
 
-  expect_equal(setdiff(df1, df2) %>% group_rows(), list(1:2))
-  expect_equal(intersect(df1, df2) %>% group_rows(), list(1:2))
-  expect_equal(union(df1, df2) %>% group_rows(), list(1:2, 3:4, 5:6))
+  expect_equal(setdiff(df1, df2) %>% group_rows(), list_of(1:2))
+  expect_equal(intersect(df1, df2) %>% group_rows(), list_of(1:2))
+  expect_equal(union(df1, df2) %>% group_rows(), list_of(1:2, 3:4, 5:6))
 })
 
 test_that("set operations keep the ordering of the data (#3839)", {

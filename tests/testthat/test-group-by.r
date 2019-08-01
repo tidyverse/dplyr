@@ -144,7 +144,7 @@ test_that("group_by() handles list as grouping variables", {
   gdata <- group_data(group_by(df, y))
   expect_equal(nrow(gdata), 2L)
   expect_equal(gdata$y, list(1:2, 1:3))
-  expect_equal(gdata$.rows, list(c(1L, 3L), 2L))
+  expect_equal(gdata$.rows, list_of(c(1L, 3L), 2L))
 })
 
 test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
@@ -406,7 +406,7 @@ test_that("arrange handles grouped tibble with 0 groups (#3935)", {
 test_that("group_by() with empty spec produces a grouped data frame with 0 grouping variables", {
   gdata <- group_data(group_by(iris))
   expect_equal(names(gdata), ".rows")
-  expect_equal(gdata$.rows, list(1:nrow(iris)))
+  expect_equal(gdata$.rows, list_of(1:nrow(iris)))
 })
 
 # .drop = TRUE ---------------------------------------------------
@@ -419,7 +419,7 @@ test_that("group_by(.drop = TRUE) drops empty groups (4061)", {
   expect_identical(
     group_data(res),
     structure(
-      tibble(Species = factor("setosa", levels = levels(iris$Species)), .rows := list(1:50)),
+      tibble(Species = factor("setosa", levels = levels(iris$Species)), .rows := list_of(1:50)),
       .drop = TRUE
     )
   )
@@ -526,7 +526,7 @@ test_that("group_by() puts NA groups last in STRSXP (#4227)", {
     group_by(x) %>%
     group_data()
   expect_identical(res$x, c("apple", "banana", NA_character_))
-  expect_identical(res$.rows, list(1L, 3L, 2L))
+  expect_identical(res$.rows, list_of(1L, 3L, 2L))
 })
 
 test_that("group_by() does not create arbitrary NA groups for factors when drop = TRUE (#4460)", {
