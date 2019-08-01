@@ -38,6 +38,9 @@ public:
     leaf_index(0),
     vec_new_indices(nvars)
   {
+    Rf_classgets(new_rows, dplyr::vectors::classes_vctrs_list_of);
+    Rf_setAttrib(new_rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
+
     for (int i = 0; i < nvars; i++) {
       new_indices[i] = Rf_allocVector(INTSXP, new_size);
       vec_new_indices[i] = INTEGER(new_indices[i]);
