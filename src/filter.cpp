@@ -64,7 +64,10 @@ public:
     k(0),
     git(tbl.group_begin()),
     rows(ngroups)
-  {}
+  {
+    Rf_setAttrib(rows, R_ClassSymbol, dplyr::vectors::classes_vctrs_list_of);
+    Rf_setAttrib(rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
+  }
 
   // set the group i to be empty
   void empty_group(int i) {

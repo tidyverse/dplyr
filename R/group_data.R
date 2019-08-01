@@ -32,13 +32,13 @@ group_data <- function(.data) {
 
 #' @export
 group_data.data.frame <- function(.data) {
-  rows <- list(seq_len(nrow(.data)))
+  rows <- list_of(seq_len(nrow(.data)), .ptype = integer())
   tibble(".rows" := rows)
 }
 
 #' @export
 group_data.rowwise_df <- function(.data) {
-  rows <- as.list(seq_len(nrow(.data)))
+  rows <- new_list_of(as.list(seq_len(nrow(.data))), ptype = integer())
   tibble(".rows" := rows)
 }
 

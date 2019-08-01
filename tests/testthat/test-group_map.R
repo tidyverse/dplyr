@@ -49,21 +49,21 @@ test_that("group_modify() makes a grouped_df", {
     group_modify(~ head(.x, 2L))
 
   expect_equal(nrow(res), 6L)
-  expect_equal(group_rows(res), list(1:2, 3:4, 5:6))
+  expect_equal(group_rows(res), list_of(1:2, 3:4, 5:6))
 
   res <- iris %>%
     group_by(Species) %>%
     filter(Species == "setosa") %>%
     group_modify(~ tally(.x))
   expect_equal(nrow(res), 1L)
-  expect_equal(group_rows(res), list(1L))
+  expect_equal(group_rows(res), list_of(1L))
 
   res <- iris %>%
     group_by(Species, .drop = FALSE) %>%
     filter(Species == "setosa") %>%
     group_modify(~ tally(.x))
   expect_equal(nrow(res), 3L)
-  expect_equal(group_rows(res), list(1L, 2L, 3L))
+  expect_equal(group_rows(res), list_of(1L, 2L, 3L))
 })
 
 test_that("group_modify() rejects non data frames", {

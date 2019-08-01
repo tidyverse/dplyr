@@ -88,6 +88,8 @@ struct strings {
 struct vectors {
   static SEXP factor;
   static SEXP ordered;
+  static SEXP classes_vctrs_list_of;
+  static SEXP empty_int_vector;
 };
 
 } // namespace dplyr
