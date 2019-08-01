@@ -394,37 +394,6 @@ Rcpp::DataFrame union_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::DataFrame intersect_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
-  dplyr::BoolResult compat = compatible_data_frame(x, y, true, true);
-  if (!compat) {
-    Rcpp::stop("not compatible: %s", compat.why_not());
-  }
-
-  typedef dplyr::VisitorSetIndexSet<dplyr::DataFrameJoinVisitors> Set;
-  dplyr::SymbolVector x_names(Rf_getAttrib(x, dplyr::symbols::names));
-  dplyr::DataFrameJoinVisitors visitors(x, y, x_names, x_names, true, true);
-  Set set(visitors);
-
-  int n_x = x.nrows();
-  int n_y = y.nrows();
-
-  dplyr::train_insert_right(set, n_y);
-
-  std::vector<int> indices;
-  indices.reserve(std::min(n_x, n_y));
-
-  for (int i = 0; i < n_x; i++) {
-    Set::iterator it = set.find(i);
-    if (it != set.end()) {
-      indices.push_back(*it);
-      set.erase(it);
-    }
-  }
-
-  return reconstruct_metadata(visitors.subset(indices, dplyr::get_class(x)), x);
-}
-
-// [[Rcpp::export(rng = false)]]
 Rcpp::DataFrame setdiff_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y) {
   dplyr::BoolResult compat = compatible_data_frame(x, y, true, true);
   if (!compat) {

@@ -167,10 +167,19 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 # Set operations ---------------------------------------------------------------
 
+check_compatible <- function(x, y) {
+  if (! (compat <- compatible_data_frame(x, y, TRUE, TRUE))) {
+    abort(paste0("not compatible: \n", glue_collapse(paste0("- ", attr(compat, "comment")), sep = "\n")))
+  }
+}
+
 #' @export
 intersect.data.frame <- function(x, y, ...) {
-  out <- intersect_data_frame(x, y)
-  reconstruct_set(out, x)
+  check_compatible(x, y)
+  original_x <- x
+  c(x, y) %<-% vec_cast_common(x, y)
+  out <- vec_unique(vec_slice(x, vec_in(x, y)))
+  reconstruct_set(out, original_x)
 }
 
 #' @export

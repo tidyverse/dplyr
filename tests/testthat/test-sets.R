@@ -12,7 +12,7 @@ test_that("set operation give useful error message. #903", {
   )
   expect_error(
     intersect(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`. \n- Cols in x but not y: `data`. \n",
+    "not compatible: \n- Cols in y but not x: `data2`. \n- Cols in x but not y: `data`.",
     fixed = TRUE
   )
   expect_error(
@@ -37,10 +37,11 @@ test_that("set operations use coercion rules (#799)", {
 
   df1 <- tibble(x = factor(letters[1:10]))
   df2 <- tibble(x = letters[6:15])
-  expect_warning(res <- intersect(df1, df2))
-  expect_equal(res, tibble(x = letters[6:10]))
-  expect_warning(res <- intersect(df2, df1))
-  expect_equal(res, tibble(x = letters[6:10]))
+  res <- intersect(df1, df2)
+  expect_equivalent(res, tibble(x = letters[6:10]))
+
+  res <- intersect(df2, df1)
+  expect_equivalent(res, tibble(x = letters[6:10]))
 
   expect_warning(res <- union(df1, df2))
   expect_equal(res, tibble(x = letters[1:15]))
