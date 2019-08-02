@@ -148,10 +148,6 @@ select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
 
-compatible_data_frame_nonames <- function(x, y, convert) {
-    .Call(`_dplyr_compatible_data_frame_nonames`, x, y, convert)
-}
-
 compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
     .Call(`_dplyr_compatible_data_frame`, x, y, ignore_col_order, convert)
 }

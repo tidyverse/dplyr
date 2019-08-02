@@ -48,7 +48,6 @@ private:
   int max_count;
 };
 
-// [[Rcpp::export(rng = false)]]
 dplyr::BoolResult compatible_data_frame_nonames(Rcpp::DataFrame x, Rcpp::DataFrame y, bool convert) {
   int n = x.size();
   if (n != y.size())
