@@ -148,10 +148,6 @@ select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
 
-equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
-    .Call(`_dplyr_equal_data_frame`, x, y, ignore_col_order, ignore_row_order, convert)
-}
-
 summarise_impl <- function(df, dots, frame, caller_env) {
     .Call(`_dplyr_summarise_impl`, df, dots, frame, caller_env)
 }

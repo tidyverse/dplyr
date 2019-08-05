@@ -170,7 +170,7 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
   nc <- ncol(x)
   if (nc != ncol(y)) {
-    return(glue("- different number of columns : {nc} x {ncol(y)}"))
+    return(glue("- different number of columns : {nc} vs {ncol(y)}"))
   }
 
   names_x <- names(x)
@@ -216,7 +216,7 @@ is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TR
       )
     } else {
       if (!identical(vec_ptype(x_i), vec_ptype(y_i))) {
-        msg <<- paste0(msg,
+        msg <- paste0(msg,
           glue("- Different types for column `{name}`: {vec_ptype_full(x_i)} vs {vec_ptype_full(y_i)}"),
           "\n"
         )
@@ -235,6 +235,57 @@ check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
   if (is.character(compat)) {
     abort(paste0("not compatible: \n", glue_collapse(compat, sep = "\n")))
   }
+}
+
+equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
+  compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
+  if (!isTRUE(compat)) {
+    return(compat)
+  }
+
+  nrows_x <- nrow(x)
+  nrows_y <- nrow(y)
+  if (nrows_x != nrows_y) {
+    return("Different number of rows")
+  }
+
+  if (ncol(x) == 0L) {
+    return(TRUE)
+  }
+
+  x_split <- vec_split_id_order(x)
+  y_split <- vec_split_id_order(y[, names(x), drop = FALSE])
+
+  # keys must be identical
+  msg <- ""
+  if (any(wrong <- !vec_in(x_split$key, y_split$key))) {
+    rows <- sort(map_int(x_split$id[which(wrong)], function(.x) .x[1L]))
+    msg <- paste0(msg, "- Rows in x but not in y: ", glue_collapse(rows, sep = ", "), "\n")
+  }
+
+  if (any(wrong <- !vec_in(y_split$key, x_split$key))) {
+    rows <- sort(map_int(y_split$id[which(wrong)], function(.x) .x[1L]))
+    msg <- paste0(msg, "- Rows in y but not in x: ", glue_collapse(rows, sep = ", "), "\n")
+  }
+  if (msg != "") {
+    return(msg)
+  }
+
+  # keys are identical, check that rows occur the same number of times
+  if (any(wrong <- lengths(x_split$id) != lengths(y_split$id))) {
+    rows <- sort(map_int(x_split$id[which(wrong)], function(.x) .x[1L]))
+    return(paste0("- Rows with difference occurences in x and y: ",
+      glue_collapse(rows, sep = ", "),
+      "\n"
+    ))
+  }
+
+  # then if we care about row order, the id need to be identical
+  if (!ignore_row_order && !all(vec_equal(x_split$id, y_split$id))) {
+    return("Same row values, but different order")
+  }
+
+  TRUE
 }
 
 #' @export
@@ -270,8 +321,7 @@ setdiff.data.frame <- function(x, y, ...) {
 
 #' @export
 setequal.data.frame <- function(x, y, ...) {
-  out <- equal_data_frame(x, y)
-  as.logical(out)
+  isTRUE(equal_data_frame(x, y))
 }
 
 reconstruct_set <- function(out, x) {
