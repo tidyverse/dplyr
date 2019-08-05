@@ -91,22 +91,22 @@ test_that("set operations keep the ordering of the data (#3839)", {
   df1 <- tibble(x = 1:4, g = rep(1:2, each = 2))
   df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
 
-  expect_identical(setdiff(df1, df2), filter(df1, x < 3))
-  expect_identical(setdiff(rev_df(df1), df2), filter(rev_df(df1), x < 3))
-  expect_identical(intersect(df1, df2), filter(df1, x >= 3))
-  expect_identical(intersect(rev_df(df1), df2), filter(rev_df(df1), x >= 3))
-  expect_identical(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)))
-  expect_identical(union(rev_df(df1), df2), tibble(x = c(4:1, 5:6), g = rep(c(2:1, 3L), each = 2)))
-  expect_identical(union(df1, rev_df(df2)), tibble(x = c(1:4, 6:5), g = rep(1:3, each = 2)))
+  expect_equivalent(setdiff(df1, df2), filter(df1, x < 3))
+  expect_equivalent(setdiff(rev_df(df1), df2), filter(rev_df(df1), x < 3))
+  expect_equivalent(intersect(df1, df2), filter(df1, x >= 3))
+  expect_equivalent(intersect(rev_df(df1), df2), filter(rev_df(df1), x >= 3))
+  expect_equivalent(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)))
+  expect_equivalent(union(rev_df(df1), df2), tibble(x = c(4:1, 5:6), g = rep(c(2:1, 3L), each = 2)))
+  expect_equivalent(union(df1, rev_df(df2)), tibble(x = c(1:4, 6:5), g = rep(1:3, each = 2)))
 })
 
 test_that("set operations remove duplicates", {
   df1 <- tibble(x = 1:4, g = rep(1:2, each = 2)) %>% bind_rows(., .)
   df2 <- tibble(x = 3:6, g = rep(2:3, each = 2))
 
-  expect_identical(setdiff(df1, df2), filter(df1, x < 3) %>% distinct())
-  expect_identical(intersect(df1, df2), filter(df1, x >= 3) %>% distinct())
-  expect_identical(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)))
+  expect_equivalent(setdiff(df1, df2), filter(df1, x < 3) %>% distinct())
+  expect_equivalent(intersect(df1, df2), filter(df1, x >= 3) %>% distinct())
+  expect_equivalent(union(df1, df2), tibble(x = 1:6, g = rep(1:3, each = 2)))
 })
 
 test_that("set equality", {
