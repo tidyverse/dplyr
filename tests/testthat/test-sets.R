@@ -46,7 +46,7 @@ test_that("set operations use coercion rules (#799)", {
   res <- union(df1, df2)
   expect_equivalent(res, tibble(x = letters[1:15]))
   res <- union(df2, df1)
-  expect_equivalent(res, tibble(x = letters[1:15]))
+  expect_equivalent(res, tibble(x = letters[c(6:15, 1:5)]))
 
   res <- setdiff(df1, df2)
   expect_equivalent(res, tibble(x = letters[1:5]))

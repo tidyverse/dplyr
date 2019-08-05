@@ -300,7 +300,7 @@ intersect.data.frame <- function(x, y, ...) {
 #' @export
 union.data.frame <- function(x, y, ...) {
   check_compatible(x, y)
-  out <- vec_sort(vec_unique(vec_rbind(!!!vec_cast_common(x, y))))
+  out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
   reconstruct_set(out, x)
 }
 
