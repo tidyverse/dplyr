@@ -2,11 +2,7 @@ utils::globalVariables(c("old_rows", ".rows", "new_indices", "new_rows"))
 
 vec_split_id_order <- function(x) {
   split_id <- vec_split_id(x)
-
-  orders <- vec_order(split_id$key)
-  split_id$key <- vec_slice(split_id$key, orders)
-  split_id$id <- split_id$id[orders]
-  split_id
+  vec_slice(split_id, vec_order(split_id$key))
 }
 
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
