@@ -374,19 +374,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// compatible_data_frame
-dplyr::BoolResult compatible_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y, bool ignore_col_order, bool convert);
-RcppExport SEXP _dplyr_compatible_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP convertSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type y(ySEXP);
-    Rcpp::traits::input_parameter< bool >::type ignore_col_order(ignore_col_orderSEXP);
-    Rcpp::traits::input_parameter< bool >::type convert(convertSEXP);
-    rcpp_result_gen = Rcpp::wrap(compatible_data_frame(x, y, ignore_col_order, convert));
-    return rcpp_result_gen;
-END_RCPP
-}
 // equal_data_frame
 dplyr::BoolResult equal_data_frame(Rcpp::DataFrame x, Rcpp::DataFrame y, bool ignore_col_order, bool ignore_row_order, bool convert);
 RcppExport SEXP _dplyr_equal_data_frame(SEXP xSEXP, SEXP ySEXP, SEXP ignore_col_orderSEXP, SEXP ignore_row_orderSEXP, SEXP convertSEXP) {
@@ -586,7 +573,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 8},
     {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 3},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
-    {"_dplyr_compatible_data_frame", (DL_FUNC) &_dplyr_compatible_data_frame, 4},
     {"_dplyr_equal_data_frame", (DL_FUNC) &_dplyr_equal_data_frame, 5},
     {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 4},
     {"_dplyr_hybrid_impl", (DL_FUNC) &_dplyr_hybrid_impl, 3},

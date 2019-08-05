@@ -148,10 +148,6 @@ select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
 
-compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
-    .Call(`_dplyr_compatible_data_frame`, x, y, ignore_col_order, convert)
-}
-
 equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
     .Call(`_dplyr_equal_data_frame`, x, y, ignore_col_order, ignore_row_order, convert)
 }

@@ -12,17 +12,17 @@ test_that("set operation give useful error message. #903", {
   )
   expect_error(
     intersect(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`. \n- Cols in x but not y: `data`.",
+    "not compatible: \n- Cols in y but not x: `data2`.\n- Cols in x but not y: `data`.",
     fixed = TRUE
   )
   expect_error(
     union(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`. \n- Cols in x but not y: `data`.",
+    "not compatible: \n- Cols in y but not x: `data2`.\n- Cols in x but not y: `data`.",
     fixed = TRUE
   )
   expect_error(
     setdiff(alfa, beta),
-    "not compatible: \n- Cols in y but not x: `data2`. \n- Cols in x but not y: `data`.",
+    "not compatible: \n- Cols in y but not x: `data2`.\n- Cols in x but not y: `data`.",
     fixed = TRUE
   )
 })

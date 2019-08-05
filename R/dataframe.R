@@ -167,9 +167,73 @@ anti_join.data.frame <- function(x, y, by = NULL, copy = FALSE, ...) {
 
 # Set operations ---------------------------------------------------------------
 
-check_compatible <- function(x, y) {
-  if (! (compat <- compatible_data_frame(x, y, TRUE, TRUE))) {
-    abort(paste0("not compatible: \n", glue_collapse(paste0("- ", attr(compat, "comment")), sep = "\n")))
+is_compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+  nc <- ncol(x)
+  if (nc != ncol(y)) {
+    return(glue("- different number of columns : {nc} x {ncol(y)}"))
+  }
+
+  names_x <- names(x)
+  names_y <- names(y)
+
+  names_y_not_in_x <- setdiff(names_y, names_x)
+  names_x_not_in_y <- setdiff(names_x, names_y)
+
+  if (length(names_y_not_in_x) == 0L && length(names_x_not_in_y) == 0L) {
+    # check if same order
+    if (!isTRUE(ignore_col_order)) {
+      if (!identical(names_x, names_y)) {
+        return("- Same column names, but different order")
+      }
+    }
+  } else {
+    # names are not the same, explain why
+
+    msg <- "not compatible: \n"
+    if (length(names_y_not_in_x)) {
+      msg <- paste0(msg, "- Cols in y but not x: ", glue_collapse(glue('`{names_y_not_in_x}`'), sep = ", "), ".\n")
+    }
+    if (length(names_x_not_in_y)) {
+      msg <- paste0(msg, "- Cols in x but not y: ", glue_collapse(glue('`{names_x_not_in_y}`'), sep = ", "), ".\n")
+    }
+    return(msg)
+  }
+
+  msg <- ""
+  for (name in names_x) {
+    x_i <- x[[name]]
+    y_i <- y[[name]]
+
+    if (convert) {
+      tryCatch(
+        vec_ptype2(x_i, y_i),
+        error = function(e) {
+          msg <<- paste0(msg,
+            glue("- Incompatible types for column `{name}`: {vec_ptype_full(x_i)} vs {vec_ptype_full(y_i)}"),
+            "\n"
+          )
+        }
+      )
+    } else {
+      if (!identical(vec_ptype(x_i), vec_ptype(y_i))) {
+        msg <<- paste0(msg,
+          glue("- Different types for column `{name}`: {vec_ptype_full(x_i)} vs {vec_ptype_full(y_i)}"),
+          "\n"
+        )
+      }
+    }
+  }
+  if (msg != "") {
+    return(msg)
+  }
+
+  TRUE
+}
+
+check_compatible <- function(x, y, ignore_col_order = TRUE, convert = TRUE) {
+  compat <- is_compatible_data_frame(x, y, ignore_col_order = ignore_col_order, convert = convert)
+  if (is.character(compat)) {
+    abort(paste0("not compatible: \n", glue_collapse(compat, sep = "\n")))
   }
 }
 
