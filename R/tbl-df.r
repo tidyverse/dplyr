@@ -98,7 +98,9 @@ arrange_data_frame <- function(.data, ..., .by_group = FALSE) {
   out
 }
 
-
+#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
+#'   grouped data frames only.
+#' @rdname arrange
 #' @export
 arrange.tbl_df <- function(.data, ..., .by_group = FALSE) {
   arrange_data_frame(.data, ..., .by_group = .by_group)

@@ -530,8 +530,6 @@ transmute_.grouped_df <- function(.data, ..., .dots = list()) {
 #' @inheritSection filter Tidy data
 #' @param ... Comma separated list of unquoted variable names, or expressions
 #'   involving variable names. Use [desc()] to sort a variable in descending order.
-#' @param .by_group If `TRUE`, will sort first by grouping variable. Applies to
-#'   grouped data frames only.
 #' @family single table verbs
 #' @return An object of the same class as `.data`.
 #' @examples
