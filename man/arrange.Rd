@@ -2,12 +2,9 @@
 % Please edit documentation in R/manip.r
 \name{arrange}
 \alias{arrange}
-\alias{arrange.grouped_df}
 \title{Arrange rows by variables}
 \usage{
 arrange(.data, ...)
-
-\method{arrange}{grouped_df}(.data, ..., .by_group = FALSE)
 }
 \arguments{
 \item{.data}{A tbl. All main verbs are S3 generics and provide methods

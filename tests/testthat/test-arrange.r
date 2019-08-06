@@ -146,14 +146,13 @@ test_that("duplicated column name is explicit about which column (#996)", {
   expect_error(df %>% arrange())
 })
 
-test_that("arrange fails gracefully on list columns (#1489)", {
+test_that("arrange handles list columns (#1489)", {
   df <- expand.grid(group = 1:2, y = 1, x = 1) %>%
     group_by(group) %>%
     do(fit = lm(data = ., y ~ x))
   expect_error(
     arrange(df, fit),
-    "Argument 1 is of unsupported type list",
-    fixed = TRUE
+    NA
   )
 })
 
@@ -166,6 +165,7 @@ test_that("arrange supports raw columns (#1803)", {
 })
 
 test_that("arrange fails gracefully on matrix input (#1870)", {
+  skip("until transmute() handles matrices")
   df <- tibble(a = 1:3, b = 4:6)
   expect_error(
     arrange(df, is.na(df)),
@@ -174,9 +174,20 @@ test_that("arrange fails gracefully on matrix input (#1870)", {
   )
 })
 
+test_that("arrange handles matrices", {
+  df <- tibble(a = 1:3, b = 4:6, mat = matrix(6:1, ncol = 2))
+  expect_equal(
+    arrange(df, mat),
+    slice(df, 3:1)
+  )
+})
+
 test_that("arrange fails gracefully on data.frame input (#3153)", {
-  df <- tibble(x = 1:150, iri = rnorm(150))
-  expect_error(arrange(df, iris), "Argument 1 is of unsupported type data.frame")
+  df <- tibble(x = 1:150, iris = iris)
+  expect_equal(
+    arrange(df, iris),
+    vec_slice(df, vec_order(iris))
+  )
 })
 
 test_that("arrange.data.frame recognizes the .by_group argument (#3546)", {
