@@ -117,55 +117,6 @@ Rcpp::DataFrame ungroup_grouped_df(Rcpp::DataFrame df) {
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::List group_split_impl(const dplyr::GroupedDataFrame& gdf, bool keep, SEXP frame) {
-  Rcpp::List rows(gdf.indices());
-  R_xlen_t n = rows.size();
-
-  Rcpp::DataFrame group_data = gdf.group_data();
-  Rcpp::DataFrame data = gdf.data();
-
-  if (!keep) {
-    Rcpp::Shield<SEXP> all_names(vec_names(data));
-    int nv = data.size();
-    dplyr_hash_set<SEXP> all_set;
-    for (int i = 0; i < nv; i++) {
-      all_set.insert(STRING_ELT(all_names, i));
-    }
-
-    int ng = group_data.ncol() - 1;
-    Rcpp::Shield<SEXP> group_names(vec_names(group_data));
-    for (int i = 0; i < ng; i++) {
-      SEXP name = STRING_ELT(group_names, i);
-      if (all_set.count(name)) all_set.erase(name);
-    }
-
-    Rcpp::IntegerVector kept_cols(all_set.size());
-    int k = 0;
-    for (int i = 0; i < nv; i++) {
-      if (all_set.count(STRING_ELT(all_names, i))) {
-        kept_cols[k++] = i + 1;
-      }
-    }
-    data = dplyr::DataFrameSelect(data, kept_cols, false);
-  }
-
-  dplyr::GroupedDataFrame::group_iterator git = gdf.group_begin();
-  Rcpp::List out(n);
-  for (R_xlen_t i = 0; i < n; i++, ++git) {
-    Rcpp::DataFrame out_i = dplyr::dataframe_subset(data, *git, dplyr::NaturalDataFrame::classes(), frame);
-    dplyr::GroupedDataFrame::strip_groups(out_i);
-    out[i] = out_i;
-  }
-
-  Rf_setAttrib(
-    out, dplyr::symbols::ptype,
-    dplyr::dataframe_subset(data, Rcpp::IntegerVector(0), dplyr::NaturalDataFrame::classes(), frame)
-  );
-
-  return out;
-}
-
-// [[Rcpp::export(rng = false)]]
 Rcpp::IntegerVector grouped_indices_grouped_df_impl(const dplyr::GroupedDataFrame& gdf) {
   int n = gdf.nrows();
   Rcpp::IntegerVector res(Rcpp::no_init(n));
