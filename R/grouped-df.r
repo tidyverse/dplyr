@@ -1,4 +1,4 @@
-utils::globalVariables(c("old_rows", ".rows", "new_indices", "new_rows"))
+utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows"))
 
 vec_split_id_order <- function(x) {
   split_id <- vec_split_id(x)
