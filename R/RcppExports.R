@@ -148,30 +148,6 @@ select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
 
-compatible_data_frame_nonames <- function(x, y, convert) {
-    .Call(`_dplyr_compatible_data_frame_nonames`, x, y, convert)
-}
-
-compatible_data_frame <- function(x, y, ignore_col_order = TRUE, convert = FALSE) {
-    .Call(`_dplyr_compatible_data_frame`, x, y, ignore_col_order, convert)
-}
-
-equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = TRUE, convert = FALSE) {
-    .Call(`_dplyr_equal_data_frame`, x, y, ignore_col_order, ignore_row_order, convert)
-}
-
-union_data_frame <- function(x, y) {
-    .Call(`_dplyr_union_data_frame`, x, y)
-}
-
-intersect_data_frame <- function(x, y) {
-    .Call(`_dplyr_intersect_data_frame`, x, y)
-}
-
-setdiff_data_frame <- function(x, y) {
-    .Call(`_dplyr_setdiff_data_frame`, x, y)
-}
-
 summarise_impl <- function(df, dots, frame, caller_env) {
     .Call(`_dplyr_summarise_impl`, df, dots, frame, caller_env)
 }

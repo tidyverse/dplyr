@@ -1,4 +1,9 @@
-utils::globalVariables(c("old_rows", ".rows", "new_indices", "new_rows"))
+utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows"))
+
+vec_split_id_order <- function(x) {
+  split_id <- vec_split_id(x)
+  vec_slice(split_id, vec_order(split_id$key))
+}
 
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   data <- as_tibble(data)
@@ -21,12 +26,7 @@ make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
 
   # Only train the dictionary based on selected columns
   grouping_variables <- select(ungroup(data), one_of(vars))
-  c(old_keys, old_rows) %<-% vec_split_id(grouping_variables)
-
-  # Keys and associated rows, in order
-  orders <- vec_order(old_keys)
-  old_keys <- vec_slice(old_keys, orders)
-  old_rows <- old_rows[orders]
+  c(old_keys, old_rows) %<-% vec_split_id_order(grouping_variables)
 
   map2(old_keys, names(old_keys), function(x, n) {
     if (is.factor(x) && anyNA(x)) {
