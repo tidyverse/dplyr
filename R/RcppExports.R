@@ -38,10 +38,6 @@ maybe_shared_columns <- function(df) {
     .Call(`_dplyr_maybe_shared_columns`, df)
 }
 
-arrange_impl <- function(df, quosures, frame) {
-    .Call(`_dplyr_arrange_impl`, df, quosures, frame)
-}
-
 #' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for `x >= left & x <= right`, implemented

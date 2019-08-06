@@ -13,7 +13,6 @@
 #include <dplyr/visitors/vector/MultipleVectorVisitors.h>
 #include <dplyr/visitors/vector/VectorVisitor.h>
 #include <dplyr/visitors/vector/visitor_impl.h>
-#include <dplyr/visitors/order/OrderVisitorImpl.h>
 #include <dplyr/visitors/join/JoinVisitor.h>
 #include <dplyr/visitors/join/JoinVisitorImpl.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>

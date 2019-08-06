@@ -77,18 +77,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// arrange_impl
-SEXP arrange_impl(Rcpp::DataFrame df, dplyr::QuosureList quosures, SEXP frame);
-RcppExport SEXP _dplyr_arrange_impl(SEXP dfSEXP, SEXP quosuresSEXP, SEXP frameSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< dplyr::QuosureList >::type quosures(quosuresSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
-    rcpp_result_gen = Rcpp::wrap(arrange_impl(df, quosures, frame));
-    return rcpp_result_gen;
-END_RCPP
-}
 // between
 Rcpp::LogicalVector between(Rcpp::NumericVector x, double left, double right);
 RcppExport SEXP _dplyr_between(SEXP xSEXP, SEXP leftSEXP, SEXP rightSEXP) {
@@ -523,7 +511,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_init_logging", (DL_FUNC) &_dplyr_init_logging, 1},
     {"_dplyr_is_maybe_shared", (DL_FUNC) &_dplyr_is_maybe_shared, 2},
     {"_dplyr_maybe_shared_columns", (DL_FUNC) &_dplyr_maybe_shared_columns, 1},
-    {"_dplyr_arrange_impl", (DL_FUNC) &_dplyr_arrange_impl, 3},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
     {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},
