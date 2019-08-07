@@ -207,9 +207,9 @@ test_that("summarise propagate attributes (#194)", {
   expect_equal(class(res$min__g), c("POSIXct", "POSIXt"))
 })
 
-test_that("summarise strips names, but only if grouped (#2231, #2675)", {
+test_that("summarise strips names (#2675)", {
   data <- tibble(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
-  expect_equal(names(data$b), "1")
+  expect_null(names(data$b))
 
   data <- tibble(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))
   expect_null(names(data$b))
@@ -1057,7 +1057,7 @@ test_that("summarise correctly reconstruct group rows", {
   d <- tibble(x = 1:4, g1 = rep(1:2, 2), g2 = 1:4) %>%
     group_by(g1, g2) %>%
     summarise(x = x+1)
-  expect_equal(group_rows(d), list(1:2, 3:4))
+  expect_equal(group_rows(d), list_of(1:2, 3:4))
 })
 
 test_that("summarise can handle POSIXlt columns (#3854)", {

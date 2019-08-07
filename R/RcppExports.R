@@ -140,8 +140,8 @@ select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
 
-summarise_impl <- function(df, dots, frame, caller_env) {
-    .Call(`_dplyr_summarise_impl`, df, dots, frame, caller_env)
+summarise_impl <- function(df, dots, caller_env) {
+    .Call(`_dplyr_summarise_impl`, df, dots, caller_env)
 }
 
 hybrid_impl <- function(df, quosure, caller_env) {

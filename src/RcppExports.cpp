@@ -351,15 +351,14 @@ BEGIN_RCPP
 END_RCPP
 }
 // summarise_impl
-SEXP summarise_impl(Rcpp::DataFrame df, dplyr::QuosureList dots, SEXP frame, SEXP caller_env);
-RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP frameSEXP, SEXP caller_envSEXP) {
+SEXP summarise_impl(Rcpp::DataFrame df, dplyr::QuosureList dots, SEXP caller_env);
+RcppExport SEXP _dplyr_summarise_impl(SEXP dfSEXP, SEXP dotsSEXP, SEXP caller_envSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< dplyr::QuosureList >::type dots(dotsSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
     Rcpp::traits::input_parameter< SEXP >::type caller_env(caller_envSEXP);
-    rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots, frame, caller_env));
+    rcpp_result_gen = Rcpp::wrap(summarise_impl(df, dots, caller_env));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -533,7 +532,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 8},
     {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 3},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
-    {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 4},
+    {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 3},
     {"_dplyr_hybrid_impl", (DL_FUNC) &_dplyr_hybrid_impl, 3},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},

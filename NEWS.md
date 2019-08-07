@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
+
 * `group_by()` uses hashing from the `vctrs` package. 
 
 # dplyr 0.8.4 (development version)
