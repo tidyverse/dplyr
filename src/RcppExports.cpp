@@ -362,6 +362,19 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// summarise_one
+SEXP summarise_one(Rcpp::DataFrame df, Rcpp::List summaries, dplyr::Quosure quosure, SEXP caller_env);
+RcppExport SEXP _dplyr_summarise_one(SEXP dfSEXP, SEXP summariesSEXP, SEXP quosureSEXP, SEXP caller_envSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
+    Rcpp::traits::input_parameter< Rcpp::List >::type summaries(summariesSEXP);
+    Rcpp::traits::input_parameter< dplyr::Quosure >::type quosure(quosureSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type caller_env(caller_envSEXP);
+    rcpp_result_gen = Rcpp::wrap(summarise_one(df, summaries, quosure, caller_env));
+    return rcpp_result_gen;
+END_RCPP
+}
 // hybrid_impl
 SEXP hybrid_impl(Rcpp::DataFrame df, dplyr::Quosure quosure, SEXP caller_env);
 RcppExport SEXP _dplyr_hybrid_impl(SEXP dfSEXP, SEXP quosureSEXP, SEXP caller_envSEXP) {
@@ -533,6 +546,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_mutate_impl", (DL_FUNC) &_dplyr_mutate_impl, 3},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
     {"_dplyr_summarise_impl", (DL_FUNC) &_dplyr_summarise_impl, 3},
+    {"_dplyr_summarise_one", (DL_FUNC) &_dplyr_summarise_one, 4},
     {"_dplyr_hybrid_impl", (DL_FUNC) &_dplyr_hybrid_impl, 3},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},

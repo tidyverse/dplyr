@@ -189,6 +189,50 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
   mutate_impl(.data, dots, caller_env())
 }
 
+#' @export
+summarise2 <- function(.data, ...) {
+  dots <- enquos(...)
+  dots_names <- names(dots)
+
+  summaries <- list()
+  for (i in seq_along(dots)) {
+    # summarise_one() gives a list in which each element is the result of
+    # evaluating the quosure in the "sliced data mask"
+    #
+    # vec_c() simplifies it to a vctr (might be a data frame)
+    result <- vec_c(!!!summarise_one(.data, summaries, dots[[i]], caller_env()))
+
+    if (is.null(dots_names) || dots_names[i] == "") {
+      # auto splice when the quosure is not named
+      if (is.data.frame(result)) {
+        summaries <- append(summaries, list2(!!!result))
+      }
+    } else {
+      # treat as a single output otherwise
+      summaries <- append(summaries, list2(!!dots_names[i] := result))
+    }
+
+  }
+
+  out <- add_column(group_keys(.data), !!!summaries)
+
+  if (is_grouped_df(.data) && length(group_vars(.data) > 1)) {
+    out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+}
+
+
+
 #' @importFrom tibble add_column
 #' @export
 summarise.tbl_df <- function(.data, ...) {
