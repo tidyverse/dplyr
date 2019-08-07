@@ -8,7 +8,6 @@
 #include <dplyr/hybrid/scalar_result/n.h>
 #include <dplyr/hybrid/scalar_result/sum.h>
 #include <dplyr/hybrid/scalar_result/mean_sd_var.h>
-#include <dplyr/hybrid/scalar_result/n_distinct.h>
 #include <dplyr/hybrid/scalar_result/first_last.h>
 #include <dplyr/hybrid/scalar_result/group_indices.h>
 #include <dplyr/hybrid/scalar_result/min_max.h>
@@ -33,7 +32,6 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
   Expression<SlicedTibble> expression(expr, mask, env, caller_env);
   switch (expression.get_id()) {
     HYBRID_HANDLE_CASE(N, n)
-    HYBRID_HANDLE_CASE(N_DISTINCT, n_distinct)
     HYBRID_HANDLE_CASE(GROUP_INDICES, group_indices)
     HYBRID_HANDLE_CASE(ROW_NUMBER, row_number)
     HYBRID_HANDLE_CASE(SUM, sum)

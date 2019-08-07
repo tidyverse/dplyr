@@ -73,7 +73,6 @@ void init() {
     hybrid_init(dplyr, symbols::cume_dist, symbols::dplyr, hybrid::CUME_DIST);
     hybrid_init(dplyr, symbols::lead, symbols::dplyr, hybrid::LEAD);
     hybrid_init(dplyr, symbols::lag, symbols::dplyr, hybrid::LAG);
-    hybrid_init(dplyr, symbols::n_distinct, symbols::dplyr, hybrid::N_DISTINCT);
 
     SEXP base = R_BaseEnv;
     hybrid_init(base, symbols::sum, symbols::base, hybrid::SUM);

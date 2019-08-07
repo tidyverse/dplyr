@@ -46,39 +46,13 @@ test_that("hybrid evaluation environment is cleaned up (#2358)", {
   )
 })
 
-test_that("n() and n_distinct() use hybrid evaluation", {
+test_that("n() uses hybrid evaluation", {
   d <- tibble(a = 1:5)
   expect_hybrid(d, n())
   expect_hybrid(d, dplyr::n())
   expect_hybrid(d, (!!n)())
   expect_not_hybrid(d, list(1:n()))
   expect_not_hybrid(d, n() + 1)
-
-  c <- 1:5
-  expect_hybrid(d, n_distinct(a))
-  expect_hybrid(d, n_distinct(a, na.rm = TRUE))
-  expect_hybrid(d, n_distinct(a, na.rm = FALSE))
-  expect_hybrid(d, dplyr::n_distinct(a))
-  expect_hybrid(d, dplyr::n_distinct(a, na.rm = TRUE))
-  expect_hybrid(d, dplyr::n_distinct(a, na.rm = FALSE))
-  expect_hybrid(d, (!!n_distinct)(a))
-  expect_hybrid(d, (!!n_distinct)(a, na.rm = TRUE))
-  expect_hybrid(d, (!!n_distinct)(a, na.rm = FALSE))
-
-  expect_not_hybrid(d, n_distinct(c))
-  expect_not_hybrid(d, n_distinct(a, c))
-
-  d <- tibble(a = rep(1L, 3), b = 1:3)
-  expect_hybrid(d, n_distinct(a, b))
-  expect_hybrid(d, n_distinct(a, b, na.rm = TRUE))
-  expect_hybrid(d, n_distinct(a, b, na.rm = FALSE))
-  expect_hybrid(d, dplyr::n_distinct(a, b))
-  expect_hybrid(d, dplyr::n_distinct(a, b, na.rm = TRUE))
-  expect_hybrid(d, dplyr::n_distinct(a, b, na.rm = FALSE))
-  expect_hybrid(d, (!!n_distinct)(a, b))
-  expect_hybrid(d, (!!n_distinct)(a, b, na.rm = TRUE))
-  expect_hybrid(d, (!!n_distinct)(a, b, na.rm = FALSE))
-  expect_not_hybrid(d, n_distinct())
 })
 
 test_that("<column> %in% <column> is hybrid", {
@@ -606,10 +580,6 @@ test_that("window handlers supports quosured symbols", {
   expect_hybrid(mtcars, dense_rank(!!quo(disp)))
 })
 
-test_that("n_distinct() handler supports quosured symbols", {
-  expect_hybrid(mtcars, n_distinct(!!quo(cyl)))
-})
-
 test_that("nth(), first() and last() support quosured symbols", {
   expect_hybrid(mtcars, first(!!quo(cyl)))
   expect_hybrid(mtcars, last(!!quo(cyl)))
@@ -692,9 +662,6 @@ test_that("hybrid evaluation can be disabled locally (#3255)", {
   expect_not_hybrid(tbl, n())
   expect_hybrid(tbl, dplyr::n())
 
-  n_distinct <- function(...) 42
-  expect_not_hybrid(tbl, n_distinct(x))
-  expect_hybrid(tbl, dplyr::n_distinct(x))
 })
 
 test_that("verbs can nest with well defined behavior (#2080)", {
