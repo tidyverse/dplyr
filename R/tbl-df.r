@@ -200,6 +200,10 @@ summarise2 <- function(.data, ...) {
     # evaluating the quosure in the "sliced data mask"
     #
     # vec_c() simplifies it to a vctr (might be a data frame)
+    #
+    # TODO: assert that each element of what is returned by summarise_one() respects vec_size(.) == 1L
+    # TODO: implement an R version of summarise_one()
+    # TODO: reinject hybrid evaluation at the R level
     result <- vec_c(!!!summarise_one(.data, summaries, dots[[i]], caller_env()))
 
     if (is.null(dots_names) || dots_names[i] == "") {
