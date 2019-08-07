@@ -6,8 +6,6 @@
 
 #include <dplyr/visitors/CharacterVectorOrderer.h>
 
-#include <dplyr/visitors/vector/visitor_impl.h>
-
 #include <dplyr/visitors/join/JoinVisitor.h>
 #include <dplyr/visitors/join/JoinVisitorImpl.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
@@ -15,70 +13,6 @@
 #include <tools/bad.h>
 
 namespace dplyr {
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :
-  data(data_),
-  visitors(),
-  visitor_names(vec_names_or_empty(data))
-{
-  for (int i = 0; i < data.size(); i++) {
-    VectorVisitor* v = visitor(data[i]);
-    visitors.push_back(v);
-  }
-}
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_, const SymbolVector& names) :
-  data(data_),
-  visitors(),
-  visitor_names(names)
-{
-
-  int n = names.size();
-  Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data));
-  Rcpp::Shield<SEXP> indices(r_match(names.get_vector(), data_names));
-  int* p_indices = INTEGER(indices);
-
-  for (int i = 0; i < n; i++) {
-    if (p_indices[i] == NA_INTEGER) {
-      bad_col(names[i], "is unknown");
-    }
-    SEXP column = data[p_indices[i] - 1];
-    visitors.push_back(visitor(column));
-  }
-
-}
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::IntegerVector& indices) :
-  data(data_),
-  visitors(),
-  visitor_names()
-{
-
-  Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data));
-
-  int n = indices.size();
-  for (int i = 0; i < n; i++) {
-    int pos = check_range_one_based(indices[i], data.size());
-
-    VectorVisitor* v = visitor(data[pos - 1]);
-    visitors.push_back(v);
-    visitor_names.push_back(STRING_ELT(data_names, pos - 1));
-  }
-}
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_,  int n) :
-  data(data_),
-  visitors(n),
-  visitor_names(n)
-{
-
-  Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data));
-
-  for (int i = 0; i < n; i++) {
-    visitors[i] = visitor(data[i]);
-    visitor_names.set(i, STRING_ELT(data_names, i));
-  }
-}
 
 DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, const SymbolVector& names_left, const SymbolVector& names_right, bool warn_, bool na_match) :
   left(left_), right(right_),
