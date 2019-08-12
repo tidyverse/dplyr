@@ -198,32 +198,78 @@ assert_all_size_one <- function(x) {
   }
 }
 
+summarise_data_mask <- function(data, rows) {
+  chunks_env <- env()
+  map2(data, names(data), function(col, nm) {
+    env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+  })
+
+  bottom <- env()
+  column_names <- set_names(names(data))
+
+  .current_group_index <- NA_integer_
+  env_bind_active(bottom, !!!map(column_names, function(column) {
+    function() {
+      chunks_env[[column]][[.current_group_index]]
+    }
+  }))
+
+  mask <- new_data_mask(bottom)
+  mask$.set_current_group <- function(group_index) {
+    .current_group_index <<- group_index
+  }
+  mask$.add_summarised <- function(name, chunks) {
+    env_bind_active(bottom, !!name := function() {
+      chunks[[.current_group_index]]
+    })
+  }
+
+  mask
+}
+
 #' @export
 summarise2 <- function(.data, ...) {
   dots <- enquos(...)
   dots_names <- names(dots)
 
+  rows <- group_rows(.data)
+  mask <- summarise_data_mask(.data, rows)
+  caller <- caller_env()
+
   summaries <- list()
   for (i in seq_along(dots)) {
-    # summarise_one() gives a list in which each element is the result of
+    # a list in which each element is the result of
     # evaluating the quosure in the "sliced data mask"
     #
-    # vec_c() simplifies it to a vctr (might be a data frame)
-    #
-    # TODO: implement an R version of summarise_one()
     # TODO: reinject hybrid evaluation at the R level
-    chunks <- summarise_one(.data, summaries, dots[[i]], caller_env())
+    chunks <- map(seq_along(rows), function(group) {
+      mask$.set_current_group(group)
+      eval_tidy(dots[[i]], mask, env = caller)
+    })
+
     assert_all_size_one(chunks)
+
+    # vec_c() simplifies it to a vctr (might be a data frame)
     result <- vec_c(!!!chunks)
 
     if (is.null(dots_names) || dots_names[i] == "") {
       # auto splice when the quosure is not named
       if (is.data.frame(result)) {
         summaries <- append(summaries, list2(!!!result))
+
+        # remember each result separately
+        map2(seq_along(result), names(result), function(i, nm) {
+          mask$.add_summarised(nm, map(chunks, i))
+        })
+      } else {
+        abort("cannot auto splice non data frame results")
       }
     } else {
       # treat as a single output otherwise
       summaries <- append(summaries, list2(!!dots_names[i] := result))
+
+      # remember
+      mask$.add_summarised(dots_names[i], chunks)
     }
 
   }

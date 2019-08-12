@@ -92,53 +92,6 @@ SEXP summarise_impl(Rcpp::DataFrame df, dplyr::QuosureList dots, SEXP caller_env
 namespace dplyr {
 
 template <typename SlicedTibble>
-SEXP summarise_one_impl(const Rcpp::DataFrame& df, const Rcpp::List& summaries, const dplyr::Quosure& quosure, SEXP caller_env) {
-  SlicedTibble gdf(df);
-
-  DataMask<SlicedTibble> mask(gdf);
-
-  // register the summaries
-  SEXP summaries_names = Rf_getAttrib(summaries, R_NamesSymbol);
-  for (int i = 0; i < summaries.size(); i++) {
-    mask.input_summarised(SymbolString(STRING_ELT(summaries_names, i)), summaries[i]);
-  }
-
-  mask.setup();
-
-  int ngroups = gdf.ngroups();
-  Rcpp::List result(ngroups);
-  typename SlicedTibble::group_iterator it = gdf.group_begin();
-  for (int i = 0; i < ngroups; i++, ++it) {
-    result[i] = mask.eval(quosure, *it);
-  }
-
-  return result;
-
-}
-
-}
-
-
-
-
-// [[Rcpp::export(rng = false)]]
-SEXP summarise_one(Rcpp::DataFrame df, Rcpp::List summaries, dplyr::Quosure quosure, SEXP caller_env) {
-
-  // check_valid_colnames(df);
-  if (Rcpp::is<dplyr::RowwiseDataFrame>(df)) {
-    return dplyr::summarise_one_impl<dplyr::RowwiseDataFrame>(df, summaries, quosure, caller_env);
-  } else if (Rcpp::is<dplyr::GroupedDataFrame>(df)) {
-    return dplyr::summarise_one_impl<dplyr::GroupedDataFrame>(df, summaries, quosure, caller_env);
-  } else {
-    return dplyr::summarise_one_impl<dplyr::NaturalDataFrame>(df, summaries, quosure, caller_env);
-  }
-}
-
-
-
-namespace dplyr {
-
-template <typename SlicedTibble>
 SEXP hybrid_template(Rcpp::DataFrame df, const Quosure& quosure, SEXP caller_env) {
   SlicedTibble gdf(df);
 

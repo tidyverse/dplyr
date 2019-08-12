@@ -144,10 +144,6 @@ summarise_impl <- function(df, dots, caller_env) {
     .Call(`_dplyr_summarise_impl`, df, dots, caller_env)
 }
 
-summarise_one <- function(df, summaries, quosure, caller_env) {
-    .Call(`_dplyr_summarise_one`, df, summaries, quosure, caller_env)
-}
-
 hybrid_impl <- function(df, quosure, caller_env) {
     .Call(`_dplyr_hybrid_impl`, df, quosure, caller_env)
 }
