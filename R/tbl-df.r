@@ -189,6 +189,15 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
   mutate_impl(.data, dots, caller_env())
 }
 
+assert_all_size_one <- function(x) {
+  # potentially vec_sizes()
+  # https://github.com/r-lib/vctrs/pull/539
+  sizes <- map_int(x, vec_size)
+  if (any(sizes != 1L)) {
+    abort("Result does not respect vec_size() == 1")
+  }
+}
+
 #' @export
 summarise2 <- function(.data, ...) {
   dots <- enquos(...)
@@ -201,10 +210,11 @@ summarise2 <- function(.data, ...) {
     #
     # vec_c() simplifies it to a vctr (might be a data frame)
     #
-    # TODO: assert that each element of what is returned by summarise_one() respects vec_size(.) == 1L
     # TODO: implement an R version of summarise_one()
     # TODO: reinject hybrid evaluation at the R level
-    result <- vec_c(!!!summarise_one(.data, summaries, dots[[i]], caller_env()))
+    chunks <- summarise_one(.data, summaries, dots[[i]], caller_env())
+    assert_all_size_one(chunks)
+    result <- vec_c(!!!chunks)
 
     if (is.null(dots_names) || dots_names[i] == "") {
       # auto splice when the quosure is not named
