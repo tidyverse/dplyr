@@ -189,12 +189,11 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
   mutate_impl(.data, dots, caller_env())
 }
 
-assert_all_size_one <- function(x) {
-  # potentially vec_sizes()
+validate_summarise_sizes <- function(x, .size) {
   # https://github.com/r-lib/vctrs/pull/539
   sizes <- map_int(x, vec_size)
-  if (any(sizes != 1L)) {
-    abort("Result does not respect vec_size() == 1")
+  if (any(sizes != .size)) {
+    abort("Result does not respect vec_size() == .size")
   }
 }
 
@@ -228,7 +227,7 @@ summarise_data_mask <- function(data, rows) {
 }
 
 #' @export
-summarise2 <- function(.data, ...) {
+summarise2 <- function(.data, ..., .size = 1L) {
   dots <- enquos(...)
   dots_names <- names(dots)
 
@@ -237,6 +236,7 @@ summarise2 <- function(.data, ...) {
   caller <- caller_env()
 
   summaries <- list()
+
   for (i in seq_along(dots)) {
     # a list in which each element is the result of
     # evaluating the quosure in the "sliced data mask"
@@ -247,7 +247,12 @@ summarise2 <- function(.data, ...) {
       eval_tidy(dots[[i]], mask, env = caller)
     })
 
-    assert_all_size_one(chunks)
+    # remember the sizes if .size = NA
+    if (is.na(.size) && i == 1L) {
+      .size <- map_int(chunks, vec_size)
+    }
+
+    validate_summarise_sizes(chunks, .size)
 
     # vec_c() simplifies it to a vctr (might be a data frame)
     result <- vec_c(!!!chunks)
@@ -274,7 +279,17 @@ summarise2 <- function(.data, ...) {
 
   }
 
-  out <- add_column(group_keys(.data), !!!summaries)
+  old_keys <- group_keys(.data)
+  grouping <- if (identical(.size, 1L)) {
+    old_keys
+  } else if (length(.size) == 1L) {
+    # all same size
+    vec_slice(old_keys, rep(seq(1L, nrow(old_keys)), each = .size))
+  } else {
+    vec_slice(old_keys, rep(seq(1L, nrow(old_keys)), .size))
+  }
+
+  out <- add_column(grouping, !!!summaries)
 
   if (is_grouped_df(.data) && length(group_vars(.data) > 1)) {
     out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
