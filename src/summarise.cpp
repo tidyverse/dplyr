@@ -108,7 +108,7 @@ SEXP summarise_one_impl(const Rcpp::DataFrame& df, const Rcpp::List& summaries, 
   int ngroups = gdf.ngroups();
   Rcpp::List result(ngroups);
   typename SlicedTibble::group_iterator it = gdf.group_begin();
-  for (int i=0; i<ngroups; i++, ++it) {
+  for (int i = 0; i < ngroups; i++, ++it) {
     result[i] = mask.eval(quosure, *it);
   }
 
