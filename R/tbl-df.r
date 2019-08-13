@@ -226,8 +226,9 @@ summarise_data_mask <- function(data, rows) {
   mask
 }
 
+#' @importFrom tibble add_column
 #' @export
-summarise2 <- function(.data, ..., .size = 1L) {
+summarise.tbl_df <- function(.data, ...) {
   dots <- enquos(...)
   dots_names <- names(dots)
 
@@ -237,6 +238,10 @@ summarise2 <- function(.data, ..., .size = 1L) {
 
   summaries <- list()
 
+  .size <- 1L
+
+  old_group_size <- context_env[["..group_size"]]
+  old_group_number <- context_env[["..group_number"]]
   for (i in seq_along(dots)) {
     # a list in which each element is the result of
     # evaluating the quosure in the "sliced data mask"
@@ -244,17 +249,21 @@ summarise2 <- function(.data, ..., .size = 1L) {
     # TODO: reinject hybrid evaluation at the R level
     chunks <- map(seq_along(rows), function(group) {
       mask$.set_current_group(group)
+      context_env[["..group_size"]] <- length(rows[[i]])
+      context_env[["..group_number"]] <- group
       eval_tidy(dots[[i]], mask, env = caller)
     })
 
     # remember the sizes if .size = NA
-    if (is.na(.size) && i == 1L) {
-      .size <- map_int(chunks, vec_size)
+    if (identical(.size, 1L)) {
+      sizes <- map_int(chunks, vec_size)
+      if (any(sizes != 1L)) {
+        .size <- sizes
+      }
+    } else {
+      validate_summarise_sizes(chunks, .size)
     }
 
-    validate_summarise_sizes(chunks, .size)
-
-    # vec_c() simplifies it to a vctr (might be a data frame)
     result <- vec_c(!!!chunks)
 
     if (is.null(dots_names) || dots_names[i] == "") {
@@ -278,15 +287,12 @@ summarise2 <- function(.data, ..., .size = 1L) {
     }
 
   }
+  context_env[["..group_size"]] <- old_group_size
+  context_env[["..group_number"]] <- old_group_number
 
-  old_keys <- group_keys(.data)
-  grouping <- if (identical(.size, 1L)) {
-    old_keys
-  } else if (length(.size) == 1L) {
-    # all same size
-    vec_slice(old_keys, rep(seq(1L, nrow(old_keys)), each = .size))
-  } else {
-    vec_slice(old_keys, rep(seq(1L, nrow(old_keys)), .size))
+  grouping <- group_keys(.data)
+  if (!identical(.size, 1L)) {
+    grouping <- vec_slice(old_keys, rep(seq2(1L, nrow(old_keys)), .size))
   }
 
   out <- add_column(grouping, !!!summaries)
@@ -306,32 +312,29 @@ summarise2 <- function(.data, ..., .size = 1L) {
   out
 }
 
+#' summarise.tbl_df <- function(.data, ...) {
+#'   dots <- enquos(..., .named = TRUE)
+#'   out <- add_column(
+#'     group_keys(.data),
+#'     !!!summarise_impl(.data, dots, caller_env())
+#'   )
+#'   if (is_grouped_df(.data) && length(group_vars(.data) > 1)) {
+#'     # TODO: that might be simplified using group_keys() given
+#'     #       the group data is already in order
+#'     out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
+#'   }
+#'
+#'   # copy back attributes
+#'   # TODO: challenge that with some vctrs theory
+#'   atts <- attributes(.data)
+#'   atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+#'   for(name in names(atts)) {
+#'     attr(out, name) <- atts[[name]]
+#'   }
+#'
+#'   out
+# }
 
-
-#' @importFrom tibble add_column
-#' @export
-summarise.tbl_df <- function(.data, ...) {
-  dots <- enquos(..., .named = TRUE)
-  out <- add_column(
-    group_keys(.data),
-    !!!summarise_impl(.data, dots, caller_env())
-  )
-  if (is_grouped_df(.data) && length(group_vars(.data) > 1)) {
-    # TODO: that might be simplified using group_keys() given
-    #       the group data is already in order
-    out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
-  }
-
-  # copy back attributes
-  # TODO: challenge that with some vctrs theory
-  atts <- attributes(.data)
-  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
-  for(name in names(atts)) {
-    attr(out, name) <- atts[[name]]
-  }
-
-  out
-}
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
