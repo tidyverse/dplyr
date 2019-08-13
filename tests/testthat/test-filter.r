@@ -254,13 +254,13 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
   res <- df %>% arrange(x) %>% attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% summarise(n()) %>% attr("meta")
+  res <- df %>% summarise(n = n()) %>% attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% group_by(g1) %>% summarise(n()) %>% attr("meta")
+  res <- df %>% group_by(g1) %>% summarise(n = n()) %>% attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% group_by(g1, g2) %>% summarise(n()) %>% attr("meta")
+  res <- df %>% group_by(g1, g2) %>% summarise(n = n()) %>% attr("meta")
   expect_equal(res, "this is important")
 })
 
