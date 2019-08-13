@@ -222,6 +222,7 @@ summarise_data_mask <- function(data, rows) {
       chunks[[.current_group_index]]
     })
   }
+  mask$.data <- as_data_pronoun(mask)
 
   mask
 }
@@ -242,14 +243,18 @@ summarise.tbl_df <- function(.data, ...) {
 
   old_group_size <- context_env[["..group_size"]]
   old_group_number <- context_env[["..group_number"]]
+  on.exit({
+    context_env[["..group_size"]] <- old_group_size
+    context_env[["..group_number"]] <- old_group_number
+  })
   for (i in seq_along(dots)) {
     # a list in which each element is the result of
     # evaluating the quosure in the "sliced data mask"
     #
     # TODO: reinject hybrid evaluation at the R level
-    chunks <- map(seq_along(rows), function(group) {
+    chunks <- map2(seq_along(rows), lengths(rows), function(group, n) {
       mask$.set_current_group(group)
-      context_env[["..group_size"]] <- length(rows[[i]])
+      context_env[["..group_size"]] <- n
       context_env[["..group_number"]] <- group
       eval_tidy(dots[[i]], mask, env = caller)
     })
@@ -287,12 +292,10 @@ summarise.tbl_df <- function(.data, ...) {
     }
 
   }
-  context_env[["..group_size"]] <- old_group_size
-  context_env[["..group_number"]] <- old_group_number
 
   grouping <- group_keys(.data)
   if (!identical(.size, 1L)) {
-    grouping <- vec_slice(old_keys, rep(seq2(1L, nrow(old_keys)), .size))
+    grouping <- vec_slice(grouping, rep(seq2(1L, nrow(grouping)), .size))
   }
 
   out <- add_column(grouping, !!!summaries)
