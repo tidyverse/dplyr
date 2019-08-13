@@ -274,7 +274,7 @@ summarise.tbl_df <- function(.data, ...) {
     if (is.null(dots_names) || dots_names[i] == "") {
       # auto splice when the quosure is not named
       if (is.data.frame(result)) {
-        summaries <- append(summaries, list2(!!!result))
+        summaries[names(result)] <- result
 
         # remember each result separately
         map2(seq_along(result), names(result), function(i, nm) {
@@ -285,7 +285,7 @@ summarise.tbl_df <- function(.data, ...) {
       }
     } else {
       # treat as a single output otherwise
-      summaries <- append(summaries, list2(!!dots_names[i] := result))
+      summaries[[ dots_names[i] ]] <-  result
 
       # remember
       mask$.add_summarised(dots_names[i], chunks)
