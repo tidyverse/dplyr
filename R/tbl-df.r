@@ -218,6 +218,9 @@ summarise_data_mask <- function(data, rows) {
     .current_group_index <<- group_index
   }
   mask$.add_summarised <- function(name, chunks) {
+    if (name %in% group_vars(data)) {
+      abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
+    }
     env_bind_active(bottom, !!name := function() {
       chunks[[.current_group_index]]
     })
@@ -247,6 +250,12 @@ summarise.tbl_df <- function(.data, ...) {
     context_env[["..group_size"]] <- old_group_size
     context_env[["..group_number"]] <- old_group_number
   })
+
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
+  }
+
   for (i in seq_along(dots)) {
     # a list in which each element is the result of
     # evaluating the quosure in the "sliced data mask"
@@ -259,7 +268,15 @@ summarise.tbl_df <- function(.data, ...) {
       eval_tidy(dots[[i]], mask, env = caller)
     })
 
-    # remember the sizes if .size = NA
+    ok <- all(map_lgl(chunks, vec_is))
+    if (!ok) {
+      if (is.null(dots_names) || dots_names[i] == "") {
+        abort(glue("Unsupported type at index {i}"))
+      } else {
+        abort(glue("Unsupported type for result `{dots_names[i]}`"))
+      }
+    }
+
     if (identical(.size, 1L)) {
       sizes <- map_int(chunks, vec_size)
       if (any(sizes != 1L)) {
@@ -300,7 +317,7 @@ summarise.tbl_df <- function(.data, ...) {
 
   out <- add_column(grouping, !!!summaries)
 
-  if (is_grouped_df(.data) && length(group_vars(.data) > 1)) {
+  if (is_grouped_df(.data) && length(group_vars(.data)) > 1) {
     out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
   }
 
