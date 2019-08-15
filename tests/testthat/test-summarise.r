@@ -919,19 +919,14 @@ test_that("typing and NAs for rowwise summarise (#1839)", {
     "No common type",
     class = "vctrs_error_incompatible_type"
   )
-})
-
-
-test_that("typing and NAs for grouped summarise (#1839)", {
-  skip("until rowwise_summarise_data_mask()")
 
   expect_error(
     tibble(id = 1:2, a = list(1, "2")) %>%
       rowwise() %>%
       summarise(a = a[1]) %>%
       .$a,
-    "Column `a` can't promote group 1 to numeric",
-    fixed = TRUE
+    "No common type",
+    class = "vctrs_error_incompatible_type"
   )
 })
 

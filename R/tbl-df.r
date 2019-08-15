@@ -199,9 +199,21 @@ validate_summarise_sizes <- function(x, .size) {
 
 summarise_data_mask <- function(data, rows) {
   chunks_env <- env()
-  map2(data, names(data), function(col, nm) {
-    env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
-  })
+
+  if (inherits(data, "rowwise_df")) {
+    # approximation for now
+    map2(data, names(data), function(col, nm) {
+      if (is_list(col) && !is.data.frame(col)) {
+        env_bind_lazy(chunks_env, !!nm := map(rows, function(row) vec_slice(col, row)[[1L]]))
+      } else {
+        env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+      }
+    })
+  } else {
+    map2(data, names(data), function(col, nm) {
+      env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+    })
+  }
 
   bottom <- env()
   column_names <- set_names(names(data))
