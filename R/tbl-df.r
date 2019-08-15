@@ -344,29 +344,6 @@ summarise.tbl_df <- function(.data, ...) {
   out
 }
 
-#' summarise.tbl_df <- function(.data, ...) {
-#'   dots <- enquos(..., .named = TRUE)
-#'   out <- add_column(
-#'     group_keys(.data),
-#'     !!!summarise_impl(.data, dots, caller_env())
-#'   )
-#'   if (is_grouped_df(.data) && length(group_vars(.data) > 1)) {
-#'     # TODO: that might be simplified using group_keys() given
-#'     #       the group data is already in order
-#'     out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
-#'   }
-#'
-#'   # copy back attributes
-#'   # TODO: challenge that with some vctrs theory
-#'   atts <- attributes(.data)
-#'   atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
-#'   for(name in names(atts)) {
-#'     attr(out, name) <- atts[[name]]
-#'   }
-#'
-#'   out
-# }
-
 #' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
