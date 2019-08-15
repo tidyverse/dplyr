@@ -708,7 +708,7 @@ test_that("hybrid first, last and nth operate within groups (#3868)", {
 
 test_that("hybrid resolves the symbol", {
   mean <- sum
-  out <- summarise(data.frame(x = 1:10), mean(x))
+  out <- summarise(data.frame(x = 1:10), a = mean(x))
   expect_equal(out[[1]], sum(1:10))
 
   call <- hybrid_call(data.frame(x = 1:10), mean(x))
