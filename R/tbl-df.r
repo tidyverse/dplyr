@@ -247,6 +247,7 @@ summarise_data_mask <- function(data, rows) {
 summarise.tbl_df <- function(.data, ...) {
   dots <- enquos(...)
   dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
 
   rows <- group_rows(.data)
   mask <- summarise_data_mask(.data, rows)
@@ -300,24 +301,19 @@ summarise.tbl_df <- function(.data, ...) {
 
     result <- vec_c(!!!chunks)
 
-    if (is.null(dots_names) || dots_names[i] == "") {
-      # auto splice when the quosure is not named
-      if (is.data.frame(result)) {
-        summaries[names(result)] <- result
+    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+      summaries[names(result)] <- result
 
-        # remember each result separately
-        map2(seq_along(result), names(result), function(i, nm) {
-          mask$.add_summarised(nm, map(chunks, i))
-        })
-      } else {
-        abort("cannot auto splice non data frame results")
-      }
+      # remember each result separately
+      map2(seq_along(result), names(result), function(i, nm) {
+        mask$.add_summarised(nm, map(chunks, i))
+      })
     } else {
       # treat as a single output otherwise
-      summaries[[ dots_names[i] ]] <-  result
+      summaries[[ auto_named_dots[i] ]] <-  result
 
       # remember
-      mask$.add_summarised(dots_names[i], chunks)
+      mask$.add_summarised(auto_named_dots[i], chunks)
     }
 
   }
