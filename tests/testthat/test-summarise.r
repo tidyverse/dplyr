@@ -1131,9 +1131,11 @@ test_that("hybrid min() and max() coerce to integer if there is no infinity (#42
   expect_is(tbl$min, "integer")
   expect_is(tbl$max, "integer")
 
-  tbl <- data.frame(a = 1L, b = factor("a", levels = c("a", "b"))) %>%
-    group_by(b, .drop = FALSE) %>%
-    summarise_all(list(min = min, max = max))
+  expect_warning(
+    tbl <- data.frame(a = 1L, b = factor("a", levels = c("a", "b"))) %>%
+      group_by(b, .drop = FALSE) %>%
+      summarise_all(list(min = min, max = max))
+  )
   expect_equal(tbl,
     data.frame(
       b = factor(c("a", "b"), levels = c("a", "b")),
