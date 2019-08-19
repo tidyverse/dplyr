@@ -1025,7 +1025,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
   expect_error(
     left_join(df1, df2, by = c("x", "y")),
     "name",
-    fixed = TRUE
+    class = "vctrs_error_names_must_be_unique"
   )
 
   expect_error(
@@ -1037,7 +1037,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
   expect_error(
     right_join(df1, df2, by = c("x", "y")),
     "name",
-    fixed = TRUE
+    class = "vctrs_error_names_must_be_unique"
   )
 
   expect_error(
@@ -1049,7 +1049,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
   expect_error(
     inner_join(df1, df2, by = c("x", "y")),
     "name",
-    fixed = TRUE
+    class = "vctrs_error_names_must_be_unique"
   )
 
   expect_error(
@@ -1061,7 +1061,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
   expect_error(
     full_join(df1, df2, by = c("x", "y")),
     "name",
-    fixed = TRUE
+    class = "vctrs_error_names_must_be_unique"
   )
 
   expect_error(
@@ -1073,7 +1073,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
   expect_error(
     semi_join(df1, df2, by = c("x", "y")),
     "name",
-    fixed = TRUE
+    class = "vctrs_error_names_must_be_unique"
   )
 
   # FIXME: Compatibility, should throw an error eventually
@@ -1089,7 +1089,7 @@ test_that("joins reject data frames with duplicate columns (#3243)", {
   expect_error(
     anti_join(df1, df2, by = c("x", "y")),
     "name",
-    fixed = TRUE
+    class = "vctrs_error_names_must_be_unique"
   )
 
   # FIXME: Compatibility, should throw an error eventually
