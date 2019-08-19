@@ -15,139 +15,6 @@
 
 namespace dplyr {
 
-inline
-void check_result_length(const Rcpp::LogicalVector& test, int n) {
-  if (test.size() != n) {
-    Rcpp::stop("Result must have length %d, not %d", n, test.size());
-  }
-}
-
-inline
-SEXP check_result_lgl_type(SEXP tmp) {
-  if (TYPEOF(tmp) != LGLSXP) {
-    bad_pos_arg(2, "filter condition does not evaluate to a logical vector");
-  }
-  return tmp;
-}
-
-// class to collect indices for each group in a filter()
-template <typename SlicedTibble>
-class GroupFilterIndices {
-  typedef typename SlicedTibble::slicing_index slicing_index;
-
-  const SlicedTibble& tbl;
-
-  int n;
-
-  Rcpp::LogicalVector test;
-  std::vector<int> groups;
-
-  int ngroups;
-
-  std::vector<int> new_sizes;
-
-  int k;
-  typename SlicedTibble::group_iterator git;
-
-public:
-
-  Rcpp::IntegerVector indices;
-  Rcpp::List rows;
-
-  GroupFilterIndices(const SlicedTibble& tbl_) :
-    tbl(tbl_),
-    n(tbl.data().nrow()),
-    test(n),
-    groups(n),
-    ngroups(tbl.ngroups()),
-    new_sizes(ngroups),
-    k(0),
-    git(tbl.group_begin()),
-    rows(ngroups)
-  {
-    Rf_setAttrib(rows, R_ClassSymbol, dplyr::vectors::classes_vctrs_list_of);
-    Rf_setAttrib(rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
-  }
-
-  // set the group i to be empty
-  void empty_group(int i) {
-    typename SlicedTibble::slicing_index idx = *git;
-    int ng = idx.size();
-    for (int j = 0; j < ng; j++) {
-      test[idx[j]] = FALSE;
-      groups[idx[j]] = i;
-    }
-    new_sizes[i] = 0;
-    ++git;
-  }
-
-  // the group i contains all the data from the original
-  void add_dense_group(int i) {
-    typename SlicedTibble::slicing_index idx = *git;
-    int ng = idx.size();
-
-    for (int j = 0; j < ng; j++) {
-      test[idx[j]] = TRUE;
-      groups[idx[j]] = i;
-    }
-    k += new_sizes[i] = ng;
-    ++git;
-  }
-
-  // the group i contains some data, available in g_test
-  void add_group_lgl(int i, const Rcpp::LogicalVector& g_test) {
-    typename SlicedTibble::slicing_index idx = *git;
-
-    int ng = idx.size();
-    const int* p_test = g_test.begin();
-
-    int new_size = 0;
-    for (int j = 0; j < ng; j++, ++p_test) {
-      new_size += *p_test == TRUE;
-      test[idx[j]] = *p_test == TRUE;
-      groups[idx[j]] = i;
-    }
-    k += new_sizes[i] = new_size;
-    ++git;
-  }
-
-  // the total number of rows
-  // only makes sense when the object is fully trained
-  inline int size() const {
-    return k;
-  }
-
-  // once this has been trained on all groups
-  // this materialize indices and rows
-  void process() {
-    indices = Rcpp::IntegerVector(Rcpp::no_init(k));
-    std::vector<int*> p_rows(ngroups);
-    for (int i = 0; i < ngroups; i++) {
-      rows[i] = Rf_allocVector(INTSXP, new_sizes[i]);
-      p_rows[i] = INTEGER(rows[i]);
-    }
-
-    // process test and groups, fill indices and rows
-    int* p_test = LOGICAL(test);
-
-    std::vector<int> rows_offset(ngroups, 0);
-    int i = 0;
-    for (int j = 0; j < n; j++, ++p_test) {
-      if (*p_test == 1) {
-        // update rows
-        int group = groups[j];
-        p_rows[group][rows_offset[group]++] = i + 1;
-
-        // update indices
-        indices[i] = j + 1;
-        i++;
-      }
-    }
-  }
-
-};
-
-
 // template class to rebuild the attributes
 // in the general case there is nothing to do
 template <typename SlicedTibble, typename IndexCollector>
@@ -219,74 +86,41 @@ SEXP structure_filter(const SlicedTibble& gdf, const IndexCollector& group_indic
   return out;
 }
 
-
-template <typename SlicedTibble>
-SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
-  typedef typename SlicedTibble::group_iterator GroupIterator;
-  typedef typename SlicedTibble::slicing_index slicing_index;
-
-  // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
-  GroupIterator git = gdf.group_begin();
-  DataMask<SlicedTibble> mask(gdf) ;
-
-  int ngroups = gdf.ngroups() ;
-
-  // tracking the indices for each group
-  GroupFilterIndices<SlicedTibble> group_indices(gdf);
-
-  // traverse each group and fill `group_indices`
-  mask.setup();
-
-  for (int i = 0; i < ngroups; i++, ++git) {
-    const slicing_index& indices = *git;
-    int chunk_size = indices.size();
-
-    // empty group size. no need to evaluate the expression
-    if (chunk_size == 0) {
-      group_indices.empty_group(i) ;
-      continue;
-    }
-
-    // the result of the expression in the group
-    Rcpp::LogicalVector g_test = check_result_lgl_type(mask.eval(quo, indices));
-    if (g_test.size() == 1) {
-      // we get length 1 so either we have an empty group, or a dense group, i.e.
-      // a group that has all the rows from the original data
-      if (g_test[0] == TRUE) {
-        group_indices.add_dense_group(i) ;
-      } else {
-        group_indices.empty_group(i);
-      }
-    } else {
-      // any other size, so we check that it is consistent with the group size
-      check_result_length(g_test, chunk_size);
-      group_indices.add_group_lgl(i, g_test);
-    }
-  }
-
-  group_indices.process();
-
-  Rcpp::Shield<SEXP> env(quo.env());
-  return structure_filter(gdf, group_indices, env) ;
-}
-
 }
 
 // [[Rcpp::export(rng = false)]]
-SEXP filter_impl(Rcpp::DataFrame df, dplyr::Quosure quo) {
-  if (df.nrows() == 0 || Rf_isNull(df)) {
-    return df;
-  }
-  check_valid_colnames(df);
-  assert_all_allow_list(df);
+SEXP filter_update_rows(int n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes) {
+  R_xlen_t n_groups = XLENGTH(new_rows_sizes);
 
-  if (Rcpp::is<dplyr::GroupedDataFrame>(df)) {
-    return dplyr::filter_template<dplyr::GroupedDataFrame>(dplyr::GroupedDataFrame(df), quo);
-  } else if (Rcpp::is<dplyr::RowwiseDataFrame>(df)) {
-    return dplyr::filter_template<dplyr::RowwiseDataFrame>(dplyr::RowwiseDataFrame(df), quo);
-  } else {
-    return dplyr::filter_template<dplyr::NaturalDataFrame>(dplyr::NaturalDataFrame(df), quo);
+  SEXP new_rows = PROTECT(Rf_allocVector(VECSXP, n_groups));
+  Rf_setAttrib(new_rows, R_ClassSymbol, dplyr::vectors::classes_vctrs_list_of);
+  Rf_setAttrib(new_rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
+
+  // allocate each new_rows element
+  int* p_new_rows_sizes = INTEGER(new_rows_sizes);
+  std::vector<int> tracks(n_groups);
+  std::vector<int*> p_new_rows(n_groups);
+  for (R_xlen_t i = 0; i < n_groups; i++) {
+    SEXP new_rows_i = Rf_allocVector(INTSXP, p_new_rows_sizes[i]);
+    SET_VECTOR_ELT(new_rows, i, new_rows_i);
+    p_new_rows[i] = INTEGER(new_rows_i);
   }
+
+  // traverse group_indices and keep to fill new_rows
+  int* p_group_indices = INTEGER(group_indices);
+  int* p_keep = LOGICAL(keep);
+  int j = 1;
+  for (R_xlen_t i = 0; i < n_rows; i++) {
+    if (p_keep[i] == TRUE) {
+      int g = p_group_indices[i];
+      int track = tracks[g - 1]++;
+      p_new_rows[g - 1][track] = j++;
+    }
+  }
+
+  UNPROTECT(1);
+
+  return new_rows;
 }
 
 // ------------------------------------------------- slice()

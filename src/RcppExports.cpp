@@ -142,14 +142,16 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// filter_impl
-SEXP filter_impl(Rcpp::DataFrame df, dplyr::Quosure quo);
-RcppExport SEXP _dplyr_filter_impl(SEXP dfSEXP, SEXP quoSEXP) {
+// filter_update_rows
+SEXP filter_update_rows(int n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes);
+RcppExport SEXP _dplyr_filter_update_rows(SEXP n_rowsSEXP, SEXP group_indicesSEXP, SEXP keepSEXP, SEXP new_rows_sizesSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< dplyr::Quosure >::type quo(quoSEXP);
-    rcpp_result_gen = Rcpp::wrap(filter_impl(df, quo));
+    Rcpp::traits::input_parameter< int >::type n_rows(n_rowsSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type group_indices(group_indicesSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type keep(keepSEXP);
+    Rcpp::traits::input_parameter< SEXP >::type new_rows_sizes(new_rows_sizesSEXP);
+    rcpp_result_gen = Rcpp::wrap(filter_update_rows(n_rows, group_indices, keep, new_rows_sizes));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -504,7 +506,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
-    {"_dplyr_filter_impl", (DL_FUNC) &_dplyr_filter_impl, 2},
+    {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
     {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},

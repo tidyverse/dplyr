@@ -134,7 +134,6 @@ regroup <- function(data) {
   data
 }
 
-
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
@@ -144,12 +143,69 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   } else if (is_empty(dots)) {
     return(.data)
   }
-
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
-  out <- filter_impl(.data, quo)
-  if (!.preserve && is_grouped_df(.data)) {
-    out <- regroup(out)
+
+  rows <- group_rows(.data)
+  mask <- groupwise_data_mask(.data, rows)
+  caller <- caller_env()
+
+  old_group_size <- context_env[["..group_size"]]
+  old_group_number <- context_env[["..group_number"]]
+  on.exit({
+    context_env[["..group_size"]] <- old_group_size
+    context_env[["..group_number"]] <- old_group_number
+  })
+
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
   }
+
+  keep <- logical(nrow(.data))
+  group_indices <- integer(nrow(.data))
+  new_rows_sizes <- integer(length(rows))
+
+  for (group in seq_along(rows)) {
+    current_rows <- rows[[group]]
+    mask$.set_current_group(group)
+    n <- length(current_rows)
+    context_env[["..group_size"]] <- n
+    context_env[["..group_number"]] <- group
+    res <- eval_tidy(quo, mask, env = caller)
+    if (!vec_is(res, logical())) {
+      abort(
+        "filter() expressions should return logical vectors of the same size as the group",
+        "dplyr_filter_wrong_result"
+      )
+    }
+    res <- vec_recycle(res, n)
+
+    new_rows_sizes[group] <- sum(res, na.rm = TRUE)
+    group_indices[current_rows] <- group
+    keep[current_rows[res]] <- TRUE
+  }
+
+  out <- vec_slice(.data, keep)
+
+  # regroup
+  if (is_grouped_df(.data)) {
+    new_groups <- group_data(.data)
+    new_groups$.rows <- filter_update_rows(nrow(.data), group_indices, keep, new_rows_sizes)
+    attr(out, "groups") <- new_groups
+
+    if (!.preserve) {
+      out <- regroup(out)
+    }
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
   out
 }
 #' @export
@@ -197,7 +253,7 @@ validate_summarise_sizes <- function(x, .size) {
   }
 }
 
-summarise_data_mask <- function(data, rows) {
+groupwise_data_mask <- function(data, rows) {
   chunks_env <- env()
 
   if (inherits(data, "rowwise_df")) {
@@ -250,7 +306,7 @@ summarise.tbl_df <- function(.data, ...) {
   auto_named_dots <- names(enquos(..., .named = TRUE))
 
   rows <- group_rows(.data)
-  mask <- summarise_data_mask(.data, rows)
+  mask <- groupwise_data_mask(.data, rows)
   caller <- caller_env()
 
   summaries <- list()

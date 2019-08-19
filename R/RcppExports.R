@@ -76,8 +76,8 @@ expand_groups <- function(old_groups, positions, nr) {
     .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }
 
-filter_impl <- function(df, quo) {
-    .Call(`_dplyr_filter_impl`, df, quo)
+filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
+    .Call(`_dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }
 
 slice_impl <- function(df, quosure) {
