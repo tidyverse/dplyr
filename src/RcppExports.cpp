@@ -155,17 +155,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// slice_impl
-SEXP slice_impl(Rcpp::DataFrame df, dplyr::Quosure quosure);
-RcppExport SEXP _dplyr_slice_impl(SEXP dfSEXP, SEXP quosureSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< dplyr::Quosure >::type quosure(quosureSEXP);
-    rcpp_result_gen = Rcpp::wrap(slice_impl(df, quosure));
-    return rcpp_result_gen;
-END_RCPP
-}
 // group_data_grouped_df
 Rcpp::DataFrame group_data_grouped_df(Rcpp::DataFrame data);
 RcppExport SEXP _dplyr_group_data_grouped_df(SEXP dataSEXP) {
@@ -507,7 +496,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
-    {"_dplyr_slice_impl", (DL_FUNC) &_dplyr_slice_impl, 2},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
