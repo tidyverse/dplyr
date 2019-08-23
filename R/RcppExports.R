@@ -128,10 +128,6 @@ full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
     .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
 
-mutate_impl <- function(df, dots, caller_env) {
-    .Call(`_dplyr_mutate_impl`, df, dots, caller_env)
-}
-
 select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
