@@ -1,6 +1,7 @@
 context("hybrid")
 
 test_that("hybrid evaluation environment is cleaned up (#2358)", {
+  skip("hybrid is being reworked, this is mostly irrelevant now")
   get_data_mask_active_env <- function(e){
     env_parent(env_parent(e))
   }

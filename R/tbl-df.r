@@ -304,13 +304,96 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
-  dots <- enquos(..., .named = TRUE)
-  mutate_impl(.data, dots, caller_env())
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+  if (length(dots) == 0L) {
+    return(.data)
+  }
+
+  rows <- group_rows(.data)
+  rows_lengths <- lengths(rows)
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
+  }
+
+  o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
+  mask <- groupwise_data_mask(.data, rows)
+
+  caller <- caller_env()
+
+  new_columns <- list()
+
+  old_group_size <- context_env[["..group_size"]]
+  old_group_number <- context_env[["..group_number"]]
+  on.exit({
+    context_env[["..group_size"]] <- old_group_size
+    context_env[["..group_number"]] <- old_group_number
+  })
+
+
+  for (i in seq_along(dots)) {
+    # a list in which each element is the result of
+    # evaluating the quosure in the "sliced data mask"
+    # recycling it appropriately to match the group size
+    #
+    # TODO: reinject hybrid evaluation at the R level
+    chunks <- map2(seq_along(rows), lengths(rows), function(group, n) {
+      mask$.set_current_group(group)
+      context_env[["..group_size"]] <- n
+      context_env[["..group_number"]] <- group
+      vec_recycle(eval_tidy(dots[[i]], mask, env = caller), n)
+    })
+
+    if (all(map_lgl(chunks, is.null))) {
+      if (!is.null(dots_names) && dots_names[i] != "") {
+        new_columns[[dots_names[i]]] <- zap()
+        mask$.remove(dots_names[i])
+      }
+      next
+    }
+
+    result <- vec_slice(vec_c(!!!chunks), o_rows)
+
+    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+      new_columns[names(result)] <- result
+
+      # remember each result separately
+      map2(seq_along(result), names(result), function(i, nm) {
+        mask$.add_summarised(nm, map(chunks, i))
+      })
+    } else {
+      # treat as a single output otherwise
+      new_columns[[ auto_named_dots[i] ]] <- result
+
+      # remember
+      mask$.add_summarised(auto_named_dots[i], chunks)
+    }
+
+  }
+
+  out <- .data
+  new_column_names <- names(new_columns)
+  for (i in seq_along(new_columns)) {
+    out[[new_column_names[i]]] <- if (!inherits(new_columns[[i]], "rlang_zap")) new_columns[[i]]
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  mutate_impl(.data, dots, caller_env())
+  mutate(.data, !!!dots)
 }
 
 validate_summarise_sizes <- function(x, .size) {
@@ -360,6 +443,9 @@ groupwise_data_mask <- function(data, rows) {
     env_bind_active(bottom, !!name := function() {
       chunks[[.current_group_index]]
     })
+  }
+  mask$.remove <- function(name) {
+    rm(list = name, envir = bottom)
   }
   mask$.data <- as_data_pronoun(mask)
 
