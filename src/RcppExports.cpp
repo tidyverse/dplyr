@@ -337,17 +337,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// materialize_binding
-SEXP materialize_binding(int idx, Rcpp::XPtr<dplyr::DataMaskWeakProxyBase> mask_proxy_xp);
-RcppExport SEXP _dplyr_materialize_binding(SEXP idxSEXP, SEXP mask_proxy_xpSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< int >::type idx(idxSEXP);
-    Rcpp::traits::input_parameter< Rcpp::XPtr<dplyr::DataMaskWeakProxyBase> >::type mask_proxy_xp(mask_proxy_xpSEXP);
-    rcpp_result_gen = Rcpp::wrap(materialize_binding(idx, mask_proxy_xp));
-    return rcpp_result_gen;
-END_RCPP
-}
 // check_valid_names
 void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only);
 RcppExport SEXP _dplyr_check_valid_names(SEXP namesSEXP, SEXP warn_onlySEXP) {
@@ -467,7 +456,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
-    {"_dplyr_materialize_binding", (DL_FUNC) &_dplyr_materialize_binding, 2},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
     {"_dplyr_assert_all_allow_list", (DL_FUNC) &_dplyr_assert_all_allow_list, 1},
     {"_dplyr_is_data_pronoun", (DL_FUNC) &_dplyr_is_data_pronoun, 1},
