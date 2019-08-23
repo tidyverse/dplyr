@@ -92,14 +92,6 @@ grouped_indices_grouped_df_impl <- function(gdf) {
     .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
 }
 
-group_size_grouped_cpp <- function(gdf) {
-    .Call(`_dplyr_group_size_grouped_cpp`, gdf)
-}
-
-hybrids <- function() {
-    .Call(`_dplyr_hybrids`)
-}
-
 semi_join_impl <- function(x, y, by_x, by_y, na_match, frame) {
     .Call(`_dplyr_semi_join_impl`, x, y, by_x, by_y, na_match, frame)
 }
@@ -130,10 +122,6 @@ full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
 
 select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
-}
-
-hybrid_impl <- function(df, quosure, caller_env) {
-    .Call(`_dplyr_hybrid_impl`, df, quosure, caller_env)
 }
 
 test_comparisons <- function() {

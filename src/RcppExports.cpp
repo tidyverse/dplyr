@@ -185,25 +185,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// group_size_grouped_cpp
-Rcpp::IntegerVector group_size_grouped_cpp(const dplyr::GroupedDataFrame& gdf);
-RcppExport SEXP _dplyr_group_size_grouped_cpp(SEXP gdfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< const dplyr::GroupedDataFrame& >::type gdf(gdfSEXP);
-    rcpp_result_gen = Rcpp::wrap(group_size_grouped_cpp(gdf));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hybrids
-Rcpp::List hybrids();
-RcppExport SEXP _dplyr_hybrids() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    rcpp_result_gen = Rcpp::wrap(hybrids());
-    return rcpp_result_gen;
-END_RCPP
-}
 // semi_join_impl
 Rcpp::DataFrame semi_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y, Rcpp::CharacterVector by_x, Rcpp::CharacterVector by_y, bool na_match, SEXP frame);
 RcppExport SEXP _dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP na_matchSEXP, SEXP frameSEXP) {
@@ -326,18 +307,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
     Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type vars(varsSEXP);
     rcpp_result_gen = Rcpp::wrap(select_impl(df, vars));
-    return rcpp_result_gen;
-END_RCPP
-}
-// hybrid_impl
-SEXP hybrid_impl(Rcpp::DataFrame df, dplyr::Quosure quosure, SEXP caller_env);
-RcppExport SEXP _dplyr_hybrid_impl(SEXP dfSEXP, SEXP quosureSEXP, SEXP caller_envSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< dplyr::Quosure >::type quosure(quosureSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type caller_env(caller_envSEXP);
-    rcpp_result_gen = Rcpp::wrap(hybrid_impl(df, quosure, caller_env));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -487,8 +456,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
-    {"_dplyr_group_size_grouped_cpp", (DL_FUNC) &_dplyr_group_size_grouped_cpp, 1},
-    {"_dplyr_hybrids", (DL_FUNC) &_dplyr_hybrids, 0},
     {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 6},
     {"_dplyr_anti_join_impl", (DL_FUNC) &_dplyr_anti_join_impl, 6},
     {"_dplyr_inner_join_impl", (DL_FUNC) &_dplyr_inner_join_impl, 8},
@@ -497,7 +464,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_right_join_impl", (DL_FUNC) &_dplyr_right_join_impl, 8},
     {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 8},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
-    {"_dplyr_hybrid_impl", (DL_FUNC) &_dplyr_hybrid_impl, 3},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
@@ -514,9 +480,7 @@ static const R_CallMethodDef CallEntries[] = {
     {NULL, NULL, 0}
 };
 
-void init_hybrid_inline_map(DllInfo* /*dll*/);
 RcppExport void R_init_dplyr(DllInfo *dll) {
     R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
     R_useDynamicSymbols(dll, FALSE);
-    init_hybrid_inline_map(dll);
 }
