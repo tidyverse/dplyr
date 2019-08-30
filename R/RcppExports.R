@@ -88,12 +88,8 @@ expand_groups <- function(old_groups, positions, nr) {
     .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }
 
-filter_impl <- function(df, quo) {
-    .Call(`_dplyr_filter_impl`, df, quo)
-}
-
-slice_impl <- function(df, quosure) {
-    .Call(`_dplyr_slice_impl`, df, quosure)
+filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
+    .Call(`_dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }
 
 group_data_grouped_df <- function(data) {
@@ -106,14 +102,6 @@ ungroup_grouped_df <- function(df) {
 
 grouped_indices_grouped_df_impl <- function(gdf) {
     .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
-}
-
-group_size_grouped_cpp <- function(gdf) {
-    .Call(`_dplyr_group_size_grouped_cpp`, gdf)
-}
-
-hybrids <- function() {
-    .Call(`_dplyr_hybrids`)
 }
 
 semi_join_impl <- function(x, y, by_x, by_y, na_match, frame) {
@@ -142,10 +130,6 @@ right_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
 
 full_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
     .Call(`_dplyr_full_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
-}
-
-mutate_impl <- function(df, dots, caller_env) {
-    .Call(`_dplyr_mutate_impl`, df, dots, caller_env)
 }
 
 select_impl <- function(df, vars) {
@@ -194,10 +178,6 @@ test_matches <- function() {
 
 test_length_wrap <- function() {
     .Call(`_dplyr_test_length_wrap`)
-}
-
-materialize_binding <- function(idx, mask_proxy_xp) {
-    .Call(`_dplyr_materialize_binding`, idx, mask_proxy_xp)
 }
 
 check_valid_names <- function(names, warn_only = FALSE) {

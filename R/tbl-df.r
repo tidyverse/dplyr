@@ -160,7 +160,6 @@ regroup <- function(data) {
   data
 }
 
-
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)

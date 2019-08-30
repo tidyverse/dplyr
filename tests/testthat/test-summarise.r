@@ -207,7 +207,7 @@ test_that("summarise propagate attributes (#194)", {
 
 test_that("summarise allows names (#2675)", {
   data <- tibble(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
-  expect_equal(names(data$b), "1")
+  expect_null(names(data$b))
 
   data <- tibble(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))
   expect_equal(names(data$b), c("1", "2", "3"))
@@ -750,6 +750,7 @@ test_that("data.frame columns are supported in summarise (#1425)", {
 })
 
 test_that("summarise handles min/max of already summarised variable (#1622)", {
+  skip("until https://github.com/r-lib/vctrs/issues/540")
   df <- data.frame(
     FIRST_DAY = rep(seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"), 2),
     event = c("a", "a", "b", "b")
