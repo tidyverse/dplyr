@@ -3,13 +3,11 @@ context("Filter")
 test_that("filter fails if inputs incorrect length (#156)", {
   expect_error(
     filter(tbl_df(mtcars), c(F, T)),
-    "Result must have length 32, not 2",
-    fixed = TRUE
+    class = "vctrs_error_recycle_incompatible_size"
   )
   expect_error(
     filter(group_by(mtcars, am), c(F, T)),
-    "Result must have length 19, not 2",
-    fixed = TRUE
+    class  = "vctrs_error_recycle_incompatible_size"
   )
 })
 
@@ -100,13 +98,11 @@ test_that("filter propagates attributes", {
 test_that("filter fails on integer indices", {
   expect_error(
     filter(mtcars, 1:2),
-    "Argument 2 filter condition does not evaluate to a logical vector",
-    fixed = TRUE
+    class = "dplyr_filter_wrong_result"
   )
   expect_error(
     filter(group_by(mtcars, cyl), 1:2),
-    "Argument 2 filter condition does not evaluate to a logical vector",
-    fixed = TRUE
+    class = "dplyr_filter_wrong_result"
   )
 })
 
@@ -170,7 +166,7 @@ test_that("$ does not end call traversing. #502", {
   expect_equal(left, right)
 })
 
-test_that("filter uses the allow list (#566)", {
+test_that("filter handles POSIXlt", {
   datesDF <- read.csv(stringsAsFactors = FALSE, text = "
 X
 2014-03-13 16:08:19
@@ -180,8 +176,10 @@ X
 ")
 
   datesDF$X <- as.POSIXlt(datesDF$X)
-  # error message from tibble
-  expect_error(filter(datesDF, X > as.POSIXlt("2014-03-13")))
+  expect_equal(
+    nrow(filter(datesDF, X > as.POSIXlt("2014-03-13"))),
+    4
+  )
 })
 
 test_that("filter handles complex vectors (#436)", {
@@ -254,13 +252,13 @@ test_that("filter, slice and arrange preserves attributes (#1064)", {
   res <- df %>% arrange(x) %>% attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% summarise(n()) %>% attr("meta")
+  res <- df %>% summarise(n = n()) %>% attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% group_by(g1) %>% summarise(n()) %>% attr("meta")
+  res <- df %>% group_by(g1) %>% summarise(n = n()) %>% attr("meta")
   expect_equal(res, "this is important")
 
-  res <- df %>% group_by(g1, g2) %>% summarise(n()) %>% attr("meta")
+  res <- df %>% group_by(g1, g2) %>% summarise(n = n()) %>% attr("meta")
   expect_equal(res, "this is important")
 })
 

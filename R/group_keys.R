@@ -1,5 +1,8 @@
 group_keys_impl <- function(.data) {
-  select(group_data(.data), -last_col())
+  structure(
+    select(group_data(.data), -last_col()),
+    .drop = NULL
+  )
 }
 
 #' @rdname group_split
@@ -23,5 +26,5 @@ group_keys.grouped_df <- function(.tbl, ...) {
 
 #' @export
 group_keys.rowwise_df <- function(.tbl, ...) {
-  abort("group_keys() is not meaningful for row wise data frames")
+  new_tibble(list(), nrow = nrow(.tbl))
 }

@@ -202,7 +202,7 @@ tbl_sum.grouped_df <- function(x) {
 
 #' @export
 group_size.grouped_df <- function(x) {
-  group_size_grouped_cpp(x)
+  lengths(group_rows(x))
 }
 
 #' @export

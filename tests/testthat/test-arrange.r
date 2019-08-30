@@ -49,7 +49,7 @@ test_that("two arranges equivalent to one", {
   df1 <- df %>% arrange(x, y)
   df2 <- df %>% arrange(y) %>% arrange(x)
 
-  expect_equal(df1, df2)
+  expect_identical(df1, df2)
 })
 
 test_that("arrange handles list columns (#282)", {
@@ -182,9 +182,9 @@ test_that("arrange handles matrices", {
   )
 })
 
-test_that("arrange fails gracefully on data.frame input (#3153)", {
+test_that("arrange handles data.frame input (#3153)", {
   df <- tibble(x = 1:150, iris = iris)
-  expect_equal(
+  expect_identical(
     arrange(df, iris),
     vec_slice(df, vec_order(iris))
   )

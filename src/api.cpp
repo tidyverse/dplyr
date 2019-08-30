@@ -4,10 +4,6 @@
 #include <tools/hash.h>
 #include <tools/match.h>
 
-#include <dplyr/visitors/CharacterVectorOrderer.h>
-
-#include <dplyr/visitors/vector/visitor_impl.h>
-
 #include <dplyr/visitors/join/JoinVisitor.h>
 #include <dplyr/visitors/join/JoinVisitorImpl.h>
 #include <dplyr/visitors/join/DataFrameJoinVisitors.h>
@@ -15,70 +11,6 @@
 #include <tools/bad.h>
 
 namespace dplyr {
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_) :
-  data(data_),
-  visitors(),
-  visitor_names(vec_names_or_empty(data))
-{
-  for (int i = 0; i < data.size(); i++) {
-    VectorVisitor* v = visitor(data[i]);
-    visitors.push_back(v);
-  }
-}
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_, const SymbolVector& names) :
-  data(data_),
-  visitors(),
-  visitor_names(names)
-{
-
-  int n = names.size();
-  Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data));
-  Rcpp::Shield<SEXP> indices(r_match(names.get_vector(), data_names));
-  int* p_indices = INTEGER(indices);
-
-  for (int i = 0; i < n; i++) {
-    if (p_indices[i] == NA_INTEGER) {
-      bad_col(names[i], "is unknown");
-    }
-    SEXP column = data[p_indices[i] - 1];
-    visitors.push_back(visitor(column));
-  }
-
-}
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_, const Rcpp::IntegerVector& indices) :
-  data(data_),
-  visitors(),
-  visitor_names()
-{
-
-  Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data));
-
-  int n = indices.size();
-  for (int i = 0; i < n; i++) {
-    int pos = check_range_one_based(indices[i], data.size());
-
-    VectorVisitor* v = visitor(data[pos - 1]);
-    visitors.push_back(v);
-    visitor_names.push_back(STRING_ELT(data_names, pos - 1));
-  }
-}
-
-DataFrameVisitors::DataFrameVisitors(const Rcpp::DataFrame& data_,  int n) :
-  data(data_),
-  visitors(n),
-  visitor_names(n)
-{
-
-  Rcpp::Shield<SEXP> data_names(vec_names_or_empty(data));
-
-  for (int i = 0; i < n; i++) {
-    visitors[i] = visitor(data[i]);
-    visitor_names.set(i, STRING_ELT(data_names, i));
-  }
-}
 
 DataFrameJoinVisitors::DataFrameJoinVisitors(const Rcpp::DataFrame& left_, const Rcpp::DataFrame& right_, const SymbolVector& names_left, const SymbolVector& names_right, bool warn_, bool na_match) :
   left(left_), right(right_),
@@ -169,68 +101,6 @@ JoinVisitor* DataFrameJoinVisitors::get(const SymbolString& name) const {
 
 int DataFrameJoinVisitors::size() const {
   return visitors.size();
-}
-
-CharacterVectorOrderer::CharacterVectorOrderer(const Rcpp::CharacterVector& data) :
-  orders(Rcpp::no_init(data.size()))
-{
-  int n = data.size();
-  if (n == 0) return;
-
-  dplyr_hash_set<SEXP> set(n);
-
-  // 1 - gather unique SEXP pointers from data
-  SEXP* p_data = Rcpp::internal::r_vector_start<STRSXP>(data);
-  SEXP previous = *p_data++;
-  set.insert(previous);
-  for (int i = 1; i < n; i++, p_data++) {
-    SEXP s = *p_data;
-
-    // we've just seen this string, keep going
-    if (s == previous) continue;
-
-    // is this string in the set already
-    set.insert(s);
-    previous = s;
-  }
-
-  // retrieve unique strings from the set
-  int n_uniques = set.size();
-  LOG_VERBOSE << "Sorting " <<  n_uniques << " unique character elements";
-
-  Rcpp::CharacterVector uniques(set.begin(), set.end());
-
-  static Rcpp::Function sort("sort", R_BaseEnv);
-  Rcpp::Language call(sort, uniques);
-  Rcpp::Shield<SEXP> s_uniques(call.fast_eval());
-
-  // order the uniques with a callback to R
-  Rcpp::Shield<SEXP> o(r_match(uniques, s_uniques));
-  int* p_o = INTEGER(o);
-
-  // combine uniques and o into a hash map for fast retrieval
-  dplyr_hash_map<SEXP, int> map(n_uniques);
-  for (int i = 0; i < n_uniques; i++) {
-    map.insert(std::make_pair(uniques[i], p_o[i]));
-  }
-
-  // grab min ranks
-  p_data = Rcpp::internal::r_vector_start<STRSXP>(data);
-  previous = *p_data++;
-
-  int o_pos;
-  orders[0] = o_pos = map.find(previous)->second;
-
-  for (int i = 1; i < n; ++i, ++p_data) {
-    SEXP s = *p_data;
-    if (s == previous) {
-      orders[i] = o_pos;
-      continue;
-    }
-    previous = s;
-    orders[i] = o_pos = map.find(s)->second;
-  }
-
 }
 
 }
