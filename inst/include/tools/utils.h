@@ -29,7 +29,6 @@ namespace dplyr {
 SEXP get_time_classes();
 SEXP get_date_classes();
 
-SEXP constant_recycle(SEXP x, int n, const SymbolString& name);
 std::string get_single_class(SEXP x);
 Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len);
 Rcpp::CharacterVector get_class(SEXP x);

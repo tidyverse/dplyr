@@ -115,23 +115,28 @@ Rcpp::DataFrame dataframe_subset(const Rcpp::List& data, const Index& index, Rcp
 template <typename Index>
 SEXP r_column_subset(SEXP x, const Index& index, SEXP frame) {
   Rcpp::Shield<SEXP> one_based_index(index);
+  SEXP bracket_one = Rf_install("[");
+
   if (Rf_isMatrix(x)) {
-    Rcpp::Shield<SEXP> call(Rf_lang5(base::bracket_one(), x, one_based_index, R_MissingArg, Rf_ScalarLogical(false)));
+    Rcpp::Shield<SEXP> call(Rf_lang5(bracket_one, x, one_based_index, R_MissingArg, Rf_ScalarLogical(false)));
     SET_TAG(CDR(CDR(CDDR(call))), dplyr::symbols::drop);
     return Rcpp::Rcpp_eval(call, frame);
   } else {
-    Rcpp::Shield<SEXP> call(Rf_lang3(base::bracket_one(), x, one_based_index));
+    Rcpp::Shield<SEXP> call(Rf_lang3(bracket_one, x, one_based_index));
     return Rcpp::Rcpp_eval(call, frame);
   }
 }
 
 template <>
 inline SEXP r_column_subset<RowwiseSlicingIndex>(SEXP x, const RowwiseSlicingIndex& index, SEXP frame) {
+  SEXP bracket_one = Rf_install("[");
+  SEXP bracket_two = Rf_install("[[");
+
   if (Rf_isMatrix(x)) {
-    Rcpp::Shield<SEXP> call(Rf_lang4(base::bracket_one(), x, index, R_MissingArg));
+    Rcpp::Shield<SEXP> call(Rf_lang4(bracket_one, x, index, R_MissingArg));
     return Rcpp::Rcpp_eval(call, frame);
   } else {
-    Rcpp::Shield<SEXP> call(Rf_lang3(base::bracket_two(), x, index));
+    Rcpp::Shield<SEXP> call(Rf_lang3(bracket_two, x, index));
     return Rcpp::Rcpp_eval(call, frame);
   }
 }
