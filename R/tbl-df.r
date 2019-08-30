@@ -146,20 +146,13 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
 
   rows <- group_rows(.data)
-  mask <- groupwise_data_mask(.data, rows)
-  caller <- caller_env()
-
-  old_group_size <- context_env[["..group_size"]]
-  old_group_number <- context_env[["..group_number"]]
-  on.exit({
-    context_env[["..group_size"]] <- old_group_size
-    context_env[["..group_number"]] <- old_group_number
-  })
 
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
     rows <- list(integer(0))
   }
+
+  mask <- DataMask$new(.data, caller_env(), rows)
 
   keep <- logical(nrow(.data))
   group_indices <- integer(nrow(.data))
@@ -167,11 +160,10 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
-    mask$.set_current_group(group)
     n <- length(current_rows)
-    context_env[["..group_size"]] <- n
-    context_env[["..group_number"]] <- group
-    res <- eval_tidy(quo, mask, env = caller)
+
+    res <- mask$eval(quo, group)
+
     if (!vec_is(res, logical())) {
       abort(
         "filter() expressions should return logical vectors of the same size as the group",
@@ -222,15 +214,7 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   }
 
   rows <- group_rows(.data)
-  mask <- groupwise_data_mask(.data, rows)
-  caller <- caller_env()
-
-  old_group_size <- context_env[["..group_size"]]
-  old_group_number <- context_env[["..group_number"]]
-  on.exit({
-    context_env[["..group_size"]] <- old_group_size
-    context_env[["..group_number"]] <- old_group_number
-  })
+  mask <- DataMask$new(.data, caller_env(), rows)
 
   quo <- quo(c(!!!dots))
 
@@ -240,16 +224,14 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
 
   for (group in seq_along(rows)) {
     current_rows <- rows[[group]]
-    mask$.set_current_group(group)
+
     n <- length(current_rows)
     if (n == 0L) {
       new_rows[[group]] <- integer()
       next
     }
-    context_env[["..group_size"]] <- n
-    context_env[["..group_number"]] <- group
 
-    res <- eval_tidy(quo, mask, env = caller)
+    res <- mask$eval(quo, group)
 
     if (is.logical(res) && all(is.na(res))) {
       res <- integer()
@@ -319,19 +301,9 @@ mutate.tbl_df <- function(.data, ...) {
   }
 
   o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
-  mask <- groupwise_data_mask(.data, rows)
-
-  caller <- caller_env()
+  mask <- DataMask$new(.data, caller_env(), rows)
 
   new_columns <- list()
-
-  old_group_size <- context_env[["..group_size"]]
-  old_group_number <- context_env[["..group_number"]]
-  on.exit({
-    context_env[["..group_size"]] <- old_group_size
-    context_env[["..group_number"]] <- old_group_number
-  })
-
 
   for (i in seq_along(dots)) {
     # a list in which each element is the result of
@@ -340,16 +312,13 @@ mutate.tbl_df <- function(.data, ...) {
     #
     # TODO: reinject hybrid evaluation at the R level
     chunks <- map2(seq_along(rows), lengths(rows), function(group, n) {
-      mask$.set_current_group(group)
-      context_env[["..group_size"]] <- n
-      context_env[["..group_number"]] <- group
-      vec_recycle(eval_tidy(dots[[i]], mask, env = caller), n)
+      vec_recycle(mask$eval(dots[[i]], group), n)
     })
 
     if (all(map_lgl(chunks, is.null))) {
       if (!is.null(dots_names) && dots_names[i] != "") {
         new_columns[[dots_names[i]]] <- zap()
-        mask$.remove(dots_names[i])
+        mask$remove(dots_names[i])
       }
       next
     }
@@ -361,14 +330,14 @@ mutate.tbl_df <- function(.data, ...) {
 
       # remember each result separately
       map2(seq_along(result), names(result), function(i, nm) {
-        mask$.add_summarised(nm, map(chunks, i))
+        mask$add(nm, map(chunks, i))
       })
     } else {
       # treat as a single output otherwise
       new_columns[[ auto_named_dots[i] ]] <- result
 
       # remember
-      mask$.add_summarised(auto_named_dots[i], chunks)
+      mask$add(auto_named_dots[i], chunks)
     }
 
   }
@@ -404,53 +373,92 @@ validate_summarise_sizes <- function(x, .size) {
   }
 }
 
-groupwise_data_mask <- function(data, rows) {
-  chunks_env <- env()
+DataMask <- R6Class("DataMask",
+  public = list(
+    initialize = function(data, caller, rows = group_rows(data)) {
+      private$old_group_size <- context_env[["..group_size"]]
+      private$old_group_number <- context_env[["..group_number"]]
+      private$rows <- rows
 
-  if (inherits(data, "rowwise_df")) {
-    # approximation for now
-    map2(data, names(data), function(col, nm) {
-      if (is_list(col) && !is.data.frame(col)) {
-        env_bind_lazy(chunks_env, !!nm := map(rows, function(row) vec_slice(col, row)[[1L]]))
+      private$data <- data
+      private$caller <- caller
+
+      # chunks_env has promises for all columns of data
+      # the promise resolves to a list of slices (one item per group)
+      # for a column
+      chunks_env <- env()
+
+      if (inherits(data, "rowwise_df")) {
+        # approximation for now, until perhaps vec_get() or something similar
+        # https://github.com/r-lib/vctrs/issues/141
+        map2(data, names(data), function(col, nm) {
+          if (is_list(col) && !is.data.frame(col)) {
+            env_bind_lazy(chunks_env, !!nm := map(rows, function(row) vec_slice(col, row)[[1L]]))
+          } else {
+            env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+          }
+        })
       } else {
-        env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+        map2(data, names(data), function(col, nm) {
+          env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+        })
       }
-    })
-  } else {
-    map2(data, names(data), function(col, nm) {
-      env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
-    })
-  }
 
-  bottom <- env()
-  column_names <- set_names(names(data))
+      private$bindings <- env()
+      column_names <- set_names(names(data))
 
-  .current_group_index <- NA_integer_
-  env_bind_active(bottom, !!!map(column_names, function(column) {
-    function() {
-      chunks_env[[column]][[.current_group_index]]
+      env_bind_active(private$bindings, !!!map(column_names, function(column) {
+        function() {
+          chunks_env[[column]][[private$current_group]]
+        }
+      }))
+      private$mask <- new_data_mask(private$bindings)
+      private$mask$.data <- as_data_pronoun(private$mask)
+    },
+
+    add = function(name, chunks) {
+      if (name %in% group_vars(private$data)) {
+        abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
+      }
+      env_bind_active(private$bindings, !!name := function() {
+        chunks[[private$current_group]]
+      })
+    },
+
+    remove = function(name) {
+      rm(list = name, envir = private$bindings)
+    },
+
+    eval = function(quo, group) {
+      private$current_group <- group
+      current_rows <- private$rows[[group]]
+      n <- length(current_rows)
+
+      # n() and row_number() need these
+      context_env[["..group_size"]] <- n
+      context_env[["..group_number"]] <- group
+
+      eval_tidy(quo, private$mask, env = private$caller)
+    },
+
+    finalize = function() {
+      context_env[["..group_size"]] <- private$old_group_size
+      context_env[["..group_number"]] <- private$old_group_number
     }
-  }))
 
-  mask <- new_data_mask(bottom)
-  mask$.set_current_group <- function(group_index) {
-    .current_group_index <<- group_index
-  }
-  mask$.add_summarised <- function(name, chunks) {
-    if (name %in% group_vars(data)) {
-      abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
-    }
-    env_bind_active(bottom, !!name := function() {
-      chunks[[.current_group_index]]
-    })
-  }
-  mask$.remove <- function(name) {
-    rm(list = name, envir = bottom)
-  }
-  mask$.data <- as_data_pronoun(mask)
+  ),
 
-  mask
-}
+  private = list(
+    data = NULL,
+    mask = NULL,
+    old_group_size = 0L,
+    old_group_number = 0L,
+    rows = NULL,
+    bindings = NULL,
+    current_group = 0L,
+    caller = NULL
+  )
+)
 
 #' @importFrom tibble add_column
 #' @export
@@ -460,35 +468,25 @@ summarise.tbl_df <- function(.data, ...) {
   auto_named_dots <- names(enquos(..., .named = TRUE))
 
   rows <- group_rows(.data)
-  mask <- groupwise_data_mask(.data, rows)
-  caller <- caller_env()
-
-  summaries <- list()
-
-  .size <- 1L
-
-  old_group_size <- context_env[["..group_size"]]
-  old_group_number <- context_env[["..group_number"]]
-  on.exit({
-    context_env[["..group_size"]] <- old_group_size
-    context_env[["..group_number"]] <- old_group_number
-  })
-
   # workaround when there are 0 groups
   if (length(rows) == 0L) {
     rows <- list(integer(0))
   }
+
+  mask <- DataMask$new(.data, caller_env(), rows)
+
+  summaries <- list()
+
+  .size <- 1L
 
   for (i in seq_along(dots)) {
     # a list in which each element is the result of
     # evaluating the quosure in the "sliced data mask"
     #
     # TODO: reinject hybrid evaluation at the R level
-    chunks <- map2(seq_along(rows), lengths(rows), function(group, n) {
-      mask$.set_current_group(group)
-      context_env[["..group_size"]] <- n
-      context_env[["..group_number"]] <- group
-      eval_tidy(dots[[i]], mask, env = caller)
+    quo <- dots[[i]]
+    chunks <- map(seq_along(rows), function(group) {
+      mask$eval(quo, group)
     })
 
     ok <- all(map_lgl(chunks, vec_is))
@@ -516,14 +514,14 @@ summarise.tbl_df <- function(.data, ...) {
 
       # remember each result separately
       map2(seq_along(result), names(result), function(i, nm) {
-        mask$.add_summarised(nm, map(chunks, i))
+        mask$add(nm, map(chunks, i))
       })
     } else {
       # treat as a single output otherwise
       summaries[[ auto_named_dots[i] ]] <-  result
 
       # remember
-      mask$.add_summarised(auto_named_dots[i], chunks)
+      mask$add(auto_named_dots[i], chunks)
     }
 
   }
