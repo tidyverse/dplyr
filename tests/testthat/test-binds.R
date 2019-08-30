@@ -57,8 +57,8 @@ test_that("bind_cols handles lists (#1104)", {
   l1 <- list(x = 1, y = "a")
   l2 <- list(z = 2)
 
-  expect_equal(bind_cols(l1, l2), exp)
-  expect_equal(bind_cols(list(l1, l2)), exp)
+  expect_identical(bind_cols(l1, l2), exp)
+  expect_identical(bind_cols(list(l1, l2)), exp)
 })
 
 test_that("bind_cols handles empty argument list (#1963)", {
@@ -78,7 +78,7 @@ test_that("bind_cols repairs names", {
     data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE)
   ))
 
-  expect_equal(bound, repaired)
+  expect_identical(bound, repaired)
 })
 
 
@@ -96,8 +96,8 @@ df_var <- tibble(
 
 test_that("bind_rows() equivalent to rbind()", {
   exp <- tbl_df(rbind(df_var, df_var, df_var))
-  expect_equal(bind_rows(df_var, df_var, df_var), exp)
-  expect_equal(bind_rows(list(df_var, df_var, df_var)), exp)
+  expect_identical(bind_rows(df_var, df_var, df_var), exp)
+  expect_identical(bind_rows(list(df_var, df_var, df_var)), exp)
 })
 
 test_that("bind_rows reorders columns", {
@@ -148,9 +148,9 @@ test_that("bind_rows handles data frames with no rows (#597)", {
   df1 <- tibble(x = 1, y = factor("a"))
   df0 <- df1[0, ]
 
-  expect_equal(bind_rows(df0), df0)
-  expect_equal(bind_rows(df0, df0), df0)
-  expect_equal(bind_rows(df0, df1), df1)
+  expect_identical(bind_rows(df0), df0)
+  expect_identical(bind_rows(df0, df0), df0)
+  expect_identical(bind_rows(df0, df1), df1)
 })
 
 test_that("bind_rows handles data frames with no columns (#1346)", {
@@ -175,7 +175,7 @@ test_that("bind_rows handles lists with NULL values (#2056)", {
     y = c(1, 2)
   )
 
-  expect_equal(bind_rows(lst1, .id = "names"), df3)
+  expect_identical(bind_rows(lst1, .id = "names"), df3)
 })
 
 test_that("bind_rows handles lists with list() values (#2826)", {
@@ -439,9 +439,9 @@ test_that("bind_cols accepts NULL (#1148)", {
   res3 <- bind_cols(df1, NULL, df2)
   res4 <- bind_cols(df1, df2, NULL)
 
-  expect_equal(res1, res2)
-  expect_equal(res1, res3)
-  expect_equal(res1, res4)
+  expect_identical(res1, res2)
+  expect_identical(res1, res3)
+  expect_identical(res1, res4)
 })
 
 test_that("bind_rows handles 0-length named list (#1515)", {
@@ -590,7 +590,7 @@ test_that("columns that are OBJECT but have NULL class are handled gracefully (#
 
 test_that("accepts named columns", {
   expect_identical(bind_cols(a = 1:2, b = 3:4), tibble(a = 1:2, b = 3:4))
-  expect_equal(bind_cols(!!!mtcars), as_tibble(mtcars))
+  expect_identical(bind_cols(!!!mtcars), as_tibble(mtcars))
 })
 
 test_that("uncompatible sizes fail", {

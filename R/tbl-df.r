@@ -134,7 +134,6 @@ regroup <- function(data) {
   data
 }
 
-
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
@@ -144,13 +143,61 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   } else if (is_empty(dots)) {
     return(.data)
   }
-
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
-  out <- filter_impl(.data, quo)
-  if (!.preserve && is_grouped_df(.data)) {
-    old_gps <- attr(out, "groups")
-    attr(out, "groups") <- regroup(old_gps, environment())
+
+  rows <- group_rows(.data)
+
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
   }
+
+  mask <- DataMask$new(.data, caller_env(), rows)
+
+  keep <- logical(nrow(.data))
+  group_indices <- integer(nrow(.data))
+  new_rows_sizes <- integer(length(rows))
+
+  for (group in seq_along(rows)) {
+    current_rows <- rows[[group]]
+    n <- length(current_rows)
+
+    res <- mask$eval(quo, group)
+
+    if (!vec_is(res, logical())) {
+      abort(
+        "filter() expressions should return logical vectors of the same size as the group",
+        "dplyr_filter_wrong_result"
+      )
+    }
+    res <- vec_recycle(res, n)
+
+    new_rows_sizes[group] <- sum(res, na.rm = TRUE)
+    group_indices[current_rows] <- group
+    keep[current_rows[res]] <- TRUE
+  }
+
+  out <- vec_slice(.data, keep)
+
+  # regroup
+  if (is_grouped_df(.data)) {
+    new_groups <- group_data(.data)
+    new_groups$.rows <- filter_update_rows(nrow(.data), group_indices, keep, new_rows_sizes)
+    attr(out, "groups") <- new_groups
+
+    if (!.preserve) {
+      out <- regroup(out)
+    }
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
   out
 }
 #' @export
@@ -166,12 +213,69 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
     return(.data)
   }
 
+  rows <- group_rows(.data)
+  mask <- DataMask$new(.data, caller_env(), rows)
+
   quo <- quo(c(!!!dots))
-  out <- slice_impl(.data, quo)
-  if (!.preserve && is_grouped_df(.data)) {
-    old_gps <- attr(out, "groups")
-    attr(out, "groups") <- regroup(old_gps, environment())
+
+  slice_indices <- new_list(length(rows))
+  new_rows <- new_list(length(rows))
+  k <- 1L
+
+  for (group in seq_along(rows)) {
+    current_rows <- rows[[group]]
+
+    n <- length(current_rows)
+    if (n == 0L) {
+      new_rows[[group]] <- integer()
+      next
+    }
+
+    res <- mask$eval(quo, group)
+
+    if (is.logical(res) && all(is.na(res))) {
+      res <- integer()
+    } else if (is.numeric(res)) {
+      res <- vec_cast(res, integer())
+    } else if (!is.integer(res)) {
+      abort(
+        "slice() expressions should return indices (positive or negative integers)",
+        "dplyr_slice_incompatible"
+      )
+    }
+
+    if (length(res) == 0L) {
+      # nothing to do
+    } else if(all(res >= 0, na.rm = TRUE)) {
+      res <- res[!is.na(res) & res <= length(current_rows) & res > 0]
+    } else if (all(res <= 0, na.rm = TRUE)) {
+      res <- setdiff(seq_along(current_rows), -res)
+    } else {
+      abort(
+        "slice() expressions should return either all positive or all negative",
+        "dplyr_slice_ambiguous"
+      )
+    }
+
+    slice_indices[[group]] <- current_rows[res]
+    new_k <- k + length(res)
+    new_rows[[group]] <- seq2(k, new_k - 1L)
+    k <- new_k
   }
+  all_slice_indices <- vec_c(!!!slice_indices, .ptype = integer())
+
+  out <- vec_slice(.data, all_slice_indices)
+
+  if (is_grouped_df(.data)) {
+    new_groups <- group_data(.data)
+    new_groups$.rows <- new_list_of(new_rows, ptype = integer())
+    attr(out, "groups") <- new_groups
+
+    if (!.preserve) {
+      out <- regroup(out)
+    }
+  }
+
   out
 }
 #' @export
@@ -182,24 +286,272 @@ slice_.tbl_df <- function(.data, ..., .dots = list()) {
 
 #' @export
 mutate.tbl_df <- function(.data, ...) {
-  dots <- enquos(..., .named = TRUE)
-  mutate_impl(.data, dots, caller_env())
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+  if (length(dots) == 0L) {
+    return(.data)
+  }
+
+  rows <- group_rows(.data)
+  rows_lengths <- lengths(rows)
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
+  }
+
+  o_rows <- vec_order(vec_c(!!!rows, .ptype = integer()))
+  mask <- DataMask$new(.data, caller_env(), rows)
+
+  new_columns <- list()
+
+  for (i in seq_along(dots)) {
+    # a list in which each element is the result of
+    # evaluating the quosure in the "sliced data mask"
+    # recycling it appropriately to match the group size
+    #
+    # TODO: reinject hybrid evaluation at the R level
+    chunks <- map2(seq_along(rows), lengths(rows), function(group, n) {
+      vec_recycle(mask$eval(dots[[i]], group), n)
+    })
+
+    if (all(map_lgl(chunks, is.null))) {
+      if (!is.null(dots_names) && dots_names[i] != "") {
+        new_columns[[dots_names[i]]] <- zap()
+        mask$remove(dots_names[i])
+      }
+      next
+    }
+
+    result <- vec_slice(vec_c(!!!chunks), o_rows)
+
+    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+      new_columns[names(result)] <- result
+
+      # remember each result separately
+      map2(seq_along(result), names(result), function(i, nm) {
+        mask$add(nm, map(chunks, i))
+      })
+    } else {
+      # treat as a single output otherwise
+      new_columns[[ auto_named_dots[i] ]] <- result
+
+      # remember
+      mask$add(auto_named_dots[i], chunks)
+    }
+
+  }
+
+  out <- .data
+  new_column_names <- names(new_columns)
+  for (i in seq_along(new_columns)) {
+    out[[new_column_names[i]]] <- if (!inherits(new_columns[[i]], "rlang_zap")) new_columns[[i]]
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
+
 }
 #' @export
 mutate_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  mutate_impl(.data, dots, caller_env())
+  mutate(.data, !!!dots)
+}
+
+validate_summarise_sizes <- function(x, .size) {
+  # https://github.com/r-lib/vctrs/pull/539
+  sizes <- map_int(x, vec_size)
+  if (any(sizes != .size)) {
+    abort("Result does not respect vec_size() == .size")
+  }
+}
+
+DataMask <- R6Class("DataMask",
+  public = list(
+    initialize = function(data, caller, rows = group_rows(data)) {
+      private$old_group_size <- context_env[["..group_size"]]
+      private$old_group_number <- context_env[["..group_number"]]
+      private$rows <- rows
+
+      private$data <- data
+      private$caller <- caller
+
+      # chunks_env has promises for all columns of data
+      # the promise resolves to a list of slices (one item per group)
+      # for a column
+      chunks_env <- env()
+
+      if (inherits(data, "rowwise_df")) {
+        # approximation for now, until perhaps vec_get() or something similar
+        # https://github.com/r-lib/vctrs/issues/141
+        map2(data, names(data), function(col, nm) {
+          if (is_list(col) && !is.data.frame(col)) {
+            env_bind_lazy(chunks_env, !!nm := map(rows, function(row) vec_slice(col, row)[[1L]]))
+          } else {
+            env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+          }
+        })
+      } else {
+        map2(data, names(data), function(col, nm) {
+          env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+        })
+      }
+
+      private$bindings <- env()
+      column_names <- set_names(names(data))
+
+      env_bind_active(private$bindings, !!!map(column_names, function(column) {
+        function() {
+          chunks_env[[column]][[private$current_group]]
+        }
+      }))
+      private$mask <- new_data_mask(private$bindings)
+      private$mask$.data <- as_data_pronoun(private$mask)
+    },
+
+    add = function(name, chunks) {
+      if (name %in% group_vars(private$data)) {
+        abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
+      }
+      env_bind_active(private$bindings, !!name := function() {
+        chunks[[private$current_group]]
+      })
+    },
+
+    remove = function(name) {
+      rm(list = name, envir = private$bindings)
+    },
+
+    eval = function(quo, group) {
+      private$current_group <- group
+      current_rows <- private$rows[[group]]
+      n <- length(current_rows)
+
+      # n() and row_number() need these
+      context_env[["..group_size"]] <- n
+      context_env[["..group_number"]] <- group
+
+      eval_tidy(quo, private$mask, env = private$caller)
+    },
+
+    finalize = function() {
+      context_env[["..group_size"]] <- private$old_group_size
+      context_env[["..group_number"]] <- private$old_group_number
+    }
+
+  ),
+
+  private = list(
+    data = NULL,
+    mask = NULL,
+    old_group_size = 0L,
+    old_group_number = 0L,
+    rows = NULL,
+    bindings = NULL,
+    current_group = 0L,
+    caller = NULL
+  )
+)
+
+#' @importFrom tibble add_column
+#' @export
+summarise.tbl_df <- function(.data, ...) {
+  dots <- enquos(...)
+  dots_names <- names(dots)
+  auto_named_dots <- names(enquos(..., .named = TRUE))
+
+  rows <- group_rows(.data)
+  # workaround when there are 0 groups
+  if (length(rows) == 0L) {
+    rows <- list(integer(0))
+  }
+
+  mask <- DataMask$new(.data, caller_env(), rows)
+
+  summaries <- list()
+
+  .size <- 1L
+
+  for (i in seq_along(dots)) {
+    # a list in which each element is the result of
+    # evaluating the quosure in the "sliced data mask"
+    #
+    # TODO: reinject hybrid evaluation at the R level
+    quo <- dots[[i]]
+    chunks <- map(seq_along(rows), function(group) {
+      mask$eval(quo, group)
+    })
+
+    ok <- all(map_lgl(chunks, vec_is))
+    if (!ok) {
+      if (is.null(dots_names) || dots_names[i] == "") {
+        abort(glue("Unsupported type at index {i}"))
+      } else {
+        abort(glue("Unsupported type for result `{dots_names[i]}`"))
+      }
+    }
+
+    if (identical(.size, 1L)) {
+      sizes <- map_int(chunks, vec_size)
+      if (any(sizes != 1L)) {
+        .size <- sizes
+      }
+    } else {
+      validate_summarise_sizes(chunks, .size)
+    }
+
+    result <- vec_c(!!!chunks)
+
+    if ((is.null(dots_names) || dots_names[i] == "") && is.data.frame(result)) {
+      summaries[names(result)] <- result
+
+      # remember each result separately
+      map2(seq_along(result), names(result), function(i, nm) {
+        mask$add(nm, map(chunks, i))
+      })
+    } else {
+      # treat as a single output otherwise
+      summaries[[ auto_named_dots[i] ]] <-  result
+
+      # remember
+      mask$add(auto_named_dots[i], chunks)
+    }
+
+  }
+
+  grouping <- group_keys(.data)
+  if (!identical(.size, 1L)) {
+    grouping <- vec_slice(grouping, rep(seq2(1L, nrow(grouping)), .size))
+  }
+
+  out <- add_column(grouping, !!!summaries)
+
+  if (is_grouped_df(.data) && length(group_vars(.data)) > 1) {
+    out <- grouped_df(out, head(group_vars(.data), -1), group_by_drop_default(.data))
+  }
+
+  # copy back attributes
+  # TODO: challenge that with some vctrs theory
+  atts <- attributes(.data)
+  atts <- atts[! names(atts) %in% c("names", "row.names", "groups", "class")]
+  for(name in names(atts)) {
+    attr(out, name) <- atts[[name]]
+  }
+
+  out
 }
 
 #' @export
-summarise.tbl_df <- function(.data, ...) {
-  dots <- enquos(..., .named = TRUE)
-  summarise_impl(.data, dots, environment(), caller_env())
-}
-#' @export
 summarise_.tbl_df <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ..., .named = TRUE)
-  summarise_impl(.data, dots, environment(), caller_env())
+  summarise(.data, !!!dots)
 }
 
 # Joins ------------------------------------------------------------------------
