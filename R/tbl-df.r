@@ -645,6 +645,15 @@ nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name =
   out
 }
 
+check_by_x <- function(by_x) {
+  if (length(by_x) == 0L) {
+    abort(
+      "`by` must specify variables to join by",
+      "dplyr_join_empty_by"
+    )
+  }
+  by_x
+}
 
 #' @export
 #' @rdname join.tbl_df
@@ -660,14 +669,54 @@ left_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   y <- auto_copy(x, y, copy = copy)
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- vars$idx$x$by
+  by_x <- check_by_x(vars$idx$x$by)
+
   by_y <- vars$idx$y$by
   aux_x <- vars$idx$x$aux
   aux_y <- vars$idx$y$aux
 
-  out <- left_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches, environment())
-  names(out) <- vars$alias
+  # unique values and where they are in each
+  lhs_split <- vec_split_id(x[, by_x, drop = FALSE])
+  rhs_split <- vec_split_id(y[, by_y, drop = FALSE])
 
+  # matching uniques in x with uniques in y
+  matches <- vec_match(
+    lhs_split$key,
+    set_names(rhs_split$key, names(lhs_split$key))
+  )
+
+  # for each unique value in x, expand the ids according to the number
+  # of matches in y
+  x_indices <- vec_c(!!!map2(matches, lhs_split$id, function(match, ids, rhs_id) {
+    if (is.na(match)) {
+      ids
+    } else {
+      vec_repeat(ids, each = length(rhs_id[[match]]))
+    }
+  }, rhs_id = rhs_split$id), .ptype = integer())
+
+  # same for ids of y
+  y_indices <- vec_c(!!!map2(matches, lhs_split$id, function(match, ids, rhs_id) {
+    if (is.na(match)) {
+      vec_repeat(NA_integer_, length(ids))
+    } else {
+      vec_repeat(rhs_id[[match]], times = length(ids))
+    }
+  }, rhs_id = rhs_split$id), .ptype = integer())
+
+  # colums from x
+  x_result <- set_names(
+    vec_slice(x, x_indices),
+    vars$alias[seq_len(ncol(x))]
+  )
+
+  # columns from y
+  y_result <- set_names(
+    vec_slice(y[, aux_y, drop = FALSE], y_indices),
+    vars$alias[seq2(ncol(x) + 1, length(vars$alias))]
+  )
+
+  out <- add_column(x_result, !!!y_result)
   reconstruct_join(out, x, vars)
 }
 

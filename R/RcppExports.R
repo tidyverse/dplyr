@@ -108,10 +108,6 @@ nest_join_impl <- function(x, y, by_x, by_y, aux_y, yname, frame) {
     .Call(`_dplyr_nest_join_impl`, x, y, by_x, by_y, aux_y, yname, frame)
 }
 
-left_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
-    .Call(`_dplyr_left_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
-}
-
 right_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
     .Call(`_dplyr_right_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }
