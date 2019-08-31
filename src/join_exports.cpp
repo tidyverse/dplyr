@@ -305,46 +305,6 @@ Rcpp::List nest_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y,
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::DataFrame right_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y,
-                                Rcpp::IntegerVector by_x, Rcpp::IntegerVector by_y,
-                                Rcpp::IntegerVector aux_x, Rcpp::IntegerVector aux_y,
-                                bool na_match,
-                                SEXP frame
-                               ) {
-  dplyr::check_by(by_x);
-
-  typedef dplyr::VisitorSetIndexMap<dplyr::DataFrameJoinVisitors, std::vector<int> > Map;
-  dplyr::DataFrameJoinVisitors visitors(x, y, by_x, by_y, false, na_match);
-  Map map(visitors);
-
-  // train the map in terms of x
-  train_push_back(map, x.nrows());
-
-  std::vector<int> indices_x;
-  std::vector<int> indices_y;
-
-  int n_y = y.nrows();
-  for (int i = 0; i < n_y; i++) {
-    // find a row in y that matches row i in x
-    Map::iterator it = map.find(-i - 1);
-    if (it != map.end()) {
-      dplyr::push_back(indices_x,  it->second);
-      dplyr::push_back(indices_y, i, it->second.size());
-    } else {
-      indices_x.push_back(-i - 1); // point to the i-th row in the right table
-      indices_y.push_back(i);
-    }
-  }
-  return dplyr::subset_join(x, y,
-                            indices_x, indices_y,
-                            by_x, by_y,
-                            aux_x, aux_y,
-                            dplyr::get_class(x),
-                            frame
-                           );
-}
-
-// [[Rcpp::export(rng = false)]]
 Rcpp::DataFrame full_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y,
                                Rcpp::IntegerVector by_x, Rcpp::IntegerVector by_y,
                                Rcpp::IntegerVector aux_x, Rcpp::IntegerVector aux_y,
