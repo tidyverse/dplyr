@@ -656,8 +656,7 @@ test_that("join functions are protected against empty by (#1496)", {
   )
   expect_error(
     semi_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     full_join(x, y, by = names(x)),
@@ -750,11 +749,7 @@ test_that("anti and semi joins give correct result when by variable is a factor 
   expect_equal(aj_result$number, 1:2)
   expect_equal(aj_result$letter, factor(c("a", "a"), levels = c("a", "b")))
 
-  expect_warning(
-    sj_result <- semi_join(big, small, by = "letter"),
-    "Column `letter` joining factors with different levels, coercing to character vector",
-    fixed = TRUE
-  )
+  sj_result <- semi_join(big, small, by = "letter")
   expect_equal(sj_result$number, 1:2)
   expect_equal(sj_result$letter, factor(c("b", "b"), levels = c("a", "b")))
 })

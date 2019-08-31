@@ -185,21 +185,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// semi_join_impl
-Rcpp::DataFrame semi_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y, Rcpp::CharacterVector by_x, Rcpp::CharacterVector by_y, bool na_match, SEXP frame);
-RcppExport SEXP _dplyr_semi_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP na_matchSEXP, SEXP frameSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type y(ySEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type by_x(by_xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type by_y(by_ySEXP);
-    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
-    rcpp_result_gen = Rcpp::wrap(semi_join_impl(x, y, by_x, by_y, na_match, frame));
-    return rcpp_result_gen;
-END_RCPP
-}
 // anti_join_impl
 Rcpp::DataFrame anti_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y, Rcpp::CharacterVector by_x, Rcpp::CharacterVector by_y, bool na_match, SEXP frame);
 RcppExport SEXP _dplyr_anti_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP na_matchSEXP, SEXP frameSEXP) {
@@ -411,7 +396,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
-    {"_dplyr_semi_join_impl", (DL_FUNC) &_dplyr_semi_join_impl, 6},
     {"_dplyr_anti_join_impl", (DL_FUNC) &_dplyr_anti_join_impl, 6},
     {"_dplyr_inner_join_impl", (DL_FUNC) &_dplyr_inner_join_impl, 8},
     {"_dplyr_nest_join_impl", (DL_FUNC) &_dplyr_nest_join_impl, 7},

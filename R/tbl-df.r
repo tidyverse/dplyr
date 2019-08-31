@@ -824,8 +824,18 @@ semi_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, ...,
   check_valid_names(tbl_vars(y), warn_only = TRUE)
 
   by <- common_by(by, x, y)
+  by_x <- check_by_x(by$x)
   y <- auto_copy(x, y, copy = copy)
-  out <- semi_join_impl(x, y, by$x, by$y, check_na_matches(na_matches), environment())
+
+  x_split <- vec_split_id(x[, by_x, drop = FALSE])
+  y_split <- vec_split_id(
+    set_names(y[, by$y, drop = FALSE], by_x)
+  )
+
+  matches <- which(!is.na(vec_match(x_split$key, y_split$key)))
+  x_indices <- sort(vec_c(!!!x_split$id[matches], .ptype = integer()))
+
+  out <- vec_slice(x, x_indices)
   if (is_grouped_df(x)) {
     out <- grouped_df(out, group_vars(x), group_by_drop_default(x))
   }
