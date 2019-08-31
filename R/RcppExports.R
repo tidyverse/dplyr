@@ -92,10 +92,6 @@ grouped_indices_grouped_df_impl <- function(gdf) {
     .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
 }
 
-anti_join_impl <- function(x, y, by_x, by_y, na_match, frame) {
-    .Call(`_dplyr_anti_join_impl`, x, y, by_x, by_y, na_match, frame)
-}
-
 inner_join_impl <- function(x, y, by_x, by_y, aux_x, aux_y, na_match, frame) {
     .Call(`_dplyr_inner_join_impl`, x, y, by_x, by_y, aux_x, aux_y, na_match, frame)
 }

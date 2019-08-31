@@ -741,11 +741,7 @@ test_that("joins work with factors of different levels (#1712)", {
 test_that("anti and semi joins give correct result when by variable is a factor (#1571)", {
   big <- data.frame(letter = rep(c("a", "b"), each = 2), number = 1:2)
   small <- data.frame(letter = "b")
-  expect_warning(
-    aj_result <- anti_join(big, small, by = "letter"),
-    "Column `letter` joining factors with different levels, coercing to character vector",
-    fixed = TRUE
-  )
+  aj_result <- anti_join(big, small, by = "letter")
   expect_equal(aj_result$number, 1:2)
   expect_equal(aj_result$letter, factor(c("a", "a"), levels = c("a", "b")))
 

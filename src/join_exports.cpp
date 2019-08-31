@@ -101,49 +101,6 @@ void check_by(const Rcpp::IntegerVector& by) {
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::DataFrame anti_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y, Rcpp::CharacterVector by_x, Rcpp::CharacterVector by_y, bool na_match, SEXP frame) {
-  dplyr::check_by(by_x);
-
-  typedef dplyr::VisitorSetIndexMap<dplyr::DataFrameJoinVisitors, std::vector<int> > Map;
-  dplyr::DataFrameJoinVisitors visitors(x, y, dplyr::SymbolVector(by_x), dplyr::SymbolVector(by_y), true, na_match);
-  Map map(visitors);
-
-  int n_x = x.nrows();
-
-  // train the map in terms of x
-  train_push_back(map, n_x);
-
-  // remove the rows in x that match
-  int n_y = y.nrows();
-  for (int i = 0; i < n_y; i++) {
-    Map::iterator it = map.find(-i - 1);
-    if (it != map.end())
-      map.erase(it);
-  }
-
-  // allocate a big enough R vector
-  Rcpp::IntegerVector indices(n_x);
-  int k = 0;
-  for (Map::iterator it = map.begin(); it != map.end(); ++it) {
-    const std::vector<int>& zero_based_chunk = it->second;
-    for (size_t j = 0; j < zero_based_chunk.size(); j++, k++) {
-      indices[k] = zero_based_chunk[j] + 1;
-    }
-  }
-
-  // pretend length
-  SETLENGTH(indices, k);
-  std::sort(indices.begin(), indices.end());
-
-  Rcpp::DataFrame res = dplyr::DataFrameSubsetVisitors(x, frame).subset_all(indices);
-
-  // stop pretending
-  SETLENGTH(indices, k);
-
-  return res;
-}
-
-// [[Rcpp::export(rng = false)]]
 Rcpp::DataFrame inner_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y,
                                 Rcpp::IntegerVector by_x, Rcpp::IntegerVector by_y,
                                 Rcpp::IntegerVector aux_x, Rcpp::IntegerVector aux_y,
