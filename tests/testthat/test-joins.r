@@ -283,10 +283,10 @@ test_that("check suffix input", {
 
 # Misc --------------------------------------------------------------------
 
-test_that("inner_join does not segfault on NA in factors (#306)", {
+test_that("inner_join handles on NA in factors (#306)", {
   a <- data.frame(x = c("p", "q", NA), y = c(1, 2, 3), stringsAsFactors = TRUE)
   b <- data.frame(x = c("p", "q", "r"), z = c(4, 5, 6), stringsAsFactors = TRUE)
-  expect_warning(res <- inner_join(a, b, "x"), "joining factors with different levels")
+  res <- inner_join(a, b, "x")
   expect_equal(nrow(res), 2L)
 })
 
@@ -352,8 +352,8 @@ test_that("inner_join is symmetric (even when joining on character & factor)", {
   foo <- tibble(id = factor(c("a", "b")), var1 = "foo")
   bar <- tibble(id = c("a", "b"), var2 = "bar")
 
-  expect_warning(tmp1 <- inner_join(foo, bar, by = "id"), "joining factor and character")
-  expect_warning(tmp2 <- inner_join(bar, foo, by = "id"), "joining character vector and factor")
+  tmp1 <- inner_join(foo, bar, by = "id")
+  tmp2 <- inner_join(bar, foo, by = "id")
 
   expect_is(tmp1$id, "character")
   expect_is(tmp2$id, "character")
@@ -472,26 +472,28 @@ test_that("inner_join does not reorder (#684)", {
   expect_equal(res$Letters, c("C", "B", "C"))
 })
 
-test_that("joins coerce factors with different levels to character (#684)", {
+test_that("joins coerce factors with different levels to factor (#684)", {
   d1 <- tibble(a = factor(c("a", "b", "c")))
   d2 <- tibble(a = factor(c("a", "e")))
-  expect_warning(res <- inner_join(d1, d2))
-  expect_is(res$a, "character")
+  res <- inner_join(d1, d2)
+  expect_is(res$a, "factor")
+  expect_equal(levels(res$a), c("a", "b", "c", "e"))
 
   # different orders
   d2 <- d1
   attr(d2$a, "levels") <- c("c", "b", "a")
-  expect_warning(res <- inner_join(d1, d2))
-  expect_is(res$a, "character")
+  res <- inner_join(d1, d2)
+  expect_is(res$a, "factor")
+  expect_equal(levels(res$a), c("a", "b", "c"))
 })
 
 test_that("joins between factor and character coerces to character with a warning (#684)", {
   d1 <- tibble(a = factor(c("a", "b", "c")))
   d2 <- tibble(a = c("a", "e"))
-  expect_warning(res <- inner_join(d1, d2))
+  res <- inner_join(d1, d2)
   expect_is(res$a, "character")
 
-  expect_warning(res <- inner_join(d2, d1))
+  res <- inner_join(d2, d1)
   expect_is(res$a, "character")
 })
 
@@ -665,13 +667,11 @@ test_that("join functions are protected against empty by (#1496)", {
   )
   expect_error(
     anti_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     inner_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
 })
 
@@ -687,6 +687,7 @@ test_that("joins takes care of duplicates in by (#1192)", {
 # Joined columns result in correct type ----------------------------------------
 
 test_that("result of joining POSIXct is POSIXct (#1578)", {
+  skip("until https://github.com/r-lib/vctrs/issues/540")
   data1 <- tibble(
     t = seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"),
     x = 1:2

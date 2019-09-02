@@ -612,14 +612,46 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   y <- auto_copy(x, y, copy = copy)
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- vars$idx$x$by
+  by_x <- check_by_x(vars$idx$x$by)
+
   by_y <- vars$idx$y$by
   aux_x <- vars$idx$x$aux
   aux_y <- vars$idx$y$aux
+  by_names <- vars$alias[seq_len(length(by_y))]
 
-  out <- inner_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches, environment())
-  names(out) <- vars$alias
+  y_split <- vec_split_id(set_names(y[, by_y, drop = FALSE], by_names))
 
+  matches <- vec_match(
+    set_names(x[, by_x, drop = FALSE], by_names),
+    y_split$key
+  )
+
+  # expand indices
+  x_indices <- seq_len(nrow(x))[!is.na(matches)]
+  y_indices <- y_split$id[matches[!is.na(matches)]]
+  x_indices <- rep(x_indices, lengths(y_indices))
+  y_indices <- vec_c(!!!y_indices, .pytype = integer())
+
+  # joined columns, cast to their common types
+  joined <- vec_slice(x[, by_x, drop = FALSE], x_indices)
+  joined <- set_names(joined, vars$alias[seq_len(ncol(joined))])
+  joined[] <- map2(joined, y[, by_y, drop = FALSE], function(joined_i, y_i) {
+    vec_cast(joined_i, to = vec_ptype_common(joined_i, y_i))
+  })
+
+  # colums from x
+  x_result <- set_names(
+    vec_slice(x[, aux_x, drop = FALSE], x_indices),
+    vars$alias[seq2(ncol(joined) + 1, ncol(x))]
+  )
+
+  # columns from y
+  y_result <- set_names(
+    vec_slice(y[, aux_y, drop = FALSE], y_indices),
+    vars$alias[seq2(ncol(x) + 1, length(vars$alias))]
+  )
+
+  out <- add_column(joined, !!!x_result, !!!y_result)
   reconstruct_join(out, x, vars)
 }
 
