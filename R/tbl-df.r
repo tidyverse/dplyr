@@ -837,14 +837,71 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   y <- auto_copy(x, y, copy = copy)
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by, suffix)
-  by_x <- vars$idx$x$by
+  by_x <- check_by_x(vars$idx$x$by)
   by_y <- vars$idx$y$by
   aux_x <- vars$idx$x$aux
   aux_y <- vars$idx$y$aux
+  by_names <- vars$alias[seq_len(length(by_x))]
 
-  out <- full_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_matches, environment())
-  names(out) <- vars$alias
+  # unique values and where they are in each
+  x_split <- vec_split_id(set_names(x[, by_x, drop = FALSE], by_names))
+  y_split <- vec_split_id(set_names(y[, by_y, drop = FALSE], by_names))
 
+  # matching uniques in x with uniques in y and vice versa
+  x_matches <- vec_match(x_split$key, y_split$key)
+  y_matches <- vec_match(y_split$key, x_split$key)
+
+  # expand x indices from x matches
+  x_indices_one <- vec_c(
+    !!!map2(x_matches, x_split$id, function(match, ids, rhs_id) {
+      if (is.na(match)) {
+        ids
+      } else {
+        vec_repeat(ids, each = length(rhs_id[[match]]))
+      }
+    }, rhs_id = y_split$id),
+    .ptype = integer()
+  )
+
+  x_indices_two <- rep(NA_integer_,
+    sum(lengths(y_split$id[is.na(y_matches)]))
+  )
+
+  # rows in x
+  y_indices_one <- vec_c(
+    !!!map2(x_matches, x_split$id, function(match, ids, rhs_id) {
+      if (is.na(match)) {
+        vec_repeat(NA_integer_, length(ids))
+      } else {
+        vec_repeat(rhs_id[[match]], times = length(ids))
+      }
+    }, rhs_id = y_split$id),
+
+    .ptype = integer()
+  )
+
+  # rows in y and not in x
+  y_indices_two <- vec_c(!!!y_split$id[is.na(y_matches)], .ptype = integer())
+
+  # joined columns, cast to their common types
+  joined <- vec_rbind(
+    vec_slice(set_names(x[, by_x, drop = FALSE], by_names), x_indices_one),
+    vec_slice(set_names(y[, by_y, drop = FALSE], by_names), y_indices_two),
+  )
+
+  # colums from x
+  x_result <- set_names(
+    vec_slice(x[, aux_x, drop = FALSE], c(x_indices_one, x_indices_two)),
+    vars$alias[seq2(ncol(joined) + 1, ncol(x))]
+  )
+
+  # columns from y
+  y_result <- set_names(
+    vec_slice(y[, aux_y, drop = FALSE], c(y_indices_one, y_indices_two)),
+    vars$alias[seq2(ncol(x) + 1, length(vars$alias))]
+  )
+
+  out <- add_column(joined, !!!x_result, !!!y_result)
   reconstruct_join(out, x, vars)
 }
 

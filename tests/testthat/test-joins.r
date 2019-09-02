@@ -662,8 +662,7 @@ test_that("join functions are protected against empty by (#1496)", {
   )
   expect_error(
     full_join(x, y, by = names(x)),
-    "`by` must specify variables to join by",
-    fixed = TRUE
+    class = "dplyr_join_empty_by"
   )
   expect_error(
     anti_join(x, y, by = names(x)),

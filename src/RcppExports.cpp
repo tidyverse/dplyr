@@ -201,23 +201,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// full_join_impl
-Rcpp::DataFrame full_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y, Rcpp::IntegerVector by_x, Rcpp::IntegerVector by_y, Rcpp::IntegerVector aux_x, Rcpp::IntegerVector aux_y, bool na_match, SEXP frame);
-RcppExport SEXP _dplyr_full_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP aux_xSEXP, SEXP aux_ySEXP, SEXP na_matchSEXP, SEXP frameSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type y(ySEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type by_x(by_xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type by_y(by_ySEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type aux_x(aux_xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type aux_y(aux_ySEXP);
-    Rcpp::traits::input_parameter< bool >::type na_match(na_matchSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
-    rcpp_result_gen = Rcpp::wrap(full_join_impl(x, y, by_x, by_y, aux_x, aux_y, na_match, frame));
-    return rcpp_result_gen;
-END_RCPP
-}
 // select_impl
 Rcpp::DataFrame select_impl(Rcpp::DataFrame df, Rcpp::CharacterVector vars);
 RcppExport SEXP _dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
@@ -365,7 +348,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
     {"_dplyr_nest_join_impl", (DL_FUNC) &_dplyr_nest_join_impl, 7},
-    {"_dplyr_full_join_impl", (DL_FUNC) &_dplyr_full_join_impl, 8},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
