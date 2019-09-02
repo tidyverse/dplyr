@@ -12,6 +12,3 @@
 #include <dplyr/data/GroupedDataFrame.h>
 
 #include <dplyr/visitor_set/VisitorSetIndexMap.h>
-
-#include <dplyr/visitors/subset/DataFrameSelect.h>
-#include <dplyr/visitors/subset/DataFrameSubsetVisitors.h>
