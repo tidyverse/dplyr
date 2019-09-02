@@ -185,22 +185,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// nest_join_impl
-Rcpp::List nest_join_impl(Rcpp::DataFrame x, Rcpp::DataFrame y, Rcpp::IntegerVector by_x, Rcpp::IntegerVector by_y, Rcpp::IntegerVector aux_y, Rcpp::String yname, SEXP frame);
-RcppExport SEXP _dplyr_nest_join_impl(SEXP xSEXP, SEXP ySEXP, SEXP by_xSEXP, SEXP by_ySEXP, SEXP aux_ySEXP, SEXP ynameSEXP, SEXP frameSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type x(xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type y(ySEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type by_x(by_xSEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type by_y(by_ySEXP);
-    Rcpp::traits::input_parameter< Rcpp::IntegerVector >::type aux_y(aux_ySEXP);
-    Rcpp::traits::input_parameter< Rcpp::String >::type yname(ynameSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type frame(frameSEXP);
-    rcpp_result_gen = Rcpp::wrap(nest_join_impl(x, y, by_x, by_y, aux_y, yname, frame));
-    return rcpp_result_gen;
-END_RCPP
-}
 // select_impl
 Rcpp::DataFrame select_impl(Rcpp::DataFrame df, Rcpp::CharacterVector vars);
 RcppExport SEXP _dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
@@ -218,15 +202,6 @@ RcppExport SEXP _dplyr_test_comparisons() {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     rcpp_result_gen = Rcpp::wrap(test_comparisons());
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_matches
-Rcpp::List test_matches();
-RcppExport SEXP _dplyr_test_matches() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    rcpp_result_gen = Rcpp::wrap(test_matches());
     return rcpp_result_gen;
 END_RCPP
 }
@@ -347,10 +322,8 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
     {"_dplyr_grouped_indices_grouped_df_impl", (DL_FUNC) &_dplyr_grouped_indices_grouped_df_impl, 1},
-    {"_dplyr_nest_join_impl", (DL_FUNC) &_dplyr_nest_join_impl, 7},
     {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
-    {"_dplyr_test_matches", (DL_FUNC) &_dplyr_test_matches, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
     {"_dplyr_assert_all_allow_list", (DL_FUNC) &_dplyr_assert_all_allow_list, 1},

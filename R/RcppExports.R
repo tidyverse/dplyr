@@ -92,20 +92,12 @@ grouped_indices_grouped_df_impl <- function(gdf) {
     .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
 }
 
-nest_join_impl <- function(x, y, by_x, by_y, aux_y, yname, frame) {
-    .Call(`_dplyr_nest_join_impl`, x, y, by_x, by_y, aux_y, yname, frame)
-}
-
 select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }
 
 test_comparisons <- function() {
     .Call(`_dplyr_test_comparisons`)
-}
-
-test_matches <- function() {
-    .Call(`_dplyr_test_matches`)
 }
 
 test_length_wrap <- function() {

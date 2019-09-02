@@ -659,6 +659,7 @@ inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
 #' @rdname join.tbl_df
 nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name = NULL, ...) {
   name_var <- name %||% expr_name(enexpr(y))
+
   check_valid_names(tbl_vars(x))
   check_valid_names(tbl_vars(y))
   by <- common_by(by, x, y)
@@ -666,15 +667,51 @@ nest_join.tbl_df <- function(x, y, by = NULL, copy = FALSE, keep = FALSE, name =
   y <- auto_copy(x, y, copy = copy)
 
   vars <- join_vars(tbl_vars(x), tbl_vars(y), by)
-  by_x <- vars$idx$x$by
+  by_x <- check_by_x(vars$idx$x$by)
+  by_names <- vars$alias[seq_len(length(by_x))]
   by_y <- vars$idx$y$by
   aux_y <- vars$idx$y$aux
+  aux_x <- vars$idx$x$aux
+
   if (keep) {
     aux_y <- c(by_y, aux_y)
   }
 
-  out <- nest_join_impl(x, y, by_x, by_y, aux_y, name_var, environment())
-  out
+  y_split <- vec_split_id(set_names(y[, by_y, drop = FALSE], by_names))
+
+  matches <- vec_match(
+    set_names(x[, by_x, drop = FALSE], by_names),
+    y_split$key
+  )
+
+  # expand indices
+  y_indices <- y_split$id
+
+  # joined columns, cast to their common types
+  joined <- x[, by_x, drop = FALSE]
+  joined <- set_names(joined, vars$alias[seq_len(ncol(joined))])
+  joined[] <- map2(joined, y[, by_y, drop = FALSE], function(joined_i, y_i) {
+    vec_cast(joined_i, to = vec_ptype_common(joined_i, y_i))
+  })
+
+  # colums from x (no casting needed)
+  x_result <- set_names(
+    x[, aux_x, drop = FALSE],
+    vars$alias[seq2(ncol(joined) + 1, ncol(x))]
+  )
+
+  # columns from y
+  y_keep <- if (keep) y else y[, aux_y, drop = FALSE]
+  y_result_list <- map(matches, function(idx) {
+    if (identical(idx, NA_integer_)) {
+      vec_slice(y_keep, 0L)
+    } else {
+      vec_slice(y_keep, y_indices[[idx]])
+    }
+  })
+
+  out <- add_column(joined, !!!x_result, !!name_var := y_result_list)
+  reconstruct_join(out, x, vars)
 }
 
 check_by_x <- function(by_x) {
