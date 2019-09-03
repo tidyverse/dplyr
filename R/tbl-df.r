@@ -921,9 +921,9 @@ full_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
   y_indices_two <- vec_c(!!!y_split$id[is.na(y_matches)], .ptype = integer())
 
   # joined columns, cast to their common types
-  joined <- vec_rbind(
+  joined <- bind_rows(
     vec_slice(set_names(x[, by_x, drop = FALSE], by_names), x_indices_one),
-    vec_slice(set_names(y[, by_y, drop = FALSE], by_names), y_indices_two),
+    vec_slice(set_names(y[, by_y, drop = FALSE], by_names), y_indices_two)
   )
 
   # colums from x
