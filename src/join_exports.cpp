@@ -10,5 +10,3 @@
 #include <tools/debug.h>
 
 #include <dplyr/data/GroupedDataFrame.h>
-
-#include <dplyr/visitor_set/VisitorSetIndexMap.h>

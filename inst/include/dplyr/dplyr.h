@@ -2,15 +2,11 @@
 #define dplyr_dplyr_dplyr_H
 
 #include <dplyr/allow_list.h>
-#include <dplyr/checks.h>
-#include <dplyr/visitor_set/visitor_set.h>
 #include <tools/BoolResult.h>
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/RowwiseDataFrame.h>
 
 #include <tools/comparisons.h>
-#include <dplyr/visitors/order/Order.h>
-#include <tools/default_value.h>
 #include <dplyr/Collecter.h>
 #include <tools/train.h>
 
