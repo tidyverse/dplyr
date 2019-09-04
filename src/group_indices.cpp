@@ -10,9 +10,6 @@
 #include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
 
-#include <dplyr/visitors/subset/column_subset.h>
-#include <dplyr/visitors/subset/DataFrameSelect.h>
-
 namespace dplyr {
 
 // call the R function dplyr::make_grouped_df_groups_attribute()
