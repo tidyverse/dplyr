@@ -1076,28 +1076,6 @@ test_that("the data mask marks subsets as not mutable", {
   expect_true(all(maybe_shared_columns(res)))
 })
 
-test_that("column_subset respects S3 local [. method (#3923)", {
-  testS3Class <- function(x, X){
-    structure(x, class = "testS3Class", X = X)
-  }
-  `[.testS3Class` <- function(x, i, ...) {
-    testS3Class(unclass(x)[i, ...], X = attr(x, "X"))
-  }
-  df <- tibble(x = rep(1:2, each = 5), y = testS3Class(1:10, X = 100))
-  res <- df %>%
-    group_by(x) %>%
-    summarise(chunk = list(y))
-  expect_equal(res$chunk[[1]], df$y[df$x == 1])
-  expect_equal(res$chunk[[1]], df$y[df$x == 1])
-
-  df$y <- testS3Class(matrix(1:20, ncol = 2), X = 200)
-  res <- df %>%
-    group_by(x) %>%
-    summarise(chunk = list(y))
-  expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
-  expect_equal(res$chunk[[1]], df$y[df$x == 1, , drop = FALSE])
-})
-
 test_that("tidy eval does not infloop (#4049)", {
   df <- data.frame(x = 1:5)
   call <- expr(length(!!quo(x)))
