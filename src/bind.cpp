@@ -5,7 +5,6 @@
 
 #include <tools/all_na.h>
 #include <tools/collapse.h>
-#include <tools/pointer_vector.h>
 #include <tools/utils.h>
 #include <tools/bad.h>
 #include <tools/set_rownames.h>
@@ -138,177 +137,6 @@ static void cbind_type_check(SEXP x, int nrows, SEXP contr, int arg) {
   }
 }
 
-Rcpp::List rbind__impl(Rcpp::List dots, const dplyr::SymbolString& id) {
-  int ndata = dots.size();
-
-  LOG_VERBOSE << "binding at most " << ndata << " chunks";
-
-  R_xlen_t n = 0;
-  std::vector<SEXP> chunks;
-  std::vector<R_xlen_t> df_nrows;
-
-  chunks.reserve(ndata);
-  df_nrows.reserve(ndata);
-
-  int k = 0;
-  for (int i = 0; i < ndata; i++) {
-    SEXP obj = dots[i];
-    if (Rf_isNull(obj)) continue;
-    chunks.push_back(obj);
-    R_xlen_t nrows = rows_length(chunks[k], true);
-    df_nrows.push_back(nrows);
-    n += nrows;
-    k++;
-  }
-  ndata = chunks.size();
-  pointer_vector<Collecter> columns;
-
-  LOG_VERBOSE << "binding " << ndata << " chunks";
-
-  SymbolVector names;
-
-  k = 0;
-  for (int i = 0; i < ndata; i++) {
-    Rcpp::checkUserInterrupt();
-
-    SEXP df = chunks[i];
-    R_xlen_t nrows = df_nrows[i];
-    rbind_type_check(df, nrows, i);
-
-    SymbolVector df_names(vec_names(df));
-    for (int j = 0; j < Rf_length(df); j++) {
-
-      SEXP source;
-      int offset;
-      if (TYPEOF(df) == VECSXP) {
-        source = VECTOR_ELT(df, j);
-        offset = 0;
-      } else {
-        source = df;
-        offset = j;
-      }
-
-      SymbolString name = df_names[j];
-
-      Collecter* coll = 0;
-      R_xlen_t index = 0;
-      for (; index < names.size(); index++) {
-        if (name == names[index]) {
-          coll = columns[index];
-          break;
-        }
-      }
-      if (!coll) {
-        coll = collecter(source, n);
-        columns.push_back(coll);
-        names.push_back(name);
-      }
-      if (coll->compatible(source)) {
-        // if the current source is compatible, collect
-        coll->collect(OffsetSlicingIndex(k, nrows), source, offset);
-      } else if (coll->can_promote(source)) {
-        // setup a new Collecter
-        Collecter* new_collecter = promote_collecter(source, n, coll);
-
-        // import data from this chunk
-        new_collecter->collect(OffsetSlicingIndex(k, nrows), source, offset);
-
-        // import data from previous collecter
-        new_collecter->collect(NaturalSlicingIndex(k), coll->get());
-
-        // dispose the previous collecter and keep the new one.
-        delete coll;
-        columns[index] = new_collecter;
-
-      } else if (all_na(source)) {
-        // do nothing, the collecter already initialized data with the
-        // right NA
-      } else if (coll->is_logical_all_na()) {
-        Collecter* new_collecter = collecter(source, n);
-        new_collecter->collect(OffsetSlicingIndex(k, nrows), source, offset);
-        delete coll;
-        columns[index] = new_collecter;
-      } else {
-        bad_col(SymbolString(name), "can't be converted from {source_type} to {target_type}",
-                Rcpp::_["source_type"] = coll->describe(), Rcpp::_["target_type"] = get_single_class(source));
-      }
-
-    }
-
-    k += nrows;
-  }
-
-  int nc = columns.size();
-
-  LOG_VERBOSE << "result has " << nc << " columns";
-
-  int has_id = id.is_empty() ? 0 : 1;
-
-  Rcpp::List out(Rcpp::no_init(nc + has_id));
-  SymbolVector out_names(Rcpp::no_init(nc + has_id));
-  for (int i = 0; i < nc; i++) {
-    out[i + has_id] = columns[i]->get();
-    out_names.set(i + has_id, names[i]);
-  }
-
-  // Add vector of identifiers if .id is supplied
-  if (!id.is_empty()) {
-
-    // extract the names
-    SEXP dots_names(vec_names(dots));
-    if (Rf_isNull(dots_names)) {
-      out[0] = Rf_allocVector(STRSXP, n);
-    } else {
-      // use the SEXP* directly so that we don't have to pay to check
-      // that dots_names is a STRSXP every single time
-      SEXP* p_dots_names = STRING_PTR(dots_names);
-      SEXP* p_dots = get_vector_ptr(dots);
-
-      // we create id_col now, so it is definitely younger than dots_names
-      // this is surely write barrier proof
-      SEXP id_col = PROTECT(Rf_allocVector(STRSXP, n));
-
-      SEXP* p_id_col = STRING_PTR(id_col);
-      for (int i = 0; i < ndata; ++i, ++p_dots_names, ++p_dots) {
-
-        // skip NULL on dots. because the way df_nrows is made above
-        // need to skip dots_names too
-        while (Rf_isNull(*p_dots)) {
-          ++p_dots;
-          ++p_dots_names;
-        }
-
-        p_id_col = std::fill_n(p_id_col, df_nrows[i], *p_dots_names);
-      }
-      out[0] = id_col;
-      UNPROTECT(1);
-    }
-
-    out_names.set(0, id);
-  }
-  Rf_namesgets(out, out_names.get_vector());
-  set_rownames(out, n);
-
-  LOG_VERBOSE << "result has " << n << " rows";
-
-  // infer the classes group info from the first (#1692)
-  if (ndata) {
-    SEXP first = chunks[0];
-    if (Rf_inherits(first, "data.frame")) {
-      set_class(out, get_class(first));
-      if (Rcpp::is<GroupedDataFrame>(first)) {
-        out = GroupedDataFrame(out, GroupedDataFrame(first)).data();
-      }
-    } else {
-      set_class(out, NaturalDataFrame::classes());
-    }
-  } else {
-    set_class(out, NaturalDataFrame::classes());
-  }
-
-  return out;
-}
-
 }
 
 extern "C" bool dplyr_is_bind_spliceable(SEXP x) {
@@ -338,13 +166,17 @@ SEXP flatten_bindable(SEXP x) {
 }
 
 // [[Rcpp::export(rng = false)]]
-Rcpp::List bind_rows_(Rcpp::List dots, SEXP id) {
-  LOG_VERBOSE;
+void bind_rows_check(Rcpp::List dots) {
+  int ndata = dots.size();
 
-  if (Rf_isNull(id))
-    return rbind__impl(dots, dplyr::SymbolString());
-  else
-    return rbind__impl(dots, dplyr::SymbolString(Rcpp::as<Rcpp::String>(id)));
+  for (int i = 0; i < ndata; i++) {
+    SEXP obj = dots[i];
+    if (Rf_isNull(obj)) continue;
+
+    R_xlen_t nrows = dplyr::rows_length(obj, true);
+    dplyr::rbind_type_check(obj, nrows, i);
+  }
+
 }
 
 // [[Rcpp::export(rng = false)]]

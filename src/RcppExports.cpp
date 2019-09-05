@@ -99,15 +99,13 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// bind_rows_
-Rcpp::List bind_rows_(Rcpp::List dots, SEXP id);
-RcppExport SEXP _dplyr_bind_rows_(SEXP dotsSEXP, SEXP idSEXP) {
+// bind_rows_check
+void bind_rows_check(Rcpp::List dots);
+RcppExport SEXP _dplyr_bind_rows_check(SEXP dotsSEXP) {
 BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< Rcpp::List >::type dots(dotsSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type id(idSEXP);
-    rcpp_result_gen = Rcpp::wrap(bind_rows_(dots, id));
-    return rcpp_result_gen;
+    bind_rows_check(dots);
+    return R_NilValue;
 END_RCPP
 }
 // cbind_all
@@ -314,7 +312,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_maybe_shared_columns", (DL_FUNC) &_dplyr_maybe_shared_columns, 1},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
-    {"_dplyr_bind_rows_", (DL_FUNC) &_dplyr_bind_rows_, 2},
+    {"_dplyr_bind_rows_check", (DL_FUNC) &_dplyr_bind_rows_check, 1},
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},

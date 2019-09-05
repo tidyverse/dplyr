@@ -93,15 +93,6 @@ NULL
 bind_rows <- function(..., .id = NULL) {
   x <- flatten_bindable(dots_values(...))
 
-  if (!length(x)) {
-    # Handle corner cases gracefully, but always return a tibble
-    if (inherits(x, "data.frame")) {
-      return(x)
-    } else {
-      return(tibble())
-    }
-  }
-
   if (!is_null(.id)) {
     if (!(is_string(.id))) {
       bad_args(".id", "must be a scalar string, ",
@@ -114,7 +105,20 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
-  bind_rows_(x, .id)
+  bind_rows_check(x)
+  x <- keep(x, function(.x) {
+    is.data.frame(.x) || vec_size(.x) > 0
+  })
+
+  result <- vec_rbind(!!!x, .names_to = .id)
+  if (length(x) && is_tibble(first <- x[[1L]])) {
+    if (is_grouped_df(first)) {
+      result <- grouped_df(result, group_vars(first), group_by_drop_default(first))
+    } else {
+      class(result) <- class(first)
+    }
+  }
+  result
 }
 
 #' @export

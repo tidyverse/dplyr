@@ -60,8 +60,8 @@ flatten_bindable <- function(x) {
     .Call(`_dplyr_flatten_bindable`, x)
 }
 
-bind_rows_ <- function(dots, id) {
-    .Call(`_dplyr_bind_rows_`, dots, id)
+bind_rows_check <- function(dots) {
+    invisible(.Call(`_dplyr_bind_rows_check`, dots))
 }
 
 cbind_all <- function(dots) {
