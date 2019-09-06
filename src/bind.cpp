@@ -1,13 +1,12 @@
 #include "pch.h"
 #include <dplyr/main.h>
+#include <dplyr/symbols.h>
 
 #include <tools/all_na.h>
 #include <tools/collapse.h>
 #include <tools/utils.h>
 #include <tools/bad.h>
 #include <tools/set_rownames.h>
-
-#include <dplyr/data/NaturalDataFrame.h>
 
 namespace dplyr {
 
@@ -178,26 +177,16 @@ void bind_rows_check(Rcpp::List dots) {
 SEXP cbind_all(Rcpp::List dots) {
   int n_dots = dots.size();
 
-  // First check that the number of rows is the same based on first
-  // nonnull element
-  int first_i = -1;
-  for (int i = 0; i != n_dots; ++i) {
-    if (dots[i] != R_NilValue) {
-      first_i = i;
-      break;
-    }
-  }
-
-  if (!n_dots || first_i == -1)
+  if (n_dots == 0)
     return Rcpp::DataFrame();
 
-  SEXP first = dots[first_i];
+  SEXP first = dots[0];
   const R_xlen_t nrows = dplyr::rows_length(first, false);
   dplyr::cbind_type_check(first, nrows, dots, 0);
 
   R_xlen_t nv = dplyr::cols_length(first);
 
-  for (int i = first_i + 1; i < n_dots; i++) {
+  for (int i = 1; i < n_dots; i++) {
     SEXP current = dots[i];
     if (Rf_isNull(current))
       continue;
@@ -214,7 +203,7 @@ SEXP cbind_all(Rcpp::List dots) {
   Rcpp::RObject dots_names = vec_names(dots);
 
   // then do the subsequent dfs
-  for (int i = first_i, k = 0; i < n_dots; i++) {
+  for (int i = 0, k = 0; i < n_dots; i++) {
     SEXP current = dots[i];
     if (Rf_isNull(current))
       continue;
@@ -240,7 +229,7 @@ SEXP cbind_all(Rcpp::List dots) {
   if (Rf_inherits(first, "data.frame")) {
     dplyr::copy_most_attributes(out, first);
   } else {
-    dplyr::set_class(out, dplyr::NaturalDataFrame::classes());
+    dplyr::set_class(out, dplyr::vectors::classes_tbl_df);
   }
   Rf_namesgets(out, out_names);
   dplyr::set_rownames(out, nrows);

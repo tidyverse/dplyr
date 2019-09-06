@@ -8,7 +8,6 @@
 #include <dplyr/symbols.h>
 
 #include <dplyr/data/GroupedDataFrame.h>
-#include <dplyr/data/NaturalDataFrame.h>
 
 namespace dplyr {
 
@@ -107,7 +106,7 @@ Rcpp::DataFrame group_data_grouped_df(Rcpp::DataFrame data) {
 Rcpp::DataFrame ungroup_grouped_df(Rcpp::DataFrame df) {
   Rcpp::DataFrame copy(shallow_copy(df));
   dplyr::GroupedDataFrame::strip_groups(copy);
-  dplyr::set_class(copy, dplyr::NaturalDataFrame::classes());
+  dplyr::set_class(copy, dplyr::vectors::classes_tbl_df);
   return copy;
 }
 

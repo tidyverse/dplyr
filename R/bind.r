@@ -124,7 +124,7 @@ bind_rows <- function(..., .id = NULL) {
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- flatten_bindable(dots_values(...))
+  x <- keep(flatten_bindable(dots_values(...)), function(.x) !is.null(.x))
   out <- cbind_all(x)
   tibble::repair_names(out)
 }

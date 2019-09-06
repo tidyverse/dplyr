@@ -43,6 +43,11 @@ SEXP get_classes_vctrs_list_of() {
   return klasses;
 }
 
+SEXP get_classes_tbl_df() {
+  static Rcpp::CharacterVector classes = Rcpp::CharacterVector::create("tbl_df", "tbl", "data.frame");
+  return classes;
+}
+
 SEXP get_empty_int_vector() {
   SEXP x = Rf_allocVector(INTSXP, 0);
   R_PreserveObject(x);
@@ -128,6 +133,7 @@ SEXP vectors::factor = get_factor_classes();
 SEXP vectors::ordered = get_ordered_classes();
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
+SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);

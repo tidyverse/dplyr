@@ -89,6 +89,7 @@ struct vectors {
   static SEXP factor;
   static SEXP ordered;
   static SEXP classes_vctrs_list_of;
+  static SEXP classes_tbl_df;
   static SEXP empty_int_vector;
 };
 
