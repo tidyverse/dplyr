@@ -163,17 +163,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// select_impl
-Rcpp::DataFrame select_impl(Rcpp::DataFrame df, Rcpp::CharacterVector vars);
-RcppExport SEXP _dplyr_select_impl(SEXP dfSEXP, SEXP varsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type df(dfSEXP);
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type vars(varsSEXP);
-    rcpp_result_gen = Rcpp::wrap(select_impl(df, vars));
-    return rcpp_result_gen;
-END_RCPP
-}
 // test_comparisons
 Rcpp::LogicalVector test_comparisons();
 RcppExport SEXP _dplyr_test_comparisons() {
@@ -298,7 +287,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_ungroup_grouped_df", (DL_FUNC) &_dplyr_ungroup_grouped_df, 1},
-    {"_dplyr_select_impl", (DL_FUNC) &_dplyr_select_impl, 2},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},

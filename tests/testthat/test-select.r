@@ -69,11 +69,11 @@ test_that("rename errors with invalid grouped data frame (#640)", {
   df$a <- NULL
   expect_error(
     df %>% rename(e = d),
-    "not found in groups metadata"
+    class = "dplyr_select_corrupt_grouped_df"
   )
   expect_error(
     df %>% rename(e = b),
-    "not found in groups metadata"
+    class = "dplyr_select_corrupt_grouped_df"
   )
 })
 

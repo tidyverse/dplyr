@@ -84,10 +84,6 @@ ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
 }
 
-select_impl <- function(df, vars) {
-    .Call(`_dplyr_select_impl`, df, vars)
-}
-
 test_comparisons <- function() {
     .Call(`_dplyr_test_comparisons`)
 }
