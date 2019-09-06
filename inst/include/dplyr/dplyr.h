@@ -3,7 +3,6 @@
 
 #include <dplyr/allow_list.h>
 #include <tools/BoolResult.h>
-#include <dplyr/data/RowwiseDataFrame.h>
 
 #include <tools/comparisons.h>
 #include <dplyr/Collecter.h>

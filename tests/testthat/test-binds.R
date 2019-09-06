@@ -79,9 +79,10 @@ test_that("bind_cols repairs names", {
   df <- tibble(a = 1, b = 2)
   bound <- bind_cols(df, df)
 
-  repaired <- as_tibble(tibble::repair_names(
-    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE)
-  ))
+  repaired <- as_tibble(
+    data.frame(a = 1, b = 2, a = 1, b = 2, check.names = FALSE),
+    .name_repair = "unique"
+  )
 
   expect_identical(bound, repaired)
 })
