@@ -101,11 +101,3 @@ SymbolVector GroupedDataFrame::group_vars() const {
 Rcpp::DataFrame group_data_grouped_df(Rcpp::DataFrame data) {
   return dplyr::GroupedDataFrame(data).group_data();
 }
-
-// [[Rcpp::export(rng = false)]]
-Rcpp::DataFrame ungroup_grouped_df(Rcpp::DataFrame df) {
-  Rcpp::DataFrame copy(shallow_copy(df));
-  dplyr::GroupedDataFrame::strip_groups(copy);
-  dplyr::set_class(copy, dplyr::vectors::classes_tbl_df);
-  return copy;
-}

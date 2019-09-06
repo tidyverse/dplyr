@@ -241,14 +241,14 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
-  x <- ungroup(x)
-  class(x) <- c("tbl_df", "tbl", "data.frame")
-  x
+  ungroup(x)
 }
 
 #' @export
 ungroup.grouped_df <- function(x, ...) {
-  ungroup_grouped_df(x)
+  attr(x, "groups") <- NULL
+  attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
+  x
 }
 
 #' @importFrom tibble is_tibble

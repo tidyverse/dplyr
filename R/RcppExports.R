@@ -80,10 +80,6 @@ group_data_grouped_df <- function(data) {
     .Call(`_dplyr_group_data_grouped_df`, data)
 }
 
-ungroup_grouped_df <- function(df) {
-    .Call(`_dplyr_ungroup_grouped_df`, df)
-}
-
 test_comparisons <- function() {
     .Call(`_dplyr_test_comparisons`)
 }
