@@ -39,8 +39,9 @@ group_indices.data.frame <- function(.data, ..., .drop = TRUE) {
   if (length(dots) == 0L) {
     return(rep(1L, nrow(.data)))
   }
-  grouped_indices_grouped_df_impl(group_by(.data, !!!dots, .drop = .drop))
+  group_indices(group_by(.data, !!!dots, .drop = .drop))
 }
+
 #' @export
 group_indices_.data.frame <- function(.data, ..., .dots = list()) {
   dots <- compat_lazy_dots(.dots, caller_env(), ...)
@@ -66,7 +67,13 @@ group_indices.grouped_df <- function(.data, ...) {
   if (dots_n(...)) {
     warn("group_indices_.grouped_df ignores extra arguments")
   }
-  grouped_indices_grouped_df_impl(.data)
+  n <- nrow(.data)
+  res <- integer(n)
+  rows <- group_rows(.data)
+  for (i in seq_along(rows)) {
+    res[rows[[i]]] <- i
+  }
+  res
 }
 #' @export
 group_indices_.grouped_df <- function(.data, ..., .dots = list()) {

@@ -84,10 +84,6 @@ ungroup_grouped_df <- function(df) {
     .Call(`_dplyr_ungroup_grouped_df`, df)
 }
 
-grouped_indices_grouped_df_impl <- function(gdf) {
-    .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
-}
-
 select_impl <- function(df, vars) {
     .Call(`_dplyr_select_impl`, df, vars)
 }

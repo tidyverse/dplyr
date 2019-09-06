@@ -109,19 +109,3 @@ Rcpp::DataFrame ungroup_grouped_df(Rcpp::DataFrame df) {
   dplyr::set_class(copy, dplyr::vectors::classes_tbl_df);
   return copy;
 }
-
-// [[Rcpp::export(rng = false)]]
-Rcpp::IntegerVector grouped_indices_grouped_df_impl(const dplyr::GroupedDataFrame& gdf) {
-  int n = gdf.nrows();
-  Rcpp::IntegerVector res(Rcpp::no_init(n));
-  int ngroups = gdf.ngroups();
-  dplyr::GroupedDataFrameIndexIterator it = gdf.group_begin();
-  for (int i = 0; i < ngroups; i++, ++it) {
-    const GroupedSlicingIndex& index = *it;
-    int n_index = index.size();
-    for (int j = 0; j < n_index; j++) {
-      res[ index[j] ] = i + 1;
-    }
-  }
-  return res;
-}
