@@ -3,14 +3,7 @@
 
 #include <tools/SymbolVector.h>
 
-void check_valid_colnames(const Rcpp::DataFrame& df, bool warn_only = false);
-int check_range_one_based(int x, int max);
-void assert_all_allow_list(const Rcpp::DataFrame&);
 SEXP shared_SEXP(SEXP x);
-SEXP shallow_copy(const Rcpp::List& data);
-SEXP pairlist_shallow_copy(SEXP p);
-void copy_attributes(SEXP out, SEXP data);
-SEXP null_if_empty(SEXP x);
 
 bool is_vector(SEXP x);
 bool is_atomic(SEXP x);
@@ -20,34 +13,13 @@ SEXP vec_names_or_empty(SEXP x);
 bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
 
-SEXP child_env(SEXP parent);
-
 int get_size(SEXP x);
 
 namespace dplyr {
 
-SEXP get_time_classes();
-SEXP get_date_classes();
-
-std::string get_single_class(SEXP x);
 Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len);
-Rcpp::CharacterVector get_class(SEXP x);
 SEXP set_class(SEXP x, const Rcpp::CharacterVector& class_);
 void copy_attrib(SEXP out, SEXP origin, SEXP symbol);
-void copy_class(SEXP out, SEXP origin);
-void copy_names(SEXP out, SEXP origin);
-Rcpp::CharacterVector get_levels(SEXP x);
-SEXP set_levels(SEXP x, const Rcpp::CharacterVector& levels);
-bool same_levels(SEXP left, SEXP right);
-bool character_vector_equal(const Rcpp::CharacterVector& x, const Rcpp::CharacterVector& y);
-
-SymbolVector get_vars(SEXP x);
-
-// effectively the same as copy_attributes but without names and dims
-inline void copy_most_attributes(SEXP out, SEXP data) {
-  Rf_copyMostAttrib(data, out);
-}
-
 
 namespace internal {
 

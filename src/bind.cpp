@@ -76,6 +76,43 @@ static bool is_non_data_frame_object(SEXP x) {
   return !Rf_inherits(x, "data.frame");
 }
 
+static std::string get_single_class(SEXP x) {
+  SEXP klass = Rf_getAttrib(x, R_ClassSymbol);
+  if (!Rf_isNull(klass)) {
+    Rcpp::CharacterVector classes(klass);
+    return collapse_utf8(classes, "/");
+  }
+
+  if (Rf_isMatrix(x)) {
+    return "matrix";
+  }
+
+  switch (TYPEOF(x)) {
+  case RAWSXP:
+    return "raw";
+  case INTSXP:
+    return "integer";
+  case REALSXP :
+    return "numeric";
+  case LGLSXP:
+    return "logical";
+  case STRSXP:
+    return "character";
+  case CPLXSXP:
+    return "complex";
+
+  case VECSXP:
+    return "list";
+  default:
+    break;
+  }
+
+  // just call R to deal with other cases
+  Rcpp::RObject class_call(Rf_lang2(R_ClassSymbol, x));
+  klass = Rf_eval(class_call, R_GlobalEnv);
+  return CHAR(STRING_ELT(klass, 0));
+}
+
 static void rbind_vector_check(SEXP x, R_xlen_t nrows, int arg) {
   if (!is_vector(x) || is_non_data_frame_object(x)) {
     bad_pos_arg(arg + 1, "must be a data frame or a named atomic vector, not a {type}",
@@ -227,7 +264,7 @@ SEXP cbind_all(Rcpp::List dots) {
 
   // infer the classes and extra info (groups, etc ) from the first (#1692)
   if (Rf_inherits(first, "data.frame")) {
-    dplyr::copy_most_attributes(out, first);
+    Rf_copyMostAttrib(first, out);
   } else {
     dplyr::set_class(out, dplyr::vectors::classes_tbl_df);
   }

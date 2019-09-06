@@ -1,6 +1,5 @@
 #include "pch.h"
 
-#include <tools/encoding.h>
 #include <tools/utils.h>
 
 #include <dplyr/main.h>

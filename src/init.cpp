@@ -7,35 +7,6 @@
 
 namespace dplyr {
 
-SEXP get_date_classes() {
-  static Rcpp::CharacterVector klasses(1, Rf_mkChar("Date"));
-  return klasses;
-}
-
-inline SEXP init_time_classes() {
-  Rcpp::Shield<SEXP> res(Rf_allocVector(STRSXP, 2));
-  SET_STRING_ELT(res, 0, Rf_mkChar("POSIXct"));
-  SET_STRING_ELT(res, 1, Rf_mkChar("POSIXt"));
-  return res;
-}
-
-SEXP get_time_classes() {
-  static Rcpp::CharacterVector klasses(init_time_classes());
-  return klasses;
-}
-
-SEXP get_factor_classes() {
-  static Rcpp::CharacterVector klasses(1, Rf_mkChar("factor"));
-  return klasses;
-}
-
-SEXP get_ordered_classes() {
-  static Rcpp::CharacterVector klasses(2);
-  klasses[0] = "ordered";
-  klasses[1] = "factor";
-  return klasses;
-}
-
 SEXP get_classes_vctrs_list_of() {
   static Rcpp::CharacterVector klasses(2);
   klasses[0] = "vctrs_list_of";
@@ -50,11 +21,6 @@ SEXP get_classes_tbl_df() {
 
 SEXP get_empty_int_vector() {
   SEXP x = Rf_allocVector(INTSXP, 0);
-  R_PreserveObject(x);
-  return x;
-}
-
-SEXP mark_precious(SEXP x) {
   R_PreserveObject(x);
   return x;
 }
@@ -127,18 +93,11 @@ SEXP symbols::indices = Rf_install("indices");
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::names = R_NamesSymbol;
 SEXP symbols::formula = Rf_install("formula");
+
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 
-SEXP vectors::factor = get_factor_classes();
-SEXP vectors::ordered = get_ordered_classes();
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
-
-SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
-SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);
-SEXP strings::Date = STRING_ELT(get_date_classes(), 0);
-SEXP strings::factor = STRING_ELT(vectors::factor, 0);
-SEXP strings::ordered = STRING_ELT(vectors::ordered, 0);
 
 }

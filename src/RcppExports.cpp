@@ -143,16 +143,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// group_data_grouped_df
-Rcpp::DataFrame group_data_grouped_df(Rcpp::DataFrame data);
-RcppExport SEXP _dplyr_group_data_grouped_df(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::DataFrame >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(group_data_grouped_df(data));
-    return rcpp_result_gen;
-END_RCPP
-}
 // test_comparisons
 Rcpp::LogicalVector test_comparisons();
 RcppExport SEXP _dplyr_test_comparisons() {
@@ -178,15 +168,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const Rcpp::CharacterVector& >::type names(namesSEXP);
     Rcpp::traits::input_parameter< bool >::type warn_only(warn_onlySEXP);
     check_valid_names(names, warn_only);
-    return R_NilValue;
-END_RCPP
-}
-// assert_all_allow_list
-void assert_all_allow_list(const Rcpp::DataFrame& data);
-RcppExport SEXP _dplyr_assert_all_allow_list(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::traits::input_parameter< const Rcpp::DataFrame& >::type data(dataSEXP);
-    assert_all_allow_list(data);
     return R_NilValue;
 END_RCPP
 }
@@ -275,11 +256,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
-    {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
-    {"_dplyr_assert_all_allow_list", (DL_FUNC) &_dplyr_assert_all_allow_list, 1},
     {"_dplyr_is_data_pronoun", (DL_FUNC) &_dplyr_is_data_pronoun, 1},
     {"_dplyr_is_variable_reference", (DL_FUNC) &_dplyr_is_variable_reference, 1},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},

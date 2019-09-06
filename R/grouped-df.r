@@ -152,6 +152,12 @@ validate_grouped_df <- function(x) {
   assert_that(is_grouped_df(x))
 
   groups <- attr(x, "groups")
+
+  vars <- attr(x, "vars")
+  if (!is.null(vars) && is.null(groups)) {
+    abort("Corrupt grouped_df data using the old format", .subclass = "dplyr_grouped_df_corrupt")
+  }
+
   assert_that(
     is.data.frame(groups),
     ncol(groups) > 0,

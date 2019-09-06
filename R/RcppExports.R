@@ -76,10 +76,6 @@ filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
     .Call(`_dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }
 
-group_data_grouped_df <- function(data) {
-    .Call(`_dplyr_group_data_grouped_df`, data)
-}
-
 test_comparisons <- function() {
     .Call(`_dplyr_test_comparisons`)
 }
@@ -90,10 +86,6 @@ test_length_wrap <- function() {
 
 check_valid_names <- function(names, warn_only = FALSE) {
     invisible(.Call(`_dplyr_check_valid_names`, names, warn_only))
-}
-
-assert_all_allow_list <- function(data) {
-    invisible(.Call(`_dplyr_assert_all_allow_list`, data))
 }
 
 is_data_pronoun <- function(expr) {

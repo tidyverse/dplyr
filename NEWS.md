@@ -4,6 +4,8 @@
 
 * `group_by()` uses hashing from the `vctrs` package. 
 
+* `combine()` is soft deprecated.
+
 # dplyr 0.8.4 (development version)
 
 * Better performance for extracting slices of factors and ordered factors (#4501).
