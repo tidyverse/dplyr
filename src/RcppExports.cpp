@@ -171,26 +171,6 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// is_data_pronoun
-bool is_data_pronoun(SEXP expr);
-RcppExport SEXP _dplyr_is_data_pronoun(SEXP exprSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type expr(exprSEXP);
-    rcpp_result_gen = Rcpp::wrap(is_data_pronoun(expr));
-    return rcpp_result_gen;
-END_RCPP
-}
-// is_variable_reference
-bool is_variable_reference(SEXP expr);
-RcppExport SEXP _dplyr_is_variable_reference(SEXP exprSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type expr(exprSEXP);
-    rcpp_result_gen = Rcpp::wrap(is_variable_reference(expr));
-    return rcpp_result_gen;
-END_RCPP
-}
 // quo_is_variable_reference
 bool quo_is_variable_reference(SEXP quo);
 RcppExport SEXP _dplyr_quo_is_variable_reference(SEXP quoSEXP) {
@@ -198,16 +178,6 @@ BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::traits::input_parameter< SEXP >::type quo(quoSEXP);
     rcpp_result_gen = Rcpp::wrap(quo_is_variable_reference(quo));
-    return rcpp_result_gen;
-END_RCPP
-}
-// quo_is_data_pronoun
-bool quo_is_data_pronoun(SEXP quo);
-RcppExport SEXP _dplyr_quo_is_data_pronoun(SEXP quoSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type quo(quoSEXP);
-    rcpp_result_gen = Rcpp::wrap(quo_is_data_pronoun(quo));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -259,10 +229,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
     {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_check_valid_names", (DL_FUNC) &_dplyr_check_valid_names, 2},
-    {"_dplyr_is_data_pronoun", (DL_FUNC) &_dplyr_is_data_pronoun, 1},
-    {"_dplyr_is_variable_reference", (DL_FUNC) &_dplyr_is_variable_reference, 1},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},
-    {"_dplyr_quo_is_data_pronoun", (DL_FUNC) &_dplyr_quo_is_data_pronoun, 1},
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},
     {"_dplyr_cumany", (DL_FUNC) &_dplyr_cumany, 1},
     {"_dplyr_cummean", (DL_FUNC) &_dplyr_cummean, 1},

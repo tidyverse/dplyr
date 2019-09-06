@@ -13,12 +13,9 @@ SEXP vec_names_or_empty(SEXP x);
 bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
 
-int get_size(SEXP x);
-
 namespace dplyr {
 
 Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len);
-SEXP set_class(SEXP x, const Rcpp::CharacterVector& class_);
 void copy_attrib(SEXP out, SEXP origin, SEXP symbol);
 
 namespace internal {

@@ -59,8 +59,6 @@ struct symbols {
   static SEXP eval_tidy;
   static SEXP quote;
   static SEXP dot_drop;
-  static SEXP warn_deprecated;
-  static SEXP signal_soft_deprecated;
   static SEXP call;
   static SEXP env;
   static SEXP fun;

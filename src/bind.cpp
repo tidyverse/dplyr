@@ -266,7 +266,7 @@ SEXP cbind_all(Rcpp::List dots) {
   if (Rf_inherits(first, "data.frame")) {
     Rf_copyMostAttrib(first, out);
   } else {
-    dplyr::set_class(out, dplyr::vectors::classes_tbl_df);
+    Rf_classgets(out, dplyr::vectors::classes_tbl_df);
   }
   Rf_namesgets(out, out_names);
   dplyr::set_rownames(out, nrows);
