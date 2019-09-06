@@ -118,16 +118,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// combine_all
-SEXP combine_all(Rcpp::List data);
-RcppExport SEXP _dplyr_combine_all(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::List >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(combine_all(data));
-    return rcpp_result_gen;
-END_RCPP
-}
 // expand_groups
 Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr);
 RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP, SEXP nrSEXP) {
@@ -314,7 +304,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
     {"_dplyr_bind_rows_check", (DL_FUNC) &_dplyr_bind_rows_check, 1},
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
-    {"_dplyr_combine_all", (DL_FUNC) &_dplyr_combine_all, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
     {"_dplyr_group_data_grouped_df", (DL_FUNC) &_dplyr_group_data_grouped_df, 1},

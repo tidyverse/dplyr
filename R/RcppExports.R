@@ -68,10 +68,6 @@ cbind_all <- function(dots) {
     .Call(`_dplyr_cbind_all`, dots)
 }
 
-combine_all <- function(data) {
-    .Call(`_dplyr_combine_all`, data)
-}
-
 expand_groups <- function(old_groups, positions, nr) {
     .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }

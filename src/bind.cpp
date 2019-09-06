@@ -1,17 +1,12 @@
 #include "pch.h"
 #include <dplyr/main.h>
 
-#include <boost/scoped_ptr.hpp>
-
 #include <tools/all_na.h>
 #include <tools/collapse.h>
 #include <tools/utils.h>
 #include <tools/bad.h>
 #include <tools/set_rownames.h>
 
-#include <dplyr/Collecter.h>
-
-#include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/data/NaturalDataFrame.h>
 
 namespace dplyr {
@@ -251,49 +246,4 @@ SEXP cbind_all(Rcpp::List dots) {
   dplyr::set_rownames(out, nrows);
 
   return out;
-}
-
-// [[Rcpp::export(rng = false)]]
-SEXP combine_all(Rcpp::List data) {
-  int nv = data.size();
-
-  // get the size of the output
-  int n = 0;
-  for (int i = 0; i < nv; i++) {
-    n += Rf_length(data[i]);
-  }
-
-  // go to the first non NULL
-  int i = 0;
-  for (; i < nv; i++) {
-    if (!Rf_isNull(data[i])) break;
-  }
-  if (i == nv) return Rcpp::LogicalVector();
-
-  // collect
-  boost::scoped_ptr<dplyr::Collecter> coll(dplyr::collecter(data[i], n));
-  int k = Rf_length(data[i]);
-  coll->collect(NaturalSlicingIndex(k), data[i]);
-  i++;
-  for (; i < nv; i++) {
-    SEXP current = data[i];
-    if (Rf_isNull(current)) continue;
-    int n_current = Rf_length(current);
-
-    if (coll->compatible(current)) {
-      coll->collect(OffsetSlicingIndex(k, n_current), current);
-    } else if (coll->can_promote(current)) {
-      dplyr::Collecter* new_coll = promote_collecter(current, n, coll.get());
-      new_coll->collect(OffsetSlicingIndex(k, n_current), current);
-      new_coll->collect(NaturalSlicingIndex(k), coll->get());
-      coll.reset(new_coll);
-    } else {
-      dplyr::bad_pos_arg(i + 1, "can't be converted from {source_type} to {target_type}",
-                         Rcpp::_["source_type"] = dplyr::get_single_class(current),
-                         Rcpp::_["target_type"] = dplyr::get_single_class(coll->get()));
-    }
-    k += n_current;
-  }
-
-  return coll->get();
 }

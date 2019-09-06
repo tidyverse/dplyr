@@ -5,7 +5,6 @@
 #include <dplyr/allow_list.h>
 #include <tools/collapse.h>
 #include <tools/bad.h>
-#include <dplyr/data/GroupedDataFrame.h>
 #include <dplyr/symbols.h>
 #include <dplyr/lifecycle.h>
 

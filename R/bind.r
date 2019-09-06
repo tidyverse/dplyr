@@ -158,10 +158,20 @@ bind_cols <- function(...) {
 #' combine(f1, f2)
 #' combine(list(f1, f2))
 combine <- function(...) {
+  signal_soft_deprecated(paste_line(
+    "combine() is deprecated. ",
+    "Please use vctrs::vec_c() instead"
+  ))
+
   args <- list2(...)
   if (length(args) == 1 && is.list(args[[1]])) {
-    combine_all(args[[1]])
+    args <- args[[1]]
+  }
+  args <- keep(args, function(.x) !is.null(.x))
+  names(args) <- NULL
+  if (length(args) == 0) {
+    logical()
   } else {
-    combine_all(args)
+    vec_c(!!!args)
   }
 }
