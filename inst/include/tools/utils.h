@@ -14,9 +14,6 @@ bool is_str_empty(SEXP str);
 bool has_name_at(SEXP x, R_len_t i);
 
 namespace dplyr {
-
-void copy_attrib(SEXP out, SEXP origin, SEXP symbol);
-
 namespace internal {
 
 // *INDENT-OFF*

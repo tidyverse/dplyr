@@ -11,14 +11,6 @@ SEXP shared_SEXP(SEXP x) {
   return x;
 }
 
-namespace dplyr {
-
-void copy_attrib(SEXP out, SEXP origin, SEXP symbol) {
-  Rf_setAttrib(out, symbol, Rcpp::Shield<SEXP>(Rf_getAttrib(origin, symbol)));
-}
-
-}
-
 bool is_vector(SEXP x) {
   switch (TYPEOF(x)) {
   case LGLSXP:

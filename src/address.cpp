@@ -26,7 +26,7 @@ Rcpp::CharacterVector dfloc(Rcpp::List df) {
   for (int i = 0; i < n; i++) {
     pointers[i] = dplyr::address(df[i]);
   }
-  dplyr::copy_attrib(pointers, df, dplyr::symbols::names);
+  Rf_namesgets(pointers, Rf_getAttrib(df, R_NamesSymbol));
   return pointers;
 }
 
