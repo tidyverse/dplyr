@@ -1,8 +1,6 @@
 #ifndef dplyr_tools_utils_H
 #define dplyr_tools_utils_H
 
-#include <tools/SymbolVector.h>
-
 SEXP shared_SEXP(SEXP x);
 
 bool is_vector(SEXP x);
