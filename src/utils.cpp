@@ -2,42 +2,9 @@
 #include <dplyr/main.h>
 
 #include <tools/utils.h>
-#include <dplyr/allow_list.h>
 #include <tools/collapse.h>
 #include <tools/bad.h>
 #include <dplyr/symbols.h>
-
-// [[Rcpp::export(rng = false)]]
-void check_valid_names(const Rcpp::CharacterVector& names, bool warn_only = false) {
-  R_xlen_t n = XLENGTH(names);
-
-  std::vector<int> which_na;
-  which_na.reserve(n);
-
-  for (int i = 0; i < n; ++i) {
-    if (STRING_ELT(names, i) == R_NaString) {
-      which_na.push_back(i + 1);
-    }
-  }
-
-  if (which_na.size() > 0) {
-    dplyr::SymbolVector which_na_symbols(Rcpp::wrap(which_na));
-    Rcpp::String msg = msg_bad_cols(which_na_symbols, "cannot have NA as name");
-    if (warn_only)
-      Rcpp::warning(msg.get_cstring());
-    else
-      Rcpp::stop(msg.get_cstring());
-  }
-
-  Rcpp::LogicalVector dup(duplicated(names));
-  if (any(dup).is_true()) {
-    Rcpp::String msg = msg_bad_cols(dplyr::SymbolVector(static_cast<SEXP>(names[dup])), "must have a unique name");
-    if (warn_only)
-      Rcpp::warning(msg.get_cstring());
-    else
-      Rcpp::stop(msg.get_cstring());
-  }
-}
 
 SEXP shared_SEXP(SEXP x) {
   MARK_NOT_MUTABLE(x);

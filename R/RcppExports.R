@@ -84,10 +84,6 @@ test_length_wrap <- function() {
     .Call(`_dplyr_test_length_wrap`)
 }
 
-check_valid_names <- function(names, warn_only = FALSE) {
-    invisible(.Call(`_dplyr_check_valid_names`, names, warn_only))
-}
-
 quo_is_variable_reference <- function(quo) {
     .Call(`_dplyr_quo_is_variable_reference`, quo)
 }

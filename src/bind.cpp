@@ -2,7 +2,6 @@
 #include <dplyr/main.h>
 #include <dplyr/symbols.h>
 
-#include <tools/all_na.h>
 #include <tools/collapse.h>
 #include <tools/utils.h>
 #include <tools/bad.h>
