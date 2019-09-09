@@ -13,19 +13,6 @@ plfloc <- function(data) {
     .Call(`_dplyr_plfloc`, data)
 }
 
-#' Enable internal logging
-#'
-#' Log entries, depending on the log level, will be printed to the standard
-#' error stream.
-#'
-#' @param log_level A character value, one of "WARN", "INFO", "DEBUG", "VERB",
-#'   or "NONE".
-#'
-#' @keywords internal
-init_logging <- function(log_level) {
-    invisible(.Call(`_dplyr_init_logging`, log_level))
-}
-
 #' Do values in a numeric vector fall in specified range?
 #'
 #' This is a shortcut for `x >= left & x <= right`, implemented

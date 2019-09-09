@@ -1,4 +1,4 @@
-#include <dplyr/main.h>
+#include <Rcpp.h>
 #include <tools/utils.h>
 
 namespace dplyr {

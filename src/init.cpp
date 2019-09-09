@@ -1,8 +1,6 @@
-#include "pch.h"
+#include <Rcpp.h>
 
 #include <tools/utils.h>
-
-#include <dplyr/main.h>
 #include <dplyr/symbols.h>
 
 namespace dplyr {

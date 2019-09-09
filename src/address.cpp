@@ -1,8 +1,6 @@
-#include "pch.h"
+#include <Rcpp.h>
 
 #include <tools/utils.h>
-
-#include <dplyr/main.h>
 #include <dplyr/symbols.h>
 
 namespace dplyr {
@@ -44,19 +42,4 @@ Rcpp::CharacterVector plfloc(Rcpp::Pairlist data) {
   }
   Rf_namesgets(pointers, names);
   return pointers;
-}
-
-
-//' Enable internal logging
-//'
-//' Log entries, depending on the log level, will be printed to the standard
-//' error stream.
-//'
-//' @param log_level A character value, one of "WARN", "INFO", "DEBUG", "VERB",
-//'   or "NONE".
-//'
-//' @keywords internal
-// [[Rcpp::export(rng = false)]]
-void init_logging(const std::string& log_level) {
-  plog::init_r(log_level);
 }

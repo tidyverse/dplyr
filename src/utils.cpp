@@ -1,5 +1,4 @@
-#include "pch.h"
-#include <dplyr/main.h>
+#include <Rcpp.h>
 
 #include <tools/utils.h>
 #include <tools/collapse.h>
