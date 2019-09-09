@@ -143,24 +143,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// test_comparisons
-Rcpp::LogicalVector test_comparisons();
-RcppExport SEXP _dplyr_test_comparisons() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    rcpp_result_gen = Rcpp::wrap(test_comparisons());
-    return rcpp_result_gen;
-END_RCPP
-}
-// test_length_wrap
-Rcpp::LogicalVector test_length_wrap();
-RcppExport SEXP _dplyr_test_length_wrap() {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    rcpp_result_gen = Rcpp::wrap(test_length_wrap());
-    return rcpp_result_gen;
-END_RCPP
-}
 // quo_is_variable_reference
 bool quo_is_variable_reference(SEXP quo);
 RcppExport SEXP _dplyr_quo_is_variable_reference(SEXP quoSEXP) {
@@ -216,8 +198,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
-    {"_dplyr_test_comparisons", (DL_FUNC) &_dplyr_test_comparisons, 0},
-    {"_dplyr_test_length_wrap", (DL_FUNC) &_dplyr_test_length_wrap, 0},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},
     {"_dplyr_cumany", (DL_FUNC) &_dplyr_cumany, 1},
