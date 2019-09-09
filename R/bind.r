@@ -124,9 +124,40 @@ bind_rows <- function(..., .id = NULL) {
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- keep(flatten_bindable(dots_values(...)), function(.x) !is.null(.x))
-  out <- cbind_all(x)
-  tibble::repair_names(out)
+  dots <- dots_values(...)
+  not_null <- function(.x) !is.null(.x)
+  dots <- keep(dots, not_null)
+
+  # nothing to bind, return a dummy tibble
+  if (!length(dots)) {
+    return(tibble())
+  }
+
+  # Before things are squashed, we need
+  # some information about the "first" data frame
+  if (is.data.frame(dots[[1]]) || !is.list(dots[[1]])) {
+    first <- dots[[1]]
+  } else {
+    first <- dots[[1]][[1]]
+  }
+
+  dots <- keep(squash_if(dots, is.list), not_null)
+  if (!length(dots)) {
+    return(tibble())
+  }
+  dots <- tibble::repair_names(dots)
+
+  res <- vec_cbind(!!!dots)
+  if (length(dots)) {
+    if (is_grouped_df(first)) {
+      res <- grouped_df(res, group_vars(first), group_by_drop_default(first))
+    } else if(inherits(first, "rowwise_df")) {
+      res <- rowwise(res)
+    } else if (is_tibble(first) || !is.data.frame(first)) {
+      res <- as_tibble(res)
+    }
+  }
+  res
 }
 
 #' Combine vectors

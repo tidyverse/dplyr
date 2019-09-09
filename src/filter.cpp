@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <Rcpp.h>
 
 #include <dplyr/symbols.h>
 

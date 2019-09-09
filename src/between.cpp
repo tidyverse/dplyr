@@ -1,4 +1,4 @@
-#include "pch.h"
+#include <Rcpp.h>
 
 //' Do values in a numeric vector fall in specified range?
 //'
