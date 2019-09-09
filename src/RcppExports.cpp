@@ -37,16 +37,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// strings_addresses
-Rcpp::CharacterVector strings_addresses(Rcpp::CharacterVector s);
-RcppExport SEXP _dplyr_strings_addresses(SEXP sSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::CharacterVector >::type s(sSEXP);
-    rcpp_result_gen = Rcpp::wrap(strings_addresses(s));
-    return rcpp_result_gen;
-END_RCPP
-}
 // init_logging
 void init_logging(const std::string& log_level);
 RcppExport SEXP _dplyr_init_logging(SEXP log_levelSEXP) {
@@ -54,27 +44,6 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< const std::string& >::type log_level(log_levelSEXP);
     init_logging(log_level);
     return R_NilValue;
-END_RCPP
-}
-// is_maybe_shared
-bool is_maybe_shared(SEXP env, SEXP name);
-RcppExport SEXP _dplyr_is_maybe_shared(SEXP envSEXP, SEXP nameSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type env(envSEXP);
-    Rcpp::traits::input_parameter< SEXP >::type name(nameSEXP);
-    rcpp_result_gen = Rcpp::wrap(is_maybe_shared(env, name));
-    return rcpp_result_gen;
-END_RCPP
-}
-// maybe_shared_columns
-Rcpp::LogicalVector maybe_shared_columns(SEXP df);
-RcppExport SEXP _dplyr_maybe_shared_columns(SEXP dfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type df(dfSEXP);
-    rcpp_result_gen = Rcpp::wrap(maybe_shared_columns(df));
-    return rcpp_result_gen;
 END_RCPP
 }
 // between
@@ -188,10 +157,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_loc", (DL_FUNC) &_dplyr_loc, 1},
     {"_dplyr_dfloc", (DL_FUNC) &_dplyr_dfloc, 1},
     {"_dplyr_plfloc", (DL_FUNC) &_dplyr_plfloc, 1},
-    {"_dplyr_strings_addresses", (DL_FUNC) &_dplyr_strings_addresses, 1},
     {"_dplyr_init_logging", (DL_FUNC) &_dplyr_init_logging, 1},
-    {"_dplyr_is_maybe_shared", (DL_FUNC) &_dplyr_is_maybe_shared, 2},
-    {"_dplyr_maybe_shared_columns", (DL_FUNC) &_dplyr_maybe_shared_columns, 1},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
     {"_dplyr_bind_rows_check", (DL_FUNC) &_dplyr_bind_rows_check, 1},

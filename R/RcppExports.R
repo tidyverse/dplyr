@@ -13,10 +13,6 @@ plfloc <- function(data) {
     .Call(`_dplyr_plfloc`, data)
 }
 
-strings_addresses <- function(s) {
-    .Call(`_dplyr_strings_addresses`, s)
-}
-
 #' Enable internal logging
 #'
 #' Log entries, depending on the log level, will be printed to the standard
@@ -28,14 +24,6 @@ strings_addresses <- function(s) {
 #' @keywords internal
 init_logging <- function(log_level) {
     invisible(.Call(`_dplyr_init_logging`, log_level))
-}
-
-is_maybe_shared <- function(env, name) {
-    .Call(`_dplyr_is_maybe_shared`, env, name)
-}
-
-maybe_shared_columns <- function(df) {
-    .Call(`_dplyr_maybe_shared_columns`, df)
 }
 
 #' Do values in a numeric vector fall in specified range?
