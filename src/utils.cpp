@@ -13,11 +13,6 @@ SEXP shared_SEXP(SEXP x) {
 
 namespace dplyr {
 
-Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len) {
-  if (Rf_isNull(x)) return Rcpp::CharacterVector(len);
-  return x;
-}
-
 void copy_attrib(SEXP out, SEXP origin, SEXP symbol) {
   Rf_setAttrib(out, symbol, Rcpp::Shield<SEXP>(Rf_getAttrib(origin, symbol)));
 }

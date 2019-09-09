@@ -15,7 +15,6 @@ bool has_name_at(SEXP x, R_len_t i);
 
 namespace dplyr {
 
-Rcpp::CharacterVector default_chars(SEXP x, R_xlen_t len);
 void copy_attrib(SEXP out, SEXP origin, SEXP symbol);
 
 namespace internal {
