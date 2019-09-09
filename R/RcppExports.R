@@ -39,10 +39,6 @@ bind_rows_check <- function(dots) {
     invisible(.Call(`_dplyr_bind_rows_check`, dots))
 }
 
-cbind_all <- function(dots) {
-    .Call(`_dplyr_cbind_all`, dots)
-}
-
 expand_groups <- function(old_groups, positions, nr) {
     .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }

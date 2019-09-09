@@ -66,16 +66,6 @@ BEGIN_RCPP
     return R_NilValue;
 END_RCPP
 }
-// cbind_all
-SEXP cbind_all(Rcpp::List dots);
-RcppExport SEXP _dplyr_cbind_all(SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::List >::type dots(dotsSEXP);
-    rcpp_result_gen = Rcpp::wrap(cbind_all(dots));
-    return rcpp_result_gen;
-END_RCPP
-}
 // expand_groups
 Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr);
 RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP, SEXP nrSEXP) {
@@ -149,7 +139,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
     {"_dplyr_bind_rows_check", (DL_FUNC) &_dplyr_bind_rows_check, 1},
-    {"_dplyr_cbind_all", (DL_FUNC) &_dplyr_cbind_all, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},
