@@ -43,7 +43,7 @@ box, dplyr works with data frames/tibbles; other packages provide
 alternative computational backends:
 
   - For large, in-memory datasets, try
-    [dtplyr](http://dbplyr.tidyverse.org/) to access the excellent
+    [dtplyr](http://dtplyr.tidyverse.org/) to access the excellent
     performance of [data.table](http://r-datatable.com/).
 
   - For data in relational databases,
