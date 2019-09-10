@@ -8,21 +8,31 @@
 
 <title>Do anything — do • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +48,6 @@
 
 
 <meta property="og:title" content="Do anything — do" />
-
 <meta property="og:description" content="This is a general purpose complement to the specialised
 manipulation functions filter(), select(), mutate(),
 summarise() and arrange(). You can use do()
@@ -50,29 +59,23 @@ do() or summarise().
 For an empty data frame, the expressions will be evaluated once, even in the
 presence of a grouping.  This makes sure that the format of the resulting
 data frame is the same for both empty and non-empty input." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -175,6 +178,7 @@ data frame is the same for both empty and non-empty input." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -186,7 +190,6 @@ data frame is the same for both empty and non-empty input." />
     </div>
 
     <div class="ref-description">
-    
     <p>This is a general purpose complement to the specialised
 manipulation functions <code><a href='filter.html'>filter()</a></code>, <code><a href='select.html'>select()</a></code>, <code><a href='mutate.html'>mutate()</a></code>,
 <code><a href='summarise.html'>summarise()</a></code> and <code><a href='arrange.html'>arrange()</a></code>. You can use <code>do()</code>
@@ -198,11 +201,10 @@ useful when working with models: you can fit models per group with
 <p>For an empty data frame, the expressions will be evaluated once, even in the
 presence of a grouping.  This makes sure that the format of the resulting
 data frame is the same for both empty and non-empty input.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>do</span>(<span class='no'>.data</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -218,7 +220,7 @@ use <code>.</code> to refer to the current group. You can not mix named and
 unnamed arguments.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>do()</code> always returns a data frame. The first columns in the data frame
@@ -231,85 +233,122 @@ complexity of the data, it just expresses it in a special way. For
 multiple named inputs, the output is grouped by row with
 <code><a href='rowwise.html'>rowwise()</a></code>. This allows other verbs to work in an intuitive
 way.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p><a href='https://www.tidyverse.org/lifecycle/#questioning'><img src='figures/lifecycle-questioning.svg' alt='Questioning lifecycle'></a></p>
 <p><code>do()</code> is marked as questioning as of dplyr 0.8.0, and may be advantageously
 replaced by <code><a href='group_map.html'>group_modify()</a></code>.</p>
-    
     <h2 class="hasAnchor" id="connection-to-plyr"><a class="anchor" href="#connection-to-plyr"></a>Connection to plyr</h2>
 
     
-    <p>If you're familiar with plyr, <code>do()</code> with named arguments is basically
-equivalent to <code><a href='https://www.rdocumentation.org/packages/plyr/topics/dlply'>plyr::dlply()</a></code>, and <code>do()</code> with a single unnamed argument
-is basically equivalent to <code><a href='https://www.rdocumentation.org/packages/plyr/topics/ldply'>plyr::ldply()</a></code>. However, instead of storing
+
+
+<p>If you're familiar with plyr, <code>do()</code> with named arguments is basically
+equivalent to <code><a href='https://rdrr.io/pkg/plyr/man/dlply.html'>plyr::dlply()</a></code>, and <code>do()</code> with a single unnamed argument
+is basically equivalent to <code><a href='https://rdrr.io/pkg/plyr/man/ldply.html'>plyr::ldply()</a></code>. However, instead of storing
 labels in a separate attribute, the result is always a data frame. This
 means that <code><a href='summarise.html'>summarise()</a></code> applied to the result of <code>do()</code> can
 act like <code>ldply()</code>.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>by_cyl <- group_by(mtcars, cyl)
-do(by_cyl, head(., 2))
-
-models <- by_cyl %>% do(mod = lm(mpg ~ disp, data = .))
-models
-
-summarise(models, rsq = summary(mod)$r.squared)
-models %>% do(data.frame(coef = coef(.$mod)))
-models %>% do(data.frame(
-  var = names(coef(.$mod)),
-  coef(summary(.$mod)))
+    <pre class="examples"><div class='input'><span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>mtcars</span>, <span class='no'>cyl</span>)
+<span class='fu'>do</span>(<span class='no'>by_cyl</span>, <span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span>(<span class='no'>.</span>, <span class='fl'>2</span>))</div><div class='output co'>#&gt; # A tibble: 6 x 11
+#&gt; # Groups:   cyl [3]
+#&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt; 2  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt; 3  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt; 4  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt; 5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt; 6  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4</div><div class='input'>
+<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
+<span class='no'>models</span></div><div class='output co'>#&gt; Source: local data frame [3 x 2]
+#&gt; Groups: &lt;by row&gt;
+#&gt; 
+#&gt; # A tibble: 3 x 2
+#&gt;     cyl mod   
+#&gt; * &lt;dbl&gt; &lt;list&gt;
+#&gt; 1     4 &lt;lm&gt;  
+#&gt; 2     6 &lt;lm&gt;  
+#&gt; 3     8 &lt;lm&gt;  </div><div class='input'>
+<span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='no'>models</span>, <span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt;      rsq
+#&gt;    &lt;dbl&gt;
+#&gt; 1 0.648 
+#&gt; 2 0.0106
+#&gt; 3 0.270 </div><div class='input'><span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>coef</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)))</div><div class='output co'>#&gt; Source: local data frame [6 x 1]
+#&gt; Groups: &lt;by row&gt;
+#&gt; 
+#&gt; # A tibble: 6 x 1
+#&gt;       coef
+#&gt; *    &lt;dbl&gt;
+#&gt; 1 40.9    
+#&gt; 2 -0.135  
+#&gt; 3 19.1    
+#&gt; 4  0.00361
+#&gt; 5 22.0    
+#&gt; 6 -0.0196 </div><div class='input'><span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>var</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)),
+  <span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)))
+)</div><div class='output co'>#&gt; Source: local data frame [6 x 5]
+#&gt; Groups: &lt;by row&gt;
+#&gt; 
+#&gt; # A tibble: 6 x 5
+#&gt;   var         Estimate Std..Error t.value   Pr...t..
+#&gt; * &lt;fct&gt;          &lt;dbl&gt;      &lt;dbl&gt;   &lt;dbl&gt;      &lt;dbl&gt;
+#&gt; 1 (Intercept) 40.9        3.59     11.4   0.00000120
+#&gt; 2 disp        -0.135      0.0332   -4.07  0.00278   
+#&gt; 3 (Intercept) 19.1        2.91      6.55  0.00124   
+#&gt; 4 disp         0.00361    0.0156    0.232 0.826     
+#&gt; 5 (Intercept) 22.0        3.35      6.59  0.0000259 
+#&gt; 6 disp        -0.0196     0.00932  -2.11  0.0568    </div><div class='input'>
+<span class='no'>models</span> <span class='kw'>&lt;-</span> <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(
+  <span class='kw'>mod_linear</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='no'>disp</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>),
+  <span class='kw'>mod_quad</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>mpg</span> ~ <span class='fu'><a href='https://rdrr.io/r/stats/poly.html'>poly</a></span>(<span class='no'>disp</span>, <span class='fl'>2</span>), <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>)
 )
+<span class='no'>models</span></div><div class='output co'>#&gt; Source: local data frame [3 x 3]
+#&gt; Groups: &lt;by row&gt;
+#&gt; 
+#&gt; # A tibble: 3 x 3
+#&gt;     cyl mod_linear mod_quad
+#&gt; * &lt;dbl&gt; &lt;list&gt;     &lt;list&gt;  
+#&gt; 1     4 &lt;lm&gt;       &lt;lm&gt;    
+#&gt; 2     6 &lt;lm&gt;       &lt;lm&gt;    
+#&gt; 3     8 &lt;lm&gt;       &lt;lm&gt;    </div><div class='input'><span class='no'>compare</span> <span class='kw'>&lt;-</span> <span class='no'>models</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>aov</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/anova.html'>anova</a></span>(<span class='no'>.</span>$<span class='no'>mod_linear</span>, <span class='no'>.</span>$<span class='no'>mod_quad</span>))
+<span class='co'># compare %&gt;% summarise(p.value = aov$`Pr(&gt;F)`)</span>
 
-models <- by_cyl %>% do(
-  mod_linear = lm(mpg ~ disp, data = .),
-  mod_quad = lm(mpg ~ poly(disp, 2), data = .)
-)
-models
-compare <- models %>% do(aov = anova(.$mod_linear, .$mod_quad))
-# compare %>% summarise(p.value = aov$`Pr(>F)`)
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"nycflights13"</span>)) {
+<span class='co'># You can use it to do any arbitrary computation, like fitting a linear</span>
+<span class='co'># model. Let's explore how carrier departure delays vary over the time</span>
+<span class='no'>carriers</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>flights</span>, <span class='no'>carrier</span>)
+<span class='fu'><a href='group_size.html'>group_size</a></span>(<span class='no'>carriers</span>)
 
-if (require("nycflights13")) {
-# You can use it to do any arbitrary computation, like fitting a linear
-# model. Let's explore how carrier departure delays vary over the time
-carriers <- group_by(flights, carrier)
-group_size(carriers)
+<span class='no'>mods</span> <span class='kw'>&lt;-</span> <span class='fu'>do</span>(<span class='no'>carriers</span>, <span class='kw'>mod</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/lm.html'>lm</a></span>(<span class='no'>arr_delay</span> ~ <span class='no'>dep_time</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
+<span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span>(<span class='fu'><a href='https://rdrr.io/r/stats/coef.html'>coef</a></span>(<span class='no'>.</span>$<span class='no'>mod</span>)))
+<span class='no'>mods</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>rsq</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/summary.html'>summary</a></span>(<span class='no'>mod</span>)$<span class='no'>r.squared</span>)
 
-mods <- do(carriers, mod = lm(arr_delay ~ dep_time, data = .))
-mods %>% do(as.data.frame(coef(.$mod)))
-mods %>% summarise(rsq = summary(mod)$r.squared)
-
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:33:0: unexpected end of input</span>
-#&gt; <span class='error'>31: </span>
-#&gt; <span class='error'>32: </span>
-#&gt; <span class='error'>   ^</span></div><span class='co'># NOT RUN {</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='co'># This longer example shows the progress bar in action</span>
 <span class='no'>by_dest</span> <span class='kw'>&lt;-</span> <span class='no'>flights</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>dest</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'><a href='n.html'>n</a></span>() <span class='kw'>&gt;</span> <span class='fl'>100</span>)
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>mgcv</span>)
-<span class='no'>by_dest</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/mgcv/topics/gam'>gam</a></span>(<span class='no'>arr_delay</span> ~ <span class='fu'><a href='https://www.rdocumentation.org/packages/mgcv/topics/s'>s</a></span>(<span class='no'>dep_time</span>) + <span class='no'>month</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
-<span class='co'># }</span><div class='input'>}
-</div><div class='output co'>#&gt; <span class='error'>Error: &lt;text&gt;:1:1: unexpected '}'</span>
-#&gt; <span class='error'>1: }</span>
-#&gt; <span class='error'>    ^</span></div></pre>
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>mgcv</span>)
+<span class='no'>by_dest</span> <span class='kw'>%&gt;%</span> <span class='fu'>do</span>(<span class='kw'>smooth</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/gam.html'>gam</a></span>(<span class='no'>arr_delay</span> ~ <span class='fu'><a href='https://rdrr.io/pkg/mgcv/man/s.html'>s</a></span>(<span class='no'>dep_time</span>) + <span class='no'>month</span>, <span class='kw'>data</span> <span class='kw'>=</span> <span class='no'>.</span>))
+}
+}</div><div class='output co'>#&gt; <span class='message'>Loading required package: nycflights13</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#connection-to-plyr">Connection to plyr</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -322,6 +361,7 @@ mods %>% summarise(rsq = summary(mod)$r.squared)
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -344,6 +384,8 @@ mods %>% summarise(rsq = summary(mod)$r.squared)
 </script>
 
 
+
   </body>
 </html>
+
 

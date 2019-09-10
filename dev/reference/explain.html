@@ -8,21 +8,31 @@
 
 <title>Explain details of a tbl — explain • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,33 +48,26 @@
 
 
 <meta property="og:title" content="Explain details of a tbl — explain" />
-
 <meta property="og:description" content="This is a generic function which gives more details about an object than
 print(), and is more focused on human readable output than
 str()." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -167,6 +170,7 @@ str()." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -178,17 +182,15 @@ str()." />
     </div>
 
     <div class="ref-description">
-    
     <p>This is a generic function which gives more details about an object than
-<code><a href='https://www.rdocumentation.org/packages/base/topics/print'>print()</a></code>, and is more focused on human readable output than
-<code><a href='https://www.rdocumentation.org/packages/utils/topics/str'>str()</a></code>.</p>
-    
+<code><a href='https://rdrr.io/r/base/print.html'>print()</a></code>, and is more focused on human readable output than
+<code><a href='https://rdrr.io/r/utils/str.html'>str()</a></code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>explain</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='fu'>show_query</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -201,22 +203,22 @@ str()." />
       <td><p>Other parameters possibly used by generic</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>The first argument, invisibly.</p>
-    
     <h2 class="hasAnchor" id="databases"><a class="anchor" href="#databases"></a>Databases</h2>
 
     
-    <p>Explaining a <code>tbl_sql</code> will run the SQL <code>EXPLAIN</code> command which
+
+<p>Explaining a <code>tbl_sql</code> will run the SQL <code>EXPLAIN</code> command which
 will describe the query plan. This requires a little bit of knowledge about
 how <code>EXPLAIN</code> works for your database, but is very useful for
 diagnosing performance problems.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>require</a></span>(<span class='st'>"dbplyr"</span>)) {
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='kw'>if</span> (<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='st'>"dbplyr"</span>)) {
 
 <span class='no'>lahman_s</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://dbplyr.tidyverse.org/reference/lahman.html'>lahman_sqlite</a></span>()
 <span class='no'>batting</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='no'>lahman_s</span>, <span class='st'>"Batting"</span>)
@@ -232,7 +234,7 @@ diagnosing performance problems.</p>
 
 <span class='co'># Joins will use indexes in both tables</span>
 <span class='no'>teams</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='tbl.html'>tbl</a></span>(<span class='no'>lahman_s</span>, <span class='st'>"Teams"</span>)
-<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='join.html'>left_join</a></span>(<span class='no'>teams</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"yearID"</span>, <span class='st'>"teamID"</span>)) <span class='kw'>%&gt;%</span> <span class='fu'>explain</span>()
+<span class='no'>batting</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='join.html'>left_join</a></span>(<span class='no'>teams</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"yearID"</span>, <span class='st'>"teamID"</span>)) <span class='kw'>%&gt;%</span> <span class='fu'>explain</span>()
 }</div><div class='output co'>#&gt; <span class='message'>Creating table: AllstarFull</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Appearances</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsPlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsShareManagers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: AwardsSharePlayers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Batting</span></div><div class='output co'>#&gt; <span class='message'>Creating table: BattingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: CollegePlaying</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Fielding</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingOF</span></div><div class='output co'>#&gt; <span class='message'>Creating table: FieldingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: HallOfFame</span></div><div class='output co'>#&gt; <span class='message'>Creating table: LahmanData</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Managers</span></div><div class='output co'>#&gt; <span class='message'>Creating table: ManagersHalf</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Master</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Parks</span></div><div class='output co'>#&gt; <span class='message'>Creating table: People</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Pitching</span></div><div class='output co'>#&gt; <span class='message'>Creating table: PitchingPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Salaries</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Schools</span></div><div class='output co'>#&gt; <span class='message'>Creating table: SeriesPost</span></div><div class='output co'>#&gt; <span class='message'>Creating table: Teams</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsFranchises</span></div><div class='output co'>#&gt; <span class='message'>Creating table: TeamsHalf</span></div><div class='output co'>#&gt; &lt;SQL&gt;
 #&gt; SELECT *
 #&gt; FROM `Batting`
@@ -276,22 +278,21 @@ diagnosing performance problems.</p>
 #&gt; 2  6      0       0
 #&gt;                                                          detail
 #&gt; 1                                     SCAN TABLE Batting AS LHS
-#&gt; 2 SEARCH TABLE Teams AS RHS USING INDEX Teams_yearID (yearID=?)</div></pre>
+#&gt; 2 SEARCH TABLE Teams AS RHS USING INDEX Teams_yearID (yearID=?)</div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#databases">Databases</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -304,6 +305,7 @@ diagnosing performance problems.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -326,6 +328,8 @@ diagnosing performance problems.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

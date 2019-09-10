@@ -8,21 +8,31 @@
 
 <title>Group by one or more variables — group_by • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,33 +48,26 @@
 
 
 <meta property="og:title" content="Group by one or more variables — group_by" />
-
 <meta property="og:description" content="Most data operations are done on groups defined by variables.
 group_by() takes an existing tbl and converts it into a grouped tbl
 where operations are performed &quot;by group&quot;. ungroup() removes grouping." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -167,6 +170,7 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -178,17 +182,15 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
     </div>
 
     <div class="ref-description">
-    
     <p>Most data operations are done on groups defined by variables.
 <code>group_by()</code> takes an existing tbl and converts it into a grouped tbl
 where operations are performed "by group". <code>ungroup()</code> removes grouping.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>group_by</span>(<span class='no'>.data</span>, <span class='no'>...</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.data</span>))
 
 <span class='fu'>ungroup</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -218,34 +220,36 @@ what the default value is for this argument.</p></td>
       <td><p>A <code><a href='tbl.html'>tbl()</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A <a href='grouped_df.html'>grouped data frame</a>, unless the combination of <code>...</code> and <code>add</code>
 yields a non empty set of grouping columns, a regular (ungrouped) data frame
 otherwise.</p>
-    
     <h2 class="hasAnchor" id="tbl-types"><a class="anchor" href="#tbl-types"></a>Tbl types</h2>
 
     
-    <p><code>group_by()</code> is an S3 generic with methods for the three built-in
+
+
+<p><code>group_by()</code> is an S3 generic with methods for the three built-in
 tbls. See the help for the corresponding classes and their manip
 methods for more details:</p>
 <ul>
 <li><p>data.frame: <a href='grouped_df.html'>grouped_df</a></p></li>
-<li><p>data.table: <a href='https://www.rdocumentation.org/packages/dtplyr/topics/grouped_dt'>dtplyr::grouped_dt</a></p></li>
+<li><p>data.table: <a href='https://rdrr.io/pkg/dtplyr/man/grouped_dt.html'>dtplyr::grouped_dt</a></p></li>
 <li><p>SQLite: <code><a href='src_dbi.html'>src_sqlite()</a></code></p></li>
 <li><p>PostgreSQL: <code><a href='src_dbi.html'>src_postgres()</a></code></p></li>
 <li><p>MySQL: <code><a href='src_dbi.html'>src_mysql()</a></code></p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="scoped-grouping"><a class="anchor" href="#scoped-grouping"></a>Scoped grouping</h2>
 
     
-    <p>The three <a href='scoped.html'>scoped</a> variants (<code><a href='group_by_all.html'>group_by_all()</a></code>, <code><a href='group_by_all.html'>group_by_if()</a></code> and
+
+
+<p>The three <a href='scoped.html'>scoped</a> variants (<code><a href='group_by_all.html'>group_by_all()</a></code>, <code><a href='group_by_all.html'>group_by_if()</a></code> and
 <code><a href='group_by_all.html'>group_by_at()</a></code>) make it easy to group a dataset by a selection of
 variables.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other grouping functions: <code><a href='group_by_all.html'>group_by_all</a></code>,
@@ -253,7 +257,6 @@ variables.</p>
   <code><a href='group_map.html'>group_map</a></code>, <code><a href='group_nest.html'>group_nest</a></code>,
   <code><a href='group_data.html'>group_rows</a></code>, <code><a href='group_size.html'>group_size</a></code>,
   <code><a href='group_trim.html'>group_trim</a></code>, <code><a href='groups.html'>groups</a></code></p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>by_cyl</span> <span class='kw'>&lt;-</span> <span class='no'>mtcars</span> <span class='kw'>%&gt;%</span> <span class='fu'>group_by</span>(<span class='no'>cyl</span>)
@@ -277,14 +280,14 @@ variables.</p>
 #&gt; # … with 22 more rows</div><div class='input'>
 <span class='co'># It changes how it acts with the other dplyr verbs:</span>
 <span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(
-  <span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>disp</span>),
-  <span class='kw'>hp</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/mean'>mean</a></span>(<span class='no'>hp</span>)
+  <span class='kw'>disp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>disp</span>),
+  <span class='kw'>hp</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>hp</span>)
 )</div><div class='output co'>#&gt; # A tibble: 3 x 3
 #&gt;     cyl  disp    hp
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     4  105.  82.6
 #&gt; 2     6  183. 122. 
-#&gt; 3     8  353. 209. </div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Extremes'>max</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 11
+#&gt; 3     8  353. 209. </div><div class='input'><span class='no'>by_cyl</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>disp</span> <span class='kw'>==</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span>(<span class='no'>disp</span>))</div><div class='output co'>#&gt; # A tibble: 3 x 11
 #&gt; # Groups:   cyl [3]
 #&gt;     mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
 #&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
@@ -301,7 +304,7 @@ variables.</p>
 #&gt; 1     0     0    12
 #&gt; 2     0     1     6
 #&gt; 3     1     0     7
-#&gt; 4     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt; 4     1     1     7</div><div class='input'><span class='no'>by_vs</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;      vs     n
 #&gt;   &lt;dbl&gt; &lt;int&gt;
 #&gt; 1     0    18
@@ -309,7 +312,7 @@ variables.</p>
 <span class='co'># To removing grouping, use ungroup</span>
 <span class='no'>by_vs</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>ungroup</span>() <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/sum'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
+  <span class='fu'><a href='summarise.html'>summarise</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span>(<span class='no'>n</span>))</div><div class='output co'>#&gt; # A tibble: 1 x 1
 #&gt;       n
 #&gt;   &lt;int&gt;
 #&gt; 1    32</div><div class='input'>
@@ -341,7 +344,7 @@ variables.</p>
 <span class='co'># when factors are involved, groups can be empty</span>
 <span class='no'>tbl</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(
   <span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>10</span>,
-  <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"c"</span>), <span class='kw'>each</span>  <span class='kw'>=</span> <span class='fl'>5</span>), <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
+  <span class='kw'>y</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"c"</span>), <span class='kw'>each</span>  <span class='kw'>=</span> <span class='fl'>5</span>), <span class='kw'>levels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
 )
 <span class='no'>tbl</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>y</span>) <span class='kw'>%&gt;%</span>
@@ -357,20 +360,16 @@ variables.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#tbl-types">Tbl types</a></li>
-
       <li><a href="#scoped-grouping">Scoped grouping</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -383,6 +382,7 @@ variables.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -405,6 +405,8 @@ variables.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

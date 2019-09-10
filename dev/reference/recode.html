@@ -8,21 +8,31 @@
 
 <title>Recode values — recode • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,35 +48,28 @@
 
 
 <meta property="og:title" content="Recode values — recode" />
-
 <meta property="og:description" content="This is a vectorised version of switch(): you can replace
 numeric values based on their position or their name, and character or factor
 values only by their name. This is an S3 generic: dplyr provides methods for
 numeric, character, and factors. For logical vectors, use if_else(). For
 more complicated criteria, use case_when()." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -169,6 +172,7 @@ more complicated criteria, use case_when()." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -180,20 +184,18 @@ more complicated criteria, use case_when()." />
     </div>
 
     <div class="ref-description">
-    
-    <p>This is a vectorised version of <code><a href='https://www.rdocumentation.org/packages/base/topics/switch'>switch()</a></code>: you can replace
+    <p>This is a vectorised version of <code><a href='https://rdrr.io/r/base/switch.html'>switch()</a></code>: you can replace
 numeric values based on their position or their name, and character or factor
 values only by their name. This is an S3 generic: dplyr provides methods for
 numeric, character, and factors. For logical vectors, use <code><a href='if_else.html'>if_else()</a></code>. For
 more complicated criteria, use <code><a href='case_when.html'>case_when()</a></code>.</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>recode</span>(<span class='no'>.x</span>, <span class='no'>...</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.missing</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
 
 <span class='fu'>recode_factor</span>(<span class='no'>.x</span>, <span class='no'>...</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>.missing</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>.ordered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -235,14 +237,13 @@ replaced by this value. Must be either length 1 or the same length as
 ordered factor.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A vector the same length as <code>.x</code>, and the same type as
 the first of <code>...</code>, <code>.default</code>, or <code>.missing</code>.
 <code>recode_factor()</code> returns a factor whose levels are in the same order as
 in <code>...</code>. The levels in <code>.default</code> and <code>.missing</code> come last.</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>You can use <code>recode()</code> directly with factors; it will preserve the existing
@@ -250,18 +251,16 @@ order of levels while changing the values. Alternatively, you can
 use <code>recode_factor()</code>, which will change the order of levels to match
 the order of replacements. See the <a href='http://forcats.tidyverse.org/'>forcats</a>
 package for more tools for working with factors and their levels.</p>
-    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='na_if.html'>na_if()</a></code> to replace specified values with a <code>NA</code>.</p>
 <p><code><a href='coalesce.html'>coalesce()</a></code> to replace missing values with a specified value.</p>
 <p><code><a href='https://tidyr.tidyverse.org/reference/replace_na.html'>tidyr::replace_na()</a></code> to replace <code>NA</code> with a value.</p></div>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># For character values, recode values with named arguments only. Unmatched</span>
 <span class='co'># values are unchanged.</span>
-<span class='no'>char_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
+<span class='no'>char_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='sample.html'>sample</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>), <span class='fl'>10</span>, <span class='kw'>replace</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>)</div><div class='output co'>#&gt;  [1] "Apple" "b"     "Apple" "b"     "c"     "Apple" "c"     "c"     "b"    
 #&gt; [10] "Apple"</div><div class='input'><span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>)</div><div class='output co'>#&gt;  [1] "Apple"  "Banana" "Apple"  "Banana" "c"      "Apple"  "c"      "c"     
 #&gt;  [9] "Banana" "Apple" </div><div class='input'>
@@ -270,22 +269,23 @@ package for more tools for working with factors and their levels.</p>
 <span class='co'># https://adv-r.hadley.nz/vectors-chap.html#missing-values</span>
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA_character_</span>)</div><div class='output co'>#&gt;  [1] "Apple"  "Banana" "Apple"  "Banana" NA       "Apple"  NA       NA      
 #&gt;  [9] "Banana" "Apple" </div><div class='input'>
-# Throws an error as NA is logical, not character.
-</div><span class='co'># NOT RUN {</span>
+<span class='co'># Throws an error as NA is logical, not character.</span>
+<span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"Banana"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fl'>NA</span>)
-<span class='co'># }</span><div class='input'>
+}
+
 <span class='co'># Use a named character vector for unquote splicing with !!!</span>
-<span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
+<span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
 <span class='fu'>recode</span>(<span class='no'>char_vec</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] "apple"  "banana" "apple"  "banana" "carrot" "apple"  "carrot" "carrot"
 #&gt;  [9] "banana" "apple" </div><div class='input'>
 <span class='co'># For numeric values, named arguments can also be used</span>
-<span class='no'>num_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='fl'>NA</span>)
+<span class='no'>num_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>:<span class='fl'>4</span>, <span class='fl'>NA</span>)
 <span class='fu'>recode</span>(<span class='no'>num_vec</span>, <span class='kw'>`2`</span> <span class='kw'>=</span> <span class='fl'>20L</span>, <span class='kw'>`4`</span> <span class='kw'>=</span> <span class='fl'>40L</span>)</div><div class='output co'>#&gt; [1]  1 20  3 40 NA</div><div class='input'>
 <span class='co'># Or if you don't name the arguments, recode() matches by position.</span>
 <span class='co'># (Only works for numeric vector)</span>
 <span class='fu'>recode</span>(<span class='no'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>)</div><div class='output co'>#&gt; [1] "a" "b" "c" "d" NA </div><div class='input'><span class='co'># .x (position given) looks in (...), then grabs (... value at position)</span>
 <span class='co'># so if nothing at position (here 5), it uses .default or NA.</span>
-<span class='fu'>recode</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>3</span>), <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='st'>"nothing"</span>)</div><div class='output co'>#&gt; [1] "a"       "nothing" "c"      </div><div class='input'>
+<span class='fu'>recode</span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>5</span>,<span class='fl'>3</span>), <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='st'>"d"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='st'>"nothing"</span>)</div><div class='output co'>#&gt; [1] "a"       "nothing" "c"      </div><div class='input'>
 <span class='co'># Note that if the replacements are not compatible with .x,</span>
 <span class='co'># unmatched values are replaced by NA and a warning is issued.</span>
 <span class='fu'>recode</span>(<span class='no'>num_vec</span>, <span class='kw'>`2`</span> <span class='kw'>=</span> <span class='st'>"b"</span>, <span class='kw'>`4`</span> <span class='kw'>=</span> <span class='st'>"d"</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unreplaced values treated as NA as .x is not compatible. Please specify replacements exhaustively or supply .default</span></div><div class='output co'>#&gt; [1] NA  "b" NA  "d" NA </div><div class='input'><span class='co'># use .default to change the replacement value</span>
@@ -293,8 +293,8 @@ package for more tools for working with factors and their levels.</p>
 <span class='fu'>recode</span>(<span class='no'>num_vec</span>, <span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='st'>"other"</span>, <span class='kw'>.missing</span> <span class='kw'>=</span> <span class='st'>"missing"</span>)</div><div class='output co'>#&gt; [1] "a"       "b"       "c"       "other"   "missing"</div><div class='input'>
 <span class='co'># For factor values, use only named replacements</span>
 <span class='co'># and supply default with levels()</span>
-<span class='no'>factor_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
-<span class='fu'>recode</span>(<span class='no'>factor_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/levels'>levels</a></span>(<span class='no'>factor_vec</span>))</div><div class='output co'>#&gt; [1] Apple b     c    
+<span class='no'>factor_vec</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"a"</span>, <span class='st'>"b"</span>, <span class='st'>"c"</span>))
+<span class='fu'>recode</span>(<span class='no'>factor_vec</span>, <span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"Apple"</span>, <span class='kw'>.default</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/levels.html'>levels</a></span>(<span class='no'>factor_vec</span>))</div><div class='output co'>#&gt; [1] Apple b     c    
 #&gt; Levels: Apple b c</div><div class='input'>
 <span class='co'># Use recode_factor() to create factors with levels ordered as they</span>
 <span class='co'># appear in the recode call. The levels in .default and .missing</span>
@@ -308,10 +308,10 @@ package for more tools for working with factors and their levels.</p>
 <span class='co'># When the input vector is a compatible vector (character vector or</span>
 <span class='co'># factor), it is reused as default.</span>
 <span class='fu'>recode_factor</span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>], <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
-#&gt; Levels: z y a</div><div class='input'><span class='fu'>recode_factor</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/factor'>factor</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]), <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
+#&gt; Levels: z y a</div><div class='input'><span class='fu'>recode_factor</span>(<span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='no'>letters</span>[<span class='fl'>1</span>:<span class='fl'>3</span>]), <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"z"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"y"</span>)</div><div class='output co'>#&gt; [1] a z y
 #&gt; Levels: z y a</div><div class='input'>
 <span class='co'># Use a named character vector to recode factors with unquote splicing.</span>
-<span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
+<span class='no'>level_key</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"apple"</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='st'>"banana"</span>, <span class='kw'>c</span> <span class='kw'>=</span> <span class='st'>"carrot"</span>)
 <span class='fu'>recode_factor</span>(<span class='no'>char_vec</span>, !!!<span class='no'>level_key</span>)</div><div class='output co'>#&gt;  [1] apple  banana apple  banana carrot apple  carrot carrot banana apple 
 #&gt; Levels: apple banana carrot</div></pre>
   </div>
@@ -319,18 +319,15 @@ package for more tools for working with factors and their levels.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-
       <li><a href="#see-also">See also</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -343,6 +340,7 @@ package for more tools for working with factors and their levels.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -365,6 +363,8 @@ package for more tools for working with factors and their levels.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

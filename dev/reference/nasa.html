@@ -8,21 +8,31 @@
 
 <title>NASA spatio-temporal data — nasa • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +48,6 @@
 
 
 <meta property="og:title" content="NASA spatio-temporal data — nasa" />
-
 <meta property="og:description" content="This data comes from the ASA 2007 data expo,
 http://stat-computing.org/dataexpo/2006/. The data are geographic and
 atmospheric measures on a very coarse 24 by 24 grid covering Central
@@ -47,29 +56,23 @@ air pressure, and cloud cover (low, mid, and high). All variables are
 monthly averages, with observations for Jan 1995 to Dec 2000. These data
 were obtained from the NASA Langley Research Center Atmospheric Sciences
 Data Center (with permission; see important copyright terms below)." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -172,6 +175,7 @@ Data Center (with permission; see important copyright terms below)." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -183,7 +187,6 @@ Data Center (with permission; see important copyright terms below)." />
     </div>
 
     <div class="ref-description">
-    
     <p>This data comes from the ASA 2007 data expo,
 <a href='http://stat-computing.org/dataexpo/2006/'>http://stat-computing.org/dataexpo/2006/</a>. The data are geographic and
 atmospheric measures on a very coarse 24 by 24 grid covering Central
@@ -192,34 +195,37 @@ air pressure, and cloud cover (low, mid, and high). All variables are
 monthly averages, with observations for Jan 1995 to Dec 2000. These data
 were obtained from the NASA Langley Research Center Atmospheric Sciences
 Data Center (with permission; see important copyright terms below).</p>
-    
     </div>
 
     <pre class="usage"><span class='no'>nasa</span></pre>
-        
+
+
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
     <p>A <a href='tbl_cube.html'>tbl_cube</a> with 41,472 observations.</p>
-    
     <h2 class="hasAnchor" id="dimensions"><a class="anchor" href="#dimensions"></a>Dimensions</h2>
 
     
-    <ul>
+
+
+<ul>
 <li><p><code>lat</code>, <code>long</code>: latitude and longitude</p></li>
 <li><p><code>year</code>, <code>month</code>: month and year</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="measures"><a class="anchor" href="#measures"></a>Measures</h2>
 
     
-    <ul>
+
+
+<ul>
 <li><p><code>cloudlow</code>, <code>cloudmed</code>, <code>cloudhigh</code>: cloud cover
 at three heights</p></li>
 <li><p><code>ozone</code></p></li>
 <li><p><code>surftemp</code> and <code>temperature</code></p></li>
 <li><p><code>pressure</code></p></li>
 </ul>
-    
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>nasa</span></div><div class='output co'>#&gt; Source: local array [41,472 x 4]
@@ -238,18 +244,15 @@ at three heights</p></li>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      
       <li><a href="#format">Format</a></li>
-
       <li><a href="#dimensions">Dimensions</a></li>
-
       <li><a href="#measures">Measures</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -262,6 +265,7 @@ at three heights</p></li>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -284,6 +288,8 @@ at three heights</p></li>
 </script>
 
 
+
   </body>
 </html>
+
 

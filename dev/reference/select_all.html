@@ -8,21 +8,31 @@
 
 <title>Select and rename a selection of variables — select_all • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,7 +48,6 @@
 
 
 <meta property="og:title" content="Select and rename a selection of variables — select_all" />
-
 <meta property="og:description" content="These scoped variants of select() and rename() operate on a
 selection of variables. The semantics of these verbs have subtle
 but important differences:
@@ -46,33 +55,27 @@ Selection drops variables that are not in the selection while
 renaming retains them.
 The renaming function is optional for selection but not for
 renaming.
-" />
 
-<meta property="og:description" content="The _if and _at variants always retain grouping variables for grouped
+
+The _if and _at variants always retain grouping variables for grouped
 data frames." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -175,6 +178,7 @@ data frames." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -186,7 +190,6 @@ data frames." />
     </div>
 
     <div class="ref-description">
-    
     <p>These <a href='scoped.html'>scoped</a> variants of <code><a href='select.html'>select()</a></code> and <code><a href='select.html'>rename()</a></code> operate on a
 selection of variables. The semantics of these verbs have subtle
 but important differences:</p><ul>
@@ -196,23 +199,22 @@ renaming retains them.</p></li>
 renaming.</p></li>
 </ul>
 
-    <p>The <code>_if</code> and <code>_at</code> variants always retain grouping variables for grouped
+<p>The <code>_if</code> and <code>_at</code> variants always retain grouping variables for grouped
 data frames.</p>
-    
     </div>
 
-    <pre class="usage"><span class='fu'>select_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>select_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'>rename_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+<span class='fu'>rename_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'>select_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+<span class='fu'>select_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'>rename_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+<span class='fu'>rename_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'>select_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)
+<span class='fu'>select_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)
 
-<span class='fu'>rename_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(), <span class='no'>...</span>)</pre>
-    
+<span class='fu'>rename_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -244,13 +246,14 @@ a character vector of column names, a numeric vector of column
 positions, or <code>NULL</code>.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="grouping-variables"><a class="anchor" href="#grouping-variables"></a>Grouping variables</h2>
 
     
-    <p>Existing grouping variables are always kept in the data frame, even
+
+
+<p>Existing grouping variables are always kept in the data frame, even
 if not included in the selection.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -319,7 +322,7 @@ if not included in the selection.</p>
 #&gt; Ford Pantera L      15.8   8 351.0 264 4.22 3.170 14.50  0  1    5    4
 #&gt; Ferrari Dino        19.7   6 145.0 175 3.62 2.770 15.50  0  1    5    6
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
-#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(~<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/chartr'>toupper</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
+#&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(~<span class='fu'><a href='https://rdrr.io/r/base/chartr.html'>toupper</a></span>(<span class='no'>.</span>)))</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM GEAR CARB
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -353,7 +356,7 @@ if not included in the selection.</p>
 #&gt; Maserati Bora       15.0   8 301.0 335 3.54 3.570 14.60  0  1    5    8
 #&gt; Volvo 142E          21.4   4 121.0 109 4.11 2.780 18.60  1  1    4    2</div><div class='input'>
 <span class='co'># Selection drops unselected variables:</span>
-<span class='no'>is_whole</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/all'>all</a></span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/Round'>floor</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='no'>x</span>)
+<span class='no'>is_whole</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) <span class='fu'><a href='https://rdrr.io/r/base/all.html'>all</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/Round.html'>floor</a></span>(<span class='no'>x</span>) <span class='kw'>==</span> <span class='no'>x</span>)
 <span class='fu'>select_if</span>(<span class='no'>mtcars</span>, <span class='no'>is_whole</span>, <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                     CYL  HP VS AM GEAR CARB
 #&gt; Mazda RX4             6 110  0  1    4    4
 #&gt; Mazda RX4 Wag         6 110  0  1    4    4
@@ -386,7 +389,7 @@ if not included in the selection.</p>
 #&gt; Ford Pantera L        8 264  0  1    5    4
 #&gt; Ferrari Dino          6 175  0  1    5    6
 #&gt; Maserati Bora         8 335  0  1    5    8
-#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM CARB
+#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>contains</a></span>(<span class='st'>"ar"</span>), <span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with</a></span>(<span class='st'>"c"</span>)), <span class='no'>toupper</span>)</div><div class='output co'>#&gt;                      MPG CYL  DISP  HP DRAT    WT  QSEC VS AM CARB
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    1
@@ -550,7 +553,7 @@ if not included in the selection.</p>
 #&gt; Ford Pantera L        8 264  0  1    5    4
 #&gt; Ferrari Dino          6 175  0  1    5    6
 #&gt; Maserati Bora         8 335  0  1    5    8
-#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>everything</a></span>()))</div><div class='output co'>#&gt; data frame with 0 columns and 32 rows</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
+#&gt; Volvo 142E            4 109  1  1    4    2</div><div class='input'><span class='fu'>select_at</span>(<span class='no'>mtcars</span>, <span class='fu'><a href='vars.html'>vars</a></span>(-<span class='fu'><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>everything</a></span>()))</div><div class='output co'>#&gt; data frame with 0 columns and 32 rows</div><div class='input'><span class='fu'>select_all</span>(<span class='no'>mtcars</span>)</div><div class='output co'>#&gt;                      mpg cyl  disp  hp drat    wt  qsec vs am gear carb
 #&gt; Mazda RX4           21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
 #&gt; Mazda RX4 Wag       21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
 #&gt; Datsun 710          22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
@@ -588,14 +591,13 @@ if not included in the selection.</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#grouping-variables">Grouping variables</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -608,6 +610,7 @@ if not included in the selection.</p>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -630,6 +633,8 @@ if not included in the selection.</p>
 </script>
 
 
+
   </body>
 </html>
+
 

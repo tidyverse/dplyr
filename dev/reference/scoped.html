@@ -8,21 +8,31 @@
 
 <title>Operate on a selection of variables — scoped • dplyr</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
+
 <!-- jquery -->
-<script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 
 <!-- Bootstrap -->
 <link href="../tidyverse.css" rel="stylesheet">
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -38,35 +48,28 @@
 
 
 <meta property="og:title" content="Operate on a selection of variables — scoped" />
-
 <meta property="og:description" content="The variants suffixed with _if, _at or _all apply an
 expression (sometimes several) to all variables within a specified
 subset. This subset can contain all variables (_all variants), a
 vars() selection (_at variants), or variables selected with a
 predicate (_if variants)." />
-
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
+
 
 <meta name="robots" content="noindex">
 
 <!-- mathjax -->
-<script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
 
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]-->
 
-<!-- google analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script>
-<script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
 
- gtag('config', 'UA-115082821-1');
-</script>
+
   </head>
 
   <body>
@@ -169,6 +172,7 @@ predicate (_if variants)." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -180,16 +184,14 @@ predicate (_if variants)." />
     </div>
 
     <div class="ref-description">
-    
     <p>The variants suffixed with <code>_if</code>, <code>_at</code> or <code>_all</code> apply an
 expression (sometimes several) to all variables within a specified
 subset. This subset can contain all variables (<code>_all</code> variants), a
 <code><a href='vars.html'>vars()</a></code> selection (<code>_at</code> variants), or variables selected with a
 predicate (<code>_if</code> variants).</p>
-    
     </div>
 
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -221,7 +223,7 @@ functions and strings representing function names.</p></td>
 <code>.funs</code>. These are evaluated only once, with <a href='https://rlang.r-lib.org/reference/tidy-dots.html'>tidy dots</a> support.</p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The verbs with scoped variants are:</p><ul>
@@ -231,24 +233,27 @@ functions and strings representing function names.</p></td>
 <li><p><code><a href='select.html'>rename()</a></code> and <code><a href='select.html'>select()</a></code>. See <code><a href='select_all.html'>select_all()</a></code>.</p></li>
 <li><p><code><a href='arrange.html'>arrange()</a></code>. See <code><a href='arrange_all.html'>arrange_all()</a></code></p></li>
 </ul>
-    <p>There are three kinds of scoped variants. They differ in the scope
+
+<p>There are three kinds of scoped variants. They differ in the scope
 of the variable selection on which operations are applied:</p><ul>
 <li><p>Verbs suffixed with <code>_all()</code> apply an operation on all variables.</p></li>
 <li><p>Verbs suffixed with <code>_at()</code> apply an operation on a subset of
 variables specified with the quoting function <code><a href='vars.html'>vars()</a></code>. This
-quoting function accepts <code><a href='https://www.rdocumentation.org/packages/tidyselect/topics/vars_select'>tidyselect::vars_select()</a></code> helpers like
-<code><a href='https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers'>starts_with()</a></code>. Instead of a <code><a href='vars.html'>vars()</a></code> selection, you can also
+quoting function accepts <code><a href='https://rdrr.io/pkg/tidyselect/man/vars_select.html'>tidyselect::vars_select()</a></code> helpers like
+<code><a href='https://rdrr.io/pkg/tidyselect/man/select_helpers.html'>starts_with()</a></code>. Instead of a <code><a href='vars.html'>vars()</a></code> selection, you can also
 supply an <a href='https://rlang.r-lib.org/reference/is_integerish.html'>integerish</a> vector of column
 positions or a character vector of column names.</p></li>
 <li><p>Verbs suffixed with <code>_if()</code> apply an operation on the subset of
 variables for which a predicate function returns <code>TRUE</code>. Instead
 of a predicate function, you can also supply a logical vector.</p></li>
 </ul>
-    
+
     <h2 class="hasAnchor" id="grouping-variables"><a class="anchor" href="#grouping-variables"></a>Grouping variables</h2>
 
     
-    <p>Most of these operations also apply on the grouping variables when
+
+
+<p>Most of these operations also apply on the grouping variables when
 they are part of the selection. This includes:</p><ul>
 <li><p><code><a href='arrange_all.html'>arrange_all()</a></code>, <code><a href='arrange_all.html'>arrange_at()</a></code>, and <code><a href='arrange_all.html'>arrange_if()</a></code></p></li>
 <li><p><code><a href='distinct_all.html'>distinct_all()</a></code>, <code><a href='distinct_all.html'>distinct_at()</a></code>, and <code><a href='distinct_all.html'>distinct_if()</a></code></p></li>
@@ -256,7 +261,8 @@ they are part of the selection. This includes:</p><ul>
 <li><p><code><a href='group_by_all.html'>group_by_all()</a></code>, <code><a href='group_by_all.html'>group_by_at()</a></code>, and <code><a href='group_by_all.html'>group_by_if()</a></code></p></li>
 <li><p><code><a href='select_all.html'>select_all()</a></code>, <code><a href='select_all.html'>select_at()</a></code>, and <code><a href='select_all.html'>select_if()</a></code></p></li>
 </ul>
-    <p>This is not the case for summarising and mutating variants where
+
+<p>This is not the case for summarising and mutating variants where
 operations are <em>not</em> applied on grouping variables. The behaviour
 depends on whether the selection is <strong>implicit</strong> (<code>all</code> and <code>if</code>
 selections) or <strong>explicit</strong> (<code>at</code> selections). Grouping variables
@@ -272,21 +278,20 @@ operations (<code><a href='mutate_all.html'>mutate_all()</a></code>, <code><a hr
 <code><a href='mutate_all.html'>transmute_if()</a></code>). For this reason, they issue a message
 indicating which grouping variables are ignored.</p></li>
 </ul>
-    
+
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#details">Details</a></li>
-
       <li><a href="#grouping-variables">Grouping variables</a></li>
-          </ul>
+    </ul>
 
   </div>
 </div>
+
 
       <footer>
       <div class="tidyverse">
@@ -299,6 +304,7 @@ indicating which grouping variables are ignored.</p></li>
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
    </div>
 
@@ -321,6 +327,8 @@ indicating which grouping variables are ignored.</p></li>
 </script>
 
 
+
   </body>
 </html>
+
 

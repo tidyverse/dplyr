@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Introduction to dplyr • dplyr</title>
-<!-- jquery --><script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
+<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link href="../tidyverse.css" rel="stylesheet">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><link href="../tidyverse-2.css" rel="stylesheet">
 <!-- docsearch --><script src="../docsearch.js"></script><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/docsearch.js/2.6.1/docsearch.min.css" integrity="sha256-QOSRU/ra9ActyXkIBbiIB144aDBdtvXBcNc3OTNuX/Q=" crossorigin="anonymous">
 <link href="../docsearch.css" rel="stylesheet">
@@ -17,16 +24,10 @@
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png">
 <meta name="twitter:card" content="summary">
 <meta name="robots" content="noindex">
-<!-- mathjax --><script src="https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script><!--[if lt IE 9]>
+<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]--><!-- google analytics --><script async src="https://www.googletagmanager.com/gtag/js?id=UA-115082821-1"></script><script>
- window.dataLayer = window.dataLayer || [];
- function gtag(){dataLayer.push(arguments);}
- gtag('js', new Date());
-
- gtag('config', 'UA-115082821-1');
-</script>
+<![endif]-->
 </head>
 <body>
     <div class="container template-article">
@@ -129,6 +130,7 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
@@ -158,9 +160,9 @@
 <div id="data-nycflights13" class="section level2">
 <h2 class="hasAnchor">
 <a href="#data-nycflights13" class="anchor"></a>Data: nycflights13</h2>
-<p>To explore the basic data manipulation verbs of dplyr, we’ll use <code><a href="https://www.rdocumentation.org/packages/nycflights13/topics/flights">nycflights13::flights</a></code>. This dataset contains all 336776 flights that departed from New York City in 2013. The data comes from the US <a href="http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&amp;Link=0">Bureau of Transportation Statistics</a>, and is documented in <code>?nycflights13</code></p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(nycflights13)</a>
-<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/dim">dim</a></span>(flights)</a>
+<p>To explore the basic data manipulation verbs of dplyr, we’ll use <code><a href="https://rdrr.io/pkg/nycflights13/man/flights.html">nycflights13::flights</a></code>. This dataset contains all 336776 flights that departed from New York City in 2013. The data comes from the US <a href="http://www.transtats.bts.gov/DatabaseInfo.asp?DB_ID=120&amp;Link=0">Bureau of Transportation Statistics</a>, and is documented in <code>?nycflights13</code></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(nycflights13)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw"><a href="https://rdrr.io/r/base/dim.html">dim</a></span>(flights)</a>
 <a class="sourceLine" id="cb1-3" data-line-number="3"><span class="co">#&gt; [1] 336776     19</span></a>
 <a class="sourceLine" id="cb1-4" data-line-number="4">flights</a>
 <a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">#&gt; # A tibble: 336,776 x 19</span></a>
@@ -174,7 +176,7 @@
 <a class="sourceLine" id="cb1-13" data-line-number="13"><span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb1-14" data-line-number="14"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb1-15" data-line-number="15"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-<p>Note that <code><a href="https://www.rdocumentation.org/packages/nycflights13/topics/flights">nycflights13::flights</a></code> is a tibble, a modern reimagining of the data frame. It’s particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code>.</p>
+<p>Note that <code><a href="https://rdrr.io/pkg/nycflights13/man/flights.html">nycflights13::flights</a></code> is a tibble, a modern reimagining of the data frame. It’s particularly useful for large datasets because it only prints the first few rows. You can learn more about tibbles at <a href="http://tibble.tidyverse.org" class="uri">http://tibble.tidyverse.org</a>; in particular you can convert data frames to tibbles with <code><a href="https://tibble.tidyverse.org/reference/as_tibble.html">as_tibble()</a></code>.</p>
 </div>
 <div id="single-table-verbs" class="section level2">
 <h2 class="hasAnchor">
@@ -196,7 +198,7 @@
 </ul>
 <div id="filter-rows-with-filter" class="section level3">
 <h3 class="hasAnchor">
-<a href="#filter-rows-with-filter" class="anchor"></a>Filter rows with <code><a href="../reference/filter.html">filter()</a></code>
+<a href="#filter-rows-with-filter" class="anchor"></a>Filter rows with <code>filter()</code>
 </h3>
 <p><code><a href="../reference/filter.html">filter()</a></code> allows you to select a subset of rows in a data frame. Like all single verbs, the first argument is the tibble (or data frame). The second and subsequent arguments refer to variables within that data frame, selecting rows where the expression is <code>TRUE</code>.</p>
 <p>For example, we can select all flights on January 1st with:</p>
@@ -217,7 +219,7 @@
 </div>
 <div id="arrange-rows-with-arrange" class="section level3">
 <h3 class="hasAnchor">
-<a href="#arrange-rows-with-arrange" class="anchor"></a>Arrange rows with <code><a href="../reference/arrange.html">arrange()</a></code>
+<a href="#arrange-rows-with-arrange" class="anchor"></a>Arrange rows with <code>arrange()</code>
 </h3>
 <p><code><a href="../reference/arrange.html">arrange()</a></code> works similarly to <code><a href="../reference/filter.html">filter()</a></code> except that instead of filtering or selecting rows, it reorders them. It takes a data frame, and a set of column names (or more complicated expressions) to order by. If you provide more than one column name, each additional column will be used to break ties in the values of preceding columns:</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw"><a href="../reference/arrange.html">arrange</a></span>(flights, year, month, day)</a>
@@ -248,7 +250,7 @@
 </div>
 <div id="select-columns-with-select" class="section level3">
 <h3 class="hasAnchor">
-<a href="#select-columns-with-select" class="anchor"></a>Select columns with <code><a href="../reference/select.html">select()</a></code>
+<a href="#select-columns-with-select" class="anchor"></a>Select columns with <code>select()</code>
 </h3>
 <p>Often you work with large datasets with many columns but only a few are actually of interest to you. <code><a href="../reference/select.html">select()</a></code> allows you to rapidly zoom in on a useful subset using operations that usually only work on numeric variable positions:</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="co"># Select columns by name</span></a>
@@ -283,7 +285,7 @@
 <a class="sourceLine" id="cb6-30" data-line-number="30"><span class="co">#&gt; # … with 336,772 more rows, and 10 more variables: carrier &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb6-31" data-line-number="31"><span class="co">#&gt; #   flight &lt;int&gt;, tailnum &lt;chr&gt;, origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb6-32" data-line-number="32"><span class="co">#&gt; #   distance &lt;dbl&gt;, hour &lt;dbl&gt;, minute &lt;dbl&gt;, time_hour &lt;dttm&gt;</span></a></code></pre></div>
-<p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">starts_with()</a></code>, <code><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">ends_with()</a></code>, <code><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">matches()</a></code> and <code><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
+<p>There are a number of helper functions you can use within <code><a href="../reference/select.html">select()</a></code>, like <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">starts_with()</a></code>, <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">ends_with()</a></code>, <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">matches()</a></code> and <code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">contains()</a></code>. These let you quickly match larger blocks of variables that meet some criterion. See <code><a href="../reference/select.html">?select</a></code> for more details.</p>
 <p>You can rename variables with <code><a href="../reference/select.html">select()</a></code> by using named arguments:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="dt">tail_num =</span> tailnum)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; # A tibble: 336,776 x 1</span></a>
@@ -310,7 +312,7 @@
 </div>
 <div id="add-new-columns-with-mutate" class="section level3">
 <h3 class="hasAnchor">
-<a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code><a href="../reference/mutate.html">mutate()</a></code>
+<a href="#add-new-columns-with-mutate" class="anchor"></a>Add new columns with <code>mutate()</code>
 </h3>
 <p>Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. This is the job of <code><a href="../reference/mutate.html">mutate()</a></code>:</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(flights,</a>
@@ -328,7 +330,7 @@
 <a class="sourceLine" id="cb9-13" data-line-number="13"><span class="co">#&gt; #   arr_delay &lt;dbl&gt;, carrier &lt;chr&gt;, flight &lt;int&gt;, tailnum &lt;chr&gt;,</span></a>
 <a class="sourceLine" id="cb9-14" data-line-number="14"><span class="co">#&gt; #   origin &lt;chr&gt;, dest &lt;chr&gt;, air_time &lt;dbl&gt;, distance &lt;dbl&gt;, hour &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb9-15" data-line-number="15"><span class="co">#&gt; #   minute &lt;dbl&gt;, time_hour &lt;dttm&gt;, gain &lt;dbl&gt;, speed &lt;dbl&gt;</span></a></code></pre></div>
-<p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> is similar to the base <code><a href="https://www.rdocumentation.org/packages/base/topics/transform">transform()</a></code>, but allows you to refer to columns that you’ve just created:</p>
+<p><code><a href="../reference/mutate.html">dplyr::mutate()</a></code> is similar to the base <code><a href="https://rdrr.io/r/base/transform.html">transform()</a></code>, but allows you to refer to columns that you’ve just created:</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(flights,</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">  <span class="dt">gain =</span> arr_delay <span class="op">-</span><span class="st"> </span>dep_delay,</a>
 <a class="sourceLine" id="cb10-3" data-line-number="3">  <span class="dt">gain_per_hour =</span> gain <span class="op">/</span><span class="st"> </span>(air_time <span class="op">/</span><span class="st"> </span><span class="dv">60</span>)</a>
@@ -360,11 +362,11 @@
 </div>
 <div id="summarise-values-with-summarise" class="section level3">
 <h3 class="hasAnchor">
-<a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code><a href="../reference/summarise.html">summarise()</a></code>
+<a href="#summarise-values-with-summarise" class="anchor"></a>Summarise values with <code>summarise()</code>
 </h3>
 <p>The last verb is <code><a href="../reference/summarise.html">summarise()</a></code>. It collapses a data frame to a single row.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(flights,</a>
-<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">delay =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb12-2" data-line-number="2">  <span class="dt">delay =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb12-3" data-line-number="3">)</a>
 <a class="sourceLine" id="cb12-4" data-line-number="4"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
 <a class="sourceLine" id="cb12-5" data-line-number="5"><span class="co">#&gt;   delay</span></a>
@@ -374,7 +376,7 @@
 </div>
 <div id="randomly-sample-rows-with-sample_n-and-sample_frac" class="section level3">
 <h3 class="hasAnchor">
-<a href="#randomly-sample-rows-with-sample_n-and-sample_frac" class="anchor"></a>Randomly sample rows with <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code>
+<a href="#randomly-sample-rows-with-sample_n-and-sample_frac" class="anchor"></a>Randomly sample rows with <code>sample_n()</code> and <code>sample_frac()</code>
 </h3>
 <p>You can use <code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> to take a random sample of rows: use <code><a href="../reference/sample.html">sample_n()</a></code> for a fixed number and <code><a href="../reference/sample.html">sample_frac()</a></code> for a fixed fraction.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="kw"><a href="../reference/sample.html">sample_n</a></span>(flights, <span class="dv">10</span>)</a>
@@ -409,7 +411,7 @@
 <p>You may have noticed that the syntax and function of all these verbs are very similar:</p>
 <ul>
 <li><p>The first argument is a data frame.</p></li>
-<li><p>The subsequent arguments describe what to do with the data frame. You can refer to columns in the data frame directly without using <code>$</code>.</p></li>
+<li><p>The subsequent arguments describe what to do with the data frame. You can refer to columns in the data frame directly without using <code><a href="https://rdrr.io/r/base/Extract.html">$</a></code>.</p></li>
 <li><p>The result is a new data frame</p></li>
 </ul>
 <p>Together these properties make it easy to chain together multiple simple steps to achieve a complex result.</p>
@@ -428,7 +430,7 @@
 <ul>
 <li><p>grouped <code><a href="../reference/select.html">select()</a></code> is the same as ungrouped <code><a href="../reference/select.html">select()</a></code>, except that grouping variables are always retained.</p></li>
 <li><p>grouped <code><a href="../reference/arrange.html">arrange()</a></code> is the same as ungrouped; unless you set <code>.by_group = TRUE</code>, in which case it orders first by the grouping variables</p></li>
-<li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> are most useful in conjunction with window functions (like <code><a href="https://www.rdocumentation.org/packages/base/topics/rank">rank()</a></code>, or <code>min(x) == x</code>). They are described in detail in <code><a href="../articles/window-functions.html">vignette("window-functions")</a></code>.</p></li>
+<li><p><code><a href="../reference/mutate.html">mutate()</a></code> and <code><a href="../reference/filter.html">filter()</a></code> are most useful in conjunction with window functions (like <code><a href="https://rdrr.io/r/base/rank.html">rank()</a></code>, or <code>min(x) == x</code>). They are described in detail in <code><a href="../articles/window-functions.html">vignette("window-functions")</a></code>.</p></li>
 <li><p><code><a href="../reference/sample.html">sample_n()</a></code> and <code><a href="../reference/sample.html">sample_frac()</a></code> sample the specified number/fraction of rows in each group.</p></li>
 <li><p><code><a href="../reference/summarise.html">summarise()</a></code> computes the summary for each group.</p></li>
 </ul>
@@ -436,8 +438,8 @@
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">by_tailnum &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, tailnum)</a>
 <a class="sourceLine" id="cb14-2" data-line-number="2">delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(by_tailnum,</a>
 <a class="sourceLine" id="cb14-3" data-line-number="3">  <span class="dt">count =</span> <span class="kw"><a href="../reference/n.html">n</a></span>(),</a>
-<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">dist =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(distance, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">delay =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb14-4" data-line-number="4">  <span class="dt">dist =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(distance, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb14-5" data-line-number="5">  <span class="dt">delay =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb14-6" data-line-number="6">delay &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(delay, count <span class="op">&gt;</span><span class="st"> </span><span class="dv">20</span>, dist <span class="op">&lt;</span><span class="st"> </span><span class="dv">2000</span>)</a>
 <a class="sourceLine" id="cb14-7" data-line-number="7"></a>
 <a class="sourceLine" id="cb14-8" data-line-number="8"><span class="co"># Interestingly, the average delay is only slightly related to the</span></a>
@@ -447,7 +449,7 @@
 <a class="sourceLine" id="cb14-12" data-line-number="12"><span class="st">  </span><span class="kw">geom_smooth</span>() <span class="op">+</span></a>
 <a class="sourceLine" id="cb14-13" data-line-number="13"><span class="st">  </span><span class="kw">scale_size_area</span>()</a></code></pre></div>
 <p><img src="dplyr_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
-<p>You use <code><a href="../reference/summarise.html">summarise()</a></code> with <strong>aggregate functions</strong>, which take a vector of values and return a single number. There are many useful examples of such functions in base R like <code><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">min()</a></code>, <code><a href="https://www.rdocumentation.org/packages/base/topics/Extremes">max()</a></code>, <code><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean()</a></code>, <code><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum()</a></code>, <code><a href="https://www.rdocumentation.org/packages/stats/topics/sd">sd()</a></code>, <code><a href="https://www.rdocumentation.org/packages/stats/topics/median">median()</a></code>, and <code><a href="https://www.rdocumentation.org/packages/stats/topics/IQR">IQR()</a></code>. dplyr provides a handful of others:</p>
+<p>You use <code><a href="../reference/summarise.html">summarise()</a></code> with <strong>aggregate functions</strong>, which take a vector of values and return a single number. There are many useful examples of such functions in base R like <code><a href="https://rdrr.io/r/base/Extremes.html">min()</a></code>, <code><a href="https://rdrr.io/r/base/Extremes.html">max()</a></code>, <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>, <code><a href="https://rdrr.io/r/stats/sd.html">sd()</a></code>, <code><a href="https://rdrr.io/r/stats/median.html">median()</a></code>, and <code><a href="https://rdrr.io/r/stats/IQR.html">IQR()</a></code>. dplyr provides a handful of others:</p>
 <ul>
 <li><p><code><a href="../reference/n.html">n()</a></code>: the number of observations in the current group</p></li>
 <li><p><code><a href="../reference/n_distinct.html">n_distinct(x)</a></code>:the number of unique values in <code>x</code>.</p></li>
@@ -479,7 +481,7 @@
 <a class="sourceLine" id="cb16-9" data-line-number="9"><span class="co">#&gt; 3  2013     1     3     914</span></a>
 <a class="sourceLine" id="cb16-10" data-line-number="10"><span class="co">#&gt; 4  2013     1     4     915</span></a>
 <a class="sourceLine" id="cb16-11" data-line-number="11"><span class="co">#&gt; # … with 361 more rows</span></a>
-<a class="sourceLine" id="cb16-12" data-line-number="12">(per_month &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(flights)))</a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">(per_month &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_day, <span class="dt">flights =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(flights)))</a>
 <a class="sourceLine" id="cb16-13" data-line-number="13"><span class="co">#&gt; # A tibble: 12 x 3</span></a>
 <a class="sourceLine" id="cb16-14" data-line-number="14"><span class="co">#&gt; # Groups:   year [1]</span></a>
 <a class="sourceLine" id="cb16-15" data-line-number="15"><span class="co">#&gt;    year month flights</span></a>
@@ -489,7 +491,7 @@
 <a class="sourceLine" id="cb16-19" data-line-number="19"><span class="co">#&gt; 3  2013     3   28834</span></a>
 <a class="sourceLine" id="cb16-20" data-line-number="20"><span class="co">#&gt; 4  2013     4   28330</span></a>
 <a class="sourceLine" id="cb16-21" data-line-number="21"><span class="co">#&gt; # … with 8 more rows</span></a>
-<a class="sourceLine" id="cb16-22" data-line-number="22">(per_year  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_month, <span class="dt">flights =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum</a></span>(flights)))</a>
+<a class="sourceLine" id="cb16-22" data-line-number="22">(per_year  &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(per_month, <span class="dt">flights =</span> <span class="kw"><a href="https://rdrr.io/r/base/sum.html">sum</a></span>(flights)))</a>
 <a class="sourceLine" id="cb16-23" data-line-number="23"><span class="co">#&gt; # A tibble: 1 x 2</span></a>
 <a class="sourceLine" id="cb16-24" data-line-number="24"><span class="co">#&gt;    year flights</span></a>
 <a class="sourceLine" id="cb16-25" data-line-number="25"><span class="co">#&gt;   &lt;int&gt;   &lt;int&gt;</span></a>
@@ -523,9 +525,9 @@
 <p>By the same token, this means that you cannot refer to variables from the surrounding context if they have the same name as one of the columns. In the following example, <code>year</code> still represents 1, not 5:</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
 <a class="sourceLine" id="cb18-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year)</a></code></pre></div>
-<p>One useful subtlety is that this only applies to bare names and to selecting calls like <code><a href="https://www.rdocumentation.org/packages/base/topics/c">c(year, month, day)</a></code> or <code>year:day</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
+<p>One useful subtlety is that this only applies to bare names and to selecting calls like <code><a href="https://rdrr.io/r/base/c.html">c(year, month, day)</a></code> or <code>year:day</code>. In all other cases, the columns of the data frame are not put in scope. This allows you to refer to contextual variables in selection helpers:</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" data-line-number="1">year &lt;-<span class="st"> "dep"</span></a>
-<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="https://www.rdocumentation.org/packages/tidyselect/topics/select_helpers">starts_with</a></span>(year))</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="kw"><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">starts_with</a></span>(year))</a>
 <a class="sourceLine" id="cb19-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
 <a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co">#&gt;   dep_time dep_delay</span></a>
 <a class="sourceLine" id="cb19-5" data-line-number="5"><span class="co">#&gt;      &lt;int&gt;     &lt;dbl&gt;</span></a>
@@ -536,7 +538,7 @@
 <a class="sourceLine" id="cb19-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>These semantics are usually intuitive. But note the subtle difference:</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb20-1" data-line-number="1">year &lt;-<span class="st"> </span><span class="dv">5</span></a>
-<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/identity">identity</a></span>(year))</a>
+<a class="sourceLine" id="cb20-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, year, <span class="kw"><a href="https://rdrr.io/r/base/identity.html">identity</a></span>(year))</a>
 <a class="sourceLine" id="cb20-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 2</span></a>
 <a class="sourceLine" id="cb20-4" data-line-number="4"><span class="co">#&gt;    year sched_dep_time</span></a>
 <a class="sourceLine" id="cb20-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt;          &lt;int&gt;</span></a>
@@ -547,7 +549,7 @@
 <a class="sourceLine" id="cb20-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>In the first argument, <code>year</code> represents its own position <code>1</code>. In the second argument, <code>year</code> is evaluated in the surrounding context and represents the fifth column.</p>
 <p>For a long time, <code><a href="../reference/select.html">select()</a></code> used to only understand column positions. Counting from dplyr 0.6, it now understands column names as well. This makes it a bit easier to program with <code><a href="../reference/select.html">select()</a></code>:</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>)</a>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb21-1" data-line-number="1">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>)</a>
 <a class="sourceLine" id="cb21-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, vars, <span class="st">"day"</span>)</a>
 <a class="sourceLine" id="cb21-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
 <a class="sourceLine" id="cb21-4" data-line-number="4"><span class="co">#&gt;    year month   day</span></a>
@@ -557,13 +559,13 @@
 <a class="sourceLine" id="cb21-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1</span></a>
 <a class="sourceLine" id="cb21-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1</span></a>
 <a class="sourceLine" id="cb21-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
-<p>Note that the code above is somewhat unsafe because you might have added a column named <code>vars</code> to the tibble, or you might apply the code to another data frame containing such a column. To avoid this issue, you can wrap the variable in an <code><a href="https://www.rdocumentation.org/packages/base/topics/identity">identity()</a></code> call as we mentioned above, as this will bypass column names. However, a more explicit and general method that works in all dplyr verbs is to unquote the variable with the <code>!!</code> operator. This tells dplyr to bypass the data frame and to directly look in the context:</p>
+<p>Note that the code above is somewhat unsafe because you might have added a column named <code>vars</code> to the tibble, or you might apply the code to another data frame containing such a column. To avoid this issue, you can wrap the variable in an <code><a href="https://rdrr.io/r/base/identity.html">identity()</a></code> call as we mentioned above, as this will bypass column names. However, a more explicit and general method that works in all dplyr verbs is to unquote the variable with the <code>!!</code> operator. This tells dplyr to bypass the data frame and to directly look in the context:</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb22-1" data-line-number="1"><span class="co"># Let's create a new `vars` column:</span></a>
 <a class="sourceLine" id="cb22-2" data-line-number="2">flights<span class="op">$</span>vars &lt;-<span class="st"> </span>flights<span class="op">$</span>year</a>
 <a class="sourceLine" id="cb22-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb22-4" data-line-number="4"><span class="co"># The new column won't be an issue if you evaluate `vars` in the</span></a>
 <a class="sourceLine" id="cb22-5" data-line-number="5"><span class="co"># context with the `!!` operator:</span></a>
-<a class="sourceLine" id="cb22-6" data-line-number="6">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>)</a>
+<a class="sourceLine" id="cb22-6" data-line-number="6">vars &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"year"</span>, <span class="st">"month"</span>, <span class="st">"day"</span>)</a>
 <a class="sourceLine" id="cb22-7" data-line-number="7"><span class="kw"><a href="../reference/select.html">select</a></span>(flights, <span class="op">!!</span><span class="st"> </span>vars)</a>
 <a class="sourceLine" id="cb22-8" data-line-number="8"><span class="co">#&gt; # A tibble: 336,776 x 3</span></a>
 <a class="sourceLine" id="cb22-9" data-line-number="9"><span class="co">#&gt;    year month   day</span></a>
@@ -601,7 +603,7 @@
 <a class="sourceLine" id="cb25-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1      544        2023</span></a>
 <a class="sourceLine" id="cb25-9" data-line-number="9"><span class="co">#&gt; # … with 336,772 more rows</span></a></code></pre></div>
 <p>In the same way, you can unquote values from the context if these values represent a valid column. They must be either length 1 (they then get recycled) or have the same length as the number of rows. In the following example we create a new vector that we add to the data frame:</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/seq">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/nrow">nrow</a></span>(df))</a>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">var &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/seq.html">seq</a></span>(<span class="dv">1</span>, <span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(df))</a>
 <a class="sourceLine" id="cb26-2" data-line-number="2"><span class="kw"><a href="../reference/mutate.html">mutate</a></span>(df, <span class="dt">new =</span> var)</a>
 <a class="sourceLine" id="cb26-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
 <a class="sourceLine" id="cb26-4" data-line-number="4"><span class="co">#&gt;    year month   day dep_time   new</span></a>
@@ -622,7 +624,7 @@
 <a class="sourceLine" id="cb27-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1      542</span></a>
 <a class="sourceLine" id="cb27-9" data-line-number="9"><span class="co">#&gt; 4  2013     1     1      544</span></a>
 <a class="sourceLine" id="cb27-10" data-line-number="10"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">month =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/factor">as.factor</a></span>(month))</a>
+<a class="sourceLine" id="cb27-11" data-line-number="11"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">month =</span> <span class="kw"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(month))</a>
 <a class="sourceLine" id="cb27-12" data-line-number="12"><span class="co">#&gt; # A tibble: 336,776 x 4</span></a>
 <a class="sourceLine" id="cb27-13" data-line-number="13"><span class="co">#&gt; # Groups:   month [12]</span></a>
 <a class="sourceLine" id="cb27-14" data-line-number="14"><span class="co">#&gt;    year month   day dep_time</span></a>
@@ -632,7 +634,7 @@
 <a class="sourceLine" id="cb27-18" data-line-number="18"><span class="co">#&gt; 3  2013 1         1      542</span></a>
 <a class="sourceLine" id="cb27-19" data-line-number="19"><span class="co">#&gt; 4  2013 1         1      544</span></a>
 <a class="sourceLine" id="cb27-20" data-line-number="20"><span class="co">#&gt; # … with 336,772 more rows</span></a>
-<a class="sourceLine" id="cb27-21" data-line-number="21"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">day_binned =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/cut">cut</a></span>(day, <span class="dv">3</span>))</a>
+<a class="sourceLine" id="cb27-21" data-line-number="21"><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(df, <span class="dt">day_binned =</span> <span class="kw"><a href="https://rdrr.io/r/base/cut.html">cut</a></span>(day, <span class="dv">3</span>))</a>
 <a class="sourceLine" id="cb27-22" data-line-number="22"><span class="co">#&gt; # A tibble: 336,776 x 5</span></a>
 <a class="sourceLine" id="cb27-23" data-line-number="23"><span class="co">#&gt; # Groups:   day_binned [3]</span></a>
 <a class="sourceLine" id="cb27-24" data-line-number="24"><span class="co">#&gt;    year month   day dep_time day_binned</span></a>
@@ -674,8 +676,8 @@
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">a1 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day)</a>
 <a class="sourceLine" id="cb30-2" data-line-number="2">a2 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/select.html">select</a></span>(a1, arr_delay, dep_delay)</a>
 <a class="sourceLine" id="cb30-3" data-line-number="3">a3 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(a2,</a>
-<a class="sourceLine" id="cb30-4" data-line-number="4">  <span class="dt">arr =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb30-5" data-line-number="5">  <span class="dt">dep =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
+<a class="sourceLine" id="cb30-4" data-line-number="4">  <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb30-5" data-line-number="5">  <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</a>
 <a class="sourceLine" id="cb30-6" data-line-number="6">a4 &lt;-<span class="st"> </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(a3, arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
 <p>Or if you don’t want to name the intermediate results, you need to wrap the function calls inside each other:</p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="kw"><a href="../reference/filter.html">filter</a></span>(</a>
@@ -684,8 +686,8 @@
 <a class="sourceLine" id="cb31-4" data-line-number="4">      <span class="kw"><a href="../reference/group_by.html">group_by</a></span>(flights, year, month, day),</a>
 <a class="sourceLine" id="cb31-5" data-line-number="5">      arr_delay, dep_delay</a>
 <a class="sourceLine" id="cb31-6" data-line-number="6">    ),</a>
-<a class="sourceLine" id="cb31-7" data-line-number="7">    <span class="dt">arr =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb31-8" data-line-number="8">    <span class="dt">dep =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb31-7" data-line-number="7">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb31-8" data-line-number="8">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb31-9" data-line-number="9">  ),</a>
 <a class="sourceLine" id="cb31-10" data-line-number="10">  arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span></a>
 <a class="sourceLine" id="cb31-11" data-line-number="11">)</a>
@@ -699,13 +701,13 @@
 <a class="sourceLine" id="cb31-19" data-line-number="19"><span class="co">#&gt; 3  2013     2    11  36.3  39.1</span></a>
 <a class="sourceLine" id="cb31-20" data-line-number="20"><span class="co">#&gt; 4  2013     2    27  31.3  37.8</span></a>
 <a class="sourceLine" id="cb31-21" data-line-number="21"><span class="co">#&gt; # … with 45 more rows</span></a></code></pre></div>
-<p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code>%&gt;%</code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom:</p>
+<p>This is difficult to read because the order of the operations is from inside to out. Thus, the arguments are a long way away from the function. To get around this problem, dplyr provides the <code><a href="https://rdrr.io/pkg/magrittr/man/pipe.html">%&gt;%</a></code> operator from magrittr. <code>x %&gt;% f(y)</code> turns into <code>f(x, y)</code> so you can use it to rewrite multiple operations that you can read left-to-right, top-to-bottom:</p>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">flights <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/group_by.html">group_by</a></span>(year, month, day) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb32-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="../reference/select.html">select</a></span>(arr_delay, dep_delay) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb32-4" data-line-number="4"><span class="st">  </span><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(</a>
-<a class="sourceLine" id="cb32-5" data-line-number="5">    <span class="dt">arr =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
-<a class="sourceLine" id="cb32-6" data-line-number="6">    <span class="dt">dep =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb32-5" data-line-number="5">    <span class="dt">arr =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(arr_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>),</a>
+<a class="sourceLine" id="cb32-6" data-line-number="6">    <span class="dt">dep =</span> <span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(dep_delay, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>)</a>
 <a class="sourceLine" id="cb32-7" data-line-number="7">  ) <span class="op">%&gt;%</span></a>
 <a class="sourceLine" id="cb32-8" data-line-number="8"><span class="st">  </span><span class="kw"><a href="../reference/filter.html">filter</a></span>(arr <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span> <span class="op">|</span><span class="st"> </span>dep <span class="op">&gt;</span><span class="st"> </span><span class="dv">30</span>)</a></code></pre></div>
 </div>
@@ -721,7 +723,7 @@
 <p>The advantages of using dplyr with data tables are:</p>
 <ul>
 <li><p>For common data manipulation tasks, it insulates you from the reference semantics of data.tables, and protects you from accidentally modifying your data.</p></li>
-<li><p>Instead of one complex method built on the subscripting operator (<code>[</code>), it provides many simple methods.</p></li>
+<li><p>Instead of one complex method built on the subscripting operator (<code><a href="https://rdrr.io/r/base/Extract.html">[</a></code>), it provides many simple methods.</p></li>
 </ul>
 </div>
 <div id="databases" class="section level3">
@@ -741,7 +743,7 @@
 <p>Compared to all existing options, dplyr:</p>
 <ul>
 <li><p>abstracts away how your data is stored, so that you can work with data frames, data tables and remote databases using the same set of functions. This lets you focus on what you want to achieve, not on the logistics of data storage.</p></li>
-<li><p>provides a thoughtful default <code><a href="https://www.rdocumentation.org/packages/base/topics/print">print()</a></code> method that doesn’t automatically print pages of data to the screen (this was inspired by data table’s output).</p></li>
+<li><p>provides a thoughtful default <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> method that doesn’t automatically print pages of data to the screen (this was inspired by data table’s output).</p></li>
 </ul>
 <p>Compared to base functions:</p>
 <ul>
@@ -757,12 +759,13 @@
 <p>Compared to virtual data frame approaches:</p>
 <ul>
 <li><p>it doesn’t pretend that you have a data frame: if you want to run lm etc, you’ll still need to manually pull down the data</p></li>
-<li><p>it doesn’t provide methods for R summary functions (e.g. <code><a href="https://www.rdocumentation.org/packages/base/topics/mean">mean()</a></code>, or <code><a href="https://www.rdocumentation.org/packages/base/topics/sum">sum()</a></code>)</p></li>
+<li><p>it doesn’t provide methods for R summary functions (e.g. <code><a href="https://rdrr.io/r/base/mean.html">mean()</a></code>, or <code><a href="https://rdrr.io/r/base/sum.html">sum()</a></code>)</p></li>
 </ul>
 </div>
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
+
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -780,6 +783,7 @@
 </div>
 
 
+
       <footer><div class="tidyverse">
   <p>dplyr is a part of the <strong>tidyverse</strong>, an ecosystem of packages designed with common APIs and a shared philosophy. Learn more at <a href="https://tidyverse.org">tidyverse.org</a>.</p>
 </div>
@@ -790,6 +794,7 @@
     Site built by <a href="https://pkgdown.r-lib.org">pkgdown</a>.
   </p>
 </div>
+
       </footer>
 </div>
 
