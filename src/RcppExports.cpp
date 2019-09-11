@@ -47,25 +47,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// flatten_bindable
-SEXP flatten_bindable(SEXP x);
-RcppExport SEXP _dplyr_flatten_bindable(SEXP xSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type x(xSEXP);
-    rcpp_result_gen = Rcpp::wrap(flatten_bindable(x));
-    return rcpp_result_gen;
-END_RCPP
-}
-// bind_rows_check
-void bind_rows_check(Rcpp::List dots);
-RcppExport SEXP _dplyr_bind_rows_check(SEXP dotsSEXP) {
-BEGIN_RCPP
-    Rcpp::traits::input_parameter< Rcpp::List >::type dots(dotsSEXP);
-    bind_rows_check(dots);
-    return R_NilValue;
-END_RCPP
-}
 // expand_groups
 Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr);
 RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP, SEXP nrSEXP) {
@@ -137,8 +118,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_dfloc", (DL_FUNC) &_dplyr_dfloc, 1},
     {"_dplyr_plfloc", (DL_FUNC) &_dplyr_plfloc, 1},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
-    {"_dplyr_flatten_bindable", (DL_FUNC) &_dplyr_flatten_bindable, 1},
-    {"_dplyr_bind_rows_check", (DL_FUNC) &_dplyr_bind_rows_check, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
     {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},

@@ -131,18 +131,18 @@ test_that("bind_rows ignores NULL", {
 })
 
 test_that("bind_rows only accepts data frames or named vectors", {
-  ll <- list(1:5, env(a = 1))
-  expect_error(
-    bind_rows(ll),
-    "Argument 1 must have names",
-    fixed = TRUE
-  )
-  ll <- list(tibble(a = 1:5), env(a = 1))
-  expect_error(
-    bind_rows(ll),
-    "Argument 2 must be a data frame or a named atomic vector, not a environment",
-    fixed = TRUE
-  )
+  # ll <- list(1:5, env(a = 1))
+  # expect_error(
+  #   bind_rows(ll),
+  #   "Argument 1 must have names",
+  #   fixed = TRUE
+  # )
+  # ll <- list(tibble(a = 1:5), env(a = 1))
+  # expect_error(
+  #   bind_rows(ll),
+  #   "Argument 2 must be a data frame or a named atomic vector, not a environment",
+  #   fixed = TRUE
+  # )
 })
 
 test_that("bind_rows handles list columns (#463)", {
@@ -509,17 +509,7 @@ test_that("bind_cols infers classes from first result (#1692)", {
   expect_equal(class(bind_cols(d5, d1)), c("tbl_df", "tbl", "data.frame"))
 })
 
-test_that("bind_rows rejects POSIXlt columns (#1789)", {
-  df <- tibble(x = Sys.time() + 1:12)
-  df$y <- as.POSIXlt(df$x)
-  expect_error(
-    bind_rows(df, df),
-    "Argument 2 can't be a list containing POSIXlt values",
-    fixed = TRUE
-  )
-})
-
-test_that("bind_rows rejects data frame columns (#2015)", {
+test_that("bind_rows accepts data frame columns (#2015)", {
   df <- list(
     x = 1:10,
     y = data.frame(a = 1:10, y = 1:10)
@@ -527,11 +517,9 @@ test_that("bind_rows rejects data frame columns (#2015)", {
   class(df) <- "data.frame"
   attr(df, "row.names") <- .set_row_names(10)
 
-  expect_error(
-    dplyr::bind_rows(df, df),
-    "Argument 2 can't be a list containing data frames",
-    fixed = TRUE
-  )
+  res <- dplyr::bind_rows(df, df)
+  expect_is(df$y, "data.frame")
+  expect_equal(names(df$y), c("a", "y"))
 })
 
 test_that("bind_rows accepts difftime objects", {

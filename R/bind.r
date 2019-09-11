@@ -91,7 +91,14 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  x <- flatten_bindable(dots_values(...))
+  dots <- dots_values(...)
+  if (length(dots) == 1 && is.list(dots[[1]]) && !is.data.frame(dots[[1]])) {
+    dots <- dots[[1]]
+  }
+  dots <- keep(
+    flatten_if(dots, function(.x) is.list(.x) && !is.data.frame(.x)),
+    function(.x) !is.null(.x)
+  )
 
   if (!is_null(.id)) {
     if (!(is_string(.id))) {
@@ -99,19 +106,25 @@ bind_rows <- function(..., .id = NULL) {
         "not {friendly_type_of(.id)} of length {length(.id)}"
       )
     }
-    if (!all(have_name(x) | map_lgl(x, is_empty))) {
-      x <- compact(x)
-      names(x) <- seq_along(x)
+    if (!all(have_name(dots) | map_lgl(dots, is_empty))) {
+      dots <- compact(dots)
+      names(dots) <- seq_along(dots)
     }
   }
 
-  bind_rows_check(x)
-  x <- keep(x, function(.x) {
-    is.data.frame(.x) || vec_size(.x) > 0
-  })
+  for (i in seq_along(dots)) {
+    .x <- dots[[i]]
+    if (!is.data.frame(.x) && !vec_is(.x)) {
+      abort(glue("Argument {i} must be a data frame or a named atomic vector"))
+    }
 
-  result <- vec_rbind(!!!x, .names_to = .id)
-  if (length(x) && is_tibble(first <- x[[1L]])) {
+    if (is.null(names(.x))) {
+      abort(glue("Argument {i} must have names"))
+    }
+  }
+
+  result <- vec_rbind(!!!dots, .names_to = .id)
+  if (length(dots) && is_tibble(first <- dots[[1L]])) {
     if (is_grouped_df(first)) {
       result <- grouped_df(result, group_vars(first), group_by_drop_default(first))
     } else {
@@ -151,9 +164,9 @@ bind_cols <- function(...) {
   if (length(dots)) {
     if (is_grouped_df(first)) {
       res <- grouped_df(res, group_vars(first), group_by_drop_default(first))
-    } else if(inherits(first, "rowwise_df")) {
+    } else if(inherits(first, "rowwise_df")){
       res <- rowwise(res)
-    } else if (is_tibble(first) || !is.data.frame(first)) {
+    } else if(is_tibble(first) || !is.data.frame(first)) {
       res <- as_tibble(res)
     }
   }

@@ -1,65 +1,7 @@
 #include <Rcpp.h>
 
-#include <tools/utils.h>
-#include <tools/collapse.h>
-#include <tools/bad.h>
+#include <dplyr/rlang.h>
 #include <dplyr/symbols.h>
-
-SEXP shared_SEXP(SEXP x) {
-  MARK_NOT_MUTABLE(x);
-  return x;
-}
-
-bool is_vector(SEXP x) {
-  switch (TYPEOF(x)) {
-  case LGLSXP:
-  case INTSXP:
-  case REALSXP:
-  case CPLXSXP:
-  case STRSXP:
-  case RAWSXP:
-  case VECSXP:
-    return true;
-  default:
-    return false;
-  }
-}
-
-bool is_atomic(SEXP x) {
-  switch (TYPEOF(x)) {
-  case LGLSXP:
-  case INTSXP:
-  case REALSXP:
-  case CPLXSXP:
-  case STRSXP:
-  case RAWSXP:
-    return true;
-  default:
-    return false;
-  }
-}
-
-SEXP vec_names(SEXP x) {
-  return Rf_getAttrib(x, R_NamesSymbol);
-}
-
-SEXP vec_names_or_empty(SEXP x) {
-  SEXP nms = Rf_getAttrib(x, R_NamesSymbol);
-  if (Rf_isNull(nms)) {
-    return Rf_allocVector(STRSXP, LENGTH(x));
-  }
-  return nms;
-}
-
-bool is_str_empty(SEXP str) {
-  const char* c_str = CHAR(str);
-  return strcmp(c_str, "") == 0;
-}
-
-bool has_name_at(SEXP x, R_len_t i) {
-  SEXP nms = vec_names(x);
-  return TYPEOF(nms) == STRSXP && !is_str_empty(STRING_ELT(nms, i));
-}
 
 // [[Rcpp::export(rng = false)]]
 bool quo_is_variable_reference(SEXP quo) {

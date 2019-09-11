@@ -31,14 +31,6 @@ between <- function(x, left, right) {
     .Call(`_dplyr_between`, x, left, right)
 }
 
-flatten_bindable <- function(x) {
-    .Call(`_dplyr_flatten_bindable`, x)
-}
-
-bind_rows_check <- function(dots) {
-    invisible(.Call(`_dplyr_bind_rows_check`, dots))
-}
-
 expand_groups <- function(old_groups, positions, nr) {
     .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }

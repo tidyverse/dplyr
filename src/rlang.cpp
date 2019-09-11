@@ -1,5 +1,6 @@
 #include <Rcpp.h>
-#include <tools/utils.h>
+
+#include <dplyr/rlang.h>
 
 namespace dplyr {
 namespace internal {
