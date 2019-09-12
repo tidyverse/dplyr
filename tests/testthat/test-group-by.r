@@ -77,7 +77,10 @@ test_that("group_by uses shallow copy", {
   m1 <- group_by(mtcars, cyl)
   expect_no_groups(mtcars)
 
-  expect_equal(dfloc(mtcars), dfloc(m1))
+  expect_equal(
+    lobstr::obj_addrs(mtcars),
+    lobstr::obj_addrs(m1)
+  )
 })
 
 test_that("group_by handles NA in factors #341", {
