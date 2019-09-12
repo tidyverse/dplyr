@@ -39,10 +39,6 @@ filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
     .Call(`_dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }
 
-quo_is_variable_reference <- function(quo) {
-    .Call(`_dplyr_quo_is_variable_reference`, quo)
-}
-
 #' Cumulativate versions of any, all, and mean
 #'
 #' dplyr provides `cumall()`, `cumany()`, and `cummean()` to complete R's set

@@ -72,16 +72,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// quo_is_variable_reference
-bool quo_is_variable_reference(SEXP quo);
-RcppExport SEXP _dplyr_quo_is_variable_reference(SEXP quoSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type quo(quoSEXP);
-    rcpp_result_gen = Rcpp::wrap(quo_is_variable_reference(quo));
-    return rcpp_result_gen;
-END_RCPP
-}
 // cumall
 Rcpp::LogicalVector cumall(Rcpp::LogicalVector x);
 RcppExport SEXP _dplyr_cumall(SEXP xSEXP) {
@@ -120,7 +110,6 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
-    {"_dplyr_quo_is_variable_reference", (DL_FUNC) &_dplyr_quo_is_variable_reference, 1},
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},
     {"_dplyr_cumany", (DL_FUNC) &_dplyr_cumany, 1},
     {"_dplyr_cummean", (DL_FUNC) &_dplyr_cummean, 1},
