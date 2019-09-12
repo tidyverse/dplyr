@@ -1,6 +1,6 @@
 #include <Rcpp.h>
 
-#include <dplyr/symbols.h>
+#include "dplyr/symbols.h"
 
 namespace dplyr {
 
@@ -30,9 +30,9 @@ class ExpanderCollecter;
 
 struct ExpanderResult {
   ExpanderResult(int start_, int end_, int index_) :
-  start(start_),
-  end(end_),
-  index(index_)
+    start(start_),
+    end(end_),
+    index(index_)
   {}
 
   int start;
@@ -54,14 +54,14 @@ public:
 class ExpanderCollecter {
 public:
   ExpanderCollecter(int nvars_, int new_size_, const Rcpp::List& old_rows_) :
-  nvars(nvars_),
-  old_rows(old_rows_),
-  new_size(new_size_),
-  new_indices(nvars),
-  new_rows(new_size),
+    nvars(nvars_),
+    old_rows(old_rows_),
+    new_size(new_size_),
+    new_indices(nvars),
+    new_rows(new_size),
 
-  leaf_index(0),
-  vec_new_indices(nvars)
+    leaf_index(0),
+    vec_new_indices(nvars)
   {
     Rf_classgets(new_rows, dplyr::vectors::classes_vctrs_list_of);
     Rf_setAttrib(new_rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
@@ -148,11 +148,11 @@ inline int expanders_size(const std::vector<Expander*> expanders) {
 class FactorExpander : public Expander {
 public:
   FactorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start_, int end_) :
-  data(data_),
-  positions(positions_),
-  index(index_),
-  start(start_),
-  end(end_)
+    data(data_),
+    positions(positions_),
+    index(index_),
+    start(start_),
+    end(end_)
   {
     SEXP fac = data[depth_];
     SEXP levels = Rf_getAttrib(fac, dplyr::symbols::levels);
@@ -200,7 +200,7 @@ private:
 class VectorExpander : public Expander {
 public:
   VectorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start, int end) :
-  index(index_)
+    index(index_)
   {
     // edge case no data, we need a fake expander with NA index
     if (start == end) {
@@ -237,9 +237,9 @@ private:
 class LeafExpander : public Expander {
 public:
   LeafExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start_, int end_) :
-  index(index_),
-  start(start_),
-  end(end_)
+    index(index_),
+    start(start_),
+    end(end_)
   {}
 
   ~LeafExpander() {}
@@ -285,9 +285,9 @@ Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int n
   ExpanderCollecter results(nvars, exp->size(), old_rows);
   exp->collect(results, 0);
   Rcpp::List out = Rcpp::List::create(
-    results.get_new_indices(),
-    results.get_new_rows()
-  );
+                     results.get_new_indices(),
+                     results.get_new_rows()
+                   );
   delete exp;
 
   return out;
