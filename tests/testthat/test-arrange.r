@@ -164,13 +164,11 @@ test_that("arrange supports raw columns (#1803)", {
   expect_identical(arrange(df, desc(b)), df[3:1, ])
 })
 
-test_that("arrange fails gracefully on matrix input (#1870)", {
-  skip("until transmute() handles matrices")
+test_that("arrange does not fail on matrix input (#1870)", {
   df <- tibble(a = 1:3, b = 4:6)
-  expect_error(
+  expect_equal(
     arrange(df, is.na(df)),
-    "Argument 1 is of unsupported type matrix",
-    fixed = TRUE
+    df
   )
 })
 
