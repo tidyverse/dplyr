@@ -4,6 +4,10 @@
 
 * `group_by()` uses hashing from the `vctrs` package. 
 
+* `combine()` is soft deprecated.
+
+* `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
+
 # dplyr 0.8.4 (development version)
 
 * `group_map()` is now a generic (#4576).

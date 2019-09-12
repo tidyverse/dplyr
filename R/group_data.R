@@ -44,5 +44,5 @@ group_data.rowwise_df <- function(.data) {
 
 #' @export
 group_data.grouped_df <- function(.data) {
-  group_data_grouped_df(.data)
+  attr(validate_grouped_df(.data), "groups")
 }

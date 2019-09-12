@@ -13,29 +13,12 @@ plfloc <- function(data) {
     .Call(`_dplyr_plfloc`, data)
 }
 
-strings_addresses <- function(s) {
-    .Call(`_dplyr_strings_addresses`, s)
+expand_groups <- function(old_groups, positions, nr) {
+    .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }
 
-#' Enable internal logging
-#'
-#' Log entries, depending on the log level, will be printed to the standard
-#' error stream.
-#'
-#' @param log_level A character value, one of "WARN", "INFO", "DEBUG", "VERB",
-#'   or "NONE".
-#'
-#' @keywords internal
-init_logging <- function(log_level) {
-    invisible(.Call(`_dplyr_init_logging`, log_level))
-}
-
-is_maybe_shared <- function(env, name) {
-    .Call(`_dplyr_is_maybe_shared`, env, name)
-}
-
-maybe_shared_columns <- function(df) {
-    .Call(`_dplyr_maybe_shared_columns`, df)
+filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
+    .Call(`_dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }
 
 #' Do values in a numeric vector fall in specified range?
@@ -54,78 +37,6 @@ maybe_shared_columns <- function(df) {
 #' x[between(x, -1, 1)]
 between <- function(x, left, right) {
     .Call(`_dplyr_between`, x, left, right)
-}
-
-flatten_bindable <- function(x) {
-    .Call(`_dplyr_flatten_bindable`, x)
-}
-
-bind_rows_ <- function(dots, id) {
-    .Call(`_dplyr_bind_rows_`, dots, id)
-}
-
-cbind_all <- function(dots) {
-    .Call(`_dplyr_cbind_all`, dots)
-}
-
-combine_all <- function(data) {
-    .Call(`_dplyr_combine_all`, data)
-}
-
-expand_groups <- function(old_groups, positions, nr) {
-    .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
-}
-
-filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
-    .Call(`_dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
-}
-
-group_data_grouped_df <- function(data) {
-    .Call(`_dplyr_group_data_grouped_df`, data)
-}
-
-ungroup_grouped_df <- function(df) {
-    .Call(`_dplyr_ungroup_grouped_df`, df)
-}
-
-grouped_indices_grouped_df_impl <- function(gdf) {
-    .Call(`_dplyr_grouped_indices_grouped_df_impl`, gdf)
-}
-
-select_impl <- function(df, vars) {
-    .Call(`_dplyr_select_impl`, df, vars)
-}
-
-test_comparisons <- function() {
-    .Call(`_dplyr_test_comparisons`)
-}
-
-test_length_wrap <- function() {
-    .Call(`_dplyr_test_length_wrap`)
-}
-
-check_valid_names <- function(names, warn_only = FALSE) {
-    invisible(.Call(`_dplyr_check_valid_names`, names, warn_only))
-}
-
-assert_all_allow_list <- function(data) {
-    invisible(.Call(`_dplyr_assert_all_allow_list`, data))
-}
-
-is_data_pronoun <- function(expr) {
-    .Call(`_dplyr_is_data_pronoun`, expr)
-}
-
-is_variable_reference <- function(expr) {
-    .Call(`_dplyr_is_variable_reference`, expr)
-}
-
-quo_is_variable_reference <- function(quo) {
-    .Call(`_dplyr_quo_is_variable_reference`, quo)
-}
-
-quo_is_data_pronoun <- function(quo) {
-    .Call(`_dplyr_quo_is_data_pronoun`, quo)
 }
 
 #' Cumulativate versions of any, all, and mean

@@ -598,6 +598,25 @@ check_na_matches <- function(na_matches) {
   accept_na_match
 }
 
+check_valid_names <- function(names, warn_only = FALSE) {
+  which_na <- which(is.na(names))
+  alert <- if (warn_only) warn else abort
+
+  if (length(which_na)) {
+    alert(glue("Column `{cols}` cannot have NA as name",
+      cols = glue_collapse(which_na, sep = ", ")
+    ))
+  }
+
+  if (any(dup <- duplicated(names))){
+    alert(glue("Column `{cols}` must have a unique name",
+      cols = names[dup]
+    ))
+  }
+}
+
+
+
 #' @export
 #' @rdname join.tbl_df
 inner_join.tbl_df <- function(x, y, by = NULL, copy = FALSE,
