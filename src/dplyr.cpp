@@ -352,6 +352,7 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
   }
 
   Expander* exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
+
   SEXP new_indices = PROTECT(Rf_allocVector(VECSXP, nvars));
   SEXP new_rows = PROTECT(Rf_allocVector(VECSXP, exp->size()));
   ExpanderCollecter results(nvars, new_indices, exp->size(), new_rows, old_rows);
