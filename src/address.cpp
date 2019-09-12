@@ -1,6 +1,5 @@
 #include <Rcpp.h>
 
-#include <dplyr/rlang.h>
 #include <dplyr/symbols.h>
 
 namespace dplyr {

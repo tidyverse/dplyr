@@ -1,18 +1,6 @@
 #include <Rcpp.h>
 
-#include <dplyr/rlang.h>
 #include <dplyr/symbols.h>
-
-namespace dplyr {
-namespace internal {
-
-const rlang_api_ptrs_t& rlang_api() {
-  static rlang_api_ptrs_t ptrs;
-  return ptrs;
-}
-
-} // namespace internal
-} // namespace dplyr
 
 // [[Rcpp::export(rng = false)]]
 bool quo_is_variable_reference(SEXP quo) {
