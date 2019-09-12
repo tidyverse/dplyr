@@ -67,7 +67,6 @@ public:
     new_size(new_size_),
     new_indices(new_indices_),
     new_rows(new_rows_),
-
     leaf_index(0),
     vec_new_indices(nvars)
   {
@@ -289,7 +288,6 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
   SEXP out = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(out, 0, new_indices);
   SET_VECTOR_ELT(out, 1, new_rows);
-
   delete exp;
 
   UNPROTECT(3);
