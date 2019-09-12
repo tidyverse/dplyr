@@ -57,8 +57,6 @@ Suggests:
     purrr,
     readr
 LinkingTo: 
-    BH,
-    plogr (>= 0.2.0),
     Rcpp (>= 1.0.1)
 VignetteBuilder: knitr
 Encoding: UTF-8

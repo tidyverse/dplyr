@@ -859,7 +859,7 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
       Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
       Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
     )
-  expect_equal(res, expected)
+  expect_identical(res, expected)
 
   res <- iris %>%
     group_by(Species) %>%
@@ -873,7 +873,7 @@ test_that("rlang lambda inherit from the data mask (#3843)", {
       Petal.Length = ifelse(Species == "setosa" & Petal.Length < 1.5, NA, Petal.Length),
       Petal.Width  = ifelse(Species == "setosa" & Petal.Width  < 1.5, NA, Petal.Width)
     )
-  expect_equal(res, expected)
+  expect_identical(res, expected)
 })
 
 test_that("mutate() does not segfault when setting an unknown column to NULL (#4035)", {

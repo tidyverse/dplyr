@@ -153,6 +153,31 @@ group_by_prepare <- function(.data, ..., .dots = list(), add = FALSE) {
   )
 }
 
+quo_is_variable_reference <- function(quo) {
+  if (quo_is_symbol(quo)) {
+    return(TRUE)
+  }
+
+  if (quo_is_call(quo, n = 2)) {
+    expr <- quo_get_expr(quo)
+
+    if (node_cadr(expr) == sym(".data")) {
+      fun <- node_car(expr)
+      param <- node_cadr(node_cdr(expr))
+
+      if (fun == sym("$") && (is_symbol(param) || (is_string(param) && length(param) == 1L))) {
+        return(TRUE)
+      }
+
+      if (fun == sym("[[") && (is_string(param) && length(param) == 1L)) {
+        return(TRUE)
+      }
+    }
+  }
+
+  FALSE
+}
+
 add_computed_columns <- function(.data, vars) {
   is_symbol <- map_lgl(vars, quo_is_variable_reference)
   named <- have_name(vars)

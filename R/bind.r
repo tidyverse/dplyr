@@ -91,16 +91,14 @@ NULL
 #' @export
 #' @rdname bind
 bind_rows <- function(..., .id = NULL) {
-  x <- flatten_bindable(dots_values(...))
-
-  if (!length(x)) {
-    # Handle corner cases gracefully, but always return a tibble
-    if (inherits(x, "data.frame")) {
-      return(x)
-    } else {
-      return(tibble())
-    }
+  dots <- dots_values(...)
+  if (length(dots) == 1 && is.list(dots[[1]]) && !is.data.frame(dots[[1]])) {
+    dots <- dots[[1]]
   }
+  dots <- keep(
+    flatten_if(dots, function(.x) is.list(.x) && !is.data.frame(.x)),
+    function(.x) !is.null(.x)
+  )
 
   if (!is_null(.id)) {
     if (!(is_string(.id))) {
@@ -108,21 +106,71 @@ bind_rows <- function(..., .id = NULL) {
         "not {friendly_type_of(.id)} of length {length(.id)}"
       )
     }
-    if (!all(have_name(x) | map_lgl(x, is_empty))) {
-      x <- compact(x)
-      names(x) <- seq_along(x)
+    if (!all(have_name(dots) | map_lgl(dots, is_empty))) {
+      dots <- compact(dots)
+      names(dots) <- seq_along(dots)
     }
   }
 
-  bind_rows_(x, .id)
+  for (i in seq_along(dots)) {
+    .x <- dots[[i]]
+    if (!is.data.frame(.x) && !vec_is(.x)) {
+      abort(glue("Argument {i} must be a data frame or a named atomic vector"))
+    }
+
+    if (is.null(names(.x))) {
+      abort(glue("Argument {i} must have names"))
+    }
+  }
+
+  result <- vec_rbind(!!!dots, .names_to = .id)
+  if (length(dots) && is_tibble(first <- dots[[1L]])) {
+    if (is_grouped_df(first)) {
+      result <- grouped_df(result, group_vars(first), group_by_drop_default(first))
+    } else {
+      class(result) <- class(first)
+    }
+  }
+  result
 }
 
 #' @export
 #' @rdname bind
 bind_cols <- function(...) {
-  x <- flatten_bindable(dots_values(...))
-  out <- cbind_all(x)
-  tibble::repair_names(out)
+  dots <- dots_values(...)
+  not_null <- function(.x) !is.null(.x)
+  dots <- keep(dots, not_null)
+
+  # nothing to bind, return a dummy tibble
+  if (!length(dots)) {
+    return(tibble())
+  }
+
+  # Before things are squashed, we need
+  # some information about the "first" data frame
+  if (is.data.frame(dots[[1]]) || !is.list(dots[[1]])) {
+    first <- dots[[1]]
+  } else {
+    first <- dots[[1]][[1]]
+  }
+
+  dots <- keep(squash_if(dots, is.list), not_null)
+  if (!length(dots)) {
+    return(tibble())
+  }
+  dots <- tibble::repair_names(dots)
+
+  res <- vec_cbind(!!!dots)
+  if (length(dots)) {
+    if (is_grouped_df(first)) {
+      res <- grouped_df(res, group_vars(first), group_by_drop_default(first))
+    } else if(inherits(first, "rowwise_df")){
+      res <- rowwise(res)
+    } else if(is_tibble(first) || !is.data.frame(first)) {
+      res <- as_tibble(res)
+    }
+  }
+  res
 }
 
 #' Combine vectors
@@ -154,10 +202,20 @@ bind_cols <- function(...) {
 #' combine(f1, f2)
 #' combine(list(f1, f2))
 combine <- function(...) {
+  signal_soft_deprecated(paste_line(
+    "combine() is deprecated. ",
+    "Please use vctrs::vec_c() instead"
+  ))
+
   args <- list2(...)
   if (length(args) == 1 && is.list(args[[1]])) {
-    combine_all(args[[1]])
+    args <- args[[1]]
+  }
+  args <- keep(args, function(.x) !is.null(.x))
+  names(args) <- NULL
+  if (length(args) == 0) {
+    logical()
   } else {
-    combine_all(args)
+    vec_c(!!!args)
   }
 }

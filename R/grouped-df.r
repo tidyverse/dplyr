@@ -152,6 +152,12 @@ validate_grouped_df <- function(x) {
   assert_that(is_grouped_df(x))
 
   groups <- attr(x, "groups")
+
+  vars <- attr(x, "vars")
+  if (!is.null(vars) && is.null(groups)) {
+    abort("Corrupt grouped_df data using the old format", .subclass = "dplyr_grouped_df_corrupt")
+  }
+
   assert_that(
     is.data.frame(groups),
     ncol(groups) > 0,
@@ -241,14 +247,14 @@ as.data.frame.grouped_df <- function(x, row.names = NULL,
 
 #' @export
 as_tibble.grouped_df <- function(x, ...) {
-  x <- ungroup(x)
-  class(x) <- c("tbl_df", "tbl", "data.frame")
-  x
+  ungroup(x)
 }
 
 #' @export
 ungroup.grouped_df <- function(x, ...) {
-  ungroup_grouped_df(x)
+  attr(x, "groups") <- NULL
+  attr(x, "class") <- c("tbl_df", "tbl", "data.frame")
+  x
 }
 
 #' @importFrom tibble is_tibble
@@ -320,6 +326,45 @@ group_cols <- function(vars = peek_vars()) {
   vars <- ensure_group_vars(vars, .data, notify = notify)
   select_impl(.data, vars)
 }
+
+select_impl <- function(.data, vars) {
+  positions <- match(vars, names(.data))
+  if (any(test <- is.na(positions))) {
+    wrong <- which(test)[1L]
+    abort(
+      glue(
+        "invalid column index : {wrong} for variable: '{new}' = '{old}'",
+        new = names(vars)[wrong], vars[wrong]
+      ),
+      .subclass = "dplyr_select_wrong_selection"
+    )
+  }
+
+  out <- set_names(.data[, positions, drop = FALSE], names(vars))
+
+  if (is_grouped_df(.data)) {
+    # we might have to alter the names of the groups metadata
+    groups <- attr(.data, "groups")
+
+    # check grouped metadata
+    group_names <- names(groups)[seq_len(ncol(groups) - 1L)]
+    if (any(test <- ! group_names %in% vars)) {
+      abort(
+        glue("{col} not found in groups metadata. Probably a corrupt grouped_df object.", col = group_names[test[1L]]),
+        "dplyr_select_corrupt_grouped_df"
+      )
+    }
+
+    group_vars <- c(vars[vars %in% names(groups)], .rows = ".rows")
+    groups <- select_impl(groups, group_vars)
+
+    out <- new_grouped_df(out, groups)
+  }
+
+  out
+}
+
+
 
 #' @export
 select.grouped_df <- function(.data, ...) {

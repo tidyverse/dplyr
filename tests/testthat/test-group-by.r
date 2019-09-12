@@ -152,11 +152,7 @@ test_that("select(group_by(.)) implicitely adds grouping variables (#170)", {
 test_that("grouped_df errors on NULL labels (#398)", {
   m <- mtcars %>% group_by(cyl)
   attr(m, "groups") <- NULL
-  expect_error(
-    m %>% do(mpg = mean(.$mpg)),
-    "is a corrupt grouped_df",
-    fixed = TRUE
-  )
+  expect_error(m %>% do(mpg = mean(.$mpg)))
 })
 
 test_that("grouped_df errors on non-existent var (#2330)", {
@@ -322,11 +318,11 @@ test_that("group_by() does not affect input data (#3028)", {
 })
 
 test_that("group_by() does not mutate for nothing when using the .data pronoun (#2752, #3533)", {
-  expect_equal(
+  expect_identical(
     iris %>% group_by(Species) %>% group_by(.data$Species),
     iris %>% group_by(Species)
   )
-  expect_equal(
+  expect_identical(
     iris %>% group_by(Species) %>% group_by(.data[["Species"]]),
     iris %>% group_by(Species)
   )

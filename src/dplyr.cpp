@@ -1,13 +1,38 @@
 #include <Rcpp.h>
+
 #include <dplyr/symbols.h>
 
+namespace dplyr {
+
+SEXP get_classes_vctrs_list_of() {
+  static Rcpp::CharacterVector klasses(2);
+  klasses[0] = "vctrs_list_of";
+  klasses[1] = "vctrs_vctr";
+  return klasses;
+}
+
+SEXP get_empty_int_vector() {
+  SEXP x = Rf_allocVector(INTSXP, 0);
+  R_PreserveObject(x);
+  return x;
+}
+
+SEXP symbols::ptype = Rf_install("ptype");
+SEXP symbols::levels = Rf_install("levels");
+
+SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
+SEXP vectors::empty_int_vector = get_empty_int_vector();
+
+}
+
+// support for expand_groups()
 class ExpanderCollecter;
 
 struct ExpanderResult {
   ExpanderResult(int start_, int end_, int index_) :
-    start(start_),
-    end(end_),
-    index(index_)
+  start(start_),
+  end(end_),
+  index(index_)
   {}
 
   int start;
@@ -29,14 +54,14 @@ public:
 class ExpanderCollecter {
 public:
   ExpanderCollecter(int nvars_, int new_size_, const Rcpp::List& old_rows_) :
-    nvars(nvars_),
-    old_rows(old_rows_),
-    new_size(new_size_),
-    new_indices(nvars),
-    new_rows(new_size),
+  nvars(nvars_),
+  old_rows(old_rows_),
+  new_size(new_size_),
+  new_indices(nvars),
+  new_rows(new_size),
 
-    leaf_index(0),
-    vec_new_indices(nvars)
+  leaf_index(0),
+  vec_new_indices(nvars)
   {
     Rf_classgets(new_rows, dplyr::vectors::classes_vctrs_list_of);
     Rf_setAttrib(new_rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
@@ -123,11 +148,11 @@ inline int expanders_size(const std::vector<Expander*> expanders) {
 class FactorExpander : public Expander {
 public:
   FactorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start_, int end_) :
-    data(data_),
-    positions(positions_),
-    index(index_),
-    start(start_),
-    end(end_)
+  data(data_),
+  positions(positions_),
+  index(index_),
+  start(start_),
+  end(end_)
   {
     SEXP fac = data[depth_];
     SEXP levels = Rf_getAttrib(fac, dplyr::symbols::levels);
@@ -175,7 +200,7 @@ private:
 class VectorExpander : public Expander {
 public:
   VectorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start, int end) :
-    index(index_)
+  index(index_)
   {
     // edge case no data, we need a fake expander with NA index
     if (start == end) {
@@ -212,9 +237,9 @@ private:
 class LeafExpander : public Expander {
 public:
   LeafExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start_, int end_) :
-    index(index_),
-    start(start_),
-    end(end_)
+  index(index_),
+  start(start_),
+  end(end_)
   {}
 
   ~LeafExpander() {}
@@ -260,10 +285,46 @@ Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int n
   ExpanderCollecter results(nvars, exp->size(), old_rows);
   exp->collect(results, 0);
   Rcpp::List out = Rcpp::List::create(
-                     results.get_new_indices(),
-                     results.get_new_rows()
-                   );
+    results.get_new_indices(),
+    results.get_new_rows()
+  );
   delete exp;
 
   return out;
+}
+
+
+// [[Rcpp::export(rng = false)]]
+SEXP filter_update_rows(int n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes) {
+  R_xlen_t n_groups = XLENGTH(new_rows_sizes);
+
+  SEXP new_rows = PROTECT(Rf_allocVector(VECSXP, n_groups));
+  Rf_setAttrib(new_rows, R_ClassSymbol, dplyr::vectors::classes_vctrs_list_of);
+  Rf_setAttrib(new_rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
+
+  // allocate each new_rows element
+  int* p_new_rows_sizes = INTEGER(new_rows_sizes);
+  std::vector<int> tracks(n_groups);
+  std::vector<int*> p_new_rows(n_groups);
+  for (R_xlen_t i = 0; i < n_groups; i++) {
+    SEXP new_rows_i = Rf_allocVector(INTSXP, p_new_rows_sizes[i]);
+    SET_VECTOR_ELT(new_rows, i, new_rows_i);
+    p_new_rows[i] = INTEGER(new_rows_i);
+  }
+
+  // traverse group_indices and keep to fill new_rows
+  int* p_group_indices = INTEGER(group_indices);
+  int* p_keep = LOGICAL(keep);
+  int j = 1;
+  for (R_xlen_t i = 0; i < n_rows; i++) {
+    if (p_keep[i] == TRUE) {
+      int g = p_group_indices[i];
+      int track = tracks[g - 1]++;
+      p_new_rows[g - 1][track] = j++;
+    }
+  }
+
+  UNPROTECT(1);
+
+  return new_rows;
 }

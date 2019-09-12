@@ -53,48 +53,31 @@ test_that("GroupDataFrame checks the structure of the groups attribute", {
   groups <- attr(df, "groups")
   groups[[2]] <- 1:2
   attr(df, "groups") <- groups
-  expect_error(group_data(df), "is a corrupt grouped_df")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
 
   df <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
   groups <- attr(df, "groups")
   names(groups) <- c("g", "not.rows")
   attr(df, "groups") <- groups
-  expect_error(group_data(df), "is a corrupt grouped_df")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
 
   attr(df, "groups") <- tibble()
-  expect_error(group_data(df), "is a corrupt grouped_df")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
 
   attr(df, "groups") <- NA
-  expect_error(group_data(df), "is a corrupt grouped_df")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
 })
 
-test_that("GroupedDataFrame is compatible with older style grouped_df (#3604)", {
+test_that("older style grouped_df is no longer supported", {
   df <- tibble(x = 1:4, g = rep(1:2, each = 2))
   attr(df, "vars") <- "g"
   attr(df, "class") <- c("grouped_df", "tbl_df", "tbl", "data.frame")
-  expect_equal(expect_warning(group_rows(df)), list_of(1:2, 3:4))
+  expect_error(validate_grouped_df(df), class = "dplyr_grouped_df_corrupt")
 
   df <- structure(
     data.frame(x=1),
     class = c("grouped_df", "tbl_df", "tbl", "data.frame"),
     vars = list(sym("x"))
   )
-  g <- expect_warning(group_data(df))
-  expect_equal(g$x, 1)
-  expect_equal(g$.rows, list_of(1L))
-  expect_equal(attr(g, ".drop"), TRUE)
-  expect_null(attr(df, "vars"))
-})
-
-test_that("old group format repair does not keep a vars attribute around", {
-  tbl <- tibble(x = 1:10, y = 1:10)
-  attr(tbl, "vars") <- rlang::sym("x")
-  class(tbl) <- c("grouped_df", "tbl_df", "tbl", "data.frame")
-
-  expect_warning({
-    res <- tbl %>% group_by(y)
-  })
-  expect_equal(group_vars(res), "y")
-  expect_null(attr(res, " vars"))
-  expect_null(attr(tbl, " vars"))
+  expect_error(validate_grouped_df(df), class = "dplyr_grouped_df_corrupt")
 })
