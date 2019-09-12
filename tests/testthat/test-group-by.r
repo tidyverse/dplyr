@@ -527,3 +527,12 @@ test_that("group_by() puts NA groups last in STRSXP (#4227)", {
   expect_identical(res$x, c("apple", "banana", NA_character_))
   expect_identical(res$.rows, list(1L, 3L, 2L))
 })
+
+test_that("group_by() does not create arbitrary NA groups for factors when drop = TRUE (#4460)", {
+  res <- expect_warning(group_data(group_by(iris, Species)[0, ]), NA)
+  expect_equal(nrow(res), 0L)
+
+  res <- expect_warning(group_data(group_by(iris[0, ], Species)), NA)
+  expect_equal(nrow(res), 0L)
+})
+

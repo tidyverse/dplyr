@@ -191,12 +191,17 @@ public:
     f(data[depth]),
     nlevels(Rf_length(Rf_getAttrib(f, symbols::levels))),
 
+    levels(nlevels + 1),
     indices(nlevels + 1),
-    slicers(nlevels + 1),
+    slicers(),
     slicer_size(0),
     has_implicit_na(false),
     drop(drop_)
   {
+    for (int i = 0; i < nlevels; i++) {
+      levels[i] = i + 1;
+    }
+    levels[nlevels] = NA_INTEGER;
     train(index_range);
   }
 
@@ -214,7 +219,7 @@ public:
       groups_range.add(idx);
 
       // fill the groups at these indices
-      std::fill_n(INTEGER(x) + idx.start, idx.size, i + 1);
+      std::fill_n(INTEGER(x) + idx.start, idx.size, levels[i]);
     }
 
     if (has_implicit_na) {
@@ -244,12 +249,34 @@ private:
     }
     if (!has_implicit_na) {
       indices.pop_back();
-      slicers.pop_back();
+      levels.pop_back();
     }
     // ---- for each level, train child slicers
+
     int n = nlevels + has_implicit_na;
+
+    // ---- drop unused levels
+    if (drop) {
+      n = 0;
+      std::vector<int>::iterator levels_it = levels.begin();
+      std::vector< std::vector<int> >::iterator indices_it = indices.begin();
+
+      for (; levels_it != levels.end();) {
+        if (indices_it->size() == 0) {
+          indices_it = indices.erase(indices_it);
+          levels_it = levels.erase(levels_it);
+        } else {
+          ++n;
+          ++indices_it;
+          ++levels_it;
+        }
+      }
+      nlevels = n - has_implicit_na;
+    }
+
+    slicers.reserve(n);
     for (int i = 0; i < n; i++) {
-      slicers[i] = slicer(indices[i], depth + 1, data, visitors, drop);
+      slicers.push_back(slicer(indices[i], depth + 1, data, visitors, drop));
       slicer_size += slicers[i]->size();
     }
 
@@ -268,7 +295,6 @@ private:
       } else {
         indices[value - 1].push_back(idx);
       }
-
     }
   }
 
@@ -280,6 +306,7 @@ private:
   Factor f;
   int nlevels;
 
+  std::vector<int> levels;
   std::vector< std::vector<int> > indices;
   std::vector< boost::shared_ptr<Slicer> > slicers;
   int slicer_size;
@@ -421,7 +448,7 @@ boost::shared_ptr<Slicer> slicer(const std::vector<int>& index_range, int depth,
     return boost::shared_ptr<Slicer>(new LeafSlicer(index_range));
   } else {
     SEXP x = data[depth];
-    if (Rf_isFactor(x) && !drop) {
+    if (Rf_isFactor(x)) {
       return boost::shared_ptr<Slicer>(new FactorSlicer(depth, index_range, data, visitors, drop));
     } else {
       return boost::shared_ptr<Slicer>(new VectorSlicer(depth, index_range, data, visitors, drop));

@@ -1,5 +1,11 @@
 # dplyr (development version)
 
+* Better performance for extracting slices of factors and ordered factors (#4501).
+
+* `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
+
+* `rbind_all()` and `rbind_list()` have been removed (@bjungbogati, #4433).
+
 * `dr_dplyr()` has been removed as it is no longer needed (#4433, @smwindecker).
 
 * `rename_at()` and `rename_all()` call the function with a simple character vector, not a `dplyr_sel_vars` (#4459). 
