@@ -5,36 +5,6 @@
 
 using namespace Rcpp;
 
-// loc
-Rcpp::CharacterVector loc(SEXP data);
-RcppExport SEXP _dplyr_loc(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< SEXP >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(loc(data));
-    return rcpp_result_gen;
-END_RCPP
-}
-// dfloc
-Rcpp::CharacterVector dfloc(Rcpp::List df);
-RcppExport SEXP _dplyr_dfloc(SEXP dfSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::List >::type df(dfSEXP);
-    rcpp_result_gen = Rcpp::wrap(dfloc(df));
-    return rcpp_result_gen;
-END_RCPP
-}
-// plfloc
-Rcpp::CharacterVector plfloc(Rcpp::Pairlist data);
-RcppExport SEXP _dplyr_plfloc(SEXP dataSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::Pairlist >::type data(dataSEXP);
-    rcpp_result_gen = Rcpp::wrap(plfloc(data));
-    return rcpp_result_gen;
-END_RCPP
-}
 // expand_groups
 Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr);
 RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP, SEXP nrSEXP) {
@@ -104,9 +74,6 @@ END_RCPP
 }
 
 static const R_CallMethodDef CallEntries[] = {
-    {"_dplyr_loc", (DL_FUNC) &_dplyr_loc, 1},
-    {"_dplyr_dfloc", (DL_FUNC) &_dplyr_dfloc, 1},
-    {"_dplyr_plfloc", (DL_FUNC) &_dplyr_plfloc, 1},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
     {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
