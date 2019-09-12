@@ -35,18 +35,6 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
-// between
-Rcpp::LogicalVector between(Rcpp::NumericVector x, double left, double right);
-RcppExport SEXP _dplyr_between(SEXP xSEXP, SEXP leftSEXP, SEXP rightSEXP) {
-BEGIN_RCPP
-    Rcpp::RObject rcpp_result_gen;
-    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
-    Rcpp::traits::input_parameter< double >::type left(leftSEXP);
-    Rcpp::traits::input_parameter< double >::type right(rightSEXP);
-    rcpp_result_gen = Rcpp::wrap(between(x, left, right));
-    return rcpp_result_gen;
-END_RCPP
-}
 // expand_groups
 Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr);
 RcppExport SEXP _dplyr_expand_groups(SEXP old_groupsSEXP, SEXP positionsSEXP, SEXP nrSEXP) {
@@ -69,6 +57,18 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< SEXP >::type keep(keepSEXP);
     Rcpp::traits::input_parameter< SEXP >::type new_rows_sizes(new_rows_sizesSEXP);
     rcpp_result_gen = Rcpp::wrap(filter_update_rows(n_rows, group_indices, keep, new_rows_sizes));
+    return rcpp_result_gen;
+END_RCPP
+}
+// between
+Rcpp::LogicalVector between(Rcpp::NumericVector x, double left, double right);
+RcppExport SEXP _dplyr_between(SEXP xSEXP, SEXP leftSEXP, SEXP rightSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::traits::input_parameter< Rcpp::NumericVector >::type x(xSEXP);
+    Rcpp::traits::input_parameter< double >::type left(leftSEXP);
+    Rcpp::traits::input_parameter< double >::type right(rightSEXP);
+    rcpp_result_gen = Rcpp::wrap(between(x, left, right));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -107,9 +107,9 @@ static const R_CallMethodDef CallEntries[] = {
     {"_dplyr_loc", (DL_FUNC) &_dplyr_loc, 1},
     {"_dplyr_dfloc", (DL_FUNC) &_dplyr_dfloc, 1},
     {"_dplyr_plfloc", (DL_FUNC) &_dplyr_plfloc, 1},
-    {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_expand_groups", (DL_FUNC) &_dplyr_expand_groups, 3},
     {"_dplyr_filter_update_rows", (DL_FUNC) &_dplyr_filter_update_rows, 4},
+    {"_dplyr_between", (DL_FUNC) &_dplyr_between, 3},
     {"_dplyr_cumall", (DL_FUNC) &_dplyr_cumall, 1},
     {"_dplyr_cumany", (DL_FUNC) &_dplyr_cumany, 1},
     {"_dplyr_cummean", (DL_FUNC) &_dplyr_cummean, 1},
