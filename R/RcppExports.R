@@ -13,29 +13,12 @@ plfloc <- function(data) {
     .Call(`_dplyr_plfloc`, data)
 }
 
-strings_addresses <- function(s) {
-    .Call(`_dplyr_strings_addresses`, s)
+expand_groups <- function(old_groups, positions, nr) {
+    .Call(`_dplyr_expand_groups`, old_groups, positions, nr)
 }
 
-#' Enable internal logging
-#'
-#' Log entries, depending on the log level, will be printed to the standard
-#' error stream.
-#'
-#' @param log_level A character value, one of "WARN", "INFO", "DEBUG", "VERB",
-#'   or "NONE".
-#'
-#' @keywords internal
-init_logging <- function(log_level) {
-    invisible(.Call(`_dplyr_init_logging`, log_level))
-}
-
-is_maybe_shared <- function(env, name) {
-    .Call(`_dplyr_is_maybe_shared`, env, name)
-}
-
-maybe_shared_columns <- function(df) {
-    .Call(`_dplyr_maybe_shared_columns`, df)
+filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
+    .Call(`_dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
 }
 
 arrange_impl <- function(df, quosures, frame) {
