@@ -53,8 +53,8 @@ test_that("cbind uses shallow copies", {
   )
   df <- bind_cols(df1, df2)
 
-  expect_equal(dfloc(df1), dfloc(df)[names(df1)])
-  expect_equal(dfloc(df2), dfloc(df)[names(df2)])
+  expect_equal(lobstr::obj_addrs(df1), lobstr::obj_addrs(df)[names(df1)])
+  expect_equal(lobstr::obj_addrs(df2), lobstr::obj_addrs(df)[names(df2)])
 })
 
 test_that("bind_cols handles lists (#1104)", {
