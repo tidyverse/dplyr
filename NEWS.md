@@ -6,6 +6,8 @@
 
 * `combine()` is soft deprecated.
 
+* `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
+
 # dplyr 0.8.4 (development version)
 
 * Better performance for extracting slices of factors and ordered factors (#4501).
