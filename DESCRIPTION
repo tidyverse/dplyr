@@ -65,5 +65,5 @@ LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
 RoxygenNote: 6.1.1
 Remotes:
-    tidyverse/tibble@8c9ef2498f50687c6ed343d192d24d8f2d89b5f0,
+    tidyverse/tibble,
     r-lib/vctrs
