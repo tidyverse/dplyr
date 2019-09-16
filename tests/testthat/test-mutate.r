@@ -474,7 +474,8 @@ test_that("row_number handles empty data frames (#762)", {
 
 test_that("hybrid rank functions handle NA (#4427)", {
   df <- tibble(a = runif(1000, -1, 1), b = runif(1000, -1, 1))
-  df[df < 0] <- NA
+  df$a[df$a < 0] <- NA
+  df$b[df$b < 0] <- NA
   df <- df %>%
     mutate(
       gain = b - a,
