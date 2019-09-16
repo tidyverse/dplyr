@@ -316,7 +316,7 @@ mutate.tbl_df <- function(.data, ...) {
     })
 
     if (all(map_lgl(chunks, is.null))) {
-      if (!is.null(dots_names) && dots_names[i] != "") {
+      if (!is.null(dots_names) && dots_names[i] != "" && dots_names[[i]] %in% c(names(.data), names(new_columns))) {
         new_columns[[dots_names[i]]] <- zap()
         mask$remove(dots_names[i])
       }
