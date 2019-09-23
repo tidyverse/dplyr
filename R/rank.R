@@ -62,7 +62,7 @@ row_number <- function(x, ties = "first") {
 #' @param n number of groups to split up into.
 #' @param ties a character string specifying how ties are treated, one of
 #' "average", "first", "last", "random", "max", "min". For details, see
-#' base::rank.
+#' [base::rank()].
 #' @export
 #' @rdname ranking
 ntile <- function(x = row_number(), n, ties = 'first') {
