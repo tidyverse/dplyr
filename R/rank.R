@@ -28,7 +28,7 @@
 #'   with Inf or -Inf before ranking.
 #' @param ties a character string specifying how ties are treated, one of
 #' "average", "first", "last", "random", "max", "min". For details, see
-#' base::rank.
+#' [base::rank()].
 #' @examples
 #' x <- c(5, 1, 3, 2, 2, NA)
 #' row_number(x)
