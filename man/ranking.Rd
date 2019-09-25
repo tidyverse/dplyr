@@ -10,9 +10,9 @@
 \alias{cume_dist}
 \title{Windowed rank functions.}
 \usage{
-row_number(x, ties = "first")
+row_number(x)
 
-ntile(x = row_number(), n, ties = "first")
+ntile(x = row_number(), n)
 
 min_rank(x)
 
@@ -27,15 +27,7 @@ cume_dist(x)
 If you want to treat them as the smallest or largest values, replace
 with Inf or -Inf before ranking.}
 
-\item{ties}{a character string specifying how ties are treated, one of
-"average", "first", "last", "random", "max", "min". For details, see
-\code{\link[base:rank]{base::rank()}}.}
-
 \item{n}{number of groups to split up into.}
-
-\item{ties}{a character string specifying how ties are treated, one of
-"average", "first", "last", "random", "max", "min". For details, see
-\code{\link[base:rank]{base::rank()}}.}
 }
 \description{
 Six variations on ranking functions, mimicking the ranking functions
