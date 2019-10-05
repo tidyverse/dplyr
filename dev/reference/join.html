@@ -298,7 +298,7 @@ matching values in <code>y</code>, keeping just columns from <code>x</code>.</p>
 list column of tibbles. Each tibble contains all the rows from <code>y</code>
 that match that row of <code>x</code>. When there is no match, the list column is
 a 0-row tibble with the same column names and types as <code>y</code>.<code>nest_join()</code> is the most fundamental join since you can recreate the other joins from it.
-An <code>inner_join()</code> is a <code>nest_join()</code> plus an <code><a href='https://tidyr.tidyverse.org/reference/unnest.html'>tidyr::unnest()</a></code>, and <code>left_join()</code> is a
+An <code>inner_join()</code> is a <code>nest_join()</code> plus an <code><a href='https://tidyr.tidyverse.org/reference/nest.html'>tidyr::unnest()</a></code>, and <code>left_join()</code> is a
 <code>nest_join()</code> plus an <code>unnest(.drop = FALSE)</code>.
 A <code>semi_join()</code> is a <code>nest_join()</code> plus a <code><a href='filter.html'>filter()</a></code> where you check that every element of data has
 at least one row, and an <code>anti_join()</code> is a <code>nest_join()</code> plus a <code><a href='filter.html'>filter()</a></code> where you check every element has zero rows.</p></dd>

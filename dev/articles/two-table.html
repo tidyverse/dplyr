@@ -183,7 +183,7 @@
 <a class="sourceLine" id="cb2-2" data-line-number="2"><span class="co">#&gt; Joining, by = c("year", "month", "day", "hour", "origin")</span></a>
 <a class="sourceLine" id="cb2-3" data-line-number="3"><span class="co">#&gt; # A tibble: 336,776 x 18</span></a>
 <a class="sourceLine" id="cb2-4" data-line-number="4"><span class="co">#&gt;    year month   day  hour origin dest  tailnum carrier  temp  dewp humid</span></a>
-<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"><span class="co">#&gt;   &lt;int&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;</span></a>
 <a class="sourceLine" id="cb2-6" data-line-number="6"><span class="co">#&gt; 1  2013     1     1     5 EWR    IAH   N14228  UA       39.0  28.0  64.4</span></a>
 <a class="sourceLine" id="cb2-7" data-line-number="7"><span class="co">#&gt; 2  2013     1     1     5 LGA    IAH   N24211  UA       39.9  25.0  54.8</span></a>
 <a class="sourceLine" id="cb2-8" data-line-number="8"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA       39.0  27.0  61.6</span></a>
@@ -220,7 +220,7 @@
 <a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      Miam…  25.8 -80.3</span></a>
 <a class="sourceLine" id="cb4-8" data-line-number="8"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      &lt;NA&gt;   NA    NA  </span></a>
 <a class="sourceLine" id="cb4-9" data-line-number="9"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      Hart…  33.6 -84.4</span></a>
-<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; # … with 3.368e+05 more rows, and 4 more variables: alt &lt;int&gt;, tz &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10"><span class="co">#&gt; # … with 3.368e+05 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb4-11" data-line-number="11"><span class="co">#&gt; #   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></a>
 <a class="sourceLine" id="cb4-12" data-line-number="12">flights2 <span class="op">%&gt;%</span><span class="st"> </span><span class="kw"><a href="../reference/join.html">left_join</a></span>(airports, <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"origin"</span> =<span class="st"> "faa"</span>))</a>
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="co">#&gt; # A tibble: 336,776 x 15</span></a>
@@ -231,7 +231,7 @@
 <a class="sourceLine" id="cb4-18" data-line-number="18"><span class="co">#&gt; 3  2013     1     1     5 JFK    MIA   N619AA  AA      John…  40.6 -73.8</span></a>
 <a class="sourceLine" id="cb4-19" data-line-number="19"><span class="co">#&gt; 4  2013     1     1     5 JFK    BQN   N804JB  B6      John…  40.6 -73.8</span></a>
 <a class="sourceLine" id="cb4-20" data-line-number="20"><span class="co">#&gt; 5  2013     1     1     6 LGA    ATL   N668DN  DL      La G…  40.8 -73.9</span></a>
-<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; # … with 3.368e+05 more rows, and 4 more variables: alt &lt;int&gt;, tz &lt;dbl&gt;,</span></a>
+<a class="sourceLine" id="cb4-21" data-line-number="21"><span class="co">#&gt; # … with 3.368e+05 more rows, and 4 more variables: alt &lt;dbl&gt;, tz &lt;dbl&gt;,</span></a>
 <a class="sourceLine" id="cb4-22" data-line-number="22"><span class="co">#&gt; #   dst &lt;chr&gt;, tzone &lt;chr&gt;</span></a></code></pre></div>
 </li>
 </ul>

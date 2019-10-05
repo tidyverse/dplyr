@@ -332,7 +332,7 @@
 <li><p><code><a href="https://rdrr.io/pkg/tidyselect/man/select_helpers.html">last_col()</a></code> is re-exported from tidyselect (<a href='https://github.com/tidyverse/dplyr/issues/3584'>#3584</a>).</p></li>
 <li><p><code><a href="../reference/group_trim.html">group_trim()</a></code> drops unused levels of factors that are used as grouping variables.</p></li>
 <li>
-<p><code><a href="../reference/join.html">nest_join()</a></code> creates a list column of the matching rows. <code><a href="../reference/join.html">nest_join()</a></code> + <code><a href="https://tidyr.tidyverse.org/reference/unnest.html">tidyr::unnest()</a></code> is equivalent to <code>inner_join</code> (<a href='https://github.com/tidyverse/dplyr/issues/3570'>#3570</a>).</p>
+<p><code><a href="../reference/join.html">nest_join()</a></code> creates a list column of the matching rows. <code><a href="../reference/join.html">nest_join()</a></code> + <code><a href="https://tidyr.tidyverse.org/reference/nest.html">tidyr::unnest()</a></code> is equivalent to <code>inner_join</code> (<a href='https://github.com/tidyverse/dplyr/issues/3570'>#3570</a>).</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1">band_members <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../reference/join.html">nest_join</a></span>(band_instruments)</a></code></pre></div>
 </li>
