@@ -48,7 +48,7 @@ for database backends, see \code{\link[=join.tbl_df]{join.tbl_df()}}).}
 \seealso{
 Useful links:
 \itemize{
-  \item \url{http://dplyr.tidyverse.org}
+  \item \url{https://dplyr.tidyverse.org}
   \item \url{https://github.com/tidyverse/dplyr}
   \item Report bugs at \url{https://github.com/tidyverse/dplyr/issues}
 }
