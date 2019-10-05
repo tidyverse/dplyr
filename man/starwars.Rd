@@ -12,7 +12,7 @@
 \item{hair_color,skin_color,eye_color}{Hair, skin, and eye colors}
 \item{birth_year}{Year born (BBY = Before Battle of Yavin)}
 \item{sex}{The biological sex of the character, namely male, female, hermaphroditic, or none (as in the case for Droids).}
-\item{gender}{The gender role or gender indentity of the character as determined by their personality or the way they were progammed (as in the case for Droids).}
+\item{gender}{The gender role or gender identity of the character as determined by their personality or the way they were progammed (as in the case for Droids).}
 \item{homeworld}{Name of homeworld}
 \item{species}{Name of species}
 \item{films}{List of films the character appeared in}
