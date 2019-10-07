@@ -118,6 +118,11 @@ as_group_map_function <- function(.f) {
 #'
 #' @export
 group_map <- function(.data, .f, ..., keep = FALSE) {
+  UseMethod("group_map")
+}
+
+#' @export
+group_map.data.frame <- function(.data, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group

@@ -1,5 +1,7 @@
 # dplyr (development version)
 
+* `group_map()` is now a generic (#4576).
+
 * The first argument of `group_map()`, `group_modify()` and `group_walk()`
   has been changed to `.data` for consistency with other generics.
 
