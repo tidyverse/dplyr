@@ -35,7 +35,7 @@ as_group_map_function <- function(.f) {
 #'
 #' @family grouping functions
 #'
-#' @param .tbl A grouped tibble
+#' @param .data A grouped tibble
 #' @param .f A function or formula to apply to each group. It must return a data frame.
 #'
 #'   If a __function__, it is used as is. It should have at least 2 formal arguments.
@@ -117,12 +117,12 @@ as_group_map_function <- function(.f) {
 #'   group_modify(~ head(.x, 2L))
 #'
 #' @export
-group_map <- function(.tbl, .f, ..., keep = FALSE) {
+group_map <- function(.data, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
 
   # call the function on each group
-  chunks <- group_split(.tbl, keep = isTRUE(keep))
-  keys  <- group_keys(.tbl)
+  chunks <- group_split(.data, keep = isTRUE(keep))
+  keys  <- group_keys(.data)
   group_keys <- map(seq_len(nrow(keys)), function(i) keys[i, , drop = FALSE])
 
   if (length(chunks)) {
@@ -135,19 +135,19 @@ group_map <- function(.tbl, .f, ..., keep = FALSE) {
 
 #' @rdname group_map
 #' @export
-group_modify <- function(.tbl, .f, ..., keep = FALSE) {
+group_modify <- function(.data, .f, ..., keep = FALSE) {
   UseMethod("group_modify")
 }
 
 #' @export
-group_modify.data.frame <- function(.tbl, .f, ..., keep = FALSE) {
+group_modify.data.frame <- function(.data, .f, ..., keep = FALSE) {
   .f <- as_group_map_function(.f)
-  .f(.tbl, group_keys(.tbl), ...)
+  .f(.data, group_keys(.data), ...)
 }
 
 #' @export
-group_modify.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
-  tbl_group_vars <- group_vars(.tbl)
+group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
+  tbl_group_vars <- group_vars(.data)
 
   .f <- as_group_map_function(.f)
   fun <- function(.x, .y){
@@ -163,18 +163,18 @@ group_modify.grouped_df <- function(.tbl, .f, ..., keep = FALSE) {
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
-  chunks <- group_map(.tbl, fun, ..., keep = keep)
+  chunks <- group_map(.data, fun, ..., keep = keep)
   res <- if (length(chunks) > 0L) {
     bind_rows(!!!chunks)
   } else {
     attr(chunks, "ptype")
   }
-  group_by(res, !!!groups(.tbl), .drop = group_by_drop_default(.tbl))
+  group_by(res, !!!groups(.data), .drop = group_by_drop_default(.data))
 }
 
 #' @export
 #' @rdname group_map
-group_walk <- function(.tbl, .f, ...) {
-  group_map(.tbl, .f, ...)
-  invisible(.tbl)
+group_walk <- function(.data, .f, ...) {
+  group_map(.data, .f, ...)
+  invisible(.data)
 }

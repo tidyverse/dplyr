@@ -1,5 +1,8 @@
 # dplyr (development version)
 
+* The first argument of `group_map()`, `group_modify()` and `group_walk()`
+  has been changed to `.data` for consistency with other generics.
+
 * Better performance for extracting slices of factors and ordered factors (#4501).
 
 * `group_by()` does not create an arbitrary NA group when grouping by factors with `drop = TRUE` (#4460).
