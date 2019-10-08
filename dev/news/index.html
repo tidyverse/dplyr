@@ -182,6 +182,8 @@
 <a href="#dplyr-development-version" class="anchor"></a>dplyr (development version)<small> Unreleased </small>
 </h1>
 <ul>
+<li><p><code><a href="../reference/group_map.html">group_map()</a></code> is now a generic (<a href='https://github.com/tidyverse/dplyr/issues/4576'>#4576</a>).</p></li>
+<li><p>The first argument of <code><a href="../reference/group_map.html">group_map()</a></code>, <code><a href="../reference/group_map.html">group_modify()</a></code> and <code><a href="../reference/group_map.html">group_walk()</a></code> has been changed to <code>.data</code> for consistency with other generics.</p></li>
 <li><p>Better performance for extracting slices of factors and ordered factors (<a href='https://github.com/tidyverse/dplyr/issues/4501'>#4501</a>).</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> does not create an arbitrary NA group when grouping by factors with <code>drop = TRUE</code> (<a href='https://github.com/tidyverse/dplyr/issues/4460'>#4460</a>).</p></li>
 <li><p><code>rbind_all()</code> and <code>rbind_list()</code> have been removed (<a href='https://github.com/bjungbogati'>@bjungbogati</a>, <a href='https://github.com/tidyverse/dplyr/issues/4433'>#4433</a>).</p></li>
