@@ -6,14 +6,14 @@
 \alias{group_walk}
 \title{Apply a function to each group}
 \usage{
-group_map(.tbl, .f, ..., keep = FALSE)
+group_map(.data, .f, ..., keep = FALSE)
 
-group_modify(.tbl, .f, ..., keep = FALSE)
+group_modify(.data, .f, ..., keep = FALSE)
 
-group_walk(.tbl, .f, ...)
+group_walk(.data, .f, ...)
 }
 \arguments{
-\item{.tbl}{A grouped tibble}
+\item{.data}{A grouped tibble}
 
 \item{.f}{A function or formula to apply to each group. It must return a data frame.
 
