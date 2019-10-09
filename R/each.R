@@ -35,3 +35,17 @@ colwise <- function(fun, .name = "{var}") {
     tibble(!!!out)
   }
 }
+
+#' @export
+pick <- function(...) {
+  vars_select(peek_vars(), ...)
+}
+
+#' @export
+mapping <- function(vars, fun, ..., .name = "{var}") {
+  fun <- as_function(fun)
+  names(vars) <- glue::glue(.name, var = names(vars), idx = seq_along(vars))
+
+  quo <- quo(tibble(!!!map(vars, function(.x) expr((!!fun)(!!sym(.x), ...)))))
+  peek_mask()$internal_eval(quo)
+}
