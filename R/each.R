@@ -35,4 +35,3 @@ colwise <- function(fun, .name = "{var}") {
     tibble(!!!out)
   }
 }
-
