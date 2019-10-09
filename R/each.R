@@ -49,3 +49,16 @@ mapping <- function(vars, fun, ..., .name = "{var}") {
   quo <- quo(tibble(!!!map(vars, function(.x) expr((!!fun)(!!sym(.x), ...)))))
   peek_mask()$internal_eval(quo)
 }
+
+#' @export
+colwise <- function(fun, .name = "{var}") {
+  fun <- as_function(fun)
+  function(...) {
+    vars <- pick(...)
+    names(vars) <- glue::glue(.name, var = names(vars), idx = seq_along(vars))
+
+    quo <- quo(tibble(!!!map(vars, function(.x) expr((!!fun)(!!sym(.x))))))
+    peek_mask()$internal_eval(quo)
+  }
+}
+
