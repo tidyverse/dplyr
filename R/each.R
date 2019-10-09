@@ -37,12 +37,8 @@ colwise <- function(fun, .name = "{var}") {
 }
 
 #' @export
-mapping <- function(vars, fun, ..., .name = "{var}") {
-  fun <- as_function(fun)
-  names(vars) <- glue::glue(.name, var = names(vars), idx = seq_along(vars))
-
-  quo <- quo(tibble(!!!map(vars, function(.x) expr((!!fun)(!!sym(.x), ...)))))
-  peek_mask()$internal_eval(quo)
+mapping <- function(df, fun, ..., .name = "{var}") {
+  colwise(fun, .name)(df, ...)
 }
 
 #' @export
