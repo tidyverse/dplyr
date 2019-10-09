@@ -6,5 +6,6 @@ each <- function(fun, ..., .name = "{var}") {
   fun <- as_function(fun)
   names(vars) <- glue::glue(.name, var = names(vars), idx = seq_along(vars))
 
-  map(vars, function(.x) expr((!!fun)(!!sym(.x))))
+  quo <- quo(tibble(!!!map(vars, function(.x) expr((!!fun)(!!sym(.x))))))
+  peek_mask()$internal_eval(quo)
 }
