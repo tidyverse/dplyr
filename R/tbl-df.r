@@ -473,6 +473,10 @@ DataMask <- R6Class("DataMask",
     restore = function() {
       context_env[["..group_size"]] <- private$old_group_size
       context_env[["..group_number"]] <- private$old_group_number
+    },
+
+    pick = function(vars) {
+      eval_tidy(quo(tibble(!!!syms(vars))), private$mask)
     }
 
   ),
