@@ -26,7 +26,7 @@ pick <- function(...) {
 
 #' @export
 colwise <- function(fun, .name = "{var}") {
-  force(fun)
+  fun <- as_function(fun)
   force(.name)
 
   function(df, ...) {
