@@ -609,3 +609,10 @@ test_that("bind_rows handles typed lists (#3924)", {
   lst <- structure(list(df, df, df), class = "special_lst")
   expect_equal(bind_rows(lst), bind_rows(df,df,df))
 })
+
+test_that("bind_rows() handles named list", {
+  expect_equivalent(bind_rows(map(mtcars, mean)), summarise_all(mtcars, mean))
+  expect_equivalent(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean))
+})
+
+
