@@ -6,6 +6,14 @@ each <- function(fun, ..., .name = "{var}") {
 }
 
 #' @export
+at <- function(select, fun, .name = "{var}") {
+  colwise(fun, .name)(pick({{select}}))
+}
+
+#' @export
+over <- at
+
+#' @export
 mapping <- function(df, fun, ..., .name = "{var}") {
   colwise(fun, .name)(df, ...)
 }
@@ -22,7 +30,6 @@ colwise <- function(fun, .name = "{var}") {
   force(.name)
 
   function(df, ...) {
-    browser()
     out <- map(df, fun, ...)
     names(out) <- glue::glue(.name, var = names(out), idx = seq_len(ncol(df)))
     tibble(!!!out)
