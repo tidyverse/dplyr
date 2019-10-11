@@ -112,6 +112,13 @@ bind_rows <- function(..., .id = NULL) {
     }
   }
 
+  dataframe_ish <- function(.x) {
+    is.data.frame(.x) || (vec_is(.x) && !is.null(names(.x)))
+  }
+  if (!is.null(names(dots)) && !all(map_lgl(dots, dataframe_ish))) {
+    dots <- list(as_tibble(dots))
+  }
+
   for (i in seq_along(dots)) {
     .x <- dots[[i]]
     if (!is.data.frame(.x) && !vec_is(.x)) {
