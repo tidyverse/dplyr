@@ -7,7 +7,7 @@ namespace dplyr {
 namespace hybrid {
 
 inline SEXP echo(SEXP x, const Summary&) {
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 inline SEXP echo(SEXP x, const Window&) {
   return x;

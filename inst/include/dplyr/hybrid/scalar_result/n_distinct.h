@@ -66,19 +66,19 @@ SEXP n_distinct_dispatch(const SlicedTibble& tbl, const Expression& expression, 
         narm = test;
       } else {
         // otherwise, we need R to evaluate it, so we give up
-        return R_UnboundValue;
+        return dplyr::vectors::unbound_sentinel;
       }
     } else if (expression.is_column(i, column) && column.is_trivial()) {
       columns.push_back(shelter(column.data));
     } else {
       // give up, R will handle the call
-      return R_UnboundValue;
+      return dplyr::vectors::unbound_sentinel;
     }
   }
 
   // let R handle the call
   if (!columns.size()) {
-    return R_UnboundValue;
+    return dplyr::vectors::unbound_sentinel;
   }
 
   Rcpp::Shield<SEXP> s_columns(Rcpp::wrap(columns));

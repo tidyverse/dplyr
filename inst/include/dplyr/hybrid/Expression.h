@@ -58,7 +58,7 @@ struct FindFunData {
     while (rho != R_EmptyEnv) {
       SEXP vl = Rf_findVarInFrame3(rho, symbol, TRUE);
 
-      if (vl != R_UnboundValue) {
+      if (vl != dplyr::vectors::unbound_sentinel) {
         // a promise, we need to evaluate it to find out if it
         // is a function promise
         if (TYPEOF(vl) == PROMSXP) {
@@ -211,7 +211,7 @@ public:
 
       // keep trying if this the symbol is a binding in the .env
       val = Rf_findVarInFrame3(env, val, FALSE);
-      if (val == R_UnboundValue) {
+      if (val == dplyr::vectors::unbound_sentinel) {
         return false;
       }
     }

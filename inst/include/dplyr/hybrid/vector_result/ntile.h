@@ -111,7 +111,7 @@ inline SEXP ntile_2(const SlicedTibble& data, Column& column, int n, const Opera
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>
@@ -133,7 +133,7 @@ SEXP ntile_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& ex
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 }

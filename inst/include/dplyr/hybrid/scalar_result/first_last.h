@@ -113,7 +113,7 @@ SEXP nth2_(const SlicedTibble& data, Column x, int pos, const Operation& op) {
     }
   }
 
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 // first( <column> )
@@ -132,7 +132,7 @@ SEXP last1_(const SlicedTibble& data, Column x, const Operation& op) {
 // nth( <column>, n = <int|double> )
 template <typename SlicedTibble, typename Operation>
 SEXP nth3_default(const SlicedTibble& data, Column x, int pos, SEXP def, const Operation& op) {
-  if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return R_UnboundValue;
+  if (TYPEOF(x.data) != TYPEOF(def) || Rf_length(def) != 1) return dplyr::vectors::unbound_sentinel;
 
   switch (TYPEOF(x.data)) {
   case LGLSXP:
@@ -153,7 +153,7 @@ SEXP nth3_default(const SlicedTibble& data, Column x, int pos, SEXP def, const O
     break;
   }
 
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 // first( <column>, default = <scalar> )
@@ -186,7 +186,7 @@ SEXP first_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& ex
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>
@@ -208,7 +208,7 @@ SEXP last_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& exp
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>
@@ -231,7 +231,7 @@ inline SEXP nth_dispatch(const SlicedTibble& data, const Expression<SlicedTibble
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 }

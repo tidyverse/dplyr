@@ -25,7 +25,7 @@ inline Count<SlicedTibble> n_(const SlicedTibble& data) {
 
 template <typename SlicedTibble, typename Expression, typename Operation>
 inline SEXP n_dispatch(const SlicedTibble& data, const Expression& expression, const Operation& op) {
-  return expression.size() == 0 ? op(n_(data)) : R_UnboundValue;
+  return expression.size() == 0 ? op(n_(data)) : dplyr::vectors::unbound_sentinel;
 }
 
 

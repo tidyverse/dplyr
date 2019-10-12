@@ -36,7 +36,6 @@ SEXP get_ordered_classes() {
   return klasses;
 }
 
-
 SEXP mark_precious(SEXP x) {
   R_PreserveObject(x);
   return x;
@@ -114,6 +113,7 @@ SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 
 SEXP vectors::factor = get_factor_classes();
 SEXP vectors::ordered = get_ordered_classes();
+SEXP vectors::unbound_sentinel = mark_precious(Rf_allocVector(RAWSXP, 0));
 
 SEXP strings::POSIXct = STRING_ELT(get_time_classes(), 0);
 SEXP strings::POSIXt = STRING_ELT(get_time_classes(), 1);

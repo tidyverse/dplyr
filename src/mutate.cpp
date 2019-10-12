@@ -450,7 +450,7 @@ Rcpp::DataFrame mutate_grouped(const Rcpp::DataFrame& df, const dplyr::QuosureLi
 
     LOG_VERBOSE << "Checking result";
 
-    if (variable == R_UnboundValue) {
+    if (variable == dplyr::vectors::unbound_sentinel) {
       LOG_VERBOSE << "Rechaining";
 
       // NULL columns are not removed if `setup()` is not called here

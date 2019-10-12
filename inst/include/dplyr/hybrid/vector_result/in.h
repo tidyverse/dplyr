@@ -52,7 +52,7 @@ private:
 
 template <typename SlicedTibble, typename Operation>
 inline SEXP in_column_column(const SlicedTibble& data, Column col_x, Column col_y, const Operation& op) {
-  if (TYPEOF(col_x.data) != TYPEOF(col_y.data)) return R_UnboundValue;
+  if (TYPEOF(col_x.data) != TYPEOF(col_y.data)) return dplyr::vectors::unbound_sentinel;
   SEXP x = col_x.data, y = col_y.data;
 
   switch (TYPEOF(x)) {
@@ -73,7 +73,7 @@ inline SEXP in_column_column(const SlicedTibble& data, Column col_x, Column col_
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 
 }
 
@@ -89,7 +89,7 @@ inline SEXP in_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>
       return in_column_column(data, lhs, rhs, op);
     }
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 }
