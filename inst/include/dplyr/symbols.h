@@ -88,6 +88,7 @@ struct strings {
 struct vectors {
   static SEXP factor;
   static SEXP ordered;
+  static SEXP unbound_sentinel;
 };
 
 } // namespace dplyr

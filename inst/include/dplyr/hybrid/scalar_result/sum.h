@@ -99,7 +99,7 @@ private:
     }
 
     // give up, effectively let R evaluate the call
-    return R_UnboundValue;
+    return dplyr::vectors::unbound_sentinel;
   }
 
 };
@@ -133,7 +133,7 @@ SEXP sum_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& expr
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 }

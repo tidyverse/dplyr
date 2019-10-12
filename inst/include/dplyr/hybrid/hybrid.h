@@ -28,7 +28,7 @@ namespace hybrid {
 
 template <typename SlicedTibble, typename Operation>
 SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& mask, SEXP env, SEXP caller_env, const Operation& op) {
-  if (TYPEOF(expr) != LANGSXP) return R_UnboundValue;
+  if (TYPEOF(expr) != LANGSXP) return dplyr::vectors::unbound_sentinel;
 
   Expression<SlicedTibble> expression(expr, mask, env, caller_env);
   switch (expression.get_id()) {
@@ -57,7 +57,7 @@ SEXP hybrid_do(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>
   case NOMATCH:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 
 }
 
@@ -77,7 +77,7 @@ SEXP match(SEXP expr, const SlicedTibble& data, const DataMask<SlicedTibble>& ma
   Rcpp::RObject klass;
   if (test) {
     klass = hybrid_do(expr, data, mask, env, caller_env, Match());
-    test = klass != R_UnboundValue;
+    test = klass != dplyr::vectors::unbound_sentinel;
   }
   Rcpp::LogicalVector res(1, test) ;
   Rf_classgets(res, Rf_mkString("hybrid_call"));

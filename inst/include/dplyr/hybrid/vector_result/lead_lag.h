@@ -104,7 +104,7 @@ inline SEXP lead_lag_dispatch3(const SlicedTibble& data, SEXP x, int n, const Op
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 
@@ -140,7 +140,7 @@ SEXP lead_lag_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>&
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>

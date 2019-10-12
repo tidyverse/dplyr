@@ -89,7 +89,7 @@ inline SEXP row_number_1(const SlicedTibble& data, Column column, const Operatio
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>
@@ -107,7 +107,7 @@ SEXP row_number_dispatch(const SlicedTibble& data, const Expression<SlicedTibble
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 }

@@ -30,7 +30,7 @@ public:
 
   inline SEXP summarise() const {
     // we let R handle it
-    return R_UnboundValue;
+    return dplyr::vectors::unbound_sentinel;
   }
 
 private:

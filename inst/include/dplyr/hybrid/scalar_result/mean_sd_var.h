@@ -72,7 +72,7 @@ private:
     }
 
     // give up, effectively let R evaluate the call
-    return R_UnboundValue;
+    return dplyr::vectors::unbound_sentinel;
   }
 
 };
@@ -198,7 +198,7 @@ SEXP meansdvar_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>

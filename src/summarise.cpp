@@ -150,7 +150,7 @@ Rcpp::DataFrame summarise_grouped(const Rcpp::DataFrame& df, const QuosureList& 
 
       // If we could not find a direct Result,
       // we can use a GroupedCallReducer which will callback to R.
-      if (result == R_UnboundValue) {
+      if (result == dplyr::vectors::unbound_sentinel) {
         mask.setup();
         result = GroupedCallReducer<SlicedTibble>(quosure, mask).process(gdf);
       }

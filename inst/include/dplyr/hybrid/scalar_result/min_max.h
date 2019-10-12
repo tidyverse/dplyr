@@ -101,7 +101,7 @@ SEXP minmax_narm(const SlicedTibble& data, Column x, const Operation& op) {
     break;
   }
 
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation, bool MINIMUM>
@@ -132,7 +132,7 @@ SEXP minmax_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& e
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>

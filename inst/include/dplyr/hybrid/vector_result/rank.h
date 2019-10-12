@@ -227,7 +227,7 @@ inline SEXP rank_(const SlicedTibble& data, Column column, const Operation& op) 
   default:
     break;
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 }
@@ -238,7 +238,7 @@ SEXP rank_dispatch(const SlicedTibble& data, const Expression<SlicedTibble>& exp
   if (expression.is_unnamed(0) && expression.is_column(0, x) && x.is_trivial()) {
     return internal::rank_<SlicedTibble, Operation, Increment>(data, x, op);
   }
-  return R_UnboundValue;
+  return dplyr::vectors::unbound_sentinel;
 }
 
 template <typename SlicedTibble, typename Operation>
