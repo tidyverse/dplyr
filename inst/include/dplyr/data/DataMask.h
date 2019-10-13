@@ -57,7 +57,10 @@ public:
   }
 
   inline void clear(SEXP mask_resolved) {
-    Rf_defineVar(symbol, R_UnboundValue, mask_resolved);
+    SEXP call = PROTECT(Rf_lang3(dplyr::fns::rm, symbol, mask_resolved));
+    SET_TAG(CDDR(call), dplyr::symbols::envir);
+    Rf_eval(call, R_EmptyEnv);
+    UNPROTECT(1);
   }
 
   // summary accessor

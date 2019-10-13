@@ -71,6 +71,7 @@ struct symbols {
   static SEXP ptype;
   static SEXP names;
   static SEXP formula;
+  static SEXP envir;
 };
 
 struct fns {
