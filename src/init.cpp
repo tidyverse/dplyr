@@ -110,6 +110,7 @@ SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::names = R_NamesSymbol;
 SEXP symbols::formula = Rf_install("formula");
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
+SEXP fns::rm = Rf_eval(Rf_install("rm"), R_BaseEnv);
 
 SEXP vectors::factor = get_factor_classes();
 SEXP vectors::ordered = get_ordered_classes();

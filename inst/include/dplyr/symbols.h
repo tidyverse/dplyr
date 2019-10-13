@@ -75,6 +75,7 @@ struct symbols {
 
 struct fns {
   static SEXP quote;
+  static SEXP rm;
 };
 
 struct strings {
