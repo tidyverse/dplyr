@@ -1,13 +1,13 @@
 
 #' @importFrom tidyselect peek_vars vars_select
 #' @export
-by_column <- function(df, ..., .name = NULL) {
-  colwise(..., .name = .name)(df)
+by_column <- function(df, funs = identity, .name = NULL) {
+  colwise(funs, .name = .name)(df)
 }
 
 #' @export
-over <- function(select, ..., .name = NULL) {
-  by_column(pick({{select}}), ..., .name = .name)
+over <- function(select, funs = identity, .name = NULL) {
+  by_column(pick({{select}}), funs, .name = .name)
 }
 
 #' @export
@@ -17,8 +17,11 @@ pick <- function(...) {
 }
 
 #' @export
-colwise <- function(..., .name = NULL) {
-  funs <- map(list(...), as_function)
+colwise <- function(funs = identity, .name = NULL) {
+  if (is.function(funs) || is_formula(funs)) {
+    funs = list(fun = funs)
+  }
+  funs <- map(funs, as_function)
   if (is.null(names(funs))) {
     names(funs) <- paste0("fn", seq_along(funs))
   }
@@ -43,15 +46,3 @@ colwise <- function(..., .name = NULL) {
     tibble(!!!flatten(unname(results)))
   }
 }
-
-#' @export
-mapping <- function(df, fun, ..., .name = "{var}") {
-  colwise(fun, .name)(df, ...)
-}
-
-#' @export
-pick <- function(...) {
-  vars <- vars_select(peek_vars(), ...)
-  peek_mask()$pick(vars)
-}
-
