@@ -1,21 +1,13 @@
 
 #' @importFrom tidyselect peek_vars vars_select
 #' @export
-each <- function(fun, ..., .name = "{var}") {
-  colwise(fun, .name)(pick(...))
+by_column <- function(df, ..., .name = NULL) {
+  colwise(..., .name = .name)(df)
 }
 
 #' @export
-at <- function(select, fun, .name = "{var}") {
-  colwise(fun, .name)(pick({{select}}))
-}
-
-#' @export
-over <- at
-
-#' @export
-mapping <- function(df, fun, ..., .name = "{var}") {
-  colwise(fun, .name)(df, ...)
+over <- function(select, ..., .name = NULL) {
+  by_column(pick({{select}}), ..., .name = .name)
 }
 
 #' @export
@@ -25,14 +17,30 @@ pick <- function(...) {
 }
 
 #' @export
-colwise <- function(fun, .name = "{var}") {
-  fun <- as_function(fun)
-  force(.name)
+colwise <- function(..., .name = NULL) {
+  funs <- map(list(...), as_function)
+  if (is.null(names(funs))) {
+    names(funs) <- paste0("fn", seq_along(funs))
+  }
 
-  function(df, ...) {
-    out <- map(df, fun, ...)
-    names(out) <- glue::glue(.name, var = names(out), idx = seq_len(ncol(df)))
-    tibble(!!!out)
+  function(df) {
+    if (is.null(.name)) {
+      if (length(funs) == 1) {
+        .name <- "{var}"
+      } else if(ncol(df) == 1) {
+        .name <- "{fun}"
+      } else {
+        .name <- "{fun}_{var}"
+      }
+    }
+
+    results <- map2(funs, names(funs), function(f, name) {
+      out <- map(df, f)
+      names(out) <- glue::glue(.name, var = names(out), fun = name)
+      out
+    })
+
+    tibble(!!!flatten(unname(results)))
   }
 }
 
