@@ -336,7 +336,7 @@
 <a class="sourceLine" id="cb19-10" data-line-number="10"><span class="kw">my_summarise</span>(df, g1)</a>
 <a class="sourceLine" id="cb19-11" data-line-number="11"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb19-12" data-line-number="12"><span class="co">#&gt; expr: ^group_var</span></a>
-<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; env:  0x33e5578</span></a>
+<a class="sourceLine" id="cb19-13" data-line-number="13"><span class="co">#&gt; env:  0x28525b0</span></a>
 <a class="sourceLine" id="cb19-14" data-line-number="14"><span class="co">#&gt; Error: Column `group_var` is unknown</span></a></code></pre></div>
 <p>I’ve added a <code><a href="https://rdrr.io/r/base/print.html">print()</a></code> call to make it obvious what’s going wrong here: <code><a href="../reference/tidyeval-compat.html">quo(group_var)</a></code> always returns <code>~group_var</code>. It is being too literal! We want it to substitute the value that the user supplied, i.e. to return <code>~g1</code>.</p>
 <p>By analogy to strings, we don’t want <code>""</code>, instead we want some function that turns an argument into a string. That’s the job of <code><a href="../reference/tidyeval.html">enquo()</a></code>. <code><a href="../reference/tidyeval.html">enquo()</a></code> uses some dark magic to look at the argument, see what the user typed, and return that value as a quosure. (Technically, this works because function arguments are evaluated lazily, using a special data structure called a <strong>promise</strong>.)</p>
@@ -527,18 +527,18 @@
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">x1</a>
 <a class="sourceLine" id="cb32-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-3" data-line-number="3"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; env:  0x42fceb8</span></a>
+<a class="sourceLine" id="cb32-4" data-line-number="4"><span class="co">#&gt; env:  0x37699b0</span></a>
 <a class="sourceLine" id="cb32-5" data-line-number="5">x2</a>
 <a class="sourceLine" id="cb32-6" data-line-number="6"><span class="co">#&gt; &lt;quosure&gt;</span></a>
 <a class="sourceLine" id="cb32-7" data-line-number="7"><span class="co">#&gt; expr: ^x</span></a>
-<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; env:  0x2d3da30</span></a></code></pre></div>
+<a class="sourceLine" id="cb32-8" data-line-number="8"><span class="co">#&gt; env:  0x21ae278</span></a></code></pre></div>
 <p>But if you inspect the environments using <code><a href="https://rlang.r-lib.org/reference/get_env.html">rlang::get_env()</a></code> — they’re different.</p>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(rlang)</a>
 <a class="sourceLine" id="cb33-2" data-line-number="2"></a>
 <a class="sourceLine" id="cb33-3" data-line-number="3"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x1)</a>
-<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x42fceb8&gt;</span></a>
+<a class="sourceLine" id="cb33-4" data-line-number="4"><span class="co">#&gt; &lt;environment: 0x37699b0&gt;</span></a>
 <a class="sourceLine" id="cb33-5" data-line-number="5"><span class="kw"><a href="https://rlang.r-lib.org/reference/get_env.html">get_env</a></span>(x2)</a>
-<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x2d3da30&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb33-6" data-line-number="6"><span class="co">#&gt; &lt;environment: 0x21ae278&gt;</span></a></code></pre></div>
 <p>Further, when we evaluate those formulas using <code><a href="https://rlang.r-lib.org/reference/eval_tidy.html">rlang::eval_tidy()</a></code>, we see that they yield different values:</p>
 <div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw"><a href="https://rlang.r-lib.org/reference/eval_tidy.html">eval_tidy</a></span>(x1)</a>
 <a class="sourceLine" id="cb34-2" data-line-number="2"><span class="co">#&gt; [1] 10</span></a>
