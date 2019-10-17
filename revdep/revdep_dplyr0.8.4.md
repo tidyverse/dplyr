@@ -23,8 +23,19 @@ Package `explore` fails because of this fix:
 
 We've sent a pull request. 
 
+## checking S3 generic/method consistency ... WARNING
+
+group_modify() formals have changed, this affects packages: 
+
+- egor
+
+## Already fixed
+
+broomExtra development version appears to work, the failures of packages
+ggstatsplot and groupedstats are related. 
+
 ## Other issues
 
-- Packages DeLorean, getTBinR timed out
+- Packages DeLorean, geneXtendeR, MonetDBLite, OncoSimulR, perturbatr, sigmajs timed out
 - Package MXM had a NOTE about install size
 - Packages rgho and TCGAutils failed because of a remote api call

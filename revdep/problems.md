@@ -40,28 +40,77 @@ Run `revdep_details(,"boxr")` for more info
     Missing or unexported object: ‘dplyr::rbind_all’
     ```
 
-# dbplyr
+# broomExtra
 
 <details>
 
-* Version: 1.4.2
-* Source code: https://github.com/cran/dbplyr
-* URL: https://dbplyr.tidyverse.org/, https://github.com/tidyverse/dbplyr
-* BugReports: https://github.com/tidyverse/dbplyr/issues
-* Date/Publication: 2019-06-17 20:00:04 UTC
-* Number of recursive dependencies: 61
+* Version: 0.0.5
+* Source code: https://github.com/cran/broomExtra
+* URL: https://indrajeetpatil.github.io/broomExtra/, https://github.com/IndrajeetPatil/broomExtra
+* BugReports: https://github.com/IndrajeetPatil/broomExtra/issues
+* Date/Publication: 2019-08-19 13:30:06 UTC
+* Number of recursive dependencies: 78
 
-Run `revdep_details(,"dbplyr")` for more info
+Run `revdep_details(,"broomExtra")` for more info
 
 </details>
 
 ## Newly broken
 
+*   checking examples ... ERROR
+    ```
+    ...
+    > ### Title: Augmented data from grouped analysis of any function that has
+    > ###   'data' argument in its function call.
+    > ### Aliases: grouped_augment
+    > 
+    > ### ** Examples
+    > 
+    > set.seed(123)
+    > # to speed up computation, let's use only 50% of the data
+    > 
+    > # linear model
+    > broomExtra::grouped_augment(
+    +   data = dplyr::sample_frac(tbl = ggplot2::diamonds, size = 0.5),
+    +   grouping.vars = c(cut, color),
+    +   formula = price ~ carat - 1,
+    +   ..f = stats::lm,
+    +   na.action = na.omit,
+    +   augment.args = list(se_fit = TRUE)
+    + )
+    Error in group_vars(.data) : argument ".data" is missing, with no default
+    Calls: <Anonymous> ... <Anonymous> -> group_modify.grouped_df -> group_vars
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      6: `_fseq`(`_lhs`)
+      7: freduce(value, `_function_list`)
+      8: function_list[[i]](value)
+      9: dplyr::group_modify(.tbl = ., .f = augment_group, keep = TRUE)
+      10: group_modify.grouped_df(.tbl = ., .f = augment_group, keep = TRUE)
+      11: group_vars(.data)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [ OK: 21 | SKIPPED: 0 | WARNINGS: 0 | FAILED: 3 ]
+      1. Error: `grouped_tidy()` works (@test-grouped_generics.R#12) 
+      2. Error: `grouped_glance()` works (@test-grouped_generics.R#43) 
+      3. Error: `grouped_augment()` works (@test-grouped_generics.R#72) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
+## In both
+
 *   checking dependencies in R code ... NOTE
     ```
-    Unexported objects imported by ':::' calls:
-      ‘dplyr:::compat_lazy_dots’ ‘dplyr:::find_var’
-      See the note in ?`:::` about the use of this operator.
+    Namespace in Imports field not imported from: ‘utils’
+      All declared Imports should be used.
     ```
 
 # DeLorean
@@ -102,17 +151,46 @@ Run `revdep_details(,"DeLorean")` for more info
     GNU make is a SystemRequirements.
     ```
 
-# explore
+# egor
 
 <details>
 
-* Version: 0.5.0
-* Source code: https://github.com/cran/explore
-* URL: http://github.com/rolkra/explore
-* Date/Publication: 2019-09-19 12:40:02 UTC
-* Number of recursive dependencies: 78
+* Version: 0.19.10
+* Source code: https://github.com/cran/egor
+* URL: https://github.com/tilltnet/egor, https://tilltnet.github.io/egor/
+* BugReports: https://github.com/tilltnet/egor/issues
+* Date/Publication: 2019-10-07 22:10:06 UTC
+* Number of recursive dependencies: 61
 
-Run `revdep_details(,"explore")` for more info
+Run `revdep_details(,"egor")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking S3 generic/method consistency ... WARNING
+    ```
+    group_modify:
+      function(.data, .f, ..., keep)
+    group_modify.egor:
+      function(.tbl, .f, ...)
+    
+    See section ‘Generic functions and methods’ in the ‘Writing R
+    Extensions’ manual.
+    ```
+
+# ggstatsplot
+
+<details>
+
+* Version: 0.1.2
+* Source code: https://github.com/cran/ggstatsplot
+* URL: https://indrajeetpatil.github.io/ggstatsplot/, https://github.com/IndrajeetPatil/ggstatsplot
+* BugReports: https://github.com/IndrajeetPatil/ggstatsplot/issues
+* Date/Publication: 2019-09-17 10:40:02 UTC
+* Number of recursive dependencies: 245
+
+Run `revdep_details(,"ggstatsplot")` for more info
 
 </details>
 
@@ -120,41 +198,51 @@ Run `revdep_details(,"explore")` for more info
 
 *   checking examples ... ERROR
     ```
-    Running examples in ‘explore-Ex.R’ failed
-    The error most likely occurred in:
-    
-    > ### Name: explore_tbl
-    > ### Title: Explore table
-    > ### Aliases: explore_tbl
+    ...
     > 
-    > ### ** Examples
     > 
-    > explore_tbl(iris)
-    Error in `$<-.data.frame`(`*tmp*`, "measure", value = "no variance") : 
-      replacement has 1 row, data has 0
-    Calls: explore_tbl -> $<- -> $<-.data.frame
+    > # this internal function may not have much utility outside of the package
+    > set.seed(123)
+    > library(ggplot2)
+    > 
+    > # make a plot
+    > p <- ggplot(data = iris, aes(x = Species, y = Sepal.Length)) +
+    +   geom_boxplot()
+    > 
+    > # get a dataframe with means
+    > mean_dat <- ggstatsplot:::mean_labeller(
+    +   data = iris,
+    +   x = Species,
+    +   y = Sepal.Length,
+    +   mean.ci = TRUE,
+    +   k = 3
+    + )
+    Error in group_vars(.data) : argument ".data" is missing, with no default
+    Calls: <Anonymous> ... <Anonymous> -> group_modify.grouped_df -> group_vars
     Execution halted
     ```
 
-# getTBinR
-
-<details>
-
-* Version: 0.7.0
-* Source code: https://github.com/cran/getTBinR
-* URL: https://www.samabbott.co.uk/getTBinR, https://github.com/seabbs/getTBinR
-* BugReports: https://github.com/seabbs/getTBinR/issues
-* Date/Publication: 2019-09-03 13:50:06 UTC
-* Number of recursive dependencies: 146
-
-Run `revdep_details(,"getTBinR")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      # … with 1 more variable: significance <chr>
+      Error: Row variable 'y' contains less than 2 levels.
+      Chi-squared test can't be run; no subtitle displayed.# A tibble: 1 x 11
+        class counts  perc N     `4`   `6`   statistic p.value parameter method
+        <fct>  <int> <dbl> <chr> <chr> <chr>     <dbl>   <dbl>     <dbl> <chr> 
+      1 mids…     18   100 (n =… 38.8… 61.1…     0.889   0.346         1 Chi-s…
+      # … with 1 more variable: significance <chr>
+      Warning: Individual plots in the combined `grouped_` plot
+      can't be further modified with `ggplot2` functions.
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [ OK: 83 | SKIPPED: 112 | WARNINGS: 0 | FAILED: 1 ]
+      1. Error: outlier.labeling works across vector types (@test-ggbetweenstats.R#27) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
 
 # ggvis
 
@@ -164,7 +252,7 @@ Run `revdep_details(,"getTBinR")` for more info
 * Source code: https://github.com/cran/ggvis
 * URL: http://ggvis.rstudio.com/
 * Date/Publication: 2018-09-28 21:50:03 UTC
-* Number of recursive dependencies: 53
+* Number of recursive dependencies: 54
 
 Run `revdep_details(,"ggvis")` for more info
 
@@ -184,7 +272,7 @@ Run `revdep_details(,"ggvis")` for more info
 * Version: 1.16.0
 * Source code: https://github.com/cran/gQTLstats
 * Date/Publication: 2019-05-02
-* Number of recursive dependencies: 191
+* Number of recursive dependencies: 192
 
 Run `revdep_details(,"gQTLstats")` for more info
 
@@ -212,7 +300,7 @@ Run `revdep_details(,"gQTLstats")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 65.8Mb
+      installed size is 65.7Mb
       sub-directories of 1Mb or more:
         data        11.0Mb
         doc          1.1Mb
@@ -337,6 +425,71 @@ Warning: package ‘GenomicRanges’ was built under R version 3.6.1
 * DONE (gQTLstats)
 
 ```
+# groupedstats
+
+<details>
+
+* Version: 0.0.9
+* Source code: https://github.com/cran/groupedstats
+* URL: https://indrajeetpatil.github.io/groupedstats/, https://github.com/IndrajeetPatil/groupedstats/
+* BugReports: https://github.com/IndrajeetPatil/groupedstats/issues/
+* Date/Publication: 2019-08-28 13:30:02 UTC
+* Number of recursive dependencies: 130
+
+Run `revdep_details(,"groupedstats")` for more info
+
+</details>
+
+## Newly broken
+
+*   checking examples ... ERROR
+    ```
+    ...
+    Running examples in ‘groupedstats-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: grouped_glm
+    > ### Title: Function to run generalized linear model (glm) across multiple
+    > ###   grouping variables.
+    > ### Aliases: grouped_glm
+    > 
+    > ### ** Examples
+    > 
+    > 
+    > # to get tidy output
+    > groupedstats::grouped_glm(
+    +   data = groupedstats::Titanic_full,
+    +   formula = Survived ~ Sex,
+    +   grouping.vars = Class,
+    +   family = stats::binomial(link = "logit")
+    + )
+    Error in group_vars(.data) : argument ".data" is missing, with no default
+    Calls: <Anonymous> ... <Anonymous> -> group_modify.grouped_df -> group_vars
+    Execution halted
+    ```
+
+*   checking tests ...
+    ```
+     ERROR
+    Running the tests in ‘tests/testthat.R’ failed.
+    Last 13 lines of output:
+      8: function_list[[i]](value)
+      9: dplyr::group_modify(.tbl = ., .f = ~tibble::as_tibble(skimr::skim_to_wide(purrr::keep(.x = ., 
+             .p = ..f))), keep = FALSE)
+      10: group_modify.grouped_df(.tbl = ., .f = ~tibble::as_tibble(skimr::skim_to_wide(purrr::keep(.x = ., 
+             .p = ..f))), keep = FALSE)
+      11: group_vars(.data)
+      
+      ══ testthat results  ═══════════════════════════════════════════════════════════
+      [ OK: 84 | SKIPPED: 4 | WARNINGS: 0 | FAILED: 3 ]
+      1. Error: grouped_glmer works (@test-grouped_glmer.R#11) 
+      2. Error: grouped_summary with numeric measures (@test-grouped_summary.R#11) 
+      3. Error: grouped_summary with factor measures (@test-grouped_summary.R#58) 
+      
+      Error: testthat unit tests failed
+      Execution halted
+    ```
+
 # mlVAR
 
 <details>
@@ -369,37 +522,55 @@ Run `revdep_details(,"mlVAR")` for more info
       rbind_all
     ```
 
-# MXM
+# OncoSimulR
 
 <details>
 
-* Version: 1.4.4
-* Source code: https://github.com/cran/MXM
-* URL: http://mensxmachina.org
-* Date/Publication: 2019-06-19 13:40:03 UTC
-* Number of recursive dependencies: 77
+* Version: 2.14.0
+* Source code: https://github.com/cran/OncoSimulR
+* URL: https://github.com/rdiaz02/OncoSimul, https://popmodels.cancercontrol.cancer.gov/gsr/packages/oncosimulr/
+* BugReports: https://github.com/rdiaz02/OncoSimul/issues
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 106
 
-Run `revdep_details(,"MXM")` for more info
+Run `revdep_details(,"OncoSimulR")` for more info
 
 </details>
 
 ## Newly broken
 
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.0Mb
-      sub-directories of 1Mb or more:
-        R     3.1Mb
-        doc   1.3Mb
-    ```
+*   R CMD check timed out
+    
 
 ## In both
 
-*   checking dependencies in R code ... NOTE
+*   checking installed package size ... NOTE
     ```
-    Namespace in Imports field not imported from: ‘knitr’
-      All declared Imports should be used.
+      installed size is  7.4Mb
+      sub-directories of 1Mb or more:
+        doc    5.3Mb
+        libs   1.3Mb
     ```
+
+# perturbatr
+
+<details>
+
+* Version: 1.4.0
+* Source code: https://github.com/cran/perturbatr
+* URL: https://github.com/cbg-ethz/perturbatr
+* BugReports: https://github.com/cbg-ethz/perturbatr/issues
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 92
+
+Run `revdep_details(,"perturbatr")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
 
 # Rariant
 
@@ -410,7 +581,7 @@ Run `revdep_details(,"MXM")` for more info
 * URL: https://github.com/juliangehring/Rariant
 * BugReports: https://support.bioconductor.org
 * Date/Publication: 2019-05-02
-* Number of recursive dependencies: 152
+* Number of recursive dependencies: 153
 
 Run `revdep_details(,"Rariant")` for more info
 
@@ -558,97 +729,3 @@ Warning: package ‘Rsamtools’ was built under R version 3.6.1
 * DONE (Rariant)
 
 ```
-# rgho
-
-<details>
-
-* Version: 1.0.1
-* Source code: https://github.com/cran/rgho
-* URL: https://github.com/pierucci/rgho, https://pierucci.org
-* BugReports: https://github.com/pierucci/rgho/issues
-* Date/Publication: 2017-01-18 18:07:51
-* Number of recursive dependencies: 52
-
-Run `revdep_details(,"rgho")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-     4             2.1     2.1 NA    NA    NA      
-     5             2.1     2.1 NA    NA    NA      
-     6             2.1     2.1 NA    NA    NA      
-     7             2.2     2.2 NA    NA    NA      
-     8             2.2     2.2 NA    NA    NA      
-     9             2.2     2.2 NA    NA    NA      
-    10             2.2     2.2 NA    NA    NA      
-    # … with 5,722 more rows
-    > 
-    > 
-    > result <- get_gho_data(
-    +   dimension = "GHO",
-    +   code = "MDG_0000000001",
-    +   filter = list(
-    +     REGION = "EUR",
-    +     YEAR = "2015"
-    +   )
-    + )
-    Error in get_gho_data(dimension = "GHO", code = "MDG_0000000001", filter = list(REGION = "EUR",  : 
-      No data returned by WHO GHO server.
-    Execution halted
-    ```
-
-# TCGAutils
-
-<details>
-
-* Version: 1.4.0
-* Source code: https://github.com/cran/TCGAutils
-* BugReports: https://github.com/waldronlab/TCGAutils/issues
-* Date/Publication: 2019-05-02
-* Number of recursive dependencies: 197
-
-Run `revdep_details(,"TCGAutils")` for more info
-
-</details>
-
-## Newly broken
-
-*   checking examples ... ERROR
-    ```
-    ...
-    Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpbJ1I0F/BiocFileCache
-    downloading 1 resources
-    retrieving 1 resource
-    Using temporary cache /var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpbJ1I0F/BiocFileCache
-    Warning: download failed
-      web resource path: ‘https://experimenthub.bioconductor.org/fetch/558’
-      local file path: ‘/var/folders/4b/hn4fq98s6810s4ccv2f9hm2h0000gn/T//RtmpbJ1I0F/BiocFileCache/1b8357a328a1_558’
-      reason: Internal Server Error (HTTP 500).
-    Warning: bfcadd() failed; resource removed
-      rid: BFC7
-      fpath: ‘https://experimenthub.bioconductor.org/fetch/558’
-      reason: download failed
-    Warning: download failed
-      hub path: ‘https://experimenthub.bioconductor.org/fetch/558’
-      cache resource: ‘EH558 : 558’
-      reason: bfcadd() failed; see warnings()
-    Error: failed to load resource
-      name: EH558
-      title: ACC_CNASNP-20160128
-      reason: 1 resources failed to download
-    Execution halted
-    ```
-
-## In both
-
-*   checking dependencies in R code ... NOTE
-    ```
-    Unexported objects imported by ':::' calls:
-      ‘BiocGenerics:::replaceSlots’ ‘GenomicRanges:::.normarg_field’
-      See the note in ?`:::` about the use of this operator.
-    ```
-

@@ -5,7 +5,7 @@
 * Version: 1.0.4
 * Source code: https://github.com/cran/ACDm
 * Date/Publication: 2016-07-16 12:19:03
-* Number of recursive dependencies: 73
+* Number of recursive dependencies: 74
 
 Run `revdep_details(,"ACDm")` for more info
 
@@ -233,90 +233,6 @@ ERROR: compilation failed for package ‘airGR’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/airGR/old/airGR.Rcheck/airGR’
 
 ```
-# AnnotationHub
-
-<details>
-
-* Version: 2.16.1
-* Source code: https://github.com/cran/AnnotationHub
-* Date/Publication: 2019-09-04
-* Number of recursive dependencies: 136
-
-Run `revdep_details(,"AnnotationHub")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking dependencies in R code ... WARNING
-    ```
-    '::' or ':::' import not declared from: ‘ensembldb’
-    Unexported objects imported by ':::' calls:
-      ‘BiocFileCache:::.get_tbl_rid’ ‘BiocManager:::.version_bioc’
-      ‘BiocManager:::isDevel’
-      See the note in ?`:::` about the use of this operator.
-    ```
-
-*   checking package dependencies ... NOTE
-    ```
-    Package which this enhances but not available for checking: ‘AnnotationHubData’
-    ```
-
-# annotatr
-
-<details>
-
-* Version: 
-* Source code: ???
-* URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
-* BugReports: https://github.com/tidyverse/dplyr/issues
-* Number of recursive dependencies: 0
-
-Run `revdep_details(,"")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-  There are binary versions available but the source versions are later:
-          binary source needs_compilation
-htmltools  0.3.6  0.4.0              TRUE
-later      0.8.0  1.0.0              TRUE
-promises   1.0.1  1.1.0              TRUE
-
-  Binaries will be installed
-
-
-installing the source packages ‘org.Dm.eg.db’, ‘org.Gg.eg.db’, ‘org.Hs.eg.db’, ‘org.Mm.eg.db’, ‘org.Rn.eg.db’, ‘TxDb.Dmelanogaster.UCSC.dm3.ensGene’, ‘TxDb.Dmelanogaster.UCSC.dm6.ensGene’, ‘TxDb.Ggallus.UCSC.galGal5.refGene’, ‘TxDb.Hsapiens.UCSC.hg19.knownGene’, ‘TxDb.Hsapiens.UCSC.hg38.knownGene’, ‘TxDb.Mmusculus.UCSC.mm10.knownGene’, ‘TxDb.Mmusculus.UCSC.mm9.knownGene’, ‘TxDb.Rnorvegicus.UCSC.rn4.ensGene’, ‘TxDb.Rnorvegicus.UCSC.rn5.refGene’, ‘TxDb.Rnorvegicus.UCSC.rn6.refGene’
-
-
-
-```
-### CRAN
-
-```
-
-  There are binary versions available but the source versions are later:
-          binary source needs_compilation
-htmltools  0.3.6  0.4.0              TRUE
-later      0.8.0  1.0.0              TRUE
-promises   1.0.1  1.1.0              TRUE
-
-  Binaries will be installed
-
-
-installing the source packages ‘org.Dm.eg.db’, ‘org.Gg.eg.db’, ‘org.Hs.eg.db’, ‘org.Mm.eg.db’, ‘org.Rn.eg.db’, ‘TxDb.Dmelanogaster.UCSC.dm3.ensGene’, ‘TxDb.Dmelanogaster.UCSC.dm6.ensGene’, ‘TxDb.Ggallus.UCSC.galGal5.refGene’, ‘TxDb.Hsapiens.UCSC.hg19.knownGene’, ‘TxDb.Hsapiens.UCSC.hg38.knownGene’, ‘TxDb.Mmusculus.UCSC.mm10.knownGene’, ‘TxDb.Mmusculus.UCSC.mm9.knownGene’, ‘TxDb.Rnorvegicus.UCSC.rn4.ensGene’, ‘TxDb.Rnorvegicus.UCSC.rn5.refGene’, ‘TxDb.Rnorvegicus.UCSC.rn6.refGene’
-
-
-
-```
 # BAS
 
 <details>
@@ -452,12 +368,12 @@ ERROR: compilation failed for package ‘BAS’
 
 <details>
 
-* Version: 0.0.1
+* Version: 0.1.0
 * Source code: https://github.com/cran/BayesPostEst
 * URL: https://github.com/ShanaScogin/BayesPostEst
 * BugReports: https://github.com/ShanaScogin/BayesPostEst/issues
-* Date/Publication: 2019-08-05 12:20:09 UTC
-* Number of recursive dependencies: 132
+* Date/Publication: 2019-10-06 04:10:03 UTC
+* Number of recursive dependencies: 133
 
 Run `revdep_details(,"BayesPostEst")` for more info
 
@@ -480,6 +396,16 @@ Run `revdep_details(,"BayesPostEst")` for more info
 ** package ‘BayesPostEst’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_logit’
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_logit’
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_probit’
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_probit’
 ** inst
 ** byte-compile and prepare package for lazy loading
 Error: .onLoad failed in loadNamespace() for 'rjags', details:
@@ -500,6 +426,16 @@ ERROR: lazy loading failed for package ‘BayesPostEst’
 ** package ‘BayesPostEst’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** R
+** data
+*** moving datasets to lazyload DB
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_logit’
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_logit’
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_probit’
+Warning: namespace ‘rjags’ is not available and has been replaced
+by .GlobalEnv when processing object ‘jags_probit’
 ** inst
 ** byte-compile and prepare package for lazy loading
 Error: .onLoad failed in loadNamespace() for 'rjags', details:
@@ -513,6 +449,42 @@ ERROR: lazy loading failed for package ‘BayesPostEst’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/BayesPostEst/old/BayesPostEst.Rcheck/BayesPostEst’
 
 ```
+# BgeeDB
+
+<details>
+
+* Version: 2.10.0
+* Source code: https://github.com/cran/BgeeDB
+* URL: https://github.com/BgeeDB/BgeeDB_R
+* BugReports: https://github.com/BgeeDB/BgeeDB_R/issues
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 66
+
+Run `revdep_details(,"BgeeDB")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking whether package ‘BgeeDB’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘AnnotationDbi’ was built under R version 3.6.1
+      Warning: package ‘IRanges’ was built under R version 3.6.1
+      Warning: package ‘S4Vectors’ was built under R version 3.6.1
+    See ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/BgeeDB/new/BgeeDB.Rcheck/00install.out’ for details.
+    ```
+
+*   checking top-level files ... NOTE
+    ```
+    File
+      LICENSE
+    is not mentioned in the DESCRIPTION file.
+    ```
+
 # bioCancer
 
 <details>
@@ -533,18 +505,14 @@ Run `revdep_details(,"")` for more info
 
 ```
 
-  There are binary versions available but the source versions are later:
+  There is a binary version available but the source version is later:
            binary source needs_compilation
 data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
-later       0.8.0  1.0.0              TRUE
-maptools    0.9-5  0.9-8              TRUE
-promises    1.0.1  1.1.0              TRUE
 
   Binaries will be installed
 
 
-installing the source packages ‘DO.db’, ‘reactome.db’
+installing the source package ‘reactome.db’
 
 
 
@@ -553,18 +521,14 @@ installing the source packages ‘DO.db’, ‘reactome.db’
 
 ```
 
-  There are binary versions available but the source versions are later:
+  There is a binary version available but the source version is later:
            binary source needs_compilation
 data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
-later       0.8.0  1.0.0              TRUE
-maptools    0.9-5  0.9-8              TRUE
-promises    1.0.1  1.1.0              TRUE
 
   Binaries will be installed
 
 
-installing the source packages ‘DO.db’, ‘reactome.db’
+installing the source package ‘reactome.db’
 
 
 
@@ -969,7 +933,7 @@ kNN.cpp:25:19: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprec
 /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
 arma_deprecated
 ^
-/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:303:44: note: expanded from macro 'arma_deprecated'
+/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:304:44: note: expanded from macro 'arma_deprecated'
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 1 warning generated.
@@ -980,7 +944,7 @@ order.cpp:26:21: warning: 'sort_index<arma::subview<double> >' is deprecated [-W
 /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::subview<double> >' has been explicitly marked deprecated here
 arma_deprecated
 ^
-/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:303:44: note: expanded from macro 'arma_deprecated'
+/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:304:44: note: expanded from macro 'arma_deprecated'
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 order.cpp:75:28: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprecated-declarations]
@@ -989,7 +953,7 @@ order.cpp:75:28: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdepr
 /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
 arma_deprecated
 ^
-/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:303:44: note: expanded from macro 'arma_deprecated'
+/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:304:44: note: expanded from macro 'arma_deprecated'
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 2 warnings generated.
@@ -1100,7 +1064,7 @@ kNN.cpp:25:19: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprec
 /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
 arma_deprecated
 ^
-/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:303:44: note: expanded from macro 'arma_deprecated'
+/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:304:44: note: expanded from macro 'arma_deprecated'
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 1 warning generated.
@@ -1111,7 +1075,7 @@ order.cpp:26:21: warning: 'sort_index<arma::subview<double> >' is deprecated [-W
 /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::subview<double> >' has been explicitly marked deprecated here
 arma_deprecated
 ^
-/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:303:44: note: expanded from macro 'arma_deprecated'
+/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:304:44: note: expanded from macro 'arma_deprecated'
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 order.cpp:75:28: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdeprecated-declarations]
@@ -1120,7 +1084,7 @@ order.cpp:75:28: warning: 'sort_index<arma::Mat<double> >' is deprecated [-Wdepr
 /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/fn_sort_index.hpp:40:1: note: 'sort_index<arma::Mat<double> >' has been explicitly marked deprecated here
 arma_deprecated
 ^
-/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:303:44: note: expanded from macro 'arma_deprecated'
+/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/CaseBasedReasoning/RcppArmadillo/include/armadillo_bits/compiler_setup.hpp:304:44: note: expanded from macro 'arma_deprecated'
     #define arma_deprecated __attribute__((__deprecated__))
                                            ^
 2 warnings generated.
@@ -1217,9 +1181,9 @@ Run `revdep_details(,"")` for more info
 ```
 
   There are binary versions available but the source versions are later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
+            binary  source needs_compilation
+data.table  1.12.2  1.12.4              TRUE
+KernSmooth 2.23-15 2.23-16              TRUE
 
   Binaries will be installed
 
@@ -1234,9 +1198,9 @@ installing the source package ‘reactome.db’
 ```
 
   There are binary versions available but the source versions are later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
+            binary  source needs_compilation
+data.table  1.12.2  1.12.4              TRUE
+KernSmooth 2.23-15 2.23-16              TRUE
 
   Binaries will be installed
 
@@ -1267,11 +1231,9 @@ Run `revdep_details(,"")` for more info
 ```
 
   There are binary versions available but the source versions are later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
-later       0.8.0  1.0.0              TRUE
-promises    1.0.1  1.1.0              TRUE
+            binary  source needs_compilation
+data.table  1.12.2  1.12.4              TRUE
+KernSmooth 2.23-15 2.23-16              TRUE
 
   Binaries will be installed
 
@@ -1286,11 +1248,9 @@ installing the source packages ‘pd.genomewidesnp.6’, ‘reactome.db’
 ```
 
   There are binary versions available but the source versions are later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
-later       0.8.0  1.0.0              TRUE
-promises    1.0.1  1.1.0              TRUE
+            binary  source needs_compilation
+data.table  1.12.2  1.12.4              TRUE
+KernSmooth 2.23-15 2.23-16              TRUE
 
   Binaries will be installed
 
@@ -1362,7 +1322,7 @@ ERROR: compilation failed for package ‘circumplex’
 * URL: https://github.com/mschubert/clustermq
 * BugReports: https://github.com/mschubert/clustermq/issues
 * Date/Publication: 2019-06-05 22:00:39 UTC
-* Number of recursive dependencies: 104
+* Number of recursive dependencies: 105
 
 Run `revdep_details(,"clustermq")` for more info
 
@@ -1400,17 +1360,14 @@ Run `revdep_details(,"")` for more info
 
 ```
 
-  There are binary versions available but the source versions are later:
+  There is a binary version available but the source version is later:
            binary source needs_compilation
 data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
-later       0.8.0  1.0.0              TRUE
-promises    1.0.1  1.1.0              TRUE
 
   Binaries will be installed
 
 
-installing the source packages ‘KEGG.db’, ‘reactome.db’
+installing the source package ‘reactome.db’
 
 
 
@@ -1419,17 +1376,14 @@ installing the source packages ‘KEGG.db’, ‘reactome.db’
 
 ```
 
-  There are binary versions available but the source versions are later:
+  There is a binary version available but the source version is later:
            binary source needs_compilation
 data.table 1.12.2 1.12.4              TRUE
-htmltools   0.3.6  0.4.0              TRUE
-later       0.8.0  1.0.0              TRUE
-promises    1.0.1  1.1.0              TRUE
 
   Binaries will be installed
 
 
-installing the source packages ‘KEGG.db’, ‘reactome.db’
+installing the source package ‘reactome.db’
 
 
 
@@ -1565,7 +1519,7 @@ ERROR: compilation failed for package ‘colorednoise’
 * Source code: https://github.com/cran/COMPASS
 * BugReports: https://github.com/RGLab/COMPASS/issues
 * Date/Publication: 2019-05-02
-* Number of recursive dependencies: 138
+* Number of recursive dependencies: 139
 
 Run `revdep_details(,"COMPASS")` for more info
 
@@ -1791,7 +1745,7 @@ ERROR: compilation failed for package ‘Countr’
 * Source code: https://github.com/cran/cpr
 * URL: https://github.com/dewittpe/cpr/
 * Date/Publication: 2017-03-07 13:41:34
-* Number of recursive dependencies: 90
+* Number of recursive dependencies: 91
 
 Run `revdep_details(,"cpr")` for more info
 
@@ -1878,7 +1832,7 @@ ERROR: compilation failed for package ‘cpr’
 * Version: 2.2.1
 * Source code: https://github.com/cran/crawl
 * Date/Publication: 2018-09-14 19:20:10 UTC
-* Number of recursive dependencies: 100
+* Number of recursive dependencies: 101
 
 Run `revdep_details(,"crawl")` for more info
 
@@ -1955,7 +1909,7 @@ ERROR: compilation failed for package ‘crawl’
 * URL: http://www.deepbionics.org
 * BugReports: https://github.com/Mthrun/DataVisualizations/issues
 * Date/Publication: 2019-08-20 11:40:05 UTC
-* Number of recursive dependencies: 148
+* Number of recursive dependencies: 149
 
 Run `revdep_details(,"DataVisualizations")` for more info
 
@@ -2056,7 +2010,7 @@ Run `revdep_details(,"DeLorean")` for more info
 * URL: https://www.depthproc.zstat.pl/, https://github.com/zzawadz/DepthProc
 * BugReports: https://github.com/zzawadz/DepthProc/issues
 * Date/Publication: 2019-04-22 12:00:03 UTC
-* Number of recursive dependencies: 113
+* Number of recursive dependencies: 114
 
 Run `revdep_details(,"DepthProc")` for more info
 
@@ -2221,11 +2175,11 @@ Run `revdep_details(,"DiffBind")` for more info
 
 <details>
 
-* Version: 0.2.0
+* Version: 0.2.5
 * Source code: https://github.com/cran/dodgr
 * URL: https://github.com/ATFutures/dodgr
 * BugReports: https://github.com/ATFutures/dodgr/issues
-* Date/Publication: 2019-06-05 22:10:22 UTC
+* Date/Publication: 2019-10-10 14:00:02 UTC
 * Number of recursive dependencies: 94
 
 Run `revdep_details(,"dodgr")` for more info
@@ -2262,7 +2216,7 @@ In file included from ./pathfinders.h:7:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
     static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
                          ^
-./pathfinders.h:115:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
+./pathfinders.h:121:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
         EdgeSet edge_set;
                 ^
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:967:5: note: from 'diagnose_if' attribute on '__diagnose_non_const_comparator<PF::DijkstraEdge, PF::by_wt>':
@@ -2273,6 +2227,24 @@ In file included from ./pathfinders.h:7:
                     ^           ~~~~~~~~~~~
 1 warning generated.
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c dodgr-to-sf.cpp -o dodgr-to-sf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c flows.cpp -o flows.o
+In file included from flows.cpp:2:
+In file included from ./run_sp.h:9:
+In file included from /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include/RcppCommon.h:57:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
+    static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
+                         ^
+./pathfinders.h:121:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
+        EdgeSet edge_set;
+                ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:967:5: note: from 'diagnose_if' attribute on '__diagnose_non_const_comparator<PF::DijkstraEdge, PF::by_wt>':
+    _LIBCPP_DIAGNOSE_WARNING(!std::__invokable<_Compare const&, _Tp const&, _Tp const&>::value,
+    ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__config:1320:21: note: expanded from macro '_LIBCPP_DIAGNOSE_WARNING'
+     __attribute__((diagnose_if(__VA_ARGS__, "warning")))
+                    ^           ~~~~~~~~~~~
+1 warning generated.
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c fund-cycles.cpp -o fund-cycles.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c graph-contract.cpp -o graph-contract.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c graph.cpp -o graph.o
@@ -2286,7 +2258,7 @@ In file included from /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.n
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
     static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
                          ^
-./pathfinders.h:115:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
+./pathfinders.h:121:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
         EdgeSet edge_set;
                 ^
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:967:5: note: from 'diagnose_if' attribute on '__diagnose_non_const_comparator<PF::DijkstraEdge, PF::by_wt>':
@@ -2317,7 +2289,7 @@ turn_penalty.cpp:49:5: note: in instantiation of template class 'std::__1::set<O
      __attribute__((diagnose_if(__VA_ARGS__, "warning")))
                     ^           ~~~~~~~~~~~
 1 warning generated.
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dodgr.so heaps/bheap.o heaps/fheap.o heaps/heap23.o heaps/radixheap.o heaps/triheap_ext.o heaps/triheap.o dgraph.o pathfinders.o dodgr-to-sf.o fund-cycles.o graph-contract.o graph.o graph-sample.o RcppExports.o run_sp.o sc-as-network.o sf-as-network.o turn_penalty.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dodgr.so heaps/bheap.o heaps/fheap.o heaps/heap23.o heaps/radixheap.o heaps/triheap_ext.o heaps/triheap.o dgraph.o pathfinders.o dodgr-to-sf.o flows.o fund-cycles.o graph-contract.o graph.o graph-sample.o RcppExports.o run_sp.o sc-as-network.o sf-as-network.o turn_penalty.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -2347,7 +2319,7 @@ In file included from ./pathfinders.h:7:
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
     static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
                          ^
-./pathfinders.h:115:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
+./pathfinders.h:121:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
         EdgeSet edge_set;
                 ^
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:967:5: note: from 'diagnose_if' attribute on '__diagnose_non_const_comparator<PF::DijkstraEdge, PF::by_wt>':
@@ -2358,6 +2330,24 @@ In file included from ./pathfinders.h:7:
                     ^           ~~~~~~~~~~~
 1 warning generated.
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c dodgr-to-sf.cpp -o dodgr-to-sf.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c flows.cpp -o flows.o
+In file included from flows.cpp:2:
+In file included from ./run_sp.h:9:
+In file included from /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include/Rcpp.h:27:
+In file included from /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include/RcppCommon.h:57:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
+    static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
+                         ^
+./pathfinders.h:121:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
+        EdgeSet edge_set;
+                ^
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:967:5: note: from 'diagnose_if' attribute on '__diagnose_non_const_comparator<PF::DijkstraEdge, PF::by_wt>':
+    _LIBCPP_DIAGNOSE_WARNING(!std::__invokable<_Compare const&, _Tp const&, _Tp const&>::value,
+    ^                        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__config:1320:21: note: expanded from macro '_LIBCPP_DIAGNOSE_WARNING'
+     __attribute__((diagnose_if(__VA_ARGS__, "warning")))
+                    ^           ~~~~~~~~~~~
+1 warning generated.
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c fund-cycles.cpp -o fund-cycles.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c graph-contract.cpp -o graph-contract.o
 clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/dodgr/RcppParallel/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c graph.cpp -o graph.o
@@ -2371,7 +2361,7 @@ In file included from /Users/romainfrancois/git/tidyverse/dplyr/revdep/library.n
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/set:454:26: warning: the specified comparator type does not provide a const call operator [-Wuser-defined-warnings]
     static_assert(sizeof(__diagnose_non_const_comparator<_Key, _Compare>()), "");
                          ^
-./pathfinders.h:115:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
+./pathfinders.h:121:17: note: in instantiation of template class 'std::__1::set<PF::DijkstraEdge, PF::by_wt, std::__1::allocator<PF::DijkstraEdge> >' requested here
         EdgeSet edge_set;
                 ^
 /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/../include/c++/v1/__tree:967:5: note: from 'diagnose_if' attribute on '__diagnose_non_const_comparator<PF::DijkstraEdge, PF::by_wt>':
@@ -2402,7 +2392,7 @@ turn_penalty.cpp:49:5: note: in instantiation of template class 'std::__1::set<O
      __attribute__((diagnose_if(__VA_ARGS__, "warning")))
                     ^           ~~~~~~~~~~~
 1 warning generated.
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dodgr.so heaps/bheap.o heaps/fheap.o heaps/heap23.o heaps/radixheap.o heaps/triheap_ext.o heaps/triheap.o dgraph.o pathfinders.o dodgr-to-sf.o fund-cycles.o graph-contract.o graph.o graph-sample.o RcppExports.o run_sp.o sc-as-network.o sf-as-network.o turn_penalty.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o dodgr.so heaps/bheap.o heaps/fheap.o heaps/heap23.o heaps/radixheap.o heaps/triheap_ext.o heaps/triheap.o dgraph.o pathfinders.o dodgr-to-sf.o flows.o fund-cycles.o graph-contract.o graph.o graph-sample.o RcppExports.o run_sp.o sc-as-network.o sf-as-network.o turn_penalty.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -2421,7 +2411,7 @@ ERROR: compilation failed for package ‘dodgr’
 * URL: https://github.com/asardaes/dtwclust
 * BugReports: https://github.com/asardaes/dtwclust/issues
 * Date/Publication: 2019-09-19 08:50:02 UTC
-* Number of recursive dependencies: 83
+* Number of recursive dependencies: 84
 
 Run `revdep_details(,"dtwclust")` for more info
 
@@ -2684,6 +2674,58 @@ ERROR: compilation failed for package ‘dynfrail’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/dynfrail/old/dynfrail.Rcheck/dynfrail’
 
 ```
+# ELMER
+
+<details>
+
+* Version: 2.8.3
+* Source code: https://github.com/cran/ELMER
+* Date/Publication: 2019-09-06
+* Number of recursive dependencies: 205
+
+Run `revdep_details(,"ELMER")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking Rd \usage sections ... WARNING
+    ```
+    Undocumented arguments in documentation object 'heatmapGene'
+      ‘correlation.method’ ‘scatter.plot.width’ ‘scatter.plot.height’
+    
+    Functions with \usage entries need to have the appropriate \alias
+    entries, and all their arguments documented.
+    The \usage entries must correspond to syntactically valid R code.
+    See chapter ‘Writing R documentation files’ in the ‘Writing R
+    Extensions’ manual.
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is 75.6Mb
+      sub-directories of 1Mb or more:
+        doc  75.1Mb
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    addMutCol: no visible binding for global variable 'Hugo_Symbol'
+    calcDistNearestTSS: no visible binding for global variable
+      'DistanceTSS'
+    getRegionNearGenes : f: no visible binding for global variable 'Side'
+    getRegionNearGenes: no visible binding for global variable 'ID'
+    getTFtargets: no visible binding for global variable 'TF'
+    heatmapGene: no visible global function definition for 'melt'
+    heatmapGene: no visible binding for global variable 'mae'
+    heatmapGene: no visible global function definition for 'stat_cor'
+    Undefined global functions or variables:
+      DistanceTSS Hugo_Symbol ID Side TF mae melt stat_cor
+    ```
+
 # exuber
 
 <details>
@@ -2866,6 +2908,69 @@ ERROR: compilation failed for package ‘fastLink’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/fastLink/old/fastLink.Rcheck/fastLink’
 
 ```
+# FindMyFriends
+
+<details>
+
+* Version: 1.14.0
+* Source code: https://github.com/cran/FindMyFriends
+* URL: https://github.com/thomasp85/FindMyFriends
+* BugReports: https://github.com/thomasp85/FindMyFriends/issues
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 85
+
+Run `revdep_details(,"FindMyFriends")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking for code/documentation mismatches ... WARNING
+    ```
+    Functions or methods with usage in documentation object 'pgVirtual-class' but not in code:
+      ‘as’
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  5.7Mb
+      sub-directories of 1Mb or more:
+        R         1.0Mb
+        doc       1.5Mb
+        extdata   1.8Mb
+        libs      1.2Mb
+    ```
+
+*   checking dependencies in R code ... NOTE
+    ```
+    Unexported objects imported by ':::' calls:
+      ‘gtable:::insert.unit’ ‘gtable:::z_arrange_gtables’
+      See the note in ?`:::` about the use of this operator.
+    ```
+
+# fingertipsR
+
+<details>
+
+* Version: 0.2.9
+* Source code: https://github.com/cran/fingertipsR
+* URL: https://fingertips.phe.org.uk, https://github.com/ropensci/fingertipsR
+* BugReports: https://github.com/ropensci/fingertipsR/issues
+* Date/Publication: 2019-09-25 08:00:02 UTC
+* Number of recursive dependencies: 77
+
+Run `revdep_details(,"fingertipsR")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
 # fourierin
 
 <details>
@@ -3093,102 +3198,93 @@ ERROR: compilation failed for package ‘gap’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/gap/old/gap.Rcheck/gap’
 
 ```
-# GAPGOM
-
-<details>
-
-* Version: 
-* Source code: ???
-* URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
-* BugReports: https://github.com/tidyverse/dplyr/issues
-* Number of recursive dependencies: 0
-
-Run `revdep_details(,"")` for more info
-
-</details>
-
-## Error before installation
-
-### Devel
-
-```
-
-  There is a binary version available but the source version is later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
-
-  Binaries will be installed
-
-
-installing the source packages ‘org.Ag.eg.db’, ‘org.At.tair.db’, ‘org.Bt.eg.db’, ‘org.Ce.eg.db’, ‘org.Cf.eg.db’, ‘org.Dm.eg.db’, ‘org.Dr.eg.db’, ‘org.EcK12.eg.db’, ‘org.EcSakai.eg.db’, ‘org.Gg.eg.db’, ‘org.Mmu.eg.db’, ‘org.Pf.plasmo.db’, ‘org.Pt.eg.db’, ‘org.Rn.eg.db’, ‘org.Sc.sgd.db’, ‘org.Ss.eg.db’, ‘org.Xl.eg.db’
-
-
-
-```
-### CRAN
-
-```
-
-  There is a binary version available but the source version is later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
-
-  Binaries will be installed
-
-
-installing the source packages ‘org.Ag.eg.db’, ‘org.At.tair.db’, ‘org.Bt.eg.db’, ‘org.Ce.eg.db’, ‘org.Cf.eg.db’, ‘org.Dm.eg.db’, ‘org.Dr.eg.db’, ‘org.EcK12.eg.db’, ‘org.EcSakai.eg.db’, ‘org.Gg.eg.db’, ‘org.Mmu.eg.db’, ‘org.Pf.plasmo.db’, ‘org.Pt.eg.db’, ‘org.Rn.eg.db’, ‘org.Sc.sgd.db’, ‘org.Ss.eg.db’, ‘org.Xl.eg.db’
-
-
-
-```
 # geneXtendeR
 
 <details>
 
-* Version: 
-* Source code: ???
-* URL: https://dplyr.tidyverse.org, https://github.com/tidyverse/dplyr
-* BugReports: https://github.com/tidyverse/dplyr/issues
-* Number of recursive dependencies: 0
+* Version: 1.10.0
+* Source code: https://github.com/cran/geneXtendeR
+* URL: https://github.com/Bohdan-Khomtchouk/geneXtendeR
+* BugReports: https://github.com/Bohdan-Khomtchouk/geneXtendeR/issues
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 105
 
-Run `revdep_details(,"")` for more info
+Run `revdep_details(,"geneXtendeR")` for more info
 
 </details>
 
-## Error before installation
+## In both
 
-### Devel
+*   R CMD check timed out
+    
 
-```
+*   checking whether package ‘geneXtendeR’ can be installed ... WARNING
+    ```
+    Found the following significant warnings:
+      Warning: package ‘rtracklayer’ was built under R version 3.6.1
+      Warning: package ‘GenomicRanges’ was built under R version 3.6.1
+      Warning: package ‘S4Vectors’ was built under R version 3.6.1
+      Warning: package ‘IRanges’ was built under R version 3.6.1
+      Warning: package ‘AnnotationDbi’ was built under R version 3.6.1
+    See ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/geneXtendeR/new/geneXtendeR.Rcheck/00install.out’ for details.
+    ```
 
-  There is a binary version available but the source version is later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
+*   checking installed package size ... NOTE
+    ```
+      installed size is 11.7Mb
+      sub-directories of 1Mb or more:
+        data      6.1Mb
+        doc       1.9Mb
+        extdata   3.5Mb
+    ```
 
-  Binaries will be installed
+*   checking DESCRIPTION meta-information ... NOTE
+    ```
+    Package listed in more than one of Depends, Imports, Suggests, Enhances:
+      ‘rtracklayer’
+    A package should be listed in only one of these fields.
+    ```
 
+*   checking dependencies in R code ... NOTE
+    ```
+    Namespaces in Imports field not imported from:
+      ‘BiocStyle’ ‘SnowballC’ ‘org.Rn.eg.db’
+      All declared Imports should be used.
+    ```
 
-installing the source packages ‘org.Ag.eg.db’, ‘org.Bt.eg.db’, ‘org.Ce.eg.db’, ‘org.Cf.eg.db’, ‘org.Dm.eg.db’, ‘org.Dr.eg.db’, ‘org.Gg.eg.db’, ‘org.Pt.eg.db’, ‘org.Rn.eg.db’, ‘org.Sc.sgd.db’, ‘org.Ss.eg.db’, ‘org.Xl.eg.db’
+*   checking R code for possible problems ... NOTE
+    ```
+    ...
+    peaksInput: no visible binding for global variable ‘chr’
+    peaksInput: no visible global function definition for ‘na.omit’
+    peaksMerge: no visible binding for global variable ‘chr’
+    peaksMerge: no visible binding for global variable ‘g’
+    peaksMerge: no visible global function definition for ‘.’
+    plotWordFreq : geneXtender: no visible binding for global variable
+      ‘type’
+    plotWordFreq : geneXtender: no visible binding for global variable
+      ‘seqid’
+    plotWordFreq : geneXtender: no visible binding for global variable
+      ‘gene_id’
+    plotWordFreq : geneXtender: no visible binding for global variable
+      ‘gene_name’
+    Undefined global functions or variables:
+      . ..I Chromosome Distance-of-Gene-to-Nearest-Peak Gene-End Gene-ID
+      Gene-Name Gene-Start Number-of-Peaks-Associated-with-Gene
+      Peaks-on-Gene-Body chr distance g gene_id gene_name gene_name_id
+      na.omit rat sd seqid type
+    Consider adding
+      importFrom("stats", "na.omit", "sd")
+    to your NAMESPACE file.
+    ```
 
+*   checking files in ‘vignettes’ ... NOTE
+    ```
+    Files named as vignettes but with no recognized vignette engine:
+       ‘vignettes/geneXtendeR.Rnw’
+    (Is a VignetteBuilder field missing?)
+    ```
 
-
-```
-### CRAN
-
-```
-
-  There is a binary version available but the source version is later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
-
-  Binaries will be installed
-
-
-installing the source packages ‘org.Ag.eg.db’, ‘org.Bt.eg.db’, ‘org.Ce.eg.db’, ‘org.Cf.eg.db’, ‘org.Dm.eg.db’, ‘org.Dr.eg.db’, ‘org.Gg.eg.db’, ‘org.Pt.eg.db’, ‘org.Rn.eg.db’, ‘org.Sc.sgd.db’, ‘org.Ss.eg.db’, ‘org.Xl.eg.db’
-
-
-
-```
 # GenomicMating
 
 <details>
@@ -3196,7 +3292,7 @@ installing the source packages ‘org.Ag.eg.db’, ‘org.Bt.eg.db’, ‘org.Ce
 * Version: 2.0
 * Source code: https://github.com/cran/GenomicMating
 * Date/Publication: 2018-07-01 23:00:03 UTC
-* Number of recursive dependencies: 81
+* Number of recursive dependencies: 82
 
 Run `revdep_details(,"GenomicMating")` for more info
 
@@ -3250,26 +3346,6 @@ ERROR: compilation failed for package ‘GenomicMating’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/GenomicMating/old/GenomicMating.Rcheck/GenomicMating’
 
 ```
-# getTBinR
-
-<details>
-
-* Version: 0.7.0
-* Source code: https://github.com/cran/getTBinR
-* URL: https://www.samabbott.co.uk/getTBinR, https://github.com/seabbs/getTBinR
-* BugReports: https://github.com/seabbs/getTBinR/issues
-* Date/Publication: 2019-09-03 13:50:06 UTC
-* Number of recursive dependencies: 146
-
-Run `revdep_details(,"getTBinR")` for more info
-
-</details>
-
-## Newly broken
-
-*   R CMD check timed out
-    
-
 # goldi
 
 <details>
@@ -3340,7 +3416,7 @@ ERROR: compilation failed for package ‘goldi’
 * Version: 1.16.0
 * Source code: https://github.com/cran/gQTLstats
 * Date/Publication: 2019-05-02
-* Number of recursive dependencies: 191
+* Number of recursive dependencies: 192
 
 Run `revdep_details(,"gQTLstats")` for more info
 
@@ -3368,7 +3444,7 @@ Run `revdep_details(,"gQTLstats")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 65.8Mb
+      installed size is 65.7Mb
       sub-directories of 1Mb or more:
         data        11.0Mb
         doc          1.1Mb
@@ -3544,6 +3620,78 @@ ERROR: compilation failed for package ‘graphicalVAR’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/graphicalVAR/old/graphicalVAR.Rcheck/graphicalVAR’
 
 ```
+# grasp2db
+
+<details>
+
+* Version: 1.1.0
+* Source code: https://github.com/cran/grasp2db
+* Number of recursive dependencies: 100
+
+Run `revdep_details(,"grasp2db")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking for missing documentation entries ... WARNING
+    ```
+    Undocumented code objects:
+      ‘GRASP2’ ‘checkAnti’ ‘getJoinCompatible’
+    Undocumented data sets:
+      ‘mml10p_nox’ ‘uniqueGexNames2.0’ ‘uniquePPDnames2.0’
+    All user-level objects in a package should have documentation entries.
+    See chapter ‘Writing R documentation files’ in the ‘Writing R
+    Extensions’ manual.
+    ```
+
+*   checking data for non-ASCII characters ... WARNING
+    ```
+      Warning: found non-ASCII string
+      'Beh<e7>et's disease' in object 'uniquePPDnames2.0'
+    ```
+
+*   checking data for ASCII and uncompressed saves ... WARNING
+    ```
+      
+      Note: significantly better compression could be obtained
+            by using R CMD build --resave-data
+                            old_size new_size compress
+      mml10p_nox.rda           7.1Mb    2.8Mb       xz
+      uniquePPDnames2.0.rda     17Kb     15Kb    bzip2
+    ```
+
+*   checking package dependencies ... NOTE
+    ```
+    Package which this enhances but not available for checking: ‘AnnotationHubData’
+    ```
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.6Mb
+      sub-directories of 1Mb or more:
+        data   7.1Mb
+    ```
+
+*   checking DESCRIPTION meta-information ... NOTE
+    ```
+    License components with restrictions not permitted:
+      Artistic-2.0 + file LICENSE
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    .grasp2ToAnnotationHub: no visible global function definition for
+      ‘outputFile’
+    checkAnti: no visible binding for global variable ‘chr_hg19’
+    getJoinCompatible: no visible binding for global variable ‘gwrngs19’
+    Undefined global functions or variables:
+      chr_hg19 gwrngs19 outputFile
+    ```
+
 # heatwaveR
 
 <details>
@@ -3553,7 +3701,7 @@ ERROR: compilation failed for package ‘graphicalVAR’
 * URL: https://robwschlegel.github.io/heatwaveR/index.html, https://github.com/robwschlegel/heatwaveR
 * BugReports: https://github.com/robwschlegel/heatwaveR/issues
 * Date/Publication: 2019-09-09 20:30:03 UTC
-* Number of recursive dependencies: 121
+* Number of recursive dependencies: 122
 
 Run `revdep_details(,"heatwaveR")` for more info
 
@@ -3670,7 +3818,7 @@ ERROR: lazy loading failed for package ‘iCNV’
 * Source code: https://github.com/cran/idefix
 * URL: https://github.com/traets/idefix
 * Date/Publication: 2019-08-01 16:40:12 UTC
-* Number of recursive dependencies: 60
+* Number of recursive dependencies: 61
 
 Run `revdep_details(,"idefix")` for more info
 
@@ -3789,7 +3937,7 @@ ERROR: lazy loading failed for package ‘infercnv’
 * Source code: https://github.com/cran/iRF
 * URL: https://arxiv.org/abs/1706.08457
 * Date/Publication: 2017-07-26 04:57:45 UTC
-* Number of recursive dependencies: 73
+* Number of recursive dependencies: 74
 
 Run `revdep_details(,"iRF")` for more info
 
@@ -3854,11 +4002,11 @@ Run `revdep_details(,"IrisSpatialFeatures")` for more info
 
 <details>
 
-* Version: 0.1.5
+* Version: 0.1.6
 * Source code: https://github.com/cran/lpirfs
 * BugReports: https://github.com/adaemmerp/lpirfs/issues
-* Date/Publication: 2019-04-11 12:52:44 UTC
-* Number of recursive dependencies: 83
+* Date/Publication: 2019-10-11 18:40:02 UTC
+* Number of recursive dependencies: 98
 
 Run `revdep_details(,"lpirfs")` for more info
 
@@ -3922,9 +4070,10 @@ Run `revdep_details(,"")` for more info
 
 ```
 
-  There is a binary version available but the source version is later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
+  There are binary versions available but the source versions are later:
+            binary  source needs_compilation
+data.table  1.12.2  1.12.4              TRUE
+KernSmooth 2.23-15 2.23-16              TRUE
 
   Binaries will be installed
 
@@ -3938,9 +4087,10 @@ installing the source packages ‘hugene10sttranscriptcluster.db’, ‘pd.hugen
 
 ```
 
-  There is a binary version available but the source version is later:
-           binary source needs_compilation
-data.table 1.12.2 1.12.4              TRUE
+  There are binary versions available but the source versions are later:
+            binary  source needs_compilation
+data.table  1.12.2  1.12.4              TRUE
+KernSmooth 2.23-15 2.23-16              TRUE
 
   Binaries will be installed
 
@@ -4200,7 +4350,7 @@ ERROR: compilation failed for package ‘MixMatrix’
 * Version: 1.4.3
 * Source code: https://github.com/cran/momentuHMM
 * Date/Publication: 2018-11-22 08:40:13 UTC
-* Number of recursive dependencies: 164
+* Number of recursive dependencies: 165
 
 Run `revdep_details(,"momentuHMM")` for more info
 
@@ -4262,33 +4412,6 @@ ERROR: compilation failed for package ‘momentuHMM’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/momentuHMM/old/momentuHMM.Rcheck/momentuHMM’
 
 ```
-# MonetDBLite
-
-<details>
-
-* Version: 0.6.0
-* Source code: https://github.com/cran/MonetDBLite
-* URL: https://github.com/hannesmuehleisen/MonetDBLite-R
-* BugReports: https://github.com/hannesmuehleisen/MonetDBLite-R/issues
-* Date/Publication: 2018-07-27 09:40:03 UTC
-* Number of recursive dependencies: 110
-
-Run `revdep_details(,"MonetDBLite")` for more info
-
-</details>
-
-## In both
-
-*   R CMD check timed out
-    
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.7Mb
-      sub-directories of 1Mb or more:
-        libs   5.3Mb
-    ```
-
 # morse
 
 <details>
@@ -4362,11 +4485,11 @@ ERROR: lazy loading failed for package ‘morse’
 
 <details>
 
-* Version: 0.9.2
+* Version: 0.10.0
 * Source code: https://github.com/cran/mrgsolve
 * URL: https://github.com/metrumresearchgroup/mrgsolve
 * BugReports: https://github.com/metrumresearchgroup/mrgsolve/issues
-* Date/Publication: 2019-07-13 23:30:08 UTC
+* Date/Publication: 2019-10-15 13:50:02 UTC
 * Number of recursive dependencies: 43
 
 Run `revdep_details(,"mrgsolve")` for more info
@@ -4390,1486 +4513,16 @@ Run `revdep_details(,"mrgsolve")` for more info
 ** package ‘mrgsolve’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c dataobject.cpp -o dataobject.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c datarecord.cpp -o datarecord.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c devtran.cpp -o devtran.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c housemodel-mread-source.cpp -o housemodel-mread-source.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c mrgsimq.cpp -o mrgsimq.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c mrgsolve.cpp -o mrgsolve.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c mrgsolve_init.cpp -o mrgsolve_init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c odepack_dlsoda.cpp -o odepack_dlsoda.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c odeproblem.cpp -o odeproblem.o
-gfortran  -fPIC  -Wall -g -O2  -c opk_dlsoda_mrg.f -o opk_dlsoda_mrg.o
-opk_dlsoda_mrg.f:127:72:
-
-  127 |  110      PC(I) = PC(I-1) + FNQM1*PC(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:136:72:
-
-  136 |  120      XPIN = XPIN + TSIGN*PC(I)/(I+1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:141:72:
-
-  141 |  130      ELCO(I+1,NQ) = RQ1FAC*PC(I)/I
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 130 at (1)
-opk_dlsoda_mrg.f:164:72:
-
-  164 |  210      PC(I) = PC(I-1) + FNQ*PC(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:168:72:
-
-  168 |  220      ELCO(I,NQ) = PC(I)/PC(2)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:250:72:
-
-  250 |  10     IC = IC*JJ
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:253:72:
-
-  253 |  20     DKY(I) = C*YH(I,L)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:263:72:
-
-  263 |  30       IC = IC*JJ
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 30 at (1)
-opk_dlsoda_mrg.f:266:72:
-
-  266 |  40       DKY(I) = C*YH(I,JP1) + S*DKY(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:271:72:
-
-  271 |  60     DKY(I) = R*DKY(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:373:72:
-
-  373 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:377:72:
-
-  377 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:392:72:
-
-  392 |  220      WM(I+J1) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:402:72:
-
-  402 |  250    J = J + NP1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 250 at (1)
-opk_dlsoda_mrg.f:411:72:
-
-  411 |  310    Y(I) = Y(I) + R*(H*SAVF(I) - YH(I,2))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 310 at (1)
-opk_dlsoda_mrg.f:433:72:
-
-  433 |  410    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:437:72:
-
-  437 |  420    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 420 at (1)
-opk_dlsoda_mrg.f:454:72:
-
-  454 |  530      Y(I) = Y(I) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:465:72:
-
-  465 |  540        WM(II+I) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 540 at (1)
-opk_dlsoda_mrg.f:473:72:
-
-  473 |  580    II = II + MEBAND
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 580 at (1)
-opk_dlsoda_mrg.f:557:72:
-
-  557 |  320    WM(I+2) = 1.0D0/DI
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 320 at (1)
-opk_dlsoda_mrg.f:559:72:
-
-  559 |  340    X(I) = WM(I+2)*X(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 340 at (1)
-opk_dlsoda_mrg.f:811:72:
-
-  811 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:832:72:
-
-  832 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:855:72:
-
-  855 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:856:72:
-
-  856 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:877:72:
-
-  877 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:887:72:
-
-  887 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:903:72:
-
-  903 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:911:72:
-
-  911 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:915:72:
-
-  915 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:923:72:
-
-  923 |  360    Y(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:930:72:
-
-  930 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:965:72:
-
-  965 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:1000:72:
-
- 1000 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:1001:72:
-
- 1001 |  470      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:1007:72:
-
- 1007 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:1023:72:
-
- 1023 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:1043:72:
-
- 1043 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:1070:72:
-
- 1070 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:1100:72:
-
- 1100 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:1104:72:
-
- 1104 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:1125:72:
-
- 1125 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:1163:72:
-
- 1163 |  15     EWT(I) = RTOL(1)*ABS(YCUR(I)) + ATOL(1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 15 at (1)
-opk_dlsoda_mrg.f:1167:72:
-
- 1167 |  25     EWT(I) = RTOL(1)*ABS(YCUR(I)) + ATOL(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:1171:72:
-
- 1171 |  35     EWT(I) = RTOL(I)*ABS(YCUR(I)) + ATOL(1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 35 at (1)
-opk_dlsoda_mrg.f:1175:72:
-
- 1175 |  45     EWT(I) = RTOL(I)*ABS(YCUR(I)) + ATOL(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 45 at (1)
-opk_dlsoda_mrg.f:1209:72:
-
- 1209 |  10     SUM = SUM + (V(I)*W(I))**2
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:1271:72:
-
- 1271 |  10     RWORK(I) = RWORK(I+LYHD)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:1281:72:
-
- 1281 |  30     RWORK(I+LEWTN-1) = RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 30 at (1)
-opk_dlsoda_mrg.f:1375:72:
-
- 1375 |  25     Y(I) = YH(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:1413:72:
-
- 1413 |  75       SAVF(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 75 at (1)
-opk_dlsoda_mrg.f:1455:72:
-
- 1455 |  145    Y(I) = YH(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 145 at (1)
-opk_dlsoda_mrg.f:1485:72:
-
- 1485 |  170    IWK(IBR+I) = I
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 170 at (1)
-opk_dlsoda_mrg.f:1500:72:
-
- 1500 |  180    WK(IBA+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:1575:72:
-
- 1575 |  10     JDONE(J) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:1580:72:
-
- 1580 |  20       INCL(I) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:1597:72:
-
- 1597 |  40         INCL(I) = 1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:1655:72:
-
- 1655 |           IF (JA(J) - II) 10, 40, 30
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:1765:72:
-
- 1765 |  110      FTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:1788:72:
-
- 1788 |  210      Y(JJ) = Y(JJ) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:1836:72:
-
- 1836 |  295    FTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 295 at (1)
-opk_dlsoda_mrg.f:1854:72:
-
- 1854 |  310    Y(I) = Y(I) + R*(H*SAVF(I) - YH(I,2))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 310 at (1)
-opk_dlsoda_mrg.f:1940:72:
-
- 1940 |  320    WK(I+2) = 1.0D0/DI
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 320 at (1)
-opk_dlsoda_mrg.f:1942:72:
-
- 1942 |  340    X(I) = WK(I+2)*X(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 340 at (1)
-opk_dlsoda_mrg.f:2313:72:
-
- 2313 |    5    last(next(k)) = k
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 5 at (1)
-opk_dlsoda_mrg.f:2329:72:
-
- 2329 |    1    head(vi) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:2340:72:
-
- 2340 |           if (vj-vi) 2, 5, 4
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:2378:72:
-
- 2378 |    7    mark(vi) = tag
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 7 at (1)
-opk_dlsoda_mrg.f:2550:72:
-
- 2550 |         if (last(vi))  1, 10, 8
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:2656:72:
-
- 2656 |   1     q(i) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:2672:72:
-
- 2672 |   2       q(k) = q(k) + 1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:2680:72:
-
- 2680 |   4     q(i) = ia(i+1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:2701:72:
-
- 2701 |   6     j = j-1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 6 at (1)
-opk_dlsoda_mrg.f:2943:72:
-
- 2943 |    4      isp(ju+j-1) = isp(jutmp+j-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3214:72:
-
- 3214 |    4      a(j) = ar(i)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3295:72:
-
- 3295 |    1    jru(k) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:3305:72:
-
- 3305 |    2    ira(k) = iak
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:3372:72:
-
- 3372 |           if (jl(j) - qm)  12, 13, 15
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:3391:72:
-
- 3391 |   16        jl(j) = qm
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 16 at (1)
-opk_dlsoda_mrg.f:3474:72:
-
- 3474 |           if (ju(j) - qm)  29, 30, 32
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:3493:72:
-
- 3493 |   33        ju(j) = qm
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 33 at (1)
-opk_dlsoda_mrg.f:3617:72:
-
- 3617 |    4      row(ju(j)) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3639:72:
-
- 3639 |    8        row(ju(mu+j)) = row(ju(mu+j)) + lki * u(j)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 8 at (1)
-opk_dlsoda_mrg.f:3654:72:
-
- 3654 |   11      u(j) = row(ju(mu+j)) * dk
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 11 at (1)
-opk_dlsoda_mrg.f:3687:72:
-
- 3687 |   20      sum = sum - u(j) * tmp(ju(mu+j))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:3690:72:
-
- 3690 |   22    k = k-1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 22 at (1)
-opk_dlsoda_mrg.f:3728:72:
-
- 3728 |    1    tmp(k) = b(r(k))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:3738:72:
-
- 3738 |    2      tmp(jl(ml+j)) = tmp(jl(ml+j)) + tmpk * l(j)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:3749:72:
-
- 3749 |    4      sum = sum + u(j) * tmp(ju(mu+j))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3781:72:
-
- 3781 |    1    tmp(k) = b(c(k))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:3790:72:
-
- 3790 |    2      tmp(ju(mu+j)) = tmp(ju(mu+j)) + tmpk * u(j)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:3801:72:
-
- 3801 |    4      sum = sum + l(j) * tmp(jl(ml+j))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3968:72:
-
- 3968 |  10     CM2(I) = TESCO(2,I)*ELCO(I+1,I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:3971:72:
-
- 3971 |  20     CM1(I) = TESCO(2,I)*ELCO(I+1,I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:3996:72:
-
- 3996 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:4031:72:
-
- 4031 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:4032:72:
-
- 4032 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:4053:72:
-
- 4053 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:4066:72:
-
- 4066 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:4087:72:
-
- 4087 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:4095:72:
-
- 4095 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:4099:72:
-
- 4099 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:4107:72:
-
- 4107 |  360    Y(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:4114:72:
-
- 4114 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:4170:72:
-
- 4170 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:4209:72:
-
- 4209 |         DO 460 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 460 at (1)
-opk_dlsoda_mrg.f:4210:72:
-
- 4210 |  460      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 460 at (1)
-opk_dlsoda_mrg.f:4318:72:
-
- 4318 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:4334:72:
-
- 4334 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:4354:72:
-
- 4354 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:4388:72:
-
- 4388 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:4421:72:
-
- 4421 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:4427:72:
-
- 4427 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:4448:72:
-
- 4448 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:4528:72:
-
- 4528 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:4532:72:
-
- 4532 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:4549:72:
-
- 4549 |  220      WM(I+J1) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:4562:72:
-
- 4562 |  250    J = J + NP1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 250 at (1)
-opk_dlsoda_mrg.f:4577:72:
-
- 4577 |  410    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:4581:72:
-
- 4581 |  420    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 420 at (1)
-opk_dlsoda_mrg.f:4598:72:
-
- 4598 |  530      Y(I) = Y(I) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:4611:72:
-
- 4611 |  540        WM(II+I) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 540 at (1)
-opk_dlsoda_mrg.f:4622:72:
-
- 4622 |  580    II = II + MEBAND
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 580 at (1)
-opk_dlsoda_mrg.f:4642:72:
-
- 4642 |  10     VM = MAX(VM,ABS(V(I))*W(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:4662:72:
-
- 4662 |  10       SUM = SUM + ABS(A(I,J))/W(J)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:4692:72:
-
- 4692 |  10       SUM = SUM + ABS(A(I1-J,J))/W(J)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:5378:72:
-
- 5378 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:5400:72:
-
- 5400 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:5424:72:
-
- 5424 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:5425:72:
-
- 5425 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:5451:72:
-
- 5451 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:5462:72:
-
- 5462 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:5478:72:
-
- 5478 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:5486:72:
-
- 5486 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:5490:72:
-
- 5490 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:5498:72:
-
- 5498 |  360    SAVX(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:5505:72:
-
- 5505 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:5542:72:
-
- 5542 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:5577:72:
-
- 5577 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:5578:72:
-
- 5578 |  470      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:5584:72:
-
- 5584 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:5600:72:
-
- 5600 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:5620:72:
-
- 5620 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:5647:72:
-
- 5647 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:5677:72:
-
- 5677 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:5681:72:
-
- 5681 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:5702:72:
-
- 5702 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:6028:72:
-
- 6028 |  10     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6036:72:
-
- 6036 |  25     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:6047:72:
-
- 6047 |  50     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
-opk_dlsoda_mrg.f:6055:72:
-
- 6055 |  60       HES(I,J) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6121:72:
-
- 6121 |  210    B(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:6125:72:
-
- 6125 |  220    X(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:6130:72:
-
- 6130 |  240    X(I) = X(I)/WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 240 at (1)
-opk_dlsoda_mrg.f:6220:72:
-
- 6220 |  10     VTEM(I) = V(I)/WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6227:72:
-
- 6227 |  20     Y(I) = Z(I) + VTEM(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:6238:72:
-
- 6238 |  40     Z(I) = VTEM(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:6244:72:
-
- 6244 |  50     Y(I) = Z(I) + VTEM(I)*RNORM
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
-opk_dlsoda_mrg.f:6254:72:
-
- 6254 |  70     Z(I) = FTEM(I) - SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 70 at (1)
-opk_dlsoda_mrg.f:6256:72:
-
- 6256 |  80     Z(I) = VTEM(I) - FAC*Z(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:6265:72:
-
- 6265 |  90     Z(I) = Z(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 90 at (1)
-opk_dlsoda_mrg.f:6461:72:
-
- 6461 |  10     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6469:72:
-
- 6469 |  25     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:6480:72:
-
- 6480 |  50     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
-opk_dlsoda_mrg.f:6488:72:
-
- 6488 |  60       HES(I,J) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6527:72:
-
- 6527 |  70             DL(K) = S*DL(K) + C*V(K,IP1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 70 at (1)
-opk_dlsoda_mrg.f:6534:72:
-
- 6534 |  80         DL(K) = S*DL(K) + C*V(K,LLP1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:6566:72:
-
- 6566 |  210    B(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:6570:72:
-
- 6570 |  220    X(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:6575:72:
-
- 6575 |  240    X(I) = X(I)/WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 240 at (1)
-opk_dlsoda_mrg.f:6673:72:
-
- 6673 |  10     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6701:72:
-
- 6701 |  60     P(I) = Z(I) + BETA*P(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6819:72:
-
- 6819 |  10     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6841:72:
-
- 6841 |  45     ZTR = ZTR + Z(I)*R(I)*WGHT(I)**2
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 45 at (1)
-opk_dlsoda_mrg.f:6849:72:
-
- 6849 |  60     P(I) = Z(I) + BETA*P(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6858:72:
-
- 6858 |  80     PTW = PTW + P(I)*W(I)*WGHT(I)**2
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:6942:72:
-
- 6942 |  20     Y(I) = W(I) + P(I)*RPNRM
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:6948:72:
-
- 6948 |  40     W(I) = P(I) - FAC*(WK(I) - SAVF(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:7026:72:
-
- 7026 |  20     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:7653:72:
-
- 7653 |  60     Y(I) = Y0(I) + HG*YDOT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:7656:72:
-
- 7656 |  70     TEMP(I) = (TEMP(I) - YDOT(I))/HG
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 70 at (1)
-opk_dlsoda_mrg.f:7868:72:
-
- 7868 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:7890:72:
-
- 7890 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:7914:72:
-
- 7914 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:7915:72:
-
- 7915 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:7944:72:
-
- 7944 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:7961:72:
-
- 7961 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:7987:72:
-
- 7987 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:7995:72:
-
- 7995 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:7999:72:
-
- 7999 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:8009:72:
-
- 8009 |  360    SAVX(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:8018:72:
-
- 8018 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:8077:72:
-
- 8077 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:8118:72:
-
- 8118 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:8119:72:
-
- 8119 |  470      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:8125:72:
-
- 8125 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:8141:72:
-
- 8141 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:8161:72:
-
- 8161 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:8188:72:
-
- 8188 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:8218:72:
-
- 8218 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:8222:72:
-
- 8222 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:8243:72:
-
- 8243 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:8407:72:
-
- 8407 |    10    PW(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:8427:72:
-
- 8427 |   110    PW(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:8606:72:
-
- 8606 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:8627:72:
-
- 8627 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:8650:72:
-
- 8650 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:8651:72:
-
- 8651 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:8672:72:
-
- 8672 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:8683:72:
-
- 8683 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:8707:72:
-
- 8707 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:8721:72:
-
- 8721 |  380    Y(I) = YH(I,1) + EL1H*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:8759:72:
-
- 8759 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:8798:72:
-
- 8798 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:8799:72:
-
- 8799 |  470      YH(I,J) = YH(I,J) + ELJH*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:8805:72:
-
- 8805 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:8821:72:
-
- 8821 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:8841:72:
-
- 8841 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:8868:72:
-
- 8868 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:8899:72:
-
- 8899 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:8976:72:
-
- 8976 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:8980:72:
-
- 8980 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:8999:72:
-
- 8999 |  220      WM(I+J1) = (RTEM(I) - SAVR(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:9028:72:
-
- 9028 |  410    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:9032:72:
-
- 9032 |  420    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 420 at (1)
-opk_dlsoda_mrg.f:9052:72:
-
- 9052 |  530      Y(I) = Y(I) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:9065:72:
-
- 9065 |  540        WM(II+I) = (RTEM(I) - SAVR(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 540 at (1)
-opk_dlsoda_mrg.f:9109:72:
-
- 9109 |  10     PW(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:9197:72:
-
- 9197 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:9201:72:
-
- 9201 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:9213:72:
-
- 9213 |  205    WM(2+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 205 at (1)
-opk_dlsoda_mrg.f:9226:72:
-
- 9226 |  215        RTEM(I) = RTEM(I) - SAVR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 215 at (1)
-opk_dlsoda_mrg.f:9237:72:
-
- 9237 |  221          WM(IPA+J2) = RTEM(IIA+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 221 at (1)
-opk_dlsoda_mrg.f:9243:72:
-
- 9243 |  222          WM(IPB+J2) = RTEM(IIB+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 222 at (1)
-opk_dlsoda_mrg.f:9250:72:
-
- 9250 |  224          WM(IPC+J2) = RTEM(IIC+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 224 at (1)
-opk_dlsoda_mrg.f:9256:72:
-
- 9256 |  226          WM(IPC+J2) = RTEM(J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 226 at (1)
-opk_dlsoda_mrg.f:9263:72:
-
- 9263 |  228          WM(IPB+J2) = RTEM(IIB+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 228 at (1)
-opk_dlsoda_mrg.f:9395:72:
-
- 9395 |  80       CALL DGESL (A(1,1,K), M, M, IP(1,K), B(1,J,K), 0)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:9539:72:
-
- 9539 |  10     RWORK(I) = RWORK(I+LYHD)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:9549:72:
-
- 9549 |  30     RWORK(I+LEWTN-1) = RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 30 at (1)
-opk_dlsoda_mrg.f:9655:72:
-
- 9655 |  25      S(I) = YH(N+I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:9665:72:
-
- 9665 |  35       IWK(LIWK+I) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 35 at (1)
-opk_dlsoda_mrg.f:9698:72:
-
- 9698 |  75     WK(LENWK1+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 75 at (1)
-opk_dlsoda_mrg.f:9722:72:
-
- 9722 |  105    WK(LENWK1+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 105 at (1)
-opk_dlsoda_mrg.f:9758:72:
-
- 9758 |  155    SAVR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:9823:72:
-
- 9823 |  245    Y(I) = YH(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 245 at (1)
-opk_dlsoda_mrg.f:9856:72:
-
- 9856 |  270    IWK(IBR+I) = I
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 270 at (1)
-opk_dlsoda_mrg.f:9871:72:
-
- 9871 |  280    WK(IBA+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 280 at (1)
-opk_dlsoda_mrg.f:9972:72:
-
- 9972 |  10     WK(IBA+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:9983:72:
-
- 9983 |  15       TEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 15 at (1)
-opk_dlsoda_mrg.f:9987:72:
-
- 9987 |  20       WK(IBA+K) = TEM(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:9993:72:
-
- 9993 |  40     TEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:10094:72:
-
-10094 |  110      RTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:10097:72:
-
-10097 |  120      RTEM(I) = RTEM(I)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:10120:72:
-
-10120 |  210      Y(JJ) = Y(JJ) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:10152:72:
-
-10152 |  295    RTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 295 at (1)
-opk_dlsoda_mrg.f:11360:72:
-
-11360 |  95     RWORK(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 95 at (1)
-opk_dlsoda_mrg.f:11399:72:
-
-11399 |  115    RWORK(I+LYH-1) = Y(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 115 at (1)
-opk_dlsoda_mrg.f:11406:72:
-
-11406 |  120    RWORK(I+LEWT-1) = 1.0D0/RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:11433:72:
-
-11433 |  130    TOL = MAX(TOL,RTOL(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 130 at (1)
-opk_dlsoda_mrg.f:11454:72:
-
-11454 |  190    RWORK(I+LF0-1) = H0*RWORK(I+LF0-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 190 at (1)
-opk_dlsoda_mrg.f:11510:72:
-
-11510 |  260    RWORK(I+LEWT-1) = 1.0D0/RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:11603:72:
-
-11603 |  410    Y(I) = RWORK(I+LYH-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:11691:72:
-
-11691 |  590    Y(I) = RWORK(I+LYH-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 590 at (1)
-opk_dlsoda_mrg.f:481:40:
-
-  481 |       SUBROUTINE DSOLSY (WM, IWM, X, TEM)
-      |                                        1
-Warning: Unused dummy argument 'tem' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:57:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                                         1
-Warning: Unused dummy argument 'f' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:42:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                          1
-Warning: Unused dummy argument 'ia' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:46:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                              1
-Warning: Unused dummy argument 'ja' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:62:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                                              1
-Warning: Unused dummy argument 'jac' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:28:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                            1
-Warning: Unused dummy argument 'neq' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:31:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                               1
-Warning: Unused dummy argument 'y' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1871:40:
-
- 1871 |       SUBROUTINE DSOLSS (WK, IWK, X, TEM)
-      |                                        1
-Warning: Unused dummy argument 'tem' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9286:40:
-
- 9286 |       SUBROUTINE DSLSBT (WM, IWM, X, TEM)
-      |                                        1
-Warning: Unused dummy argument 'tem' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9482:23:
-
- 9482 |      1   RES, JAC, ADDA)
-      |                       1
-Warning: Unused dummy argument 'adda' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:46:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                              1
-Warning: Unused dummy argument 'ia' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:54:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                                      1
-Warning: Unused dummy argument 'ic' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:50:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                                  1
-Warning: Unused dummy argument 'ja' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9482:17:
-
- 9482 |      1   RES, JAC, ADDA)
-      |                 1
-Warning: Unused dummy argument 'jac' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:58:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                                          1
-Warning: Unused dummy argument 'jc' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:29:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                             1
-Warning: Unused dummy argument 'neq' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9482:12:
-
- 9482 |      1   RES, JAC, ADDA)
-      |            1
-Warning: Unused dummy argument 'res' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:35:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                   1
-Warning: Unused dummy argument 's' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:32:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                1
-Warning: Unused dummy argument 'y' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:6552:0:
-
- 6552 |       IF (RHO .LE. BNRM .AND. MNEWT .EQ. 0) GO TO 150
-      | 
-Warning: 'rho' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:6108:0:
-
- 6108 |       IF (RHO .LE. BNRM .AND. MNEWT .EQ. 0) GO TO 150
-      | 
-Warning: 'rho' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:2522:0:
-
- 2522 |           l(vi) = free
-      | 
-Warning: 'free' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:11606:0:
-
-11606 |       IF (IHIT) T = TCRIT
-      | 
-Warning: 'ihit' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:11302:0:
-
-11302 |       LEN1S = LEN1S + LENWM
-      | 
-Warning: 'lenwm' may be used uninitialized in this function [-Wmaybe-uninitialized]
-gfortran  -fPIC  -Wall -g -O2  -c opkda2_mrg.f -o opkda2_mrg.o
-opkda2_mrg.f:614:59:
-
-  614 |       SUBROUTINE XERRWD (MSG, NMES, NERR, LEVEL, NI, I1, I2, NR, R1, R2)
-      |                                                           1
-Warning: Unused dummy argument 'i2' at (1) [-Wunused-dummy-argument]
-opkda2_mrg.f:614:40:
-
-  614 |       SUBROUTINE XERRWD (MSG, NMES, NERR, LEVEL, NI, I1, I2, NR, R1, R2)
-      |                                        1
-Warning: Unused dummy argument 'nerr' at (1) [-Wunused-dummy-argument]
-opkda2_mrg.f:614:71:
-
-  614 |       SUBROUTINE XERRWD (MSG, NMES, NERR, LEVEL, NI, I1, I2, NR, R1, R2)
-      |                                                                       1
-Warning: Unused dummy argument 'r2' at (1) [-Wunused-dummy-argument]
-opkda2_mrg.f:788:0:
-
-  788 |       INTEGER FUNCTION IXSAV (IPAR, IVALUE, ISET)
-      | 
-Warning: '__result_ixsav' may be used uninitialized in this function [-Wmaybe-uninitialized]
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mrgsolve.so RcppExports.o dataobject.o datarecord.o devtran.o housemodel-mread-source.o mrgsimq.o mrgsolve.o mrgsolve_init.o odepack_dlsoda.o odeproblem.o opk_dlsoda_mrg.o opkda2_mrg.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
-ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c LSODA.cpp -o LSODA.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c dataobject.cpp -o dataobject.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c datarecord.cpp -o datarecord.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c devtran.cpp -o devtran.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c housemodel-mread-source.cpp -o housemodel-mread-source.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c mrgsolve.cpp -o mrgsolve.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c mrgsolve_init.cpp -o mrgsolve_init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c odeproblem.cpp -o odeproblem.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mrgsolve.so LSODA.o RcppExports.o dataobject.o datarecord.o devtran.o housemodel-mread-source.o mrgsolve.o mrgsolve_init.o odeproblem.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -5886,1486 +4539,16 @@ ERROR: compilation failed for package ‘mrgsolve’
 ** package ‘mrgsolve’ successfully unpacked and MD5 sums checked
 ** using staged installation
 ** libs
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c RcppExports.cpp -o RcppExports.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c dataobject.cpp -o dataobject.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c datarecord.cpp -o datarecord.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c devtran.cpp -o devtran.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c housemodel-mread-source.cpp -o housemodel-mread-source.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c mrgsimq.cpp -o mrgsimq.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c mrgsolve.cpp -o mrgsolve.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c mrgsolve_init.cpp -o mrgsolve_init.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c odepack_dlsoda.cpp -o odepack_dlsoda.o
-clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wno-c++11-inline-namespace -c odeproblem.cpp -o odeproblem.o
-gfortran  -fPIC  -Wall -g -O2  -c opk_dlsoda_mrg.f -o opk_dlsoda_mrg.o
-opk_dlsoda_mrg.f:127:72:
-
-  127 |  110      PC(I) = PC(I-1) + FNQM1*PC(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:136:72:
-
-  136 |  120      XPIN = XPIN + TSIGN*PC(I)/(I+1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:141:72:
-
-  141 |  130      ELCO(I+1,NQ) = RQ1FAC*PC(I)/I
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 130 at (1)
-opk_dlsoda_mrg.f:164:72:
-
-  164 |  210      PC(I) = PC(I-1) + FNQ*PC(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:168:72:
-
-  168 |  220      ELCO(I,NQ) = PC(I)/PC(2)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:250:72:
-
-  250 |  10     IC = IC*JJ
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:253:72:
-
-  253 |  20     DKY(I) = C*YH(I,L)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:263:72:
-
-  263 |  30       IC = IC*JJ
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 30 at (1)
-opk_dlsoda_mrg.f:266:72:
-
-  266 |  40       DKY(I) = C*YH(I,JP1) + S*DKY(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:271:72:
-
-  271 |  60     DKY(I) = R*DKY(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:373:72:
-
-  373 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:377:72:
-
-  377 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:392:72:
-
-  392 |  220      WM(I+J1) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:402:72:
-
-  402 |  250    J = J + NP1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 250 at (1)
-opk_dlsoda_mrg.f:411:72:
-
-  411 |  310    Y(I) = Y(I) + R*(H*SAVF(I) - YH(I,2))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 310 at (1)
-opk_dlsoda_mrg.f:433:72:
-
-  433 |  410    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:437:72:
-
-  437 |  420    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 420 at (1)
-opk_dlsoda_mrg.f:454:72:
-
-  454 |  530      Y(I) = Y(I) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:465:72:
-
-  465 |  540        WM(II+I) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 540 at (1)
-opk_dlsoda_mrg.f:473:72:
-
-  473 |  580    II = II + MEBAND
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 580 at (1)
-opk_dlsoda_mrg.f:557:72:
-
-  557 |  320    WM(I+2) = 1.0D0/DI
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 320 at (1)
-opk_dlsoda_mrg.f:559:72:
-
-  559 |  340    X(I) = WM(I+2)*X(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 340 at (1)
-opk_dlsoda_mrg.f:811:72:
-
-  811 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:832:72:
-
-  832 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:855:72:
-
-  855 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:856:72:
-
-  856 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:877:72:
-
-  877 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:887:72:
-
-  887 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:903:72:
-
-  903 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:911:72:
-
-  911 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:915:72:
-
-  915 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:923:72:
-
-  923 |  360    Y(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:930:72:
-
-  930 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:965:72:
-
-  965 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:1000:72:
-
- 1000 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:1001:72:
-
- 1001 |  470      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:1007:72:
-
- 1007 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:1023:72:
-
- 1023 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:1043:72:
-
- 1043 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:1070:72:
-
- 1070 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:1100:72:
-
- 1100 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:1104:72:
-
- 1104 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:1125:72:
-
- 1125 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:1163:72:
-
- 1163 |  15     EWT(I) = RTOL(1)*ABS(YCUR(I)) + ATOL(1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 15 at (1)
-opk_dlsoda_mrg.f:1167:72:
-
- 1167 |  25     EWT(I) = RTOL(1)*ABS(YCUR(I)) + ATOL(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:1171:72:
-
- 1171 |  35     EWT(I) = RTOL(I)*ABS(YCUR(I)) + ATOL(1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 35 at (1)
-opk_dlsoda_mrg.f:1175:72:
-
- 1175 |  45     EWT(I) = RTOL(I)*ABS(YCUR(I)) + ATOL(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 45 at (1)
-opk_dlsoda_mrg.f:1209:72:
-
- 1209 |  10     SUM = SUM + (V(I)*W(I))**2
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:1271:72:
-
- 1271 |  10     RWORK(I) = RWORK(I+LYHD)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:1281:72:
-
- 1281 |  30     RWORK(I+LEWTN-1) = RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 30 at (1)
-opk_dlsoda_mrg.f:1375:72:
-
- 1375 |  25     Y(I) = YH(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:1413:72:
-
- 1413 |  75       SAVF(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 75 at (1)
-opk_dlsoda_mrg.f:1455:72:
-
- 1455 |  145    Y(I) = YH(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 145 at (1)
-opk_dlsoda_mrg.f:1485:72:
-
- 1485 |  170    IWK(IBR+I) = I
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 170 at (1)
-opk_dlsoda_mrg.f:1500:72:
-
- 1500 |  180    WK(IBA+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:1575:72:
-
- 1575 |  10     JDONE(J) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:1580:72:
-
- 1580 |  20       INCL(I) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:1597:72:
-
- 1597 |  40         INCL(I) = 1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:1655:72:
-
- 1655 |           IF (JA(J) - II) 10, 40, 30
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:1765:72:
-
- 1765 |  110      FTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:1788:72:
-
- 1788 |  210      Y(JJ) = Y(JJ) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:1836:72:
-
- 1836 |  295    FTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 295 at (1)
-opk_dlsoda_mrg.f:1854:72:
-
- 1854 |  310    Y(I) = Y(I) + R*(H*SAVF(I) - YH(I,2))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 310 at (1)
-opk_dlsoda_mrg.f:1940:72:
-
- 1940 |  320    WK(I+2) = 1.0D0/DI
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 320 at (1)
-opk_dlsoda_mrg.f:1942:72:
-
- 1942 |  340    X(I) = WK(I+2)*X(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 340 at (1)
-opk_dlsoda_mrg.f:2313:72:
-
- 2313 |    5    last(next(k)) = k
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 5 at (1)
-opk_dlsoda_mrg.f:2329:72:
-
- 2329 |    1    head(vi) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:2340:72:
-
- 2340 |           if (vj-vi) 2, 5, 4
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:2378:72:
-
- 2378 |    7    mark(vi) = tag
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 7 at (1)
-opk_dlsoda_mrg.f:2550:72:
-
- 2550 |         if (last(vi))  1, 10, 8
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:2656:72:
-
- 2656 |   1     q(i) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:2672:72:
-
- 2672 |   2       q(k) = q(k) + 1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:2680:72:
-
- 2680 |   4     q(i) = ia(i+1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:2701:72:
-
- 2701 |   6     j = j-1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 6 at (1)
-opk_dlsoda_mrg.f:2943:72:
-
- 2943 |    4      isp(ju+j-1) = isp(jutmp+j-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3214:72:
-
- 3214 |    4      a(j) = ar(i)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3295:72:
-
- 3295 |    1    jru(k) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:3305:72:
-
- 3305 |    2    ira(k) = iak
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:3372:72:
-
- 3372 |           if (jl(j) - qm)  12, 13, 15
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:3391:72:
-
- 3391 |   16        jl(j) = qm
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 16 at (1)
-opk_dlsoda_mrg.f:3474:72:
-
- 3474 |           if (ju(j) - qm)  29, 30, 32
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Arithmetic IF statement at (1)
-opk_dlsoda_mrg.f:3493:72:
-
- 3493 |   33        ju(j) = qm
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 33 at (1)
-opk_dlsoda_mrg.f:3617:72:
-
- 3617 |    4      row(ju(j)) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3639:72:
-
- 3639 |    8        row(ju(mu+j)) = row(ju(mu+j)) + lki * u(j)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 8 at (1)
-opk_dlsoda_mrg.f:3654:72:
-
- 3654 |   11      u(j) = row(ju(mu+j)) * dk
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 11 at (1)
-opk_dlsoda_mrg.f:3687:72:
-
- 3687 |   20      sum = sum - u(j) * tmp(ju(mu+j))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:3690:72:
-
- 3690 |   22    k = k-1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 22 at (1)
-opk_dlsoda_mrg.f:3728:72:
-
- 3728 |    1    tmp(k) = b(r(k))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:3738:72:
-
- 3738 |    2      tmp(jl(ml+j)) = tmp(jl(ml+j)) + tmpk * l(j)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:3749:72:
-
- 3749 |    4      sum = sum + u(j) * tmp(ju(mu+j))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3781:72:
-
- 3781 |    1    tmp(k) = b(c(k))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 1 at (1)
-opk_dlsoda_mrg.f:3790:72:
-
- 3790 |    2      tmp(ju(mu+j)) = tmp(ju(mu+j)) + tmpk * u(j)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 2 at (1)
-opk_dlsoda_mrg.f:3801:72:
-
- 3801 |    4      sum = sum + l(j) * tmp(jl(ml+j))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 4 at (1)
-opk_dlsoda_mrg.f:3968:72:
-
- 3968 |  10     CM2(I) = TESCO(2,I)*ELCO(I+1,I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:3971:72:
-
- 3971 |  20     CM1(I) = TESCO(2,I)*ELCO(I+1,I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:3996:72:
-
- 3996 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:4031:72:
-
- 4031 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:4032:72:
-
- 4032 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:4053:72:
-
- 4053 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:4066:72:
-
- 4066 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:4087:72:
-
- 4087 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:4095:72:
-
- 4095 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:4099:72:
-
- 4099 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:4107:72:
-
- 4107 |  360    Y(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:4114:72:
-
- 4114 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:4170:72:
-
- 4170 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:4209:72:
-
- 4209 |         DO 460 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 460 at (1)
-opk_dlsoda_mrg.f:4210:72:
-
- 4210 |  460      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 460 at (1)
-opk_dlsoda_mrg.f:4318:72:
-
- 4318 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:4334:72:
-
- 4334 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:4354:72:
-
- 4354 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:4388:72:
-
- 4388 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:4421:72:
-
- 4421 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:4427:72:
-
- 4427 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:4448:72:
-
- 4448 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:4528:72:
-
- 4528 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:4532:72:
-
- 4532 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:4549:72:
-
- 4549 |  220      WM(I+J1) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:4562:72:
-
- 4562 |  250    J = J + NP1
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 250 at (1)
-opk_dlsoda_mrg.f:4577:72:
-
- 4577 |  410    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:4581:72:
-
- 4581 |  420    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 420 at (1)
-opk_dlsoda_mrg.f:4598:72:
-
- 4598 |  530      Y(I) = Y(I) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:4611:72:
-
- 4611 |  540        WM(II+I) = (FTEM(I) - SAVF(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 540 at (1)
-opk_dlsoda_mrg.f:4622:72:
-
- 4622 |  580    II = II + MEBAND
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 580 at (1)
-opk_dlsoda_mrg.f:4642:72:
-
- 4642 |  10     VM = MAX(VM,ABS(V(I))*W(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:4662:72:
-
- 4662 |  10       SUM = SUM + ABS(A(I,J))/W(J)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:4692:72:
-
- 4692 |  10       SUM = SUM + ABS(A(I1-J,J))/W(J)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:5378:72:
-
- 5378 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:5400:72:
-
- 5400 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:5424:72:
-
- 5424 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:5425:72:
-
- 5425 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:5451:72:
-
- 5451 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:5462:72:
-
- 5462 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:5478:72:
-
- 5478 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:5486:72:
-
- 5486 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:5490:72:
-
- 5490 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:5498:72:
-
- 5498 |  360    SAVX(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:5505:72:
-
- 5505 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:5542:72:
-
- 5542 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:5577:72:
-
- 5577 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:5578:72:
-
- 5578 |  470      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:5584:72:
-
- 5584 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:5600:72:
-
- 5600 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:5620:72:
-
- 5620 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:5647:72:
-
- 5647 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:5677:72:
-
- 5677 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:5681:72:
-
- 5681 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:5702:72:
-
- 5702 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:6028:72:
-
- 6028 |  10     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6036:72:
-
- 6036 |  25     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:6047:72:
-
- 6047 |  50     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
-opk_dlsoda_mrg.f:6055:72:
-
- 6055 |  60       HES(I,J) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6121:72:
-
- 6121 |  210    B(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:6125:72:
-
- 6125 |  220    X(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:6130:72:
-
- 6130 |  240    X(I) = X(I)/WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 240 at (1)
-opk_dlsoda_mrg.f:6220:72:
-
- 6220 |  10     VTEM(I) = V(I)/WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6227:72:
-
- 6227 |  20     Y(I) = Z(I) + VTEM(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:6238:72:
-
- 6238 |  40     Z(I) = VTEM(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:6244:72:
-
- 6244 |  50     Y(I) = Z(I) + VTEM(I)*RNORM
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
-opk_dlsoda_mrg.f:6254:72:
-
- 6254 |  70     Z(I) = FTEM(I) - SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 70 at (1)
-opk_dlsoda_mrg.f:6256:72:
-
- 6256 |  80     Z(I) = VTEM(I) - FAC*Z(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:6265:72:
-
- 6265 |  90     Z(I) = Z(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 90 at (1)
-opk_dlsoda_mrg.f:6461:72:
-
- 6461 |  10     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6469:72:
-
- 6469 |  25     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:6480:72:
-
- 6480 |  50     V(I,1) = B(I)*WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 50 at (1)
-opk_dlsoda_mrg.f:6488:72:
-
- 6488 |  60       HES(I,J) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6527:72:
-
- 6527 |  70             DL(K) = S*DL(K) + C*V(K,IP1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 70 at (1)
-opk_dlsoda_mrg.f:6534:72:
-
- 6534 |  80         DL(K) = S*DL(K) + C*V(K,LLP1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:6566:72:
-
- 6566 |  210    B(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:6570:72:
-
- 6570 |  220    X(K) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:6575:72:
-
- 6575 |  240    X(I) = X(I)/WGHT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 240 at (1)
-opk_dlsoda_mrg.f:6673:72:
-
- 6673 |  10     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6701:72:
-
- 6701 |  60     P(I) = Z(I) + BETA*P(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6819:72:
-
- 6819 |  10     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:6841:72:
-
- 6841 |  45     ZTR = ZTR + Z(I)*R(I)*WGHT(I)**2
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 45 at (1)
-opk_dlsoda_mrg.f:6849:72:
-
- 6849 |  60     P(I) = Z(I) + BETA*P(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:6858:72:
-
- 6858 |  80     PTW = PTW + P(I)*W(I)*WGHT(I)**2
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:6942:72:
-
- 6942 |  20     Y(I) = W(I) + P(I)*RPNRM
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:6948:72:
-
- 6948 |  40     W(I) = P(I) - FAC*(WK(I) - SAVF(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:7026:72:
-
- 7026 |  20     X(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:7653:72:
-
- 7653 |  60     Y(I) = Y0(I) + HG*YDOT(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 60 at (1)
-opk_dlsoda_mrg.f:7656:72:
-
- 7656 |  70     TEMP(I) = (TEMP(I) - YDOT(I))/HG
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 70 at (1)
-opk_dlsoda_mrg.f:7868:72:
-
- 7868 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:7890:72:
-
- 7890 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:7914:72:
-
- 7914 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:7915:72:
-
- 7915 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:7944:72:
-
- 7944 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:7961:72:
-
- 7961 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:7987:72:
-
- 7987 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:7995:72:
-
- 7995 |  290    Y(I) = SAVF(I) - ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 290 at (1)
-opk_dlsoda_mrg.f:7999:72:
-
- 7999 |  300    ACOR(I) = SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 300 at (1)
-opk_dlsoda_mrg.f:8009:72:
-
- 8009 |  360    SAVX(I) = H*SAVF(I) - (YH(I,2) + ACOR(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 360 at (1)
-opk_dlsoda_mrg.f:8018:72:
-
- 8018 |  380    Y(I) = YH(I,1) + EL(1)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:8077:72:
-
- 8077 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:8118:72:
-
- 8118 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:8119:72:
-
- 8119 |  470      YH(I,J) = YH(I,J) + EL(J)*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:8125:72:
-
- 8125 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:8141:72:
-
- 8141 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:8161:72:
-
- 8161 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:8188:72:
-
- 8188 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:8218:72:
-
- 8218 |  645    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 645 at (1)
-opk_dlsoda_mrg.f:8222:72:
-
- 8222 |  650    YH(I,2) = H*SAVF(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 650 at (1)
-opk_dlsoda_mrg.f:8243:72:
-
- 8243 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:8407:72:
-
- 8407 |    10    PW(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:8427:72:
-
- 8427 |   110    PW(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:8606:72:
-
- 8606 |  125    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 125 at (1)
-opk_dlsoda_mrg.f:8627:72:
-
- 8627 |  155    EL(I) = ELCO(I,NQ)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:8650:72:
-
- 8650 |         DO 180 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 180 at (1)
-opk_dlsoda_mrg.f:8651:72:
-
- 8651 |  180      YH(I,J) = YH(I,J)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 180 at (1)
-opk_dlsoda_mrg.f:8672:72:
-
- 8672 |  210      YH1(I) = YH1(I) + YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:8683:72:
-
- 8683 |  230    Y(I) = YH(I,1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 230 at (1)
-opk_dlsoda_mrg.f:8707:72:
-
- 8707 |  260    ACOR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:8721:72:
-
- 8721 |  380    Y(I) = YH(I,1) + EL1H*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 380 at (1)
-opk_dlsoda_mrg.f:8759:72:
-
- 8759 |  440      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 440 at (1)
-opk_dlsoda_mrg.f:8798:72:
-
- 8798 |         DO 470 I = 1,N
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: Shared DO termination label 470 at (1)
-opk_dlsoda_mrg.f:8799:72:
-
- 8799 |  470      YH(I,J) = YH(I,J) + ELJH*ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 470 at (1)
-opk_dlsoda_mrg.f:8805:72:
-
- 8805 |  490    YH(I,LMAX) = ACOR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 490 at (1)
-opk_dlsoda_mrg.f:8821:72:
-
- 8821 |  510      YH1(I) = YH1(I) - YH1(I+NYH)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 510 at (1)
-opk_dlsoda_mrg.f:8841:72:
-
- 8841 |  530    SAVF(I) = ACOR(I) - YH(I,LMAX)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:8868:72:
-
- 8868 |  600    YH(I,NEWQ+1) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 600 at (1)
-opk_dlsoda_mrg.f:8899:72:
-
- 8899 |  710    ACOR(I) = ACOR(I)*R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 710 at (1)
-opk_dlsoda_mrg.f:8976:72:
-
- 8976 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:8980:72:
-
- 8980 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:8999:72:
-
- 8999 |  220      WM(I+J1) = (RTEM(I) - SAVR(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 220 at (1)
-opk_dlsoda_mrg.f:9028:72:
-
- 9028 |  410    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:9032:72:
-
- 9032 |  420    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 420 at (1)
-opk_dlsoda_mrg.f:9052:72:
-
- 9052 |  530      Y(I) = Y(I) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 530 at (1)
-opk_dlsoda_mrg.f:9065:72:
-
- 9065 |  540        WM(II+I) = (RTEM(I) - SAVR(I))*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 540 at (1)
-opk_dlsoda_mrg.f:9109:72:
-
- 9109 |  10     PW(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:9197:72:
-
- 9197 |  110    WM(I+2) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:9201:72:
-
- 9201 |  120    WM(I+2) = WM(I+2)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:9213:72:
-
- 9213 |  205    WM(2+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 205 at (1)
-opk_dlsoda_mrg.f:9226:72:
-
- 9226 |  215        RTEM(I) = RTEM(I) - SAVR(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 215 at (1)
-opk_dlsoda_mrg.f:9237:72:
-
- 9237 |  221          WM(IPA+J2) = RTEM(IIA+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 221 at (1)
-opk_dlsoda_mrg.f:9243:72:
-
- 9243 |  222          WM(IPB+J2) = RTEM(IIB+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 222 at (1)
-opk_dlsoda_mrg.f:9250:72:
-
- 9250 |  224          WM(IPC+J2) = RTEM(IIC+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 224 at (1)
-opk_dlsoda_mrg.f:9256:72:
-
- 9256 |  226          WM(IPC+J2) = RTEM(J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 226 at (1)
-opk_dlsoda_mrg.f:9263:72:
-
- 9263 |  228          WM(IPB+J2) = RTEM(IIB+J2)*FAC
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 228 at (1)
-opk_dlsoda_mrg.f:9395:72:
-
- 9395 |  80       CALL DGESL (A(1,1,K), M, M, IP(1,K), B(1,J,K), 0)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 80 at (1)
-opk_dlsoda_mrg.f:9539:72:
-
- 9539 |  10     RWORK(I) = RWORK(I+LYHD)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:9549:72:
-
- 9549 |  30     RWORK(I+LEWTN-1) = RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 30 at (1)
-opk_dlsoda_mrg.f:9655:72:
-
- 9655 |  25      S(I) = YH(N+I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 25 at (1)
-opk_dlsoda_mrg.f:9665:72:
-
- 9665 |  35       IWK(LIWK+I) = 0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 35 at (1)
-opk_dlsoda_mrg.f:9698:72:
-
- 9698 |  75     WK(LENWK1+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 75 at (1)
-opk_dlsoda_mrg.f:9722:72:
-
- 9722 |  105    WK(LENWK1+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 105 at (1)
-opk_dlsoda_mrg.f:9758:72:
-
- 9758 |  155    SAVR(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 155 at (1)
-opk_dlsoda_mrg.f:9823:72:
-
- 9823 |  245    Y(I) = YH(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 245 at (1)
-opk_dlsoda_mrg.f:9856:72:
-
- 9856 |  270    IWK(IBR+I) = I
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 270 at (1)
-opk_dlsoda_mrg.f:9871:72:
-
- 9871 |  280    WK(IBA+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 280 at (1)
-opk_dlsoda_mrg.f:9972:72:
-
- 9972 |  10     WK(IBA+I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 10 at (1)
-opk_dlsoda_mrg.f:9983:72:
-
- 9983 |  15       TEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 15 at (1)
-opk_dlsoda_mrg.f:9987:72:
-
- 9987 |  20       WK(IBA+K) = TEM(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 20 at (1)
-opk_dlsoda_mrg.f:9993:72:
-
- 9993 |  40     TEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 40 at (1)
-opk_dlsoda_mrg.f:10094:72:
-
-10094 |  110      RTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 110 at (1)
-opk_dlsoda_mrg.f:10097:72:
-
-10097 |  120      RTEM(I) = RTEM(I)*CON
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:10120:72:
-
-10120 |  210      Y(JJ) = Y(JJ) + R
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 210 at (1)
-opk_dlsoda_mrg.f:10152:72:
-
-10152 |  295    RTEM(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 295 at (1)
-opk_dlsoda_mrg.f:11360:72:
-
-11360 |  95     RWORK(I) = 0.0D0
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 95 at (1)
-opk_dlsoda_mrg.f:11399:72:
-
-11399 |  115    RWORK(I+LYH-1) = Y(I)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 115 at (1)
-opk_dlsoda_mrg.f:11406:72:
-
-11406 |  120    RWORK(I+LEWT-1) = 1.0D0/RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 120 at (1)
-opk_dlsoda_mrg.f:11433:72:
-
-11433 |  130    TOL = MAX(TOL,RTOL(I))
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 130 at (1)
-opk_dlsoda_mrg.f:11454:72:
-
-11454 |  190    RWORK(I+LF0-1) = H0*RWORK(I+LF0-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 190 at (1)
-opk_dlsoda_mrg.f:11510:72:
-
-11510 |  260    RWORK(I+LEWT-1) = 1.0D0/RWORK(I+LEWT-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 260 at (1)
-opk_dlsoda_mrg.f:11603:72:
-
-11603 |  410    Y(I) = RWORK(I+LYH-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 410 at (1)
-opk_dlsoda_mrg.f:11691:72:
-
-11691 |  590    Y(I) = RWORK(I+LYH-1)
-      |                                                                        1
-Warning: Fortran 2018 deleted feature: DO termination statement which is not END DO or CONTINUE with label 590 at (1)
-opk_dlsoda_mrg.f:481:40:
-
-  481 |       SUBROUTINE DSOLSY (WM, IWM, X, TEM)
-      |                                        1
-Warning: Unused dummy argument 'tem' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:57:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                                         1
-Warning: Unused dummy argument 'f' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:42:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                          1
-Warning: Unused dummy argument 'ia' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:46:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                              1
-Warning: Unused dummy argument 'ja' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:62:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                                                              1
-Warning: Unused dummy argument 'jac' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:28:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                            1
-Warning: Unused dummy argument 'neq' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1215:31:
-
- 1215 |       SUBROUTINE DIPREP (NEQ, Y, RWORK, IA, JA, IPFLAG, F, JAC)
-      |                               1
-Warning: Unused dummy argument 'y' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:1871:40:
-
- 1871 |       SUBROUTINE DSOLSS (WK, IWK, X, TEM)
-      |                                        1
-Warning: Unused dummy argument 'tem' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9286:40:
-
- 9286 |       SUBROUTINE DSLSBT (WM, IWM, X, TEM)
-      |                                        1
-Warning: Unused dummy argument 'tem' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9482:23:
-
- 9482 |      1   RES, JAC, ADDA)
-      |                       1
-Warning: Unused dummy argument 'adda' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:46:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                              1
-Warning: Unused dummy argument 'ia' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:54:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                                      1
-Warning: Unused dummy argument 'ic' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:50:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                                  1
-Warning: Unused dummy argument 'ja' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9482:17:
-
- 9482 |      1   RES, JAC, ADDA)
-      |                 1
-Warning: Unused dummy argument 'jac' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:58:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                                          1
-Warning: Unused dummy argument 'jc' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:29:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                             1
-Warning: Unused dummy argument 'neq' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9482:12:
-
- 9482 |      1   RES, JAC, ADDA)
-      |            1
-Warning: Unused dummy argument 'res' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:35:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                   1
-Warning: Unused dummy argument 's' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:9481:32:
-
- 9481 |       SUBROUTINE DIPREPI (NEQ, Y, S, RWORK, IA, JA, IC, JC, IPFLAG,
-      |                                1
-Warning: Unused dummy argument 'y' at (1) [-Wunused-dummy-argument]
-opk_dlsoda_mrg.f:6552:0:
-
- 6552 |       IF (RHO .LE. BNRM .AND. MNEWT .EQ. 0) GO TO 150
-      | 
-Warning: 'rho' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:6108:0:
-
- 6108 |       IF (RHO .LE. BNRM .AND. MNEWT .EQ. 0) GO TO 150
-      | 
-Warning: 'rho' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:2522:0:
-
- 2522 |           l(vi) = free
-      | 
-Warning: 'free' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:11606:0:
-
-11606 |       IF (IHIT) T = TCRIT
-      | 
-Warning: 'ihit' may be used uninitialized in this function [-Wmaybe-uninitialized]
-opk_dlsoda_mrg.f:11302:0:
-
-11302 |       LEN1S = LEN1S + LENWM
-      | 
-Warning: 'lenwm' may be used uninitialized in this function [-Wmaybe-uninitialized]
-gfortran  -fPIC  -Wall -g -O2  -c opkda2_mrg.f -o opkda2_mrg.o
-opkda2_mrg.f:614:59:
-
-  614 |       SUBROUTINE XERRWD (MSG, NMES, NERR, LEVEL, NI, I1, I2, NR, R1, R2)
-      |                                                           1
-Warning: Unused dummy argument 'i2' at (1) [-Wunused-dummy-argument]
-opkda2_mrg.f:614:40:
-
-  614 |       SUBROUTINE XERRWD (MSG, NMES, NERR, LEVEL, NI, I1, I2, NR, R1, R2)
-      |                                        1
-Warning: Unused dummy argument 'nerr' at (1) [-Wunused-dummy-argument]
-opkda2_mrg.f:614:71:
-
-  614 |       SUBROUTINE XERRWD (MSG, NMES, NERR, LEVEL, NI, I1, I2, NR, R1, R2)
-      |                                                                       1
-Warning: Unused dummy argument 'r2' at (1) [-Wunused-dummy-argument]
-opkda2_mrg.f:788:0:
-
-  788 |       INTEGER FUNCTION IXSAV (IPAR, IVALUE, ISET)
-      | 
-Warning: '__result_ixsav' may be used uninitialized in this function [-Wmaybe-uninitialized]
-clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mrgsolve.so RcppExports.o dataobject.o datarecord.o devtran.o housemodel-mread-source.o mrgsimq.o mrgsolve.o mrgsolve_init.o odepack_dlsoda.o odeproblem.o opk_dlsoda_mrg.o opkda2_mrg.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
-ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
-ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c LSODA.cpp -o LSODA.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c RcppExports.cpp -o RcppExports.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c dataobject.cpp -o dataobject.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c datarecord.cpp -o datarecord.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c devtran.cpp -o devtran.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c housemodel-mread-source.cpp -o housemodel-mread-source.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c mrgsolve.cpp -o mrgsolve.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c mrgsolve_init.cpp -o mrgsolve_init.o
+clang++ -std=gnu++11 -I"/Library/Frameworks/R.framework/Resources/include" -DNDEBUG -I../inst/include -I../inst/base -I. -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/Rcpp/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/RcppArmadillo/include" -I"/Users/romainfrancois/git/tidyverse/dplyr/revdep/library.noindex/mrgsolve/BH/include" -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX.sdk -I/usr/local/include  -fPIC  -Wall -c odeproblem.cpp -o odeproblem.o
+clang++ -std=gnu++11 -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o mrgsolve.so LSODA.o RcppExports.o dataobject.o datarecord.o devtran.o housemodel-mread-source.o mrgsolve.o mrgsolve_init.o odeproblem.o -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib'
 ld: library not found for -lgfortran
@@ -7383,7 +4566,7 @@ ERROR: compilation failed for package ‘mrgsolve’
 * Source code: https://github.com/cran/nlmixr
 * URL: https://github.com/nlmixrdevelopment/nlmixr
 * Date/Publication: 2019-08-29 12:10:03 UTC
-* Number of recursive dependencies: 166
+* Number of recursive dependencies: 167
 
 Run `revdep_details(,"nlmixr")` for more info
 
@@ -8815,6 +5998,93 @@ ERROR: compilation failed for package ‘nlmixr’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/nlmixr/old/nlmixr.Rcheck/nlmixr’
 
 ```
+# oceanis
+
+<details>
+
+* Version: 1.0.4
+* Source code: https://github.com/cran/oceanis
+* URL: https://github.com/insee-psar-at/oceanis-package/
+* BugReports: https://github.com/insee-psar-at/oceanis-package/issues
+* Date/Publication: 2019-09-23 14:30:02 UTC
+* Number of recursive dependencies: 133
+
+Run `revdep_details(,"oceanis")` for more info
+
+</details>
+
+## In both
+
+*   checking whether package ‘oceanis’ can be installed ... ERROR
+    ```
+    Installation failed.
+    See ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/oceanis/new/oceanis.Rcheck/00install.out’ for details.
+    ```
+
+## Installation
+
+### Devel
+
+```
+* installing *source* package ‘oceanis’ ...
+** package ‘oceanis’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘knit_print.html’ is not exported by 'namespace:shiny'
+Execution halted
+ERROR: lazy loading failed for package ‘oceanis’
+* removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/oceanis/new/oceanis.Rcheck/oceanis’
+
+```
+### CRAN
+
+```
+* installing *source* package ‘oceanis’ ...
+** package ‘oceanis’ successfully unpacked and MD5 sums checked
+** using staged installation
+** R
+** data
+** inst
+** byte-compile and prepare package for lazy loading
+Error: object ‘knit_print.html’ is not exported by 'namespace:shiny'
+Execution halted
+ERROR: lazy loading failed for package ‘oceanis’
+* removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/oceanis/old/oceanis.Rcheck/oceanis’
+
+```
+# OncoSimulR
+
+<details>
+
+* Version: 2.14.0
+* Source code: https://github.com/cran/OncoSimulR
+* URL: https://github.com/rdiaz02/OncoSimul, https://popmodels.cancercontrol.cancer.gov/gsr/packages/oncosimulr/
+* BugReports: https://github.com/rdiaz02/OncoSimul/issues
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 106
+
+Run `revdep_details(,"OncoSimulR")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
+## In both
+
+*   checking installed package size ... NOTE
+    ```
+      installed size is  7.4Mb
+      sub-directories of 1Mb or more:
+        doc    5.3Mb
+        libs   1.3Mb
+    ```
+
 # openair
 
 <details>
@@ -8953,6 +6223,51 @@ ERROR: compilation failed for package ‘partition’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/partition/old/partition.Rcheck/partition’
 
 ```
+# PathwaySplice
+
+<details>
+
+* Version: 1.8.0
+* Source code: https://github.com/cran/PathwaySplice
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 213
+
+Run `revdep_details(,"PathwaySplice")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking DESCRIPTION meta-information ... NOTE
+    ```
+    Malformed Description field: should contain one or more complete sentences.
+    ```
+
+*   checking R code for possible problems ... NOTE
+    ```
+    compareResults2: no visible global function definition for 'ggplot'
+    compareResults2: no visible global function definition for 'aes'
+    compareResults2: no visible binding for global variable
+      'random_sampling_200k'
+    compareResults2: no visible binding for global variable 'PValue'
+    compareResults2: no visible binding for global variable 'PathwaySplice'
+    compareResults2: no visible global function definition for 'geom_point'
+    compareResults2: no visible global function definition for
+      'geom_smooth'
+    compareResults2: no visible global function definition for 'labs'
+    compareResults2: no visible global function definition for
+      'scale_colour_manual'
+    compareResults2: no visible global function definition for
+      'scale_shape_manual'
+    netplot: no visible global function definition for 'get.col.scale'
+    Undefined global functions or variables:
+      PValue PathwaySplice aes geom_point geom_smooth get.col.scale ggplot
+      labs random_sampling_200k scale_colour_manual scale_shape_manual
+    ```
+
 # pccc
 
 <details>
@@ -9020,6 +6335,26 @@ ERROR: compilation failed for package ‘pccc’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/pccc/old/pccc.Rcheck/pccc’
 
 ```
+# perturbatr
+
+<details>
+
+* Version: 1.4.0
+* Source code: https://github.com/cran/perturbatr
+* URL: https://github.com/cbg-ethz/perturbatr
+* BugReports: https://github.com/cbg-ethz/perturbatr/issues
+* Date/Publication: 2019-05-02
+* Number of recursive dependencies: 92
+
+Run `revdep_details(,"perturbatr")` for more info
+
+</details>
+
+## Newly broken
+
+*   R CMD check timed out
+    
+
 # phase1PRMD
 
 <details>
@@ -9094,7 +6429,7 @@ ERROR: lazy loading failed for package ‘phase1PRMD’
 * URL: https://github.com/kongdd/phenofit
 * BugReports: https://github.com/kongdd/phenofit/issues
 * Date/Publication: 2019-06-07 08:00:08 UTC
-* Number of recursive dependencies: 77
+* Number of recursive dependencies: 78
 
 Run `revdep_details(,"phenofit")` for more info
 
@@ -9337,7 +6672,7 @@ ERROR: compilation failed for package ‘pomp’
 * URL: https://grunwaldlab.github.io/poppr, https://github.com/grunwaldlab/poppr, https://grunwaldlab.github.io/Population_Genetics_in_R/
 * BugReports: https://github.com/grunwaldlab/poppr/issues
 * Date/Publication: 2019-06-18 16:21:21 UTC
-* Number of recursive dependencies: 98
+* Number of recursive dependencies: 99
 
 Run `revdep_details(,"poppr")` for more info
 
@@ -9452,7 +6787,7 @@ ERROR: compilation failed for package ‘PPforest’
 * URL: https://github.com/lgatto/pRoloc
 * BugReports: https://github.com/lgatto/pRoloc/issues
 * Date/Publication: 2019-08-09
-* Number of recursive dependencies: 205
+* Number of recursive dependencies: 206
 
 Run `revdep_details(,"pRoloc")` for more info
 
@@ -9568,7 +6903,7 @@ ERROR: compilation failed for package ‘psychonetrics’
 * URL: https://quanteda.io
 * BugReports: https://github.com/quanteda/quanteda/issues
 * Date/Publication: 2019-07-30 09:30:02 UTC
-* Number of recursive dependencies: 127
+* Number of recursive dependencies: 128
 
 Run `revdep_details(,"quanteda")` for more info
 
@@ -10476,7 +7811,7 @@ ERROR: compilation failed for package ‘qwraps2’
 * URL: https://github.com/juliangehring/Rariant
 * BugReports: https://support.bioconductor.org
 * Date/Publication: 2019-05-02
-* Number of recursive dependencies: 152
+* Number of recursive dependencies: 153
 
 Run `revdep_details(,"Rariant")` for more info
 
@@ -10631,7 +7966,7 @@ Warning: package ‘Rsamtools’ was built under R version 3.6.1
 * Version: 1.0.11
 * Source code: https://github.com/cran/RcwlPipelines
 * Date/Publication: 2019-09-04
-* Number of recursive dependencies: 117
+* Number of recursive dependencies: 118
 
 Run `revdep_details(,"RcwlPipelines")` for more info
 
@@ -10768,6 +8103,26 @@ ERROR: compilation failed for package ‘resautonet’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/resautonet/old/resautonet.Rcheck/resautonet’
 
 ```
+# rgho
+
+<details>
+
+* Version: 1.0.1
+* Source code: https://github.com/cran/rgho
+* URL: https://github.com/pierucci/rgho, https://pierucci.org
+* BugReports: https://github.com/pierucci/rgho/issues
+* Date/Publication: 2017-01-18 18:07:51
+* Number of recursive dependencies: 52
+
+Run `revdep_details(,"rgho")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
 # RSSL
 
 <details>
@@ -10852,7 +8207,7 @@ ERROR: compilation failed for package ‘RSSL’
 * URL: https://nlmixrdevelopment.github.io/RxODE/
 * BugReports: https://github.com/nlmixrdevelopment/RxODE/issues
 * Date/Publication: 2019-08-29 04:40:12 UTC
-* Number of recursive dependencies: 119
+* Number of recursive dependencies: 120
 
 Run `revdep_details(,"RxODE")` for more info
 
@@ -11469,7 +8824,7 @@ ERROR: compilation failed for package ‘SCPME’
 * URL: https://github.com/zwdzwd/sesame
 * BugReports: https://github.com/zwdzwd/sesame/issues
 * Date/Publication: 2019-05-02
-* Number of recursive dependencies: 157
+* Number of recursive dependencies: 158
 
 Run `revdep_details(,"sesame")` for more info
 
@@ -11480,20 +8835,6 @@ Run `revdep_details(,"sesame")` for more info
 *   R CMD check timed out
     
 
-*   checking whether package ‘sesame’ can be installed ... WARNING
-    ```
-    Found the following significant warnings:
-      Warning: package ‘AnnotationHub’ was built under R version 3.6.1
-    See ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/sesame/new/sesame.Rcheck/00install.out’ for details.
-    ```
-
-*   checking installed package size ... NOTE
-    ```
-      installed size is  5.2Mb
-      sub-directories of 1Mb or more:
-        doc   4.5Mb
-    ```
-
 # sf
 
 <details>
@@ -11503,7 +8844,7 @@ Run `revdep_details(,"sesame")` for more info
 * URL: https://github.com/r-spatial/sf/, https://r-spatial.github.io/sf/
 * BugReports: https://github.com/r-spatial/sf/issues/
 * Date/Publication: 2019-09-17 04:40:03 UTC
-* Number of recursive dependencies: 139
+* Number of recursive dependencies: 140
 
 Run `revdep_details(,"sf")` for more info
 
@@ -11549,6 +8890,31 @@ ERROR: configuration failed for package ‘sf’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/sf/old/sf.Rcheck/sf’
 
 ```
+# sigminer
+
+<details>
+
+* Version: 0.1.11
+* Source code: https://github.com/cran/sigminer
+* URL: https://github.com/ShixiangWang/sigminer
+* BugReports: https://github.com/ShixiangWang/sigminer/issues
+* Date/Publication: 2019-05-07 07:50:03 UTC
+* Number of recursive dependencies: 126
+
+Run `revdep_details(,"sigminer")` for more info
+
+</details>
+
+## In both
+
+*   R CMD check timed out
+    
+
+*   checking package dependencies ... NOTE
+    ```
+    Package suggested but not available for checking: ‘BSgenome.Hsapiens.UCSC.hg19’
+    ```
+
 # SimBIID
 
 <details>
@@ -11940,7 +9306,7 @@ ERROR: compilation failed for package ‘stcos’
 * URL: https://github.com/BioinformaticsFMRP/TCGAbiolinks
 * BugReports: https://github.com/BioinformaticsFMRP/TCGAbiolinks/issues
 * Date/Publication: 2019-09-05
-* Number of recursive dependencies: 265
+* Number of recursive dependencies: 266
 
 Run `revdep_details(,"TCGAbiolinks")` for more info
 
@@ -11961,10 +9327,10 @@ Run `revdep_details(,"TCGAbiolinks")` for more info
 
 *   checking installed package size ... NOTE
     ```
-      installed size is 97.4Mb
+      installed size is 96.5Mb
       sub-directories of 1Mb or more:
         R      2.4Mb
-        data   4.6Mb
+        data   3.7Mb
         doc   90.1Mb
     ```
 
@@ -14187,7 +11553,7 @@ ERROR: configuration failed for package ‘vapour’
 * Source code: https://github.com/cran/VarSelLCM
 * URL: http://varsellcm.r-forge.r-project.org/
 * Date/Publication: 2018-08-29 10:24:28 UTC
-* Number of recursive dependencies: 61
+* Number of recursive dependencies: 62
 
 Run `revdep_details(,"VarSelLCM")` for more info
 
@@ -15205,7 +12571,7 @@ ERROR: compilation failed for package ‘walker’
 * Version: 1.0.1
 * Source code: https://github.com/cran/weibulltools
 * Date/Publication: 2019-01-29 16:10:03 UTC
-* Number of recursive dependencies: 106
+* Number of recursive dependencies: 107
 
 Run `revdep_details(,"weibulltools")` for more info
 
@@ -15249,6 +12615,43 @@ ERROR: compilation failed for package ‘weibulltools’
 * removing ‘/Users/romainfrancois/git/tidyverse/dplyr/revdep/checks.noindex/weibulltools/old/weibulltools.Rcheck/weibulltools’
 
 ```
+# WHO
+
+<details>
+
+* Version: 0.2
+* Source code: https://github.com/cran/WHO
+* URL: https://www.github.com/expersso/WHO , http://www.who.int
+* BugReports: https://www.github.com/expersso/WHO/issues
+* Date/Publication: 2016-04-02 23:31:40
+* Number of recursive dependencies: 61
+
+Run `revdep_details(,"WHO")` for more info
+
+</details>
+
+## In both
+
+*   checking examples ... ERROR
+    ```
+    Running examples in ‘WHO-Ex.R’ failed
+    The error most likely occurred in:
+    
+    > ### Name: get_codes
+    > ### Title: Get all codes and metadata for WHO series
+    > ### Aliases: get_codes
+    > 
+    > ### ** Examples
+    > 
+    > codes <- get_codes()
+    Error in get_result(url) : Bad Gateway (HTTP 502).
+    Calls: get_codes -> get_result -> <Anonymous>
+    Execution halted
+    ```
+
+*   R CMD check timed out
+    
+
 # windfarmGA
 
 <details>
@@ -15258,7 +12661,7 @@ ERROR: compilation failed for package ‘weibulltools’
 * URL: https://ysosirius.github.io/windfarmGA/index.html
 * BugReports: https://github.com/YsoSirius/windfarmGA/issues
 * Date/Publication: 2019-08-27 23:30:02 UTC
-* Number of recursive dependencies: 124
+* Number of recursive dependencies: 125
 
 Run `revdep_details(,"windfarmGA")` for more info
 
