@@ -17,6 +17,11 @@ pick <- function(...) {
 }
 
 #' @export
+current_key <- function() {
+  peek_mask()$current_key()
+}
+
+#' @export
 colwise <- function(funs = identity, .name = NULL) {
   if (is.function(funs) || is_formula(funs)) {
     funs = list(fun = funs)

@@ -416,6 +416,7 @@ DataMask <- R6Class("DataMask",
       private$data <- data
       private$caller <- caller
       private$bindings <- env()
+      private$keys <- group_keys(data)
 
       # A function that returns all the chunks for a column
       resolve_chunks <- if (inherits(data, "rowwise_df")) {
@@ -479,6 +480,10 @@ DataMask <- R6Class("DataMask",
 
     pick = function(vars) {
       eval_tidy(quo(tibble(!!!syms(vars))), private$mask)
+    },
+
+    current_key = function() {
+      vec_slice(keys, private$current_group)
     }
 
   ),
@@ -488,6 +493,7 @@ DataMask <- R6Class("DataMask",
     mask = NULL,
     old_vars = character(),
     rows = NULL,
+    keys = NULL,
     bindings = NULL,
     current_group = 0L,
     caller = NULL
