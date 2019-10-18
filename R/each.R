@@ -11,6 +11,9 @@ over <- function(select, funs = identity, .name = NULL) {
 }
 
 #' @export
+accross <- over
+
+#' @export
 pick <- function(...) {
   vars <- vars_select(peek_vars(), ...)
   peek_mask()$pick(vars)
