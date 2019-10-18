@@ -1,13 +1,13 @@
 
 #' @importFrom tidyselect peek_vars vars_select
 #' @export
-by_column <- function(df, funs = identity, .name = NULL) {
-  colwise(funs, .name = .name)(df)
+by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
+  colwise(funs, .name = .name, .unpack = .unpack)(df)
 }
 
 #' @export
-over <- function(select, funs = identity, .name = NULL) {
-  by_column(pick({{select}}), funs, .name = .name)
+over <- function(select, funs = identity, .name = NULL, .unpack = TRUE) {
+  by_column(pick({{select}}), funs, .name = .name, .unpack = .unpack)
 }
 
 #' @export
@@ -25,18 +25,20 @@ current_key <- function() {
 }
 
 #' @export
-colwise <- function(funs = identity, .name = NULL) {
-  if (is.function(funs) || is_formula(funs)) {
-    funs = list(fun = funs)
+colwise <- function(funs = identity, .name = NULL, .unpack = TRUE) {
+  single_function <- is.function(funs) || is_formula(funs)
+  if (single_function) {
+    funs <- list(fun = funs)
+  } else {
+    if (is.null(names(funs))) {
+      abort("funs should be a single function, a single formula, or a named list of functions or formulas")
+    }
   }
   funs <- map(funs, as_function)
-  if (is.null(names(funs))) {
-    names(funs) <- paste0("fn", seq_along(funs))
-  }
 
   function(df) {
     if (is.null(.name)) {
-      if (length(funs) == 1) {
+      if (!.unpack || single_function) {
         .name <- "{var}"
       } else if(ncol(df) == 1) {
         .name <- "{fun}"
@@ -45,12 +47,20 @@ colwise <- function(funs = identity, .name = NULL) {
       }
     }
 
-    results <- map2(funs, names(funs), function(f, name) {
-      out <- map(df, f)
-      names(out) <- glue::glue(.name, var = names(out), fun = name)
-      out
-    })
-
-    tibble(!!!flatten(unname(results)))
+    if (.unpack) {
+      results <- map2(funs, names(funs), function(f, name) {
+        out <- map(df, f)
+        names(out) <- glue::glue(.name, var = names(out), fun = name)
+        out
+      })
+      tibble(!!!flatten(unname(results)))
+    } else {
+      results <- map2(funs, names(funs), function(f, name) {
+        out <- map(df, f)
+        names(out) <- glue::glue(.name, var = names(out), fun = name)
+        tibble(!!!out)
+      })
+      tibble(!!!results)
+    }
   }
 }
