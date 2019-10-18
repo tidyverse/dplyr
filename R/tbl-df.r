@@ -383,7 +383,7 @@ transmute.tbl_df <- function(.data, ...) {
 }
 
 poke_mask <- function(mask) {
-  old <- context_env
+  old <- context_env[["..mask"]]
   context_env[["..mask"]] <- mask
   old
 }
@@ -393,10 +393,16 @@ peek_mask <- function() {
 }
 
 scoped_mask <- function(mask, frame = caller_env()) {
-  old <- poke_mask(mask)
-  expr <- call2(on.exit, call2(poke_mask, old), add = TRUE)
+  old_mask <- poke_mask(mask)
+  old_group_size <- context_env[["..group_size"]]
+  old_group_number <- context_env[["..group_number"]]
+
+  expr <- call2(on.exit, expr({
+    poke_mask(!!old_mask)
+    context_env[["..group_size"]] <- !!old_group_size
+    context_env[["..group_number"]] <- !!old_group_number
+  }), add = TRUE)
   eval_bare(expr, frame)
-  invisible(old)
 }
 
 DataMask <- R6Class("DataMask",
@@ -406,11 +412,7 @@ DataMask <- R6Class("DataMask",
       tidyselect::scoped_vars(tbl_vars(data), frame)
       scoped_mask(self, frame)
 
-      private$old_group_size <- context_env[["..group_size"]]
-      private$old_group_number <- context_env[["..group_number"]]
-
       private$rows <- rows
-
       private$data <- data
       private$caller <- caller
       private$bindings <- env()
@@ -484,8 +486,6 @@ DataMask <- R6Class("DataMask",
   private = list(
     data = NULL,
     mask = NULL,
-    old_group_size = 0L,
-    old_group_number = 0L,
     old_vars = character(),
     rows = NULL,
     bindings = NULL,
