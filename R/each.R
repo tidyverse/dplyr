@@ -28,7 +28,7 @@ current_key <- function() {
 colwise <- function(funs = identity, .name = NULL, .unpack = TRUE) {
   single_function <- is.function(funs) || is_formula(funs)
   if (single_function) {
-    funs <- list(fun = funs)
+    funs <- list(fn = funs)
   } else {
     if (is.null(names(funs))) {
       abort("funs should be a single function, a single formula, or a named list of functions or formulas")
@@ -41,23 +41,23 @@ colwise <- function(funs = identity, .name = NULL, .unpack = TRUE) {
       if (!.unpack || single_function) {
         .name <- "{var}"
       } else if(ncol(df) == 1) {
-        .name <- "{fun}"
+        .name <- "{fn}"
       } else {
-        .name <- "{fun}_{var}"
+        .name <- "{fn}_{var}"
       }
     }
 
     if (.unpack) {
       results <- map2(funs, names(funs), function(f, name) {
         out <- map(df, f)
-        names(out) <- glue::glue(.name, var = names(out), fun = name)
+        names(out) <- glue::glue(.name, var = names(out), fn = name)
         out
       })
       tibble(!!!flatten(unname(results)))
     } else {
       results <- map2(funs, names(funs), function(f, name) {
         out <- map(df, f)
-        names(out) <- glue::glue(.name, var = names(out), fun = name)
+        names(out) <- glue::glue(.name, var = names(out), fn = name)
         tibble(!!!out)
       })
       tibble(!!!results)
