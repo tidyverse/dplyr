@@ -234,7 +234,7 @@ test_that("mutate modifies same column repeatedly (#243)", {
   expect_equal(mutate(df, x = x + 1, x = x + 1)$x, 3)
 })
 
-test_that("mutate errors when results are not compatible accross groups (#299)", {
+test_that("mutate errors when results are not compatible across groups (#299)", {
   d <- data.frame(x = rep(1:5, each = 3))
   expect_error(
     mutate(group_by(d, x), val = ifelse(x < 3, "foo", 2)),

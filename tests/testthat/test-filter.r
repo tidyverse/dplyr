@@ -359,7 +359,7 @@ test_that("hybrid function row_number does not trigger warning in filter (#3750)
   expect_true(out)
 })
 
-test_that("filter() preserve order accross groups (#3989)", {
+test_that("filter() preserve order across groups (#3989)", {
   tb <- tibble(g = c(1, 2, 1, 2, 1), time = 5:1, x = 5:1)
   res1 <- tb %>%
     group_by(g) %>%

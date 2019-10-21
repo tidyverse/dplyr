@@ -48,25 +48,25 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #' # A single function, results are unpacked and named after the selected columns
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(accross(starts_with("Sepal"), mean))
+#'   summarise(across(starts_with("Sepal"), mean))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(accross(starts_with("Sepal"), ~mean(.x, na.rm = TRUE)))
+#'   summarise(across(starts_with("Sepal"), ~mean(.x, na.rm = TRUE)))
 #'
 #'
 #' # If we leave things packed, both columns are packed in the "fn" column
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(accross(starts_with("Sepal"), mean, .unpack = FALSE))
+#'   summarise(across(starts_with("Sepal"), mean, .unpack = FALSE))
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(accross(starts_with("Sepal"), ~mean(.x, na.rm = TRUE)), .unpack = FALSE))
+#'   summarise(across(starts_with("Sepal"), ~mean(.x, na.rm = TRUE)), .unpack = FALSE))
 #'
 #' # we can have control on the name of pack either by using a named list of
 #' # functions or by giving a name to the expression in summarise()
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(packname = accross(starts_with("Sepal"), mean))
+#'   summarise(packname = across(starts_with("Sepal"), mean))
 #'
 #' # With a named list, if there are multiple columns selected
 #' # and the results are unpacked, the default name includes both the
@@ -74,13 +74,13 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(
-#'     accross(starts_with("Sepal"), list(mean = mean, sd = sd))
+#'     across(starts_with("Sepal"), list(mean = mean, sd = sd))
 #'   )
 #' # this is also the case when the list has only one function
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(
-#'     accross(starts_with("Sepal"), list(mean = mean))
+#'     across(starts_with("Sepal"), list(mean = mean))
 #'   )
 #'
 #' # If there is only one selected column, the results are named
@@ -88,7 +88,7 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(
-#'     accross("Sepal.Length", list(mean = mean, sd = sd))
+#'     across("Sepal.Length", list(mean = mean, sd = sd))
 #'   )
 #'
 #' # When results are left packed, the packs are named after the functions
@@ -96,7 +96,7 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(
-#'     accross(starts_with("Sepal"), list(mean = mean, sd = sd), .unpack = FALSE)
+#'     across(starts_with("Sepal"), list(mean = mean, sd = sd), .unpack = FALSE)
 #'   )
 #'
 #' # The .name parameter can be used to overwrite the defaults as seen above
@@ -104,16 +104,16 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #' # function name and column
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(accross(starts_with("Sepal"), mean, .name = "{toupper(var)}"))
+#'   summarise(across(starts_with("Sepal"), mean, .name = "{toupper(var)}"))
 #'
 #' iris %>%
 #'   group_by(Species) %>%
-#'   summarise(packname = accross(starts_with("Sepal"), mean, .name = "{toupper(var)}"))
+#'   summarise(packname = across(starts_with("Sepal"), mean, .name = "{toupper(var)}"))
 #'
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(
-#'     accross(starts_with("Sepal"), list(mean = mean, sd = sd),
+#'     across(starts_with("Sepal"), list(mean = mean, sd = sd),
 #'             .name = "{toupper(fn)}_{sub('Sepal.', '', var)}"
 #'     )
 #'   )
@@ -123,7 +123,7 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(
-#'     accross("Sepal.Length", list(mean = mean, sd = sd), .name = "{fn}_{var}")
+#'     across("Sepal.Length", list(mean = mean, sd = sd), .name = "{fn}_{var}")
 #'   )
 #'
 #' # when results are left packed, the default is to not include the function in the
@@ -131,16 +131,13 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #' iris %>%
 #'   group_by(Species) %>%
 #'   summarise(
-#'     accross(starts_with("Sepal"), list(mean = mean, sd = sd), .unpack = FALSE, .name = "{fn}_{var}")
+#'     across(starts_with("Sepal"), list(mean = mean, sd = sd), .unpack = FALSE, .name = "{fn}_{var}")
 #'   )
 #'
 #' @export
-accross <- function(select, funs = identity, .name = NULL, .unpack = TRUE) {
-  by_column(pick({{select}}), funs, .name = .name, .unpack = .unpack)
+across <- function(select, funs = identity, .name = NULL, .unpack = TRUE) {
+  colwise(funs, .name = .name, .unpack = .unpack)(pick({{select}}))
 }
-
-#' @export
-over <- accross
 
 #' @export
 current_key <- function() {
