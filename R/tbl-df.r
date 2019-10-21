@@ -389,7 +389,7 @@ poke_mask <- function(mask) {
 }
 
 peek_mask <- function() {
-  context_env[["..mask"]]
+  context_env[["..mask"]] %||% abort("No dplyr data mask registered")
 }
 
 scoped_mask <- function(mask, frame = caller_env()) {
