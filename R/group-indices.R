@@ -6,6 +6,9 @@
 #' @keywords internal
 #' @seealso [group_by()]
 #' @param .data a tbl
+#' @param ... Variables to group by. All tbls accept variable names.
+#'   Some tbls will accept functions of variables. Duplicated groups
+#'   will be silently dropped.
 #' @inheritParams group_by
 #' @inheritParams filter
 #' @export
