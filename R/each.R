@@ -158,10 +158,10 @@ colwise <- function(funs = identity) {
 
   function(df) {
     if (single_function) {
-      as_tibble(imap(df, funs))
+      as_tibble(map(df, funs))
     } else {
       results <- map(funs, function(f) {
-        as_tibble(imap(df, f))
+        as_tibble(map(df, f))
       })
       tibble(!!!results)
     }
