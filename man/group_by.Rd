@@ -12,9 +12,11 @@ ungroup(x, ...)
 \arguments{
 \item{.data}{a tbl}
 
-\item{...}{Variables to group by. All tbls accept variable names.
+\item{...}{For \code{group_by}: Variables to group by. All tbls accept variable names.
 Some tbls will accept functions of variables. Duplicated groups
-will be silently dropped.}
+will be silently dropped.
+
+For \code{ungroup}: Further arguments passed to or from other methods.}
 
 \item{add}{When \code{add = FALSE}, the default, \code{group_by()} will
 override existing groups. To add to the existing groups, use
