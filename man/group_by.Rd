@@ -35,6 +35,15 @@ Most data operations are done on groups defined by variables.
 \code{group_by()} takes an existing tbl and converts it into a grouped tbl
 where operations are performed "by group". \code{ungroup()} removes grouping.
 }
+\section{Grouping layers}{
+
+
+When grouping by more than one variable, each variable defines its own
+grouping layer.  Calling a function such as \code{\link[=summarize]{summarize()}} will only remove
+the last grouping layer.  Thus, the result of calling \code{\link[=summarize]{summarize()}} on a
+tbl with several grouping layers will still be grouped (see example below).
+}
+
 \section{Tbl types}{
 
 

@@ -5,6 +5,13 @@
 #' `group_by()` takes an existing tbl and converts it into a grouped tbl
 #' where operations are performed "by group". `ungroup()` removes grouping.
 #'
+#' @section Grouping layers:
+#'
+#' When grouping by more than one variable, each variable defines its own
+#' grouping layer.  Calling a function such as [summarize()] will only remove
+#' the last grouping layer.  Thus, the result of calling [summarize()] on a
+#' tbl with several grouping layers will still be grouped (see example below).
+#'
 #' @section Tbl types:
 #'
 #' `group_by()` is an S3 generic with methods for the three built-in
