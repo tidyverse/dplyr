@@ -19,8 +19,8 @@ pick <- function(...) {
 
 #' @importFrom tidyselect peek_vars vars_select
 #' @export
-by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
-  colwise(funs, .name = .name, .unpack = .unpack)(df)
+by_column <- function(df, funs = identity) {
+  colwise(funs)(df)
 }
 
 #' Apply a set of functions to a set of columns
@@ -135,8 +135,8 @@ by_column <- function(df, funs = identity, .name = NULL, .unpack = TRUE) {
 #'   )
 #'
 #' @export
-across <- function(select, funs = identity, .name = NULL, .unpack = TRUE) {
-  colwise(funs, .name = .name, .unpack = .unpack)(pick({{select}}))
+across <- function(select, funs = identity) {
+  colwise(funs)(pick({{select}}))
 }
 
 #' @export
@@ -145,40 +145,23 @@ current_key <- function() {
 }
 
 #' @export
-colwise <- function(funs = identity, .name = NULL, .unpack = TRUE) {
+colwise <- function(funs = identity) {
   single_function <- is.function(funs) || is_formula(funs)
   if (single_function) {
-    funs <- list(fn = funs)
+    funs <- as_function(funs)
   } else {
     if (is.null(names(funs))) {
       abort("funs should be a single function, a single formula, or a named list of functions or formulas")
     }
+    funs <- map(funs, as_function)
   }
-  funs <- map(funs, as_function)
 
   function(df) {
-    if (is.null(.name)) {
-      if (!.unpack || single_function) {
-        .name <- "{var}"
-      } else if(ncol(df) == 1) {
-        .name <- "{fn}"
-      } else {
-        .name <- "{fn}_{var}"
-      }
-    }
-
-    if (.unpack) {
-      results <- map2(funs, names(funs), function(f, name) {
-        out <- map(df, f)
-        names(out) <- glue::glue(.name, var = names(out), fn = name)
-        out
-      })
-      tibble(!!!flatten(unname(results)))
+    if (single_function) {
+      as_tibble(imap(df, funs))
     } else {
-      results <- map2(funs, names(funs), function(f, name) {
-        out <- map(df, f)
-        names(out) <- glue::glue(.name, var = names(out), fn = name)
-        tibble(!!!out)
+      results <- map(funs, function(f) {
+        as_tibble(imap(df, f))
       })
       tibble(!!!results)
     }
