@@ -330,7 +330,7 @@ mutate.tbl_df <- function(.data, ...) {
 
       # remember each result separately
       map2(seq_along(result), names(result), function(i, nm) {
-        mask$add(nm, map(chunks, function(.x) .x[[i]]))
+        mask$add(nm, pluck(chunks, i))
       })
     } else {
       # treat as a single output otherwise
@@ -417,6 +417,7 @@ DataMask <- R6Class("DataMask",
     },
 
     add = function(name, chunks) {
+      force(chunks)
       if (name %in% group_vars(private$data)) {
         abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
       }
@@ -514,7 +515,7 @@ summarise.tbl_df <- function(.data, ...) {
 
       # remember each result separately
       map2(seq_along(result), names(result), function(i, nm) {
-        mask$add(nm, map(chunks, i))
+        mask$add(nm, pluck(chunks, i))
       })
     } else {
       # treat as a single output otherwise
