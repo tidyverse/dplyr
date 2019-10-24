@@ -120,12 +120,14 @@ test_that("Can group_by() a POSIXlt", {
 })
 
 test_that("group_by only applies the allow list to grouping variables", {
-  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
 
   res <- group_by(df, x, .drop = FALSE)
   expect_equal(groups(res), list(sym("x")))
+
+  skip("Avoid list_of<> warning")
+
   expect_identical(
     group_data(res),
     structure(tibble(x := 1:5, ".rows" := as.list(1:5)), .drop = FALSE)
