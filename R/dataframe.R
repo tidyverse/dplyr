@@ -262,12 +262,12 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
   # keys must be identical
   msg <- ""
   if (any(wrong <- !vec_in(x_split$key, y_split$key))) {
-    rows <- sort(map_int(x_split$id[which(wrong)], function(.x) .x[1L]))
+    rows <- sort(map_int(x_split$pos[which(wrong)], function(.x) .x[1L]))
     msg <- paste0(msg, "- Rows in x but not in y: ", glue_collapse(rows, sep = ", "), "\n")
   }
 
   if (any(wrong <- !vec_in(y_split$key, x_split$key))) {
-    rows <- sort(map_int(y_split$id[which(wrong)], function(.x) .x[1L]))
+    rows <- sort(map_int(y_split$pos[which(wrong)], function(.x) .x[1L]))
     msg <- paste0(msg, "- Rows in y but not in x: ", glue_collapse(rows, sep = ", "), "\n")
   }
   if (msg != "") {
@@ -275,8 +275,8 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
   }
 
   # keys are identical, check that rows occur the same number of times
-  if (any(wrong <- lengths(x_split$id) != lengths(y_split$id))) {
-    rows <- sort(map_int(x_split$id[which(wrong)], function(.x) .x[1L]))
+  if (any(wrong <- lengths(x_split$pos) != lengths(y_split$pos))) {
+    rows <- sort(map_int(x_split$pos[which(wrong)], function(.x) .x[1L]))
     return(paste0("- Rows with difference occurences in x and y: ",
       glue_collapse(rows, sep = ", "),
       "\n"
@@ -284,7 +284,7 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
   }
 
   # then if we care about row order, the id need to be identical
-  if (!ignore_row_order && !all(vec_equal(x_split$id, y_split$id))) {
+  if (!ignore_row_order && !all(vec_equal(x_split$pos, y_split$pos))) {
     return("Same row values, but different order")
   }
 
