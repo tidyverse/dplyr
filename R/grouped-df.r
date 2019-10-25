@@ -1,7 +1,7 @@
 utils::globalVariables(c("old_keys", "old_rows", ".rows", "new_indices", "new_rows"))
 
 vec_split_id_order <- function(x) {
-  split_id <- vec_split_id(x)
+  split_id <- vec_group_pos(x)
   vec_slice(split_id, vec_order(split_id$key))
 }
 
