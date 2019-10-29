@@ -4,8 +4,6 @@
 namespace Rcpp {
 
 typedef Vector<INTSXP, NoProtectStorage> IntegerVectorView;
-typedef Vector<VECSXP, NoProtectStorage> ListView;
-typedef DataFrame_Impl<NoProtectStorage> DataFrameView;
 
 }
 

@@ -57,7 +57,8 @@ filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- all_exprs(!!!dots, .vectorised = TRUE)
   out <- filter_impl(.data, quo)
   if (!.preserve && is_grouped_df(.data)) {
-    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
+    old_gps <- attr(out, "groups")
+    attr(out, "groups") <- regroup(old_gps, environment())
   }
   out
 }
@@ -77,7 +78,8 @@ slice.tbl_df <- function(.data, ..., .preserve = FALSE) {
   quo <- quo(c(!!!dots))
   out <- slice_impl(.data, quo)
   if (!.preserve && is_grouped_df(.data)) {
-    attr(out, "groups") <- regroup(attr(out, "groups"), environment())
+    old_gps <- attr(out, "groups")
+    attr(out, "groups") <- regroup(old_gps, environment())
   }
   out
 }

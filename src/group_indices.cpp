@@ -474,9 +474,9 @@ SEXP regroup(Rcpp::DataFrame grouping_data, SEXP frame) {
   size_t n = grouping_data.nrow();
   std::vector<int> keep;
   keep.reserve(n);
-  Rcpp::ListView rows = grouping_data[nc];
+  Rcpp::List rows(grouping_data[nc]);
   for (size_t i = 0; i < n; i++) {
-    if (LENGTH(rows[i]) > 0) keep.push_back(i + 1);
+    if (!Rf_isNull(rows[i]) && LENGTH(rows[i]) > 0) keep.push_back(i + 1);
   }
   if (keep.size() == n) return grouping_data;
   Rcpp::IntegerVector r_keep(keep.begin(), keep.end());
@@ -510,9 +510,9 @@ SEXP regroup(Rcpp::DataFrame grouping_data, SEXP frame) {
   }
 
   // 3) translate indices on grouping_data to indices wrt the data
-  Rcpp::ListView original_rows = grouping_data[nc];
+  Rcpp::List original_rows = grouping_data[nc];
   for (size_t i = 0; i < ncases; i++) {
-    if (LENGTH(indices[i]) == 1) {
+    if (!Rf_isNull(indices[i]) && LENGTH(indices[i]) == 1) {
       indices[i] = original_rows[Rcpp::as<int>(indices[i]) - 1];
     }
   }
@@ -713,7 +713,7 @@ Rcpp::DataFrame ungroup_grouped_df(Rcpp::DataFrame df) {
 
 // [[Rcpp::export(rng = false)]]
 Rcpp::List group_split_impl(const dplyr::GroupedDataFrame& gdf, bool keep, SEXP frame) {
-  Rcpp::ListView rows = gdf.indices();
+  Rcpp::List rows(gdf.indices());
   R_xlen_t n = rows.size();
 
   Rcpp::DataFrame group_data = gdf.group_data();

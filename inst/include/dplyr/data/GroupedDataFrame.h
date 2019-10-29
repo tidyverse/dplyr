@@ -23,7 +23,7 @@ public:
 
   int i;
   const GroupedDataFrame& gdf;
-  Rcpp::ListView indices;
+  Rcpp::List indices;
 };
 
 class GroupedDataFrame {
