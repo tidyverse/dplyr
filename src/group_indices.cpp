@@ -510,7 +510,7 @@ SEXP regroup(Rcpp::DataFrame grouping_data, SEXP frame) {
   }
 
   // 3) translate indices on grouping_data to indices wrt the data
-  Rcpp::List original_rows = grouping_data[nc];
+  Rcpp::List original_rows(grouping_data[nc]);
   for (size_t i = 0; i < ncases; i++) {
     if (!Rf_isNull(indices[i]) && LENGTH(indices[i]) == 1) {
       indices[i] = original_rows[Rcpp::as<int>(indices[i]) - 1];

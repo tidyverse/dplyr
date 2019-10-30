@@ -24,9 +24,16 @@ public:
     R_PreserveObject(data);
   }
 
+  GroupedSlicingIndex(const GroupedSlicingIndex& other) : data(other.data), group_index(other.group_index), preserved(other.preserved){
+    if (preserved) {
+      R_PreserveObject(data);
+    }
+  }
+
   ~GroupedSlicingIndex() {
     if (preserved) {
       R_ReleaseObject(data);
+      preserved = false;
     }
   }
 
@@ -62,6 +69,7 @@ private:
 
   int group_index;
   bool preserved;
+
 };
 
 // A RowwiseSlicingIndex selects a single row, which is also the group ID by definition.
