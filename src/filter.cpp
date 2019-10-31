@@ -225,7 +225,6 @@ SEXP filter_template(const SlicedTibble& gdf, const Quosure& quo) {
   // Proxy call_proxy(quo.expr(), gdf, quo.env()) ;
   GroupIterator git = gdf.group_begin();
   DataMask<SlicedTibble> mask(gdf) ;
-
   int ngroups = gdf.ngroups() ;
 
   // tracking the indices for each group
@@ -429,7 +428,7 @@ public:
     if (old_k == k) {
       rows[i] = Rf_allocVector(INTSXP, 0);
     } else {
-      rows[i] = Rcpp::IntegerVectorView(Rcpp::seq(old_k + 1, k));
+      rows[i] = Rcpp::IntegerVector(Rcpp::seq(old_k + 1, k));
     }
     ++git;
   }
@@ -463,7 +462,7 @@ public:
       if (old_k == k) {
         rows[i] = Rf_allocVector(INTSXP, 0);
       } else {
-        rows[i] = Rcpp::IntegerVectorView(Rcpp::seq(old_k + 1, k));
+        rows[i] = Rcpp::IntegerVector(Rcpp::seq(old_k + 1, k));
       }
 
       ++git;

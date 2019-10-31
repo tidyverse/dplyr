@@ -91,9 +91,9 @@ void structure_summarise<GroupedDataFrame>(Rcpp::List& out, const GroupedDataFra
 
       int n = sizes[i];
       if (n) {
-        new_indices[i] = Rcpp::IntegerVectorView(Rcpp::seq(start + 1, start + n));
+        new_indices[i] = Rcpp::IntegerVector(Rcpp::seq(start + 1, start + n));
       } else {
-        new_indices[i] = Rcpp::IntegerVectorView(0);
+        new_indices[i] = Rcpp::IntegerVector(0);
       }
 
       start += sizes[i];

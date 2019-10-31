@@ -59,32 +59,29 @@ void hybrid_init(SEXP env, SEXP name, SEXP package, hybrid_id id) {
 
 void init() {
   if (hybrid_inline_map.size() == 0) {
-    Rcpp::Environment dplyr = Rcpp::Environment::namespace_env("dplyr");
-    hybrid_init(dplyr, symbols::n, symbols::dplyr, hybrid::N);
-    hybrid_init(dplyr, symbols::group_indices, symbols::dplyr, hybrid::GROUP_INDICES);
-    hybrid_init(dplyr, symbols::row_number, symbols::dplyr, hybrid::ROW_NUMBER);
-    hybrid_init(dplyr, symbols::first, symbols::dplyr, hybrid::FIRST);
-    hybrid_init(dplyr, symbols::last, symbols::dplyr, hybrid::LAST);
-    hybrid_init(dplyr, symbols::nth, symbols::dplyr, hybrid::NTH);
-    hybrid_init(dplyr, symbols::ntile, symbols::dplyr, hybrid::NTILE);
-    hybrid_init(dplyr, symbols::min_rank, symbols::dplyr, hybrid::MIN_RANK);
-    hybrid_init(dplyr, symbols::percent_rank, symbols::dplyr, hybrid::PERCENT_RANK);
-    hybrid_init(dplyr, symbols::dense_rank, symbols::dplyr, hybrid::DENSE_RANK);
-    hybrid_init(dplyr, symbols::cume_dist, symbols::dplyr, hybrid::CUME_DIST);
-    hybrid_init(dplyr, symbols::lead, symbols::dplyr, hybrid::LEAD);
-    hybrid_init(dplyr, symbols::lag, symbols::dplyr, hybrid::LAG);
-    hybrid_init(dplyr, symbols::n_distinct, symbols::dplyr, hybrid::N_DISTINCT);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::n, symbols::dplyr, hybrid::N);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::group_indices, symbols::dplyr, hybrid::GROUP_INDICES);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::row_number, symbols::dplyr, hybrid::ROW_NUMBER);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::first, symbols::dplyr, hybrid::FIRST);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::last, symbols::dplyr, hybrid::LAST);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::nth, symbols::dplyr, hybrid::NTH);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::ntile, symbols::dplyr, hybrid::NTILE);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::min_rank, symbols::dplyr, hybrid::MIN_RANK);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::percent_rank, symbols::dplyr, hybrid::PERCENT_RANK);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::dense_rank, symbols::dplyr, hybrid::DENSE_RANK);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::cume_dist, symbols::dplyr, hybrid::CUME_DIST);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::lead, symbols::dplyr, hybrid::LEAD);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::lag, symbols::dplyr, hybrid::LAG);
+    hybrid_init(dplyr::envs::ns_dplyr, symbols::n_distinct, symbols::dplyr, hybrid::N_DISTINCT);
 
-    SEXP base = R_BaseEnv;
-    hybrid_init(base, symbols::sum, symbols::base, hybrid::SUM);
-    hybrid_init(base, symbols::mean, symbols::base, hybrid::MEAN);
-    hybrid_init(base, symbols::min, symbols::base, hybrid::MIN);
-    hybrid_init(base, symbols::max, symbols::base, hybrid::MAX);
-    hybrid_init(base, symbols::in, symbols::base, hybrid::IN);
+    hybrid_init(R_BaseEnv, symbols::sum, symbols::base, hybrid::SUM);
+    hybrid_init(R_BaseEnv, symbols::mean, symbols::base, hybrid::MEAN);
+    hybrid_init(R_BaseEnv, symbols::min, symbols::base, hybrid::MIN);
+    hybrid_init(R_BaseEnv, symbols::max, symbols::base, hybrid::MAX);
+    hybrid_init(R_BaseEnv, symbols::in, symbols::base, hybrid::IN);
 
-    Rcpp::Environment stats = Rcpp::Environment::namespace_env("stats");
-    hybrid_init(stats, symbols::var, symbols::stats, hybrid::VAR);
-    hybrid_init(stats, symbols::sd, symbols::stats, hybrid::SD);
+    hybrid_init(dplyr::envs::ns_stats, symbols::var, symbols::stats, hybrid::VAR);
+    hybrid_init(dplyr::envs::ns_stats, symbols::sd, symbols::stats, hybrid::SD);
   }
 
   ::base::primitive_bracket_one = Rf_eval(R_BracketSymbol, R_BaseEnv);

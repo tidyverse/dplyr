@@ -24,7 +24,7 @@ public:
     R_PreserveObject(data);
   }
 
-  GroupedSlicingIndex(const GroupedSlicingIndex& other) : data(other.data), group_index(other.group_index), preserved(other.preserved){
+  GroupedSlicingIndex(const GroupedSlicingIndex& other) : data(other.data), group_index(other.group_index), preserved(other.preserved) {
     if (preserved) {
       R_PreserveObject(data);
     }

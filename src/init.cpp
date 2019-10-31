@@ -41,6 +41,17 @@ SEXP mark_precious(SEXP x) {
   return x;
 }
 
+SEXP get_ns(const char* name) {
+  SEXP ns = PROTECT(Rf_allocVector(STRSXP, 1));
+  SET_STRING_ELT(ns, 0, Rf_mkChar(name));
+
+  SEXP call = PROTECT(Rf_lang2(dplyr::symbols::getNamespace, ns));
+  SEXP res = PROTECT(Rf_eval(call, R_BaseEnv));
+
+  UNPROTECT(3);
+  return res;
+}
+
 SEXP symbols::package = Rf_install("package");
 SEXP symbols::n = Rf_install("n");
 SEXP symbols::tzone = Rf_install("tzone");
@@ -110,6 +121,9 @@ SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::names = R_NamesSymbol;
 SEXP symbols::formula = Rf_install("formula");
 SEXP symbols::envir = Rf_install("envir");
+SEXP symbols::getNamespace = Rf_install("getNamespace");
+SEXP symbols::dot_dot_group_size = Rf_install("..group_size");
+SEXP symbols::dot_dot_group_number = Rf_install("..group_number");
 SEXP fns::quote = Rf_eval(Rf_install("quote"), R_BaseEnv);
 SEXP fns::rm = Rf_eval(Rf_install("rm"), R_BaseEnv);
 
@@ -123,4 +137,14 @@ SEXP strings::Date = STRING_ELT(get_date_classes(), 0);
 SEXP strings::factor = STRING_ELT(vectors::factor, 0);
 SEXP strings::ordered = STRING_ELT(vectors::ordered, 0);
 
+SEXP envs::ns_dplyr = mark_precious(get_ns("dplyr"));
+SEXP envs::ns_rlang = mark_precious(get_ns("rlang"));
+SEXP envs::ns_stats = mark_precious(get_ns("stats"));
+
+SEXP get_context_env() {
+  SEXP context_env = Rf_install("context_env");
+  return Rf_eval(context_env, envs::ns_dplyr);
+}
+
+SEXP envs::context_env = mark_precious(get_context_env());
 }

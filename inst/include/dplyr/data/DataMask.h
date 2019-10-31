@@ -101,10 +101,7 @@ public:
     int pos,
     boost::shared_ptr< DataMaskProxy<SlicedTibble> >& data_mask_proxy
   ) {
-    static Rcpp::Function make_active_binding_fun(
-      ".make_active_binding_fun",
-      Rcpp::Environment::namespace_env("dplyr")
-    );
+    static Rcpp::Function make_active_binding_fun(".make_active_binding_fun", dplyr::envs::ns_dplyr);
 
     // external pointer to the weak proxy of the data mask
     // eventually this calls back to the reak DataMask
@@ -374,13 +371,14 @@ public:
       );
     }
 
-    previous_group_size = get_context_env()["..group_size"];
-    previous_group_number = get_context_env()["..group_number"];
+    previous_group_size = Rf_findVarInFrame(dplyr::envs::context_env, dplyr::symbols::dot_dot_group_size);
+    previous_group_number = Rf_findVarInFrame(dplyr::envs::context_env, dplyr::symbols::dot_dot_group_number);
   }
 
   ~DataMask() {
-    get_context_env()["..group_size"] = previous_group_size;
-    get_context_env()["..group_number"] = previous_group_number;
+    Rf_defineVar(dplyr::symbols::dot_dot_group_size, previous_group_size, dplyr::envs::context_env);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_number, previous_group_number, dplyr::envs::context_env);
+
     if (active_bindings_ready) {
       clear_resolved();
     }
@@ -537,8 +535,9 @@ public:
     update(indices);
 
     // update the data context variables, these are used by n(), ...
-    get_context_env()["..group_size"] = indices.size();
-    get_context_env()["..group_number"] = indices.group() + 1;
+    Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(indices.size()), dplyr::envs::context_env);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_number, Rf_ScalarInteger(indices.group() + 1), dplyr::envs::context_env);
+
 
 #if (R_VERSION < R_Version(3, 5, 0))
     Rcpp::Shield<SEXP> call_quote(Rf_lang2(fns::quote, quo));
@@ -619,13 +618,6 @@ private:
       column_bindings[index.pos] = binding;
 
     }
-  }
-
-  Rcpp::Environment& get_context_env() const {
-    static Rcpp::Environment context_env(
-      Rcpp::Environment::namespace_env("dplyr")["context_env"]
-    );
-    return context_env;
   }
 
   void clear_resolved() {

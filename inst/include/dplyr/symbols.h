@@ -72,6 +72,9 @@ struct symbols {
   static SEXP names;
   static SEXP formula;
   static SEXP envir;
+  static SEXP getNamespace;
+  static SEXP dot_dot_group_size;
+  static SEXP dot_dot_group_number;
 };
 
 struct fns {
@@ -91,6 +94,14 @@ struct vectors {
   static SEXP factor;
   static SEXP ordered;
   static SEXP unbound_sentinel;
+};
+
+struct envs {
+  static SEXP ns_dplyr;
+  static SEXP ns_rlang;
+  static SEXP ns_stats;
+
+  static SEXP context_env;
 };
 
 } // namespace dplyr

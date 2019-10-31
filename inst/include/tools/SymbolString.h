@@ -2,6 +2,7 @@
 #define dplyr_tools_SymbolString_h
 
 #include <tools/encoding.h>
+#include <dplyr/symbols.h>
 
 namespace dplyr {
 
@@ -32,8 +33,7 @@ public:
   }
 
   const std::string get_utf8_cstring() const {
-    static Rcpp::Environment rlang = Rcpp::Environment::namespace_env("rlang");
-    static Rcpp::Function as_string = Rcpp::Function("as_string", rlang);
+    static Rcpp::Function as_string = Rcpp::Function("as_string", dplyr::envs::ns_rlang);
     Rcpp::Shield<SEXP> call(Rf_lang2(R_QuoteSymbol, get_symbol()));
     Rcpp::Shield<SEXP> utf8_string(as_string(call));
     return CHAR(STRING_ELT(utf8_string, 0));

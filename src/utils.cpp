@@ -372,21 +372,17 @@ namespace dplyr {
 namespace lifecycle {
 
 void warn_deprecated(const std::string& s) {
-  static Rcpp::Environment ns_dplyr(Rcpp::Environment::namespace_env("dplyr"));
-
   Rcpp::CharacterVector msg(Rcpp::CharacterVector::create(s));
   Rcpp::Shield<SEXP> call(Rf_lang2(symbols::warn_deprecated, msg));
 
-  Rcpp::Rcpp_eval(call, ns_dplyr);
+  Rcpp::Rcpp_eval(call, dplyr::envs::ns_dplyr);
 }
 
 void signal_soft_deprecated(const std::string& s, SEXP caller_env) {
-  static Rcpp::Environment ns_dplyr(Rcpp::Environment::namespace_env("dplyr"));
-
   Rcpp::CharacterVector msg(Rcpp::CharacterVector::create(s));
   Rcpp::Shield<SEXP> call(Rf_lang4(symbols::signal_soft_deprecated, msg, msg, caller_env));
 
-  Rcpp::Rcpp_eval(call, ns_dplyr);
+  Rcpp::Rcpp_eval(call, dplyr::envs::ns_dplyr);
 }
 
 
