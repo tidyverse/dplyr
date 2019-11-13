@@ -206,6 +206,7 @@ test_that("summarise propagate attributes (#194)", {
 })
 
 test_that("summarise strips names (#2675)", {
+  skip("until we talk about it in https://github.com/tidyverse/dplyr/issues/2675")
   data <- tibble(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
   expect_null(names(data$b))
 
@@ -215,6 +216,20 @@ test_that("summarise strips names (#2675)", {
   data <- tibble(a = c(1, 1, 2)) %>% group_by(a) %>% summarise(b = setNames(nm = a[[1]]))
   expect_null(names(data$b))
 })
+
+test_that("names attribute is not retained (#357)", {
+  skip("until we talk about it in https://github.com/tidyverse/dplyr/issues/2675")
+
+  res <- data.frame(x = c(1:3), y = letters[1:3]) %>%
+    group_by(y) %>%
+    summarise(
+      a = length(x),
+      b = quantile(x, 0.5)
+    )
+  expect_equal(res$b, c(1, 2, 3))
+  expect_null(names(res$b))
+})
+
 
 test_that("summarise fails on missing variables", {
   # error messages from rlang
@@ -315,17 +330,6 @@ test_that("AsIs class is allowed (#453)", {
   test <- data.frame(A = c(1, 1, 0, 0), B = I(c(2, 2, 3, 3)))
   res <- group_by(test, B)
   expect_equal(res$B, test$B)
-})
-
-test_that("names attribute is not retained (#357)", {
-  df <- data.frame(x = c(1:3), y = letters[1:3])
-  df <- group_by(df, y)
-  m <- df %>% summarise(
-    a = length(x),
-    b = quantile(x, 0.5)
-  )
-  expect_equal(m$b, c(1, 2, 3))
-  expect_null(names(m$b))
 })
 
 test_that("na.rm is supported (#168)", {
