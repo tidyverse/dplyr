@@ -139,7 +139,6 @@ test_that("select works on empty names (#3601)", {
 })
 
 test_that("select works on NA names (#3601)", {
-  skip("to be discussed")
   df <- data.frame(x=1, y=2, z=3)
   colnames(df) <- c("x","y",NA)
   expect_identical(select(df, x)$x, 1)
