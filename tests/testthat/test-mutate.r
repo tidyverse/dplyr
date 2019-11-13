@@ -768,6 +768,21 @@ test_that("gathering handles promotion from raw", {
   )
 })
 
+test_that("auto-splicing for tibbles", {
+  expect_identical(
+    tibble(a = 1) %>% mutate(tibble(b = 2)),
+    tibble(a = 1, b = 2)
+  )
+  expect_identical(
+    tibble(a = 1) %>% mutate(tibble(b = 2), tibble(b = 3)),
+    tibble(a = 1, b = 3)
+  )
+  expect_identical(
+    tibble(a = 1) %>% mutate(tibble(b = 2), c = b),
+    tibble(a = 1, b = 2, c = 2)
+  )
+})
+
 # Error messages ----------------------------------------------------------
 
 test_that("mutate handles raw vectors in columns (#1803)", {
