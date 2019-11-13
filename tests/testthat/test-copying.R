@@ -1,7 +1,6 @@
 context("Copying")
 
 test_that("coercion doesn't copy vars", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   mtcars2 <- tbl_df(mtcars)
   mtcars3 <- as.data.frame(mtcars2)
 
@@ -10,7 +9,6 @@ test_that("coercion doesn't copy vars", {
 })
 
 test_that("grouping and ungrouping doesn't copy vars", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   mtcars2 <- group_by(mtcars, cyl)
   mtcars3 <- ungroup(mtcars2)
 
@@ -19,7 +17,6 @@ test_that("grouping and ungrouping doesn't copy vars", {
 })
 
 test_that("mutate doesn't copy vars", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   mtcars2 <- tbl_df(mtcars)
   mtcars3 <- mutate(mtcars2, cyl2 = cyl * 2)
 
@@ -27,7 +24,6 @@ test_that("mutate doesn't copy vars", {
 })
 
 test_that("select doesn't copy vars", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   mtcars2 <- tbl_df(mtcars)
   mtcars3 <- select(mtcars2, carb:mpg)
 
