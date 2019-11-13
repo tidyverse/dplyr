@@ -205,20 +205,15 @@ test_that("summarise propagate attributes (#194)", {
   expect_equal(class(res$min__g), c("POSIXct", "POSIXt"))
 })
 
-test_that("summarise strips names (#2675)", {
-  skip("until we talk about it in https://github.com/tidyverse/dplyr/issues/2675")
+test_that("summarise allows names (#2675)", {
   data <- tibble(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
-  expect_null(names(data$b))
+  expect_equal(names(data$b), "1")
 
   data <- tibble(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))
-  expect_null(names(data$b))
+  expect_equal(names(data$b), c("1", "2", "3"))
 
   data <- tibble(a = c(1, 1, 2)) %>% group_by(a) %>% summarise(b = setNames(nm = a[[1]]))
-  expect_null(names(data$b))
-})
-
-test_that("names attribute is not retained (#357)", {
-  skip("until we talk about it in https://github.com/tidyverse/dplyr/issues/2675")
+  expect_equal(names(data$b), c("1", "2"))
 
   res <- data.frame(x = c(1:3), y = letters[1:3]) %>%
     group_by(y) %>%
@@ -226,10 +221,8 @@ test_that("names attribute is not retained (#357)", {
       a = length(x),
       b = quantile(x, 0.5)
     )
-  expect_equal(res$b, c(1, 2, 3))
-  expect_null(names(res$b))
+  expect_equal(res$b, c("50%" = 1, "50%" = 2, "50%" = 3))
 })
-
 
 test_that("summarise fails on missing variables", {
   # error messages from rlang
