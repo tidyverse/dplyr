@@ -753,21 +753,6 @@ test_that("mutate() supports unquoted values", {
   expect_error(mutate(gdf, out = !!env(a = 1)), class = "vctrs_error_scalar_type")
 })
 
-test_that("gathering handles promotion from raw", {
-  skip("until https://github.com/r-lib/vctrs/issues/546")
-
-  df <- tibble(a = 1:4, g = c(1, 1, 2, 2))
-  # collecting raw in the first group, then other types
-  expect_identical(
-    df %>% group_by(g) %>% mutate(b = if (all(a < 3)) as.raw(a) else a) %>% pull(b),
-    1:4
-  )
-  expect_identical(
-    df %>% group_by(g) %>% mutate(b = if (all(a < 3)) as.raw(a) else as.numeric(a)) %>% pull(b),
-    as.numeric(1:4)
-  )
-})
-
 test_that("auto-splicing for tibbles", {
   expect_identical(
     tibble(a = 1) %>% mutate(tibble(b = 2)),
