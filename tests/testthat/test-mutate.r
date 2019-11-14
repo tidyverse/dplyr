@@ -408,7 +408,6 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
-  skip("Currently failing (#2967)")
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
