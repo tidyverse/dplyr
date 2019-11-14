@@ -308,11 +308,10 @@ test_that("mutate removes columns when the expression evaluates to NULL for all 
   )
 })
 
-test_that("mutate treats NULL specially when the expression sometimes evaluates to NULL (#2945)", {
-  skip("to be discussed again with vctrs in mind")
+test_that("mutate aborts when the expression sometimes evaluates to NULL (#2945)", {
   df <- tibble(a = 1:3, b=4:6) %>% group_by(a)
-  expect_equal( mutate(df, if(a==1) NULL else "foo") %>% pull(), c(NA, "foo", "foo"))
-  expect_equal( mutate(df, if(a==1) NULL else list(b)) %>% pull(), list(NULL, 5L, 6L))
+  expect_error( mutate(df, if(a==1) NULL else "foo"))
+  expect_error( mutate(df, if(a==1) NULL else list(b)))
 })
 
 test_that("mutate(rowwise_df) makes a rowwise_df (#463)", {

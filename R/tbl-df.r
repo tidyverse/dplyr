@@ -315,12 +315,16 @@ mutate.tbl_df <- function(.data, ...) {
       vec_recycle(mask$eval(dots[[i]], group), n)
     })
 
-    if (all(map_lgl(chunks, is.null))) {
+    null_results <- map_lgl(chunks, is.null)
+    if (all(null_results)) {
       if (!is.null(dots_names) && dots_names[i] != "" && dots_names[[i]] %in% c(names(.data), names(new_columns))) {
         new_columns[[dots_names[i]]] <- zap()
         mask$remove(dots_names[i])
       }
       next
+    }
+    if (any(null_results)) {
+      abort("incompatible results for mutate(), some results are NULL")
     }
 
     result <- vec_slice(vec_c(!!!chunks), o_rows)
