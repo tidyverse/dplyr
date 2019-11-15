@@ -17,7 +17,7 @@ It has three main goals:
 \item Identify the most important data manipulation verbs and make them
 easy to use from R.
 \item Provide blazing fast performance for in-memory data by writing key
-pieces in C++ (using Rcpp)
+pieces in C++
 \item Use the same interface to work with data no matter where it's stored,
 whether in a data frame, a data table or database.
 }
