@@ -775,8 +775,6 @@ test_that("inner join not crashing (#1559)", {
 # Encoding ----------------------------------------------------------------
 
 test_that("join handles mix of encodings in data (#1885, #2118, #2271)", {
-  skip("No encoding warnings (yet?)")
-
   with_non_utf8_encoding({
     special <- get_native_lang_string()
 
@@ -906,7 +904,7 @@ test_that("join accepts tz attributes (#2643)", {
 })
 
 test_that("join takes LHS with warning if attributes inconsistent", {
-  skip("we need to talk about this")
+  skip("we need to talk about this https://github.com/tidyverse/dplyr/issues/4617")
   df1 <- tibble(a = 1:2, b = 2:1)
   df2 <- tibble(
     a = structure(1:2, foo = "bar"),

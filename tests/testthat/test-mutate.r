@@ -268,20 +268,18 @@ test_that("mutate remove variables with = NULL syntax (#462)", {
   expect_false("cyl" %in% names(data))
 })
 
-test_that("mutate strips names, but only if grouped (#1689, #2675)", {
-  skip("to be discussed, seems like [[<-.tbl strips names")
+test_that("mutate keeps names (#1689, #2675)", {
   data <- tibble(a = 1:3) %>% mutate(b = setNames(nm = a))
   expect_equal(names(data$b), as.character(1:3))
 
   data <- tibble(a = 1:3) %>% rowwise() %>% mutate(b = setNames(nm = a))
-  expect_null(names(data$b))
+  expect_equal(names(data$b), as.character(1:3))
 
   data <- tibble(a = c(1, 1, 2)) %>% group_by(a) %>% mutate(b = setNames(nm = a))
-  expect_null(names(data$b))
+  expect_equal(names(data$b), c("1", "1", "2"))
 })
 
 test_that("mutate does not strip names of list-columns (#2675)", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   vec <- list(a = 1, b = 2)
   data <- tibble(x = vec)
   data <- mutate(data, x)
@@ -407,6 +405,7 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
+  scoped_lifecycle_silence()
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
 
