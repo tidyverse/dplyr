@@ -95,10 +95,12 @@ bind_rows <- function(..., .id = NULL) {
   if (length(dots) == 1 && is.list(dots[[1]]) && !is.data.frame(dots[[1]])) {
     dots <- dots[[1]]
   }
-  dots <- keep(
-    flatten_if(dots, function(.x) is.list(.x) && !is.data.frame(.x)),
-    function(.x) !is.null(.x)
-  )
+  dataframe_ish <- function(.x) {
+    is.data.frame(.x) || (vec_is(.x) && !is.null(names(.x)))
+  }
+
+  dots <- keep(dots, function(.x) !is.null(.x))
+  dots <- flatten_if(dots, function(.x) is.list(.x) && !dataframe_ish(.x))
 
   if (!is_null(.id)) {
     if (!(is_string(.id))) {
@@ -110,10 +112,6 @@ bind_rows <- function(..., .id = NULL) {
       dots <- compact(dots)
       names(dots) <- seq_along(dots)
     }
-  }
-
-  dataframe_ish <- function(.x) {
-    is.data.frame(.x) || (vec_is(.x) && !is.null(names(.x)))
   }
   if (!is.null(names(dots)) && !all(map_lgl(dots, dataframe_ish))) {
     dots <- list(as_tibble(dots))
@@ -129,6 +127,8 @@ bind_rows <- function(..., .id = NULL) {
       abort(glue("Argument {i} must have names"))
     }
   }
+
+  dots <- map(dots, function(.x) if(is.data.frame(.x)) .x else tibble(!!!as.list(.x)))
 
   result <- vec_rbind(!!!dots, .names_to = .id)
   if (length(dots) && is_tibble(first <- dots[[1L]])) {
