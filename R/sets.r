@@ -59,7 +59,7 @@ intersect.default <- function(x, y, ...) base::intersect(x, y, ...)
 #' @export
 union.default <- function(x, y, ...) base::union(x, y, ...)
 #' @export
-union_all.default <- function(x, y, ...) combine(x, y, ...)
+union_all.default <- function(x, y, ...) vec_c(x, y, ...)
 #' @export
 setdiff.default <- function(x, y, ...) base::setdiff(x, y, ...)
 #' @export
