@@ -73,7 +73,6 @@ test_that("mutate does not loose variables (#144)", {
 })
 
 test_that("group_by uses shallow copy", {
-  skip("until https://github.com/tidyverse/tibble/pull/627")
   m1 <- group_by(mtcars, cyl)
   expect_no_groups(mtcars)
 
@@ -112,7 +111,6 @@ test_that("group_by orders by groups. #242", {
 })
 
 test_that("Can group_by() a POSIXlt", {
-  skip("until https://github.com/r-lib/vctrs/issues/554")
   df <- data.frame(times = 1:5, x = 1:5)
   df$times <- as.POSIXlt(seq.Date(Sys.Date(), length.out = 5, by = "day"))
   g <- group_by(df, times)
@@ -125,8 +123,6 @@ test_that("group_by only applies the allow list to grouping variables", {
 
   res <- group_by(df, x, .drop = FALSE)
   expect_equal(groups(res), list(sym("x")))
-
-  skip("Avoid list_of<> warning")
 
   expect_identical(
     group_data(res),
@@ -528,8 +524,6 @@ test_that("group_by() puts NA groups last in STRSXP (#4227)", {
 })
 
 test_that("group_by() does not create arbitrary NA groups for factors when drop = TRUE (#4460)", {
-  skip("fails on R <= 3.4")
-
   res <- expect_warning(group_data(group_by(iris, Species)[0, ]), NA)
   expect_equal(nrow(res), 0L)
 

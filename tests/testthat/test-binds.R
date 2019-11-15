@@ -17,6 +17,9 @@ test_that("bind_cols() err for non-data frames (#2373)", {
 
 test_that("bind_rows() err for non-data frames (#2373)", {
   skip("to be discussed")
+  df1 <- tibble(x = 1)
+  df2 <- structure(list(x = 1), class = "blah_frame")
+
   expect_error(
     bind_rows(df1, df2),
     "Argument 2 must be a data frame or a named atomic vector, not a blah_frame",
@@ -39,7 +42,6 @@ test_that("bind_rows() err for invalid ID", {
 # columns -----------------------------------------------------------------
 
 test_that("cbind uses shallow copies", {
-  skip("maybe look it up in vctrs")
   df1 <- data.frame(
     int = 1:10,
     num = rnorm(10),
@@ -53,8 +55,8 @@ test_that("cbind uses shallow copies", {
   )
   df <- bind_cols(df1, df2)
 
-  expect_equal(lobstr::obj_addrs(df1), lobstr::obj_addrs(df)[names(df1)])
-  expect_equal(lobstr::obj_addrs(df2), lobstr::obj_addrs(df)[names(df2)])
+  expect_equal(lobstr::obj_addrs(df1), lobstr::obj_addrs(df[names(df1)]))
+  expect_equal(lobstr::obj_addrs(df2), lobstr::obj_addrs(df[names(df2)]))
 })
 
 test_that("bind_cols handles lists (#1104)", {
@@ -131,18 +133,16 @@ test_that("bind_rows ignores NULL", {
 })
 
 test_that("bind_rows only accepts data frames or named vectors", {
-  # ll <- list(1:5, env(a = 1))
-  # expect_error(
-  #   bind_rows(ll),
-  #   "Argument 1 must have names",
-  #   fixed = TRUE
-  # )
-  # ll <- list(tibble(a = 1:5), env(a = 1))
-  # expect_error(
-  #   bind_rows(ll),
-  #   "Argument 2 must be a data frame or a named atomic vector, not a environment",
-  #   fixed = TRUE
-  # )
+  ll <- list(1:5, env(a = 1))
+  expect_error(
+    bind_rows(ll),
+    "Argument 1 must have names"
+  )
+  ll <- list(tibble(a = 1:5), env(a = 1))
+  expect_error(
+    bind_rows(ll),
+    "Argument 2 must be a data frame or a named atomic vector"
+  )
 })
 
 test_that("bind_rows handles list columns (#463)", {
@@ -415,7 +415,6 @@ test_that("string vectors are filled with NA not blanks before collection (#595)
 })
 
 test_that("bind_rows handles POSIXct stored as integer (#1402)", {
-  skip("vctrs issues on old R versions")
   now <- Sys.time()
 
   df1 <- data.frame(time = now)
@@ -487,10 +486,8 @@ test_that("bind_rows infers classes from first result (#1692)", {
   expect_equal(class(res3), c("grouped_df", "tbl_df", "tbl", "data.frame"))
   expect_equal(map_int(group_rows(res3), length), c(10, 10))
   expect_equal(class(bind_rows(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
-})
 
-test_that("bind_rows infers classes from first result (#1692)", {
-  skip("to be discussed")
+  # skip("to be discussed")
   expect_equal(class(bind_rows(d5, d1)), c("tbl_df", "tbl", "data.frame"))
 })
 
@@ -549,17 +546,15 @@ test_that("bind_rows() fails with unnamed vectors", {
 test_that("bind_rows() handles rowwise vectors", {
   tbl <- bind_rows(
       tibble(a = "foo", b = "bar"),
-      c(a = "A", b = "B"),
-      set_names(factor(c("B", "B")), c("a", "b"))
+      c(a = "A", b = "B")
     )
-  expect_identical(tbl, tibble(a = c("foo", "A", "B"), b = c("bar", "B", "B")))
+  expect_identical(tbl, tibble(a = c("foo", "A"), b = c("bar", "B")))
 
   id_tbl <- bind_rows(a = c(a = 1, b = 2), b = c(a = 3, b = 4), .id = "id")
   expect_equivalent(id_tbl, tibble(a = c(1, 3), b = c(2, 4), id = c("a", "b")))
 })
 
 test_that("bind_rows() accepts lists of dataframe-like lists as first argument", {
-  skip("to be discussed")
   expect_identical(
     bind_rows(list(list(a = 1, b = 2))),
     tibble(a = 1, b = 2)

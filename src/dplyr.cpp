@@ -5,9 +5,10 @@
 namespace dplyr {
 
 SEXP get_classes_vctrs_list_of() {
-  static Rcpp::CharacterVector klasses(2);
+  static Rcpp::CharacterVector klasses(3);
   klasses[0] = "vctrs_list_of";
   klasses[1] = "vctrs_vctr";
+  klasses[2] = "list";
   return klasses;
 }
 
