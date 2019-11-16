@@ -272,7 +272,6 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
   int nr = INTEGER(s_nr)[0];
   int nvars = XLENGTH(old_groups) - 1;
 
-  SEXP names = Rf_getAttrib(old_groups, R_NamesSymbol);
   SEXP old_rows = VECTOR_ELT(old_groups, nvars);
   std::vector<SEXP> vec_data(nvars);
   std::vector<int*> vec_positions(nvars);
