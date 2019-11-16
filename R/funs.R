@@ -218,7 +218,7 @@ funs_ <- function(dots, args = list(), env = base_env()) {
 #' x <- rnorm(1e2)
 #' x[between(x, -1, 1)]
 between <- function(x, left, right) {
-  if (!is.numeric(x)) {
+  if (!is.double(x)) {
     x <- as.numeric(x)
   }
   .Call(`dplyr_between`, x, as.numeric(left), as.numeric(right))
