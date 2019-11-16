@@ -10,7 +10,7 @@
 #' \item Identify the most important data manipulation verbs and make them
 #'   easy to use from R.
 #' \item Provide blazing fast performance for in-memory data by writing key
-#'   pieces in C++ (using Rcpp)
+#'   pieces in C++
 #' \item Use the same interface to work with data no matter where it's stored,
 #'   whether in a data frame, a data table or database.
 #' }
@@ -38,7 +38,6 @@
 #' @import rlang
 #' @importFrom assertthat assert_that is.flag on_failure<-
 #' @importFrom glue glue glue_collapse
-#' @importFrom Rcpp cppFunction Rcpp.plugin.maker
 #' @importFrom stats setNames update
 #' @importFrom utils head tail
 #' @importFrom methods is
