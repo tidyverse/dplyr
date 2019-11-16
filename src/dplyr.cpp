@@ -1,14 +1,21 @@
-#include <Rcpp.h>
+#define R_NOREMAP
+#include <R.h>
+#include <Rinternals.h>
+#include <R_ext/Rdynload.h>
+
+#include <algorithm>
+#include <vector>
 
 #include "dplyr/symbols.h"
 
 namespace dplyr {
 
 SEXP get_classes_vctrs_list_of() {
-  static Rcpp::CharacterVector klasses(3);
-  klasses[0] = "vctrs_list_of";
-  klasses[1] = "vctrs_vctr";
-  klasses[2] = "list";
+  SEXP klasses = Rf_allocVector(STRSXP, 3);
+  R_PreserveObject(klasses);
+  SET_STRING_ELT(klasses, 0, Rf_mkChar("vctrs_list_of"));
+  SET_STRING_ELT(klasses, 1, Rf_mkChar("vctrs_vctr"));
+  SET_STRING_ELT(klasses, 2, Rf_mkChar("list"));
   return klasses;
 }
 
@@ -54,12 +61,12 @@ public:
 
 class ExpanderCollecter {
 public:
-  ExpanderCollecter(int nvars_, int new_size_, const Rcpp::List& old_rows_) :
+  ExpanderCollecter(int nvars_, SEXP new_indices_, int new_size_, SEXP new_rows_, SEXP old_rows_) :
     nvars(nvars_),
     old_rows(old_rows_),
     new_size(new_size_),
-    new_indices(nvars),
-    new_rows(new_size),
+    new_indices(new_indices_),
+    new_rows(new_rows_),
 
     leaf_index(0),
     vec_new_indices(nvars)
@@ -68,16 +75,17 @@ public:
     Rf_setAttrib(new_rows, dplyr::symbols::ptype, dplyr::vectors::empty_int_vector);
 
     for (int i = 0; i < nvars; i++) {
-      new_indices[i] = Rf_allocVector(INTSXP, new_size);
-      vec_new_indices[i] = INTEGER(new_indices[i]);
+      SEXP new_indices_i = Rf_allocVector(INTSXP, new_size);
+      SET_VECTOR_ELT(new_indices, i, new_indices_i);
+      vec_new_indices[i] = INTEGER(new_indices_i);
     }
   }
 
   ExpanderResult collect_leaf(int start, int end, int index) {
     if (start == end) {
-      new_rows[leaf_index++] = Rf_allocVector(INTSXP, 0);
+      SET_VECTOR_ELT(new_rows, leaf_index++, dplyr::vectors::empty_int_vector);
     } else {
-      new_rows[leaf_index++] = old_rows[start];
+      SET_VECTOR_ELT(new_rows, leaf_index++, VECTOR_ELT(old_rows, start));
     }
 
     return ExpanderResult(leaf_index - 1, leaf_index, index);
@@ -109,21 +117,12 @@ public:
     return ExpanderResult(start, end, index);
   }
 
-
-  const Rcpp::List& get_new_rows() const {
-    return new_rows;
-  }
-
-  const Rcpp::List& get_new_indices() const {
-    return new_indices;
-  }
-
 private:
   int nvars;
-  const Rcpp::List& old_rows;
+  SEXP old_rows;
   int new_size;
-  Rcpp::List new_indices;
-  Rcpp::List new_rows;
+  SEXP new_indices;
+  SEXP new_rows;
 
   int leaf_index;
 
@@ -133,6 +132,7 @@ private:
     std::fill(vec_new_indices[depth] + start, vec_new_indices[depth] + end, index);
   }
 
+  ExpanderCollecter(const ExpanderCollecter&);
 };
 
 
@@ -269,34 +269,38 @@ Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& posit
   }
 }
 
-// [[Rcpp::export(rng = false)]]
-Rcpp::List expand_groups(Rcpp::DataFrame old_groups, Rcpp::List positions, int nr) {
-  int nvars = old_groups.size() - 1;
+SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
+  int nr = INTEGER(s_nr)[0];
+  int nvars = XLENGTH(old_groups) - 1;
 
-  SEXP names = Rf_getAttrib(old_groups, R_NamesSymbol);
-  Rcpp::List old_rows(old_groups[nvars]);
+  SEXP old_rows = VECTOR_ELT(old_groups, nvars);
   std::vector<SEXP> vec_data(nvars);
   std::vector<int*> vec_positions(nvars);
   for (int i = 0; i < nvars; i++) {
-    vec_data[i] = old_groups[i];
+    vec_data[i] = VECTOR_ELT(old_groups, i);
     vec_positions[i] = INTEGER(VECTOR_ELT(positions, i));
   }
 
   Expander* exp = expander(vec_data, vec_positions, 0, NA_INTEGER, 0, nr);
-  ExpanderCollecter results(nvars, exp->size(), old_rows);
+  SEXP new_indices = PROTECT(Rf_allocVector(VECSXP, nvars));
+  SEXP new_rows = PROTECT(Rf_allocVector(VECSXP, exp->size()));
+  ExpanderCollecter results(nvars, new_indices, exp->size(), new_rows, old_rows);
   exp->collect(results, 0);
-  Rcpp::List out = Rcpp::List::create(
-                     results.get_new_indices(),
-                     results.get_new_rows()
-                   );
+
+  SEXP out = PROTECT(Rf_allocVector(VECSXP, 2));
+  SET_VECTOR_ELT(out, 0, new_indices);
+  SET_VECTOR_ELT(out, 1, new_rows);
+
   delete exp;
 
+  UNPROTECT(3);
   return out;
 }
 
 
-// [[Rcpp::export(rng = false)]]
-SEXP filter_update_rows(int n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes) {
+SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes) {
+  int n_rows = INTEGER(s_n_rows)[0];
+
   R_xlen_t n_groups = XLENGTH(new_rows_sizes);
 
   SEXP new_rows = PROTECT(Rf_allocVector(VECSXP, n_groups));
@@ -328,4 +332,141 @@ SEXP filter_update_rows(int n_rows, SEXP group_indices, SEXP keep, SEXP new_rows
   UNPROTECT(1);
 
   return new_rows;
+}
+
+// ------- funs
+
+SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
+  R_xlen_t n = XLENGTH(x);
+
+  double left = REAL(s_left)[0], right = REAL(s_right)[0];
+  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+
+  // Assume users know what they're doing with date/times. In the future
+  // should ensure that left and right are the correct class too.
+  if (!Rf_isNull(Rf_getAttrib(x, R_ClassSymbol)) && !Rf_inherits(x, "Date") && !Rf_inherits(x, "POSIXct")) {
+    Rf_warningcall(R_NilValue, "between() called on numeric vector with S3 class");
+  }
+
+  if (R_IsNA(left) || R_IsNA(right)) {
+    std::fill(LOGICAL(out), LOGICAL(out) + n, NA_LOGICAL);
+  } else {
+    int* p_out = LOGICAL(out);
+    double* p_x = REAL(x);
+    for (int i = 0; i < n; ++i, ++p_x, ++p_out) {
+      *p_out = R_IsNA(*p_x) ? NA_LOGICAL : (*p_x >= left) && (*p_x <= right);
+    }
+  }
+
+  UNPROTECT(1);
+  return out;
+}
+
+SEXP dplyr_cumall(SEXP x) {
+  R_xlen_t n = XLENGTH(x);
+  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+  int* p_x = LOGICAL(x);
+  int* p_out = LOGICAL(out);
+
+  // set out[i] to TRUE as long as x[i] is TRUE
+  R_xlen_t i = 0 ;
+  for (; i < n; i++, ++p_x, ++p_out) {
+    if (*p_x == TRUE) {
+      *p_out = TRUE;
+    } else {
+      break;
+    }
+  }
+  if (i != n) {
+
+    // set to NA as long as x[i] is NA or TRUE
+    for (; i < n; i++, ++p_x, ++p_out) {
+      if (*p_x == FALSE) {
+        break;
+      }
+      *p_out = NA_LOGICAL;
+    }
+
+    // set remaining to FALSE
+    if (i != n) {
+      for (; i < n; i++, ++p_x, ++p_out) {
+        *p_out = FALSE;
+      }
+    }
+
+  }
+
+  UNPROTECT(1);
+  return out;
+}
+
+SEXP dplyr_cumany(SEXP x) {
+  R_xlen_t n = XLENGTH(x);
+  SEXP out = PROTECT(Rf_allocVector(LGLSXP, n));
+
+  int* p_x = LOGICAL(x);
+  int* p_out = LOGICAL(out);
+
+  // nothing to do as long as x[i] is FALSE
+  int i = 0 ;
+  for (; i < n; i++, ++p_x, ++p_out) {
+    if (*p_x == FALSE) {
+      *p_out = FALSE;
+    } else {
+      break;
+    }
+  }
+  if (i < n) {
+    // set to NA as long as x[i] is NA or FALSE
+    for (; i < n; i++, ++p_x, ++p_out) {
+      if (*p_x == TRUE) {
+        break;
+      }
+      *p_out = NA_LOGICAL;
+    }
+
+    if (i < n) {
+      // then if we are here, the rest is TRUE
+      for (; i < n; i++, ++p_out) {
+        *p_out = TRUE;
+      }
+    }
+
+  }
+
+  UNPROTECT(1);
+  return out;
+
+}
+
+SEXP dplyr_cummean(SEXP x) {
+  R_xlen_t n = XLENGTH(x);
+  SEXP out = PROTECT(Rf_allocVector(REALSXP, n));
+
+  double* p_out = REAL(out);
+  double* p_x = REAL(x);
+
+  double sum = *p_out++ = *p_x;
+  for (int i = 1; i < n; i++, ++p_x, ++p_out) {
+    sum += *p_x;
+    *p_out = sum / (i + 1.0);
+  }
+
+  UNPROTECT(1);
+  return out;
+}
+
+static const R_CallMethodDef CallEntries[] = {
+  {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
+  {"dplyr_filter_update_rows", (DL_FUNC)& dplyr_filter_update_rows, 4},
+  {"dplyr_between", (DL_FUNC)& dplyr_between, 3},
+  {"dplyr_cumall", (DL_FUNC)& dplyr_cumall, 1},
+  {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
+  {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
+  {NULL, NULL, 0}
+};
+
+extern "C" void R_init_dplyr(DllInfo* dll) {
+  R_registerRoutines(dll, NULL, CallEntries, NULL, NULL);
+  R_useDynamicSymbols(dll, FALSE);
 }

@@ -5,6 +5,10 @@ vec_split_id_order <- function(x) {
   vec_slice(split_id, vec_order(split_id$key))
 }
 
+expand_groups <- function(old_groups, positions, nr) {
+  .Call(`dplyr_expand_groups`, old_groups, positions, nr)
+}
+
 make_grouped_df_groups_attribute <- function(data, vars, drop = FALSE) {
   data <- as_tibble(data)
 

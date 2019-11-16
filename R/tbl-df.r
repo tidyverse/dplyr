@@ -134,6 +134,10 @@ regroup <- function(data) {
   data
 }
 
+filter_update_rows <- function(n_rows, group_indices, keep, new_rows_sizes) {
+  .Call(`dplyr_filter_update_rows`, n_rows, group_indices, keep, new_rows_sizes)
+}
+
 #' @export
 filter.tbl_df <- function(.data, ..., .preserve = FALSE) {
   dots <- enquos(...)
