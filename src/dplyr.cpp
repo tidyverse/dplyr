@@ -1,6 +1,7 @@
 #define R_NOREMAP
 #include <R.h>
 #include <Rinternals.h>
+#include <R_ext/Rdynload.h>
 
 #include <algorithm>
 #include <vector>
