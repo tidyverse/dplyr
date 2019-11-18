@@ -488,7 +488,7 @@ transmute.default <- function(.data, ...) {
   dots <- enquos(..., .named = TRUE)
   out <- mutate(.data, !!!dots)
 
-  keep <- names(dots)
+  keep <- intersect(names(dots), names(out))
   select(out, one_of(keep))
 }
 #' @export
