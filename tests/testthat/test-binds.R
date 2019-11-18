@@ -592,10 +592,10 @@ test_that("supports NULL values", {
   expect_identical(bind_cols(a = 1, NULL, b = 2, NULL), tibble(a = 1, b = 2))
 })
 
-test_that("bind_cols handles unnamed list (#3402)", {
+test_that("bind_cols() handles unnamed list with name repair (#3402)", {
   expect_identical(
     bind_cols(list(1, 2)),
-    bind_cols(list(V1 = 1, V2 = 2))
+    bind_cols(list(...1 = 1, ...2 = 2))
   )
 })
 
