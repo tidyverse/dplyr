@@ -174,7 +174,7 @@ group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
   } else {
     attr(chunks, "ptype")
   }
-  grouped_df(res, group_vars(.tbl), group_by_drop_default(.tbl))
+  grouped_df(res, group_vars(.data), group_by_drop_default(.data))
 }
 
 #' @export
