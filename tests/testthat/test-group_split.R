@@ -13,7 +13,7 @@ test_that("group_split() can discard the grouping variables with keep = FALSE", 
   res <- group_split(tbl, g, keep = FALSE)
   expect_equivalent(res, list(tbl[1:2, 1, drop = FALSE], tbl[3:4,1, drop = FALSE]))
   expect_is(res, "vctrs_list_of")
-  expect_equal(attr(res, "ptype"), tibble(x = integer(), g = factor(levels = c("a", "b"))))
+  expect_equal(attr(res, "ptype"), tibble(x = integer()))
 })
 
 test_that("group_split() respects empty groups", {
