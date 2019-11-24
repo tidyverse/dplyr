@@ -28,11 +28,16 @@ group_size(by_dest)
 }
 }
 \seealso{
-Other grouping functions: \code{\link{group_by_all}},
-  \code{\link{group_by}}, \code{\link{group_indices}},
-  \code{\link{group_keys}}, \code{\link{group_map}},
-  \code{\link{group_nest}}, \code{\link{group_rows}},
-  \code{\link{group_trim}}, \code{\link{groups}}
+Other grouping functions: 
+\code{\link{group_by_all}()},
+\code{\link{group_by}()},
+\code{\link{group_indices}()},
+\code{\link{group_keys}()},
+\code{\link{group_map}()},
+\code{\link{group_nest}()},
+\code{\link{group_rows}()},
+\code{\link{group_trim}()},
+\code{\link{groups}()}
 }
 \concept{grouping functions}
 \keyword{internal}

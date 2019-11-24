@@ -7,7 +7,7 @@
 tbl_ptype(.data)
 }
 \description{
-Used in \code{_if} functions to enable type-based selection even when the data
+Used in \verb{_if} functions to enable type-based selection even when the data
 is lazily generated. Should either return the complete tibble, or if that
 can not be computed quickly, a 0-row tibble where the columns are of
 the correct type.

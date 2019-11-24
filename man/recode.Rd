@@ -7,8 +7,7 @@
 \usage{
 recode(.x, ..., .default = NULL, .missing = NULL)
 
-recode_factor(.x, ..., .default = NULL, .missing = NULL,
-  .ordered = FALSE)
+recode_factor(.x, ..., .default = NULL, .missing = NULL, .ordered = FALSE)
 }
 \arguments{
 \item{.x}{A vector to modify}

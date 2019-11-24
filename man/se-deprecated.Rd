@@ -27,8 +27,7 @@
 \usage{
 tally_(x, wt, sort = FALSE)
 
-count_(x, vars, wt = NULL, sort = FALSE,
-  .drop = group_by_drop_default(x))
+count_(x, vars, wt = NULL, sort = FALSE, .drop = group_by_drop_default(x))
 
 add_tally_(x, wt, sort = FALSE)
 

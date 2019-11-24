@@ -106,8 +106,11 @@ mass <- 100
 summarise(starwars, avg = mean(mass / !!mass, na.rm = TRUE))
 }
 \seealso{
-Other single table verbs: \code{\link{arrange}},
-  \code{\link{filter}}, \code{\link{mutate}},
-  \code{\link{select}}, \code{\link{slice}}
+Other single table verbs: 
+\code{\link{arrange}()},
+\code{\link{filter}()},
+\code{\link{mutate}()},
+\code{\link{select}()},
+\code{\link{slice}()}
 }
 \concept{single table verbs}
