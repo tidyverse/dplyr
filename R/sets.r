@@ -39,36 +39,23 @@
 NULL
 
 #' @rdname setops
-#' @importFrom generics intersect
-#' @export
-NULL
-
-#' @rdname setops
-#' @importFrom generics union
-#' @export
-NULL
-
-#' @rdname setops
 #' @export
 union_all <- function(x, y, ...) UseMethod("union_all")
-
-#' @importFrom generics setdiff
-#' @rdname setops
-#' @export
-NULL
-
-#' @importFrom generics setequal
-#' @rdname setops
-#' @export
-NULL
-
-#' @export
-intersect.default <- function(x, y, ...) base::intersect(x, y, ...)
-#' @export
-union.default <- function(x, y, ...) base::union(x, y, ...)
 #' @export
 union_all.default <- function(x, y, ...) vec_c(x, y, ...)
+
+#' @importFrom generics intersect
 #' @export
-setdiff.default <- function(x, y, ...) base::setdiff(x, y, ...)
+generics::intersect
+
+#' @importFrom generics union
 #' @export
-setequal.default <- function(x, y, ...) base::setequal(x, y, ...)
+generics::union
+
+#' @importFrom generics setdiff
+#' @export
+generics::setdiff
+
+#' @importFrom generics setequal
+#' @export
+generics::setequal

@@ -292,6 +292,7 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
 }
 
 #' @export
+#' @rdname setops
 intersect.data.frame <- function(x, y, ...) {
   check_compatible(x, y)
   original_x <- x
@@ -301,6 +302,7 @@ intersect.data.frame <- function(x, y, ...) {
 }
 
 #' @export
+#' @rdname setops
 union.data.frame <- function(x, y, ...) {
   check_compatible(x, y)
   out <- vec_unique(vec_rbind(!!!vec_cast_common(x, y)))
@@ -308,12 +310,14 @@ union.data.frame <- function(x, y, ...) {
 }
 
 #' @export
+#' @rdname setops
 union_all.data.frame <- function(x, y, ...) {
   out <- bind_rows(x, y)
   reconstruct_set(out, x)
 }
 
 #' @export
+#' @rdname setops
 setdiff.data.frame <- function(x, y, ...) {
   check_compatible(x, y)
   original_x <- x
@@ -323,6 +327,7 @@ setdiff.data.frame <- function(x, y, ...) {
 }
 
 #' @export
+#' @rdname setops
 setequal.data.frame <- function(x, y, ...) {
   isTRUE(equal_data_frame(x, y))
 }
