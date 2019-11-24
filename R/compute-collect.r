@@ -11,7 +11,6 @@
 #' @param x A tbl
 #' @param name Name of temporary table on database.
 #' @param ... Other arguments passed on to methods
-#' @inheritParams copy_to.src_sql
 #' @seealso [copy_to()], the opposite of `collect()`: it takes a local data
 #'   frame and uploads it to the remote source.
 #' @export

@@ -35,8 +35,6 @@
 #'   `add = TRUE`.
 #' @param .drop When `.drop = TRUE`, empty groups are dropped. See [group_by_drop_default()] for
 #'   what the default value is for this argument.
-#' @inheritParams filter
-#'
 #' @return A [grouped data frame][grouped_df()], unless the combination of `...` and `add`
 #'   yields a non empty set of grouping columns, a regular (ungrouped) data frame
 #'   otherwise.
