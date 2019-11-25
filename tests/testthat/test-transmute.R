@@ -40,3 +40,8 @@ test_that("arguments to rename() don't match vars_rename() arguments (#2861)", {
 test_that("can transmute() with .data pronoun (#2715)", {
   expect_identical(transmute(mtcars, .data$cyl), transmute(mtcars, cyl))
 })
+
+test_that("transmute() does not warn when a variable is removed with = NULL (#4609)", {
+  df <- data.frame(x=1)
+  expect_warning(transmute(df, y =x+1, z=y*2, y = NULL), NA)
+})
