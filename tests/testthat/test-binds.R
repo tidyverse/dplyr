@@ -490,9 +490,6 @@ test_that("bind_rows infers classes from first result (#1692)", {
   expect_equal(class(bind_rows(d4, d1)), c("rowwise_df", "tbl_df", "tbl", "data.frame"))
 })
 
-  expect_equal(class(bind_rows(d5, d1)), c("tbl_df", "tbl", "data.frame"))
-})
-
 test_that("bind_cols infers classes from first result (#1692)", {
   d1 <- data.frame(a = 1:10, b = rep(1:2, each = 5))
   d2 <- tibble(c = 1:10, d = rep(1:2, each = 5))
