@@ -161,11 +161,11 @@ bind_cols <- function(...) {
     first <- dots[[1]][[1]]
   }
 
-  dots <- keep(squash_if(dots, is.list), not_null)
+  dots <- squash_if(dots, function(.x) is.list(.x) && !is.data.frame(.x))
+  dots <- keep(dots, not_null)
   if (!length(dots)) {
     return(tibble())
   }
-  dots <- tibble::repair_names(dots)
 
   res <- vec_cbind(!!!dots)
   if (length(dots)) {
