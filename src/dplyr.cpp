@@ -67,7 +67,6 @@ public:
     new_size(new_size_),
     new_indices(new_indices_),
     new_rows(new_rows_),
-
     leaf_index(0),
     vec_new_indices(nvars)
   {
@@ -123,7 +122,6 @@ private:
   int new_size;
   SEXP new_indices;
   SEXP new_rows;
-
   int leaf_index;
 
   std::vector<int*> vec_new_indices;
@@ -290,7 +288,6 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
   SEXP out = PROTECT(Rf_allocVector(VECSXP, 2));
   SET_VECTOR_ELT(out, 0, new_indices);
   SET_VECTOR_ELT(out, 1, new_rows);
-
   delete exp;
 
   UNPROTECT(3);
@@ -300,7 +297,6 @@ SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
 
 SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP new_rows_sizes) {
   int n_rows = INTEGER(s_n_rows)[0];
-
   R_xlen_t n_groups = XLENGTH(new_rows_sizes);
 
   SEXP new_rows = PROTECT(Rf_allocVector(VECSXP, n_groups));

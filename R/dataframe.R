@@ -253,8 +253,10 @@ equal_data_frame <- function(x, y, ignore_col_order = TRUE, ignore_row_order = T
     return(TRUE)
   }
 
-  x <- as_tibble(x)
-  y <- as_tibble(y)
+  # suppressMessages({
+    x <- as_tibble(x, .name_repair = "universal")
+    y <- as_tibble(y, .name_repair = "universal")
+  # })
 
   x_split <- vec_split_id_order(x)
   y_split <- vec_split_id_order(y[, names(x), drop = FALSE])

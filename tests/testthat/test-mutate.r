@@ -280,6 +280,7 @@ test_that("mutate keeps names (#1689, #2675)", {
 })
 
 test_that("mutate does not strip names of list-columns (#2675)", {
+  skip("until https://github.com/tidyverse/tibble/pull/627")
   vec <- list(a = 1, b = 2)
   data <- tibble(x = vec)
   data <- mutate(data, x)

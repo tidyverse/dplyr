@@ -686,6 +686,7 @@ test_that("joins takes care of duplicates in by (#1192)", {
 # Joined columns result in correct type ----------------------------------------
 
 test_that("result of joining POSIXct is POSIXct (#1578)", {
+  skip("until https://github.com/r-lib/vctrs/issues/540")
   data1 <- tibble(
     t = seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"),
     x = 1:2

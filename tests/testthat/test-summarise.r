@@ -750,6 +750,7 @@ test_that("data.frame columns are supported in summarise (#1425)", {
 })
 
 test_that("summarise handles min/max of already summarised variable (#1622)", {
+  skip("until https://github.com/r-lib/vctrs/issues/540")
   df <- data.frame(
     FIRST_DAY = rep(seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"), 2),
     event = c("a", "a", "b", "b")
@@ -1054,6 +1055,7 @@ test_that("summarise correctly reconstruct group rows", {
 })
 
 test_that("summarise can handle POSIXlt columns (#3854)", {
+  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(g=c(1,1,3))
   df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
 

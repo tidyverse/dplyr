@@ -8,12 +8,12 @@
 
 * `location()` and `changes()` are soft deprecated, please use functions from the lobstr package. 
 
-# dplyr 0.8.4 (development version)
-
 * `group_map()` is now a generic (#4576).
 
 * The first argument of `group_map()`, `group_modify()` and `group_walk()`
   has been changed to `.data` for consistency with other generics.
+
+* `group_by()` uses hashing from the `vctrs` package. 
 
 * Better performance for extracting slices of factors and ordered factors (#4501).
 
