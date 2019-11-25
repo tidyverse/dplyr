@@ -348,10 +348,10 @@ appears in any of the inputs.</p>
 #&gt; 2     3     4</div><div class='input'>
 <span class='co'># You can circumvent that behaviour with explicit splicing:</span>
 <span class='fu'>bind_rows</span>(!!!<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       a     b
+#&gt;       A     B
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     3
-#&gt; 2     2     4</div><div class='input'>
+#&gt; 1     1     2
+#&gt; 2     3     4</div><div class='input'>
 
 <span class='co'># When you supply a column name with the `.id` argument, a new</span>
 <span class='co'># column is created to link each row to its original data frame</span>
