@@ -6,6 +6,8 @@ test_that("group_nest() works", {
 
   res <- group_nest(starwars, species, homeworld)
   expect_is(pull(res), "list")
+  expect_is(pull(res), "vctrs_list_of")
+  expect_equal(attr(pull(res), "ptype"), vec_slice(select(starwars, -species, -homeworld), 0L))
   expect_equal(select(res, -last_col()), select(gdata, -last_col()))
 
   nested <- bind_rows(!!!res$data)
@@ -32,6 +34,9 @@ test_that("group_nest() works on grouped data frames", {
 
   res <- group_nest(grouped, keep = TRUE)
   expect_is(pull(res), "list")
+  expect_is(pull(res), "vctrs_list_of")
+  expect_equal(attr(pull(res), "ptype"), vec_slice(starwars, 0L))
+
   expect_equal(select(res, -last_col()), select(gdata, -last_col()))
   expect_equal(names(bind_rows(!!!res$data)), names(starwars))
 })
