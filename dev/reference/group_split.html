@@ -274,7 +274,16 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 <span class='no'>ir</span> <span class='kw'>&lt;-</span> <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>)
 
-<span class='fu'>group_split</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'>group_split</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;
+#&gt;   tbl_df&lt;
+#&gt;     Sepal.Length: double
+#&gt;     Sepal.Width : double
+#&gt;     Petal.Length: double
+#&gt;     Petal.Width : double
+#&gt;     Species     : factor&lt;12d60&gt;
+#&gt;   &gt;
+#&gt; &gt;[3]&gt;
+#&gt; [[1]]
 #&gt; # A tibble: 50 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
@@ -321,11 +330,7 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.7         2.5          5.8         1.8 virginica
 #&gt; 10          7.2         3.6          6.1         2.5 virginica
 #&gt; # … with 40 more rows
-#&gt; 
-#&gt; attr(,"ptype")
-#&gt; # A tibble: 0 x 5
-#&gt; # … with 5 variables: Sepal.Length &lt;dbl&gt;, Sepal.Width &lt;dbl&gt;,
-#&gt; #   Petal.Length &lt;dbl&gt;, Petal.Width &lt;dbl&gt;, Species &lt;fct&gt;</div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt; </div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
 #&gt; * &lt;fct&gt;     
 #&gt; 1 setosa    
@@ -336,7 +341,16 @@ other, because otherwise the grouping algorithm is performed each time.</p>
   <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>Species</span>) <span class='kw'>%&gt;%</span>
   <span class='fu'><a href='filter.html'>filter</a></span>(<span class='no'>Sepal.Length</span> <span class='kw'>&gt;</span> <span class='fu'><a href='https://rdrr.io/r/base/mean.html'>mean</a></span>(<span class='no'>Sepal.Length</span>))
 
-<span class='fu'>group_split</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; [[1]]
+<span class='fu'>group_split</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;
+#&gt;   tbl_df&lt;
+#&gt;     Sepal.Length: double
+#&gt;     Sepal.Width : double
+#&gt;     Petal.Length: double
+#&gt;     Petal.Width : double
+#&gt;     Species     : factor&lt;12d60&gt;
+#&gt;   &gt;
+#&gt; &gt;[3]&gt;
+#&gt; [[1]]
 #&gt; # A tibble: 22 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
@@ -383,11 +397,7 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.9         3.2          5.7         2.3 virginica
 #&gt; 10          7.7         2.8          6.7         2   virginica
 #&gt; # … with 12 more rows
-#&gt; 
-#&gt; attr(,"ptype")
-#&gt; # A tibble: 0 x 5
-#&gt; # … with 5 variables: Sepal.Length &lt;dbl&gt;, Sepal.Width &lt;dbl&gt;,
-#&gt; #   Petal.Length &lt;dbl&gt;, Petal.Width &lt;dbl&gt;, Species &lt;fct&gt;</div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
+#&gt; </div><div class='input'><span class='fu'>group_keys</span>(<span class='no'>ir</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
 #&gt; * &lt;fct&gt;     
 #&gt; 1 setosa    
@@ -398,7 +408,16 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 <span class='co'># both group_split() and group_keys() have to perform the grouping</span>
 <span class='co'># so it only makes sense to do this if you only need one or the other</span>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'>group_split</span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; [[1]]
+  <span class='fu'>group_split</span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;
+#&gt;   tbl_df&lt;
+#&gt;     Sepal.Length: double
+#&gt;     Sepal.Width : double
+#&gt;     Petal.Length: double
+#&gt;     Petal.Width : double
+#&gt;     Species     : factor&lt;12d60&gt;
+#&gt;   &gt;
+#&gt; &gt;[3]&gt;
+#&gt; [[1]]
 #&gt; # A tibble: 50 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt;  
@@ -445,11 +464,7 @@ other, because otherwise the grouping algorithm is performed each time.</p>
 #&gt;  9          6.7         2.5          5.8         1.8 virginica
 #&gt; 10          7.2         3.6          6.1         2.5 virginica
 #&gt; # … with 40 more rows
-#&gt; 
-#&gt; attr(,"ptype")
-#&gt; # A tibble: 0 x 5
-#&gt; # … with 5 variables: Sepal.Length &lt;dbl&gt;, Sepal.Width &lt;dbl&gt;,
-#&gt; #   Petal.Length &lt;dbl&gt;, Petal.Width &lt;dbl&gt;, Species &lt;fct&gt;</div><div class='input'>
+#&gt; </div><div class='input'>
 <span class='no'>iris</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_keys</span>(<span class='no'>Species</span>)</div><div class='output co'>#&gt; # A tibble: 3 x 1
 #&gt;   Species   
