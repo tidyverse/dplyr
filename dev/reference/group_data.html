@@ -93,7 +93,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -226,17 +226,19 @@ If <code>.data</code> is a grouped data frame the first columns are the grouping
 
 <span class='co'># one row</span>
 <span class='fu'>group_data</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; # A tibble: 1 x 1
-#&gt;   .rows    
-#&gt;   &lt;list&gt;   
-#&gt; 1 &lt;int [4]&gt;</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; [[1]]
+#&gt;         .rows
+#&gt;   &lt;list&lt;int&gt;&gt;
+#&gt; 1         [4]</div><div class='input'><span class='fu'>group_rows</span>(<span class='no'>df</span>)</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[1]&gt;
+#&gt; [[1]]
 #&gt; [1] 1 2 3 4
 #&gt; </div><div class='input'>
 <span class='co'># 2 rows, one for each group</span>
 <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>,<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>group_data</span>()</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       x .rows    
-#&gt;   &lt;dbl&gt; &lt;list&gt;   
-#&gt; 1     1 &lt;int [2]&gt;
-#&gt; 2     2 &lt;int [2]&gt;</div><div class='input'><span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>,<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>group_rows</span>()</div><div class='output co'>#&gt; [[1]]
+#&gt;       x       .rows
+#&gt; * &lt;dbl&gt; &lt;list&lt;int&gt;&gt;
+#&gt; 1     1         [2]
+#&gt; 2     2         [2]</div><div class='input'><span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>df</span>,<span class='no'>x</span>) <span class='kw'>%&gt;%</span> <span class='fu'>group_rows</span>()</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
+#&gt; [[1]]
 #&gt; [1] 1 2
 #&gt; 
 #&gt; [[2]]

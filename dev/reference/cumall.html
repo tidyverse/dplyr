@@ -94,7 +94,7 @@ of cumulative functions." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -187,7 +187,7 @@ of cumulative functions." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Cumulativate versions of any, all, and mean</h1>
-    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/RcppExports.R'><code>R/RcppExports.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/tidyverse/dplyr/blob/master/R/funs.R'><code>R/funs.R</code></a></small>
     <div class="hidden name"><code>cumall.Rd</code></div>
     </div>
 
@@ -232,7 +232,7 @@ of cumulative functions.</p>
     <pre class="examples"><div class='input'><span class='co'># `cummean()` returns a numeric/integer vector of the same length</span>
 <span class='co'># as the input vector.</span>
 <span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>2</span>, <span class='fl'>2</span>)
-<span class='fu'>cummean</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='no'>x</span>) / <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'>
+<span class='fu'>cummean</span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.000000 1.000000 1.666667 2.500000 2.400000</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/cumsum.html'>cumsum</a></span>(<span class='no'>x</span>) / <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_along</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] 1.00 2.00 3.00 2.75 2.60</div><div class='input'>
 <span class='co'># `cumall()` and `cumany()` return logicals</span>
 <span class='fu'>cumall</span>(<span class='no'>x</span> <span class='kw'>&lt;</span> <span class='fl'>5</span>)</div><div class='output co'>#&gt; [1]  TRUE  TRUE FALSE FALSE FALSE</div><div class='input'><span class='fu'>cumany</span>(<span class='no'>x</span> <span class='kw'>==</span> <span class='fl'>3</span>)</div><div class='output co'>#&gt; [1] FALSE  TRUE  TRUE  TRUE  TRUE</div><div class='input'>
 <span class='co'># `cumall()` vs. `cumany()`</span>
@@ -249,7 +249,8 @@ of cumulative functions.</p>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'><a href='filter.html'>filter</a></span>(<span class='fu'>cumall</span>(!(<span class='no'>balance</span> <span class='kw'>&lt;</span> <span class='fl'>0</span>)))</div><div class='output co'>#&gt;         date balance
 #&gt; 1 2020-01-01     100
 #&gt; 2 2020-01-02      50
-#&gt; 3 2020-01-03      25</div></pre>
+#&gt; 3 2020-01-03      25</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

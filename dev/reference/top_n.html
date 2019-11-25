@@ -95,7 +95,7 @@ ordered by wt." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -228,9 +228,9 @@ specified, defaults to the last variable in the tbl.</p></td>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Both <code>n</code> and <code>wt</code> are automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and later
+    <p>Both <code>n</code> and <code>wt</code> are automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and later
 <a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. It supports <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a>.</p>
+frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>6</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))

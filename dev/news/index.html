@@ -92,7 +92,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -188,14 +188,26 @@
       <small>Source: <a href='https://github.com/tidyverse/dplyr/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="dplyr-development-version" class="section level1">
+    <div id="dplyr-0-9-0-in-development" class="section level1">
 <h1 class="page-header">
-<a href="#dplyr-development-version" class="anchor"></a>dplyr (development version)<small> Unreleased </small>
+<a href="#dplyr-0-9-0-in-development" class="anchor"></a>dplyr 0.9.0 (in development)<small> Unreleased </small>
+</h1>
+<ul>
+<li><p><code>group_keys.rowwise_df()</code> gives a 0 column data frame with n() rows.</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>
+<li><p><code><a href="../reference/combine.html">combine()</a></code> is soft deprecated.</p></li>
+<li><p><code><a href="../reference/location.html">location()</a></code> and <code><a href="../reference/location.html">changes()</a></code> are soft deprecated, please use functions from the lobstr package.</p></li>
+</ul>
+</div>
+    <div id="dplyr-0-8-4-development-version" class="section level1">
+<h1 class="page-header">
+<a href="#dplyr-0-8-4-development-version" class="anchor"></a>dplyr 0.8.4 (development version)<small> Unreleased </small>
 </h1>
 <ul>
 <li><p><code><a href="../reference/group_map.html">group_map()</a></code> is now a generic (<a href='https://github.com/tidyverse/dplyr/issues/4576'>#4576</a>).</p></li>
 <li><p>The first argument of <code><a href="../reference/group_map.html">group_map()</a></code>, <code><a href="../reference/group_map.html">group_modify()</a></code> and <code><a href="../reference/group_map.html">group_walk()</a></code> has been changed to <code>.data</code> for consistency with other generics.</p></li>
 <li><p>Better performance for extracting slices of factors and ordered factors (<a href='https://github.com/tidyverse/dplyr/issues/4501'>#4501</a>).</p></li>
+<li><p><code><a href="../reference/group_by.html">group_by()</a></code> uses hashing from the <code>vctrs</code> package.</p></li>
 <li><p><code><a href="../reference/group_by.html">group_by()</a></code> does not create an arbitrary NA group when grouping by factors with <code>drop = TRUE</code> (<a href='https://github.com/tidyverse/dplyr/issues/4460'>#4460</a>).</p></li>
 <li><p><code>rbind_all()</code> and <code>rbind_list()</code> have been removed (<a href='https://github.com/bjungbogati'>@bjungbogati</a>, <a href='https://github.com/tidyverse/dplyr/issues/4433'>#4433</a>).</p></li>
 <li><p><code>dr_dplyr()</code> has been removed as it is no longer needed (<a href='https://github.com/tidyverse/dplyr/issues/4433'>#4433</a>, <a href='https://github.com/smwindecker'>@smwindecker</a>).</p></li>
@@ -1559,7 +1571,8 @@ starwars %&gt;%
     <div id="tocnav">
       <h2>Contents</h2>
       <ul class="nav nav-pills nav-stacked">
-        <li><a href="#dplyr-development-version">development version</a></li>
+        <li><a href="#dplyr-0-9-0-in-development">0.9.0</a></li>
+        <li><a href="#dplyr-0-8-4-development-version">0.8.4</a></li>
         <li><a href="#dplyr-0-8-3-2019-07-04">0.8.3</a></li>
         <li><a href="#dplyr-0-8-2-2019-06-28">0.8.2</a></li>
         <li><a href="#dplyr-0-8-1-2019-05-14">0.8.1</a></li>

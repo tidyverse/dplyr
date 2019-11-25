@@ -94,7 +94,7 @@ tbl_df methods for all.equal()." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -241,7 +241,7 @@ result in an <code>if</code> expression.</p>
 <span class='co'># By default, ordering of rows and columns ignored</span>
 <span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>))</div><div class='output co'>#&gt; [1] TRUE</div><div class='input'>
 <span class='co'># But those can be overriden if desired</span>
-<span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>), <span class='kw'>ignore_col_order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "Same column names, but different order"</div><div class='input'><span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>), <span class='kw'>ignore_row_order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "Same row values, but different order"</div><div class='input'>
+<span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>), <span class='kw'>ignore_col_order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "- Same column names, but different order"</div><div class='input'><span class='fu'>all_equal</span>(<span class='no'>mtcars</span>, <span class='fu'>scramble</span>(<span class='no'>mtcars</span>), <span class='kw'>ignore_row_order</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; [1] "Same row values, but different order"</div><div class='input'>
 <span class='co'># By default all_equal is sensitive to variable differences</span>
 <span class='no'>df1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='st'>"a"</span>)
 <span class='no'>df2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span>(<span class='st'>"a"</span>))

@@ -96,7 +96,7 @@ New variables overwrite existing variables of the same name." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -210,7 +210,7 @@ New variables overwrite existing variables of the same name.</p>
     <tr>
       <th>.data</th>
       <td><p>A tbl. All main verbs are S3 generics and provide methods
-for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr.io/pkg/dtplyr/man/tbl_dt.html'>dtplyr::tbl_dt()</a></code> and <code><a href='https://dbplyr.tidyverse.org/reference/src_dbi.html'>dbplyr::tbl_dbi()</a></code>.</p></td>
+for <code><a href='tbl_df.html'>tbl_df()</a></code>, <code><a href='https://rdrr.io/pkg/dtplyr/man/lazy_dt.html'>dtplyr::tbl_dt()</a></code> and <code><a href='https://dbplyr.tidyverse.org/reference/src_dbi.html'>dbplyr::tbl_dbi()</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -220,9 +220,9 @@ input (if not using groups). The name of each argument will be the name of
 a new variable, and the value will be its corresponding value.  Use a <code>NULL</code>
 value in <code>mutate</code> to drop a variable.  New variables overwrite existing variables
 of the same name.</p>
-<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/quotation.html'>quoted</a> and
+<p>The arguments in <code>...</code> are automatically <a href='https://rlang.r-lib.org/reference/nse-defuse.html'>quoted</a> and
 <a href='https://rlang.r-lib.org/reference/eval_tidy.html'>evaluated</a> in the context of the data
-frame. They support <a href='https://rlang.r-lib.org/reference/quasiquotation.html'>unquoting</a> and
+frame. They support <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a> and
 splicing. See <code><a href='../articles/programming.html'>vignette("programming")</a></code> for an introduction to
 these concepts.</p></td>
     </tr>

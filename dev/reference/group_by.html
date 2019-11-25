@@ -95,7 +95,7 @@ where operations are performed &quot;by group&quot;. ungroup() removes grouping.
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -247,7 +247,7 @@ tbls. See the help for the corresponding classes and their manip
 methods for more details:</p>
 <ul>
 <li><p>data.frame: <a href='grouped_df.html'>grouped_df</a></p></li>
-<li><p>data.table: <a href='https://rdrr.io/pkg/dtplyr/man/grouped_dt.html'>dtplyr::grouped_dt</a></p></li>
+<li><p>data.table: <a href='https://rdrr.io/pkg/dtplyr/man/lazy_dt.html'>dtplyr::grouped_dt</a></p></li>
 <li><p>SQLite: <code><a href='src_dbi.html'>src_sqlite()</a></code></p></li>
 <li><p>PostgreSQL: <code><a href='src_dbi.html'>src_postgres()</a></code></p></li>
 <li><p>MySQL: <code><a href='src_dbi.html'>src_mysql()</a></code></p></li>
@@ -277,7 +277,7 @@ variables.</p>
 <span class='no'>by_cyl</span></div><div class='output co'>#&gt; # A tibble: 32 x 11
 #&gt; # Groups:   cyl [3]
 #&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
-#&gt;  * &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
 #&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
 #&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
 #&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
@@ -359,7 +359,8 @@ variables.</p>
 )
 <span class='no'>tbl</span> <span class='kw'>%&gt;%</span>
   <span class='fu'>group_by</span>(<span class='no'>y</span>) <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='group_data.html'>group_rows</a></span>()</div><div class='output co'>#&gt; [[1]]
+  <span class='fu'><a href='group_data.html'>group_rows</a></span>()</div><div class='output co'>#&gt; &lt;list_of&lt;integer&gt;[2]&gt;
+#&gt; [[1]]
 #&gt; [1] 1 2 3 4 5
 #&gt; 
 #&gt; [[2]]

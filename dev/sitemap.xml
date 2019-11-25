@@ -142,9 +142,6 @@
     <loc>https://dplyr.tidyverse.org/reference/groups.html</loc>
   </url>
   <url>
-    <loc>https://dplyr.tidyverse.org/reference/hybrid_call.html</loc>
-  </url>
-  <url>
     <loc>https://dplyr.tidyverse.org/reference/id.html</loc>
   </url>
   <url>
@@ -152,9 +149,6 @@
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/if_else.html</loc>
-  </url>
-  <url>
-    <loc>https://dplyr.tidyverse.org/reference/init_logging.html</loc>
   </url>
   <url>
     <loc>https://dplyr.tidyverse.org/reference/join.html</loc>

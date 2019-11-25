@@ -51,7 +51,7 @@
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -215,7 +215,7 @@
 <a class="sourceLine" id="cb6-2" data-line-number="2"><span class="kw"><a href="../reference/select.html">select</a></span>(mtcars, <span class="op">!!</span><span class="st"> </span>sym)</a>
 <a class="sourceLine" id="cb6-3" data-line-number="3"></a>
 <a class="sourceLine" id="cb6-4" data-line-number="4">call &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/substitute.html">quote</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/mean.html">mean</a></span>(cyl))</a>
-<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(mtcars, <span class="op">!!</span><span class="st"> </span>call)</a></code></pre></div>
+<a class="sourceLine" id="cb6-5" data-line-number="5"><span class="kw"><a href="../reference/summarise.html">summarise</a></span>(mtcars, <span class="dt">cyl =</span> <span class="op">!!</span><span class="st"> </span>call)</a></code></pre></div>
 <p>Transforming objects into quosures is generally straightforward. To enclose with the current environment, you can unquote directly in <code><a href="../reference/tidyeval-compat.html">quo()</a></code> or you can use <code>as_quosure()</code>:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="kw"><a href="../reference/tidyeval-compat.html">quo</a></span>(<span class="op">!!</span><span class="st"> </span>sym)</a>
 <a class="sourceLine" id="cb7-2" data-line-number="2"><span class="co">#&gt; &lt;quosure&gt;</span></a>

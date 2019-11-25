@@ -51,7 +51,7 @@
         <a class="navbar-brand" href="../../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -285,54 +285,57 @@
 <a class="sourceLine" id="cb9-2" data-line-number="2"><span class="st">  </span><span class="kw"><a href="../../reference/group_by.html">group_by</a></span>(f, x) <span class="op">%&gt;%</span><span class="st"> </span></a>
 <a class="sourceLine" id="cb9-3" data-line-number="3"><span class="st">  </span><span class="kw"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="st">"groups"</span>)</a>
 <a class="sourceLine" id="cb9-4" data-line-number="4"><span class="co">#&gt; # A tibble: 2 x 3</span></a>
-<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;   f         x .rows    </span></a>
-<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt;   &lt;fct&gt; &lt;dbl&gt; &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 1 a         1 &lt;int [2]&gt;</span></a>
-<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 2 b         2 &lt;int [2]&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb9-5" data-line-number="5"><span class="co">#&gt;   f         x       .rows</span></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">#&gt; * &lt;fct&gt; &lt;dbl&gt; &lt;list&lt;int&gt;&gt;</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">#&gt; 1 a         1         [2]</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="co">#&gt; 2 b         2         [2]</span></a></code></pre></div>
 <p>The first columns identify the data for each of the group, one row per group. This is equivalent to the “labels” attribute used in previous versions of <code>dplyr</code>.</p>
 <p>The last column, always called <code>.rows</code> is a list column of integer vectors (possibly of length 0 for empty groups) identifying the indices of all the rows in the data that belong to the group. This is equivalent to the “indices” attribute used in previous versions.</p>
 <p>This grouping stucture tibble (maybe a gribble) can be retrieved by accessing the <code>groups</code> attribute, or preferably by using the <code><a href="../../reference/group_data.html">group_data()</a></code> generic, which has methods for ungrouped and row wise data too.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw"><a href="../../reference/group_data.html">group_data</a></span>(df)</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2"><span class="co">#&gt; # A tibble: 1 x 1</span></a>
-<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;   .rows    </span></a>
-<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;   &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 1 &lt;int [4]&gt;</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3"><span class="co">#&gt;         .rows</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4"><span class="co">#&gt;   &lt;list&lt;int&gt;&gt;</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5"><span class="co">#&gt; 1         [4]</span></a>
 <a class="sourceLine" id="cb10-6" data-line-number="6"><span class="kw"><a href="../../reference/group_data.html">group_data</a></span>(<span class="kw"><a href="../../reference/group_by.html">group_by</a></span>(df, f))</a>
 <a class="sourceLine" id="cb10-7" data-line-number="7"><span class="co">#&gt; # A tibble: 2 x 2</span></a>
-<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;   f     .rows    </span></a>
-<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt;   &lt;fct&gt; &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 1 a     &lt;int [2]&gt;</span></a>
-<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 2 b     &lt;int [2]&gt;</span></a>
+<a class="sourceLine" id="cb10-8" data-line-number="8"><span class="co">#&gt;   f           .rows</span></a>
+<a class="sourceLine" id="cb10-9" data-line-number="9"><span class="co">#&gt; * &lt;fct&gt; &lt;list&lt;int&gt;&gt;</span></a>
+<a class="sourceLine" id="cb10-10" data-line-number="10"><span class="co">#&gt; 1 a             [2]</span></a>
+<a class="sourceLine" id="cb10-11" data-line-number="11"><span class="co">#&gt; 2 b             [2]</span></a>
 <a class="sourceLine" id="cb10-12" data-line-number="12"><span class="kw"><a href="../../reference/group_data.html">group_data</a></span>(<span class="kw"><a href="../../reference/rowwise.html">rowwise</a></span>(df))</a>
 <a class="sourceLine" id="cb10-13" data-line-number="13"><span class="co">#&gt; # A tibble: 4 x 1</span></a>
-<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;   .rows    </span></a>
-<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;   &lt;list&gt;   </span></a>
-<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 1 &lt;int [1]&gt;</span></a>
-<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 2 &lt;int [1]&gt;</span></a>
-<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 3 &lt;int [1]&gt;</span></a>
-<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 4 &lt;int [1]&gt;</span></a></code></pre></div>
+<a class="sourceLine" id="cb10-14" data-line-number="14"><span class="co">#&gt;         .rows</span></a>
+<a class="sourceLine" id="cb10-15" data-line-number="15"><span class="co">#&gt;   &lt;list&lt;int&gt;&gt;</span></a>
+<a class="sourceLine" id="cb10-16" data-line-number="16"><span class="co">#&gt; 1         [1]</span></a>
+<a class="sourceLine" id="cb10-17" data-line-number="17"><span class="co">#&gt; 2         [1]</span></a>
+<a class="sourceLine" id="cb10-18" data-line-number="18"><span class="co">#&gt; 3         [1]</span></a>
+<a class="sourceLine" id="cb10-19" data-line-number="19"><span class="co">#&gt; 4         [1]</span></a></code></pre></div>
 <p>Similarly, the indices themselves can be retrieved using <code><a href="../../reference/group_data.html">group_rows()</a></code>:</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1"><span class="kw"><a href="../../reference/group_data.html">group_rows</a></span>(df)</a>
-<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; [1] 1 2 3 4</span></a>
-<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="kw"><a href="../../reference/group_data.html">group_rows</a></span>(<span class="kw"><a href="../../reference/group_by.html">group_by</a></span>(df, f))</a>
-<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; [1] 1 3</span></a>
-<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; [[2]]</span></a>
-<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; [1] 2 4</span></a>
-<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="kw"><a href="../../reference/group_data.html">group_rows</a></span>(<span class="kw"><a href="../../reference/rowwise.html">rowwise</a></span>(df))</a>
-<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; [[1]]</span></a>
-<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="co">#&gt; [1] 1</span></a>
-<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; [[2]]</span></a>
-<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt; [1] 2</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="co">#&gt; &lt;list_of&lt;integer&gt;[1]&gt;</span></a>
+<a class="sourceLine" id="cb11-3" data-line-number="3"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb11-4" data-line-number="4"><span class="co">#&gt; [1] 1 2 3 4</span></a>
+<a class="sourceLine" id="cb11-5" data-line-number="5"><span class="kw"><a href="../../reference/group_data.html">group_rows</a></span>(<span class="kw"><a href="../../reference/group_by.html">group_by</a></span>(df, f))</a>
+<a class="sourceLine" id="cb11-6" data-line-number="6"><span class="co">#&gt; &lt;list_of&lt;integer&gt;[2]&gt;</span></a>
+<a class="sourceLine" id="cb11-7" data-line-number="7"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb11-8" data-line-number="8"><span class="co">#&gt; [1] 1 3</span></a>
+<a class="sourceLine" id="cb11-9" data-line-number="9"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-10" data-line-number="10"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb11-11" data-line-number="11"><span class="co">#&gt; [1] 2 4</span></a>
+<a class="sourceLine" id="cb11-12" data-line-number="12"><span class="kw"><a href="../../reference/group_data.html">group_rows</a></span>(<span class="kw"><a href="../../reference/rowwise.html">rowwise</a></span>(df))</a>
+<a class="sourceLine" id="cb11-13" data-line-number="13"><span class="co">#&gt; &lt;list_of&lt;integer&gt;[4]&gt;</span></a>
+<a class="sourceLine" id="cb11-14" data-line-number="14"><span class="co">#&gt; [[1]]</span></a>
+<a class="sourceLine" id="cb11-15" data-line-number="15"><span class="co">#&gt; [1] 1</span></a>
 <a class="sourceLine" id="cb11-16" data-line-number="16"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; [[3]]</span></a>
-<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb11-17" data-line-number="17"><span class="co">#&gt; [[2]]</span></a>
+<a class="sourceLine" id="cb11-18" data-line-number="18"><span class="co">#&gt; [1] 2</span></a>
 <a class="sourceLine" id="cb11-19" data-line-number="19"><span class="co">#&gt; </span></a>
-<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="co">#&gt; [[4]]</span></a>
-<a class="sourceLine" id="cb11-21" data-line-number="21"><span class="co">#&gt; [1] 4</span></a></code></pre></div>
+<a class="sourceLine" id="cb11-20" data-line-number="20"><span class="co">#&gt; [[3]]</span></a>
+<a class="sourceLine" id="cb11-21" data-line-number="21"><span class="co">#&gt; [1] 3</span></a>
+<a class="sourceLine" id="cb11-22" data-line-number="22"><span class="co">#&gt; </span></a>
+<a class="sourceLine" id="cb11-23" data-line-number="23"><span class="co">#&gt; [[4]]</span></a>
+<a class="sourceLine" id="cb11-24" data-line-number="24"><span class="co">#&gt; [1] 4</span></a></code></pre></div>
 <p>Having a consistent representation of the grouping structure makes it easier to reason about, and might open opportunities to discuss alternative ways of grouping</p>
 </div>
 <div id="hybrid-evaluation-cleanup" class="section level1">

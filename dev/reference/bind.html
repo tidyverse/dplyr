@@ -95,7 +95,7 @@ data frames into one." />
         <a class="navbar-brand" href="../index.html">dplyr</a>
         <div class="info">
           <span class="partof">part of the <a href="https://tidyverse.org">tidyverse</a></span>
-          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.3.9000</span>
+          <span class="version version-danger" data-toggle="tooltip" data-placement="bottom" title="In-development version">0.8.99.9000</span>
         </div>
       </div>
     </div>
@@ -342,44 +342,44 @@ appears in any of the inputs.</p>
   <span class='kw'>b</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>A</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>B</span> <span class='kw'>=</span> <span class='fl'>4</span>)
 )
 <span class='fu'>bind_rows</span>(<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
-#&gt;       a     b
-#&gt;   &lt;dbl&gt; &lt;dbl&gt;
-#&gt; 1     1     3
-#&gt; 2     2     4</div><div class='input'>
-<span class='co'># You can circumvent that behaviour with explicit splicing:</span>
-<span class='fu'>bind_rows</span>(!!!<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
 #&gt;       A     B
 #&gt;   &lt;dbl&gt; &lt;dbl&gt;
 #&gt; 1     1     2
 #&gt; 2     3     4</div><div class='input'>
+<span class='co'># You can circumvent that behaviour with explicit splicing:</span>
+<span class='fu'>bind_rows</span>(!!!<span class='no'>ll</span>)</div><div class='output co'>#&gt; # A tibble: 2 x 2
+#&gt;       a     b
+#&gt;   &lt;dbl&gt; &lt;dbl&gt;
+#&gt; 1     1     3
+#&gt; 2     2     4</div><div class='input'>
 
 <span class='co'># When you supply a column name with the `.id` argument, a new</span>
 <span class='co'># column is created to link each row to its original data frame</span>
-<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt;   id  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2  1 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3  1 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4  1 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5  2 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6  2 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7  2 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8  2 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt;   id  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1  a 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2  a 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3  a 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4  a 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5  b 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6  b 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7  b 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8  b 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'><span class='fu'>bind_rows</span>(<span class='st'>"group 1"</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='st'>"group 2"</span> <span class='kw'>=</span> <span class='no'>two</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</div><div class='output co'>#&gt;    groups  mpg cyl  disp  hp drat    wt  qsec vs am gear carb
-#&gt; 1 group 1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4
-#&gt; 2 group 1 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4
-#&gt; 3 group 1 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1
-#&gt; 4 group 1 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1
-#&gt; 5 group 2 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4
-#&gt; 6 group 2 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3
-#&gt; 7 group 2 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3
-#&gt; 8 group 2 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3</div><div class='input'>
+<span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt;    mpg cyl  disp  hp drat    wt  qsec vs am gear carb id
+#&gt; 1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4  1
+#&gt; 2 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4  1
+#&gt; 3 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1  1
+#&gt; 4 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1  1
+#&gt; 5 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4  2
+#&gt; 6 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3  2
+#&gt; 7 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3  2
+#&gt; 8 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3  2</div><div class='input'><span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='kw'>b</span> <span class='kw'>=</span> <span class='no'>two</span>), <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"id"</span>)</div><div class='output co'>#&gt;    mpg cyl  disp  hp drat    wt  qsec vs am gear carb id
+#&gt; 1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4  a
+#&gt; 2 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4  a
+#&gt; 3 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1  a
+#&gt; 4 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1  a
+#&gt; 5 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4  b
+#&gt; 6 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3  b
+#&gt; 7 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3  b
+#&gt; 8 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3  b</div><div class='input'><span class='fu'>bind_rows</span>(<span class='st'>"group 1"</span> <span class='kw'>=</span> <span class='no'>one</span>, <span class='st'>"group 2"</span> <span class='kw'>=</span> <span class='no'>two</span>, <span class='kw'>.id</span> <span class='kw'>=</span> <span class='st'>"groups"</span>)</div><div class='output co'>#&gt;    mpg cyl  disp  hp drat    wt  qsec vs am gear carb  groups
+#&gt; 1 21.0   6 160.0 110 3.90 2.620 16.46  0  1    4    4 group 1
+#&gt; 2 21.0   6 160.0 110 3.90 2.875 17.02  0  1    4    4 group 1
+#&gt; 3 22.8   4 108.0  93 3.85 2.320 18.61  1  1    4    1 group 1
+#&gt; 4 21.4   6 258.0 110 3.08 3.215 19.44  1  0    3    1 group 1
+#&gt; 5 17.8   6 167.6 123 3.92 3.440 18.90  1  0    4    4 group 2
+#&gt; 6 16.4   8 275.8 180 3.07 4.070 17.40  0  0    3    3 group 2
+#&gt; 7 17.3   8 275.8 180 3.07 3.730 17.60  0  0    3    3 group 2
+#&gt; 8 15.2   8 275.8 180 3.07 3.780 18.00  0  0    3    3 group 2</div><div class='input'>
 <span class='co'># Columns don't need to match when row-binding</span>
 <span class='fu'>bind_rows</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>3</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>4</span>))</div><div class='output co'>#&gt;    x  y
 #&gt; 1  1 NA
@@ -393,25 +393,47 @@ appears in any of the inputs.</p>
 <span class='fu'>bind_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>), <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>2</span>))
 }
 
-<span class='fu'>bind_cols</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb mpg1 cyl1 disp1 hp1 drat1
-#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4 17.8    6 167.6 123  3.92
-#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4 16.4    8 275.8 180  3.07
-#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1 17.3    8 275.8 180  3.07
-#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1 15.2    8 275.8 180  3.07
-#&gt;    wt1 qsec1 vs1 am1 gear1 carb1
-#&gt; 1 3.44  18.9   1   0     4     4
-#&gt; 2 4.07  17.4   0   0     3     3
-#&gt; 3 3.73  17.6   0   0     3     3
-#&gt; 4 3.78  18.0   0   0     3     3</div><div class='input'><span class='fu'>bind_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt;    mpg cyl disp  hp drat    wt  qsec vs am gear carb mpg1 cyl1 disp1 hp1 drat1
-#&gt; 1 21.0   6  160 110 3.90 2.620 16.46  0  1    4    4 17.8    6 167.6 123  3.92
-#&gt; 2 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4 16.4    8 275.8 180  3.07
-#&gt; 3 22.8   4  108  93 3.85 2.320 18.61  1  1    4    1 17.3    8 275.8 180  3.07
-#&gt; 4 21.4   6  258 110 3.08 3.215 19.44  1  0    3    1 15.2    8 275.8 180  3.07
-#&gt;    wt1 qsec1 vs1 am1 gear1 carb1
-#&gt; 1 3.44  18.9   1   0     4     4
-#&gt; 2 4.07  17.4   0   0     3     3
-#&gt; 3 3.73  17.6   0   0     3     3
-#&gt; 4 3.78  18.0   0   0     3     3</div></pre>
+<span class='fu'>bind_cols</span>(<span class='no'>one</span>, <span class='no'>two</span>)</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* mpg -&gt; mpg...1</span>
+#&gt; <span class='message'>* cyl -&gt; cyl...2</span>
+#&gt; <span class='message'>* disp -&gt; disp...3</span>
+#&gt; <span class='message'>* hp -&gt; hp...4</span>
+#&gt; <span class='message'>* drat -&gt; drat...5</span>
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt;   mpg...1 cyl...2 disp...3 hp...4 drat...5 wt...6 qsec...7 vs...8 am...9
+#&gt; 1    21.0       6      160    110     3.90  2.620    16.46      0      1
+#&gt; 2    21.0       6      160    110     3.90  2.875    17.02      0      1
+#&gt; 3    22.8       4      108     93     3.85  2.320    18.61      1      1
+#&gt; 4    21.4       6      258    110     3.08  3.215    19.44      1      0
+#&gt;   gear...10 carb...11 mpg...12 cyl...13 disp...14 hp...15 drat...16 wt...17
+#&gt; 1         4         4     17.8        6     167.6     123      3.92    3.44
+#&gt; 2         4         4     16.4        8     275.8     180      3.07    4.07
+#&gt; 3         4         1     17.3        8     275.8     180      3.07    3.73
+#&gt; 4         3         1     15.2        8     275.8     180      3.07    3.78
+#&gt;   qsec...18 vs...19 am...20 gear...21 carb...22
+#&gt; 1      18.9       1       0         4         4
+#&gt; 2      17.4       0       0         3         3
+#&gt; 3      17.6       0       0         3         3
+#&gt; 4      18.0       0       0         3         3</div><div class='input'><span class='fu'>bind_cols</span>(<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='no'>one</span>, <span class='no'>two</span>))</div><div class='output co'>#&gt; <span class='message'>New names:</span>
+#&gt; <span class='message'>* mpg -&gt; mpg...1</span>
+#&gt; <span class='message'>* cyl -&gt; cyl...2</span>
+#&gt; <span class='message'>* disp -&gt; disp...3</span>
+#&gt; <span class='message'>* hp -&gt; hp...4</span>
+#&gt; <span class='message'>* drat -&gt; drat...5</span>
+#&gt; <span class='message'>* ...</span></div><div class='output co'>#&gt;   mpg...1 cyl...2 disp...3 hp...4 drat...5 wt...6 qsec...7 vs...8 am...9
+#&gt; 1    21.0       6      160    110     3.90  2.620    16.46      0      1
+#&gt; 2    21.0       6      160    110     3.90  2.875    17.02      0      1
+#&gt; 3    22.8       4      108     93     3.85  2.320    18.61      1      1
+#&gt; 4    21.4       6      258    110     3.08  3.215    19.44      1      0
+#&gt;   gear...10 carb...11 mpg...12 cyl...13 disp...14 hp...15 drat...16 wt...17
+#&gt; 1         4         4     17.8        6     167.6     123      3.92    3.44
+#&gt; 2         4         4     16.4        8     275.8     180      3.07    4.07
+#&gt; 3         4         1     17.3        8     275.8     180      3.07    3.73
+#&gt; 4         3         1     15.2        8     275.8     180      3.07    3.78
+#&gt;   qsec...18 vs...19 am...20 gear...21 carb...22
+#&gt; 1      18.9       1       0         4         4
+#&gt; 2      17.4       0       0         3         3
+#&gt; 3      17.6       0       0         3         3
+#&gt; 4      18.0       0       0         3         3</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
