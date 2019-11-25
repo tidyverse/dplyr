@@ -1121,3 +1121,12 @@ test_that("summarise() correctly handle summarised list columns (#4349)", {
   expect_identical(res$z, res$y)
   expect_equal(res$z, list(1))
 })
+
+test_that("summarise() unpacks unnamed tibble results (#2326)", {
+  expect_equal(
+    iris %>% group_by(Species) %>% summarise(
+      tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    ),
+    iris %>% group_by(Species) %>% summarise(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+  )
+})

@@ -898,3 +898,14 @@ test_that("mutate() evaluates expression for empty groups", {
   expect_equal(count, 6L)
   expect_is(res$x, "numeric")
 })
+
+test_that("mutate() unpacks unnamed tibble results (#2326)", {
+  expect_equal(
+    iris %>% group_by(Species) %>% mutate(
+      tibble(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+    ),
+    iris %>% group_by(Species) %>% mutate(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+  )
+})
+
+

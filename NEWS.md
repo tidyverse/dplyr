@@ -1,5 +1,7 @@
 # dplyr 0.9.0 (in development)
 
+* `mutate()` and `summarise()` automatically unpack unnamed tibble results (#2326).
+
 * `group_keys.rowwise_df()` gives a 0 column data frame with n() rows. 
 
 * `group_by()` uses hashing from the `vctrs` package. 
