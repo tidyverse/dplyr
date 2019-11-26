@@ -195,3 +195,19 @@ test_that("distinct respects the order of the given variables (#3195)",{
   d <- data.frame(x=1:2, y=3:4)
   expect_equal(names(distinct(d, y, x)), c("y", "x"))
 })
+
+test_that("distinct() understands both NA variants (#4516)", {
+  df <- data.frame(col_a = c(1, NA, NA))
+  df$col_a <- df$col_a+0
+  df$col_a[2] <- NA_real_
+  expect_equal(nrow(distinct(df)), 2L)
+
+  df_1 <- data.frame(col_a = c(1, NA))
+  df_2 <- data.frame(col_a = c(1, NA))
+
+  df_1$col_a <- df_1$col_a+0
+  df_2$col_a <- df_2$col_a+0
+
+  df_1$col_a[2] <- NA
+  expect_equal(nrow(setdiff(df_1, df_2)), 0L)
+})
