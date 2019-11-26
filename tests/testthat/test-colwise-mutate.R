@@ -432,8 +432,7 @@ test_that("colwise mutate handles formulas with constants (#4374)", {
 
 test_that("colwise mutate gives correct error message if column not found (#4374)", {
   expect_error(
-    mutate_at(tibble(), "test", ~ 1),
-    "Unknown column `test`"
+    mutate_at(tibble(), "test", ~ 1)
   )
 })
 

@@ -51,9 +51,9 @@ order_by <- function(order_by, call) {
 #' @keywords internal
 #' @export
 with_order <- function(order_by, fun, x, ...) {
-  ord <- order(order_by)
-  undo <- match(seq_along(order_by), ord)
+  ord <- vec_order(order_by)
+  undo <- vec_match(seq_along(order_by), ord)
 
-  out <- fun(x[ord], ...)
-  out[undo]
+  out <- fun(vec_slice(x, ord), ...)
+  vec_slice(out, undo)
 }
