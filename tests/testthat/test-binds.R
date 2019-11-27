@@ -609,4 +609,10 @@ test_that("bind_rows() handles named list", {
   expect_equivalent(bind_rows(!!!map(mtcars, mean)), summarise_all(mtcars, mean))
 })
 
+test_that("bind_rows() correctly restores (#2457)", {
+  df <- bind_rows(
+    tibble(x = vctrs::list_of(1))
+  )
+  expect_is(df$x, "vctrs_list_of")
+})
 
