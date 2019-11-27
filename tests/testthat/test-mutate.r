@@ -899,13 +899,37 @@ test_that("mutate() evaluates expression for empty groups", {
   expect_is(res$x, "numeric")
 })
 
-test_that("mutate() unpacks unnamed tibble results (#2326)", {
+test_that("mutate() unpacks unnamed tibble results (#2326, #3630)", {
   expect_equal(
     iris %>% group_by(Species) %>% mutate(
       tibble(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
     ),
     iris %>% group_by(Species) %>% mutate(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
   )
+
+  expect_equal(
+    iris %>% group_by(Species) %>% mutate(
+      tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    ),
+    iris %>% group_by(Species) %>% mutate(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+  )
 })
 
+test_that("mutate() packs named tibble results (#2326, #3630)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      out = tibble(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), nrow(iris))
+
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      out = tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), nrow(iris))
+})
 

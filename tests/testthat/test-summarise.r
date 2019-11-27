@@ -1130,3 +1130,13 @@ test_that("summarise() unpacks unnamed tibble results (#2326)", {
     iris %>% group_by(Species) %>% summarise(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
   )
 })
+
+test_that("summarise() packs named tibble results (#2326)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    summarise(
+      out = tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), 3L)
+})
