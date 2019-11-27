@@ -72,19 +72,5 @@ last <- function(x, order_by = NULL, default = default_missing(x)) {
 }
 
 default_missing <- function(x) {
-  UseMethod("default_missing")
-}
-
-#' @export
-default_missing.default <- function(x) {
-  if (!is.object(x) && is.list(x)) {
-    NULL
-  } else {
-    x[NA_real_]
-  }
-}
-
-#' @export
-default_missing.data.frame <- function(x) {
-  rep(NA, nrow(x))
+  vec_slice(x, NA_integer_)
 }
