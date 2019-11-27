@@ -22,11 +22,11 @@ functions and strings representing function names.}
 \code{.funs}. These are evaluated only once, with \link[rlang:tidy-dots]{tidy dots} support.}
 }
 \description{
-The variants suffixed with \code{_if}, \code{_at} or \code{_all} apply an
+The variants suffixed with \verb{_if}, \verb{_at} or \verb{_all} apply an
 expression (sometimes several) to all variables within a specified
-subset. This subset can contain all variables (\code{_all} variants), a
-\code{\link[=vars]{vars()}} selection (\code{_at} variants), or variables selected with a
-predicate (\code{_if} variants).
+subset. This subset can contain all variables (\verb{_all} variants), a
+\code{\link[=vars]{vars()}} selection (\verb{_at} variants), or variables selected with a
+predicate (\verb{_if} variants).
 }
 \details{
 The verbs with scoped variants are:
@@ -41,14 +41,14 @@ The verbs with scoped variants are:
 There are three kinds of scoped variants. They differ in the scope
 of the variable selection on which operations are applied:
 \itemize{
-\item Verbs suffixed with \code{_all()} apply an operation on all variables.
-\item Verbs suffixed with \code{_at()} apply an operation on a subset of
+\item Verbs suffixed with \verb{_all()} apply an operation on all variables.
+\item Verbs suffixed with \verb{_at()} apply an operation on a subset of
 variables specified with the quoting function \code{\link[=vars]{vars()}}. This
 quoting function accepts \code{\link[tidyselect:vars_select]{tidyselect::vars_select()}} helpers like
 \code{\link[=starts_with]{starts_with()}}. Instead of a \code{\link[=vars]{vars()}} selection, you can also
 supply an \link[rlang:is_integerish]{integerish} vector of column
 positions or a character vector of column names.
-\item Verbs suffixed with \code{_if()} apply an operation on the subset of
+\item Verbs suffixed with \verb{_if()} apply an operation on the subset of
 variables for which a predicate function returns \code{TRUE}. Instead
 of a predicate function, you can also supply a logical vector.
 }

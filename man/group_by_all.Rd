@@ -6,14 +6,31 @@
 \alias{group_by_if}
 \title{Group by a selection of variables}
 \usage{
-group_by_all(.tbl, .funs = list(), ..., .add = FALSE,
-  .drop = group_by_drop_default(.tbl))
+group_by_all(
+  .tbl,
+  .funs = list(),
+  ...,
+  .add = FALSE,
+  .drop = group_by_drop_default(.tbl)
+)
 
-group_by_at(.tbl, .vars, .funs = list(), ..., .add = FALSE,
-  .drop = group_by_drop_default(.tbl))
+group_by_at(
+  .tbl,
+  .vars,
+  .funs = list(),
+  ...,
+  .add = FALSE,
+  .drop = group_by_drop_default(.tbl)
+)
 
-group_by_if(.tbl, .predicate, .funs = list(), ..., .add = FALSE,
-  .drop = group_by_drop_default(.tbl))
+group_by_if(
+  .tbl,
+  .predicate,
+  .funs = list(),
+  ...,
+  .add = FALSE,
+  .drop = group_by_drop_default(.tbl)
+)
 }
 \arguments{
 \item{.tbl}{A \code{tbl} object.}
@@ -67,10 +84,15 @@ group_by_all(d, as.factor)
 group_by_if(iris, is.factor, as.character)
 }
 \seealso{
-Other grouping functions: \code{\link{group_by}},
-  \code{\link{group_indices}}, \code{\link{group_keys}},
-  \code{\link{group_map}}, \code{\link{group_nest}},
-  \code{\link{group_rows}}, \code{\link{group_size}},
-  \code{\link{group_trim}}, \code{\link{groups}}
+Other grouping functions: 
+\code{\link{group_by}()},
+\code{\link{group_indices}()},
+\code{\link{group_keys}()},
+\code{\link{group_map}()},
+\code{\link{group_nest}()},
+\code{\link{group_rows}()},
+\code{\link{group_size}()},
+\code{\link{group_trim}()},
+\code{\link{groups}()}
 }
 \concept{grouping functions}

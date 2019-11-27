@@ -55,13 +55,13 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com} (0000-0003-4757-117X)
+\strong{Maintainer}: Hadley Wickham \email{hadley@rstudio.com} (\href{https://orcid.org/0000-0003-4757-117X}{ORCID})
 
 Authors:
 \itemize{
-  \item Romain François (0000-0002-2444-4226)
+  \item Romain François (\href{https://orcid.org/0000-0002-2444-4226}{ORCID})
   \item Lionel Henry
-  \item Kirill Müller (0000-0002-1416-3412)
+  \item Kirill Müller (\href{https://orcid.org/0000-0002-1416-3412}{ORCID})
 }
 
 Other contributors:

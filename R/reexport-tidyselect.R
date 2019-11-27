@@ -60,7 +60,6 @@ select_vars <- function(vars = chr(), ..., include = chr(), exclude = chr()) {
   tidyselect::vars_select(.vars = vars, ..., .include = include, .exclude = exclude)
 }
 #' @rdname select_vars
-#' @inheritParams tidyselect::vars_rename
 #' @export
 rename_vars <- function(vars = chr(), ..., strict = TRUE) {
   warn_deprecated(paste_line(
@@ -70,7 +69,6 @@ rename_vars <- function(vars = chr(), ..., strict = TRUE) {
   tidyselect::vars_rename(.vars = vars, ..., .strict = strict)
 }
 #' @rdname select_vars
-#' @inheritParams tidyselect::vars_pull
 #' @export
 select_var <- function(vars, var = -1) {
   warn_deprecated(paste_line(

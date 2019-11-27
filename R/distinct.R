@@ -18,7 +18,6 @@
 #' @param .keep_all If `TRUE`, keep all variables in `.data`.
 #'   If a combination of `...` is not distinct, this keeps the
 #'   first row of values.
-#' @inheritParams filter
 #' @export
 #' @examples
 #' df <- tibble(

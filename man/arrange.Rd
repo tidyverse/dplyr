@@ -57,8 +57,11 @@ by_cyl \%>\% arrange(desc(wt))
 by_cyl \%>\% arrange(desc(wt), .by_group = TRUE)
 }
 \seealso{
-Other single table verbs: \code{\link{filter}},
-  \code{\link{mutate}}, \code{\link{select}},
-  \code{\link{slice}}, \code{\link{summarise}}
+Other single table verbs: 
+\code{\link{filter}()},
+\code{\link{mutate}()},
+\code{\link{select}()},
+\code{\link{slice}()},
+\code{\link{summarise}()}
 }
 \concept{single table verbs}

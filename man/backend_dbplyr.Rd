@@ -68,9 +68,18 @@ db_query_fields(con, sql, ...)
 
 db_query_rows(con, sql, ...)
 
-sql_select(con, select, from, where = NULL, group_by = NULL,
-  having = NULL, order_by = NULL, limit = NULL, distinct = FALSE,
-  ...)
+sql_select(
+  con,
+  select,
+  from,
+  where = NULL,
+  group_by = NULL,
+  having = NULL,
+  order_by = NULL,
+  limit = NULL,
+  distinct = FALSE,
+  ...
+)
 
 sql_subquery(con, from, name = random_table_name(), ...)
 
@@ -112,13 +121,13 @@ A few backend methods do not call the standard DBI S4 methods including
 (e.g. data frame column) and returns a vector of corresponding SQL data
 types
 \item \code{db_save_query()}: Builds and executes a
-\code{CREATE [TEMPORARY] TABLE <table> ...} SQL command.
+\verb{CREATE [TEMPORARY] TABLE <table> ...} SQL command.
 \item \code{db_create_index()}: Builds and executes a
-\code{CREATE INDEX <name> ON <table>} SQL command.
+\verb{CREATE INDEX <name> ON <table>} SQL command.
 \item \code{db_drop_table()}: Builds and executes a
-\code{DROP TABLE [IF EXISTS]  <table>} SQL command.
+\verb{DROP TABLE [IF EXISTS]  <table>} SQL command.
 \item \code{db_analyze()}: Builds and executes an
-\code{ANALYZE <table>} SQL command.
+\verb{ANALYZE <table>} SQL command.
 }
 
 Currently, \code{\link[=copy_to]{copy_to()}} is the only user of \code{db_begin()}, \code{db_commit()},

@@ -60,7 +60,7 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 LazyData: yes
 Roxygen: list(markdown = TRUE, roclets = c("rd", "namespace", "collate"))
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.1
 Remotes:
     tidyverse/tibble,
     r-lib/pillar,
