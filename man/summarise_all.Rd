@@ -73,7 +73,7 @@ selection is \strong{implicit} (\code{all} and \code{if} selections) or
 }
 
 Or remove \code{group_vars()} from the character vector of column names:\preformatted{nms <- setdiff(nms, group_vars(data))
-data \%>\% summarise_at(vars, myoperation)
+data \%>\% summarise_at(nms, myoperation)
 }
 \item Grouping variables covered by implicit selections are silently
 ignored by \code{summarise_all()} and \code{summarise_if()}.
