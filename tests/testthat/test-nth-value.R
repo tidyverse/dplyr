@@ -3,9 +3,9 @@ context("Nth value")
 test_that("nth works with lists", {
   x <- list(1, 2, 3)
 
-  expect_equal(nth(x, 1), 1)
-  expect_equal(nth(x, 4), NULL)
-  expect_equal(nth(x, 4, default = 1), 1)
+  expect_equal(nth(x, 1), vec_slice(x, 1))
+  expect_equal(nth(x, 4), vec_cast(NA, list()))
+  expect_equal(nth(x, 4, default = list(1)), list(1))
 })
 
 test_that("negative values index from end", {
@@ -26,7 +26,7 @@ test_that("first uses default value for 0 length vectors", {
   expect_equal(first(integer()), NA_integer_)
   expect_equal(first(numeric()), NA_real_)
   expect_equal(first(character()), NA_character_)
-  expect_equal(first(list()), NULL)
+  expect_equal(first(list()), vec_cast(NA, list()))
 })
 
 test_that("firsts uses default value for 0 length augmented vectors", {

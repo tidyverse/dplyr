@@ -39,12 +39,12 @@
 #'
 #' # These functions always return a single value
 #' first(integer())
-nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
+nth <- function(x, n, order_by = NULL, default = NA) {
   stopifnot(length(n) == 1, is.numeric(n))
   n <- trunc(n)
 
   if (n == 0 || n > length(x) || n < -length(x)) {
-    return(default)
+    return(vec_cast(default, vec_ptype(x)))
   }
 
   # Negative values index from RHS
@@ -53,24 +53,20 @@ nth <- function(x, n, order_by = NULL, default = default_missing(x)) {
   }
 
   if (is.null(order_by)) {
-    x[[n]]
+    vec_slice(x, n)
   } else {
-    x[[ order(order_by)[[n]] ]]
+    vec_slice(x, vec_order(order_by)[[n]])
   }
 }
 
 #' @export
 #' @rdname nth
-first <- function(x, order_by = NULL, default = default_missing(x)) {
+first <- function(x, order_by = NULL, default = NA) {
   nth(x, 1L, order_by = order_by, default = default)
 }
 
 #' @export
 #' @rdname nth
-last <- function(x, order_by = NULL, default = default_missing(x)) {
+last <- function(x, order_by = NULL, default = NA) {
   nth(x, -1L, order_by = order_by, default = default)
-}
-
-default_missing <- function(x) {
-  vec_slice(x, NA_integer_)
 }

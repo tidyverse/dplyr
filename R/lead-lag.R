@@ -35,6 +35,7 @@ NULL
 #' @export
 #' @rdname lead-lag
 lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+  default <- vec_cast(default, vec_ptype(x))
   if (!is.null(order_by)) {
     return(with_order(order_by, lead, x, n = n, default = default))
   }
@@ -58,14 +59,17 @@ lead <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
 #' @export
 #' @rdname lead-lag
 lag <- function(x, n = 1L, default = NA, order_by = NULL, ...) {
+  if (inherits(x, "ts")) {
+    bad_args("x", "must be a vector, not a ts object, do you want `stats::lag()`?")
+  }
+  default <- vec_cast(default, vec_ptype(x))
+
   if (!is.null(order_by)) {
     return(with_order(order_by, lag, x, n = n, default = default))
   }
 
-  if (inherits(x, "ts")) {
-    bad_args("x", "must be a vector, not a ts object, do you want `stats::lag()`?")
-  }
 
+  default <- vec_cast(default, vec_ptype(x))
   if (length(n) != 1 || !is.numeric(n) || n < 0) {
     bad_args("n", "must be a nonnegative integer scalar, ",
       "not {friendly_type_of(n)} of length {length(n)}"
