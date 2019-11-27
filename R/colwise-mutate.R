@@ -38,7 +38,7 @@
 #'
 #'   ```
 #'   nms <- setdiff(nms, group_vars(data))
-#'   data %>% summarise_at(vars, myoperation)
+#'   data %>% summarise_at(nms, myoperation)
 #'   ```
 #'
 #' * Grouping variables covered by implicit selections are silently
