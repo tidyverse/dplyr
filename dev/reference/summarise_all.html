@@ -280,7 +280,7 @@ selection is <strong>implicit</strong> (<code>all</code> and <code>if</code> sel
 </pre>
 
 <p>Or remove <code><a href='groups.html'>group_vars()</a></code> from the character vector of column names:</p><pre>nms &lt;- setdiff(nms, group_vars(data))
-data %&gt;% summarise_at(vars, myoperation)
+data %&gt;% summarise_at(nms, myoperation)
 </pre></li>
 <li><p>Grouping variables covered by implicit selections are silently
 ignored by <code>summarise_all()</code> and <code>summarise_if()</code>.</p></li>
