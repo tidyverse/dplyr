@@ -6,9 +6,9 @@
 \alias{lag}
 \title{Lead and lag.}
 \usage{
-lead(x, n = 1L, default = default_missing(x), order_by = NULL, ...)
+lead(x, n = 1L, default = NA, order_by = NULL, ...)
 
-lag(x, n = 1L, default = default_missing(x), order_by = NULL, ...)
+lag(x, n = 1L, default = NA, order_by = NULL, ...)
 }
 \arguments{
 \item{x}{a vector of values}
