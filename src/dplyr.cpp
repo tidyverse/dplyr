@@ -37,17 +37,17 @@ SEXP vectors::empty_int_vector = get_empty_int_vector();
 class ExpanderCollecter;
 
 struct ExpanderResult {
-  ExpanderResult(int start_, int end_, int index_) :
+  ExpanderResult(R_xlen_t start_, R_xlen_t end_, R_xlen_t index_) :
     start(start_),
     end(end_),
     index(index_)
   {}
 
-  int start;
-  int end;
-  int index;
+  R_xlen_t start;
+  R_xlen_t end;
+  R_xlen_t index;
 
-  inline int size() const {
+  inline R_xlen_t size() const {
     return end - start;
   }
 };
@@ -55,7 +55,7 @@ struct ExpanderResult {
 class Expander {
 public:
   virtual ~Expander() {};
-  virtual int size() const = 0;
+  virtual R_xlen_t size() const = 0;
   virtual ExpanderResult collect(ExpanderCollecter& results, int depth) const = 0;
 };
 
@@ -80,7 +80,7 @@ public:
     }
   }
 
-  ExpanderResult collect_leaf(int start, int end, int index) {
+  ExpanderResult collect_leaf(R_xlen_t start, R_xlen_t end, R_xlen_t index) {
     if (start == end) {
       SET_VECTOR_ELT(new_rows, leaf_index++, dplyr::vectors::empty_int_vector);
     } else {
@@ -90,22 +90,22 @@ public:
     return ExpanderResult(leaf_index - 1, leaf_index, index);
   }
 
-  ExpanderResult collect_node(int depth, int index, const std::vector<Expander*>& expanders) {
+  ExpanderResult collect_node(int depth, R_xlen_t index, const std::vector<Expander*>& expanders) {
     int n = expanders.size();
     if (n == 0) {
       return ExpanderResult(NA_INTEGER, NA_INTEGER, index);
     }
 
-    int nr = 0;
+    R_xlen_t nr = 0;
 
     ExpanderResult first = expanders[0]->collect(*this, depth + 1);
-    int start = first.start;
-    int end = first.end;
+    R_xlen_t start = first.start;
+    R_xlen_t end = first.end;
     fill_indices(depth, start, end, first.index);
 
     nr += first.size();
 
-    for (int i = 1; i < n; i++) {
+    for (R_xlen_t i = 1; i < n; i++) {
       ExpanderResult exp_i = expanders[i]->collect(*this, depth + 1);
       fill_indices(depth, exp_i.start, exp_i.end, exp_i.index);
 
@@ -119,14 +119,14 @@ public:
 private:
   int nvars;
   SEXP old_rows;
-  int new_size;
+  R_xlen_t new_size;
   SEXP new_indices;
   SEXP new_rows;
   int leaf_index;
 
   std::vector<int*> vec_new_indices;
 
-  void fill_indices(int depth, int start, int end, int index) {
+  void fill_indices(int depth, R_xlen_t start, R_xlen_t end, R_xlen_t index) {
     std::fill(vec_new_indices[depth] + start, vec_new_indices[depth] + end, index);
   }
 
@@ -134,10 +134,10 @@ private:
 };
 
 
-Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end);
+Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, R_xlen_t index, R_xlen_t start, R_xlen_t end);
 
-inline int expanders_size(const std::vector<Expander*> expanders) {
-  int n = 0;
+inline R_xlen_t expanders_size(const std::vector<Expander*> expanders) {
+  R_xlen_t n = 0;
   for (int i = 0; i < expanders.size(); i++) {
     n += expanders[i]->size();
   }
@@ -146,7 +146,7 @@ inline int expanders_size(const std::vector<Expander*> expanders) {
 
 class FactorExpander : public Expander {
 public:
-  FactorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start_, int end_) :
+  FactorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, R_xlen_t index_, R_xlen_t start_, R_xlen_t end_) :
     data(data_),
     positions(positions_),
     index(index_),
@@ -155,16 +155,16 @@ public:
   {
     SEXP fac = data[depth_];
     SEXP levels = Rf_getAttrib(fac, dplyr::symbols::levels);
-    int n_levels = XLENGTH(levels);
+    R_xlen_t n_levels = XLENGTH(levels);
 
     expanders.resize(n_levels);
 
     int* fac_pos = positions[depth_];
 
     // for each level, setup an expander for `depth + 1`
-    int j = start;
-    for (int i = 0; i < n_levels; i++) {
-      int start_i = j;
+    R_xlen_t j = start;
+    for (R_xlen_t i = 0; i < n_levels; i++) {
+      R_xlen_t start_i = j;
       while (j < end && fac_pos[j] == i + 1) j++;
       expanders[i] = expander(data, positions, depth_ + 1, i + 1, start_i, j);
     }
@@ -178,7 +178,7 @@ public:
     for (int i = expanders.size() - 1; i >= 0; i--) delete expanders[i];
   }
 
-  virtual int size() const {
+  virtual R_xlen_t size() const {
     return expanders_size(expanders);
   }
 
@@ -189,16 +189,16 @@ public:
 private:
   const std::vector<SEXP>& data;
   const std::vector<int*>& positions;
-  int index;
-  int start;
-  int end;
+  R_xlen_t index;
+  R_xlen_t start;
+  R_xlen_t end;
 
   std::vector<Expander*> expanders;
 };
 
 class VectorExpander : public Expander {
 public:
-  VectorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, int index_, int start, int end) :
+  VectorExpander(const std::vector<SEXP>& data_, const std::vector<int*>& positions_, int depth_, R_xlen_t index_, R_xlen_t start, R_xlen_t end) :
     index(index_)
   {
     // edge case no data, we need a fake expander with NA index
@@ -207,9 +207,9 @@ public:
     } else {
       int* vec_pos = positions_[depth_];
 
-      for (int j = start; j < end;) {
-        int current = vec_pos[j];
-        int start_idx = j;
+      for (R_xlen_t j = start; j < end;) {
+        R_xlen_t current = vec_pos[j];
+        R_xlen_t start_idx = j;
         while (j < end && vec_pos[++j] == current);
         expanders.push_back(expander(data_, positions_, depth_ + 1, current, start_idx, j));
       }
@@ -220,7 +220,7 @@ public:
     for (int i = expanders.size() - 1; i >= 0; i--) delete expanders[i];
   }
 
-  virtual int size() const {
+  virtual R_xlen_t size() const {
     return expanders_size(expanders);
   }
 
@@ -243,7 +243,7 @@ public:
 
   ~LeafExpander() {}
 
-  virtual int size() const {
+  virtual R_xlen_t size() const {
     return 1;
   }
 
@@ -252,12 +252,12 @@ public:
   }
 
 private:
-  int index;
-  int start;
-  int end;
+  R_xlen_t index;
+  R_xlen_t start;
+  R_xlen_t end;
 };
 
-Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, int index, int start, int end) {
+Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& positions, int depth, R_xlen_t index, R_xlen_t start, R_xlen_t end) {
   if (depth == positions.size()) {
     return new LeafExpander(data, positions, depth, index, start, end);
   } else if (Rf_isFactor(data[depth])) {
@@ -269,12 +269,12 @@ Expander* expander(const std::vector<SEXP>& data, const std::vector<int*>& posit
 
 SEXP dplyr_expand_groups(SEXP old_groups, SEXP positions, SEXP s_nr) {
   int nr = INTEGER(s_nr)[0];
-  int nvars = XLENGTH(old_groups) - 1;
+  R_xlen_t nvars = XLENGTH(old_groups) - 1;
 
   SEXP old_rows = VECTOR_ELT(old_groups, nvars);
   std::vector<SEXP> vec_data(nvars);
   std::vector<int*> vec_positions(nvars);
-  for (int i = 0; i < nvars; i++) {
+  for (R_xlen_t i = 0; i < nvars; i++) {
     vec_data[i] = VECTOR_ELT(old_groups, i);
     vec_positions[i] = INTEGER(VECTOR_ELT(positions, i));
   }
@@ -316,7 +316,7 @@ SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP
   // traverse group_indices and keep to fill new_rows
   int* p_group_indices = INTEGER(group_indices);
   int* p_keep = LOGICAL(keep);
-  int j = 1;
+  R_xlen_t j = 1;
   for (R_xlen_t i = 0; i < n_rows; i++) {
     if (p_keep[i] == TRUE) {
       int g = p_group_indices[i];
@@ -349,7 +349,7 @@ SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
   } else {
     int* p_out = LOGICAL(out);
     double* p_x = REAL(x);
-    for (int i = 0; i < n; ++i, ++p_x, ++p_out) {
+    for (R_xlen_t i = 0; i < n; ++i, ++p_x, ++p_out) {
       *p_out = R_IsNA(*p_x) ? NA_LOGICAL : (*p_x >= left) && (*p_x <= right);
     }
   }
@@ -404,7 +404,7 @@ SEXP dplyr_cumany(SEXP x) {
   int* p_out = LOGICAL(out);
 
   // nothing to do as long as x[i] is FALSE
-  int i = 0 ;
+  R_xlen_t i = 0 ;
   for (; i < n; i++, ++p_x, ++p_out) {
     if (*p_x == FALSE) {
       *p_out = FALSE;
@@ -443,7 +443,7 @@ SEXP dplyr_cummean(SEXP x) {
   double* p_x = REAL(x);
 
   double sum = *p_out++ = *p_x;
-  for (int i = 1; i < n; i++, ++p_x, ++p_out) {
+  for (R_xlen_t i = 1; i < n; i++, ++p_x, ++p_out) {
     sum += *p_x;
     *p_out = sum / (i + 1.0);
   }
