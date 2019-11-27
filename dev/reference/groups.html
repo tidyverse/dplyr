@@ -213,11 +213,16 @@ symbols.</p>
 
     <div class='dont-index'><p><code><a href='group_cols.html'>group_cols()</a></code> for matching grouping variables in
 <a href='select.html'>selection contexts</a>.</p>
-<p>Other grouping functions: <code><a href='group_by_all.html'>group_by_all</a></code>,
-  <code><a href='group_by.html'>group_by</a></code>, <code><a href='group_indices.html'>group_indices</a></code>,
-  <code><a href='group_split.html'>group_keys</a></code>, <code><a href='group_map.html'>group_map</a></code>,
-  <code><a href='group_nest.html'>group_nest</a></code>, <code><a href='group_data.html'>group_rows</a></code>,
-  <code><a href='group_size.html'>group_size</a></code>, <code><a href='group_trim.html'>group_trim</a></code></p></div>
+<p>Other grouping functions: 
+<code><a href='group_by_all.html'>group_by_all</a>()</code>,
+<code><a href='group_by.html'>group_by</a>()</code>,
+<code><a href='group_indices.html'>group_indices</a>()</code>,
+<code><a href='group_split.html'>group_keys</a>()</code>,
+<code><a href='group_map.html'>group_map</a>()</code>,
+<code><a href='group_nest.html'>group_nest</a>()</code>,
+<code><a href='group_data.html'>group_rows</a>()</code>,
+<code><a href='group_size.html'>group_size</a>()</code>,
+<code><a href='group_trim.html'>group_trim</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://tibble.tidyverse.org/reference/tibble.html'>tibble</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>y</span> <span class='kw'>=</span> <span class='fl'>2</span>) <span class='kw'>%&gt;%</span> <span class='fu'><a href='group_by.html'>group_by</a></span>(<span class='no'>x</span>, <span class='no'>y</span>)

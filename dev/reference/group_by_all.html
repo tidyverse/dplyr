@@ -198,14 +198,31 @@ selection of variables. Like <code><a href='group_by.html'>group_by()</a></code>
 <a href='mutate.html'>mutate</a> semantics.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>group_by_all</span>(<span class='no'>.tbl</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>, <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>))
+    <pre class="usage"><span class='fu'>group_by_all</span>(
+  <span class='no'>.tbl</span>,
+  <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='no'>...</span>,
+  <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>)
+)
 
-<span class='fu'>group_by_at</span>(<span class='no'>.tbl</span>, <span class='no'>.vars</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>, <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>))
+<span class='fu'>group_by_at</span>(
+  <span class='no'>.tbl</span>,
+  <span class='no'>.vars</span>,
+  <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='no'>...</span>,
+  <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>)
+)
 
-<span class='fu'>group_by_if</span>(<span class='no'>.tbl</span>, <span class='no'>.predicate</span>, <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(), <span class='no'>...</span>, <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>))</pre>
+<span class='fu'>group_by_if</span>(
+  <span class='no'>.tbl</span>,
+  <span class='no'>.predicate</span>,
+  <span class='kw'>.funs</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
+  <span class='no'>...</span>,
+  <span class='kw'>.add</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>.drop</span> <span class='kw'>=</span> <span class='fu'><a href='group_by_drop_default.html'>group_by_drop_default</a></span>(<span class='no'>.tbl</span>)
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -257,11 +274,16 @@ functions and strings representing function names.</p></td>
 the selection.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other grouping functions: <code><a href='group_by.html'>group_by</a></code>,
-  <code><a href='group_indices.html'>group_indices</a></code>, <code><a href='group_split.html'>group_keys</a></code>,
-  <code><a href='group_map.html'>group_map</a></code>, <code><a href='group_nest.html'>group_nest</a></code>,
-  <code><a href='group_data.html'>group_rows</a></code>, <code><a href='group_size.html'>group_size</a></code>,
-  <code><a href='group_trim.html'>group_trim</a></code>, <code><a href='groups.html'>groups</a></code></p></div>
+    <div class='dont-index'><p>Other grouping functions: 
+<code><a href='group_by.html'>group_by</a>()</code>,
+<code><a href='group_indices.html'>group_indices</a>()</code>,
+<code><a href='group_split.html'>group_keys</a>()</code>,
+<code><a href='group_map.html'>group_map</a>()</code>,
+<code><a href='group_nest.html'>group_nest</a>()</code>,
+<code><a href='group_data.html'>group_rows</a>()</code>,
+<code><a href='group_size.html'>group_size</a>()</code>,
+<code><a href='group_trim.html'>group_trim</a>()</code>,
+<code><a href='groups.html'>groups</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># Group a data frame by all variables:</span>

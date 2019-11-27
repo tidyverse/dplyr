@@ -208,11 +208,23 @@ open source databases:</p><ul>
 <p>However, modern best practice is to use <code><a href='tbl.html'>tbl()</a></code> directly on an <code>DBIConnection</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>src_mysql</span>(<span class='no'>dbname</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>0L</span>, <span class='kw'>username</span> <span class='kw'>=</span> <span class='st'>"root"</span>,
-  <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>src_mysql</span>(
+  <span class='no'>dbname</span>,
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>port</span> <span class='kw'>=</span> <span class='fl'>0L</span>,
+  <span class='kw'>username</span> <span class='kw'>=</span> <span class='st'>"root"</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='st'>""</span>,
+  <span class='no'>...</span>
+)
 
-<span class='fu'>src_postgres</span>(<span class='kw'>dbname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>port</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>password</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)
+<span class='fu'>src_postgres</span>(
+  <span class='kw'>dbname</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>host</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>port</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>user</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>password</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='no'>...</span>
+)
 
 <span class='fu'>src_sqlite</span>(<span class='no'>path</span>, <span class='kw'>create</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 

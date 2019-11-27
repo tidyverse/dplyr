@@ -197,20 +197,26 @@
     <pre class="usage"><span class='fu'>as.tbl_cube</span>(<span class='no'>x</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for array</span>
-<span class='fu'>as.tbl_cube</span>(<span class='no'>x</span>, <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>x</span>)),
-  <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='no'>x</span>)), <span class='no'>...</span>)
+<span class='fu'>as.tbl_cube</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>x</span>)),
+  <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='no'>x</span>)),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for table</span>
-<span class='fu'>as.tbl_cube</span>(<span class='no'>x</span>, <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>x</span>)),
-  <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='st'>"Freq"</span>, <span class='no'>...</span>)
+<span class='fu'>as.tbl_cube</span>(<span class='no'>x</span>, <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>x</span>)), <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='st'>"Freq"</span>, <span class='no'>...</span>)
 
 <span class='co'># S3 method for matrix</span>
-<span class='fu'>as.tbl_cube</span>(<span class='no'>x</span>, <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>x</span>)),
-  <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='no'>x</span>)), <span class='no'>...</span>)
+<span class='fu'>as.tbl_cube</span>(
+  <span class='no'>x</span>,
+  <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/dimnames.html'>dimnames</a></span>(<span class='no'>x</span>)),
+  <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/deparse.html'>deparse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/substitute.html'>substitute</a></span>(<span class='no'>x</span>)),
+  <span class='no'>...</span>
+)
 
 <span class='co'># S3 method for data.frame</span>
-<span class='fu'>as.tbl_cube</span>(<span class='no'>x</span>, <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='fu'>guess_met</span>(<span class='no'>x</span>), <span class='no'>...</span>)</pre>
+<span class='fu'>as.tbl_cube</span>(<span class='no'>x</span>, <span class='kw'>dim_names</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>met_name</span> <span class='kw'>=</span> <span class='fu'>guess_met</span>(<span class='no'>x</span>), <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

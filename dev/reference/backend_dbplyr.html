@@ -240,9 +240,18 @@ method.</p>
 
 <span class='fu'>db_query_rows</span>(<span class='no'>con</span>, <span class='no'>sql</span>, <span class='no'>...</span>)
 
-<span class='fu'>sql_select</span>(<span class='no'>con</span>, <span class='no'>select</span>, <span class='no'>from</span>, <span class='kw'>where</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>having</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>order_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>limit</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>distinct</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='no'>...</span>)
+<span class='fu'>sql_select</span>(
+  <span class='no'>con</span>,
+  <span class='no'>select</span>,
+  <span class='no'>from</span>,
+  <span class='kw'>where</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>group_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>having</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>order_by</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>limit</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>distinct</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>...</span>
+)
 
 <span class='fu'>sql_subquery</span>(<span class='no'>con</span>, <span class='no'>from</span>, <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>random_table_name</span>(), <span class='no'>...</span>)
 
