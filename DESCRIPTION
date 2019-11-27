@@ -64,4 +64,4 @@ RoxygenNote: 7.0.1
 Remotes:
     tidyverse/tibble,
     r-lib/pillar,
-    r-lib/vctrs#688
+    r-lib/vctrs
