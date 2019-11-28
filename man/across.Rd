@@ -2,7 +2,7 @@
 % Please edit documentation in R/each.R
 \name{across}
 \alias{across}
-\title{Apply a set of functions to a set of columns}
+\title{Apply a function or a set of functions to a set of columns}
 \usage{
 across(select, funs = identity)
 }
@@ -12,111 +12,40 @@ across(select, funs = identity)
 \item{funs}{Functions to apply to each of the selected columns. Possible
 values are:
 \itemize{
-\item A single function
-\item A single quosure style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
+\item A single function or a single quosure style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}
 \item A named list of functions and/or lambdas
 }
 
-@param .name A \code{\link[glue:glue]{glue::glue()}} pattern used to name the result columns.
-When unspecified, the default naming depend on the other arguments
+@return A tibble
 
-@param .unpack Whether to un pack the results in a flat data frame
-or keep the results of each function packed together.
+@details
 
-@return A tibble}
+When a single function is given, it is applied to each of the selected columns
+and the output columns are named after the selected input columns.
+
+When a named list of functions is given, the result is made of as many columns
+as the number of functions, each of these output columns is a pack, i.e.
+a data frame column made from the result of the function applied across the
+selected columns.}
 }
 \description{
 Creates a data frame by applying a set of functions to a tidy
 selection of columns in the current slice
 }
 \examples{
-# A single function, results are unpacked and named after the selected columns
+
+# A single function
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), mean))
+
 iris \%>\%
   group_by(Species) \%>\%
   summarise(across(starts_with("Sepal"), ~mean(.x, na.rm = TRUE)))
 
-
-# If we leave things packed, both columns are packed in the "fn" column
+# a named list of functions
 iris \%>\%
   group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), mean, .unpack = FALSE))
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), ~mean(.x, na.rm = TRUE)), .unpack = FALSE))
-
-# we can have control on the name of pack either by using a named list of
-# functions or by giving a name to the expression in summarise()
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(packname = across(starts_with("Sepal"), mean))
-
-# With a named list, if there are multiple columns selected
-# and the results are unpacked, the default name includes both the
-# function name and the column name, separated by an underscore
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(
-    across(starts_with("Sepal"), list(mean = mean, sd = sd))
-  )
-# this is also the case when the list has only one function
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(
-    across(starts_with("Sepal"), list(mean = mean))
-  )
-
-# If there is only one selected column, the results are named
-# after the function names
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(
-    across("Sepal.Length", list(mean = mean, sd = sd))
-  )
-
-# When results are left packed, the packs are named after the functions
-# and the results within the packs are named after the columns
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(
-    across(starts_with("Sepal"), list(mean = mean, sd = sd), .unpack = FALSE)
-  )
-
-# The .name parameter can be used to overwrite the defaults as seen above
-# with a glue pattern that may use {fn} and {var} to stand for the current
-# function name and column
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(across(starts_with("Sepal"), mean, .name = "{toupper(var)}"))
-
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(packname = across(starts_with("Sepal"), mean, .name = "{toupper(var)}"))
-
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(
-    across(starts_with("Sepal"), list(mean = mean, sd = sd),
-            .name = "{toupper(fn)}_{sub('Sepal.', '', var)}"
-    )
-  )
-
-# overwritting the default so that the name of the column still appear
-# even though there is only one column selected
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(
-    across("Sepal.Length", list(mean = mean, sd = sd), .name = "{fn}_{var}")
-  )
-
-# when results are left packed, the default is to not include the function in the
-# names of columns that are packed
-iris \%>\%
-  group_by(Species) \%>\%
-  summarise(
-    across(starts_with("Sepal"), list(mean = mean, sd = sd), .unpack = FALSE, .name = "{fn}_{var}")
-  )
+  summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 
 }
