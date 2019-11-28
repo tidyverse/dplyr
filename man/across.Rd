@@ -4,7 +4,7 @@
 \alias{across}
 \title{Apply a set of functions to a set of columns}
 \usage{
-across(select, funs = identity, .name = NULL, .unpack = TRUE)
+across(select, funs = identity)
 }
 \arguments{
 \item{select}{tidy selection of columns, forwarded to \code{\link[=pick]{pick()}}}
