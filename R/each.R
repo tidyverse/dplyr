@@ -144,9 +144,13 @@ current_key <- function() {
   peek_mask()$current_key()
 }
 
+set_current_column <- function(name) {
+  context_env[["..current_column_name"]] <- name
+}
+
 poke_current_column <- function(name) {
   old <- context_env[["..current_column_name"]]
-  context_env[["..current_column_name"]] <- mask
+  set_current_column(name)
   old
 }
 
@@ -171,13 +175,15 @@ colwise <- function(funs = identity) {
   function(df) {
     if (single_function) {
       as_tibble(imap(df, function(.x, .y) {
-        poke_current_column(.y)
+        old <- poke_current_column(.y)
+        on.exit(set_current_column(old))
         funs(.x)
       }))
     } else {
       results <- map(funs, function(f) {
         as_tibble(imap(df, function(.x, .y) {
-          poke_current_column(.y)
+          old <- poke_current_column(.y)
+          on.exit(set_current_column(old))
           f(.x)
         }))
       })
