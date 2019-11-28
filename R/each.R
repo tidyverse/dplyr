@@ -65,6 +65,7 @@ current_column <- function() {
 #'   group_by(Species) %>%
 #'   summarise(across(starts_with("Sepal"), list(mean = mean, sd = sd)))
 #'
+#' @importFrom tidyselect vars_select
 #' @export
 across <- function(select, funs = identity) {
   mask <- peek_mask()
