@@ -7,12 +7,12 @@
 \usage{
 current_column()
 
-across(select, funs = identity)
+across(select, fns = identity)
 }
 \arguments{
 \item{select}{tidy selection of columns}
 
-\item{funs}{Functions to apply to each of the selected columns. Possible
+\item{fns}{Functions to apply to each of the selected columns. Possible
 values are:
 \itemize{
 \item A single function or a single quosure style lambda, e.g. \code{~ mean(.x, na.rm = TRUE)}

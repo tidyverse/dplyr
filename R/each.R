@@ -29,7 +29,7 @@ current_column <- function() {
 #' selection of columns in the current slice
 #'
 #' @param select tidy selection of columns
-#' @param funs Functions to apply to each of the selected columns. Possible
+#' @param fns Functions to apply to each of the selected columns. Possible
 #'   values are:
 #'
 #'   - A single function or a single quosure style lambda, e.g. `~ mean(.x, na.rm = TRUE)`
@@ -67,20 +67,20 @@ current_column <- function() {
 #'
 #' @importFrom tidyselect vars_select
 #' @export
-across <- function(select, funs = identity) {
+across <- function(select, fns = identity) {
   mask <- peek_mask()
   vars <- vars_select(peek_vars(), {{select}})
   data <- mask$pick(vars)
 
-  single_function <- is.function(funs) || is_formula(funs)
+  single_function <- is.function(fns) || is_formula(fns)
 
   if (single_function) {
-    funs <- as_function(funs)
+    fns <- as_function(fns)
   } else {
-    if (is.null(names(funs))) {
+    if (is.null(names(fns))) {
       abort("funs should be a single function, a single formula, or a named list of functions or formulas")
     }
-    funs <- map(funs, as_function)
+    fns <- map(fns, as_function)
   }
 
   f <- function(df) {
@@ -88,10 +88,10 @@ across <- function(select, funs = identity) {
       as_tibble(imap(df, function(.x, .y) {
         old <- poke_current_column(.y)
         on.exit(set_current_column(old))
-        funs(.x)
+        fns(.x)
       }))
     } else {
-      results <- map(funs, function(f) {
+      results <- map(fns, function(f) {
         as_tibble(imap(df, function(.x, .y) {
           old <- poke_current_column(.y)
           on.exit(set_current_column(old))
