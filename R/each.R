@@ -69,8 +69,8 @@ current_column <- function() {
 #' @export
 across <- function(select, funs = identity) {
   mask <- peek_mask()
-  vars <- vars_select(peek_vars(), ...)
-  data <- mask$pick({{vars}})
+  vars <- vars_select(peek_vars(), {{select}})
+  data <- mask$pick(vars)
 
   single_function <- is.function(funs) || is_formula(funs)
 
