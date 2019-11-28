@@ -144,9 +144,21 @@ current_key <- function() {
   peek_mask()$current_key()
 }
 
+poke_current_column <- function(name) {
+  old <- context_env[["..current_column_name"]]
+  context_env[["..current_column_name"]] <- mask
+  old
+}
+
+#' @export
+current_column <- function() {
+  context_env[["..current_column_name"]] %||% abort("No current column name registered, current_column() only makes sense inside across()")
+}
+
 #' @export
 colwise <- function(funs = identity) {
   single_function <- is.function(funs) || is_formula(funs)
+
   if (single_function) {
     funs <- as_function(funs)
   } else {
@@ -158,10 +170,16 @@ colwise <- function(funs = identity) {
 
   function(df) {
     if (single_function) {
-      as_tibble(map(df, funs))
+      as_tibble(imap(df, function(.x, .y) {
+        poke_current_column(.y)
+        funs(.x)
+      }))
     } else {
       results <- map(funs, function(f) {
-        as_tibble(map(df, f))
+        as_tibble(imap(df, function(.x, .y) {
+          poke_current_column(.y)
+          f(.x)
+        }))
       })
       tibble(!!!results)
     }
