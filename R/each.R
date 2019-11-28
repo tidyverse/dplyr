@@ -1,3 +1,7 @@
+#' key data frame for the current group
+#'
+#' @return A data frame, with a single row, and one column per grouping variable
+#'
 #' @export
 current_key <- function() {
   peek_mask()$current_key()
@@ -13,6 +17,7 @@ poke_current_column <- function(name) {
   old
 }
 
+#' @rdname across
 #' @export
 current_column <- function() {
   context_env[["..current_column_name"]] %||% abort("No current column name registered, current_column() only makes sense inside across()")
@@ -23,7 +28,7 @@ current_column <- function() {
 #' Creates a data frame by applying a set of functions to a tidy
 #' selection of columns in the current slice
 #'
-#' @param select tidy selection of columns, forwarded to [pick()]
+#' @param select tidy selection of columns
 #' @param funs Functions to apply to each of the selected columns. Possible
 #'   values are:
 #'
@@ -41,6 +46,8 @@ current_column <- function() {
 #'  as the number of functions, each of these output columns is a pack, i.e.
 #'  a data frame column made from the result of the function applied across the
 #'  selected columns.
+#'
+#'  `current_column()` gives the name of the column currently being processed.
 #'
 #' @examples
 #'
