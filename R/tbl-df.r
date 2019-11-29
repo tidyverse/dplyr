@@ -484,6 +484,10 @@ DataMask <- R6Class("DataMask",
 
     current_key = function() {
       vec_slice(keys, private$current_group)
+    },
+
+    full_data = function() {
+      private$data
     }
 
   ),
