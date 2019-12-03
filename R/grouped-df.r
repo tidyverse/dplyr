@@ -118,6 +118,7 @@ grouped_df <- function(data, vars, drop = FALSE) {
 #' Its last column should be called `.rows` and be
 #' a list of 1 based integer vectors that all are between 1 and the number of rows of `.data`.
 #' @param class additional class, will be prepended to canonical classes of a grouped data frame.
+#' @param check_bounds whether to check all indices for out of bounds problems in grouped_df objects
 #' @param ... additional attributes
 #'
 #' @examples
@@ -152,38 +153,11 @@ new_grouped_df <- function(x, groups, ..., class = character()) {
 #'
 #' @rdname new_grouped_df
 #' @export
-validate_grouped_df <- function(x) {
-  assert_that(is_grouped_df(x))
-
-  groups <- attr(x, "groups")
-
-  vars <- attr(x, "vars")
-  if (!is.null(vars) && is.null(groups)) {
-    abort("Corrupt grouped_df data using the old format", .subclass = "dplyr_grouped_df_corrupt")
+validate_grouped_df <- function(x, check_bounds = FALSE) {
+  result <- .Call(`dplyr_validate_grouped_df`, x, nrow(x), check_bounds)
+  if (!is.null(result)) {
+    abort(result, class = "dplyr_grouped_df_corrupt")
   }
-
-  assert_that(
-    is.data.frame(groups),
-    ncol(groups) > 0,
-    names(groups)[ncol(groups)] == ".rows",
-    is.list(groups[[ncol(groups)]]),
-    msg  = "The `groups` attribute is not a data frame with its last column called `.rows`"
-  )
-
-  n <- nrow(x)
-  rows <- groups[[ncol(groups)]]
-  for (i in seq_along(rows)) {
-    indices <- rows[[i]]
-    assert_that(
-      is.integer(indices),
-      msg = "`.rows` column is not a list of one-based integer vectors"
-    )
-    assert_that(
-      all(indices >= 1 & indices <= n),
-      msg = glue("indices of group {i} are out of bounds")
-    )
-  }
-
   x
 }
 

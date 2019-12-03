@@ -53,19 +53,19 @@ test_that("GroupDataFrame checks the structure of the groups attribute", {
   groups <- attr(df, "groups")
   groups[[2]] <- 1:2
   attr(df, "groups") <- groups
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
 
   df <- group_by(tibble(x = 1:4, g = rep(1:2, each = 2)), g)
   groups <- attr(df, "groups")
   names(groups) <- c("g", "not.rows")
   attr(df, "groups") <- groups
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
 
   attr(df, "groups") <- tibble()
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
 
   attr(df, "groups") <- NA
-  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`")
+  expect_error(group_data(df), "The `groups` attribute is not a data frame with its last column called `.rows`", class = "dplyr_grouped_df_corrupt")
 })
 
 test_that("older style grouped_df is no longer supported", {
