@@ -4,6 +4,7 @@
 ^\.travis\.yml$
 .Rprofile
 inst/db
+inst/bench
 man-roxygen
 demo/pandas
 ^\.httr-oauth$
