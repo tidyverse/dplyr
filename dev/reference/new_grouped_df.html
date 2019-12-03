@@ -202,7 +202,7 @@ to create valid values, and hence this is for expert use only.</p>
 
     <pre class="usage"><span class='fu'>new_grouped_df</span>(<span class='no'>x</span>, <span class='no'>groups</span>, <span class='no'>...</span>, <span class='kw'>class</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>())
 
-<span class='fu'>validate_grouped_df</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>validate_grouped_df</span>(<span class='no'>x</span>, <span class='kw'>check_bounds</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -224,6 +224,10 @@ a list of 1 based integer vectors that all are between 1 and the number of rows 
     <tr>
       <th>class</th>
       <td><p>additional class, will be prepended to canonical classes of a grouped data frame.</p></td>
+    </tr>
+    <tr>
+      <th>check_bounds</th>
+      <td><p>whether to check all indices for out of bounds problems in grouped_df objects</p></td>
     </tr>
     </table>
 
