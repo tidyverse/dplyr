@@ -5,6 +5,7 @@
 
 #include <algorithm>
 #include <vector>
+#include <string>
 
 #include "dplyr/symbols.h"
 
@@ -27,6 +28,8 @@ SEXP get_empty_int_vector() {
 
 SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::levels = Rf_install("levels");
+SEXP symbols::groups = Rf_install("groups");
+SEXP symbols::vars = Rf_install("vars");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
@@ -452,6 +455,97 @@ SEXP dplyr_cummean(SEXP x) {
   return out;
 }
 
+SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds) {
+  if (!Rf_inherits(df, "grouped_df")) {
+    return Rf_mkString("not a `grouped_df` object");
+  }
+
+  SEXP vars = Rf_getAttrib(df, dplyr::symbols::vars);
+  SEXP groups = Rf_getAttrib(df, dplyr::symbols::groups);
+
+  if (!Rf_isNull(vars) && Rf_isNull(groups)) {
+    return Rf_mkString("Corrupt grouped_df data using the old format");
+  }
+
+  if (!Rf_inherits(groups, "data.frame") || XLENGTH(groups) < 1) {
+    return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`");
+  }
+
+  SEXP groups_names = Rf_getAttrib(groups, R_NamesSymbol);
+  if (Rf_isNull(groups_names) || TYPEOF(groups_names) != STRSXP || ::strcmp(CHAR(STRING_ELT(groups_names, XLENGTH(groups_names) - 1)), ".rows")) {
+    return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`");
+  }
+
+  SEXP dot_rows = VECTOR_ELT(groups, XLENGTH(groups) - 1);
+  if (TYPEOF(dot_rows) != VECSXP) {
+    return Rf_mkString("The `groups` attribute is not a data frame with its last column called `.rows`");
+  }
+
+  R_xlen_t nr = XLENGTH(dot_rows);
+  for (R_xlen_t i = 0; i < nr; i++) {
+    SEXP rows_i = VECTOR_ELT(dot_rows, i);
+    if (TYPEOF(rows_i) != INTSXP) {
+      return Rf_mkString("`.rows` column is not a list of one-based integer vectors");
+    }
+  }
+
+  if (LOGICAL(s_check_bounds)[0]) {
+    R_xlen_t nr_df = TYPEOF(s_nr_df) == INTSXP ? (R_xlen_t)(INTEGER(s_nr_df)[0]) : (R_xlen_t)(REAL(s_nr_df)[0]);
+    for (R_xlen_t i = 0; i < nr; i++) {
+      SEXP rows_i = VECTOR_ELT(dot_rows, i);
+      R_xlen_t n_i = XLENGTH(rows_i);
+      int* p_rows_i = INTEGER(rows_i);
+      for (R_xlen_t j = 0; j < n_i; j++, ++p_rows_i) {
+        if (*p_rows_i < 1 || *p_rows_i > nr_df) {
+          return Rf_mkString("out of bounds indices");
+        }
+      }
+    }
+
+  }
+
+  return R_NilValue;
+}
+
+
+// validate_grouped_df <- function(x) {
+//   assert_that(is_grouped_df(x))
+//
+//   groups <- attr(x, "groups")
+//
+//   vars <- attr(x, "vars")
+//   if (!is.null(vars) && is.null(groups)) {
+//     abort("Corrupt grouped_df data using the old format", .subclass = "dplyr_grouped_df_corrupt")
+//   }
+//
+//   assert_that(
+//     is.data.frame(groups),
+//     ncol(groups) > 0,
+//     names(groups)[ncol(groups)] == ".rows",
+//     is.list(groups[[ncol(groups)]]),
+//     msg  = "The `groups` attribute is not a data frame with its last column called `.rows`"
+//   )
+//
+//     n <- nrow(x)
+//     rows <- groups[[ncol(groups)]]
+//   for (i in seq_along(rows)) {
+//     indices <- rows[[i]]
+//     assert_that(
+//       is.integer(indices),
+//       msg = "`.rows` column is not a list of one-based integer vectors"
+//     )
+//     assert_that(
+//       all(indices >= 1 & indices <= n),
+//       msg = glue("indices of group {i} are out of bounds")
+//     )
+//   }
+//
+//   x
+// }
+
+
+
+
 static const R_CallMethodDef CallEntries[] = {
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_filter_update_rows", (DL_FUNC)& dplyr_filter_update_rows, 4},
@@ -459,6 +553,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cumall", (DL_FUNC)& dplyr_cumall, 1},
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
+  {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
   {NULL, NULL, 0}
 };
 
