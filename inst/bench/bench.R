@@ -44,7 +44,7 @@ summarise_hybrid <- benchs(
   libs = libs,
 
   setup = {
-    df <- tibble(x = rnorm(1e4), g = sample(rep(1:1e2, 100))) %>% group_by(g)
+    df <- tibble(x = rnorm(1e5), g = sample(rep(1:1e3, 100))) %>% group_by(g)
   },
 
   summarise(df, n = n()),

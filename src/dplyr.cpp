@@ -20,6 +20,15 @@ SEXP get_classes_vctrs_list_of() {
   return klasses;
 }
 
+SEXP get_classes_tbl_df() {
+  SEXP klasses = Rf_allocVector(STRSXP, 3);
+  R_PreserveObject(klasses);
+  SET_STRING_ELT(klasses, 0, Rf_mkChar("tbl_df"));
+  SET_STRING_ELT(klasses, 1, Rf_mkChar("tbl"));
+  SET_STRING_ELT(klasses, 2, Rf_mkChar("data.frame"));
+  return klasses;
+}
+
 SEXP get_empty_int_vector() {
   SEXP x = Rf_allocVector(INTSXP, 0);
   R_PreserveObject(x);
@@ -32,6 +41,7 @@ SEXP symbols::groups = Rf_install("groups");
 SEXP symbols::vars = Rf_install("vars");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
+SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
 
 }
@@ -507,44 +517,42 @@ SEXP dplyr_validate_grouped_df(SEXP df, SEXP s_nr_df, SEXP s_check_bounds) {
   return R_NilValue;
 }
 
+SEXP dplyr_group_keys_impl(SEXP data) {
+  SEXP keys;
+  SEXP keys_names;
+  SEXP groups = Rf_getAttrib(data, dplyr::symbols::groups);
 
-// validate_grouped_df <- function(x) {
-//   assert_that(is_grouped_df(x))
-//
-//   groups <- attr(x, "groups")
-//
-//   vars <- attr(x, "vars")
-//   if (!is.null(vars) && is.null(groups)) {
-//     abort("Corrupt grouped_df data using the old format", .subclass = "dplyr_grouped_df_corrupt")
-//   }
-//
-//   assert_that(
-//     is.data.frame(groups),
-//     ncol(groups) > 0,
-//     names(groups)[ncol(groups)] == ".rows",
-//     is.list(groups[[ncol(groups)]]),
-//     msg  = "The `groups` attribute is not a data frame with its last column called `.rows`"
-//   )
-//
-//     n <- nrow(x)
-//     rows <- groups[[ncol(groups)]]
-//   for (i in seq_along(rows)) {
-//     indices <- rows[[i]]
-//     assert_that(
-//       is.integer(indices),
-//       msg = "`.rows` column is not a list of one-based integer vectors"
-//     )
-//     assert_that(
-//       all(indices >= 1 & indices <= n),
-//       msg = glue("indices of group {i} are out of bounds")
-//     )
-//   }
-//
-//   x
-// }
+  R_xlen_t nr;
 
+  if (Rf_isNull(groups)) {
+    nr = 1;
+    keys_names = PROTECT(Rf_allocVector(STRSXP, 0));
+    keys = PROTECT(Rf_allocVector(VECSXP, 0));
+  } else {
+    R_xlen_t nc = XLENGTH(groups) - 1;
+    nr = XLENGTH(VECTOR_ELT(groups, nc));
 
+    SEXP groups_names = Rf_getAttrib(groups, R_NamesSymbol);
 
+    keys = PROTECT(Rf_allocVector(VECSXP, nc));
+    keys_names = PROTECT(Rf_allocVector(STRSXP, nc));
+    for (R_xlen_t i = 0; i < nc; i++) {
+      SET_VECTOR_ELT(keys, i, VECTOR_ELT(groups, i));
+      SET_STRING_ELT(keys_names, i, STRING_ELT(groups_names, i));
+    }
+  }
+
+  SEXP rn = PROTECT(Rf_allocVector(INTSXP, 2));
+  INTEGER(rn)[0] = NA_INTEGER;
+  INTEGER(rn)[1] = -nr;
+  Rf_setAttrib(keys, R_RowNamesSymbol, rn);
+
+  Rf_setAttrib(keys, R_NamesSymbol, keys_names);
+  Rf_setAttrib(keys, R_ClassSymbol, dplyr::vectors::classes_tbl_df);
+
+  UNPROTECT(3);
+  return keys;
+}
 
 static const R_CallMethodDef CallEntries[] = {
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
@@ -554,6 +562,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cumany", (DL_FUNC)& dplyr_cumany, 1},
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
+  {"dplyr_group_keys_impl", (DL_FUNC)& dplyr_group_keys_impl, 1},
   {NULL, NULL, 0}
 };
 
