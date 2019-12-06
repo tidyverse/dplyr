@@ -469,6 +469,53 @@ SEXP dplyr_vec_sizes(SEXP chunks) {
   return res;
 }
 
+SEXP dplyr_validate_summarise_sizes(SEXP size, SEXP chunks) {
+  R_xlen_t nchunks = XLENGTH(chunks);
+
+  if (XLENGTH(size) == 1 && INTEGER(size)[0] == 1) {
+    // we might not have to allocate the vector of sizes if
+    // all the chunks are of size 1
+
+    R_xlen_t i = 0;
+    for (; i < nchunks; i++) {
+      if (vctrs::short_vec_size(VECTOR_ELT(chunks, i)) != 1) {
+        break;
+      }
+    }
+
+    if (i == nchunks) {
+      // we can just return the input size
+      return size;
+    }
+
+    // we need to return a vector to track the new sizes
+    size = PROTECT(Rf_allocVector(INTSXP, nchunks));
+    int* p_size = INTEGER(size);
+
+    // until i, all sizes are 1
+    for (R_xlen_t j = 0; j < i; j++, ++p_size) {
+      *p_size = 1;
+    }
+
+    // then finish with i
+    for (; i < nchunks; i++, ++p_size) {
+      *p_size = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
+    }
+    UNPROTECT(1);
+    return size;
+  } else {
+    // size is already a vector, we need to check if the sizes of chunks
+    // matches
+    int* p_size;
+    for (R_xlen_t i = 0; i < nchunks; i++, ++p_size) {
+      if (*p_size != vctrs::short_vec_size(VECTOR_ELT(chunks, i))) {
+        Rf_error("Result does not respect vec_size() == .size");
+      }
+    }
+    return size;
+  }
+}
+
 // ------- funs
 
 SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
@@ -692,6 +739,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval", (DL_FUNC)& dplyr_mask_eval, 4},
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 5},
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
+  {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},
 
   {NULL, NULL, 0}
 };
