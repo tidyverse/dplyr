@@ -75,6 +75,36 @@ inline SEXP eval_tidy(SEXP expr, SEXP data, SEXP env) {
 
 }
 
+namespace vctrs {
+
+// *INDENT-OFF*
+struct vctrs_api_ptrs_t {
+  SEXP (*vctrs_is_vector)(SEXP x);
+  R_len_t (*short_vec_size)(SEXP x);
+
+  vctrs_api_ptrs_t() {
+    vctrs_is_vector =         (SEXP (*)(SEXP)) R_GetCCallable("vctrs", "vctrs_is_vector");
+    short_vec_size  =         (R_len_t (*)(SEXP)) R_GetCCallable("vctrs", "short_vec_size");
+  }
+};
+// *INDENT-ON*
+
+const vctrs_api_ptrs_t& vctrs_api() {
+  static vctrs_api_ptrs_t ptrs;
+  return ptrs;
+}
+
+inline bool vec_is_vector(SEXP x) {
+  return LOGICAL(vctrs_api().vctrs_is_vector(x))[0];
+}
+
+inline R_len_t short_vec_size(SEXP x) {
+  return vctrs_api().short_vec_size(x);
+}
+
+}
+
+
 // support for expand_groups()
 class ExpanderCollecter;
 
@@ -389,6 +419,56 @@ SEXP dplyr_mask_eval(SEXP quo, SEXP group, SEXP env_private, SEXP env_context) {
   return result;
 }
 
+SEXP dplyr_mask_eval_all(SEXP quo, SEXP env_private, SEXP env_context, SEXP dots_names, SEXP sexp_i) {
+  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
+  R_xlen_t ngroups = XLENGTH(rows);
+
+  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
+
+  SEXP chunks = PROTECT(Rf_allocVector(VECSXP, ngroups));
+  for (R_xlen_t i = 0; i < ngroups; i++) {
+    SEXP rows_i = VECTOR_ELT(rows, i);
+    R_xlen_t n_i = XLENGTH(rows_i);
+    SEXP current_group = PROTECT(Rf_ScalarInteger(i + 1));
+    Rf_defineVar(dplyr::symbols::current_group, current_group, env_private);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n_i), env_context);
+    Rf_defineVar(dplyr::symbols::dot_dot_group_number, current_group, env_context);
+
+    SEXP result_i = PROTECT(rlang::eval_tidy(quo, mask, caller));
+    if (!vctrs::vec_is_vector(result_i)) {
+      if (!Rf_isNull(dots_names)) {
+        SEXP name = STRING_ELT(dots_names, i);
+        if (XLENGTH(name) > 0) {
+          Rf_error("Unsupported type for result `%s`", CHAR(name));
+        }
+      }
+      int i = INTEGER(sexp_i)[0];
+      Rf_error("Unsupported type at index %d", i);
+    }
+
+    SET_VECTOR_ELT(chunks, i, result_i);
+
+    UNPROTECT(2);
+  }
+
+  UNPROTECT(4);
+  return chunks;
+}
+
+SEXP dplyr_vec_sizes(SEXP chunks) {
+  R_xlen_t n = XLENGTH(chunks);
+  SEXP res = PROTECT(Rf_allocVector(INTSXP, n));
+  int* p_res = INTEGER(res);
+
+  for (R_xlen_t i = 0; i < n; i++, ++p_res) {
+    *p_res = vctrs::short_vec_size(VECTOR_ELT(chunks, i));
+  }
+
+  UNPROTECT(1);
+  return res;
+}
+
 // ------- funs
 
 SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
@@ -610,6 +690,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
   {"dplyr_group_keys_impl", (DL_FUNC)& dplyr_group_keys_impl, 1},
   {"dplyr_mask_eval", (DL_FUNC)& dplyr_mask_eval, 4},
+  {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 5},
+  {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
 
   {NULL, NULL, 0}
 };

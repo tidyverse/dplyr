@@ -465,6 +465,10 @@ DataMask <- R6Class("DataMask",
       .Call(`dplyr_mask_eval`, quo, group, private, context_env)
     },
 
+    eval_all = function(quo, dots_names, i) {
+      .Call(`dplyr_mask_eval_all`, quo, private, context_env, dots_names, i)
+    },
+
     finalize = function() {
       context_env[["..group_size"]] <- private$old_group_size
       context_env[["..group_number"]] <- private$old_group_number
@@ -509,21 +513,24 @@ summarise.tbl_df <- function(.data, ...) {
     #
     # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
-    mask_eval <- mask$eval
-    chunks <- map(seq_along(rows), function(group) {
-      res <- mask_eval(quo, group)
-      if (!vec_is(res)) {
-        if (is.null(dots_names) || dots_names[i] == "") {
-          abort(glue("Unsupported type at index {i}"))
-        } else {
-          abort(glue("Unsupported type for result `{dots_names[i]}`"))
-        }
-      }
-      res
-    })
+    # mask_eval <- mask$eval
+    # chunks <- map(seq_along(rows), function(group) {
+    #   res <- mask_eval(quo, group)
+    #   if (!vec_is(res)) {
+    #     if (is.null(dots_names) || dots_names[i] == "") {
+    #       abort(glue("Unsupported type at index {i}"))
+    #     } else {
+    #       abort(glue("Unsupported type for result `{dots_names[i]}`"))
+    #     }
+    #   }
+    #   res
+    # })
+
+    chunks <- mask$eval_all(quo, dots_names, i)
 
     if (identical(.size, 1L)) {
-      sizes <- map_int(chunks, vec_size)
+      # sizes <- map_int(chunks, vec_size)
+      sizes <- .Call(`dplyr_vec_sizes`, chunks)
       if (any(sizes != 1L)) {
         .size <- sizes
       }
