@@ -3,23 +3,23 @@ library(rlang)
 library(purrr)
 library(tibble)
 
-if (!dir.exists("bench-libs")) dir.create("bench-libs")
+if (!dir.exists("../bench-libs")) dir.create("../bench-libs")
 
-if (!dir.exists("bench-libs/0.8.3")) {
-  dir.create("bench-libs/0.8.3")
-  pak::pkg_install("dplyr", lib = "bench-libs/0.8.3", ask = FALSE)
+if (!dir.exists("../bench-libs/0.8.3")) {
+  dir.create("../bench-libs/0.8.3")
+  pak::pkg_install("dplyr", lib = "../bench-libs/0.8.3", ask = FALSE)
 }
 
-if (!dir.exists("bench-libs/master")) {
-  dir.create("bench-libs/master")
-  remotes::install_github("r-lib/vctrs", lib = "bench-libs/master", force = TRUE)
-  remotes::install_github("r-lib/pillar", lib = "bench-libs/master", force = TRUE)
-  remotes::install_github("tidyverse/tibble", lib = "bench-libs/master", force = TRUE)
-  remotes::install_github("tidyverse/dplyr", lib = "bench-libs/master", force = TRUE)
-  pak::pkg_install("tidyverse/dplyr", lib = "bench-libs/master", ask = FALSE)
+if (!dir.exists("../bench-libs/master")) {
+  dir.create("../bench-libs/master")
+  remotes::install_github("r-lib/vctrs", lib = "../bench-libs/master", force = TRUE)
+  remotes::install_github("r-lib/pillar", lib = "../bench-libs/master", force = TRUE)
+  remotes::install_github("tidyverse/tibble", lib = "../bench-libs/master", force = TRUE)
+  remotes::install_github("tidyverse/dplyr", lib = "../bench-libs/master", force = TRUE)
+  pak::pkg_install("tidyverse/dplyr", lib = "../bench-libs/master", ask = FALSE)
 }
 
-libs <- list.files("bench-libs", full.names = TRUE)
+libs <- list.files("../bench-libs", full.names = TRUE)
 names(libs) <- basename(libs)
 
 benchs <- function(libs, setup, ..., iterations = NULL){

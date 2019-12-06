@@ -39,10 +39,39 @@ SEXP symbols::ptype = Rf_install("ptype");
 SEXP symbols::levels = Rf_install("levels");
 SEXP symbols::groups = Rf_install("groups");
 SEXP symbols::vars = Rf_install("vars");
+SEXP symbols::current_group = Rf_install("current_group");
+SEXP symbols::rows = Rf_install("rows");
+SEXP symbols::dot_dot_group_size = Rf_install("..group_size");
+SEXP symbols::dot_dot_group_number = Rf_install("..group_number");
+SEXP symbols::mask = Rf_install("mask");
+SEXP symbols::caller = Rf_install("caller");
 
 SEXP vectors::classes_vctrs_list_of = get_classes_vctrs_list_of();
 SEXP vectors::classes_tbl_df = get_classes_tbl_df();
 SEXP vectors::empty_int_vector = get_empty_int_vector();
+
+} // dplyr
+
+namespace rlang {
+
+// *INDENT-OFF*
+struct rlang_api_ptrs_t {
+  SEXP (*eval_tidy)(SEXP expr, SEXP data, SEXP env);
+
+  rlang_api_ptrs_t() {
+    eval_tidy =         (SEXP (*)(SEXP, SEXP, SEXP)) R_GetCCallable("rlang", "rlang_eval_tidy");
+  }
+};
+// *INDENT-ON*
+
+const rlang_api_ptrs_t& rlang_api() {
+  static rlang_api_ptrs_t ptrs;
+  return ptrs;
+}
+
+inline SEXP eval_tidy(SEXP expr, SEXP data, SEXP env) {
+  return rlang_api().eval_tidy(expr, data, env);
+}
 
 }
 
@@ -343,6 +372,23 @@ SEXP dplyr_filter_update_rows(SEXP s_n_rows, SEXP group_indices, SEXP keep, SEXP
   return new_rows;
 }
 
+SEXP dplyr_mask_eval(SEXP quo, SEXP group, SEXP env_private, SEXP env_context) {
+  SEXP rows = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::rows));
+  SEXP current_rows = VECTOR_ELT(rows, INTEGER(group)[0] - 1);
+
+  R_xlen_t n = XLENGTH(current_rows);
+  Rf_defineVar(dplyr::symbols::current_group, group, env_private);
+  Rf_defineVar(dplyr::symbols::dot_dot_group_size, Rf_ScalarInteger(n), env_context);
+  Rf_defineVar(dplyr::symbols::dot_dot_group_number, group, env_context);
+
+  SEXP mask = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::mask));
+  SEXP caller = PROTECT(Rf_findVarInFrame(env_private, dplyr::symbols::caller));
+  SEXP result = PROTECT(rlang::eval_tidy(quo, mask, caller));
+
+  UNPROTECT(4);
+  return result;
+}
+
 // ------- funs
 
 SEXP dplyr_between(SEXP x, SEXP s_left, SEXP s_right) {
@@ -563,6 +609,8 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_cummean", (DL_FUNC)& dplyr_cummean, 1},
   {"dplyr_validate_grouped_df", (DL_FUNC)& dplyr_validate_grouped_df, 3},
   {"dplyr_group_keys_impl", (DL_FUNC)& dplyr_group_keys_impl, 1},
+  {"dplyr_mask_eval", (DL_FUNC)& dplyr_mask_eval, 4},
+
   {NULL, NULL, 0}
 };
 

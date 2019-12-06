@@ -396,10 +396,12 @@ mutate_.tbl_df <- function(.data, ..., .dots = list()) {
 
 validate_summarise_sizes <- function(x, .size) {
   # https://github.com/r-lib/vctrs/pull/539
-  sizes <- map_int(x, vec_size)
-  if (any(sizes != .size)) {
-    abort("Result does not respect vec_size() == .size")
-  }
+
+  walk2(x, .size, function(.x, .y) {
+    if (vec_size(.x) != .y) {
+      abort("Result does not respect vec_size() == .size")
+    }
+  })
 }
 
 DataMask <- R6Class("DataMask",
@@ -460,15 +462,7 @@ DataMask <- R6Class("DataMask",
     },
 
     eval = function(quo, group) {
-      private$current_group <- group
-      current_rows <- private$rows[[group]]
-      n <- length(current_rows)
-
-      # n() and row_number() need these
-      context_env[["..group_size"]] <- n
-      context_env[["..group_number"]] <- group
-
-      eval_tidy(quo, private$mask, env = private$caller)
+      .Call(`dplyr_mask_eval`, quo, group, private, context_env)
     },
 
     finalize = function() {
@@ -516,17 +510,16 @@ summarise.tbl_df <- function(.data, ...) {
     # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
     chunks <- map(seq_along(rows), function(group) {
-      mask$eval(quo, group)
-    })
-
-    ok <- all(map_lgl(chunks, vec_is))
-    if (!ok) {
-      if (is.null(dots_names) || dots_names[i] == "") {
-        abort(glue("Unsupported type at index {i}"))
-      } else {
-        abort(glue("Unsupported type for result `{dots_names[i]}`"))
+      res <- mask$eval(quo, group)
+      if (!vec_is(res)) {
+        if (is.null(dots_names) || dots_names[i] == "") {
+          abort(glue("Unsupported type at index {i}"))
+        } else {
+          abort(glue("Unsupported type for result `{dots_names[i]}`"))
+        }
       }
-    }
+      res
+    })
 
     if (identical(.size, 1L)) {
       sizes <- map_int(chunks, vec_size)

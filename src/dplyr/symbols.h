@@ -8,6 +8,12 @@ struct symbols {
   static SEXP levels;
   static SEXP ptype;
   static SEXP vars;
+  static SEXP current_group;
+  static SEXP rows;
+  static SEXP dot_dot_group_size;
+  static SEXP dot_dot_group_number;
+  static SEXP mask;
+  static SEXP caller;
 };
 
 struct vectors {
