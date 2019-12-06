@@ -509,8 +509,9 @@ summarise.tbl_df <- function(.data, ...) {
     #
     # TODO: reinject hybrid evaluation at the R level
     quo <- dots[[i]]
+    mask_eval <- mask$eval
     chunks <- map(seq_along(rows), function(group) {
-      res <- mask$eval(quo, group)
+      res <- mask_eval(quo, group)
       if (!vec_is(res)) {
         if (is.null(dots_names) || dots_names[i] == "") {
           abort(glue("Unsupported type at index {i}"))
