@@ -412,7 +412,8 @@ DataMask <- R6Class("DataMask",
       if (inherits(data, "rowwise_df")) {
         # approximation for now, until perhaps vec_get() or something similar
         # https://github.com/r-lib/vctrs/issues/141
-        map2(data, names(data), function(col, nm) {
+        map2(names(data), seq_along(data), function(nm, index) {
+          col <- .subset2(data, index)
           if (is_list(col) && !is.data.frame(col)) {
             env_bind_lazy(chunks_env, !!nm := map(rows, function(row) vec_slice(col, row)[[1L]]))
           } else {
@@ -420,7 +421,8 @@ DataMask <- R6Class("DataMask",
           }
         })
       } else {
-        map2(data, names(data), function(col, nm) {
+        map2(names(data), seq_along(data), function(nm, index) {
+          col <- .subset2(data, index)
           env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
         })
       }
@@ -430,7 +432,7 @@ DataMask <- R6Class("DataMask",
 
       env_bind_active(private$bindings, !!!map(column_names, function(column) {
         function() {
-          chunks_env[[column]][[private$current_group]]
+          .subset2(chunks_env[[column]], private$current_group)
         }
       }))
       private$mask <- new_data_mask(private$bindings)
