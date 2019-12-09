@@ -403,49 +403,40 @@ DataMask <- R6Class("DataMask",
 
       private$data <- data
       private$caller <- caller
+      private$bindings <- env()
 
-      # chunks_env has promises for all columns of data
-      # the promise resolves to a list of slices (one item per group)
-      # for a column
-      chunks_env <- env()
-
-      if (inherits(data, "rowwise_df")) {
-        # approximation for now, until perhaps vec_get() or something similar
-        # https://github.com/r-lib/vctrs/issues/141
-        map2(names(data), seq_along(data), function(nm, index) {
+      # A function that returns all the chunks for a column
+      resolve_chunks <- if (inherits(data, "rowwise_df")) {
+        function(index) {
           col <- .subset2(data, index)
           if (is_list(col) && !is.data.frame(col)) {
-            env_bind_lazy(chunks_env, !!nm := map(rows, function(row) vec_slice(col, row)[[1L]]))
+            map(rows, function(row) vec_slice(col, row)[[1L]])
           } else {
-            env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
+            map(rows, vec_slice, x = col)
           }
-        })
+        }
       } else {
-        map2(names(data), seq_along(data), function(nm, index) {
-          col <- .subset2(data, index)
-          env_bind_lazy(chunks_env, !!nm := map(rows, vec_slice, x = col))
-        })
+        function(index) map(rows, vec_slice, x = .subset2(data, index))
       }
 
-      private$bindings <- env()
-      column_names <- set_names(names(data))
+      binding_fn <- function(index, chunks = resolve_chunks(index)){
+        # chunks is a promise of the list of all chunks for the column
+        # at this index, so resolve_chunks() is only called when
+        # the active binding is touched
+        function() .subset2(chunks, private$current_group)
+      }
+      env_bind_active(private$bindings, !!!set_names(map(seq_len(ncol(data)), binding_fn), names(data)))
 
-      env_bind_active(private$bindings, !!!map(column_names, function(column) {
-        function() {
-          .subset2(chunks_env[[column]], private$current_group)
-        }
-      }))
       private$mask <- new_data_mask(private$bindings)
       private$mask$.data <- as_data_pronoun(private$mask)
     },
 
     add = function(name, chunks) {
-      force(chunks)
       if (name %in% group_vars(private$data)) {
         abort(glue("Column `{name}` can't be modified because it's a grouping variable"))
       }
       env_bind_active(private$bindings, !!name := function() {
-        chunks[[private$current_group]]
+        .subset2(chunks, private$current_group)
       })
     },
 
