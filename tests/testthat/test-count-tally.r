@@ -134,6 +134,12 @@ test_that("returns error if user-defined name equals a grouped variable", {
   expect_error(df %>% group_by(g) %>% tally(name = name))
 })
 
+test_that("tally uses variable named n as default wt.", {
+  df <- tibble(n = 1:3)
+  expect_message(res <- df %>%  tally(), "Using `n` as weighting variable")
+  expect_equal(res$n, sum(1:3))
+})
+
 
 # add_tally ---------------------------------------------------------------
 
