@@ -241,6 +241,7 @@ group_vars.default <- function(x) {
 #'   group_by(Species, .drop = FALSE) %>%
 #'   group_by_drop_default()
 #'
+#' @keywords internal
 #' @export
 group_by_drop_default <- function(.tbl) {
   UseMethod("group_by_drop_default")
