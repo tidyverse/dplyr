@@ -50,7 +50,8 @@
 <meta property="og:title" content="Select top (or bottom) n rows (by value) — top_n" />
 <meta property="og:description" content="This is a convenient wrapper that uses filter() and
 min_rank() to select the top or bottom entries in each group,
-ordered by wt." />
+with respect to wt. Note, the resulting data frame will not be
+ordered or sorted." />
 <meta property="og:image" content="https://dplyr.tidyverse.org/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -195,7 +196,8 @@ ordered by wt." />
     <div class="ref-description">
     <p>This is a convenient wrapper that uses <code><a href='filter.html'>filter()</a></code> and
 <code><a href='ranking.html'>min_rank()</a></code> to select the top or bottom entries in each group,
-ordered by <code>wt</code>.</p>
+with respect to <code>wt</code>. Note, the resulting data frame will not be
+ordered or sorted.</p>
     </div>
 
     <pre class="usage"><span class='fu'>top_n</span>(<span class='no'>x</span>, <span class='no'>n</span>, <span class='no'>wt</span>)
@@ -233,18 +235,18 @@ specified, defaults to the last variable in the tbl.</p></td>
 frame. It supports <a href='https://rlang.r-lib.org/reference/nse-force.html'>unquoting</a>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>6</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
+    <pre class="examples"><div class='input'><span class='no'>df</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>6</span>, <span class='fl'>4</span>, <span class='fl'>1</span>, <span class='fl'>10</span>, <span class='fl'>3</span>, <span class='fl'>1</span>, <span class='fl'>1</span>))
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fl'>2</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
-#&gt; 1 10
-#&gt; 2  6</div><div class='input'>
+#&gt; 1  6
+#&gt; 2 10</div><div class='input'>
 <span class='co'># half the rows</span>
 <span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_n</span>(<span class='fu'><a href='n.html'>n</a></span>() * <span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
-#&gt; 1 10
+#&gt; 1  6
 #&gt; 2  4
-#&gt; 3  6</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_frac</span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
-#&gt; 1 10
+#&gt; 3 10</div><div class='input'><span class='no'>df</span> <span class='kw'>%&gt;%</span> <span class='fu'>top_frac</span>(<span class='fl'>.5</span>)</div><div class='output co'>#&gt; <span class='message'>Selecting by x</span></div><div class='output co'>#&gt;    x
+#&gt; 1  6
 #&gt; 2  4
-#&gt; 3  6</div><div class='input'>
+#&gt; 3 10</div><div class='input'>
 <span class='co'># Negative values select bottom from group. Note that we get more</span>
 <span class='co'># than 2 values here because there's a tie: top_n() either takes</span>
 <span class='co'># all rows with a value, or none.</span>
