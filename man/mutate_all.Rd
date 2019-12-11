@@ -89,7 +89,7 @@ input variables and the names of the functions.
 \item if there is only one unnamed function (i.e. if \code{.funs} is an unnamed list
 of length one),
 the names of the input variables are used to name the new columns;
-\item for \code{_at} functions, if there is only one unnamed variable (i.e.,
+\item for \verb{_at} functions, if there is only one unnamed variable (i.e.,
 if \code{.vars} is of the form \code{vars(a_single_column)}) and \code{.funs} has length
 greater than one,
 the names of the functions are used to name the new columns;
