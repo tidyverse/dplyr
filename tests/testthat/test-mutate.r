@@ -280,6 +280,7 @@ test_that("mutate keeps names (#1689, #2675)", {
 })
 
 test_that("mutate does not strip names of list-columns (#2675)", {
+  skip("until https://github.com/tidyverse/tibble/pull/627")
   vec <- list(a = 1, b = 2)
   data <- tibble(x = vec)
   data <- mutate(data, x)
@@ -405,6 +406,7 @@ test_that("mutate works on zero-row rowwise data frame (#4224)", {
 })
 
 test_that("Non-ascii column names in version 0.3 are not duplicated (#636)", {
+  skip("encoding issues")
   scoped_lifecycle_silence()
   df <- tibble(a = "1", b = "2")
   names(df) <- c("a", enc2native("\u4e2d"))
@@ -897,3 +899,38 @@ test_that("mutate() evaluates expression for empty groups", {
   expect_equal(count, 6L)
   expect_is(res$x, "numeric")
 })
+
+test_that("mutate() unpacks unnamed tibble results (#2326, #3630)", {
+  expect_equal(
+    iris %>% group_by(Species) %>% mutate(
+      tibble(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+    ),
+    iris %>% group_by(Species) %>% mutate(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+  )
+
+  expect_equal(
+    iris %>% group_by(Species) %>% mutate(
+      tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    ),
+    iris %>% group_by(Species) %>% mutate(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+  )
+})
+
+test_that("mutate() packs named tibble results (#2326, #3630)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      out = tibble(Sepal = Sepal.Length * Petal.Length, Petal = Petal.Length * Petal.Width)
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), nrow(iris))
+
+  res <- iris %>%
+    group_by(Species) %>%
+    mutate(
+      out = tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), nrow(iris))
+})
+

@@ -387,3 +387,29 @@ test_that("filter() with two conditions does not freeze (#4049)", {
     iris %>% filter(Sepal.Length > 7 & Petal.Length < 6)
   )
 })
+
+test_that("filter() handles matrix and data frame columns (#3630)", {
+  df <- tibble(
+    x = 1:2,
+    y = matrix(1:4, ncol = 2),
+    z = data.frame(A = 1:2, B = 3:4)
+  )
+  expect_equal(filter(df, x == 1), df[1, ])
+  expect_equal(filter(df, y[,1] == 1), df[1, ])
+  expect_equal(filter(df, z$A == 1), df[1, ])
+
+  gdf <- group_by(df, x)
+  expect_equal(filter(gdf, x == 1), gdf[1, ])
+  expect_equal(filter(gdf, y[,1] == 1), gdf[1, ])
+  expect_equal(filter(gdf, z$A == 1), gdf[1, ])
+
+  gdf <- group_by(df, y)
+  expect_equal(filter(gdf, x == 1), gdf[1, ])
+  expect_equal(filter(gdf, y[,1] == 1), gdf[1, ])
+  expect_equal(filter(gdf, z$A == 1), gdf[1, ])
+
+  gdf <- group_by(df, z)
+  expect_equal(filter(gdf, x == 1), gdf[1, ])
+  expect_equal(filter(gdf, y[,1] == 1), gdf[1, ])
+  expect_equal(filter(gdf, z$A == 1), gdf[1, ])
+})

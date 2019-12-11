@@ -28,7 +28,8 @@ specified, defaults to the last variable in the tbl.}
 \description{
 This is a convenient wrapper that uses \code{\link[=filter]{filter()}} and
 \code{\link[=min_rank]{min_rank()}} to select the top or bottom entries in each group,
-ordered by \code{wt}.
+with respect to \code{wt}. Note, the resulting data frame will not be
+ordered or sorted.
 }
 \details{
 Both \code{n} and \code{wt} are automatically \link[rlang:enquo]{quoted} and later
@@ -36,7 +37,7 @@ Both \code{n} and \code{wt} are automatically \link[rlang:enquo]{quoted} and lat
 frame. It supports \link[rlang:quasiquotation]{unquoting}.
 }
 \examples{
-df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
+df <- data.frame(x = c(6, 4, 1, 10, 3, 1, 1))
 df \%>\% top_n(2)
 
 # half the rows

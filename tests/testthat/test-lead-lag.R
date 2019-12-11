@@ -78,3 +78,14 @@ test_that("input checks", {
     fixed = TRUE
   )
 })
+
+test_that("lead() and lag() respect bit64::integer64 (#4558)", {
+  data <- c(1, 2, 3)
+  x <- bit64::as.integer64(data)
+  expect_equal(lead(x), bit64::as.integer64(lead(data)))
+  expect_equal(lag(x) , bit64::as.integer64(lag(data)))
+
+  y <- 3:1
+  expect_equal(lead(x, order_by = y), bit64::as.integer64(lead(data, order_by = y)))
+  expect_equal(lag(x, order_by = y) , bit64::as.integer64(lag(data, order_by = y)))
+})

@@ -176,3 +176,29 @@ test_that("slice does not evaluate the expression in empty groups (#1438)", {
   )
   expect_equal(nrow(res), 3L)
 })
+
+test_that("slice() handles matrix and data frame columns (#3630)", {
+  df <- tibble(
+    x = 1:2,
+    y = matrix(1:4, ncol = 2),
+    z = data.frame(A = 1:2, B = 3:4)
+  )
+  expect_equal(slice(df, 1), df[1, ])
+  expect_equal(slice(df, 1), df[1, ])
+  expect_equal(slice(df, 1), df[1, ])
+
+  gdf <- group_by(df, x)
+  expect_equal(slice(gdf, 1), gdf)
+  expect_equal(slice(gdf, 1), gdf)
+  expect_equal(slice(gdf, 1), gdf)
+
+  gdf <- group_by(df, y)
+  expect_equal(slice(gdf, 1), gdf)
+  expect_equal(slice(gdf, 1), gdf)
+  expect_equal(slice(gdf, 1), gdf)
+
+  gdf <- group_by(df, z)
+  expect_equal(slice(gdf, 1), gdf)
+  expect_equal(slice(gdf, 1), gdf)
+  expect_equal(slice(gdf, 1), gdf)
+})

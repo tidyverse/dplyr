@@ -85,7 +85,7 @@ group_split.data.frame <- function(.tbl, ..., keep = TRUE) {
   if (dots_n(...)) {
     group_split(group_by(.tbl, ...), keep = keep)
   } else {
-    structure(list(.tbl), ptype = .tbl[0L, ])
+    new_list_of(list(.tbl), ptype = .tbl[0L, ])
   }
 }
 
@@ -97,7 +97,7 @@ group_split.rowwise_df <- function(.tbl, ..., keep = TRUE) {
   if (!missing(keep)) {
     warn("keep is ignored in group_split(<rowwise_df>)")
   }
-  structure(
+  new_list_of(
     map(seq_len(nrow(.tbl)), vec_slice, x = .tbl),
     ptype = vec_slice(.tbl, 0L)
   )
@@ -114,7 +114,7 @@ group_split.grouped_df <- function(.tbl, ..., keep = TRUE) {
     data <- data[, setdiff(names(data), group_vars(.tbl))]
   }
 
-  structure(
+  new_list_of(
     map(group_rows(.tbl), vec_slice, x = data),
     ptype = vec_slice(data, 0L)
   )

@@ -192,3 +192,7 @@ test_that("ignore column order", {
   )
 })
 
+test_that("all.equal() works on nameless tibbles (#4552)", {
+  ir <- set_names(iris, NULL)
+  expect_true(all.equal(ir, ir))
+})

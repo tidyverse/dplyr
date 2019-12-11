@@ -50,6 +50,7 @@ tidyselect::last_col
 #'   rename a variable that doesn't exist.
 #' @param var A variable specified as in the same argument of
 #'   [tidyselect::vars_pull()].
+#' @keywords internal
 #' @export
 select_vars <- function(vars = chr(), ..., include = chr(), exclude = chr()) {
   warn_deprecated(paste_line(

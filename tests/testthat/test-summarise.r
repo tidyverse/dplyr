@@ -206,7 +206,7 @@ test_that("summarise propagate attributes (#194)", {
 })
 
 test_that("summarise allows names (#2675)", {
-  data <- tibble(a = 1:3) %>% summarise(b = setNames(nm = a[[1]]))
+  data <- tibble(a = 1:3) %>% summarise(b = c("1" = a[[1]]))
   expect_equal(names(data$b), "1")
 
   data <- tibble(a = 1:3) %>% rowwise() %>% summarise(b = setNames(nm = a))
@@ -750,6 +750,7 @@ test_that("data.frame columns are supported in summarise (#1425)", {
 })
 
 test_that("summarise handles min/max of already summarised variable (#1622)", {
+  skip("until https://github.com/r-lib/vctrs/issues/540")
   df <- data.frame(
     FIRST_DAY = rep(seq(as.POSIXct("2015-12-01", tz = "UTC"), length.out = 2, by = "days"), 2),
     event = c("a", "a", "b", "b")
@@ -1054,6 +1055,7 @@ test_that("summarise correctly reconstruct group rows", {
 })
 
 test_that("summarise can handle POSIXlt columns (#3854)", {
+  skip("until https://github.com/tidyverse/tibble/pull/626")
   df <- data.frame(g=c(1,1,3))
   df$created <- strptime(c("2014/1/1", "2014/1/2", "2014/1/2"), format = "%Y/%m/%d")
 
@@ -1118,4 +1120,23 @@ test_that("summarise() correctly handle summarised list columns (#4349)", {
     summarise(z = list(1), y = z)
   expect_identical(res$z, res$y)
   expect_equal(res$z, list(1))
+})
+
+test_that("summarise() unpacks unnamed tibble results (#2326)", {
+  expect_equal(
+    iris %>% group_by(Species) %>% summarise(
+      tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    ),
+    iris %>% group_by(Species) %>% summarise(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+  )
+})
+
+test_that("summarise() packs named tibble results (#2326)", {
+  res <- iris %>%
+    group_by(Species) %>%
+    summarise(
+      out = tibble(Sepal = mean(Sepal.Length * Petal.Length), Petal = mean(Petal.Length * Petal.Width))
+    )
+  expect_is(res$out, "data.frame")
+  expect_equal(nrow(res$out), 3L)
 })

@@ -168,7 +168,7 @@ group_modify.grouped_df <- function(.data, .f, ..., keep = FALSE) {
     }
     bind_cols(.y[rep(1L, nrow(res)), , drop = FALSE], res)
   }
-  chunks <- group_map(.data, fun, ..., keep = keep)
+  chunks <- group_map(.data, fun, keep = keep)
   res <- if (length(chunks) > 0L) {
     bind_rows(!!!chunks)
   } else {

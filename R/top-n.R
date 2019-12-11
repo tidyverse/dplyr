@@ -2,7 +2,8 @@
 #'
 #' This is a convenient wrapper that uses [filter()] and
 #' [min_rank()] to select the top or bottom entries in each group,
-#' ordered by `wt`.
+#' with respect to `wt`. Note, the resulting data frame will not be
+#' ordered or sorted.
 #'
 #' @param x a [tbl()] to filter
 #' @param n number of rows to return for `top_n()`, fraction of rows to
@@ -25,7 +26,7 @@
 #'
 #' @export
 #' @examples
-#' df <- data.frame(x = c(10, 4, 1, 6, 3, 1, 1))
+#' df <- data.frame(x = c(6, 4, 1, 10, 3, 1, 1))
 #' df %>% top_n(2)
 #'
 #' # half the rows

@@ -98,6 +98,10 @@ bind_rows <- function(..., .id = NULL) {
   dataframe_ish <- function(.x) {
     is.data.frame(.x) || (vec_is(.x) && !is.null(names(.x)))
   }
+  dots <- keep(
+    flatten_if(dots, function(.x) is.list(.x) && !is.data.frame(.x)),
+    function(.x) !is.null(.x)
+  )
 
   dots <- keep(dots, function(.x) !is.null(.x))
   dots <- flatten_if(dots, function(.x) is.list(.x) && !dataframe_ish(.x))
@@ -129,7 +133,6 @@ bind_rows <- function(..., .id = NULL) {
   }
 
   dots <- map(dots, function(.x) if(is.data.frame(.x)) .x else tibble(!!!as.list(.x)))
-
   result <- vec_rbind(!!!dots, .names_to = .id)
   if (length(dots) && is_tibble(first <- dots[[1L]])) {
     if (is_grouped_df(first)) {
@@ -161,11 +164,11 @@ bind_cols <- function(...) {
     first <- dots[[1]][[1]]
   }
 
-  dots <- keep(squash_if(dots, is.list), not_null)
+  dots <- squash_if(dots, function(.x) is.list(.x) && !is.data.frame(.x))
+  dots <- keep(dots, not_null)
   if (!length(dots)) {
     return(tibble())
   }
-  dots <- tibble::repair_names(dots)
 
   res <- vec_cbind(!!!dots)
   if (length(dots)) {
