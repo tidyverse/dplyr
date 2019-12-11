@@ -727,6 +727,27 @@ SEXP dplyr_group_keys_impl(SEXP data) {
   return keys;
 }
 
+SEXP dplyr_group_indices(SEXP data, SEXP s_nr) {
+  SEXP groups = Rf_getAttrib(data, dplyr::symbols::groups);
+  SEXP rows = VECTOR_ELT(groups, XLENGTH(groups) - 1);
+  R_xlen_t nr = INTEGER(s_nr)[0];
+  R_xlen_t ng = XLENGTH(rows);
+
+  SEXP indices = PROTECT(Rf_allocVector(INTSXP, nr));
+  int* p_indices = INTEGER(indices);
+  for (R_xlen_t i=0; i<ng; i++) {
+    SEXP rows_i = VECTOR_ELT(rows, i);
+    R_xlen_t n_i = XLENGTH(rows_i);
+    int* p_rows_i = INTEGER(rows_i);
+    for (R_xlen_t j=0; j<n_i; j++, ++p_rows_i) {
+      p_indices[*p_rows_i - 1] = i + 1;
+    }
+  }
+
+  UNPROTECT(1);
+  return indices;
+}
+
 static const R_CallMethodDef CallEntries[] = {
   {"dplyr_expand_groups", (DL_FUNC)& dplyr_expand_groups, 3},
   {"dplyr_filter_update_rows", (DL_FUNC)& dplyr_filter_update_rows, 4},
@@ -740,6 +761,7 @@ static const R_CallMethodDef CallEntries[] = {
   {"dplyr_mask_eval_all", (DL_FUNC)& dplyr_mask_eval_all, 5},
   {"dplyr_vec_sizes", (DL_FUNC)& dplyr_vec_sizes, 1},
   {"dplyr_validate_summarise_sizes", (DL_FUNC)& dplyr_validate_summarise_sizes, 2},
+  {"dplyr_group_indices", (DL_FUNC)& dplyr_group_indices, 2},
 
   {NULL, NULL, 0}
 };

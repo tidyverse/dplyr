@@ -2,6 +2,7 @@ library(dplyr)
 library(rlang)
 library(purrr)
 library(tibble)
+library(tidyr)
 
 if (!dir.exists("../bench-libs")) dir.create("../bench-libs")
 
@@ -10,17 +11,10 @@ if (!dir.exists("../bench-libs/0.8.3")) {
   pak::pkg_install("dplyr", lib = "../bench-libs/0.8.3", ask = FALSE)
 }
 
-if (!dir.exists("../bench-libs/master")) {
-  dir.create("../bench-libs/master")
-  remotes::install_github("r-lib/vctrs", lib = "../bench-libs/master", force = TRUE)
-  remotes::install_github("r-lib/pillar", lib = "../bench-libs/master", force = TRUE)
-  remotes::install_github("tidyverse/tibble", lib = "../bench-libs/master", force = TRUE)
-  remotes::install_github("tidyverse/dplyr", lib = "../bench-libs/master", force = TRUE)
-  pak::pkg_install("tidyverse/dplyr", lib = "../bench-libs/master", ask = FALSE)
-}
-
 libs <- list.files("../bench-libs", full.names = TRUE)
 names(libs) <- basename(libs)
+
+libs <- c(libs, "master" = .libPaths())
 
 benchs <- function(libs, setup, ..., iterations = NULL){
   dots <- rlang::exprs(...)
@@ -34,9 +28,10 @@ benchs <- function(libs, setup, ..., iterations = NULL){
       mutate(expression = purrr::map_chr(expression, deparse))
   })
   results <- purrr::imap(libs, ~callr::r(f, libpath = .x) %>% mutate(version = .y))
-  as_tibble(vctrs::vec_rbind(!!!results)) %>%
-    select(expression, version, median, n_gc) %>%
-    pivot_wider(names_from = version, values_from = c(median, n_gc))
+  as_tibble(vctrs::vec_rbind(!!!results))
+  # %>%
+  #   select(expression, version, median) %>%
+  #   pivot_wider(names_from = version, values_from = median)
 }
 
 summarise_hybrid <- benchs(
