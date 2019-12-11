@@ -48,6 +48,8 @@ names needed to uniquely identify the output. To force inclusion of a name,
 even when not needed, name the input (see examples for details).
 }
 \description{
+\Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+
 The \link{scoped} variants of \code{\link[=summarise]{summarise()}} make it easy to apply the same
 transformation to multiple variables.
 There are three variants.
@@ -83,22 +85,35 @@ ignored by \code{summarise_all()} and \code{summarise_if()}.
 \section{Naming}{
 
 
-The names of the created columns is derived from the names of the
+The names of the new columns are derived from the names of the
 input variables and the names of the functions.
 \itemize{
-\item if there is only one unnamed function, the names of the input variables
-are used to name the created columns
-\item if there is only one unnamed variable, the names of the functions
-are used to name the created columns.
-\item otherwise in the most general case, the created names are created by
-concatenating the names of the input variables and the names of the functions.
+\item if there is only one unnamed function (i.e. if \code{.funs} is an unnamed list
+of length one),
+the names of the input variables are used to name the new columns;
+\item for \code{_at} functions, if there is only one unnamed variable (i.e.,
+if \code{.vars} is of the form \code{vars(a_single_column)}) and \code{.funs} has length
+greater than one,
+the names of the functions are used to name the new columns;
+\item otherwise, the new names are created by
+concatenating the names of the input variables and the names of the
+functions, separated with an underscore \code{"_"}.
 }
 
-The names of the functions here means the names of the list of functions
-that is supplied. When needed and not supplied, the name of a function
-is the prefix "fn" followed by the index of this function within the
-unnamed functions in the list. Ultimately, names are made
-unique.
+The \code{.funs} argument can be a named or unnamed list.
+If a function is unnamed and the name cannot be derived automatically,
+a name of the form "fn#" is used.
+Similarly, \code{\link[=vars]{vars()}} accepts named and unnamed arguments.
+If a variable in \code{.vars} is named, a new column by that name will be created.
+
+Name collisions in the new columns are disambiguated using a unique suffix.
+}
+
+\section{Life cycle}{
+
+
+The functions are maturing, because the naming scheme and the
+disambiguation algorithm are subject to change in dplyr 0.9.0.
 }
 
 \examples{

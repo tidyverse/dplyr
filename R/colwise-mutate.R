@@ -2,6 +2,8 @@
 #'
 #' @description
 #'
+#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+#'
 #' The [scoped] variants of [summarise()] make it easy to apply the same
 #' transformation to multiple variables.
 #' There are three variants.
@@ -46,23 +48,34 @@
 #'
 #' @section Naming:
 #'
-#' The names of the created columns is derived from the names of the
+#' The names of the new columns are derived from the names of the
 #' input variables and the names of the functions.
 #'
-#' - if there is only one unnamed function, the names of the input variables
-#'   are used to name the created columns
+#' - if there is only one unnamed function (i.e. if `.funs` is an unnamed list
+#'   of length one),
+#'   the names of the input variables are used to name the new columns;
 #'
-#' - if there is only one unnamed variable, the names of the functions
-#'   are used to name the created columns.
+#' - for `_at` functions, if there is only one unnamed variable (i.e.,
+#'   if `.vars` is of the form `vars(a_single_column)`) and `.funs` has length
+#'   greater than one,
+#'   the names of the functions are used to name the new columns;
 #'
-#' - otherwise in the most general case, the created names are created by
-#'   concatenating the names of the input variables and the names of the functions.
+#' - otherwise, the new names are created by
+#'   concatenating the names of the input variables and the names of the
+#'   functions, separated with an underscore `"_"`.
 #'
-#' The names of the functions here means the names of the list of functions
-#' that is supplied. When needed and not supplied, the name of a function
-#' is the prefix "fn" followed by the index of this function within the
-#' unnamed functions in the list. Ultimately, names are made
-#' unique.
+#' The `.funs` argument can be a named or unnamed list.
+#' If a function is unnamed and the name cannot be derived automatically,
+#' a name of the form "fn#" is used.
+#' Similarly, [vars()] accepts named and unnamed arguments.
+#' If a variable in `.vars` is named, a new column by that name will be created.
+#'
+#' Name collisions in the new columns are disambiguated using a unique suffix.
+#'
+#' @section Life cycle:
+#'
+#' The functions are maturing, because the naming scheme and the
+#' disambiguation algorithm are subject to change in dplyr 0.9.0.
 #'
 #' @examples
 #' by_species <- iris %>%
@@ -137,6 +150,8 @@ summarize_at <- summarise_at
 #'
 #' @description
 #'
+#' \Sexpr[results=rd, stage=render]{dplyr:::lifecycle("maturing")}
+#'
 #' The [scoped] variants of [mutate()] and [transmute()] make it easy to apply
 #' the same transformation to multiple variables. There are three variants:
 #'  * _all affects every variable
@@ -177,6 +192,7 @@ summarize_at <- summarise_at
 #'   `transmute_if()`.
 #'
 #' @inheritSection summarise_all Naming
+#' @inheritSection summarise_all Life cycle
 #'
 #' @examples
 #' iris <- as_tibble(iris)
