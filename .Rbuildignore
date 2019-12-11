@@ -35,3 +35,5 @@ demo/pandas
 ^\.drake$
 ^CRAN-RELEASE$
 ^\.github$
+^\.github/workflows/R-CMD-check\.yaml$
+^\.github/workflows/pr-commands\.yaml$
